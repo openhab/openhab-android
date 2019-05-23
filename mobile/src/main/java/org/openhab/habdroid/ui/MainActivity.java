@@ -248,7 +248,7 @@ public class MainActivity extends AbstractBaseActivity implements
         }
 
         //  Create a new boolean and preference and set it to true
-        boolean isFirstStart = mPrefs.getBoolean("firstStart", true);
+        boolean isFirstStart = mPrefs.getBoolean(Constants.PREFERENCE_FIRST_START, true);
 
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         //  If the activity has never started before...
@@ -257,7 +257,7 @@ public class MainActivity extends AbstractBaseActivity implements
             final Intent i = new Intent(MainActivity.this, IntroActivity.class);
             startActivityForResult(i, INTRO_REQUEST_CODE);
 
-            prefsEditor.putBoolean("firstStart", false);
+            prefsEditor.putBoolean(Constants.PREFERENCE_FIRST_START, false);
         }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEditor);
         prefsEditor.apply();

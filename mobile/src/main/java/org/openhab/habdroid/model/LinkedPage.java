@@ -25,6 +25,7 @@ public abstract class LinkedPage implements Parcelable {
     public abstract String id();
     public abstract String title();
     public abstract String icon();
+    public abstract String iconPath();
     public abstract String link();
 
     @AutoValue.Builder
@@ -32,6 +33,7 @@ public abstract class LinkedPage implements Parcelable {
         public abstract Builder id(String id);
         public abstract Builder title(String title);
         public abstract Builder icon(String icon);
+        public abstract Builder iconPath(String iconPath);
         public abstract Builder link(String link);
 
         public LinkedPage build() {
@@ -67,6 +69,7 @@ public abstract class LinkedPage implements Parcelable {
                 .id(id)
                 .title(title)
                 .icon(icon)
+                .iconPath(String.format("images/%s.png", icon))
                 .link(link)
                 .build();
     }
@@ -75,10 +78,12 @@ public abstract class LinkedPage implements Parcelable {
         if (jsonObject == null) {
             return null;
         }
+        String icon = jsonObject.optString("icon", null);
         return new AutoValue_LinkedPage.Builder()
                 .id(jsonObject.optString("id", null))
                 .title(jsonObject.optString("title", null))
-                .icon(jsonObject.optString("icon", null))
+                .icon(icon)
+                .iconPath(String.format("icon/%s", icon))
                 .link(jsonObject.optString("link", null))
                 .build();
     }

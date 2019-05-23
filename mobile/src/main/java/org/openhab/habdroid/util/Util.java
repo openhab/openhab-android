@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.webkit.WebChromeClient;
@@ -398,5 +399,19 @@ public class Util {
         new Handler(Looper.getMainLooper()).post(() -> Toasty.custom(context, message,
                 R.drawable.ic_openhab_appicon_24dp, R.color.openhab_orange, Toasty.LENGTH_SHORT,
                 true, true).show());
+    }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into
+     *          pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     * @author https://stackoverflow.com/a/9563438
+     */
+    public static float convertDpToPixel(float dp, Context context) {
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi
+                / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
