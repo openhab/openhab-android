@@ -45,7 +45,7 @@ fun String?.toNormalizedUrl(): String {
                 .toString()
                 .replace("\n", "")
                 .replace(" ", "")
-        return if (url.endsWith("/")) "$url/" else url
+        return if (url.endsWith("/")) url else "$url/"
     } catch (e: MalformedURLException) {
         Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
         return ""
