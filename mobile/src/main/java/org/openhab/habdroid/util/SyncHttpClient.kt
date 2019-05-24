@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.util
 
+import android.graphics.Bitmap
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -59,6 +60,10 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
         fun asStatus(): HttpStatusResult {
             return HttpStatusResult(this)
         }
+
+        fun asBitmap(sizeInPixels: Int): HttpBitmapResult {
+            return HttpBitmapResult(this, sizeInPixels)
+        }
     }
 
     class HttpStatusResult internal constructor(result: HttpResult) {
@@ -95,6 +100,31 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
                     error = e
                 }
 
+                this.response = response
+                this.error = error
+            }
+            result.close()
+        }
+    }
+
+    class HttpBitmapResult internal constructor(result: HttpResult, size: Int) {
+        val request = result.request
+        val statusCode = result.statusCode
+        val response: Bitmap?
+        val error: Throwable?
+
+        init {
+            if (result.response == null) {
+                this.response = null
+                this.error = result.error
+            } else {
+                var response: Bitmap? = null
+                var error = result.error
+                try {
+                   response = result.response.toBitmap(size)
+                } catch (e: IOException) {
+                    error = e
+                }
                 this.response = response
                 this.error = error
             }

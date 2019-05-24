@@ -211,7 +211,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         }
 
         //  Create a new boolean and preference and set it to true
-        val isFirstStart = prefs.getBoolean("firstStart", true)
+        val isFirstStart = prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true)
 
         val prefsEditor = prefs.edit()
         //  If the activity has never started before...
@@ -220,7 +220,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
             val i = Intent(this@MainActivity, IntroActivity::class.java)
             startActivityForResult(i, INTRO_REQUEST_CODE)
 
-            prefsEditor.putBoolean("firstStart", false)
+            prefsEditor.putBoolean(Constants.PREFERENCE_FIRST_START, false)
         }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEditor)
         prefsEditor.apply()

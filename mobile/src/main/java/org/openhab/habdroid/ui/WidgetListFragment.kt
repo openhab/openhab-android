@@ -10,23 +10,41 @@
 package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getIconFormat
+import org.openhab.habdroid.util.getPrefs
 import java.util.*
 
 /**
@@ -73,7 +91,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         return false
     }
 
-    override fun onItemLongClicked(item: Widget) {
+    override fun onItemLongClicked(item: Widget): Boolean {
+        val context = context ?: return false
         val widget = item
         val labels = ArrayList<String>()
         val commands = ArrayList<String>()
@@ -144,25 +163,36 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
         if (widget.linkedPage != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page))
+            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
+                labels.add(getString(R.string.home_shortcut_pin_to_home))
+            }
         }
 
-        if (labels.isNotEmpty()) {
-            AlertDialog.Builder(activity)
-                    .setTitle(R.string.nfc_dialog_title)
-                    .setItems(labels.toTypedArray()) { _, which ->
+        if (labels.isEmpty()) {
+            return false
+        }
+
+        AlertDialog.Builder(context)
+                .setTitle(R.string.nfc_dialog_title)
+                .setItems(labels.toTypedArray()) { _, which ->
+                    if (which == commands.size + 1 && widget.linkedPage != null) {
+                        createShortcut(context, widget.linkedPage)
+                    } else {
                         val itemToHandle = if (which < commands.size) widget.item else null
                         val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
                         if (itemToHandle != null) {
-                            startActivity(WriteTagActivity.createItemUpdateIntent(activity!!,
+                            startActivity(WriteTagActivity.createItemUpdateIntent(context,
                                     itemToHandle.name, commands[which],
                                     labels[which], itemToHandle.label.orEmpty()))
                         } else if (linkToHandle != null) {
                             startActivity(WriteTagActivity.createSitemapNavigationIntent(
-                                    activity!!, linkToHandle))
+                                    context, linkToHandle))
                         }
                     }
-                    .show()
-        }
+                }
+                .show()
+
+        return true
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -256,6 +286,63 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             } else {
                 holder?.stop()
             }
+        }
+    }
+
+    private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
+        val iconFormat = context.getPrefs().getIconFormat()
+        val url = Uri.Builder()
+                .appendEncodedPath(linkedPage.iconPath)
+                .appendQueryParameter("format", iconFormat)
+                .toString()
+        val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
+        /**
+         *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
+         *  46dp instead of 72dp adds enough border to the icon.
+         *  46dp foreground + 2 * 31dp border = 108dp
+         **/
+        val foregroundSize = context.resources.dpToPixel(46F).toInt()
+        val foregroundBitmap = connection.syncHttpClient.get(url)
+                .asBitmap(foregroundSize).response
+        val icon = if (foregroundBitmap != null) {
+            val borderSize = context.resources.dpToPixel(31F)
+            val totalFrameWidth = (borderSize * 2).toInt()
+            val bitmapWithBackground = Bitmap.createBitmap(
+                    foregroundBitmap.width + totalFrameWidth,
+                    foregroundBitmap.height + totalFrameWidth,
+                    foregroundBitmap.config)
+            with (Canvas(bitmapWithBackground)) {
+                drawColor(Color.WHITE)
+                drawBitmap(bitmapWithBackground, borderSize, borderSize, null)
+            }
+            IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
+        } else {
+            // Fall back to openHAB icon
+            IconCompat.createWithResource(context, R.mipmap.icon)
+        }
+
+        val sitemapUri = linkedPage.link.toUri()
+        val shortSitemapUri = sitemapUri.path.substring(14)
+
+        val startIntent = Intent(context, MainActivity::class.java).apply {
+            action = MainActivity.ACTION_SITEMAP_SELECTED
+            putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri)
+        }
+        context.startActivity(startIntent)
+
+        val name = if (linkedPage.title.isNullOrEmpty())
+            context.getString(R.string.app_name) else linkedPage.title
+        val shortcutInfo = ShortcutInfoCompat.Builder(context,
+                shortSitemapUri + '-' + System.currentTimeMillis())
+                .setShortLabel(name)
+                .setIcon(icon)
+                .setIntent(startIntent)
+                .build();
+
+        if (ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)) {
+            Toasty.success(context, R.string.home_shortcut_success_pinning).show();
+        } else {
+            Toasty.error(context, R.string.home_shortcut_error_pinning).show();
         }
     }
 

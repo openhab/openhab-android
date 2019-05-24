@@ -32,8 +32,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 140
-        versionName "2.7.0"
+        versionCode 141
+        versionName "2.7.1-beta"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -125,8 +125,9 @@ dependencies {
         transitive false
         exclude group: 'com.intellij', module: 'annotations'
     }
-    // Google Maps
+    // MapView support
     fullImplementation 'com.google.android.gms:play-services-maps:16.1.0'
+    fossImplementation 'org.osmdroid:osmdroid-android:6.1.0'
 
     // FCM
     fullImplementation 'com.google.firebase:firebase-messaging:17.6.0'

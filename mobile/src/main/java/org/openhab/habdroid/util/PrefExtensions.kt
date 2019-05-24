@@ -19,6 +19,10 @@ inline fun SharedPreferences.getDefaultSitemap(): String {
     return getString(Constants.PREFERENCE_SITEMAP_NAME)
 }
 
+inline fun SharedPreferences.getIconFormat(): String {
+    return getString(Constants.PREFERENCE_ICON_FORMAT, "PNG")
+}
+
 inline fun SharedPreferences.isDemoModeEnabled(): Boolean {
     return getBoolean(Constants.PREFERENCE_DEMOMODE, false)
 }

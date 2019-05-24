@@ -9,18 +9,11 @@
 
 package org.openhab.habdroid.util
 
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.os.Handler
 import android.os.Looper
-import android.util.DisplayMetrics
-import com.caverock.androidsvg.SVG
-import com.caverock.androidsvg.SVGParseException
 import okhttp3.*
 import java.io.IOException
-import java.io.InputStream
 
 class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) :
         HttpClient(client, baseUrl, username, password) {
@@ -46,73 +39,7 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
     abstract class BitmapResponseHandler(private val size: Int) : ResponseHandler<Bitmap> {
         @Throws(IOException::class)
         override fun convertBodyInBackground(body: ResponseBody): Bitmap {
-            val contentType = body.contentType()
-            val isSvg = contentType != null
-                    && contentType.type() == "image"
-                    && contentType.subtype().contains("svg")
-            val stream = body.byteStream()
-            if (isSvg) {
-                try {
-                    return getBitmapFromSvgInputstream(Resources.getSystem(), stream, size)
-                } catch (e: SVGParseException) {
-                    throw IOException("SVG decoding failed", e)
-                }
-
-            } else {
-                val bitmap = BitmapFactory.decodeStream(stream)
-                if (bitmap != null) {
-                    return bitmap
-                }
-                throw IOException("Bitmap decoding failed")
-            }
-        }
-
-        @Throws(SVGParseException::class)
-        private fun getBitmapFromSvgInputstream(res: Resources, stream: InputStream, size: Int): Bitmap {
-            val svg = SVG.getFromInputStream(stream)
-            svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
-            var density: Float? = res.displayMetrics.density
-            svg.setDocumentHeight("100%")
-            svg.setDocumentWidth("100%")
-            var docWidth = (svg.documentWidth * res.displayMetrics.density).toInt()
-            var docHeight = (svg.documentHeight * res.displayMetrics.density).toInt()
-
-            if (docWidth < 0 || docHeight < 0) {
-                val aspectRatio = svg.documentAspectRatio
-                if (aspectRatio > 0) {
-                    val heightForAspect = size.toFloat() / aspectRatio
-                    val widthForAspect = size.toFloat() * aspectRatio
-                    if (widthForAspect < heightForAspect) {
-                        docWidth = Math.round(widthForAspect)
-                        docHeight = size
-                    } else {
-                        docWidth = size
-                        docHeight = Math.round(heightForAspect)
-                    }
-                } else {
-                    docWidth = size
-                    docHeight = size
-                }
-
-                // we didn't take density into account anymore when calculating docWidth
-                // and docHeight, so don't scale with it and just let the renderer
-                // figure out the scaling
-                density = null
-            }
-
-            if (docWidth != size || docHeight != size) {
-                val scaleWidth = size.toFloat() / docWidth
-                val scaleHeigth = size.toFloat() / docHeight
-                density = (scaleWidth + scaleHeigth) / 2
-            }
-
-            val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            if (density != null) {
-                canvas.scale(density, density)
-            }
-            svg.renderToCanvas(canvas)
-            return bitmap
+            return body.toBitmap(size)
         }
     }
 

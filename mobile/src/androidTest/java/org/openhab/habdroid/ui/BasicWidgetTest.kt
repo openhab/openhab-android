@@ -97,12 +97,10 @@ class BasicWidgetTest : TestWithoutIntro() {
                 .perform(scrollToPosition<RecyclerView.ViewHolder>(10))
                 .check(matches(atPositionOnView(10, isDisplayed(), R.id.stop_button)))
 
-        if (Util.isFlavorFull) {
-            // check whether map view is displayed
-            recyclerView
-                    .perform(scrollToPosition<RecyclerView.ViewHolder>(13))
-                    .check(matches(atPositionOnView(13, isDisplayed(), "MapView")))
-        }
+        // check whether map view is displayed
+        recyclerView
+                .perform(scrollToPosition<RecyclerView.ViewHolder>(13))
+                .check(matches(atPositionOnView(13, isDisplayed(), R.id.mapview)))
     }
 
     companion object {

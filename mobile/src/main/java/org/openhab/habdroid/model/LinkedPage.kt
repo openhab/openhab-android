@@ -21,15 +21,17 @@ import org.w3c.dom.Node
  */
 
 @Parcelize
-data class LinkedPage(val id: String?, val title: String?, val icon: String?, val link: String) : Parcelable {
+data class LinkedPage(val id: String?, val title: String?, val icon: String?,
+                      val iconPath: String, val link: String) : Parcelable {
     companion object {
-        internal fun build(id: String?, title: String?, icon: String?, link: String?): LinkedPage? {
+        internal fun build(id: String?, title: String?, icon: String?,
+                           iconPath: String, link: String?): LinkedPage? {
             if (link == null) {
                 return null
             }
             val actualTitle = if (title != null && title.indexOf('[') > 0)
                     title.substring(0, title.indexOf('[')) else title
-            return LinkedPage(id, actualTitle, icon, link)
+            return LinkedPage(id, actualTitle, icon, iconPath, link)
         }
     }
 }
@@ -49,16 +51,17 @@ fun Node.toLinkedPage(): LinkedPage? {
         }
     }
 
-    return LinkedPage.build(id, title, icon, link)
+    return LinkedPage.build(id, title, icon, "images/$icon.png", link)
 }
 
 fun JSONObject?.toLinkedPage(): LinkedPage? {
     if (this == null) {
         return null
     }
+    val icon = optString("icon", null)
     return LinkedPage.build(optString("id", null),
             optString("title", null),
-            optString("icon", null),
+            icon, "icon/$icon",
             optString("link", null))
 }
 

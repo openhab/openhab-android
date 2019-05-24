@@ -46,10 +46,7 @@ import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.*
 
 import java.util.ArrayList
 import java.util.HashSet
@@ -76,7 +73,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     private val pendingDataLoadUrls = HashSet<String>()
 
     override val iconFormat: String
-        get() = activity.getPrefs().getString("iconFormatType", "PNG") as String
+        get() = activity.getPrefs().getIconFormat()
     override val isDetailedLoggingEnabled: Boolean
         get() = activity.getPrefs().isDebugModeEnabled()
     override val serverProperties: ServerProperties?

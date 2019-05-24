@@ -4,15 +4,24 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.net.Uri
 import android.preference.PreferenceManager
+import android.util.DisplayMetrics
 import android.util.Log
+import com.caverock.androidsvg.SVG
+import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty
+import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
+import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -61,6 +70,83 @@ fun Uri?.openInBrowser(context: Context) {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
         Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show()
+    }
+}
+
+/**
+ * This method converts dp unit to equivalent pixels, depending on device density.
+ *
+ * @param dp A value in dp (density independent pixels) unit. Which we need to convert into
+ *          pixels
+ * @return A float value to represent px equivalent to dp depending on device density
+ * @author https://stackoverflow.com/a/9563438
+ */
+fun Resources.dpToPixel(dp: Float): Float {
+    return dp * (displayMetrics.densityDpi as Float) / DisplayMetrics.DENSITY_DEFAULT
+}
+
+@Throws(IOException::class)
+fun ResponseBody.toBitmap(size: Int): Bitmap {
+    val contentType = contentType()
+    val isSvg = contentType != null
+                && contentType.type() == "image"
+                && contentType.subtype().contains("svg")
+    if (!isSvg) {
+        val bitmap = BitmapFactory.decodeStream(byteStream())
+        if (bitmap == null) {
+            throw IOException("Bitmap decoding failed")
+        }
+        return Bitmap.createScaledBitmap(bitmap, size, size, false)
+    }
+
+    return try {
+        val svg = SVG.getFromInputStream(byteStream())
+        val displayMetrics = Resources.getSystem().displayMetrics
+        svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
+        var density: Float? = displayMetrics.density
+        svg.setDocumentHeight("100%")
+        svg.setDocumentWidth("100%")
+        var docWidth = (svg.documentWidth * displayMetrics.density).toInt()
+        var docHeight = (svg.documentHeight * displayMetrics.density).toInt()
+
+        if (docWidth < 0 || docHeight < 0) {
+            val aspectRatio = svg.documentAspectRatio
+            if (aspectRatio > 0) {
+                val heightForAspect = size.toFloat() / aspectRatio
+                val widthForAspect = size.toFloat() * aspectRatio
+                if (widthForAspect < heightForAspect) {
+                    docWidth = Math.round(widthForAspect)
+                    docHeight = size
+                } else {
+                    docWidth = size
+                    docHeight = Math.round(heightForAspect)
+                }
+            } else {
+                docWidth = size
+                docHeight = size
+            }
+
+            // we didn't take density into account anymore when calculating docWidth
+            // and docHeight, so don't scale with it and just let the renderer
+            // figure out the scaling
+            density = null
+        }
+
+        if (docWidth != size || docHeight != size) {
+            val scaleWidth = size.toFloat() / docWidth
+            val scaleHeigth = size.toFloat() / docHeight
+            density = (scaleWidth + scaleHeigth) / 2
+        }
+
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        if (density != null) {
+            canvas.scale(density, density)
+        }
+        svg.renderToCanvas(canvas)
+        return bitmap
+    } catch (e: SVGParseException) {
+        throw IOException("SVG decoding failed", e)
     }
 }
 

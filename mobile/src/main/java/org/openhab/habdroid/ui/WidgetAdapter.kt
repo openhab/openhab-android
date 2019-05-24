@@ -76,7 +76,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
     interface ItemClickListener {
         fun onItemClicked(item: Widget): Boolean  // returns whether click was handled
-        fun onItemLongClicked(item: Widget)
+        fun onItemLongClicked(item: Widget): Boolean
     }
 
     init {
@@ -227,7 +227,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         val holder = view.tag as ViewHolder
         val position = holder.adapterPosition
         if (position != RecyclerView.NO_POSITION) {
-            itemClickListener.onItemLongClicked(items[position])
+            return itemClickListener.onItemLongClicked(items[position])
         }
         return false
     }
