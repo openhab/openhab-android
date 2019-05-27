@@ -82,7 +82,7 @@ fun Uri?.openInBrowser(context: Context) {
  * @author https://stackoverflow.com/a/9563438
  */
 fun Resources.dpToPixel(dp: Float): Float {
-    return dp * (displayMetrics.densityDpi as Float) / DisplayMetrics.DENSITY_DEFAULT
+    return dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 }
 
 @Throws(IOException::class)
