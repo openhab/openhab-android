@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
@@ -108,7 +109,6 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
         private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
         private val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
 
-
         fun bind(notification: CloudNotification) {
             createdView.text = DateUtils.getRelativeDateTimeString(itemView.context,
                     notification.createdTimestamp,
@@ -125,7 +125,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
             }
             severityView.text = notification.severity
-            severityView.isVisible = notification.severity.isNullOrEmpty()
+            severityView.isGone = notification.severity.isNullOrEmpty()
         }
     }
 
