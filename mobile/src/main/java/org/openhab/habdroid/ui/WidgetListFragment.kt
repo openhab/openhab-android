@@ -315,7 +315,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     foregroundBitmap.config)
             with (Canvas(bitmapWithBackground)) {
                 drawColor(Color.WHITE)
-                drawBitmap(bitmapWithBackground, borderSize, borderSize, null)
+                drawBitmap(foregroundBitmap, borderSize, borderSize, null)
             }
             IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
         } else {
