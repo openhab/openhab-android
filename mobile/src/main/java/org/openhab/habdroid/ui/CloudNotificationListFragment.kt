@@ -61,6 +61,9 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         val view = inflater.inflate(R.layout.fragment_notificationlist, container, false)
 
         recyclerView = view.findViewById(android.R.id.list)
+        emptyView = view.findViewById(android.R.id.empty)
+        emptyMessage = view.findViewById(R.id.empty_message)
+        emptyWatermark = view.findViewById(R.id.watermark)
 
         swipeLayout = view.findViewById(R.id.swipe_container)
         swipeLayout.setOnRefreshListener(this)
