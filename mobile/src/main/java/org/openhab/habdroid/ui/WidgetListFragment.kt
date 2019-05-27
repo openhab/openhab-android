@@ -32,8 +32,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
@@ -339,10 +341,13 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 .setIntent(startIntent)
                 .build();
 
-        if (ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)) {
-            Toasty.success(context, R.string.home_shortcut_success_pinning).show();
-        } else {
-            Toasty.error(context, R.string.home_shortcut_error_pinning).show();
+        val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
+        withContext(Dispatchers.Main) {
+            if (success) {
+                Toasty.success(context, R.string.home_shortcut_success_pinning).show();
+            } else {
+                Toasty.error(context, R.string.home_shortcut_error_pinning).show();
+            }
         }
     }
 
