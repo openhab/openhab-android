@@ -75,6 +75,7 @@ public class WidgetListFragment extends Fragment
     private String mTitle;
     private RecyclerViewSwipeRefreshLayout mRefreshLayout;
     private String mHighlightedPageLink;
+    private SuggestedCommandsFactory mSuggestedCommandsFactory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,8 +127,11 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public boolean onItemLongClicked(final Widget widget) {
+        if (mSuggestedCommandsFactory == null) {
+            mSuggestedCommandsFactory = new SuggestedCommandsFactory(getContext(), false);
+        }
         SuggestedCommandsFactory.SuggestedCommands suggestedCommands =
-                new SuggestedCommandsFactory(getContext(), false).fill(widget);
+                mSuggestedCommandsFactory.fill(widget);
 
         List<String> labels = suggestedCommands.labels;
         List<String> commands = suggestedCommands.commands;

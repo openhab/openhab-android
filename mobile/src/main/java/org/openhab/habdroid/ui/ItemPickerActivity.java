@@ -47,7 +47,6 @@ public class ItemPickerActivity extends AbstractBaseActivity
 
     private Call mRequestHandle;
     private String mInitialHightlightItemName;
-
     private ItemPickerAdapter mItemPickerAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -55,6 +54,7 @@ public class ItemPickerActivity extends AbstractBaseActivity
     private View mEmptyView;
     private TextView mEmptyMessage;
     private View mRetryButton;
+    private SuggestedCommandsFactory mSuggestedCommandsFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,8 +187,12 @@ public class ItemPickerActivity extends AbstractBaseActivity
             return;
         }
 
+        if (mSuggestedCommandsFactory == null) {
+            mSuggestedCommandsFactory = new SuggestedCommandsFactory(this, true);
+        }
+
         SuggestedCommandsFactory.SuggestedCommands suggestedCommands =
-                new SuggestedCommandsFactory(this, true).fill(item);
+                mSuggestedCommandsFactory.fill(item);
 
         List<String> labels = suggestedCommands.labels;
         List<String> commands = suggestedCommands.commands;
