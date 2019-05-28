@@ -30,7 +30,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.AsyncHttpClient;
-import org.openhab.habdroid.util.SuggestCommandsFactory;
+import org.openhab.habdroid.util.SuggestedCommandsFactory;
 import org.openhab.habdroid.util.TaskerIntent;
 import org.openhab.habdroid.util.Util;
 
@@ -187,44 +187,46 @@ public class ItemPickerActivity extends AbstractBaseActivity
             return;
         }
 
-        SuggestCommandsFactory suggestCommandsFactory =
-                new SuggestCommandsFactory(this, true);
-        suggestCommandsFactory.fill(item);
+        SuggestedCommandsFactory.SuggestedCommands suggestedCommands =
+                new SuggestedCommandsFactory(this, true).fill(item);
 
-        List<String> labels = suggestCommandsFactory.getLabels();
-        List<String> commands = suggestCommandsFactory.getCommands();
+        List<String> labels = suggestedCommands.labels;
+        List<String> commands = suggestedCommands.commands;
 
-        labels.add(getString(R.string.item_picker_custom));
+        if (suggestedCommands.shouldShowCustom) {
+            labels.add(getString(R.string.item_picker_custom));
+        }
 
         final String[] labelArray = labels.toArray(new String[0]);
         new AlertDialog.Builder(this)
                 .setTitle(R.string.item_picker_dialog_title)
                 .setItems(labelArray, (dialog, which) -> {
-                    if (which < labelArray.length - 1) {
-                        finish(true, item.name(), commands.get(which));
-                    } else {
+                    if (which == labelArray.length - 1 && suggestedCommands.shouldShowCustom) {
                         final EditText input = new EditText(this);
+                        input.setInputType(suggestedCommands.inputTypeFlags);
                         new AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.item_picker_custom))
                                 .setView(input)
                                 .setPositiveButton(android.R.string.ok, (dialog1, which1) -> {
-                                    finish(true, item.name(), input.getText().toString());
+                                    finish(true, item, input.getText().toString());
                                 })
                                 .setNegativeButton(android.R.string.cancel, null)
                                 .show();
+                    } else {
+                        finish(true, item, commands.get(which));
                     }
                 })
                 .show();
     }
 
-    private void finish(boolean success, String itemName, String state) {
+    private void finish(boolean success, Item item, String state) {
         Intent intent = new Intent();
 
-        String blurb = getString(R.string.item_picker_blurb, itemName, state);
+        String blurb = getString(R.string.item_picker_blurb, item.label(), item.name(), state);
         intent.putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb);
 
         Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_ITEM_NAME, itemName);
+        bundle.putString(EXTRA_ITEM_NAME, item.name());
         bundle.putString(EXTRA_ITEM_STATE, state);
         intent.putExtra(TaskerIntent.EXTRA_BUNDLE, bundle);
 

@@ -48,7 +48,7 @@ import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.SuggestCommandsFactory;
+import org.openhab.habdroid.util.SuggestedCommandsFactory;
 import org.openhab.habdroid.util.Util;
 
 import java.util.List;
@@ -126,12 +126,11 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public boolean onItemLongClicked(final Widget widget) {
-        SuggestCommandsFactory suggestCommandsFactory =
-                new SuggestCommandsFactory(getContext(), false);
-        suggestCommandsFactory.fill(widget);
+        SuggestedCommandsFactory.SuggestedCommands suggestedCommands =
+                new SuggestedCommandsFactory(getContext(), false).fill(widget);
 
-        List<String> labels = suggestCommandsFactory.getLabels();
-        List<String> commands = suggestCommandsFactory.getCommands();
+        List<String> labels = suggestedCommands.labels;
+        List<String> commands = suggestedCommands.commands;
 
         if (widget.linkedPage() != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page));

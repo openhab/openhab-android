@@ -307,6 +307,6 @@
     <string name="item_picker_custom">Custom</string>
     <string name="item_picker_dialog_title">Select state</string>
     <string name="item_picker">openHAB Items</string>
-    <string name="item_picker_blurb">Set \"%s\" to \"%s\"</string>
+    <string name="item_picker_blurb">Set \"%s\" (%s) to \"%s\"</string>
     <string name="search">Search</string>
 </resources>
