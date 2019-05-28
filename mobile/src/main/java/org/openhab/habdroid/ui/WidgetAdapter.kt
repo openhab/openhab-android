@@ -721,7 +721,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
                     .append(random.nextInt())
                     .append("&dpi=")
                     .append(actualDensity.toInt() / resDivider)
-            if (widget.service.isEmpty()) {
+            if (widget.service.isNotEmpty()) {
                 chartUrl.append("&service=").append(widget.service)
             }
             if (chartTheme != null) {
