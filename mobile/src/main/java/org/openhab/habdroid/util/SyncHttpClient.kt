@@ -61,8 +61,8 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
             return HttpStatusResult(this)
         }
 
-        fun asBitmap(sizeInPixels: Int): HttpBitmapResult {
-            return HttpBitmapResult(this, sizeInPixels)
+        fun asBitmap(sizeInPixels: Int, enforceSize: Boolean = false): HttpBitmapResult {
+            return HttpBitmapResult(this, sizeInPixels, enforceSize)
         }
     }
 
@@ -107,7 +107,8 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
         }
     }
 
-    class HttpBitmapResult internal constructor(result: HttpResult, size: Int) {
+    class HttpBitmapResult internal constructor(result: HttpResult,
+                                                targetSize: Int, enforceSize: Boolean) {
         val request = result.request
         val statusCode = result.statusCode
         val response: Bitmap?
@@ -121,7 +122,7 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
                 var response: Bitmap? = null
                 var error = result.error
                 try {
-                   response = result.response.toBitmap(size)
+                   response = result.response.toBitmap(targetSize, enforceSize)
                 } catch (e: IOException) {
                     error = e
                 }

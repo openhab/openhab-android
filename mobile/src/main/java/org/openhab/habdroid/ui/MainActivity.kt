@@ -619,7 +619,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         if (url == null || connection == null) {
             return
         }
-        connection!!.asyncHttpClient[url, object : AsyncHttpClient.BitmapResponseHandler(defaultIcon!!.intrinsicWidth) {
+        connection!!.asyncHttpClient[url, object : AsyncHttpClient.BitmapResponseHandler(defaultIcon!!.intrinsicWidth, true) {
             override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                 Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name)
             }

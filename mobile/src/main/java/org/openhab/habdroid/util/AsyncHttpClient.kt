@@ -36,10 +36,11 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
         }
     }
 
-    abstract class BitmapResponseHandler(private val size: Int) : ResponseHandler<Bitmap> {
+    abstract class BitmapResponseHandler(private val targetSize: Int,
+                                         private val enforceSize: Boolean = false) : ResponseHandler<Bitmap> {
         @Throws(IOException::class)
         override fun convertBodyInBackground(body: ResponseBody): Bitmap {
-            return body.toBitmap(size)
+            return body.toBitmap(targetSize, enforceSize)
         }
     }
 

@@ -305,7 +305,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
          **/
         val foregroundSize = context.resources.dpToPixel(46F).toInt()
         val foregroundBitmap = connection.syncHttpClient.get(url)
-                .asBitmap(foregroundSize).response
+                .asBitmap(foregroundSize, true).response
         val icon = if (foregroundBitmap != null) {
             val borderSize = context.resources.dpToPixel(31F)
             val totalFrameWidth = (borderSize * 2).toInt()

@@ -86,7 +86,7 @@ fun Resources.dpToPixel(dp: Float): Float {
 }
 
 @Throws(IOException::class)
-fun ResponseBody.toBitmap(size: Int): Bitmap {
+fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
     val contentType = contentType()
     val isSvg = contentType != null
                 && contentType.type() == "image"
@@ -96,7 +96,10 @@ fun ResponseBody.toBitmap(size: Int): Bitmap {
         if (bitmap == null) {
             throw IOException("Bitmap decoding failed")
         }
-        return Bitmap.createScaledBitmap(bitmap, size, size, false)
+        if (!enforceSize) {
+            return bitmap
+        }
+        return Bitmap.createScaledBitmap(bitmap, targetSize, targetSize, false)
     }
 
     return try {
@@ -112,18 +115,18 @@ fun ResponseBody.toBitmap(size: Int): Bitmap {
         if (docWidth < 0 || docHeight < 0) {
             val aspectRatio = svg.documentAspectRatio
             if (aspectRatio > 0) {
-                val heightForAspect = size.toFloat() / aspectRatio
-                val widthForAspect = size.toFloat() * aspectRatio
+                val heightForAspect = targetSize.toFloat() / aspectRatio
+                val widthForAspect = targetSize.toFloat() * aspectRatio
                 if (widthForAspect < heightForAspect) {
                     docWidth = Math.round(widthForAspect)
-                    docHeight = size
+                    docHeight = targetSize
                 } else {
-                    docWidth = size
+                    docWidth = targetSize
                     docHeight = Math.round(heightForAspect)
                 }
             } else {
-                docWidth = size
-                docHeight = size
+                docWidth = targetSize
+                docHeight = targetSize
             }
 
             // we didn't take density into account anymore when calculating docWidth
@@ -132,13 +135,13 @@ fun ResponseBody.toBitmap(size: Int): Bitmap {
             density = null
         }
 
-        if (docWidth != size || docHeight != size) {
-            val scaleWidth = size.toFloat() / docWidth
-            val scaleHeigth = size.toFloat() / docHeight
+        if (docWidth != targetSize || docHeight != targetSize) {
+            val scaleWidth = targetSize.toFloat() / docWidth
+            val scaleHeigth = targetSize.toFloat() / docHeight
             density = (scaleWidth + scaleHeigth) / 2
         }
 
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(targetSize, targetSize, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         if (density != null) {
             canvas.scale(density, density)
