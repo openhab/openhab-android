@@ -94,6 +94,17 @@ end
 
 Please refer to the [openhab-android project on GitHub](https://github.com/openhab/openhab-android) for more details.
 
+### I don't receive any notifications
+
+Please have a look at the "Push notification status" on the About screen in the app.
+If it claims that your device is successfully registered at FCM, please open an issue on [openhab-android project on GitHub](https://github.com/openhab/openhab-android) or create a thread in the forum.
+
+### My notifications are delayed
+
+All notifications are sent as "high priority" messages, which means that the device and the openHAB app are waken up and display the notification.
+However vendors/third parties can implement custom "cleanup", "optimization" and "battery saver" apps, which might lead to delayed notifications.
+Please have a look at [dontkillmyapp.com](https://dontkillmyapp.com/) how to make an exception for openHAB in these apps.
+
 ## Trademark Disclaimer
 
 Google Play and the Google Play logo are trademarks of Google Inc.
