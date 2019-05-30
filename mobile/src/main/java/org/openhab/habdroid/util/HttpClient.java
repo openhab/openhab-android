@@ -122,8 +122,8 @@ public abstract class HttpClient {
         return builder;
     }
 
-    protected static Bitmap getBitmapFromResponseBody(ResponseBody body, int size)
-            throws IOException {
+    protected static Bitmap getBitmapFromResponseBody(ResponseBody body,
+            int size, boolean enforceSize) throws IOException {
         MediaType contentType = body.contentType();
         boolean isSvg = contentType != null
                 && contentType.type().equals("image")
@@ -138,7 +138,9 @@ public abstract class HttpClient {
         } else {
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             if (bitmap != null) {
-                return Bitmap.createScaledBitmap(bitmap, size, size, false);
+                return enforceSize
+                        ? Bitmap.createScaledBitmap(bitmap, size, size, false)
+                        : bitmap;
             }
             throw new IOException("Bitmap decoding failed");
         }

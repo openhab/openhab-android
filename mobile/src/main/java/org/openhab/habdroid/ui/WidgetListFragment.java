@@ -311,7 +311,7 @@ public class WidgetListFragment extends Fragment
                      **/
                     int foregroundSize = (int) Util.convertDpToPixel(46, context);
                     Bitmap bitmap = connection.getSyncHttpClient().get(url)
-                            .asBitmap(foregroundSize).response;
+                            .asBitmap(foregroundSize, true).response;
                     if (bitmap != null) {
                         bitmap = addBackgroundAndBorder(bitmap,
                                 (int) Util.convertDpToPixel(31, context));

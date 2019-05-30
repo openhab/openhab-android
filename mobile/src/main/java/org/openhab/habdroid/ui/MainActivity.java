@@ -706,7 +706,7 @@ public class MainActivity extends AbstractBaseActivity implements
             return;
         }
         mConnection.getAsyncHttpClient().get(url,
-                new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth()) {
+                new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth(), true) {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
