@@ -319,12 +319,16 @@ public abstract class Widget implements Parcelable {
         Item item = Item.updateFromEvent(
                 source.item(), eventPayload.getJSONObject("item"));
 
+        String icon = eventPayload.optString("icon", source.icon());
         String iconPath = determineOH2IconPath(item, source.type(),
-                source.icon(), iconFormat, !source.mappings().isEmpty());
+                icon, iconFormat, !source.mappings().isEmpty());
         return source.toBuilder()
                 .label(eventPayload.optString("label", source.label()))
                 .state(determineWidgetState(eventPayload.optString("state", null), item))
+                .labelColor(eventPayload.optString("labelcolor", source.labelColor()))
+                .valueColor(eventPayload.optString("valuecolor", source.valueColor()))
                 .item(item)
+                .icon(icon)
                 .iconPath(iconPath)
                 .build();
     }
