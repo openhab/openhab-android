@@ -273,7 +273,7 @@ public class WidgetImageView extends AppCompatImageView {
         private Call mCall;
 
         public HttpImageRequest(int size, AsyncHttpClient client, HttpUrl url, long timeoutMillis) {
-            super(size);
+            super(size, false);
             mClient = client;
             mUrl = url;
             mTimeoutMillis = timeoutMillis;

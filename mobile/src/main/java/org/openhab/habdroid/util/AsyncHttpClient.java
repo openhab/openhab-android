@@ -42,14 +42,16 @@ public class AsyncHttpClient extends HttpClient {
 
     public abstract static class BitmapResponseHandler implements ResponseHandler<Bitmap> {
         private final int mSize;
+        private final boolean mEnforceSize;
 
-        public BitmapResponseHandler(int sizePx) {
+        public BitmapResponseHandler(int sizePx, boolean enforceSize) {
             mSize = sizePx;
+            mEnforceSize = enforceSize;
         }
 
         @Override
         public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
-            return getBitmapFromResponseBody(body, mSize);
+            return getBitmapFromResponseBody(body, mSize, mEnforceSize);
         }
     }
 
