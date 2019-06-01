@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SuggestedCommandsFactory {
-    private final static int INPUT_TYPE_DECIMAL_NUMBER = InputType.TYPE_CLASS_NUMBER
+    private static final int INPUT_TYPE_DECIMAL_NUMBER = InputType.TYPE_CLASS_NUMBER
             | InputType.TYPE_NUMBER_FLAG_DECIMAL;
-    private final static int INPUT_TYPE_SINGED_DECIMAL_NUMBER = INPUT_TYPE_DECIMAL_NUMBER
+    private static final int INPUT_TYPE_SINGED_DECIMAL_NUMBER = INPUT_TYPE_DECIMAL_NUMBER
             | InputType.TYPE_NUMBER_FLAG_SIGNED;
     private Context mContext;
     private boolean mShowUndef;
@@ -43,8 +43,10 @@ public class SuggestedCommandsFactory {
             if (widget.state() != null && widget.state().asNumber() != null) {
                 ParsedState.NumberState state = widget.state().asNumber();
                 add(suggestedCommands, state.toString());
-                add(suggestedCommands, ParsedState.NumberState.withValue(state, widget.minValue()).toString());
-                add(suggestedCommands, ParsedState.NumberState.withValue(state, widget.maxValue()).toString());
+                add(suggestedCommands, ParsedState.NumberState.withValue(state,
+                        widget.minValue()).toString());
+                add(suggestedCommands, ParsedState.NumberState.withValue(state,
+                        widget.maxValue()).toString());
                 if (widget.switchSupport()) {
                     addOnOffCommands(suggestedCommands);
                 }

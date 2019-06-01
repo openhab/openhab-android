@@ -23,11 +23,11 @@ import androidx.work.WorkManager;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.NfcTag;
+import org.openhab.habdroid.ui.ItemPickerActivity;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.Util;
-import org.openhab.habdroid.ui.ItemPickerActivity;
 import org.openhab.habdroid.util.TaskerIntent;
+import org.openhab.habdroid.util.Util;
 
 import java.util.Arrays;
 import java.util.HashMap;
