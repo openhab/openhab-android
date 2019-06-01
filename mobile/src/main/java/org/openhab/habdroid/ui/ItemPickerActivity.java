@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.widget.SearchView;
@@ -208,7 +209,7 @@ public class ItemPickerActivity extends AbstractBaseActivity
                     if (which == labelArray.length - 1 && suggestedCommands.shouldShowCustom) {
                         final EditText input = new EditText(this);
                         input.setInputType(suggestedCommands.inputTypeFlags);
-                        new AlertDialog.Builder(this)
+                        AlertDialog customDialog = new AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.item_picker_custom))
                                 .setView(input)
                                 .setPositiveButton(android.R.string.ok, (dialog1, which1) -> {
@@ -216,6 +217,12 @@ public class ItemPickerActivity extends AbstractBaseActivity
                                 })
                                 .setNegativeButton(android.R.string.cancel, null)
                                 .show();
+                        input.setOnFocusChangeListener((v, hasFocus) -> {
+                            int mode = hasFocus
+                                    ? WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                                    : WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
+                            customDialog.getWindow().setSoftInputMode(mode);
+                        });
                     } else {
                         finish(true, item, commands.get(which));
                     }
