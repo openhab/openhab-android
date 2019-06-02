@@ -13,7 +13,6 @@
     <security>• Seguridad: ZoneMinder, DSC,...</security>
     <open_protocols>• Protocolos abiertos: HTTP, TCP/UDP, MQTT, puerto serie,...</open_protocols>
     <special_useCases>• Usos especiales: Minecraft, Tesla coche, servicios,...</special_useCases>
-    <empty_point>• ...</empty_point>
 
     <oss_community>Comunidad de código abierto</oss_community>
     <forum>La iniciativa de código abierto openHAB apoya con fuerza a su vibrante comunidad. El foro con más de 13.000 usuarios registrados es un lugar donde puede encontrar orientación, ayuda e inspiración. Únase al foro de la comunidad de openHAB en https://community.openhab.org</forum>
@@ -28,8 +27,6 @@
     <fdroid>A las versiones basadas en F-Droid se les ha eliminado el soporte para FCM y los informes de errores, y no podrán recibir notificaciones push de openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Puede instalar la versión beta junto a la <a href="https://f-droid.org/packages/org.openhab.habdroid/">versión estable</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Política de privacidad: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti Features</fdroid_anti_features>
-    <fdroid_anti_features_text>La aplicación está marcada con la bandera de "NonFreeAsset" porque el icono de openHAB no está licenciado bajo una licencia libre.</fdroid_anti_features_text>
     <beta>¡Pruebe las nuevas características y repórtenos su experiencia!</beta>
     <play_beta>Puede instalar la versión beta junto a la versión estable.</play_beta>
 </strings>
