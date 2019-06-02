@@ -22,7 +22,6 @@ Více než 200 doplňků přidává podporu pro značky, zařízení, technologi
 • Bezpečnost: ZoneMinder, DSC,...
 • Otevřené protokoly: HTTP, TCP/UDP, MQTT, sériový,...
 • Speciální použití: Minecraft, automobil Tesla, meteorologické služby,...
-• ...
 
 <b>Open Source komunita</b>
 
@@ -33,10 +32,6 @@ Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https:
 <b>openHAB Foundation</b>
 
 openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
-
-<b>Potenciálně nechtěné vlastnosti</b>
-
-Aplikace je označena příznakem "NonFreeAsset", protože openHAB ikona není k dispozici pod svobodnou licencí.
 
 
 Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html

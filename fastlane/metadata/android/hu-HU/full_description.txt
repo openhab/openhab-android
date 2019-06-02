@@ -23,7 +23,6 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
 • Biztonság: ZoneMinder, DSC, ...
 • Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...
 • Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Időjárási szolgáltatások, ...
-• ...
 
 <b>Nyílt forráskódú közösség</b>
 
@@ -34,10 +33,6 @@ Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz h
 <b>openHAB alapítvány</b>
 
 A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org
-
-<b>Anti funkciók</b>
-
-Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.
 
 
 Adatvédelem: https://www.openhabfoundation.org/privacy.html

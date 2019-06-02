@@ -22,7 +22,6 @@ Oltre 200 componenti aggiuntivi forniscono il supporto per marche, dispositivi, 
 • Sicurezza: ZoneMinder, DSC,...
 • Protocolli aperti: HTTP, TCP/UDP, MQTT, seriale,...
 • Funzioni speciali: Minecraft, Tesla Car, servizi meteo,...
-• ...
 
 <b>Comunità Open Source</b>
 
@@ -33,10 +32,6 @@ Se vuoi aiutare a tradurre l'applicazione nella tua lingua, visita https://crowd
 <b>openHAB Foundation</b>
 
 openHAB Foundation e.V. e' una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilita' e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org
-
-<b>Anti Features</b>
-
-L'app è contrassegnata con il flag "NonFreeAsset", perché l'icona di openHAB non è licenza libera.
 
 
 Informativa sulla privacy: https://www.openhabfoundation.org/privacy.html

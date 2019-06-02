@@ -22,7 +22,6 @@ Más de 200 complementos específicos proporcionan soporte para distintas marcas
 • Seguridad: ZoneMinder, DSC,...
 • Protocolos abiertos: HTTP, TCP/UDP, MQTT, puerto serie,...
 • Usos especiales: Minecraft, Tesla coche, servicios,...
-• ...
 
 <b>Comunidad de código abierto</b>
 
@@ -33,10 +32,6 @@ Si quiere traducir la aplicación a su idioma, únase a nosotros en https://crow
 <b>fundación openHAB</b>
 
 La openHAB Foundation e.V. es una organización sin ánimo de lucro cuya misión es difundir las posibilidades y ventajas de las soluciones libres y abiertas para los hogares inteligentes. Conozca la misión y los servicios de la fundación en https://www.openhabfoundation.org
-
-<b>Anti Features</b>
-
-La aplicación está marcada con la bandera de "NonFreeAsset" porque el icono de openHAB no está licenciado bajo una licencia libre.
 
 
 Política de privacidad: https://www.openhabfoundation.org/privacy.html

@@ -22,7 +22,6 @@ Ponad 200 dodatków wspierających marki, urządzenia, technologie i protokoły 
 • Bezpieczeństwo: ZoneMinder, DSC,...
 • Otwarte protokoły: HTTP, TCP/UDP, MQTT, Serial,...
 Specjalne zastosowania: Minecraft, Samochody Tesla, Prognoza Pogody, ...
-• ...
 
 <b>Społeczność Open Source</b>
 
@@ -34,10 +33,6 @@ Jeśli chcesz przetłumaczyć tę aplikację na swój język dołącz do nas na 
 <b>Fundacja openHAB</b>
 
 Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji na https://www.openhabfoundation.org
-
-<b>Anty Funkcje</b>
-
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
 
 
 Polityka prywatności: https://www.openhabfoundation.org/privacy.html

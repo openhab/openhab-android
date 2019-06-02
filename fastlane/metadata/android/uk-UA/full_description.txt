@@ -22,7 +22,6 @@ openHAB - платформа домашньої автоматизації з в
 • Безпека: ZoneMinder, DSC, ...
 • Відкриті протоколи: HTTP, TCP/UDP, MQTT, Serial, ...
 • Додаткові варіанти застосування: Minecraft, Tesla Car, Weather Services, ...
-• ...
 
 <b>Open Source спільнота</b>
 
@@ -33,10 +32,6 @@ openHAB - платформа домашньої автоматизації з в
 <b>openHAB Foundation</b>
 
 openHAB Foundation - це неприбуткова організація, яка поставила собі за мету розповісти суспільству про можливості і переваги вільних і відкритих рішень "розумного будинку". Дізнайтеся більше про цілі і послуги openHAB Foundation на https://www.openhabfoundation.org
-
-<b>Застереження</b>
-
-Додаток помічено як «NonFreeAsset», тому що логотип openHAB не є вільним для використання.
 
 
 Політика конфіденційності: https://www.openhabfoundation.org/privacy.html
