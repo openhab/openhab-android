@@ -13,7 +13,6 @@
     <security>• Turvallisuus: ZoneMinder, DSC,...</security>
     <open_protocols>• Avoimet protokollat: TCP/UDP, HTTP, Serial, MQTT...</open_protocols>
     <special_useCases>• Erikoissovellukset: Minecraft, Tesla auto, sääpalvelut,...</special_useCases>
-    <empty_point>• ...</empty_point>
 
     <oss_community>Avoimen lähdekoodin yhteisö</oss_community>
     <forum>openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org</forum>
@@ -28,8 +27,6 @@
     <fdroid/>
     <fdroid_beta><![CDATA[Voit asentaa beta version <a href="https://f-droid.org/packages/org.openhab.habdroid/">vakaan version</a> rinnalle.]]></fdroid_beta>
     <fdroid_privacy_policy>Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti-ominaisuudet</fdroid_anti_features>
-    <fdroid_anti_features_text>Sovellus on merkitty lipulla ”NonFreeAsset”, koska openHAB kuvaketta ei ole vapaalla lisenssillä.</fdroid_anti_features_text>
     <beta>Kokeilla uusia ominaisuuksia ja anna pian palautetta!</beta>
     <play_beta>Voit asentaa beta version vakaan version rinnalle.</play_beta>
 </strings>
