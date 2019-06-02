@@ -144,6 +144,10 @@
     <string name="notification_channel_background_description">Se utiliza para mostrar las tareas en segundo plano pendientes</string>
     <string name="notification_channel_background_error">Error en tareas en segundo plano</string>
     <string name="notification_channel_background_error_description">Utilizado para notificar errores en las tareas en segundo plano</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">No se pudieron actualizar los Ítems %d</item>
+        <item quantity="other">%d ítems no se pudieron actualizar</item>
+    </plurals>
     <string name="item_update_http_error">Error de actualización del ítem \'%1$s\' (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Fallo en la actualización del ítem \'%1$s\' (sin conexión)</string>
     <string name="error_sending_alarm_clock_item_empty">Por favor, introduzca un nombre de ítem válido</string>
@@ -218,6 +222,9 @@
     <string name="clear_log">Borrar Registro</string>
     <string name="empty_log">El registro esta vacío</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Accesos directos a la pantalla de inicio</string>
+    <string name="home_shortcut_error_pinning">Error al enlazar a la pantalla de inicio</string>
+    <string name="home_shortcut_success_pinning">Enlazado a la pantalla de inicio</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir la persiana enrollable</string>
     <string name="content_description_stop_roller_shutter">Parar la persiana enrollable</string>
