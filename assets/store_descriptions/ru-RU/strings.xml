@@ -13,7 +13,6 @@
     <security>• Охранные системы: ZoneMinder, DSC, ...</security>
     <open_protocols>• Открытые протоколы: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Дополнительно: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
-    <empty_point>• ...</empty_point>
 
     <oss_community>Сообщество Open Source</oss_community>
     <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум с более чем 13 000 зарегистрированных пользователей - это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
@@ -28,8 +27,6 @@
     <fdroid/>
     <fdroid_beta><![CDATA[Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Политика конфиденциальности: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>AntiFeatures</fdroid_anti_features>
-    <fdroid_anti_features_text>Приложение помечено флагом «NonFreeAsset», поскольку логотип openHAB не является свободно используемым.</fdroid_anti_features_text>
     <beta>Попробуйте новые функции и оставьте о них отзыв!</beta>
     <play_beta>Вы можете установить бета-версию вместе со стабильной версией.</play_beta>
 </strings>
