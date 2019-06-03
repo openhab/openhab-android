@@ -192,11 +192,11 @@ class FcmMessageListenerService : FirebaseMessagingService() {
     }
 
     companion object {
-        internal val EXTRA_NOTIFICATION_ID = "notificationId"
+        internal const val EXTRA_NOTIFICATION_ID = "notificationId"
 
-        private val CHANNEL_ID_DEFAULT = "default"
-        private val CHANNEL_ID_FORMAT_SEVERITY = "severity-%s"
-        private val SUMMARY_NOTIFICATION_ID = 0
+        private const val CHANNEL_ID_DEFAULT = "default"
+        private const val CHANNEL_ID_FORMAT_SEVERITY = "severity-%s"
+        private const val SUMMARY_NOTIFICATION_ID = 0
 
         // Notification grouping is only available on N or higher, as mentioned in
         // https://developer.android.com/guide/topics/ui/notifiers/notifications#bundle

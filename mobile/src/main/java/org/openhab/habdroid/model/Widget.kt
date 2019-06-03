@@ -205,7 +205,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
             "valuecolor" -> valueColor = node.textContent
             "labelcolor" -> labelColor = node.textContent
             "encoding" -> encoding = node.textContent
-            "switchSupport" -> switchSupport = node.textContent.toBoolean()
+            "switchSupport" -> switchSupport = node.textContent?.toBoolean() == true
             "mapping" -> {
                 var mappingCommand = ""
                 var mappingLabel = ""

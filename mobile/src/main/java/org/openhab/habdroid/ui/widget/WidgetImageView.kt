@@ -59,7 +59,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         context.obtainStyledAttributes(attrs, R.styleable.WidgetImageView).apply {
             fallback = getDrawable(R.styleable.WidgetImageView_fallback)
             progressDrawable = getDrawable(R.styleable.WidgetImageView_progressIndicator)
-            emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f) ?: 0F
+            emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f)
             recycle()
         }
 

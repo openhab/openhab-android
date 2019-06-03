@@ -14,13 +14,10 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
-
 import org.openhab.habdroid.R
-import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
-
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.coroutines.CoroutineContext

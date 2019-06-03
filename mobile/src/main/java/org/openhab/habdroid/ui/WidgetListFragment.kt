@@ -324,7 +324,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
 
         val sitemapUri = linkedPage.link.toUri()
-        val shortSitemapUri = sitemapUri.path.substring(14)
+        val shortSitemapUri = sitemapUri.path?.substring(14).orEmpty()
 
         val startIntent = Intent(context, MainActivity::class.java).apply {
             action = MainActivity.ACTION_SITEMAP_SELECTED
@@ -339,14 +339,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 .setShortLabel(name)
                 .setIcon(icon)
                 .setIntent(startIntent)
-                .build();
+                .build()
 
         val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         withContext(Dispatchers.Main) {
             if (success) {
-                Toasty.success(context, R.string.home_shortcut_success_pinning).show();
+                Toasty.success(context, R.string.home_shortcut_success_pinning).show()
             } else {
-                Toasty.error(context, R.string.home_shortcut_error_pinning).show();
+                Toasty.error(context, R.string.home_shortcut_error_pinning).show()
             }
         }
     }

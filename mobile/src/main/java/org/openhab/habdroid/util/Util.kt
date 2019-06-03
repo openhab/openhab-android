@@ -37,7 +37,7 @@ import javax.net.ssl.SSLException
 import javax.net.ssl.SSLPeerUnverifiedException
 
 object Util {
-    val TAG = Util::class.java.simpleName
+    val TAG: String = Util::class.java.simpleName
 
     private val isFlavorStable: Boolean
         get() = BuildConfig.FLAVOR.toLowerCase().contains("stable")

@@ -3,32 +3,26 @@ package org.openhab.habdroid.ui
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.filters.LargeTest
-import androidx.test.runner.AndroidJUnit4
-
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.openhab.habdroid.R
-import org.openhab.habdroid.TestWithoutIntro
-import org.openhab.habdroid.util.Util
-
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withClassName
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.hamcrest.Matchers.anything
+import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.filters.LargeTest
+import androidx.test.runner.AndroidJUnit4
+import org.hamcrest.Description
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.anything
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.openhab.habdroid.R
+import org.openhab.habdroid.TestWithoutIntro
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)

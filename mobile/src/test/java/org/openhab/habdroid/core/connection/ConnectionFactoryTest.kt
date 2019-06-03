@@ -187,7 +187,7 @@ class ConnectionFactoryTest {
 
             assertNotNull("Requesting any connection in WIFI when only a remote url is set, " + "should return a connection.", conn)
             assertEquals("The connection type of the connection should be TYPE_REMOTE.",
-                    Connection.TYPE_REMOTE, conn!!.connectionType)
+                    Connection.TYPE_REMOTE, conn.connectionType)
 
             server.shutdown()
         }
@@ -211,7 +211,7 @@ class ConnectionFactoryTest {
 
             assertNotNull("Requesting any connection in WIFI when a local url is set, " + "should return a connection.", conn)
             assertEquals("The connection type of the connection should be TYPE_LOCAL.",
-                    Connection.TYPE_LOCAL, conn!!.connectionType)
+                    Connection.TYPE_LOCAL, conn.connectionType)
 
             server.shutdown()
         }

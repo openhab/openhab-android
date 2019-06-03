@@ -135,11 +135,11 @@ class FcmRegistrationService : JobIntentService() {
     companion object {
         private val TAG = FcmRegistrationService::class.java.simpleName
 
-        private val JOB_ID = 1000
+        private const val JOB_ID = 1000
 
-        private val ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM"
-        private val ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION"
-        private val EXTRA_NOTIFICATION_ID = "notificationId"
+        private const val ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM"
+        private const val ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION"
+        private const val EXTRA_NOTIFICATION_ID = "notificationId"
 
         internal fun scheduleRegistration(context: Context) {
             val intent = Intent(context, FcmRegistrationService::class.java)

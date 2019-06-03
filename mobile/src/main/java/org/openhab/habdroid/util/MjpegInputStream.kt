@@ -87,7 +87,7 @@ class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStrea
         private val SOI_MARKER = byteArrayOf(0xFF.toByte(), 0xD8.toByte())
         private val EOF_MARKER = byteArrayOf(0xFF.toByte(), 0xD9.toByte())
         private const val HEADER_MAX_LENGTH = 100
-        private val FRAME_MAX_LENGTH = 400000 + HEADER_MAX_LENGTH
+        private const val FRAME_MAX_LENGTH = 400000 + HEADER_MAX_LENGTH
         private const val CONTENT_LENGTH = "Content-Length"
     }
 }

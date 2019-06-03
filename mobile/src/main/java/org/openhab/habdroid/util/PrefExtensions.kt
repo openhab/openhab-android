@@ -7,47 +7,47 @@ import androidx.core.net.toUri
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Sitemap
 
-inline fun SharedPreferences.getLocalUrl(): String {
+fun SharedPreferences.getLocalUrl(): String {
     return getString(Constants.PREFERENCE_LOCAL_URL)
 }
 
-inline fun SharedPreferences.getRemoteUrl(): String {
+fun SharedPreferences.getRemoteUrl(): String {
     return getString(Constants.PREFERENCE_REMOTE_URL)
 }
 
-inline fun SharedPreferences.getDefaultSitemap(): String {
+fun SharedPreferences.getDefaultSitemap(): String {
     return getString(Constants.PREFERENCE_SITEMAP_NAME)
 }
 
-inline fun SharedPreferences.getIconFormat(): String {
+fun SharedPreferences.getIconFormat(): String {
     return getString(Constants.PREFERENCE_ICON_FORMAT, "PNG")
 }
 
-inline fun SharedPreferences.isDemoModeEnabled(): Boolean {
+fun SharedPreferences.isDemoModeEnabled(): Boolean {
     return getBoolean(Constants.PREFERENCE_DEMOMODE, false)
 }
 
-inline fun SharedPreferences.isDebugModeEnabled(): Boolean {
+fun SharedPreferences.isDebugModeEnabled(): Boolean {
     return getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
 }
 
-inline fun SharedPreferences.getNotificationTone(): Uri? {
+fun SharedPreferences.getNotificationTone(): Uri? {
     return getString(Constants.PREFERENCE_TONE, null)?.toUri()
 }
 
-inline fun SharedPreferences.isScreenTimerDisabled(): Boolean {
+fun SharedPreferences.isScreenTimerDisabled(): Boolean {
     return getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)
 }
 
-inline fun SharedPreferences.getChartScalingFactor(): Float {
+fun SharedPreferences.getChartScalingFactor(): Float {
     return getFloat(Constants.PREFERENCE_CHART_SCALING, 1.0F)
 }
 
-inline fun SharedPreferences.shouldRequestHighResChart(): Boolean {
+fun SharedPreferences.shouldRequestHighResChart(): Boolean {
     return getBoolean(Constants.PREFERENCE_CHART_HQ, true)
 }
 
-inline fun SharedPreferences.getString(key: String): String {
+fun SharedPreferences.getString(key: String): String {
     return getString(key, "").orEmpty()
 }
 
@@ -55,7 +55,7 @@ inline fun SharedPreferences.getString(key: String): String {
  * Returns vibration pattern for notifications that can be passed to
  * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]
  */
-inline fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArray {
+fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArray {
     return when (getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION)) {
         context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
         context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
@@ -64,7 +64,7 @@ inline fun SharedPreferences.getNotificationVibrationPattern(context: Context): 
     }
 }
 
-inline fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?) {
+fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?) {
     if (sitemap == null) {
         remove(Constants.PREFERENCE_SITEMAP_NAME)
         remove(Constants.PREFERENCE_SITEMAP_LABEL)

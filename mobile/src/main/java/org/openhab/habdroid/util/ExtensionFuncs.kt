@@ -49,15 +49,15 @@ fun String.obfuscate(clearTextCharCount: Int = 3): String {
 }
 
 fun String?.toNormalizedUrl(): String {
-    try {
+    return try {
         val url = URL(orEmpty())
                 .toString()
                 .replace("\n", "")
                 .replace(" ", "")
-        return if (url.endsWith("/")) url else "$url/"
+        if (url.endsWith("/")) url else "$url/"
     } catch (e: MalformedURLException) {
         Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
-        return ""
+        ""
     }
 }
 
@@ -93,9 +93,7 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
                 && contentType.subtype().contains("svg")
     if (!isSvg) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
-        if (bitmap == null) {
-            throw IOException("Bitmap decoding failed")
-        }
+                ?: throw IOException("Bitmap decoding failed")
         if (!enforceSize) {
             return bitmap
         }
@@ -147,7 +145,7 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
             canvas.scale(density, density)
         }
         svg.renderToCanvas(canvas)
-        return bitmap
+        bitmap
     } catch (e: SVGParseException) {
         throw IOException("SVG decoding failed", e)
     }
@@ -163,6 +161,6 @@ inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
     return (0 until length()).map { index -> transform(getJSONObject(index)) }
 }
 
-inline fun Context.getPrefs(): SharedPreferences {
+fun Context.getPrefs(): SharedPreferences {
     return PreferenceManager.getDefaultSharedPreferences(this)
 }

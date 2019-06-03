@@ -130,7 +130,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun hasClientCertificate(): Boolean {
-            return !prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT).isEmpty()
+            return prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT).isNotEmpty()
         }
 
         protected fun isConnectionSecure(url: String?, user: String?, password: String?): Boolean {
