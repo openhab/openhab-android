@@ -57,8 +57,7 @@ for file in appStoreStringsFiles:
     fullDescription += getString('home_entertainment') + "\n"
     fullDescription += getString('security') + "\n"
     fullDescription += getString('open_protocols') + "\n"
-    fullDescription += getString('special_useCases') + "\n"
-    fullDescription += getString('empty_point') + "\n\n"
+    fullDescription += getString('special_useCases') + "\n\n"
     fullDescription += "<b>" + getString('oss_community') + "</b>\n\n"
     fullDescription += getString('forum') + "\n"
     fullDescription += getString('report_issues') + "\n"
@@ -66,15 +65,9 @@ for file in appStoreStringsFiles:
     fullDescription += "<b>" + getString('foundation') + "</b>\n\n"
     fullDescription += getString('about_foundation') + "\n"
     if "fdroid" in sys.argv[1]:
-        fullDescription += "\n<b>" + getString('fdroid_anti_features') + "</b>\n\n"
-        fullDescription += getString('fdroid_anti_features_text') + "\n\n\n"
-        fullDescription += getString('fdroid_privacy_policy')
+        fullDescription += "\n\n" + getString('fdroid_privacy_policy')
 
     # Validate full description
-    if getString('empty_point') != "• ..." and getString('empty_point') != "... •":
-        print("'empty_point' of " + lang + " is incorrect")
-        exitCode += 1
-
     openhabOccurences = [m.start() for m in re.finditer("openhab", fullDescription, re.I)]
     for i in openhabOccurences:
         openhabString = fullDescription[i:i+7]

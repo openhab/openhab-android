@@ -22,7 +22,6 @@ openHAB は、Java ベースのオープンソース ホームオートメーシ
 • セキュリティ: ZoneMinder、DSC ...
 • オープンなプロトコル: HTTP、TCP/UDP、MQTT、シリアル ...
 • 特別なユースケース: Minecraft, テスラ自動車, 天気サービス ...
-• ...
 
 <b>オープンソース コミュニティ</b>
 
@@ -33,10 +32,6 @@ openHAB オープンソース イニシアチブは、その活気に満ちた�
 <b>openHAB 財団</b>
 
 openHAB 財団は、フリーでオープンなスマートホームソリューションの可能性と利点について一般の人々に教育することを使命とする非営利組織です。 財団の使命とサービスについて学んでください https://www.openhabfoundation.org
-
-<b>アンチ機能</b>
-
-openHAB アイコンは自由ライセンスではないので、アプリは"非自由資産"にマークされています。
 
 
 プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html

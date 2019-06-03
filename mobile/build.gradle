@@ -32,8 +32,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 141
-        versionName "2.7.1-beta"
+        versionCode 143
+        versionName "2.7.3-beta"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -118,9 +118,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.github.heremaps:oksse:0.9.0'
     implementation 'com.larswerkman:HoloColorPicker:1.5'
-    implementation ('com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db') {
-        exclude group: 'org.jetbrains', module: 'annotations-java5'
-    }
+    implementation 'com.caverock:androidsvg-aar:1.4'
     implementation('com.github.paolorotolo:appintro:v5.1.0') {
         transitive false
         exclude group: 'com.intellij', module: 'annotations'
@@ -145,7 +143,7 @@ dependencies {
         transitive = true
     }
 
-    testImplementation 'org.mockito:mockito-core:2.27.0'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.json:json:20180813'
@@ -158,13 +156,13 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
 
     // Espresso UI tests
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1', {
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test:rules:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1', {
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 

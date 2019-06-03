@@ -22,7 +22,6 @@ Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, tec
 • Beveiliging: ZoneMinder, DSC,...
 • Open protocollen: HTTP, TCP/UDP, MQTT, serieel, ...
 • Speciale toepassingen: Minecraft, Tesla auto, weerdiensten,...
-• ...
 
 <b>Open Source Community</b>
 
@@ -33,10 +32,6 @@ Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/proj
 <b>openHAB Foundation</b>
 
 De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org
-
-<b>Anti Features</b>
-
-De app is gemarkeerd als "NonFreeAsset", omdat het openHAB pictogram niet onder een vrije licentie beschikbaar is.
 
 
 Privacybeleid: https://www.openhabfoundation.org/privacy.html

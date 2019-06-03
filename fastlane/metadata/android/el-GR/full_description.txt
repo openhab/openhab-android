@@ -22,7 +22,6 @@ The builds on F-Droid have FCM and crash reporting removed and will not be able 
 • Ασφάλεια: ZoneMinder, DSC,...
 • Ανοικτά πρωτόκολλα: TCP/UDP HTTP, MQTT, σειριακό,...
 • Ειδικές περιπτώσεις χρήσης: Minecraft, αυτοκίνητο Tesla, μετεωρολογικές υπηρεσίες,...
-• ...
 
 <b>Κοινότητα Ανοικτού Λογισμικού</b>
 
@@ -33,10 +32,6 @@ The builds on F-Droid have FCM and crash reporting removed and will not be able 
 <b>Ίδρυμα openHAB</b>
 
 Το ίδρυμα openHAB είναι ένας μη κερδοσκοπικός οργανισμός με στόχο την ενημέρωση του κοινού για τις δυνατότητες και τα οφέλη των ελεύθερων και ανοικτού λογισμικού λύσεων έξυπνου σπιτιού. Μάθετε περισσότερα για την αποστολή και τις υπηρεσίες του ιδρύματος στο σύνδεσμο https://www.openhabfoundation.org
-
-<b>Μη αποδεκτά xαρακτηριστικά</b>
-
-Η εφαρμογή έχει χαρακτηριστεί ως "NonFreeAsset", διότι το εικονίδιο του openHAB δεν είναι υπό ελεύθερη άδεια.
 
 
 Πολιτική προστασίας προσωπικών δεδομένων: https://www.openhabfoundation.org/privacy.html

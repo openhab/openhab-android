@@ -68,14 +68,17 @@ data class Widget(val id: String, val parentId: String?, val label: String,
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject, iconFormat: String): Widget {
             val item = Item.updateFromEvent(source.item, eventPayload.getJSONObject("item"))
-            val iconPath = determineOH2IconPath(item, source.type,
-                    source.icon, iconFormat, source.mappings.isNotEmpty())
+            val icon = eventPayload.optString("icon", source.icon)
+            val iconPath = determineOH2IconPath(item, source.type, icon, iconFormat,
+                    source.mappings.isNotEmpty())
             return build(source.id, source.parentId,
                     eventPayload.optString("label", source.label),
-                    source.icon, iconPath,
+                    icon, iconPath,
                     determineWidgetState(eventPayload.optString("state", null), item),
                     source.type, source.url, item, source.linkedPage, source.mappings,
-                    source.encoding, source.iconColor, source.labelColor, source.valueColor,
+                    source.encoding, source.iconColor,
+                    eventPayload.optString("labelcolor", source.labelColor),
+                    eventPayload.optString("valuecolor", source.valueColor),
                     source.refresh, source.minValue, source.maxValue, source.step,
                     source.period, source.service, source.legend,
                     source.switchSupport, source.height)

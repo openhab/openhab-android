@@ -22,7 +22,6 @@ Mais de 200 add-ons específicos fornecem suporte para marcas, dispositivos, tec
 • Segurança: ZoneMinder, DSC,...
 • Protocolos abertos: HTTP, TCP/UDP, MQTT, Serial,...
 • Especiais: Minecraft, carros Tesla, Serviços Climáticos,...
-• ...
 
 <b>Comunidade Open Source</b>
 
@@ -33,10 +32,6 @@ Se você quiser traduzir o aplicativo para o seu idioma, junte-se a nós em http
 <b>Fundação openHAB</b>
 
 A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão de educar o público sobre as possibilidades e benefícios de soluções de automação residencial gratuitas e abertas. Aprenda sobre a missão e os serviços da fundação em https://www.openhabfoundation.org
-
-<b>Anti-recursos</b>
-
-O aplicativo é sinalizado com o sinalizador "NonFreeAsset", porque o ícone do openHAB não está sob uma licença gratuita.
 
 
 Política de privacidade: https://www.openhabfoundation.org/privacy.html

@@ -22,7 +22,6 @@ Ev Otomasyonu Çözümleri: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
 • Güvenlik: ZoneMinder, DSC,...
 • Açık protokoller: HTTP, TCP/UDP, MQTT, Serial,...
 • Özel Kullanım Örnekleri: Minecraft, Tesla Car, Hava Durumu hizmetleri,...
-• ...
 
 <b>Açık Kaynak Topluluğu</b>
 
@@ -33,10 +32,6 @@ Uygulamayı kendi dilinize çevirmek isterseniz https://crowdin.com/project/open
 <b>openHAB Vakfı</b>
 
 openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. 
-
-<b>Anti Özellikleri</b>
-
-openHAB simgesi ücretsiz bir lisans altında olmadığı için uygulama "NonFreeAsset" bayrağıyla işaretlenmiştir.
 
 
 Gizlilik Politikası: https://www.openhabfoundation.org/privacy.html

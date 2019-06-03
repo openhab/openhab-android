@@ -22,7 +22,6 @@ Iluminat: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
 • Securitate: ZoneMinder, DSC, ...
 • Protocoale deschise: HTTP, TCP/UDP, MQTT, Serial, ...
 • Cazuri speciale de utilizare: Minecraft, Tesla Car, Weather Services, ...
-• ...
 
 <b>Comunitate open source</b>
 
@@ -33,10 +32,6 @@ Dacă vrei să traduci aplicația în limba ta, alătură-te nouă la https://cr
 <b>Fundația openHAB</b>
 
 Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. Află mai multe despre misiunea și serviciile fundației la https://www.openhabfoundation.org
-
-<b>Anti Features</b>
-
-Aplicația este marcată ca "NonFreeAsset", deoarece pictograma openHAB nu are o licență liberă.
 
 
 Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html
