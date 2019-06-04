@@ -247,4 +247,5 @@
     <string name="app_intro_skip_button">SALTA</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FATTO</string>
+    <!-- Item picker -->
 </resources>
