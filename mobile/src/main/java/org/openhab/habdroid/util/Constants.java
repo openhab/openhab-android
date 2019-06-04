@@ -42,6 +42,7 @@ public class Constants {
     public static final String PREFERENCE_ALARM_CLOCK         = "alarmClock";
     public static final String PREFERENCE_SEND_DEVICE_INFO_PREFIX = "sendDeviceInfoPrefix";
     public static final String PREFERENCE_SEND_DEVICE_INFO_CAT = "sendDeviceInfoCat";
+    public static final String PREFERENCE_TASKER_PLUGIN_ENABLED = "taskerPlugin";
 
     public static final String PREV_SERVER_FLAGS              = "prevServerFlags";
 

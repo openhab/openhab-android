@@ -2,7 +2,9 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import androidx.annotation.StringRes;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
@@ -31,6 +34,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.AsyncHttpClient;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.SuggestedCommandsFactory;
 import org.openhab.habdroid.util.TaskerIntent;
 import org.openhab.habdroid.util.Util;
@@ -54,8 +58,10 @@ public class ItemPickerActivity extends AbstractBaseActivity
     private SwipeRefreshLayout mSwipeLayout;
     private View mEmptyView;
     private TextView mEmptyMessage;
-    private View mRetryButton;
+    private TextView mRetryButton;
     private SuggestedCommandsFactory mSuggestedCommandsFactory;
+    private boolean mIsDisabled;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +94,13 @@ public class ItemPickerActivity extends AbstractBaseActivity
         Bundle editItem = getIntent().getBundleExtra(TaskerIntent.EXTRA_BUNDLE);
         if (editItem != null && !TextUtils.isEmpty(editItem.getString(EXTRA_ITEM_NAME))) {
             mInitialHightlightItemName = editItem.getString(EXTRA_ITEM_NAME);
+        }
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (!mSharedPreferences.getBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, false)) {
+            mIsDisabled = true;
+            updateViewVisibility(false, false, true);
         }
     }
 
@@ -129,6 +142,9 @@ public class ItemPickerActivity extends AbstractBaseActivity
     }
 
     private void loadItems() {
+        if (mIsDisabled) {
+            return;
+        }
         Connection connection;
         try {
             connection = ConnectionFactory.getUsableConnection();
@@ -136,12 +152,12 @@ public class ItemPickerActivity extends AbstractBaseActivity
             connection = null;
         }
         if (connection == null) {
-            updateViewVisibility(false, true);
+            updateViewVisibility(false, true, false);
             return;
         }
 
         mItemPickerAdapter.clear();
-        updateViewVisibility(true, false);
+        updateViewVisibility(true, false, false);
 
         final AsyncHttpClient client = connection.getAsyncHttpClient();
         mRequestHandle = client.get("rest/items", new AsyncHttpClient.StringResponseHandler() {
@@ -160,16 +176,16 @@ public class ItemPickerActivity extends AbstractBaseActivity
                     Log.d(TAG, "Item request success, got " + items.size() + " items");
                     mItemPickerAdapter.setItems(items);
                     handleInitialHighlight();
-                    updateViewVisibility(false, false);
+                    updateViewVisibility(false, false, false);
                 } catch (JSONException e) {
                     Log.d(TAG, "Item response could not be parsed", e);
-                    updateViewVisibility(false, true);
+                    updateViewVisibility(false, true, false);
                 }
             }
 
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
-                updateViewVisibility(false, true);
+                updateViewVisibility(false, true, false);
                 Log.e(TAG, "Item request failure", error);
             }
         });
@@ -178,6 +194,13 @@ public class ItemPickerActivity extends AbstractBaseActivity
     @Override
     public void onClick(View view) {
         if (view == mRetryButton) {
+            if (mIsDisabled) {
+                mSharedPreferences
+                        .edit()
+                        .putBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, true)
+                        .apply();
+                mIsDisabled = false;
+            }
             loadItems();
         }
     }
@@ -233,13 +256,15 @@ public class ItemPickerActivity extends AbstractBaseActivity
     private void finish(boolean success, Item item, String state) {
         Intent intent = new Intent();
 
-        String blurb = getString(R.string.item_picker_blurb, item.label(), item.name(), state);
-        intent.putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb);
+        if (success) {
+            String blurb = getString(R.string.item_picker_blurb, item.label(), item.name(), state);
+            intent.putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_ITEM_NAME, item.name());
-        bundle.putString(EXTRA_ITEM_STATE, state);
-        intent.putExtra(TaskerIntent.EXTRA_BUNDLE, bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTRA_ITEM_NAME, item.name());
+            bundle.putString(EXTRA_ITEM_STATE, state);
+            intent.putExtra(TaskerIntent.EXTRA_BUNDLE, bundle);
+        }
 
         int resultCode = success ? RESULT_OK : RESULT_CANCELED;
         setResult(resultCode, intent);
@@ -265,14 +290,23 @@ public class ItemPickerActivity extends AbstractBaseActivity
         mInitialHightlightItemName = null;
     }
 
-    private void updateViewVisibility(boolean loading, boolean loadError) {
-        boolean showEmpty = !loading && (mItemPickerAdapter.getItemCount() == 0 || loadError);
+    private void updateViewVisibility(boolean loading, boolean loadError, boolean isDisabled) {
+        boolean showEmpty =  isDisabled
+                || (!loading && (mItemPickerAdapter.getItemCount() == 0 || loadError));
         mRecyclerView.setVisibility(showEmpty ? View.GONE : View.VISIBLE);
         mEmptyView.setVisibility(showEmpty ? View.VISIBLE : View.GONE);
         mSwipeLayout.setRefreshing(loading);
-        mEmptyMessage.setText(
-                loadError ? R.string.item_picker_list_error : R.string.item_picker_list_empty);
-        mRetryButton.setVisibility(loadError ? View.VISIBLE : View.GONE);
+        @StringRes int message;
+        if (loadError) {
+            message = R.string.item_picker_list_error;
+        } else if (isDisabled) {
+            message = R.string.settings_tasker_plugin_summary;
+        } else {
+            message = R.string.item_picker_list_empty;
+        }
+        mEmptyMessage.setText(message);
+        mRetryButton.setText(isDisabled ? R.string.turn_on : R.string.try_again_button);
+        mRetryButton.setVisibility(loadError || isDisabled ? View.VISIBLE : View.GONE);
     }
 
     @Override

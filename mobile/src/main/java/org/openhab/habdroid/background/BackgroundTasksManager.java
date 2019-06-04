@@ -86,6 +86,11 @@ public class BackgroundTasksManager extends BroadcastReceiver {
             }
         } else if (TaskerIntent.ACTION_QUERY_CONDITION.equals(action)
                 || TaskerIntent.ACTION_FIRE_SETTING.equals(action)) {
+            if (!PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, false)) {
+                Log.d(TAG, "Tasker plugin is disabled");
+                return;
+            }
             Bundle bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE);
             if (bundle == null) {
                 return;

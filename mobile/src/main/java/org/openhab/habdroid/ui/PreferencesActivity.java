@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -252,6 +253,8 @@ public class PreferencesActivity extends AbstractBaseActivity {
             final Preference alarmClockPrefCat =
                     findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_CAT);
             final Preference alarmClockPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK);
+            final Preference taskerPref =
+                    findPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED);
             final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
             final Preference ringtoneVibrationPref =
@@ -318,6 +321,10 @@ public class PreferencesActivity extends AbstractBaseActivity {
                 getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true);
                 return true;
             });
+
+            if (!getPreferenceBool(taskerPref, false) && !isAutomationAppInstalled()) {
+                getParent(taskerPref).removePreference(taskerPref);
+            }
 
             ringtonePref.setOnPreferenceChangeListener((pref, newValue) -> {
                 updateRingtonePreferenceSummary(pref, newValue);
@@ -406,6 +413,23 @@ public class PreferencesActivity extends AbstractBaseActivity {
                         ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
                 getParent(chartScalingPreference).removePreference(chartScalingPreference);
             }
+        }
+
+        private boolean isAutomationAppInstalled() {
+            String[] packageNames = {"net.dinglisch.android.taskerm", "com.twofortyfouram.locale"};
+
+            for (String packageName : packageNames) {
+                try {
+                    if (getActivity().getPackageManager().getApplicationInfo(packageName, 0).enabled) {
+                        return true;
+                    }
+                }
+                catch (PackageManager.NameNotFoundException ignored) {
+                    // ignored
+                }
+            }
+
+            return false;
         }
 
         /**

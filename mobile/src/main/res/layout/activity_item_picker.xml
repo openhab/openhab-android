@@ -63,6 +63,7 @@
                     android:padding="16dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/empty_list_text_color"
+                    android:textAlignment="center"
                     tools:text="Some error occured" />
 
                 <TextView
@@ -71,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/try_again_button" />
+                    tools:text="@string/try_again_button" />
 
             </LinearLayout>
         </FrameLayout>

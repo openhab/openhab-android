@@ -309,4 +309,7 @@
     <string name="item_picker">openHAB Items</string>
     <string name="item_picker_blurb">Set \"%s\" (%s) to \"%s\"</string>
     <string name="search">Search</string>
+    <string name="settings_tasker_plugin">Tasker integration</string>
+    <string name="settings_tasker_plugin_summary">Enable Tasker action plugin which allows updating Items via Tasker or other compatible apps</string>
+    <string name="turn_on">Turn on</string>
 </resources>
