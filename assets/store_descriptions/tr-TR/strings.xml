@@ -13,6 +13,7 @@
     <security>• Güvenlik: ZoneMinder, DSC,...</security>
     <open_protocols>• Açık protokoller: HTTP, TCP/UDP, MQTT, Serial,...</open_protocols>
     <special_useCases>• Özel Kullanım Örnekleri: Minecraft, Tesla Car, Hava Durumu hizmetleri,...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Açık Kaynak Topluluğu</oss_community>
     <forum>openHAB açık kaynak girişimi, canlı topluluğunu güçlü bir şekilde destekliyor. Forum 13,000 kayıtlı kullanıcı ile rehberlik, yardım ve ilham bulmak için bir yerdir. openHAB topluluk forumu' na katıl: https://community.openhab.org</forum>
