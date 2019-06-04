@@ -13,6 +13,7 @@
     <security>• Sikkerhet: ZoneMinder, DSC,...</security>
     <open_protocols>• Åpne protokoller: HTTP, TCP/UDP, MQTT, seriell,...</open_protocols>
     <special_useCases>• Spesielle useCases: Minecraft, Tesla bil, værmeldingstjenester,...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Åpen kildekode Community</oss_community>
     <forum>openHAB åpen kildekode initiativ støtter sterkt stt levende Community. Forumet med over 13 000 registrerte brukere er et sted å finne veiledning, hjelp og inspirasjon. Bli med gruppeforumet openHAB over på https://community.openhab.org</forum>
