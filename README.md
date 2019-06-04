@@ -19,12 +19,13 @@ This app is a native client for openHAB which allows easy access to your sitemap
 <a href="https://github.com/openhab/openhab-android/releases"><img src="assets/direct-apk-download.png" alt="Get it on GitHub" height="80"></a>
 
 ## Features
-* Control your openHAB server and [openHAB Cloud instance](https://github.com/openhab/openhab-cloud)
-* Receive notifications from openHAB Cloud
+* Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
+* Receive notifications through an openHAB Cloud connection, [read more](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions)
 * Change items via NFC tags
 * Send voice commands to openHAB
-* Send alarm clock time to openHAB
-* Supports wall mounted tablets
+* [Send alarm clock time to openHAB](https://www.openhab.org/docs/apps/android.html#alarm-clock)
+* [Supports wall mounted tablets](https://www.openhab.org/docs/apps/android.html#permanent-deployment)
+* [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
 
 <img src="docs/images/main-menu.png" alt="Demo Overview" width=200px> <img src="docs/images/widget-overview.png" alt="Widget Overview" width=200px> <img src="docs/images/maps.png" alt="Google Maps Widget" width=200px>
 

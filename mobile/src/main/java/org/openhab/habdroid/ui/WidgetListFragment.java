@@ -44,14 +44,13 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.LinkedPage;
-import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.SuggestedCommandsFactory;
 import org.openhab.habdroid.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,6 +75,7 @@ public class WidgetListFragment extends Fragment
     private String mTitle;
     private RecyclerViewSwipeRefreshLayout mRefreshLayout;
     private String mHighlightedPageLink;
+    private SuggestedCommandsFactory mSuggestedCommandsFactory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,78 +127,14 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public boolean onItemLongClicked(final Widget widget) {
-        ArrayList<String> labels = new ArrayList<>();
-        ArrayList<String> commands = new ArrayList<>();
-
-        if (widget.item() != null) {
-            // If the widget has mappings, we will populate names and commands with
-            // values from those mappings
-            if (widget.hasMappingsOrItemOptions()) {
-                for (LabeledValue mapping : widget.getMappingsOrItemOptions()) {
-                    labels.add(mapping.label());
-                    commands.add(mapping.value());
-                }
-                // Else we only can do it for Switch widget with On/Off/Toggle commands
-            } else if (widget.type() == Widget.Type.Switch) {
-                Item item = widget.item();
-                if (item.isOfTypeOrGroupType(Item.Type.Switch)) {
-                    labels.add(getString(R.string.nfc_action_on));
-                    commands.add("ON");
-                    labels.add(getString(R.string.nfc_action_off));
-                    commands.add("OFF");
-                    labels.add(getString(R.string.nfc_action_toggle));
-                    commands.add("TOGGLE");
-                } else if (item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
-                    labels.add(getString(R.string.nfc_action_up));
-                    commands.add("UP");
-                    labels.add(getString(R.string.nfc_action_down));
-                    commands.add("DOWN");
-                    labels.add(getString(R.string.nfc_action_toggle));
-                    commands.add("TOGGLE");
-                }
-            } else if (widget.type() == Widget.Type.Colorpicker) {
-                labels.add(getString(R.string.nfc_action_on));
-                commands.add("ON");
-                labels.add(getString(R.string.nfc_action_off));
-                commands.add("OFF");
-                labels.add(getString(R.string.nfc_action_toggle));
-                commands.add("TOGGLE");
-                if (widget.state() != null) {
-                    labels.add(getString(R.string.nfc_action_current_color));
-                    commands.add(widget.state().asString());
-                }
-            } else if (widget.type() == Widget.Type.Setpoint
-                    || widget.type() == Widget.Type.Slider) {
-                if (widget.state() != null && widget.state().asNumber() != null) {
-                    ParsedState.NumberState state = widget.state().asNumber();
-
-                    String currentState = state.toString();
-                    labels.add(currentState);
-                    commands.add(currentState);
-
-                    String minValue = ParsedState.NumberState.withValue(state, widget.minValue())
-                            .toString();
-                    if (!currentState.equals(minValue)) {
-                        labels.add(minValue);
-                        commands.add(minValue);
-                    }
-
-                    String maxValue = ParsedState.NumberState.withValue(state, widget.maxValue())
-                            .toString();
-                    if (!currentState.equals(maxValue)) {
-                        labels.add(maxValue);
-                        commands.add(maxValue);
-                    }
-
-                    if (widget.switchSupport()) {
-                        labels.add(getString(R.string.nfc_action_on));
-                        commands.add("ON");
-                        labels.add(getString(R.string.nfc_action_off));
-                        commands.add("OFF");
-                    }
-                }
-            }
+        if (mSuggestedCommandsFactory == null) {
+            mSuggestedCommandsFactory = new SuggestedCommandsFactory(getContext(), false);
         }
+        SuggestedCommandsFactory.SuggestedCommands suggestedCommands =
+                mSuggestedCommandsFactory.fill(widget);
+
+        List<String> labels = suggestedCommands.labels;
+        List<String> commands = suggestedCommands.commands;
 
         if (widget.linkedPage() != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page));

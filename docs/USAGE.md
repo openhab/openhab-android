@@ -28,6 +28,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 * Send voice commands to openHAB
 * [Send alarm clock time to openHAB](#alarm-clock)
 * [Supports wall mounted tablets](#permanent-deployment)
+* [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
 
 <div class="row">
   <img src="images/main-menu.png" alt="Demo Overview" width=200px> <img src="images/widget-overview.png" alt="Widget Overview" width=200px> <img src="images/maps.png" alt="Google Maps Widget" width=200px>

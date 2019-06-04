@@ -16,6 +16,7 @@ import org.openhab.habdroid.util.Util;
 
 public abstract class AbstractBaseActivity extends AppCompatActivity {
     private static final String TAG = AbstractBaseActivity.class.getSimpleName();
+    private boolean mForceNonFullscreen = false;
 
     @Override
     @CallSuper
@@ -41,6 +42,15 @@ public abstract class AbstractBaseActivity extends AppCompatActivity {
         checkFullscreen();
     }
 
+    /**
+     * Activities, that aren't called from an app component directly, e.g. through a third-party app
+     * can use this function to avoid being shown in full screen. Must be called before
+     * {@link #onCreate(Bundle)}
+     */
+    protected void forceNonFullscreen() {
+        mForceNonFullscreen = true;
+    }
+
     protected void checkFullscreen() {
         checkFullscreen(isFullscreenEnabled());
     }
@@ -50,7 +60,7 @@ public abstract class AbstractBaseActivity extends AppCompatActivity {
         final int flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        if (isEnabled) {
+        if (isEnabled && !mForceNonFullscreen) {
             uiOptions |= flags;
         } else {
             uiOptions &= ~flags;

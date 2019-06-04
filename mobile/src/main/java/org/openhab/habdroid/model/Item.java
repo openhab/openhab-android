@@ -47,6 +47,8 @@ public abstract class Item implements Parcelable {
 
     public abstract String name();
     public abstract String label();
+    @Nullable
+    public abstract String category();
     public abstract Type type();
     @Nullable
     public abstract Type groupType();
@@ -67,6 +69,7 @@ public abstract class Item implements Parcelable {
     abstract static class Builder {
         public abstract Builder name(String name);
         public abstract Builder label(String label);
+        public abstract Builder category(String category);
         public abstract Builder type(Type type);
         public abstract Builder groupType(Type type);
         public abstract Builder state(@Nullable ParsedState state);
@@ -197,6 +200,7 @@ public abstract class Item implements Parcelable {
                 .name(name)
                 .label(jsonObject.optString("label", name))
                 .link(jsonObject.optString("link", null))
+                .category(jsonObject.optString("category", null))
                 .members(members)
                 .options(options)
                 .state(ParsedState.from(state, numberPattern))

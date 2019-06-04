@@ -101,13 +101,19 @@
             android:icon="@drawable/ic_alarm_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="taskerPlugin"
+            android:title="@string/settings_tasker_plugin"
+            android:summary="@string/settings_tasker_plugin_summary"
+            android:icon="@drawable/ic_none" />
         <RingtonePreference
             android:key="default_openhab_alertringtone"
             android:persistent="true"
             android:ringtoneType="ringtone|notification"
             android:showSilent="true"
             android:title="@string/settings_ringtone"
-            android:icon="@drawable/ic_bell_ring_outline_grey_24dp" />c
+            android:icon="@drawable/ic_bell_ring_outline_grey_24dp" />
         <ListPreference
             android:key="default_openhab_notification_vibration"
             android:title="@string/settings_notification_vibration"

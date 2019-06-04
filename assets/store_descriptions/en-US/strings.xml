@@ -13,6 +13,7 @@
     <security>• Security: ZoneMinder, DSC, ...</security>
     <open_protocols>• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Special UseCases: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
+    <automation_apps>• Automation apps: Includes plugins for Tasker and Locale</automation_apps>
 
     <oss_community>Open Source Community</oss_community>
     <forum>The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org</forum>

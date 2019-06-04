@@ -17,6 +17,7 @@ import android.security.KeyChain;
 import android.security.KeyChainException;
 import android.util.Log;
 import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 
 import de.duenndns.ssl.MemorizingTrustManager;
@@ -159,6 +160,7 @@ public final class ConnectionFactory extends BroadcastReceiver implements
      *
      * It MUST NOT be called from the main thread.
      */
+    @WorkerThread
     public static void waitForInitialization() {
         sInstance.triggerConnectionUpdateIfNeededAndPending();
         synchronized (sInstance.mInitializationLock) {
