@@ -13,6 +13,7 @@
     <security>• Охранные системы: ZoneMinder, DSC, ...</security>
     <open_protocols>• Открытые протоколы: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Дополнительно: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Сообщество Open Source</oss_community>
     <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум с более чем 13 000 зарегистрированных пользователей - это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
