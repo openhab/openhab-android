@@ -13,6 +13,7 @@
     <security>• Turvallisuus: ZoneMinder, DSC,...</security>
     <open_protocols>• Avoimet protokollat: TCP/UDP, HTTP, Serial, MQTT...</open_protocols>
     <special_useCases>• Erikoissovellukset: Minecraft, Tesla auto, sääpalvelut,...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Avoimen lähdekoodin yhteisö</oss_community>
     <forum>openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org</forum>
