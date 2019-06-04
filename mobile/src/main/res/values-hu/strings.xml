@@ -234,4 +234,5 @@
     <string name="app_intro_skip_button">Kihagyás</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">Kész</string>
+    <!-- Item picker -->
 </resources>
