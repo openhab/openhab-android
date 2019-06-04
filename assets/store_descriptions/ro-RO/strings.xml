@@ -13,6 +13,7 @@
     <security>• Securitate: ZoneMinder, DSC, ...</security>
     <open_protocols>• Protocoale deschise: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Cazuri speciale de utilizare: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Comunitate open source</oss_community>
     <forum>Inițiativa open source openHAB susține comunitatea sa activă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. Alătură-te comunității openAHB pe forum la https://community.openhab.org</forum>
