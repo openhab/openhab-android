@@ -13,6 +13,7 @@
     <security>• セキュリティ: ZoneMinder、DSC ...</security>
     <open_protocols>• オープンなプロトコル: HTTP、TCP/UDP、MQTT、シリアル ...</open_protocols>
     <special_useCases>• 特別なユースケース: Minecraft, テスラ自動車, 天気サービス ...</special_useCases>
+    <automation_apps/>
 
     <oss_community>オープンソース コミュニティ</oss_community>
     <forum>openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。 登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 openHAB コミュニティフォーラムにご参加ください https://community.openhab.org</forum>
