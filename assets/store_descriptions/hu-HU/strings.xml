@@ -14,6 +14,7 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <security>• Biztonság: ZoneMinder, DSC, ...</security>
     <open_protocols>• Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Időjárási szolgáltatások, ...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Nyílt forráskódú közösség</oss_community>
     <forum>Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. A fórumunk egy olyan hely, aminek több mint 13,000 regisztrált felhasználója van, akiktől segítséget, leírásokat és inspirációkat lehet nyerni. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni</forum>
