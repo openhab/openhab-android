@@ -21,6 +21,7 @@ openHAB 是一款基于 Java 的开源家居自动化平台，整合了大量不
 • 家庭娱乐：三星电视、LG TV、Sonos、Pioneer AVR、Squeezebox、Kodi、Plex···
 • 安全：ZoneMinder、DSC···
 • 开源协议：HTTP、TCP/UDP、MQTT、串口···
+• Automation apps: Includes plugins for Tasker and Locale
 • 特殊用例：我的世界、特斯拉汽车、天气服务···
 
 <b>开源社区</b>
