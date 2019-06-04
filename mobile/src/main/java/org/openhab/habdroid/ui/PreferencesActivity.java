@@ -420,11 +420,11 @@ public class PreferencesActivity extends AbstractBaseActivity {
 
             for (String packageName : packageNames) {
                 try {
-                    if (getActivity().getPackageManager().getApplicationInfo(packageName, 0).enabled) {
+                    if (getActivity().getPackageManager().getApplicationInfo(packageName, 0)
+                            .enabled) {
                         return true;
                     }
-                }
-                catch (PackageManager.NameNotFoundException ignored) {
+                } catch (PackageManager.NameNotFoundException ignored) {
                     // ignored
                 }
             }
