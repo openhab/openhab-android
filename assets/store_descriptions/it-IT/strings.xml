@@ -8,7 +8,7 @@
 
     <home_automation_solutions>• Soluzioni di domotica: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
     <lighting>• Illuminazione: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Riscaldamento: Max!, nido, Vitotronic, Heatmiser,...</heating>
+    <heating>• Riscaldamento: Max!, Nest, Vitotronic, Heatmiser,...</heating>
     <home_entertainment>• Home Entertainment: TV Samsung, TV LG, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...</home_entertainment>
     <security>• Sicurezza: ZoneMinder, DSC,...</security>
     <open_protocols>• Protocolli aperti: HTTP, TCP/UDP, MQTT, seriale,...</open_protocols>
@@ -21,9 +21,9 @@
     <report_issues>Quando si verifica un problema, segnalalo nel forum o al https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Se vuoi aiutare a tradurre l'applicazione nella tua lingua, visita https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>openHAB Foundation e.V. e' una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilita' e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation e.V. è una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilità e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org</about_foundation>
     <important_note>Nota importante</important_note>
-    <oh_server>E' richiesto un server openHAB per questa applicazione</oh_server>
+    <oh_server>È richiesto un server openHAB per questa applicazione</oh_server>
     <short_description>Soluzione domotica open source indipendente dalla tecnologia e dai produttori</short_description>
     <fdroid/>
     <fdroid_beta><![CDATA[È possibile installare la versione beta insieme alla <a href="https://f-droid.org/packages/org.openhab.habdroid/">versione stabile</a>.]]></fdroid_beta>
