@@ -13,6 +13,7 @@
     <security>• אבטחה: ZoneMinder, DSC,...</security>
     <open_protocols>• פרוטוקולים פתוחים: HTTP, TCP/UDP, MQTT, יציאה טורית,...</open_protocols>
     <special_useCases>• שימושים מיוחדים: Minecraft, מכוניות טסלה, שירותי מזג אוויר,...</special_useCases>
+    <automation_apps/>
 
     <oss_community>קהילת הקוד הפתוח</oss_community>
     <forum>היוזמה הפתוחה של openHAB תומכת מאוד בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. הצטרף לפורום קהילת openHAB ב https://community.openhab.org</forum>
