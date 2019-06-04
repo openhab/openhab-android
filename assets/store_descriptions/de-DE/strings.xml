@@ -13,6 +13,7 @@
     <security>• Sicherheitstechnik: ZoneMinder, DSC, ...</security>
     <open_protocols>• Offene Protokolle: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Spezielle Anwendungsfälle: Minecraft, Tesla Auto, Wetterdienste,...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Open-Source-Community</oss_community>
     <forum>Die quelloffene openHAB Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org</forum>
