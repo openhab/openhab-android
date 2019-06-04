@@ -235,4 +235,5 @@
     <string name="app_intro_skip_button">OVERSLAAN</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">GEREED</string>
+    <!-- Item picker -->
 </resources>
