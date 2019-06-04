@@ -13,6 +13,7 @@
     <security>• Bezpečnost: ZoneMinder, DSC,...</security>
     <open_protocols>• Otevřené protokoly: HTTP, TCP/UDP, MQTT, sériový,...</open_protocols>
     <special_useCases>• Speciální použití: Minecraft, automobil Tesla, meteorologické služby,...</special_useCases>
+    <automation_apps/>
 
     <oss_community>Open Source komunita</oss_community>
     <forum>openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org</forum>
