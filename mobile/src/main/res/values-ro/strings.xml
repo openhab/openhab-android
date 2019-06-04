@@ -191,4 +191,5 @@
     <string name="app_intro_skip_button">TRECI PESTE</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">GATA</string>
+    <!-- Item picker -->
 </resources>
