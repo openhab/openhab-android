@@ -19,9 +19,10 @@ import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
 
 @Parcelize
-data class Item internal constructor(val name: String, val label: String?, val type: Type,
-                                     val groupType: Type?, val link: String?, val readOnly: Boolean,
-                                     val members: List<Item>, val options: List<LabeledValue>?,
+data class Item internal constructor(val name: String, val label: String?, val category: String?,
+                                     val type: Type, val groupType: Type?, val link: String?,
+                                     val readOnly: Boolean, val members: List<Item>,
+                                     val options: List<LabeledValue>?,
                                      val state: ParsedState?) : Parcelable {
     enum class Type {
         None,
@@ -53,9 +54,9 @@ data class Item internal constructor(val name: String, val label: String?, val t
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
             val link = if (item != null) item.link else parsedItem.link
-            return Item(parsedItem.name, parsedItem.label, parsedItem.type, parsedItem.groupType,
-                    link, parsedItem.readOnly, parsedItem.members, parsedItem.options,
-                    parsedItem.state)
+            return Item(parsedItem.name, parsedItem.label, parsedItem.category, parsedItem.type,
+                    parsedItem.groupType, link, parsedItem.readOnly, parsedItem.members,
+                    parsedItem.options, parsedItem.state)
         }
      }
 }
@@ -81,7 +82,7 @@ fun Node.toItem(): Item? {
         state = null
     }
 
-    return Item(finalName, finalName, type, groupType, link, false,
+    return Item(finalName, finalName, null, type, groupType, link, false,
             emptyList(), null, state.toParsedState())
 }
 
@@ -111,6 +112,7 @@ fun JSONObject.toItem(): Item {
     val numberPattern = stateDescription?.optString("pattern")
     return Item(name,
             optString("label", name),
+            optString("category", null),
             getString("type").toItemType(),
             optString("groupType").toItemType(),
             optString("link", null),

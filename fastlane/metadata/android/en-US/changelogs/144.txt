@@ -1,0 +1,2 @@
+## Added
+* Add Tasker/Locale action plugin (#1338)

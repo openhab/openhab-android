@@ -47,6 +47,10 @@ fun SharedPreferences.shouldRequestHighResChart(): Boolean {
     return getBoolean(Constants.PREFERENCE_CHART_HQ, true)
 }
 
+fun SharedPreferences.isTaskerPluginEnabled(): Boolean {
+    return getBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, false)
+}
+
 fun SharedPreferences.getString(key: String): String {
     return getString(key, "").orEmpty()
 }

@@ -15,6 +15,8 @@ import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 
 abstract class AbstractBaseActivity : AppCompatActivity() {
+    protected open val forceNonFullscreen = false
+
     // If we are 4.4 we can use fullscreen mode and Daydream features
     protected val isFullscreenEnabled: Boolean
         get() = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
@@ -49,7 +51,7 @@ abstract class AbstractBaseActivity : AppCompatActivity() {
         val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
-        uiOptions = if (isEnabled) {
+        uiOptions = if (isEnabled && !forceNonFullscreen) {
             uiOptions or flags
         } else {
             uiOptions and flags.inv()

@@ -15,6 +15,7 @@ import androidx.work.WorkManager
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
+import org.openhab.habdroid.ui.ItemPickerActivity
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.*
 import java.util.*
@@ -38,15 +39,27 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     enqueueItemUpload(info.tag, info.itemName, info.value)
                 }
             }
+            TaskerIntent.ACTION_QUERY_CONDITION, TaskerIntent.ACTION_FIRE_SETTING -> {
+                if (!context.getPrefs().isTaskerPluginEnabled()) {
+                    Log.d(TAG, "Tasker plugin is disabled")
+                    return
+                }
+                val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
+                val itemName = bundle.getString(ItemPickerActivity.EXTRA_ITEM_NAME)
+                val state = bundle.getString(ItemPickerActivity.EXTRA_ITEM_STATE)
+                if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
+                    return
+                }
+                enqueueItemUpload(WORKER_TAG_PREFIX_TASKER + itemName, itemName, state)
+            }
         }
     }
 
     @Parcelize
     internal data class RetryInfo(val tag: String, val itemName: String, val value: String) : Parcelable
 
-    private class PrefsListener constructor(context: Context) : SharedPreferences.OnSharedPreferenceChangeListener {
-        private val context = context.applicationContext
-
+    private class PrefsListener constructor(private val context: Context) :
+            SharedPreferences.OnSharedPreferenceChangeListener {
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
             when {
                 key == Constants.PREFERENCE_DEMOMODE && prefs.isDemoModeEnabled() -> {
@@ -66,8 +79,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
             }
         }
-    }
 
+    }
     companion object {
         private val TAG = BackgroundTasksManager::class.java.simpleName
 
@@ -76,6 +89,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
+        private const val WORKER_TAG_PREFIX_TASKER = "tasker-"
 
         internal val KNOWN_KEYS = listOf(
                 Constants.PREFERENCE_ALARM_CLOCK
@@ -91,7 +105,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val infoLiveData = workManager.getWorkInfosByTagLiveData(WORKER_TAG_ITEM_UPLOADS)
             infoLiveData.observeForever(NotificationUpdateObserver(context))
 
-            prefsListener = PrefsListener(context)
+            prefsListener = PrefsListener(context.applicationContext)
             context.getPrefs().registerOnSharedPreferenceChangeListener(prefsListener)
         }
 

@@ -43,10 +43,7 @@ import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
-import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.dpToPixel
-import org.openhab.habdroid.util.getIconFormat
-import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.*
 import java.util.*
 
 /**
@@ -63,6 +60,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     // parent activity
     private var titleOverride: String? = null
     private var highlightedPageLink: String? = null
+    private val suggestedCommandsFactory by lazy {
+        SuggestedCommandsFactory(context, false)
+    }
 
     val displayPageUrl: String
         get() = arguments?.getString("displayPageUrl").orEmpty()
@@ -96,73 +96,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     override fun onItemLongClicked(item: Widget): Boolean {
         val context = context ?: return false
         val widget = item
-        val labels = ArrayList<String>()
-        val commands = ArrayList<String>()
-
-        if (widget.item != null) {
-            // If the widget has mappings, we will populate names and commands with
-            // values from those mappings
-            if (widget.hasMappingsOrItemOptions()) {
-                for ((value, label) in widget.mappingsOrItemOptions) {
-                    labels.add(label)
-                    commands.add(value)
-                }
-                // Else we only can do it for Switch widget with On/Off/Toggle commands
-            } else if (widget.type === Widget.Type.Switch) {
-                if (widget.item.isOfTypeOrGroupType(Item.Type.Switch)) {
-                    labels.add(getString(R.string.nfc_action_on))
-                    commands.add("ON")
-                    labels.add(getString(R.string.nfc_action_off))
-                    commands.add("OFF")
-                    labels.add(getString(R.string.nfc_action_toggle))
-                    commands.add("TOGGLE")
-                } else if (widget.item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
-                    labels.add(getString(R.string.nfc_action_up))
-                    commands.add("UP")
-                    labels.add(getString(R.string.nfc_action_down))
-                    commands.add("DOWN")
-                    labels.add(getString(R.string.nfc_action_toggle))
-                    commands.add("TOGGLE")
-                }
-            } else if (widget.type === Widget.Type.Colorpicker) {
-                labels.add(getString(R.string.nfc_action_on))
-                commands.add("ON")
-                labels.add(getString(R.string.nfc_action_off))
-                commands.add("OFF")
-                labels.add(getString(R.string.nfc_action_toggle))
-                commands.add("TOGGLE")
-                if (widget.state != null) {
-                    labels.add(getString(R.string.nfc_action_current_color))
-                    commands.add(widget.state.asString)
-                }
-            } else if (widget.type === Widget.Type.Setpoint || widget.type === Widget.Type.Slider) {
-                val state = widget.state?.asNumber
-                if (state != null) {
-                    val currentState = state.toString()
-                    labels.add(currentState)
-                    commands.add(currentState)
-
-                    val minValue = ParsedState.NumberState.withValue(state, widget.minValue).toString()
-                    if (currentState != minValue) {
-                        labels.add(minValue)
-                        commands.add(minValue)
-                    }
-
-                    val maxValue = ParsedState.NumberState.withValue(state, widget.maxValue).toString()
-                    if (currentState != maxValue) {
-                        labels.add(maxValue)
-                        commands.add(maxValue)
-                    }
-
-                    if (widget.switchSupport) {
-                        labels.add(getString(R.string.nfc_action_on))
-                        commands.add("ON")
-                        labels.add(getString(R.string.nfc_action_off))
-                        commands.add("OFF")
-                    }
-                }
-            }
-        }
+        val suggestedCommands = suggestedCommandsFactory.fill(widget)
+        val labels = suggestedCommands.labels
+        val commands = suggestedCommands.commands
         if (widget.linkedPage != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page))
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {

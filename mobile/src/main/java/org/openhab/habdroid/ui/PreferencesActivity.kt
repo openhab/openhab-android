@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
@@ -31,10 +32,7 @@ import androidx.core.net.toUri
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
-import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.getString
-import org.openhab.habdroid.util.updateDefaultSitemap
+import org.openhab.habdroid.util.*
 import java.util.*
 
 /**
@@ -194,6 +192,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val fullscreenPreference = findPreference(Constants.PREFERENCE_FULLSCREEN)
             val sendDeviceInfoPrefixPref = findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
             val alarmClockPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK)
+            val taskerPref = findPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
             val vibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
             val ringtoneVibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION)
             val viewLogPref = findPreference(Constants.PREFERENCE_LOG)
@@ -253,6 +252,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 onNoDefaultSitemap(preference)
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true
+            }
+
+            if (!prefs.isTaskerPluginEnabled() && !isAutomationAppInstalled()) {
+                preferenceScreen.removePreferenceFromHierarchy(taskerPref)
             }
 
             ringtonePref.setOnPreferenceChangeListener { pref, newValue ->
@@ -391,6 +394,17 @@ class PreferencesActivity : AbstractBaseActivity() {
                 else -> getString(R.string.settings_insecure_connection_summary, url)
             }
             pref.summary = summary
+        }
+
+        private fun isAutomationAppInstalled(): Boolean {
+            val pm = activity.packageManager
+            return listOf("net.dinglisch.android.taskerm", "com.twofortyfouram.locale").any { pkg ->
+                try {
+                    pm.getApplicationInfo(pkg, 0).enabled
+                } catch (e: PackageManager.NameNotFoundException) {
+                    false
+                }
+            }
         }
 
         companion object {
