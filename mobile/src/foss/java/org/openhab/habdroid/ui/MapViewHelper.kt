@@ -171,8 +171,7 @@ fun MapView.applyPositionAndLabel(item: Item?, itemLabel: CharSequence?, zoomLev
                 east = Math.max(position.longitude, east)
             }
 
-            Log.d(MapViewHelper.TAG, String.format("North %f, south %f, west %f, east %f",
-                    north, south, west, east))
+            Log.d(MapViewHelper.TAG, "North $north, south $south, west $west, east $east")
             val boundingBox = BoundingBox(north, east, south, west)
             val extraPixel = context.resources.dpToPixel(24f).toInt()
             try {

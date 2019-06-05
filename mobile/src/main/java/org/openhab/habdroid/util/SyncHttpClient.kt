@@ -37,7 +37,7 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
                 code = response.code()
                 result = response.body()
                 if (!response.isSuccessful) {
-                    error = IOException(response.code().toString() + ": " + response.message())
+                    error = IOException("${response.code()}: ${response.message()}")
                 }
             } catch (e: IOException) {
                 error = e

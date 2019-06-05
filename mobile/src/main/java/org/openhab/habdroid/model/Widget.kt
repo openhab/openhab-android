@@ -143,7 +143,7 @@ data class Widget(val id: String, val parentId: String?, val label: String,
                 }
             }
 
-            return String.format("icon/%s?state=%s&format=%s", icon, iconState, iconFormat)
+            return "icon/$icon?state=$iconState&format=$iconFormat"
         }
     }
 }
@@ -223,9 +223,8 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
 
     val finalId = id ?: return emptyList()
     val widget = Widget.build(finalId, parent?.id, label.orEmpty(),
-            icon, String.format("images/%s.png", icon),
-            item?.state, type, url, item, linkedPage, mappings, encoding, iconColor,
-            labelColor, valueColor, refresh, minValue, maxValue, step, period,
+            icon, "images/$icon.png", item?.state, type, url, item, linkedPage, mappings,
+            encoding, iconColor, labelColor, valueColor, refresh, minValue, maxValue, step, period,
             service, null, switchSupport, height)
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
 

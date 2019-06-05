@@ -337,7 +337,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             }
             // Else we treat other networks types as unsupported
             else -> {
-                Log.e(TAG, "Network type (" + info.typeName + ") is unsupported")
+                Log.e(TAG, "Network type (${info.typeName}) is unsupported")
                 throw NetworkNotSupportedException(info)
             }
         }

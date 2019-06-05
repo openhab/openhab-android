@@ -71,9 +71,8 @@ open class AnchorWebViewClient(url: String, private val userName: String?, priva
                 else -> context.getString(R.string.webview_ssl)
             }
 
-            val encodedHtml = Base64.encodeToString(("<html><body><p>" + errorMessage + "</p><p>"
-                    + sslCertificate.toString() + "</p></body></html>").toByteArray(),
-                    Base64.NO_PADDING)
+            val html = "<html><body><p>$errorMessage</p><p>$sslCertificate</p></body></html>"
+            val encodedHtml = Base64.encodeToString(html.toByteArray(), Base64.NO_PADDING)
             view.loadData(encodedHtml, "text/html; charset=UTF-8", "base64")
         }
     }

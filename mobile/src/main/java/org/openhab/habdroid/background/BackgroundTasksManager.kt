@@ -22,7 +22,7 @@ import java.util.*
 
 class BackgroundTasksManager : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d(TAG, "onReceive() with intent " + intent.action)
+        Log.d(TAG, "onReceive() with intent ${intent.action}")
 
         when (intent.action) {
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> {

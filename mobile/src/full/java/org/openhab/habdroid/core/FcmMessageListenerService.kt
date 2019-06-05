@@ -120,8 +120,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         if (icon != null) {
             val connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
             if (connection != null) {
-                val url = String.format(Locale.US, "images/%s.png", icon)
-                val result = connection.syncHttpClient.get(url, 1000)
+                val result = connection.syncHttpClient.get("images/$icon.png", 1000)
                 if (result.response != null) {
                     iconBitmap = BitmapFactory.decodeStream(result.response.byteStream())
                 }

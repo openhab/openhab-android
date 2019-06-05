@@ -165,11 +165,11 @@ class UtilTest {
     fun sitemapExists() {
         assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",
                 createJsonArray(1).toSitemapList().any { sitemap -> sitemap.name == "demo" })
-        assertFalse("Sitemap \"_default\" exists on the server, " + "but isn't the only one => don't display it in the app.",
+        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.",
                 createJsonArray(1).toSitemapList().any { sitemap -> sitemap.name == "_default" })
-        assertFalse("Sitemap \"_default\" exists on the server, " + "but isn't the only one => don't display it in the app.",
+        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.",
                 createJsonArray(2).toSitemapList().any { sitemap -> sitemap.name == "_default" })
-        assertTrue("Sitemap \"_default\" exists on the server " + "and is the only one => display it in the app.",
+        assertTrue("Sitemap \"_default\" exists on the server and is the only one => display it in the app.",
                 createJsonArray(3).toSitemapList().any { sitemap -> sitemap.name == "_default" })
     }
 
@@ -226,9 +226,9 @@ class UtilTest {
         val cause = CertPathValidatorException()
         val e = SSLException(cause)
 
-        assertTrue("The exception is caused by CertPathValidatorException, " + "so testexceptionHasCause() should return true",
+        assertTrue("The exception is caused by CertPathValidatorException, so testexceptionHasCause() should return true",
                 e.hasCause(CertPathValidatorException::class.java))
-        assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, " + "so testexceptionHasCause() should return false",
+        assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, so testexceptionHasCause() should return false",
                 e.hasCause(ArrayIndexOutOfBoundsException::class.java))
     }
 
@@ -236,7 +236,7 @@ class UtilTest {
     fun testObfuscateString() {
         assertEquals("abc***", "abcdef".obfuscate())
         assertEquals("abc", "abc".obfuscate())
-        assertEquals("The function should not throw an exception, " + "when string length is shorter than clearTextCharCount",
+        assertEquals("The function should not throw an exception, when string length is shorter than clearTextCharCount",
                 "a", "a".obfuscate(10))
         assertEquals("a**", "abc".obfuscate(1))
         assertEquals("***", "abc".obfuscate(0))

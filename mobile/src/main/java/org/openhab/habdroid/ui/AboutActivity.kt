@@ -223,7 +223,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                     }
 
                     override fun onSuccess(response: String, headers: Headers) {
-                        Log.d(TAG, "Got uuid " + response.obfuscate())
+                        Log.d(TAG, "Got uuid ${response.obfuscate()}")
                         uuidItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
                         refreshMaterialAboutList()
                      }
@@ -244,7 +244,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         }
 
                         override fun onSuccess(response: String, headers: Headers) {
-                            Log.d(TAG, "Got secret " + response.obfuscate())
+                            Log.d(TAG, "Got secret ${response.obfuscate()}")
                             secretItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
                             refreshMaterialAboutList()
                         }

@@ -288,8 +288,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     override fun toString(): String {
-        return String.format(Locale.US, "%s [url=%s, title=%s]",
-                super.toString(), displayPageUrl, title)
+        return "${super.toString()} [url=$displayPageUrl, title=$title]"
     }
 
     companion object {

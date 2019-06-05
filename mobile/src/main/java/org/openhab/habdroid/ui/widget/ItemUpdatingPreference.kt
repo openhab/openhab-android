@@ -102,9 +102,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
             val newValue = Pair(switch.isChecked, editor.text.toString())
             if (callChangeListener(newValue)) {
                 if (shouldPersist()) {
-                    val persistedValue = (java.lang.Boolean.valueOf(newValue.first).toString()
-                            + "|" + newValue.second)
-                    persistString(persistedValue)
+                    persistString("${newValue.first}|${newValue.second}")
                 }
                 value = newValue
                 updateSummary()

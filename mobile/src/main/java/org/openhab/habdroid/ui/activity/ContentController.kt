@@ -127,7 +127,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         for ((page, fragment) in pageStack) {
             pages.add(page)
             if (fragment.isAdded) {
-                fm.putFragment(state, "pageFragment-" + page.link, fragment)
+                fm.putFragment(state, "pageFragment-${page.link}", fragment)
             }
         }
         state.putParcelable("controllerSitemap", currentSitemap)
@@ -168,7 +168,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         val oldStack = state.getParcelableArrayList<LinkedPage>("controllerPages")!!
         pageStack.clear()
         for (page in oldStack) {
-            val f = fm.getFragment(state, "pageFragment-" + page.link) as WidgetListFragment?
+            val f = fm.getFragment(state, "pageFragment-${page.link}") as WidgetListFragment?
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }
         temporaryPage = fm.getFragment(state, "temporaryPage")

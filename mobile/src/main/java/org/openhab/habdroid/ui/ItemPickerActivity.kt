@@ -148,7 +148,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
                     val items = JSONArray(response)
                             .map { obj -> obj.toItem() }
                             .filterNot { item -> item.readOnly }
-                    Log.d(TAG, "Item request success, got " + items.size + " items")
+                    Log.d(TAG, "Item request success, got ${items.size} items")
                     itemPickerAdapter.setItems(items)
                     handleInitialHighlight()
                     updateViewVisibility(false, false, false)

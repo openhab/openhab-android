@@ -405,7 +405,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {
-            Log.d(TAG, "onStartTrackingTouch position = " + seekBar.progress)
+            Log.d(TAG, "onStartTrackingTouch position = ${seekBar.progress}")
         }
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
@@ -842,7 +842,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         override fun handleMessage(msg: Message): Boolean {
             val hsv = FloatArray(3)
             Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
-            Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2])
+            Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
             val newColorValue = String.format(Locale.US, "%f,%f,%f",
                     hsv[0], hsv[1] * 100, hsv[2] * 100)
             connection.asyncHttpClient.sendItemCommand(boundItem, newColorValue)

@@ -180,8 +180,7 @@ class PageConnectionHolderFragment : Fragment() {
     }
 
     override fun toString(): String {
-        return String.format(Locale.US, "%s [%d connections, started=%s]",
-                super.toString(), connections.size, started)
+        return "${super.toString()} [${connections.size} connections, started=$started]"
     }
 
     private class ConnectionHandler(private val url: String, connection: Connection, internal var callback: ParentCallback) :
@@ -201,8 +200,7 @@ class PageConnectionHolderFragment : Fragment() {
                 if (segments.size > 2) {
                     val sitemap = segments[segments.size - 2]
                     val pageId = segments[segments.size - 1]
-                    Log.d(TAG, "Creating new SSE helper for sitemap " + sitemap
-                            + ", page " + pageId)
+                    Log.d(TAG, "Creating new SSE helper for sitemap $sitemap, page $pageId")
                     eventHelper = EventHelper(httpClient, sitemap, pageId,
                             this::handleUpdateEvent, this::handleSseSubscriptionFailure)
                 }
@@ -293,10 +291,10 @@ class PageConnectionHolderFragment : Fragment() {
             if (hasUpdate) {
                 // Remove frame widgets with no label text
                 val widgetList = dataSource.widgets.filterNot { w -> w.type == Widget.Type.Frame && w.label.isEmpty() }
-                Log.d(TAG, "Updated page data for URL $url (" + widgetList.size + " widgets)")
+                Log.d(TAG, "Updated page data for URL $url (${widgetList.size} widgets)")
                 if (callback.isDetailedLoggingEnabled) {
                     widgetList.forEachIndexed { index, widget ->
-                        Log.d(TAG, "Widget " + (index + 1) + ": $widget")
+                        Log.d(TAG, "Widget ${index + 1}: $widget")
                     }
                 }
                 lastPageTitle = dataSource.title

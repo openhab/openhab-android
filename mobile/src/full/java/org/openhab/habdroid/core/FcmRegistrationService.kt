@@ -89,7 +89,7 @@ class FcmRegistrationService : JobIntentService() {
     private fun registerFcm(connection: CloudConnection) {
         val token = FirebaseInstanceId.getInstance().getToken(connection.messagingSenderId,
                 FirebaseMessaging.INSTANCE_ID_SCOPE)
-        val deviceName = deviceName + if (Util.isFlavorBeta) " (" + getString(R.string.beta) + ")" else ""
+        val deviceName = deviceName + if (Util.isFlavorBeta) " (${getString(R.string.beta)})" else ""
         val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID) +
                 if (Util.isFlavorBeta) "-beta" else ""
 
@@ -102,7 +102,7 @@ class FcmRegistrationService : JobIntentService() {
         if (result.isSuccessful) {
             Log.d(TAG, "FCM reg id success")
         } else {
-            Log.e(TAG, "FCM reg id error: " + result.error)
+            Log.e(TAG, "FCM reg id error: ${result.error}")
         }
         CloudMessagingHelper.registrationFailureReason = result.error
     }

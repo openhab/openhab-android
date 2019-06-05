@@ -34,7 +34,7 @@ class MjpegStreamer(private val view: ImageView, connection: Connection, private
     @Throws(IOException::class)
     private fun startStream(): MjpegInputStream {
         val result = httpClient.get(url)
-        Log.d(TAG, "MJPEG request finished, status = " + result.statusCode)
+        Log.d(TAG, "MJPEG request finished, status = ${result.statusCode}")
         if (result.error != null) {
             throw HttpException(result.statusCode, result.error)
         }

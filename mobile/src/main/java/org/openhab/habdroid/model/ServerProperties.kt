@@ -134,7 +134,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                     handle.sitemaps = if (handle.flags and SERVER_FLAG_JSON_REST_API != 0)
                         loadSitemapsFromJson(response) else loadSitemapsFromXml(response)
 
-                    Log.d(TAG, "Server returned sitemaps: " + handle.sitemaps)
+                    Log.d(TAG, "Server returned sitemaps: ${handle.sitemaps}")
                     successCb(ServerProperties(handle.flags, handle.sitemaps))
                 }
             })

@@ -130,13 +130,12 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         // items instead of loading page-wise. As the initial highlight is only needed for
         // notifications and a new notification is very likely to be contained in the first page,
         // we skip that additional effort.
-        val url = String.format(Locale.US, "api/v1/notifications?limit=%d&skip=%d",
-                PAGE_SIZE, loadOffset)
+        val url = "api/v1/notifications?limit=$PAGE_SIZE&skip=$loadOffset"
         requestHandle = conn.asyncHttpClient.get(url, object : AsyncHttpClient.StringResponseHandler() {
             override fun onSuccess(response: String, headers: Headers) {
                 try {
                     val items = JSONArray(response).map { obj -> obj.toCloudNotification() }
-                    Log.d(TAG, "Notifications request success, got " + items.size + " items")
+                    Log.d(TAG, "Notifications request success, got ${items.size} items")
                     loadOffset += items.size
                     adapter.addLoadedItems(items, items.size == PAGE_SIZE)
                     handleInitialHighlight()

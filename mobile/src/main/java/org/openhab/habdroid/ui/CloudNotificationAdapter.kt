@@ -117,9 +117,8 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
 
             val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
             if (notification.icon != null && conn != null) {
-                val iconUrl = String.format(Locale.US, "images/%s.png",
-                        Uri.encode(notification.icon))
-                iconView.setImageUrl(conn, iconUrl, itemView.resources
+                val encodedIcon = Uri.encode(notification.icon)
+                iconView.setImageUrl(conn, "images/$encodedIcon.png", itemView.resources
                         .getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000)
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)

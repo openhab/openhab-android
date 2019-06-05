@@ -21,7 +21,7 @@ fun AbstractConnection.toCloudConnection(): CloudConnection? {
     val TAG = CloudConnection::class.java.simpleName
     val result = syncHttpClient.get("api/v1/settings/notifications").asText()
     if (!result.isSuccessful) {
-        Log.e(TAG, "Error loading notification settings: " + result.error)
+        Log.e(TAG, "Error loading notification settings: ${result.error}")
         return null
     }
 

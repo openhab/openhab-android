@@ -127,7 +127,7 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
                 }
 
             }
-            return if (unit == null) formatValue() else formatValue() + " " + unit
+            return if (unit == null) formatValue() else "${formatValue()} $unit"
         }
 
         fun formatValue(): String {

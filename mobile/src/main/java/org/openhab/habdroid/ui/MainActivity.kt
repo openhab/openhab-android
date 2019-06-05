@@ -621,7 +621,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         }
         connection!!.asyncHttpClient[url, object : AsyncHttpClient.BitmapResponseHandler(defaultIcon!!.intrinsicWidth, true) {
             override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name)
+                Log.w(TAG, "Could not fetch icon for sitemap ${sitemap.name}")
             }
 
             override fun onSuccess(response: Bitmap, headers: Headers) {
@@ -747,8 +747,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
 
 
     private fun buildUrlAndOpenSitemap(partUrl: String) {
-        val newPageUrl = String.format(Locale.US, "rest/sitemaps%s", partUrl)
-        controller.openPage(newPageUrl)
+        controller.openPage("rest/sitemap$partUrl")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -791,8 +790,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(TAG, String.format("onActivityResult() requestCode = %d, resultCode = %d",
-                requestCode, resultCode))
+        Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
         when (requestCode) {
             SETTINGS_REQUEST_CODE -> {
                 if (data == null) {
@@ -838,7 +836,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
     }
 
     fun onWidgetSelected(linkedPage: LinkedPage, source: WidgetListFragment) {
-        Log.d(TAG, "Got widget link = " + linkedPage.link)
+        Log.d(TAG, "Got widget link = ${linkedPage.link}")
         controller.openPage(linkedPage, source)
     }
 

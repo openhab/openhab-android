@@ -46,10 +46,9 @@ class AsyncServiceResolver(context: Context, private val serviceType: String) :
                     val enumIpAddr = intf.inetAddresses
                     while (enumIpAddr.hasMoreElements()) {
                         val inetAddress = enumIpAddr.nextElement()
-                        Log.i(TAG, "IP: " + inetAddress.hostAddress.toString())
-                        Log.i(TAG, "Is IPV4 = " + (inetAddress is Inet4Address))
+                        Log.i(TAG, "IP: ${inetAddress.hostAddress}")
                         if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
-                            Log.i(TAG, "Selected " + inetAddress.getHostAddress())
+                            Log.i(TAG, "Selected ${inetAddress.getHostAddress()}")
                             return inetAddress
                         }
                     }
@@ -91,7 +90,7 @@ class AsyncServiceResolver(context: Context, private val serviceType: String) :
     }
 
     override fun serviceAdded(event: ServiceEvent) {
-        Log.d(TAG, "Service added " + event.name)
+        Log.d(TAG, "Service added ${event.name}")
         jmdns?.requestServiceInfo(event.type, event.name, 1)
     }
 

@@ -48,8 +48,7 @@ fun Node.toSitemap(): Sitemap? {
 
     val finalName = name ?: return null
     val finalLink = homepageLink ?: return null
-    return Sitemap(finalName, label ?: finalName, link, icon,
-            String.format("images/%s.png", icon), finalLink)
+    return Sitemap(finalName, label ?: finalName, link, icon, "images/$icon.png", finalLink)
 }
 
 fun JSONObject.toSitemap(): Sitemap? {
@@ -59,8 +58,7 @@ fun JSONObject.toSitemap(): Sitemap? {
     val icon = optString("icon", null)
     val link = optString("link", null)
 
-    return Sitemap(name, label ?: name, link, icon,
-            String.format("icon/%s", icon), homepageLink)
+    return Sitemap(name, label ?: name, link, icon, "icon/$icon", homepageLink)
 }
 
 fun Document.toSitemapList(): List<Sitemap> {

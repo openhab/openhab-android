@@ -31,15 +31,14 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         val item = data.getString(INPUT_DATA_ITEM)
         val value = inputData.getString(INPUT_DATA_VALUE) as String
-        val url = String.format(Locale.US, "rest/items/%s", item)
-        val result = connection.syncHttpClient.post(url, value, "text/plain;charset=UTF-8")
+        val result = connection.syncHttpClient.post("rest/items/$item", value, "text/plain;charset=UTF-8")
         val outputData = buildOutputData(true, result.statusCode)
 
         return if (result.isSuccessful) {
             Log.d(TAG, "Item '$item' successfully updated to value $value")
             Result.success(outputData)
         } else {
-            Log.e(TAG, "Error sending alarm clock. Got HTTP error " + result.statusCode, result.error)
+            Log.e(TAG, "Error sending alarm clock. Got HTTP error ${result.statusCode}", result.error)
             Result.failure(outputData)
         }
     }

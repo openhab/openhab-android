@@ -139,7 +139,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
 
     private fun addCommonPercentCommands(suggestedCommands: SuggestedCommands) {
         for (command in arrayOf("0", "33", "50", "66", "100")) {
-            add(suggestedCommands, command, String.format("%s %%", command))
+            add(suggestedCommands, command, "$command %")
         }
     }
 
