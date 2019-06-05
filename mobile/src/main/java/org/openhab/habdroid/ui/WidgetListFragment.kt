@@ -61,7 +61,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private var titleOverride: String? = null
     private var highlightedPageLink: String? = null
     private val suggestedCommandsFactory by lazy {
-        SuggestedCommandsFactory(context, false)
+        SuggestedCommandsFactory(context!!, false)
     }
 
     val displayPageUrl: String

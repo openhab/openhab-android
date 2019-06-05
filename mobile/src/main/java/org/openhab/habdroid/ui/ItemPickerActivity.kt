@@ -2,10 +2,7 @@ package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -13,13 +10,10 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
-import androidx.core.view.MenuItemCompat
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,17 +24,12 @@ import okhttp3.Headers
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.*
-
-import java.util.ArrayList
 
 class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
@@ -123,7 +112,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         menuInflater.inflate(R.menu.item_picker, menu)
 
         val searchItem = menu.findItem(R.id.app_bar_search)
-        val searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+        val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
 
         return true
@@ -154,9 +143,10 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
 
         val client = connection.asyncHttpClient
         requestHandle = client["rest/items", object : AsyncHttpClient.StringResponseHandler() {
-            override fun onSuccess(responseBody: String, headers: Headers) {
+            override fun onSuccess(response: String, headers: Headers) {
                 try {
-                    val items = JSONArray(responseBody).map { obj -> obj.toItem() }
+                    val items = JSONArray(response)
+                            .map { obj -> obj.toItem() }
                             .filterNot { item -> item.readOnly }
                     Log.d(TAG, "Item request success, got " + items.size + " items")
                     itemPickerAdapter.setItems(items)
@@ -176,11 +166,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         }]
     }
 
-    override fun onItemClicked(item: Item?) {
-        if (item == null) {
-            return
-        }
-
+    override fun onItemClicked(item: Item) {
         val suggestedCommands = suggestedCommandsFactory.fill(item)
         val labels = suggestedCommands.labels
         val commands = suggestedCommands.commands
@@ -202,7 +188,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
                                 .setPositiveButton(android.R.string.ok) { _, _ -> finish(true, item, input.text.toString()) }
                                 .setNegativeButton(android.R.string.cancel, null)
                                 .show()
-                        input.setOnFocusChangeListener { v, hasFocus ->
+                        input.setOnFocusChangeListener { _, hasFocus ->
                             val mode = if (hasFocus)
                                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
                             else
@@ -239,11 +225,12 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
     }
 
     private fun handleInitialHighlight() {
-        if (initialHightlightItemName.isNullOrEmpty()) {
+        val highlightItem = initialHightlightItemName
+        if (highlightItem.isNullOrEmpty()) {
             return
         }
 
-        val position = itemPickerAdapter.findPositionForName(initialHightlightItemName)
+        val position = itemPickerAdapter.findPositionForName(highlightItem)
         if (position >= 0) {
             layoutManager.scrollToPositionWithOffset(position, 0)
             recyclerView.postDelayed({ itemPickerAdapter.highlightItem(position) }, 600)
