@@ -7,7 +7,14 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.here.oksse.ServerSentEvent
-import okhttp3.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import okhttp3.Headers
+import okhttp3.HttpUrl
+import okhttp3.Request
+import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
@@ -15,12 +22,13 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
-import org.openhab.habdroid.util.AsyncHttpClient
+import org.openhab.habdroid.util.HttpClient
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.IOException
 import java.io.StringReader
-import java.util.*
+import java.util.HashMap
+
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 
@@ -31,7 +39,9 @@ import javax.xml.parsers.ParserConfigurationException
  * It retains the connections over activity recreations, and takes care of stopping
  * and restarting connections if needed.
  */
-class PageConnectionHolderFragment : Fragment() {
+class PageConnectionHolderFragment : Fragment(), CoroutineScope {
+    private val job = Job()
+    override val coroutineContext get() = Dispatchers.Main + job
     private val connections = HashMap<String, ConnectionHandler>()
     private lateinit var callback: ParentCallback
     private var started: Boolean = false
@@ -86,12 +96,17 @@ class PageConnectionHolderFragment : Fragment() {
         /**
          * Let parent know about a failure during the load of data.
          */
-        fun onLoadFailure(url: String, statusCode: Int, error: Throwable)
+        fun onLoadFailure(error: HttpClient.HttpException)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     override fun onStart() {
@@ -149,7 +164,7 @@ class PageConnectionHolderFragment : Fragment() {
             var handler = connections[url]
             if (handler == null) {
                 Log.d(TAG, "Creating new handler for URL $url")
-                handler = ConnectionHandler(url, connection, callback)
+                handler = ConnectionHandler(this, url, connection, callback)
                 connections[url] = handler
                 if (started) {
                     handler.load()
@@ -175,10 +190,10 @@ class PageConnectionHolderFragment : Fragment() {
         return "${super.toString()} [${connections.size} connections, started=$started]"
     }
 
-    private class ConnectionHandler(private val url: String, connection: Connection, internal var callback: ParentCallback) :
-            AsyncHttpClient.StringResponseHandler() {
-        private var httpClient: AsyncHttpClient
-        private var requestHandle: Call? = null
+    private class ConnectionHandler(private val scope: CoroutineScope, private val url: String,
+                                    connection: Connection, internal var callback: ParentCallback) {
+        private var httpClient: HttpClient = connection.httpClient
+        private var requestJob: Job? = null
         private var longPolling: Boolean = false
         private var atmosphereTrackingId: String? = null
         private var lastPageTitle: String? = null
@@ -186,14 +201,13 @@ class PageConnectionHolderFragment : Fragment() {
         private var eventHelper: EventHelper? = null
 
         init {
-            httpClient = connection.asyncHttpClient
             if (callback.serverProperties?.hasSseSupport() == true) {
                 val segments = url.toUri().pathSegments
                 if (segments.size > 2) {
                     val sitemap = segments[segments.size - 2]
                     val pageId = segments[segments.size - 1]
                     Log.d(TAG, "Creating new SSE helper for sitemap $sitemap, page $pageId")
-                    eventHelper = EventHelper(httpClient, sitemap, pageId,
+                    eventHelper = EventHelper(scope, httpClient, sitemap, pageId,
                             this::handleUpdateEvent, this::handleSseSubscriptionFailure)
                 }
             }
@@ -201,14 +215,14 @@ class PageConnectionHolderFragment : Fragment() {
 
         fun updateFromConnection(c: Connection): Boolean {
             val oldClient = httpClient
-            httpClient = c.asyncHttpClient
+            httpClient = c.httpClient
             return oldClient != httpClient
         }
 
         fun cancel() {
             Log.d(TAG, "Canceling connection for URL $url")
-            requestHandle?.cancel()
-            requestHandle = null
+            requestJob?.cancel()
+            requestJob = null
             eventHelper?.shutdown()
             longPolling = false
         }
@@ -247,21 +261,24 @@ class PageConnectionHolderFragment : Fragment() {
             headers["X-Atmosphere-Framework"] = "1.0"
             headers["X-Atmosphere-tracking-id"] = atmosphereTrackingId ?: "0"
 
-            requestHandle?.cancel()
+            requestJob?.cancel()
 
             val timeoutMillis = if (longPolling) 300000L else 10000L
-            requestHandle = httpClient.get(url, headers, timeoutMillis, this)
+            requestJob = scope.launch {
+                try {
+                    val response = httpClient.get(url, headers, timeoutMillis).asText()
+                    handleResponse(response.response, response.headers)
+                } catch (e: HttpClient.HttpException) {
+                    Log.d(TAG, "Data load for $url failed", e)
+                    atmosphereTrackingId = null
+                    longPolling = false
+                    callback.onLoadFailure(e)
+                }
+            }
             eventHelper?.connect()
         }
 
-        override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-            Log.d(TAG, "Data load for $url failed", error)
-            atmosphereTrackingId = null
-            longPolling = false
-            callback.onLoadFailure(request.url().toString(), statusCode, error)
-        }
-
-        override fun onSuccess(response: String, headers: Headers) {
+        private fun handleResponse(response: String, headers: Headers) {
             val id = headers.get("X-Atmosphere-tracking-id")
             if (id != null) {
                 atmosphereTrackingId = id
@@ -396,60 +413,57 @@ class PageConnectionHolderFragment : Fragment() {
             }
         }
 
-        private class EventHelper internal constructor(private val client: AsyncHttpClient,
+        private class EventHelper internal constructor(private val scope: CoroutineScope,
+                                                       private val client: HttpClient,
                                                        private val sitemap: String,
                                                        private val pageId: String,
                                                        private val updateCb: (pageId: String, message: String) -> Unit,
                                                        private val failureCb: () -> Unit) : ServerSentEvent.Listener {
             private val handler: Handler = Handler(Looper.getMainLooper())
-            private var subscribeHandle: Call? = null
+            private var subscribeJob: Job? = null
             private var eventStream: ServerSentEvent? = null
             private var retries: Int = 0
 
             internal fun connect() {
                 shutdown()
 
-                subscribeHandle = client.post("/rest/sitemaps/events/subscribe",
-                        "{}", "application/json", object : AsyncHttpClient.StringResponseHandler() {
-                    override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                        if (statusCode == 404) {
+                subscribeJob = scope.launch {
+                    try {
+                        val response = client.post("/rest/sitemaps/events/subscribe",
+                                "{}", "application/json").asText()
+                        val result = JSONObject(response.response)
+                        val status = result.getString("status")
+                        if (status != "CREATED") {
+                            throw JSONException("Unexpected status $status")
+                        }
+                        val headerObject = result.getJSONObject("context").getJSONObject("headers")
+                        val url = HttpUrl.parse(headerObject.getJSONArray("Location").getString(0))
+                        if (url != null) {
+                            val u = url.newBuilder()
+                                    .addQueryParameter("sitemap", sitemap)
+                                    .addQueryParameter("pageid", pageId)
+                                    .build()
+                            eventStream = client.makeSse(u, this@EventHelper)
+                        }
+                    } catch (e: JSONException) {
+                        Log.w(TAG, "Failed parsing SSE subscription", e)
+                        failureCb()
+                    } catch (e: HttpClient.HttpException) {
+                        if (e.statusCode == 404) {
                             Log.d(TAG, "Server does not have SSE support")
                         } else {
-                            Log.w(TAG, "Failed subscribing for SSE", error)
+                            Log.w(TAG, "Failed subscribing for SSE", e)
                         }
                         failureCb()
                     }
-
-                    override fun onSuccess(response: String, headers: Headers) {
-                        try {
-                            val result = JSONObject(response)
-                            val status = result.getString("status")
-                            if (status != "CREATED") {
-                                throw JSONException("Unexpected status $status")
-                            }
-                            val headerObject = result.getJSONObject("context").getJSONObject("headers")
-                            val url = HttpUrl.parse(headerObject.getJSONArray("Location").getString(0))
-                            if (url != null) {
-                                val u = url.newBuilder()
-                                        .addQueryParameter("sitemap", sitemap)
-                                        .addQueryParameter("pageid", pageId)
-                                        .build()
-                                eventStream = client.makeSse(u, this@EventHelper)
-                            }
-                        } catch (e: JSONException) {
-                            Log.w(TAG, "Failed parsing SSE subscription", e)
-                            failureCb()
-                        }
-
-                    }
-                })
+                }
             }
 
             internal fun shutdown() {
                 eventStream?.close()
                 eventStream = null
-                subscribeHandle?.cancel()
-                subscribeHandle = null
+                subscribeJob?.cancel()
+                subscribeJob = null
             }
 
 

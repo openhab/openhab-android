@@ -18,7 +18,6 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
@@ -277,7 +276,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
             launchVoiceRecognitionIfNeeded()
             openPendingSitemapIfNeeded()
         }
-        propsUpdateHandle = ServerProperties.fetch(connection!!,
+        propsUpdateHandle = ServerProperties.fetch(this, connection!!,
                 successCb, this::handlePropertyFetchFailure)
     }
 
@@ -503,7 +502,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
             override fun onDrawerOpened(drawerView: View) {
                 if (serverProperties != null && propsUpdateHandle == null) {
-                    propsUpdateHandle = ServerProperties.updateSitemaps(serverProperties!!,
+                    propsUpdateHandle = ServerProperties.updateSitemaps(this@MainActivity,
+                            serverProperties!!,
                             connection!!,
                             { props ->
                                 serverProperties = props
@@ -605,15 +605,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         if (url == null || connection == null) {
             return
         }
-        connection!!.asyncHttpClient[url, object : AsyncHttpClient.BitmapResponseHandler(defaultIcon!!.intrinsicWidth, true) {
-            override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
+        launch {
+            try {
+                item.icon = connection!!.httpClient.get(url)
+                        .asBitmap(defaultIcon!!.intrinsicWidth, true)
+                        .response
+                        .toDrawable(resources)
+            } catch (e: HttpClient.HttpException) {
                 Log.w(TAG, "Could not fetch icon for sitemap ${sitemap.name}")
             }
-
-            override fun onSuccess(response: Bitmap, headers: Headers) {
-                item.icon = response.toDrawable(resources)
-            }
-        }]
+        }
     }
 
     private fun applyDrawerIconTint(icon: Drawable?): Drawable? {

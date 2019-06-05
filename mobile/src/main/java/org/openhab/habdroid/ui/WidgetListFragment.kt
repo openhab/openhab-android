@@ -236,21 +236,20 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
          *  46dp foreground + 2 * 31dp border = 108dp
          **/
         val foregroundSize = context.resources.dpToPixel(46F).toInt()
-        val foregroundBitmap = connection.syncHttpClient.get(url)
-                .asBitmap(foregroundSize, true).response
-        val icon = if (foregroundBitmap != null) {
+        val icon = try {
+            val bitmap = connection.httpClient.get(url).asBitmap(foregroundSize, true).response
             val borderSize = context.resources.dpToPixel(31F)
             val totalFrameWidth = (borderSize * 2).toInt()
             val bitmapWithBackground = Bitmap.createBitmap(
-                    foregroundBitmap.width + totalFrameWidth,
-                    foregroundBitmap.height + totalFrameWidth,
-                    foregroundBitmap.config)
+                    bitmap.width + totalFrameWidth,
+                    bitmap.height + totalFrameWidth,
+                    bitmap.config)
             with (Canvas(bitmapWithBackground)) {
                 drawColor(Color.WHITE)
-                drawBitmap(foregroundBitmap, borderSize, borderSize, null)
+                drawBitmap(bitmap, borderSize, borderSize, null)
             }
             IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
-        } else {
+        } catch (e: HttpClient.HttpException) {
             // Fall back to openHAB icon
             IconCompat.createWithResource(context, R.mipmap.icon)
         }

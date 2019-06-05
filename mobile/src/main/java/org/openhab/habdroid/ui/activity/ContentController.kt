@@ -424,8 +424,9 @@ abstract class ContentController protected constructor(private val activity: Mai
         findWidgetFragmentForUrl(pageUrl)?.updateTitle(title)
     }
 
-    override fun onLoadFailure(url: String, statusCode: Int, error: Throwable) {
-        val errorMessage = Util.getHumanReadableErrorMessage(activity, url, statusCode, error)
+    override fun onLoadFailure(error: HttpClient.HttpException) {
+        val url = error.request.url().toString()
+        val errorMessage = Util.getHumanReadableErrorMessage(activity, url, error.statusCode, error)
                 .toString()
 
         noConnectionFragment = CommunicationFailureFragment.newInstance(

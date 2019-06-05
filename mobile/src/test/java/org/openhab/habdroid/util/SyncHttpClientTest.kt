@@ -1,13 +1,12 @@
 package org.openhab.habdroid.util
 
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
 import java.net.UnknownHostException
-
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 
 class SyncHttpClientTest {
     private lateinit var client: OkHttpClient
@@ -22,12 +21,17 @@ class SyncHttpClientTest {
      */
     @Test
     fun testMethodErrorResponse() {
-        val httpClient = SyncHttpClient(client, "https://demo.test", null, null)
+        val httpClient = HttpClient(client, "https://demo.test", null, null)
 
         val host = "just.a.local.url.local"
-        val resp = httpClient["https://$host"].asStatus()
-
-        assertEquals(500, resp.statusCode.toLong())
-        assertTrue(resp.error is UnknownHostException)
+        try {
+            runBlocking {
+                httpClient.get("https://$host").asStatus()
+            }
+            assertTrue("Request should not succeed", true)
+        } catch (e: HttpClient.HttpException) {
+            assertEquals(500, e.statusCode)
+            assertTrue(e.cause is UnknownHostException)
+        }
     }
 }

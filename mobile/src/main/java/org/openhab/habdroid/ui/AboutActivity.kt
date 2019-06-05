@@ -18,8 +18,10 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
 import com.mikepenz.aboutlibraries.LibsBuilder
-import okhttp3.Headers
-import okhttp3.Request
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.BuildConfig
@@ -28,7 +30,7 @@ import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
-import org.openhab.habdroid.util.AsyncHttpClient
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.obfuscate
 import org.openhab.habdroid.util.openInBrowser
@@ -38,7 +40,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChangedListener {
+class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChangedListener, CoroutineScope {
+    private val job = Job()
+    override val coroutineContext get() = Dispatchers.Main + job
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -169,7 +174,8 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build())
             } else {
-                val httpClient = connection!!.asyncHttpClient
+                val scope = activity as AboutActivity
+                val httpClient = connection!!.httpClient
 
                 val apiVersionItem = MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_apiversion_label)
@@ -178,14 +184,9 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         .build()
                 ohServerCard.addItem(apiVersionItem)
                 val versionUrl = if (useJsonApi()) "rest" else "static/version"
-                httpClient.get(versionUrl, object : AsyncHttpClient.StringResponseHandler() {
-                    override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                        Log.e(TAG, "Could not rest API version $error")
-                        apiVersionItem.subText = getString(R.string.error_about_no_conn)
-                        refreshMaterialAboutList()
-                    }
-
-                    override fun onSuccess(response: String, headers: Headers) {
+                scope.launch {
+                    try {
+                        val response = httpClient.get(versionUrl).asText().response
                         var version = ""
                         if (!useJsonApi()) {
                             version = response
@@ -204,30 +205,12 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
                         Log.d(TAG, "Got api version $version")
                         apiVersionItem.subText = version
-                        refreshMaterialAboutList()
+                    } catch (e: HttpClient.HttpException) {
+                        Log.e(TAG, "Could not rest API version $e")
+                        apiVersionItem.subText = getString(R.string.error_about_no_conn)
                     }
-                })
-
-                val uuidItem = MaterialAboutActionItem.Builder()
-                        .text(R.string.info_openhab_uuid_label)
-                        .subText(R.string.list_loading_message)
-                        .icon(R.drawable.ic_info_outline_grey_24dp)
-                        .build()
-                ohServerCard.addItem(uuidItem)
-                val uuidUrl = if (useJsonApi()) "rest/uuid" else "static/uuid"
-                httpClient.get(uuidUrl, object : AsyncHttpClient.StringResponseHandler() {
-                    override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                        Log.e(TAG, "Could not fetch uuid $error")
-                        uuidItem.subText = getString(R.string.error_about_no_conn)
-                        refreshMaterialAboutList()
-                    }
-
-                    override fun onSuccess(response: String, headers: Headers) {
-                        Log.d(TAG, "Got uuid ${response.obfuscate()}")
-                        uuidItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
-                        refreshMaterialAboutList()
-                     }
-                })
+                    refreshMaterialAboutList()
+                }
 
                 if (!useJsonApi()) {
                     val secretItem = MaterialAboutActionItem.Builder()
@@ -236,19 +219,17 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                             .icon(R.drawable.ic_info_outline_grey_24dp)
                             .build()
                     ohServerCard.addItem(secretItem)
-                    httpClient.get("static/secret", object : AsyncHttpClient.StringResponseHandler() {
-                        override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                            Log.e(TAG, "Could not fetch server secret $error")
-                            secretItem.subText = getString(R.string.error_about_no_conn)
-                            refreshMaterialAboutList()
-                        }
-
-                        override fun onSuccess(response: String, headers: Headers) {
+                    scope.launch {
+                        try {
+                            val response = httpClient.get("static/secret").asText().response
                             Log.d(TAG, "Got secret ${response.obfuscate()}")
                             secretItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
-                            refreshMaterialAboutList()
+                        } catch (e: HttpClient.HttpException) {
+                            Log.e(TAG, "Could not fetch server secret $e")
+                            secretItem.subText = getString(R.string.error_about_no_conn)
                         }
-                    })
+                        refreshMaterialAboutList()
+                    }
                 }
             }
 

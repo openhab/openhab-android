@@ -1,10 +1,13 @@
 package org.openhab.habdroid.core.connection
 
 import junit.framework.Assert.*
+import kotlinx.coroutines.runBlocking
 import okhttp3.Credentials
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import org.junit.Before
 import org.junit.Test
+import org.openhab.habdroid.util.HttpClient
 
 class DefaultConnectionTest {
     private lateinit var client: OkHttpClient
@@ -64,73 +67,56 @@ class DefaultConnectionTest {
     }
 
     @Test
-    fun testGetSyncHttpClientCached() {
-        val client1 = testConnection.syncHttpClient
-        val client2 = testConnection.syncHttpClient
+    fun testGetHttpClientCached() {
+        val client1 = testConnection.httpClient
+        val client2 = testConnection.httpClient
 
         assertNotNull(client1)
         assertEquals(client1, client2)
     }
 
     @Test
-    fun testGetAsyncHttpClientCached() {
-        val client1 = testConnection.asyncHttpClient
-        val client2 = testConnection.asyncHttpClient
-
-        assertNotNull(client1)
-        assertEquals(client1, client2)
-    }
-
-    @Test
-    fun testAsyncHasNoUsernamePassword() {
-        val httpClient = testConnection.asyncHttpClient
+    fun testHasNoUsernamePassword() {
+        val httpClient = testConnection.httpClient
         assertNull(httpClient.authHeader)
     }
 
     @Test
-    fun testSyncHasNoUsernamePassword() {
-        val httpClient = testConnection.syncHttpClient
-        assertNull(httpClient.authHeader)
-    }
-
-    @Test
-    fun testAsyncHasUsernamePassword() {
+    fun testHasUsernamePassword() {
         val connection = DefaultConnection(client, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, "Test-User", "Test-Password")
-        val httpClient = connection.asyncHttpClient
+        val httpClient = connection.httpClient
 
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
                 httpClient.authHeader)
     }
 
     @Test
-    fun testSyncHasUsernamePassword() {
-        val connection = DefaultConnection(client, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, "Test-User", "Test-Password")
-        val httpClient = connection.syncHttpClient
+    fun testResolveRelativeUrl() {
+        val requestUrl1 = getRequestUrlForUrl("rest/test")
+        assertEquals("$TEST_BASE_URL/rest/test", requestUrl1.toString())
 
-        assertEquals(Credentials.basic("Test-User", "Test-Password"),
-                httpClient.authHeader)
-    }
-
-    @Test
-    fun testSyncResolveRelativeUrl() {
-        val result1 = testConnection.syncHttpClient.get("rest/test")
-        assertFalse("The request should never succeed in tests", result1.isSuccessful)
-        assertEquals("$TEST_BASE_URL/rest/test", result1.request.url().toString())
-        result1.close()
-
-        val result2 = testConnection.syncHttpClient.get("/rest/test")
-        assertEquals("$TEST_BASE_URL/rest/test", result2.request.url().toString())
-        result2.close()
+        val requestUrl2 = getRequestUrlForUrl("/rest/test")
+        assertEquals("$TEST_BASE_URL/rest/test", requestUrl2.toString())
     }
 
     @Test
     fun testSyncResolveAbsoluteUrl() {
-        val result = testConnection.syncHttpClient.get("http://mylocalmachine.local/rest/test")
-        assertFalse("The request should never succeed in tests", result.isSuccessful)
-        assertEquals("http://mylocalmachine.local/rest/test", result.request.url().toString())
-        result.close()
+        val requestUrl = getRequestUrlForUrl("http://mylocalmachine.local/rest/test")
+        assertEquals("http://mylocalmachine.local/rest/test", requestUrl.toString())
+    }
+
+    private fun getRequestUrlForUrl(url: String): HttpUrl {
+        try {
+            return runBlocking {
+                val result = testConnection.httpClient.get(url)
+                result.close()
+                assertFalse("The request should never succeed in tests", true)
+                result.request.url()
+            }
+        } catch (e: HttpClient.HttpException) {
+            return e.request.url()
+        }
     }
 
     companion object {

@@ -93,7 +93,7 @@ object MapViewHelper {
         override fun onMarkerDragEnd(marker: Marker) {
             val newState = String.format(Locale.US, "%f,%f",
                     marker.position.latitude, marker.position.longitude)
-            connection.asyncHttpClient.sendItemCommand(marker.tag as Item?, newState)
+            connection.httpClient.sendItemCommand(marker.tag as Item?, newState)
         }
 
         private fun openPopup() {

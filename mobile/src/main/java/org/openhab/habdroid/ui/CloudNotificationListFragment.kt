@@ -22,9 +22,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import okhttp3.Call
-import okhttp3.Headers
-import okhttp3.Request
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
@@ -32,14 +33,18 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
-import org.openhab.habdroid.util.AsyncHttpClient
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.map
 
 /**
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+class CloudNotificationListFragment : Fragment(), View.OnClickListener,
+        SwipeRefreshLayout.OnRefreshListener, CoroutineScope {
+    private val job = Job()
+    override val coroutineContext get() = Dispatchers.Main + job
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var retryButton: View
@@ -48,7 +53,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
     private lateinit var emptyMessage: TextView
 
     // keeps track of current request to cancel it in onPause
-    private var requestHandle: Call? = null
+    private var requestJob: Job? = null
     private lateinit var adapter: CloudNotificationAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private var loadOffset: Int = 0
@@ -94,7 +99,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         super.onPause()
         Log.d(TAG, "onPause()")
         // Cancel request for notifications if there was any
-        requestHandle?.cancel()
+        requestJob?.cancel()
     }
 
     override fun onRefresh() {
@@ -130,27 +135,23 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         // notifications and a new notification is very likely to be contained in the first page,
         // we skip that additional effort.
         val url = "api/v1/notifications?limit=$PAGE_SIZE&skip=$loadOffset"
-        requestHandle = conn.asyncHttpClient.get(url, object : AsyncHttpClient.StringResponseHandler() {
-            override fun onSuccess(response: String, headers: Headers) {
-                try {
-                    val items = JSONArray(response).map { obj -> obj.toCloudNotification() }
-                    Log.d(TAG, "Notifications request success, got ${items.size} items")
-                    loadOffset += items.size
-                    adapter.addLoadedItems(items, items.size == PAGE_SIZE)
-                    handleInitialHighlight()
-                    updateViewVisibility(loading = false, loadError = false)
-                } catch (e: JSONException) {
-                    Log.d(TAG, "Notification response could not be parsed", e)
-                    updateViewVisibility(loading = false, loadError = true)
-                }
-
-            }
-
-            override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
+        requestJob = launch {
+            try {
+                val response = conn.httpClient.get(url).asText().response
+                val items = JSONArray(response).map { obj -> obj.toCloudNotification() }
+                Log.d(TAG, "Notifications request success, got ${items.size} items")
+                loadOffset += items.size
+                adapter.addLoadedItems(items, items.size == PAGE_SIZE)
+                handleInitialHighlight()
+                updateViewVisibility(loading = false, loadError = false)
+            } catch (e: JSONException) {
                 updateViewVisibility(loading = false, loadError = true)
-                Log.e(TAG, "Notifications request failure", error)
+                Log.d(TAG, "Notification response could not be parsed", e)
+            } catch (e: HttpClient.HttpException) {
+                updateViewVisibility(loading = false, loadError = true)
+                Log.e(TAG, "Notifications request failure", e)
             }
-        })
+        }
     }
 
     private fun handleInitialHighlight() {

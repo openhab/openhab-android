@@ -3,8 +3,7 @@ package org.openhab.habdroid.core.connection
 import android.util.Log
 
 import okhttp3.OkHttpClient
-import org.openhab.habdroid.util.AsyncHttpClient
-import org.openhab.habdroid.util.SyncHttpClient
+import org.openhab.habdroid.util.HttpClient
 
 import java.io.IOException
 import java.net.InetSocketAddress
@@ -18,8 +17,7 @@ abstract class AbstractConnection : Connection {
     final override val password: String?
     private val baseUrl: String
 
-    final override val asyncHttpClient: AsyncHttpClient
-    final override val syncHttpClient: SyncHttpClient
+    final override val httpClient: HttpClient
 
     internal constructor(httpClient: OkHttpClient, connectionType: Int,
                          baseUrl: String, username: String?, password: String?) {
@@ -27,9 +25,7 @@ abstract class AbstractConnection : Connection {
         this.password = password
         this.baseUrl = baseUrl
         this.connectionType = connectionType
-
-        asyncHttpClient = AsyncHttpClient(httpClient, baseUrl, username, password)
-        syncHttpClient = SyncHttpClient(httpClient, baseUrl, username, password)
+        this.httpClient = HttpClient(httpClient, baseUrl, username, password)
     }
 
     internal constructor(base: AbstractConnection, connectionType: Int) {
@@ -37,9 +33,7 @@ abstract class AbstractConnection : Connection {
         password = base.password
         baseUrl = base.baseUrl
         this.connectionType = connectionType
-
-        asyncHttpClient = base.asyncHttpClient
-        syncHttpClient = base.syncHttpClient
+        httpClient = base.httpClient
     }
 
     override fun checkReachabilityInBackground(): Boolean {
@@ -79,7 +73,6 @@ abstract class AbstractConnection : Connection {
                 } catch (ignored: InterruptedException) {
                     // ignored
                 }
-
             }
 
             retries++

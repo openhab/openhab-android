@@ -9,22 +9,23 @@
 
 package org.openhab.habdroid.util
 
+import android.graphics.Bitmap
 import androidx.annotation.VisibleForTesting
 
 import com.here.oksse.OkSse
 import com.here.oksse.ServerSentEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import okhttp3.*
+import java.io.IOException
+import java.lang.Exception
 
-import okhttp3.CacheControl
-import okhttp3.Call
-import okhttp3.Credentials
-import okhttp3.HttpUrl
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
-abstract class HttpClient protected constructor(private val client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
+class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val baseUrl: HttpUrl? = if (baseUrl != null) HttpUrl.parse(baseUrl) else null
     @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
             Credentials.basic(username, password) else null
@@ -58,9 +59,52 @@ abstract class HttpClient protected constructor(private val client: OkHttpClient
         return absoluteUrl
     }
 
-    protected fun prepareCall(url: String, method: String, additionalHeaders: Map<String, String>?,
-                              requestBody: String?, mediaType: String?,
-                              timeoutMillis: Long, caching: CachingMode): Call {
+    @Throws(HttpException::class)
+    suspend fun get(url: String, headers: Map<String, String>? = null,
+                    timeoutMillis: Long = DEFAULT_TIMEOUT_MS,
+                    caching: CachingMode = CachingMode.AVOID_CACHE): HttpResult {
+        return method(url, "GET", headers, null, null, timeoutMillis, caching)
+    }
+
+    @Throws(HttpException::class)
+    suspend fun post(url: String, requestBody: String, mediaType: String,
+                     headers: Map<String, String>? = null): HttpResult {
+        return method(url, "POST", headers, requestBody,
+                mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE)
+    }
+
+    private suspend fun method(url: String, method: String, headers: Map<String, String>?,
+                                  requestBody: String?, mediaType: String?,
+                                  timeoutMillis: Long, caching: CachingMode) = suspendCancellableCoroutine<HttpResult> { cont ->
+        val call = prepareCall(url, method, headers, requestBody, mediaType, timeoutMillis, caching)
+        cont.invokeOnCancellation { call.cancel() }
+
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                cont.resumeWithException(HttpException(call.request(), e))
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body()
+
+                when {
+                    !response.isSuccessful -> {
+                        cont.resumeWithException(HttpException(call.request(), response.message(), response.code()))
+                    }
+                    body == null -> {
+                        cont.resumeWithException(HttpException(call.request(), "Empty body", 500))
+                    }
+                    else -> {
+                        cont.resume(HttpResult(call.request(), body, response.code(), response.headers()))
+                    }
+                }
+            }
+        })
+    }
+
+    private fun prepareCall(url: String, method: String, additionalHeaders: Map<String, String>?,
+                            requestBody: String?, mediaType: String?,
+                            timeoutMillis: Long, caching: CachingMode): Call {
         val requestBuilder = makeAuthenticatedRequestBuilder()
                 .url(buildUrl(url))
         if (additionalHeaders != null) {
@@ -96,5 +140,72 @@ abstract class HttpClient protected constructor(private val client: OkHttpClient
             builder.addHeader("Authorization", authHeader)
         }
         return builder
+    }
+
+    class HttpResult internal constructor(val request: Request, val response: ResponseBody,
+                                          val statusCode: Int, val headers: Headers) {
+        fun close() {
+            response.close()
+        }
+
+        @Throws(HttpException::class)
+        suspend fun asText(): HttpTextResult {
+            val text = withContext(Dispatchers.Default) {
+                try {
+                    response.string()
+                } catch (e: IOException) {
+                    close()
+                    throw HttpException(request, e)
+                }
+            }
+            val result = HttpTextResult(request, text, headers)
+            close()
+            return result
+        }
+
+        fun asStatus(): HttpStatusResult {
+            val result = HttpStatusResult(request, statusCode)
+            close()
+            return result
+        }
+
+        @Throws(HttpException::class)
+        suspend fun asBitmap(sizeInPixels: Int, enforceSize: Boolean = false): HttpBitmapResult {
+            val bitmap = withContext(Dispatchers.Default) {
+                try {
+                    response.toBitmap(sizeInPixels, enforceSize)
+                } catch (e: IOException) {
+                    close()
+                    throw HttpException(request, e)
+                }
+            }
+            val result = HttpBitmapResult(request, bitmap)
+            close()
+            return result
+        }
+    }
+
+    class HttpStatusResult internal constructor(val request: Request, val statusCode: Int)
+    class HttpTextResult internal constructor(val request: Request, val response: String,
+                                              val headers: Headers)
+    class HttpBitmapResult internal constructor(val request: Request, val response: Bitmap)
+
+    class HttpException : Exception {
+        val request: Request
+        val statusCode: Int
+
+        constructor(request: Request, cause: IOException) : super(cause) {
+            this.request = request
+            statusCode = 500
+        }
+
+        constructor(request: Request, message: String, statusCode: Int) : super(message) {
+            this.request = request
+            this.statusCode = statusCode
+        }
+    }
+
+    companion object {
+        const val DEFAULT_TIMEOUT_MS: Long = 30000
     }
 }

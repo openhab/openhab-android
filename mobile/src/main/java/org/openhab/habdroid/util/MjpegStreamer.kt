@@ -14,11 +14,10 @@ import android.widget.ImageView
 import kotlinx.coroutines.*
 
 import org.openhab.habdroid.core.connection.Connection
-
 import java.io.IOException
 
 class MjpegStreamer(private val view: ImageView, connection: Connection, private val url: String) {
-    private val httpClient = connection.syncHttpClient
+    private val httpClient = connection.httpClient
     private var job: Job? = null
 
     fun start() {
@@ -31,14 +30,11 @@ class MjpegStreamer(private val view: ImageView, connection: Connection, private
         job = null
     }
 
-    @Throws(IOException::class)
-    private fun startStream(): MjpegInputStream {
+    @Throws(HttpClient.HttpException::class)
+    private suspend fun startStream(): MjpegInputStream {
         val result = httpClient.get(url)
         Log.d(TAG, "MJPEG request finished, status = ${result.statusCode}")
-        if (result.error != null) {
-            throw HttpException(result.statusCode, result.error)
-        }
-        return MjpegInputStream(result.response!!.byteStream())
+        return MjpegInputStream(result.response.byteStream())
     }
 
     private fun doStream(scope: CoroutineScope) = scope.launch {
@@ -54,19 +50,13 @@ class MjpegStreamer(private val view: ImageView, connection: Connection, private
                         }
                     }
                 }
-            } catch (e: IOException) {
+            } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "MJPEG streaming from $url failed", e)
-                if (e is HttpException) {
-                    // no point in continuing if the server returned failure
-                    break
-                }
+                // No point in continuing if the server returned failure
+                break
+            } catch (e: IOException) {
+                Log.e(TAG, "MJPEG streaming from $url was interrupted", e)
             }
-        }
-    }
-
-    private class HttpException(code: Int, cause: Throwable) : IOException("HTTP failure code $code") {
-        init {
-            initCause(cause)
         }
     }
 

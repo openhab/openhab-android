@@ -25,6 +25,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.runBlocking
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -75,8 +76,9 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     }
                 }
 
-                val n = makeNotification(messageText, channelId,
-                        icon, timestamp, persistedId, notificationId)
+                val n = runBlocking {
+                    makeNotification(messageText, channelId, icon, timestamp, persistedId, notificationId)
+                }
                 nm.notify(notificationId, n)
 
                 if (HAS_GROUPING_SUPPORT) {
@@ -113,17 +115,17 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun makeNotification(msg: String?, channelId: String, icon: String?,
+    private suspend fun makeNotification(msg: String?, channelId: String, icon: String?,
                                  timestamp: Long, persistedId: String?, notificationId: Int): Notification {
         var iconBitmap: Bitmap? = null
 
         if (icon != null) {
             val connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
             if (connection != null) {
-                val result = connection.syncHttpClient.get("images/$icon.png", 1000)
-                if (result.response != null) {
-                    iconBitmap = BitmapFactory.decodeStream(result.response.byteStream())
-                }
+                iconBitmap = connection.httpClient
+                        .get("images/$icon.png", timeoutMillis = 1000)
+                        .asBitmap(0, false)
+                        .response
             }
         }
 

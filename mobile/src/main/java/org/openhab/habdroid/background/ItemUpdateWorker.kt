@@ -7,6 +7,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.util.HttpClient
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
@@ -30,15 +31,16 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         val item = data.getString(INPUT_DATA_ITEM)
         val value = inputData.getString(INPUT_DATA_VALUE) as String
-        val result = connection.syncHttpClient.post("rest/items/$item", value, "text/plain;charset=UTF-8")
-        val outputData = buildOutputData(true, result.statusCode)
 
-        return if (result.isSuccessful) {
-            Log.d(TAG, "Item '$item' successfully updated to value $value")
-            Result.success(outputData)
-        } else {
-            Log.e(TAG, "Error sending alarm clock. Got HTTP error ${result.statusCode}", result.error)
-            Result.failure(outputData)
+        return runBlocking {
+            try {
+                val result = connection.httpClient.post("rest/items/$item", value, "text/plain;charset=UTF-8").asStatus()
+                Log.d(TAG, "Item '$item' successfully updated to value $value")
+                Result.success(buildOutputData(true, result.statusCode))
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Error sending alarm clock. Got HTTP error ${e.statusCode}", e)
+                Result.failure(buildOutputData(true, e.statusCode))
+            }
         }
     }
 

@@ -1,21 +1,14 @@
 package org.openhab.habdroid.core.connection
 
-import org.openhab.habdroid.util.AsyncHttpClient
-import org.openhab.habdroid.util.SyncHttpClient
+import org.openhab.habdroid.util.HttpClient
 
 interface Connection {
 
     /**
-     * @return A fully setup asynchronous http client for requesting resources from the
+     * @return A fully setup http client for requesting resources from the
      * server represented in this Connection object.
      */
-    val asyncHttpClient: AsyncHttpClient
-
-    /**
-     * @return A fully setup synchronous http client for requesting resources from the server
-     * represented in this Connection object.
-     */
-    val syncHttpClient: SyncHttpClient
+    val httpClient: HttpClient
 
     /**
      * @return The username used for this connection.

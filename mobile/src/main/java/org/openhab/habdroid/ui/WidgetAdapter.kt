@@ -39,6 +39,8 @@ import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.larswerkman.holocolorpicker.ColorPicker
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.Headers
 import okhttp3.Request
 
@@ -340,7 +342,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
 
         private fun toggleSwitch() {
-            connection.asyncHttpClient.sendItemCommand(boundItem, if (switch.isChecked) "OFF" else "ON")
+            connection.httpClient.sendItemCommand(boundItem, if (switch.isChecked) "OFF" else "ON")
         }
     }
 
@@ -395,7 +397,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
         override fun handleRowClick() {
             if (boundWidget?.switchSupport == true) {
-                connection.asyncHttpClient.sendItemCommand(boundWidget?.item,
+                connection.httpClient.sendItemCommand(boundWidget?.item,
                         if (seekBar.progress == 0) "ON" else "OFF")
             }
         }
@@ -414,7 +416,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             val widget = boundWidget
             val item = widget?.item ?: return
             val newValue = widget.minValue + widget.step * progress
-            connection.asyncHttpClient.sendItemUpdate(item,
+            connection.httpClient.sendItemUpdate(item,
                     ParsedState.NumberState.withValue(item.state?.asNumber, newValue))
         }
     }
@@ -518,7 +520,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             }
             val (value) = boundMappings[position]
             Log.d(TAG, "Spinner onItemSelected found match with $value")
-            connection.asyncHttpClient.sendItemCommand(boundItem, value)
+            connection.httpClient.sendItemCommand(boundItem, value)
         }
     }
 
@@ -558,7 +560,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
 
         override fun onClick(view: View) {
-            connection.asyncHttpClient.sendItemCommand(boundItem, view.tag as String)
+            connection.httpClient.sendItemCommand(boundItem, view.tag as String)
         }
 
         override fun handleRowClick() {
@@ -600,7 +602,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
         override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
             if (motionEvent.actionMasked == MotionEvent.ACTION_UP) {
-                connection.asyncHttpClient.sendItemCommand(boundItem, v.tag as String)
+                connection.httpClient.sendItemCommand(boundItem, v.tag as String)
             }
             return false
         }
@@ -659,7 +661,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
                     .setTitle(labelView.text)
                     .setView(dialogView)
                     .setPositiveButton(R.string.set) { _, _ ->
-                        connection.asyncHttpClient.sendItemUpdate(widget.item, stepValues[picker.value])
+                        connection.httpClient.sendItemUpdate(widget.item, stepValues[picker.value])
                     }
                     .setNegativeButton(R.string.cancel, null)
                     .show()
@@ -673,7 +675,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
             val newValue = if (down) stateValue - widget.step else stateValue + widget.step
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
-                connection.asyncHttpClient.sendItemUpdate(widget.item,
+                connection.httpClient.sendItemUpdate(widget.item,
                         ParsedState.NumberState.withValue(state, newValue))
             }
         }
@@ -739,7 +741,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
             Log.d(TAG, "Chart url = $chartUrl")
 
-            chart.setImageUrl(connection, chartUrl.toString(), parentWidth, true)
+            chart.setImageUrl(connection, chartUrl.toString(), parentWidth, forceLoad = true)
             refreshRate = widget.refresh
         }
 
@@ -794,7 +796,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             webView.adjustForWidgetHeight(widget, 0)
             webView.loadUrl("about:blank")
 
-            val url = connection.asyncHttpClient.buildUrl(widget.url!!).toString()
+            val url = connection.httpClient.buildUrl(widget.url!!).toString()
             webView.setUpForConnection(connection, url)
             webView.webViewClient = AnchorWebViewClient(url,
                     connection.username, connection.password)
@@ -831,7 +833,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
             if (motionEvent.actionMasked == MotionEvent.ACTION_UP) {
                 if (v.tag is String) {
-                    connection.asyncHttpClient.sendItemCommand(boundItem, v.tag as String)
+                    connection.httpClient.sendItemCommand(boundItem, v.tag as String)
                 } else {
                     showColorPickerDialog()
                 }
@@ -845,7 +847,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
             val newColorValue = String.format(Locale.US, "%f,%f,%f",
                     hsv[0], hsv[1] * 100, hsv[2] * 100)
-            connection.asyncHttpClient.sendItemCommand(boundItem, newColorValue)
+            connection.httpClient.sendItemCommand(boundItem, newColorValue)
             return true
         }
 
@@ -1026,7 +1028,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
 }
 
-fun AsyncHttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
+fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
     if (item == null || state == null) {
         return
     }
@@ -1039,16 +1041,15 @@ fun AsyncHttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?)
     }
 }
 
-fun AsyncHttpClient.sendItemCommand(item: Item?, command: String) {
+fun HttpClient.sendItemCommand(item: Item?, command: String) {
     val url = item?.link ?: return
-    post(url, command, "text/plain;charset=UTF-8", object : AsyncHttpClient.StringResponseHandler() {
-        override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-            Log.e(WidgetAdapter.TAG, "Sending command $command to $url failed: status $statusCode", error)
-        }
-
-        override fun onSuccess(response: String, headers: Headers) {
+    GlobalScope.launch {
+        try {
+            post(url, command, "text/plain;charset=UTF-8")
             Log.d(WidgetAdapter.TAG, "Command '$command' was sent successfully to $url")
+        } catch (e: HttpClient.HttpException) {
+            Log.e(WidgetAdapter.TAG, "Sending command $command to $url failed: status ${e.statusCode}", e)
         }
-    })
+    }
 }
 

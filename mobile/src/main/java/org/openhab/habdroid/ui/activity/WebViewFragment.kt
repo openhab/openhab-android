@@ -96,7 +96,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         updateViewVisibility(error = false, loading = true)
 
         val webView = webView ?: return
-        val url = conn.asyncHttpClient.buildUrl(urlToLoad).toString()
+        val url = conn.httpClient.buildUrl(urlToLoad).toString()
 
         webView.webViewClient = object : AnchorWebViewClient(url, conn.username, conn.password) {
             override fun onPageFinished(view: WebView, url: String) {

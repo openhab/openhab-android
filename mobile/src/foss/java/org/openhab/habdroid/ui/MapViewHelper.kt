@@ -108,7 +108,7 @@ object MapViewHelper {
             } else {
                 boundItem?.members?.firstOrNull { i -> i.name == marker.id }
             }
-            connection.asyncHttpClient.sendItemCommand(item, newState)
+            connection.httpClient.sendItemCommand(item, newState)
         }
 
         private fun openPopup() {

@@ -27,6 +27,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
 
 import java.io.IOException
@@ -68,8 +69,8 @@ class FcmRegistrationService : JobIntentService() {
         when (intent.action) {
             ACTION_REGISTER -> {
                 try {
-                    registerFcm(connection)
-                } catch (e: IOException) {
+                    runBlocking { registerFcm(connection) }
+                } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     Log.e(TAG, "FCM registration failed", e)
                 }
@@ -85,8 +86,8 @@ class FcmRegistrationService : JobIntentService() {
         }
     }
 
-    @Throws(IOException::class)
-    private fun registerFcm(connection: CloudConnection) {
+    @Throws(HttpClient.HttpException::class)
+    private suspend fun registerFcm(connection: CloudConnection) {
         val token = FirebaseInstanceId.getInstance().getToken(connection.messagingSenderId,
                 FirebaseMessaging.INSTANCE_ID_SCOPE)
         val deviceName = deviceName + if (Util.isFlavorBeta) " (${getString(R.string.beta)})" else ""
@@ -98,13 +99,8 @@ class FcmRegistrationService : JobIntentService() {
                 deviceId, URLEncoder.encode(deviceName, "UTF-8"), token)
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: $regUrl")
-        val result = connection.syncHttpClient.get(regUrl).asStatus()
-        if (result.isSuccessful) {
-            Log.d(TAG, "FCM reg id success")
-        } else {
-            Log.e(TAG, "FCM reg id error: ${result.error}")
-        }
-        CloudMessagingHelper.registrationFailureReason = result.error
+        connection.httpClient.get(regUrl).close()
+        Log.d(TAG, "FCM reg id success")
     }
 
     private fun sendHideNotificationRequest(notificationId: Int, senderId: String) {

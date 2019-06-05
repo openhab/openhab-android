@@ -18,15 +18,12 @@ import android.os.SystemClock
 import android.util.AttributeSet
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
-import okhttp3.Call
-import okhttp3.Headers
+import kotlinx.coroutines.*
 import okhttp3.HttpUrl
-import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.util.AsyncHttpClient
-import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.CacheManager
 import java.lang.ref.WeakReference
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
@@ -67,22 +64,10 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         refreshHandler = RefreshHandler(this)
     }
 
-    fun setImageUrl(connection: Connection, url: String, size: Int?) {
-        setImageUrl(connection, url, size, AsyncHttpClient.DEFAULT_TIMEOUT_MS, false)
-    }
-
-    fun setImageUrl(connection: Connection, url: String, size: Int?, forceLoad: Boolean) {
-        setImageUrl(connection, url, size, AsyncHttpClient.DEFAULT_TIMEOUT_MS, forceLoad)
-    }
-
-    fun setImageUrl(connection: Connection, url: String, size: Int?, timeoutMillis: Long) {
-        setImageUrl(connection, url, size, timeoutMillis, false)
-    }
-
-    private fun setImageUrl(connection: Connection, url: String, size: Int?,
-                            timeoutMillis: Long, forceLoad: Boolean) {
+    fun setImageUrl(connection: Connection, url: String, size: Int?,
+                    timeoutMillis: Long = HttpClient.DEFAULT_TIMEOUT_MS, forceLoad: Boolean = false) {
         val actualSize = size ?: defaultSvgSize
-        val client = connection.asyncHttpClient
+        val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
 
         if (lastRequest?.isActiveForUrl(actualUrl) == true) {
@@ -93,7 +78,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         cancelCurrentLoad()
 
         val cached = CacheManager.getInstance(context).getCachedBitmap(actualUrl)
-        val request = HttpImageRequest(actualSize, client, actualUrl, timeoutMillis)
+        val request = HttpImageRequest(client, actualUrl, actualSize, timeoutMillis)
 
         if (cached != null) {
             setBitmapInternal(cached)
@@ -223,23 +208,10 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         }
     }
 
-    private inner class HttpImageRequest(size: Int, private val client: AsyncHttpClient,
-                                         private val url: HttpUrl, private val timeoutMillis: Long) :
-            AsyncHttpClient.BitmapResponseHandler(size) {
-        private var call: Call? = null
-
-        override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-            removeProgressDrawable()
-            applyFallbackDrawable()
-            call = null
-        }
-
-        override fun onSuccess(response: Bitmap, headers: Headers) {
-            setBitmapInternal(response)
-            CacheManager.getInstance(context).cacheBitmap(url, response)
-            scheduleNextRefresh()
-            call = null
-        }
+    private inner class HttpImageRequest(private val client: HttpClient,
+                                         private val url: HttpUrl, private val size: Int,
+                                         private val timeoutMillis: Long) {
+        private var job: Job? = null
 
         fun execute(avoidCache: Boolean) {
             Log.i(TAG, "Refreshing image at $url, avoidCache $avoidCache")
@@ -247,20 +219,35 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                 HttpClient.CachingMode.AVOID_CACHE
             else
                 HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE
-            call = client.get(url.toString(), timeoutMillis, cachingMode, this)
+
+            // FIXME: need separate scope?
+            job = GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    val bitmap = client.get(url.toString(),
+                            timeoutMillis = timeoutMillis, caching = cachingMode)
+                            .asBitmap(size)
+                            .response
+                    setBitmapInternal(bitmap)
+                    CacheManager.getInstance(context).cacheBitmap(url, bitmap)
+                    scheduleNextRefresh()
+                } catch (e: HttpClient.HttpException) {
+                    removeProgressDrawable()
+                    applyFallbackDrawable()
+                }
+                job = null
+            }
         }
 
         fun cancel() {
-            call?.cancel()
+            job?.cancel()
         }
 
         fun hasCompleted(): Boolean {
-            return call == null
+            return job == null
         }
 
         fun isActiveForUrl(url: HttpUrl): Boolean {
-            val c = call
-            return c != null && c.request().url() == url && !c.isCanceled
+            return job?.isActive == true && this.url == url
         }
     }
 

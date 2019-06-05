@@ -18,10 +18,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-import okhttp3.Call
-import okhttp3.Headers
-import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
@@ -32,10 +33,13 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.*
 
 class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
-        ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
+        ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener, CoroutineScope {
     override val forceNonFullscreen = true
 
-    private var requestHandle: Call? = null
+    private val job = Job()
+    override val coroutineContext get() = Dispatchers.Main + job
+
+    private var requestJob: Job? = null
     private var initialHightlightItemName: String? = null
 
     private lateinit var itemPickerAdapter: ItemPickerAdapter
@@ -95,6 +99,11 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
     public override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume()")
@@ -105,7 +114,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         super.onPause()
         Log.d(TAG, "onPause()")
         // Cancel request for items if there was any
-        requestHandle?.cancel()
+        requestJob?.cancel()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -141,29 +150,24 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         itemPickerAdapter.clear()
         updateViewVisibility(loading = true, loadError = false, isDisabled = false)
 
-        val client = connection.asyncHttpClient
-        requestHandle = client["rest/items", object : AsyncHttpClient.StringResponseHandler() {
-            override fun onSuccess(response: String, headers: Headers) {
-                try {
-                    val items = JSONArray(response)
-                            .map { obj -> obj.toItem() }
-                            .filterNot { item -> item.readOnly }
-                    Log.d(TAG, "Item request success, got ${items.size} items")
-                    itemPickerAdapter.setItems(items)
-                    handleInitialHighlight()
-                    updateViewVisibility(loading = false, loadError = false, isDisabled = false)
-                } catch (e: JSONException) {
-                    Log.d(TAG, "Item response could not be parsed", e)
-                    updateViewVisibility(loading = false, loadError = true, isDisabled = false)
-                }
-
-            }
-
-            override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
+        requestJob = launch {
+            try {
+                val result = connection.httpClient.get("rest/items").asText()
+                val items = JSONArray(result.response)
+                        .map { obj -> obj.toItem() }
+                        .filterNot { item -> item.readOnly }
+                Log.d(TAG, "Item request success, got ${items.size} items")
+                itemPickerAdapter.setItems(items)
+                handleInitialHighlight()
+                updateViewVisibility(loading = false, loadError = false, isDisabled = false)
+            } catch (e: JSONException) {
+                Log.d(TAG, "Item response could not be parsed", e)
                 updateViewVisibility(loading = false, loadError = true, isDisabled = false)
-                Log.e(TAG, "Item request failure", error)
+            } catch (e: HttpClient.HttpException) {
+                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
+                Log.e(TAG, "Item request failure", e)
             }
-        }]
+        }
     }
 
     override fun onItemClicked(item: Item) {

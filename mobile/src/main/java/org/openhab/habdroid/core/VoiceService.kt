@@ -17,7 +17,7 @@ import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
-import org.openhab.habdroid.util.SyncHttpClient
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
 import java.util.*
 
@@ -34,28 +34,31 @@ class VoiceService : IntentService("VoiceService") {
 
         runBlocking {
             ConnectionFactory.waitForInitialization()
-        }
+            try {
+                val client = ConnectionFactory.usableConnection.httpClient
+                val headers = mapOf("Accept-Language" to Locale.getDefault().language)
+                sendVoiceCommand(client, voiceCommand, headers)
+                Log.d(TAG, "Voice command was sent successfully")
+            } catch (e: ConnectionException) {
+                Log.w(TAG, "Couldn't determine openHAB URL", e)
+                Util.showToast(this@VoiceService, getString(R.string.error_couldnt_determine_openhab_url))
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Sending voice command failed", e)
 
-        try {
-            sendVoiceCommand(ConnectionFactory.usableConnection.syncHttpClient, voiceCommand)
-        } catch (e: ConnectionException) {
-            Log.w(TAG, "Couldn't determine openHAB URL", e)
-            Util.showToast(this, getString(R.string.error_couldnt_determine_openhab_url))
+            }
         }
     }
 
-    private fun sendVoiceCommand(client: SyncHttpClient, command: String) {
-        val headers = mapOf("Accept-Language" to Locale.getDefault().language)
-        var result = client.post("rest/voice/interpreters", command, "text/plain", headers).asStatus()
-
-        if (result.statusCode == 404) {
-            Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
-            result = client.post("rest/items/VoiceCommand", command, "text/plain").asStatus()
-        }
-        if (result.isSuccessful) {
-            Log.d(TAG, "Voice command was sent successfully")
-        } else {
-            Log.e(TAG, "Sending voice command failed", result.error)
+    private suspend fun sendVoiceCommand(client: HttpClient, command: String, headers: Map<String, String>) {
+        try {
+            client.post("rest/voice/interpreters", command, "text/plain", headers).close()
+        } catch (e: HttpClient.HttpException) {
+            if (e.statusCode == 404) {
+                Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
+                client.post("rest/items/VoiceCommand", command, "text/plain").close()
+            } else {
+                throw e
+            }
         }
     }
 
