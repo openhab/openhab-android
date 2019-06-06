@@ -12,13 +12,7 @@ package org.openhab.habdroid.ui
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
-import android.content.BroadcastReceiver
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -40,11 +34,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.util.Base64
 import android.util.Log
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -63,7 +53,6 @@ import androidx.core.view.isInvisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
-
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import okhttp3.Headers
@@ -83,10 +72,7 @@ import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.util.*
-
 import java.nio.charset.Charset
-import java.util.Locale
-
 import javax.jmdns.ServiceInfo
 import kotlin.coroutines.CoroutineContext
 

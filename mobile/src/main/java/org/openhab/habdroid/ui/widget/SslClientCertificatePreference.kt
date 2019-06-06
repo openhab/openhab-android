@@ -1,6 +1,5 @@
 package org.openhab.habdroid.ui.widget
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.os.Build
@@ -18,7 +17,8 @@ import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import kotlin.coroutines.CoroutineContext
 
-class SslClientCertificatePreference : Preference, CoroutineScope {
+class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet):
+        Preference(context, attrs), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
@@ -27,21 +27,7 @@ class SslClientCertificatePreference : Preference, CoroutineScope {
     private var currentAlias: String? = null
     private var helpIcon: ImageView? = null
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context)
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init(context)
-    }
-
-    @TargetApi(21)
-    constructor(context: Context, attrs: AttributeSet,
-                defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
-        init(context)
-    }
-
-    private fun init(context: Context) {
+    init {
         assert(context is Activity)
         activity = context as Activity
         widgetLayoutResource = R.layout.help_icon_pref

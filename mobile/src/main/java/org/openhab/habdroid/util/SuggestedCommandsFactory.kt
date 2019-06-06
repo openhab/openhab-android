@@ -3,19 +3,16 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.text.InputType
 import androidx.annotation.StringRes
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
-
-import java.util.ArrayList
+import java.util.*
 
 class SuggestedCommandsFactory(private val context: Context, private val showUndef: Boolean) {
     fun fill(widget: Widget?): SuggestedCommands {
         val suggestedCommands = SuggestedCommands()
-        if (widget == null || widget.item == null) {
+        if (widget?.item == null) {
             return suggestedCommands
         }
 
@@ -26,8 +23,8 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         }
 
         if (widget.type === Widget.Type.Setpoint || widget.type === Widget.Type.Slider) {
-            if (widget.state != null && widget.state.asNumber != null) {
-                val state = widget.state.asNumber
+            val state = widget.state?.asNumber
+            if (state != null) {
                 add(suggestedCommands, state.toString())
                 add(suggestedCommands, ParsedState.NumberState.withValue(state, widget.minValue).toString())
                 add(suggestedCommands, ParsedState.NumberState.withValue(state, widget.maxValue).toString())

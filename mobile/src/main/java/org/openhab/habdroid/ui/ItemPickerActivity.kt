@@ -91,7 +91,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
 
         if (!getPrefs().isTaskerPluginEnabled()) {
             isDisabled = true
-            updateViewVisibility(false, false, true)
+            updateViewVisibility(loading = false, loadError = false, isDisabled = true)
         }
     }
 
@@ -134,12 +134,12 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
 
         val connection = ConnectionFactory.usableConnectionOrNull
         if (connection == null) {
-            updateViewVisibility(false, true, false)
+            updateViewVisibility(loading = false, loadError = true, isDisabled = false)
             return
         }
 
         itemPickerAdapter.clear()
-        updateViewVisibility(true, false, false)
+        updateViewVisibility(loading = true, loadError = false, isDisabled = false)
 
         val client = connection.asyncHttpClient
         requestHandle = client["rest/items", object : AsyncHttpClient.StringResponseHandler() {
@@ -151,16 +151,16 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
                     Log.d(TAG, "Item request success, got ${items.size} items")
                     itemPickerAdapter.setItems(items)
                     handleInitialHighlight()
-                    updateViewVisibility(false, false, false)
+                    updateViewVisibility(loading = false, loadError = false, isDisabled = false)
                 } catch (e: JSONException) {
                     Log.d(TAG, "Item response could not be parsed", e)
-                    updateViewVisibility(false, true, false)
+                    updateViewVisibility(loading = false, loadError = true, isDisabled = false)
                 }
 
             }
 
             override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                updateViewVisibility(false, true, false)
+                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
                 Log.e(TAG, "Item request failure", error)
             }
         }]
@@ -265,7 +265,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
     companion object {
         private val TAG = ItemPickerActivity::class.java.simpleName
 
-        val EXTRA_ITEM_NAME = "itemName"
-        val EXTRA_ITEM_STATE = "itemState"
+        const val EXTRA_ITEM_NAME = "itemName"
+        const val EXTRA_ITEM_STATE = "itemState"
     }
 }

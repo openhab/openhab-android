@@ -39,6 +39,7 @@ fun WebView.setUpForConnection(connection: Connection, url: String) {
         webViewDatabase.setHttpAuthUsernamePassword(url.toUri().host, "",
                 connection.username, connection.password)
     } else {
+        @Suppress("DEPRECATION")
         setHttpAuthUsernamePassword(url.toUri().host, "",
                 connection.username, connection.password)
     }

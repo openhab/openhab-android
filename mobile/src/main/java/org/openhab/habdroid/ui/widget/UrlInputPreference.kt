@@ -13,15 +13,10 @@ import org.openhab.habdroid.R
 import java.net.MalformedURLException
 import java.net.URL
 
-class UrlInputPreference : EditTextPreference, TextWatcher {
+class UrlInputPreference constructor(context: Context, attrs: AttributeSet):
+        EditTextPreference(context, attrs), TextWatcher {
     private lateinit var editor: EditText
     private var urlIsValid: Boolean = false
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onAddEditTextToDialogView(dialogView: View, editText: EditText) {
         super.onAddEditTextToDialogView(dialogView, editText)

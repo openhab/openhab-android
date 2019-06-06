@@ -268,7 +268,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            ringtoneVibrationPref.setOnPreferenceClickListener { preference ->
+            ringtoneVibrationPref.setOnPreferenceClickListener {
                 val i = Intent(Settings.ACTION_SETTINGS).apply {
                     action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
                     putExtra(Settings.EXTRA_APP_PACKAGE, activity.packageName)
@@ -313,8 +313,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                         alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 alarmClockPref.setOnPreferenceChangeListener { preference, newValue ->
                     val prefix = sendDeviceInfoPrefixPref.getPrefValue()
-                    updateAlarmClockPreferenceIcon(preference, newValue)
                     val value = newValue as Pair<Boolean, String>
+                    updateAlarmClockPreferenceIcon(preference, newValue)
                     updateAlarmClockPreferenceSummary(preference, prefix, value)
                     true
                 }
@@ -365,21 +365,15 @@ class PreferencesActivity : AbstractBaseActivity() {
                 R.drawable.ic_vibration_grey_24dp)
         }
 
-        private fun updateAlarmClockPreferenceSummary(pref: Preference, prefix: String?, item: Pair<*, *>?) {
-            val value = item as Pair<Boolean, String>?
-            pref.summary = if (value != null && value.first)
-                getString(R.string.settings_alarm_clock_summary_on,
-                        (prefix.orEmpty()) + value.second)
+        private fun updateAlarmClockPreferenceSummary(pref: Preference, prefix: String?, value: Pair<Boolean, String>) {
+            pref.summary = if (value.first)
+                getString(R.string.settings_alarm_clock_summary_on, (prefix.orEmpty()) + value.second)
             else
                 getString(R.string.settings_alarm_clock_summary_off)
         }
 
-        private fun updateAlarmClockPreferenceIcon(pref: Preference, newValue: Any?) {
-            val value = newValue as Pair<Boolean, String>?
-            pref.setIcon(if (value != null && value.first)
-                R.drawable.ic_alarm_grey_24dp
-            else
-                R.drawable.ic_alarm_off_grey_24dp)
+        private fun updateAlarmClockPreferenceIcon(pref: Preference, value: Pair<Boolean, String>) {
+            pref.setIcon(if (value.first) R.drawable.ic_alarm_grey_24dp else R.drawable.ic_alarm_off_grey_24dp)
         }
 
         private fun updateConnectionSummary(subscreenPrefKey: String, urlPrefKey: String,

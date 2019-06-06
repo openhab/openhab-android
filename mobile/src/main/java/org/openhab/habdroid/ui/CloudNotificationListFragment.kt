@@ -34,7 +34,6 @@ import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.AsyncHttpClient
 import org.openhab.habdroid.util.map
-import java.util.*
 
 /**
  * Mandatory empty constructor for the fragment manager to instantiate the

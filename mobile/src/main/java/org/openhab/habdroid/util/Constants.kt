@@ -38,7 +38,6 @@ object Constants {
     const val PREFERENCE_ICON_FORMAT = "iconFormatType"
     const val PREFERENCE_ALARM_CLOCK = "alarmClock"
     const val PREFERENCE_SEND_DEVICE_INFO_PREFIX = "sendDeviceInfoPrefix"
-    const val PREFERENCE_SEND_DEVICE_INFO_CAT = "sendDeviceInfoCat"
     const val PREFERENCE_TASKER_PLUGIN_ENABLED = "taskerPlugin"
 
     const val PREV_SERVER_FLAGS = "prevServerFlags"

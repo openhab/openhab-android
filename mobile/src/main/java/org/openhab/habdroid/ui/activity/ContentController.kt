@@ -32,9 +32,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.transaction
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -47,10 +45,7 @@ import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.*
-
-import java.util.ArrayList
-import java.util.HashSet
-import java.util.Stack
+import java.util.*
 
 /**
  * Controller class for the content area of [MainActivity]
@@ -713,14 +708,6 @@ abstract class ContentController protected constructor(private val activity: Mai
                 FragmentUpdateReason.TEMPORARY_PAGE -> R.anim.slide_out_bottom
                 FragmentUpdateReason.BACK_NAVIGATION -> R.anim.slide_out_right
                 else -> 0
-            }
-        }
-
-        internal fun determineTransition(reason: FragmentUpdateReason): Int {
-            return when (reason) {
-                FragmentUpdateReason.PAGE_ENTER -> FragmentTransaction.TRANSIT_FRAGMENT_OPEN
-                FragmentUpdateReason.BACK_NAVIGATION -> FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
-                else -> FragmentTransaction.TRANSIT_FRAGMENT_FADE
             }
         }
     }

@@ -6,13 +6,8 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-
 import com.here.oksse.ServerSentEvent
-import okhttp3.Call
-import okhttp3.Headers
-import okhttp3.HttpUrl
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
@@ -23,12 +18,9 @@ import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.AsyncHttpClient
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
-
 import java.io.IOException
 import java.io.StringReader
-import java.util.HashMap
-import java.util.Locale
-
+import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 

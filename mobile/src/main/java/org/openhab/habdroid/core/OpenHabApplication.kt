@@ -5,6 +5,7 @@ import androidx.multidex.MultiDexApplication
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 
+@Suppress("UNUSED")
 class OpenHabApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()

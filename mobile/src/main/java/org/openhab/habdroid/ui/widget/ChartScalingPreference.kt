@@ -1,6 +1,5 @@
 package org.openhab.habdroid.ui.widget
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.TypedArray
 import android.preference.Preference
@@ -12,25 +11,21 @@ import android.widget.TextView
 
 import org.openhab.habdroid.R
 
-class ChartScalingPreference : Preference, SeekBar.OnSeekBarChangeListener {
-    private lateinit var entries: Array<String>
-    private lateinit var values: Array<Float>
+class ChartScalingPreference constructor(context: Context, attrs: AttributeSet):
+        Preference(context, attrs), SeekBar.OnSeekBarChangeListener {
+    private val entries: Array<String>
+    private val values: Array<Float>
     private lateinit var seekBar: SeekBar
     private lateinit var label: TextView
     private var value: Float = 0F
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
+    init {
+        layoutResource = R.layout.chart_scaling_pref
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    @TargetApi(21)
-    constructor(context: Context, attrs: AttributeSet,
-                defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
-        init()
+        val res = context.resources
+        entries = res.getStringArray(R.array.chartScalingEntries)
+        val intValues = res.getIntArray(R.array.chartScalingValues)
+        values = intValues.map { v -> v.toFloat() / 100F }.toTypedArray()
     }
 
     override fun onCreateView(parent: ViewGroup): View {
@@ -44,15 +39,6 @@ class ChartScalingPreference : Preference, SeekBar.OnSeekBarChangeListener {
         updateLabel()
 
         return view
-    }
-
-    private fun init() {
-        layoutResource = R.layout.chart_scaling_pref
-
-        val res = context.resources
-        entries = res.getStringArray(R.array.chartScalingEntries)
-        val intValues = res.getIntArray(R.array.chartScalingValues)
-        values = intValues.map { v -> v.toFloat() / 100F }.toTypedArray()
     }
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any {

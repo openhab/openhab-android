@@ -19,15 +19,12 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.WidgetImageView
-
-import java.util.ArrayList
-import java.util.Locale
+import java.util.*
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items = ArrayList<CloudNotification>()

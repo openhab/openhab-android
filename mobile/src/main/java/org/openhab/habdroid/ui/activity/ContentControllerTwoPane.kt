@@ -21,6 +21,7 @@ import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 
 // instantiated via reflection
+@Suppress("UNUSED")
 class ContentControllerTwoPane(activity: MainActivity) : ContentController(activity) {
     private lateinit var rightContentView: View
 

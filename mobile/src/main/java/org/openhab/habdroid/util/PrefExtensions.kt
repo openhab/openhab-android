@@ -20,7 +20,7 @@ fun SharedPreferences.getDefaultSitemap(): String {
 }
 
 fun SharedPreferences.getIconFormat(): String {
-    return getString(Constants.PREFERENCE_ICON_FORMAT, "PNG")
+    return getString(Constants.PREFERENCE_ICON_FORMAT, "PNG").orEmpty()
 }
 
 fun SharedPreferences.isDemoModeEnabled(): Boolean {

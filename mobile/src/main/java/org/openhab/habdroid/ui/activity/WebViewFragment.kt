@@ -28,7 +28,6 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
     private lateinit var urltoLoad: String
     private lateinit var urlForError: String
-    private var connection: Connection? = null
 
     val titleResId: Int
         @StringRes get() = arguments!!.getInt(KEY_PAGE_TITLE)
