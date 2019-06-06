@@ -29,7 +29,7 @@ class UrlInputPreference : EditTextPreference, TextWatcher {
         editText.addTextChangedListener(this)
     }
 
-    override fun showDialog(state: Bundle) {
+    override fun showDialog(state: Bundle?) {
         super.showDialog(state)
         updateOkButtonState()
     }

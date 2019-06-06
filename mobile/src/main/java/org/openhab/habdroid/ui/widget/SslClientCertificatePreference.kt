@@ -58,7 +58,7 @@ class SslClientCertificatePreference : Preference, CoroutineScope {
         return view
     }
 
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
+    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         val defaultString = defaultValue as String
         setValue(if (restorePersistedValue) getPersistedString(defaultString) else defaultString)
     }
