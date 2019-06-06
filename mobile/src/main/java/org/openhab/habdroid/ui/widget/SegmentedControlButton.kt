@@ -87,7 +87,7 @@ class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?)
         return Math.max(super.getCompoundPaddingBottom(), underlineHeight + textDistanceFromLine)
     }
 
-    public override fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas) {
         if (backgroundPaint != null) {
             canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
         }

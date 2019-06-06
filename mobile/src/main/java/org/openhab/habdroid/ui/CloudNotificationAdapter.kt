@@ -26,7 +26,8 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import java.util.*
 
-class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit):
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items = ArrayList<CloudNotification>()
     private val inflater = LayoutInflater.from(context)
     private var hasMoreItems: Boolean = false

@@ -92,7 +92,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         return super.onOptionsItemSelected(item)
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         Log.d(TAG, "onResume()")
         super.onResume()
 
@@ -109,13 +109,13 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         }
     }
 
-    public override fun onPause() {
+    override fun onPause() {
         Log.d(TAG, "onPause()")
         super.onPause()
         nfcAdapter?.disableForegroundDispatch(this)
     }
 
-    public override fun onNewIntent(intent: Intent) {
+    override fun onNewIntent(intent: Intent) {
         launch {
             val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
             writeTagMessage.setText(R.string.info_write_tag_progress)

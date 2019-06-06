@@ -32,14 +32,6 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     val titleResId: Int
         @StringRes get() = arguments!!.getInt(KEY_PAGE_TITLE)
 
-    fun goBack(): Boolean {
-        if (webView?.canGoBack() == true) {
-            webView?.goBack()
-            return true
-        }
-        return false
-    }
-
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_fullscreenwebview, container, false)
@@ -87,6 +79,22 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
     }
 
+    override fun onAvailableConnectionChanged() {
+        loadWebsite()
+    }
+
+    override fun onCloudConnectionChanged(connection: CloudConnection?) {
+        // no-op
+    }
+
+    fun goBack(): Boolean {
+        if (webView?.canGoBack() == true) {
+            webView?.goBack()
+            return true
+        }
+        return false
+    }
+
     private fun loadWebsite(urlToLoad: String = urltoLoad) {
         val conn = ConnectionFactory.usableConnectionOrNull
         if (conn == null) {
@@ -128,14 +136,6 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         webView?.isVisible = !error
         view?.findViewById<View>(android.R.id.empty)?.isVisible = error
         view?.findViewById<View>(R.id.progress)?.isVisible = loading
-    }
-
-    override fun onAvailableConnectionChanged() {
-        loadWebsite()
-    }
-
-    override fun onCloudConnectionChanged(connection: CloudConnection?) {
-        // no-op
     }
 
     companion object {

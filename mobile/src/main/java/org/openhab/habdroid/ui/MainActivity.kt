@@ -216,6 +216,245 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onPostCreate()")
+        super.onPostCreate(savedInstanceState)
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        Log.d(TAG, "onConfigurationChanged()")
+        super.onConfigurationChanged(newConfig)
+        drawerToggle.onConfigurationChanged(newConfig)
+    }
+
+    override fun onStart() {
+        Log.d(TAG, "onStart()")
+        super.onStart()
+        isStarted = true
+
+        ConnectionFactory.addListener(this)
+
+        onAvailableConnectionChanged()
+        updateNotificationDrawerItem()
+
+        if (connection != null && serverProperties == null) {
+            controller.clearServerCommunicationFailure()
+            queryServerProperties()
+        }
+        openPendingSitemapIfNeeded()
+        openNotificationsPageIfNeeded()
+        openHabpanelIfNeeded()
+        launchVoiceRecognitionIfNeeded()
+    }
+
+    public override fun onStop() {
+        Log.d(TAG, "onStop()")
+        isStarted = false
+        super.onStop()
+        ConnectionFactory.removeListener(this)
+        serviceResolveJob?.cancel()
+        serviceResolveJob = null
+        if (sitemapSelectionDialog?.isShowing == true) {
+            sitemapSelectionDialog?.dismiss()
+        }
+        propsUpdateHandle?.cancel()
+    }
+
+    override fun onResume() {
+        Log.d(TAG, "onResume()")
+        super.onResume()
+
+        val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        if (nfcAdapter != null) {
+            val intent = Intent(this, javaClass)
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            val pi = PendingIntent.getActivity(this, 0, intent, 0)
+            nfcAdapter.enableForegroundDispatch(this, pi, null, null)
+        }
+
+        updateTitle()
+    }
+
+    override fun onPause() {
+        Log.d(TAG, "onPause()")
+        super.onPause()
+        val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        nfcAdapter?.disableForegroundDispatch(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        Log.d(TAG, "onCreateOptionsMenu()")
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        Log.d(TAG, "onPrepareOptionsMenu()")
+        val voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition)
+        @ColorInt val iconColor = ContextCompat.getColor(this, R.color.light)
+        voiceRecognitionItem.isVisible = connection != null
+        voiceRecognitionItem.icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG, "onOptionsItemSelected()")
+        // Handle back navigation arrow
+        if (item.itemId == android.R.id.home && controller.canGoBack()) {
+            controller.goBack()
+            return true
+        }
+
+        // Handle hamburger menu
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+
+        // Handle menu items
+        return when (item.itemId) {
+            R.id.mainmenu_voice_recognition -> {
+                launchVoiceRecognition()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
+        when (requestCode) {
+            SETTINGS_REQUEST_CODE -> {
+                if (data == null) {
+                    return
+                }
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)
+                        && connection != null && serverProperties != null) {
+                    val sitemap = selectConfiguredSitemapFromList()
+                    if (sitemap != null) {
+                        openSitemap(sitemap)
+                    } else {
+                        showSitemapSelectionDialog()
+                    }
+                }
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
+                    recreate()
+                }
+            }
+            WRITE_NFC_TAG_REQUEST_CODE -> Log.d(TAG, "Got back from Write NFC tag")
+        }
+    }
+
+    public override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        Log.d(TAG, "onSaveInstanceState()")
+        isStarted = false
+        with (savedInstanceState) {
+            putParcelable("serverProperties", serverProperties)
+            putParcelable("sitemap", selectedSitemap)
+            putBoolean("isSitemapSelectionDialogShown", sitemapSelectionDialog?.isShowing == true)
+            putString("controller", controller.javaClass.canonicalName)
+            putInt("connectionHash", connection?.hashCode() ?: -1)
+            controller.onSaveInstanceState(this)
+        }
+        super.onSaveInstanceState(savedInstanceState)
+    }
+
+    override fun onBackPressed() {
+        Log.d(TAG, "onBackPressed()")
+        if (controller.canGoBack()) {
+            controller.goBack()
+        } else if (!isFullscreenEnabled) {
+            // Only handle back action in non-fullscreen mode, as we don't want to exit
+            // the app via back button in fullscreen mode
+            super.onBackPressed()
+        }
+    }
+
+    override fun onAvailableConnectionChanged() {
+        Log.d(TAG, "onAvailableConnectionChanged()")
+        var newConnection: Connection?
+        var failureReason: ConnectionException?
+
+        try {
+            newConnection = ConnectionFactory.usableConnection
+            failureReason = null
+        } catch (e: ConnectionException) {
+            newConnection = null
+            failureReason = e
+        }
+
+        updateNotificationDrawerItem()
+
+        if (newConnection != null && newConnection === connection) {
+            return
+        }
+
+        connection = newConnection
+        hideSnackbar()
+        serverProperties = null
+        selectedSitemap = null
+
+        // Handle pending NFC tag if initial connection determination finished
+        openPendingSitemapIfNeeded()
+        openHabpanelIfNeeded()
+        launchVoiceRecognitionIfNeeded()
+
+        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        when {
+            newConnection != null -> {
+                handleConnectionChange()
+                controller.updateConnection(newConnection, null, 0)
+            }
+            failureReason is NoUrlInformationException -> {
+                // Attempt resolving only if we're connected locally and
+                // no local connection is configured yet
+                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
+                    if (serviceResolveJob == null) {
+                        val resolver = AsyncServiceResolver(this,
+                                getString(R.string.openhab_service_type), this)
+                        serviceResolveJob = launch {
+                            handleServiceResolveResult(resolver.resolve())
+                            serviceResolveJob = null
+                        }
+                        controller.updateConnection(null,
+                                getString(R.string.resolving_openhab),
+                                R.drawable.ic_openhab_appicon_340dp /*FIXME?*/)
+                    }
+                } else {
+                    controller.indicateMissingConfiguration(false)
+                }
+            }
+            failureReason is NetworkNotSupportedException -> {
+                val info = failureReason.networkInfo
+                controller.indicateNoNetwork(
+                        getString(R.string.error_network_type_unsupported, info.typeName), false)
+            }
+            failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
+                controller.indicateNoNetwork(
+                        getString(R.string.error_wifi_not_available), true)
+            }
+            failureReason is ConnectionNotInitializedException -> {
+                controller.updateConnection(null, null, 0)
+            }
+            else -> {
+                controller.indicateNoNetwork(getString(R.string.error_network_not_available), false)
+            }
+        }
+
+        viewPool.clear()
+        updateSitemapAndHabpanelDrawerItems()
+        invalidateOptionsMenu()
+        updateTitle()
+    }
+
+    override fun onCloudConnectionChanged(connection: CloudConnection?) {
+        Log.d(TAG, "onCloudConnectionChanged()")
+        updateNotificationDrawerItem()
+        openNotificationsPageIfNeeded()
+    }
+
     private fun handleConnectionChange() {
         if (connection is DemoConnection) {
             showDemoModeHintSnackbar()
@@ -318,157 +557,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 openPendingSitemapIfNeeded()
             }
         }
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onPostCreate()")
-        super.onPostCreate(savedInstanceState)
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        Log.d(TAG, "onConfigurationChanged()")
-        super.onConfigurationChanged(newConfig)
-        drawerToggle.onConfigurationChanged(newConfig)
-    }
-
-    override fun onResume() {
-        Log.d(TAG, "onResume()")
-        super.onResume()
-
-        val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        if (nfcAdapter != null) {
-            val intent = Intent(this, javaClass)
-                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            val pi = PendingIntent.getActivity(this, 0, intent, 0)
-            nfcAdapter.enableForegroundDispatch(this, pi, null, null)
-        }
-
-        updateTitle()
-    }
-
-    override fun onPause() {
-        Log.d(TAG, "onPause()")
-        super.onPause()
-        val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        nfcAdapter?.disableForegroundDispatch(this)
-    }
-
-    override fun onAvailableConnectionChanged() {
-        Log.d(TAG, "onAvailableConnectionChanged()")
-        var newConnection: Connection?
-        var failureReason: ConnectionException?
-
-        try {
-            newConnection = ConnectionFactory.usableConnection
-            failureReason = null
-        } catch (e: ConnectionException) {
-            newConnection = null
-            failureReason = e
-        }
-
-        updateNotificationDrawerItem()
-
-        if (newConnection != null && newConnection === connection) {
-            return
-        }
-
-        connection = newConnection
-        hideSnackbar()
-        serverProperties = null
-        selectedSitemap = null
-
-        // Handle pending NFC tag if initial connection determination finished
-        openPendingSitemapIfNeeded()
-        openHabpanelIfNeeded()
-        launchVoiceRecognitionIfNeeded()
-
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        when {
-            newConnection != null -> {
-                handleConnectionChange()
-                controller.updateConnection(newConnection, null, 0)
-            }
-            failureReason is NoUrlInformationException -> {
-                // Attempt resolving only if we're connected locally and
-                // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
-                    if (serviceResolveJob == null) {
-                        val resolver = AsyncServiceResolver(this,
-                                getString(R.string.openhab_service_type), this)
-                        serviceResolveJob = launch {
-                            handleServiceResolveResult(resolver.resolve())
-                            serviceResolveJob = null
-                        }
-                        controller.updateConnection(null,
-                                getString(R.string.resolving_openhab),
-                                R.drawable.ic_openhab_appicon_340dp /*FIXME?*/)
-                    }
-                } else {
-                    controller.indicateMissingConfiguration(false)
-                }
-            }
-            failureReason is NetworkNotSupportedException -> {
-                val info = failureReason.networkInfo
-                controller.indicateNoNetwork(
-                        getString(R.string.error_network_type_unsupported, info.typeName), false)
-            }
-            failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
-                controller.indicateNoNetwork(
-                        getString(R.string.error_wifi_not_available), true)
-            }
-            failureReason is ConnectionNotInitializedException -> {
-                controller.updateConnection(null, null, 0)
-            }
-            else -> {
-                controller.indicateNoNetwork(getString(R.string.error_network_not_available), false)
-            }
-        }
-
-        viewPool.clear()
-        updateSitemapAndHabpanelDrawerItems()
-        invalidateOptionsMenu()
-        updateTitle()
-    }
-
-    override fun onCloudConnectionChanged(connection: CloudConnection?) {
-        Log.d(TAG, "onCloudConnectionChanged()")
-        updateNotificationDrawerItem()
-        openNotificationsPageIfNeeded()
-    }
-
-    override fun onStart() {
-        Log.d(TAG, "onStart()")
-        super.onStart()
-        isStarted = true
-
-        ConnectionFactory.addListener(this)
-
-        onAvailableConnectionChanged()
-        updateNotificationDrawerItem()
-
-        if (connection != null && serverProperties == null) {
-            controller.clearServerCommunicationFailure()
-            queryServerProperties()
-        }
-        openPendingSitemapIfNeeded()
-        openNotificationsPageIfNeeded()
-        openHabpanelIfNeeded()
-        launchVoiceRecognitionIfNeeded()
-    }
-
-    public override fun onStop() {
-        Log.d(TAG, "onStop()")
-        isStarted = false
-        super.onStop()
-        ConnectionFactory.removeListener(this)
-        serviceResolveJob?.cancel()
-        serviceResolveJob = null
-        if (sitemapSelectionDialog?.isShowing == true) {
-            sitemapSelectionDialog?.dismiss()
-        }
-        propsUpdateHandle?.cancel()
     }
 
     fun triggerPageUpdate(pageUrl: String, forceReload: Boolean) {
@@ -726,86 +814,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-
     private fun buildUrlAndOpenSitemap(partUrl: String) {
         controller.openPage("rest/sitemap$partUrl")
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        Log.d(TAG, "onCreateOptionsMenu()")
-        val inflater = menuInflater
-        inflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        Log.d(TAG, "onPrepareOptionsMenu()")
-        val voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition)
-        @ColorInt val iconColor = ContextCompat.getColor(this, R.color.light)
-        voiceRecognitionItem.isVisible = connection != null
-        voiceRecognitionItem.icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d(TAG, "onOptionsItemSelected()")
-        // Handle back navigation arrow
-        if (item.itemId == android.R.id.home && controller.canGoBack()) {
-            controller.goBack()
-            return true
-        }
-
-        // Handle hamburger menu
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
-
-        // Handle menu items
-        return when (item.itemId) {
-            R.id.mainmenu_voice_recognition -> {
-                launchVoiceRecognition()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
-        when (requestCode) {
-            SETTINGS_REQUEST_CODE -> {
-                if (data == null) {
-                    return
-                }
-                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)
-                        && connection != null && serverProperties != null) {
-                    val sitemap = selectConfiguredSitemapFromList()
-                    if (sitemap != null) {
-                        openSitemap(sitemap)
-                    } else {
-                        showSitemapSelectionDialog()
-                    }
-                }
-                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
-                    recreate()
-                }
-            }
-            WRITE_NFC_TAG_REQUEST_CODE -> Log.d(TAG, "Got back from Write NFC tag")
-        }
-    }
-
-    public override fun onSaveInstanceState(savedInstanceState: Bundle) {
-        Log.d(TAG, "onSaveInstanceState()")
-        isStarted = false
-        with (savedInstanceState) {
-            putParcelable("serverProperties", serverProperties)
-            putParcelable("sitemap", selectedSitemap)
-            putBoolean("isSitemapSelectionDialogShown", sitemapSelectionDialog?.isShowing == true)
-            putString("controller", controller.javaClass.canonicalName)
-            putInt("connectionHash", connection?.hashCode() ?: -1)
-            controller.onSaveInstanceState(this)
-        }
-        super.onSaveInstanceState(savedInstanceState)
     }
 
     private fun onNotificationSelected(intent: Intent) {
@@ -825,17 +835,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val title = controller.currentTitle
         setTitle(title ?: getString(R.string.app_name))
         drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
-    }
-
-    override fun onBackPressed() {
-        Log.d(TAG, "onBackPressed()")
-        if (controller.canGoBack()) {
-            controller.goBack()
-        } else if (!isFullscreenEnabled) {
-            // Only handle back action in non-fullscreen mode, as we don't want to exit
-            // the app via back button in fullscreen mode
-            super.onBackPressed()
-        }
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {

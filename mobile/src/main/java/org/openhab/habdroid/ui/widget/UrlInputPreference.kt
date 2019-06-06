@@ -29,9 +29,13 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet):
         updateOkButtonState()
     }
 
-    override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
+    override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+        // no-op
+    }
 
-    override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+        // no-op
+    }
 
     override fun afterTextChanged(editable: Editable) {
         var portSeemsInvalid = false

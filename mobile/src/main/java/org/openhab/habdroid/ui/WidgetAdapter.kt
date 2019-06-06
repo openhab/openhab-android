@@ -116,6 +116,20 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
+    fun setSelectedPosition(position: Int): Boolean {
+        if (selectedPosition == position) {
+            return false
+        }
+        if (selectedPosition >= 0) {
+            notifyItemChanged(selectedPosition)
+        }
+        selectedPosition = position
+        if (position >= 0) {
+            notifyItemChanged(position)
+        }
+        return true
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val holder: ViewHolder
         when (viewType) {
@@ -174,6 +188,25 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         return getItemViewType(items[position])
     }
 
+    override fun onClick(view: View) {
+        val holder = view.tag as ViewHolder
+        val position = holder.adapterPosition
+        if (position != RecyclerView.NO_POSITION) {
+            if (!itemClickListener.onItemClicked(items[position])) {
+                holder.handleRowClick()
+            }
+        }
+    }
+
+    override fun onLongClick(view: View): Boolean {
+        val holder = view.tag as ViewHolder
+        val position = holder.adapterPosition
+        if (position != RecyclerView.NO_POSITION) {
+            return itemClickListener.onItemLongClicked(items[position])
+        }
+        return false
+    }
+
     private fun getItemViewType(widget: Widget): Int {
         when (widget.type) {
             Widget.Type.Frame -> return TYPE_FRAME
@@ -199,39 +232,6 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             Widget.Type.Mapview -> return TYPE_LOCATION
             else -> return TYPE_GENERICITEM
         }
-    }
-
-    fun setSelectedPosition(position: Int): Boolean {
-        if (selectedPosition == position) {
-            return false
-        }
-        if (selectedPosition >= 0) {
-            notifyItemChanged(selectedPosition)
-        }
-        selectedPosition = position
-        if (position >= 0) {
-            notifyItemChanged(position)
-        }
-        return true
-    }
-
-    override fun onClick(view: View) {
-        val holder = view.tag as ViewHolder
-        val position = holder.adapterPosition
-        if (position != RecyclerView.NO_POSITION) {
-            if (!itemClickListener.onItemClicked(items[position])) {
-                holder.handleRowClick()
-            }
-        }
-    }
-
-    override fun onLongClick(view: View): Boolean {
-        val holder = view.tag as ViewHolder
-        val position = holder.adapterPosition
-        if (position != RecyclerView.NO_POSITION) {
-            return itemClickListener.onItemLongClicked(items[position])
-        }
-        return false
     }
 
     abstract class ViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup, @LayoutRes layoutResId: Int) :

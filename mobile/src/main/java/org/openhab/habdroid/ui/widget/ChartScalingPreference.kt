@@ -66,11 +66,11 @@ class ChartScalingPreference constructor(context: Context, attrs: AttributeSet):
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar) {
-
+        // no-op
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-
+        // no-op
     }
 
     private fun updateLabel() {

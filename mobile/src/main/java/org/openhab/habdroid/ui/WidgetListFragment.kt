@@ -81,54 +81,6 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         outState.putString("title", titleOverride)
     }
 
-    override fun onItemClicked(item: Widget): Boolean {
-        if (item.linkedPage != null) {
-            val activity = activity as MainActivity?
-            activity?.onWidgetSelected(item.linkedPage, this@WidgetListFragment)
-            return true
-        }
-        return false
-    }
-
-    override fun onItemLongClicked(item: Widget): Boolean {
-        val context = context ?: return false
-        val suggestedCommands = suggestedCommandsFactory.fill(item)
-        val labels = suggestedCommands.labels
-        val commands = suggestedCommands.commands
-        if (item.linkedPage != null) {
-            labels.add(getString(R.string.nfc_action_to_sitemap_page))
-            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-                labels.add(getString(R.string.home_shortcut_pin_to_home))
-            }
-        }
-
-        if (labels.isEmpty()) {
-            return false
-        }
-
-        AlertDialog.Builder(context)
-                .setTitle(R.string.nfc_dialog_title)
-                .setItems(labels.toTypedArray()) { _, which ->
-                    if (which == commands.size + 1 && item.linkedPage != null) {
-                        createShortcut(context, item.linkedPage)
-                    } else {
-                        val itemToHandle = if (which < commands.size) item.item else null
-                        val linkToHandle = if (which == commands.size) item.linkedPage?.link else null
-                        if (itemToHandle != null) {
-                            startActivity(WriteTagActivity.createItemUpdateIntent(context,
-                                    itemToHandle.name, commands[which],
-                                    labels[which], itemToHandle.label.orEmpty()))
-                        } else if (linkToHandle != null) {
-                            startActivity(WriteTagActivity.createSitemapNavigationIntent(
-                                    context, linkToHandle))
-                        }
-                    }
-                }
-                .show()
-
-        return true
-    }
-
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -175,6 +127,54 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         super.onPause()
         Log.d(TAG, "onPause() $displayPageUrl")
         startOrStopVisibleViewHolders(false)
+    }
+
+    override fun onItemClicked(item: Widget): Boolean {
+        if (item.linkedPage != null) {
+            val activity = activity as MainActivity?
+            activity?.onWidgetSelected(item.linkedPage, this@WidgetListFragment)
+            return true
+        }
+        return false
+    }
+
+    override fun onItemLongClicked(item: Widget): Boolean {
+        val context = context ?: return false
+        val suggestedCommands = suggestedCommandsFactory.fill(item)
+        val labels = suggestedCommands.labels
+        val commands = suggestedCommands.commands
+        if (item.linkedPage != null) {
+            labels.add(getString(R.string.nfc_action_to_sitemap_page))
+            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
+                labels.add(getString(R.string.home_shortcut_pin_to_home))
+            }
+        }
+
+        if (labels.isEmpty()) {
+            return false
+        }
+
+        AlertDialog.Builder(context)
+                .setTitle(R.string.nfc_dialog_title)
+                .setItems(labels.toTypedArray()) { _, which ->
+                    if (which == commands.size + 1 && item.linkedPage != null) {
+                        createShortcut(context, item.linkedPage)
+                    } else {
+                        val itemToHandle = if (which < commands.size) item.item else null
+                        val linkToHandle = if (which == commands.size) item.linkedPage?.link else null
+                        if (itemToHandle != null) {
+                            startActivity(WriteTagActivity.createItemUpdateIntent(context,
+                                    itemToHandle.name, commands[which],
+                                    labels[which], itemToHandle.label.orEmpty()))
+                        } else if (linkToHandle != null) {
+                            startActivity(WriteTagActivity.createSitemapNavigationIntent(
+                                    context, linkToHandle))
+                        }
+                    }
+                }
+                .show()
+
+        return true
     }
 
     fun setHighlightedPageLink(highlightedPageLink: String?) {

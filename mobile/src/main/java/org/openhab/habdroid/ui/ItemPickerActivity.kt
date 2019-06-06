@@ -95,13 +95,13 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         }
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume()")
         loadItems()
     }
 
-    public override fun onPause() {
+    override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause()")
         // Cancel request for items if there was any
@@ -125,40 +125,6 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun loadItems() {
-        if (isDisabled) {
-            return
-        }
-
-        val connection = ConnectionFactory.usableConnectionOrNull
-        if (connection == null) {
-            updateViewVisibility(loading = false, loadError = true, isDisabled = false)
-            return
-        }
-
-        itemPickerAdapter.clear()
-        updateViewVisibility(loading = true, loadError = false, isDisabled = false)
-
-        requestJob = launch {
-            try {
-                val result = connection.httpClient.get("rest/items").asText()
-                val items = JSONArray(result.response)
-                        .map { obj -> obj.toItem() }
-                        .filterNot { item -> item.readOnly }
-                Log.d(TAG, "Item request success, got ${items.size} items")
-                itemPickerAdapter.setItems(items)
-                handleInitialHighlight()
-                updateViewVisibility(loading = false, loadError = false, isDisabled = false)
-            } catch (e: JSONException) {
-                Log.d(TAG, "Item response could not be parsed", e)
-                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
-            } catch (e: HttpClient.HttpException) {
-                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
-                Log.e(TAG, "Item request failure", e)
-            }
-        }
     }
 
     override fun onItemClicked(item: Item) {
@@ -197,6 +163,53 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
                 .show()
     }
 
+    override fun onRefresh() {
+        loadItems()
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        itemPickerAdapter.filter(newText)
+        return true
+    }
+
+    private fun loadItems() {
+        if (isDisabled) {
+            return
+        }
+
+        val connection = ConnectionFactory.usableConnectionOrNull
+        if (connection == null) {
+            updateViewVisibility(loading = false, loadError = true, isDisabled = false)
+            return
+        }
+
+        itemPickerAdapter.clear()
+        updateViewVisibility(loading = true, loadError = false, isDisabled = false)
+
+        requestJob = launch {
+            try {
+                val result = connection.httpClient.get("rest/items").asText()
+                val items = JSONArray(result.response)
+                        .map { obj -> obj.toItem() }
+                        .filterNot { item -> item.readOnly }
+                Log.d(TAG, "Item request success, got ${items.size} items")
+                itemPickerAdapter.setItems(items)
+                handleInitialHighlight()
+                updateViewVisibility(loading = false, loadError = false, isDisabled = false)
+            } catch (e: JSONException) {
+                Log.d(TAG, "Item response could not be parsed", e)
+                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
+            } catch (e: HttpClient.HttpException) {
+                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
+                Log.e(TAG, "Item request failure", e)
+            }
+        }
+    }
+
     private fun finish(item: Item?, state: String) {
         val intent = Intent().apply {
             val blurb = getString(R.string.item_picker_blurb, item!!.label, item.name, state)
@@ -210,10 +223,6 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
 
         setResult(RESULT_OK, intent)
         finish()
-    }
-
-    override fun onRefresh() {
-        loadItems()
     }
 
     private fun handleInitialHighlight() {
@@ -243,15 +252,6 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         })
         retryButton.setText(if (isDisabled) R.string.turn_on else R.string.try_again_button)
         retryButton.isVisible = loadError || isDisabled
-    }
-
-    override fun onQueryTextSubmit(query: String): Boolean {
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String): Boolean {
-        itemPickerAdapter.filter(newText)
-        return true
     }
 
     companion object {

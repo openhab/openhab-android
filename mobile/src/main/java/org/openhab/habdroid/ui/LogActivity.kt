@@ -60,17 +60,6 @@ class LogActivity : AbstractBaseActivity() {
         fetchLog(false)
     }
 
-    private fun setUiState(isLoading: Boolean, isEmpty: Boolean) {
-        progressBar.isVisible = isLoading
-        logTextView.isVisible = !isLoading && !isEmpty
-        emptyView.isVisible = isEmpty
-        if (isLoading || isEmpty) {
-            fab.hide()
-        } else {
-            fab.show()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "onCreateOptionsMenu()")
         menuInflater.inflate(R.menu.log_menu, menu)
@@ -90,6 +79,17 @@ class LogActivity : AbstractBaseActivity() {
                 super.onOptionsItemSelected(item)
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setUiState(isLoading: Boolean, isEmpty: Boolean) {
+        progressBar.isVisible = isLoading
+        logTextView.isVisible = !isLoading && !isEmpty
+        emptyView.isVisible = isEmpty
+        if (isLoading || isEmpty) {
+            fab.hide()
+        } else {
+            fab.show()
         }
     }
 

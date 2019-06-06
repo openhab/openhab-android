@@ -130,6 +130,10 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         }
     }
 
+    override fun toString(): String {
+        return "${super.toString()} [${connections.size} connections, started=$started]"
+    }
+
     /**
      * Assign parent callback
      *
@@ -184,10 +188,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
      */
     fun triggerUpdate(pageUrl: String, forceReload: Boolean) {
         connections[pageUrl]?.triggerUpdate(forceReload)
-    }
-
-    override fun toString(): String {
-        return "${super.toString()} [${connections.size} connections, started=$started]"
     }
 
     private class ConnectionHandler(private val scope: CoroutineScope, private val url: String,
