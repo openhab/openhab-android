@@ -22,8 +22,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -41,10 +39,7 @@ import org.openhab.habdroid.util.map
  * fragment (e.g. upon screen orientation changes).
  */
 class CloudNotificationListFragment : Fragment(), View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener, CoroutineScope {
-    private val job = Job()
-    override val coroutineContext get() = Dispatchers.Main + job
-
+        SwipeRefreshLayout.OnRefreshListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var retryButton: View
@@ -119,6 +114,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener,
     }
 
     private fun loadNotifications(clearExisting: Boolean) {
+        val activity = activity as AbstractBaseActivity? ?: return
         val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
         if (conn == null) {
             updateViewVisibility(loading = false, loadError = true)
@@ -135,7 +131,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener,
         // notifications and a new notification is very likely to be contained in the first page,
         // we skip that additional effort.
         val url = "api/v1/notifications?limit=$PAGE_SIZE&skip=$loadOffset"
-        requestJob = launch {
+        requestJob = activity.launch {
             try {
                 val response = conn.httpClient.get(url).asText().response
                 val items = JSONArray(response).map { obj -> obj.toCloudNotification() }

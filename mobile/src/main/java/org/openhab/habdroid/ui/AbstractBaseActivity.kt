@@ -8,13 +8,19 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
+import kotlin.coroutines.CoroutineContext
 
-abstract class AbstractBaseActivity : AppCompatActivity() {
+abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     protected open val forceNonFullscreen = false
 
     // If we are 4.4 we can use fullscreen mode and Daydream features
@@ -38,6 +44,11 @@ abstract class AbstractBaseActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     override fun onResume() {

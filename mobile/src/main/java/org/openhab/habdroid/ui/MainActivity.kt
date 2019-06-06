@@ -54,7 +54,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
-import okhttp3.Headers
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -73,13 +72,8 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.util.*
 import java.nio.charset.Charset
 import javax.jmdns.ServiceInfo
-import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, CoroutineScope {
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
+class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private lateinit var prefs: SharedPreferences
     private var serviceResolveJob: Job? = null
     private lateinit var drawerLayout: DrawerLayout
@@ -402,7 +396,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
                 if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(this,
-                                getString(R.string.openhab_service_type))
+                                getString(R.string.openhab_service_type), this)
                         serviceResolveJob = launch {
                             handleServiceResolveResult(resolver.resolve())
                             serviceResolveJob = null

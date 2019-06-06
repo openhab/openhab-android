@@ -150,7 +150,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
         @Throws(HttpException::class)
         suspend fun asText(): HttpTextResult {
-            val text = withContext(Dispatchers.Default) {
+            val text = withContext(Dispatchers.IO) {
                 try {
                     response.string()
                 } catch (e: IOException) {
@@ -171,7 +171,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
         @Throws(HttpException::class)
         suspend fun asBitmap(sizeInPixels: Int, enforceSize: Boolean = false): HttpBitmapResult {
-            val bitmap = withContext(Dispatchers.Default) {
+            val bitmap = withContext(Dispatchers.IO) {
                 try {
                     response.toBitmap(sizeInPixels, enforceSize)
                 } catch (e: IOException) {

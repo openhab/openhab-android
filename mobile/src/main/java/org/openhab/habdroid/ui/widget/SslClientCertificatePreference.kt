@@ -15,15 +15,10 @@ import kotlinx.coroutines.*
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
-import kotlin.coroutines.CoroutineContext
 
 class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet):
-        Preference(context, attrs), CoroutineScope {
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
-    private lateinit var activity: Activity
+        Preference(context, attrs) {
+    private val activity: Activity
     private var currentAlias: String? = null
     private var helpIcon: ImageView? = null
 
@@ -81,7 +76,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         }
     }
 
-    private fun updateSummary(alias: String?) = launch {
+    private fun updateSummary(alias: String?) = GlobalScope.launch(Dispatchers.Main) {
         val cert = withContext(Dispatchers.Default) {
             try {
                 if (alias != null) {

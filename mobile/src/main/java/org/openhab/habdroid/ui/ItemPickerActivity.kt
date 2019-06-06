@@ -18,8 +18,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -33,11 +31,8 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.*
 
 class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
-        ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener, CoroutineScope {
+        ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
     override val forceNonFullscreen = true
-
-    private val job = Job()
-    override val coroutineContext get() = Dispatchers.Main + job
 
     private var requestJob: Job? = null
     private var initialHightlightItemName: String? = null
@@ -97,11 +92,6 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
             isDisabled = true
             updateViewVisibility(loading = false, loadError = false, isDisabled = true)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
     }
 
     public override fun onResume() {

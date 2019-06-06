@@ -18,9 +18,6 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
 import com.mikepenz.aboutlibraries.LibsBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
@@ -40,10 +37,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChangedListener, CoroutineScope {
-    private val job = Job()
-    override val coroutineContext get() = Dispatchers.Main + job
-
+class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChangedListener {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

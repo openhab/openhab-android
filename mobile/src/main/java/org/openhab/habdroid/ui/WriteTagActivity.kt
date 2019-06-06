@@ -47,13 +47,8 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 
 import java.io.IOException
-import kotlin.coroutines.CoroutineContext
 
 class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
-    private lateinit var job: Job
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
     private var nfcAdapter: NfcAdapter? = null
     private var longUri: Uri? = null
     private var shortUri: Uri? = null
@@ -68,7 +63,6 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        job = Job()
         setContentView(R.layout.activity_writetag)
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
@@ -88,11 +82,6 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         longUri = intent.getParcelableExtra(EXTRA_LONG_URI)
         shortUri = intent.getParcelableExtra(EXTRA_SHORT_URI)
         Log.d(TAG, "Got URL $longUri (short URI $shortUri)")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

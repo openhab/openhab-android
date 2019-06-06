@@ -280,7 +280,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             }
         }
         cloudCheck = launch {
-            val result = GlobalScope.async(Dispatchers.Default) {
+            val result = GlobalScope.async(Dispatchers.IO) {
                 remoteConnection?.toCloudConnection()
             }
             handleCloudCheckDone(result.await())
@@ -298,7 +298,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 prefs.getString(passwordKey, null))
     }
 
-    private fun checkAvailableConnectionAsync(local: Connection?, remote: Connection?) = GlobalScope.async(Dispatchers.Default) {
+    private fun checkAvailableConnectionAsync(local: Connection?, remote: Connection?) = GlobalScope.async(Dispatchers.IO) {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = connectivityManager.activeNetworkInfo
 

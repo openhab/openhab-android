@@ -23,14 +23,9 @@ import javax.jmdns.JmDNS
 import javax.jmdns.ServiceEvent
 import javax.jmdns.ServiceInfo
 import javax.jmdns.ServiceListener
-import kotlin.coroutines.CoroutineContext
 
-class AsyncServiceResolver(context: Context, private val serviceType: String) :
-        ServiceListener, CoroutineScope {
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
+class AsyncServiceResolver(context: Context, private val serviceType: String,
+                           private val scope: CoroutineScope) : ServiceListener {
     // Multicast lock for mDNS
     private val multicastLock: MulticastLock
     // mDNS service
@@ -97,7 +92,7 @@ class AsyncServiceResolver(context: Context, private val serviceType: String) :
     override fun serviceRemoved(event: ServiceEvent) {}
 
     override fun serviceResolved(event: ServiceEvent) {
-        launch {
+        scope.launch {
             serviceInfoChannel.offer(event.info)
         }
     }

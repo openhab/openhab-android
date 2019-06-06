@@ -20,13 +20,8 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import kotlin.coroutines.CoroutineContext
 
-class LogActivity : AbstractBaseActivity(), CoroutineScope {
-    private lateinit var job: Job
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
+class LogActivity : AbstractBaseActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
@@ -36,7 +31,6 @@ class LogActivity : AbstractBaseActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        job = Job()
         setContentView(R.layout.activity_log)
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
@@ -58,11 +52,6 @@ class LogActivity : AbstractBaseActivity(), CoroutineScope {
         }
 
         setUiState(isLoading = true, isEmpty = false)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
     }
 
     override fun onResume() {
