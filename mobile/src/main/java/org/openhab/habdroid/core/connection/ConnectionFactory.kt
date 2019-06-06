@@ -271,25 +271,19 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             return
         }
 
-        val (availableInitialized, cloudInitialized) = initStateChannel.value
-        if (!availableInitialized) {
-            availableCheck = launch {
-                try {
-                    val result = checkAvailableConnectionAsync(localConnection, remoteConnection)
-                    handleAvailableCheckDone(result.await(), null)
-                } catch (e: ConnectionException) {
-                    handleAvailableCheckDone(null, e)
-                }
+        availableCheck = launch {
+            try {
+                val result = checkAvailableConnectionAsync(localConnection, remoteConnection)
+                handleAvailableCheckDone(result.await(), null)
+            } catch (e: ConnectionException) {
+                handleAvailableCheckDone(null, e)
             }
         }
-
-        if (!cloudInitialized) {
-            cloudCheck = launch {
-                val result = GlobalScope.async(Dispatchers.Default) {
-                    remoteConnection?.toCloudConnection()
-                }
-                handleCloudCheckDone(result.await())
+        cloudCheck = launch {
+            val result = GlobalScope.async(Dispatchers.Default) {
+                remoteConnection?.toCloudConnection()
             }
+            handleCloudCheckDone(result.await())
         }
     }
 
