@@ -54,6 +54,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_item_picker)
+        setResult(RESULT_CANCELED)
 
         val toolbar = findViewById<Toolbar>(R.id.openhab_toolbar)
         setSupportActionBar(toolbar)
@@ -120,7 +121,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onOptionsItemSelected()")
         if (item.itemId == android.R.id.home) {
-            finish(false, null, null)
+            finish()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -179,7 +180,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
                         val customDialog = AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.item_picker_custom))
                                 .setView(input)
-                                .setPositiveButton(android.R.string.ok) { _, _ -> finish(true, item, input.text.toString()) }
+                                .setPositiveButton(android.R.string.ok) { _, _ -> finish(item, input.text.toString()) }
                                 .setNegativeButton(android.R.string.cancel, null)
                                 .show()
                         input.setOnFocusChangeListener { _, hasFocus ->
@@ -190,27 +191,24 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
                             customDialog.window?.setSoftInputMode(mode)
                         }
                     } else {
-                        finish(true, item, commands[which])
+                        finish(item, commands[which])
                     }
                 }
                 .show()
     }
 
-    private fun finish(success: Boolean, item: Item?, state: String?) {
-        val intent = Intent()
-
-        if (success) {
+    private fun finish(item: Item?, state: String) {
+        val intent = Intent().apply {
             val blurb = getString(R.string.item_picker_blurb, item!!.label, item.name, state)
-            intent.putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb)
+            putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb)
 
-            intent.putExtra(TaskerIntent.EXTRA_BUNDLE, bundleOf(
+            putExtra(TaskerIntent.EXTRA_BUNDLE, bundleOf(
                     EXTRA_ITEM_NAME to item.name,
                     EXTRA_ITEM_STATE to state
             ))
         }
 
-        val resultCode = if (success) RESULT_OK else RESULT_CANCELED
-        setResult(resultCode, intent)
+        setResult(RESULT_OK, intent)
         finish()
     }
 
