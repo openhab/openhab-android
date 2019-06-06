@@ -2,7 +2,6 @@ package org.openhab.habdroid.core.connection
 
 import android.app.Activity
 import android.content.*
-import android.net.ConnectivityManager
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
@@ -32,9 +31,11 @@ import javax.net.ssl.X509KeyManager
  * data from the openHAB server or another supported source
  * (see the constants in [Connection]).
  */
-class ConnectionFactory internal constructor(private val context: Context, private val prefs: SharedPreferences) :
-    CoroutineScope by CoroutineScope(Dispatchers.Main), BroadcastReceiver(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+class ConnectionFactory internal constructor(
+    private val context: Context,
+    private val prefs: SharedPreferences,
+    private val connectionHelper: ConnectionManagerHelper
+) : CoroutineScope by CoroutineScope(Dispatchers.Main), SharedPreferences.OnSharedPreferenceChangeListener {
     private val trustManager: MemorizingTrustManager
     private val httpLogger: HttpLoggingInterceptor
     private var httpClient: OkHttpClient
@@ -48,7 +49,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     private val listeners = HashSet<UpdateListener>()
     private var needsUpdate: Boolean = false
-    private var ignoreNextConnectivityChange: Boolean = false
 
     private var availableCheck: Job? = null
     private var cloudCheck: Job? = null
@@ -77,10 +77,18 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         // too low considering SSE connections count against that limit.
         httpClient.dispatcher().maxRequestsPerHost = httpClient.dispatcher().maxRequests
 
-        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
-        ignoreNextConnectivityChange = context.registerReceiver(null, filter) != null
-        context.registerReceiver(this, filter)
+        connectionHelper.changeCallback = {
+            if (listeners.isEmpty()) {
+                // We're running in background. Clear current state and postpone update for next
+                // listener registration.
+                availableConnection = null
+                connectionFailureReason = null
+                updateInitState(availableDone = false)
+                needsUpdate = true
+            } else {
+                triggerConnectionUpdateIfNeeded()
+            }
+        }
     }
 
     private fun addListenerInternal(l: UpdateListener) {
@@ -120,23 +128,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             Connection.TYPE_REMOTE -> remoteConnection
             Connection.TYPE_CLOUD -> cloudConnection
             else -> throw IllegalArgumentException("Invalid Connection type requested.")
-        }
-    }
-
-    override fun onReceive(context: Context, intent: Intent) {
-        if (ignoreNextConnectivityChange) {
-            ignoreNextConnectivityChange = false
-            return
-        }
-        if (listeners.isEmpty()) {
-            // We're running in background. Clear current state and postpone update for next
-            // listener registration.
-            availableConnection = null
-            connectionFailureReason = null
-            updateInitState(availableDone = false)
-            needsUpdate = true
-        } else {
-            triggerConnectionUpdateIfNeeded()
         }
     }
 
@@ -298,37 +289,36 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val info = connectivityManager.activeNetworkInfo
-
-        if (info == null || !info.isConnected) {
-            Log.e(TAG, "Network is not available")
-            throw NetworkNotAvailableException()
-        }
-
-        when {
-            // If we are on a mobile network go directly to remote URL from settings
-            info.type == ConnectivityManager.TYPE_MOBILE -> {
-                return remote ?: throw NoUrlInformationException(false)
+        val type = connectionHelper.currentConnection
+        return when (type) {
+            ConnectionManagerHelper.ConnectionType.None -> {
+                Log.e(TAG, "Network is not available")
+                throw NetworkNotAvailableException()
             }
-            // Else if we are on Wifi, Ethernet, WIMAX or VPN network
-            info.type in LOCAL_CONNECTION_TYPES -> {
+            // If we are on a mobile network go directly to remote URL from settings
+            ConnectionManagerHelper.ConnectionType.Mobile -> {
+                remote ?: throw NoUrlInformationException(false)
+            }
+            // Else if we are on Wifi, Ethernet or VPN network
+            ConnectionManagerHelper.ConnectionType.Wifi,
+            ConnectionManagerHelper.ConnectionType.Ethernet,
+            ConnectionManagerHelper.ConnectionType.Vpn -> when {
                 // If local URL is configured and reachable
-                if (local != null && local.checkReachabilityInBackground()) {
+                local?.checkReachabilityInBackground() == true -> {
                     Log.d(TAG, "Connecting to local URL")
-                    return local
-                } else if (remote == null) {
-                    throw NoUrlInformationException(true)
-                } else {
+                    local
+                }
+                remote != null -> {
                     // If local URL is not reachable or not configured, use remote URL
                     Log.d(TAG, "Connecting to remote URL")
-                    return remote
+                    remote
                 }
+                else -> throw NoUrlInformationException(true)
             }
             // Else we treat other networks types as unsupported
             else -> {
-                Log.e(TAG, "Network type (${info.typeName}) is unsupported")
-                throw NetworkNotSupportedException(info)
+                Log.e(TAG, "Network type $type is unsupported")
+                throw NetworkNotSupportedException()
             }
         }
     }
@@ -389,10 +379,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
-        private val LOCAL_CONNECTION_TYPES = listOf(
-            ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
-            ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN
-        )
         private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
             Constants.PREFERENCE_DEMOMODE, Constants.PREFERENCE_SSLCLIENTCERT
         )
@@ -406,19 +392,19 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         @VisibleForTesting lateinit var instance: ConnectionFactory
 
         fun initialize(ctx: Context) {
-            instance = ConnectionFactory(ctx, ctx.getPrefs())
+            instance = ConnectionFactory(ctx, ctx.getPrefs(), ConnectionManagerHelper.create(ctx))
             instance.launch {
                 instance.updateConnections()
             }
         }
 
         @VisibleForTesting
-        fun initialize(ctx: Context, settings: SharedPreferences) {
-            instance = ConnectionFactory(ctx, settings)
+        fun initialize(ctx: Context, settings: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
+            instance = ConnectionFactory(ctx, settings, connectionHelper)
         }
 
         fun shutdown() {
-            instance.context.unregisterReceiver(instance)
+            instance.connectionHelper.shutdown()
         }
 
         /**

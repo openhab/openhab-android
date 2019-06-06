@@ -248,7 +248,7 @@
     <string name="settings_debug_messages_title">Show information for troubleshooting</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="unknown">Unknown</string>
-    <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
+    <string name="error_network_type_unsupported">Network type is unsupported</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>

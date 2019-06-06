@@ -430,9 +430,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }
             }
             failureReason is NetworkNotSupportedException -> {
-                val info = failureReason.networkInfo
-                controller.indicateNoNetwork(
-                    getString(R.string.error_network_type_unsupported, info.typeName), false)
+                controller.indicateNoNetwork(getString(R.string.error_network_type_unsupported), false)
             }
             failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
                 controller.indicateNoNetwork(
