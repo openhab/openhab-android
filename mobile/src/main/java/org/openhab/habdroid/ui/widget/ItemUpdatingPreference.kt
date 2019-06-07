@@ -87,7 +87,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         return v
     }
 
-    override fun showDialog(state: Bundle) {
+    override fun showDialog(state: Bundle?) {
         super.showDialog(state)
         if (dialog is AlertDialog) {
             val dialog = dialog as AlertDialog
