@@ -130,18 +130,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private lateinit var shortcutManager: ShortcutManager
 
     /**
-     * Daydreaming gets us into a funk when in fullscreen, this allows us to
-     * reset ourselves to fullscreen.
-     * @author Dan Cunningham
-     */
-    private val dreamReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            Log.i("INTENTFILTER", "Received intent: $intent")
-            checkFullscreen()
-        }
-    }
-
-    /**
      * This method is called when activity receives a new intent while running
      */
     override fun onNewIntent(intent: Intent) {
@@ -212,12 +200,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         processIntent(intent)
-
-        if (isFullscreenEnabled) {
-            val filter = IntentFilter(Intent.ACTION_DREAMING_STARTED)
-            filter.addAction(Intent.ACTION_DREAMING_STOPPED)
-            registerReceiver(dreamReceiver, filter)
-        }
 
         //  Create a new boolean and preference and set it to true
         val isFirstStart = prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true)
