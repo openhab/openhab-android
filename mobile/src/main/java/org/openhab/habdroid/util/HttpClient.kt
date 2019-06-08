@@ -14,10 +14,9 @@ import androidx.annotation.VisibleForTesting
 
 import com.here.oksse.OkSse
 import com.here.oksse.ServerSentEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.*
+import java.io.Closeable
 import java.io.IOException
 import java.lang.Exception
 
@@ -144,44 +143,32 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
     class HttpResult internal constructor(val request: Request, val response: ResponseBody,
                                           val statusCode: Int, val headers: Headers) {
-        fun close() {
+        suspend fun close() = withContext(Dispatchers.IO) {
             response.close()
         }
 
         @Throws(HttpException::class)
-        suspend fun asText(): HttpTextResult {
-            val text = withContext(Dispatchers.IO) {
-                try {
-                    response.string()
-                } catch (e: IOException) {
-                    close()
-                    throw HttpException(request, e)
-                }
-            }
-            val result = HttpTextResult(request, text, headers)
+        suspend fun asText(): HttpTextResult = try {
+            val text = withContext(Dispatchers.IO) { response.string() }
+            HttpTextResult(request, text, headers)
+        } catch (e: IOException) {
+            throw HttpException(request, e)
+        } finally {
             close()
-            return result
         }
 
-        fun asStatus(): HttpStatusResult {
-            val result = HttpStatusResult(request, statusCode)
+        suspend fun asStatus(): HttpStatusResult {
             close()
-            return result
+            return HttpStatusResult(request, statusCode)
         }
 
         @Throws(HttpException::class)
-        suspend fun asBitmap(sizeInPixels: Int, enforceSize: Boolean = false): HttpBitmapResult {
-            val bitmap = withContext(Dispatchers.IO) {
-                try {
-                    response.toBitmap(sizeInPixels, enforceSize)
-                } catch (e: IOException) {
-                    close()
-                    throw HttpException(request, e)
-                }
-            }
-            val result = HttpBitmapResult(request, bitmap)
+        suspend fun asBitmap(sizeInPixels: Int, enforceSize: Boolean = false): HttpBitmapResult  = try {
+            HttpBitmapResult(request, response.toBitmap(sizeInPixels, enforceSize))
+        } catch (e: IOException) {
+            throw HttpException(request, e)
+        } finally {
             close()
-            return result
         }
     }
 
