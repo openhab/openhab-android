@@ -14,7 +14,7 @@ emptyStringPattern = re.compile("^([ ]+)+$")
 exitCode = 0
 
 def getEnglishString(key):
-    return(enRoot.findall(key)[0].text)
+    return enRoot.findall(key)[0].text
 
 def getString(key):
     try:
@@ -23,7 +23,7 @@ def getString(key):
             string = getEnglishString(key)
     except (TypeError, IndexError):
         string = getEnglishString(key)
-    return(string)
+    return string
 
 playDevSiteDescription = "Play Store developer site description:\n"
 
