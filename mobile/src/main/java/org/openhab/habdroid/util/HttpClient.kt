@@ -164,7 +164,8 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
         @Throws(HttpException::class)
         suspend fun asBitmap(sizeInPixels: Int, enforceSize: Boolean = false): HttpBitmapResult  = try {
-            HttpBitmapResult(request, response.toBitmap(sizeInPixels, enforceSize))
+            val bitmap = withContext(Dispatchers.IO) { response.toBitmap(sizeInPixels, enforceSize) }
+            HttpBitmapResult(request, bitmap)
         } catch (e: IOException) {
             throw HttpException(request, e)
         } finally {

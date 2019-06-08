@@ -15,8 +15,6 @@ import android.util.Log
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
@@ -88,8 +86,7 @@ fun Resources.dpToPixel(dp: Float): Float {
 }
 
 @Throws(IOException::class)
-suspend fun ResponseBody.toBitmap(targetSize: Int,
-                                  enforceSize: Boolean = false): Bitmap = withContext(Dispatchers.IO) {
+fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
     val contentType = contentType()
     val isSvg = contentType != null
                 && contentType.type() == "image"
@@ -97,14 +94,14 @@ suspend fun ResponseBody.toBitmap(targetSize: Int,
     if (!isSvg) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
                 ?: throw IOException("Bitmap decoding failed")
-        return@withContext if (!enforceSize) {
+        return if (!enforceSize) {
             bitmap
         } else {
             Bitmap.createScaledBitmap(bitmap, targetSize, targetSize, false)
         }
     }
 
-    return@withContext try {
+    return try {
         val svg = SVG.getFromInputStream(byteStream())
         val displayMetrics = Resources.getSystem().displayMetrics
         svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
