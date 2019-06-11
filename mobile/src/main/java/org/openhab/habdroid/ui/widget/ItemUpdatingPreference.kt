@@ -46,11 +46,11 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         setNegativeButtonText(android.R.string.cancel)
     }
 
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
+    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         value = if (restorePersistedValue) {
             getPersistedString(null).toItemUpdatePrefValue()
         } else {
-            defaultValue as Pair<Boolean, String>
+            defaultValue as Pair<Boolean, String>?
             // XXX: persist if not yet present
         }
         updateSummary()

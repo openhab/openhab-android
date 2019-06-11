@@ -40,7 +40,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
     }
 
     override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
-        val defaultString = defaultValue as String
+        val defaultString = defaultValue as String?
         setValue(if (restorePersistedValue) getPersistedString(defaultString) else defaultString)
     }
 
