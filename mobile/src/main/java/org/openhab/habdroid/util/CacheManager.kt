@@ -56,13 +56,13 @@ class CacheManager private constructor(appContext: Context) {
     }
 
     companion object {
-        private var instance: CacheManager? = null
+        private lateinit var instance: CacheManager
 
         fun getInstance(context: Context): CacheManager {
             if (instance == null) {
                 instance = CacheManager(context.applicationContext)
             }
-            return instance!!
+            return instance
         }
     }
 }

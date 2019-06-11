@@ -210,9 +210,9 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         }
     }
 
-    private fun finish(item: Item?, state: String) {
+    private fun finish(item: Item, state: String) {
         val intent = Intent().apply {
-            val blurb = getString(R.string.item_picker_blurb, item!!.label, item.name, state)
+            val blurb = getString(R.string.item_picker_blurb, item.label, item.name, state)
             putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb)
 
             putExtra(TaskerIntent.EXTRA_BUNDLE, bundleOf(

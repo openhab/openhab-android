@@ -126,18 +126,22 @@ abstract class ContentController protected constructor(private val activity: Mai
             }
         }
         state.putParcelable("controllerSitemap", currentSitemap)
-        if (sitemapFragment?.isAdded == true) {
-            fm.putFragment(state, "sitemapFragment", sitemapFragment!!)
+        sitemapFragment?.let { page ->
+            if (page.isAdded) {
+                fm.putFragment(state, "sitemapFragment", page)
+            }
         }
         if (defaultProgressFragment.isAdded) {
             fm.putFragment(state, "progressFragment", defaultProgressFragment)
         }
         state.putParcelableArrayList("controllerPages", pages)
-        if (temporaryPage != null) {
-            fm.putFragment(state, "temporaryPage", temporaryPage!!)
+        temporaryPage?.let { page ->
+            fm.putFragment(state, "temporaryPage", page)
         }
-        if (noConnectionFragment?.isAdded == true) {
-            fm.putFragment(state, "errorFragment", noConnectionFragment!!)
+        noConnectionFragment?.let { page ->
+            if (page.isAdded) {
+                fm.putFragment(state, "sitemapFragment", page)
+            }
         }
     }
 
@@ -149,10 +153,10 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     open fun onRestoreInstanceState(state: Bundle) {
         currentSitemap = state.getParcelable("controllerSitemap")
-        if (currentSitemap != null) {
+        currentSitemap?.let { sitemap ->
             sitemapFragment = fm.getFragment(state, "sitemapFragment") as WidgetListFragment?
             if (sitemapFragment == null) {
-                sitemapFragment = makeSitemapFragment(currentSitemap!!)
+                sitemapFragment = makeSitemapFragment(sitemap)
             }
         }
         val progressFragment = fm.getFragment(state, "progressFragment")
@@ -160,7 +164,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             defaultProgressFragment = progressFragment
         }
 
-        val oldStack = state.getParcelableArrayList<LinkedPage>("controllerPages")!!
+        val oldStack = state.getParcelableArrayList<LinkedPage>("controllerPages")
         pageStack.clear()
         for (page in oldStack) {
             val f = fm.getFragment(state, "pageFragment-${page.link}") as WidgetListFragment?
@@ -480,9 +484,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     private fun collectWidgetFragments(): List<WidgetListFragment> {
         val result = ArrayList<WidgetListFragment>()
-        if (sitemapFragment != null) {
-            result.add(sitemapFragment!!)
-        }
+        sitemapFragment?.let { result.add(it) }
         for ((_, fragment) in pageStack) {
             result.add(fragment)
         }
@@ -637,9 +639,9 @@ abstract class ContentController protected constructor(private val activity: Mai
             val watermark = view.findViewById<ImageView>(R.id.image)
             @DrawableRes val drawableResId = arguments.getInt(KEY_DRAWABLE)
             if (drawableResId != 0) {
-                val drawable = ContextCompat.getDrawable(activity!!, drawableResId)
+                val drawable = ContextCompat.getDrawable(view.context, drawableResId)
                 drawable?.setColorFilter(
-                        ContextCompat.getColor(activity!!, R.color.empty_list_text_color),
+                        ContextCompat.getColor(view.context, R.color.empty_list_text_color),
                         PorterDuff.Mode.SRC_IN)
                 watermark.setImageDrawable(drawable)
             } else {

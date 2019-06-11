@@ -21,8 +21,9 @@ class MjpegStreamer(private val view: ImageView, connection: Connection, private
     private var job: Job? = null
 
     fun start() {
-        job = Job()
-        doStream(CoroutineScope(Dispatchers.IO + job!!))
+        val job = Job()
+        this.job = job
+        doStream(CoroutineScope(Dispatchers.IO + job))
     }
 
     fun stop() {

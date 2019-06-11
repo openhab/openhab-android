@@ -87,19 +87,15 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
     }
 
     class AboutMainFragment : MaterialAboutFragment() {
-        private var serverProperties: ServerProperties? = null
-        private var connection: Connection? = null
-
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                                  savedInstanceState: Bundle?): View? {
-            serverProperties = arguments?.getParcelable("serverProperties")
-            connection = ConnectionFactory.usableConnectionOrNull
-            return super.onCreateView(inflater, container, savedInstanceState)
-        }
-
         override fun getMaterialAboutList(context: Context): MaterialAboutList {
+            val props: ServerProperties? = arguments?.getParcelable("serverProperties")
+            val connection = ConnectionFactory.usableConnectionOrNull
             val year = SimpleDateFormat("yyyy", Locale.US)
                     .format(Calendar.getInstance().time)
+
+            val makeClickRedirect: (url: String) -> MaterialAboutItemOnClickAction = {
+                MaterialAboutItemOnClickAction { it.toUri().openInBrowser(context) }
+            }
 
             val appCard = MaterialAboutCard.Builder()
             appCard.addItem(MaterialAboutTitleItem.Builder()
@@ -117,23 +113,23 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             appCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_changelog)
                     .icon(R.drawable.ic_track_changes_grey_24dp)
-                    .setOnClickAction(clickRedirect("$URL_TO_GITHUB/releases"))
+                    .setOnClickAction(makeClickRedirect("$URL_TO_GITHUB/releases"))
                     .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_source_code)
                     .icon(R.drawable.ic_github_grey_24dp)
-                    .setOnClickAction(clickRedirect(URL_TO_GITHUB))
+                    .setOnClickAction(makeClickRedirect(URL_TO_GITHUB))
                     .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_issues)
                     .icon(R.drawable.ic_bug_outline_grey_24dp)
-                    .setOnClickAction(clickRedirect("$URL_TO_GITHUB/issues"))
+                    .setOnClickAction(makeClickRedirect("$URL_TO_GITHUB/issues"))
                     .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_license_title)
                     .subText(R.string.about_license)
                     .icon(R.drawable.ic_account_balance_grey_24dp)
-                    .setOnClickAction(clickRedirect("$URL_TO_GITHUB/blob/master/LICENSE"))
+                    .setOnClickAction(makeClickRedirect("$URL_TO_GITHUB/blob/master/LICENSE"))
                     .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.title_activity_libraries)
@@ -157,19 +153,19 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                     .text(R.string.about_privacy_policy)
                     .icon(R.drawable.ic_security_grey_24dp)
                     .setOnClickAction(
-                            clickRedirect("https://www.openhabfoundation.org/privacy.html"))
+                            makeClickRedirect("https://www.openhabfoundation.org/privacy.html"))
                     .build())
 
             val ohServerCard = MaterialAboutCard.Builder()
             ohServerCard.title(R.string.about_server)
-            if (connection == null || serverProperties == null) {
+            if (connection == null || props == null) {
                 ohServerCard.addItem(MaterialAboutActionItem.Builder()
                         .text(R.string.error_about_no_conn)
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build())
             } else {
                 val scope = activity as AboutActivity
-                val httpClient = connection!!.httpClient
+                val httpClient = connection.httpClient
 
                 val apiVersionItem = MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_apiversion_label)
@@ -177,12 +173,12 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build()
                 ohServerCard.addItem(apiVersionItem)
-                val versionUrl = if (useJsonApi()) "rest" else "static/version"
+                val versionUrl = if (props.hasJsonApi()) "rest" else "static/version"
                 scope.launch {
                     try {
                         val response = httpClient.get(versionUrl).asText().response
                         var version = ""
-                        if (!useJsonApi()) {
+                        if (!props.hasJsonApi()) {
                             version = response
                         } else {
                             try {
@@ -206,7 +202,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                     refreshMaterialAboutList()
                 }
 
-                if (!useJsonApi()) {
+                if (!props.hasJsonApi()) {
                     val secretItem = MaterialAboutActionItem.Builder()
                             .text(R.string.info_openhab_secret_label)
                             .subText(R.string.list_loading_message)
@@ -238,22 +234,22 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_docs)
                     .icon(R.drawable.ic_file_document_box_multiple_outline_grey_24dp)
-                    .setOnClickAction(clickRedirect("https://www.openhab.org/docs/"))
+                    .setOnClickAction(makeClickRedirect("https://www.openhab.org/docs/"))
                     .build())
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_community_forum)
                     .icon(R.drawable.ic_forum_outline_grey_24dp)
-                    .setOnClickAction(clickRedirect("https://community.openhab.org/"))
+                    .setOnClickAction(makeClickRedirect("https://community.openhab.org/"))
                     .build())
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_translation)
                     .icon(R.drawable.ic_translate_grey_24dp)
-                    .setOnClickAction(clickRedirect("https://crowdin.com/profile/openhab-bot"))
+                    .setOnClickAction(makeClickRedirect("https://crowdin.com/profile/openhab-bot"))
                     .build())
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.about_foundation)
                     .icon(R.drawable.ic_people_outline_grey_24dp)
-                    .setOnClickAction(clickRedirect("https://www.openhabfoundation.org/"))
+                    .setOnClickAction(makeClickRedirect("https://www.openhabfoundation.org/"))
                     .build())
 
             return MaterialAboutList.Builder()
@@ -265,15 +261,6 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
         override fun getTheme(): Int {
             return Util.getActivityThemeId(activity!!)
-        }
-
-        private fun clickRedirect(url: String): MaterialAboutItemOnClickAction {
-            return MaterialAboutItemOnClickAction { url.toUri().openInBrowser(context!!) }
-        }
-
-        private fun useJsonApi(): Boolean {
-            val props = serverProperties
-            return props != null && props.hasJsonApi()
         }
 
         companion object {

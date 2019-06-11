@@ -56,7 +56,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     .add(R.id.prefs_container, MainSettingsFragment())
                     .commit()
         } else {
-            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT)!!
+            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT)
         }
         setResult(RESULT_OK, resultIntent)
     }
