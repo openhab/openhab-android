@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Build
 import android.os.Message
 import android.util.TypedValue
+import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.appcompat.widget.TooltipCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -74,4 +76,17 @@ fun ImageView.setupHelpIcon(url: String, contentDescription: String) {
 
 fun ImageView.updateHelpIconAlpha(isEnabled: Boolean) {
     alpha = if (isEnabled) 1.0f else 0.5f
+}
+
+fun View.playPressAnimationAndCallBack(postAnimationCallback: () -> Unit) {
+    post {
+        if (background != null) {
+            val centerX = width / 2
+            val centerY = height / 2
+            DrawableCompat.setHotspot(background, centerX.toFloat(), centerY.toFloat())
+        }
+        isPressed = true
+        isPressed = false
+        postAnimationCallback()
+    }
 }

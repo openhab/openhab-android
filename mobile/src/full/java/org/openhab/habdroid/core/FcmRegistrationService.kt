@@ -16,44 +16,42 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
-import androidx.core.app.JobIntentService
+
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
+import androidx.core.app.JobIntentService
 import kotlinx.coroutines.runBlocking
+
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
+
 import java.net.URLEncoder
-import java.util.*
+import java.util.Locale
 
 class FcmRegistrationService : JobIntentService() {
     /**
      * @author https://stackoverflow.com/a/12707479
      */
-    private val deviceName: String
-        get() {
-            val manufacturer = Build.MANUFACTURER
-            val model = Build.MODEL
+    private val deviceName: String get() {
+        val manufacturer = Build.MANUFACTURER
+        val model = Build.MODEL
 
-            fun capitalize(s: String): String {
-                val first = s.elementAtOrNull(0) ?: return ""
-                return if (Character.isUpperCase(first)) {
-                    s
-                } else {
-                    Character.toUpperCase(first) + s.substring(1)
-                }
-            }
+        val actualModel = if (model.toLowerCase().startsWith(manufacturer.toLowerCase()))
+            model else "$manufacturer $model"
 
-            return if (model.toLowerCase().startsWith(manufacturer.toLowerCase())) {
-                capitalize(model)
-            } else {
-                capitalize(manufacturer) + " " + model
-            }
+        // Capitalize returned value
+        val first = actualModel.elementAtOrNull(0)
+        return when {
+            first == null -> ""
+            Character.isUpperCase(first) -> actualModel
+            else -> Character.toUpperCase(first) + actualModel.substring(1)
         }
+    }
 
     override fun onHandleWork(intent: Intent) {
         runBlocking {
@@ -118,8 +116,7 @@ class FcmRegistrationService : JobIntentService() {
             internal fun wrap(context: Context, intent: Intent, id: Int): PendingIntent {
                 val wrapped = Intent(context, ProxyReceiver::class.java)
                         .putExtra("intent", intent)
-                return PendingIntent.getBroadcast(context, id,
-                        wrapped, PendingIntent.FLAG_UPDATE_CURRENT)
+                return PendingIntent.getBroadcast(context, id, wrapped, PendingIntent.FLAG_UPDATE_CURRENT)
             }
         }
     }

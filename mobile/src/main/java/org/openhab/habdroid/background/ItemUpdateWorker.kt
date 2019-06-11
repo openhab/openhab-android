@@ -34,7 +34,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         return runBlocking {
             try {
-                val result = connection.httpClient.post("rest/items/$item", value, "text/plain;charset=UTF-8").asStatus()
+                val result = connection.httpClient
+                        .post("rest/items/$item", value, "text/plain;charset=UTF-8")
+                        .asStatus()
                 Log.d(TAG, "Item '$item' successfully updated to value $value")
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {

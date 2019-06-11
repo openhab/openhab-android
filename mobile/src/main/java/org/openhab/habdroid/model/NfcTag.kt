@@ -23,11 +23,13 @@ fun Uri.toTagData(): NfcTag? {
         getQueryParameter(NfcTag.DEPRECATED_QUERY_PARAMETER_ITEM_NAME)
     else
         getQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME)
-    val label = getQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL)
+
     val state = if (NfcTag.DEPRECATED_QUERY_PARAMETER_STATE in queryParameterNames)
         getQueryParameter(NfcTag.DEPRECATED_QUERY_PARAMETER_STATE)
     else
         getQueryParameter(NfcTag.QUERY_PARAMETER_STATE)
+
+    val label = getQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL)
     val mappedState = getQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE)
     val sitemapPath = path
     val sitemap = if (sitemapPath?.isNotEmpty() == true) sitemapPath else null

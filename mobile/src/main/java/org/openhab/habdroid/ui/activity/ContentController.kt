@@ -67,35 +67,31 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
 
-    override val iconFormat: String
-        get() = activity.getPrefs().getIconFormat()
-    override val isDetailedLoggingEnabled: Boolean
-        get() = activity.getPrefs().isDebugModeEnabled()
-    override val serverProperties: ServerProperties?
-        get() = activity.serverProperties
+    override val iconFormat get() = activity.getPrefs().getIconFormat()
+    override val isDetailedLoggingEnabled get() = activity.getPrefs().isDebugModeEnabled()
+    override val serverProperties get() = activity.serverProperties
 
     /**
      * Get title describing current UI state
      *
      * @return Title to show in action bar, or null if none can be determined
      */
-    val currentTitle: CharSequence?
-        get() = when {
-            noConnectionFragment != null -> null
-            temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications)
-            temporaryPage is WidgetListFragment -> (temporaryPage as WidgetListFragment).title
-            temporaryPage is WebViewFragment -> activity.getString((temporaryPage as WebViewFragment).titleResId)
-            temporaryPage != null -> null
-            else -> fragmentForTitle?.title
-        }
+    val currentTitle get() = when {
+        noConnectionFragment != null -> null
+        temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications)
+        temporaryPage is WidgetListFragment -> (temporaryPage as WidgetListFragment).title
+        temporaryPage is WebViewFragment -> activity.getString((temporaryPage as WebViewFragment).titleResId)
+        temporaryPage != null -> null
+        else -> fragmentForTitle?.title
+    }
+
     protected abstract val fragmentForTitle: WidgetListFragment?
 
-    protected val overridingFragment: Fragment?
-        get() = when {
-            temporaryPage != null -> temporaryPage
-            noConnectionFragment != null -> noConnectionFragment
-            else -> null
-        }
+    protected val overridingFragment get() = when {
+        temporaryPage != null -> temporaryPage
+        noConnectionFragment != null -> noConnectionFragment
+        else -> null
+    }
 
     init {
         var connectionFragment = fm.findFragmentByTag("connections") as PageConnectionHolderFragment?
@@ -220,17 +216,11 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param url URL to follow
      */
     fun openPage(url: String) {
-        var toPop = -1
-        for (i in pageStack.indices) {
-            if (pageStack[i].first.link == url) {
-                // page is already present
-                toPop = pageStack.size - i - 1
-                break
-            }
-        }
-        Log.d(TAG, "Opening page $url (pop count $toPop)")
-        if (toPop >= 0) {
-            while (toPop-- > 0) {
+        val matchingPageIndex = pageStack.indexOfFirst { entry -> entry.first.link == url }
+
+        Log.d(TAG, "Opening page $url (present at $matchingPageIndex)")
+        if (matchingPageIndex >= 0) {
+            for (i in matchingPageIndex + 1 until pageStack.size) {
                 pageStack.pop()
             }
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
@@ -479,7 +469,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     private fun findWidgetFragmentForUrl(url: String): WidgetListFragment? {
-        return collectWidgetFragments().firstOrNull{ f -> f.displayPageUrl == url }
+        return collectWidgetFragments().firstOrNull { f -> f.displayPageUrl == url }
     }
 
     private fun collectWidgetFragments(): List<WidgetListFragment> {

@@ -54,8 +54,7 @@ open class AnchorWebViewClient(url: String, private val userName: String?, priva
 
     override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
         val context = view.context
-        val sslCertificate = error.certificate
-        val cert = getX509Certificate(sslCertificate)
+        val cert = getX509Certificate(error.certificate)
         val mtm = MemorizingTrustManager(context)
         if (cert != null && mtm.isCertKnown(cert)) {
             Log.d(TAG, "Invalid certificate, but the same one as the main connection")
@@ -71,7 +70,7 @@ open class AnchorWebViewClient(url: String, private val userName: String?, priva
                 else -> context.getString(R.string.webview_ssl)
             }
 
-            val html = "<html><body><p>$errorMessage</p><p>$sslCertificate</p></body></html>"
+            val html = "<html><body><p>$errorMessage</p><p>${error.certificate}</p></body></html>"
             val encodedHtml = Base64.encodeToString(html.toByteArray(), Base64.NO_PADDING)
             view.loadData(encodedHtml, "text/html; charset=UTF-8", "base64")
         }
@@ -82,17 +81,11 @@ open class AnchorWebViewClient(url: String, private val userName: String?, priva
      */
     private fun getX509Certificate(sslCertificate: SslCertificate): Certificate? {
         val bundle = SslCertificate.saveState(sslCertificate)
-        val bytes = bundle.getByteArray("x509-certificate")
-        return if (bytes == null) {
+        val bytes = bundle.getByteArray("x509-certificate") ?: return null
+        return try {
+            CertificateFactory.getInstance("X.509").generateCertificate(ByteArrayInputStream(bytes))
+        } catch (e: CertificateException) {
             null
-        } else {
-            try {
-                val certFactory = CertificateFactory.getInstance("X.509")
-                certFactory.generateCertificate(ByteArrayInputStream(bytes))
-            } catch (e: CertificateException) {
-                null
-            }
-
         }
     }
 

@@ -15,7 +15,6 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -86,15 +85,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
         }
 
         if (position == highlightedPosition) {
-            val v = holder.itemView
-            v.post {
-                if (v.background != null) {
-                    val centerX = v.width / 2
-                    val centerY = v.height / 2
-                    DrawableCompat.setHotspot(v.background, centerX.toFloat(), centerY.toFloat())
-                }
-                v.isPressed = true
-                v.isPressed = false
+            holder.itemView.playPressAnimationAndCallBack {
                 highlightedPosition = -1
             }
         }

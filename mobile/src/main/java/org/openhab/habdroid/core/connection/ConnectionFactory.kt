@@ -273,7 +273,9 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
         availableCheck = launch {
             try {
-                val result = checkAvailableConnectionAsync(localConnection, remoteConnection)
+                val result = GlobalScope.async(Dispatchers.IO) {
+                    checkAvailableConnection(localConnection, remoteConnection)
+                }
                 handleAvailableCheckDone(result.await(), null)
             } catch (e: ConnectionException) {
                 handleAvailableCheckDone(null, e)
@@ -298,7 +300,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 prefs.getString(passwordKey, null))
     }
 
-    private fun checkAvailableConnectionAsync(local: Connection?, remote: Connection?) = GlobalScope.async(Dispatchers.IO) {
+    private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = connectivityManager.activeNetworkInfo
 
@@ -310,23 +312,20 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         when {
             // If we are on a mobile network go directly to remote URL from settings
             info.type == ConnectivityManager.TYPE_MOBILE -> {
-                if (remote == null) {
-                    throw NoUrlInformationException(false)
-                }
-                remote
+                return remote ?: throw NoUrlInformationException(false)
             }
             // Else if we are on Wifi, Ethernet, WIMAX or VPN network
             info.type in LOCAL_CONNECTION_TYPES -> {
                 // If local URL is configured and reachable
                 if (local != null && local.checkReachabilityInBackground()) {
                     Log.d(TAG, "Connecting to local URL")
-                    local
+                    return local
                 } else if (remote == null) {
                     throw NoUrlInformationException(true)
                 } else {
                     // If local URL is not reachable or not configured, use remote URL
                     Log.d(TAG, "Connecting to remote URL")
-                    remote
+                    return remote
                 }
             }
             // Else we treat other networks types as unsupported

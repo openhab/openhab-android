@@ -44,7 +44,6 @@ class VoiceService : IntentService("VoiceService") {
                 Util.showToast(this@VoiceService, getString(R.string.error_couldnt_determine_openhab_url))
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Sending voice command failed", e)
-
             }
         }
     }

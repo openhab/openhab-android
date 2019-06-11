@@ -102,11 +102,6 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener,
         loadNotifications(true)
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        Log.d(TAG, "onDetach()")
-    }
-
     override fun onClick(view: View) {
         if (view === retryButton) {
             loadNotifications(true)

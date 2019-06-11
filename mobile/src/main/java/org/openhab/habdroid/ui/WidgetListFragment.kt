@@ -61,11 +61,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         SuggestedCommandsFactory(context!!, false)
     }
 
-    val displayPageUrl: String
-        get() = arguments?.getString("displayPageUrl").orEmpty()
-
-    val title: String?
-        get() = titleOverride ?: arguments?.getString("title")
+    val displayPageUrl get() = arguments?.getString("displayPageUrl").orEmpty()
+    val title get() = titleOverride ?: arguments?.getString("title")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,10 +178,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         this.highlightedPageLink = highlightedPageLink
         val adapter = adapter ?: return
 
-        val position = if (highlightedPageLink != null) {
-            adapter.itemList.indexOfFirst { w -> w.linkedPage != null && w.linkedPage.link == highlightedPageLink }
-        } else {
-            -1
+        val position = adapter.itemList.indexOfFirst { w ->
+            w.linkedPage != null && w.linkedPage.link == highlightedPageLink
         }
         if (adapter.setSelectedPosition(position) && position >= 0) {
             layoutManager.scrollToPosition(position)

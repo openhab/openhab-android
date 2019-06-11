@@ -96,12 +96,10 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     }
 
     fun updateWidget(widget: Widget) {
-        for (i in items.indices) {
-            if (items[i].id == widget.id) {
-                items[i] = widget
-                notifyItemChanged(i)
-                break
-            }
+        val pos = items.indexOfFirst { w -> w.id == widget.id }
+        if (pos >= 0) {
+            items[pos] = widget
+            notifyItemChanged(pos)
         }
     }
 

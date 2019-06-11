@@ -41,9 +41,11 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
                     val number = if (spacePos >= 0) state.substring(0, spacePos) else state
                     val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
                     return try {
-                        if (number.indexOf('.') > 0)
+                        if (number.indexOf('.') > 0) {
                             NumberState(number.toFloat(), unit, format)
-                        else NumberState(number.toInt(), unit, format)
+                        } else {
+                            NumberState(number.toInt(), unit, format)
+                        }
                     } catch (e: NumberFormatException) {
                         null
                     }
@@ -55,7 +57,9 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
             val stateSplit = state.split(",")
             if (stateSplit.size == 3) { // We need exactly 3 numbers to operate this
                 try {
-                    return floatArrayOf(stateSplit[0].toFloat(), stateSplit[1].toFloat() / 100, stateSplit[2].toFloat() / 100)
+                    return floatArrayOf(stateSplit[0].toFloat(),
+                            stateSplit[1].toFloat() / 100,
+                            stateSplit[2].toFloat() / 100)
                 } catch (e: NumberFormatException) {
                     // fall through
                 }

@@ -59,19 +59,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         // - enqueued (not yet running or retrying)
         // - running
         // - failed
-        var hasEnqueuedWork = false
-        var hasRunningWork = false
-        val failedInfos = ArrayList<Pair<String, WorkInfo>>()
-
-        for ((tag, info) in latestInfoByTag) {
-            when (info.state) {
-                WorkInfo.State.ENQUEUED -> hasEnqueuedWork = true
-                WorkInfo.State.RUNNING -> hasRunningWork = true
-                WorkInfo.State.FAILED -> failedInfos.add(Pair(tag, info))
-                else -> {}
-            }
-        }
-
+        var hasEnqueuedWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.ENQUEUED }
+        var hasRunningWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.FAILED }
+        val failedInfos = latestInfoByTag.filter { (_, info) -> info.state == WorkInfo.State.FAILED }
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (failedInfos.isNotEmpty()) {
@@ -137,8 +127,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     context.getString(R.string.notification_channel_background_error),
                     NotificationManager.IMPORTANCE_DEFAULT).apply {
                 description = context.getString(R.string.notification_channel_background_error_description)
-                enableVibration(true)
                 lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
+                enableVibration(true)
                 enableLights(true)
             }
             nm.createNotificationChannel(errorChannel)

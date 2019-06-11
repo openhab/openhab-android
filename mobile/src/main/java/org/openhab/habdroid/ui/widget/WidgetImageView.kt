@@ -12,8 +12,6 @@ package org.openhab.habdroid.ui.widget
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.os.Handler
-import android.os.Message
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.util.Log
@@ -24,10 +22,9 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.CacheManager
-import java.lang.ref.WeakReference
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
-
+    private var scope: CoroutineScope? = null
     private val defaultSvgSize: Int
     private val fallback: Drawable?
     private val progressDrawable: Drawable?
@@ -40,17 +37,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     private var refreshInterval: Long = 0
     private var lastRefreshTimestamp: Long = 0
-    private val refreshHandler: Handler
-
-    // Handler classes should be static or leaks might occur.
-    private class RefreshHandler internal constructor(view: WidgetImageView) : Handler() {
-        private val viewRef: WeakReference<WidgetImageView> = WeakReference(view)
-
-        override fun handleMessage(msg: Message) {
-            val imageView = viewRef.get()
-            imageView?.doRefresh()
-        }
-    }
+    private var refreshJob: Job? = null
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.WidgetImageView).apply {
@@ -61,7 +48,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         }
 
         defaultSvgSize = context.resources.getDimensionPixelSize(R.dimen.svg_image_default_size)
-        refreshHandler = RefreshHandler(this)
     }
 
     fun setImageUrl(connection: Connection, url: String, size: Int?,
@@ -136,6 +122,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        scope = CoroutineScope(Dispatchers.Main + Job())
         val request = lastRequest
         if (request != null) {
             if (!request.hasCompleted()) {
@@ -148,17 +135,21 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        cancelCurrentLoad()
+        scope?.cancel()
+        scope = null
+        cancelCurrentLoad() // XXX
     }
 
     fun setRefreshRate(msec: Int) {
         cancelRefresh()
         refreshInterval = msec.toLong()
-        refreshHandler.sendEmptyMessageDelayed(0, refreshInterval)
+        lastRefreshTimestamp = SystemClock.uptimeMillis()
+        scheduleNextRefresh()
     }
 
     fun cancelRefresh() {
-        refreshHandler.removeMessages(0)
+        refreshJob?.cancel()
+        refreshJob = null
         refreshInterval = 0
     }
 
@@ -171,19 +162,21 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         internalLoad = false
     }
 
-    private fun doRefresh() {
-        lastRefreshTimestamp = SystemClock.uptimeMillis()
-        lastRequest?.execute(true)
-    }
-
     private fun scheduleNextRefresh() {
-        if (refreshInterval != 0L) {
-            refreshHandler.sendEmptyMessageAtTime(0, lastRefreshTimestamp + refreshInterval)
+        if (refreshInterval == 0L) {
+            return
+        }
+        val timeToNextRefresh = refreshInterval + lastRefreshTimestamp - SystemClock.uptimeMillis()
+        refreshJob = scope?.launch {
+            delay(timeToNextRefresh)
+            lastRefreshTimestamp = SystemClock.uptimeMillis()
+            lastRequest?.execute(true)
         }
     }
 
     private fun cancelCurrentLoad() {
-        refreshHandler.removeMessages(0)
+        refreshJob?.cancel()
+        refreshJob = null
         lastRequest?.cancel()
     }
 
@@ -220,8 +213,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             else
                 HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE
 
-            // FIXME: need separate scope?
-            job = GlobalScope.launch(Dispatchers.Main) {
+            job = scope?.launch(Dispatchers.Main) {
                 try {
                     val bitmap = client.get(url.toString(),
                             timeoutMillis = timeoutMillis, caching = cachingMode)

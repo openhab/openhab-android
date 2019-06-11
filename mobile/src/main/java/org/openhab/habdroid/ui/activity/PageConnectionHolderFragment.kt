@@ -299,7 +299,8 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
             if (hasUpdate) {
                 // Remove frame widgets with no label text
-                val widgetList = dataSource.widgets.filterNot { w -> w.type == Widget.Type.Frame && w.label.isEmpty() }
+                val widgetList = dataSource.widgets
+                        .filterNot { w -> w.type == Widget.Type.Frame && w.label.isEmpty() }
                 Log.d(TAG, "Updated page data for URL $url (${widgetList.size} widgets)")
                 if (callback.isDetailedLoggingEnabled) {
                     widgetList.forEachIndexed { index, widget ->

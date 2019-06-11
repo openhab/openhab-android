@@ -31,15 +31,14 @@ class WidgetDataSource(private val iconFormat: String) {
     var link: String? = null
         private set
 
-    val widgets: List<Widget>
-        get() {
-            val firstLevelWidgetIds = allWidgets
-                    .filter { w -> w.parentId == null }
-                    .map { w -> w.id }
-                    .toSet()
-            return allWidgets
-                    .filter { w -> w.parentId == null || w.parentId in firstLevelWidgetIds }
-        }
+    val widgets: List<Widget> get() {
+        val firstLevelWidgetIds = allWidgets
+                .filter { w -> w.parentId == null }
+                .map { w -> w.id }
+                .toSet()
+        return allWidgets
+                .filter { w -> w.parentId == null || w.parentId in firstLevelWidgetIds }
+    }
 
     fun setSourceNode(rootNode: Node?) {
         if (rootNode == null) {

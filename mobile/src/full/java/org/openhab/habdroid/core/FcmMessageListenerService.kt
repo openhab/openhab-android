@@ -27,6 +27,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
@@ -53,10 +54,8 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 // Older versions of openhab-cloud didn't send the notification generation
                 // timestamp, so use the (undocumented) google.sent_time as a time reference
                 // in that case. If that also isn't present, don't show time at all.
-                val timestamp = if (data.containsKey("timestamp"))
-                    (data["timestamp"]?.toLong() ?: 0) else message.sentTime
-                val channelId = if (severity.isNullOrEmpty())
-                    CHANNEL_ID_DEFAULT else String.format(Locale.US, CHANNEL_ID_FORMAT_SEVERITY, severity)
+                val timestamp = data["timestamp"]?.toLong() ?: message.sentTime
+                val channelId = if (severity.isNullOrEmpty()) CHANNEL_ID_DEFAULT else "severity-$severity"
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val name = if (severity.isNullOrEmpty())
@@ -111,16 +110,20 @@ class FcmMessageListenerService : FirebaseMessagingService() {
     }
 
     private suspend fun makeNotification(msg: String?, channelId: String, icon: String?,
-                                 timestamp: Long, persistedId: String?, notificationId: Int): Notification {
+                                         timestamp: Long, persistedId: String?, notificationId: Int): Notification {
         var iconBitmap: Bitmap? = null
 
         if (icon != null) {
             val connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
             if (connection != null) {
-                iconBitmap = connection.httpClient
-                        .get("images/$icon.png", timeoutMillis = 1000)
-                        .asBitmap(0, false)
-                        .response
+                try {
+                    iconBitmap = connection.httpClient
+                            .get("images/$icon.png", timeoutMillis = 1000)
+                            .asBitmap(0, false)
+                            .response
+                } catch (e: HttpClient.HttpException) {
+                    // ignored, keep bitmap null
+                }
             }
         }
 
@@ -191,7 +194,6 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         internal const val EXTRA_NOTIFICATION_ID = "notificationId"
 
         private const val CHANNEL_ID_DEFAULT = "default"
-        private const val CHANNEL_ID_FORMAT_SEVERITY = "severity-%s"
         private const val SUMMARY_NOTIFICATION_ID = 0
 
         // Notification grouping is only available on N or higher, as mentioned in

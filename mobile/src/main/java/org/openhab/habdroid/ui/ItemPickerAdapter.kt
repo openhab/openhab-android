@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 
 import org.openhab.habdroid.R
@@ -75,15 +74,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
         holder.itemView.setOnClickListener(if (itemClickListener != null) this else null)
 
         if (position == highlightedPosition) {
-            val v = holder.itemView
-            v.post {
-                if (v.background != null) {
-                    val centerX = v.width / 2
-                    val centerY = v.height / 2
-                    DrawableCompat.setHotspot(v.background, centerX.toFloat(), centerY.toFloat())
-                }
-                v.isPressed = true
-                v.isPressed = false
+            holder.itemView.playPressAnimationAndCallBack {
                 highlightedPosition = -1
             }
         }

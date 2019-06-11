@@ -35,8 +35,7 @@ object CloudMessagingHelper {
             }
         }
 
-    val isSupported: Boolean
-        get() = true
+    val isSupported get() = true
 
     fun onConnectionUpdated(context: Context, connection: CloudConnection?) {
         registrationDone = false
