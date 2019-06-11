@@ -106,17 +106,15 @@ class DefaultConnectionTest {
         assertEquals("http://mylocalmachine.local/rest/test", requestUrl.toString())
     }
 
-    private fun getRequestUrlForUrl(url: String): HttpUrl {
-        try {
-            return runBlocking {
-                val result = testConnection.httpClient.get(url)
-                result.close()
-                assertFalse("The request should never succeed in tests", true)
-                result.request.url()
-            }
-        } catch (e: HttpClient.HttpException) {
-            return e.request.url()
+    private fun getRequestUrlForUrl(url: String): HttpUrl = try {
+        runBlocking {
+            val result = testConnection.httpClient.get(url)
+            result.close()
+            assertFalse("The request should never succeed in tests", true)
+            result.request.url()
         }
+    } catch (e: HttpClient.HttpException) {
+        e.request.url()
     }
 
     companion object {

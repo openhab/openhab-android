@@ -3,14 +3,10 @@ package org.openhab.habdroid.ui
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.transaction
-
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
@@ -24,18 +20,15 @@ import org.json.JSONObject
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.obfuscate
 import org.openhab.habdroid.util.openInBrowser
-
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChangedListener {
     override fun onCreate(savedInstanceState: Bundle?) {

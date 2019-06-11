@@ -22,11 +22,7 @@ import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.LayoutRes
@@ -41,9 +37,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.larswerkman.holocolorpicker.ColorPicker
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.Headers
-import okhttp3.Request
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
@@ -55,11 +48,7 @@ import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.SegmentedControlButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.*
-
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.Locale
-import java.util.Random
+import java.util.*
 
 /**
  * This class provides openHAB widgets adapter for list view.

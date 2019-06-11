@@ -16,23 +16,19 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
-
+import androidx.core.app.JobIntentService
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
-import androidx.core.app.JobIntentService
 import kotlinx.coroutines.runBlocking
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
-
-import java.io.IOException
 import java.net.URLEncoder
-import java.util.Locale
+import java.util.*
 
 class FcmRegistrationService : JobIntentService() {
     /**

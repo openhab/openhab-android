@@ -16,10 +16,8 @@ import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.AnchorWebViewClient
 import org.openhab.habdroid.ui.setUpForConnection

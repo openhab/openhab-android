@@ -5,10 +5,7 @@ import android.util.Log
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import okhttp3.Call
-import okhttp3.Headers
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException

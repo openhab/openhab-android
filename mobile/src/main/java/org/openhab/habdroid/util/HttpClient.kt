@@ -11,15 +11,13 @@ package org.openhab.habdroid.util
 
 import android.graphics.Bitmap
 import androidx.annotation.VisibleForTesting
-
 import com.here.oksse.OkSse
 import com.here.oksse.ServerSentEvent
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import okhttp3.*
-import java.io.Closeable
 import java.io.IOException
-import java.lang.Exception
-
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
