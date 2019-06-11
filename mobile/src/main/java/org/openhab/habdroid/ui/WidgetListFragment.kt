@@ -129,21 +129,21 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         startOrStopVisibleViewHolders(false)
     }
 
-    override fun onItemClicked(item: Widget): Boolean {
-        if (item.linkedPage != null) {
+    override fun onItemClicked(widget: Widget): Boolean {
+        if (widget.linkedPage != null) {
             val activity = activity as MainActivity?
-            activity?.onWidgetSelected(item.linkedPage, this@WidgetListFragment)
+            activity?.onWidgetSelected(widget.linkedPage, this@WidgetListFragment)
             return true
         }
         return false
     }
 
-    override fun onItemLongClicked(item: Widget): Boolean {
+    override fun onItemLongClicked(widget: Widget): Boolean {
         val context = context ?: return false
-        val suggestedCommands = suggestedCommandsFactory.fill(item)
+        val suggestedCommands = suggestedCommandsFactory.fill(widget)
         val labels = suggestedCommands.labels
         val commands = suggestedCommands.commands
-        if (item.linkedPage != null) {
+        if (widget.linkedPage != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page))
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
                 labels.add(getString(R.string.home_shortcut_pin_to_home))
@@ -157,11 +157,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         AlertDialog.Builder(context)
                 .setTitle(R.string.nfc_dialog_title)
                 .setItems(labels.toTypedArray()) { _, which ->
-                    if (which == commands.size + 1 && item.linkedPage != null) {
-                        createShortcut(context, item.linkedPage)
+                    if (which == commands.size + 1 && widget.linkedPage != null) {
+                        createShortcut(context, widget.linkedPage)
                     } else {
-                        val itemToHandle = if (which < commands.size) item.item else null
-                        val linkToHandle = if (which == commands.size) item.linkedPage?.link else null
+                        val itemToHandle = if (which < commands.size) widget.item else null
+                        val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
                         if (itemToHandle != null) {
                             startActivity(WriteTagActivity.createItemUpdateIntent(context,
                                     itemToHandle.name, commands[which],

@@ -77,8 +77,8 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
-        fun onItemClicked(item: Widget): Boolean  // returns whether click was handled
-        fun onItemLongClicked(item: Widget): Boolean
+        fun onItemClicked(widget: Widget): Boolean  // returns whether click was handled
+        fun onItemLongClicked(widget: Widget): Boolean
     }
 
     init {
