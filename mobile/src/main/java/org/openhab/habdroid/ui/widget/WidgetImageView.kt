@@ -137,7 +137,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         super.onDetachedFromWindow()
         scope?.cancel()
         scope = null
-        cancelCurrentLoad() // XXX
     }
 
     fun setRefreshRate(msec: Int) {
