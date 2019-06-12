@@ -83,7 +83,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/send_device_info_to_server"
         android:key="sendDeviceInfoCat">
-        <EditTextPreference
+        <org.openhab.habdroid.ui.widget.CustomInputTypePreference
             android:defaultValue="@string/empty_string"
             android:inputType="textNoSuggestions"
             android:key="sendDeviceInfoPrefix"
@@ -107,11 +107,9 @@
             android:title="@string/settings_tasker_plugin"
             android:summary="@string/settings_tasker_plugin_summary"
             android:icon="@drawable/ic_none" />
-        <RingtonePreference
+        <Preference
             android:key="default_openhab_alertringtone"
-            android:persistent="true"
-            android:ringtoneType="ringtone|notification"
-            android:showSilent="true"
+            android:persistent="false"
             android:title="@string/settings_ringtone"
             android:icon="@drawable/ic_bell_ring_outline_grey_24dp" />
         <ListPreference

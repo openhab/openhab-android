@@ -12,11 +12,9 @@ package org.openhab.habdroid.ui
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.Preference
-import android.preference.PreferenceFragment
-import android.preference.PreferenceGroup
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
@@ -28,8 +26,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.transaction
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceGroup
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.ui.widget.CustomInputTypePreference
+import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
+import org.openhab.habdroid.ui.widget.UrlInputPreference
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.*
 import java.util.*
@@ -50,12 +56,11 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         if (savedInstanceState == null) {
             resultIntent = Intent()
-            fragmentManager
-                .beginTransaction()
-                .add(R.id.prefs_container, MainSettingsFragment())
-                .commit()
+            supportFragmentManager.transaction {
+                add(R.id.prefs_container, MainSettingsFragment())
+            }
         } else {
-            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT)
+            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT) ?: Intent()
         }
         setResult(RESULT_OK, resultIntent)
     }
@@ -70,12 +75,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             return true
         }
         return when (item.itemId) {
-            android.R.id.home -> {
-                val fm = fragmentManager
-                if (fm.backStackEntryCount > 0) {
-                    fm.popBackStack()
+            android.R.id.home -> with(supportFragmentManager) {
+                if (backStackEntryCount > 0) {
+                    popBackStack()
                 } else {
-                    NavUtils.navigateUpFromSameTask(this)
+                    NavUtils.navigateUpFromSameTask(this@PreferencesActivity)
                 }
                 true
             }
@@ -89,32 +93,24 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     fun openSubScreen(subScreenFragment: AbstractSettingsFragment) {
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.prefs_container, subScreenFragment)
-            .addToBackStack(null)
-            .commit()
+        supportFragmentManager.transaction {
+            replace(R.id.prefs_container, subScreenFragment)
+            addToBackStack(null)
+        }
     }
 
     @VisibleForTesting
-    abstract class AbstractSettingsFragment : PreferenceFragment() {
+    abstract class AbstractSettingsFragment : PreferenceFragmentCompat() {
         @get:StringRes
         protected abstract val titleResId: Int
 
         protected val parentActivity get() = activity as PreferencesActivity
         protected val prefs get() = preferenceScreen.sharedPreferences
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            updateAndInitPreferences()
-        }
-
         override fun onStart() {
             super.onStart()
             parentActivity.supportActionBar?.setTitle(titleResId)
         }
-
-        protected abstract fun updateAndInitPreferences()
 
         protected fun isConnectionHttps(url: String?): Boolean {
             return url != null && url.startsWith("https://")
@@ -133,6 +129,22 @@ class PreferencesActivity : AbstractBaseActivity() {
                 return false
             }
             return hasConnectionBasicAuthentication(user, password) || hasClientCertificate()
+        }
+
+        override fun onDisplayPreferenceDialog(preference: Preference?) {
+            if (preference == null) {
+                return
+            }
+            val showDialog: (DialogFragment) -> Unit = { fragment ->
+                fragment.setTargetFragment(this, 0)
+                fragment.show(fragmentManager, "SettingsFragment.DIALOG:${preference.key}")
+            }
+            when (preference) {
+                is UrlInputPreference -> showDialog(preference.createDialog())
+                is ItemUpdatingPreference -> showDialog(preference.createDialog())
+                is CustomInputTypePreference -> showDialog(preference.createDialog())
+                else -> super.onDisplayPreferenceDialog(preference)
+            }
         }
 
         companion object {
@@ -175,7 +187,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 Constants.PREFERENCE_REMOTE_PASSWORD)
         }
 
-        override fun updateAndInitPreferences() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences)
 
             val localConnPref = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION)
@@ -208,8 +220,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
                 Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
                 Constants.PREFERENCE_REMOTE_PASSWORD)
-            updateRingtonePreferenceSummary(ringtonePref,
-                prefs.getString(Constants.PREFERENCE_TONE))
+            updateRingtonePreferenceSummary(ringtonePref, prefs.getNotificationTone())
             updateVibrationPreferenceIcon(vibrationPref,
                 prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION))
 
@@ -228,14 +239,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            clearCachePref.setOnPreferenceClickListener {
+            clearCachePref.setOnPreferenceClickListener { pref ->
                 // Get launch intent for application
-                val restartIntent = activity.packageManager
-                    .getLaunchIntentForPackage(activity.baseContext.packageName)
+                val restartIntent = pref.context.packageManager.getLaunchIntentForPackage(pref.context.packageName)
                 restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 // Finish current activity
-                activity.finish()
-                CacheManager.getInstance(activity).clearCache()
+                activity?.finish()
+                CacheManager.getInstance(pref.context).clearCache()
                 // Start launch activity
                 startActivity(restartIntent)
                 // Start launch activity
@@ -253,8 +263,17 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreferenceFromHierarchy(taskerPref)
             }
 
-            ringtonePref.setOnPreferenceChangeListener { pref, newValue ->
-                updateRingtonePreferenceSummary(pref, newValue as String?)
+            ringtonePref.setOnPreferenceClickListener { pref ->
+                val currentTone = prefs.getNotificationTone()
+                val chooserIntent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, Settings.System.DEFAULT_NOTIFICATION_URI)
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, pref.title)
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, currentTone)
+                }
+                startActivityForResult(chooserIntent, REQUEST_CODE_RINGTONE)
                 true
             }
 
@@ -263,10 +282,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            ringtoneVibrationPref.setOnPreferenceClickListener {
+            ringtoneVibrationPref.setOnPreferenceClickListener { pref ->
                 val i = Intent(Settings.ACTION_SETTINGS).apply {
                     action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                    putExtra(Settings.EXTRA_APP_PACKAGE, activity.packageName)
+                    putExtra(Settings.EXTRA_APP_PACKAGE, pref.context.packageName)
                 }
                 startActivity(i)
                 true
@@ -321,7 +340,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            val flags = activity.intent.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
+            val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
                 ?: preferenceScreen.sharedPreferences.getInt(Constants.PREV_SERVER_FLAGS, 0)
 
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0) {
@@ -334,21 +353,32 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            if (requestCode == REQUEST_CODE_RINGTONE && data != null) {
+                val ringtoneUri = data.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+                val ringtonePref = findPreference(Constants.PREFERENCE_TONE)
+                updateRingtonePreferenceSummary(ringtonePref, ringtoneUri)
+                prefs.edit {
+                    putString(Constants.PREFERENCE_TONE, if (ringtoneUri != null) ringtoneUri.toString() else "")
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+
         private fun onNoDefaultSitemap(pref: Preference) {
             pref.isEnabled = false
             pref.setSummary(R.string.settings_no_default_sitemap)
         }
 
-        private fun updateRingtonePreferenceSummary(pref: Preference, newValue: String?) {
-            if (newValue.isNullOrEmpty()) {
+        private fun updateRingtonePreferenceSummary(pref: Preference, newValue: Uri?) {
+            if (newValue == null) {
                 pref.setIcon(R.drawable.ic_bell_off_outline_grey_24dp)
                 pref.setSummary(R.string.settings_ringtone_none)
             } else {
                 pref.setIcon(R.drawable.ic_bell_ring_outline_grey_24dp)
-                val ringtone = RingtoneManager.getRingtone(activity, newValue.toUri())
-                if (ringtone != null) {
-                    pref.summary = ringtone.getTitle(activity)
-                }
+                val ringtone = RingtoneManager.getRingtone(activity, newValue)
+                pref.summary = ringtone?.getTitle(activity)
             }
         }
 
@@ -390,7 +420,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun isAutomationAppInstalled(): Boolean {
-            val pm = activity.packageManager
+            val pm = activity?.packageManager ?: return false
             return listOf("net.dinglisch.android.taskerm", "com.twofortyfouram.locale").any { pkg ->
                 try {
                     pm.getApplicationInfo(pkg, 0).enabled
@@ -401,6 +431,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         companion object {
+            private const val REQUEST_CODE_RINGTONE = 1000
+
             @VisibleForTesting fun beautifyUrl(url: String?): String {
                 val host = url?.toUri()?.host.orEmpty()
                 return if (host.contains("myopenhab.org")) "myopenHAB" else url.orEmpty()
@@ -444,7 +476,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             summaryGenerator: (value: String?) -> CharSequence
         ): Preference {
             val preference = preferenceScreen.findPreference(key)
-            preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(activity, iconResId)!!)
+            preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(preference.context, iconResId)!!)
             preference.setOnPreferenceChangeListener { pref, newValue ->
                 updateIconColors(getActualValue(pref, newValue, urlPreference),
                     getActualValue(pref, newValue, userNamePreference),
@@ -492,7 +524,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     internal class LocalConnectionSettingsFragment : ConnectionSettingsFragment() {
         override val titleResId: Int @StringRes get() = R.string.settings_openhab_connection
 
-        override fun updateAndInitPreferences() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.local_connection_preferences)
             initPreferences(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
                 Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary)
@@ -502,7 +534,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     internal class RemoteConnectionSettingsFragment : ConnectionSettingsFragment() {
         override val titleResId: Int @StringRes get() = R.string.settings_openhab_alt_connection
 
-        override fun updateAndInitPreferences() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.remote_connection_preferences)
             initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
                 Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary)

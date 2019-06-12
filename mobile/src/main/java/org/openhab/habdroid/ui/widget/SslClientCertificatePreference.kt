@@ -3,44 +3,39 @@ package org.openhab.habdroid.ui.widget
 import android.app.Activity
 import android.content.Context
 import android.os.Build
-import android.preference.Preference
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.security.keystore.KeyProperties
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
+import android.view.ContextThemeWrapper
 import android.widget.ImageView
+import androidx.preference.Preference
+import androidx.preference.PreferenceViewHolder
 import kotlinx.coroutines.*
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 
 class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
-    private val activity: Activity
     private var currentAlias: String? = null
     private var helpIcon: ImageView? = null
 
     init {
-        assert(context is Activity)
-        activity = context as Activity
         widgetLayoutResource = R.layout.help_icon_pref
     }
 
-    override fun onCreateView(parent: ViewGroup): View {
-        val view = super.onCreateView(parent)
-
-        helpIcon = view.findViewById(R.id.help_icon)
-        helpIcon?.setupHelpIcon(context.getString(R.string.settings_openhab_sslclientcert_howto_url),
-            context.getString(R.string.settings_openhab_sslclientcert_howto_summary))
-        helpIcon?.updateHelpIconAlpha(isEnabled)
-
-        return view
+    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+        super.onBindViewHolder(holder)
+        if (holder != null) {
+            helpIcon = holder.itemView.findViewById(R.id.help_icon)
+            helpIcon?.setupHelpIcon(context.getString(R.string.settings_openhab_sslclientcert_howto_url),
+                    context.getString(R.string.settings_openhab_sslclientcert_howto_summary))
+            helpIcon?.updateHelpIconAlpha(isEnabled)
+        }
     }
 
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
-        val defaultString = defaultValue as String?
-        setValue(if (restorePersistedValue) getPersistedString(defaultString) else defaultString)
+    override fun onSetInitialValue(defaultValue: Any?) {
+        setValue(getPersistedString(defaultValue as String?))
     }
 
     override fun onClick() {
@@ -48,7 +43,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
             arrayOf(KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC)
         else
             arrayOf("RSA", "DSA")
-        KeyChain.choosePrivateKeyAlias(activity, { handleAliasChosen(it) },
+        KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) },
             keyTypes, null, null, -1, null)
     }
 
@@ -57,6 +52,17 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 
+    private fun getActivity(): Activity {
+        var c = context
+        loop@ while (c != null) {
+            when (c) {
+                is Activity -> return c
+                is ContextThemeWrapper -> c = c.baseContext
+                else -> break@loop
+            }
+        }
+        throw IllegalStateException("Unknown context $c")
+    }
     private fun handleAliasChosen(alias: String?) {
         if (callChangeListener(alias)) {
             setValue(alias)
