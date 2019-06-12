@@ -225,7 +225,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                     removeProgressDrawable()
                     applyFallbackDrawable()
                 }
-                job = null
             }
         }
 
@@ -234,7 +233,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         }
 
         fun hasCompleted(): Boolean {
-            return job == null
+            return job?.isCompleted == true
         }
 
         fun isActiveForUrl(url: HttpUrl): Boolean {
