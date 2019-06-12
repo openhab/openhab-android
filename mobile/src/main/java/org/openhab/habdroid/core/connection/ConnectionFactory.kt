@@ -25,7 +25,6 @@ import javax.net.ssl.KeyManager
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509KeyManager
-import kotlin.coroutines.CoroutineContext
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -34,9 +33,8 @@ import kotlin.coroutines.CoroutineContext
  * (see the constants in [Connection]).
  */
 class ConnectionFactory internal constructor(private val context: Context, private val prefs: SharedPreferences) :
-        CoroutineScope, BroadcastReceiver(), SharedPreferences.OnSharedPreferenceChangeListener {
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main
+        CoroutineScope by CoroutineScope(Dispatchers.Main), BroadcastReceiver(),
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private val trustManager: MemorizingTrustManager
     private val httpLogger: HttpLoggingInterceptor
     private var httpClient: OkHttpClient
@@ -273,19 +271,19 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
         availableCheck = launch {
             try {
-                val result = GlobalScope.async(Dispatchers.IO) {
+                val result = withContext(Dispatchers.IO) {
                     checkAvailableConnection(localConnection, remoteConnection)
                 }
-                handleAvailableCheckDone(result.await(), null)
+                handleAvailableCheckDone(result, null)
             } catch (e: ConnectionException) {
                 handleAvailableCheckDone(null, e)
             }
         }
         cloudCheck = launch {
-            val result = GlobalScope.async(Dispatchers.IO) {
+            val result = withContext(Dispatchers.IO) {
                 remoteConnection?.toCloudConnection()
             }
-            handleCloudCheckDone(result.await())
+            handleCloudCheckDone(result)
         }
     }
 
