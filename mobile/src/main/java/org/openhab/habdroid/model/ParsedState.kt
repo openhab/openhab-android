@@ -1,5 +1,6 @@
 package org.openhab.habdroid.model
 
+import android.graphics.Color
 import android.location.Location
 import android.os.Parcelable
 
@@ -10,8 +11,15 @@ import java.util.Locale
 import java.util.regex.Pattern
 
 @Parcelize
+data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
+    fun toColor(): Int {
+        return Color.HSVToColor(floatArrayOf(hue, saturation, value))
+    }
+}
+
+@Parcelize
 data class ParsedState internal constructor(val asString: String, val asBoolean: Boolean,
-                       val asNumber: NumberState?, val asHsv: FloatArray?,
+                       val asNumber: NumberState?, val asHsv: HsvState?,
                        val asBrightness: Int?, val asLocation: Location?) : Parcelable {
     companion object {
         internal fun parseAsBoolean(state: String): Boolean {
@@ -53,11 +61,11 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
             }
         }
 
-        internal fun parseAsHsv(state: String): FloatArray? {
+        internal fun parseAsHsv(state: String): HsvState? {
             val stateSplit = state.split(",")
             if (stateSplit.size == 3) { // We need exactly 3 numbers to operate this
                 try {
-                    return floatArrayOf(stateSplit[0].toFloat(),
+                    return HsvState(stateSplit[0].toFloat(),
                             stateSplit[1].toFloat() / 100,
                             stateSplit[2].toFloat() / 100)
                 } catch (e: NumberFormatException) {

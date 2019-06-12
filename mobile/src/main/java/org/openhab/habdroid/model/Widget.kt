@@ -130,7 +130,7 @@ data class Widget(val id: String, val parentId: String?, val label: String,
                         }
 
                     } else if (itemState.asHsv != null) {
-                        val color = Color.HSVToColor(itemState.asHsv)
+                        val color = itemState.asHsv.toColor()
                         iconState = String.format(Locale.US, "#%02x%02x%02x",
                                 Color.red(color), Color.green(color), Color.blue(color))
                     }

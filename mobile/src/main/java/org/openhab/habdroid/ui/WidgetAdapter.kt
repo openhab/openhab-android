@@ -852,9 +852,9 @@ class WidgetAdapter(context: Context, private val connection: Connection,
                 showOldCenterColor = false
             }
 
-            val initialColor = boundItem?.state?.asHsv
+            val initialColor = boundItem?.state?.asHsv?.toColor()
             if (initialColor != null) {
-                picker.color = Color.HSVToColor(initialColor)
+                picker.color = initialColor
             }
 
             AlertDialog.Builder(contentView.context)
