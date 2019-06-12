@@ -37,7 +37,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
-import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.CloudNotificationListFragment
@@ -160,9 +159,8 @@ abstract class ContentController protected constructor(private val activity: Mai
             defaultProgressFragment = progressFragment
         }
 
-        val oldStack = state.getParcelableArrayList<LinkedPage>("controllerPages")
         pageStack.clear()
-        for (page in oldStack) {
+        state.getParcelableArrayList<LinkedPage>("controllerPages")?.forEach { page ->
             val f = fm.getFragment(state, "pageFragment-${page.link}") as WidgetListFragment?
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }

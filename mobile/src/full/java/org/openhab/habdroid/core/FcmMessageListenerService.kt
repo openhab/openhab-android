@@ -31,7 +31,6 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
-import java.util.*
 
 class FcmMessageListenerService : FirebaseMessagingService() {
     override fun onNewToken(token: String?) {

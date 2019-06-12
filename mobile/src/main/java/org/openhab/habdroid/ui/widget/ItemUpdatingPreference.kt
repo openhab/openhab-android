@@ -50,6 +50,8 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         value = if (restorePersistedValue) {
             getPersistedString(null).toItemUpdatePrefValue()
         } else {
+            // We ensure the default value is of correct type in onGetDefaultValue()
+            @Suppress("UNCHECKED_CAST")
             defaultValue as Pair<Boolean, String>?
             // XXX: persist if not yet present
         }

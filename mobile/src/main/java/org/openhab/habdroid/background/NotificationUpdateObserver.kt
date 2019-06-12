@@ -59,8 +59,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         // - enqueued (not yet running or retrying)
         // - running
         // - failed
-        var hasEnqueuedWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.ENQUEUED }
-        var hasRunningWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.FAILED }
+        val hasEnqueuedWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.ENQUEUED }
+        val hasRunningWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.FAILED }
         val failedInfos = latestInfoByTag.filter { (_, info) -> info.state == WorkInfo.State.FAILED }
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
