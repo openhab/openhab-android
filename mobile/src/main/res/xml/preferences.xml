@@ -21,7 +21,7 @@
             android:title="@string/settings_openhab_alt_connection"
             android:dependency="default_openhab_demomode"
             android:icon="@drawable/ic_tree_outline_grey_24dp" />
-        <org.openhab.habdroid.ui.widget.SslClientCertificatePreference
+        <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
             android:defaultValue="@string/settings_openhab_none"
             android:key="default_openhab_sslclientcert"
             android:summary="@string/settings_openhab_none"
@@ -51,7 +51,7 @@
             android:entries="@array/iconTypeNames"
             android:entryValues="@array/iconTypeValues"
             android:icon="@drawable/ic_image_outline_grey_24dp" />
-        <org.openhab.habdroid.ui.widget.ChartScalingPreference
+        <org.openhab.habdroid.ui.preference.ChartScalingPreference
             android:title="@string/settings_chart_scaling"
             android:summary="@string/settings_chart_scaling_summary"
             android:key="chartScalingFactor"
@@ -83,7 +83,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/send_device_info_to_server"
         android:key="sendDeviceInfoCat">
-        <org.openhab.habdroid.ui.widget.CustomInputTypePreference
+        <org.openhab.habdroid.ui.preference.CustomInputTypePreference
             android:defaultValue="@string/empty_string"
             android:inputType="textNoSuggestions"
             android:key="sendDeviceInfoPrefix"
@@ -91,7 +91,7 @@
             android:summary="@string/send_device_info_item_prefix_summary"
             android:dependency="default_openhab_demomode"
             android:icon="@drawable/ic_none" />
-        <org.openhab.habdroid.ui.widget.ItemUpdatingPreference
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|AlarmClock"
             android:key="alarmClock"
             app:helpHint="@string/settings_alarm_clock_howto_summary"

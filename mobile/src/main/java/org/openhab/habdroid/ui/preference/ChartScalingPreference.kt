@@ -1,4 +1,4 @@
-package org.openhab.habdroid.ui.widget
+package org.openhab.habdroid.ui.preference
 
 import android.content.Context
 import android.content.res.TypedArray

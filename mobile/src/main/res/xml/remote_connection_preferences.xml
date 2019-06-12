@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_openhab_alt_connection">
-    <org.openhab.habdroid.ui.widget.UrlInputPreference
+    <org.openhab.habdroid.ui.preference.UrlInputPreference
         android:defaultValue="@string/empty_string"
         android:inputType="textNoSuggestions"
         android:key="default_openhab_alturl"
         android:summary="@string/settings_openhab_alturl_summary"
         android:title="@string/settings_openhab_alturl"
         android:icon="@drawable/ic_earth_grey_24dp" />
-    <org.openhab.habdroid.ui.widget.CustomInputTypePreference
+    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
         android:inputType="textNoSuggestions"
         android:key="default_openhab_remote_username"
         android:title="@string/settings_openhab_username"
         android:icon="@drawable/ic_person_outline_grey_24dp" />
-    <org.openhab.habdroid.ui.widget.CustomInputTypePreference
+    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
         android:inputType="textPassword"
         android:key="default_openhab_remote_password"

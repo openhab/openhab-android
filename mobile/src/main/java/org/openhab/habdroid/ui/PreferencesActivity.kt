@@ -33,10 +33,10 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
-import org.openhab.habdroid.ui.widget.CustomInputTypePreference
-import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
-import org.openhab.habdroid.ui.widget.UrlInputPreference
-import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.preference.CustomInputTypePreference
+import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+import org.openhab.habdroid.ui.preference.UrlInputPreference
+import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.*
 import java.util.*
 
