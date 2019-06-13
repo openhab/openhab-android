@@ -159,7 +159,9 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
     }
 
     companion object {
-        private const val INPUT_TYPE_DECIMAL_NUMBER = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        private const val INPUT_TYPE_SINGED_DECIMAL_NUMBER = INPUT_TYPE_DECIMAL_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        private const val INPUT_TYPE_DECIMAL_NUMBER =
+            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        private const val INPUT_TYPE_SINGED_DECIMAL_NUMBER =
+            INPUT_TYPE_DECIMAL_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
     }
 }

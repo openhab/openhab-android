@@ -80,7 +80,7 @@ class ConnectionFactoryTest {
             ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
 
-            assertNotNull("Requesting a remote connection when a remote url is set, should return a connection.", conn)
+            assertNotNull("Should return a remote connection if remote url is set.", conn)
             assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
                     Connection.TYPE_REMOTE, conn!!.connectionType)
         }
@@ -94,7 +94,7 @@ class ConnectionFactoryTest {
             ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
 
-            assertNull("Requesting a remote connection when a remote url isn't set, should not return a connection.", conn)
+            assertNull("Should not return a remote connection if remote url isn't set.", conn)
         }
     }
 
@@ -106,8 +106,8 @@ class ConnectionFactoryTest {
             ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
 
-            assertNotNull("Requesting a local connection when local url is set, should return a connection.", conn)
-            assertEquals("The connection type of a local connection should be LOGLEVEL_LOCAL.",
+            assertNotNull("Should return a local connection if local url is set.", conn)
+            assertEquals("The connection type of a local connection should be TYPE_LOCAL.",
                     Connection.TYPE_LOCAL, conn!!.connectionType)
         }
     }
@@ -120,7 +120,7 @@ class ConnectionFactoryTest {
             ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
 
-            assertNull("Requesting a remote connection when a local url isn't set, should not return a connection.", conn)
+            assertNull("Should not return a local connection when local url isn't set.", conn)
         }
     }
 
@@ -137,7 +137,7 @@ class ConnectionFactoryTest {
             ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
 
-            assertNotNull("Requesting a cloud connection when a remote url is set, should return a connection.", conn)
+            assertNotNull("Should return a cloud connection if remote url is set.", conn)
             assertEquals(CloudConnection::class.java, conn!!.javaClass)
             assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
                     Connection.TYPE_CLOUD, conn.connectionType)
@@ -185,7 +185,7 @@ class ConnectionFactoryTest {
 
             val conn = ConnectionFactory.usableConnection
 
-            assertNotNull("Requesting any connection in WIFI when only a remote url is set, should return a connection.", conn)
+            assertNotNull("Should return a connection in WIFI when only remote url is set.", conn)
             assertEquals("The connection type of the connection should be TYPE_REMOTE.",
                     Connection.TYPE_REMOTE, conn.connectionType)
 
@@ -209,7 +209,7 @@ class ConnectionFactoryTest {
 
             val conn = ConnectionFactory.usableConnection
 
-            assertNotNull("Requesting any connection in WIFI when a local url is set, should return a connection.", conn)
+            assertNotNull("Should return a connection in WIFI when a local url is set.", conn)
             assertEquals("The connection type of the connection should be TYPE_LOCAL.",
                     Connection.TYPE_LOCAL, conn.connectionType)
 

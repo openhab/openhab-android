@@ -81,7 +81,7 @@ class WidgetAdapter(
     fun update(widgets: List<Widget>, forceFullUpdate: Boolean) {
         val compatibleUpdate = !forceFullUpdate &&
             widgets.size == items.size &&
-            widgets.filterIndexed { index, widget -> getItemViewType(widget) != getItemViewType(items[index]) }.isEmpty()
+            widgets.filterIndexed { i, widget -> getItemViewType(widget) != getItemViewType(items[i]) }.isEmpty()
 
         if (compatibleUpdate) {
             widgets.forEachIndexed { index, widget ->

@@ -47,10 +47,7 @@ object Util {
     @StyleRes
     @JvmOverloads
     fun getActivityThemeId(activity: Activity, theme: String? = null): Int {
-        var actualTheme = theme
-        if (actualTheme == null) {
-            actualTheme = activity.getPrefs().getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light))
-        }
+        val actualTheme = theme ?: activity.getPrefs().getString(Constants.PREFERENCE_THEME)
 
         return when (actualTheme) {
             activity.getString(R.string.theme_value_dark) -> R.style.HABDroid_Dark

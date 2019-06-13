@@ -34,7 +34,8 @@ object MapViewHelper {
         parent: ViewGroup,
         private val connection: Connection,
         colorMapper: WidgetAdapter.ColorMapper
-    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
+    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
+        R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
         GoogleMap.OnMarkerDragListener {
         private val mapView: MapView = itemView.findViewById(R.id.mapview)
         private var map: GoogleMap? = null

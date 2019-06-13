@@ -63,7 +63,9 @@ fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArr
     return when (getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION)) {
         context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
         context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
-        context.getString(R.string.settings_notification_vibration_value_twice) -> longArrayOf(0, 1000, 1000, 1000, 1000)
+        context.getString(R.string.settings_notification_vibration_value_twice) -> {
+            longArrayOf(0, 1000, 1000, 1000, 1000)
+        }
         else -> longArrayOf(0)
     }
 }

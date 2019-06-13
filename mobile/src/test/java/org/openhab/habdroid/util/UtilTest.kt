@@ -255,22 +255,25 @@ class UtilTest {
     }
 
     @Test
-    fun testexceptionHasCause() {
+    fun testExceptionHasCause() {
         val cause = CertPathValidatorException()
         val e = SSLException(cause)
 
-        assertTrue("The exception is caused by CertPathValidatorException, so testexceptionHasCause() should return true",
-                e.hasCause(CertPathValidatorException::class.java))
-        assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, so testexceptionHasCause() should return false",
-                e.hasCause(ArrayIndexOutOfBoundsException::class.java))
+        assertTrue(
+            "The exception is caused by CertPathValidatorException, so hasCause() should return true",
+            e.hasCause(CertPathValidatorException::class.java))
+        assertFalse(
+            "The exception is not caused by ArrayIndexOutOfBoundsException, so hasCause() should return false",
+            e.hasCause(ArrayIndexOutOfBoundsException::class.java))
     }
 
     @Test
     fun testObfuscateString() {
         assertEquals("abc***", "abcdef".obfuscate())
         assertEquals("abc", "abc".obfuscate())
-        assertEquals("The function should not throw an exception, when string length is shorter than clearTextCharCount",
-                "a", "a".obfuscate(10))
+        assertEquals(
+            "The function should not throw an exception, when string length is shorter than clearTextCharCount",
+            "a", "a".obfuscate(10))
         assertEquals("a**", "abc".obfuscate(1))
         assertEquals("***", "abc".obfuscate(0))
     }

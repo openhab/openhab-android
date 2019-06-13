@@ -11,29 +11,32 @@ package org.openhab.habdroid.ui
 import org.junit.Test
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.openhab.habdroid.ui.PreferencesActivity.AbstractSettingsFragment.Companion.isWeakPassword
+import org.openhab.habdroid.ui.PreferencesActivity.MainSettingsFragment.Companion.beautifyUrl
 
 class PreferencesActivityTest {
     @Test
     fun testIsWeakPassword() {
-        assertTrue(PreferencesActivity.AbstractSettingsFragment.isWeakPassword(""))
-        assertTrue(PreferencesActivity.AbstractSettingsFragment.isWeakPassword("abc"))
-        assertTrue(PreferencesActivity.AbstractSettingsFragment.isWeakPassword("abcd1234"))
-        assertTrue(PreferencesActivity.AbstractSettingsFragment.isWeakPassword("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
-        assertTrue(!PreferencesActivity.AbstractSettingsFragment.isWeakPassword("AbcD1234"))
-        assertTrue(!PreferencesActivity.AbstractSettingsFragment.isWeakPassword("4BCd+-efgh"))
-        assertTrue(!PreferencesActivity.AbstractSettingsFragment.isWeakPassword("Mb2.r5oHf-0t"))
-        assertTrue(!PreferencesActivity.AbstractSettingsFragment.isWeakPassword("abcdefg1+"))
+        assertTrue(isWeakPassword(""))
+        assertTrue(isWeakPassword("abc"))
+        assertTrue(isWeakPassword("abcd1234"))
+        assertTrue(isWeakPassword("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
+        assertFalse(isWeakPassword("AbcD1234"))
+        assertFalse(isWeakPassword("4BCd+-efgh"))
+        assertFalse(isWeakPassword("Mb2.r5oHf-0t"))
+        assertFalse(isWeakPassword("abcdefg1+"))
     }
 
     @Test
     fun testBeautifyHostName() {
-        assertEquals("abc", PreferencesActivity.MainSettingsFragment.beautifyUrl("abc"))
-        assertEquals("", PreferencesActivity.MainSettingsFragment.beautifyUrl(""))
-        assertEquals("myopenhab.org", PreferencesActivity.MainSettingsFragment.beautifyUrl("myopenhab.org"))
-        assertEquals("myopenHAB", PreferencesActivity.MainSettingsFragment.beautifyUrl("https://myopenhab.org"))
-        assertEquals("myopenHAB", PreferencesActivity.MainSettingsFragment.beautifyUrl("https://home.myopenhab.org"))
-        assertEquals("https://myopenhab.WRONG_TLD", PreferencesActivity.MainSettingsFragment.beautifyUrl("https://myopenhab.WRONG_TLD"))
-        assertEquals("", PreferencesActivity.MainSettingsFragment.beautifyUrl(null))
+        assertEquals("abc", beautifyUrl("abc"))
+        assertEquals("", beautifyUrl(""))
+        assertEquals("myopenhab.org", beautifyUrl("myopenhab.org"))
+        assertEquals("myopenHAB", beautifyUrl("https://myopenhab.org"))
+        assertEquals("myopenHAB", beautifyUrl("https://home.myopenhab.org"))
+        assertEquals("https://myopenhab.WRONG_TLD", beautifyUrl("https://myopenhab.WRONG_TLD"))
+        assertEquals("", beautifyUrl(null))
     }
 }
