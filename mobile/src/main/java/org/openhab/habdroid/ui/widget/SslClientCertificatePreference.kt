@@ -16,8 +16,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 
-class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet):
-        Preference(context, attrs) {
+class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private val activity: Activity
     private var currentAlias: String? = null
     private var helpIcon: ImageView? = null
@@ -33,7 +32,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
 
         helpIcon = view.findViewById(R.id.help_icon)
         helpIcon?.setupHelpIcon(context.getString(R.string.settings_openhab_sslclientcert_howto_url),
-                context.getString(R.string.settings_openhab_sslclientcert_howto_summary))
+            context.getString(R.string.settings_openhab_sslclientcert_howto_summary))
         helpIcon?.updateHelpIconAlpha(isEnabled)
 
         return view
@@ -50,7 +49,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         else
             arrayOf("RSA", "DSA")
         KeyChain.choosePrivateKeyAlias(activity, { handleAliasChosen(it) },
-                keyTypes, null, null, -1, null)
+            keyTypes, null, null, -1, null)
     }
 
     override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {

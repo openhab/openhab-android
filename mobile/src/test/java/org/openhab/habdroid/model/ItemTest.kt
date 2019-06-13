@@ -67,7 +67,7 @@ class ItemTest {
 
     @Test
     fun isReadOnly() {
-        val json = with (JSONObject()) {
+        val json = with(JSONObject()) {
             put("name", "TestItem")
             put("type", "Dummy")
         }
@@ -82,15 +82,14 @@ class ItemTest {
 
     @Test
     fun getMembers() {
-        val sut = JSONObject("{ 'members': ["
-                + "{ 'state': '52.5200066,13.4029540', 'type': 'Location',"
-                + "'name': 'GroupDemoLocation', 'label': 'Location 1',"
-                + "'groupNames': [ 'LocationGroup' ] },"
-                + "{ 'state': '52.5200066,13.4029540', 'type': 'Location',"
-                + "'name': 'GroupDemoLocation', 'label': 'Location 2',"
-                + "'groupNames': [ 'LocationGroup' ] },"
-                + "], 'state': 'NULL', 'type': 'Group',"
-                + "'name': 'LocationGroup', 'label': 'Location Group' }").toItem()
+        val sut = JSONObject("""
+            { 'members': [
+            { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
+              'label': 'Location 1', 'groupNames': [ 'LocationGroup' ] },
+            { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
+              'label': 'Location 2', 'groupNames': [ 'LocationGroup' ] },
+            ], 'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group' }
+            """.trimIndent()).toItem()
         assertEquals(2, sut.members.size)
         assertEquals(Item.Type.Location, sut.members[0].type)
         assertEquals("Location 2", sut.members[1].label)

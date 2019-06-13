@@ -52,27 +52,36 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             }
         }
 
-        fun updateSitemaps(scope: CoroutineScope, props: ServerProperties,
-                           connection: Connection,
-                           successCb: (ServerProperties) -> Unit,
-                           failureCb: (Request, Int, Throwable) -> Unit): UpdateHandle {
+        fun updateSitemaps(
+            scope: CoroutineScope,
+            props: ServerProperties,
+            connection: Connection,
+            successCb: (ServerProperties) -> Unit,
+            failureCb: (Request, Int, Throwable) -> Unit
+        ): UpdateHandle {
             val handle = UpdateHandle(scope)
             handle.flags = props.flags
             fetchSitemaps(connection.httpClient, handle, successCb, failureCb)
             return handle
         }
 
-        fun fetch(scope: CoroutineScope, connection: Connection,
-                  successCb: (ServerProperties) -> Unit,
-                  failureCb: (Request, Int, Throwable) -> Unit): UpdateHandle {
+        fun fetch(
+            scope: CoroutineScope,
+            connection: Connection,
+            successCb: (ServerProperties) -> Unit,
+            failureCb: (Request, Int, Throwable) -> Unit
+        ): UpdateHandle {
             val handle = UpdateHandle(scope)
             fetchFlags(connection.httpClient, handle, successCb, failureCb)
             return handle
         }
 
-        private fun fetchFlags(client: HttpClient, handle: UpdateHandle,
-                               successCb: (ServerProperties) -> Unit,
-                               failureCb: (Request, Int, Throwable) -> Unit) {
+        private fun fetchFlags(
+            client: HttpClient,
+            handle: UpdateHandle,
+            successCb: (ServerProperties) -> Unit,
+            failureCb: (Request, Int, Throwable) -> Unit
+        ) {
             handle.job = handle.scope.launch {
                 try {
                     val result = client.get("rest").asText()
@@ -80,8 +89,8 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                         val resultJson = JSONObject(result.response)
                         // If this succeeded, we're talking to OH2
                         var flags = (SERVER_FLAG_JSON_REST_API
-                                or SERVER_FLAG_ICON_FORMAT_SUPPORT
-                                or SERVER_FLAG_CHART_SCALING_SUPPORT)
+                            or SERVER_FLAG_ICON_FORMAT_SUPPORT
+                            or SERVER_FLAG_CHART_SCALING_SUPPORT)
                         try {
                             val versionString = resultJson.getString("version")
                             Integer.parseInt(versionString)
@@ -121,9 +130,12 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             }
         }
 
-        private fun fetchSitemaps(client: HttpClient, handle: UpdateHandle,
-                                  successCb: (ServerProperties) -> Unit,
-                                  failureCb: (Request, Int, Throwable) -> Unit) {
+        private fun fetchSitemaps(
+            client: HttpClient,
+            handle: UpdateHandle,
+            successCb: (ServerProperties) -> Unit,
+            failureCb: (Request, Int, Throwable) -> Unit
+        ) {
             handle.job = handle.scope.launch {
                 try {
                     val result = client.get("rest/sitemaps").asText()

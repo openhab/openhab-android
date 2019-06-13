@@ -38,9 +38,9 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             val typedValue = TypedValue()
             theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
             setTaskDescription(ActivityManager.TaskDescription(
-                    getString(R.string.app_name),
-                    BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                    typedValue.data))
+                getString(R.string.app_name),
+                BitmapFactory.decodeResource(resources, R.mipmap.icon),
+                typedValue.data))
         }
 
         super.onCreate(savedInstanceState)
@@ -60,8 +60,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     fun checkFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
         var uiOptions = window.decorView.systemUiVisibility
         val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            or View.SYSTEM_UI_FLAG_FULLSCREEN)
         uiOptions = if (isEnabled && !forceNonFullscreen) {
             uiOptions or flags
         } else {

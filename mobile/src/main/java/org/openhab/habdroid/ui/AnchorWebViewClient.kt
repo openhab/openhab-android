@@ -25,7 +25,11 @@ import java.security.cert.Certificate
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 
-open class AnchorWebViewClient(url: String, private val userName: String?, private val password: String?) : WebViewClient() {
+open class AnchorWebViewClient(
+    url: String,
+    private val userName: String?,
+    private val password: String?
+) : WebViewClient() {
     private val anchor: String?
     private val host: String? = url.toUri().host
 
@@ -40,8 +44,7 @@ open class AnchorWebViewClient(url: String, private val userName: String?, priva
         }
     }
 
-    override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler,
-                                           host: String, realm: String) {
+    override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler, host: String, realm: String) {
         handler.proceed(userName, password)
     }
 

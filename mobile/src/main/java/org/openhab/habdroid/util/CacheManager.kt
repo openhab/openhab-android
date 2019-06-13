@@ -52,7 +52,6 @@ class CacheManager private constructor(appContext: Context) {
         } catch (ignored: IOException) {
             // ignored
         }
-
     }
 
     companion object {

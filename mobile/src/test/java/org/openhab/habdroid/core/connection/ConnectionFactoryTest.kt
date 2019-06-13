@@ -50,7 +50,7 @@ class ConnectionFactoryTest {
         mockPrefs = mock()
         mockContext = mock<Application> {
             on { cacheDir } doReturn cacheFolder
-            on { getDir(any(), any()) } doAnswer  { invocation ->
+            on { getDir(any(), any()) } doAnswer { invocation ->
                 File(appDir, invocation.getArgument<Any>(0).toString())
             }
             on { getString(any()) } doReturn ""

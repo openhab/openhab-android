@@ -38,7 +38,7 @@ object TaskerIntent {
      * @see TaskerIntent.EXTRA_BUNDLE
      * @see TaskerIntent.EXTRA_STRING_BREADCRUMB
      */
-    const val ACTION_EDIT_CONDITION = "com.twofortyfouram.locale.intent.action.EDIT_CONDITION" //$NON-NLS-1$
+    const val ACTION_EDIT_CONDITION = "com.twofortyfouram.locale.intent.action.EDIT_CONDITION" // $NON-NLS-1$
 
     /**
      * Ordered `Intent` action broadcast by the host to query a plug-in condition. When the host
@@ -60,7 +60,7 @@ object TaskerIntent {
      * @see TaskerIntent.RESULT_CONDITION_UNSATISFIED
      * @see TaskerIntent.RESULT_CONDITION_UNKNOWN
      */
-    const val ACTION_QUERY_CONDITION = "com.twofortyfouram.locale.intent.action.QUERY_CONDITION" //$NON-NLS-1$
+    const val ACTION_QUERY_CONDITION = "com.twofortyfouram.locale.intent.action.QUERY_CONDITION" // $NON-NLS-1$
 
     /**
      * `Intent` action sent by the host to create or edit a plug-in setting. When the host
@@ -80,7 +80,7 @@ object TaskerIntent {
      * @see TaskerIntent.EXTRA_BUNDLE
      * @see TaskerIntent.EXTRA_STRING_BREADCRUMB
      */
-    const val ACTION_EDIT_SETTING = "com.twofortyfouram.locale.intent.action.EDIT_SETTING" //$NON-NLS-1$
+    const val ACTION_EDIT_SETTING = "com.twofortyfouram.locale.intent.action.EDIT_SETTING" // $NON-NLS-1$
 
     /**
      * `Intent` action broadcast by the host to fire a plug-in setting. When the host
@@ -95,7 +95,7 @@ object TaskerIntent {
      *
      * @see TaskerIntent.EXTRA_BUNDLE
      */
-    const val ACTION_FIRE_SETTING = "com.twofortyfouram.locale.intent.action.FIRE_SETTING" //$NON-NLS-1$
+    const val ACTION_FIRE_SETTING = "com.twofortyfouram.locale.intent.action.FIRE_SETTING" // $NON-NLS-1$
 
     /**
      * Implicit broadcast `Intent` action to notify the host(s) that a plug-in condition is
@@ -118,14 +118,14 @@ object TaskerIntent {
      *
      * @see TaskerIntent.EXTRA_STRING_ACTIVITY_CLASS_NAME
      */
-    const val ACTION_REQUEST_QUERY = "com.twofortyfouram.locale.intent.action.REQUEST_QUERY" //$NON-NLS-1$
+    const val ACTION_REQUEST_QUERY = "com.twofortyfouram.locale.intent.action.REQUEST_QUERY" // $NON-NLS-1$
 
     /**
      * Type: `String`.
      *
      * Maps to a `String` that represents the `Activity` bread crumb path.
      */
-    const val EXTRA_STRING_BREADCRUMB = "com.twofortyfouram.locale.intent.extra.BREADCRUMB" //$NON-NLS-1$
+    const val EXTRA_STRING_BREADCRUMB = "com.twofortyfouram.locale.intent.extra.BREADCRUMB" // $NON-NLS-1$
 
     /**
      * Type: `String`.
@@ -136,7 +136,7 @@ object TaskerIntent {
      * The blurb is a concise description displayed to the user of what the
      * plug-in is configured to do.
      */
-    const val EXTRA_STRING_BLURB = "com.twofortyfouram.locale.intent.extra.BLURB" //$NON-NLS-1$
+    const val EXTRA_STRING_BLURB = "com.twofortyfouram.locale.intent.extra.BLURB" // $NON-NLS-1$
 
     /**
      * Type: `Bundle`.
@@ -166,7 +166,7 @@ object TaskerIntent {
      * implementing its own internal storage mechanism.  The Bundle can then contain a small token
      * that the plug-in uses as a lookup key in its own internal storage mechanism.
      */
-    const val EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE" //$NON-NLS-1$
+    const val EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE" // $NON-NLS-1$
 
     /**
      * Type: `String`.
@@ -175,7 +175,7 @@ object TaskerIntent {
      *
      * @see TaskerIntent.ACTION_REQUEST_QUERY
      */
-    const val EXTRA_STRING_ACTIVITY_CLASS_NAME = "com.twofortyfouram.locale.intent.extra.ACTIVITY" //$NON-NLS-1$
+    const val EXTRA_STRING_ACTIVITY_CLASS_NAME = "com.twofortyfouram.locale.intent.extra.ACTIVITY" // $NON-NLS-1$
 
     /**
      * Ordered broadcast result code indicating that a plug-in condition's state

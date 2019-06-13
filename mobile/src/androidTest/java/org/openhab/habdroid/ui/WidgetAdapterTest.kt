@@ -30,8 +30,7 @@ class WidgetAdapterTest {
         testMapping(colorMapper, "Map yellow => #fdd835 in bright themes", "yellow", -0x227cb)
     }
 
-    private fun testMapping(mapper: ColorMapper, message: String,
-                            value: String, expected: Int?) {
+    private fun testMapping(mapper: ColorMapper, message: String, value: String, expected: Int?) {
         assertEquals(message, expected, mapper.mapColor(value))
     }
 }

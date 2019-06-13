@@ -10,10 +10,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
 
 class VoiceWidgetWithIcon : VoiceWidget() {
-
-    override val layoutRes: Int
-        @LayoutRes
-        get() = R.layout.widget_voice_with_icon
+    override val layoutRes: Int @LayoutRes get() = R.layout.widget_voice_with_icon
 
     override fun setupOpenhabIcon(context: Context, views: RemoteViews) {
         val mainIntent = Intent(context, MainActivity::class.java)

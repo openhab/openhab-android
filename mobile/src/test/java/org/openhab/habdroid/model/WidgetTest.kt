@@ -186,45 +186,47 @@ class WidgetTest {
 
     @Throws(Exception::class)
     private fun createXmlNode(): Node {
-        val xml = ("<widget>"
-                + "  <widgetId>demo</widgetId>"
-                + "  <type>Group</type>"
-                + "  <label>Group1</label>"
-                + "  <icon>groupicon</icon>"
-                + "  <url>http://localhost/url</url>"
-                + "  <minValue>0.0</minValue>"
-                + "  <maxValue>10.0</maxValue>"
-                + "  <step>1</step>"
-                + "  <refresh>10</refresh>"
-                + "  <period>D</period>"
-                + "  <service>D</service>"
-                + "  <height>10</height>"
-                + "  <iconcolor>white</iconcolor>"
-                + "  <labelcolor>white</labelcolor>"
-                + "  <valuecolor>white</valuecolor>"
-                + "  <encoding></encoding>"
-                + "  <mapping>"
-                + "    <command>ON</command>\n"
-                + "    <label>On</label>"
-                + "  </mapping>"
-                + "  <item>"
-                + "    <type>GroupItem</type>"
-                + "    <name>group1</name>"
-                + "    <state>Undefined</state>"
-                + "    <link>http://localhost/rest/items/group1</link>"
-                + "  </item>"
-                + "  <linkedPage>"
-                + "    <id>0001</id>"
-                + "    <title>LinkedPage</title>"
-                + "    <icon>linkedpageicon</icon>"
-                + "    <link>http://localhost/rest/sitemaps/demo/0001</link>"
-                + "    <leaf>false</leaf>"
-                + "  </linkedPage>"
-                + "  <widget>"
-                + "    <widgetId>demo11</widgetId>"
-                + "    <type>Switch</type>"
-                + "  </widget>"
-                + "</widget>")
+        val xml = """
+            <widget>
+                <widgetId>demo</widgetId>
+                <type>Group</type>
+                <label>Group1</label>
+                <icon>groupicon</icon>
+                <url>http://localhost/url</url>
+                <minValue>0.0</minValue>
+                <maxValue>10.0</maxValue>
+                <step>1</step>
+                <refresh>10</refresh>
+                <period>D</period>
+                <service>D</service>
+                <height>10</height>
+                <iconcolor>white</iconcolor>
+                <labelcolor>white</labelcolor>
+                <valuecolor>white</valuecolor>
+                <encoding></encoding>
+                <mapping>
+                    <command>ON</command>
+                    <label>On</label>
+                </mapping>
+                <item>
+                    <type>GroupItem</type>
+                    <name>group1</name>
+                    <state>Undefined</state>
+                    <link>http://localhost/rest/items/group1</link>
+                </item>
+                <linkedPage>
+                    <id>0001</id>
+                    <title>LinkedPage</title>
+                    <icon>linkedpageicon</icon>
+                    <link>http://localhost/rest/sitemaps/demo/0001</link>
+                    <leaf>false</leaf>
+                </linkedPage>
+                <widget>
+                    <widgetId>demo11</widgetId>
+                    <type>Switch</type>
+                </widget>"
+             </widget>
+             """.trimIndent()
         val dbf = DocumentBuilderFactory.newInstance()
         val builder = dbf.newDocumentBuilder()
         val document = builder.parse(InputSource(StringReader(xml)))
@@ -242,156 +244,155 @@ class WidgetTest {
      */
     @Throws(Exception::class)
     private fun createJsonObject(id: Int): JSONObject {
-        val json: String
-        when (id) {
-            1 -> json = ("{\n"
-                    + "    \"widgetId\": \"demo\",\n"
-                    + "    \"type\": \"Group\",\n"
-                    + "    \"label\": \"Group1\",\n"
-                    + "    \"icon\": \"groupicon\",\n"
-                    + "    \"url\": \"http://localhost/url\",\n"
-                    + "    \"minValue\": \"0.0\",\n"
-                    + "    \"maxValue\": \"10.0\",\n"
-                    + "    \"step\": \"1\",\n"
-                    + "    \"refresh\": \"1000\",\n"
-                    + "    \"period\": \"M\",\n"
-                    + "    \"service\": \"D\",\n"
-                    + "    \"height\": \"10\",\n"
-                    + "    \"legend\": \"true\",\n"
-                    + "    \"iconcolor\": \"white\",\n"
-                    + "    \"labelcolor\": \"#ff0000\",\n"
-                    + "    \"valuecolor\": \"#00ffff\",\n"
-                    + "    \"encoding\": \"mpeg\",\n"
-                    + "    \"mappings\": [{\n"
-                    + "      \"command\": \"ON\",\n"
-                    + "      \"label\": \"On\"\n"
-                    + "    }],\n"
-                    + "    \"item\": {\n"
-                    + "      \"type\": \"GroupItem\",\n"
-                    + "      \"name\": \"group1\",\n"
-                    + "      \"state\": \"OFF\",\n"
-                    + "      \"link\": \"http://localhost/rest/items/group1\"\n"
-                    + "    },\n"
-                    + "    \"linkedPage\": {\n"
-                    + "      \"id\": \"0001\",\n"
-                    + "      \"title\": \"LinkedPage\",\n"
-                    + "      \"icon\": \"linkedpageicon\",\n"
-                    + "      \"link\": \"http://localhost/rest/sitemaps/demo/0001\",\n"
-                    + "      \"leaf\": \"false\"\n"
-                    + "    },\n"
-                    + "    \"widgets\": [{ \"widgetId\": \"demo11\", \"type\": \"Switch\" }]\n"
-                    + "  }")
-            2 -> json = ("{\n"
-                    + "    \"widgetId\": \"demo\",\n"
-                    + "    \"type\": \"Group\",\n"
-                    + "    \"label\": \"Group1\",\n"
-                    + "    \"icon\": \"groupicon\",\n"
-                    + "    \"url\": \"http://localhost/url\",\n"
-                    + "    \"minValue\": \"99.7\",\n"
-                    + "    \"maxValue\": \"-10.0\",\n"
-                    + "    \"step\": \"-0.1\",\n"
-                    + "    \"refresh\": \"10\",\n"
-                    + "    \"service\": \"XYZ\",\n"
-                    + "    \"legend\": \"false\",\n"
-                    + "    \"height\": \"42\",\n"
-                    + "    \"iconcolor\": \"orange\",\n"
-                    + "    \"labelcolor\": \"blue\",\n"
-                    + "    \"valuecolor\": \"red\",\n"
-                    + "    \"mappings\": [{\n"
-                    + "      \"command\": \"ON\",\n"
-                    + "      \"label\": \"abcäöüßẞèéóò\uD83D\uDE03\"\n"
-                    + "    }],\n"
-                    + "    \"item\": {\n"
-                    + "      \"type\": \"Switch\",\n"
-                    + "      \"name\": \"switch1\",\n"
-                    + "      \"state\": \"ON\",\n"
-                    + "      \"link\": \"http://localhost/rest/items/switch1\"\n"
-                    + "    },\n"
-                    + "  }")
-            3 -> json = ("{\"widgetId\": \"0202_0\","
-                    + "\"type\": \"Frame\","
-                    + "\"label\": \"Percent-based Widgets\","
-                    + "\"icon\": \"frame\","
-                    + "\"mappings\": [],"
-                    + "\"widgets\": ["
-                    + "{"
-                    + "\"widgetId\": \"0202_0_0\","
-                    + "\"type\": \"Slider\","
-                    + "\"label\": \"Dimmer [81 %]\","
-                    + "\"icon\": \"slider\","
-                    + "\"mappings\": [],"
-                    + "\"switchSupport\": true,"
-                    + "\"sendFrequency\": 0,"
-                    + "\"item\": {"
-                    + "\"link\": \"http://openhab.local:8080/rest/items/DimmedLight\","
-                    + "\"state\": \"81\","
-                    + "\"stateDescription\": {"
-                    + "\"pattern\": \"%d %%\","
-                    + "\"readOnly\": false,"
-                    + "\"options\": []"
-                    + "},"
-                    + "\"type\": \"Dimmer\","
-                    + "\"name\": \"DimmedLight\","
-                    + "\"label\": \"Dimmer\","
-                    + "\"category\": \"slider\","
-                    + "\"tags\": [],"
-                    + "\"groupNames\": []"
-                    + "},"
-                    + "\"widgets\": []"
-                    + "},"
-                    + "{"
-                    + "\"widgetId\": \"0202_0_0_1\","
-                    + "\"type\": \"Switch\","
-                    + "\"label\": \"Roller Shutter\","
-                    + "\"icon\": \"rollershutter\","
-                    + "\"mappings\": [],"
-                    + "\"item\": {"
-                    + "\"link\": \"http://openhab.local:8080/rest/items/DemoShutter\","
-                    + "\"state\": \"0\","
-                    + "\"type\": \"Rollershutter\","
-                    + "\"name\": \"DemoShutter\","
-                    + "\"label\": \"Roller Shutter\","
-                    + "\"tags\": [],"
-                    + "\"groupNames\": ["
-                    + "\"Shutters\""
-                    + "]"
-                    + "},"
-                    + "\"widgets\": []"
-                    + "},"
-                    + "{"
-                    + "\"widgetId\": \"0202_0_0_1_2\","
-                    + "\"type\": \"Group\","
-                    + "\"label\": \"Shutters\","
-                    + "\"icon\": \"rollershutter\","
-                    + "\"mappings\": [],"
-                    + "\"item\": {"
-                    + "\"members\": [],"
-                    + "\"groupType\": \"Rollershutter\","
-                    + "\"function\": {"
-                    + "\"name\": \"AVG\""
-                    + "},"
-                    + "\"link\": \"http://openhab.local:8080/rest/items/Shutters\","
-                    + "\"state\": \"42\","
-                    + "\"type\": \"Group\","
-                    + "\"name\": \"Shutters\","
-                    + "\"category\": \"rollershutter\","
-                    + "\"tags\": [],"
-                    + "\"groupNames\": []"
-                    + "},"
-                    + "\"linkedPage\": {"
-                    + "\"id\": \"02020002\","
-                    + "\"title\": \"Shutters\","
-                    + "\"icon\": \"rollershutter\","
-                    + "\"link\": \"http://openhab.local:8080/rest/sitemaps/demo/02020002\","
-                    + "\"leaf\": true,"
-                    + "\"timeout\": false"
-                    + "},"
-                    + "\"widgets\": []"
-                    + "}"
-                    + "]"
-                    + "}")
+        val json: String = when (id) {
+            1 -> """
+                { 'widgetId': 'demo',
+                  'type': 'Group',
+                  'label': 'Group1',
+                  'icon': 'groupicon',
+                  'url': 'http://localhost/url',
+                  'minValue': '0.0',
+                  'maxValue': '10.0',
+                  'step': '1',
+                  'refresh': '1000',
+                  'period': 'M',
+                  'service': 'D',
+                  'height': '10',
+                  'legend': 'true',
+                  'iconcolor': 'white',
+                  'labelcolor': '#ff0000',
+                  'valuecolor': '#00ffff',
+                  'encoding': 'mpeg',
+                  'mappings': [ {
+                    'command': 'ON',
+                    'label': 'On'
+                  } ],
+                  'item': {
+                    'type': 'GroupItem',
+                    'name': 'group1',
+                    'state': 'OFF',
+                    'link': 'http://localhost/rest/items/group1'
+                  },
+                  'linkedPage': {
+                    'id': '0001',
+                    'title': 'LinkedPage',
+                    'icon': 'linkedpageicon',
+                    'link': 'http://localhost/rest/sitemaps/demo/0001',
+                    'leaf': 'false'
+                  },
+                  'widgets': [ { 'widgetId': 'demo11', 'type': 'Switch' } ]
+                }
+                """
+            2 -> """
+                {
+                  'widgetId': 'demo',
+                  'type': 'Group',
+                  'label': 'Group1',
+                  'icon': 'groupicon',
+                  'url': 'http://localhost/url',
+                  'minValue': '99.7',
+                  'maxValue': '-10.0',
+                  'step': '-0.1',
+                  'refresh': '10',
+                  'service': 'XYZ',
+                  'legend': 'false',
+                  'height': '42',
+                  'iconcolor': 'orange',
+                  'labelcolor': 'blue',
+                  'valuecolor': 'red',
+                  'mappings': [ {
+                    'command': 'ON',
+                    'label': 'abcäöüßẞèéóò\uD83D\uDE03'
+                  } ],
+                  'item': {
+                    'type': 'Switch',
+                    'name': 'switch1',
+                    'state': 'ON',
+                    'link': 'http://localhost/rest/items/switch1'
+                  },
+                }
+                """
+            3 -> """
+                {
+                  'widgetId': '0202_0',
+                  'type': 'Frame',
+                  'label': 'Percent-based Widgets',
+                  'icon': 'frame',
+                  'mappings': [],
+                  'widgets': [ {
+                    'widgetId': '0202_0_0',
+                    'type': 'Slider',
+                    'label': 'Dimmer [81 %]',
+                    'icon': 'slider',
+                    'mappings': [],
+                    'switchSupport': true,
+                    'sendFrequency': 0,
+                    'item': {
+                      'link': 'http://openhab.local:8080/rest/items/DimmedLight',
+                      'state': '81',
+                      'stateDescription': {
+                        'pattern': '%d %%',
+                        'readOnly': false,
+                        'options': []
+                      },
+                      'type': 'Dimmer',
+                      'name': 'DimmedLight',
+                      'label': 'Dimmer',
+                      'category': 'slider',
+                      'tags': [],
+                      'groupNames': []
+                    },
+                    'widgets': []
+                  }, {
+                    'widgetId': '0202_0_0_1',
+                    'type': 'Switch',
+                    'label': 'Roller Shutter',
+                    'icon': 'rollershutter',
+                    'mappings': [],
+                    'item': {
+                      'link': 'http://openhab.local:8080/rest/items/DemoShutter',
+                      'state': '0',
+                      'type': 'Rollershutter',
+                      'name': 'DemoShutter',
+                      'label': 'Roller Shutter',
+                      'tags': [],
+                      'groupNames': [ 'Shutters' ]
+                    },
+                    'widgets': []
+                  }, {
+                    'widgetId': '0202_0_0_1_2',
+                    'type': 'Group',
+                    'label': 'Shutters',
+                    'icon': 'rollershutter',
+                    'mappings': [],
+                    'item': {
+                      'members': [],
+                      'groupType': 'Rollershutter',
+                      'function': {
+                        'name': 'AVG'
+                      },
+                      'link': 'http://openhab.local:8080/rest/items/Shutters',
+                      'state': '42',
+                      'type': 'Group',
+                      'name': 'Shutters',
+                      'category': 'rollershutter',
+                      'tags': [],
+                      'groupNames': []
+                    },
+                    'linkedPage': {
+                      'id': '02020002',
+                      'title': 'Shutters',
+                      'icon': 'rollershutter',
+                      'link': 'http://openhab.local:8080/rest/sitemaps/demo/02020002',
+                      'leaf': true,
+                      'timeout': false
+                    },
+                    'widgets': []
+                  } ]
+                }
+                """
             else -> throw InvalidParameterException()
-        }
+        }.trimIndent()
         return JSONObject(json)
     }
 }

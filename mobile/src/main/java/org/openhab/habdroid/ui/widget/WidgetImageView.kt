@@ -50,8 +50,13 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         defaultSvgSize = context.resources.getDimensionPixelSize(R.dimen.svg_image_default_size)
     }
 
-    fun setImageUrl(connection: Connection, url: String, size: Int?,
-                    timeoutMillis: Long = HttpClient.DEFAULT_TIMEOUT_MS, forceLoad: Boolean = false) {
+    fun setImageUrl(
+        connection: Connection,
+        url: String,
+        size: Int?,
+        timeoutMillis: Long = HttpClient.DEFAULT_TIMEOUT_MS,
+        forceLoad: Boolean = false
+    ) {
         val actualSize = size ?: defaultSvgSize
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
@@ -200,9 +205,12 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         }
     }
 
-    private inner class HttpImageRequest(private val client: HttpClient,
-                                         private val url: HttpUrl, private val size: Int,
-                                         private val timeoutMillis: Long) {
+    private inner class HttpImageRequest(
+        private val client: HttpClient,
+        private val url: HttpUrl,
+        private val size: Int,
+        private val timeoutMillis: Long
+    ) {
         private var job: Job? = null
 
         fun execute(avoidCache: Boolean) {
@@ -215,9 +223,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             job = scope?.launch(Dispatchers.Main) {
                 try {
                     val bitmap = client.get(url.toString(),
-                            timeoutMillis = timeoutMillis, caching = cachingMode)
-                            .asBitmap(size)
-                            .response
+                        timeoutMillis = timeoutMillis, caching = cachingMode)
+                        .asBitmap(size)
+                        .response
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
                     scheduleNextRefresh()

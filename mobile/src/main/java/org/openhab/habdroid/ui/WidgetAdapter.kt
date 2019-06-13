@@ -54,9 +54,11 @@ import java.util.*
  * This class provides openHAB widgets adapter for list view.
  */
 
-class WidgetAdapter(context: Context, private val connection: Connection,
-                    private val itemClickListener: ItemClickListener) :
-        RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener, View.OnLongClickListener {
+class WidgetAdapter(
+    context: Context,
+    private val connection: Connection,
+    private val itemClickListener: ItemClickListener
+) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener, View.OnLongClickListener {
     private val items = ArrayList<Widget>()
     val itemList: List<Widget> get() = items
 
@@ -66,7 +68,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
-        fun onItemClicked(widget: Widget): Boolean  // returns whether click was handled
+        fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
         fun onItemLongClicked(widget: Widget): Boolean
     }
 
@@ -77,9 +79,9 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     }
 
     fun update(widgets: List<Widget>, forceFullUpdate: Boolean) {
-        val compatibleUpdate = !forceFullUpdate
-                && widgets.size == items.size
-                && widgets.filterIndexed { index, widget -> getItemViewType(widget) != getItemViewType(items[index]) }.isEmpty()
+        val compatibleUpdate = !forceFullUpdate &&
+            widgets.size == items.size &&
+            widgets.filterIndexed { index, widget -> getItemViewType(widget) != getItemViewType(items[index]) }.isEmpty()
 
         if (compatibleUpdate) {
             widgets.forEachIndexed { index, widget ->
@@ -221,19 +223,24 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    abstract class ViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup, @LayoutRes layoutResId: Int) :
-            RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
+    abstract class ViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        @LayoutRes layoutResId: Int
+    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
         abstract fun bind(widget: Widget)
         open fun start() {}
         open fun stop() {}
         open fun handleRowClick() {}
     }
 
-    abstract class LabeledItemBaseViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                                                  @LayoutRes layoutResId: Int,
-                                                                  private val connection: Connection,
-                                                                  private val colorMapper: ColorMapper) :
-            ViewHolder(inflater, parent, layoutResId) {
+    abstract class LabeledItemBaseViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        @LayoutRes layoutResId: Int,
+        private val connection: Connection,
+        private val colorMapper: ColorMapper
+    ) : ViewHolder(inflater, parent, layoutResId) {
         protected val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val valueView: TextView? = itemView.findViewById(R.id.widgetvalue)
         private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
@@ -251,10 +258,12 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class GenericViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                                 private val connection: Connection,
-                                                 private val colorMapper: ColorMapper) :
-            ViewHolder(inflater, parent, R.layout.widgetlist_genericitem) {
+    class GenericViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        private val colorMapper: ColorMapper
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_genericitem) {
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
 
@@ -265,9 +274,11 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class FrameViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                               private val colorMapper: ColorMapper) :
-            ViewHolder(inflater, parent, R.layout.widgetlist_frameitem) {
+    class FrameViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val colorMapper: ColorMapper
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_frameitem) {
         private val divider: View = itemView.findViewById(R.id.divider)
         private val spacer: View = itemView.findViewById(R.id.spacer)
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
@@ -289,9 +300,12 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class GroupViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                               conn: Connection, colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_groupitem, conn, colorMapper) {
+    class GroupViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        conn: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_groupitem, conn, colorMapper) {
         private val rightArrow: ImageView = itemView.findViewById(R.id.right_arrow)
 
         override fun bind(widget: Widget) {
@@ -300,10 +314,13 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class SwitchViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                                private val connection: Connection, colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem, connection, colorMapper),
-            View.OnTouchListener {
+    class SwitchViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem, connection, colorMapper),
+        View.OnTouchListener {
         private val switch: SwitchCompat = itemView.findViewById(R.id.toggle)
         private var boundItem: Item? = null
 
@@ -333,9 +350,12 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class TextViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                              conn: Connection, colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_textitem, conn, colorMapper) {
+    class TextViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_textitem, connection, colorMapper) {
         private val rightArrow: ImageView = itemView.findViewById(R.id.right_arrow)
 
         override fun bind(widget: Widget) {
@@ -344,11 +364,13 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class SliderViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                                private val connection: Connection,
-                                                colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
-            SeekBar.OnSeekBarChangeListener {
+    class SliderViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
+        SeekBar.OnSeekBarChangeListener {
         private val seekBar: SeekBar = itemView.findViewById(R.id.seekbar)
         private var boundWidget: Widget? = null
 
@@ -385,7 +407,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         override fun handleRowClick() {
             if (boundWidget?.switchSupport == true) {
                 connection.httpClient.sendItemCommand(boundWidget?.item,
-                        if (seekBar.progress == 0) "ON" else "OFF")
+                    if (seekBar.progress == 0) "ON" else "OFF")
             }
         }
 
@@ -404,13 +426,15 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             val item = widget?.item ?: return
             val newValue = widget.minValue + widget.step * progress
             connection.httpClient.sendItemUpdate(item,
-                    ParsedState.NumberState.withValue(item.state?.asNumber, newValue))
+                ParsedState.NumberState.withValue(item.state?.asNumber, newValue))
         }
     }
 
-    class ImageViewHolder internal constructor(inflater: LayoutInflater, private val parent: ViewGroup,
-                                               private val connection: Connection) :
-            ViewHolder(inflater, parent, R.layout.widgetlist_imageitem) {
+    class ImageViewHolder internal constructor(
+        inflater: LayoutInflater,
+        private val parent: ViewGroup,
+        private val connection: Connection
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_imageitem) {
         private val imageView: WidgetImageView = itemView.findViewById(R.id.image)
         private var refreshRate: Int = 0
 
@@ -453,11 +477,13 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class SelectionViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                                   private val connection: Connection,
-                                                   colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_selectionitem, connection, colorMapper),
-            ExtendedSpinner.OnSelectionUpdatedListener {
+    class SelectionViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_selectionitem, connection, colorMapper),
+        ExtendedSpinner.OnSelectionUpdatedListener {
         private val spinner: ExtendedSpinner = itemView.findViewById(R.id.spinner)
         private var boundItem: Item? = null
         private var boundMappings: List<LabeledValue> = emptyList()
@@ -488,7 +514,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             }
 
             val spinnerAdapter = ArrayAdapter(itemView.context,
-                    android.R.layout.simple_spinner_item, spinnerArray)
+                android.R.layout.simple_spinner_item, spinnerArray)
             spinnerAdapter.setDropDownViewResource(R.layout.select_dialog_singlechoice)
 
             spinner.prompt = labelView.text
@@ -511,10 +537,13 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class SectionSwitchViewHolder internal constructor(private val inflater: LayoutInflater, parent: ViewGroup,
-                                                       private val connection: Connection, colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
-            View.OnClickListener {
+    class SectionSwitchViewHolder internal constructor(
+        private val inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
+        View.OnClickListener {
         private val radioGroup: RadioGroup = itemView.findViewById(R.id.switchgroup)
         private var boundItem: Item? = null
 
@@ -526,14 +555,14 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             // inflate missing views
             for (i in radioGroup.childCount until mappings.size) {
                 val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button,
-                        radioGroup, false)
+                    radioGroup, false)
                 view.setOnClickListener(this)
                 radioGroup.addView(view)
             }
             // bind views
             val state = boundItem?.state?.asString
             mappings.forEachIndexed { index, mapping ->
-                with (radioGroup[index] as SegmentedControlButton) {
+                with(radioGroup[index] as SegmentedControlButton) {
                     text = mapping.label
                     tag = mapping.value
                     isChecked = mapping.value == state
@@ -565,16 +594,18 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class RollerShutterViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                                       private val connection: Connection,
-                                                       colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_rollershutteritem, connection, colorMapper),
-            View.OnTouchListener {
+    class RollerShutterViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_rollershutteritem, connection, colorMapper),
+        View.OnTouchListener {
         private var boundItem: Item? = null
 
         init {
             val buttonCommandMap = mapOf(R.id.up_button to "UP",
-                    R.id.down_button to "DOWN", R.id.stop_button to "STOP")
+                R.id.down_button to "DOWN", R.id.stop_button to "STOP")
             for ((id, command) in buttonCommandMap) {
                 val button = itemView.findViewById<View>(id)
                 button.setOnTouchListener(this)
@@ -595,9 +626,12 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class SetpointViewHolder internal constructor(private val inflater: LayoutInflater, parent: ViewGroup,
-                                                  private val connection: Connection, colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_setpointitem, connection, colorMapper) {
+    class SetpointViewHolder internal constructor(
+        private val inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_setpointitem, connection, colorMapper) {
         private var boundWidget: Widget? = null
 
         init {
@@ -645,14 +679,13 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             }
 
             AlertDialog.Builder(itemView.context)
-                    .setTitle(labelView.text)
-                    .setView(dialogView)
-                    .setPositiveButton(R.string.set) { _, _ ->
-                        connection.httpClient.sendItemUpdate(widget.item, stepValues[picker.value])
-                    }
-                    .setNegativeButton(R.string.cancel, null)
-                    .show()
-
+                .setTitle(labelView.text)
+                .setView(dialogView)
+                .setPositiveButton(R.string.set) { _, _ ->
+                    connection.httpClient.sendItemUpdate(widget.item, stepValues[picker.value])
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .show()
         }
 
         private fun handleUpDown(down: Boolean) {
@@ -663,16 +696,17 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             val newValue = if (down) stateValue - widget.step else stateValue + widget.step
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
                 connection.httpClient.sendItemUpdate(widget.item,
-                        ParsedState.NumberState.withValue(state, newValue))
+                    ParsedState.NumberState.withValue(state, newValue))
             }
         }
     }
 
-    class ChartViewHolder internal constructor(inflater: LayoutInflater,
-                                               private val parent: ViewGroup,
-                                               private val chartTheme: CharSequence?,
-                                               private val connection: Connection) :
-            ViewHolder(inflater, parent, R.layout.widgetlist_chartitem) {
+    class ChartViewHolder internal constructor(
+        inflater: LayoutInflater,
+        private val parent: ViewGroup,
+        private val chartTheme: CharSequence?,
+        private val connection: Connection
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_chartitem) {
         private val chart: WidgetImageView = itemView.findViewById(R.id.chart)
         private val random = Random()
         private val prefs: SharedPreferences
@@ -702,14 +736,14 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
 
             val chartUrl = StringBuilder("chart?")
-                    .append(if (item.type === Item.Type.Group) "groups=" else "items=")
-                    .append(item.name)
-                    .append("&period=")
-                    .append(widget.period)
-                    .append("&random=")
-                    .append(random.nextInt())
-                    .append("&dpi=")
-                    .append(actualDensity.toInt() / resDivider)
+                .append(if (item.type === Item.Type.Group) "groups=" else "items=")
+                .append(item.name)
+                .append("&period=")
+                .append(widget.period)
+                .append("&random=")
+                .append(random.nextInt())
+                .append("&dpi=")
+                .append(actualDensity.toInt() / resDivider)
             if (widget.service.isNotEmpty()) {
                 chartUrl.append("&service=").append(widget.service)
             }
@@ -746,7 +780,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     }
 
     class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup) :
-            ViewHolder(inflater, parent, R.layout.widgetlist_videoitem) {
+        ViewHolder(inflater, parent, R.layout.widgetlist_videoitem) {
         private val videoView: VideoView = itemView.findViewById(R.id.video)
 
         override fun bind(widget: Widget) {
@@ -773,9 +807,11 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
     }
 
-    class WebViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                             private val connection: Connection) :
-            ViewHolder(inflater, parent, R.layout.widgetlist_webitem) {
+    class WebViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_webitem) {
         private val webView: WebView = itemView.findViewById(R.id.webview)
 
         @SuppressLint("SetJavaScriptEnabled")
@@ -786,21 +822,24 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             val url = connection.httpClient.buildUrl(widget.url!!).toString()
             webView.setUpForConnection(connection, url)
             webView.webViewClient = AnchorWebViewClient(url,
-                    connection.username, connection.password)
+                connection.username, connection.password)
             webView.loadUrl(url)
         }
     }
 
-    class ColorViewHolder internal constructor(private val inflater: LayoutInflater, parent: ViewGroup,
-                                               private val connection: Connection, colorMapper: ColorMapper) :
-            LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
-            View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
+    class ColorViewHolder internal constructor(
+        private val inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
+        View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
         private var boundItem: Item? = null
         private val handler = Handler(this)
 
         init {
             val buttonCommandMap = mapOf(R.id.up_button to "ON",
-                    R.id.down_button to "OFF", R.id.select_color_button to null)
+                R.id.down_button to "OFF", R.id.select_color_button to null)
             for ((id, command) in buttonCommandMap) {
                 val button = itemView.findViewById<View>(id)
                 button.setOnTouchListener(this)
@@ -833,7 +872,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
             Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
             val newColorValue = String.format(Locale.US, "%f,%f,%f",
-                    hsv[0], hsv[1] * 100, hsv[2] * 100)
+                hsv[0], hsv[1] * 100, hsv[2] * 100)
             connection.httpClient.sendItemCommand(boundItem, newColorValue)
             return true
         }
@@ -858,15 +897,17 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             }
 
             AlertDialog.Builder(contentView.context)
-                    .setView(contentView)
-                    .setNegativeButton(R.string.close, null)
-                    .show()
+                .setView(contentView)
+                .setNegativeButton(R.string.close, null)
+                .show()
         }
     }
 
-    class MjpegVideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup,
-                                                    private val connection: Connection) :
-            ViewHolder(inflater, parent, R.layout.widgetlist_videomjpegitem) {
+    class MjpegVideoViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_videomjpegitem) {
         private val imageView: ImageView = itemView.findViewById(R.id.mjpegimage)
         private var streamer: MjpegStreamer? = null
 
@@ -913,7 +954,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
     @VisibleForTesting
     class ColorMapper internal constructor(context: Context) {
-        private val mColorMap = HashMap<String, Int>()
+        private val colorMap = HashMap<String, Int>()
 
         init {
             val colorNames = context.resources.getStringArray(R.array.valueColorNames)
@@ -924,7 +965,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
             var i = 0
             while (i < ta.length() && i < colorNames.size) {
-                mColorMap[colorNames[i]] = ta.getColor(i, 0)
+                colorMap[colorNames[i]] = ta.getColor(i, 0)
                 i++
             }
 
@@ -941,9 +982,8 @@ class WidgetAdapter(context: Context, private val connection: Connection,
                 } catch (e: IllegalArgumentException) {
                     null
                 }
-
             } else {
-                mColorMap[colorName]
+                colorMap[colorName]
             }
         }
     }
@@ -1039,4 +1079,3 @@ fun HttpClient.sendItemCommand(item: Item?, command: String) {
         }
     }
 }
-

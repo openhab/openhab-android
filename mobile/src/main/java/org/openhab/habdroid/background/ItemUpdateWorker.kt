@@ -35,8 +35,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return runBlocking {
             try {
                 val result = connection.httpClient
-                        .post("rest/items/$item", value, "text/plain;charset=UTF-8")
-                        .asStatus()
+                    .post("rest/items/$item", value, "text/plain;charset=UTF-8")
+                    .asStatus()
                 Log.d(TAG, "Item '$item' successfully updated to value $value")
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
@@ -48,12 +48,12 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     private fun buildOutputData(hasConnection: Boolean, httpStatus: Int): Data {
         return Data.Builder()
-                .putBoolean(OUTPUT_DATA_HAS_CONNECTION, hasConnection)
-                .putInt(OUTPUT_DATA_HTTP_STATUS, httpStatus)
-                .putString(OUTPUT_DATA_ITEM, inputData.getString(INPUT_DATA_ITEM))
-                .putString(OUTPUT_DATA_VALUE, inputData.getString(INPUT_DATA_VALUE))
-                .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
-                .build()
+            .putBoolean(OUTPUT_DATA_HAS_CONNECTION, hasConnection)
+            .putInt(OUTPUT_DATA_HTTP_STATUS, httpStatus)
+            .putString(OUTPUT_DATA_ITEM, inputData.getString(INPUT_DATA_ITEM))
+            .putString(OUTPUT_DATA_VALUE, inputData.getString(INPUT_DATA_VALUE))
+            .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
+            .build()
     }
 
     companion object {
@@ -71,9 +71,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         fun buildData(item: String, value: String): Data {
             return Data.Builder()
-                    .putString(INPUT_DATA_ITEM, item)
-                    .putString(INPUT_DATA_VALUE, value)
-                    .build()
+                .putString(INPUT_DATA_ITEM, item)
+                .putString(INPUT_DATA_VALUE, value)
+                .build()
         }
     }
 }

@@ -24,7 +24,6 @@ import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
@@ -53,12 +52,11 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
     private var longUri: Uri? = null
     private var shortUri: Uri? = null
 
-    private val fragment: Fragment
-        get() = when {
-            nfcAdapter == null -> NfcUnsupportedFragment()
-            nfcAdapter?.isEnabled == false -> NfcDisabledFragment()
-            else -> NfcWriteTagFragment()
-        }
+    private val fragment get() = when {
+        nfcAdapter == null -> NfcUnsupportedFragment()
+        nfcAdapter?.isEnabled == false -> NfcDisabledFragment()
+        else -> NfcWriteTagFragment()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,7 +97,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         val adapter = nfcAdapter
         if (adapter != null) {
             val intent = Intent(this, javaClass)
-                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
             adapter.enableForegroundDispatch(this, pendingIntent, null, null)
         }
@@ -126,9 +124,9 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
                 progressBar.isInvisible = true
 
                 val watermark = findViewById<ImageView>(R.id.nfc_watermark)
-                watermark.setImageDrawable(ContextCompat.getDrawable(baseContext,
-                        R.drawable.ic_nfc_black_180dp))
-                Handler().postDelayed(this@WriteTagActivity::finish, 2000)
+                watermark.setImageDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_nfc_black_180dp))
+                delay(2000)
+                finish()
             } else {
                 writeTagMessage.setText(R.string.info_write_failed)
             }
@@ -216,15 +214,14 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         @get:DrawableRes
         protected abstract val watermarkIcon: Int
 
-        override fun onCreateView(inflater: LayoutInflater,
-                                  container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = inflater.inflate(R.layout.fragment_writenfc, container, false)
             val watermark = view.findViewById<ImageView>(R.id.nfc_watermark)
 
             val nfcIcon = ContextCompat.getDrawable(view.context, watermarkIcon)
             nfcIcon?.setColorFilter(
-                    ContextCompat.getColor(view.context, R.color.empty_list_text_color),
-                    PorterDuff.Mode.SRC_IN)
+                ContextCompat.getColor(view.context, R.color.empty_list_text_color),
+                PorterDuff.Mode.SRC_IN)
             watermark.setImageDrawable(nfcIcon)
 
             return view
@@ -236,8 +233,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             @DrawableRes
             get() = R.drawable.ic_nfc_off_black_180dp
 
-        override fun onCreateView(inflater: LayoutInflater,
-                                  container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = super.onCreateView(inflater, container, savedInstanceState)
             val message = view?.findViewById<TextView>(R.id.write_tag_message)
             message?.setText(R.string.info_write_tag_unsupported)
@@ -250,8 +246,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             @DrawableRes
             get() = R.drawable.ic_nfc_off_black_180dp
 
-        override fun onCreateView(inflater: LayoutInflater,
-                                  container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = super.onCreateView(inflater, container, savedInstanceState)
             val message = view?.findViewById<TextView>(R.id.write_tag_message)
             message?.setText(R.string.info_write_tag_disabled)
@@ -275,8 +270,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             @DrawableRes
             get() = R.drawable.ic_nfc_search_black_180dp
 
-        override fun onCreateView(inflater: LayoutInflater,
-                                  container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = super.onCreateView(inflater, container, savedInstanceState)
             view?.findViewById<View>(R.id.nfc_wait_progress)?.isVisible = true
             return view
@@ -288,22 +282,27 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         private const val EXTRA_LONG_URI = "longUri"
         private const val EXTRA_SHORT_URI = "shortUri"
 
-        fun createItemUpdateIntent(context: Context, itemName: String, state: String,
-                                   mappedState: String, label: String): Intent {
+        fun createItemUpdateIntent(
+            context: Context,
+            itemName: String,
+            state: String,
+            mappedState: String,
+            label: String
+        ): Intent {
             if (itemName.isEmpty() || state.isEmpty()) {
                 throw IllegalArgumentException("Item name or state is empty")
             }
             val uriBuilder = Uri.Builder()
-                    .scheme(NfcTag.SCHEME)
-                    .authority("")
-                    .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, itemName)
-                    .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, state)
+                .scheme(NfcTag.SCHEME)
+                .authority("")
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, itemName)
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, state)
 
             val shortUri = uriBuilder.build()
             val longUri = uriBuilder
-                    .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mappedState)
-                    .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, label)
-                    .build()
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mappedState)
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, label)
+                .build()
 
             return Intent(context, WriteTagActivity::class.java).apply {
                 putExtra(EXTRA_SHORT_URI, shortUri)
@@ -318,12 +317,12 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
                 throw IllegalArgumentException("Expected a sitemap URL")
             }
             val longUri = Uri.Builder()
-                    .scheme(NfcTag.SCHEME)
-                    .authority("")
-                    .appendEncodedPath(path.substring(15))
-                    .build()
+                .scheme(NfcTag.SCHEME)
+                .authority("")
+                .appendEncodedPath(path.substring(15))
+                .build()
             return Intent(context, WriteTagActivity::class.java)
-                    .putExtra(EXTRA_LONG_URI, longUri)
+                .putExtra(EXTRA_LONG_URI, longUri)
         }
     }
 }

@@ -71,25 +71,25 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         /**
          * Let parent know about an update to the widget list for a given URL.
          *
-         * @param pageUrl   URL of the updated page
+         * @param pageUrl URL of the updated page
          * @param pageTitle Updated page title
-         * @param widgets   Updated list of widgets for the given page
+         * @param widgets Updated list of widgets for the given page
          */
         fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>)
 
         /**
          * Let parent know about an update to the contents of a single widget.
          *
-         * @param pageUrl  URL of the page the updated widget belongs to
-         * @param widget   Updated widget
+         * @param pageUrl URL of the page the updated widget belongs to
+         * @param widget Updated widget
          */
         fun onWidgetUpdated(pageUrl: String, widget: Widget)
 
         /**
          * Let parent know about an update to the page title
          *
-         * @param pageUrl  URL of the page the updated title belongs to
-         * @param title    Updated title
+         * @param pageUrl URL of the page the updated title belongs to
+         * @param title Updated title
          */
         fun onPageTitleUpdated(pageUrl: String, title: String)
 
@@ -151,7 +151,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
     /**
      * Update list of page URLs to track
      *
-     * @param urls       New list of URLs to track
+     * @param urls New list of URLs to track
      * @param connection Connection to use, or null if none is available
      */
     fun updateActiveConnections(urls: List<String>, connection: Connection?) {
@@ -163,7 +163,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         }
 
         connections.keys.filterNot { url -> url in urls }
-                .forEach { url -> connections.remove(url)?.cancel() }
+            .forEach { url -> connections.remove(url)?.cancel() }
         for (url in urls) {
             var handler = connections[url]
             if (handler == null) {
@@ -182,7 +182,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
     /**
      * Ask for new data to be delivered for a given page
      *
-     * @param pageUrl     URL of page to trigger update for
+     * @param pageUrl URL of page to trigger update for
      * @param forceReload true if existing data should be discarded and new data be loaded,
      * false if only existing data should be delivered, if it exists
      */
@@ -190,8 +190,12 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         connections[pageUrl]?.triggerUpdate(forceReload)
     }
 
-    private class ConnectionHandler(private val scope: CoroutineScope, private val url: String,
-                                    connection: Connection, internal var callback: ParentCallback) {
+    private class ConnectionHandler(
+        private val scope: CoroutineScope,
+        private val url: String,
+        connection: Connection,
+        internal var callback: ParentCallback
+    ) {
         private var httpClient: HttpClient = connection.httpClient
         private var requestJob: Job? = null
         private var longPolling: Boolean = false
@@ -208,7 +212,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                     val pageId = segments[segments.size - 1]
                     Log.d(TAG, "Creating new SSE helper for sitemap $sitemap, page $pageId")
                     eventHelper = EventHelper(scope, httpClient, sitemap, pageId,
-                            this::handleUpdateEvent, this::handleSseSubscriptionFailure)
+                        this::handleUpdateEvent, this::handleSseSubscriptionFailure)
                 }
             }
         }
@@ -295,12 +299,12 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
             val dataSource = WidgetDataSource(callback.iconFormat)
             val hasUpdate = if (callback.serverProperties?.hasJsonApi() == true)
-                    parseResponseJson(dataSource, response) else parseResponseXml(dataSource, response)
+                parseResponseJson(dataSource, response) else parseResponseXml(dataSource, response)
 
             if (hasUpdate) {
                 // Remove frame widgets with no label text
                 val widgetList = dataSource.widgets
-                        .filterNot { w -> w.type == Widget.Type.Frame && w.label.isEmpty() }
+                    .filterNot { w -> w.type == Widget.Type.Frame && w.label.isEmpty() }
                 Log.d(TAG, "Updated page data for URL $url (${widgetList.size} widgets)")
                 if (callback.isDetailedLoggingEnabled) {
                     widgetList.forEachIndexed { index, widget ->
@@ -342,7 +346,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 longPolling = false
                 return false
             }
-
         }
 
         private fun parseResponseJson(dataSource: WidgetDataSource, response: String): Boolean {
@@ -362,7 +365,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 longPolling = false
                 return false
             }
-
         }
 
         internal fun handleUpdateEvent(pageId: String, payload: String) {
@@ -387,12 +389,12 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                     callback.onPageTitleUpdated(url, jsonObject.getString("label"))
                     return
                 }
-                val pos = widgetList.indexOfFirst {  w -> w.id == widgetId }
+                val pos = widgetList.indexOfFirst { w -> w.id == widgetId }
                 if (pos >= 0) {
                     val updatedWidget = Widget.updateFromEvent(widgetList[pos], jsonObject, callback.iconFormat)
                     widgetList[pos] = updatedWidget
                     callback.onWidgetUpdated(url, updatedWidget)
-                } else  {
+                } else {
                     // We didn't find the widget, so the widget in question probably
                     // just became visible. Reload the page in that case.
                     if (jsonObject.optBoolean("visibility")) {
@@ -403,7 +405,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             } catch (e: JSONException) {
                 Log.w(TAG, "Could not parse SSE event ('$payload')", e)
             }
-
         }
 
         internal fun handleSseSubscriptionFailure() {
@@ -414,12 +415,14 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        private class EventHelper internal constructor(private val scope: CoroutineScope,
-                                                       private val client: HttpClient,
-                                                       private val sitemap: String,
-                                                       private val pageId: String,
-                                                       private val updateCb: (pageId: String, message: String) -> Unit,
-                                                       private val failureCb: () -> Unit) : ServerSentEvent.Listener {
+        private class EventHelper internal constructor(
+            private val scope: CoroutineScope,
+            private val client: HttpClient,
+            private val sitemap: String,
+            private val pageId: String,
+            private val updateCb: (pageId: String, message: String) -> Unit,
+            private val failureCb: () -> Unit
+        ) : ServerSentEvent.Listener {
             private val handler: Handler = Handler(Looper.getMainLooper())
             private var subscribeJob: Job? = null
             private var eventStream: ServerSentEvent? = null
@@ -431,7 +434,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 subscribeJob = scope.launch {
                     try {
                         val response = client.post("/rest/sitemaps/events/subscribe",
-                                "{}", "application/json").asText()
+                            "{}", "application/json").asText()
                         val result = JSONObject(response.response)
                         val status = result.getString("status")
                         if (status != "CREATED") {
@@ -441,9 +444,9 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                         val url = HttpUrl.parse(headerObject.getJSONArray("Location").getString(0))
                         if (url != null) {
                             val u = url.newBuilder()
-                                    .addQueryParameter("sitemap", sitemap)
-                                    .addQueryParameter("pageid", pageId)
-                                    .build()
+                                .addQueryParameter("sitemap", sitemap)
+                                .addQueryParameter("pageid", pageId)
+                                .build()
                             eventStream = client.makeSse(u, this@EventHelper)
                         }
                     } catch (e: JSONException) {
@@ -467,7 +470,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 subscribeJob = null
             }
 
-
             override fun onOpen(sse: ServerSentEvent, response: Response) {
                 retries = 0
             }
@@ -482,8 +484,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 return true
             }
 
-            override fun onRetryError(sse: ServerSentEvent,
-                                      throwable: Throwable, response: Response?): Boolean {
+            override fun onRetryError(sse: ServerSentEvent, throwable: Throwable, response: Response?): Boolean {
                 val statusCode = response?.code() ?: 0
                 Log.w(TAG, "SSE stream failed for page $pageId with status $statusCode (retry $retries)")
                 // Stop retrying after maximum amount of subsequent retries is reached

@@ -39,22 +39,21 @@ fun WebView.setUpForConnection(connection: Connection, url: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val webViewDatabase = WebViewDatabase.getInstance(context)
         webViewDatabase.setHttpAuthUsernamePassword(url.toUri().host, "",
-                connection.username, connection.password)
+            connection.username, connection.password)
     } else {
         @Suppress("DEPRECATION")
         setHttpAuthUsernamePassword(url.toUri().host, "",
-                connection.username, connection.password)
+            connection.username, connection.password)
     }
 
-    with (settings) {
+    with(settings) {
         domStorageEnabled = true
         javaScriptEnabled = true
         setSupportMultipleWindows(true)
     }
 
     webChromeClient = object : WebChromeClient() {
-        override fun onCreateWindow(view: WebView, dialog: Boolean,
-                                    userGesture: Boolean, resultMsg: Message): Boolean {
+        override fun onCreateWindow(view: WebView, dialog: Boolean, userGesture: Boolean, resultMsg: Message): Boolean {
             val href = view.handler.obtainMessage()
             view.requestFocusNodeHref(href)
             href.data.getString("url")?.toUri().openInBrowser(view.context)

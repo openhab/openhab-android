@@ -33,11 +33,11 @@ class WidgetDataSource(private val iconFormat: String) {
 
     val widgets: List<Widget> get() {
         val firstLevelWidgetIds = allWidgets
-                .filter { w -> w.parentId == null }
-                .map { w -> w.id }
-                .toSet()
+            .filter { w -> w.parentId == null }
+            .map { w -> w.id }
+            .toSet()
         return allWidgets
-                .filter { w -> w.parentId == null || w.parentId in firstLevelWidgetIds }
+            .filter { w -> w.parentId == null || w.parentId in firstLevelWidgetIds }
     }
 
     fun setSourceNode(rootNode: Node?) {
@@ -62,7 +62,7 @@ class WidgetDataSource(private val iconFormat: String) {
         }
         try {
             jsonObject.getJSONArray("widgets").forEach {
-                obj -> allWidgets.addAll(obj.collectWidgets(null, iconFormat))
+                    obj -> allWidgets.addAll(obj.collectWidgets(null, iconFormat))
             }
             id = jsonObject.optString("id", null)
             title = jsonObject.optString("title", id.orEmpty())

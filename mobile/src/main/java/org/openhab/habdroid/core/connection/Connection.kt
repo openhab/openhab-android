@@ -3,7 +3,6 @@ package org.openhab.habdroid.core.connection
 import org.openhab.habdroid.util.HttpClient
 
 interface Connection {
-
     /**
      * @return A fully setup http client for requesting resources from the
      * server represented in this Connection object.

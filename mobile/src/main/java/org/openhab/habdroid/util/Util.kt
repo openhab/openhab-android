@@ -39,17 +39,10 @@ import javax.net.ssl.SSLPeerUnverifiedException
 object Util {
     val TAG: String = Util::class.java.simpleName
 
-    private val isFlavorStable: Boolean
-        get() = BuildConfig.FLAVOR.toLowerCase().contains("stable")
-
-    val isFlavorBeta: Boolean
-        get() = !isFlavorStable
-
-    val isFlavorFull: Boolean
-        get() = BuildConfig.FLAVOR.toLowerCase().contains("full")
-
-    val isFlavorFoss: Boolean
-        get() = !isFlavorFull
+    private val isFlavorStable get() = BuildConfig.FLAVOR.toLowerCase().contains("stable")
+    val isFlavorBeta get() = !isFlavorStable
+    val isFlavorFull get() = BuildConfig.FLAVOR.toLowerCase().contains("full")
+    val isFlavorFoss get() = !isFlavorFull
 
     @StyleRes
     @JvmOverloads
@@ -68,20 +61,18 @@ object Util {
         }
     }
 
-    fun getHumanReadableErrorMessage(context: Context, url: String,
-                                     statusCode: Int, error: Throwable): CharSequence {
+    fun getHumanReadableErrorMessage(context: Context, url: String, statusCode: Int, error: Throwable): CharSequence {
         if (statusCode >= 400) {
             return if (error.message == "openHAB is offline") {
                 context.getString(R.string.error_openhab_offline)
             } else {
                 try {
                     context.getString(context.resources.getIdentifier(
-                            "error_http_code_$statusCode",
-                            "string", context.packageName))
+                        "error_http_code_$statusCode",
+                        "string", context.packageName))
                 } catch (e: Resources.NotFoundException) {
                     context.getString(R.string.error_http_connection_failed, statusCode)
                 }
-
             }
         } else if (error is UnknownHostException) {
             Log.e(TAG, "Unable to resolve hostname")
@@ -94,7 +85,9 @@ object Util {
                 context.getString(R.string.error_certificate_expired)
             } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
                 context.getString(R.string.error_certificate_not_valid_yet)
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && error.hasCause(CertificateRevokedException::class.java)) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                error.hasCause(CertificateRevokedException::class.java)
+            ) {
                 context.getString(R.string.error_certificate_revoked)
             } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
                 context.getString(R.string.error_certificate_wrong_host, url.toUri().host)
@@ -117,8 +110,8 @@ object Util {
     fun showToast(context: Context, message: CharSequence) {
         Handler(Looper.getMainLooper()).post {
             Toasty.custom(context, message, R.drawable.ic_openhab_appicon_24dp,
-                    R.color.openhab_orange, Toasty.LENGTH_SHORT, true, true)
-                    .show()
+                R.color.openhab_orange, Toasty.LENGTH_SHORT, true, true)
+                .show()
         }
     }
 }

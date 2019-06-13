@@ -19,8 +19,13 @@ abstract class AbstractConnection : Connection {
 
     final override val httpClient: HttpClient
 
-    internal constructor(httpClient: OkHttpClient, connectionType: Int,
-                         baseUrl: String, username: String?, password: String?) {
+    internal constructor(
+        httpClient: OkHttpClient,
+        connectionType: Int,
+        baseUrl: String,
+        username: String?,
+        password: String?
+    ) {
         this.username = username
         this.password = password
         this.baseUrl = baseUrl
@@ -52,7 +57,6 @@ abstract class AbstractConnection : Connection {
             Log.d(TAG, e.message)
             return false
         }
-
     }
 
     private fun createConnectedSocket(socketAddress: InetSocketAddress): Socket? {

@@ -2,8 +2,13 @@ package org.openhab.habdroid.model
 
 import android.net.Uri
 
-data class NfcTag(val sitemap: String?, val item: String?, val label: String?,
-                  val state: String?, val mappedState: String?) {
+data class NfcTag(
+    val sitemap: String?,
+    val item: String?,
+    val label: String?,
+    val state: String?,
+    val mappedState: String?
+) {
     companion object {
         const val SCHEME = "openhab"
         const val QUERY_PARAMETER_ITEM_NAME = "i"

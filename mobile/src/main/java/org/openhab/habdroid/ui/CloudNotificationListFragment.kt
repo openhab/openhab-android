@@ -38,8 +38,7 @@ import org.openhab.habdroid.util.map
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class CloudNotificationListFragment : Fragment(), View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener {
+class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var retryButton: View
@@ -53,8 +52,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener,
     private lateinit var layoutManager: LinearLayoutManager
     private var loadOffset: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView")
         val view = inflater.inflate(R.layout.fragment_notificationlist, container, false)
@@ -163,9 +161,9 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener,
         emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(
-                if (loadError) R.string.notification_list_error else R.string.notification_list_empty)
+            if (loadError) R.string.notification_list_error else R.string.notification_list_empty)
         emptyWatermark.setImageResource(
-                if (loadError) R.drawable.ic_connection_error else R.drawable.ic_no_notifications)
+            if (loadError) R.drawable.ic_connection_error else R.drawable.ic_no_notifications)
         retryButton.isVisible = loadError
     }
 

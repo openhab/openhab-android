@@ -19,18 +19,23 @@ import org.openhab.habdroid.model.Widget
 import java.util.*
 
 object MapViewHelper {
-    fun createViewHolder(inflater: LayoutInflater,
-                         parent: ViewGroup, connection: Connection,
-                         colorMapper: WidgetAdapter.ColorMapper): WidgetAdapter.ViewHolder {
+    fun createViewHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        connection: Connection,
+        colorMapper: WidgetAdapter.ColorMapper
+    ): WidgetAdapter.ViewHolder {
         MapsInitializer.initialize(inflater.context)
         return GoogleMapsViewHolder(inflater, parent, connection, colorMapper)
     }
 
-    private class GoogleMapsViewHolder(inflater: LayoutInflater, parent: ViewGroup,
-                                       private val connection: Connection,
-                                       colorMapper: WidgetAdapter.ColorMapper) :
-            WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
-            GoogleMap.OnMarkerDragListener {
+    private class GoogleMapsViewHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: WidgetAdapter.ColorMapper
+    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
+        GoogleMap.OnMarkerDragListener {
         private val mapView: MapView = itemView.findViewById(R.id.mapview)
         private var map: GoogleMap? = null
         private var boundItem: Item? = null
@@ -40,7 +45,7 @@ object MapViewHelper {
             mapView.onCreate(null)
             mapView.getMapAsync { map ->
                 this.map = map
-                with (map.uiSettings) {
+                with(map.uiSettings) {
                     setAllGesturesEnabled(false)
                     isMapToolbarEnabled = false
                 }
@@ -51,7 +56,6 @@ object MapViewHelper {
                 map.setOnMapClickListener { openPopup() }
                 map.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
             }
-
         }
 
         override fun bind(widget: Widget) {

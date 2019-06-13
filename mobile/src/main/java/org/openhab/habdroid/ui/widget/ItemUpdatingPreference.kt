@@ -18,8 +18,8 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 
-class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?):
-        DialogPreference(context, attrs), TextWatcher, CompoundButton.OnCheckedChangeListener {
+class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) :
+    DialogPreference(context, attrs), TextWatcher, CompoundButton.OnCheckedChangeListener {
     private val howtoHint: String?
     private val howtoUrl: String?
     private val summaryOn: String?
@@ -155,5 +155,4 @@ fun String?.toItemUpdatePrefValue(): Pair<Boolean, String> {
         return Pair(false, "")
     }
     return Pair(this!!.substring(0, pos).toBoolean(), substring(pos + 1))
-
 }

@@ -20,9 +20,7 @@ abstract class ProgressbarAwareTest {
         ProgressbarIdlingResource("Progressbar IdleResource", progressBar)
     }
     private val fragmentIdlingResource: IdlingResource by lazy {
-        FragmentStatusIdlingResource("FragmentIdleResource",
-                activityTestRule.activity.supportFragmentManager)
-
+        FragmentStatusIdlingResource("FragmentIdleResource", activityTestRule.activity.supportFragmentManager)
     }
 
     @Before

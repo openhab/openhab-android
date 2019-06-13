@@ -24,36 +24,38 @@ import javax.jmdns.ServiceEvent
 import javax.jmdns.ServiceInfo
 import javax.jmdns.ServiceListener
 
-class AsyncServiceResolver(context: Context, private val serviceType: String,
-                           private val scope: CoroutineScope) : ServiceListener {
+class AsyncServiceResolver(
+    context: Context,
+    private val serviceType: String,
+    private val scope: CoroutineScope
+) : ServiceListener {
     // Multicast lock for mDNS
     private val multicastLock: MulticastLock
     // mDNS service
     private var jmdns: JmDNS? = null
     private val serviceInfoChannel = Channel<ServiceInfo>(0)
 
-    private val localIpv4Address: InetAddress?
-        get() {
-            try {
-                val en = NetworkInterface.getNetworkInterfaces()
-                while (en.hasMoreElements()) {
-                    val intf = en.nextElement()
-                    val enumIpAddr = intf.inetAddresses
-                    while (enumIpAddr.hasMoreElements()) {
-                        val inetAddress = enumIpAddr.nextElement()
-                        Log.i(TAG, "IP: ${inetAddress.hostAddress}")
-                        if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
-                            Log.i(TAG, "Selected ${inetAddress.getHostAddress()}")
-                            return inetAddress
-                        }
+    private val localIpv4Address: InetAddress? get() {
+        try {
+            val en = NetworkInterface.getNetworkInterfaces()
+            while (en.hasMoreElements()) {
+                val intf = en.nextElement()
+                val enumIpAddr = intf.inetAddresses
+                while (enumIpAddr.hasMoreElements()) {
+                    val inetAddress = enumIpAddr.nextElement()
+                    Log.i(TAG, "IP: ${inetAddress.hostAddress}")
+                    if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
+                        Log.i(TAG, "Selected ${inetAddress.getHostAddress()}")
+                        return inetAddress
                     }
                 }
-            } catch (ex: SocketException) {
-                Log.e(TAG, ex.toString())
             }
-
-            return null
+        } catch (ex: SocketException) {
+            Log.e(TAG, ex.toString())
         }
+
+        return null
+    }
 
     init {
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager

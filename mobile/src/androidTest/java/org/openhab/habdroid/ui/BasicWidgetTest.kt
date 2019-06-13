@@ -98,14 +98,19 @@ class BasicWidgetTest : TestWithoutIntro() {
     }
 
     companion object {
-
-        fun atPositionOnView(position: Int,
-                             itemMatcher: Matcher<View>, @IdRes targetViewId: Int): Matcher<View> {
+        fun atPositionOnView(
+            position: Int,
+            itemMatcher: Matcher<View>,
+            @IdRes targetViewId: Int
+        ): Matcher<View> {
             return atPositionOnView(position, itemMatcher) { parent -> parent.findViewById(targetViewId) }
         }
 
-        private fun atPositionOnView(position: Int,
-                                     itemMatcher: Matcher<View>, childCb: (parent: View) -> View): Matcher<View> {
+        private fun atPositionOnView(
+            position: Int,
+            itemMatcher: Matcher<View>,
+            childCb: (parent: View) -> View
+        ): Matcher<View> {
             return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
                 override fun describeTo(description: Description) {
                     description.appendText("has view id $itemMatcher at position $position")

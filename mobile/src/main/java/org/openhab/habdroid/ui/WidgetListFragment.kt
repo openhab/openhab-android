@@ -69,7 +69,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
 
         if (titleOverride == null) {
             titleOverride = savedInstanceState?.getString("title")
-                    ?: arguments?.getString("title")
+                ?: arguments?.getString("title")
         }
     }
 
@@ -78,8 +78,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         outState.putString("title", titleOverride)
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_widgetlist, container, false)
     }
@@ -152,24 +151,22 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
 
         AlertDialog.Builder(context)
-                .setTitle(R.string.nfc_dialog_title)
-                .setItems(labels.toTypedArray()) { _, which ->
-                    if (which == commands.size + 1 && widget.linkedPage != null) {
-                        createShortcut(context, widget.linkedPage)
-                    } else {
-                        val itemToHandle = if (which < commands.size) widget.item else null
-                        val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
-                        if (itemToHandle != null) {
-                            startActivity(WriteTagActivity.createItemUpdateIntent(context,
-                                    itemToHandle.name, commands[which],
-                                    labels[which], itemToHandle.label.orEmpty()))
-                        } else if (linkToHandle != null) {
-                            startActivity(WriteTagActivity.createSitemapNavigationIntent(
-                                    context, linkToHandle))
-                        }
+            .setTitle(R.string.nfc_dialog_title)
+            .setItems(labels.toTypedArray()) { _, which ->
+                if (which == commands.size + 1 && widget.linkedPage != null) {
+                    createShortcut(context, widget.linkedPage)
+                } else {
+                    val itemToHandle = if (which < commands.size) widget.item else null
+                    val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
+                    if (itemToHandle != null) {
+                        startActivity(WriteTagActivity.createItemUpdateIntent(context,
+                            itemToHandle.name, commands[which], labels[which], itemToHandle.label.orEmpty()))
+                    } else if (linkToHandle != null) {
+                        startActivity(WriteTagActivity.createSitemapNavigationIntent(context, linkToHandle))
                     }
                 }
-                .show()
+            }
+            .show()
 
         return true
     }
@@ -221,9 +218,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
         val iconFormat = context.getPrefs().getIconFormat()
         val url = Uri.Builder()
-                .appendEncodedPath(linkedPage.iconPath)
-                .appendQueryParameter("format", iconFormat)
-                .toString()
+            .appendEncodedPath(linkedPage.iconPath)
+            .appendQueryParameter("format", iconFormat)
+            .toString()
         val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
         /**
          *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
@@ -236,10 +233,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             val borderSize = context.resources.dpToPixel(31F)
             val totalFrameWidth = (borderSize * 2).toInt()
             val bitmapWithBackground = Bitmap.createBitmap(
-                    bitmap.width + totalFrameWidth,
-                    bitmap.height + totalFrameWidth,
-                    bitmap.config)
-            with (Canvas(bitmapWithBackground)) {
+                bitmap.width + totalFrameWidth,
+                bitmap.height + totalFrameWidth,
+                bitmap.config)
+            with(Canvas(bitmapWithBackground)) {
                 drawColor(Color.WHITE)
                 drawBitmap(bitmap, borderSize, borderSize, null)
             }
@@ -261,11 +258,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val name = if (linkedPage.title.isNullOrEmpty())
             context.getString(R.string.app_name) else linkedPage.title
         val shortcutInfo = ShortcutInfoCompat.Builder(context,
-                shortSitemapUri + '-' + System.currentTimeMillis())
-                .setShortLabel(name)
-                .setIcon(icon)
-                .setIntent(startIntent)
-                .build()
+            shortSitemapUri + '-' + System.currentTimeMillis())
+            .setShortLabel(name)
+            .setIcon(icon)
+            .setIntent(startIntent)
+            .build()
 
         val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         withContext(Dispatchers.Main) {
@@ -287,8 +284,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {
             val fragment = WidgetListFragment()
             fragment.arguments = bundleOf(
-                    "displayPageUrl" to pageUrl,
-                    "title" to pageTitle
+                "displayPageUrl" to pageUrl,
+                "title" to pageTitle
             )
             return fragment
         }

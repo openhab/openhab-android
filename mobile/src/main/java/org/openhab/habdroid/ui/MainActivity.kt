@@ -142,8 +142,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val constructor = controllerClass.getConstructor(MainActivity::class.java)
             controller = constructor.newInstance(this) as ContentController
         } catch (e: Exception) {
-            Log.wtf(TAG, "Could not instantiate activity controller class '"
-                    + controllerClassName + "'")
+            Log.wtf(TAG, "Could not instantiate activity controller class '$controllerClassName'")
             throw RuntimeException(e)
         }
 
@@ -269,7 +268,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter != null) {
             val intent = Intent(this, javaClass)
-                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             val pi = PendingIntent.getActivity(this, 0, intent, 0)
             nfcAdapter.enableForegroundDispatch(this, pi, null, null)
         }
@@ -330,8 +329,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 if (data == null) {
                     return
                 }
-                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)
-                        && connection != null && serverProperties != null) {
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false) &&
+                    connection != null &&
+                    serverProperties != null
+                ) {
                     val sitemap = selectConfiguredSitemapFromList()
                     if (sitemap != null) {
                         openSitemap(sitemap)
@@ -350,7 +351,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
         Log.d(TAG, "onSaveInstanceState()")
         isStarted = false
-        with (savedInstanceState) {
+        with(savedInstanceState) {
             putParcelable("serverProperties", serverProperties)
             putParcelable("sitemap", selectedSitemap)
             putBoolean("isSitemapSelectionDialogShown", sitemapSelectionDialog?.isShowing == true)
@@ -410,17 +411,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
+                if (failureReason.wouldHaveUsedLocalConnection() &&
+                    ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null
+                ) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(this,
-                                getString(R.string.openhab_service_type), this)
+                            getString(R.string.openhab_service_type), this)
                         serviceResolveJob = launch {
                             handleServiceResolveResult(resolver.resolve())
                             serviceResolveJob = null
                         }
                         controller.updateConnection(null,
-                                getString(R.string.resolving_openhab),
-                                R.drawable.ic_openhab_appicon_340dp /*FIXME?*/)
+                            getString(R.string.resolving_openhab),
+                            R.drawable.ic_openhab_appicon_340dp /*FIXME?*/)
                     }
                 } else {
                     controller.indicateMissingConfiguration(false)
@@ -429,11 +432,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason is NetworkNotSupportedException -> {
                 val info = failureReason.networkInfo
                 controller.indicateNoNetwork(
-                        getString(R.string.error_network_type_unsupported, info.typeName), false)
+                    getString(R.string.error_network_type_unsupported, info.typeName), false)
             }
             failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
                 controller.indicateNoNetwork(
-                        getString(R.string.error_wifi_not_available), true)
+                    getString(R.string.error_wifi_not_available), true)
             }
             failureReason is ConnectionNotInitializedException -> {
                 controller.updateConnection(null, null, 0)
@@ -459,8 +462,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (connection is DemoConnection) {
             showDemoModeHintSnackbar()
         } else {
-            val hasLocalAndRemote = ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null
-                    && ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null
+            val hasLocalAndRemote = ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
+                ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(R.string.info_conn_url)
@@ -475,7 +478,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         wifiManager.isWifiEnabled = true
         controller.updateConnection(null, getString(R.string.waiting_for_wifi),
-                R.drawable.ic_wifi_strength_outline_black_24dp)
+            R.drawable.ic_wifi_strength_outline_black_24dp)
     }
 
     fun retryServerPropertyQuery() {
@@ -490,8 +493,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             updateSitemapAndHabpanelDrawerItems()
             if (props.sitemaps.isEmpty()) {
                 Log.e(TAG, "openHAB returned empty sitemap list")
-                controller.indicateServerCommunicationFailure(
-                        getString(R.string.error_empty_sitemap_list))
+                controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
             } else {
                 val sitemap = selectConfiguredSitemapFromList()
                 if (sitemap != null) {
@@ -510,7 +512,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             openPendingSitemapIfNeeded()
         }
         propsUpdateHandle = ServerProperties.fetch(this, connection!!,
-                successCb, this::handlePropertyFetchFailure)
+            successCb, this::handlePropertyFetchFailure)
     }
 
     private fun handleServiceResolveResult(info: ServiceInfo?) {
@@ -579,20 +581,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout)
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout,
-                R.string.drawer_open, R.string.drawer_close)
+            R.string.drawer_open, R.string.drawer_close)
         drawerLayout.addDrawerListener(drawerToggle)
         drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
             override fun onDrawerOpened(drawerView: View) {
                 if (serverProperties != null && propsUpdateHandle == null) {
                     propsUpdateHandle = ServerProperties.updateSitemaps(this@MainActivity,
-                            serverProperties!!,
-                            connection!!,
-                            { props ->
-                                serverProperties = props
-                                openPendingSitemapIfNeeded()
-                                updateSitemapAndHabpanelDrawerItems()
-                            },
-                            this@MainActivity::handlePropertyFetchFailure)
+                        serverProperties!!, connection!!,
+                        { props ->
+                            serverProperties = props
+                            openPendingSitemapIfNeeded()
+                            updateSitemapAndHabpanelDrawerItems()
+                        },
+                        this@MainActivity::handlePropertyFetchFailure)
                 }
             }
         })
@@ -622,10 +623,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.settings -> {
-                    val settingsIntent = Intent(this@MainActivity,
-                            PreferencesActivity::class.java)
-                    settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES,
-                            serverProperties)
+                    val settingsIntent = Intent(this@MainActivity, PreferencesActivity::class.java)
+                    settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES, serverProperties)
                     startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE)
                     handled = true
                 }
@@ -690,9 +689,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         launch {
             try {
                 item.icon = connection!!.httpClient.get(url)
-                        .asBitmap(defaultIcon!!.intrinsicWidth, true)
-                        .response
-                        .toDrawable(resources)
+                    .asBitmap(defaultIcon!!.intrinsicWidth, true)
+                    .response
+                    .toDrawable(resources)
             } catch (e: HttpClient.HttpException) {
                 Log.w(TAG, "Could not fetch icon for sitemap ${sitemap.name}")
             }
@@ -709,16 +708,17 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun openNotificationsPageIfNeeded() {
-        if (pendingOpenedNotificationId != null && isStarted
-                && ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
+        if (pendingOpenedNotificationId != null &&
+            isStarted &&
+            ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null
+        ) {
             openNotifications(pendingOpenedNotificationId)
             pendingOpenedNotificationId = null
         }
     }
 
     private fun openHabpanelIfNeeded() {
-        if (isStarted && shouldOpenHabpanel && serverProperties != null
-                && serverProperties!!.hasHabpanelInstalled()) {
+        if (isStarted && shouldOpenHabpanel && serverProperties != null && serverProperties!!.hasHabpanelInstalled()) {
             openHabpanel()
             shouldOpenHabpanel = false
         }
@@ -784,16 +784,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val sitemaps = serverProperties!!.sitemaps
         val sitemapLabels = sitemaps.map { s -> s.label }.toTypedArray()
         sitemapSelectionDialog = AlertDialog.Builder(this)
-                .setTitle(R.string.mainmenu_openhab_selectsitemap)
-                .setItems(sitemapLabels) { _, which ->
-                    val sitemap = sitemaps[which]
-                    Log.d(TAG, "Selected sitemap $sitemap")
-                    prefs.edit {
-                        updateDefaultSitemap(sitemap)
-                    }
-                    openSitemap(sitemap)
+            .setTitle(R.string.mainmenu_openhab_selectsitemap)
+            .setItems(sitemapLabels) { _, which ->
+                val sitemap = sitemaps[which]
+                Log.d(TAG, "Selected sitemap $sitemap")
+                prefs.edit {
+                    updateDefaultSitemap(sitemap)
                 }
-                .show()
+                openSitemap(sitemap)
+            }
+            .show()
     }
 
     private fun openNotifications(highlightedId: String?) {
@@ -859,15 +859,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install) {
                 try {
                     startActivity(Intent(Intent.ACTION_VIEW,
-                            "market://details?id=com.google.android.googlequicksearchbox".toUri()))
+                        "market://details?id=com.google.android.googlequicksearchbox".toUri()))
                 } catch (appStoreNotFoundException: ActivityNotFoundException) {
                     "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox"
-                            .toUri()
-                            .openInBrowser(this)
+                        .toUri()
+                        .openInBrowser(this)
                 }
             }
         }
-
     }
 
     fun showRefreshHintSnackbarIfNeeded() {
@@ -890,8 +889,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    private fun showSnackbar(@StringRes messageResId: Int, @StringRes actionResId: Int = 0,
-                             onClickListener: (() -> Unit)? = null) {
+    private fun showSnackbar(
+        @StringRes messageResId: Int,
+        @StringRes actionResId: Int = 0,
+        onClickListener: (() -> Unit)? = null
+    ) {
         hideSnackbar()
         val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, Snackbar.LENGTH_LONG)
         if (actionResId != 0 && onClickListener != null) {
@@ -910,7 +912,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         Log.e(TAG, "Error: $error", error)
         Log.e(TAG, "HTTP status code: $statusCode")
         var message = Util.getHumanReadableErrorMessage(this,
-                request.url().toString(), statusCode, error)
+            request.url().toString(), statusCode, error)
         if (prefs.isDebugModeEnabled()) {
             message = SpannableStringBuilder(message).apply {
                 inSpans(RelativeSizeSpan(0.8f)) {
@@ -920,7 +922,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     if (authHeader?.startsWith("Basic") == true) {
                         val base64Credentials = authHeader.substring("Basic".length).trim()
                         val credentials = String(Base64.decode(base64Credentials, Base64.DEFAULT),
-                                Charset.forName("UTF-8"))
+                            Charset.forName("UTF-8"))
                         append("\nUsername: ")
                         append(credentials.substring(0, credentials.indexOf(":")))
                     }
@@ -946,44 +948,49 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun manageHabpanelShortcut(visible: Boolean) {
         manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
-                R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
-                R.string.app_shortcut_diabled_habpanel)
+            R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
+            R.string.app_shortcut_diabled_habpanel)
     }
 
     private fun manageNotificationShortcut(visible: Boolean) {
         manageShortcut(visible, "notification", ACTION_NOTIFICATION_SELECTED,
-                R.string.app_notifications, R.mipmap.ic_shortcut_notifications,
-                R.string.app_shortcut_diabled_notifications)
+            R.string.app_notifications, R.mipmap.ic_shortcut_notifications,
+            R.string.app_shortcut_diabled_notifications)
     }
 
     private fun manageVoiceRecognitionShortcut(visible: Boolean) {
         manageShortcut(visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
-                R.string.mainmenu_openhab_voice_recognition,
-                R.mipmap.ic_shortcut_voice_recognition,
-                R.string.app_shortcut_diabled_voice_recognition)
+            R.string.mainmenu_openhab_voice_recognition,
+            R.mipmap.ic_shortcut_voice_recognition,
+            R.string.app_shortcut_diabled_voice_recognition)
     }
 
-    private fun manageShortcut(visible: Boolean, id: String, action: String,
-                               @StringRes shortLabel: Int, @DrawableRes icon: Int, @StringRes disableMessage: Int) {
+    private fun manageShortcut(
+        visible: Boolean,
+        id: String,
+        action: String,
+        @StringRes shortLabel: Int,
+        @DrawableRes icon: Int,
+        @StringRes disableMessage: Int
+    ) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
             return
         }
         if (visible) {
             val intent = Intent(this, MainActivity::class.java)
-                    .setAction(action)
+                .setAction(action)
             val shortcut = ShortcutInfo.Builder(this, id)
-                    .setShortLabel(getString(shortLabel))
-                    .setIcon(Icon.createWithResource(this, icon))
-                    .setIntent(intent)
-                    .build()
+                .setShortLabel(getString(shortLabel))
+                .setIcon(Icon.createWithResource(this, icon))
+                .setIntent(intent)
+                .build()
             shortcutManager.addDynamicShortcuts(listOf(shortcut))
         } else {
             shortcutManager.disableShortcuts(listOf(id), getString(disableMessage))
         }
     }
 
-    private fun setVoiceWidgetComponentEnabledSetting(component: Class<*>,
-                                                      isSpeechRecognizerAvailable: Boolean) {
+    private fun setVoiceWidgetComponentEnabledSetting(component: Class<*>, isSpeechRecognizerAvailable: Boolean) {
         val voiceWidget = ComponentName(this, component)
         val newState = if (isSpeechRecognizerAvailable)
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED

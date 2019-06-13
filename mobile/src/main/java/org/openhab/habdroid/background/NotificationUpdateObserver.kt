@@ -28,8 +28,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         val latestInfoByTag = HashMap<String, WorkInfo>()
         for (info in workInfos) {
             for (tag in info.tags) {
-                if (tag in BackgroundTasksManager.KNOWN_KEYS
-                        || tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC)) {
+                if (tag in BackgroundTasksManager.KNOWN_KEYS ||
+                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC)
+                ) {
                     val state = info.state
                     if (state == WorkInfo.State.ENQUEUED || state == WorkInfo.State.RUNNING) {
                         // Always treat a running job as the 'current' one
@@ -117,15 +118,16 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             val nm = context.getSystemService(NotificationManager::class.java)
 
             val bgChannel = NotificationChannel(CHANNEL_ID_BACKGROUND,
-                    context.getString(R.string.notification_channel_background),
-                    NotificationManager.IMPORTANCE_MIN).apply {
+                context.getString(R.string.notification_channel_background),
+                NotificationManager.IMPORTANCE_MIN).apply {
                 description = context.getString(R.string.notification_channel_background_description)
             }
             nm.createNotificationChannel(bgChannel)
 
             val errorChannel = NotificationChannel(CHANNEL_ID_BACKGROUND_ERROR,
-                    context.getString(R.string.notification_channel_background_error),
-                    NotificationManager.IMPORTANCE_DEFAULT).apply {
+                context.getString(R.string.notification_channel_background_error),
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
                 description = context.getString(R.string.notification_channel_background_error_description)
                 lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
                 enableVibration(true)
@@ -134,29 +136,30 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             nm.createNotificationChannel(errorChannel)
         }
 
-        private fun createProgressNotification(context: Context,
-                                               @StringRes messageResId: Int): Notification {
+        private fun createProgressNotification(context: Context, @StringRes messageResId: Int): Notification {
             return createBaseBuilder(context, CHANNEL_ID_BACKGROUND)
-                    .setContentText(context.getString(messageResId))
-                    .setCategory(NotificationCompat.CATEGORY_PROGRESS)
-                    .setOngoing(true)
-                    .setPriority(NotificationCompat.PRIORITY_MIN)
-                    .build()
+                .setContentText(context.getString(messageResId))
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setOngoing(true)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .build()
         }
 
-        private fun createErrorNotification(context: Context,
-                                            errors: ArrayList<CharSequence>,
-                                            retryInfos: ArrayList<BackgroundTasksManager.RetryInfo>): Notification {
+        private fun createErrorNotification(
+            context: Context,
+            errors: ArrayList<CharSequence>,
+            retryInfos: ArrayList<BackgroundTasksManager.RetryInfo>
+        ): Notification {
             val text = context.resources.getQuantityString(R.plurals.item_update_error_title,
-                    errors.size, errors.size)
+                errors.size, errors.size)
             val prefs = context.getPrefs()
             val nb = createBaseBuilder(context, CHANNEL_ID_BACKGROUND_ERROR)
-                    .setContentText(text)
-                    .setCategory(NotificationCompat.CATEGORY_ERROR)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
-                    .setSound(prefs.getNotificationTone())
-                    .setVibrate(prefs.getNotificationVibrationPattern(context))
+                .setContentText(text)
+                .setCategory(NotificationCompat.CATEGORY_ERROR)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
+                .setSound(prefs.getNotificationTone())
+                .setVibrate(prefs.getNotificationVibrationPattern(context))
 
             if (errors.size > 1) {
                 val style = NotificationCompat.InboxStyle()
@@ -166,37 +169,36 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 nb.setStyle(style)
             } else {
                 nb.setStyle(NotificationCompat.BigTextStyle()
-                        .bigText(errors[0])
-                        .setBigContentTitle(text))
+                    .bigText(errors[0])
+                    .setBigContentTitle(text))
             }
 
             if (retryInfos.isNotEmpty()) {
                 val retryIntent = Intent(context, BackgroundTasksManager::class.java)
-                        .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
-                        .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFOS, retryInfos)
+                    .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
+                    .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFOS, retryInfos)
                 val retryPendingIntent = PendingIntent.getBroadcast(context, 0,
-                        retryIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    retryIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 nb.addAction(NotificationCompat.Action(R.drawable.ic_refresh_grey_24dp,
-                        context.getString(R.string.retry), retryPendingIntent))
+                    context.getString(R.string.retry), retryPendingIntent))
             }
 
             return nb.build()
         }
 
-        private fun createBaseBuilder(context: Context,
-                                      channelId: String): NotificationCompat.Builder {
+        private fun createBaseBuilder(context: Context, channelId: String): NotificationCompat.Builder {
             val notificationIntent = Intent(context, MainActivity::class.java)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             val contentIntent = PendingIntent.getActivity(context, 0,
-                    notificationIntent, 0)
+                notificationIntent, 0)
 
             return NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
-                    .setContentTitle(context.getString(R.string.app_name))
-                    .setWhen(System.currentTimeMillis())
-                    .setAutoCancel(true)
-                    .setContentIntent(contentIntent)
-                    .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
+                .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setWhen(System.currentTimeMillis())
+                .setAutoCancel(true)
+                .setContentIntent(contentIntent)
+                .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
         }
     }
 }

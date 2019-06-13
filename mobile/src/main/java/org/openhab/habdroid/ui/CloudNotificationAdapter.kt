@@ -25,8 +25,8 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import java.util.*
 
-class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit):
-        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items = ArrayList<CloudNotification>()
     private val inflater = LayoutInflater.from(context)
     private var hasMoreItems: Boolean = false
@@ -92,7 +92,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
     }
 
     class NotificationViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-            RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_item, parent, false)) {
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_item, parent, false)) {
         private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
         private val messageView: TextView = itemView.findViewById(R.id.notificationMessage)
         private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
@@ -100,15 +100,15 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
 
         fun bind(notification: CloudNotification) {
             createdView.text = DateUtils.getRelativeDateTimeString(itemView.context,
-                    notification.createdTimestamp,
-                    DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0)
+                notification.createdTimestamp,
+                DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0)
             messageView.text = notification.message
 
             val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
             if (notification.icon != null && conn != null) {
                 val encodedIcon = Uri.encode(notification.icon)
-                iconView.setImageUrl(conn, "images/$encodedIcon.png", itemView.resources
-                        .getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000)
+                iconView.setImageUrl(conn, "images/$encodedIcon.png",
+                    itemView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000)
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
             }
@@ -118,7 +118,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
     }
 
     class LoadingIndicatorViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-            RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_loading_item, parent, false))
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_loading_item, parent, false))
 
     companion object {
         private const val VIEW_TYPE_NOTIFICATION = 0

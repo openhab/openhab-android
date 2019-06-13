@@ -53,7 +53,7 @@ import java.util.*
  * The layout of the content area is up to the respective subclasses.
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
-        PageConnectionHolderFragment.ParentCallback {
+    PageConnectionHolderFragment.ParentCallback {
     protected val fm: FragmentManager = activity.supportFragmentManager
 
     private var noConnectionFragment: Fragment? = null
@@ -235,8 +235,8 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     fun showHabpanel() {
         showTemporaryPage(WebViewFragment.newInstance(R.string.mainmenu_openhab_habpanel,
-                R.string.habpanel_error,
-                "/habpanel/index.html", "/rest/events"))
+            R.string.habpanel_error,
+            "/habpanel/index.html", "/rest/events"))
     }
 
     /**
@@ -263,12 +263,11 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param resolveAttempted Indicate if discovery was attempted, but not successful
      */
     fun indicateMissingConfiguration(resolveAttempted: Boolean) {
-        Log.d(TAG, "Indicate missing configuration (resolveAttempted "
-                + resolveAttempted + ")")
+        Log.d(TAG, "Indicate missing configuration (resolveAttempted $resolveAttempted)")
         resetState()
         val wifiManager = activity.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        noConnectionFragment = MissingConfigurationFragment
-                .newInstance(activity, resolveAttempted, wifiManager.isWifiEnabled)
+        noConnectionFragment = MissingConfigurationFragment.newInstance(activity,
+            resolveAttempted, wifiManager.isWifiEnabled)
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
     }
@@ -303,8 +302,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param connection New connection to use; might be null if none is currently available
      * @param progressMessage Message to show to the user if no connection is available
      */
-    fun updateConnection(connection: Connection?, progressMessage: CharSequence?,
-                         @DrawableRes icon: Int) {
+    fun updateConnection(connection: Connection?, progressMessage: CharSequence?, @DrawableRes icon: Int) {
         Log.d(TAG, "Update to connection $connection (message $progressMessage)")
         noConnectionFragment = if (connection == null)
             ProgressFragment.newInstance(progressMessage, icon) else null
@@ -330,8 +328,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun recreateFragmentState() {
         fm.transaction(now = true) {
             fm.fragments
-                    .filterNot { f -> f.retainInstance }
-                    .forEach { f -> remove(f) }
+                .filterNot { f -> f.retainInstance }
+                .forEach { f -> remove(f) }
         }
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
     }
@@ -419,10 +417,10 @@ abstract class ContentController protected constructor(private val activity: Mai
     override fun onLoadFailure(error: HttpClient.HttpException) {
         val url = error.request.url().toString()
         val errorMessage = Util.getHumanReadableErrorMessage(activity, url, error.statusCode, error)
-                .toString()
+            .toString()
 
         noConnectionFragment = CommunicationFailureFragment.newInstance(
-                activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
+            activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
     }
@@ -506,8 +504,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             fun newInstance(message: CharSequence): CommunicationFailureFragment {
                 val f = CommunicationFailureFragment()
                 f.arguments = buildArgs(message, R.string.try_again_button,
-                        R.drawable.ic_openhab_appicon_340dp /* FIXME */,
-                        false)
+                    R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
                 return f
             }
         }
@@ -537,7 +534,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             fun newInstance(message: CharSequence): NoNetworkFragment {
                 val f = NoNetworkFragment()
                 f.arguments = buildArgs(message, R.string.try_again_button,
-                        R.drawable.ic_network_strength_off_outline_black_24dp, false)
+                    R.drawable.ic_network_strength_off_outline_black_24dp, false)
                 return f
             }
         }
@@ -552,7 +549,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             fun newInstance(message: CharSequence): EnableWifiNetworkFragment {
                 val f = EnableWifiNetworkFragment()
                 f.arguments = buildArgs(message, R.string.enable_wifi_button,
-                        R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
+                    R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
                 return f
             }
         }
@@ -565,8 +562,8 @@ abstract class ContentController protected constructor(private val activity: Mai
                     // Primary button always goes to settings
                     val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
                     TaskStackBuilder.create(view.context)
-                            .addNextIntentWithParentStack(preferencesIntent)
-                            .startActivities()
+                        .addNextIntentWithParentStack(preferencesIntent)
+                        .startActivities()
                 }
                 arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
                     // If we attempted resolving, secondary button enables demo mode
@@ -589,19 +586,22 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
 
         companion object {
-            fun newInstance(context: Context,
-                            resolveAttempted: Boolean, hasWifiEnabled: Boolean): MissingConfigurationFragment {
+            fun newInstance(
+                context: Context,
+                resolveAttempted: Boolean,
+                hasWifiEnabled: Boolean
+            ): MissingConfigurationFragment {
                 val f = MissingConfigurationFragment()
                 val args = when {
                     resolveAttempted -> buildArgs(context.getString(R.string.configuration_missing),
-                            R.string.go_to_settings_button, R.string.enable_demo_mode_button,
-                            R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
+                        R.string.go_to_settings_button, R.string.enable_demo_mode_button,
+                        R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
                     hasWifiEnabled -> buildArgs(context.getString(R.string.no_remote_server),
-                            R.string.go_to_settings_button, R.string.try_again_button,
-                            R.drawable.ic_network_strength_off_outline_black_24dp, false)
+                        R.string.go_to_settings_button, R.string.try_again_button,
+                        R.drawable.ic_network_strength_off_outline_black_24dp, false)
                     else -> buildArgs(context.getString(R.string.no_remote_server),
-                            R.string.go_to_settings_button, R.string.enable_wifi_button,
-                            R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
+                        R.string.go_to_settings_button, R.string.enable_wifi_button,
+                        R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
                 }
                 args.putBoolean(KEY_RESOLVE_ATTEMPTED, resolveAttempted)
                 args.putBoolean(KEY_WIFI_ENABLED, hasWifiEnabled)
@@ -613,8 +613,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     internal abstract class StatusFragment : Fragment(), View.OnClickListener {
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                                  savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val arguments = arguments!!
             val view = inflater.inflate(R.layout.fragment_status, container, false)
 
@@ -629,8 +628,8 @@ abstract class ContentController protected constructor(private val activity: Mai
             if (drawableResId != 0) {
                 val drawable = ContextCompat.getDrawable(view.context, drawableResId)
                 drawable?.setColorFilter(
-                        ContextCompat.getColor(view.context, R.color.empty_list_text_color),
-                        PorterDuff.Mode.SRC_IN)
+                    ContextCompat.getColor(view.context, R.color.empty_list_text_color),
+                    PorterDuff.Mode.SRC_IN)
                 watermark.setImageDrawable(drawable)
             } else {
                 watermark.isVisible = false
@@ -659,21 +658,29 @@ abstract class ContentController protected constructor(private val activity: Mai
             internal const val KEY_RESOLVE_ATTEMPTED = "resolveAttempted"
             internal const val KEY_WIFI_ENABLED = "wifiEnabled"
 
-            internal fun buildArgs(message: CharSequence?, @StringRes buttonTextResId: Int,
-                                    @DrawableRes drawableResId: Int, showProgress: Boolean): Bundle {
+            internal fun buildArgs(
+                message: CharSequence?,
+                @StringRes buttonTextResId: Int,
+                @DrawableRes drawableResId: Int,
+                showProgress: Boolean
+            ): Bundle {
                 return buildArgs(message, buttonTextResId,
-                        0, drawableResId, showProgress)
+                    0, drawableResId, showProgress)
             }
 
-            internal fun buildArgs(message: CharSequence?,
-                                    @StringRes button1TextResId: Int, @StringRes button2TextResId: Int,
-                                    @DrawableRes drawableResId: Int, showProgress: Boolean): Bundle {
+            internal fun buildArgs(
+                message: CharSequence?,
+                @StringRes button1TextResId: Int,
+                @StringRes button2TextResId: Int,
+                @DrawableRes drawableResId: Int,
+                showProgress: Boolean
+            ): Bundle {
                 return bundleOf(
-                        KEY_MESSAGE to message,
-                        KEY_DRAWABLE to drawableResId,
-                        KEY_BUTTON_1_TEXT to button1TextResId,
-                        KEY_BUTTON_2_TEXT to button2TextResId,
-                        KEY_PROGRESS to showProgress
+                    KEY_MESSAGE to message,
+                    KEY_DRAWABLE to drawableResId,
+                    KEY_BUTTON_1_TEXT to button1TextResId,
+                    KEY_BUTTON_2_TEXT to button2TextResId,
+                    KEY_PROGRESS to showProgress
                 )
             }
         }

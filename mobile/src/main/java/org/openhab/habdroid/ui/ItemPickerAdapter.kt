@@ -19,7 +19,7 @@ import java.util.ArrayList
 import java.util.Comparator
 
 class ItemPickerAdapter(context: Context, private val itemClickListener: ItemClickListener?) :
-        RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(), View.OnClickListener {
+    RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(), View.OnClickListener {
 
     private val filteredItems = ArrayList<Item>()
     private val allItems = ArrayList<Item>()
@@ -44,9 +44,9 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
         filteredItems.clear()
         val searchTerm = filter.toLowerCase()
         allItems.filterTo(filteredItems) { item ->
-            searchTerm in item.name.toLowerCase()
-                    || searchTerm in item.label?.toLowerCase().orEmpty()
-                    || searchTerm in item.type.toString().toLowerCase()
+            searchTerm in item.name.toLowerCase() ||
+                searchTerm in item.label?.toLowerCase().orEmpty() ||
+                searchTerm in item.type.toString().toLowerCase()
         }
         notifyDataSetChanged()
     }
@@ -93,7 +93,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
     }
 
     class ItemViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-            RecyclerView.ViewHolder(inflater.inflate(R.layout.itempickerlist_item, parent, false)) {
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.itempickerlist_item, parent, false)) {
         private val itemNameView: TextView = itemView.findViewById(R.id.itemName)
         private val itemLabelView: TextView = itemView.findViewById(R.id.itemLabel)
         private val iconView: WidgetImageView = itemView.findViewById(R.id.itemIcon)

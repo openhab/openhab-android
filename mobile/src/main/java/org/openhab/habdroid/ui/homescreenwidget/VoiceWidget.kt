@@ -26,42 +26,35 @@ import org.openhab.habdroid.core.VoiceService
  * Implementation of App Widget functionality.
  */
 open class VoiceWidget : AppWidgetProvider() {
-    internal open val layoutRes: Int
-        @LayoutRes get() = R.layout.widget_voice
+    internal open val layoutRes: Int @LayoutRes get() = R.layout.widget_voice
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         // There may be multiple widgets active, so update all of them
-        for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId)
+        appWidgetIds.forEach { appWidgetId ->
+            // Construct the RemoteViews object
+            val views = RemoteViews(context.packageName, layoutRes)
+
+            Log.d(TAG, "Voice recognizer available, build speech intent")
+            val callbackIntent = Intent(context, VoiceService::class.java)
+            val callbackPendingIntent = PendingIntent.getService(context, 9, callbackIntent, 0)
+
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                // Display an hint to the user about what he should say.
+                putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input))
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+                putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            val pendingIntent = PendingIntent.getActivity(context, 6, intent, 0)
+            views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
+
+            setupOpenhabIcon(context, views)
+
+            // Instruct the widget manager to update the widget
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
-    }
-
-    private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
-                                appWidgetId: Int) {
-        // Construct the RemoteViews object
-        val views = RemoteViews(context.packageName, layoutRes)
-
-        Log.d(TAG, "Voice recognizer available, build speech intent")
-        val callbackIntent = Intent(context, VoiceService::class.java)
-        val callbackPendingIntent = PendingIntent.getService(context,
-                9, callbackIntent, 0)
-
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            // Display an hint to the user about what he should say.
-            putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input))
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
-            putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-
-        val pendingIntent = PendingIntent.getActivity(context, 6, intent, 0)
-        views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
-
-        setupOpenhabIcon(context, views)
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
     internal open fun setupOpenhabIcon(context: Context, views: RemoteViews) {

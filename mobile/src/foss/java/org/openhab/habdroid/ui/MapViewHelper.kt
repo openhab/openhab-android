@@ -30,25 +30,32 @@ import java.util.Locale
 object MapViewHelper {
     internal val TAG = MapViewHelper::class.java.simpleName
 
-    fun createViewHolder(inflater: LayoutInflater, parent: ViewGroup,
-                         connection: Connection, colorMapper: WidgetAdapter.ColorMapper): WidgetAdapter.ViewHolder {
+    fun createViewHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        connection: Connection,
+        colorMapper: WidgetAdapter.ColorMapper
+    ): WidgetAdapter.ViewHolder {
         val context = inflater.context
         Configuration.getInstance().load(context,
                 PreferenceManager.getDefaultSharedPreferences(context))
         return OsmViewHolder(inflater, parent, connection, colorMapper)
     }
 
-    private class OsmViewHolder(inflater: LayoutInflater, parent: ViewGroup,
-                                private val connection: Connection, colorMapper: WidgetAdapter.ColorMapper) :
-            WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
-            Marker.OnMarkerDragListener {
+    private class OsmViewHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        private val connection: Connection,
+        colorMapper: WidgetAdapter.ColorMapper
+    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
+        Marker.OnMarkerDragListener {
         private val mapView: MapView = itemView.findViewById(R.id.mapview)
         private val handler: Handler = Handler()
         private var boundItem: Item? = null
         private var started: Boolean = false
 
         init {
-            with (mapView) {
+            with(mapView) {
                 setTileSource(TileSourceFactory.MAPNIK)
                 isVerticalMapRepetitionEnabled = false
                 setBuiltInZoomControls(false)
@@ -120,13 +127,13 @@ object MapViewHelper {
                     .setNegativeButton(R.string.close, null)
                     .create()
 
-            with (dialog) {
+            with(dialog) {
                 setOnDismissListener { mapView.onPause() }
                 setCanceledOnTouchOutside(true)
                 show()
             }
 
-            with (mapView) {
+            with(mapView) {
                 setBuiltInZoomControls(true)
                 setMultiTouchControls(true)
                 isVerticalMapRepetitionEnabled = false
@@ -135,15 +142,20 @@ object MapViewHelper {
                 handler.post {
                     applyPositionAndLabel(boundItem, labelView.text, 16.0f,
                             true, true, this@OsmViewHolder)
-                } }
+                }
             }
         }
-
+    }
 }
 
-fun MapView.applyPositionAndLabel(item: Item?, itemLabel: CharSequence?, zoomLevel: Float,
-                                  allowDrag: Boolean, allowScroll: Boolean,
-                                  markerDragListener: Marker.OnMarkerDragListener) {
+fun MapView.applyPositionAndLabel(
+    item: Item?,
+    itemLabel: CharSequence?,
+    zoomLevel: Float,
+    allowDrag: Boolean,
+    allowScroll: Boolean,
+    markerDragListener: Marker.OnMarkerDragListener
+) {
     if (item == null) {
         return
     }
@@ -199,8 +211,13 @@ fun MapView.applyPositionAndLabel(item: Item?, itemLabel: CharSequence?, zoomLev
     }
 }
 
-fun MapView.setMarker(pos: GeoPoint, item: Item, label: CharSequence?, canDrag: Boolean,
-                      onMarkerDragListener: Marker.OnMarkerDragListener) {
+fun MapView.setMarker(
+    pos: GeoPoint,
+    item: Item,
+    label: CharSequence?,
+    canDrag: Boolean,
+    onMarkerDragListener: Marker.OnMarkerDragListener
+) {
     val marker = Marker(this).apply {
         setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         isDraggable = canDrag

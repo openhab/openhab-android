@@ -18,9 +18,14 @@ data class HsvState internal constructor(val hue: Float, val saturation: Float, 
 }
 
 @Parcelize
-data class ParsedState internal constructor(val asString: String, val asBoolean: Boolean,
-                       val asNumber: NumberState?, val asHsv: HsvState?,
-                       val asBrightness: Int?, val asLocation: Location?) : Parcelable {
+data class ParsedState internal constructor(
+    val asString: String,
+    val asBoolean: Boolean,
+    val asNumber: NumberState?,
+    val asHsv: HsvState?,
+    val asBrightness: Int?,
+    val asLocation: Location?
+) : Parcelable {
     companion object {
         internal fun parseAsBoolean(state: String): Boolean {
             // If state is ON for switches return True
@@ -66,12 +71,11 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
             if (stateSplit.size == 3) { // We need exactly 3 numbers to operate this
                 try {
                     return HsvState(stateSplit[0].toFloat(),
-                            stateSplit[1].toFloat() / 100,
-                            stateSplit[2].toFloat() / 100)
+                        stateSplit[1].toFloat() / 100,
+                        stateSplit[2].toFloat() / 100)
                 } catch (e: NumberFormatException) {
                     // fall through
                 }
-
             }
             return null
         }
@@ -108,7 +112,6 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
                 } catch (e: NumberFormatException) {
                     // fall through
                 }
-
             }
             return null
         }
@@ -137,7 +140,6 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
                     // State format pattern doesn't match the actual data type
                     // -> ignore and fall back to our own formatting
                 }
-
             }
             return if (unit == null) formatValue() else "${formatValue()} $unit"
         }
@@ -147,7 +149,6 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
         }
 
         companion object {
-
             /**
              * Returns a new NumberState instance, basing its contents on the passed-in previous state.
              * In particular, unit, format and number type (float/integer) will be taken from the
@@ -179,9 +180,10 @@ fun String?.toParsedState(numberPattern: String? = null): ParsedState? {
     if (this == null) {
         return null
     }
-    return ParsedState(this, ParsedState.parseAsBoolean(this),
-            ParsedState.parseAsNumber(this, numberPattern),
-            ParsedState.parseAsHsv(this), ParsedState.parseAsBrightness(this),
-            ParsedState.parseAsLocation(this))
+    return ParsedState(this,
+        ParsedState.parseAsBoolean(this),
+        ParsedState.parseAsNumber(this, numberPattern),
+        ParsedState.parseAsHsv(this),
+        ParsedState.parseAsBrightness(this),
+        ParsedState.parseAsLocation(this))
 }
-

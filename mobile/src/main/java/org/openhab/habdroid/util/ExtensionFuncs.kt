@@ -51,9 +51,9 @@ fun String.obfuscate(clearTextCharCount: Int = 3): String {
 fun String?.toNormalizedUrl(): String {
     return try {
         val url = URL(orEmpty())
-                .toString()
-                .replace("\n", "")
-                .replace(" ", "")
+            .toString()
+            .replace("\n", "")
+            .replace(" ", "")
         if (url.endsWith("/")) url else "$url/"
     } catch (e: MalformedURLException) {
         Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
@@ -88,12 +88,12 @@ fun Resources.dpToPixel(dp: Float): Float {
 @Throws(IOException::class)
 fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
     val contentType = contentType()
-    val isSvg = contentType != null
-                && contentType.type() == "image"
-                && contentType.subtype().contains("svg")
+    val isSvg = contentType != null &&
+        contentType.type() == "image" &&
+        contentType.subtype().contains("svg")
     if (!isSvg) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
-                ?: throw IOException("Bitmap decoding failed")
+            ?: throw IOException("Bitmap decoding failed")
         return if (!enforceSize) {
             bitmap
         } else {
@@ -156,7 +156,7 @@ fun NodeList.forEach(action: (Node) -> Unit) =
     (0 until length).forEach { index -> action(item(index)) }
 
 fun JSONArray.forEach(action: (JSONObject) -> Unit) =
-        (0 until length()).forEach { index -> action(getJSONObject(index)) }
+    (0 until length()).forEach { index -> action(getJSONObject(index)) }
 
 inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
     return (0 until length()).map { index -> transform(getJSONObject(index)) }

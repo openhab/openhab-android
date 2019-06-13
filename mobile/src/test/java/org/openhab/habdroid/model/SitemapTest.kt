@@ -15,17 +15,17 @@ class SitemapTest {
     @Before
     @Throws(JSONException::class)
     fun initSitemaps() {
-        var jsonString = ("{\"name\":\"demo\",\"label\":\"Main Menu\","
-                + "\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\","
-                + "\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\","
-                + "\"leaf\":false,\"timeout\":false,\"widgets\":[]}}")
-        demoSitemapWithLabel = JSONObject(jsonString).toSitemap()!!
+        demoSitemapWithLabel = JSONObject("""
+            { 'name': 'demo','label': 'Main Menu', 'link': 'http://demo.openhab.org:8080/rest/sitemaps/demo',
+              'homepage': { 'link': 'http://demo.openhab.org:8080/rest/sitemaps/demo/demo', 'leaf': false,
+              'timeout': false,'widgets': [] }}"
+             """.trimIndent()).toSitemap()!!
 
-        jsonString = ("{\"name\":\"home\",\"icon\":\"home\","
-                + "\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\","
-                + "\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\","
-                + "\"leaf\":true,\"timeout\":false,\"widgets\":[]}}")
-        homeSitemapWithoutLabel = JSONObject(jsonString).toSitemap()!!
+        homeSitemapWithoutLabel = JSONObject("""
+            { 'name': 'home', 'icon': 'home', 'link': 'http://demo.openhab.org:8080/rest/sitemaps/home',
+              'homepage': { 'link': 'http://demo.openhab.org:8080/rest/sitemaps/home/home', 'leaf': true,
+              'timeout': false, 'widgets': [] }}"
+              """.trimIndent()).toSitemap()!!
     }
 
     @Test

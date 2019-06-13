@@ -25,11 +25,11 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
                 Log.d(TAG, "Checking for putting local username/password to remote username/password.")
                 if (prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null) == null) {
                     putString(Constants.PREFERENCE_REMOTE_USERNAME,
-                            prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null))
+                        prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null))
                 }
                 if (prefs.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null) == null) {
                     putString(Constants.PREFERENCE_REMOTE_PASSWORD,
-                            prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null))
+                        prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null))
                 }
             }
             updateComparableVersion(this)

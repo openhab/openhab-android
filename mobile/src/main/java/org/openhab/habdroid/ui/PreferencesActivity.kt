@@ -10,7 +10,6 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.os.Build
@@ -52,9 +51,9 @@ class PreferencesActivity : AbstractBaseActivity() {
         if (savedInstanceState == null) {
             resultIntent = Intent()
             fragmentManager
-                    .beginTransaction()
-                    .add(R.id.prefs_container, MainSettingsFragment())
-                    .commit()
+                .beginTransaction()
+                .add(R.id.prefs_container, MainSettingsFragment())
+                .commit()
         } else {
             resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT)
         }
@@ -91,10 +90,10 @@ class PreferencesActivity : AbstractBaseActivity() {
 
     fun openSubScreen(subScreenFragment: AbstractSettingsFragment) {
         fragmentManager
-                .beginTransaction()
-                .replace(R.id.prefs_container, subScreenFragment)
-                .addToBackStack(null)
-                .commit()
+            .beginTransaction()
+            .replace(R.id.prefs_container, subScreenFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     @VisibleForTesting
@@ -102,10 +101,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         @get:StringRes
         protected abstract val titleResId: Int
 
-        protected val parentActivity: PreferencesActivity
-            get() = activity as PreferencesActivity
-        protected val prefs: SharedPreferences
-            get() = preferenceScreen.sharedPreferences
+        protected val parentActivity get() = activity as PreferencesActivity
+        protected val prefs get() = preferenceScreen.sharedPreferences
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -159,25 +156,23 @@ class PreferencesActivity : AbstractBaseActivity() {
                     Character.isLetter(c) && Character.isUpperCase(c) -> 1
                     Character.isDigit(c) -> 2
                     else -> 3
-                })}
+                }) }
                 return groups.cardinality() < 3
             }
         }
     }
 
     class MainSettingsFragment : AbstractSettingsFragment() {
-        override val titleResId: Int
-            @StringRes
-            get() = R.string.action_settings
+        override val titleResId: Int @StringRes get() = R.string.action_settings
 
         override fun onStart() {
             super.onStart()
             updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
-                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                    Constants.PREFERENCE_LOCAL_PASSWORD)
+                Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                Constants.PREFERENCE_LOCAL_PASSWORD)
             updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
-                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                    Constants.PREFERENCE_REMOTE_PASSWORD)
+                Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                Constants.PREFERENCE_REMOTE_PASSWORD)
         }
 
         override fun updateAndInitPreferences() {
@@ -204,19 +199,19 @@ class PreferencesActivity : AbstractBaseActivity() {
                 onNoDefaultSitemap(clearDefaultSitemapPref)
             } else {
                 clearDefaultSitemapPref.summary = getString(
-                        R.string.settings_current_default_sitemap, currentDefaultSitemapLabel)
+                    R.string.settings_current_default_sitemap, currentDefaultSitemapLabel)
             }
 
             updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
-                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                    Constants.PREFERENCE_LOCAL_PASSWORD)
+                Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                Constants.PREFERENCE_LOCAL_PASSWORD)
             updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
-                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                    Constants.PREFERENCE_REMOTE_PASSWORD)
+                Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                Constants.PREFERENCE_REMOTE_PASSWORD)
             updateRingtonePreferenceSummary(ringtonePref,
-                    prefs.getString(Constants.PREFERENCE_TONE))
+                prefs.getString(Constants.PREFERENCE_TONE))
             updateVibrationPreferenceIcon(vibrationPref,
-                    prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION))
+                prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION))
 
             localConnPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(LocalConnectionSettingsFragment())
@@ -236,7 +231,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             clearCachePref.setOnPreferenceClickListener {
                 // Get launch intent for application
                 val restartIntent = activity.packageManager
-                        .getLaunchIntentForPackage(activity.baseContext.packageName)
+                    .getLaunchIntentForPackage(activity.baseContext.packageName)
                 restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 // Finish current activity
                 activity.finish()
@@ -307,10 +302,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreference(alarmClockPref)
             } else {
                 updateAlarmClockPreferenceIcon(alarmClockPref,
-                        alarmClockPref.getPrefValue().toItemUpdatePrefValue())
+                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 updateAlarmClockPreferenceSummary(alarmClockPref,
-                        sendDeviceInfoPrefixPref.getPrefValue(),
-                        alarmClockPref.getPrefValue().toItemUpdatePrefValue())
+                    sendDeviceInfoPrefixPref.getPrefValue(),
+                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 alarmClockPref.setOnPreferenceChangeListener { preference, newValue ->
                     val prefix = sendDeviceInfoPrefixPref.getPrefValue()
                     val value = newValue as Pair<Boolean, String>
@@ -322,12 +317,12 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String,
-                        alarmClockPref.getPrefValue().toItemUpdatePrefValue())
+                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 true
             }
 
             val flags = activity.intent.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
-                    ?: preferenceScreen.sharedPreferences.getInt(Constants.PREV_SERVER_FLAGS, 0)
+                ?: preferenceScreen.sharedPreferences.getInt(Constants.PREV_SERVER_FLAGS, 0)
 
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0) {
                 val iconFormatPreference = preferenceScreen.findPreference(Constants.PREFERENCE_ICON_FORMAT)
@@ -376,8 +371,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             pref.setIcon(if (value.first) R.drawable.ic_alarm_grey_24dp else R.drawable.ic_alarm_off_grey_24dp)
         }
 
-        private fun updateConnectionSummary(subscreenPrefKey: String, urlPrefKey: String,
-                                            userPrefKey: String, passwordPrefKey: String) {
+        private fun updateConnectionSummary(
+            subscreenPrefKey: String,
+            urlPrefKey: String,
+            userPrefKey: String,
+            passwordPrefKey: String
+        ) {
             val pref = findPreference(subscreenPrefKey)
             val url = beautifyUrl(prefs.getString(urlPrefKey))
             val summary = when {
@@ -414,8 +413,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         private lateinit var userNamePreference: Preference
         private lateinit var passwordPreference: Preference
 
-        protected fun initPreferences(urlPrefKey: String, userNamePrefKey: String,
-                                      passwordPrefKey: String, @StringRes urlSummaryFormatResId: Int) {
+        protected fun initPreferences(
+            urlPrefKey: String,
+            userNamePrefKey: String,
+            passwordPrefKey: String,
+            @StringRes urlSummaryFormatResId: Int
+        ) {
             urlPreference = initEditor(urlPrefKey, R.drawable.ic_earth_grey_24dp) { value ->
                 val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
                 getString(urlSummaryFormatResId, actualValue)
@@ -432,19 +435,20 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             updateIconColors(prefs.getString(urlPrefKey),
-                    prefs.getString(userNamePrefKey), prefs.getString(passwordPrefKey))
+                prefs.getString(userNamePrefKey), prefs.getString(passwordPrefKey))
         }
 
-
-        private fun initEditor(key: String, @DrawableRes iconResId: Int,
-                               summaryGenerator: (value: String?) -> CharSequence): Preference {
+        private fun initEditor(
+            key: String,
+            @DrawableRes iconResId: Int,
+            summaryGenerator: (value: String?) -> CharSequence
+        ): Preference {
             val preference = preferenceScreen.findPreference(key)
-            preference.icon = DrawableCompat.wrap(
-                    ContextCompat.getDrawable(activity, iconResId)!!)
+            preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(activity, iconResId)!!)
             preference.setOnPreferenceChangeListener { pref, newValue ->
                 updateIconColors(getActualValue(pref, newValue, urlPreference),
-                        getActualValue(pref, newValue, userNamePreference),
-                        getActualValue(pref, newValue, passwordPreference))
+                    getActualValue(pref, newValue, userNamePreference),
+                    getActualValue(pref, newValue, passwordPreference))
                 pref.summary = summaryGenerator(newValue as String)
                 true
             }
@@ -461,18 +465,18 @@ class PreferencesActivity : AbstractBaseActivity() {
                 isConnectionHttps(url) -> R.color.pref_icon_green
                 !url.isNullOrEmpty() -> R.color.pref_icon_red
                 else -> null
-            }}
+            } }
             updateIconColor(userNamePreference) { when {
                 url.isNullOrEmpty() -> null
                 userName.isNullOrEmpty() -> R.color.pref_icon_red
                 else -> R.color.pref_icon_green
-            }}
+            } }
             updateIconColor(passwordPreference) { when {
                 url.isNullOrEmpty() -> null
                 password.isNullOrEmpty() -> R.color.pref_icon_red
                 isWeakPassword(password) -> R.color.pref_icon_orange
                 else -> R.color.pref_icon_green
-            }}
+            } }
         }
 
         private fun updateIconColor(pref: Preference, colorGenerator: () -> Int?) {
@@ -486,26 +490,22 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     internal class LocalConnectionSettingsFragment : ConnectionSettingsFragment() {
-        override val titleResId: Int
-            @StringRes
-            get() = R.string.settings_openhab_connection
+        override val titleResId: Int @StringRes get() = R.string.settings_openhab_connection
 
         override fun updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.local_connection_preferences)
             initPreferences(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                    Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary)
+                Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary)
         }
     }
 
     internal class RemoteConnectionSettingsFragment : ConnectionSettingsFragment() {
-        override val titleResId: Int
-            @StringRes
-            get() = R.string.settings_openhab_alt_connection
+        override val titleResId: Int @StringRes get() = R.string.settings_openhab_alt_connection
 
         override fun updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.remote_connection_preferences)
             initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                    Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary)
+                Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary)
         }
     }
 

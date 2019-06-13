@@ -62,7 +62,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     else
                         getString(R.string.notification_channel_severity_value, severity)
 
-                    with (NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)) {
+                    with(NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)) {
                         setShowBadge(true)
                         enableVibration(true)
                         nm.createNotificationChannel(this)
@@ -108,8 +108,14 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private suspend fun makeNotification(msg: String?, channelId: String, icon: String?,
-                                         timestamp: Long, persistedId: String?, notificationId: Int): Notification {
+    private suspend fun makeNotification(
+        msg: String?,
+        channelId: String,
+        icon: String?,
+        timestamp: Long,
+        persistedId: String?,
+        notificationId: Int
+    ): Notification {
         var iconBitmap: Bitmap? = null
 
         if (icon != null) {

@@ -59,7 +59,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
     internal data class RetryInfo(val tag: String, val itemName: String, val value: String) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
-            SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener {
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
             when {
                 key == Constants.PREFERENCE_DEMOMODE && prefs.isDemoModeEnabled() -> {
@@ -79,8 +79,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
             }
         }
-
     }
+
     companion object {
         private val TAG = BackgroundTasksManager::class.java.simpleName
 
@@ -92,7 +92,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private const val WORKER_TAG_PREFIX_TASKER = "tasker-"
 
         internal val KNOWN_KEYS = listOf(
-                Constants.PREFERENCE_ALARM_CLOCK
+            Constants.PREFERENCE_ALARM_CLOCK
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String>()
 
@@ -141,14 +141,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private fun enqueueItemUpload(tag: String, itemName: String, value: String) {
             val constraints = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
-                    .setConstraints(constraints)
-                    .addTag(tag)
-                    .addTag(WORKER_TAG_ITEM_UPLOADS)
-                    .setInputData(ItemUpdateWorker.buildData(itemName, value))
-                    .build()
+                .setConstraints(constraints)
+                .addTag(tag)
+                .addTag(WORKER_TAG_ITEM_UPLOADS)
+                .setInputData(ItemUpdateWorker.buildData(itemName, value))
+                .build()
 
             val workManager = WorkManager.getInstance()
             Log.d(TAG, "Scheduling work for tag $tag")

@@ -25,7 +25,7 @@ import org.openhab.habdroid.ui.WidgetListFragment
 class ContentControllerTwoPane(activity: MainActivity) : ContentController(activity) {
     private lateinit var rightContentView: View
 
-    override val fragmentForTitle: WidgetListFragment?
+    override val fragmentForTitle
         get() = if (pageStack.size > 1) pageStack[pageStack.size - 2].second else sitemapFragment
 
     override fun onRestoreInstanceState(state: Bundle) {

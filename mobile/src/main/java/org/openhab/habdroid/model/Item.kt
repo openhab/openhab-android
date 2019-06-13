@@ -19,11 +19,18 @@ import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
 
 @Parcelize
-data class Item internal constructor(val name: String, val label: String?, val category: String?,
-                                     val type: Type, val groupType: Type?, val link: String?,
-                                     val readOnly: Boolean, val members: List<Item>,
-                                     val options: List<LabeledValue>?,
-                                     val state: ParsedState?) : Parcelable {
+data class Item internal constructor(
+    val name: String,
+    val label: String?,
+    val category: String?,
+    val type: Type,
+    val groupType: Type?,
+    val link: String?,
+    val readOnly: Boolean,
+    val members: List<Item>,
+    val options: List<LabeledValue>?,
+    val state: ParsedState?
+) : Parcelable {
     enum class Type {
         None,
         Color,
@@ -55,10 +62,10 @@ data class Item internal constructor(val name: String, val label: String?, val c
             // Events don't contain the link property, so preserve that if previously present
             val link = if (item != null) item.link else parsedItem.link
             return Item(parsedItem.name, parsedItem.label, parsedItem.category, parsedItem.type,
-                    parsedItem.groupType, link, parsedItem.readOnly, parsedItem.members,
-                    parsedItem.options, parsedItem.state)
+                parsedItem.groupType, link, parsedItem.readOnly, parsedItem.members,
+                parsedItem.options, parsedItem.state)
         }
-     }
+    }
 }
 
 fun Node.toItem(): Item? {
@@ -83,7 +90,7 @@ fun Node.toItem(): Item? {
     }
 
     return Item(finalName, finalName, null, type, groupType, link, false,
-            emptyList(), null, state.toParsedState())
+        emptyList(), null, state.toParsedState())
 }
 
 @Throws(JSONException::class)
@@ -111,15 +118,15 @@ fun JSONObject.toItem(): Item {
 
     val numberPattern = stateDescription?.optString("pattern")
     return Item(name,
-            optString("label", name),
-            optString("category", null),
-            getString("type").toItemType(),
-            optString("groupType").toItemType(),
-            optString("link", null),
-            readOnly,
-            members,
-            options,
-            state.toParsedState(numberPattern))
+        optString("label", name),
+        optString("category", null),
+        getString("type").toItemType(),
+        optString("groupType").toItemType(),
+        optString("link", null),
+        readOnly,
+        members,
+        options,
+        state.toParsedState(numberPattern))
 }
 
 fun String?.toItemType(): Item.Type {

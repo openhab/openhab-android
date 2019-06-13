@@ -11,8 +11,8 @@ import android.widget.TextView
 
 import org.openhab.habdroid.R
 
-class ChartScalingPreference constructor(context: Context, attrs: AttributeSet):
-        Preference(context, attrs), SeekBar.OnSeekBarChangeListener {
+class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) :
+    Preference(context, attrs), SeekBar.OnSeekBarChangeListener {
     private val entries: Array<String>
     private val values: Array<Float>
     private lateinit var seekBar: SeekBar

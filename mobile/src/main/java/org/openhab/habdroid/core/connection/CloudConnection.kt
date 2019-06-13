@@ -7,7 +7,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.util.HttpClient
 
 class CloudConnection internal constructor(baseConnection: AbstractConnection, val messagingSenderId: String) :
-        DefaultConnection(baseConnection, Connection.TYPE_CLOUD)
+    DefaultConnection(baseConnection, Connection.TYPE_CLOUD)
 
 /**
  * Creates a [CloudConnection] instance if possible.
@@ -15,7 +15,7 @@ class CloudConnection internal constructor(baseConnection: AbstractConnection, v
  * It does so by checking whether the given connection supports the needed HTTP endpoints.
  * As this means causing network I/O, this method MUST NOT be called from the main thread.
  *
- * @return  A cloud connection instance if the passed in connection supports the needed
+ * @return A cloud connection instance if the passed in connection supports the needed
  * HTTP endpoints, or null otherwise.
  */
 suspend fun AbstractConnection.toCloudConnection(): CloudConnection? {

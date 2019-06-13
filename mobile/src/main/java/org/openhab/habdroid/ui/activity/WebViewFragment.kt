@@ -30,8 +30,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     val titleResId: Int
         @StringRes get() = arguments!!.getInt(KEY_PAGE_TITLE)
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_fullscreenwebview, container, false)
     }
 
@@ -110,8 +109,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             }
 
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            override fun onReceivedError(view: WebView, request: WebResourceRequest,
-                                         error: WebResourceError) {
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 val errorUrl = request.url.toString()
                 Log.e(TAG, "onReceivedError() on URL: $errorUrl")
                 if (errorUrl.endsWith(urlForError)) {
@@ -119,8 +117,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 }
             }
 
-            override fun onReceivedError(view: WebView, errorCode: Int, description: String,
-                                         failingUrl: String) {
+            override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
                 Log.e(TAG, "onReceivedError() (deprecated) on URL: $failingUrl")
                 updateViewVisibility(error = true, loading = false)
             }
@@ -145,14 +142,18 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         private const val KEY_URL_LOAD = "url_load"
         private const val KEY_URL_ERROR = "url_error"
 
-        fun newInstance(@StringRes pageTitle: Int,
-                        @StringRes errorMessage: Int, urltoLoad: String, urlForError: String): WebViewFragment {
+        fun newInstance(
+            @StringRes pageTitle: Int,
+            @StringRes errorMessage: Int,
+            urltoLoad: String,
+            urlForError: String
+        ): WebViewFragment {
             val f = WebViewFragment()
             f.arguments = bundleOf(
-                    KEY_PAGE_TITLE to pageTitle,
-                    KEY_ERROR to errorMessage,
-                    KEY_URL_LOAD to urltoLoad,
-                    KEY_URL_ERROR to urlForError)
+                KEY_PAGE_TITLE to pageTitle,
+                KEY_ERROR to errorMessage,
+                KEY_URL_LOAD to urltoLoad,
+                KEY_URL_ERROR to urlForError)
             return f
         }
     }

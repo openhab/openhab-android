@@ -31,7 +31,7 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.*
 
 class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
-        ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
+    ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
     override val forceNonFullscreen = true
 
     private var requestJob: Job? = null
@@ -138,29 +138,29 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
 
         val labelArray = labels.toTypedArray()
         AlertDialog.Builder(this)
-                .setTitle(R.string.item_picker_dialog_title)
-                .setItems(labelArray) { _, which ->
-                    if (which == labelArray.size - 1 && suggestedCommands.shouldShowCustom) {
-                        val input = EditText(this)
-                        input.inputType = suggestedCommands.inputTypeFlags
-                        val customDialog = AlertDialog.Builder(this)
-                                .setTitle(getString(R.string.item_picker_custom))
-                                .setView(input)
-                                .setPositiveButton(android.R.string.ok) { _, _ -> finish(item, input.text.toString()) }
-                                .setNegativeButton(android.R.string.cancel, null)
-                                .show()
-                        input.setOnFocusChangeListener { _, hasFocus ->
-                            val mode = if (hasFocus)
-                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
-                            else
-                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                            customDialog.window?.setSoftInputMode(mode)
-                        }
-                    } else {
-                        finish(item, commands[which])
+            .setTitle(R.string.item_picker_dialog_title)
+            .setItems(labelArray) { _, which ->
+                if (which == labelArray.size - 1 && suggestedCommands.shouldShowCustom) {
+                    val input = EditText(this)
+                    input.inputType = suggestedCommands.inputTypeFlags
+                    val customDialog = AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.item_picker_custom))
+                        .setView(input)
+                        .setPositiveButton(android.R.string.ok) { _, _ -> finish(item, input.text.toString()) }
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+                    input.setOnFocusChangeListener { _, hasFocus ->
+                        val mode = if (hasFocus)
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                        else
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                        customDialog.window?.setSoftInputMode(mode)
                     }
+                } else {
+                    finish(item, commands[which])
                 }
-                .show()
+            }
+            .show()
     }
 
     override fun onRefresh() {
@@ -194,8 +194,8 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
             try {
                 val result = connection.httpClient.get("rest/items").asText()
                 val items = JSONArray(result.response)
-                        .map { obj -> obj.toItem() }
-                        .filterNot { item -> item.readOnly }
+                    .map { obj -> obj.toItem() }
+                    .filterNot { item -> item.readOnly }
                 Log.d(TAG, "Item request success, got ${items.size} items")
                 itemPickerAdapter.setItems(items)
                 handleInitialHighlight()
@@ -216,8 +216,8 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
             putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb)
 
             putExtra(TaskerIntent.EXTRA_BUNDLE, bundleOf(
-                    EXTRA_ITEM_NAME to item.name,
-                    EXTRA_ITEM_STATE to state
+                EXTRA_ITEM_NAME to item.name,
+                EXTRA_ITEM_STATE to state
             ))
         }
 

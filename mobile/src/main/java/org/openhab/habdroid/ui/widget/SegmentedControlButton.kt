@@ -29,7 +29,8 @@ import org.openhab.habdroid.R
 
 /** @author benjamin ferrari
  */
-class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?): AppCompatRadioButton(context, attrs) {
+class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?) :
+    AppCompatRadioButton(context, attrs) {
     private val underlineHeight: Int
     private val textDistanceFromLine: Int
 

@@ -33,8 +33,8 @@ import javax.net.ssl.X509KeyManager
  * (see the constants in [Connection]).
  */
 class ConnectionFactory internal constructor(private val context: Context, private val prefs: SharedPreferences) :
-        CoroutineScope by CoroutineScope(Dispatchers.Main), BroadcastReceiver(),
-        SharedPreferences.OnSharedPreferenceChangeListener {
+    CoroutineScope by CoroutineScope(Dispatchers.Main), BroadcastReceiver(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
     private val trustManager: MemorizingTrustManager
     private val httpLogger: HttpLoggingInterceptor
     private var httpClient: OkHttpClient
@@ -67,10 +67,10 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
         trustManager = MemorizingTrustManager(context)
         httpClient = OkHttpClient.Builder()
-                .cache(CacheManager.getInstance(context).httpCache)
-                .addInterceptor(httpLogger)
-                .hostnameVerifier(trustManager.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
-                .build()
+            .cache(CacheManager.getInstance(context).httpCache)
+            .addInterceptor(httpLogger)
+            .hostnameVerifier(trustManager.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
+            .build()
         updateHttpClientForClientCert(true)
 
         // Relax per-host connection limit, as the default limit (max 5 connections per host) is
@@ -93,8 +93,8 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 // local connections, as the reachability of the local server might have
                 // changed since we went to background
                 val reason = connectionFailureReason
-                val local = availableConnection === localConnection
-                        || (reason is NoUrlInformationException && reason.wouldHaveUsedLocalConnection())
+                val local = availableConnection === localConnection ||
+                    (reason is NoUrlInformationException && reason.wouldHaveUsedLocalConnection())
                 if (local) {
                     triggerConnectionUpdateIfNeeded()
                 }
@@ -164,11 +164,11 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             handleCloudCheckDone(null)
         } else {
             localConnection = makeConnection(Connection.TYPE_LOCAL,
-                    Constants.PREFERENCE_LOCAL_URL,
-                    Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD)
+                Constants.PREFERENCE_LOCAL_URL,
+                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD)
             remoteConnection = makeConnection(Connection.TYPE_REMOTE,
-                    Constants.PREFERENCE_REMOTE_URL,
-                    Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
+                Constants.PREFERENCE_REMOTE_URL,
+                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
 
             availableConnection = null
             cloudConnection = null
@@ -179,7 +179,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private fun updateHttpLoggerSettings() {
-        with (httpLogger) {
+        with(httpLogger) {
             if (prefs.isDebugModeEnabled()) {
                 redactHeader("Authorization")
                 redactHeader("set-cookie")
@@ -212,23 +212,19 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             val sslContext = SSLContext.getInstance("TLS")
             sslContext.init(keyManagers, arrayOf<TrustManager>(trustManager), null)
             httpClient = httpClient.newBuilder()
-                    .sslSocketFactory(sslContext.socketFactory, trustManager)
-                    .build()
+                .sslSocketFactory(sslContext.socketFactory, trustManager)
+                .build()
             lastClientCertAlias = clientCertAlias
         } catch (e: Exception) {
             Log.d(TAG, "Applying certificate trust settings failed", e)
         }
-
     }
-
 
     private fun handleAvailableCheckDone(available: Connection?, failureReason: ConnectionException?) {
         // Check whether the passed connection matches a known one. If not, the
         // connections were updated while the thread was processing and we'll get
         // a new callback.
-        if (failureReason != null
-                || available === localConnection
-                || available === remoteConnection) {
+        if (failureReason != null || available === localConnection || available === remoteConnection) {
             updateInitState(availableDone = true)
             if (updateAvailableConnection(available, failureReason)) {
                 listeners.forEach { l -> l.onAvailableConnectionChanged() }
@@ -245,8 +241,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         }
     }
 
-    private fun updateInitState(availableDone: Boolean? = null,
-                                cloudDone: Boolean? = null) {
+    private fun updateInitState(availableDone: Boolean? = null, cloudDone: Boolean? = null) {
         val availableInitialized = availableDone ?: initStateChannel.value.first
         val cloudInitialized = cloudDone ?: initStateChannel.value.second
         initStateChannel.offer(Pair(availableInitialized, cloudInitialized))
@@ -287,15 +282,19 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         }
     }
 
-    private fun makeConnection(type: Int, urlKey: String,
-                               userNameKey: String, passwordKey: String): AbstractConnection? {
+    private fun makeConnection(
+        type: Int,
+        urlKey: String,
+        userNameKey: String,
+        passwordKey: String
+    ): AbstractConnection? {
         val url = prefs.getString(urlKey).toNormalizedUrl()
         if (url.isEmpty()) {
             return null
         }
         return DefaultConnection(httpClient, type, url,
-                prefs.getString(userNameKey, null),
-                prefs.getString(passwordKey, null))
+            prefs.getString(userNameKey, null),
+            prefs.getString(passwordKey, null))
     }
 
     private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
@@ -358,7 +357,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 Log.e(TAG, "Failed loading certificate chain", e)
                 null
             }
-
         }
 
         override fun getClientAliases(keyType: String, issuers: Array<Principal>): Array<String>? {
@@ -382,7 +380,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 Log.e(TAG, "Failed loading private key", e)
                 null
             }
-
         }
 
         companion object {
@@ -393,17 +390,17 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
         private val LOCAL_CONNECTION_TYPES = listOf(
-                ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
-                ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN
+            ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
+            ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN
         )
         private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
-                Constants.PREFERENCE_DEMOMODE, Constants.PREFERENCE_SSLCLIENTCERT
+            Constants.PREFERENCE_DEMOMODE, Constants.PREFERENCE_SSLCLIENTCERT
         )
         private val UPDATE_TRIGGERING_KEYS = listOf(
-                Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
-                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
-                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
-                Constants.PREFERENCE_SSLCLIENTCERT, Constants.PREFERENCE_DEMOMODE
+            Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
+            Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
+            Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
+            Constants.PREFERENCE_SSLCLIENTCERT, Constants.PREFERENCE_DEMOMODE
         )
 
         @VisibleForTesting lateinit var instance: ConnectionFactory

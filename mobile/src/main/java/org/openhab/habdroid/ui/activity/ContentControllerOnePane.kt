@@ -13,13 +13,11 @@ import android.view.ViewStub
 import androidx.fragment.app.transaction
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
-import org.openhab.habdroid.ui.WidgetListFragment
 
 // instantiated via reflection
 @Suppress("UNUSED")
 class ContentControllerOnePane(activity: MainActivity) : ContentController(activity) {
-    override val fragmentForTitle: WidgetListFragment?
-        get() = if (pageStack.empty()) sitemapFragment else pageStack.peek().second
+    override val fragmentForTitle get() = if (pageStack.empty()) sitemapFragment else pageStack.peek().second
 
     override fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean) {
         val fragment = when {

@@ -23,20 +23,34 @@ import java.util.ArrayList
 import java.util.Locale
 
 @Parcelize
-data class Widget(val id: String, val parentId: String?, val label: String,
-                  val icon: String?, val iconPath: String?, val state: ParsedState?,
-                  val type: Type, val url: String?, val item: Item?,
-                  val linkedPage: LinkedPage?, val mappings: List<LabeledValue>,
-                  val encoding: String?, val iconColor: String?, val labelColor: String?,
-                  val valueColor: String?, val refresh: Int, val minValue: Float,
-                  val maxValue: Float, val step: Float, val period: String,
-                  val service: String, val legend: Boolean?,
-                  val switchSupport: Boolean, val height: Int) : Parcelable {
-
-    val mappingsOrItemOptions: List<LabeledValue>
-        get() {
-            return if (mappings.isEmpty() && item?.options != null) item.options else mappings
-        }
+data class Widget(
+    val id: String,
+    val parentId: String?,
+    val label: String,
+    val icon: String?,
+    val iconPath: String?,
+    val state: ParsedState?,
+    val type: Type,
+    val url: String?,
+    val item: Item?,
+    val linkedPage: LinkedPage?,
+    val mappings: List<LabeledValue>,
+    val encoding: String?,
+    val iconColor: String?,
+    val labelColor: String?,
+    val valueColor: String?,
+    val refresh: Int,
+    val minValue: Float,
+    val maxValue: Float,
+    val step: Float,
+    val period: String,
+    val service: String,
+    val legend: Boolean?,
+    val switchSupport: Boolean,
+    val height: Int
+) : Parcelable {
+    val mappingsOrItemOptions get() =
+        if (mappings.isEmpty() && item?.options != null) item.options else mappings
 
     fun hasMappings(): Boolean {
         return mappings.isNotEmpty()
@@ -70,27 +84,47 @@ data class Widget(val id: String, val parentId: String?, val label: String,
             val item = Item.updateFromEvent(source.item, eventPayload.getJSONObject("item"))
             val icon = eventPayload.optString("icon", source.icon)
             val iconPath = determineOH2IconPath(item, source.type, icon, iconFormat,
-                    source.mappings.isNotEmpty())
+                source.mappings.isNotEmpty())
             return build(source.id, source.parentId,
-                    eventPayload.optString("label", source.label),
-                    icon, iconPath,
-                    determineWidgetState(eventPayload.optString("state", null), item),
-                    source.type, source.url, item, source.linkedPage, source.mappings,
-                    source.encoding, source.iconColor,
-                    eventPayload.optString("labelcolor", source.labelColor),
-                    eventPayload.optString("valuecolor", source.valueColor),
-                    source.refresh, source.minValue, source.maxValue, source.step,
-                    source.period, source.service, source.legend,
-                    source.switchSupport, source.height)
+                eventPayload.optString("label", source.label),
+                icon, iconPath,
+                determineWidgetState(eventPayload.optString("state", null), item),
+                source.type, source.url, item, source.linkedPage, source.mappings,
+                source.encoding, source.iconColor,
+                eventPayload.optString("labelcolor", source.labelColor),
+                eventPayload.optString("valuecolor", source.valueColor),
+                source.refresh, source.minValue, source.maxValue, source.step,
+                source.period, source.service, source.legend,
+                source.switchSupport, source.height)
         }
 
-        internal fun build(id: String, parentId: String?, label: String, icon: String?,
-                          iconPath: String?, state: ParsedState?, type: Type, url: String?,
-                          item: Item?, linkedPage: LinkedPage?, mappings: List<LabeledValue>,
-                          encoding: String?, iconColor: String?, labelColor: String?,
-                          valueColor: String?, refresh: Int, minValue: Float, maxValue: Float,
-                          step: Float, period: String, service: String, legend: Boolean?,
-                          switchSupport: Boolean, height: Int) : Widget {
+        // XXX: replace this by sanitization functions
+        internal fun build(
+            id: String,
+            parentId: String?,
+            label: String,
+            icon: String?,
+            iconPath: String?,
+            state: ParsedState?,
+            type: Type,
+            url: String?,
+            item: Item?,
+            linkedPage: LinkedPage?,
+            mappings: List<LabeledValue>,
+            encoding: String?,
+            iconColor: String?,
+            labelColor: String?,
+            valueColor: String?,
+            refresh: Int,
+            minValue: Float,
+            maxValue: Float,
+            step: Float,
+            period: String,
+            service: String,
+            legend: Boolean?,
+            switchSupport: Boolean,
+            height: Int
+        ): Widget {
             // A 'none' icon equals no icon at all
             val actualIcon = if (icon == "none") null else icon
             // Consider a minimal refresh rate of 100 ms, but 0 is special and means 'no refresh'
@@ -102,18 +136,22 @@ data class Widget(val id: String, val parentId: String?, val label: String,
             val actualStep = Math.abs(step)
 
             return Widget(id, parentId, label, actualIcon, iconPath, state, type, url,
-                    item, linkedPage, mappings, encoding, iconColor, labelColor, valueColor,
-                    actualRefresh, minValue, actualMaxValue, actualStep, actualPeriod,
-                    service, legend, switchSupport, height)
+                item, linkedPage, mappings, encoding, iconColor, labelColor, valueColor,
+                actualRefresh, minValue, actualMaxValue, actualStep, actualPeriod,
+                service, legend, switchSupport, height)
         }
-
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
             return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
         }
 
-        internal fun determineOH2IconPath(item: Item?, type: Type, icon: String?,
-                                         iconFormat: String, hasMappings: Boolean): String {
+        internal fun determineOH2IconPath(
+            item: Item?,
+            type: Type,
+            icon: String?,
+            iconFormat: String,
+            hasMappings: Boolean
+        ): String {
             val itemState = item?.state
             var iconState = itemState?.asString.orEmpty()
             if (itemState != null) {
@@ -128,14 +166,12 @@ data class Widget(val id: String, val parentId: String?, val label: String,
                         } catch (e: Exception) {
                             iconState = "OFF"
                         }
-
                     } else if (itemState.asHsv != null) {
                         val color = itemState.asHsv.toColor()
                         iconState = String.format(Locale.US, "#%02x%02x%02x",
-                                Color.red(color), Color.green(color), Color.blue(color))
+                            Color.red(color), Color.green(color), Color.blue(color))
                     }
-                } else if (type == Type.Switch && !hasMappings
-                        && !item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
+                } else if (type == Type.Switch && !hasMappings && !item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
                     // For switch items without mappings (just ON and OFF) that control a dimmer item
                     // and which are not ON or OFF already, set the state to "OFF" instead of 0
                     // or to "ON" to fetch the correct icon
@@ -155,10 +191,8 @@ fun String?.toWidgetType(): Widget.Type {
         } catch (e: IllegalArgumentException) {
             // fall through
         }
-
     }
     return Widget.Type.Unknown
-
 }
 
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
@@ -223,14 +257,13 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
 
     val finalId = id ?: return emptyList()
     val widget = Widget.build(finalId, parent?.id, label.orEmpty(),
-            icon, "images/$icon.png", item?.state, type, url, item, linkedPage, mappings,
-            encoding, iconColor, labelColor, valueColor, refresh, minValue, maxValue, step, period,
-            service, null, switchSupport, height)
+        icon, "images/$icon.png", item?.state, type, url, item, linkedPage, mappings,
+        encoding, iconColor, labelColor, valueColor, refresh, minValue, maxValue, step, period,
+        service, null, switchSupport, height)
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
 
     return listOf(widget) + childWidgets
 }
-
 
 @Throws(JSONException::class)
 fun JSONObject.collectWidgets(parent: Widget?, iconFormat: String): List<Widget> {
@@ -245,27 +278,27 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: String): List<Widget>
     val icon = optString("icon", null)
 
     val widget = Widget.build(getString("widgetId"), parent?.id,
-            optString("label", ""),
-            icon, Widget.determineOH2IconPath(item, type, icon, iconFormat, mappings.isNotEmpty()),
-            Widget.determineWidgetState(optString("state", null), item),
-            type,
-            optString("url", null),
-            item,
-            optJSONObject("linkedPage").toLinkedPage(),
-            mappings,
-            optString("encoding", null),
-            optString("iconcolor", null),
-            optString("labelcolor", null),
-            optString("valuecolor", null),
-            optInt("refresh"),
-            optDouble("minValue", 0.0).toFloat(),
-            optDouble("maxValue", 100.0).toFloat(),
-            optDouble("step", 1.0).toFloat(),
-            optString("period", "D"),
-            optString("service", ""),
-            if (has("legend")) getBoolean("legend") else null,
-            if (has("switchSupport")) getBoolean("switchSupport") else false,
-            optInt("height"))
+        optString("label", ""),
+        icon, Widget.determineOH2IconPath(item, type, icon, iconFormat, mappings.isNotEmpty()),
+        Widget.determineWidgetState(optString("state", null), item),
+        type,
+        optString("url", null),
+        item,
+        optJSONObject("linkedPage").toLinkedPage(),
+        mappings,
+        optString("encoding", null),
+        optString("iconcolor", null),
+        optString("labelcolor", null),
+        optString("valuecolor", null),
+        optInt("refresh"),
+        optDouble("minValue", 0.0).toFloat(),
+        optDouble("maxValue", 100.0).toFloat(),
+        optDouble("step", 1.0).toFloat(),
+        optString("period", "D"),
+        optString("service", ""),
+        if (has("legend")) getBoolean("legend") else null,
+        if (has("switchSupport")) getBoolean("switchSupport") else false,
+        optInt("height"))
 
     val result = arrayListOf(widget)
     val childWidgetJson = optJSONArray("widgets")

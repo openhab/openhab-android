@@ -23,49 +23,82 @@ class UtilTest {
     private val sitemapOH1Document: Document
         @Throws(ParserConfigurationException::class, IOException::class, SAXException::class)
         get() {
-            val xml = ("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                    + "<sitemaps>"
-
-                    + "<sitemap><name>default</name><label>i AM DEfault</label>"
-                    + "<link>http://myopenhab/rest/sitemaps/default</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/default/default</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "<sitemap><name>heating</name><label>Heating</label>"
-                    + "<link>http://myopenhab/rest/sitemaps/heating</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/heating/heating</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "<sitemap><name>lighting</name><label>Lighting</label>"
-                    + "<link>http://myopenhab/rest/sitemaps/lighting</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/lighting/lighting</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "<sitemap><name>heatpump</name><label>Heatpump</label>"
-                    + "<link>http://myopenhab/rest/sitemaps/heatpump</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/heatpump/heatpump</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "<sitemap><name>schedule</name><label>Schedule</label>"
-                    + "<link>http://myopenhab/rest/sitemaps/schedule</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/schedule/schedule</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "<sitemap><name>outside</name><link>http://myopenhab/rest/sitemaps/outside</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/outside/outside</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "<sitemap><name>garden</name><label>Garden</label>"
-                    + "<link>http://myopenhab/rest/sitemaps/garden</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/garden/garden</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "<sitemap><name>scenes</name><label>Scenes</label>"
-                    + "<link>http://myopenhab/rest/sitemaps/scenes</link>"
-                    + "<homepage><link>http://myopenhab/rest/sitemaps/scenes/scenes</link>"
-                    + "<leaf>false</leaf></homepage></sitemap>"
-
-                    + "</sitemaps>")
+            val xml = """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <sitemaps>
+                    <sitemap>
+                        <name>default</name>
+                        <label>i AM DEfault</label>
+                        <link>http://myopenhab/rest/sitemaps/default</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/default/default</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                    <sitemap>
+                        <name>heating</name>
+                        <label>Heating</label>
+                        <link>http://myopenhab/rest/sitemaps/heating</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/heating/heating</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                    <sitemap>
+                        <name>lighting</name>
+                        <label>Lighting</label>
+                        <link>http://myopenhab/rest/sitemaps/lighting</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/lighting/lighting</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                    <sitemap>
+                        <name>heatpump</name>
+                        <label>Heatpump</label>
+                        <link>http://myopenhab/rest/sitemaps/heatpump</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/heatpump/heatpump</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                    <sitemap>
+                        <name>schedule</name>
+                        <label>Schedule</label>
+                        <link>http://myopenhab/rest/sitemaps/schedule</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/schedule/schedule</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                    <sitemap>
+                        <name>outside</name>
+                        <link>http://myopenhab/rest/sitemaps/outside</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/outside/outside</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                    <sitemap>
+                        <name>garden</name>
+                        <label>Garden</label>
+                        <link>http://myopenhab/rest/sitemaps/garden</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/garden/garden</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                    <sitemap>
+                        <name>scenes</name>
+                        <label>Scenes</label>
+                        <link>http://myopenhab/rest/sitemaps/scenes</link>
+                        <homepage>
+                            <link>http://myopenhab/rest/sitemaps/scenes/scenes</link>
+                            <leaf>false</leaf>
+                        </homepage>
+                    </sitemap>
+                </sitemaps>
+                """.trimIndent()
 
             val dbf = DocumentBuilderFactory.newInstance()
             val builder = dbf.newDocumentBuilder()

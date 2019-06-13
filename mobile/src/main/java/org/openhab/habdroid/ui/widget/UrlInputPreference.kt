@@ -13,8 +13,8 @@ import org.openhab.habdroid.R
 import java.net.MalformedURLException
 import java.net.URL
 
-class UrlInputPreference constructor(context: Context, attrs: AttributeSet):
-        EditTextPreference(context, attrs), TextWatcher {
+class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
+    EditTextPreference(context, attrs), TextWatcher {
     private lateinit var editor: EditText
     private var urlIsValid: Boolean = false
 
@@ -56,7 +56,6 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet):
                 } catch (e: MalformedURLException) {
                     urlIsValid = false
                 }
-
             }
         }
         val res = editor.resources

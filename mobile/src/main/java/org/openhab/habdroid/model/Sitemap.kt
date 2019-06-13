@@ -21,9 +21,14 @@ import org.w3c.dom.Document
 import org.w3c.dom.Node
 
 @Parcelize
-data class Sitemap internal constructor(val name: String, val label: String, val link: String?,
-                                        val icon: String?, val iconPath: String,
-                                        val homepageLink: String): Parcelable
+data class Sitemap internal constructor(
+    val name: String,
+    val label: String,
+    val link: String?,
+    val icon: String?,
+    val iconPath: String,
+    val homepageLink: String
+) : Parcelable
 
 fun Node.toSitemap(): Sitemap? {
     var label: String? = null
@@ -41,7 +46,7 @@ fun Node.toSitemap(): Sitemap? {
             "homepage" -> node.childNodes.forEach { pageNode ->
                 if (pageNode.nodeName == "link") {
                     homepageLink = pageNode.textContent
-               }
+                }
             }
         }
     }

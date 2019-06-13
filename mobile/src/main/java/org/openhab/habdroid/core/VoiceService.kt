@@ -27,7 +27,7 @@ import java.util.*
 class VoiceService : IntentService("VoiceService") {
     override fun onHandleIntent(intent: Intent?) {
         val voiceCommand = intent?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
-                ?: return
+            ?: return
 
         Log.i(TAG, "Recognized text: $voiceCommand")
         Util.showToast(this, getString(R.string.info_voice_recognized_text, voiceCommand))

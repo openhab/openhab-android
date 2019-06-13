@@ -17,17 +17,17 @@ class IntroActivity : AppIntro() {
 
         // Add slides
         addSlide(R.string.intro_welcome,
-                R.string.intro_whatis,
-                R.drawable.ic_openhab_appicon_340dp)
+            R.string.intro_whatis,
+            R.drawable.ic_openhab_appicon_340dp)
         addSlide(R.string.intro_themes,
-                R.string.intro_themes_description,
-                R.drawable.ic_palette_outline_orange_340dp)
+            R.string.intro_themes_description,
+            R.drawable.ic_palette_outline_orange_340dp)
         addSlide(R.string.mainmenu_openhab_voice_recognition,
-                R.string.intro_voice_description,
-                R.drawable.ic_microphone_outline_orange_340dp)
+            R.string.intro_voice_description,
+            R.drawable.ic_microphone_outline_orange_340dp)
         addSlide(R.string.intro_nfc,
-                R.string.intro_nfc_description,
-                R.drawable.ic_nfc_orange_340dp)
+            R.string.intro_nfc_description,
+            R.drawable.ic_nfc_orange_340dp)
 
         // Change bar color
         setBarColor(ContextCompat.getColor(this, R.color.openhab_orange))
@@ -58,18 +58,17 @@ class IntroActivity : AppIntro() {
      * @param description
      * @param imageDrawable
      */
-    private fun addSlide(@StringRes title: Int, @StringRes description: Int,
-                         @DrawableRes imageDrawable: Int) {
+    private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
         @ColorInt val greyColor = ContextCompat.getColor(this, R.color.grey_300)
         @ColorInt val blackColor = ContextCompat.getColor(this, R.color.black)
 
         addSlide(AppIntroFragment.newInstance(getString(title),
-                null, // Title font: null => default
-                getString(description), null, // Description font: null => default
-                imageDrawable,
-                greyColor, // Background color
-                blackColor, // Title color
-                // Description color
-                ContextCompat.getColor(this, R.color.black))) // Description color
+            null, // Title font: null => default
+            getString(description), null, // Description font: null => default
+            imageDrawable,
+            greyColor, // Background color
+            blackColor, // Title color
+            // Description color
+            ContextCompat.getColor(this, R.color.black))) // Description color
     }
 }
