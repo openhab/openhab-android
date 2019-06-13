@@ -85,9 +85,9 @@ data class Widget(
             val icon = eventPayload.optString("icon", source.icon)
             val iconPath = determineOH2IconPath(item, source.type, icon, iconFormat,
                 source.mappings.isNotEmpty())
-            return build(source.id, source.parentId,
+            return Widget(source.id, source.parentId,
                 eventPayload.optString("label", source.label),
-                icon, iconPath,
+                sanitizeIcon(icon), iconPath,
                 determineWidgetState(eventPayload.optString("state", null), item),
                 source.type, source.url, item, source.linkedPage, source.mappings,
                 source.encoding, source.iconColor,
@@ -98,48 +98,11 @@ data class Widget(
                 source.switchSupport, source.height)
         }
 
-        // XXX: replace this by sanitization functions
-        internal fun build(
-            id: String,
-            parentId: String?,
-            label: String,
-            icon: String?,
-            iconPath: String?,
-            state: ParsedState?,
-            type: Type,
-            url: String?,
-            item: Item?,
-            linkedPage: LinkedPage?,
-            mappings: List<LabeledValue>,
-            encoding: String?,
-            iconColor: String?,
-            labelColor: String?,
-            valueColor: String?,
-            refresh: Int,
-            minValue: Float,
-            maxValue: Float,
-            step: Float,
-            period: String,
-            service: String,
-            legend: Boolean?,
-            switchSupport: Boolean,
-            height: Int
-        ): Widget {
-            // A 'none' icon equals no icon at all
-            val actualIcon = if (icon == "none") null else icon
-            // Consider a minimal refresh rate of 100 ms, but 0 is special and means 'no refresh'
-            val actualRefresh = if (refresh in 1..99) 100 else refresh
-            // Default period to 'D'
-            val actualPeriod = if (period.isEmpty()) "D" else period
-            // Sanitize minValue, maxValue and step: min <= max, step >= 0
-            val actualMaxValue = Math.max(minValue, maxValue)
-            val actualStep = Math.abs(step)
-
-            return Widget(id, parentId, label, actualIcon, iconPath, state, type, url,
-                item, linkedPage, mappings, encoding, iconColor, labelColor, valueColor,
-                actualRefresh, minValue, actualMaxValue, actualStep, actualPeriod,
-                service, legend, switchSupport, height)
-        }
+        internal fun sanitizeIcon(icon: String?) = if (icon == "none") null else icon
+        internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
+        internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
+        internal fun sanitizeMinMaxStep(min: Float, max: Float, step: Float) =
+            Triple(min, Math.max(min, max), Math.abs(step))
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
             return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
@@ -256,10 +219,13 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     }
 
     val finalId = id ?: return emptyList()
-    val widget = Widget.build(finalId, parent?.id, label.orEmpty(),
-        icon, "images/$icon.png", item?.state, type, url, item, linkedPage, mappings,
-        encoding, iconColor, labelColor, valueColor, refresh, minValue, maxValue, step, period,
-        service, null, switchSupport, height)
+    val (actualMin, actualMax, actualStep) = Widget.sanitizeMinMaxStep(minValue, maxValue, step)
+
+    val widget = Widget(finalId, parent?.id, label.orEmpty(),
+        Widget.sanitizeIcon(icon), "images/$icon.png",
+        item?.state, type, url, item, linkedPage, mappings, encoding, iconColor, labelColor, valueColor,
+        Widget.sanitizeRefreshRate(refresh), actualMin, actualMax, actualStep,
+        Widget.sanitizePeriod(period), service, null, switchSupport, height)
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
 
     return listOf(widget) + childWidgets
@@ -276,10 +242,18 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: String): List<Widget>
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optString("icon", null)
+    val (minValue, maxValue, step) = Widget.sanitizeMinMaxStep(
+        optDouble("minValue", 0.0).toFloat(),
+        optDouble("maxValue", 100.0).toFloat(),
+        optDouble("step", 1.0).toFloat()
+    )
 
-    val widget = Widget.build(getString("widgetId"), parent?.id,
+    val widget = Widget(
+        getString("widgetId"),
+        parent?.id,
         optString("label", ""),
-        icon, Widget.determineOH2IconPath(item, type, icon, iconFormat, mappings.isNotEmpty()),
+        Widget.sanitizeIcon(icon),
+        Widget.determineOH2IconPath(item, type, icon, iconFormat, mappings.isNotEmpty()),
         Widget.determineWidgetState(optString("state", null), item),
         type,
         optString("url", null),
@@ -290,11 +264,9 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: String): List<Widget>
         optString("iconcolor", null),
         optString("labelcolor", null),
         optString("valuecolor", null),
-        optInt("refresh"),
-        optDouble("minValue", 0.0).toFloat(),
-        optDouble("maxValue", 100.0).toFloat(),
-        optDouble("step", 1.0).toFloat(),
-        optString("period", "D"),
+        Widget.sanitizeRefreshRate(optInt("refresh")),
+        minValue, maxValue, step,
+        Widget.sanitizePeriod(optString("period")),
         optString("service", ""),
         if (has("legend")) getBoolean("legend") else null,
         if (has("switchSupport")) getBoolean("switchSupport") else false,
