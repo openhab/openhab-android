@@ -47,7 +47,7 @@ abstract class AbstractConnection : Connection {
             val url = URL(baseUrl)
             val checkPort = when {
                 url.protocol == "http" && url.port == -1 -> 80
-                url.protocol == "http" && url.port == -1 -> 443
+                url.protocol == "https" && url.port == -1 -> 443
                 else -> url.port
             }
             val s = createConnectedSocket(InetSocketAddress(url.host, checkPort)) ?: return false
