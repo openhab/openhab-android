@@ -255,8 +255,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
         context.startActivity(startIntent)
 
-        val name = if (linkedPage.title.isNullOrEmpty())
-            context.getString(R.string.app_name) else linkedPage.title
+        val name = if (linkedPage.title.isEmpty()) context.getString(R.string.app_name) else linkedPage.title
         val shortcutInfo = ShortcutInfoCompat.Builder(context,
             shortSitemapUri + '-' + System.currentTimeMillis())
             .setShortLabel(name)

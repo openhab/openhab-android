@@ -24,7 +24,7 @@ import org.w3c.dom.Node
 data class Sitemap internal constructor(
     val name: String,
     val label: String,
-    val link: String?,
+    val link: String,
     val icon: String?,
     val iconPath: String,
     val homepageLink: String
@@ -53,7 +53,7 @@ fun Node.toSitemap(): Sitemap? {
 
     val finalName = name ?: return null
     val finalLink = homepageLink ?: return null
-    return Sitemap(finalName, label ?: finalName, link, icon, "images/$icon.png", finalLink)
+    return Sitemap(finalName, label ?: finalName, finalLink, icon, "images/$icon.png", finalLink)
 }
 
 fun JSONObject.toSitemap(): Sitemap? {
@@ -61,7 +61,7 @@ fun JSONObject.toSitemap(): Sitemap? {
     val homepageLink = optJSONObject("homepage")?.optString("link", null) ?: return null
     val label = optString("label", null)
     val icon = optString("icon", null)
-    val link = optString("link", null)
+    val link = optString("link", null) ?: return null
 
     return Sitemap(name, label ?: name, link, icon, "icon/$icon", homepageLink)
 }

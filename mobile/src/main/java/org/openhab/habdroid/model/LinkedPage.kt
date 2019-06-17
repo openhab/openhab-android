@@ -22,26 +22,23 @@ import org.w3c.dom.Node
 
 @Parcelize
 data class LinkedPage(
-    val id: String?,
-    val title: String?,
+    val id: String,
+    val title: String,
     val icon: String?,
     val iconPath: String,
     val link: String
 ) : Parcelable {
     companion object {
         internal fun build(
-            id: String?,
+            id: String,
             title: String?,
             icon: String?,
             iconPath: String,
-            link: String?
-        ): LinkedPage? {
-            if (link == null) {
-                return null
-            }
+            link: String
+        ): LinkedPage {
             val actualTitle = if (title != null && title.indexOf('[') > 0)
                 title.substring(0, title.indexOf('[')) else title
-            return LinkedPage(id, actualTitle, icon, iconPath, link)
+            return LinkedPage(id, actualTitle.orEmpty(), icon, iconPath, link)
         }
     }
 }
@@ -61,7 +58,9 @@ fun Node.toLinkedPage(): LinkedPage? {
         }
     }
 
-    return LinkedPage.build(id, title, icon, "images/$icon.png", link)
+    val finalId = id ?: return null
+    val finalLink = link ?: return null
+    return LinkedPage.build(finalId, title, icon, "images/$icon.png", finalLink)
 }
 
 fun JSONObject?.toLinkedPage(): LinkedPage? {
@@ -70,9 +69,9 @@ fun JSONObject?.toLinkedPage(): LinkedPage? {
     }
     val icon = optString("icon", null)
     return LinkedPage.build(
-        optString("id", null),
+        getString("id"),
         optString("title", null),
         icon,
         "icon/$icon",
-        optString("link", null))
+        getString("link"))
 }

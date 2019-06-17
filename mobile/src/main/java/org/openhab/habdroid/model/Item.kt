@@ -25,7 +25,7 @@ data class Item internal constructor(
     val category: String?,
     val type: Type,
     val groupType: Type?,
-    val link: String?,
+    val link: String,
     val readOnly: Boolean,
     val members: List<Item>,
     val options: List<LabeledValue>?,
@@ -60,7 +60,7 @@ data class Item internal constructor(
             }
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
-            val link = if (item != null) item.link else parsedItem.link
+            val link = item?.link ?: parsedItem.link
             return Item(parsedItem.name, parsedItem.label, parsedItem.category, parsedItem.type,
                 parsedItem.groupType, link, parsedItem.readOnly, parsedItem.members,
                 parsedItem.options, parsedItem.state)
@@ -85,11 +85,12 @@ fun Node.toItem(): Item? {
     }
 
     val finalName = name ?: return null
+    val finalLink = link ?: return null
     if (state == "Uninitialized" || state == "Undefined") {
         state = null
     }
 
-    return Item(finalName, finalName, null, type, groupType, link, false,
+    return Item(finalName, finalName, null, type, groupType, finalLink, false,
         emptyList(), null, state.toParsedState())
 }
 
@@ -122,7 +123,7 @@ fun JSONObject.toItem(): Item {
         optString("category", null),
         getString("type").toItemType(),
         optString("groupType").toItemType(),
-        optString("link", null),
+        getString("link"),
         readOnly,
         members,
         options,
