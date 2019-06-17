@@ -815,7 +815,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun buildUrlAndOpenSitemap(partUrl: String) {
-        controller.openPage("rest/sitemap$partUrl")
+        controller.openPage("rest/sitemaps$partUrl")
     }
 
     private fun onNotificationSelected(intent: Intent) {
