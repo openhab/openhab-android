@@ -372,16 +372,20 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             try {
                 val jsonObject = JSONObject(payload)
 
-                val eventType = jsonObject.optString("TYPE")
-                if ("SITEMAP_CHANGED" == eventType) {
-                    Log.d(TAG, "Got SITEMAP_CHANGED event, reload sitemap")
-                    cancel()
-                    load()
-                    return
-                } else if ("ALIVE" == eventType) {
-                    // We ignore 'server alive' events
-                    Log.d(TAG, "Got ALIVE event")
-                    return
+                when (jsonObject.optString("TYPE")) {
+                    "SITEMAP_CHANGED" -> {
+                        val sitemap = jsonObject.optString("sitemapName")
+                        val page = jsonObject.optString("pageId")
+                        Log.d(TAG, "Got SITEMAP_CHANGED event for $sitemap/$page, self $pageId, reload sitemap")
+                        cancel()
+                        load()
+                        return
+                    }
+                    "ALIVE" -> {
+                        // We ignore 'server alive' events
+                        Log.d(TAG, "Got ALIVE event")
+                        return
+                    }
                 }
 
                 val widgetId = jsonObject.getString("widgetId")
@@ -497,7 +501,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 // - the reporter matching our expectations (mismatch means shutdown was called)
                 // - retry count exhaustion
                 if (retries >= MAX_RETRIES && sse === eventStream) {
-                    failureCb
+                    failureCb()
                 }
             }
 
