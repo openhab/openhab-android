@@ -411,11 +411,16 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        internal fun handleSseSubscriptionFailure() {
-            Log.w(TAG, "SSE processing failed for $url, using long polling")
-            eventHelper = null
-            if (longPolling) {
-                load()
+        internal fun handleSseSubscriptionFailure(sseUnsupported: Boolean) {
+            if (sseUnsupported) {
+                Log.w(TAG, "SSE processing failed for $url, using long polling")
+                eventHelper = null
+                if (longPolling) {
+                    load()
+                }
+            } else {
+                Log.w(TAG, "SSE processing failed for $url, retrying")
+                eventHelper?.connect()
             }
         }
 
@@ -425,7 +430,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             private val sitemap: String,
             private val pageId: String,
             private val updateCb: (pageId: String, message: String) -> Unit,
-            private val failureCb: () -> Unit
+            private val failureCb: (sseUnsupported: Boolean) -> Unit
         ) : ServerSentEvent.Listener {
             private val handler: Handler = Handler(Looper.getMainLooper())
             private var subscribeJob: Job? = null
@@ -455,14 +460,14 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                         }
                     } catch (e: JSONException) {
                         Log.w(TAG, "Failed parsing SSE subscription", e)
-                        failureCb()
+                        failureCb(true)
                     } catch (e: HttpClient.HttpException) {
                         if (e.statusCode == 404) {
                             Log.d(TAG, "Server does not have SSE support")
                         } else {
                             Log.w(TAG, "Failed subscribing for SSE", e)
                         }
-                        failureCb()
+                        failureCb(true)
                     }
                 }
             }
@@ -489,19 +494,18 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
 
             override fun onRetryError(sse: ServerSentEvent, throwable: Throwable, response: Response?): Boolean {
-                val statusCode = response?.code() ?: 0
-                Log.w(TAG, "SSE stream failed for page $pageId with status $statusCode (retry $retries)")
+                val statusCode = response?.code() ?: return false
+                Log.w(TAG, "SSE stream $sse failed for page $pageId with status $statusCode (retry $retries)")
                 // Stop retrying after maximum amount of subsequent retries is reached
                 return ++retries < MAX_RETRIES
             }
 
             override fun onClosed(sse: ServerSentEvent) {
                 // We're only interested in permanent failure here, not in callbacks we caused
-                // ourselves by calling close(), so check for both
-                // - the reporter matching our expectations (mismatch means shutdown was called)
-                // - retry count exhaustion
-                if (retries >= MAX_RETRIES && sse === eventStream) {
-                    failureCb()
+                // ourselves by calling close(), so check for the reporter matching our expectations
+                // (mismatch means shutdown was called)
+                if (sse === eventStream) {
+                    failureCb(false)
                 }
             }
 
