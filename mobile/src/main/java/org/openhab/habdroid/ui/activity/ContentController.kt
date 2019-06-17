@@ -180,6 +180,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         // First clear the old fragment stack to show the progress spinner...
         pageStack.clear()
         sitemapFragment = null
+        temporaryPage = null
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         // ...then create the new sitemap fragment and trigger data loading.
         val newFragment = makeSitemapFragment(sitemap)
