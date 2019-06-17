@@ -120,25 +120,24 @@ class WidgetAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val holder: ViewHolder
-        when (viewType) {
-            TYPE_GENERICITEM -> holder = GenericViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_FRAME -> holder = FrameViewHolder(inflater, parent, colorMapper)
-            TYPE_GROUP -> holder = GroupViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_SWITCH -> holder = SwitchViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_TEXT -> holder = TextViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_SLIDER -> holder = SliderViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_IMAGE -> holder = ImageViewHolder(inflater, parent, connection)
-            TYPE_SELECTION -> holder = SelectionViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_SECTIONSWITCH -> holder = SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_ROLLERSHUTTER -> holder = RollerShutterViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_SETPOINT -> holder = SetpointViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_CHART -> holder = ChartViewHolder(inflater, parent, chartTheme, connection)
-            TYPE_VIDEO -> holder = VideoViewHolder(inflater, parent)
-            TYPE_WEB -> holder = WebViewHolder(inflater, parent, connection)
-            TYPE_COLOR -> holder = ColorViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_VIDEO_MJPEG -> holder = MjpegVideoViewHolder(inflater, parent, connection)
-            TYPE_LOCATION -> holder = MapViewHelper.createViewHolder(inflater, parent, connection, colorMapper)
+        val holder = when (viewType) {
+            TYPE_GENERICITEM -> GenericViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_FRAME -> FrameViewHolder(inflater, parent, colorMapper)
+            TYPE_GROUP -> GroupViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SWITCH -> SwitchViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_TEXT -> TextViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SLIDER -> SliderViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_IMAGE -> ImageViewHolder(inflater, parent, connection)
+            TYPE_SELECTION -> SelectionViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection)
+            TYPE_VIDEO -> VideoViewHolder(inflater, parent)
+            TYPE_WEB -> WebViewHolder(inflater, parent, connection)
+            TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(inflater, parent, connection)
+            TYPE_LOCATION -> MapViewHelper.createViewHolder(inflater, parent, connection, colorMapper)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
 
@@ -153,10 +152,12 @@ class WidgetAdapter(
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == 0)
         }
-        holder.itemView.isActivated = selectedPosition == position
-        holder.itemView.setOnClickListener(this)
-        holder.itemView.setOnLongClickListener(this)
-        holder.itemView.isClickable = true
+        with(holder.itemView) {
+            isClickable = true
+            isActivated = selectedPosition == position
+            setOnClickListener(this@WidgetAdapter)
+            setOnLongClickListener(this@WidgetAdapter)
+        }
     }
 
     override fun onViewAttachedToWindow(holder: ViewHolder) {
@@ -196,31 +197,28 @@ class WidgetAdapter(
         return false
     }
 
-    private fun getItemViewType(widget: Widget): Int {
-        when (widget.type) {
-            Widget.Type.Frame -> return TYPE_FRAME
-            Widget.Type.Group -> return TYPE_GROUP
-            Widget.Type.Switch -> return if (widget.hasMappings()) {
-                TYPE_SECTIONSWITCH
-            } else {
-                if (widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true)
-                    TYPE_ROLLERSHUTTER else TYPE_SWITCH
-            }
-            Widget.Type.Text -> return TYPE_TEXT
-            Widget.Type.Slider -> return TYPE_SLIDER
-            Widget.Type.Image -> return TYPE_IMAGE
-            Widget.Type.Selection -> return TYPE_SELECTION
-            Widget.Type.Setpoint -> return TYPE_SETPOINT
-            Widget.Type.Chart -> return TYPE_CHART
-            Widget.Type.Video -> return if ("mjpeg".equals(widget.encoding, ignoreCase = true))
-                TYPE_VIDEO_MJPEG
-            else
-                TYPE_VIDEO
-            Widget.Type.Webview -> return TYPE_WEB
-            Widget.Type.Colorpicker -> return TYPE_COLOR
-            Widget.Type.Mapview -> return TYPE_LOCATION
-            else -> return TYPE_GENERICITEM
+    private fun getItemViewType(widget: Widget) = when (widget.type) {
+        Widget.Type.Frame -> TYPE_FRAME
+        Widget.Type.Group -> TYPE_GROUP
+        Widget.Type.Switch -> when {
+            widget.hasMappings() -> TYPE_SECTIONSWITCH
+            widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
+            else -> TYPE_SWITCH
         }
+        Widget.Type.Text -> TYPE_TEXT
+        Widget.Type.Slider -> TYPE_SLIDER
+        Widget.Type.Image -> TYPE_IMAGE
+        Widget.Type.Selection -> TYPE_SELECTION
+        Widget.Type.Setpoint -> TYPE_SETPOINT
+        Widget.Type.Chart -> TYPE_CHART
+        Widget.Type.Video -> when {
+            "mjpeg".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_MJPEG
+            else -> TYPE_VIDEO
+        }
+        Widget.Type.Webview -> TYPE_WEB
+        Widget.Type.Colorpicker -> TYPE_COLOR
+        Widget.Type.Mapview -> TYPE_LOCATION
+        else -> TYPE_GENERICITEM
     }
 
     abstract class ViewHolder internal constructor(
@@ -498,16 +496,10 @@ class WidgetAdapter(
             boundItem = widget.item
             boundMappings = widget.mappingsOrItemOptions
 
-            var spinnerSelectedIndex = -1
-            val spinnerArray = ArrayList<String>()
             val stateString = boundItem?.state?.asString
+            val spinnerArray = boundMappings.map { mapping -> mapping.label }.toMutableList()
+            var spinnerSelectedIndex = boundMappings.indexOfFirst { mapping -> mapping.value == stateString }
 
-            for ((command, label) in boundMappings) {
-                spinnerArray.add(label)
-                if (command == stateString) {
-                    spinnerSelectedIndex = spinnerArray.size - 1
-                }
-            }
             if (spinnerSelectedIndex == -1) {
                 spinnerArray.add("          ")
                 spinnerSelectedIndex = spinnerArray.size - 1
@@ -554,8 +546,7 @@ class WidgetAdapter(
             val mappings = widget.mappings
             // inflate missing views
             for (i in radioGroup.childCount until mappings.size) {
-                val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button,
-                    radioGroup, false)
+                val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, radioGroup, false)
                 view.setOnClickListener(this)
                 radioGroup.addView(view)
             }
@@ -604,8 +595,8 @@ class WidgetAdapter(
         private var boundItem: Item? = null
 
         init {
-            val buttonCommandMap = mapOf(R.id.up_button to "UP",
-                R.id.down_button to "DOWN", R.id.stop_button to "STOP")
+            val buttonCommandMap =
+                mapOf(R.id.up_button to "UP", R.id.down_button to "DOWN", R.id.stop_button to "STOP")
             for ((id, command) in buttonCommandMap) {
                 val button = itemView.findViewById<View>(id)
                 button.setOnTouchListener(this)
@@ -695,8 +686,7 @@ class WidgetAdapter(
 
             val newValue = if (down) stateValue - widget.step else stateValue + widget.step
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
-                connection.httpClient.sendItemUpdate(widget.item,
-                    ParsedState.NumberState.withValue(state, newValue))
+                connection.httpClient.sendItemUpdate(widget.item, ParsedState.NumberState.withValue(state, newValue))
             }
         }
     }
@@ -816,14 +806,15 @@ class WidgetAdapter(
 
         @SuppressLint("SetJavaScriptEnabled")
         override fun bind(widget: Widget) {
-            webView.adjustForWidgetHeight(widget, 0)
-            webView.loadUrl("about:blank")
-
             val url = connection.httpClient.buildUrl(widget.url!!).toString()
-            webView.setUpForConnection(connection, url)
-            webView.webViewClient = AnchorWebViewClient(url,
-                connection.username, connection.password)
-            webView.loadUrl(url)
+            with(webView) {
+                adjustForWidgetHeight(widget, 0)
+                loadUrl("about:blank")
+
+                setUpForConnection(connection, url)
+                webViewClient = AnchorWebViewClient(url, connection.username, connection.password)
+                loadUrl(url)
+            }
         }
     }
 
@@ -838,8 +829,8 @@ class WidgetAdapter(
         private val handler = Handler(this)
 
         init {
-            val buttonCommandMap = mapOf(R.id.up_button to "ON",
-                R.id.down_button to "OFF", R.id.select_color_button to null)
+            val buttonCommandMap =
+                mapOf(R.id.up_button to "ON", R.id.down_button to "OFF", R.id.select_color_button to null)
             for ((id, command) in buttonCommandMap) {
                 val button = itemView.findViewById<View>(id)
                 button.setOnTouchListener(this)
