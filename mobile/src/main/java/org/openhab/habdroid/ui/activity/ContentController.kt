@@ -79,7 +79,6 @@ abstract class ContentController protected constructor(private val activity: Mai
     val currentTitle get() = when {
         noConnectionFragment != null -> null
         temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications)
-        temporaryPage is WidgetListFragment -> (temporaryPage as WidgetListFragment).title
         temporaryPage is WebViewFragment -> activity.getString((temporaryPage as WebViewFragment).titleResId)
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
@@ -227,9 +226,11 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.updateTitle()
         } else {
             // we didn't find it
-            temporaryPage = WidgetListFragment.withPage(url, null)
-            // no fragment update yet; fragment state will be updated when data arrives
-            handleNewWidgetFragment(temporaryPage as WidgetListFragment)
+            val page = LinkedPage("", "", null, "", url)
+            val f = makePageFragment(page)
+            pageStack.clear()
+            pageStack.push(Pair(page, f))
+            handleNewWidgetFragment(f)
             activity.setProgressIndicatorVisible(true)
         }
     }
@@ -400,11 +401,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (pendingDataLoadUrls.remove(pageUrl) && pendingDataLoadUrls.isEmpty()) {
             activity.setProgressIndicatorVisible(false)
             activity.updateTitle()
-            updateFragmentState(when {
-                fragment != null && fragment == temporaryPage -> FragmentUpdateReason.TEMPORARY_PAGE
-                pageStack.isEmpty() -> FragmentUpdateReason.PAGE_UPDATE
-                else -> FragmentUpdateReason.PAGE_ENTER
-            })
+            updateFragmentState(if (pageStack.isEmpty())
+                FragmentUpdateReason.PAGE_UPDATE else FragmentUpdateReason.PAGE_ENTER)
         }
     }
 
@@ -478,9 +476,6 @@ abstract class ContentController protected constructor(private val activity: Mai
         sitemapFragment?.let { result.add(it) }
         for ((_, fragment) in pageStack) {
             result.add(fragment)
-        }
-        if (temporaryPage is WidgetListFragment) {
-            result.add(temporaryPage as WidgetListFragment)
         }
         return result
     }
