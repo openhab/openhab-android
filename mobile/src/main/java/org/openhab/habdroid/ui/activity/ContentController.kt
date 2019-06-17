@@ -61,7 +61,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     private val connectionFragment: PageConnectionHolderFragment
     private var temporaryPage: Fragment? = null
 
-    private var currentSitemap: Sitemap? = null
+    var currentSitemap: Sitemap? = null
+        private set
     protected var sitemapFragment: WidgetListFragment? = null
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
@@ -290,6 +291,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun clearServerCommunicationFailure() {
         if (noConnectionFragment is CommunicationFailureFragment) {
             noConnectionFragment = null
+            resetState()
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
             activity.updateTitle()
         }
@@ -423,6 +425,9 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
+        if (pendingDataLoadUrls.remove(error.originalUrl) && pendingDataLoadUrls.isEmpty()) {
+            activity.setProgressIndicatorVisible(false)
+        }
     }
 
     internal abstract fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean)
