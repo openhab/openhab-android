@@ -90,8 +90,8 @@ class WidgetTest {
 
     @Test
     fun testHasMappings() {
-        assertEquals(true, sut1[0].hasMappings())
-        assertEquals(true, sut2[0].hasMappings())
+        assertEquals(true, sut1[0].mappings.isNotEmpty())
+        assertEquals(true, sut2[0].mappings.isNotEmpty())
     }
 
     @Test

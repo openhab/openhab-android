@@ -201,7 +201,7 @@ class WidgetAdapter(
         Widget.Type.Frame -> TYPE_FRAME
         Widget.Type.Group -> TYPE_GROUP
         Widget.Type.Switch -> when {
-            widget.hasMappings() -> TYPE_SECTIONSWITCH
+            widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
             widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
             else -> TYPE_SWITCH
         }
@@ -543,7 +543,7 @@ class WidgetAdapter(
             super.bind(widget)
             boundItem = widget.item
 
-            val mappings = widget.mappings
+            val mappings = widget.mappingsOrItemOptions
             // inflate missing views
             for (i in radioGroup.childCount until mappings.size) {
                 val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, radioGroup, false)

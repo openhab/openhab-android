@@ -52,14 +52,6 @@ data class Widget(
     val mappingsOrItemOptions get() =
         if (mappings.isEmpty() && item?.options != null) item.options else mappings
 
-    fun hasMappings(): Boolean {
-        return mappings.isNotEmpty()
-    }
-
-    fun hasMappingsOrItemOptions(): Boolean {
-        return mappingsOrItemOptions.isNotEmpty()
-    }
-
     enum class Type {
         Chart,
         Colorpicker,

@@ -16,10 +16,8 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             return suggestedCommands
         }
 
-        if (widget.hasMappingsOrItemOptions()) {
-            for ((value, label) in widget.mappingsOrItemOptions) {
-                add(suggestedCommands, value, label)
-            }
+        for ((value, label) in widget.mappingsOrItemOptions) {
+            add(suggestedCommands, value, label)
         }
 
         if (widget.type === Widget.Type.Setpoint || widget.type === Widget.Type.Slider) {
