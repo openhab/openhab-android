@@ -125,6 +125,8 @@
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
     <string name="action_settings">Nastavení</string>
     <string name="nfc_dialog_title">Zapsat akci do NFC tagu</string>
+    <string name="nfc_tag_recognized_label">Rozpoznán NFC tag pro „%s“</string>
+    <string name="nfc_tag_recognized_item">Rozpoznán NFC tag pro Item „%s“</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
@@ -142,6 +144,12 @@
     <string name="notification_channel_background_description">Slouží k zobrazení úkolů čekajících na pozadí</string>
     <string name="notification_channel_background_error">Chyba v úkolech na pozadí</string>
     <string name="notification_channel_background_error_description">Slouží k upozornění na chyby úkolů na pozadí</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item nemohla být aktualizována</item>
+        <item quantity="few">%d Items nemohly být aktualizovány</item>
+        <item quantity="many">%d Items nemohlo být aktualizováno</item>
+        <item quantity="other">%d Items nemohlo být aktualizováno</item>
+    </plurals>
     <string name="item_update_http_error">Chyba aktualizace Item \'%1$s\' (HTTP chyba %2$d)</string>
     <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
     <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
@@ -175,6 +183,18 @@
     <string name="nfc_action_off">Vypnout</string>
     <string name="nfc_action_down">Dolů</string>
     <string name="nfc_action_toggle">Přepnout</string>
+    <string name="nfc_action_undefined">Nedefinováno</string>
+    <string name="nfc_action_empty_string">Prázdný řetězec</string>
+    <string name="nfc_action_increase">Zvýšit</string>
+    <string name="nfc_action_decrease">Snížit</string>
+    <string name="nfc_action_play">Přehrát</string>
+    <string name="nfc_action_pause">Pozastavit</string>
+    <string name="nfc_action_next">Následující</string>
+    <string name="nfc_action_previous">Předchozí</string>
+    <string name="nfc_action_rewind">Přetočit zpět</string>
+    <string name="nfc_action_fastforward">Přetočit vpřed</string>
+    <string name="nfc_action_move">Přesunout</string>
+    <string name="nfc_action_stop">Zastavit</string>
     <string name="nfc_activate">Aktivovat</string>
     <string name="nfc_action_current_color">Současná barva</string>
     <string name="nfc_action_to_sitemap_page">Přejít na stránku Sitemap</string>
@@ -216,6 +236,9 @@
     <string name="clear_log">Vymazat log</string>
     <string name="empty_log">Log je prázný</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Připnout na domovskou obrazovku</string>
+    <string name="home_shortcut_error_pinning">Nepodařilo se připnout</string>
+    <string name="home_shortcut_success_pinning">Připnuto na domovskou obrazovku</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
     <string name="content_description_stop_roller_shutter">Zastavit roletu</string>
@@ -244,4 +267,14 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">HOTOVO</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Žádné Items nebyly nalezeny</string>
+    <string name="item_picker_list_error">Při načítání Items došlo k chybě</string>
+    <string name="item_picker_custom">Vlastní</string>
+    <string name="item_picker_dialog_title">Vyberte stav</string>
+    <string name="item_picker">openHAB Items</string>
+    <string name="item_picker_blurb">Nastavit \"%s\" (%s) na „%s“</string>
+    <string name="search">Hledat</string>
+    <string name="settings_tasker_plugin">Integrace Taskeru</string>
+    <string name="settings_tasker_plugin_summary">Povolit Tasker akční plugin, který umožňuje aktualizaci Items prostřednictvím Taskeru nebo jiných kompatibilních aplikací</string>
+    <string name="turn_on">Zapnout</string>
 </resources>
