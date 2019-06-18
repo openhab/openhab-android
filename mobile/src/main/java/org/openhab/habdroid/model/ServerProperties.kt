@@ -33,6 +33,10 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         return flags and SERVER_FLAG_HABPANEL_INSTALLED != 0
     }
 
+    fun hasInvisibleWidgetSupport(): Boolean {
+        return flags and SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS != 0
+    }
+
     companion object {
         private val TAG = ServerProperties::class.java.simpleName
 
@@ -41,6 +45,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_ICON_FORMAT_SUPPORT = 1 shl 2
         const val SERVER_FLAG_CHART_SCALING_SUPPORT = 1 shl 3
         const val SERVER_FLAG_HABPANEL_INSTALLED = 1 shl 4
+        const val SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS = 1 shl 5
 
         class UpdateHandle internal constructor(internal val scope: CoroutineScope) {
             internal var job: Job? = null
@@ -92,10 +97,12 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             or SERVER_FLAG_ICON_FORMAT_SUPPORT
                             or SERVER_FLAG_CHART_SCALING_SUPPORT)
                         try {
-                            val versionString = resultJson.getString("version")
-                            Integer.parseInt(versionString)
+                            val version = resultJson.getString("version").toInt()
                             // all versions that return a number here have full SSE support
                             flags = flags or SERVER_FLAG_SSE_SUPPORT
+                            if (version >= 2) {
+                                flags = flags or SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS
+                            }
                         } catch (nfe: NumberFormatException) {
                             // ignored: older versions without SSE support didn't return a number
                         }
