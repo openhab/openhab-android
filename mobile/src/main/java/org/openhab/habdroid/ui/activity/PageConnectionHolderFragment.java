@@ -429,16 +429,23 @@ public class PageConnectionHolderFragment extends Fragment {
 
                 String widgetId = object.getString("widgetId");
                 if (TextUtils.equals(widgetId, pageId)) {
-                    mCallback.onPageTitleUpdated(mUrl, object.getString("label"));
+                    mLastPageTitle = object.getString("label");
+                    mCallback.onPageTitleUpdated(mUrl, mLastPageTitle);
                     return;
                 }
                 for (int i = 0; i < mLastWidgetList.size(); i++) {
                     Widget widget = mLastWidgetList.get(i);
                     if (widgetId.equals(widget.id())) {
-                        Widget updatedWidget = Widget.updateFromEvent(widget,
-                                object, mCallback.getIconFormat());
-                        mLastWidgetList.set(i, updatedWidget);
-                        mCallback.onWidgetUpdated(mUrl, updatedWidget);
+                        if (!object.optBoolean("visibility", true)) {
+                            // A widget we display just became invisible.
+                            mLastWidgetList.remove(i);
+                            mCallback.onPageUpdated(mUrl, mLastPageTitle, mLastWidgetList);
+                        } else {
+                            Widget updatedWidget = Widget.updateFromEvent(widget,
+                                    object, mCallback.getIconFormat());
+                            mLastWidgetList.set(i, updatedWidget);
+                            mCallback.onWidgetUpdated(mUrl, updatedWidget);
+                        }
                         return;
                     }
                 }
