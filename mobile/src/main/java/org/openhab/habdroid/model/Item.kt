@@ -25,7 +25,7 @@ data class Item internal constructor(
     val category: String?,
     val type: Type,
     val groupType: Type?,
-    val link: String,
+    val link: String?,
     val readOnly: Boolean,
     val members: List<Item>,
     val options: List<LabeledValue>?,
@@ -85,12 +85,11 @@ fun Node.toItem(): Item? {
     }
 
     val finalName = name ?: return null
-    val finalLink = link ?: return null
     if (state == "Uninitialized" || state == "Undefined") {
         state = null
     }
 
-    return Item(finalName, finalName, null, type, groupType, finalLink, false,
+    return Item(finalName, finalName, null, type, groupType, link, false,
         emptyList(), null, state.toParsedState())
 }
 
@@ -123,7 +122,7 @@ fun JSONObject.toItem(): Item {
         optString("category", null),
         getString("type").toItemType(),
         optString("groupType").toItemType(),
-        getString("link"),
+        optString("link", null),
         readOnly,
         members,
         options,
