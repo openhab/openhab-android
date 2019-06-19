@@ -19,6 +19,7 @@ import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController.*
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
@@ -26,6 +27,8 @@ import org.osmdroid.views.overlay.Marker
 
 import java.util.ArrayList
 import java.util.Locale
+import kotlin.math.max
+import kotlin.math.min
 
 object MapViewHelper {
     internal val TAG = MapViewHelper::class.java.simpleName
@@ -59,7 +62,7 @@ object MapViewHelper {
             with(mapView) {
                 setTileSource(TileSourceFactory.MAPNIK)
                 isVerticalMapRepetitionEnabled = false
-                setBuiltInZoomControls(false)
+                zoomController.setVisibility(Visibility.NEVER)
                 setMultiTouchControls(false)
                 overlays.add(CopyrightOverlay(itemView.context))
                 overlays.add(MapEventsOverlay(object : MapEventsReceiver {
@@ -81,7 +84,10 @@ object MapViewHelper {
             mapView.adjustForWidgetHeight(widget, 5)
 
             boundItem = widget.item
-            handler.post { mapView.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false, false, this) }
+            handler.post {
+                mapView.applyPositionAndLabel(boundItem, labelView.text, 15.0f,
+                    allowDrag = false, allowScroll = false, markerDragListener = this)
+            }
         }
 
         override fun start() {
@@ -135,7 +141,7 @@ object MapViewHelper {
             }
 
             with(mapView) {
-                setBuiltInZoomControls(true)
+                zoomController.setVisibility(Visibility.SHOW_AND_FADEOUT)
                 setMultiTouchControls(true)
                 isVerticalMapRepetitionEnabled = false
                 overlays.add(CopyrightOverlay(itemView.context))
@@ -143,7 +149,7 @@ object MapViewHelper {
             }
             handler.post {
                 mapView.applyPositionAndLabel(boundItem, labelView.text, 16.0f,
-                    true, true, this@OsmViewHolder)
+                    allowDrag = true, allowScroll = true, markerDragListener = this@OsmViewHolder)
             }
         }
     }
@@ -161,7 +167,7 @@ fun MapView.applyPositionAndLabel(
         return
     }
     val canDragMarker = allowDrag && !item.readOnly
-    if (!item.members.isEmpty()) {
+    if (item.members.isNotEmpty()) {
         val positions = ArrayList<GeoPoint>()
         for (member in item.members) {
             val position = member.state?.asLocation?.toGeoPoint()
@@ -171,17 +177,17 @@ fun MapView.applyPositionAndLabel(
             }
         }
 
-        if (!positions.isEmpty()) {
+        if (positions.isNotEmpty()) {
             var north = -90.0
             var south = 90.0
             var west = 180.0
             var east = -180.0
             for (position in positions) {
-                north = Math.max(position.latitude, north)
-                south = Math.min(position.latitude, south)
+                north = max(position.latitude, north)
+                south = min(position.latitude, south)
 
-                west = Math.min(position.longitude, west)
-                east = Math.max(position.longitude, east)
+                west = min(position.longitude, west)
+                east = max(position.longitude, east)
             }
 
             Log.d(MapViewHelper.TAG, "North $north, south $south, west $west, east $east")
