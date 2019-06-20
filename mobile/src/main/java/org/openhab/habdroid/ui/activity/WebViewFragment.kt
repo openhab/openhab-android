@@ -36,6 +36,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args = arguments!!
+        webView = view.findViewById(R.id.webview)
         urltoLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String
 
