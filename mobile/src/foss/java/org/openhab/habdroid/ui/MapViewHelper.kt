@@ -140,10 +140,10 @@ object MapViewHelper {
                 isVerticalMapRepetitionEnabled = false
                 overlays.add(CopyrightOverlay(itemView.context))
                 onResume()
-                handler.post {
-                    applyPositionAndLabel(boundItem, labelView.text, 16.0f,
-                            true, true, this@OsmViewHolder)
-                }
+            }
+            handler.post {
+                mapView.applyPositionAndLabel(boundItem, labelView.text, 16.0f,
+                    true, true, this@OsmViewHolder)
             }
         }
     }
