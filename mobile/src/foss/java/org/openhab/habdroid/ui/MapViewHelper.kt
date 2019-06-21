@@ -214,6 +214,9 @@ fun MapView.applyPositionAndLabel(
                 setScrollableAreaLimitLatitude(position.latitude, position.latitude, 0)
                 setScrollableAreaLimitLongitude(position.longitude, position.longitude, 0)
             }
+        } else if (!allowScroll) {
+            setScrollableAreaLimitLatitude(0.0, 0.0, 0)
+            setScrollableAreaLimitLongitude(0.0, 0.0, 0)
         }
     }
 }
