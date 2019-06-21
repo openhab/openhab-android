@@ -25,7 +25,7 @@ import kotlin.coroutines.resumeWithException
 class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val baseUrl: HttpUrl? = if (baseUrl != null) HttpUrl.parse(baseUrl) else null
     @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
-        Credentials.basic(username, password) else null
+        Credentials.basic(username, password, okhttp3.internal.Util.UTF_8) else null
 
     enum class CachingMode {
         DEFAULT,
