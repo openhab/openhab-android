@@ -168,13 +168,6 @@ general guidelines for the community as a whole:
 
 ## FAQ
 
-**Is it fine to go with Kotlin for my contribution?**
-
-We don't use Kotlin. This is due to the fact, that our server components
-are written in pure Java. Even tough the Android community is adapting
-Kotlin well, most guys from the Java community are not used to writing
-Kotlin code.
-
 **Is there an architectural design for the presentation layer?**
 
 There is no MVVM/MVP or MVC in place, because the app is not too complex
@@ -214,8 +207,8 @@ https://www.openhab.org/docs/developer/development/ide.html
 
 **Do we have guidelines for code style?**
 
-Yes, Google Java Style Guide:
-https://google.github.io/styleguide/javaguide.html 
+Yes, Android Kotlin Style Guide:
+https://developer.android.com/kotlin/style-guide
 
 In addition: Please omit "openHAB" or "My" from class names.
 
