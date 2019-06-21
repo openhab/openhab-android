@@ -1,0 +1,2 @@
+## Changed
+* Convert app to Kotlin (#1356)
