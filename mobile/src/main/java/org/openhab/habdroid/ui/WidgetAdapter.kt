@@ -53,6 +53,8 @@ import org.openhab.habdroid.ui.widget.SegmentedControlButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.*
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.ceil
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -687,17 +689,17 @@ class WidgetAdapter(
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             val stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
-            val stepCount = (Math.abs(widget.maxValue - widget.minValue) / stepSize).toInt() + 1
+            val stepCount = (abs(widget.maxValue - widget.minValue) / stepSize).toInt()
             var closestIndex = 0
             var closestDelta = java.lang.Float.MAX_VALUE
 
-            val stepValues: List<ParsedState.NumberState> = (1..stepCount).map { index ->
+            val stepValues: List<ParsedState.NumberState> = (0..stepCount).map { index ->
                 val stepValue = widget.minValue + index * stepSize
-                if (Math.abs(stateValue - stepValue) < closestDelta) {
+                if (abs(stateValue - stepValue) < closestDelta) {
                     closestIndex = index
-                    closestDelta = Math.abs(stateValue - stepValue)
+                    closestDelta = abs(stateValue - stepValue)
                 }
-                ParsedState.NumberState.withValue(state, stepValue)
+                ParsedState.NumberState.withValue(state, stepValue, stepSize != ceil(stepSize))
             }
 
             val dialogView = inflater.inflate(R.layout.dialog_numberpicker, null)
@@ -725,7 +727,8 @@ class WidgetAdapter(
 
             val newValue = if (down) stateValue - widget.step else stateValue + widget.step
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
-                connection.httpClient.sendItemUpdate(widget.item, ParsedState.NumberState.withValue(state, newValue))
+                connection.httpClient.sendItemUpdate(widget.item, ParsedState.NumberState.withValue(state, newValue,
+                    stateValue != ceil(stateValue)))
             }
         }
     }

@@ -22,6 +22,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
+import kotlin.math.roundToInt
 
 @Parcelize
 data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
@@ -166,18 +167,20 @@ data class ParsedState internal constructor(
              * Returns a new NumberState instance, basing its contents on the passed-in previous state.
              * In particular, unit, format and number type (float/integer) will be taken from the
              * previous state. If previous state is integer, the new value will be rounded accordingly.
+             * The value can be forced to Float by setting forceFloat to true.
              * @param state Previous state to base on
              * @param value New numeric value
+             * @param forceFloat Force value to be Float
              * @return new NumberState instance
              */
-            fun withValue(state: NumberState?, value: Float): NumberState {
+            fun withValue(state: NumberState?, value: Float, forceFloat: Boolean = false): NumberState {
                 if (state == null) {
                     return NumberState(value)
                 }
-                if (state.value is Int) {
-                    return NumberState(Math.round(value), state.unit, state.format)
+                if (state.value is Float || forceFloat) {
+                    return NumberState(value, state.unit, state.format)
                 }
-                return NumberState(value, state.unit, state.format)
+                return NumberState(value.roundToInt(), state.unit, state.format)
             }
         }
     }
