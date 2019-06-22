@@ -70,9 +70,6 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 
-# Version control
-vcs.xml
-
 # lint
 lint/intermediates/
 lint/generated/
