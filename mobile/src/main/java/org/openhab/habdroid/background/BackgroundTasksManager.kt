@@ -8,10 +8,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Parcelable
 import android.util.Log
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
@@ -19,6 +16,7 @@ import org.openhab.habdroid.ui.ItemPickerActivity
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class BackgroundTasksManager : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -145,6 +143,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .build()
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
                 .setConstraints(constraints)
+                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL,
+                    WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
                 .setInputData(ItemUpdateWorker.buildData(itemName, value))

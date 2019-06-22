@@ -58,7 +58,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     companion object {
         private val TAG = ItemUpdateWorker::class.java.simpleName
-        private const val MAX_RETRIES = 3
+        private const val MAX_RETRIES = 10
 
         private const val INPUT_DATA_ITEM = "item"
         private const val INPUT_DATA_VALUE = "value"
