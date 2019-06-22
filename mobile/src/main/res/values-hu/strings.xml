@@ -73,8 +73,10 @@
     <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
     <string name="app_shortcut_diabled_habpanel">A szerveren nincs telepítve HABPanel</string>
     <string name="app_shortcut_diabled_notifications">A távoli szerver nem érhető el</string>
+    <string name="app_shortcut_diabled_voice_recognition">Ez az eszköz nem rendelkezik hangfelismerő alkalmazással</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
+    <string name="error_sitemap_generic_load_error">A felület nem tölthető be. Akövetkező hiba miatt: %1$s</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
     <string name="error_wifi_not_available">Wi-Fi ki van kapcsolva</string>
     <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
@@ -106,6 +108,9 @@
     <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP válasz-kód 511)</string>
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
+    <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
+    <string name="error_no_speech_to_text_app_found">Hangfelismerő alkalmazás nem található</string>
+    <string name="install">Telepítés</string>
     <string name="title_activity_openhabwritetag">NFC-címke írása</string>
     <string name="title_activity_libraries">Használt könyvtárak</string>
     <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
@@ -120,6 +125,8 @@
     <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
     <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
+    <string name="nfc_tag_recognized_label">NFC tag a \"%s\" -hoz felismerve</string>
+    <string name="nfc_tag_recognized_item">NFC tag az elemhez \"%s\" felismerve</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
@@ -166,6 +173,18 @@
     <string name="nfc_action_off">Ki</string>
     <string name="nfc_action_down">Le</string>
     <string name="nfc_action_toggle">Átvált</string>
+    <string name="nfc_action_undefined">Nem definiált</string>
+    <string name="nfc_action_empty_string">Üres karakterlánc</string>
+    <string name="nfc_action_increase">Növelés</string>
+    <string name="nfc_action_decrease">Csökkentés</string>
+    <string name="nfc_action_play">Lejátszás</string>
+    <string name="nfc_action_pause">Szünet</string>
+    <string name="nfc_action_next">Következő</string>
+    <string name="nfc_action_previous">Előző</string>
+    <string name="nfc_action_rewind">Visszapörgetés</string>
+    <string name="nfc_action_fastforward">Előretekerés</string>
+    <string name="nfc_action_move">Áthelyezés</string>
+    <string name="nfc_action_stop">Megállítás</string>
     <string name="nfc_activate">Aktiválás</string>
     <string name="nfc_action_current_color">Aktuális szín</string>
     <string name="nfc_action_to_sitemap_page">Ugrás az felületekhez</string>
@@ -207,6 +226,9 @@
     <string name="clear_log">Napló törlése</string>
     <string name="empty_log">A Napló üres</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Kitűzés a kezdőképernyőre</string>
+    <string name="home_shortcut_error_pinning">Hiba a kezdőképernyőre kitűzésekor</string>
+    <string name="home_shortcut_success_pinning">Kezdőképernyőre kitűzve</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Redőny nyitása</string>
     <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
@@ -235,4 +257,12 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">Kész</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Elem nem található</string>
+    <string name="item_picker_list_error">Hiba történt az elemek betöltése során</string>
+    <string name="item_picker_custom">Egyéni</string>
+    <string name="item_picker">openHAB elememek</string>
+    <string name="item_picker_blurb">Beállít erről \"%s\" (%s) erre \"%s\"</string>
+    <string name="search">Keresés</string>
+    <string name="settings_tasker_plugin">Teendők integrálása</string>
+    <string name="turn_on">Bekapcsol</string>
 </resources>
