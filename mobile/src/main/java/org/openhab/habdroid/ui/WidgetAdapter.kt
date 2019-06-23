@@ -683,9 +683,9 @@ class WidgetAdapter(
         }
 
         private fun openSelection() {
-            val widget = boundWidget
-            val state = widget?.state?.asNumber ?: return
-            val stateValue = state.value.toFloat()
+            val widget = boundWidget ?: return
+            val state = widget.state?.asNumber
+            val stateValue = state?.value?.toFloat() ?: widget.minValue
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             val stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
@@ -723,12 +723,16 @@ class WidgetAdapter(
         private fun handleUpDown(down: Boolean) {
             val widget = boundWidget
             val state = widget?.state?.asNumber
-            val stateValue = state?.value?.toFloat() ?: return
+            val stateValue = state?.value?.toFloat()
+            val newValue = when {
+                stateValue == null -> widget?.minValue ?: return
+                down -> stateValue - widget.step
+                else -> stateValue + widget.step
+            }
 
-            val newValue = if (down) stateValue - widget.step else stateValue + widget.step
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
                 connection.httpClient.sendItemUpdate(widget.item, ParsedState.NumberState.withValue(state, newValue,
-                    stateValue != ceil(stateValue)))
+                    stateValue != null && stateValue != ceil(stateValue)))
             }
         }
     }
