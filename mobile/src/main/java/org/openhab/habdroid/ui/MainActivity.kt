@@ -45,7 +45,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.core.text.inSpans
@@ -56,9 +59,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.*
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -104,6 +106,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     var isStarted: Boolean = false
         private set
     private lateinit var shortcutManager: ShortcutManager
+    private var shortcutItem: MenuItem? = null
 
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -295,11 +298,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "onPrepareOptionsMenu()")
+        shortcutItem = menu.findItem(R.id.mainmenu_add_shortcut)
         val voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition)
         @ColorInt val iconColor = ContextCompat.getColor(this, R.color.light)
         voiceRecognitionItem.isVisible = connection != null
         voiceRecognitionItem.icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         return true
+    }
+
+    fun toggleShortcutVisibility(show: Boolean) {
+        shortcutItem?.isVisible = ShortcutManagerCompat.isRequestPinShortcutSupported(this) && show
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -319,6 +327,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         return when (item.itemId) {
             R.id.mainmenu_voice_recognition -> {
                 launchVoiceRecognition()
+                true
+            }
+            R.id.mainmenu_add_shortcut -> {
+                pinHabpanelShortcut(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -983,6 +995,25 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             shortcutManager.addDynamicShortcuts(listOf(shortcut))
         } else {
             shortcutManager.disableShortcuts(listOf(id), getString(disableMessage))
+        }
+    }
+
+    private fun pinHabpanelShortcut(context: Context) = GlobalScope.launch {
+        val intent = Intent(context, MainActivity::class.java)
+            .setAction(ACTION_HABPANEL_SELECTED)
+        val shortcutInfo = ShortcutInfoCompat.Builder(context, "habpanel-" + System.currentTimeMillis())
+            .setShortLabel(getString(R.string.mainmenu_openhab_habpanel))
+            .setIcon(IconCompat.createWithResource(context, R.mipmap.ic_shortcut_habpanel))
+            .setIntent(intent)
+            .build()
+
+        val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
+        withContext(Dispatchers.Main) {
+            if (success) {
+                Toasty.success(context, R.string.home_shortcut_success_pinning).show()
+            } else {
+                Toasty.error(context, R.string.home_shortcut_error_pinning).show()
+            }
         }
     }
 

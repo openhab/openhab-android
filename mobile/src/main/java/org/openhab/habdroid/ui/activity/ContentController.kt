@@ -244,6 +244,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         showTemporaryPage(WebViewFragment.newInstance(R.string.mainmenu_openhab_habpanel,
             R.string.habpanel_error,
             "/habpanel/index.html", "/rest/events"))
+        activity.toggleShortcutVisibility(true)
     }
 
     /**
@@ -382,6 +383,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             }
         }
         if (temporaryPage != null) {
+            activity.toggleShortcutVisibility(false)
             temporaryPage = null
             activity.updateTitle()
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)

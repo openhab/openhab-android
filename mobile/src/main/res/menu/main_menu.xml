@@ -8,4 +8,10 @@
         android:orderInCategory="100"
         android:title="@string/mainmenu_openhab_voice_recognition"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/mainmenu_add_shortcut"
+        android:orderInCategory="101"
+        android:title="@string/home_shortcut_pin_to_home"
+        android:visible="false"
+        app:showAsAction="never" />
 </menu>
