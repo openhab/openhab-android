@@ -253,7 +253,6 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             action = MainActivity.ACTION_SITEMAP_SELECTED
             putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri)
         }
-        context.startActivity(startIntent)
 
         val name = if (linkedPage.title.isEmpty()) context.getString(R.string.app_name) else linkedPage.title
         val shortcutInfo = ShortcutInfoCompat.Builder(context,
