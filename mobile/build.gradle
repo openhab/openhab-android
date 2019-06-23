@@ -127,7 +127,7 @@ dependencies {
         exclude group: 'com.intellij', module: 'annotations'
     }
     // MapView support
-    fullImplementation 'com.google.android.gms:play-services-maps:16.1.0'
+    fullImplementation 'com.google.android.gms:play-services-maps:17.0.0'
     fossImplementation 'org.osmdroid:osmdroid-android:6.1.0'
 
     // FCM
