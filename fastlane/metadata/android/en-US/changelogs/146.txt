@@ -1,0 +1,3 @@
+## Fixed
+* Use UTF-8 for basic authentication password (#1399) 
+* Don't allow scrolling OSM if position is null (#1400) 
