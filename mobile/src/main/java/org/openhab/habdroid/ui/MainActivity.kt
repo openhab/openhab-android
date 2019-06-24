@@ -26,7 +26,6 @@ import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
@@ -122,9 +121,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate()")
-
-        // Set default values, false means do it one time during the very first launch
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
         prefs = getPrefs()
 

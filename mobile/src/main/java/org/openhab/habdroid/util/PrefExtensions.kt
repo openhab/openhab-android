@@ -3,6 +3,7 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.provider.Settings
 import androidx.core.net.toUri
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Sitemap
@@ -32,7 +33,12 @@ fun SharedPreferences.isDebugModeEnabled(): Boolean {
 }
 
 fun SharedPreferences.getNotificationTone(): Uri? {
-    return getString(Constants.PREFERENCE_TONE, null)?.toUri()
+    val tone = getString(Constants.PREFERENCE_TONE, null)
+    return when {
+        tone == null -> Settings.System.DEFAULT_NOTIFICATION_URI
+        tone.isEmpty() -> null
+        else -> tone.toUri()
+    }
 }
 
 fun SharedPreferences.isScreenTimerDisabled(): Boolean {
