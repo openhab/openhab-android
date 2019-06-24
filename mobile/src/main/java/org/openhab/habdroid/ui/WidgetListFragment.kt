@@ -31,6 +31,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -98,6 +99,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         recyclerView.addItemDecoration(WidgetAdapter.WidgetItemDecoration(view.context))
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         refreshLayout = view.findViewById(R.id.swiperefresh)
         refreshLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
