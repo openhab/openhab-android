@@ -208,6 +208,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     ) {
         val prevState = stateChannel.value
         val newState = StateHolder(available, availableFailureReason, cloudInitialized, cloud)
+        stateChannel.offer(newState)
         if (callListenersOnChange) launch {
             if (newState.availableFailureReason != null || prevState.available !== newState.available) {
                 listeners.forEach { l -> l.onAvailableConnectionChanged() }
@@ -217,7 +218,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 listeners.forEach { l -> l.onCloudConnectionChanged(newState.cloud) }
             }
         }
-        stateChannel.offer(newState)
     }
 
     private fun triggerConnectionUpdateIfNeededAndPending(): Boolean {
