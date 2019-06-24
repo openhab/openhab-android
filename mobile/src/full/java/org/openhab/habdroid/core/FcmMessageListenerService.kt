@@ -24,7 +24,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
@@ -119,7 +118,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         var iconBitmap: Bitmap? = null
 
         if (icon != null) {
-            val connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
+            val connection = ConnectionFactory.cloudConnection
             if (connection != null) {
                 try {
                     iconBitmap = connection.httpClient

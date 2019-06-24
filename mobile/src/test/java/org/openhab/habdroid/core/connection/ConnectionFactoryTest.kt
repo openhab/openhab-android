@@ -78,7 +78,7 @@ class ConnectionFactoryTest {
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
-            val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
+            val conn = ConnectionFactory.remoteConnection
 
             assertNotNull("Should return a remote connection if remote url is set.", conn)
             assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
@@ -92,7 +92,7 @@ class ConnectionFactoryTest {
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
-            val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
+            val conn = ConnectionFactory.remoteConnection
 
             assertNull("Should not return a remote connection if remote url isn't set.", conn)
         }
@@ -104,7 +104,7 @@ class ConnectionFactoryTest {
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
-            val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
+            val conn = ConnectionFactory.localConnection
 
             assertNotNull("Should return a local connection if local url is set.", conn)
             assertEquals("The connection type of a local connection should be TYPE_LOCAL.",
@@ -118,7 +118,7 @@ class ConnectionFactoryTest {
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
-            val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
+            val conn = ConnectionFactory.localConnection
 
             assertNull("Should not return a local connection when local url isn't set.", conn)
         }
@@ -135,7 +135,7 @@ class ConnectionFactoryTest {
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
-            val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
+            val conn = ConnectionFactory.cloudConnection
 
             assertNotNull("Should return a cloud connection if remote url is set.", conn)
             assertEquals(CloudConnection::class.java, conn!!.javaClass)
