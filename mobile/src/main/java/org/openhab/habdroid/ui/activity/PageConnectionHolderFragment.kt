@@ -413,7 +413,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
         internal fun handleSseSubscriptionFailure(sseUnsupported: Boolean) {
             if (sseUnsupported) {
-                Log.w(TAG, "SSE processing failed for $url, using long polling")
+                Log.w(TAG, "SSE unsupported for $url, using long polling")
                 eventHelper = null
                 if (longPolling) {
                     load()
