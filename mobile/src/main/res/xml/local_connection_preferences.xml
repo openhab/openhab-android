@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:title="@string/settings_openhab_connection">
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_openhab_connection">
     <org.openhab.habdroid.ui.preference.UrlInputPreference
         android:defaultValue="@string/empty_string"
         android:inputType="textNoSuggestions"
@@ -20,4 +21,4 @@
         android:key="default_openhab_password"
         android:title="@string/settings_openhab_password"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>
