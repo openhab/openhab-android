@@ -44,3 +44,4 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
         }
     }
 }
+
