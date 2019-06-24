@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -23,10 +24,12 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -39,6 +42,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.AnchorWebViewClient
+import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
@@ -56,10 +60,22 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args = arguments!!
+        val context = context!!
         webView = view.findViewById(R.id.webview)
         urlToLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String
-        shortcutInfo = args.get(KEY_SHORTCUT_INFO) as ShortcutInfoCompat?
+        val action = args.getString(KEY_SHORTCUT_ACTION)
+        @StringRes val label = args.getInt(KEY_SHORTCUT_LABEL)
+        @DrawableRes val icon = args.getInt(KEY_SHORTCUT_ICON_RES)
+        action.let {
+            val intent = Intent(context, MainActivity::class.java)
+                .setAction(action)
+            shortcutInfo = ShortcutInfoCompat.Builder(context, action + '-' + System.currentTimeMillis())
+                .setShortLabel(context.getString(label))
+                .setIcon(IconCompat.createWithResource(context, icon))
+                .setIntent(intent)
+                .build()
+        }
 
         val retryButton = view.findViewById<TextView>(R.id.retry_button)
         retryButton.setOnClickListener { loadWebsite() }
@@ -188,14 +204,18 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         private const val KEY_ERROR = "error"
         private const val KEY_URL_LOAD = "url_load"
         private const val KEY_URL_ERROR = "url_error"
-        private const val KEY_SHORTCUT_INFO = "shortcut_info"
+        private const val KEY_SHORTCUT_ACTION = "shortcut_action"
+        private const val KEY_SHORTCUT_LABEL = "shortcut_label"
+        private const val KEY_SHORTCUT_ICON_RES = "shortcut_icon_res"
 
         fun newInstance(
             @StringRes pageTitle: Int,
             @StringRes errorMessage: Int,
             urlToLoad: String,
             urlForError: String,
-            shortcutInfo: ShortcutInfoCompat? = null
+            shortcutAction: String? = null,
+            shortcutLabel: Int = 0,
+            shortcutIconRes: Int = 0
         ): WebViewFragment {
             val f = WebViewFragment()
             f.arguments = bundleOf(
@@ -203,7 +223,9 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 KEY_ERROR to errorMessage,
                 KEY_URL_LOAD to urlToLoad,
                 KEY_URL_ERROR to urlForError,
-                KEY_SHORTCUT_INFO to shortcutInfo)
+                KEY_SHORTCUT_ACTION to shortcutAction,
+                KEY_SHORTCUT_LABEL to shortcutLabel,
+                KEY_SHORTCUT_ICON_RES to shortcutIconRes)
             return f
         }
     }

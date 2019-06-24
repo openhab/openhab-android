@@ -32,8 +32,6 @@ import androidx.annotation.StringRes
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.core.content.pm.ShortcutInfoCompat
-import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -243,16 +241,10 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     fun showHabpanel() {
-        val intent = Intent(activity, MainActivity::class.java)
-            .setAction(MainActivity.ACTION_HABPANEL_SELECTED)
-        val shortcutInfo = ShortcutInfoCompat.Builder(activity, "habpanel-" + System.currentTimeMillis())
-            .setShortLabel(activity.getString(R.string.mainmenu_openhab_habpanel))
-            .setIcon(IconCompat.createWithResource(activity, R.mipmap.ic_shortcut_habpanel))
-            .setIntent(intent)
-            .build()
         showTemporaryPage(WebViewFragment.newInstance(R.string.mainmenu_openhab_habpanel,
             R.string.habpanel_error,
-            "/habpanel/index.html", "/rest/events", shortcutInfo))
+            "/habpanel/index.html", "/rest/events",
+            MainActivity.ACTION_HABPANEL_SELECTED, R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel))
     }
 
     /**
