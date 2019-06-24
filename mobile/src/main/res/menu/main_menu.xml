@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/mainmenu_voice_recognition"
@@ -8,10 +7,4 @@
         android:orderInCategory="100"
         android:title="@string/mainmenu_openhab_voice_recognition"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/mainmenu_add_shortcut"
-        android:orderInCategory="101"
-        android:title="@string/home_shortcut_pin_to_home"
-        android:visible="false"
-        app:showAsAction="never" />
 </menu>

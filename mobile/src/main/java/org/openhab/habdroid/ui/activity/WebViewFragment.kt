@@ -13,22 +13,28 @@
 
 package org.openhab.habdroid.ui.activity
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -39,12 +45,13 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
     private lateinit var urlToLoad: String
     private lateinit var urlForError: String
+    private var shortcutInfo: ShortcutInfoCompat? = null
 
     val titleResId: Int
         @StringRes get() = arguments!!.getInt(KEY_PAGE_TITLE)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_fullscreenwebview, container, false)
+        return inflater.inflate(R.layout.fragment_webview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +59,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         webView = view.findViewById(R.id.webview)
         urlToLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String
+        shortcutInfo = args.get(KEY_SHORTCUT_INFO) as ShortcutInfoCompat?
 
         val retryButton = view.findViewById<TextView>(R.id.retry_button)
         retryButton.setOnClickListener { loadWebsite() }
@@ -87,6 +95,31 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         val currentUrl = webView?.url
         if (currentUrl != null) {
             outState.putString(KEY_CURRENT_URL, currentUrl)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        shortcutInfo.let { inflater?.inflate(R.menu.webview_menu, menu) }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.webview_add_shortcut -> {
+                pinShortcut(context!!)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun pinShortcut(context: Context) = GlobalScope.launch {
+        val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo!!, null)
+        withContext(Dispatchers.Main) {
+            if (success) {
+                Toasty.success(context, R.string.home_shortcut_success_pinning).show()
+            } else {
+                Toasty.error(context, R.string.home_shortcut_error_pinning).show()
+            }
         }
     }
 
@@ -155,19 +188,22 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         private const val KEY_ERROR = "error"
         private const val KEY_URL_LOAD = "url_load"
         private const val KEY_URL_ERROR = "url_error"
+        private const val KEY_SHORTCUT_INFO = "shortcut_info"
 
         fun newInstance(
             @StringRes pageTitle: Int,
             @StringRes errorMessage: Int,
-            urltoLoad: String,
-            urlForError: String
+            urlToLoad: String,
+            urlForError: String,
+            shortcutInfo: ShortcutInfoCompat? = null
         ): WebViewFragment {
             val f = WebViewFragment()
             f.arguments = bundleOf(
                 KEY_PAGE_TITLE to pageTitle,
                 KEY_ERROR to errorMessage,
-                KEY_URL_LOAD to urltoLoad,
-                KEY_URL_ERROR to urlForError)
+                KEY_URL_LOAD to urlToLoad,
+                KEY_URL_ERROR to urlForError,
+                KEY_SHORTCUT_INFO to shortcutInfo)
             return f
         }
     }
