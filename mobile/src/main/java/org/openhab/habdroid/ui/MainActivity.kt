@@ -362,9 +362,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         Log.d(TAG, "onBackPressed()")
         if (controller.canGoBack()) {
             controller.goBack()
-        } else if (!isFullscreenEnabled) {
-            // Only handle back action in non-fullscreen mode, as we don't want to exit
-            // the app via back button in fullscreen mode
+        } else if (isFullscreenEnabled && lastSnackbar?.isShown != true) {
+            showSnackbar(R.string.press_back_to_exit)
+        } else {
             super.onBackPressed()
         }
     }

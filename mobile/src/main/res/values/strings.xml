@@ -312,4 +312,5 @@
     <string name="settings_tasker_plugin">Tasker integration</string>
     <string name="settings_tasker_plugin_summary">Enable Tasker action plugin which allows updating Items via Tasker or other compatible apps</string>
     <string name="turn_on">Turn on</string>
+    <string name="press_back_to_exit">Press back again to exit</string>
 </resources>
