@@ -71,6 +71,8 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         editor = v.findViewById(R.id.itemName)
         editor.addTextChangedListener(this)
         editorWrapper = v.findViewById(R.id.itemNameWrapper)
+        helpIcon = v.findViewById(R.id.help_icon)
+        helpIcon.setupHelpIcon(howtoUrl.orEmpty(), howtoHint.orEmpty())
 
         val label = v.findViewById<TextView>(R.id.enabledLabel)
         label.text = title
@@ -80,9 +82,6 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
             switch.isChecked = value.first
             editor.setText(value.second)
         }
-
-        helpIcon = v.findViewById(R.id.help_icon)
-        helpIcon.setupHelpIcon(howtoUrl.orEmpty(), howtoHint.orEmpty())
 
         onCheckedChanged(switch, switch.isChecked)
 
