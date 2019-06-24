@@ -134,6 +134,7 @@ class ConnectionFactoryTest {
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            assertNull(ConnectionFactory.usableConnectionOrNull)
             ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.cloudConnection
 
@@ -154,6 +155,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(null)
             ConnectionFactory.instance.updateConnections()
+            assertNull(ConnectionFactory.usableConnectionOrNull)
             ConnectionFactory.waitForInitialization()
             ConnectionFactory.usableConnection
         }
@@ -165,6 +167,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH)
             ConnectionFactory.instance.updateConnections()
+            assertNull(ConnectionFactory.usableConnectionOrNull)
             ConnectionFactory.waitForInitialization()
             ConnectionFactory.usableConnection
         }
@@ -181,6 +184,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
             ConnectionFactory.instance.updateConnections()
+            assertNull(ConnectionFactory.usableConnectionOrNull)
             ConnectionFactory.waitForInitialization()
 
             val conn = ConnectionFactory.usableConnection
@@ -205,6 +209,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
             ConnectionFactory.instance.updateConnections()
+            assertNull(ConnectionFactory.usableConnectionOrNull)
             ConnectionFactory.waitForInitialization()
 
             val conn = ConnectionFactory.usableConnection
@@ -224,6 +229,7 @@ class ConnectionFactoryTest {
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            assertNull(ConnectionFactory.usableConnectionOrNull)
             ConnectionFactory.waitForInitialization()
             ConnectionFactory.usableConnection
         }
