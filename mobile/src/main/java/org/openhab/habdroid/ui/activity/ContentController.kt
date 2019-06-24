@@ -60,9 +60,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected var defaultProgressFragment: Fragment
     private val connectionFragment: PageConnectionHolderFragment
     private var temporaryPage: Fragment? = null
-
-    var currentSitemap: Sitemap? = null
-        private set
+    private var currentSitemap: Sitemap? = null
     protected var sitemapFragment: WidgetListFragment? = null
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
@@ -175,13 +173,15 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param sitemap Sitemap to show
      */
     fun openSitemap(sitemap: Sitemap) {
-        Log.d(TAG, "Opening sitemap $sitemap")
+        Log.d(TAG, "Opening sitemap $sitemap (current: $currentSitemap)")
         currentSitemap = sitemap
         // First clear the old fragment stack to show the progress spinner...
         pageStack.clear()
         sitemapFragment = null
         temporaryPage = null
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        // ... and clear remaining page connections ...
+        updateConnectionState()
         // ...then create the new sitemap fragment and trigger data loading.
         val newFragment = makeSitemapFragment(sitemap)
         sitemapFragment = newFragment
@@ -441,6 +441,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         pendingDataLoadUrls.add(f.displayPageUrl)
         // no fragment update yet; fragment state will be updated when data arrives
         updateConnectionState()
+        activity.updateTitle()
     }
 
     private fun showTemporaryPage(page: Fragment) {
@@ -452,12 +453,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     private fun updateConnectionState() {
         val pageUrls = collectWidgetFragments().map { f -> f.displayPageUrl }
-        val pendingIter = pendingDataLoadUrls.iterator()
-        while (pendingIter.hasNext()) {
-            if (!pageUrls.contains(pendingIter.next())) {
-                pendingIter.remove()
-            }
-        }
+        pendingDataLoadUrls.retainAll { url -> pageUrls.contains(url) }
         connectionFragment.updateActiveConnections(pageUrls, activity.connection)
     }
 

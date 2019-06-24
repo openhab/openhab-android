@@ -333,7 +333,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 ) {
                     val sitemap = selectConfiguredSitemapFromList()
                     if (sitemap != null) {
-                        openSitemap(sitemap)
+                        controller.openSitemap(sitemap)
                     } else {
                         showSitemapSelectionDialog()
                     }
@@ -493,7 +493,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             } else {
                 val sitemap = selectConfiguredSitemapFromList()
                 if (sitemap != null) {
-                    openSitemap(sitemap)
+                    controller.openSitemap(sitemap)
                 } else {
                     showSitemapSelectionDialog()
                 }
@@ -631,7 +631,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             if (item.groupId == GROUP_ID_SITEMAPS) {
                 val sitemap = serverProperties!!.sitemaps[item.itemId]
-                openSitemap(sitemap)
+                controller.openSitemap(sitemap)
                 handled = true
             }
             handled
@@ -787,7 +787,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 prefs.edit {
                     updateDefaultSitemap(sitemap)
                 }
-                openSitemap(sitemap)
+                controller.openSitemap(sitemap)
             }
             .show()
     }
@@ -800,13 +800,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun openHabpanel() {
         controller.showHabpanel()
         drawerToggle.isDrawerIndicatorEnabled = false
-    }
-
-    private fun openSitemap(sitemap: Sitemap) {
-        Log.i(TAG, "Opening sitemap $sitemap, currently selected ${controller.currentSitemap}")
-        if (sitemap != controller.currentSitemap) {
-            controller.openSitemap(sitemap)
-        }
     }
 
     private fun buildUrlAndOpenSitemap(partUrl: String) {
