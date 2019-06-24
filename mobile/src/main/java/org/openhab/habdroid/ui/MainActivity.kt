@@ -151,6 +151,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         viewPool = RecyclerView.RecycledViewPool()
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            shortcutManager = getSystemService(ShortcutManager::class.java)
+        }
+
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
             serverProperties = savedInstanceState.getParcelable("serverProperties")
@@ -174,6 +178,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             if (savedInstanceState.getBoolean("isSitemapSelectionDialogShown")) {
                 showSitemapSelectionDialog()
             }
+
+            updateSitemapAndHabpanelDrawerItems()
+            updateNotificationDrawerItem()
         }
 
         processIntent(intent)
@@ -198,10 +205,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEditor)
         prefsEditor.apply()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            shortcutManager = getSystemService(ShortcutManager::class.java)
-        }
 
         val isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this)
         GlobalScope.launch {
