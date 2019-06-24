@@ -72,7 +72,16 @@ android {
         }
     }
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            returnDefaultValues = true
+            all {
+                testLogging {
+                    showStackTraces true
+                    showCauses true
+                    exceptionFormat 'full'
+                }
+            }
+        }
     }
     lintOptions {
         lintConfig file("lint.xml")
