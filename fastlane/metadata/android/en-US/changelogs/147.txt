@@ -1,0 +1,13 @@
+## Fixed
+* Improve SSE failure retry logic. (#1409)
+* Improve fragment navigation logic (#1411)
+* Add proper handling for invisible widgets. (#1174)
+* Don't show item update animation (#1402)
+* Don't open sitemap after pinning to home (#1404)
+* Correctly initialize notification drawer entries after device rotation. (#1412)
+* Fix UninitializedPropertyAccessException in ItemUpdatingPreference. (#1408)
+
+## Changed
+* Migrate preference code to AndroidX (#1413)
+* Make log selectable (#1419)
+* Bump dependencies
