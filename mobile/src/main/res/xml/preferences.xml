@@ -7,8 +7,7 @@
             android:disableDependentsState="true"
             android:key="default_openhab_demomode"
             android:summary="@string/settings_openhab_demomode_summary"
-            android:title="@string/settings_openhab_demomode"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/settings_openhab_demomode" />
         <Preference
             android:key="default_openhab_local_connection"
             android:persistent="false"
@@ -26,13 +25,11 @@
             android:key="default_openhab_sslclientcert"
             android:summary="@string/settings_openhab_none"
             android:title="@string/settings_openhab_sslclientcert"
-            android:dependency="default_openhab_demomode"
-            android:icon="@drawable/ic_none" />
+            android:dependency="default_openhab_demomode" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_clear_default_sitemap"
-            android:title="@string/settings_clear_default_sitemap"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/settings_clear_default_sitemap" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
@@ -55,31 +52,26 @@
             android:title="@string/settings_chart_scaling"
             android:summary="@string/settings_chart_scaling_summary"
             android:key="chartScalingFactor"
-            android:defaultValue="1.5"
-            android:icon="@drawable/ic_none" />
+            android:defaultValue="1.5" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="default_openhab_chart_hq"
             android:summary="@string/settings_openhab_chart_hq_summary"
-            android:title="@string/settings_openhab_chart_hq"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/settings_openhab_chart_hq" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_cleacache"
-            android:title="@string/mainmenu_openhab_clearcache"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/mainmenu_openhab_clearcache" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
             android:summary="@string/settings_openhab_screentimeroff_summary"
-            android:title="@string/settings_openhab_screentimeroff"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/settings_openhab_screentimeroff" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_fullscreen"
             android:summary="@string/settings_openhab_fullscreen_summary"
-            android:title="@string/settings_openhab_fullscreen"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/settings_openhab_fullscreen" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/send_device_info_to_server"
         android:key="sendDeviceInfoCat">
@@ -89,8 +81,7 @@
             android:key="sendDeviceInfoPrefix"
             android:title="@string/send_device_info_item_prefix"
             android:summary="@string/send_device_info_item_prefix_summary"
-            android:dependency="default_openhab_demomode"
-            android:icon="@drawable/ic_none" />
+            android:dependency="default_openhab_demomode" />
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|AlarmClock"
             android:key="alarmClock"
@@ -105,8 +96,7 @@
             android:defaultValue="false"
             android:key="taskerPlugin"
             android:title="@string/settings_tasker_plugin"
-            android:summary="@string/settings_tasker_plugin_summary"
-            android:icon="@drawable/ic_none" />
+            android:summary="@string/settings_tasker_plugin_summary" />
         <Preference
             android:key="default_openhab_alertringtone"
             android:persistent="false"
@@ -128,12 +118,10 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"
-            android:title="@string/settings_debug_messages_title"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/settings_debug_messages_title" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_log"
-            android:title="@string/view_log"
-            android:icon="@drawable/ic_none" />
+            android:title="@string/view_log" />
     </PreferenceCategory>
 </PreferenceScreen>
