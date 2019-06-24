@@ -268,9 +268,14 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             requestJob?.cancel()
 
             val timeoutMillis = if (longPolling) 300000L else 10000L
+            val requestUrl = url.toUri()
+                .buildUpon()
+                .appendQueryParameter("includeHidden", "true")
+                .toString()
+
             requestJob = scope.launch {
                 try {
-                    val response = httpClient.get(url, headers, timeoutMillis).asText()
+                    val response = httpClient.get(requestUrl, headers, timeoutMillis).asText()
                     handleResponse(response.response, response.headers)
                 } catch (e: HttpClient.HttpException) {
                     Log.d(TAG, "Data load for $url failed", e)
@@ -390,16 +395,29 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
                 val widgetId = jsonObject.getString("widgetId")
                 if (widgetId == pageId) {
-                    callback.onPageTitleUpdated(url, jsonObject.getString("label"))
+                    val title = jsonObject.getString("label")
+                    lastPageTitle = title
+                    callback.onPageTitleUpdated(url, title)
                     return
                 }
                 val pos = widgetList.indexOfFirst { w -> w.id == widgetId }
                 if (pos >= 0) {
-                    val updatedWidget = Widget.updateFromEvent(widgetList[pos], jsonObject, callback.iconFormat)
-                    widgetList[pos] = updatedWidget
-                    callback.onWidgetUpdated(url, updatedWidget)
+                    if (callback.serverProperties?.hasInvisibleWidgetSupport() == false &&
+                        !jsonObject.optBoolean("visibility", true)
+                    ) {
+                        // The server doesn't send us invisible widgets in its sitemap response, and the widget just
+                        // became invisible. Remove the widget from the list to match what the server would send us
+                        // at this point.
+                        widgetList.removeAt(pos)
+                        callback.onPageUpdated(url, lastPageTitle, widgetList)
+                    } else {
+                        val updatedWidget = Widget.updateFromEvent(widgetList[pos], jsonObject, callback.iconFormat)
+                        widgetList[pos] = updatedWidget
+                        callback.onWidgetUpdated(url, updatedWidget)
+                    }
                 } else {
-                    // We didn't find the widget, so the widget in question probably
+                    // We didn't find the widget, so we're probably on a server version that doesn't
+                    // return invisible widgets in the sitemap response and the widget in question
                     // just became visible. Reload the page in that case.
                     if (jsonObject.optBoolean("visibility")) {
                         cancel()
