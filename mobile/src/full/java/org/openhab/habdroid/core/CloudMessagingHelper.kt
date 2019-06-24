@@ -46,7 +46,7 @@ object CloudMessagingHelper {
         }
     }
 
-    fun getPushNotificationStatus(context: Context): String  = when {
+    fun getPushNotificationStatus(context: Context): String = when {
         ConnectionFactory.cloudConnection == null -> {
             if (ConnectionFactory.remoteConnection == null) {
                 context.getString(R.string.info_openhab_gcm_no_remote)
