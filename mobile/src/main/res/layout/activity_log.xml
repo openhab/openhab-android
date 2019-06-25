@@ -50,6 +50,7 @@
                 android:layout_margin="8dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:textIsSelectable="true"
                 android:textSize="12sp"
                 android:typeface="monospace"
                 app:fontFamily="monospace"
