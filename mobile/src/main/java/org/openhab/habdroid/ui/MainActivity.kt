@@ -26,7 +26,6 @@ import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
@@ -92,7 +91,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var pendingOpenedNotificationId: String? = null
     private var shouldOpenHabpanel: Boolean = false
     private var shouldLaunchVoiceRecognition: Boolean = false
-    private var selectedSitemap: Sitemap? = null
     private lateinit var controller: ContentController
     var serverProperties: ServerProperties? = null
         private set
@@ -123,9 +121,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate()")
-
-        // Set default values, false means do it one time during the very first launch
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
         prefs = getPrefs()
 
@@ -162,7 +157,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
             serverProperties = savedInstanceState.getParcelable("serverProperties")
-            selectedSitemap = savedInstanceState.getParcelable("sitemap")
             val lastConnectionHash = savedInstanceState.getInt("connectionHash")
             if (lastConnectionHash != -1) {
                 val c = ConnectionFactory.usableConnectionOrNull
@@ -338,7 +332,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 ) {
                     val sitemap = selectConfiguredSitemapFromList()
                     if (sitemap != null) {
-                        openSitemap(sitemap)
+                        controller.openSitemap(sitemap)
                     } else {
                         showSitemapSelectionDialog()
                     }
@@ -356,7 +350,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         isStarted = false
         with(savedInstanceState) {
             putParcelable("serverProperties", serverProperties)
-            putParcelable("sitemap", selectedSitemap)
             putBoolean("isSitemapSelectionDialogShown", sitemapSelectionDialog?.isShowing == true)
             putString("controller", controller.javaClass.canonicalName)
             putInt("connectionHash", connection?.hashCode() ?: -1)
@@ -398,7 +391,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         connection = newConnection
         hideSnackbar()
         serverProperties = null
-        selectedSitemap = null
 
         // Handle pending NFC tag if initial connection determination finished
         openPendingSitemapIfNeeded()
@@ -498,7 +490,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             } else {
                 val sitemap = selectConfiguredSitemapFromList()
                 if (sitemap != null) {
-                    openSitemap(sitemap)
+                    controller.openSitemap(sitemap)
                 } else {
                     showSitemapSelectionDialog()
                 }
@@ -636,7 +628,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             if (item.groupId == GROUP_ID_SITEMAPS) {
                 val sitemap = serverProperties!!.sitemaps[item.itemId]
-                openSitemap(sitemap)
+                controller.openSitemap(sitemap)
                 handled = true
             }
             handled
@@ -792,7 +784,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 prefs.edit {
                     updateDefaultSitemap(sitemap)
                 }
-                openSitemap(sitemap)
+                controller.openSitemap(sitemap)
             }
             .show()
     }
@@ -805,14 +797,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun openHabpanel() {
         controller.showHabpanel()
         drawerToggle.isDrawerIndicatorEnabled = false
-    }
-
-    private fun openSitemap(sitemap: Sitemap) {
-        Log.i(TAG, "Opening sitemap $sitemap, currently selected $selectedSitemap")
-        if (sitemap != selectedSitemap) {
-            selectedSitemap = sitemap
-            controller.openSitemap(sitemap)
-        }
     }
 
     private fun buildUrlAndOpenSitemap(partUrl: String) {
