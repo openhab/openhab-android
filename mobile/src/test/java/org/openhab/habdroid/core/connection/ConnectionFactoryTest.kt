@@ -9,15 +9,16 @@ import android.net.NetworkInfo
 import com.nhaarman.mockitokotlin2.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import kotlinx.coroutines.withContext
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -30,11 +31,28 @@ import java.io.File
 import java.io.IOException
 
 class ConnectionFactoryTest {
+    companion object {
+        private val mainThread = newSingleThreadContext("UI thread")
+
+        @BeforeClass
+        @JvmStatic
+        @Throws(IOException::class)
+        fun setupMainThread() {
+            Dispatchers.setMain(mainThread)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun tearDownMainThread() {
+            Dispatchers.resetMain()
+            mainThread.close()
+        }
+    }
+
     @Rule
     @JvmField
     val tempFolder = TemporaryFolder()
 
-    private val mainThread = newSingleThreadContext("UI thread")
     private lateinit var mockContext: Context
     private lateinit var mockConnectivityService: ConnectivityManager
     private lateinit var mockPrefs: SharedPreferences
@@ -42,8 +60,6 @@ class ConnectionFactoryTest {
     @Before
     @Throws(IOException::class)
     fun setup() {
-        Dispatchers.setMain(mainThread)
-
         val cacheFolder = tempFolder.newFolder("cache")
         val appDir = tempFolder.newFolder()
 
@@ -60,12 +76,6 @@ class ConnectionFactoryTest {
         whenever(mockContext.applicationContext) doReturn mockContext
 
         ConnectionFactory.initialize(mockContext, mockPrefs)
-    }
-
-    @After
-    fun tearDOwn() {
-        Dispatchers.resetMain()
-        mainThread.close()
     }
 
     @Test
@@ -213,7 +223,7 @@ class ConnectionFactoryTest {
         whenever(mockConnectivityService.activeNetworkInfo) doReturn info
 
         runBlocking {
-            withContext(Dispatchers.Main) {
+            launch(Dispatchers.Main) {
                 ConnectionFactory.instance.onReceive(mockContext, Intent(ConnectivityManager.CONNECTIVITY_ACTION))
             }
         }
@@ -221,7 +231,7 @@ class ConnectionFactoryTest {
 
     private fun updateAndWaitForConnections() {
         runBlocking {
-            withContext(Dispatchers.Main) {
+            launch(Dispatchers.Main) {
                 ConnectionFactory.instance.updateConnections()
             }
             ConnectionFactory.waitForInitialization()
