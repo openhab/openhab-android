@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
@@ -108,7 +107,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
     private fun loadNotifications(clearExisting: Boolean) {
         val activity = activity as AbstractBaseActivity? ?: return
-        val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
+        val conn = ConnectionFactory.cloudConnection
         if (conn == null) {
             updateViewVisibility(loading = false, loadError = true)
             return
