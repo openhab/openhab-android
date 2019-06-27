@@ -157,7 +157,6 @@
     <string name="settings_debug_messages_title">Εμφάνιση πληροφοριών για την αντιμετώπιση προβλημάτων</string>
     <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
     <string name="unknown">Άγνωστο</string>
-    <string name="error_network_type_unsupported">Ο τύπος δικτύου (%s) δεν υποστηρίζεται</string>
     <string name="set">Ορισμός</string>
     <string name="cancel">Άκυρο</string>
     <string name="close">Κλείσιμο</string>
