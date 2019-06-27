@@ -91,7 +91,6 @@
     <string name="about_license_title">Licença</string>
     <string name="error_couldnt_determine_openhab_url">Não consegui determinar o URL openHAB</string>
     <string name="unknown">Desconhecido</string>
-    <string name="error_network_type_unsupported">Tipo de rede (%s) não suportado</string>
     <string name="set">Conjunto</string>
     <string name="cancel">Cancelar</string>
     <!-- Log -->
