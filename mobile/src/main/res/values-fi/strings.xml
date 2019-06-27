@@ -169,7 +169,6 @@
     <string name="settings_debug_messages_title">Näytä tietoja vianmääritykseen</string>
     <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
     <string name="unknown">Tuntematon</string>
-    <string name="error_network_type_unsupported">Verkon tyyppi (%s) ei tuettu</string>
     <string name="set">Aseta</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
