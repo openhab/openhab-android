@@ -365,7 +365,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         when {
             controller.canGoBack() -> controller.goBack()
             isFullscreenEnabled -> when {
-                lastSnackbar?.isShown != true -> showSnackbar(R.string.press_back_to_exit, tag = TAG_SNACKBAR_PRESS_AGAIN_EXIT)
+                lastSnackbar?.isShown != true ->
+                    showSnackbar(R.string.press_back_to_exit, tag = TAG_SNACKBAR_PRESS_AGAIN_EXIT)
                 lastSnackbar?.view?.tag?.equals(TAG_SNACKBAR_PRESS_AGAIN_EXIT) == true -> super.onBackPressed()
                 else -> showSnackbar(R.string.press_back_to_exit, tag = TAG_SNACKBAR_PRESS_AGAIN_EXIT)
             }
