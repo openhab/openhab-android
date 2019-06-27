@@ -216,7 +216,6 @@
     <string name="settings_debug_messages_title">Mostra informazioni per la risoluzione dei problemi</string>
     <string name="error_couldnt_determine_openhab_url">Non trovo openHAB URL</string>
     <string name="unknown">Sconosciuto</string>
-    <string name="error_network_type_unsupported">Tipo di rete (%s) non supportata</string>
     <string name="set">Set</string>
     <string name="cancel">Annulla</string>
     <string name="close">Chiudi</string>
