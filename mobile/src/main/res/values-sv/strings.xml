@@ -157,7 +157,6 @@
     <string name="settings_debug_messages_title">Visa information för felsökning</string>
     <string name="error_couldnt_determine_openhab_url">Kunde inte avgöra URL för openHAB</string>
     <string name="unknown">Okänd</string>
-    <string name="error_network_type_unsupported">Nätverkstyp (%s) stöds inte</string>
     <string name="set">Sätt</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
