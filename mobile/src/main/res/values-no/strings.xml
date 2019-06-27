@@ -166,7 +166,6 @@
     <string name="settings_debug_messages_title">Vis informasjon for feilsøking</string>
     <string name="error_couldnt_determine_openhab_url">Kunne ikke bestemme URL for openHAB</string>
     <string name="unknown">Ukjent</string>
-    <string name="error_network_type_unsupported">Nettverkstype (%s) støttes ikke</string>
     <string name="set">Sett</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>
