@@ -625,9 +625,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }
             }
             if (item.groupId == GROUP_ID_SITEMAPS) {
-                val sitemap = serverProperties!!.sitemaps[item.itemId]
-                controller.openSitemap(sitemap)
-                handled = true
+                val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name.hashCode() == item.itemId }
+                if (sitemap != null) {
+                    controller.openSitemap(sitemap)
+                    handled = true
+                }
             }
             handled
         }
@@ -662,7 +664,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 menu.clear()
 
                 sitemaps.forEachIndexed { index, sitemap ->
-                    val item = menu.add(GROUP_ID_SITEMAPS, index, index, sitemap.label)
+                    val item = menu.add(GROUP_ID_SITEMAPS, sitemap.name.hashCode(), index, sitemap.label)
                     loadSitemapIcon(sitemap, item)
                 }
             }
