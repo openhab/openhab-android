@@ -1,5 +1,6 @@
 package org.openhab.habdroid.background
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -96,6 +97,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         // need to keep a ref for this to avoid it being GC'ed
         // (SharedPreferences only keeps a WeakReference)
+        @SuppressLint("StaticFieldLeak")
         private lateinit var prefsListener: PrefsListener
 
         fun initialize(context: Context) {
@@ -114,7 +116,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
                 Util.showToast(context, message)
-                enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state)
+                enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state, BackoffPolicy.LINEAR)
             }
         }
 
@@ -137,14 +139,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
             enqueueItemUpload(key, prefix + setting.second, getter(context))
         }
 
-        private fun enqueueItemUpload(tag: String, itemName: String, value: String) {
+        private fun enqueueItemUpload(tag: String, itemName: String, value: String,
+                                      backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
                 .setConstraints(constraints)
-                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL,
-                    WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+                .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
                 .setInputData(ItemUpdateWorker.buildData(itemName, value))
