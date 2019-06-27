@@ -2,10 +2,7 @@ package org.openhab.habdroid.core.connection
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import com.nhaarman.mockitokotlin2.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.Dispatchers
@@ -54,8 +51,8 @@ class ConnectionFactoryTest {
     val tempFolder = TemporaryFolder()
 
     private lateinit var mockContext: Context
-    private lateinit var mockConnectivityService: ConnectivityManager
     private lateinit var mockPrefs: SharedPreferences
+    private val mockConnectionHelper = MockConnectionHelper()
 
     @Before
     @Throws(IOException::class)
@@ -63,7 +60,6 @@ class ConnectionFactoryTest {
         val cacheFolder = tempFolder.newFolder("cache")
         val appDir = tempFolder.newFolder()
 
-        mockConnectivityService = mock()
         mockPrefs = mock()
         mockContext = mock<Application> {
             on { cacheDir } doReturn cacheFolder
@@ -71,11 +67,10 @@ class ConnectionFactoryTest {
                 File(appDir, invocation.getArgument<Any>(0).toString())
             }
             on { getString(any()) } doReturn ""
-            on { getSystemService(eq(Context.CONNECTIVITY_SERVICE)) } doReturn mockConnectivityService
         }
         whenever(mockContext.applicationContext) doReturn mockContext
 
-        ConnectionFactory.initialize(mockContext, mockPrefs)
+        ConnectionFactory.initialize(mockContext, mockPrefs, mockConnectionHelper)
     }
 
     @Test
@@ -148,7 +143,7 @@ class ConnectionFactoryTest {
     @Test(expected = NetworkNotAvailableException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionNoNetwork() {
-        triggerNetworkUpdate(null)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.None)
         updateAndWaitForConnections()
         ConnectionFactory.usableConnection
     }
@@ -156,7 +151,7 @@ class ConnectionFactoryTest {
     @Test(expected = NetworkNotSupportedException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionUnsupportedNetwork() {
-        triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown)
         updateAndWaitForConnections()
         ConnectionFactory.usableConnection
     }
@@ -169,7 +164,7 @@ class ConnectionFactoryTest {
         server.start()
 
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
-        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi)
         updateAndWaitForConnections()
 
         val conn = ConnectionFactory.usableConnection
@@ -190,7 +185,7 @@ class ConnectionFactoryTest {
 
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn "https://myopenhab.org:443"
-        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi)
         updateAndWaitForConnections()
 
         val conn = ConnectionFactory.usableConnection
@@ -206,27 +201,21 @@ class ConnectionFactoryTest {
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionWifiNoLocalNoRemote() {
         whenever(mockPrefs.getString(any(), any())) doReturn null
-        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi)
         updateAndWaitForConnections()
         ConnectionFactory.usableConnection
     }
 
-    private fun triggerNetworkUpdate(intendedType: Int) {
-        val mockNetworkInfo = mock<NetworkInfo> {
-            on { type } doReturn intendedType
-            on { isConnected } doReturn true
-        }
-        triggerNetworkUpdate(mockNetworkInfo)
-    }
+    private inner class MockConnectionHelper : ConnectionManagerHelper {
+        override var changeCallback: ConnectionChangedCallback? = null
+        private var currentType = ConnectionManagerHelper.ConnectionType.Unknown
+        override val currentConnection: ConnectionManagerHelper.ConnectionType get() = currentType
 
-    private fun triggerNetworkUpdate(info: NetworkInfo?) {
-        whenever(mockConnectivityService.activeNetworkInfo) doReturn info
-
-        runBlocking {
-            launch(Dispatchers.Main) {
-                ConnectionFactory.instance.onReceive(mockContext, Intent(ConnectivityManager.CONNECTIVITY_ACTION))
-            }
+        fun update(type: ConnectionManagerHelper.ConnectionType) {
+            currentType = type
+            changeCallback?.invoke()
         }
+        override fun shutdown() {}
     }
 
     private fun updateAndWaitForConnections() {
