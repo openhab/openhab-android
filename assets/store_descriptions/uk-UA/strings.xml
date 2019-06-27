@@ -13,7 +13,7 @@
     <security>• Безпека: ZoneMinder, DSC, ...</security>
     <open_protocols>• Відкриті протоколи: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Додаткові варіанти застосування: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
-    <automation_apps/>
+    <automation_apps>• Програми автоматизації: Включає додатки для Tasker і Locale</automation_apps>
 
     <oss_community>Open Source спільнота</oss_community>
     <forum>Ініціатори openHAB open source максимально підтримують свою спільноту. Форум, на якому зареєстровано більше 13 000 користувачів - те саме місце, де ви зможете знайти вказівки, рекомендації, допомогу і натхнення. Приєднуйтеся до спільноти openHAB на https://community.openhab.org</forum>
