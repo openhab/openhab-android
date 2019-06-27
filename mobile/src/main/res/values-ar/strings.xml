@@ -140,7 +140,6 @@
     <string name="about_translation">ساعدنا في ترجمة openHAB</string>
     <string name="error_couldnt_determine_openhab_url">لا يمكن تحديد عنوان openHAB</string>
     <string name="unknown">غير معروف</string>
-    <string name="error_network_type_unsupported">نوع الشبكة (%s) غير مدعوم</string>
     <string name="set">تعيين</string>
     <string name="cancel">إلغاء</string>
     <string name="close">إغلاق</string>
