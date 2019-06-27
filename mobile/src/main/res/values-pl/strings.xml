@@ -126,10 +126,14 @@
     <string name="action_settings">Ustawienia</string>
     <string name="nfc_dialog_title">Napisz akcję tagu NFC dla tego elementu</string>
     <string name="nfc_tag_recognized_label">Rozpoznano tag NFC dla \"%s\"</string>
-    <string name="nfc_tag_recognized_item">Rozpoznano %s tag NFC dla elementu</string>
+    <string name="nfc_tag_recognized_item">Rozpoznano tag NFC dla Item\'u \"%s\"</string>
     <string name="info_not_set">Nie ustawiono</string>
     <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Wyślij informacje o urządzeniu do serwera</string>
+    <string name="send_device_info_item_prefix">Prefiks Item\'u</string>
+    <string name="send_device_info_item_prefix_summary">Nazwy Item\'ów następujących funkcji mają ten prefiks</string>
+    <string name="settings_alarm_clock">Wyślij budzik do openHAB</string>
     <string name="retry">Ponów</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
