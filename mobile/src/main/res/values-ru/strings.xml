@@ -162,7 +162,6 @@
     <string name="settings_debug_messages_title">Cведения об устранении неполадок</string>
     <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
     <string name="unknown">Неизвестно</string>
-    <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
     <string name="set">Установить</string>
     <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
