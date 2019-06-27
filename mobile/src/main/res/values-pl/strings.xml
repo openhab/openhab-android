@@ -134,6 +134,17 @@
     <string name="send_device_info_item_prefix">Prefiks Item\'u</string>
     <string name="send_device_info_item_prefix_summary">Nazwy Item\'ów następujących funkcji mają ten prefiks</string>
     <string name="settings_alarm_clock">Wyślij budzik do openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Wysyła czas budzika do Item\'u \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Nie wysyłaj czasu budzika do serwera</string>
+    <string name="settings_alarm_clock_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
+    <string name="settings_item_pref_item_name">Nazwa Item\'u</string>
+    <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
+    <string name="item_upload_in_progress">Item\'y są obecnie aktualizowane</string>
+    <string name="notification_channel_background">Tło</string>
+    <string name="notification_channel_background_description">Służy do wyświetlania oczekujących zadań w tle</string>
+    <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
+    <string name="notification_channel_background_error_description">Służy do powiadamiania o błędach w zadaniach w tle</string>
+    <string name="error_sending_alarm_clock_item_empty">Wprowadź poprawną nazwę Item\'u</string>
     <string name="retry">Ponów</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
@@ -164,6 +175,17 @@
     <string name="nfc_action_off">Wyłączony</string>
     <string name="nfc_action_down">W dół</string>
     <string name="nfc_action_toggle">Przełącz</string>
+    <string name="nfc_action_undefined">Niezdefiniowano</string>
+    <string name="nfc_action_increase">Zwiększ</string>
+    <string name="nfc_action_decrease">Zmniejsz</string>
+    <string name="nfc_action_play">Odtwórz</string>
+    <string name="nfc_action_pause">Pauza</string>
+    <string name="nfc_action_next">Następny</string>
+    <string name="nfc_action_previous">Poprzedni</string>
+    <string name="nfc_action_rewind">Cofnij</string>
+    <string name="nfc_action_fastforward">Szybko do przodu</string>
+    <string name="nfc_action_move">Przenieś</string>
+    <string name="nfc_action_stop">Zatrzymaj</string>
     <string name="nfc_activate">Aktywuj</string>
     <string name="nfc_action_current_color">Bieżący kolor</string>
     <string name="nfc_action_to_sitemap_page">Przejdź do mapy witryn</string>
