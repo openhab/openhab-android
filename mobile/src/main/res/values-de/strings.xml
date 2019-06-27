@@ -203,7 +203,6 @@
     <string name="settings_debug_messages_title">Zeige Informationen zur Fehlerbehebung</string>
     <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
     <string name="unknown">Unbekannt</string>
-    <string name="error_network_type_unsupported">Netzwerktyp (%s) wird nicht unterstützt</string>
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
