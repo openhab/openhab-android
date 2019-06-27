@@ -174,7 +174,6 @@
     <string name="settings_debug_messages_title">Afficher les informations de déboguage</string>
     <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
     <string name="unknown">Inconnu</string>
-    <string name="error_network_type_unsupported">Type de réseau (%s) non supporté</string>
     <string name="set">Définir</string>
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
