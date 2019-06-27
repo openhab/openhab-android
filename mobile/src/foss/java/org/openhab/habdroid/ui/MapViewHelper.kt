@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
@@ -19,14 +18,12 @@ import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.CustomZoomButtonsController.*
+import org.osmdroid.views.CustomZoomButtonsController.Visibility
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
-
-import java.util.ArrayList
-import java.util.Locale
+import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
@@ -104,6 +101,10 @@ object MapViewHelper {
                 mapView.onPause()
                 started = false
             }
+        }
+
+        override fun handleRowClick() {
+            openPopup()
         }
 
         override fun onMarkerDragStart(marker: Marker) {
