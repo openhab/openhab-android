@@ -218,7 +218,6 @@
     <string name="settings_debug_messages_title">Zobrazit informace pro řešení potíží</string>
     <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
     <string name="unknown">Neznámý</string>
-    <string name="error_network_type_unsupported">Typ sítě (%s) není podporován</string>
     <string name="set">Nastavit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
