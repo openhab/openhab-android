@@ -158,7 +158,6 @@
     <string name="about_license_title">Lisans</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
     <string name="unknown">Bilinmeyen</string>
-    <string name="error_network_type_unsupported">(%s) Network tipi desteklenmiyor</string>
     <string name="set">Ayarla</string>
     <string name="cancel">İptal Et</string>
     <string name="no_remote_server">Yerel sunucuya bağlantı başarısız oldu ve yapılandırılmış bir uzak sunucunuz yok</string>
