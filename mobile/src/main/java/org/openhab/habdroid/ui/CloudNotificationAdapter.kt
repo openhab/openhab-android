@@ -19,11 +19,10 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.WidgetImageView
-import java.util.*
+import java.util.ArrayList
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -104,7 +103,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0)
             messageView.text = notification.message
 
-            val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
+            val conn = ConnectionFactory.cloudConnection
             if (notification.icon != null && conn != null) {
                 val encodedIcon = Uri.encode(notification.icon)
                 iconView.setImageUrl(conn, "images/$encodedIcon.png",

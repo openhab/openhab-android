@@ -406,9 +406,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() &&
-                    ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null
-                ) {
+                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.localConnection == null) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(this,
                             getString(R.string.openhab_service_type), this)
@@ -455,8 +453,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (connection is DemoConnection) {
             showDemoModeHintSnackbar()
         } else {
-            val hasLocalAndRemote = ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
-                ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null
+            val hasLocalAndRemote =
+                ConnectionFactory.localConnection != null && ConnectionFactory.remoteConnection != null
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(R.string.info_conn_url)
@@ -637,7 +635,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun updateNotificationDrawerItem() {
         val notificationsItem = drawerMenu.findItem(R.id.notifications)
-        val hasCloudConnection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null
+        val hasCloudConnection = ConnectionFactory.cloudConnection != null
         notificationsItem.isVisible = hasCloudConnection
         if (hasCloudConnection) {
             manageNotificationShortcut(true)
@@ -703,7 +701,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun openNotificationsPageIfNeeded() {
         if (pendingOpenedNotificationId != null &&
             isStarted &&
-            ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null
+            ConnectionFactory.cloudConnection != null
         ) {
             openNotifications(pendingOpenedNotificationId)
             pendingOpenedNotificationId = null
