@@ -140,7 +140,6 @@
     <string name="settings_debug_messages_title">Покажи информация за отстраняване на неизправности</string>
     <string name="error_couldnt_determine_openhab_url">Не можеше да определи openHAB URL адрес</string>
     <string name="unknown">Неизвестен</string>
-    <string name="error_network_type_unsupported">Мрежовия тип (%s) не се поддържа</string>
     <string name="set">Задай</string>
     <!-- Log -->
     <!-- Home screen shortcuts -->
