@@ -139,8 +139,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
             enqueueItemUpload(key, prefix + setting.second, getter(context))
         }
 
-        private fun enqueueItemUpload(tag: String, itemName: String, value: String,
-                                      backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL) {
+        private fun enqueueItemUpload(
+            tag: String,
+            itemName: String,
+            value: String,
+            backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL
+        ) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
