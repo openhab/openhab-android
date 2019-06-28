@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui.activity
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -58,9 +57,13 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         return inflater.inflate(R.layout.fragment_webview, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args = arguments!!
-        val context = context!!
         webView = view.findViewById(R.id.webview)
         urlToLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String
@@ -70,8 +73,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         action.let {
             val intent = Intent(context, MainActivity::class.java)
                 .setAction(action)
-            shortcutInfo = ShortcutInfoCompat.Builder(context, action + '-' + System.currentTimeMillis())
-                .setShortLabel(context.getString(label))
+            shortcutInfo = ShortcutInfoCompat.Builder(view.context, action)
+                .setShortLabel(view.context.getString(label))
                 .setIcon(IconCompat.createWithResource(context, icon))
                 .setIntent(intent)
                 .build()
@@ -121,15 +124,17 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.webview_add_shortcut -> {
-                pinShortcut(context!!)
+                pinShortcut()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun pinShortcut(context: Context) = GlobalScope.launch {
-        val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo!!, null)
+    private fun pinShortcut() = GlobalScope.launch {
+        val context = context ?: return@launch
+        val info = shortcutInfo ?: return@launch
+        val success = ShortcutManagerCompat.requestPinShortcut(context, info, null)
         withContext(Dispatchers.Main) {
             if (success) {
                 Toasty.success(context, R.string.home_shortcut_success_pinning).show()
