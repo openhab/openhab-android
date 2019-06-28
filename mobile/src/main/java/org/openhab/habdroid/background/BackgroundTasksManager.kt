@@ -1,5 +1,6 @@
 package org.openhab.habdroid.background
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,10 +9,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Parcelable
 import android.util.Log
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
@@ -19,6 +17,7 @@ import org.openhab.habdroid.ui.ItemPickerActivity
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class BackgroundTasksManager : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -98,6 +97,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         // need to keep a ref for this to avoid it being GC'ed
         // (SharedPreferences only keeps a WeakReference)
+        @SuppressLint("StaticFieldLeak")
         private lateinit var prefsListener: PrefsListener
 
         fun initialize(context: Context) {
@@ -116,7 +116,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
                 Util.showToast(context, message)
-                enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state)
+                enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state, BackoffPolicy.LINEAR)
             }
         }
 
@@ -139,12 +139,18 @@ class BackgroundTasksManager : BroadcastReceiver() {
             enqueueItemUpload(key, prefix + setting.second, getter(context))
         }
 
-        private fun enqueueItemUpload(tag: String, itemName: String, value: String) {
+        private fun enqueueItemUpload(
+            tag: String,
+            itemName: String,
+            value: String,
+            backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL
+        ) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
                 .setConstraints(constraints)
+                .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
                 .setInputData(ItemUpdateWorker.buildData(itemName, value))
