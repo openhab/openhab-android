@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -25,15 +24,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
@@ -41,14 +37,19 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
-import org.openhab.habdroid.util.*
+import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.SuggestedCommandsFactory
+import org.openhab.habdroid.util.TaskerIntent
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.map
 
-class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
     override val forceNonFullscreen = true
 
     private var requestJob: Job? = null
-    private var initialHighlightItemName: String? = null
+    protected var initialHighlightItemName: String? = null
 
     private lateinit var itemPickerAdapter: ItemPickerAdapter
     private lateinit var recyclerView: RecyclerView
@@ -56,12 +57,12 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var emptyView: View
     private lateinit var emptyMessage: TextView
-    private lateinit var retryButton: TextView
+    protected lateinit var retryButton: TextView
 
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(this, true)
     }
-    private var isDisabled: Boolean = false
+    protected var isDisabled: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,16 +82,6 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         emptyView = findViewById(android.R.id.empty)
         emptyMessage = findViewById(R.id.empty_message)
         retryButton = findViewById(R.id.retry_button)
-
-        retryButton.setOnClickListener {
-            if (isDisabled) {
-                getPrefs().edit {
-                    putBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, true)
-                }
-                isDisabled = false
-                loadItems()
-            }
-        }
 
         itemPickerAdapter = ItemPickerAdapter(this, this)
         layoutManager = LinearLayoutManager(this)
@@ -189,7 +180,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         return true
     }
 
-    private fun loadItems() {
+    protected fun loadItems() {
         if (isDisabled) {
             return
         }
@@ -223,20 +214,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         }
     }
 
-    private fun finish(item: Item, state: String) {
-        val intent = Intent().apply {
-            val blurb = getString(R.string.item_picker_blurb, item.label, item.name, state)
-            putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb)
-
-            putExtra(TaskerIntent.EXTRA_BUNDLE, bundleOf(
-                EXTRA_ITEM_NAME to item.name,
-                EXTRA_ITEM_STATE to state
-            ))
-        }
-
-        setResult(RESULT_OK, intent)
-        finish()
-    }
+    protected abstract fun finish(item: Item, state: String)
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName
@@ -253,22 +231,24 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         initialHighlightItemName = null
     }
 
-    private fun updateViewVisibility(loading: Boolean, loadError: Boolean, isDisabled: Boolean) {
+    protected fun updateViewVisibility(loading: Boolean, loadError: Boolean, isDisabled: Boolean) {
         val showEmpty = isDisabled || !loading && (itemPickerAdapter.itemCount == 0 || loadError)
         recyclerView.isVisible = !showEmpty
         emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(when {
             loadError -> R.string.item_picker_list_error
-            isDisabled -> R.string.settings_tasker_plugin_summary
+            isDisabled -> getDisabledMessage()
             else -> R.string.item_picker_list_empty
         })
         retryButton.setText(if (isDisabled) R.string.turn_on else R.string.try_again_button)
         retryButton.isVisible = loadError || isDisabled
     }
 
+    protected abstract fun getDisabledMessage() : Int
+
     companion object {
-        private val TAG = ItemPickerActivity::class.java.simpleName
+        private val TAG = AbstractItemPickerActivity::class.java.simpleName
 
         const val EXTRA_ITEM_NAME = "itemName"
         const val EXTRA_ITEM_STATE = "itemState"
