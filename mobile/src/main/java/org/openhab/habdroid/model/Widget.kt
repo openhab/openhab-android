@@ -47,7 +47,8 @@ data class Widget(
     val service: String,
     val legend: Boolean?,
     val switchSupport: Boolean,
-    val height: Int
+    val height: Int,
+    val visibility: Boolean
 ) : Parcelable {
     val mappingsOrItemOptions get() =
         if (mappings.isEmpty() && item?.options != null) item.options else mappings
@@ -87,7 +88,8 @@ data class Widget(
                 eventPayload.optString("valuecolor", source.valueColor),
                 source.refresh, source.minValue, source.maxValue, source.step,
                 source.period, source.service, source.legend,
-                source.switchSupport, source.height)
+                source.switchSupport, source.height,
+                eventPayload.optBoolean("visibility", source.visibility))
         }
 
         internal fun sanitizeIcon(icon: String?) = if (icon == "none") null else icon
@@ -217,7 +219,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         Widget.sanitizeIcon(icon), "images/$icon.png",
         item?.state, type, url, item, linkedPage, mappings, encoding, iconColor, labelColor, valueColor,
         Widget.sanitizeRefreshRate(refresh), actualMin, actualMax, actualStep,
-        Widget.sanitizePeriod(period), service, null, switchSupport, height)
+        Widget.sanitizePeriod(period), service, null, switchSupport, height, true)
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
 
     return listOf(widget) + childWidgets
@@ -262,7 +264,8 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: String): List<Widget>
         optString("service", ""),
         if (has("legend")) getBoolean("legend") else null,
         if (has("switchSupport")) getBoolean("switchSupport") else false,
-        optInt("height"))
+        optInt("height"),
+        optBoolean("visibility", true))
 
     val result = arrayListOf(widget)
     val childWidgetJson = optJSONArray("widgets")

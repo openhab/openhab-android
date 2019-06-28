@@ -60,7 +60,6 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected var defaultProgressFragment: Fragment
     private val connectionFragment: PageConnectionHolderFragment
     private var temporaryPage: Fragment? = null
-
     private var currentSitemap: Sitemap? = null
     protected var sitemapFragment: WidgetListFragment? = null
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
@@ -78,7 +77,6 @@ abstract class ContentController protected constructor(private val activity: Mai
     val currentTitle get() = when {
         noConnectionFragment != null -> null
         temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications)
-        temporaryPage is WidgetListFragment -> (temporaryPage as WidgetListFragment).title
         temporaryPage is WebViewFragment -> activity.getString((temporaryPage as WebViewFragment).titleResId)
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
@@ -175,12 +173,15 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param sitemap Sitemap to show
      */
     fun openSitemap(sitemap: Sitemap) {
-        Log.d(TAG, "Opening sitemap $sitemap")
+        Log.d(TAG, "Opening sitemap $sitemap (current: $currentSitemap)")
         currentSitemap = sitemap
         // First clear the old fragment stack to show the progress spinner...
         pageStack.clear()
         sitemapFragment = null
+        temporaryPage = null
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        // ... and clear remaining page connections ...
+        updateConnectionState()
         // ...then create the new sitemap fragment and trigger data loading.
         val newFragment = makeSitemapFragment(sitemap)
         sitemapFragment = newFragment
@@ -226,9 +227,11 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.updateTitle()
         } else {
             // we didn't find it
-            temporaryPage = WidgetListFragment.withPage(url, null)
-            // no fragment update yet; fragment state will be updated when data arrives
-            handleNewWidgetFragment(temporaryPage as WidgetListFragment)
+            val page = LinkedPage("", "", null, "", url)
+            val f = makePageFragment(page)
+            pageStack.clear()
+            pageStack.push(Pair(page, f))
+            handleNewWidgetFragment(f)
             activity.setProgressIndicatorVisible(true)
         }
     }
@@ -290,6 +293,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun clearServerCommunicationFailure() {
         if (noConnectionFragment is CommunicationFailureFragment) {
             noConnectionFragment = null
+            resetState()
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
             activity.updateTitle()
         }
@@ -398,11 +402,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (pendingDataLoadUrls.remove(pageUrl) && pendingDataLoadUrls.isEmpty()) {
             activity.setProgressIndicatorVisible(false)
             activity.updateTitle()
-            updateFragmentState(when {
-                fragment != null && fragment == temporaryPage -> FragmentUpdateReason.TEMPORARY_PAGE
-                pageStack.isEmpty() -> FragmentUpdateReason.PAGE_UPDATE
-                else -> FragmentUpdateReason.PAGE_ENTER
-            })
+            updateFragmentState(if (pageStack.isEmpty())
+                FragmentUpdateReason.PAGE_UPDATE else FragmentUpdateReason.PAGE_ENTER)
         }
     }
 
@@ -423,6 +424,9 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
+        if (pendingDataLoadUrls.remove(error.originalUrl) && pendingDataLoadUrls.isEmpty()) {
+            activity.setProgressIndicatorVisible(false)
+        }
     }
 
     internal abstract fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean)
@@ -437,6 +441,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         pendingDataLoadUrls.add(f.displayPageUrl)
         // no fragment update yet; fragment state will be updated when data arrives
         updateConnectionState()
+        activity.updateTitle()
     }
 
     private fun showTemporaryPage(page: Fragment) {
@@ -448,12 +453,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     private fun updateConnectionState() {
         val pageUrls = collectWidgetFragments().map { f -> f.displayPageUrl }
-        val pendingIter = pendingDataLoadUrls.iterator()
-        while (pendingIter.hasNext()) {
-            if (!pageUrls.contains(pendingIter.next())) {
-                pendingIter.remove()
-            }
-        }
+        pendingDataLoadUrls.retainAll { url -> pageUrls.contains(url) }
         connectionFragment.updateActiveConnections(pageUrls, activity.connection)
     }
 
@@ -473,9 +473,6 @@ abstract class ContentController protected constructor(private val activity: Mai
         sitemapFragment?.let { result.add(it) }
         for ((_, fragment) in pageStack) {
             result.add(fragment)
-        }
-        if (temporaryPage is WidgetListFragment) {
-            result.add(temporaryPage as WidgetListFragment)
         }
         return result
     }

@@ -138,6 +138,7 @@ class WidgetAdapter(
             TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(inflater, parent, connection)
             TYPE_LOCATION -> MapViewHelper.createViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_INVISIBLE -> InvisibleWidgetViewHolder(inflater, parent)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
 
@@ -197,28 +198,33 @@ class WidgetAdapter(
         return false
     }
 
-    private fun getItemViewType(widget: Widget) = when (widget.type) {
-        Widget.Type.Frame -> TYPE_FRAME
-        Widget.Type.Group -> TYPE_GROUP
-        Widget.Type.Switch -> when {
-            widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
-            widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
-            else -> TYPE_SWITCH
+    private fun getItemViewType(widget: Widget): Int {
+        if (!widget.visibility) {
+            return TYPE_INVISIBLE
         }
-        Widget.Type.Text -> TYPE_TEXT
-        Widget.Type.Slider -> TYPE_SLIDER
-        Widget.Type.Image -> TYPE_IMAGE
-        Widget.Type.Selection -> TYPE_SELECTION
-        Widget.Type.Setpoint -> TYPE_SETPOINT
-        Widget.Type.Chart -> TYPE_CHART
-        Widget.Type.Video -> when {
-            "mjpeg".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_MJPEG
-            else -> TYPE_VIDEO
+        return when (widget.type) {
+            Widget.Type.Frame -> TYPE_FRAME
+            Widget.Type.Group -> TYPE_GROUP
+            Widget.Type.Switch -> when {
+                widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
+                widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
+                else -> TYPE_SWITCH
+            }
+            Widget.Type.Text -> TYPE_TEXT
+            Widget.Type.Slider -> TYPE_SLIDER
+            Widget.Type.Image -> TYPE_IMAGE
+            Widget.Type.Selection -> TYPE_SELECTION
+            Widget.Type.Setpoint -> TYPE_SETPOINT
+            Widget.Type.Chart -> TYPE_CHART
+            Widget.Type.Video -> when {
+                "mjpeg".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_MJPEG
+                else -> TYPE_VIDEO
+            }
+            Widget.Type.Webview -> TYPE_WEB
+            Widget.Type.Colorpicker -> TYPE_COLOR
+            Widget.Type.Mapview -> TYPE_LOCATION
+            else -> TYPE_GENERICITEM
         }
-        Widget.Type.Webview -> TYPE_WEB
-        Widget.Type.Colorpicker -> TYPE_COLOR
-        Widget.Type.Mapview -> TYPE_LOCATION
-        else -> TYPE_GENERICITEM
     }
 
     abstract class ViewHolder internal constructor(
@@ -269,6 +275,13 @@ class WidgetAdapter(
             labelView.text = widget.label
             labelView.applyWidgetColor(widget.labelColor, colorMapper)
             iconView.loadWidgetIcon(connection, widget, colorMapper)
+        }
+    }
+
+    class InvisibleWidgetViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup) :
+        ViewHolder(inflater, parent, R.layout.widgetlist_invisibleitem) {
+
+        override fun bind(widget: Widget) {
         }
     }
 
@@ -928,12 +941,13 @@ class WidgetAdapter(
 
             // hide dividers before and after frame widgets
             val adapter = parent.adapter
+            val noDividerTypes = intArrayOf(TYPE_FRAME, TYPE_INVISIBLE)
             if (adapter != null) {
-                if (adapter.getItemViewType(position) == TYPE_FRAME) {
+                if (adapter.getItemViewType(position) in noDividerTypes) {
                     return true
                 }
                 if (position < adapter.itemCount - 1) {
-                    if (adapter.getItemViewType(position + 1) == TYPE_FRAME) {
+                    if (adapter.getItemViewType(position + 1) in noDividerTypes) {
                         return true
                     }
                 }
@@ -999,6 +1013,7 @@ class WidgetAdapter(
         private const val TYPE_COLOR = 14
         private const val TYPE_VIDEO_MJPEG = 15
         private const val TYPE_LOCATION = 16
+        private const val TYPE_INVISIBLE = 17
     }
 }
 

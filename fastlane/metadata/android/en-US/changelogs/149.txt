@@ -1,0 +1,3 @@
+## Fixed
+* Fix sitemap entries in drawer opening wrong sitemaps. (#1422)
+* Improve connection detection code. (#1415)

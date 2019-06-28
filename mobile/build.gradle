@@ -32,8 +32,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 146
-        versionName "2.7.6-beta"
+        versionCode 149
+        versionName "2.7.9-beta"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -72,7 +72,16 @@ android {
         }
     }
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            returnDefaultValues = true
+            all {
+                testLogging {
+                    showStackTraces true
+                    showCauses true
+                    exceptionFormat 'full'
+                }
+            }
+        }
     }
     lintOptions {
         lintConfig file("lint.xml")
@@ -113,6 +122,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.preference:preference:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.work:work-runtime:2.0.1'
@@ -131,7 +141,7 @@ dependencies {
     fossImplementation 'org.osmdroid:osmdroid-android:6.1.0'
 
     // FCM
-    fullImplementation 'com.google.firebase:firebase-messaging:19.0.0'
+    fullImplementation 'com.google.firebase:firebase-messaging:19.0.1'
 
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
@@ -151,7 +161,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.json:json:20180813'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.1'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.1'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.2'
 
     // PowerMock
     testImplementation 'org.powermock:powermock-core:2.0.2'

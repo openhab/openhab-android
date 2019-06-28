@@ -116,7 +116,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                cont.resumeWithException(HttpException(call.request(), e))
+                cont.resumeWithException(HttpException(call.request(), url, e))
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -124,13 +124,14 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
                 when {
                     !response.isSuccessful -> {
-                        cont.resumeWithException(HttpException(call.request(), response.message(), response.code()))
+                        cont.resumeWithException(
+                            HttpException(call.request(), url, response.message(), response.code()))
                     }
                     body == null -> {
-                        cont.resumeWithException(HttpException(call.request(), "Empty body", 500))
+                        cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))
                     }
                     else -> {
-                        cont.resume(HttpResult(call.request(), body, response.code(), response.headers()))
+                        cont.resume(HttpResult(call.request(), url, body, response.code(), response.headers()))
                     }
                 }
             }
@@ -148,6 +149,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
     class HttpResult internal constructor(
         val request: Request,
+        val originalUrl: String,
         val response: ResponseBody,
         val statusCode: Int,
         val headers: Headers
@@ -161,7 +163,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
             val text = withContext(Dispatchers.IO) { response.string() }
             HttpTextResult(request, text, headers)
         } catch (e: IOException) {
-            throw HttpException(request, e)
+            throw HttpException(request, originalUrl, e)
         } finally {
             close()
         }
@@ -176,7 +178,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
             val bitmap = withContext(Dispatchers.IO) { response.toBitmap(sizeInPixels, enforceSize) }
             HttpBitmapResult(request, bitmap)
         } catch (e: IOException) {
-            throw HttpException(request, e)
+            throw HttpException(request, originalUrl, e)
         } finally {
             close()
         }
@@ -188,15 +190,18 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
     class HttpException : Exception {
         val request: Request
+        val originalUrl: String
         val statusCode: Int
 
-        constructor(request: Request, cause: IOException) : super(cause) {
+        constructor(request: Request, originalUrl: String, cause: IOException) : super(cause) {
             this.request = request
+            this.originalUrl = originalUrl
             statusCode = 500
         }
 
-        constructor(request: Request, message: String, statusCode: Int) : super(message) {
+        constructor(request: Request, originalUrl: String, message: String, statusCode: Int) : super(message) {
             this.request = request
+            this.originalUrl = originalUrl
             this.statusCode = statusCode
         }
     }

@@ -2,7 +2,6 @@ package org.openhab.habdroid.core.connection
 
 import android.app.Activity
 import android.content.*
-import android.net.ConnectivityManager
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
@@ -32,9 +31,11 @@ import javax.net.ssl.X509KeyManager
  * data from the openHAB server or another supported source
  * (see the constants in [Connection]).
  */
-class ConnectionFactory internal constructor(private val context: Context, private val prefs: SharedPreferences) :
-    CoroutineScope by CoroutineScope(Dispatchers.Main), BroadcastReceiver(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+class ConnectionFactory internal constructor(
+    private val context: Context,
+    private val prefs: SharedPreferences,
+    private val connectionHelper: ConnectionManagerHelper
+) : CoroutineScope by CoroutineScope(Dispatchers.Main), SharedPreferences.OnSharedPreferenceChangeListener {
     private val trustManager: MemorizingTrustManager
     private val httpLogger: HttpLoggingInterceptor
     private var httpClient: OkHttpClient
@@ -42,17 +43,20 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     private var localConnection: Connection? = null
     private var remoteConnection: AbstractConnection? = null
-    private var cloudConnection: CloudConnection? = null
-    private var availableConnection: Connection? = null
-    private var connectionFailureReason: ConnectionException? = null
 
     private val listeners = HashSet<UpdateListener>()
     private var needsUpdate: Boolean = false
-    private var ignoreNextConnectivityChange: Boolean = false
 
     private var availableCheck: Job? = null
     private var cloudCheck: Job? = null
-    private val initStateChannel = ConflatedBroadcastChannel(Pair(false, false))
+
+    private data class StateHolder constructor(
+        val available: Connection?,
+        val availableFailureReason: ConnectionException?,
+        val cloudInitialized: Boolean,
+        val cloud: CloudConnection?
+    )
+    private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, false, null))
 
     interface UpdateListener {
         fun onAvailableConnectionChanged()
@@ -77,10 +81,16 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         // too low considering SSE connections count against that limit.
         httpClient.dispatcher().maxRequestsPerHost = httpClient.dispatcher().maxRequests
 
-        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
-        ignoreNextConnectivityChange = context.registerReceiver(null, filter) != null
-        context.registerReceiver(this, filter)
+        connectionHelper.changeCallback = {
+            if (listeners.isEmpty()) {
+                // We're running in background. Clear current state and postpone update for next
+                // listener registration.
+                updateState(false, available = null, availableFailureReason = null)
+                needsUpdate = true
+            } else {
+                triggerConnectionUpdateIfNeeded()
+            }
+        }
     }
 
     private fun addListenerInternal(l: UpdateListener) {
@@ -92,8 +102,8 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 // When coming back from background, re-do connectivity check for
                 // local connections, as the reachability of the local server might have
                 // changed since we went to background
-                val reason = connectionFailureReason
-                val local = availableConnection === localConnection ||
+                val (available, reason, _, _) = stateChannel.value
+                val local = available === localConnection ||
                     (reason is NoUrlInformationException && reason.wouldHaveUsedLocalConnection())
                 if (local) {
                     triggerConnectionUpdateIfNeeded()
@@ -114,54 +124,17 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         }
     }
 
-    private fun getConnectionInternal(connectionType: Int): Connection? {
-        return when (connectionType) {
-            Connection.TYPE_LOCAL -> localConnection
-            Connection.TYPE_REMOTE -> remoteConnection
-            Connection.TYPE_CLOUD -> cloudConnection
-            else -> throw IllegalArgumentException("Invalid Connection type requested.")
-        }
-    }
-
-    override fun onReceive(context: Context, intent: Intent) {
-        if (ignoreNextConnectivityChange) {
-            ignoreNextConnectivityChange = false
-            return
-        }
-        if (listeners.isEmpty()) {
-            // We're running in background. Clear current state and postpone update for next
-            // listener registration.
-            availableConnection = null
-            connectionFailureReason = null
-            updateInitState(availableDone = false)
-            needsUpdate = true
-        } else {
-            triggerConnectionUpdateIfNeeded()
-        }
-    }
-
-    private fun updateAvailableConnection(c: Connection?, failureReason: ConnectionException?): Boolean {
-        when {
-            failureReason != null -> {
-                connectionFailureReason = failureReason
-                availableConnection = null
-            }
-            c === availableConnection -> return false
-            else -> {
-                connectionFailureReason = null
-                availableConnection = c
-            }
-        }
-        return true
-    }
-
     @VisibleForTesting
     fun updateConnections() {
         if (prefs.isDemoModeEnabled()) {
+            if (localConnection is DemoConnection) {
+                // demo mode already was enabled
+                return
+            }
             remoteConnection = DemoConnection(httpClient)
             localConnection = remoteConnection
-            handleAvailableCheckDone(localConnection, null)
-            handleCloudCheckDone(null)
+            updateState(true, available = localConnection, availableFailureReason = null,
+                cloudInitialized = true, cloud = null)
         } else {
             localConnection = makeConnection(Connection.TYPE_LOCAL,
                 Constants.PREFERENCE_LOCAL_URL,
@@ -170,10 +143,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 Constants.PREFERENCE_REMOTE_URL,
                 Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
 
-            availableConnection = null
-            cloudConnection = null
-            updateInitState(availableDone = false, cloudDone = false)
-            connectionFailureReason = null
+            updateState(false, available = null, availableFailureReason = null, cloudInitialized = false, cloud = null)
             triggerConnectionUpdateIfNeeded()
         }
     }
@@ -220,31 +190,25 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         }
     }
 
-    private fun handleAvailableCheckDone(available: Connection?, failureReason: ConnectionException?) {
-        // Check whether the passed connection matches a known one. If not, the
-        // connections were updated while the thread was processing and we'll get
-        // a new callback.
-        if (failureReason != null || available === localConnection || available === remoteConnection) {
-            updateInitState(availableDone = true)
-            if (updateAvailableConnection(available, failureReason)) {
+    private fun updateState(
+        callListenersOnChange: Boolean,
+        available: Connection? = stateChannel.value.available,
+        availableFailureReason: ConnectionException? = stateChannel.value.availableFailureReason,
+        cloudInitialized: Boolean = stateChannel.value.cloudInitialized,
+        cloud: CloudConnection? = stateChannel.value.cloud
+    ) {
+        val prevState = stateChannel.value
+        val newState = StateHolder(available, availableFailureReason, cloudInitialized, cloud)
+        stateChannel.offer(newState)
+        if (callListenersOnChange) launch {
+            if (newState.availableFailureReason != null || prevState.available !== newState.available) {
                 listeners.forEach { l -> l.onAvailableConnectionChanged() }
             }
+            if (prevState.cloud !== newState.cloud) {
+                CloudMessagingHelper.onConnectionUpdated(context, newState.cloud)
+                listeners.forEach { l -> l.onCloudConnectionChanged(newState.cloud) }
+            }
         }
-    }
-
-    private fun handleCloudCheckDone(connection: CloudConnection?) {
-        updateInitState(cloudDone = true)
-        if (connection != cloudConnection) {
-            cloudConnection = connection
-            CloudMessagingHelper.onConnectionUpdated(context, connection)
-            listeners.forEach { l -> l.onCloudConnectionChanged(connection) }
-        }
-    }
-
-    private fun updateInitState(availableDone: Boolean? = null, cloudDone: Boolean? = null) {
-        val availableInitialized = availableDone ?: initStateChannel.value.first
-        val cloudInitialized = cloudDone ?: initStateChannel.value.second
-        initStateChannel.offer(Pair(availableInitialized, cloudInitialized))
     }
 
     private fun triggerConnectionUpdateIfNeededAndPending(): Boolean {
@@ -269,16 +233,22 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 val result = withContext(Dispatchers.IO) {
                     checkAvailableConnection(localConnection, remoteConnection)
                 }
-                handleAvailableCheckDone(result, null)
+                // Check whether the passed connection matches a known one. If not, the
+                // connections were updated while the thread was processing and we'll get
+                // a new callback.
+                if (result != localConnection && result != remoteConnection) {
+                    return@launch
+                }
+                updateState(true, available = result, availableFailureReason = null)
             } catch (e: ConnectionException) {
-                handleAvailableCheckDone(null, e)
+                updateState(true, available = null, availableFailureReason = e)
             }
         }
         cloudCheck = launch {
             val result = withContext(Dispatchers.IO) {
                 remoteConnection?.toCloudConnection()
             }
-            handleCloudCheckDone(result)
+            updateState(true, cloudInitialized = true, cloud = result)
         }
     }
 
@@ -298,37 +268,36 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val info = connectivityManager.activeNetworkInfo
-
-        if (info == null || !info.isConnected) {
-            Log.e(TAG, "Network is not available")
-            throw NetworkNotAvailableException()
-        }
-
-        when {
-            // If we are on a mobile network go directly to remote URL from settings
-            info.type == ConnectivityManager.TYPE_MOBILE -> {
-                return remote ?: throw NoUrlInformationException(false)
+        val type = connectionHelper.currentConnection
+        return when (type) {
+            ConnectionManagerHelper.ConnectionType.None -> {
+                Log.e(TAG, "Network is not available")
+                throw NetworkNotAvailableException()
             }
-            // Else if we are on Wifi, Ethernet, WIMAX or VPN network
-            info.type in LOCAL_CONNECTION_TYPES -> {
+            // If we are on a mobile network go directly to remote URL from settings
+            ConnectionManagerHelper.ConnectionType.Mobile -> {
+                remote ?: throw NoUrlInformationException(false)
+            }
+            // Else if we are on Wifi, Ethernet or VPN network
+            ConnectionManagerHelper.ConnectionType.Wifi,
+            ConnectionManagerHelper.ConnectionType.Ethernet,
+            ConnectionManagerHelper.ConnectionType.Vpn -> when {
                 // If local URL is configured and reachable
-                if (local != null && local.checkReachabilityInBackground()) {
+                local?.checkReachabilityInBackground() == true -> {
                     Log.d(TAG, "Connecting to local URL")
-                    return local
-                } else if (remote == null) {
-                    throw NoUrlInformationException(true)
-                } else {
+                    local
+                }
+                remote != null -> {
                     // If local URL is not reachable or not configured, use remote URL
                     Log.d(TAG, "Connecting to remote URL")
-                    return remote
+                    remote
                 }
+                else -> throw NoUrlInformationException(true)
             }
             // Else we treat other networks types as unsupported
             else -> {
-                Log.e(TAG, "Network type (${info.typeName}) is unsupported")
-                throw NetworkNotSupportedException(info)
+                Log.e(TAG, "Network type $type is unsupported")
+                throw NetworkNotSupportedException()
             }
         }
     }
@@ -389,10 +358,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
-        private val LOCAL_CONNECTION_TYPES = listOf(
-            ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
-            ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN
-        )
         private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
             Constants.PREFERENCE_DEMOMODE, Constants.PREFERENCE_SSLCLIENTCERT
         )
@@ -406,19 +371,19 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         @VisibleForTesting lateinit var instance: ConnectionFactory
 
         fun initialize(ctx: Context) {
-            instance = ConnectionFactory(ctx, ctx.getPrefs())
+            instance = ConnectionFactory(ctx, ctx.getPrefs(), ConnectionManagerHelper.create(ctx))
             instance.launch {
                 instance.updateConnections()
             }
         }
 
         @VisibleForTesting
-        fun initialize(ctx: Context, settings: SharedPreferences) {
-            instance = ConnectionFactory(ctx, settings)
+        fun initialize(ctx: Context, settings: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
+            instance = ConnectionFactory(ctx, settings, connectionHelper)
         }
 
         fun shutdown() {
-            instance.context.unregisterReceiver(instance)
+            instance.connectionHelper.shutdown()
         }
 
         /**
@@ -430,10 +395,10 @@ class ConnectionFactory internal constructor(private val context: Context, priva
          */
         suspend fun waitForInitialization() {
             instance.triggerConnectionUpdateIfNeededAndPending()
-            val sub = instance.initStateChannel.openSubscription()
+            val sub = instance.stateChannel.openSubscription()
             do {
-                val (availableDone, cloudDone) = sub.receive()
-            } while (!availableDone || !cloudDone)
+                val (available, reason, cloudInitialized, _) = sub.receive()
+            } while ((available == null && reason == null) || !cloudInitialized)
         }
 
         fun addListener(l: UpdateListener) {
@@ -464,31 +429,37 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             @Throws(ConnectionException::class)
             get() {
                 instance.triggerConnectionUpdateIfNeededAndPending()
-                val reason = instance.connectionFailureReason
+                val (available, reason, _, _) = instance.stateChannel.value
                 if (reason != null) {
                     throw reason
                 }
-                if (!instance.initStateChannel.value.first) {
+                if (available == null) {
                     throw ConnectionNotInitializedException()
                 }
-                return instance.availableConnection!!
+                return available
             }
 
         /**
          * Like {@link usableConnection}, but returns null instead of throwing in case
          * a connection could not be determined
          */
-        val usableConnectionOrNull: Connection?
-            get() = instance.availableConnection
+        val usableConnectionOrNull get() = instance.stateChannel.value.available
 
         /**
-         * Returns a Connection of the specified type.
-         *
-         * May return null if no such connection is available
-         * (in case the respective server isn't configured in settings)
+         * Returns the configured local connection, or null if none is configured
          */
-        fun getConnection(connectionType: Int): Connection? {
-            return instance.getConnectionInternal(connectionType)
-        }
+        val localConnection get() = instance.localConnection
+
+        /**
+         * Returns the configured remote connection, or null if none is configured
+         */
+        val remoteConnection get() = instance.remoteConnection
+
+        /**
+         * Returns the resolved cloud connection.
+         * May return null if no remote connection is configured
+         * or the remote connection is not usable as cloud connection.
+         */
+        val cloudConnection get() = instance.stateChannel.value.cloud
     }
 }
