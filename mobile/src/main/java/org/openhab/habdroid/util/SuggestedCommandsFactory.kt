@@ -12,7 +12,7 @@ import java.util.*
 class SuggestedCommandsFactory(private val context: Context, private val showUndef: Boolean) {
     fun fill(widget: Widget?): SuggestedCommands {
         val suggestedCommands = SuggestedCommands()
-        if (widget?.item == null) {
+        if (widget?.item == null || widget.type == Widget.Type.Chart) {
             return suggestedCommands
         }
 
@@ -71,6 +71,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             if (suggestedCommands.commands.isEmpty()) {
                 addCommonNumberCommands(suggestedCommands)
             }
+            item.state?.asString?.let { value -> add(suggestedCommands, value) }
             suggestedCommands.inputTypeFlags = INPUT_TYPE_SINGED_DECIMAL_NUMBER
         }
         item.isOfTypeOrGroupType(Item.Type.NumberWithDimension) -> {
@@ -102,6 +103,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
                 add(suggestedCommands, "", R.string.nfc_action_empty_string)
                 add(suggestedCommands, "UNDEF", R.string.nfc_action_undefined)
             } else {}
+            item.state?.asString?.let { value -> add(suggestedCommands, value) }
         }
         item.isOfTypeOrGroupType(Item.Type.Switch) -> {
             addOnOffCommands(suggestedCommands)
