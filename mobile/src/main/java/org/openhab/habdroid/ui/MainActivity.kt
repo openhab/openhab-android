@@ -367,7 +367,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             isFullscreenEnabled -> when {
                 lastSnackbar?.isShown != true ->
                     showSnackbar(R.string.press_back_to_exit, tag = TAG_SNACKBAR_PRESS_AGAIN_EXIT)
-                lastSnackbar?.view?.tag?.equals(TAG_SNACKBAR_PRESS_AGAIN_EXIT) == true -> super.onBackPressed()
+                lastSnackbar?.view?.tag?.toString() == TAG_SNACKBAR_PRESS_AGAIN_EXIT -> super.onBackPressed()
                 else -> showSnackbar(R.string.press_back_to_exit, tag = TAG_SNACKBAR_PRESS_AGAIN_EXIT)
             }
             else -> super.onBackPressed()
@@ -890,7 +890,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }
-        snackbar.view.tag = tag.toString()
+        snackbar.view.tag = tag
         snackbar.show()
         lastSnackbar = snackbar
     }
