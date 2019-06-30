@@ -74,6 +74,16 @@ fun SharedPreferences.getString(key: String): String {
     return getString(key, "").orEmpty()
 }
 
+fun SharedPreferences.isScreenLockKioskMode(context: Context): Boolean {
+    return getString(Constants.PREFERENCE_SCREEN_LOCK, context.getString(R.string.settings_screen_lock_off_value)) ==
+        context.getString(R.string.settings_screen_lock_kiosk_value)
+}
+
+fun SharedPreferences.isScreenLockWholeApp(context: Context): Boolean {
+    return getString(Constants.PREFERENCE_SCREEN_LOCK, context.getString(R.string.settings_screen_lock_off_value)) ==
+        context.getString(R.string.settings_screen_lock_on_value)
+}
+
 /**
  * Returns vibration pattern for notifications that can be passed to
  * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]

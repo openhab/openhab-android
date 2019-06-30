@@ -13,8 +13,10 @@
 
 package org.openhab.habdroid.ui
 
+import android.annotation.TargetApi
 import android.app.AlertDialog
 import android.app.Dialog
+import android.app.KeyguardManager
 import android.app.PendingIntent
 import android.content.*
 import android.content.pm.PackageManager
@@ -56,7 +58,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -317,7 +321,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
         when (requestCode) {
             SETTINGS_REQUEST_CODE -> {

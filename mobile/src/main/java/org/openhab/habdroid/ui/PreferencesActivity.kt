@@ -207,6 +207,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val vibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
             val ringtoneVibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION)
             val viewLogPref = findPreference(Constants.PREFERENCE_LOG)
+            val screenLockPref = findPreference(Constants.PREFERENCE_SCREEN_LOCK)
             val prefs = preferenceScreen.sharedPreferences
 
             val currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME)
@@ -342,6 +343,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String,
                     alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 true
+            }
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                preferenceScreen.removePreferenceFromHierarchy(screenLockPref)
             }
 
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags

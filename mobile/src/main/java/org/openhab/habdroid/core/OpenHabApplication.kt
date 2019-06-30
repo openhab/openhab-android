@@ -30,4 +30,8 @@ class OpenHabApplication : MultiDexApplication() {
         super.onTerminate()
         ConnectionFactory.shutdown()
     }
+
+    companion object {
+        var lastAuthenticationTimestamp = 0L
+    }
 }
