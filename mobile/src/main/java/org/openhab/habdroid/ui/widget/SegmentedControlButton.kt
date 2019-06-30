@@ -1,16 +1,14 @@
 /*
- * Copyright (c) 2010-2016, openHAB.org and others.
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * See the NOTICE file(s) distributed with this work for additional
+ * information.
  *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0
  *
- * This class is based on SegmentedControlButton by Benjamin Ferrari
- * http://bookworm.at
- * https://github.com/bookwormat/segcontrol
- * And extended to meet openHAB needs
+ * SPDX-License-Identifier: EPL-2.0
  */
 
 package org.openhab.habdroid.ui.widget
@@ -27,7 +25,13 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatRadioButton
 import org.openhab.habdroid.R
 
-/** @author benjamin ferrari
+/**
+ * This class is based on SegmentedControlButton by Benjamin Ferrari
+ * http://bookworm.at
+ * https://github.com/bookwormat/segcontrol
+ * And extended to meet openHAB needs
+ *
+ * @author benjamin ferrari
  */
 class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?) :
     AppCompatRadioButton(context, attrs) {
