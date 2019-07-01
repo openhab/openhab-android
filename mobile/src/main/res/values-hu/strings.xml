@@ -133,15 +133,22 @@
     <string name="send_device_info_to_server">Eszközadatok küldése a kiszolgálónak</string>
     <string name="send_device_info_item_prefix">Elem név előtagja</string>
     <string name="settings_alarm_clock">Ébresztőóra küldése a openHAB-nak</string>
+    <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
+    <string name="settings_alarm_clock_summary_off">Ne küldje a szervernek az ébresztési időt</string>
+    <string name="settings_alarm_clock_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
     <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
     <string name="item_upload_in_progress">Az Elemek jelenleg frissülnek</string>
     <string name="notification_channel_background">Háttér</string>
+    <string name="notification_channel_background_description">Használatban, hogy megjelenítse a háttérműveleteket</string>
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
+    <string name="notification_channel_background_error_description">Használatban, hogy értesítse a hibákról a hátterműveletekben</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>
     </plurals>
+    <string name="item_update_http_error">AZ elem \'%1$s\' frissítése sikertelen (HTTP hiba %2$d)</string>
+    <string name="item_update_connection_error">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="error_sending_alarm_clock_item_empty">Kérlek add meg az Elem helyes nevét</string>
     <string name="retry">Újra</string>
     <!-- Notification list strings -->
@@ -260,6 +267,7 @@
     <string name="item_picker_list_empty">Elem nem található</string>
     <string name="item_picker_list_error">Hiba történt az elemek betöltése során</string>
     <string name="item_picker_custom">Egyéni</string>
+    <string name="item_picker_dialog_title">Válasszon állapotot</string>
     <string name="item_picker">openHAB elememek</string>
     <string name="item_picker_blurb">Beállít erről \"%s\" (%s) erre \"%s\"</string>
     <string name="search">Keresés</string>
