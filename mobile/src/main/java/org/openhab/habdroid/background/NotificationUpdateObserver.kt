@@ -161,7 +161,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         private fun createErrorNotification(
             context: Context,
             errors: ArrayList<CharSequence>,
-            retryInfo: ArrayList<BackgroundTasksManager.RetryInfo>
+            retryInfoList: ArrayList<BackgroundTasksManager.RetryInfo>
         ): Notification {
             val text = context.resources.getQuantityString(R.plurals.item_update_error_title,
                 errors.size, errors.size)
@@ -186,10 +186,10 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     .setBigContentTitle(text))
             }
 
-            if (retryInfo.isNotEmpty()) {
+            if (retryInfoList.isNotEmpty()) {
                 val retryIntent = Intent(context, BackgroundTasksManager::class.java)
                     .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
-                    .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFO_LIST, retryInfo)
+                    .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFO_LIST, retryInfoList)
                 val retryPendingIntent = PendingIntent.getBroadcast(context, 0,
                     retryIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 nb.addAction(NotificationCompat.Action(R.drawable.ic_refresh_grey_24dp,
