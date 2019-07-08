@@ -137,7 +137,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
         noConnectionFragment?.let { page ->
             if (page.isAdded) {
-                fm.putFragment(state, "sitemapFragment", page)
+                fm.putFragment(state, "errorFragment", page)
             }
         }
     }
