@@ -42,7 +42,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         return flags and SERVER_FLAG_SSE_SUPPORT != 0
     }
 
-    fun hasHabpanelInstalled(): Boolean {
+    fun hasHabPanelInstalled(): Boolean {
         return flags and SERVER_FLAG_HABPANEL_INSTALLED != 0
     }
 

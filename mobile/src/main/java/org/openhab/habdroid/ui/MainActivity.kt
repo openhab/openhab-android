@@ -178,7 +178,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 showSitemapSelectionDialog()
             }
 
-            updateSitemapAndHabpanelDrawerItems()
+            updateSitemapAndHabPanelDrawerItems()
             updateNotificationDrawerItem()
         }
 
@@ -424,7 +424,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         viewPool.clear()
-        updateSitemapAndHabpanelDrawerItems()
+        updateSitemapAndHabPanelDrawerItems()
         invalidateOptionsMenu()
         updateTitle()
     }
@@ -467,7 +467,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         propsUpdateHandle?.cancel()
         val successCb: (ServerProperties) -> Unit = { props ->
             serverProperties = props
-            updateSitemapAndHabpanelDrawerItems()
+            updateSitemapAndHabPanelDrawerItems()
             if (props.sitemaps.isEmpty()) {
                 Log.e(TAG, "openHAB returned empty sitemap list")
                 controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
@@ -564,7 +564,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         serverProperties!!, connection!!,
                         { props ->
                             serverProperties = props
-                            updateSitemapAndHabpanelDrawerItems()
+                            updateSitemapAndHabPanelDrawerItems()
                         },
                         this@MainActivity::handlePropertyFetchFailure)
                 }
@@ -592,7 +592,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.habpanel -> {
-                    openHabpanel()
+                    openHabPanel()
                     handled = true
                 }
                 R.id.settings -> {
@@ -626,16 +626,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    private fun updateSitemapAndHabpanelDrawerItems() {
+    private fun updateSitemapAndHabPanelDrawerItems() {
         val sitemapItem = drawerMenu.findItem(R.id.sitemaps)
-        val habpanelItem = drawerMenu.findItem(R.id.habpanel)
+        val habPanelItem = drawerMenu.findItem(R.id.habpanel)
         val props = serverProperties
         if (props == null) {
             sitemapItem.isVisible = false
-            habpanelItem.isVisible = false
+            habPanelItem.isVisible = false
         } else {
-            habpanelItem.isVisible = props.hasHabpanelInstalled()
-            manageHabpanelShortcut(props.hasHabpanelInstalled())
+            habPanelItem.isVisible = props.hasHabPanelInstalled()
+            manageHabPanelShortcut(props.hasHabPanelInstalled())
             val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap())
 
             if (sitemaps.isEmpty()) {
@@ -704,8 +704,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             buildUrlAndOpenSitemap(action.url)
             true
         }
-        action is PendingAction.OpenHabPanel && isStarted && serverProperties?.hasHabpanelInstalled() == true -> {
-            openHabpanel()
+        action is PendingAction.OpenHabPanel && isStarted && serverProperties?.hasHabPanelInstalled() == true -> {
+            openHabPanel()
             true
         }
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
@@ -781,8 +781,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
-    private fun openHabpanel() {
-        controller.showHabpanel()
+    private fun openHabPanel() {
+        controller.showHabPanel()
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
@@ -910,8 +910,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         propsUpdateHandle = null
     }
 
-    private fun manageHabpanelShortcut(visible: Boolean) {
-        manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
+    private fun manageHabPanelShortcut(visible: Boolean) {
+        manageShortcut(visible, "habPanel", ACTION_HABPANEL_SELECTED,
             R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
             R.string.app_shortcut_diabled_habpanel)
     }
