@@ -95,6 +95,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var pendingOpenedNotificationId: String? = null
     private var shouldOpenHabpanel: Boolean = false
     private var shouldLaunchVoiceRecognition: Boolean = false
+    private var shouldChooseSitemapOnStart = false
     private lateinit var controller: ContentController
     var serverProperties: ServerProperties? = null
         private set
@@ -247,6 +248,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         openNotificationsPageIfNeeded()
         openHabpanelIfNeeded()
         launchVoiceRecognitionIfNeeded()
+        if (shouldChooseSitemapOnStart) {
+            chooseSitemap()
+            shouldChooseSitemapOnStart = false
+        }
     }
 
     public override fun onStop() {
@@ -334,11 +339,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     connection != null &&
                     serverProperties != null
                 ) {
-                    val sitemap = selectConfiguredSitemapFromList()
-                    if (sitemap != null) {
-                        controller.openSitemap(sitemap)
+                    if (isStarted) {
+                        chooseSitemap()
                     } else {
-                        showSitemapSelectionDialog()
+                        shouldChooseSitemapOnStart = true
                     }
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
@@ -490,12 +494,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 Log.e(TAG, "openHAB returned empty sitemap list")
                 controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
             } else {
-                val sitemap = selectConfiguredSitemapFromList()
-                if (sitemap != null) {
-                    controller.openSitemap(sitemap)
-                } else {
-                    showSitemapSelectionDialog()
-                }
+                chooseSitemap()
             }
             if (connection !is DemoConnection) {
                 prefs.edit {
@@ -508,6 +507,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         propsUpdateHandle = ServerProperties.fetch(this, connection!!,
             successCb, this::handlePropertyFetchFailure)
+    }
+
+    private fun chooseSitemap() {
+        val sitemap = selectConfiguredSitemapFromList()
+        if (sitemap != null) {
+            controller.openSitemap(sitemap)
+        } else {
+            showSitemapSelectionDialog()
+        }
     }
 
     private fun handleServiceResolveResult(info: ServiceInfo?) {
@@ -745,8 +753,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
         val configuredSitemap = prefs.getDefaultSitemap()
-        val sitemaps = serverProperties!!.sitemaps
+        val sitemaps = serverProperties?.sitemaps
         val result = when {
+            sitemaps == null -> null
             // We only have one sitemap, use it
             sitemaps.size == 1 -> sitemaps[0]
             // Select configured sitemap if still present, nothing otherwise
@@ -774,11 +783,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (sitemapSelectionDialog?.isShowing == true) {
             sitemapSelectionDialog?.dismiss()
         }
-        if (isFinishing) {
+        val sitemaps = serverProperties?.sitemaps
+        if (isFinishing || sitemaps == null) {
             return
         }
-
-        val sitemaps = serverProperties!!.sitemaps
         val sitemapLabels = sitemaps.map { s -> s.label }.toTypedArray()
         sitemapSelectionDialog = AlertDialog.Builder(this)
             .setTitle(R.string.mainmenu_openhab_selectsitemap)
