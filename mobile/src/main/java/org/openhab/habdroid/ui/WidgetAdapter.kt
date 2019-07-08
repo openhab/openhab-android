@@ -43,10 +43,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.LabeledValue
-import org.openhab.habdroid.model.ParsedState
-import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.*
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.SegmentedControlButton
@@ -464,8 +461,7 @@ class WidgetAdapter(
             val widget = boundWidget
             val item = widget?.item ?: return
             val newValue = widget.minValue + widget.step * progress
-            connection.httpClient.sendItemUpdate(item,
-                ParsedState.NumberState.withValue(item.state?.asNumber, newValue))
+            connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(newValue))
         }
     }
 
@@ -699,7 +695,7 @@ class WidgetAdapter(
                     closestIndex = index
                     closestDelta = abs(stateValue - stepValue)
                 }
-                ParsedState.NumberState.withValue(state, stepValue, stepSize != ceil(stepSize))
+                state.withValue(stepValue)
             }
 
             val dialogView = inflater.inflate(R.layout.dialog_numberpicker, null)
@@ -731,8 +727,7 @@ class WidgetAdapter(
             }
 
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
-                connection.httpClient.sendItemUpdate(widget.item, ParsedState.NumberState.withValue(state, newValue,
-                    stateValue != null && stateValue != ceil(stateValue)))
+                connection.httpClient.sendItemUpdate(widget.item, state.withValue(newValue))
             }
         }
     }

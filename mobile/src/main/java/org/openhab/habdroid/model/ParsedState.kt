@@ -61,18 +61,14 @@ data class ParsedState internal constructor(
 
         internal fun parseAsNumber(state: String, format: String?): NumberState? {
             return when (state) {
-                "ON" -> NumberState(100)
-                "OFF" -> NumberState(0)
+                "ON" -> NumberState(100F)
+                "OFF" -> NumberState(0F)
                 else -> {
                     val spacePos = state.indexOf(' ')
                     val number = if (spacePos >= 0) state.substring(0, spacePos) else state
                     val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
                     return try {
-                        if (number.indexOf('.') > 0) {
-                            NumberState(number.toFloat(), unit, format)
-                        } else {
-                            NumberState(number.toInt(), unit, format)
-                        }
+                        NumberState(number.toFloat(), unit, format)
                     } catch (e: NumberFormatException) {
                         null
                     }
@@ -134,10 +130,11 @@ data class ParsedState internal constructor(
     }
 
     @Parcelize
-    class NumberState internal constructor(val value: Number, val unit: String?, val format: String?) : Parcelable {
-        constructor(value: Int) : this(value, null, null)
-        constructor(value: Float) : this(value, null, null)
-
+    class NumberState internal constructor(
+        val value: Float,
+        val unit: String? = null,
+        val format: String? = null
+    ) : Parcelable {
         override fun toString(): String {
             return toString(Locale.getDefault())
         }
@@ -148,8 +145,9 @@ data class ParsedState internal constructor(
         fun toString(locale: Locale): String {
             if (!format.isNullOrEmpty()) {
                 val actualFormat = format.replace("%unit%", unit.orEmpty())
+                val actualValue: Number = if (actualFormat.contains("%d")) value.roundToInt() else value
                 try {
-                    return String.format(locale, actualFormat, value)
+                    return String.format(locale, actualFormat, actualValue)
                 } catch (e: IllegalFormatException) {
                     // State format pattern doesn't match the actual data type
                     // -> ignore and fall back to our own formatting
@@ -161,29 +159,11 @@ data class ParsedState internal constructor(
         fun formatValue(): String {
             return value.toString()
         }
-
-        companion object {
-            /**
-             * Returns a new NumberState instance, basing its contents on the passed-in previous state.
-             * In particular, unit, format and number type (float/integer) will be taken from the
-             * previous state. If previous state is integer, the new value will be rounded accordingly.
-             * The value can be forced to Float by setting forceFloat to true.
-             * @param state Previous state to base on
-             * @param value New numeric value
-             * @param forceFloat Force value to be Float
-             * @return new NumberState instance
-             */
-            fun withValue(state: NumberState?, value: Float, forceFloat: Boolean = false): NumberState {
-                if (state == null) {
-                    return NumberState(value)
-                }
-                if (state.value is Float || forceFloat) {
-                    return NumberState(value, state.unit, state.format)
-                }
-                return NumberState(value.roundToInt(), state.unit, state.format)
-            }
-        }
     }
+}
+
+fun ParsedState.NumberState?.withValue(value: Float): ParsedState.NumberState {
+    return ParsedState.NumberState(value, this?.unit, this?.format)
 }
 
 /**
