@@ -132,8 +132,8 @@ interface ConnectionManagerHelper {
         }
 
         override fun onAvailable(network: Network?) {
-            if (network != null) {
-                val caps = connectivityManager.getNetworkCapabilities(network)
+            val caps = network?.let { connectivityManager.getNetworkCapabilities(it) }
+            if (caps != null) {
                 if (caps.isUsable()) {
                     scheduleCallback()
                 }
