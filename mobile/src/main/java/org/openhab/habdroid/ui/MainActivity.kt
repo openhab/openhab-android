@@ -91,11 +91,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     var connection: Connection? = null
         private set
 
-    private var pendingOpenSitemapUrl: String? = null
-    private var pendingOpenedNotificationId: String? = null
-    private var shouldOpenHabpanel: Boolean = false
-    private var shouldLaunchVoiceRecognition: Boolean = false
-    private var shouldChooseSitemapOnStart = false
+    private var pendingAction: PendingAction? = null
     private lateinit var controller: ContentController
     var serverProperties: ServerProperties? = null
         private set
@@ -244,14 +240,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             controller.clearServerCommunicationFailure()
             queryServerProperties()
         }
-        openPendingSitemapIfNeeded()
-        openNotificationsPageIfNeeded()
-        openHabpanelIfNeeded()
-        launchVoiceRecognitionIfNeeded()
-        if (shouldChooseSitemapOnStart) {
-            chooseSitemap()
-            shouldChooseSitemapOnStart = false
-        }
+        handlePendingAction()
     }
 
     public override fun onStop() {
@@ -335,15 +324,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 if (data == null) {
                     return
                 }
-                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false) &&
-                    connection != null &&
-                    serverProperties != null
-                ) {
-                    if (isStarted) {
-                        chooseSitemap()
-                    } else {
-                        shouldChooseSitemapOnStart = true
-                    }
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
+                    executeOrStoreAction(PendingAction.ChooseSitemap())
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                     recreate()
@@ -399,11 +381,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         connection = newConnection
         hideSnackbar()
         serverProperties = null
-
-        // Handle pending NFC tag if initial connection determination finished
-        openPendingSitemapIfNeeded()
-        openHabpanelIfNeeded()
-        launchVoiceRecognitionIfNeeded()
+        handlePendingAction()
 
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         when {
@@ -454,7 +432,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     override fun onCloudConnectionChanged(connection: CloudConnection?) {
         Log.d(TAG, "onCloudConnectionChanged()")
         updateNotificationDrawerItem()
-        openNotificationsPageIfNeeded()
+        handlePendingAction()
     }
 
     private fun handleConnectionChange() {
@@ -501,9 +479,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     putInt(Constants.PREV_SERVER_FLAGS, props.flags)
                 }
             }
-            openHabpanelIfNeeded()
-            launchVoiceRecognitionIfNeeded()
-            openPendingSitemapIfNeeded()
+            handlePendingAction()
         }
         propsUpdateHandle = ServerProperties.fetch(this, connection!!,
             successCb, this::handlePropertyFetchFailure)
@@ -540,26 +516,21 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 val tag = intent.data?.toTagData()
                 BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
 
-                if (!tag?.sitemap.isNullOrEmpty()) {
-                    pendingOpenSitemapUrl = tag?.sitemap
-                    openPendingSitemapIfNeeded()
+                val sitemapUrl = tag?.sitemap
+                if (!sitemapUrl.isNullOrEmpty()) {
+                    executeOrStoreAction(PendingAction.OpenSitemapUrl(sitemapUrl))
                 }
             }
             ACTION_NOTIFICATION_SELECTED -> {
                 CloudMessagingHelper.onNotificationSelected(this, intent)
-                onNotificationSelected(intent)
+                val id = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
+                executeActionIfPossible(PendingAction.OpenNotification(id))
             }
-            ACTION_HABPANEL_SELECTED -> {
-                shouldOpenHabpanel = true
-                openHabpanelIfNeeded()
-            }
-            ACTION_VOICE_RECOGNITION_SELECTED -> {
-                shouldLaunchVoiceRecognition = true
-                launchVoiceRecognitionIfNeeded()
-            }
+            ACTION_HABPANEL_SELECTED -> executeOrStoreAction(PendingAction.OpenHabPanel())
+            ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
             ACTION_SITEMAP_SELECTED -> {
-                pendingOpenSitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL)
-                openPendingSitemapIfNeeded()
+                val sitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL)
+                executeOrStoreAction(PendingAction.OpenSitemapUrl(sitemapUrl))
             }
         }
     }
@@ -593,7 +564,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         serverProperties!!, connection!!,
                         { props ->
                             serverProperties = props
-                            openPendingSitemapIfNeeded()
                             updateSitemapAndHabpanelDrawerItems()
                         },
                         this@MainActivity::handlePropertyFetchFailure)
@@ -712,36 +682,41 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         return wrapped
     }
 
-    private fun openNotificationsPageIfNeeded() {
-        if (pendingOpenedNotificationId != null &&
-            isStarted &&
-            ConnectionFactory.cloudConnection != null
-        ) {
-            openNotifications(pendingOpenedNotificationId)
-            pendingOpenedNotificationId = null
+    private fun executeOrStoreAction(action: PendingAction) {
+        if (!executeActionIfPossible(action)) {
+            pendingAction = action
         }
     }
 
-    private fun openHabpanelIfNeeded() {
-        if (isStarted && shouldOpenHabpanel && serverProperties != null && serverProperties!!.hasHabpanelInstalled()) {
+    private fun handlePendingAction() {
+        val action = pendingAction
+        if (action != null && executeActionIfPossible(action)) {
+            pendingAction = null
+        }
+    }
+
+    private fun executeActionIfPossible(action: PendingAction): Boolean = when {
+        action is PendingAction.ChooseSitemap && isStarted -> {
+            chooseSitemap()
+            true
+        }
+        action is PendingAction.OpenSitemapUrl && isStarted && serverProperties != null -> {
+            buildUrlAndOpenSitemap(action.url)
+            true
+        }
+        action is PendingAction.OpenHabPanel && isStarted && serverProperties?.hasHabpanelInstalled() == true -> {
             openHabpanel()
-            shouldOpenHabpanel = false
+            true
         }
-    }
-
-    private fun launchVoiceRecognitionIfNeeded() {
-        if (isStarted && shouldLaunchVoiceRecognition && serverProperties != null) {
+        action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
             launchVoiceRecognition()
-            shouldLaunchVoiceRecognition = false
+            true
         }
-    }
-
-    private fun openPendingSitemapIfNeeded() {
-        val url = pendingOpenSitemapUrl
-        if (isStarted && url != null && serverProperties != null) {
-            buildUrlAndOpenSitemap(url)
-            pendingOpenSitemapUrl = null
+        action is PendingAction.OpenNotification && isStarted && ConnectionFactory.cloudConnection != null -> {
+            openNotifications(action.notificationId)
+            true
         }
+        else -> false
     }
 
     private fun openAbout() {
@@ -813,14 +788,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun buildUrlAndOpenSitemap(partUrl: String) {
         controller.openPage("rest/sitemaps$partUrl")
-    }
-
-    private fun onNotificationSelected(intent: Intent) {
-        Log.d(TAG, "onNotificationSelected()")
-        // mPendingOpenedNotificationId being non-null is used as trigger for
-        // opening the notifications page, so use a dummy if it's null
-        pendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
-        openNotificationsPageIfNeeded()
     }
 
     fun onWidgetSelected(linkedPage: LinkedPage, source: WidgetListFragment) {
@@ -994,6 +961,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         else
             PackageManager.COMPONENT_ENABLED_STATE_DISABLED
         packageManager.setComponentEnabledSetting(voiceWidget, newState, PackageManager.DONT_KILL_APP)
+    }
+
+    private sealed class PendingAction {
+        class ChooseSitemap() : PendingAction()
+        class OpenSitemapUrl constructor(val url : String) : PendingAction()
+        class OpenHabPanel() : PendingAction()
+        class LaunchVoiceRecognition() : PendingAction()
+        class OpenNotification constructor(val notificationId: String) : PendingAction()
     }
 
     companion object {
