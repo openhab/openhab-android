@@ -318,12 +318,12 @@ class ConnectionFactory internal constructor(
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
         private val context: Context = context.applicationContext
 
-        override fun chooseClientAlias(keyType: Array<String>, issuers: Array<Principal>, socket: Socket): String? {
+        override fun chooseClientAlias(keyType: Array<String>, issuers: Array<Principal>?, socket: Socket?): String? {
             Log.d(TAG, "chooseClientAlias - alias: $alias")
             return alias
         }
 
-        override fun chooseServerAlias(keyType: String, issuers: Array<Principal>, socket: Socket): String? {
+        override fun chooseServerAlias(keyType: String, issuers: Array<Principal>?, socket: Socket?): String? {
             Log.d(TAG, "chooseServerAlias")
             return null
         }
@@ -341,12 +341,12 @@ class ConnectionFactory internal constructor(
             }
         }
 
-        override fun getClientAliases(keyType: String, issuers: Array<Principal>): Array<String>? {
+        override fun getClientAliases(keyType: String, issuers: Array<Principal>?): Array<String>? {
             Log.d(TAG, "getClientAliases")
-            return if (alias != null) arrayOf(alias) else null
+            return alias?.let { arrayOf(it) }
         }
 
-        override fun getServerAliases(keyType: String, issuers: Array<Principal>): Array<String>? {
+        override fun getServerAliases(keyType: String, issuers: Array<Principal>?): Array<String>? {
             Log.d(TAG, "getServerAliases")
             return null
         }
