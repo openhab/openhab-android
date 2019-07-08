@@ -46,8 +46,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 NotificationUpdateObserver.createNotificationChannels(context)
             }
             ACTION_RETRY_UPLOAD -> {
-                val retryInfo = intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO)
-                for (info in retryInfo) {
+                for (info in intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)) {
                     enqueueItemUpload(info.tag, info.itemName, info.value)
                 }
             }
@@ -97,7 +96,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private val TAG = BackgroundTasksManager::class.java.simpleName
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
-        internal const val EXTRA_RETRY_INFO = "retryInfo"
+        internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"

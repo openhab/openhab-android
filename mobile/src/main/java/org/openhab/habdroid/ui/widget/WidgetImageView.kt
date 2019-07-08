@@ -148,9 +148,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         scope = null
     }
 
-    fun setRefreshRate(sec: Int) {
+    fun setRefreshRate(ms: Int) {
         cancelRefresh()
-        refreshInterval = sec.toLong()
+        refreshInterval = ms.toLong()
         lastRefreshTimestamp = SystemClock.uptimeMillis()
         scheduleNextRefresh()
     }
