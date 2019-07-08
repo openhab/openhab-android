@@ -128,7 +128,7 @@
     <string name="nfc_tag_recognized_label">Reconocida etiqueta NFC para \"%s\"</string>
     <string name="nfc_tag_recognized_item">Reconocida etiqueta NFC para el Ítem \"%s\"</string>
     <string name="info_not_set">Sin establecer</string>
-    <string name="empty_page">Esta pagina no contiene ningún widget que pueda ser visible</string>
+    <string name="empty_page">Esta página no contiene ningún widget que pueda ser visible</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Enviar información del dispositivo al servidor</string>
     <string name="send_device_info_item_prefix">Prefijo del nombre del ítem</string>
