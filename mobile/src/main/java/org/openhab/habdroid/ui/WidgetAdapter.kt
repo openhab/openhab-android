@@ -553,7 +553,7 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
         View.OnClickListener {
-        private val radioGroup: RadioGroup = itemView.findViewById(R.id.switchgroup)
+        private val radioGroup: RadioGroup = itemView.findViewById(R.id.switch_group)
         private var boundItem: Item? = null
 
         override fun bind(widget: Widget) {
@@ -679,7 +679,7 @@ class WidgetAdapter(
             }
 
             val dialogView = inflater.inflate(R.layout.dialog_numberpicker, null)
-            val picker = dialogView.findViewById<NumberPicker>(R.id.numberpicker).apply {
+            val picker = dialogView.findViewById<NumberPicker>(R.id.number_picker).apply {
                 minValue = 0
                 maxValue = stepValues.size - 1
                 displayedValues = stepValues.map { item -> item.toString() }.toTypedArray()
@@ -916,7 +916,7 @@ class WidgetAdapter(
         parent: ViewGroup,
         private val connection: Connection
     ) : ViewHolder(inflater, parent, R.layout.widgetlist_videomjpegitem) {
-        private val imageView: ImageView = itemView.findViewById(R.id.mjpegimage)
+        private val imageView: ImageView = itemView.findViewById(R.id.mjpeg_image)
         private var streamer: MjpegStreamer? = null
 
         override fun bind(widget: Widget) {

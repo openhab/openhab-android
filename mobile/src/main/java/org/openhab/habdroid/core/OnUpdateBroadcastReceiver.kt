@@ -23,7 +23,7 @@ import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.util.Constants
 
-import org.openhab.habdroid.util.Constants.PREFERENCE_COMPAREABLEVERSION
+import org.openhab.habdroid.util.Constants.PREFERENCE_COMPARABLE_VERSION
 import org.openhab.habdroid.util.getPrefs
 
 class OnUpdateBroadcastReceiver : BroadcastReceiver() {
@@ -34,7 +34,7 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
 
         val prefs = context.getPrefs()
         prefs.edit {
-            if (prefs.getInt(PREFERENCE_COMPAREABLEVERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
+            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
                 Log.d(TAG, "Checking for putting local username/password to remote username/password.")
                 if (prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null) == null) {
                     putString(Constants.PREFERENCE_REMOTE_USERNAME,
@@ -55,7 +55,7 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
         private const val UPDATE_LOCAL_CREDENTIALS = 26
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
-            editor.putInt(PREFERENCE_COMPAREABLEVERSION, BuildConfig.VERSION_CODE)
+            editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE)
         }
     }
 }

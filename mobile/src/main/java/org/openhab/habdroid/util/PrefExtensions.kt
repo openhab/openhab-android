@@ -38,7 +38,7 @@ fun SharedPreferences.getIconFormat(): String {
 }
 
 fun SharedPreferences.isDemoModeEnabled(): Boolean {
-    return getBoolean(Constants.PREFERENCE_DEMOMODE, false)
+    return getBoolean(Constants.PREFERENCE_DEMO_MODE, false)
 }
 
 fun SharedPreferences.isDebugModeEnabled(): Boolean {
@@ -55,7 +55,7 @@ fun SharedPreferences.getNotificationTone(): Uri? {
 }
 
 fun SharedPreferences.isScreenTimerDisabled(): Boolean {
-    return getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)
+    return getBoolean(Constants.PREFERENCE_SCREEN_TIMER_OFF, false)
 }
 
 fun SharedPreferences.getChartScalingFactor(): Float {

@@ -82,7 +82,7 @@ class BasicWidgetTest : TestWithoutIntro() {
         // check whether scene radio button group is present
         recyclerView
                 .perform(scrollToPosition<RecyclerView.ViewHolder>(5))
-                .check(matches(atPositionOnView(5, isDisplayed(), R.id.switchgroup)))
+                .check(matches(atPositionOnView(5, isDisplayed(), R.id.switch_group)))
 
         // check whether switch is displayed
         recyclerView

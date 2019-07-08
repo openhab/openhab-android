@@ -48,7 +48,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
     override val forceNonFullscreen = true
 
     private var requestJob: Job? = null
-    private var initialHightlightItemName: String? = null
+    private var initialHighlightItemName: String? = null
 
     private lateinit var itemPickerAdapter: ItemPickerAdapter
     private lateinit var recyclerView: RecyclerView
@@ -100,7 +100,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
         recyclerView.adapter = itemPickerAdapter
 
         val editItem = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE)
-        initialHightlightItemName = editItem?.getString(EXTRA_ITEM_NAME)
+        initialHighlightItemName = editItem?.getString(EXTRA_ITEM_NAME)
 
         if (!getPrefs().isTaskerPluginEnabled()) {
             isDisabled = true
@@ -239,7 +239,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
     }
 
     private fun handleInitialHighlight() {
-        val highlightItem = initialHightlightItemName
+        val highlightItem = initialHighlightItemName
         if (highlightItem.isNullOrEmpty()) {
             return
         }
@@ -250,7 +250,7 @@ class ItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshL
             recyclerView.postDelayed({ itemPickerAdapter.highlightItem(position) }, 600)
         }
 
-        initialHightlightItemName = null
+        initialHighlightItemName = null
     }
 
     private fun updateViewVisibility(loading: Boolean, loadError: Boolean, isDisabled: Boolean) {

@@ -25,7 +25,7 @@ import java.util.Properties
 
 class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStream(stream, FRAME_MAX_LENGTH)) {
     @Throws(IOException::class)
-    private fun getEndOfSeqeunce(stream: DataInputStream, sequence: ByteArray): Int {
+    private fun getEndOfSequence(stream: DataInputStream, sequence: ByteArray): Int {
         var seqIndex = 0
         for (i in 0 until FRAME_MAX_LENGTH) {
             val c = stream.readUnsignedByte().toByte()
@@ -43,7 +43,7 @@ class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStrea
 
     @Throws(IOException::class)
     private fun getStartOfSequence(stream: DataInputStream, sequence: ByteArray): Int {
-        val end = getEndOfSeqeunce(stream, sequence)
+        val end = getEndOfSequence(stream, sequence)
         return if (end < 0) -1 else end - sequence.size
     }
 
@@ -71,7 +71,7 @@ class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStrea
         val contentLength = try {
             parseContentLength(header)
         } catch (nfe: NumberFormatException) {
-            getEndOfSeqeunce(this, EOF_MARKER)
+            getEndOfSequence(this, EOF_MARKER)
         }
 
         reset()

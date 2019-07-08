@@ -110,7 +110,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
      */
     private val dreamReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.i("INTENTFILTER", "Recieved intent: $intent")
+            Log.i("INTENTFILTER", "Received intent: $intent")
             checkFullscreen()
         }
     }
@@ -873,7 +873,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun showDemoModeHintSnackbar() {
         showSnackbar(R.string.info_demo_mode_short, R.string.turn_off) {
             prefs.edit {
-                putBoolean(Constants.PREFERENCE_DEMOMODE, false)
+                putBoolean(Constants.PREFERENCE_DEMO_MODE, false)
             }
         }
     }
@@ -938,20 +938,20 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun manageHabpanelShortcut(visible: Boolean) {
         manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
             R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
-            R.string.app_shortcut_diabled_habpanel)
+            R.string.app_shortcut_disabled_habpanel)
     }
 
     private fun manageNotificationShortcut(visible: Boolean) {
         manageShortcut(visible, "notification", ACTION_NOTIFICATION_SELECTED,
             R.string.app_notifications, R.mipmap.ic_shortcut_notifications,
-            R.string.app_shortcut_diabled_notifications)
+            R.string.app_shortcut_disabled_notifications)
     }
 
     private fun manageVoiceRecognitionShortcut(visible: Boolean) {
         manageShortcut(visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
             R.string.mainmenu_openhab_voice_recognition,
             R.mipmap.ic_shortcut_voice_recognition,
-            R.string.app_shortcut_diabled_voice_recognition)
+            R.string.app_shortcut_disabled_voice_recognition)
     }
 
     private fun manageShortcut(

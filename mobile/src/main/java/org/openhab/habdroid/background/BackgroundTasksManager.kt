@@ -46,8 +46,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 NotificationUpdateObserver.createNotificationChannels(context)
             }
             ACTION_RETRY_UPLOAD -> {
-                val retryInfos = intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFOS)
-                for (info in retryInfos) {
+                val retryInfo = intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO)
+                for (info in retryInfo) {
                     enqueueItemUpload(info.tag, info.itemName, info.value)
                 }
             }
@@ -74,7 +74,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         SharedPreferences.OnSharedPreferenceChangeListener {
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
             when {
-                key == Constants.PREFERENCE_DEMOMODE && prefs.isDemoModeEnabled() -> {
+                key == Constants.PREFERENCE_DEMO_MODE && prefs.isDemoModeEnabled() -> {
                     // demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
                     with(WorkManager.getInstance()) {
@@ -82,7 +82,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         pruneWork()
                     }
                 }
-                key == Constants.PREFERENCE_DEMOMODE && !prefs.isDemoModeEnabled() -> {
+                key == Constants.PREFERENCE_DEMO_MODE && !prefs.isDemoModeEnabled() -> {
                     // demo mode was disabled -> reschedule uploads
                     for (knownKey in KNOWN_KEYS) {
                         scheduleWorker(context, knownKey)
@@ -97,7 +97,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private val TAG = BackgroundTasksManager::class.java.simpleName
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
-        internal const val EXTRA_RETRY_INFOS = "retryInfos"
+        internal const val EXTRA_RETRY_INFO = "retryInfo"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"

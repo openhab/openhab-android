@@ -17,7 +17,7 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <FrameLayout
-        android:id="@+id/writenfc_container"
+        android:id="@+id/write_nfc_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

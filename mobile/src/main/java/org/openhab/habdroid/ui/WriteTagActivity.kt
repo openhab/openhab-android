@@ -75,7 +75,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
         if (savedInstanceState == null) {
             supportFragmentManager.transaction {
-                add(R.id.writenfc_container, fragment)
+                add(R.id.write_nfc_container, fragment)
             }
         }
 
@@ -107,7 +107,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         }
 
         supportFragmentManager.transaction {
-            replace(R.id.writenfc_container, fragment)
+            replace(R.id.write_nfc_container, fragment)
         }
     }
 
@@ -147,7 +147,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         val ndefFormatable = NdefFormatable.get(tag)
 
         if (ndefFormatable != null) {
-            Log.d(TAG, "Tag is uninitialized, formating")
+            Log.d(TAG, "Tag is uninitialized, formatting")
             try {
                 ndefFormatable.connect()
                 try {

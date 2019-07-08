@@ -570,7 +570,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                     // If we attempted resolving, secondary button enables demo mode
                     context?.apply {
                         getPrefs().edit {
-                            putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+                            putBoolean(Constants.PREFERENCE_DEMO_MODE, true)
                         }
                     }
                 }

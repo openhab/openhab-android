@@ -37,7 +37,7 @@ import org.openhab.habdroid.ui.setUpForConnection
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
-    private lateinit var urltoLoad: String
+    private lateinit var urlToLoad: String
     private lateinit var urlForError: String
 
     val titleResId: Int
@@ -50,7 +50,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args = arguments!!
         webView = view.findViewById(R.id.webview)
-        urltoLoad = args.getString(KEY_URL_LOAD) as String
+        urlToLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String
 
         val retryButton = view.findViewById<TextView>(R.id.retry_button)
@@ -59,7 +59,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         error.text = getString(args.getInt(KEY_ERROR))
 
         if (savedInstanceState != null) {
-            loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, urltoLoad))
+            loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, urlToLoad))
         } else {
             loadWebsite()
         }
@@ -106,7 +106,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         return false
     }
 
-    private fun loadWebsite(urlToLoad: String = urltoLoad) {
+    private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
         val conn = ConnectionFactory.usableConnectionOrNull
         if (conn == null) {
             updateViewVisibility(error = true, loading = false)
