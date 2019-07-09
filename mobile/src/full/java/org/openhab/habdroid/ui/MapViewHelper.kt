@@ -100,6 +100,10 @@ object MapViewHelper {
             }
         }
 
+        override fun handleRowClick() {
+            openPopup()
+        }
+
         override fun onMarkerDragStart(marker: Marker) {
             // no-op, we're interested in drag end only
         }
