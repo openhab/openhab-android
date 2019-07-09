@@ -38,7 +38,7 @@
     <string name="info_conn_url">Conectando a URL local</string>
     <string name="info_conn_rem_url">Conectando a URL local</string>
     <!-- Error messages -->
-    <string name="error_network_not_available">Rede não está disponivel</string>
+    <string name="error_network_not_available">Rede não está disponível</string>
     <string name="error_invalid_url">Por favor introduza um URL válido num padrão \'http(s)://endereço(:porto)/\'</string>
     <string name="error_connection_failed">Conexão ao host falhado</string>
     <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
