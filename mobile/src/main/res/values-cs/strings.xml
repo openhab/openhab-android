@@ -71,9 +71,6 @@
     <string name="turn_off">Vypnout</string>
     <string name="info_conn_url">Připojuji se k lokální URL</string>
     <string name="info_conn_rem_url">Připojuji se ke vzdálené URL</string>
-    <string name="app_shortcut_diabled_habpanel">Na Vašem serveru není nainstalován HABPanel</string>
-    <string name="app_shortcut_diabled_notifications">Vzdálený server není dostupný</string>
-    <string name="app_shortcut_diabled_voice_recognition">Na Vašem zařízení nemáte nainstalovanou aplikaci k převodu řeči na text</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_sitemap_generic_load_error">Nelze načíst Sitemap. Došlo k následující chybě: %1$s</string>
