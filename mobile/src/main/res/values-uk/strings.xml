@@ -71,9 +71,6 @@
     <string name="turn_off">Вимкнути</string>
     <string name="info_conn_url">Підключення до локального URL</string>
     <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
-    <string name="app_shortcut_diabled_habpanel">Ваш сервер не має встановленої HABPanel</string>
-    <string name="app_shortcut_diabled_notifications">Ваш віддалений сервер недоступний</string>
-    <string name="app_shortcut_diabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
