@@ -30,6 +30,7 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
+import java.io.IOException
 import java.net.URLEncoder
 import java.util.Locale
 
@@ -66,6 +67,9 @@ class FcmRegistrationService : JobIntentService() {
                 } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     Log.e(TAG, "FCM registration failed", e)
+                } catch (e: IOException) {
+                    CloudMessagingHelper.registrationFailureReason = e
+                    Log.e(TAG, "FCM registration failed", e)
                 }
 
                 CloudMessagingHelper.registrationDone = true
@@ -79,7 +83,8 @@ class FcmRegistrationService : JobIntentService() {
         }
     }
 
-    @Throws(HttpClient.HttpException::class)
+    // HttpException is thrown by our HTTP code, IOException can be thrown by FCM
+    @Throws(HttpClient.HttpException::class, IOException::class)
     private suspend fun registerFcm(connection: CloudConnection) {
         val token = FirebaseInstanceId.getInstance().getToken(connection.messagingSenderId,
                 FirebaseMessaging.INSTANCE_ID_SCOPE)
