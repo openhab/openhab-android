@@ -157,7 +157,6 @@
     <string name="settings_debug_messages_title">Visa information för felsökning</string>
     <string name="error_couldnt_determine_openhab_url">Kunde inte avgöra URL för openHAB</string>
     <string name="unknown">Okänd</string>
-    <string name="error_network_type_unsupported">Nätverkstyp (%s) stöds inte</string>
     <string name="set">Sätt</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
@@ -165,6 +164,7 @@
     <string name="go_to_settings_button">Gå till inställningar</string>
     <string name="resolving_openhab">Försöker hitta openHAB-server\u2026</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Öppna jalusi</string>
     <string name="content_description_stop_roller_shutter">Stoppa jalusi</string>
@@ -190,4 +190,5 @@
     <string name="app_intro_skip_button">HOPPA ÖVER</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FÄRDIGT</string>
+    <!-- Item picker -->
 </resources>

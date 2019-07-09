@@ -13,7 +13,7 @@
     <security>• Bezpečnost: ZoneMinder, DSC,...</security>
     <open_protocols>• Otevřené protokoly: HTTP, TCP/UDP, MQTT, sériový,...</open_protocols>
     <special_useCases>• Speciální použití: Minecraft, automobil Tesla, meteorologické služby,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>• Automatizační aplikace: Zahrnuje pluginy pro Tasker a Locale</automation_apps>
 
     <oss_community>Open Source komunita</oss_community>
     <forum>openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org</forum>
@@ -25,11 +25,9 @@
     <important_note>Důležitá poznámka</important_note>
     <oh_server>Pro správné fungování aplikace budete potřebovat openHAB server</oh_server>
     <short_description>Domácí automatizace pro IoT různých výrobců a technologií</short_description>
-    <fdroid>Sestavení pro F-Droid má mapové zobrazení, FCM a reporty o chybách odebrány a nemůže přijímat push notifikace z openHAB Cloud.</fdroid>
+    <fdroid>Sestavení pro F-Droid má FCM a reporty o chybách odebrány a nemůže přijímat push notifikace z openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Potenciálně nechtěné vlastnosti</fdroid_anti_features>
-    <fdroid_anti_features_text>Aplikace je označena příznakem "NonFreeAsset", protože openHAB ikona není k dispozici pod svobodnou licencí.</fdroid_anti_features_text>
     <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>
     <play_beta>Vedle stabilní verze můžete nainstalovat i beta verzi.</play_beta>
 </strings>

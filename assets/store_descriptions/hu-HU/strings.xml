@@ -14,7 +14,7 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <security>• Biztonság: ZoneMinder, DSC, ...</security>
     <open_protocols>• Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
     <special_useCases>• Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Időjárási szolgáltatások, ...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>Automatizáló alkalmazások: Tartalmazza a Tasker-t és helymeghatározást</automation_apps>
 
     <oss_community>Nyílt forráskódú közösség</oss_community>
     <forum>Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. A fórumunk egy olyan hely, aminek több mint 13,000 regisztrált felhasználója van, akiktől segítséget, leírásokat és inspirációkat lehet nyerni. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni</forum>
@@ -26,11 +26,9 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <important_note>Fontos megjegyzés</important_note>
     <oh_server>Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást</oh_server>
     <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
-    <fdroid>A F-Droidra verziónak van térképnézet támogatása, FCM és hibajelentést el lett belőle távolítva, illetve nem képes push értesítések fogadására az openHAB felhőből.</fdroid>
+    <fdroid>Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből.</fdroid>
     <fdroid_beta><![CDATA[A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.]]></fdroid_beta>
     <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti funkciók</fdroid_anti_features>
-    <fdroid_anti_features_text>Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.</fdroid_anti_features_text>
     <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
     <play_beta>Telepíthetsz béta verziót is a stabil mellé.</play_beta>
 </strings>

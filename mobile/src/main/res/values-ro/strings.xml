@@ -157,7 +157,6 @@
     <string name="settings_debug_messages_title">Arată informaţii pentru depanare</string>
     <string name="error_couldnt_determine_openhab_url">Nu a putut fi determinată adresa URL pentru openHAB</string>
     <string name="unknown">Necunoscut</string>
-    <string name="error_network_type_unsupported">Tipul de reţea (%s) nu este acceptat</string>
     <string name="set">Setează</string>
     <string name="cancel">Anulează</string>
     <string name="close">Închide</string>
@@ -165,6 +164,7 @@
     <string name="go_to_settings_button">Mergi la setări</string>
     <string name="resolving_openhab">Se încearcă găsirea unui server openHAB\u2026</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Deschide oblonul</string>
     <string name="content_description_stop_roller_shutter">Oprește oblonul</string>
@@ -190,4 +190,5 @@
     <string name="app_intro_skip_button">TRECI PESTE</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">GATA</string>
+    <!-- Item picker -->
 </resources>

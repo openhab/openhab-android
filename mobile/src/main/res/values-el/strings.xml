@@ -157,7 +157,6 @@
     <string name="settings_debug_messages_title">Εμφάνιση πληροφοριών για την αντιμετώπιση προβλημάτων</string>
     <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
     <string name="unknown">Άγνωστο</string>
-    <string name="error_network_type_unsupported">Ο τύπος δικτύου (%s) δεν υποστηρίζεται</string>
     <string name="set">Ορισμός</string>
     <string name="cancel">Άκυρο</string>
     <string name="close">Κλείσιμο</string>
@@ -165,6 +164,7 @@
     <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
     <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Άνοιγμα ρολών</string>
     <string name="content_description_stop_roller_shutter">Σταμάτημα ρολών</string>
@@ -190,4 +190,5 @@
     <string name="app_intro_skip_button">ΠΑΡΑΛΕΙΨΗ</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">ETOIMO</string>
+    <!-- Item picker -->
 </resources>

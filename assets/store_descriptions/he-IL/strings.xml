@@ -13,7 +13,7 @@
     <security>• אבטחה: ZoneMinder, DSC,...</security>
     <open_protocols>• פרוטוקולים פתוחים: HTTP, TCP/UDP, MQTT, יציאה טורית,...</open_protocols>
     <special_useCases>• שימושים מיוחדים: Minecraft, מכוניות טסלה, שירותי מזג אוויר,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>• יישומי אוטומציה: כולל תוספים עבור Tasker והגדרות אזוריות</automation_apps>
 
     <oss_community>קהילת הקוד הפתוח</oss_community>
     <forum>היוזמה הפתוחה של openHAB תומכת מאוד בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. הצטרף לפורום קהילת openHAB ב https://community.openhab.org</forum>
@@ -25,11 +25,9 @@
     <important_note>הערה חשובה</important_note>
     <oh_server>יש צורך בשרת openHAB עבור יישום זה</oh_server>
     <short_description>אוטומציה לבית החכם מבוססת על קוד פתוח ובלתי מוגבלת לטכנולוגיה וחברה מסויימת</short_description>
-    <fdroid>תוכנות עבור F-Droid מכילות תצוגת מיפוי, FCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.</fdroid>
+    <fdroid>תוכנות עבור F-Droid מכילות FCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.</fdroid>
     <fdroid_beta><![CDATA[באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>תכונות שצריך לשים לב אליהן</fdroid_anti_features>
-    <fdroid_anti_features_text>האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB אינה תחת רישיון חופשי.</fdroid_anti_features_text>
     <beta>נסה תכונות חדשות וספר לנו מה דעתך!</beta>
     <play_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה.</play_beta>
 </strings>

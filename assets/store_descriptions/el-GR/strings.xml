@@ -13,7 +13,7 @@
     <security>• Ασφάλεια: ZoneMinder, DSC,...</security>
     <open_protocols>• Ανοικτά πρωτόκολλα: TCP/UDP HTTP, MQTT, σειριακό,...</open_protocols>
     <special_useCases>• Ειδικές περιπτώσεις χρήσης: Minecraft, αυτοκίνητο Tesla, μετεωρολογικές υπηρεσίες,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps/>
 
     <oss_community>Κοινότητα Ανοικτού Λογισμικού</oss_community>
     <forum>Η πρωτοβουλία ανοιχτού κώδικα του openHAB υποστηρίζει σθεναρά τη ζωντανή του κοινότητα. Το φόρουμ με πάνω από 13.000 εγγεγραμμένους χρήστες είναι ένα μέρος για να βρείτε καθοδήγηση, βοήθεια και έμπνευση. Γίνεται μέλη του φόρουμ της κοινότητας του openHAB στον σύνδεσμο https://community.openhab.org</forum>
@@ -28,8 +28,6 @@
     <fdroid/>
     <fdroid_beta><![CDATA[Μπορείτε να εγκαταστήσετε την έκδοση beta παράλληλα με την <a href="https://f-droid.org/packages/org.openhab.habdroid/">σταθερή έκδοση</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Πολιτική προστασίας προσωπικών δεδομένων: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Μη αποδεκτά xαρακτηριστικά</fdroid_anti_features>
-    <fdroid_anti_features_text>Η εφαρμογή έχει χαρακτηριστεί ως "NonFreeAsset", διότι το εικονίδιο του openHAB δεν είναι υπό ελεύθερη άδεια.</fdroid_anti_features_text>
     <beta>Δοκιμάστε νέες δυνατότητες και να δώστε έγκαιρη ανατροφοδότηση!</beta>
     <play_beta>Μπορείτε να εγκαταστήσετε την έκδοση beta παράλληλα με την σταθερή έκδοση.</play_beta>
 </strings>

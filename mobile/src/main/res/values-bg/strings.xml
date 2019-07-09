@@ -140,9 +140,9 @@
     <string name="settings_debug_messages_title">Покажи информация за отстраняване на неизправности</string>
     <string name="error_couldnt_determine_openhab_url">Не можеше да определи openHAB URL адрес</string>
     <string name="unknown">Неизвестен</string>
-    <string name="error_network_type_unsupported">Мрежовия тип (%s) не се поддържа</string>
     <string name="set">Задай</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_color_up">Включи или задръж за да увеличиш осветеността</string>
     <string name="content_description_color_down">Изключи или задръж за да намалиш осветеността</string>
@@ -158,4 +158,5 @@
     <string name="app_intro_skip_button">Пропусни</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">Готово</string>
+    <!-- Item picker -->
 </resources>

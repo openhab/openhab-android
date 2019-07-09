@@ -71,9 +71,6 @@
     <string name="turn_off">Spegnere</string>
     <string name="info_conn_url">Connessione a URL locale</string>
     <string name="info_conn_rem_url">Connessione a URL remoto</string>
-    <string name="app_shortcut_diabled_habpanel">Il tuo server non ha HABPanel installato</string>
-    <string name="app_shortcut_diabled_notifications">Server remoto non è disponibile</string>
-    <string name="app_shortcut_diabled_voice_recognition">Il tuo dispositivo non ha un\'app di riconoscimento vocale installata</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB ha la lista di Sitemap vuota</string>
     <string name="error_sitemap_generic_load_error">Sitemap non può essere caricato. Si è verificato il seguente errore: %1$s</string>
@@ -125,6 +122,8 @@
     <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
     <string name="action_settings">Impostazioni</string>
     <string name="nfc_dialog_title">Salvare le azioni sul tag NFC per questo elemento</string>
+    <string name="nfc_tag_recognized_label">Tag NFC per \"%s\" riconosciuto</string>
+    <string name="nfc_tag_recognized_item">Tag NFC per item \"%s\" riconosciuto</string>
     <string name="info_not_set">Non impostato</string>
     <string name="empty_page">Questa pagina non contiene tutti i widget impostati per essere visibili</string>
     <!-- Background tasks -->
@@ -179,6 +178,18 @@
     <string name="nfc_action_off">Off</string>
     <string name="nfc_action_down">Giù</string>
     <string name="nfc_action_toggle">Alterna</string>
+    <string name="nfc_action_undefined">Non definito</string>
+    <string name="nfc_action_empty_string">Stringa Vuota</string>
+    <string name="nfc_action_increase">Aumenta</string>
+    <string name="nfc_action_decrease">Diminuisci</string>
+    <string name="nfc_action_play">Riproduci</string>
+    <string name="nfc_action_pause">Pausa</string>
+    <string name="nfc_action_next">Prossimo</string>
+    <string name="nfc_action_previous">Precedente</string>
+    <string name="nfc_action_rewind">Riavvolgi</string>
+    <string name="nfc_action_fastforward">Avanti veloce</string>
+    <string name="nfc_action_move">Sposta</string>
+    <string name="nfc_action_stop">Stop</string>
     <string name="nfc_activate">Attiva</string>
     <string name="nfc_action_current_color">Colore attuale</string>
     <string name="nfc_action_to_sitemap_page">Naviga alla pagina dei Sitemap</string>
@@ -202,7 +213,6 @@
     <string name="settings_debug_messages_title">Mostra informazioni per la risoluzione dei problemi</string>
     <string name="error_couldnt_determine_openhab_url">Non trovo openHAB URL</string>
     <string name="unknown">Sconosciuto</string>
-    <string name="error_network_type_unsupported">Tipo di rete (%s) non supportata</string>
     <string name="set">Set</string>
     <string name="cancel">Annulla</string>
     <string name="close">Chiudi</string>
@@ -219,6 +229,10 @@
     <string name="view_log">Mostra log</string>
     <string name="clear_log">Pulisci log</string>
     <string name="empty_log">Log è vuoto</string>
+    <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Fissa nella home</string>
+    <string name="home_shortcut_error_pinning">Errore fissando nella home</string>
+    <string name="home_shortcut_success_pinning">Fissato nella home</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Apertura tapparella</string>
     <string name="content_description_stop_roller_shutter">Ferma tapparella</string>
@@ -246,4 +260,15 @@
     <string name="app_intro_skip_button">SALTA</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FATTO</string>
+    <!-- Item picker -->
+    <string name="item_picker_list_empty">Nessun Item trovato</string>
+    <string name="item_picker_list_error">Errore durante il caricamento degli Items</string>
+    <string name="item_picker_custom">Personalizza</string>
+    <string name="item_picker_dialog_title">Seleziona stato</string>
+    <string name="item_picker">Item openHAB</string>
+    <string name="item_picker_blurb">Imposta \"%s\" (%s) a \"%s\"</string>
+    <string name="search">Cerca</string>
+    <string name="settings_tasker_plugin">Integrazione con Tasker</string>
+    <string name="settings_tasker_plugin_summary">Abilita Tasker action plugin per aggiornare gli Item via Tasker o app compatibili</string>
+    <string name="turn_on">Accendi</string>
 </resources>

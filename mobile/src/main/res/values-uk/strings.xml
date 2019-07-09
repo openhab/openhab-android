@@ -71,9 +71,6 @@
     <string name="turn_off">Вимкнути</string>
     <string name="info_conn_url">Підключення до локального URL</string>
     <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
-    <string name="app_shortcut_diabled_habpanel">Ваш сервер не має встановленої HABPanel</string>
-    <string name="app_shortcut_diabled_notifications">Ваш віддалений сервер недоступний</string>
-    <string name="app_shortcut_diabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
@@ -183,6 +180,18 @@
     <string name="nfc_action_off">Вимкнути</string>
     <string name="nfc_action_down">Опустити</string>
     <string name="nfc_action_toggle">Перемкнути</string>
+    <string name="nfc_action_undefined">Не визначено</string>
+    <string name="nfc_action_empty_string">Порожня стрічка</string>
+    <string name="nfc_action_increase">Збільшити</string>
+    <string name="nfc_action_decrease">Зменшити</string>
+    <string name="nfc_action_play">Відтворити</string>
+    <string name="nfc_action_pause">Пауза</string>
+    <string name="nfc_action_next">Наступна</string>
+    <string name="nfc_action_previous">Попередня</string>
+    <string name="nfc_action_rewind">Назад</string>
+    <string name="nfc_action_fastforward">Вперед</string>
+    <string name="nfc_action_move">Перемістити</string>
+    <string name="nfc_action_stop">Стоп</string>
     <string name="nfc_activate">Активувати</string>
     <string name="nfc_action_current_color">Поточний колір</string>
     <string name="nfc_action_to_sitemap_page">Перейти на сторінку інтерфейсу</string>
@@ -206,7 +215,7 @@
     <string name="settings_debug_messages_title">Показати інформацію, щодо виправлення неполадок</string>
     <string name="error_couldnt_determine_openhab_url">Не вдалося визначити адресу openHAB</string>
     <string name="unknown">Невідомо</string>
-    <string name="error_network_type_unsupported">Тип мережі (%s) не підтримується</string>
+    <string name="error_network_type_unsupported">Тип мережі не підтримується</string>
     <string name="set">Встановити</string>
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
@@ -223,6 +232,10 @@
     <string name="view_log">Переглянути журнал</string>
     <string name="clear_log">Очистити журнал</string>
     <string name="empty_log">Журнал порожній</string>
+    <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Прикріпити на домашню сторінку</string>
+    <string name="home_shortcut_error_pinning">Неможливо прикріпити на домашню сторінку</string>
+    <string name="home_shortcut_success_pinning">Прикріплено на домашню сторінку</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Відкрити ролети</string>
     <string name="content_description_stop_roller_shutter">Зупинити ролети</string>
@@ -250,4 +263,15 @@
     <string name="app_intro_skip_button">ПРОПУСТИТИ</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">ВИКОНАНО</string>
+    <!-- Item picker -->
+    <string name="item_picker_list_empty">Об’єкт не знайдено</string>
+    <string name="item_picker_list_error">Помилка при завантажені об’єкта</string>
+    <string name="item_picker_custom">Користувацький</string>
+    <string name="item_picker_dialog_title">Виберіть стан</string>
+    <string name="item_picker">Об’єкти openHAB</string>
+    <string name="item_picker_blurb">Встановити \"%s\" (%s) в \"%s\"</string>
+    <string name="search">Пошук</string>
+    <string name="settings_tasker_plugin">Інтеграція з Tasker</string>
+    <string name="settings_tasker_plugin_summary">Увімкнути додаток дій Tasker, який дозволить оновляти об’єкти через Tasker або сумісні програми</string>
+    <string name="turn_on">Увімкнути</string>
 </resources>

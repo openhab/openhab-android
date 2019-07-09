@@ -162,7 +162,6 @@
     <string name="settings_debug_messages_title">Cведения об устранении неполадок</string>
     <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
     <string name="unknown">Неизвестно</string>
-    <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
     <string name="set">Установить</string>
     <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
@@ -174,6 +173,7 @@
     <string name="view_log">Просмотр журнала</string>
     <string name="clear_log">Очистить журнал</string>
     <string name="empty_log">Журнал пуст</string>
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Открыть рольставни</string>
     <string name="content_description_stop_roller_shutter">Остановить рольставни</string>
@@ -199,4 +199,5 @@
     <string name="app_intro_skip_button">ПРОПУСТИТЬ</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">ГОТОВО</string>
+    <!-- Item picker -->
 </resources>

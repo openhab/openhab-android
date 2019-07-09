@@ -166,7 +166,6 @@
     <string name="settings_debug_messages_title">Vis informasjon for feilsøking</string>
     <string name="error_couldnt_determine_openhab_url">Kunne ikke bestemme URL for openHAB</string>
     <string name="unknown">Ukjent</string>
-    <string name="error_network_type_unsupported">Nettverkstype (%s) støttes ikke</string>
     <string name="set">Sett</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>
@@ -174,6 +173,7 @@
     <string name="go_to_settings_button">Gå til innstillinger</string>
     <string name="resolving_openhab">Forsøker å finne openHAB-server instans\u2026</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Åpne rullegardiner</string>
     <string name="content_description_stop_roller_shutter">Stopp rullegardiner</string>
@@ -199,4 +199,5 @@
     <string name="app_intro_skip_button">HOPP OVER</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">UTFØRT</string>
+    <!-- Item picker -->
 </resources>

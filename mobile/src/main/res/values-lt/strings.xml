@@ -83,10 +83,10 @@
     <string name="about_license_title">Licencija</string>
     <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
     <string name="unknown">Nežinoma</string>
-    <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
     <string name="set">Nustatyti</string>
     <string name="cancel">Atšaukti</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <!-- Intro strings -->
     <string name="app_intro">Intro</string>
@@ -96,4 +96,5 @@
     <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
     <!-- Intro "SKIP" button -->
     <!-- Intro "DONE" button -->
+    <!-- Item picker -->
 </resources>

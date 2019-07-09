@@ -13,7 +13,7 @@
     <security>• Güvenlik: ZoneMinder, DSC,...</security>
     <open_protocols>• Açık protokoller: HTTP, TCP/UDP, MQTT, Serial,...</open_protocols>
     <special_useCases>• Özel Kullanım Örnekleri: Minecraft, Tesla Car, Hava Durumu hizmetleri,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps/>
 
     <oss_community>Açık Kaynak Topluluğu</oss_community>
     <forum>openHAB açık kaynak girişimi, canlı topluluğunu güçlü bir şekilde destekliyor. Forum 13,000 kayıtlı kullanıcı ile rehberlik, yardım ve ilham bulmak için bir yerdir. openHAB topluluk forumu' na katıl: https://community.openhab.org</forum>
@@ -28,8 +28,6 @@
     <fdroid/>
     <fdroid_beta><![CDATA[Beta sürümünü <a href="https://f-droid.org/packages/org.openhab.habdroid/">kararlı sürüm</a> ile birlikte kurabilirsiniz.]]></fdroid_beta>
     <fdroid_privacy_policy>Gizlilik Politikası: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti Özellikleri</fdroid_anti_features>
-    <fdroid_anti_features_text>openHAB simgesi ücretsiz bir lisans altında olmadığı için uygulama "NonFreeAsset" bayrağıyla işaretlenmiştir.</fdroid_anti_features_text>
     <beta>Yeni özellikleri deneyin ve erken geri bildirimde bulunun!</beta>
     <play_beta>Beta sürümünü, kararlı sürümün yanında da yükleyebilirsiniz.</play_beta>
 </strings>

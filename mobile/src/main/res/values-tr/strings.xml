@@ -71,8 +71,6 @@
     <string name="turn_off">Kapat</string>
     <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
     <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
-    <string name="app_shortcut_diabled_habpanel">Sunucunuzda yüklü HABPanel yok</string>
-    <string name="app_shortcut_diabled_notifications">Uzak sunucu kullanılamıyor</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
     <string name="error_sitemap_generic_load_error">Sitemap yüklenmemiş olabilir. Şu hata oluştu: %1$s</string>
@@ -158,7 +156,6 @@
     <string name="about_license_title">Lisans</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
     <string name="unknown">Bilinmeyen</string>
-    <string name="error_network_type_unsupported">(%s) Network tipi desteklenmiyor</string>
     <string name="set">Ayarla</string>
     <string name="cancel">İptal Et</string>
     <string name="no_remote_server">Yerel sunucuya bağlantı başarısız oldu ve yapılandırılmış bir uzak sunucunuz yok</string>
@@ -169,6 +166,7 @@
     <string name="view_log">Sistem günlüklerini göster</string>
     <string name="clear_log">Sistem günlüklerini temizle</string>
     <string name="empty_log">Günlük kaydı boş</string>
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Panjurları aç</string>
     <string name="content_description_stop_roller_shutter">Kepenkleri durdur</string>
@@ -193,4 +191,5 @@
     <string name="app_intro_skip_button">GEÇ</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">TAMAM</string>
+    <!-- Item picker -->
 </resources>

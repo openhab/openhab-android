@@ -68,7 +68,6 @@
     <string name="turn_off">إيقاف</string>
     <string name="info_conn_url">الاتصال بالعنوان المحلي</string>
     <string name="info_conn_rem_url">الاتصال بالعنوان البعيد</string>
-    <string name="app_shortcut_diabled_notifications">الملقم البعيد غير متوفر</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB يُرجع قائمة sitemap خالية</string>
     <string name="error_network_not_available">شبكة غير متاحة</string>
@@ -140,7 +139,6 @@
     <string name="about_translation">ساعدنا في ترجمة openHAB</string>
     <string name="error_couldnt_determine_openhab_url">لا يمكن تحديد عنوان openHAB</string>
     <string name="unknown">غير معروف</string>
-    <string name="error_network_type_unsupported">نوع الشبكة (%s) غير مدعوم</string>
     <string name="set">تعيين</string>
     <string name="cancel">إلغاء</string>
     <string name="close">إغلاق</string>
@@ -148,6 +146,7 @@
     <string name="go_to_settings_button">اذهب إلى الإعدادات</string>
     <string name="resolving_openhab">يحاول إكتشاف نموذج خادم openHAB \u2026</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">إفتح الإسطوانة</string>
     <string name="content_description_stop_roller_shutter">أوقف الإسطوانة</string>
@@ -169,4 +168,5 @@
     <string name="app_intro_skip_button">تخطي</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">تم</string>
+    <!-- Item picker -->
 </resources>

@@ -13,7 +13,7 @@
     <security/>
     <open_protocols/>
     <special_useCases/>
-    <empty_point/>
+    <automation_apps/>
 
     <oss_community/>
     <forum>  </forum>
@@ -28,8 +28,6 @@
     <fdroid/>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy/>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
     <beta/>
     <play_beta/>
 </strings>
