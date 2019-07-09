@@ -70,8 +70,6 @@
     <string name="turn_off">Uitzetten</string>
     <string name="info_conn_url">Verbinden met ingestelde URL</string>
     <string name="info_conn_rem_url">Verbinden naar externe URL</string>
-    <string name="app_shortcut_diabled_habpanel">Op uw server is HABPanel niet geïnstalleerd</string>
-    <string name="app_shortcut_diabled_notifications">Uw externe server is niet beschikbaar</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
     <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
