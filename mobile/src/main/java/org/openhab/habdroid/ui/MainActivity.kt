@@ -964,10 +964,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private sealed class PendingAction {
-        class ChooseSitemap() : PendingAction()
-        class OpenSitemapUrl constructor(val url : String) : PendingAction()
-        class OpenHabPanel() : PendingAction()
-        class LaunchVoiceRecognition() : PendingAction()
+        class ChooseSitemap : PendingAction()
+        class OpenSitemapUrl constructor(val url: String) : PendingAction()
+        class OpenHabPanel : PendingAction()
+        class LaunchVoiceRecognition : PendingAction()
         class OpenNotification constructor(val notificationId: String) : PendingAction()
     }
 
