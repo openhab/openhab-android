@@ -71,8 +71,6 @@
     <string name="turn_off">关闭</string>
     <string name="info_conn_url">正在连接到本地 URL</string>
     <string name="info_conn_rem_url">正在连接到远程 URL</string>
-    <string name="app_shortcut_diabled_habpanel">您的服务器未安装 HAB 面板</string>
-    <string name="app_shortcut_diabled_notifications">您的远程服务器不可用</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
     <string name="error_sitemap_generic_load_error">无法载入站点地图。发生错误：%1$s</string>
