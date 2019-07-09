@@ -119,25 +119,25 @@ abstract class ContentController protected constructor(private val activity: Mai
         for ((page, fragment) in pageStack) {
             pages.add(page)
             if (fragment.isAdded) {
-                fm.putFragment(state, "pageFragment-${page.link}", fragment)
+                fm.putFragment(state, makeStateKeyForPage(page), fragment)
             }
         }
-        state.putParcelable("controllerSitemap", currentSitemap)
+        state.putParcelable(STATE_KEY_SITEMAP, currentSitemap)
         sitemapFragment?.let { page ->
             if (page.isAdded) {
-                fm.putFragment(state, "sitemapFragment", page)
+                fm.putFragment(state, STATE_KEY_SITEMAP_FRAGMENT, page)
             }
         }
         if (defaultProgressFragment.isAdded) {
-            fm.putFragment(state, "progressFragment", defaultProgressFragment)
+            fm.putFragment(state, STATE_KEY_PROGRESS_FRAGMENT, defaultProgressFragment)
         }
-        state.putParcelableArrayList("controllerPages", pages)
+        state.putParcelableArrayList(STATE_KEY_PAGES, pages)
         temporaryPage?.let { page ->
-            fm.putFragment(state, "temporaryPage", page)
+            fm.putFragment(state, STATE_KEY_TEMPORARY_PAGE, page)
         }
         noConnectionFragment?.let { page ->
             if (page.isAdded) {
-                fm.putFragment(state, "errorFragment", page)
+                fm.putFragment(state, STATE_KEY_ERROR_FRAGMENT, page)
             }
         }
     }
@@ -149,25 +149,23 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param state Bundle including previously saved state
      */
     open fun onRestoreInstanceState(state: Bundle) {
-        currentSitemap = state.getParcelable("controllerSitemap")
+        currentSitemap = state.getParcelable(STATE_KEY_SITEMAP)
         currentSitemap?.let { sitemap ->
-            sitemapFragment = fm.getFragment(state, "sitemapFragment") as WidgetListFragment?
-            if (sitemapFragment == null) {
-                sitemapFragment = makeSitemapFragment(sitemap)
-            }
+            sitemapFragment = fm.getFragment(state, STATE_KEY_SITEMAP_FRAGMENT) as WidgetListFragment?
+                ?: makeSitemapFragment(sitemap)
         }
-        val progressFragment = fm.getFragment(state, "progressFragment")
+        val progressFragment = fm.getFragment(state, STATE_KEY_PROGRESS_FRAGMENT)
         if (progressFragment != null) {
             defaultProgressFragment = progressFragment
         }
 
         pageStack.clear()
-        state.getParcelableArrayList<LinkedPage>("controllerPages")?.forEach { page ->
-            val f = fm.getFragment(state, "pageFragment-${page.link}") as WidgetListFragment?
+        state.getParcelableArrayList<LinkedPage>(STATE_KEY_PAGES)?.forEach { page ->
+            val f = fm.getFragment(state, makeStateKeyForPage(page)) as WidgetListFragment?
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }
-        temporaryPage = fm.getFragment(state, "temporaryPage")
-        noConnectionFragment = fm.getFragment(state, "errorFragment")
+        temporaryPage = fm.getFragment(state, STATE_KEY_TEMPORARY_PAGE)
+        noConnectionFragment = fm.getFragment(state, STATE_KEY_ERROR_FRAGMENT)
     }
 
     /**
@@ -689,6 +687,14 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     companion object {
         private val TAG = ContentController::class.java.simpleName
+
+        private const val STATE_KEY_SITEMAP = "controllerSitemap"
+        private const val STATE_KEY_PAGES = "controllerPages"
+        private const val STATE_KEY_SITEMAP_FRAGMENT = "sitemapFragment"
+        private const val STATE_KEY_PROGRESS_FRAGMENT = "progressFragment"
+        private const val STATE_KEY_ERROR_FRAGMENT = "errorFragment"
+        private const val STATE_KEY_TEMPORARY_PAGE = "temporaryPage"
+        private fun makeStateKeyForPage(page: LinkedPage) = "pageFragment-${page.link}"
 
         @AnimRes
         internal fun determineEnterAnim(reason: FragmentUpdateReason): Int {

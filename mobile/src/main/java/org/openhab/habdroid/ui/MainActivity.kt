@@ -160,8 +160,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
-            serverProperties = savedInstanceState.getParcelable("serverProperties")
-            val lastConnectionHash = savedInstanceState.getInt("connectionHash")
+            serverProperties = savedInstanceState.getParcelable(STATE_KEY_SERVER_PROPERTIES)
+            val lastConnectionHash = savedInstanceState.getInt(STATE_KEY_CONNECTION_HASH)
             if (lastConnectionHash != -1) {
                 val c = ConnectionFactory.usableConnectionOrNull
                 if (c != null && c.hashCode() == lastConnectionHash) {
@@ -170,14 +170,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
 
             controller.onRestoreInstanceState(savedInstanceState)
-            val lastControllerClass = savedInstanceState.getString("controller")
+            val lastControllerClass = savedInstanceState.getString(STATE_KEY_CONTROLLER_NAME)
             if (controller.javaClass.canonicalName != lastControllerClass) {
                 // Our controller type changed, so we need to make the new controller aware of the
                 // page hierarchy. If the controller didn't change, the hierarchy will be restored
                 // via the fragment state restoration.
                 controller.recreateFragmentState()
             }
-            if (savedInstanceState.getBoolean("isSitemapSelectionDialogShown")) {
+            if (savedInstanceState.getBoolean(STATE_KEY_SITEMAP_SELECTION_SHOWN)) {
                 showSitemapSelectionDialog()
             }
 
@@ -353,10 +353,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         Log.d(TAG, "onSaveInstanceState()")
         isStarted = false
         with(savedInstanceState) {
-            putParcelable("serverProperties", serverProperties)
-            putBoolean("isSitemapSelectionDialogShown", sitemapSelectionDialog?.isShowing == true)
-            putString("controller", controller.javaClass.canonicalName)
-            putInt("connectionHash", connection?.hashCode() ?: -1)
+            putParcelable(STATE_KEY_SERVER_PROPERTIES, serverProperties)
+            putBoolean(STATE_KEY_SITEMAP_SELECTION_SHOWN, sitemapSelectionDialog?.isShowing == true)
+            putString(STATE_KEY_CONTROLLER_NAME, controller.javaClass.canonicalName)
+            putInt(STATE_KEY_CONNECTION_HASH, connection?.hashCode() ?: -1)
             controller.onSaveInstanceState(this)
         }
         super.onSaveInstanceState(savedInstanceState)
@@ -995,6 +995,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
         const val EXTRA_SITEMAP_URL = "sitemapUrl"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
+
+        private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
+        private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"
+        private const val STATE_KEY_CONTROLLER_NAME = "controller"
+        private const val STATE_KEY_CONNECTION_HASH = "connectionHash"
 
         private val TAG = MainActivity::class.java.simpleName
 
