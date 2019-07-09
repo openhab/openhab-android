@@ -56,7 +56,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -364,12 +366,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onBackPressed() {
         Log.d(TAG, "onBackPressed()")
-        if (controller.canGoBack()) {
-            controller.goBack()
-        } else if (!isFullscreenEnabled) {
-            // Only handle back action in non-fullscreen mode, as we don't want to exit
-            // the app via back button in fullscreen mode
-            super.onBackPressed()
+        when {
+            controller.canGoBack() -> controller.goBack()
+            isFullscreenEnabled -> when {
+                lastSnackbar?.isShown != true ->
+                    showSnackbar(R.string.press_back_to_exit, tag = TAG_SNACKBAR_PRESS_AGAIN_EXIT)
+                lastSnackbar?.view?.tag?.toString() == TAG_SNACKBAR_PRESS_AGAIN_EXIT -> super.onBackPressed()
+                else -> showSnackbar(R.string.press_back_to_exit, tag = TAG_SNACKBAR_PRESS_AGAIN_EXIT)
+            }
+            else -> super.onBackPressed()
         }
     }
 
@@ -881,6 +886,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun showSnackbar(
         @StringRes messageResId: Int,
         @StringRes actionResId: Int = 0,
+        tag: String? = null,
         onClickListener: (() -> Unit)? = null
     ) {
         hideSnackbar()
@@ -888,6 +894,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }
+        snackbar.view.tag = tag
         snackbar.show()
         lastSnackbar = snackbar
     }
@@ -995,6 +1002,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
         const val EXTRA_SITEMAP_URL = "sitemapUrl"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
+        const val TAG_SNACKBAR_PRESS_AGAIN_EXIT = "pressAgainToExit"
 
         private val TAG = MainActivity::class.java.simpleName
 
