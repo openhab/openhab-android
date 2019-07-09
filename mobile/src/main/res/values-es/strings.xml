@@ -71,9 +71,6 @@
     <string name="turn_off">Desactivar</string>
     <string name="info_conn_url">Conectando a la URL local</string>
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
-    <string name="app_shortcut_diabled_habpanel">El servidor no tiene instalado HABPanel</string>
-    <string name="app_shortcut_diabled_notifications">El servidor remoto no está disponible</string>
-    <string name="app_shortcut_diabled_voice_recognition">Su dispositivo no tiene una aplicación de reconocimiento de voz instalada</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de Sitemaps vacía</string>
     <string name="error_sitemap_generic_load_error">No se pudo cargar el Sitemap. Ocurrió el siguiente error: %1$s</string>
