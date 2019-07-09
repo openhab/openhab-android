@@ -156,7 +156,7 @@ dependencies {
         transitive = true
     }
 
-    testImplementation 'org.mockito:mockito-core:2.28.2'
+    testImplementation 'org.mockito:mockito-core:3.0.0'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.json:json:20180813'
