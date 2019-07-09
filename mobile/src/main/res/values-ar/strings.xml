@@ -68,7 +68,6 @@
     <string name="turn_off">إيقاف</string>
     <string name="info_conn_url">الاتصال بالعنوان المحلي</string>
     <string name="info_conn_rem_url">الاتصال بالعنوان البعيد</string>
-    <string name="app_shortcut_diabled_notifications">الملقم البعيد غير متوفر</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB يُرجع قائمة sitemap خالية</string>
     <string name="error_network_not_available">شبكة غير متاحة</string>
