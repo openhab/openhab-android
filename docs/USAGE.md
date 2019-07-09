@@ -106,6 +106,10 @@ All notifications are sent as "high priority" messages, which means that the dev
 However vendors/third parties can implement custom "cleanup", "optimization" and "battery saver" apps, which might lead to delayed notifications.
 Please have a look at [dontkillmyapp.com](https://dontkillmyapp.com/) how to make an exception for openHAB in these apps.
 
+### My voice command rule isn't run
+
+Please make sure `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/paperui/index.html#/configuration/system) and `Rule Voice Interpreter` => `Configure` => Select correct item (http://openhab:8080/paperui/index.html#/configuration/services?tab=voice).
+
 ## Trademark Disclaimer
 
 Google Play and the Google Play logo are trademarks of Google Inc.
