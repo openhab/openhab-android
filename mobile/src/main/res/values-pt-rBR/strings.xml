@@ -71,8 +71,6 @@
     <string name="turn_off">Desligar</string>
     <string name="info_conn_url">Conectando a URL local</string>
     <string name="info_conn_rem_url">Conectando a URL local</string>
-    <string name="app_shortcut_diabled_habpanel">Seu servidor não tem o HABPanel instalado</string>
-    <string name="app_shortcut_diabled_notifications">Seu servidor remoto não está disponível</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB retornou uma lista de Sitemap vazia</string>
     <string name="error_sitemap_generic_load_error">O Sitemap não pôde ser carregado. Ocorreu o seguinte erro: %1$s</string>
