@@ -7,7 +7,7 @@
     <include layout="@layout/widgetlist_iconsmallvaluetext" />
 
     <RadioGroup
-        android:id="@+id/switchgroup"
+        android:id="@+id/switch_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

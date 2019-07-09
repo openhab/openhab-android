@@ -36,7 +36,7 @@ class AsyncServiceResolver(
     // Multicast lock for mDNS
     private val multicastLock: MulticastLock
     // mDNS service
-    private var jmdns: JmDNS? = null
+    private var jmDns: JmDNS? = null
     private val serviceInfoChannel = Channel<ServiceInfo>(0)
 
     private val localIpv4Address: InetAddress? get() {
@@ -77,8 +77,8 @@ class AsyncServiceResolver(
         Log.i(TAG, "Discovering service $serviceType")
 
         withContext(Dispatchers.IO) {
-            jmdns = JmDNS.create(localIpv4Address)
-            jmdns?.addServiceListener(serviceType, this@AsyncServiceResolver)
+            jmDns = JmDNS.create(localIpv4Address)
+            jmDns?.addServiceListener(serviceType, this@AsyncServiceResolver)
         }
 
         val info = withTimeoutOrNull(DEFAULT_DISCOVERY_TIMEOUT) {
@@ -86,13 +86,13 @@ class AsyncServiceResolver(
         }
 
         multicastLock.release()
-        jmdns?.close()
+        jmDns?.close()
         return info
     }
 
     override fun serviceAdded(event: ServiceEvent) {
         Log.d(TAG, "Service added ${event.name}")
-        jmdns?.requestServiceInfo(event.type, event.name, 1)
+        jmDns?.requestServiceInfo(event.type, event.name, 1)
     }
 
     override fun serviceRemoved(event: ServiceEvent) {}

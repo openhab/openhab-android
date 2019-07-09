@@ -48,7 +48,7 @@ class WidgetTest {
     }
 
     @Test
-    fun getIconPath_iconExists_returnIconUrlfromImages() {
+    fun getIconPath_iconExists_returnIconUrlFromImages() {
         assertEquals("images/groupicon.png", sutXml[0].iconPath)
     }
 
@@ -249,7 +249,7 @@ class WidgetTest {
     /**
      * @param id get different json objects depending on the id
      * 1: All values are set
-     * 2: Different colors, no periode, max step size < 1, chart refresh < 100
+     * 2: Different colors, no period, max step size < 1, chart refresh < 100
      * 3: Frame with Slider, Rollershutter switch and Rollershutter group
      *
      * @return JSON object

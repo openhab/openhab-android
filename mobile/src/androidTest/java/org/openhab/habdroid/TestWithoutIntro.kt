@@ -30,7 +30,7 @@ abstract class TestWithoutIntro : ProgressbarAwareTest() {
                 putString(Constants.PREFERENCE_SITEMAP_LABEL, "Main Menu")
             }
 
-            putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+            putBoolean(Constants.PREFERENCE_DEMO_MODE, true)
             putBoolean(Constants.PREFERENCE_FIRST_START, false).commit()
         }
 

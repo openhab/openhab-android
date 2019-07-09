@@ -23,7 +23,7 @@ abstract class TestWithIntro : ProgressbarAwareTest() {
     override fun setup() {
         InstrumentationRegistry.getTargetContext().getPrefs().edit {
             putString(Constants.PREFERENCE_SITEMAP_NAME, "")
-            putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+            putBoolean(Constants.PREFERENCE_DEMO_MODE, true)
             putBoolean(Constants.PREFERENCE_FIRST_START, true)
         }
 

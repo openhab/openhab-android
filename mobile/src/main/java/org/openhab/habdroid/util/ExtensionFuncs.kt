@@ -149,8 +149,8 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
 
         if (docWidth != targetSize || docHeight != targetSize) {
             val scaleWidth = targetSize.toFloat() / docWidth
-            val scaleHeigth = targetSize.toFloat() / docHeight
-            density = (scaleWidth + scaleHeigth) / 2
+            val scaleHeight = targetSize.toFloat() / docHeight
+            density = (scaleWidth + scaleHeight) / 2
         }
 
         val bitmap = Bitmap.createBitmap(targetSize, targetSize, Bitmap.Config.ARGB_8888)

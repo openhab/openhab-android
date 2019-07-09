@@ -83,9 +83,9 @@
     <string name="turn_off">Turn off</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
-    <string name="app_shortcut_diabled_habpanel">Your server doesn\'t have HABPanel installed</string>
-    <string name="app_shortcut_diabled_notifications">Your remote server isn\'t available</string>
-    <string name="app_shortcut_diabled_voice_recognition">Your device doesn\'t have a voice recognition app installed</string>
+    <string name="app_shortcut_disabled_habpanel">Your server doesn\'t have HABPanel installed</string>
+    <string name="app_shortcut_disabled_notifications">Your remote server isn\'t available</string>
+    <string name="app_shortcut_disabled_voice_recognition">Your device doesn\'t have a voice recognition app installed</string>
 
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>

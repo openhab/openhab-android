@@ -35,7 +35,7 @@ class VoiceRecognitionTest : TestWithoutIntro() {
     }
 
     @Test
-    fun checkVoiceAvailbility() {
+    fun checkVoiceAvailability() {
         val voice = onView(allOf<View>(
                 withId(R.id.mainmenu_voice_recognition),
                 withContentDescription("Voice recognition"),

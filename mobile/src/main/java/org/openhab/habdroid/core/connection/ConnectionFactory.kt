@@ -175,7 +175,7 @@ class ConnectionFactory internal constructor(
 
     private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
         val clientCertAlias = if (prefs.isDemoModeEnabled()) // No client cert in demo mode
-            null else prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null)
+            null else prefs.getString(Constants.PREFERENCE_SSL_CLIENT_CERT, null)
         val keyManagers = if (clientCertAlias != null)
             arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
 
@@ -372,13 +372,13 @@ class ConnectionFactory internal constructor(
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
         private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
-            Constants.PREFERENCE_DEMOMODE, Constants.PREFERENCE_SSLCLIENTCERT
+            Constants.PREFERENCE_DEMO_MODE, Constants.PREFERENCE_SSL_CLIENT_CERT
         )
         private val UPDATE_TRIGGERING_KEYS = listOf(
             Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
             Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
             Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
-            Constants.PREFERENCE_SSLCLIENTCERT, Constants.PREFERENCE_DEMOMODE
+            Constants.PREFERENCE_SSL_CLIENT_CERT, Constants.PREFERENCE_DEMO_MODE
         )
 
         @VisibleForTesting lateinit var instance: ConnectionFactory

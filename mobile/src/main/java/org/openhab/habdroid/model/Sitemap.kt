@@ -91,7 +91,7 @@ fun JSONArray.toSitemapList(): List<Sitemap> {
 }
 
 fun List<Sitemap>.sortedWithDefaultName(defaultSitemapName: String): List<Sitemap> {
-    // Sort by sitename label, the default sitemap should be the first one
+    // Sort by site name label, the default sitemap should be the first one
     return sortedWith(Comparator { lhs, rhs ->
         when (defaultSitemapName) {
             lhs.name -> -1

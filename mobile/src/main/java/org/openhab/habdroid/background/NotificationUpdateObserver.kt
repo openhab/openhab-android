@@ -75,14 +75,14 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         // - failed
         val hasEnqueuedWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.ENQUEUED }
         val hasRunningWork = latestInfoByTag.any { (_, info) -> info.state == WorkInfo.State.FAILED }
-        val failedInfos = latestInfoByTag.filter { (_, info) -> info.state == WorkInfo.State.FAILED }
+        val failedInfoList = latestInfoByTag.filter { (_, info) -> info.state == WorkInfo.State.FAILED }
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (failedInfos.isNotEmpty()) {
+        if (failedInfoList.isNotEmpty()) {
             // show error notification
             val errors = ArrayList<CharSequence>()
-            val retryInfos = ArrayList<BackgroundTasksManager.RetryInfo>()
-            for ((tag, info) in failedInfos) {
+            val retryInfoList = ArrayList<BackgroundTasksManager.RetryInfo>()
+            for ((tag, info) in failedInfoList) {
                 val data = info.outputData
                 val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM)
                 val value = data.getString(ItemUpdateWorker.OUTPUT_DATA_VALUE)
@@ -90,7 +90,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val httpStatus = data.getInt(ItemUpdateWorker.OUTPUT_DATA_HTTP_STATUS, 0)
 
                 if (itemName != null && value != null) {
-                    retryInfos.add(BackgroundTasksManager.RetryInfo(tag, itemName, value))
+                    retryInfoList.add(BackgroundTasksManager.RetryInfo(tag, itemName, value))
                 }
                 errors.add(if (hadConnection) {
                     context.getString(R.string.item_update_http_error, itemName, httpStatus)
@@ -98,7 +98,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     context.getString(R.string.item_update_connection_error, itemName)
                 })
             }
-            val n = createErrorNotification(context, errors, retryInfos)
+            val n = createErrorNotification(context, errors, retryInfoList)
             createNotificationChannels(context)
             nm.notify(NOTIFICATION_ID_BACKGROUND_WORK, n)
         } else if (hasRunningWork || hasEnqueuedWork) {
@@ -161,7 +161,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         private fun createErrorNotification(
             context: Context,
             errors: ArrayList<CharSequence>,
-            retryInfos: ArrayList<BackgroundTasksManager.RetryInfo>
+            retryInfoList: ArrayList<BackgroundTasksManager.RetryInfo>
         ): Notification {
             val text = context.resources.getQuantityString(R.plurals.item_update_error_title,
                 errors.size, errors.size)
@@ -186,10 +186,10 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     .setBigContentTitle(text))
             }
 
-            if (retryInfos.isNotEmpty()) {
+            if (retryInfoList.isNotEmpty()) {
                 val retryIntent = Intent(context, BackgroundTasksManager::class.java)
                     .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
-                    .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFOS, retryInfos)
+                    .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFO_LIST, retryInfoList)
                 val retryPendingIntent = PendingIntent.getBroadcast(context, 0,
                     retryIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 nb.addAction(NotificationCompat.Action(R.drawable.ic_refresh_grey_24dp,

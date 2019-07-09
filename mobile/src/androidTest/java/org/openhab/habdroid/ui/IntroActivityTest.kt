@@ -85,9 +85,9 @@ class IntroActivityTest : TestWithIntro() {
         setupRegisterIdlingResources()
 
         // Do we see the sitemap?
-        val firstfloor = onView(
+        val firstFloor = onView(
                 allOf<View>(withId(R.id.widgetlabel), withText("First Floor"), isDisplayed()))
-        firstfloor.check(matches(withText("First Floor")))
+        firstFloor.check(matches(withText("First Floor")))
     }
 
     @Test
@@ -124,8 +124,8 @@ class IntroActivityTest : TestWithIntro() {
         setupRegisterIdlingResources()
 
         // Do we see the sitemap?
-        val firstfloor = onView(
+        val firstFloor = onView(
                 allOf<View>(withId(R.id.widgetlabel), withText("First Floor"), isDisplayed()))
-        firstfloor.check(matches(withText("First Floor")))
+        firstFloor.check(matches(withText("First Floor")))
     }
 }
