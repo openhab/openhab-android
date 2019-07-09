@@ -136,7 +136,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onDisplayPreferenceDialog(preference: Preference?) {
-            if (preference == null) {
+            val fragmentManager = this.fragmentManager
+            if (preference == null || fragmentManager == null) {
                 return
             }
             val showDialog: (DialogFragment) -> Unit = { fragment ->

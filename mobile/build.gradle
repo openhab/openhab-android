@@ -98,6 +98,9 @@ android {
     androidExtensions {
         experimental = true // For Parcelize
     }
+    packagingOptions {
+        exclude 'META-INF/library-core_release.kotlin_module'
+    }
 }
 
 repositories {
