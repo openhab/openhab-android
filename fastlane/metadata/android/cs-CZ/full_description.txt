@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - open source program pro domácí automatizaci IoT zařízení od různých výrobců s různou technologií
 
-Sestavení pro F-Droid má mapové zobrazení, FCM a reporty o chybách odebrány a nemůže přijímat push notifikace z openHAB Cloud.
+Sestavení pro F-Droid má FCM a reporty o chybách odebrány a nemůže přijímat push notifikace z openHAB Cloud.
 Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!
 Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.
 
@@ -21,7 +21,7 @@ Více než 200 doplňků přidává podporu pro značky, zařízení, technologi
 • Domácí zábava: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
 • Bezpečnost: ZoneMinder, DSC,...
 • Otevřené protokoly: HTTP, TCP/UDP, MQTT, sériový,...
-• Automation apps: Includes plugins for Tasker and Locale
+• Automatizační aplikace: Zahrnuje pluginy pro Tasker a Locale
 • Speciální použití: Minecraft, automobil Tesla, meteorologické služby,...
 
 <b>Open Source komunita</b>

@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver
 
-A F-Droidra verziónak van térképnézet támogatása, FCM és hibajelentést el lett belőle távolítva, illetve nem képes push értesítések fogadására az openHAB felhőből.
+Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből.
 Próbáld ki az új funkciókat és adj korai visszajelzést!
 A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.
 
@@ -22,7 +22,7 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
 • Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
 • Biztonság: ZoneMinder, DSC, ...
 • Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...
-• Automation apps: Includes plugins for Tasker and Locale
+Automatizáló alkalmazások: Tartalmazza a Tasker-t és helymeghatározást
 • Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Időjárási szolgáltatások, ...
 
 <b>Nyílt forráskódú közösség</b>

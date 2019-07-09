@@ -1,0 +1,11 @@
+## Added
+* Add ability to pin HABPanel shortcut to home (#1403)
+* Require pressing back twice to exit app in fullscreen (#1420)
+
+## Fixed
+* Fix IllegalStateException. (#1434)
+* Fix typo in content controller instance state key. (#1435)
+* Catch IOException when attempting FCM registration. (#1438)
+
+## Changed
+* Handle row click for MapView items (#1418)

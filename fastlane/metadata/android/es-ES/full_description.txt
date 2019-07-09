@@ -1,6 +1,6 @@
 openHAB - "potenciando el hogar inteligente" - automatización del hogar en código abierto independiente del proveedor y la tecnología
 
-Las versiones basadas en F-Droid no tienen soporte para vista de mapa, FCM o informes de errores, y no podrán recibir notificaciones push de openHAB Cloud.
+A las versiones basadas en F-Droid se les ha eliminado el soporte para FCM y los informes de errores, y no podrán recibir notificaciones push de openHAB Cloud.
 ¡Pruebe las nuevas características y repórtenos su experiencia!
 Puede instalar la versión beta junto a la <a href="https://f-droid.org/packages/org.openhab.habdroid/">versión estable</a>.
 
@@ -21,7 +21,7 @@ Más de 200 complementos específicos proporcionan soporte para distintas marcas
 • Entretenimiento: TV Samsung, TV LG, Sonos, AVR Pioneer, Squeezebox, Kodi, Plex,...
 • Seguridad: ZoneMinder, DSC,...
 • Protocolos abiertos: HTTP, TCP/UDP, MQTT, puerto serie,...
-• Automation apps: Includes plugins for Tasker and Locale
+• Apps de automatización: Incluyen plugins para Tasker y Locale
 • Usos especiales: Minecraft, Tesla coche, servicios,...
 
 <b>Comunidad de código abierto</b>

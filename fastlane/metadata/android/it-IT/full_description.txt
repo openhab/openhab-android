@@ -1,12 +1,12 @@
 openHAB - "empowering the smart home" - open source home automation indipendente da tecnologia e produttore
 
-Il compilato su F-Droid ha il supporto per map-view, FCM e crash reporting rimosso e non sara' in grado di ricevere notifiche da openHAB cloud.
+Il compilato su F-Droid ha il supporto per FCM e crash reporting rimosso e non sarà in grado di ricevere notifiche da openHAB cloud.
 Prova le nuove funzioni e dai un feedback quanto prima!
 È possibile installare la versione beta insieme alla <a href="https://f-droid.org/packages/org.openhab.habdroid/">versione stabile</a>.
 
 <b>Nota importante</b>
 
-E' richiesto un server openHAB per questa applicazione
+È richiesto un server openHAB per questa applicazione
 
 openHAB e' una piattaforma open-source basata su java, che integra e combina una vasta gamma di diversi smart home systems e tecnologie in un'unica soluzione.
 Usando un livello unificato di astrazione, tutti i dispositivi collegati sono disponibili per le regole di automazione e per diverse interfacce utente.
@@ -17,11 +17,11 @@ Oltre 200 componenti aggiuntivi forniscono il supporto per marche, dispositivi, 
 
 • Soluzioni di domotica: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...
 • Illuminazione: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Riscaldamento: Max!, nido, Vitotronic, Heatmiser,...
+• Riscaldamento: Max!, Nest, Vitotronic, Heatmiser,...
 • Home Entertainment: TV Samsung, TV LG, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
 • Sicurezza: ZoneMinder, DSC,...
 • Protocolli aperti: HTTP, TCP/UDP, MQTT, seriale,...
-• Automation apps: Includes plugins for Tasker and Locale
+• Applicazioni automatiche: Include plugin per Tasker e Locale
 • Funzioni speciali: Minecraft, Tesla Car, servizi meteo,...
 
 <b>Comunità Open Source</b>
@@ -32,7 +32,7 @@ Se vuoi aiutare a tradurre l'applicazione nella tua lingua, visita https://crowd
 
 <b>openHAB Foundation</b>
 
-openHAB Foundation e.V. e' una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilita' e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org
+openHAB Foundation e.V. è una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilità e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org
 
 
 Informativa sulla privacy: https://www.openhabfoundation.org/privacy.html
