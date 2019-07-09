@@ -71,9 +71,6 @@
     <string name="turn_off">Wyłącz</string>
     <string name="info_conn_url">Łączenie z lokalnym URL</string>
     <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
-    <string name="app_shortcut_diabled_habpanel">Na twoim serwerze nie ma zainstalowanego HABPanel</string>
-    <string name="app_shortcut_diabled_notifications">Twój serwer zdalny jest niedostępny</string>
-    <string name="app_shortcut_diabled_voice_recognition">Twoje urządzenie nie ma zainstalowanej aplikacji rozpoznającej mowę</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę Sitemap</string>
     <string name="error_sitemap_generic_load_error">Nie można załadować Sitemap. Wystąpił następujący błąd: %1$s</string>
