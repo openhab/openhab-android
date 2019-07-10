@@ -36,6 +36,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
+import java.lang.NullPointerException
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -242,14 +243,19 @@ fun MapView.setMarker(
     canDrag: Boolean,
     onMarkerDragListener: Marker.OnMarkerDragListener
 ) {
-    val marker = Marker(this).apply {
-        setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-        isDraggable = canDrag
-        position = pos
-        title = label?.toString()
-        id = item.name
-        setOnMarkerDragListener(onMarkerDragListener)
-        icon = ContextCompat.getDrawable(context, R.drawable.ic_location_on_red_24dp)
+    val marker: Marker
+    try {
+        marker = Marker(this).apply {
+            setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+            isDraggable = canDrag
+            position = pos
+            title = label?.toString()
+            id = item.name
+            setOnMarkerDragListener(onMarkerDragListener)
+            icon = ContextCompat.getDrawable(context, R.drawable.ic_location_on_red_24dp)
+        }
+    } catch (e: NullPointerException) {
+        return
     }
     overlays.add(marker)
 }
