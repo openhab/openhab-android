@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
@@ -109,7 +110,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         protected abstract val titleResId: Int
 
         protected val parentActivity get() = activity as PreferencesActivity
-        protected val prefs get() = preferenceScreen.sharedPreferences
+        protected val prefs get() = preferenceScreen.sharedPreferences as SharedPreferences
 
         override fun onStart() {
             super.onStart()
@@ -267,34 +268,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreferenceFromHierarchy(taskerPref)
             }
 
-            ringtonePref.setOnPreferenceClickListener { pref ->
-                val currentTone = prefs.getNotificationTone()
-                val chooserIntent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
-                    putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
-                    putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, Settings.System.DEFAULT_NOTIFICATION_URI)
-                    putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, pref.title)
-                    putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
-                    putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
-                    putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, currentTone)
-                }
-                startActivityForResult(chooserIntent, REQUEST_CODE_RINGTONE)
-                true
-            }
-
-            vibrationPref.setOnPreferenceChangeListener { pref, newValue ->
-                updateVibrationPreferenceIcon(pref, newValue as String?)
-                true
-            }
-
-            ringtoneVibrationPref.setOnPreferenceClickListener { pref ->
-                val i = Intent(Settings.ACTION_SETTINGS).apply {
-                    action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                    putExtra(Settings.EXTRA_APP_PACKAGE, pref.context.packageName)
-                }
-                startActivity(i)
-                true
-            }
-
             viewLogPref.setOnPreferenceClickListener { preference ->
                 val logIntent = Intent(preference.context, LogActivity::class.java)
                 startActivity(logIntent)
@@ -315,9 +288,37 @@ class PreferencesActivity : AbstractBaseActivity() {
                 Log.d(TAG, "Removing notification prefs for < 25")
                 preferenceScreen.removePreferenceFromHierarchy(ringtonePref)
                 preferenceScreen.removePreferenceFromHierarchy(vibrationPref)
+
+                ringtoneVibrationPref.setOnPreferenceClickListener { pref ->
+                    val i = Intent(Settings.ACTION_SETTINGS).apply {
+                        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                        putExtra(Settings.EXTRA_APP_PACKAGE, pref.context.packageName)
+                    }
+                    startActivity(i)
+                    true
+                }
             } else {
                 Log.d(TAG, "Removing notification prefs for >= 25")
                 preferenceScreen.removePreferenceFromHierarchy(ringtoneVibrationPref)
+
+                ringtonePref.setOnPreferenceClickListener { pref ->
+                    val currentTone = prefs.getNotificationTone()
+                    val chooserIntent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+                        putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
+                        putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, Settings.System.DEFAULT_NOTIFICATION_URI)
+                        putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, pref.title)
+                        putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+                        putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
+                        putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, currentTone)
+                    }
+                    startActivityForResult(chooserIntent, REQUEST_CODE_RINGTONE)
+                    true
+                }
+
+                vibrationPref.setOnPreferenceChangeListener { pref, newValue ->
+                    updateVibrationPreferenceIcon(pref, newValue as String?)
+                    true
+                }
             }
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -363,7 +364,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 val ringtonePref = findPreference(Constants.PREFERENCE_TONE)
                 updateRingtonePreferenceSummary(ringtonePref, ringtoneUri)
                 prefs.edit {
-                    putString(Constants.PREFERENCE_TONE, if (ringtoneUri != null) ringtoneUri.toString() else "")
+                    putString(Constants.PREFERENCE_TONE, ringtoneUri?.toString() ?: "")
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data)
