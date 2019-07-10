@@ -911,7 +911,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun manageHabPanelShortcut(visible: Boolean) {
-        manageShortcut(visible, "habPanel", ACTION_HABPANEL_SELECTED,
+        manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
             R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
             R.string.app_shortcut_diabled_habpanel)
     }
