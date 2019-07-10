@@ -318,17 +318,21 @@ class ConnectionFactory internal constructor(
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
         private val context: Context = context.applicationContext
 
-        override fun chooseClientAlias(keyType: Array<String>, issuers: Array<Principal>?, socket: Socket?): String? {
+        override fun chooseClientAlias(
+            keyTypes: Array<String>?,
+            issuers: Array<out Principal>?,
+            socket: Socket?
+        ): String? {
             Log.d(TAG, "chooseClientAlias - alias: $alias")
             return alias
         }
 
-        override fun chooseServerAlias(keyType: String, issuers: Array<Principal>?, socket: Socket?): String? {
+        override fun chooseServerAlias(keyType: String?, issuers: Array<out Principal>?, socket: Socket?): String? {
             Log.d(TAG, "chooseServerAlias")
             return null
         }
 
-        override fun getCertificateChain(alias: String): Array<X509Certificate>? {
+        override fun getCertificateChain(alias: String?): Array<X509Certificate>? {
             Log.d(TAG, "getCertificateChain", Throwable())
             return try {
                 KeyChain.getCertificateChain(context, alias)
@@ -341,18 +345,18 @@ class ConnectionFactory internal constructor(
             }
         }
 
-        override fun getClientAliases(keyType: String, issuers: Array<Principal>?): Array<String>? {
+        override fun getClientAliases(keyType: String?, issuers: Array<out Principal>?): Array<String>? {
             Log.d(TAG, "getClientAliases")
             return alias?.let { arrayOf(it) }
         }
 
-        override fun getServerAliases(keyType: String, issuers: Array<Principal>?): Array<String>? {
+        override fun getServerAliases(keyType: String?, issuers: Array<out Principal>?): Array<String>? {
             Log.d(TAG, "getServerAliases")
             return null
         }
 
-        override fun getPrivateKey(alias: String): PrivateKey? {
-            Log.d(TAG, "getPrivateKey", Throwable())
+        override fun getPrivateKey(alias: String?): PrivateKey? {
+            Log.d(TAG, "getPrivateKey")
             return try {
                 KeyChain.getPrivateKey(context, alias)
             } catch (e: KeyChainException) {
