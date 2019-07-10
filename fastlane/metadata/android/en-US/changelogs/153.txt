@@ -1,0 +1,4 @@
+## Fixed
+* Defer sitemap selection until onStart() and refactor pending action handling (#1436)
+* Fix widget visibility tracking algorithm (#1440)
+* Fix nullability of KeyManager callbacks. (#1433)
