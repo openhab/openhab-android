@@ -216,7 +216,7 @@ class WidgetAdapter(
         }
     }
 
-    private tailrec fun isWidgetIncludingAllParentsVisible(widget : Widget): Boolean {
+    private tailrec fun isWidgetIncludingAllParentsVisible(widget: Widget): Boolean {
         if (!widget.visibility) {
             return false
         }
