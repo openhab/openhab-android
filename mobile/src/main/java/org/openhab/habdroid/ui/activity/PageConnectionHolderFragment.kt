@@ -386,7 +386,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         }
 
         internal fun handleUpdateEvent(pageId: String, payload: String) {
-            val widgetList = lastWidgetList ?: return
             try {
                 val jsonObject = JSONObject(payload)
 
@@ -413,30 +412,28 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                     callback.onPageTitleUpdated(url, title)
                     return
                 }
-                val pos = widgetList.indexOfFirst { w -> w.id == widgetId }
-                if (pos >= 0) {
-                    if (callback.serverProperties?.hasInvisibleWidgetSupport() == false &&
-                        !jsonObject.optBoolean("visibility", true)
+
+                val visibility = jsonObject.optBoolean("visibility", true)
+                val widget = lastWidgetList?.firstOrNull { w -> w.id == widgetId }
+
+                if (widget != null) {
+                    // Fast path:
+                    // If the server supports full visibility handling, or visibility didn't change, update the widget.
+                    // If this event is for a visibility change on an older server, the sent data might be off
+                    // (includes item/state of the trigger item instead of the widget item), so we can't use it.
+                    if (callback.serverProperties?.hasInvisibleWidgetSupport() == true ||
+                        visibility == widget.visibility
                     ) {
-                        // The server doesn't send us invisible widgets in its sitemap response, and the widget just
-                        // became invisible. Remove the widget from the list to match what the server would send us
-                        // at this point.
-                        widgetList.removeAt(pos)
-                        callback.onPageUpdated(url, lastPageTitle, widgetList)
-                    } else {
-                        val updatedWidget = Widget.updateFromEvent(widgetList[pos], jsonObject, callback.iconFormat)
-                        widgetList[pos] = updatedWidget
+                        val updatedWidget = Widget.updateFromEvent(widget, jsonObject, callback.iconFormat)
                         callback.onWidgetUpdated(url, updatedWidget)
-                    }
-                } else {
-                    // We didn't find the widget, so we're probably on a server version that doesn't
-                    // return invisible widgets in the sitemap response and the widget in question
-                    // just became visible. Reload the page in that case.
-                    if (jsonObject.optBoolean("visibility")) {
-                        cancel()
-                        load()
+                        return
                     }
                 }
+
+                // Either we didn't find the widget (possibly because the server didn't give us invisible widgets),
+                // or we couldn't update it because we couldn't trust the data, so reload the page
+                cancel()
+                load()
             } catch (e: JSONException) {
                 Log.w(TAG, "Could not parse SSE event ('$payload')", e)
             }

@@ -63,8 +63,9 @@ class WidgetAdapter(
     private val connection: Connection,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener, View.OnLongClickListener {
-    private val items = ArrayList<Widget>()
+    private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
+    private val widgetsById = mutableMapOf<String, Widget>()
 
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence
@@ -90,13 +91,14 @@ class WidgetAdapter(
         if (compatibleUpdate) {
             widgets.forEachIndexed { index, widget ->
                 if (items[index] != widget) {
-                    items[index] = widget
-                    notifyItemChanged(index)
+                    updateWidgetAtPosition(index, widget)
                 }
             }
         } else {
             items.clear()
             items.addAll(widgets)
+            widgetsById.clear()
+            widgets.forEach { w -> widgetsById[w.id] = w }
             notifyDataSetChanged()
         }
     }
@@ -104,8 +106,7 @@ class WidgetAdapter(
     fun updateWidget(widget: Widget) {
         val pos = items.indexOfFirst { w -> w.id == widget.id }
         if (pos >= 0) {
-            items[pos] = widget
-            notifyItemChanged(pos)
+            updateWidgetAtPosition(pos, widget)
         }
     }
 
@@ -202,8 +203,29 @@ class WidgetAdapter(
         return false
     }
 
-    private fun getItemViewType(widget: Widget): Int {
+    private fun updateWidgetAtPosition(position: Int, widget: Widget) {
+        val oldWidget = items[position]
+        items[position] = widget
+        widgetsById[widget.id] = widget
+        // If visibility of a container with at least one child changes, refresh the whole list to make sure
+        // the child visibility is also updated. Otherwise it's sufficient to update the single widget only.
+        if (oldWidget.visibility != widget.visibility && items.any { w -> w.parentId == widget.id }) {
+            notifyDataSetChanged()
+        } else {
+            notifyItemChanged(position)
+        }
+    }
+
+    private tailrec fun isWidgetIncludingAllParentsVisible(widget: Widget): Boolean {
         if (!widget.visibility) {
+            return false
+        }
+        val parent = widget.parentId?.let { id -> widgetsById[id] }
+        return parent == null || isWidgetIncludingAllParentsVisible(parent)
+    }
+
+    private fun getItemViewType(widget: Widget): Int {
+        if (!isWidgetIncludingAllParentsVisible(widget)) {
             return TYPE_INVISIBLE
         }
         return when (widget.type) {
