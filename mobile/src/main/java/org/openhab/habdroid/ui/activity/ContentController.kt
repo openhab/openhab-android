@@ -238,7 +238,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
-    fun showHabpanel() {
+    fun showHabPanel() {
         showTemporaryPage(WebViewFragment.newInstance(R.string.mainmenu_openhab_habpanel,
             R.string.habpanel_error,
             "/habpanel/index.html", "/rest/events",
