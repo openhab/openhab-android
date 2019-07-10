@@ -220,8 +220,8 @@ class WidgetAdapter(
         if (!widget.visibility) {
             return false
         }
-        val parent = widget.parentId?.let { id -> widgetsById[id] }
-        return parent == null || isWidgetIncludingAllParentsVisible(parent)
+        val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
+        return isWidgetIncludingAllParentsVisible(parent)
     }
 
     private fun getItemViewType(widget: Widget): Int {
