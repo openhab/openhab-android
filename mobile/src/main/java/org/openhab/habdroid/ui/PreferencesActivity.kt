@@ -110,7 +110,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         protected abstract val titleResId: Int
 
         protected val parentActivity get() = activity as PreferencesActivity
-        protected val prefs get() = preferenceScreen.sharedPreferences as SharedPreferences
+        protected val prefs get() = preferenceScreen.sharedPreferences!!
 
         override fun onStart() {
             super.onStart()
