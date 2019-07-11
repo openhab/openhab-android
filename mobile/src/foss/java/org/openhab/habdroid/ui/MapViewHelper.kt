@@ -74,6 +74,7 @@ object MapViewHelper {
                 isVerticalMapRepetitionEnabled = false
                 zoomController.setVisibility(Visibility.NEVER)
                 setMultiTouchControls(false)
+                setDestroyMode(false)
                 overlays.add(CopyrightOverlay(itemView.context))
                 overlays.add(MapEventsOverlay(object : MapEventsReceiver {
                     override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
