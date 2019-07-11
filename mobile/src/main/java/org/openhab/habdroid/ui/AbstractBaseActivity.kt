@@ -17,17 +17,14 @@ import android.annotation.TargetApi
 import android.app.ActivityManager
 import android.app.KeyguardManager
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -122,8 +119,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun promptForDevicePasswordIfRequired() {
-        val screenLockEnabled = (getPrefs().isScreenLockKioskMode(this) && this !is MainActivity)
-            || getPrefs().isScreenLockWholeApp(this)
+        val screenLockEnabled = (getPrefs().isScreenLockKioskMode(this) && this !is MainActivity) ||
+            getPrefs().isScreenLockWholeApp(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
             screenLockEnabled &&
@@ -135,7 +132,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    private fun timestampNeedsReauth(ts: Long) : Boolean {
+    private fun timestampNeedsReauth(ts: Long): Boolean {
         return ts == 0L || SystemClock.elapsedRealtime() - ts > AUTHENTICATION_VALIDITY_PERIOD
     }
 

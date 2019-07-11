@@ -13,10 +13,8 @@
 
 package org.openhab.habdroid.ui
 
-import android.annotation.TargetApi
 import android.app.AlertDialog
 import android.app.Dialog
-import android.app.KeyguardManager
 import android.app.PendingIntent
 import android.content.*
 import android.content.pm.PackageManager
