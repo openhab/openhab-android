@@ -117,8 +117,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        shortcutInfo.let { inflater?.inflate(R.menu.webview_menu, menu) }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        shortcutInfo.let { inflater.inflate(R.menu.webview_menu, menu) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

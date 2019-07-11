@@ -76,7 +76,7 @@
         <activity
             android:name="de.duenndns.ssl.MemorizingActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Translucent" />
+            android:theme="@style/Theme.MaterialComponents.Translucent" />
         <activity android:name=".ui.ItemPickerActivity"
             android:label="@string/item_picker" >
             <intent-filter>
