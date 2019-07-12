@@ -36,6 +36,7 @@ import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.obfuscate
 import org.openhab.habdroid.util.openInBrowser
@@ -80,6 +81,10 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
     override fun onBackStackChanged() {
         updateTitle()
+    }
+
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode == ScreenLockMode.Enabled
     }
 
     private fun updateTitle() {
