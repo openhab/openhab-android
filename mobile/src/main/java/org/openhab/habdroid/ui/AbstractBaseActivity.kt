@@ -111,11 +111,18 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun promptForDevicePasswordIfRequired() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-            doesLockModeRequirePrompt(getPrefs().getScreenLockMode(this)) &&
-            timestampNeedsReauth(lastAuthenticationTimestamp)
-        ) {
-            promptForDevicePassword()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return
+        }
+        if (doesLockModeRequirePrompt(getPrefs().getScreenLockMode(this))) {
+            if (timestampNeedsReauth(lastAuthenticationTimestamp)) {
+                promptForDevicePassword()
+            }
+        } else {
+            // Reset last authentication timestamp when going from an activity requiring authentication to an
+            // activity that does not require authentication, so that the prompt will re-appear when going back
+            // to the activity requiring authentication
+            lastAuthenticationTimestamp = 0L
         }
     }
 
