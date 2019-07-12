@@ -30,12 +30,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isScreenLockKioskMode
-import org.openhab.habdroid.util.isScreenLockWholeApp
+import org.openhab.habdroid.util.getScreenLockMode
 import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
@@ -98,10 +97,9 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     @TargetApi(21)
-    fun promptForDevicePassword() {
+    private fun promptForDevicePassword() {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
-        isLocked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            km.isDeviceSecure else km.isKeyguardSecure
+        isLocked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
         if (isLocked) {
             val intent = km.createConfirmDeviceCredentialIntent(null,
                 getString(R.string.screen_lock_unlock_screen_description))
@@ -109,22 +107,23 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    internal open fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode != ScreenLockMode.Disabled
+    }
+
     private fun handleScreenLockResponse(locked: Boolean) {
         isLocked = locked
         if (locked) {
             promptForDevicePasswordIfRequired()
         } else {
-            OpenHabApplication.lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
+            lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
         }
     }
 
     private fun promptForDevicePasswordIfRequired() {
-        val screenLockEnabled = (getPrefs().isScreenLockKioskMode(this) && this !is MainActivity) ||
-            getPrefs().isScreenLockWholeApp(this)
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-            screenLockEnabled &&
-            timestampNeedsReauth(OpenHabApplication.lastAuthenticationTimestamp)
+            doesLockModeRequirePrompt(getPrefs().getScreenLockMode(this)) &&
+            timestampNeedsReauth(lastAuthenticationTimestamp)
         ) {
             promptForDevicePassword()
         } else {
@@ -132,12 +131,12 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    private fun timestampNeedsReauth(ts: Long): Boolean {
-        return ts == 0L || SystemClock.elapsedRealtime() - ts > AUTHENTICATION_VALIDITY_PERIOD
-    }
+    private fun timestampNeedsReauth(ts: Long) =
+        ts == 0L || SystemClock.elapsedRealtime() - ts > AUTHENTICATION_VALIDITY_PERIOD
 
     @CallSuper
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             SCREEN_LOCK_REQUEST_CODE -> handleScreenLockResponse(resultCode != RESULT_OK)
         }
@@ -146,5 +145,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     companion object {
         private const val AUTHENTICATION_VALIDITY_PERIOD = 2 * 60 * 1000L
         private const val SCREEN_LOCK_REQUEST_CODE = 2001
+
+        var lastAuthenticationTimestamp = 0L
     }
 }

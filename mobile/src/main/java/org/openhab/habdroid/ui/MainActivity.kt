@@ -469,6 +469,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         queryServerProperties()
     }
 
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode == ScreenLockMode.Enabled
+    }
+
     private fun queryServerProperties() {
         propsUpdateHandle?.cancel()
         val successCb: (ServerProperties) -> Unit = { props ->
