@@ -41,7 +41,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     protected open val forceNonFullscreen = false
-    private var isLocked = true
 
     // If we are 4.4 we can use fullscreen mode and Daydream features
     protected val isFullscreenEnabled: Boolean
@@ -99,8 +98,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @TargetApi(21)
     private fun promptForDevicePassword() {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
-        isLocked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
-        if (isLocked) {
+        val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
+        if (locked) {
             val intent = km.createConfirmDeviceCredentialIntent(null,
                 getString(R.string.screen_lock_unlock_screen_description))
             startActivityForResult(intent, SCREEN_LOCK_REQUEST_CODE)
@@ -111,23 +110,12 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         return mode != ScreenLockMode.Disabled
     }
 
-    private fun handleScreenLockResponse(locked: Boolean) {
-        isLocked = locked
-        if (locked) {
-            promptForDevicePasswordIfRequired()
-        } else {
-            lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
-        }
-    }
-
     private fun promptForDevicePasswordIfRequired() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
             doesLockModeRequirePrompt(getPrefs().getScreenLockMode(this)) &&
             timestampNeedsReauth(lastAuthenticationTimestamp)
         ) {
             promptForDevicePassword()
-        } else {
-            isLocked = false
         }
     }
 
@@ -137,8 +125,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @CallSuper
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            SCREEN_LOCK_REQUEST_CODE -> handleScreenLockResponse(resultCode != RESULT_OK)
+        if (requestCode == SCREEN_LOCK_REQUEST_CODE && resultCode == RESULT_OK) {
+            lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
         }
     }
 
