@@ -132,8 +132,16 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @CallSuper
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SCREEN_LOCK_REQUEST_CODE && resultCode == RESULT_OK) {
-            lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
+        if (requestCode == SCREEN_LOCK_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
+            } else if (getPrefs().getScreenLockMode(this) == ScreenLockMode.KioskMode) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    finishAndRemoveTask()
+                } else {
+                    finish()
+                }
+            }
         }
     }
 
