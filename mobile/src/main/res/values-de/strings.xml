@@ -97,15 +97,15 @@
     <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 403).</string>
     <string name="error_http_code_407">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 407).</string>
     <string name="error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Statuscode 414).</string>
-    <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB-URL (HTTP-Statuscode 426).</string>
+    <string name="error_http_code_426">HTTPS ist erforderlich. Bitte ändern Sie die URL (HTTP-Antwortcode 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_495">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 495).</string>
-    <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
+    <string name="error_http_code_496">SSL-Client-Zertifikat ist erforderlich (HTTP-Statuscode 496)</string>
     <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort vom openHAB-Server (HTTP-Statuscode 502)</string>
     <string name="error_http_code_503">Der openHAB-Server steht temporär nicht zur Verfügung (HTTP-Statuscode 503)</string>
     <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort vom openHAB-Server (HTTP-Statuscode 504).</string>
     <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
-    <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
+    <string name="error_http_code_511">Netzwerkauthentifizierung ist erforderlich (HTTP-Antwortcode 511)</string>
     <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
@@ -118,7 +118,7 @@
     <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
     <string name="info_write_failed">Fehler beim Schreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
-    <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es im Einstellungsmenü Ihres Gerätes.</string>
+    <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es in den Geräte-Einstellungen.</string>
     <string name="info_openhab_apiversion_label">openHAB-Rest-API-Version</string>
     <string name="info_openhab_uuid_label">openHAB-UUID</string>
     <string name="info_openhab_secret_label">openHAB-Secret</string>
@@ -166,7 +166,7 @@
     <string name="mtm_decision_always">Akzeptieren</string>
     <string name="mtm_decision_once">Einmalig</string>
     <string name="mtm_decision_abort">Abbrechen</string>
-    <string name="mtm_notification">Unbekanntes Zertifikat</string>
+    <string name="mtm_notification">Zertifikatsüberprüfung</string>
     <string name="settings_openhab_none">Keins</string>
     <!-- Themes -->
     <string name="theme_name_light">Hell</string>
@@ -182,16 +182,16 @@
     <string name="nfc_action_toggle">Umschalten</string>
     <string name="nfc_activate">Aktivieren</string>
     <string name="nfc_action_current_color">Momentane Farbe</string>
-    <string name="nfc_action_to_sitemap_page">Zur entsprechenden Sitemap navigieren</string>
+    <string name="nfc_action_to_sitemap_page">Zur Sitemap-Seite navigieren</string>
     <!-- Drawer -->
-    <string name="drawer_open">Sitemap-Bereich öffnen</string>
-    <string name="drawer_close">Sitemap-Bereich schließen</string>
+    <string name="drawer_open">Sitemap-Auswahl öffnen</string>
+    <string name="drawer_close">Sitemap-Auswahl schließen</string>
     <string name="mainmenu_openhab_voice_recognition">Sprachbefehl</string>
     <!-- About -->
     <string name="about_title">Über</string>
     <string name="about_license_title">Lizenz</string>
     <string name="about_changelog">Änderungsprotokoll</string>
-    <string name="about_source_code">Quelltext</string>
+    <string name="about_source_code">Quellcode</string>
     <string name="about_issues">Einen Fehler melden</string>
     <string name="about_docs">Dokumentation</string>
     <string name="about_community_forum">Community-Forum</string>
@@ -200,8 +200,8 @@
     <string name="about_server">openHAB-Server</string>
     <string name="about_translation">Helfen Sie uns bei der Übersetzung von openHAB</string>
     <string name="about_privacy_policy">Datenschutzerklärung</string>
-    <string name="settings_debug_messages_title">Zeige Informationen zur Fehlerbehebung</string>
-    <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
+    <string name="settings_debug_messages_title">Informationen zur Fehlerbehebung anzeigen</string>
+    <string name="error_couldnt_determine_openhab_url">openHAB-URL konnte nicht ermittelt werden</string>
     <string name="unknown">Unbekannt</string>
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
@@ -230,8 +230,8 @@
     <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB öffnen</string>
-    <string name="content_description_increase_item_value">Item-Status erhöhen</string>
-    <string name="content_description_decrease_item_value">Item-Status verringern</string>
+    <string name="content_description_increase_item_value">Item-Wert erhöhen</string>
+    <string name="content_description_decrease_item_value">Item-Wert verringern</string>
     <string name="swipe_to_refresh_description">Die Inhalte werden automatisch aktualisiert, Sie müssen das normalerweise nicht manuell tun</string>
     <string name="swipe_to_refresh_dismiss">Verstanden!</string>
     <!-- Intro strings -->
