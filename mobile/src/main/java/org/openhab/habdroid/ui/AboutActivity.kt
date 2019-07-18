@@ -210,26 +210,6 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                     }
                     refreshMaterialAboutList()
                 }
-
-                if (!props.hasJsonApi()) {
-                    val secretItem = MaterialAboutActionItem.Builder()
-                        .text(R.string.info_openhab_secret_label)
-                        .subText(R.string.list_loading_message)
-                        .icon(R.drawable.ic_info_outline_grey_24dp)
-                        .build()
-                    ohServerCard.addItem(secretItem)
-                    scope.launch {
-                        try {
-                            val response = httpClient.get("static/secret").asText().response
-                            Log.d(TAG, "Got secret ${response.obfuscate()}")
-                            secretItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
-                        } catch (e: HttpClient.HttpException) {
-                            Log.e(TAG, "Could not fetch server secret $e")
-                            secretItem.subText = getString(R.string.error_about_no_conn)
-                        }
-                        refreshMaterialAboutList()
-                    }
-                }
             }
 
             ohServerCard.addItem(MaterialAboutActionItem.Builder()
