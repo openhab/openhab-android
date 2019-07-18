@@ -33,8 +33,8 @@
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
-    <string name="settings_openhab_fullscreen_summary">Geräte-Statusleiste während der Verwendung der App ausblenden</string>
-    <string name="settings_openhab_icon_format">Symbol-Format</string>
+    <string name="settings_openhab_fullscreen_summary">Vollbildmodus</string>
+    <string name="settings_openhab_icon_format">Icon-Format</string>
     <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
     <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
     <string name="settings_chart_scaling">Diagrammskalierung</string>
