@@ -20,14 +20,14 @@
     <string name="settings_openhab_url">Lokale Server-URL</string>
     <string name="settings_openhab_url_summary">Die Adresse des openHAB-Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
     <string name="settings_openhab_alturl">Server-URL für Fernzugiff</string>
-    <string name="settings_openhab_alturl_summary">Adresse des Dashboards eines openHAB-Servers außerhalb des lokalen Netzwerks. Sie wird verwendet, wenn die lokale Adresse nicht erreichbar ist. Aktueller Wert: %s</string>
+    <string name="settings_openhab_alturl_summary">Diese Adresse zum openHAB-Dashboard wird verwendet, wenn die lokale Adresse nicht erreichbar ist. Aktueller Wert: %s</string>
     <string name="settings_openhab_username">Benutzername</string>
     <string name="settings_openhab_password">Passwort</string>
     <string name="settings_openhab_password_summary_weak">Schwaches Passwort gesetzt</string>
     <string name="settings_openhab_password_summary_strong">Starkes Passwort gesetzt</string>
     <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Für Hinweise und Erläuterungen zur SSL-Authentifizierung mittels Client-Zertifikat hier tippen</string>
-    <string name="settings_openhab_screentimeroff">Ruhezustand deaktivieren</string>
+    <string name="settings_openhab_screentimeroff">Bildschirm-Abschaltung deaktivieren</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
@@ -135,7 +135,7 @@
     <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben dieses Präfix</string>
     <string name="settings_alarm_clock">Weckzeit an openHAB senden</string>
     <string name="settings_alarm_clock_summary_on">Sendet Weckzeit an Item \'%1$s\'</string>
-    <string name="settings_alarm_clock_summary_off">Weckzeit wird nicht an den Server gesendet</string>
+    <string name="settings_alarm_clock_summary_off">Weckzeit nicht an den Server senden</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
