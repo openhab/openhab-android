@@ -20,6 +20,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.withValue
 import java.util.*
 
 class SuggestedCommandsFactory(private val context: Context, private val showUndef: Boolean) {
@@ -39,8 +40,8 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             val state = widget.state?.asNumber
             if (state != null) {
                 add(suggestedCommands, state.toString())
-                add(suggestedCommands, ParsedState.NumberState.withValue(state, widget.minValue).toString())
-                add(suggestedCommands, ParsedState.NumberState.withValue(state, widget.maxValue).toString())
+                add(suggestedCommands, state.withValue(widget.minValue).toString())
+                add(suggestedCommands, state.withValue(widget.maxValue).toString())
                 if (widget.switchSupport) {
                     addOnOffCommands(suggestedCommands)
                 }

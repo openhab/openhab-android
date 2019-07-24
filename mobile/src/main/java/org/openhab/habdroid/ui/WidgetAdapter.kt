@@ -43,16 +43,15 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.LabeledValue
-import org.openhab.habdroid.model.ParsedState
-import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.*
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.SegmentedControlButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.*
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.ceil
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -462,8 +461,7 @@ class WidgetAdapter(
             val widget = boundWidget
             val item = widget?.item ?: return
             val newValue = widget.minValue + widget.step * progress
-            connection.httpClient.sendItemUpdate(item,
-                ParsedState.NumberState.withValue(item.state?.asNumber, newValue))
+            connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(newValue))
         }
     }
 
@@ -681,23 +679,23 @@ class WidgetAdapter(
         }
 
         private fun openSelection() {
-            val widget = boundWidget
-            val state = widget?.state?.asNumber ?: return
-            val stateValue = state.value.toFloat()
+            val widget = boundWidget ?: return
+            val state = widget.state?.asNumber
+            val stateValue = state?.value?.toFloat() ?: widget.minValue
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             val stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
-            val stepCount = (Math.abs(widget.maxValue - widget.minValue) / stepSize).toInt() + 1
+            val stepCount = (abs(widget.maxValue - widget.minValue) / stepSize).toInt()
             var closestIndex = 0
             var closestDelta = java.lang.Float.MAX_VALUE
 
-            val stepValues: List<ParsedState.NumberState> = (1..stepCount).map { index ->
+            val stepValues: List<ParsedState.NumberState> = (0..stepCount).map { index ->
                 val stepValue = widget.minValue + index * stepSize
-                if (Math.abs(stateValue - stepValue) < closestDelta) {
+                if (abs(stateValue - stepValue) < closestDelta) {
                     closestIndex = index
-                    closestDelta = Math.abs(stateValue - stepValue)
+                    closestDelta = abs(stateValue - stepValue)
                 }
-                ParsedState.NumberState.withValue(state, stepValue)
+                state.withValue(stepValue)
             }
 
             val dialogView = inflater.inflate(R.layout.dialog_numberpicker, null)
@@ -721,11 +719,15 @@ class WidgetAdapter(
         private fun handleUpDown(down: Boolean) {
             val widget = boundWidget
             val state = widget?.state?.asNumber
-            val stateValue = state?.value?.toFloat() ?: return
+            val stateValue = state?.value?.toFloat()
+            val newValue = when {
+                stateValue == null -> widget?.minValue ?: return
+                down -> stateValue - widget.step
+                else -> stateValue + widget.step
+            }
 
-            val newValue = if (down) stateValue - widget.step else stateValue + widget.step
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
-                connection.httpClient.sendItemUpdate(widget.item, ParsedState.NumberState.withValue(state, newValue))
+                connection.httpClient.sendItemUpdate(widget.item, state.withValue(newValue))
             }
         }
     }
