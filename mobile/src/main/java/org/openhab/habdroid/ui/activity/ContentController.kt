@@ -47,8 +47,15 @@ import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
-import org.openhab.habdroid.util.*
-import java.util.*
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getIconFormat
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDebugModeEnabled
+import java.util.ArrayList
+import java.util.HashSet
+import java.util.Stack
 
 /**
  * Controller class for the content area of [MainActivity]
@@ -218,8 +225,9 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     fun openPage(url: String) {
         val matchingPageIndex = pageStack.indexOfFirst { entry -> entry.first.link == url }
-
         Log.d(TAG, "Opening page $url (present at $matchingPageIndex)")
+
+        temporaryPage = null
         if (matchingPageIndex >= 0) {
             for (i in matchingPageIndex + 1 until pageStack.size) {
                 pageStack.pop()
