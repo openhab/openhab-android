@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import org.openhab.habdroid.R
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getPrefs
 
 class IntroActivity : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,7 @@ class IntroActivity : AppIntro() {
      */
     override fun onSkipPressed(currentFragment: Fragment?) {
         super.onSkipPressed(currentFragment)
+        getPrefs().edit().putBoolean(Constants.PREFERENCE_FIRST_START, false).apply()
         finish()
     }
 
@@ -62,6 +65,7 @@ class IntroActivity : AppIntro() {
      */
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
+        getPrefs().edit().putBoolean(Constants.PREFERENCE_FIRST_START, false).apply()
         finish()
     }
 
