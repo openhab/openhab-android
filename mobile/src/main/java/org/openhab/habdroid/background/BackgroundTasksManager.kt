@@ -27,7 +27,6 @@ import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.AbstractItemPickerActivity
-import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.*
 import java.util.*
