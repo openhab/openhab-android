@@ -55,6 +55,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     private lateinit var emptyView: View
     private lateinit var emptyMessage: TextView
     protected lateinit var retryButton: TextView
+    protected abstract var disabledMessageId: Int
 
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(this, true)
@@ -227,14 +228,12 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(when {
             loadError -> R.string.item_picker_list_error
-            isDisabled -> getDisabledMessage()
+            isDisabled -> disabledMessageId
             else -> R.string.item_picker_list_empty
         })
         retryButton.setText(if (isDisabled) R.string.turn_on else R.string.try_again_button)
         retryButton.isVisible = loadError || isDisabled
     }
-
-    protected abstract fun getDisabledMessage() : Int
 
     companion object {
         private val TAG = AbstractItemPickerActivity::class.java.simpleName

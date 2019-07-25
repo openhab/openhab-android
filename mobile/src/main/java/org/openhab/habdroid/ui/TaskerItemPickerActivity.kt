@@ -11,7 +11,8 @@ import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 
-class TaskerItemPickerActivity : AbstractItemPickerActivity() {
+class TaskerItemPickerActivity(override var disabledMessageId: Int = R.string.settings_tasker_plugin_summary) :
+    AbstractItemPickerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +49,5 @@ class TaskerItemPickerActivity : AbstractItemPickerActivity() {
 
         setResult(RESULT_OK, intent)
         finish()
-    }
-
-    override fun getDisabledMessage(): Int {
-        return R.string.settings_tasker_plugin_summary
     }
 }
