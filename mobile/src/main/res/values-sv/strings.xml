@@ -9,6 +9,7 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Inställningar</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Välj standard-Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Töm bildcache</string>
     <!-- App settings strings -->
