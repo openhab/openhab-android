@@ -85,7 +85,7 @@
     <string name="error_connection_failed">Verbindung zum Host fehlgeschlagen</string>
     <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
     <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen</string>
-    <string name="error_certificate_not_trusted">Das SSL-Zertifikat ist nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder akzeptieren Sie das Zertifikat während des Verbindungsaufbaus.</string>
+    <string name="error_certificate_not_trusted">Das SSL-Zertifikat ist nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder akzeptieren Sie das Zertifikat während des SSL-Handshakes.</string>
     <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder akzeptieren Sie das Zertifikat während des Verbindungsaufbaus.</string>
     <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder akzeptieren Sie das Zertifikat während des Verbindungsaufbaus. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit.</string>
     <string name="error_certificate_invalid_date">SSL-Zertifikat hat ein ungültiges Datum. Bitte erstellen Sie ein gültiges Zertifikat und überprüfen Sie, ob die Uhr auf Ihrem Gerät korrekt eingestellt ist.</string>
@@ -116,7 +116,7 @@
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
     <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
     <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
-    <string name="info_write_failed">Fehler beim Schreiben des NFC-Tags</string>
+    <string name="info_write_failed">Fehler beim Beschreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es in den Geräte-Einstellungen.</string>
     <string name="info_openhab_apiversion_label">openHAB-Rest-API-Version</string>
@@ -124,7 +124,7 @@
     <string name="info_openhab_secret_label">openHAB-Secret</string>
     <string name="info_openhab_push_notification_label">Push-Benachrichtigungsstatus</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="nfc_dialog_title">Schreibe eine Aktion für dieses Element in einen NFC Tag</string>
+    <string name="nfc_dialog_title">Schreibe eine Aktion für dieses Element in einen NFC-Tag</string>
     <string name="nfc_tag_recognized_label">NFC-Tag für \"%s\" erkannt</string>
     <string name="nfc_tag_recognized_item">NFC-Tag für Item \"%s\" erkannt</string>
     <string name="info_not_set">Nicht gesetzt</string>
