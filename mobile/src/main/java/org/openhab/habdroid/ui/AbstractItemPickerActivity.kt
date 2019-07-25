@@ -39,9 +39,6 @@ import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.SuggestedCommandsFactory
-import org.openhab.habdroid.util.TaskerIntent
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.map
 
 abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
@@ -89,14 +86,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(DividerItemDecoration(this))
         recyclerView.adapter = itemPickerAdapter
-
-        val editItem = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE)
-        initialHighlightItemName = editItem?.getString(EXTRA_ITEM_NAME)
-
-        if (!getPrefs().isTaskerPluginEnabled()) {
-            isDisabled = true
-            updateViewVisibility(loading = false, loadError = false, isDisabled = true)
-        }
     }
 
     override fun onResume() {
