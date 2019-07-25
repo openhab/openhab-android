@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">サイトマップ</string>
     <string name="mainmenu_openhab_preferences">設定</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">HAPPanel の読み込み中にエラーが発生しました</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
     <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
     <!-- App settings strings -->
@@ -55,28 +57,40 @@
     <string name="settings_notification_vibration_short">短め</string>
     <string name="settings_notification_vibration_long">長め</string>
     <string name="settings_notification_vibration_twice">2 回</string>
+    <string name="settings_notification_ringtone_vibration">通知設定</string>
     <string name="settings_connection_summary">%s に接続しました</string>
     <string name="settings_insecure_connection_summary">%s に安全ではない接続をしました</string>
+    <string name="beta">ベータ版</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">音声コマンド</string>
+    <string name="title_voice_widget_icon">音声コマンドとアプリのショートカット</string>
     <string name="info_voice_input">openHAB, お話ください!</string>
     <string name="info_voice_recognized_text">認識したコマンド: %1$s</string>
     <string name="info_demo_mode_short">デモ モードで実行しています</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">オフにする</string>
     <string name="info_conn_url">設定した URL に接続しています</string>
     <string name="info_conn_rem_url">リモート URL に接続しています</string>
+    <string name="app_shortcut_disabled_habpanel">サーバーに HABPanel がインストールされていません</string>
+    <string name="app_shortcut_disabled_notifications">リモートサーバーに接続できません</string>
+    <string name="app_shortcut_disabled_voice_recognition">お使いのデバイスは音声認識アプリがインストールされていません</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
     <string name="error_network_not_available">ネットワークが利用できません</string>
+    <string name="error_wifi_not_available">Wi-Fi がオフになっています</string>
     <string name="error_http_connection_failed">接続が失敗しました。設定された openHAB サーバーに接続しようとしたときに予期しない応答を受け取りました (受信した HTTP 応答コード: %d)。</string>
     <string name="error_invalid_url">\'http(s)://host(:port)/\' の形式で、正しい URL を入力してください</string>
+    <string name="error_port_seems_invalid">入力したポートは、選択したプロトコルでは正しくないようです</string>
     <string name="error_connection_failed">ホストへの接続に失敗しました</string>
     <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
     <string name="error_connection_sslhandshake_failed">SSL ハンドシェイクに失敗しました - 有効なクライアント証明書が必要かもしれません</string>
     <string name="error_certificate_not_trusted">SSL 証明書が信頼されていません。ルート証明書をインポートするか、SSL ハンドシェイク中に証明書を確認してください。</string>
     <string name="error_certificate_expired">SSL 証明書が有効期限切れです。新しい証明書を取得するか、SSL ハンドシェイク中に証明書を確認してください。</string>
     <string name="error_certificate_not_valid_yet">SSL 証明書はまだ有効ではありません。正しい証明書を取得するか、SSL ハンドシェイク中に証明書を確認してください。また、お使いの携帯電話の時計が正しく設定されているかを確認してください。</string>
+    <string name="error_certificate_invalid_date">SSL 証明書の日付が無効です。正しい証明書を取得して、お使いのデバイスの時計が正しく設定されているか確認してください。</string>
     <string name="error_certificate_revoked">SSL 証明書が失効しています。新しい証明書を取得するか、SSL ハンドシェイク中に証明書を確認してください。</string>
     <string name="error_certificate_wrong_host">%s の SSL 証明書が無効です</string>
+    <string name="error_http_to_https_port">予期しないストリームの終わり。HTTP 経由で HTTPS ポートに接続しようとしていませんか?</string>
     <string name="error_http_code_401">認証に失敗しました。提供された SSL クライアント証明書と、ユーザー名、パスワードを確認してください (HTTP 応答コード 401).</string>
     <string name="error_http_code_403">認証に失敗しました。提供された SSL クライアント証明書と、ユーザー名、パスワードを確認してください (HTTP 応答コード 403).</string>
     <string name="error_http_code_407">認証に失敗しました。提供された SSL クライアント証明書と、ユーザー名、パスワードを確認してください (HTTP 応答コード 407).</string>
@@ -92,6 +106,9 @@
     <string name="error_http_code_511">ネットワーク認証が必要 (HTTP 応答コード 511)</string>
     <string name="error_about_no_conn">openHAB サーバー情報の取得時にエラーが発生しました</string>
     <string name="error_openhab_offline">クラウドインスタンス実行中、お使いの openHAB サーバーがオフラインです</string>
+    <string name="error_no_browser_found">お使いのデバイス上にブラウザーが見つかりません</string>
+    <string name="error_no_speech_to_text_app_found">音声認識アプリが見つかりません</string>
+    <string name="install">インストール</string>
     <string name="title_activity_openhabwritetag">NFC タグを書き込み</string>
     <string name="title_activity_libraries">使用したライブラリー</string>
     <string name="info_write_tag">タグをタッチして、確認メッセージが表示されるまで近づけたままにしてください</string>
@@ -106,9 +123,17 @@
     <string name="info_openhab_push_notification_label">プッシュ通知ステータス</string>
     <string name="action_settings">設定</string>
     <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
+    <string name="nfc_tag_recognized_label">\"%s\" の NFC タグを認識しました</string>
+    <string name="nfc_tag_recognized_item">アイテム \"%s\" の NFC タグを認識しました</string>
     <string name="info_not_set">未設定</string>
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">デバイス情報をサーバーに送信</string>
+    <string name="send_device_info_item_prefix">アイテム名の接頭辞</string>
+    <string name="send_device_info_item_prefix_summary">次の機能のアイテム名は、この文字列で始まります</string>
+    <string name="settings_alarm_clock">アラーム時計を openHAB に送信</string>
+    <string name="settings_alarm_clock_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
+    <string name="settings_item_pref_item_name">アイテム名</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">まだ通知は送信されていません</string>
     <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
