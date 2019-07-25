@@ -55,7 +55,7 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
         private const val UPDATE_LOCAL_CREDENTIALS = 26
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
-            editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE)
+            editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
         }
     }
 }
