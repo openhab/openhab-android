@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Произошла ошибка при загрузке HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
     <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
     <!-- App settings strings -->
@@ -55,9 +57,13 @@
     <string name="settings_notification_vibration_short">Коротко</string>
     <string name="settings_notification_vibration_long">Длинно</string>
     <string name="settings_notification_vibration_twice">Дважды</string>
+    <string name="settings_notification_ringtone_vibration">Настройка уведомлений</string>
     <string name="settings_connection_summary">Подключен к %s</string>
     <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
+    <string name="beta">Бета</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Голосовые команды</string>
+    <string name="title_voice_widget_icon">Голосовые команды и ярлыки приложений</string>
     <string name="info_voice_input">openHAB, Ваша команда!</string>
     <string name="info_voice_recognized_text">Принятая команда: %1$s</string>
     <string name="info_demo_mode_short">Запущен демо режим</string>
@@ -65,19 +71,28 @@
     <string name="turn_off">Выключить</string>
     <string name="info_conn_url">Подключение к локальному URL</string>
     <string name="info_conn_rem_url">Подключение к удаленному URL</string>
+    <string name="app_shortcut_disabled_habpanel">На вашем сервере не установлен HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">Ваш удаленный сервер недоступен</string>
+    <string name="app_shortcut_disabled_voice_recognition">На вашем устройстве не установлено приложение преобразования речи в текст</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB вернул пустой список sitemap</string>
+    <string name="error_sitemap_generic_load_error">Sitemap не может быть загружен. Произошла следующая ошибка: %1$s</string>
     <string name="error_network_not_available">Сеть недоступна</string>
+    <string name="error_wifi_not_available">Wi-Fi выключен</string>
     <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d).</string>
     <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
+    <string name="error_port_seems_invalid">Введенный вами порт неверен для выбранного протокола</string>
     <string name="error_connection_failed">Ошибка подключения к хосту</string>
     <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
     <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
     <string name="error_certificate_not_trusted">SSL-сертификат не является доверенным. Пожалуйста импортируйте корневой сертификат или подтвердите его во время SSL подключения.</string>
     <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку подлинности во время SSL подключения.</string>
     <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите его проверку. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве.</string>
+    <string name="error_certificate_invalid_date">SSL-сертификат имеет недопустимую дату. Пожалуйста, получите правильный сертификат и проверьте правильность установки часов на вашем устройстве.</string>
     <string name="error_certificate_revoked">Сертификат SSL отклонен. Получите новый сертификат или отключите его проверку.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
+    <string name="error_http_to_https_port">Непредвиденный конец потока. Вы пытаетесь подключиться к порту HTTPS через HTTP?</string>
+    <string name="webview_ssl">В настоящее время это приложение не поддерживает самоподписанные SSL-сертификаты для виджетов Webview</string>
     <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401).</string>
     <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403).</string>
     <string name="error_http_code_407">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 407).</string>
@@ -93,6 +108,9 @@
     <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
     <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
     <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
+    <string name="error_no_browser_found">На вашем устройстве не найден браузер</string>
+    <string name="error_no_speech_to_text_app_found">Не найдено приложение распознавания голоса</string>
+    <string name="install">Установить</string>
     <string name="title_activity_openhabwritetag">Запись NFC tag</string>
     <string name="title_activity_libraries">Используемые библиотеки</string>
     <string name="info_write_tag">Прикоснитесь к тегу и удерживайте его, пока не появится сообщение подтверждения</string>
@@ -107,9 +125,35 @@
     <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
     <string name="action_settings">Настройки</string>
     <string name="nfc_dialog_title">Выберите действие тега NFC</string>
+    <string name="nfc_tag_recognized_label">Распознана метка NFC для \"%s\"</string>
+    <string name="nfc_tag_recognized_item">Распознана метка NFC для элемента \"%s\"</string>
     <string name="info_not_set">Не задано</string>
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Отправить информацию устройства на сервер</string>
+    <string name="send_device_info_item_prefix">Префикс элемента</string>
+    <string name="send_device_info_item_prefix_summary">Имена элементов следующих функций имеют этот префикс</string>
+    <string name="settings_alarm_clock">Отправить время будильника на openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Посылать время будильника элементу \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Не отправлять время будильника на сервер</string>
+    <string name="settings_alarm_clock_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
+    <string name="settings_item_pref_item_name">Имя элемента</string>
+    <string name="waiting_for_item_upload">Ожидание сети для отправки обновленений элемента</string>
+    <string name="item_upload_in_progress">Элементы обновляются...</string>
+    <string name="notification_channel_background">Фоновый</string>
+    <string name="notification_channel_background_description">Используется для отображения ожидающих фоновых задач</string>
+    <string name="notification_channel_background_error">Ошибка в фоновых задачах</string>
+    <string name="notification_channel_background_error_description">Используется для уведомления об ошибках в фоновых задачах</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d элемент не может быть обновлен</item>
+        <item quantity="few">%d элементы не могут быть обновлены</item>
+        <item quantity="many">%d элементы не могут быть обновлены</item>
+        <item quantity="other">%d элементы не могут быть обновлены</item>
+    </plurals>
+    <string name="item_update_http_error">Не удалось обновить элемент \'%1$s\' (HTTP ошибка %2$d)</string>
+    <string name="item_update_connection_error">Не удалось обновить элемент \'%1$s\' (нет соединения)</string>
+    <string name="error_sending_alarm_clock_item_empty">Пожалуйста, введите правильное название элемента</string>
+    <string name="retry">Повтор</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Нет недавно отправленных уведомлений</string>
     <string name="notification_list_error">Ошибка при загрузке уведомлений</string>
@@ -139,6 +183,18 @@
     <string name="nfc_action_off">Выкл</string>
     <string name="nfc_action_down">Вниз</string>
     <string name="nfc_action_toggle">Переключить</string>
+    <string name="nfc_action_undefined">Незадано</string>
+    <string name="nfc_action_empty_string">Пустая строка</string>
+    <string name="nfc_action_increase">Увеличить</string>
+    <string name="nfc_action_decrease">Уменьшить</string>
+    <string name="nfc_action_play">Воспроизвести</string>
+    <string name="nfc_action_pause">Пауза</string>
+    <string name="nfc_action_next">Вперёд</string>
+    <string name="nfc_action_previous">Назад</string>
+    <string name="nfc_action_rewind">Перемотка</string>
+    <string name="nfc_action_fastforward">Быстрая перемотка вперед</string>
+    <string name="nfc_action_move">Переместить</string>
+    <string name="nfc_action_stop">Остановить</string>
     <string name="nfc_activate">Включить</string>
     <string name="nfc_action_current_color">Текущий цвет</string>
     <string name="nfc_action_to_sitemap_page">Перейти на страницу sitemap</string>
@@ -162,18 +218,27 @@
     <string name="settings_debug_messages_title">Cведения об устранении неполадок</string>
     <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
     <string name="unknown">Неизвестно</string>
+    <string name="error_network_type_unsupported">Тип сети не поддерживается</string>
     <string name="set">Установить</string>
     <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
     <string name="try_again_button">Попробуйте снова</string>
+    <string name="enable_wifi_button">Включить Wi-Fi</string>
     <string name="go_to_settings_button">Перейти к настройкам</string>
+    <string name="enable_demo_mode_button">Включить демо-режим</string>
+    <string name="configuration_missing">Мы не нашли сервер openHAB в вашей сети. Если у вас уже есть сервер, пожалуйста, настройте его IP адрес или имя хоста в настройках приложения. Если у вас еще нет сервера, вы можете включить демо-режим, чтобы увидеть, на что способен openHAB.</string>
+    <string name="no_remote_server">Не удалось подключиться к локальному серверу и вы не настроили удаленный сервер</string>
     <string name="resolving_openhab">Пытаюсь обнаружить сервер openHAB\u2026</string>
+    <string name="waiting_for_wifi">Ожидание для Wi-Fi для установления связи\u2026</string>
     <!-- Log -->
     <string name="log">Журнал</string>
     <string name="view_log">Просмотр журнала</string>
     <string name="clear_log">Очистить журнал</string>
     <string name="empty_log">Журнал пуст</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Закрепить на home</string>
+    <string name="home_shortcut_error_pinning">Ошибка закрепления</string>
+    <string name="home_shortcut_success_pinning">Закреплен</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Открыть рольставни</string>
     <string name="content_description_stop_roller_shutter">Остановить рольставни</string>
@@ -184,6 +249,8 @@
     <string name="content_description_open_number_picker">Число</string>
     <string name="content_description_video">Видео</string>
     <string name="content_description_open_openhab">Открыть openHAB</string>
+    <string name="content_description_increase_item_value">Увеличить значение</string>
+    <string name="content_description_decrease_item_value">Уменьшить значение</string>
     <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет необходимости делать это вручную</string>
     <string name="swipe_to_refresh_dismiss">Ясно!</string>
     <!-- Intro strings -->
@@ -200,4 +267,15 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">ГОТОВО</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Элементы не найдены</string>
+    <string name="item_picker_list_error">Ошибка загрузки элементов</string>
+    <string name="item_picker_custom">Произвольно</string>
+    <string name="item_picker_dialog_title">Выберите состояния</string>
+    <string name="item_picker">openHAB элементы</string>
+    <string name="item_picker_blurb">Установить \"%s\" (%s) на \"%s\"</string>
+    <string name="search">Поиск</string>
+    <string name="settings_tasker_plugin">Интеграция с Tasker</string>
+    <string name="settings_tasker_plugin_summary">Включить плагин действий Tasker, который позволяет обновлять элементы через Tasker или другие совместимые приложения</string>
+    <string name="turn_on">Включить</string>
+    <string name="press_back_to_exit">Нажмите ещё раз для выхода</string>
 </resources>
