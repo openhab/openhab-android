@@ -77,7 +77,7 @@
             android:name="de.duenndns.ssl.MemorizingActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity android:name=".ui.ItemPickerActivity"
+        <activity android:name=".ui.TaskerItemPickerActivity"
             android:label="@string/item_picker" >
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />

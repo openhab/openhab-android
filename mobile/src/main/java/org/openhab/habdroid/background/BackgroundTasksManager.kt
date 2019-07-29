@@ -26,7 +26,7 @@ import androidx.work.*
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
-import org.openhab.habdroid.ui.ItemPickerActivity
+import org.openhab.habdroid.ui.AbstractItemPickerActivity
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.*
 import java.util.*
@@ -56,8 +56,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     return
                 }
                 val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
-                val itemName = bundle.getString(ItemPickerActivity.EXTRA_ITEM_NAME)
-                val state = bundle.getString(ItemPickerActivity.EXTRA_ITEM_STATE)
+                val itemName = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_NAME)
+                val state = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_STATE)
                 if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
                     return
                 }
