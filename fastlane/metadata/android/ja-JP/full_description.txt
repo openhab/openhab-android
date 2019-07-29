@@ -1,6 +1,6 @@
 openHAB - "スマートホームに力を与える" - ベンダーや技術に依存しないオープンソースのホームオートメーション
 
-The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+F-Droid のビルドは FCM とクラッシュレポートが削除されていて openHAB クラウドからプッシュ通知を受信することはできません。
 新しい機能をお試しの上、フィードバックしてください!
 <a href="https://f-droid.org/packages/org.openhab.habdroid/">安定版</a> の他、ベータ版をインストールすることができます。
 
@@ -21,7 +21,7 @@ openHAB は、Java ベースのオープンソース ホームオートメーシ
 • ホーム エンターテインメント: サムスンのテレビ、LG のテレビ、Sonos、パイオニア AVR、Squeezebox、Kodi、Plex ...
 • セキュリティ: ZoneMinder、DSC ...
 • オープンなプロトコル: HTTP、TCP/UDP、MQTT、シリアル ...
-• Automation apps: Includes plugins for Tasker and Locale
+• アプリの自動化: Tasker と Locale のプラグインを含む
 • 特別なユースケース: Minecraft, テスラ自動車, 天気サービス ...
 
 <b>オープンソース コミュニティ</b>

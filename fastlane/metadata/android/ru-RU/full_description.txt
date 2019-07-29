@@ -1,6 +1,6 @@
-openHAB - "Empowering the Smart Home" - открытое ПО для автоматизации "умного дома", не зависящее от производителей и технологий
+openHAB - "empowering the smart home" - открытое ПО для автоматизации "умного дома", не зависящее от производителей и технологий
 
-The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+В сборках F-Droid были удалены FCM и отчеты о сбоях и нет возможности получать push-уведомления от openHAB Cloud.
 Попробуйте новые функции и оставьте о них отзыв!
 Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.
 
@@ -21,7 +21,7 @@ openHAB - это платформа домашней автоматизации 
 • Домашняя электроника: Samsung TV, LG TV, Sonos, Pioner AVR, Squeezebox, Kodi, Plex, ...
 • Охранные системы: ZoneMinder, DSC, ...
 • Открытые протоколы: HTTP, TCP/UDP, MQTT, Serial, ...
-• Automation apps: Includes plugins for Tasker and Locale
+• Приложения для автоматизации: Включает плагины для Tasker и Locale
 • Дополнительно: Minecraft, Tesla Car, Weather Services, ...
 
 <b>Сообщество Open Source</b>
