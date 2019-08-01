@@ -41,8 +41,13 @@ import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
-import org.openhab.habdroid.util.*
-import java.util.*
+import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getNotificationTone
+import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.updateDefaultSitemap
+import java.util.BitSet
 
 /**
  * This is a class to provide preferences activity for application.
@@ -439,7 +444,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             @VisibleForTesting fun beautifyUrl(url: String?): String {
                 val host = url?.toUri()?.host.orEmpty()
-                return if (host.contains("myopenhab.org")) "myopenHAB" else url.orEmpty()
+                return if (host.contains("myopenhab.org")) "myopenHAB" else host
             }
         }
     }
