@@ -13,11 +13,10 @@
 
 package org.openhab.habdroid.ui
 
-import org.junit.Test
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Test
 import org.openhab.habdroid.ui.PreferencesActivity.AbstractSettingsFragment.Companion.isWeakPassword
 import org.openhab.habdroid.ui.PreferencesActivity.MainSettingsFragment.Companion.beautifyUrl
 
@@ -41,7 +40,7 @@ class PreferencesActivityTest {
         assertEquals("myopenhab.org", beautifyUrl("myopenhab.org"))
         assertEquals("myopenHAB", beautifyUrl("https://myopenhab.org"))
         assertEquals("myopenHAB", beautifyUrl("https://home.myopenhab.org"))
-        assertEquals("https://myopenhab.WRONG_TLD", beautifyUrl("https://myopenhab.WRONG_TLD"))
+        assertEquals("myopenhab.WRONG_TLD", beautifyUrl("https://myopenhab.WRONG_TLD"))
         assertEquals("", beautifyUrl(null))
     }
 }
