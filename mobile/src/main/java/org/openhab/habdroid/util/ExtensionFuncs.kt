@@ -162,6 +162,8 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
         bitmap
     } catch (e: SVGParseException) {
         throw IOException("SVG decoding failed", e)
+    } catch (e: IllegalArgumentException) {
+        throw IOException("SVG decoding failed", e)
     }
 }
 
