@@ -112,7 +112,7 @@ class FcmRegistrationService : JobIntentService() {
 
     class ProxyReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val actual = intent.getParcelableExtra<Intent>("intent")
+            val actual = intent.getParcelableExtra<Intent>("intent") ?: return
             enqueueWork(context, FcmRegistrationService::class.java, JOB_ID, actual)
         }
 
