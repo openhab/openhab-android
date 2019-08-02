@@ -35,11 +35,12 @@ class PreferencesActivityTest {
 
     @Test
     fun testBeautifyHostName() {
-        assertEquals("For invalid urls it should return the input value","abc", beautifyUrl("abc"))
+        assertEquals("For invalid urls it should return the input value", "abc", beautifyUrl("abc"))
         assertEquals("For an empty string it should return an empty string", "", beautifyUrl(""))
         assertEquals("URLs without scheme should treated like one with", "myopenHAB", beautifyUrl("myopenhab.org"))
         assertEquals("For myopenhab.org it should return myopenHAB", "myopenHAB", beautifyUrl("https://myopenhab.org"))
-        assertEquals("For home.myopenhab.org it should return myopenHAB", "myopenHAB", beautifyUrl("https://home.myopenhab.org"))
+        assertEquals("For home.myopenhab.org it should return myopenHAB", "myopenHAB",
+            beautifyUrl("https://home.myopenhab.org"))
         assertEquals("not.myopenhab.org", beautifyUrl("https://not.myopenhab.org"))
         assertEquals("notmyopenhab.org", beautifyUrl("https://notmyopenhab.org"))
         assertEquals("myopenhab.WRONG_TLD", beautifyUrl("https://myopenhab.WRONG_TLD"))
