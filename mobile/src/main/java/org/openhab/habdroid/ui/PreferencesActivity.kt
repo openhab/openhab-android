@@ -442,9 +442,9 @@ class PreferencesActivity : AbstractBaseActivity() {
         companion object {
             private const val REQUEST_CODE_RINGTONE = 1000
 
-            @VisibleForTesting fun beautifyUrl(url: String?): String {
-                val host = url?.toUri()?.host.orEmpty()
-                return if (host.contains("myopenhab.org")) "myopenHAB" else host
+            @VisibleForTesting fun beautifyUrl(url: String): String {
+                val host = url.toUri().host ?: url
+                return if (host.matches("^(home.)?myopenhab.org$".toRegex())) "myopenHAB" else host
             }
         }
     }
