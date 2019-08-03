@@ -58,8 +58,13 @@ class ItemUpdateWidgetItemPickerActivity(override var disabledMessageId: Int = 0
         finish()
     }
 
-    private fun setIcon(context: Context, item: Item, state:String, views: RemoteViews, appWidgetManager: AppWidgetManager)
-        = GlobalScope.launch {
+    private fun setIcon(
+        context: Context,
+        item: Item,
+        state: String,
+        views: RemoteViews,
+        appWidgetManager: AppWidgetManager
+    ) = GlobalScope.launch {
         val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
 
         if (item.category == null) {
