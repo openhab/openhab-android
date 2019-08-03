@@ -1,0 +1,3 @@
+## Fixed
+* Fix crash in FCM registration (#1462)
+* Fix crash when parsing SVG (#1460)

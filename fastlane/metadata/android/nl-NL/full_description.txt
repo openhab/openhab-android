@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software
 
 The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+Probeer nieuwe functies uit en geef alvast feedback!
+U kunt de beta-versie installeer samen met de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiele versie</a>.
 
 <b>Belangrijke opmerking</b>
 
