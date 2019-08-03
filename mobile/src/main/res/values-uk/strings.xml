@@ -71,6 +71,9 @@
     <string name="turn_off">Вимкнути</string>
     <string name="info_conn_url">Підключення до локального URL</string>
     <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
+    <string name="app_shortcut_disabled_habpanel">На вашому сервері не встановлено HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">Ваш віддалений сервер недоступний</string>
+    <string name="app_shortcut_disabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
@@ -274,4 +277,5 @@
     <string name="settings_tasker_plugin">Інтеграція з Tasker</string>
     <string name="settings_tasker_plugin_summary">Увімкнути додаток дій Tasker, який дозволить оновляти об’єкти через Tasker або сумісні програми</string>
     <string name="turn_on">Увімкнути</string>
+    <string name="press_back_to_exit">Натисніть ще раз, щоб вийти</string>
 </resources>
