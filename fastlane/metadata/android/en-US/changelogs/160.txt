@@ -1,0 +1,2 @@
+## Fixed
+* Fix host formatting in prefs (#1461)
