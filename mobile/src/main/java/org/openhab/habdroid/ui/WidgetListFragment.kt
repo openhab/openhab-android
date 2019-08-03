@@ -25,6 +25,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.EditText
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -46,7 +48,13 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
-import org.openhab.habdroid.util.*
+import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.SuggestedCommandsFactory
+import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getIconFormat
+import org.openhab.habdroid.util.getPrefs
+import java.util.ArrayList
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -143,38 +151,92 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     override fun onItemLongClicked(widget: Widget): Boolean {
         val context = context ?: return false
         val suggestedCommands = suggestedCommandsFactory.fill(widget)
-        val labels = suggestedCommands.labels
-        val commands = suggestedCommands.commands
+        val nfcLabels = suggestedCommands.labels
+        val nfcCommands = suggestedCommands.commands
+
+        if (suggestedCommands.shouldShowCustom) {
+            nfcLabels.add(getString(R.string.item_picker_custom))
+        }
+
+        val actionLabels: MutableList<String> = ArrayList()
+        val actionCommands: MutableList<String> = ArrayList()
+
+        if (nfcLabels.isNotEmpty()) {
+            actionLabels.add(getString(R.string.nfc_action_write_command_tag))
+            actionCommands.add(COMMAND_WRITE_COMMAND_TAG)
+        }
+
         if (widget.linkedPage != null) {
-            labels.add(getString(R.string.nfc_action_to_sitemap_page))
+            actionLabels.add(getString(R.string.nfc_action_to_sitemap_page))
+            actionCommands.add(COMMAND_WRITE_SITEMAP_TAG)
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-                labels.add(getString(R.string.home_shortcut_pin_to_home))
+                actionLabels.add(getString(R.string.home_shortcut_pin_to_home))
+                actionCommands.add(COMMAND_CREATE_SHORTCUT)
             }
         }
 
-        if (labels.isEmpty()) {
-            return false
+        // Skip first menu if only item update tag is possible
+        if (actionLabels.size == 1 && actionCommands[0] == COMMAND_WRITE_COMMAND_TAG) {
+            showNfcStatesMenu(context, suggestedCommands, nfcCommands, nfcLabels, widget)
+        } else {
+            AlertDialog.Builder(context)
+                .setTitle(widget.label)
+                .setItems(actionLabels.toTypedArray()) { _, which ->
+                    when (actionCommands[which]) {
+                        COMMAND_WRITE_COMMAND_TAG -> {
+                            showNfcStatesMenu(context, suggestedCommands, nfcCommands, nfcLabels, widget)
+                        }
+                        COMMAND_WRITE_SITEMAP_TAG -> {
+                            widget.linkedPage?.link?.let {
+                                startActivity(WriteTagActivity.createSitemapNavigationIntent(context,
+                                    widget.linkedPage.link))
+                            }
+                        }
+                        COMMAND_CREATE_SHORTCUT -> widget.linkedPage?.let { createShortcut(context, widget.linkedPage) }
+                    }
+                }
+                .show()
         }
 
+        return true
+    }
+
+    private fun showNfcStatesMenu(
+        context: Context,
+        suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
+        commands: MutableList<String>,
+        labels: MutableList<String>,
+        widget: Widget
+    ) {
+        val name = widget.item?.name ?: return
+        val labelArray = labels.toTypedArray()
         AlertDialog.Builder(context)
-            .setTitle(R.string.nfc_dialog_title)
-            .setItems(labels.toTypedArray()) { _, which ->
-                if (which == commands.size + 1 && widget.linkedPage != null) {
-                    createShortcut(context, widget.linkedPage)
-                } else {
-                    val itemToHandle = if (which < commands.size) widget.item else null
-                    val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
-                    if (itemToHandle != null) {
-                        startActivity(WriteTagActivity.createItemUpdateIntent(context,
-                            itemToHandle.name, commands[which], labels[which], itemToHandle.label.orEmpty()))
-                    } else if (linkToHandle != null) {
-                        startActivity(WriteTagActivity.createSitemapNavigationIntent(context, linkToHandle))
+            .setTitle(R.string.nfc_action_write_command_tag)
+            .setItems(labelArray) { _, which ->
+                if (which == labelArray.size - 1 && suggestedCommands.shouldShowCustom) {
+                    val input = EditText(context)
+                    input.inputType = suggestedCommands.inputTypeFlags
+                    val customDialog = AlertDialog.Builder(context)
+                        .setTitle(getString(R.string.item_picker_custom))
+                        .setView(input)
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            startActivity(WriteTagActivity.createItemUpdateIntent(context, name, input.text.toString(),
+                                input.text.toString(), widget.item.label.orEmpty())) }
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+                    input.setOnFocusChangeListener { _, hasFocus ->
+                        val mode = if (hasFocus)
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                        else
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                        customDialog.window?.setSoftInputMode(mode)
                     }
+                } else {
+                    startActivity(WriteTagActivity.createItemUpdateIntent(context, name, commands[which], labels[which],
+                        widget.item.label.orEmpty()))
                 }
             }
             .show()
-
-        return true
     }
 
     fun setHighlightedPageLink(highlightedPageLink: String?) {
@@ -284,6 +346,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
 
     companion object {
         private val TAG = WidgetListFragment::class.java.simpleName
+        private const val COMMAND_WRITE_COMMAND_TAG = "command_tag"
+        private const val COMMAND_WRITE_SITEMAP_TAG = "sitemap_tag"
+        private const val COMMAND_CREATE_SHORTCUT = "shortcut"
 
         fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {
             val fragment = WidgetListFragment()
