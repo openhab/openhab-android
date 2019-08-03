@@ -13,11 +13,10 @@
 
 package org.openhab.habdroid.ui
 
-import org.junit.Test
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Test
 import org.openhab.habdroid.ui.PreferencesActivity.AbstractSettingsFragment.Companion.isWeakPassword
 import org.openhab.habdroid.ui.PreferencesActivity.MainSettingsFragment.Companion.beautifyUrl
 
@@ -36,12 +35,14 @@ class PreferencesActivityTest {
 
     @Test
     fun testBeautifyHostName() {
-        assertEquals("abc", beautifyUrl("abc"))
-        assertEquals("", beautifyUrl(""))
-        assertEquals("myopenhab.org", beautifyUrl("myopenhab.org"))
-        assertEquals("myopenHAB", beautifyUrl("https://myopenhab.org"))
-        assertEquals("myopenHAB", beautifyUrl("https://home.myopenhab.org"))
-        assertEquals("https://myopenhab.WRONG_TLD", beautifyUrl("https://myopenhab.WRONG_TLD"))
-        assertEquals("", beautifyUrl(null))
+        assertEquals("For invalid urls it should return the input value", "abc", beautifyUrl("abc"))
+        assertEquals("For an empty string it should return an empty string", "", beautifyUrl(""))
+        assertEquals("URLs without scheme should treated like one with", "myopenHAB", beautifyUrl("myopenhab.org"))
+        assertEquals("For myopenhab.org it should return myopenHAB", "myopenHAB", beautifyUrl("https://myopenhab.org"))
+        assertEquals("For home.myopenhab.org it should return myopenHAB", "myopenHAB",
+            beautifyUrl("https://home.myopenhab.org"))
+        assertEquals("not.myopenhab.org", beautifyUrl("https://not.myopenhab.org"))
+        assertEquals("notmyopenhab.org", beautifyUrl("https://notmyopenhab.org"))
+        assertEquals("myopenhab.WRONG_TLD", beautifyUrl("https://myopenhab.WRONG_TLD"))
     }
 }
