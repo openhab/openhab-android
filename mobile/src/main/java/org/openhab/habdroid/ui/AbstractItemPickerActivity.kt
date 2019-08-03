@@ -155,7 +155,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                         customDialog.window?.setSoftInputMode(mode)
                     }
                 } else {
-                    finish(item, commands[which])
+                    finish(item, commands[which], labels[which])
                 }
             }
             .show()
@@ -208,7 +208,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String)
+    protected abstract fun finish(item: Item, state: String, mappedState: String)
+
+    private fun finish(item: Item, state: String) {
+        finish(item, state, state)
+    }
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName

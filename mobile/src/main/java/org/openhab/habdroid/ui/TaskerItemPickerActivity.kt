@@ -23,8 +23,8 @@ class TaskerItemPickerActivity(override var disabledMessageId: Int = R.string.se
                     putBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, true)
                 }
                 isDisabled = false
-                loadItems()
             }
+            loadItems()
         }
 
         if (!getPrefs().isTaskerPluginEnabled()) {
@@ -36,7 +36,7 @@ class TaskerItemPickerActivity(override var disabledMessageId: Int = R.string.se
         initialHighlightItemName = editItem?.getString(EXTRA_ITEM_NAME)
     }
 
-    override fun finish(item: Item, state: String) {
+    override fun finish(item: Item, state: String, mappedState: String) {
         val intent = Intent().apply {
             val blurb = getString(R.string.item_picker_blurb, item.label, item.name, state)
             putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb)
