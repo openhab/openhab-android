@@ -175,7 +175,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     }
 
     protected fun loadItems() {
+        Log.d(TAG, "loadItems()")
         if (isDisabled) {
+            Log.d(TAG, "Feature is disabled")
             return
         }
 
