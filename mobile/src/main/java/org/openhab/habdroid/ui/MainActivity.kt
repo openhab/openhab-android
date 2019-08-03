@@ -16,7 +16,13 @@ package org.openhab.habdroid.ui
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -36,7 +42,11 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.util.Base64
 import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -56,7 +66,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -67,12 +79,29 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
-import org.openhab.habdroid.core.connection.exception.*
-import org.openhab.habdroid.model.*
+import org.openhab.habdroid.core.connection.exception.ConnectionException
+import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedException
+import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
+import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
+import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
+import org.openhab.habdroid.model.LinkedPage
+import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.model.sortedWithDefaultName
+import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
-import org.openhab.habdroid.util.*
+import org.openhab.habdroid.util.AsyncServiceResolver
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getDefaultSitemap
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.isScreenTimerDisabled
+import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.updateDefaultSitemap
 import java.nio.charset.Charset
 import javax.jmdns.ServiceInfo
 
@@ -193,17 +222,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         //  Create a new boolean and preference and set it to true
         val isFirstStart = prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true)
 
-        val prefsEditor = prefs.edit()
         //  If the activity has never started before...
         if (isFirstStart) {
             //  Launch app intro
             val i = Intent(this@MainActivity, IntroActivity::class.java)
             startActivityForResult(i, INTRO_REQUEST_CODE)
-
-            prefsEditor.putBoolean(Constants.PREFERENCE_FIRST_START, false)
         }
-        OnUpdateBroadcastReceiver.updateComparableVersion(prefsEditor)
-        prefsEditor.apply()
+        OnUpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
 
         val isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this)
         GlobalScope.launch {
