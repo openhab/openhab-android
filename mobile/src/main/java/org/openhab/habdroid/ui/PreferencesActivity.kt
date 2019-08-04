@@ -560,6 +560,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
         const val START_EXTRA_SERVER_PROPERTIES = "server_properties"
+        const val PREFIX_ITEM_UPDATE_WIDGET = "itemUpdateWidget"
+        const val SUFIX_ITEM_UPDATE_WIDGET_ITEM = "item"
+        const val SUFIX_ITEM_UPDATE_WIDGET_STATE = "state"
+        const val SUFIX_ITEM_UPDATE_WIDGET_LABEL = "label"
+        const val SUFIX_ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
         private const val STATE_KEY_RESULT = "result"
 
         private val TAG = PreferencesActivity::class.java.simpleName
