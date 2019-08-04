@@ -180,7 +180,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             showNfcStatesMenu(context, suggestedCommands, nfcCommands, nfcLabels, widget)
         } else {
             AlertDialog.Builder(context)
-                .setTitle(widget.label)
+                .setTitle(widget.label.split("[", "]").firstOrNull() ?: "")
                 .setItems(actionLabels.toTypedArray()) { _, which ->
                     when (actionCommands[which]) {
                         COMMAND_WRITE_COMMAND_TAG -> {
