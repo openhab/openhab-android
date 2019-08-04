@@ -137,7 +137,6 @@
     <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_push_notification_label">Push notification status</string>
     <string name="action_settings">Settings</string>
-    <string name="nfc_dialog_title">Write NFC tag action for this element</string>
     <string name="nfc_tag_recognized_label">NFC tag for \"%s\" recognized</string>
     <string name="nfc_tag_recognized_item">NFC tag for Item \"%s\" recognized</string>
     <string name="info_not_set">Not set</string>

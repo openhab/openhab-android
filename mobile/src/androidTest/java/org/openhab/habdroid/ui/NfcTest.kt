@@ -18,18 +18,9 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.InstrumentationRegistry
-import androidx.test.espresso.ViewInteraction
-import androidx.test.filters.LargeTest
-import androidx.test.runner.AndroidJUnit4
-
-import org.hamcrest.core.IsInstanceOf
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.openhab.habdroid.R
-import org.openhab.habdroid.TestWithoutIntro
-
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -37,7 +28,14 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.filters.LargeTest
+import androidx.test.runner.AndroidJUnit4
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.core.IsInstanceOf
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.openhab.habdroid.R
+import org.openhab.habdroid.TestWithoutIntro
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -57,8 +55,8 @@ class NfcTest : TestWithoutIntro() {
 
         val title = onView(allOf<View>(
                 IsInstanceOf.instanceOf<View>(android.widget.TextView::class.java),
-                withText(context.getString(R.string.nfc_dialog_title))))
-        title.check(matches(withText(context.getString(R.string.nfc_dialog_title))))
+                withText(context.getString(R.string.nfc_action_write_command_tag))))
+        title.check(matches(withText(context.getString(R.string.nfc_action_write_command_tag))))
 
         checkViewWithText(context, R.string.nfc_action_off)
         checkViewWithText(context, R.string.nfc_action_toggle)
