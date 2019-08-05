@@ -154,7 +154,7 @@ object MapViewHelper {
                 setOnDismissListener { mapView.onPause() }
                 setCanceledOnTouchOutside(true)
                 show()
-                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             }
 
             with(mapView) {

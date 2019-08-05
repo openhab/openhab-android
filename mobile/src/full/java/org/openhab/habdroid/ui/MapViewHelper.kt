@@ -137,7 +137,7 @@ object MapViewHelper {
                 }
                 dialog.setCanceledOnTouchOutside(true)
                 dialog.show()
-                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             }
             mapView.onStart()
             mapView.onResume()
