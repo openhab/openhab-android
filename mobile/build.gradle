@@ -8,6 +8,7 @@ buildscript {
     ext.powermock_version = '2.0.2'
     ext.espresso_version = '3.2.0'
     ext.androidx_test_version = '1.2.0'
+    ext.androidx_media_version = '1.0.0-rc02'
 
     repositories {
         maven {
@@ -37,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 173
         versionName "2.8.15-beta"
@@ -134,6 +135,8 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.work:work-runtime:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
+    implementation "androidx.media2:media2-widget:$androidx_media_version"
+    implementation "androidx.media2:media2-player:$androidx_media_version"
     implementation "org.jmdns:jmdns:3.5.5"
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
