@@ -78,7 +78,7 @@ data class Widget(
     companion object {
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject, iconFormat: String): Widget {
-            val item = Item.updateFromEvent(source.item, eventPayload.getJSONObject("item"))
+            val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
             val icon = eventPayload.optString("icon", source.icon)
             val iconPath = determineOH2IconPath(item, source.type, icon, iconFormat,
                 source.mappings.isNotEmpty())
