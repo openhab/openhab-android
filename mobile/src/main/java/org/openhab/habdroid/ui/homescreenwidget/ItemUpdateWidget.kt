@@ -132,10 +132,14 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat"
 
                 try {
-                    // TODO check if file exits
-                    val bitmap = connection.httpClient.get(iconUrl).response.bytes()
-                    context.openFileOutput(getFileNameForWidget(appWidgetId), MODE_PRIVATE).use {
-                        it.write(bitmap)
+                    if (context.fileList().contains(getFileNameForWidget(appWidgetId))) {
+                        Log.d(TAG, "File exits, don't download again")
+                    } else {
+                        Log.d(TAG, "File doesn't, download it")
+                        val bitmap = connection.httpClient.get(iconUrl).response.bytes()
+                        context.openFileOutput(getFileNameForWidget(appWidgetId), MODE_PRIVATE).use {
+                            it.write(bitmap)
+                        }
                     }
                 } catch (e: HttpClient.HttpException) {
                     Log.e(TAG, "Error downloading icon for url $iconUrl", e)
