@@ -13,6 +13,8 @@
 
 package org.openhab.habdroid.ui
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -38,6 +40,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
@@ -356,7 +359,15 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreferenceFromHierarchy(iconFormatPreference)
             } else {
                 iconFormatPreference.setOnPreferenceChangeListener { pref, _ ->
-                    clearImageCache(pref.context)
+                    val context = pref.context
+                    clearImageCache(context)
+                    val intent = Intent(context, ItemUpdateWidget::class.java)
+                    intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE;
+                    val ids = AppWidgetManager.getInstance(context)
+                        .getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
+                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+                    context.sendBroadcast(intent)
+                    clearImageCache(context)
                     true
                 }
             }
