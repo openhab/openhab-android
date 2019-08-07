@@ -42,6 +42,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isIconFormatPng
 import java.io.IOException
+import kotlin.math.min
 
 open class ItemUpdateWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -98,7 +99,10 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             appWidgetId: Int,
             appWidgetManager: AppWidgetManager
         ) {
-            val views = RemoteViews(context.packageName, R.layout.widget_item_update)
+            val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
+            val smallWidget = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) < 200
+            val views = RemoteViews(context.packageName,
+                if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update)
             val intent = Intent(context, BackgroundIntentReceiveActivity::class.java).apply {
                 action = BackgroundTasksManager.ACTION_UPDATE_WIDGET
                 putExtra(AbstractItemPickerActivity.EXTRA_ITEM_NAME, data.item)
@@ -110,13 +114,14 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.text,
                 context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
             appWidgetManager.updateAppWidget(appWidgetId, views)
-            fetchAndSetIcon(context, views, data, appWidgetId, appWidgetManager)
+            fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
         }
 
         private fun fetchAndSetIcon(
             context: Context,
             views: RemoteViews,
             data: ItemUpdateWidgetData,
+            smallWidget: Boolean,
             appWidgetId: Int,
             appWidgetManager: AppWidgetManager
         ) = GlobalScope.launch {
@@ -144,12 +149,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 }
             }
 
-            setIcon(context, views, appWidgetId, appWidgetManager)
+            setIcon(context, views, smallWidget, appWidgetId, appWidgetManager)
         }
 
         private fun setIcon(
             context: Context,
             views: RemoteViews,
+            smallWidget: Boolean,
             appWidgetId: Int,
             appWidgetManager: AppWidgetManager
         ) = GlobalScope.launch {
@@ -160,10 +166,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     BitmapFactory.decodeStream(byteArray.inputStream())
                 } else {
                     val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
-                    val height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
-                    val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+                    var height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
+                    val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
+                    if (!smallWidget) {
+                        height *= 0.5F
+                    }
                     // Image view height is 50% of the widget height
-                    val sizeInDp = Math.min(height * 0.5F, width.toFloat())
+                    val sizeInDp = min(height, width)
                     @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
                     Log.d(TAG, "Icon size: $size")
                     val svg = String(it.readBytes())
