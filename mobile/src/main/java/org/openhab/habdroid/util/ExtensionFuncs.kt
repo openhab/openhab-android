@@ -114,8 +114,13 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
         }
     }
 
+    return bitmapToSvg(string(), targetSize)
+}
+
+@Throws(IOException::class)
+fun bitmapToSvg(svgString: String, targetSize: Int): Bitmap {
     return try {
-        val svg = SVG.getFromInputStream(byteStream())
+        val svg = SVG.getFromString(svgString)
         val displayMetrics = Resources.getSystem().displayMetrics
         svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
         var density: Float? = displayMetrics.density

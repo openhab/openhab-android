@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
@@ -208,6 +209,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val fullscreenPreference = findPreference(Constants.PREFERENCE_FULLSCREEN)
             val sendDeviceInfoPrefixPref = findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
             val alarmClockPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK)
+            val iconFormatPreference = preferenceScreen.findPreference(Constants.PREFERENCE_ICON_FORMAT)
             val taskerPref = findPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
             val vibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
             val ringtoneVibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION)
@@ -250,15 +252,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             clearCachePref.setOnPreferenceClickListener { pref ->
-                // Get launch intent for application
-                val restartIntent = pref.context.packageManager.getLaunchIntentForPackage(pref.context.packageName)
-                restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                // Finish current activity
-                activity?.finish()
-                CacheManager.getInstance(pref.context).clearCache()
-                // Start launch activity
-                startActivity(restartIntent)
-                // Start launch activity
+                clearImageCache(pref.context)
                 true
             }
 
@@ -358,14 +352,30 @@ class PreferencesActivity : AbstractBaseActivity() {
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
                 ?: preferenceScreen.sharedPreferences.getInt(Constants.PREV_SERVER_FLAGS, 0)
 
+
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0) {
-                val iconFormatPreference = preferenceScreen.findPreference(Constants.PREFERENCE_ICON_FORMAT)
                 preferenceScreen.removePreferenceFromHierarchy(iconFormatPreference)
+            } else {
+                iconFormatPreference.setOnPreferenceChangeListener { pref, _ ->
+                    clearImageCache(pref.context)
+                    true
+                }
             }
             if (flags and ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT == 0) {
                 val chartScalingPreference = preferenceScreen.findPreference(Constants.PREFERENCE_CHART_SCALING)
                 preferenceScreen.removePreferenceFromHierarchy(chartScalingPreference)
             }
+        }
+
+        private fun clearImageCache(context: Context) {
+            // Get launch intent for application
+            val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+            restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            // Finish current activity
+            activity?.finish()
+            CacheManager.getInstance(context).clearCache()
+            // Start launch activity
+            startActivity(restartIntent)
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -560,11 +570,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
         const val START_EXTRA_SERVER_PROPERTIES = "server_properties"
-        const val PREFIX_ITEM_UPDATE_WIDGET = "itemUpdateWidget"
-        const val SUFIX_ITEM_UPDATE_WIDGET_ITEM = "item"
-        const val SUFIX_ITEM_UPDATE_WIDGET_STATE = "state"
-        const val SUFIX_ITEM_UPDATE_WIDGET_LABEL = "label"
-        const val SUFIX_ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
+        const val ITEM_UPDATE_WIDGET_ITEM = "item"
+        const val ITEM_UPDATE_WIDGET_STATE = "state"
+        const val ITEM_UPDATE_WIDGET_LABEL = "label"
+        const val ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
+        const val ITEM_UPDATE_WIDGET_ICON = "icon"
         private const val STATE_KEY_RESULT = "result"
 
         private val TAG = PreferencesActivity::class.java.simpleName

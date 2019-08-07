@@ -20,12 +20,6 @@ import android.provider.Settings
 import androidx.core.net.toUri
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Sitemap
-import org.openhab.habdroid.ui.PreferencesActivity.Companion.PREFIX_ITEM_UPDATE_WIDGET
-import org.openhab.habdroid.ui.PreferencesActivity.Companion.SUFIX_ITEM_UPDATE_WIDGET_ITEM
-import org.openhab.habdroid.ui.PreferencesActivity.Companion.SUFIX_ITEM_UPDATE_WIDGET_LABEL
-import org.openhab.habdroid.ui.PreferencesActivity.Companion.SUFIX_ITEM_UPDATE_WIDGET_MAPPED_STATE
-import org.openhab.habdroid.ui.PreferencesActivity.Companion.SUFIX_ITEM_UPDATE_WIDGET_STATE
-import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 
 enum class ScreenLockMode {
     Disabled,
@@ -47,6 +41,10 @@ fun SharedPreferences.getDefaultSitemap(): String {
 
 fun SharedPreferences.getIconFormat(): String {
     return getString(Constants.PREFERENCE_ICON_FORMAT, "PNG").orEmpty()
+}
+
+fun SharedPreferences.isIconFormatPng(): Boolean {
+    return getIconFormat() == "PNG"
 }
 
 fun SharedPreferences.isDemoModeEnabled(): Boolean {
@@ -121,20 +119,4 @@ fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?) {
     }
 }
 
-fun SharedPreferences.getInfoForWidget(id: Int): ItemUpdateWidget.ItemUpdateWidgetData? {
-    val item = getString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_ITEM)
-    val state = getString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_STATE)
-    val label = getString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_LABEL)
-    val mappedState = getString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_MAPPED_STATE)
-    if (item.isEmpty() || state.isEmpty() || label.isEmpty() || mappedState.isEmpty()) {
-        return null
-    }
-    return ItemUpdateWidget.ItemUpdateWidgetData(item, state, label, mappedState)
-}
 
-fun SharedPreferences.Editor.setInfoForWidget(id: Int, data: ItemUpdateWidget.ItemUpdateWidgetData) {
-    putString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_ITEM, data.item)
-    putString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_STATE, data.state)
-    putString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_LABEL, data.label)
-    putString(PREFIX_ITEM_UPDATE_WIDGET + id + SUFIX_ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
-}
