@@ -118,5 +118,3 @@ fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?) {
         putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label)
     }
 }
-
-

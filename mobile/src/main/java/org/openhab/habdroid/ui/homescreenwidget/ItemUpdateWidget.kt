@@ -212,7 +212,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 .apply()
         }
 
-        fun getFileNameForWidget(id: Int) : String {
+        fun getFileNameForWidget(id: Int): String {
             return "widget-$id"
         }
     }
@@ -222,5 +222,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val state: String,
         val label: String,
         val mappedState: String,
-        val icon: String)
+        val icon: String
+    )
 }
