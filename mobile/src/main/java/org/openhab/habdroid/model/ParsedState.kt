@@ -145,7 +145,6 @@ data class ParsedState internal constructor(
         fun toString(locale: Locale): String {
             if (!format.isNullOrEmpty()) {
                 val actualFormat = format.replace("%unit%", unit.orEmpty())
-                val actualValue: Number = if (actualFormat.contains("%d")) value.roundToInt() else value
                 try {
                     return String.format(locale, actualFormat, actualValue)
                 } catch (e: IllegalFormatException) {
@@ -157,8 +156,11 @@ data class ParsedState internal constructor(
         }
 
         fun formatValue(): String {
-            return value.toString()
+            return actualValue.toString()
         }
+
+        private var actualValue: Number =
+            if (format != null && format.contains("%d")) value.roundToInt() else value
     }
 }
 
