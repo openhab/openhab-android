@@ -362,7 +362,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     val context = pref.context
                     clearImageCache(context)
                     val intent = Intent(context, ItemUpdateWidget::class.java)
-                    intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE;
+                    intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                     val ids = AppWidgetManager.getInstance(context)
                         .getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
