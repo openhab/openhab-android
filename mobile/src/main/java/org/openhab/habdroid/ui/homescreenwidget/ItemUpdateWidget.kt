@@ -70,9 +70,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d(TAG, "onReceive() $intent")
         super.onReceive(context, intent)
-        if (intent?.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE) {
-            intent.extras
-        }
     }
 
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
@@ -114,7 +111,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
             appWidgetManager.updateAppWidget(appWidgetId, views)
             fetchAndSetIcon(context, views, data, appWidgetId, appWidgetManager)
-            Log.d(TAG, "$views;$intent")
         }
 
         private fun fetchAndSetIcon(
@@ -133,9 +129,9 @@ open class ItemUpdateWidget : AppWidgetProvider() {
 
                 try {
                     if (context.fileList().contains(getFileNameForWidget(appWidgetId))) {
-                        Log.d(TAG, "File exits, don't download again")
+                        Log.d(TAG, "Icon exits")
                     } else {
-                        Log.d(TAG, "File doesn't, download it")
+                        Log.d(TAG, "Download icon")
                         val bitmap = connection.httpClient.get(iconUrl).response.bytes()
                         context.openFileOutput(getFileNameForWidget(appWidgetId), MODE_PRIVATE).use {
                             it.write(bitmap)
@@ -166,9 +162,10 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
                     val height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
                     val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+                    // Image view height is 50% of the widget height
                     val sizeInDp = Math.min(height * 0.5F, width.toFloat())
                     @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
-                    Log.d(TAG, "Size: $size")
+                    Log.d(TAG, "Icon size: $size")
                     val svg = String(it.readBytes())
                     bitmapToSvg(svg, size)
                 }
