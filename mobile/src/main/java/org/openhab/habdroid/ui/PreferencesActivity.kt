@@ -361,13 +361,12 @@ class PreferencesActivity : AbstractBaseActivity() {
                 iconFormatPreference.setOnPreferenceChangeListener { pref, _ ->
                     val context = pref.context
                     clearImageCache(context)
-                    val intent = Intent(context, ItemUpdateWidget::class.java)
-                    intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                     val ids = AppWidgetManager.getInstance(context)
                         .getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
-                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+                    val intent = Intent(context, ItemUpdateWidget::class.java)
+                        .setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+                        .putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
                     context.sendBroadcast(intent)
-                    clearImageCache(context)
                     true
                 }
             }

@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.Px
+import androidx.core.content.edit
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
@@ -49,10 +50,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         Log.d(TAG, "onUpdate()")
         appWidgetIds.forEach {
             Log.d(TAG, "id: $it")
-            val data = getInfoForWidget(context, it)
-            if (data != null) {
-                setupWidget(context, data, it, appWidgetManager)
-            }
+            setupWidget(context, getInfoForWidget(context, it), it, appWidgetManager)
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
     }
@@ -65,7 +63,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     ) {
         Log.d(TAG, "onAppWidgetOptionsChanged()")
         val data = getInfoForWidget(context ?: return, appWidgetId)
-        setupWidget(context, data ?: return, appWidgetId, appWidgetManager ?: return)
+        setupWidget(context, data, appWidgetId, appWidgetManager ?: return)
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -84,7 +82,9 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 context.deleteSharedPreferences(getFileNameForWidget(it))
             } else {
-                saveInfoForWidget(context, ItemUpdateWidgetData("", "", "", "", ""), it)
+                context.getSharedPreferences(getFileNameForWidget(it), MODE_PRIVATE).edit {
+                    clear()
+                }
             }
         }
         super.onDeleted(context, appWidgetIds)
@@ -100,7 +100,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             appWidgetManager: AppWidgetManager
         ) {
             val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
-            val smallWidget = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) < 200
+            val smallWidget = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) <
+                context.resources.getDimension(R.dimen.small_widget_threshold)
             val views = RemoteViews(context.packageName,
                 if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update)
             val intent = Intent(context, BackgroundIntentReceiveActivity::class.java).apply {
@@ -137,9 +138,9 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         Log.d(TAG, "Icon exits")
                     } else {
                         Log.d(TAG, "Download icon")
-                        val bitmap = connection.httpClient.get(iconUrl).response.bytes()
+                        val content = connection.httpClient.get(iconUrl).response.bytes()
                         context.openFileOutput(getFileNameForWidget(appWidgetId), MODE_PRIVATE).use {
-                            it.write(bitmap)
+                            it.write(content)
                         }
                     }
                 } catch (e: HttpClient.HttpException) {
@@ -194,16 +195,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
-        fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData? {
+        fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData {
             val prefs = context.getSharedPreferences(getFileNameForWidget(id), MODE_PRIVATE)
             val item = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
             val state = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
             val label = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
             val mappedState = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
-            if (item.isEmpty() || state.isEmpty() || label.isEmpty() || mappedState.isEmpty()) {
-                return null
-            }
             return ItemUpdateWidgetData(item, state, label, mappedState, icon)
         }
 
@@ -212,14 +210,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             data: ItemUpdateWidgetData,
             id: Int
         ) {
-            val prefs = context.getSharedPreferences(getFileNameForWidget(id), MODE_PRIVATE)
-            prefs.edit()
-                .putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM, data.item)
-                .putString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE, data.state)
-                .putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
-                .putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
-                .putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
-                .apply()
+            context.getSharedPreferences(getFileNameForWidget(id), MODE_PRIVATE).edit {
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM, data.item)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE, data.state)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
+            }
         }
 
         fun getFileNameForWidget(id: Int): String {

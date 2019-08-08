@@ -88,7 +88,7 @@
             android:name=".ui.ItemUpdateWidgetItemPickerActivity"
             android:label="@string/item_update_widget_item_picker_title">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 

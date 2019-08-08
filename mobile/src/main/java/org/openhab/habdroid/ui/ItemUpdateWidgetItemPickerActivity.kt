@@ -27,9 +27,7 @@ class ItemUpdateWidgetItemPickerActivity(override var disabledMessageId: Int = 0
         val data = ItemUpdateWidget.ItemUpdateWidgetData(item.name, state, label, mappedState, item.category.orEmpty())
         ItemUpdateWidget.setupWidget(this, data, appWidgetId, appWidgetManager)
         ItemUpdateWidget.saveInfoForWidget(this, data, appWidgetId)
-        val resultValue = Intent().apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-        }
+        val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(RESULT_OK, resultValue)
         finish()
     }

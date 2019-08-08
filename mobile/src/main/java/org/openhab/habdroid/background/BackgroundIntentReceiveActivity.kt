@@ -41,8 +41,8 @@ class BackgroundIntentReceiveActivity : Activity() {
                 }
                 startActivity(startMainIntent)
             }
-        } else if (intent.action == BackgroundTasksManager.ACTION_UPDATE_WIDGET && intent.extras != null) {
-            BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(intent.extras!!)
+        } else if (intent.action == BackgroundTasksManager.ACTION_UPDATE_WIDGET) {
+            intent.extras?.let { BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(it) }
         }
 
         finishAndRemoveTaskIfPossible()
