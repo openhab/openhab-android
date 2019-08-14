@@ -4,25 +4,13 @@ As compilações em F-Droid têm FCM e o relatório de falha removidos e não se
 Experimente novos recursos e dê feedback antecipado!
 Você pode instalar a versão beta junto da <a href="https://f-droid.org/packages/org.openhab.habdroid/">versão estável</a>.
 
-<b>Nota importante</b>
-
-É necessário um servidor openHAB para esse aplicativo
-
 openHAB é uma plataforma de automação residencial de código aberto baseada em Java que integra e combina uma vasta gama de diferentes sistemas e tecnologias domésticos inteligentes em uma única solução.
 No topo da camada de abstração unificada, todos os dispositivos conectados estão disponíveis para os mecanismos de regras de automação abrangentes e diferentes interfaces de usuário.
 
 <b>Produtos suportados</b>
 
 Mais de 200 add-ons específicos fornecem suporte para marcas, dispositivos, tecnologias e protocolos de comunicação. Exemplos são o Z-Wave, Philips Hue, Amazon eco, Chromecast e Sonos. Descubra todos os add-ons disponíveis e dispositivos suportados e/ou funções em: https://www.openhab.org/addons/
-
-• Soluções de automação residencial: Z-Wave Ocean, Netatmo, Homematic, Insteon,...
-• Iluminação: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Aquecimento: Max!, Nest, Vitotronic, Heatmiser,...
-• Entretenimento: TV Samsung, TV LG, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
-• Segurança: ZoneMinder, DSC,...
-• Protocolos abertos: HTTP, TCP/UDP, MQTT, Serial,...
 • Apps de automação: Inclui plugins para Tasker e Locale
-• Especiais: Minecraft, carros Tesla, Serviços Climáticos,...
 
 <b>Comunidade Open Source</b>
 
@@ -34,5 +22,8 @@ Se você quiser traduzir o aplicativo para o seu idioma, junte-se a nós em http
 
 A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão de educar o público sobre as possibilidades e benefícios de soluções de automação residencial gratuitas e abertas. Aprenda sobre a missão e os serviços da fundação em https://www.openhabfoundation.org
 
+<b>Nota importante</b>
+
+É necessário um servidor openHAB para esse aplicativo
 
 Política de privacidade: https://www.openhabfoundation.org/privacy.html

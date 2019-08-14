@@ -4,25 +4,13 @@ Sestavení pro F-Droid má FCM a reporty o chybách odebrány a nemůže přijí
 Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!
 Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.
 
-<b>Důležitá poznámka</b>
-
-Pro správné fungování aplikace budete potřebovat openHAB server
-
 openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.
 Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.
 
 <b>Podporované produkty</b>
 
 Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/
-
-• Řešení domácí automatizace: Z-Wave, Banaba, Netatmo, Homematic, Insteon,...
-• Osvětlení: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Vytápění: Max!, Nest, Vitotronic, Heatmiser,...
-• Domácí zábava: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
-• Bezpečnost: ZoneMinder, DSC,...
-• Otevřené protokoly: HTTP, TCP/UDP, MQTT, sériový,...
 • Automatizační aplikace: Zahrnuje pluginy pro Tasker a Locale
-• Speciální použití: Minecraft, automobil Tesla, meteorologické služby,...
 
 <b>Open Source komunita</b>
 
@@ -34,5 +22,8 @@ Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https:
 
 openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
 
+<b>Důležitá poznámka</b>
+
+Pro správné fungování aplikace budete potřebovat openHAB server
 
 Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html

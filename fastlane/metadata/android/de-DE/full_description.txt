@@ -4,25 +4,13 @@ In der F-Droid-Version wurden FCM und die Übermittlung von Absturzberichten ent
 Testen Sie neue Features und geben Sie früh Feedback!
 Sie können die Betaversion neben der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilen Version</a> installieren.
 
-<b>Wichtiger Hinweis</b>
-
-Um diese App zu nutzen, benötigen Sie einen openHAB-Server
-
 openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.
 Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs- bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.
 
 <b>Unterstützte Produkte</b>
 
 Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://www.openhab.org/addons/
-
-• Heimautomatisierungslösungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Beleuchtung: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heizung: Max!, Nest, Vitotronic, Heatmiser, ...
-• Heimunterhaltung: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Sicherheitstechnik: ZoneMinder, DSC, ...
-• Offene Protokolle: HTTP, TCP/UDP, MQTT, Serial, ...
 • Automatisierungs-Apps: Enthält Plugins für Tasker und Locale
-• Spezielle Anwendungsfälle: Minecraft, Tesla Auto, Wetterdienste, ...
 
 <b>Open-Source-Community</b>
 
@@ -34,5 +22,8 @@ Wenn Sie die App in Ihre Sprache übersetzen möchten, dann nehmen Sie unter htt
 
 Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org
 
+<b>Wichtiger Hinweis</b>
+
+Um diese App zu nutzen, benötigen Sie einen openHAB-Server
 
 Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html

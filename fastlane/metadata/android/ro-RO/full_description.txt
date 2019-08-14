@@ -4,25 +4,13 @@ The builds on F-Droid have FCM and crash reporting removed and will not be able 
 Încercați funcții noi și lăsați primele impresii!
 Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
-<b>Notă importantă</b>
-
-Ai nevoie de un server openHAB pentru această aplicație
-
 openHAB este o platformă open-source pentru automatizarea locuințelor, bazată pe Java, care integrează o gamă largă de diferite sisteme și tehnologii într-o singură soluție.
 Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivele pentru motorul de automatizare bazat pe reguli și diferite interfețe de utilizator.
 
 <b>Produse suportate</b>
 
 Peste 200 de add-onuri specifice furnizează suport pentru producători, dispozitive, tehnologii și protocoale de comunicație. Exemple sunt Z-Wave, Philips Hue, Amazon Echo, Chromecast și Sonos. Descoperiți toate add-onurile disponibile, dispozitivele și/sau funcțiile suportate la: https://www.openhab.org/addons/
-
-Soluții de automatizare a locuințelor: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-Iluminat: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Încălzire: Max!, Nest, Vitotronic, Heatmiser, ...
-• Sisteme de divertisment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Securitate: ZoneMinder, DSC, ...
-• Protocoale deschise: HTTP, TCP/UDP, MQTT, Serial, ...
-• Automation apps: Includes plugins for Tasker and Locale
-• Cazuri speciale de utilizare: Minecraft, Tesla Car, Weather Services, ...
+The app has an action plugin for Tasker and Locale included.
 
 <b>Comunitate open source</b>
 
@@ -34,5 +22,8 @@ Dacă vrei să traduci aplicația în limba ta, alătură-te nouă la https://cr
 
 Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. Află mai multe despre misiunea și serviciile fundației la https://www.openhabfoundation.org
 
+<b>Notă importantă</b>
+
+Ai nevoie de un server openHAB pentru această aplicație
 
 Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html

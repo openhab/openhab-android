@@ -4,10 +4,6 @@ Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő mod
 Próbáld ki az új funkciókat és adj korai visszajelzést!
 A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.
 
-<b>Fontos megjegyzés</b>
-
-Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást
-
 openHAB, egy Java alapú, nyílt forráskódú otthon automatizálási platform. Mely integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat egyetlen felületen.
 Az egyes eszközök fölött található, mely így összefogja, és vezérli illetve automatizálja az összes hozzá csatlakozott elemet.
 
@@ -15,15 +11,7 @@ Az egyes eszközök fölött található, mely így összefogja, és vezérli il
 
 104/5000
 Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, technológiákat és kommunikációs protokollokat. Például a Z-Wave, a Philips Hue, az Amazon Echo, a Chromecast és a Sonos. Fedezze fel az összes rendelkezésre álló bővítményt és támogatott eszközt és / vagy funkciót a következő címen: https://www.openhab.org/addons/
-
-• Otthonautomatizálási megoldások: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Világítás: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Fűtés: Max!, Nest, Vitotronic, Heatmiser, ...
-• Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Biztonság: ZoneMinder, DSC, ...
-• Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...
 Automatizáló alkalmazások: Tartalmazza a Tasker-t és helymeghatározást
-• Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Időjárási szolgáltatások, ...
 
 <b>Nyílt forráskódú közösség</b>
 
@@ -35,5 +23,8 @@ Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz h
 
 A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org
 
+<b>Fontos megjegyzés</b>
+
+Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást
 
 Adatvédelem: https://www.openhabfoundation.org/privacy.html
