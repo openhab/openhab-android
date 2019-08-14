@@ -5,14 +5,6 @@
     <rules>Birleşik soyutlama katmanının üstünde, tüm bağlı cihazlar genel otomasyon kural motorları ve farklı kullanıcı arayüzleri için kullanılabilir.</rules>
     <supported>Desteklenen Ürünler</supported>
     <bindings>200'den fazla özel eklenti, markalar, cihazlar, teknolojiler ve iletişim protokolleri için destek sağlar. Örnekler Z-Wave, Philips Hue, Amazon Echo, Chromecast ve Sonos'tur. Mevcut tüm eklentileri ve desteklenen cihazları ve / veya işlevleri şu adreste keşfedin: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>Ev Otomasyonu Çözümleri: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
-    <lighting>• Aydınlatma: Philips Hue, IKEA Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Isıtma: Max!, Nest, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>• Ev Eğlence: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...</home_entertainment>
-    <security>• Güvenlik: ZoneMinder, DSC,...</security>
-    <open_protocols>• Açık protokoller: HTTP, TCP/UDP, MQTT, Serial,...</open_protocols>
-    <special_useCases>• Özel Kullanım Örnekleri: Minecraft, Tesla Car, Hava Durumu hizmetleri,...</special_useCases>
     <automation_apps/>
 
     <oss_community>Açık Kaynak Topluluğu</oss_community>
@@ -23,7 +15,7 @@
     <foundation>openHAB Vakfı</foundation>
     <about_foundation>openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. </about_foundation>
     <important_note>Önemli not</important_note>
-    <oh_server>Bu uygulama için openHAB sunucusuna ihtiyacınız var</oh_server>
+    <oh_server/>
     <short_description>Satıcı ve teknoloji agnostik açık kaynaklı ev otomasyonu</short_description>
     <fdroid/>
     <fdroid_beta><![CDATA[Beta sürümünü <a href="https://f-droid.org/packages/org.openhab.habdroid/">kararlı sürüm</a> ile birlikte kurabilirsiniz.]]></fdroid_beta>

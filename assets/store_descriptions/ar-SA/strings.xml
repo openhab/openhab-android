@@ -7,14 +7,6 @@
     <bindings>ما يزيد على 200 من إضافات محددة توفر الدعم لماركات أجهزة وتقنيات وبروتوكولات الاتصال. مثال زد-ويف، فيليبس هيو، أمازون إيكو، كرومكاست، و سونوس.
 https://docs.openhab.org/addons/bindings.html. أكتشف كل الإضافات المتوفرة والأجهزة المدعومة و/أو الوظائف بزبارة الرابط: 
 https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• حلول أتمتة المنزل: زد-ويف، إنأوشن، نتانتو، هوميتريك، إنستون، ...</home_automation_solutions>
-    <lighting>• الإضاءة: فيليبس هوي ، ترادفري ، ايكيا، ليف، لوتون ، ميليت،...</lighting>
-    <heating>• التدفئة: ماكس!، نست، فيتوترونيك، هيتمايسر،...</heating>
-    <home_entertainment>• الترفيه المنزلي: تلفاز سامسونج، تلفاز ال جي، سونوس، بيونير إي في آر ، سكويزبوكس، كودي، بلكس ،...</home_entertainment>
-    <security>• الأمن: زونيميندير، دي أس سي،...</security>
-    <open_protocols>البروتوكولات المفتوحة: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
-    <special_useCases>حالات إستخدام خاصة: مينكرافت، سيارة تيسلا، خدمات الطقس، ...</special_useCases>
     <automation_apps/>
 
     <oss_community>مجتمع المصدر المفتوح</oss_community>
@@ -25,7 +17,7 @@ https://www.openhab.org/addons/</bindings>
     <foundation>مؤسسة openHAB</foundation>
     <about_foundation>مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org</about_foundation>
     <important_note>ملاحظة هامة</important_note>
-    <oh_server>أنت بحاجة إلى خادم openHAB لهذا التطبيق</oh_server>
+    <oh_server/>
     <short_description>تكنولوجيا أتمتة المنزل المفتوحة المصدر والغير مرتبطة بتقنية أو مصنع محدد</short_description>
     <fdroid/>
     <fdroid_beta><![CDATA[يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.]]></fdroid_beta>

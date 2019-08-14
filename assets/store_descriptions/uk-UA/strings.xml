@@ -5,15 +5,7 @@
     <rules>Поверх програмних шарів, усі під'єднані пристрої доступні для глобальних правил автоматизації і різноманітних користувацьких інтерфейсів.</rules>
     <supported>Підтримувані продукти</supported>
     <bindings>Більше 200 додатків, які забезпечують підтримку пристроїв, технологій і протоколів передачі даних від різних виробників. Наприклад: Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos, Zigbee, Google Assistant. Відкрийте для себе усі доступні доповнення, підтримувані пристрої та/або функції на: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Рішення для домашньої автоматизації: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
-    <lighting>• Освітлення: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Опалення: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
-    <home_entertainment>• Розважальні мультимедійні системи: Samsung TV, LG TV, Sonos, Pioner AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
-    <security>• Безпека: ZoneMinder, DSC, ...</security>
-    <open_protocols>• Відкриті протоколи: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
-    <special_useCases>• Додаткові варіанти застосування: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
-    <automation_apps>• Програми автоматизації: Включає додатки для Tasker і Locale</automation_apps>
+    <automation_apps/>
 
     <oss_community>Open Source спільнота</oss_community>
     <forum>Ініціатори openHAB open source максимально підтримують свою спільноту. Форум, на якому зареєстровано більше 13 000 користувачів - те саме місце, де ви зможете знайти вказівки, рекомендації, допомогу і натхнення. Приєднуйтеся до спільноти openHAB на https://community.openhab.org</forum>
@@ -23,7 +15,7 @@
     <foundation>openHAB Foundation</foundation>
     <about_foundation>openHAB Foundation - це неприбуткова організація, яка поставила собі за мету розповісти суспільству про можливості і переваги вільних і відкритих рішень "розумного будинку". Дізнайтеся більше про цілі і послуги openHAB Foundation на https://www.openhabfoundation.org</about_foundation>
     <important_note>Важлива примітка</important_note>
-    <oh_server>Для цього додатку вам необхідний сервер openHAB</oh_server>
+    <oh_server/>
     <short_description>Відкрите ПЗ для домашньої автоматизації, неупереджене до виробників і технологій</short_description>
     <fdroid>У версія для F-Droid, FCM і звіти про падіння видалені, Ви не зможе отримувати push сповіщення від openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Ви можете встановити бета версію разом зі <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабільною версією</a>.]]></fdroid_beta>

@@ -5,14 +5,6 @@
     <rules>Ovenpå det enhetlige abstraksjonslaget er alle tilsluttede enheter tilgjengelig for den overgripende regelmotoren og ulike brukergrensesnitt.</rules>
     <supported>Produkter som har støtte</supported>
     <bindings>Over 200 tillegg gir support for varemerker, enheter, teknikk og kommunikasjonsprotokoller. For eksempel Z-Wave, Philips Hue, Amazon Echo, Chromecast och Sonos. Oppdag alle tilgjengelige tilleggsprogrammer og støttede enheter og/eller funksjoner på: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Hjemme automasjon løsninger: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
-    <lighting>• Belysning: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Oppvarming: Max!, reir, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>• Hjemmeunderholdning: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...</home_entertainment>
-    <security>• Sikkerhet: ZoneMinder, DSC,...</security>
-    <open_protocols>• Åpne protokoller: HTTP, TCP/UDP, MQTT, seriell,...</open_protocols>
-    <special_useCases>• Spesielle useCases: Minecraft, Tesla bil, værmeldingstjenester,...</special_useCases>
     <automation_apps/>
 
     <oss_community>Åpen kildekode Community</oss_community>
@@ -23,7 +15,7 @@
     <foundation>openHAB Foundation</foundation>
     <about_foundation>openHAB Foundation e.V. er en ideell organisasjon med oppgave å opplyse offentligheten om mulighetene og fordelene av fri og åpen smarte-hjem løsninger. Lær om oppdraget og tjenestene til stiftelsen under https://www.openhabfoundation.org</about_foundation>
     <important_note>Viktig merknad</important_note>
-    <oh_server>Du trenger en openHAB server for denne appen</oh_server>
+    <oh_server/>
     <short_description>Leverandør og teknologi uavhengig åpen kildekode for hjemme-automasjon</short_description>
     <fdroid/>
     <fdroid_beta><![CDATA[Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.]]></fdroid_beta>
