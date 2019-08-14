@@ -17,6 +17,7 @@ import android.app.AlertDialog
 import android.location.Location
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -128,14 +129,16 @@ object MapViewHelper {
                     .setNegativeButton(R.string.close, null)
                     .create()
 
-            dialog.setOnDismissListener {
-                mapView.onPause()
-                mapView.onStop()
-                mapView.onDestroy()
+            with(dialog) {
+                setOnDismissListener {
+                    mapView.onPause()
+                    mapView.onStop()
+                    mapView.onDestroy()
+                }
+                dialog.setCanceledOnTouchOutside(true)
+                dialog.show()
+                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             }
-            dialog.setCanceledOnTouchOutside(true)
-            dialog.show()
-
             mapView.onStart()
             mapView.onResume()
             mapView.getMapAsync { map ->

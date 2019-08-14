@@ -20,6 +20,7 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -153,6 +154,7 @@ object MapViewHelper {
                 setOnDismissListener { mapView.onPause() }
                 setCanceledOnTouchOutside(true)
                 show()
+                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             }
 
             with(mapView) {
