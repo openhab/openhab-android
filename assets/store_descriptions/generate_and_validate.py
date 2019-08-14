@@ -45,26 +45,19 @@ for file in appStoreStringsFiles:
     elif sys.argv[1] == "playBeta":
         fullDescription += getString('beta') + "\n"
         fullDescription += getString('play_beta') + "\n\n"
-    fullDescription += "<b>" + getString('important_note') + "</b>\n\n"
-    fullDescription += getString('oh_server') + "\n\n"
     fullDescription += getString('whatis') + "\n"
     fullDescription += getString('rules') + "\n\n"
     fullDescription += "<b>" + getString('supported') + "</b>\n\n"
-    fullDescription += getString('bindings') + "\n\n"
-    fullDescription += getString('home_automation_solutions') + "\n"
-    fullDescription += getString('lighting') + "\n"
-    fullDescription += getString('heating') + "\n"
-    fullDescription += getString('home_entertainment') + "\n"
-    fullDescription += getString('security') + "\n"
-    fullDescription += getString('open_protocols') + "\n"
-    fullDescription += getString('automation_apps') + "\n"
-    fullDescription += getString('special_useCases') + "\n\n"
+    fullDescription += getString('bindings') + "\n"
+    fullDescription += getString('automation_apps') + "\n\n"
     fullDescription += "<b>" + getString('oss_community') + "</b>\n\n"
     fullDescription += getString('forum') + "\n"
     fullDescription += getString('report_issues') + "\n"
     fullDescription += getString('translation') + "\n\n"
     fullDescription += "<b>" + getString('foundation') + "</b>\n\n"
-    fullDescription += getString('about_foundation') + "\n"
+    fullDescription += getString('about_foundation') + "\n\n"
+    fullDescription += "<b>" + getString('important_note') + "</b>\n\n"
+    fullDescription += getString('oh_server')
     if "fdroid" in sys.argv[1]:
         fullDescription += "\n\n" + getString('fdroid_privacy_policy')
 
