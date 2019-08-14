@@ -5,14 +5,6 @@
     <rules>Na górnej ujednoliconej warstwie abstrakcji wszystkie połączone urządzenia są dostępne dla silnika reguł a także różnych interfejsów użytkownika.</rules>
     <supported>Wspierane Produkty</supported>
     <bindings>Ponad 200 dodatków wspierających marki, urządzenia, technologie i protokoły komunikacji. Jednymi z przykładów są Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Odkryj wszystkie dostępne dodatki i obsługiwane urządzenia i/lub funkcje na: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Rozwiązania automatyki domowej: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
-    <lighting>• Oświetlenie: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Ogrzewanie: Max!, Nest, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>• Kina domowego: Samsung TV, LG TV, Sonos, pionier AVR, ściskać, Kodi, Plex,...</home_entertainment>
-    <security>• Bezpieczeństwo: ZoneMinder, DSC,...</security>
-    <open_protocols>• Otwarte protokoły: HTTP, TCP/UDP, MQTT, Serial,...</open_protocols>
-    <special_useCases>Specjalne zastosowania: Minecraft, Samochody Tesla, Prognoza Pogody, ...</special_useCases>
     <automation_apps/>
 
     <oss_community>Społeczność Open Source</oss_community>
@@ -24,7 +16,7 @@ znaleźć wskazówki, pomoc i inspirację. Dołącz do forum społeczności open
     <foundation>Fundacja openHAB</foundation>
     <about_foundation>Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji na https://www.openhabfoundation.org</about_foundation>
     <important_note>Istotne kwestie</important_note>
-    <oh_server>Potrzebujesz serwera openHAB dla tej aplikacji</oh_server>
+    <oh_server/>
     <short_description/>
     <fdroid/>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
