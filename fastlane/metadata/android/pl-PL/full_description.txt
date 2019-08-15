@@ -25,6 +25,6 @@ Fundacja openHAB jest organizacją non-profit z misją informowania o możliwoś
 
 <b>Istotne kwestie</b>
 
-Potrzebujesz serwera openHAB dla tej aplikacji
+You need an openHAB server for this app.
 
 Polityka prywatności: https://www.openhabfoundation.org/privacy.html

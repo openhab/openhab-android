@@ -10,7 +10,7 @@ Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für
 <b>Unterstützte Produkte</b>
 
 Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://www.openhab.org/addons/
-• Automatisierungs-Apps: Enthält Plugins für Tasker und Locale
+Diese App besitzt ein Action-Plugin für Tasker und Locale.
 
 <b>Open-Source-Community</b>
 
@@ -24,6 +24,6 @@ Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öf
 
 <b>Wichtiger Hinweis</b>
 
-Um diese App zu nutzen, benötigen Sie einen openHAB-Server
+Um diese App zu nutzen, benötigen Sie einen openHAB-Server.
 
 Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html

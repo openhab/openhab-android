@@ -10,7 +10,7 @@ Usando un livello unificato di astrazione, tutti i dispositivi collegati sono di
 <b>Prodotti supportati</b>
 
 Oltre 200 componenti aggiuntivi forniscono il supporto per marche, dispositivi, tecnologie e protocolli di comunicazione. Esempi sono Z-Wave, Philips Hue, Amazon Echo, Chromecast e Sonos. Scopri tutti i componenti aggiuntivi disponibili, dispositivi supportati e funzionalita' a: https://www.openhab.org/addons/
-• Applicazioni automatiche: Include plugin per Tasker e Locale
+L'app ha un plugin di azione per Tasker e Locale incluso.
 
 <b>Comunità Open Source</b>
 
@@ -24,6 +24,6 @@ openHAB Foundation e.V. è una organizzazione nonprofit, con la missione di educ
 
 <b>Nota importante</b>
 
-È richiesto un server openHAB per questa applicazione
+Hai bisogno di un server openHAB per questa app.
 
 Informativa sulla privacy: https://www.openhabfoundation.org/privacy.html

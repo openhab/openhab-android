@@ -10,7 +10,7 @@ Por encima de la capa unificada de abstracción, todos los dispositivos conectad
 <b>Productos compatibles</b>
 
 Más de 200 complementos específicos proporcionan soporte para distintas marcas, dispositivos, tecnologías y protocolos de comunicación. Algunos ejemplos son Z-Wave, Philips Hue, Amazon eco, Chromecast y Sonos. Descubra todos los complementos disponibles, dispositivos compatibles y otras funciones en: https://www.openhab.org/addons/
-• Apps de automatización: Incluyen plugins para Tasker y Locale
+The app has an action plugin for Tasker and Locale included.
 
 <b>Comunidad de código abierto</b>
 
@@ -24,6 +24,6 @@ La openHAB Foundation e.V. es una organización sin ánimo de lucro cuya misión
 
 <b>Nota importante</b>
 
-Usted necesita un servidor openHAB para usar esta aplicación
+You need an openHAB server for this app.
 
 Política de privacidad: https://www.openhabfoundation.org/privacy.html

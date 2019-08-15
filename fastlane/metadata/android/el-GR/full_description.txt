@@ -24,6 +24,6 @@ The app has an action plugin for Tasker and Locale included.
 
 <b>Σημαντική Σημείωση</b>
 
-Χρειάζεστε έναν διακομιστή openHAB για αυτό το app
+You need an openHAB server for this app.
 
 Πολιτική προστασίας προσωπικών δεδομένων: https://www.openhabfoundation.org/privacy.html

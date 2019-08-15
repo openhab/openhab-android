@@ -10,7 +10,7 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 <b>מוצרים נתמכים</b>
 
 למעלה מ-200 תוספים מספקים תמיכה עבור מותגים, התקנים, טכנולוגיות ופרוטוקולי תקשורת. כמה דוגמאות: Amazon Echo, Chromecast, Philips Hue, Z-Wave ו- Sonos. גלה את כל ההרחבות הזמינות, ההתקנים הנתמכים ו/או פונקציות ב: https://www.openhab.org/addons
-• יישומי אוטומציה: כולל תוספים עבור Tasker והגדרות אזוריות
+The app has an action plugin for Tasker and Locale included.
 
 <b>קהילת הקוד הפתוח</b>
 
@@ -24,6 +24,6 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 
 <b>הערה חשובה</b>
 
-יש צורך בשרת openHAB עבור יישום זה
+You need an openHAB server for this app.
 
 מדיניות פרטיות: https://www.openhabfoundation.org/privacy.html

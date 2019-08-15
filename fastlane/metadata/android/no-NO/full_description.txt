@@ -24,6 +24,6 @@ openHAB Foundation e.V. er en ideell organisasjon med oppgave å opplyse offentl
 
 <b>Viktig merknad</b>
 
-Du trenger en openHAB server for denne appen
+You need an openHAB server for this app.
 
 Personvern: https://www.openhabfoundation.org/privacy.html

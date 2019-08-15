@@ -24,6 +24,6 @@ openHAB 基金会是一个致力于向公共提出开源智能家居解决方案
 
 <b>重要提示</b>
 
-您需要 openHAB 服务器以使用此应用程序
+You need an openHAB server for this app.
 
 隐私政策：https://www.openhabfoundation.org/privacy.html

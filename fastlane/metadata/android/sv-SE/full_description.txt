@@ -24,6 +24,6 @@ openHAB Foundation är en icke vinstdrivande organisation som har som mål att u
 
 <b>Viktigt meddelande</b>
 
-Du behöver en openHAB-server för denna app
+You need an openHAB server for this app.
 
 Integritetspolicy: https://www.openhabfoundation.org/privacy.html

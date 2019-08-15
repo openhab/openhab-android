@@ -10,7 +10,7 @@ Všechna připojená zařízení je možné spravovat, ovládat a automatizovat 
 <b>Podporované produkty</b>
 
 Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/
-• Automatizační aplikace: Zahrnuje pluginy pro Tasker a Locale
+Aplikace obsahuje action plugin pro Tasker a Locale.
 
 <b>Open Source komunita</b>
 
@@ -24,6 +24,6 @@ openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřej
 
 <b>Důležitá poznámka</b>
 
-Pro správné fungování aplikace budete potřebovat openHAB server
+Pro tuto aplikaci potřebujete openHAB server.
 
 Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html

@@ -24,6 +24,6 @@ openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olan
 
 <b>Önemli not</b>
 
-Bu uygulama için openHAB sunucusuna ihtiyacınız var
+You need an openHAB server for this app.
 
 Gizlilik Politikası: https://www.openhabfoundation.org/privacy.html
