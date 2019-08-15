@@ -71,6 +71,9 @@
     <string name="turn_off">Vypnout</string>
     <string name="info_conn_url">Připojuji se k lokální URL</string>
     <string name="info_conn_rem_url">Připojuji se ke vzdálené URL</string>
+    <string name="app_shortcut_disabled_habpanel">Na Vašem serveru není nainstalován HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">Váš vzdálený server není dostupný</string>
+    <string name="app_shortcut_disabled_voice_recognition">Na Vašem zařízení nemáte nainstalovanou aplikaci k převodu řeči na text</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_sitemap_generic_load_error">Nelze načíst Sitemap. Došlo k následující chybě: %1$s</string>
@@ -215,6 +218,7 @@
     <string name="settings_debug_messages_title">Zobrazit informace pro řešení potíží</string>
     <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
     <string name="unknown">Neznámý</string>
+    <string name="error_network_type_unsupported">Typ sítě není podporován</string>
     <string name="set">Nastavit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
@@ -273,4 +277,5 @@
     <string name="settings_tasker_plugin">Integrace Taskeru</string>
     <string name="settings_tasker_plugin_summary">Povolit Tasker akční plugin, který umožňuje aktualizaci Items prostřednictvím Taskeru nebo jiných kompatibilních aplikací</string>
     <string name="turn_on">Zapnout</string>
+    <string name="press_back_to_exit">Pro ukončení stiskněte znovu tlačítko zpět</string>
 </resources>
