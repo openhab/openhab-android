@@ -1,0 +1,2 @@
+## Fixed
+* Use format specifier also when updating non-UoM items. (#1469)
