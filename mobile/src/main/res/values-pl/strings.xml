@@ -252,4 +252,6 @@
     <!-- Item picker -->
     <string name="item_picker_dialog_title">Wybierz stan</string>
     <string name="search">Szukaj</string>
+    <string name="turn_on">Włącz</string>
+    <string name="press_back_to_exit">Naciśnij ponownie, aby wyjść</string>
 </resources>
