@@ -71,6 +71,9 @@
     <string name="turn_off">כיבוי</string>
     <string name="info_conn_url">מתחבר לכתובת מקומית</string>
     <string name="info_conn_rem_url">מתחבר לכתובת מרוחקת</string>
+    <string name="app_shortcut_disabled_habpanel">HABPanel אינו מותקן בשרת</string>
+    <string name="app_shortcut_disabled_notifications">השרת המרוחק אינו זמין</string>
+    <string name="app_shortcut_disabled_voice_recognition">היישום דיבור-לטקסט אינו מותקן במכשיר שלך</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
@@ -273,4 +276,5 @@
     <string name="settings_tasker_plugin">שילוב עם Tasker</string>
     <string name="settings_tasker_plugin_summary">אפשר את תוסף פעולת Tasker על מנת לעדכן פריטים דרך Tasker או אפליקציות אחרות התומכות בכך</string>
     <string name="turn_on">הפעל</string>
+    <string name="press_back_to_exit">לחץ \'חזור\' פעם נוספת כדי לצאת</string>
 </resources>
