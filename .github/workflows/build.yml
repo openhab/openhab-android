@@ -18,9 +18,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Setup Gradle
-      run: mkdir ~/.gradle/ && \
-            echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties && \
-            echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+      run: mkdir ~/.gradle/ && echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
     - name: Build
       run: ./gradlew :mobile:assemble${{ matrix.license }}${{ matrix.release }}
     - name: Unit Tests
