@@ -4,8 +4,9 @@ on: push
 jobs:
   validate:
     runs-on: ubuntu-latest
-    matrix:
-      flavor: [play, playBeta, fdroid, fdroidBeta]
+    strategy:
+      matrix:
+        flavor: [play, playBeta, fdroid, fdroidBeta]
     steps:
       - uses: actions/checkout@v1
         with:
