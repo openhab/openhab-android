@@ -4,7 +4,6 @@ on: pull_request
 jobs:
   label:
     runs-on: ubuntu-latest
-    name: label
     steps:
     - uses: actions/labeler@v2
       with:
