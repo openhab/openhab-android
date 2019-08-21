@@ -18,6 +18,6 @@ jobs:
       with:
         java-version: 1.8
     - name: Build
-      run: ./gradlew :mobile:assemble${{ license }}${{ release }}
+      run: ./gradlew :mobile:assemble${{ matrix.license }}${{ matrix.release }}
     - name: Unit Tests
-      run: ./gradlew :mobile:test${{ license }}${{ release }}ReleaseUnitTest
+      run: ./gradlew :mobile:test${{ matrix.license }}${{ matrix.release }}ReleaseUnitTest
