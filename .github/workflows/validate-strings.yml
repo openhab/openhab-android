@@ -2,7 +2,7 @@ name: Validate Strings
 on: push
 
 jobs:
-  validate:
+  app-store:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -12,3 +12,10 @@ jobs:
         with:
           fetch-depth: 1
       - run: python3 assets/store_descriptions/generate_and_validate.py ${{ matrix.flavor }}
+  app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: python3 travis/validate-app-strings.py
