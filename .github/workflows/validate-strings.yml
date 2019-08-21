@@ -1,0 +1,13 @@
+name: Validate Strings
+on: push
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: python3 assets/store_descriptions/generate_and_validate.py play
+      - run: python3 assets/store_descriptions/generate_and_validate.py playBeta
+      - run: python3 assets/store_descriptions/generate_and_validate.py fdroid
+      - run: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
+      - run: python3 travis/validate-app-strings.py
