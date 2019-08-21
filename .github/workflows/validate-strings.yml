@@ -12,7 +12,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Validate App Store Strings ${{ matrix.flavor }}
-        run: python3 assets/store_descriptions/generate_and_validate.py ${{ matrix.flavor }}
+        run: python3 assets/store_descriptions/generate_and_validate.py
   app:
     runs-on: ubuntu-latest
     steps:
