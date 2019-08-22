@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -137,6 +138,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 if (which == labelArray.size - 1 && suggestedCommands.shouldShowCustom) {
                     val input = EditText(this)
                     input.inputType = suggestedCommands.inputTypeFlags
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        input.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                    }
                     val customDialog = AlertDialog.Builder(this)
                         .setTitle(getString(R.string.item_picker_custom))
                         .setView(input)
