@@ -45,12 +45,14 @@ class NfcTest : TestWithoutIntro() {
         val recyclerView = onView(withId(R.id.recyclerview))
         val context = InstrumentationRegistry.getTargetContext()
 
+        // Long click "Widget Overview"
         recyclerView.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(10, longClick()))
         checkViewWithText(context, R.string.nfc_action_to_sitemap_page)
         pressBack()
 
         recyclerView.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(10, click()))
 
+        // Long click "Toggle Switch"
         recyclerView.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(1, longClick()))
 
         val title = onView(allOf<View>(
