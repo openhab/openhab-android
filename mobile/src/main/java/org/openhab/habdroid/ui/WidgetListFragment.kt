@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.app.ActivityManager
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -21,6 +22,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.nfc.NfcAdapter
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextMenu
@@ -189,14 +191,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private fun populateContextMenu(widget: Widget, menu: ContextMenu) {
         val context = context ?: return
         val suggestedCommands = suggestedCommandsFactory.fill(widget)
-        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null
+        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || isEmulator()
         val hasCommandOptions = suggestedCommands.commands.isNotEmpty() || suggestedCommands.shouldShowCustom
 
         if (widget.linkedPage != null) {
             if (nfcSupported) {
                 if (hasCommandOptions) {
                     val nfcMenu = menu.addSubMenu(Menu.NONE, 1000, Menu.NONE, R.string.nfc_action_write_command_tag)
-                    nfcMenu.setHeaderTitle(R.string.nfc_action_write_command_tag)
+                    nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
                     populateNfcStatesMenu(nfcMenu, context, suggestedCommands, widget)
                 }
                 menu.add(Menu.NONE, 1001, Menu.NONE, R.string.nfc_action_to_sitemap_page)
@@ -208,6 +210,17 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             menu.setHeaderTitle(R.string.nfc_action_write_command_tag)
             populateNfcStatesMenu(menu, context, suggestedCommands, widget)
         }
+    }
+
+    private fun isEmulator() : Boolean {
+        return Build.FINGERPRINT.startsWith("generic")
+            || Build.FINGERPRINT.startsWith("unknown")
+            || Build.MODEL.contains("google_sdk")
+            || Build.MODEL.contains("Emulator")
+            || Build.MODEL.contains("Android SDK built for x86")
+            || Build.MANUFACTURER.contains("Genymotion")
+            || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+            || "google_sdk".equals(Build.PRODUCT)
     }
 
     private fun populateNfcStatesMenu(
