@@ -229,7 +229,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         widget: Widget
     ) {
         val name = widget.item?.name ?: return
-        val listener = object: MenuItem.OnMenuItemClickListener {
+        val listener = object : MenuItem.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 val id = item?.itemId ?: return false
                 if (id == CONTEXT_MENU_ID_WRITE_CUSTOM_TAG) {
