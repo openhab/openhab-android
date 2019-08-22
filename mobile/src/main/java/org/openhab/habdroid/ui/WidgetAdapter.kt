@@ -123,7 +123,7 @@ class WidgetAdapter(
         return true
     }
 
-    fun getItemForContextMenu(info : ContextMenuAwareRecyclerView.RecyclerContextMenuInfo): Widget? {
+    fun getItemForContextMenu(info: ContextMenuAwareRecyclerView.RecyclerContextMenuInfo): Widget? {
         return if (info.position < items.size) items[info.position] else null
     }
 
