@@ -233,6 +233,9 @@
     <string name="clear_log">Effacer le journal</string>
     <string name="empty_log">Le journal est vide</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Ajouter à l\'écran d\'accueil</string>
+    <string name="home_shortcut_error_pinning">Erreur lors de l\'ajout à l\'écran d\'accueil</string>
+    <string name="home_shortcut_success_pinning">Ajouté à l\'écran d\'accueil</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
     <string name="content_description_stop_roller_shutter">Stopper le volet</string>
@@ -243,6 +246,8 @@
     <string name="content_description_open_number_picker">Ouvrir le sélecteur numérique</string>
     <string name="content_description_video">Vidéo</string>
     <string name="content_description_open_openhab">Ouvrir openHAB</string>
+    <string name="content_description_increase_item_value">Augmente la valeur de l\'Item</string>
+    <string name="content_description_decrease_item_value">Diminue la valeur de l\'Item</string>
     <string name="swipe_to_refresh_description">L\'actualisation se fait automatiquement, vous n\'avez normalement rien à faire</string>
     <string name="swipe_to_refresh_dismiss">Compris !</string>
     <!-- Intro strings -->
@@ -259,4 +264,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">OK</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Aucun Item trouvé</string>
 </resources>
