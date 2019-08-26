@@ -55,10 +55,7 @@ class NfcTest : TestWithoutIntro() {
         // Long click "Toggle Switch"
         recyclerView.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(1, longClick()))
 
-        val title = onView(allOf<View>(
-                IsInstanceOf.instanceOf<View>(android.widget.TextView::class.java),
-                withText(context.getString(R.string.nfc_action_write_command_tag))))
-        title.check(matches(withText(context.getString(R.string.nfc_action_write_command_tag))))
+        checkViewWithText(context, R.string.nfc_action_write_command_tag)
 
         checkViewWithText(context, R.string.nfc_action_off)
         checkViewWithText(context, R.string.nfc_action_toggle)

@@ -117,7 +117,7 @@ object Util {
     }
 
     fun isEmulator(): Boolean {
-        return Build.FINGERPRINT.startsWith("generic") ||
+        val isEmulator = Build.FINGERPRINT.startsWith("generic") ||
             Build.FINGERPRINT.startsWith("unknown") ||
             Build.MODEL.contains("google_sdk") ||
             Build.MODEL.contains("Emulator") ||
@@ -125,5 +125,7 @@ object Util {
             Build.MANUFACTURER.contains("Genymotion") ||
             (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
             "google_sdk" == Build.PRODUCT
+        Log.d(TAG, "Device is emulator: $isEmulator")
+        return isEmulator
     }
 }
