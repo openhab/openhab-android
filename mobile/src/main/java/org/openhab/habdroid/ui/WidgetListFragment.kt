@@ -21,7 +21,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.nfc.NfcAdapter
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextMenu
@@ -57,6 +56,7 @@ import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.SuggestedCommandsFactory
+import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -190,7 +190,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private fun populateContextMenu(widget: Widget, menu: ContextMenu) {
         val context = context ?: return
         val suggestedCommands = suggestedCommandsFactory.fill(widget)
-        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || isEmulator()
+        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || Util.isEmulator()
         val hasCommandOptions = suggestedCommands.commands.isNotEmpty() || suggestedCommands.shouldShowCustom
 
         if (widget.linkedPage != null) {
@@ -211,17 +211,6 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
     }
 
-    private fun isEmulator(): Boolean {
-        return Build.FINGERPRINT.startsWith("generic") ||
-            Build.FINGERPRINT.startsWith("unknown") ||
-            Build.MODEL.contains("google_sdk") ||
-            Build.MODEL.contains("Emulator") ||
-            Build.MODEL.contains("Android SDK built for x86") ||
-            Build.MANUFACTURER.contains("Genymotion") ||
-            (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
-            "google_sdk" == Build.PRODUCT
-    }
-
     private fun populateNfcStatesMenu(
         menu: Menu,
         context: Context,
@@ -240,7 +229,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                         .setView(input)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             startActivity(WriteTagActivity.createItemUpdateIntent(context, name, input.text.toString(),
-                                input.text.toString(), widget.item.label.orEmpty())) }
+                                input.text.toString(), widget.item.label.orEmpty()))
+                        }
                         .setNegativeButton(android.R.string.cancel, null)
                         .show()
                     input.setOnFocusChangeListener { _, hasFocus ->
