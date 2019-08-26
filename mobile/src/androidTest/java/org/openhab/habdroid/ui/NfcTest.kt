@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.content.Context
-import android.view.View
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.InstrumentationRegistry
@@ -30,8 +29,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.filters.LargeTest
 import androidx.test.runner.AndroidJUnit4
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.core.IsInstanceOf
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.openhab.habdroid.R
