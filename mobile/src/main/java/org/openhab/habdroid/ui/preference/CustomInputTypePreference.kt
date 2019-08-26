@@ -26,19 +26,14 @@ import androidx.preference.EditTextPreferenceDialogFragmentCompat
 class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs) {
     private val inputType: Int
-    private var autofillHints: String? = null
+    private var autofillHints: Array<String>? = null
 
     init {
-        context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.inputType)).apply {
+        context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints))
+            .apply {
             inputType = getInt(0, 0)
+            autofillHints = getString(1)?.split(',')?.toTypedArray()
             recycle()
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.autofillHints)).apply {
-                autofillHints = getString(0)
-                recycle()
-            }
         }
     }
 
@@ -53,12 +48,12 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
                 editor?.inputType = type
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val hints = arguments?.getString(KEY_AUTOFILL_HINTS)
+                val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
                 if (hints == null) {
                     editor?.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
                 } else {
-                    val hintsList = hints.split('|').toTypedArray()
-                    editor?.setAutofillHints(*hintsList)
+                    editor?.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+                    editor?.setAutofillHints(*hints)
                 }
             }
             super.onBindDialogView(view)
@@ -68,7 +63,7 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
             private const val KEY_INPUT_TYPE = "inputType"
             private const val KEY_AUTOFILL_HINTS = "autofillHint"
 
-            fun newInstance(key: String, inputType: Int, autofillHints: String?): PrefFragment {
+            fun newInstance(key: String, inputType: Int, autofillHints: Array<String>?): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(ARG_KEY to key, KEY_INPUT_TYPE to inputType,
                     KEY_AUTOFILL_HINTS to autofillHints)

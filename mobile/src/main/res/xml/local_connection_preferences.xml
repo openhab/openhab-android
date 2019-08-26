@@ -14,7 +14,7 @@
         android:inputType="textNoSuggestions"
         android:key="default_openhab_username"
         android:title="@string/settings_openhab_username"
-        android:autofillHints="username|emailAddress"
+        android:autofillHints="username,emailAddress"
         android:icon="@drawable/ic_person_outline_grey_24dp" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
