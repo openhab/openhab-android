@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui.preference
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.res.TypedArray
 import android.text.Editable
@@ -22,6 +21,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
