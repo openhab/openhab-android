@@ -1,0 +1,2 @@
+## Fixed
+* Use positional formatting for strings with more than one substitution (#1484)
