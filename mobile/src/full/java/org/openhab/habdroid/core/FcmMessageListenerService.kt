@@ -36,14 +36,14 @@ import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
 
 class FcmMessageListenerService : FirebaseMessagingService() {
-    override fun onNewToken(token: String?) {
+    override fun onNewToken(token: String) {
         super.onNewToken(token)
         FcmRegistrationService.scheduleRegistration(this)
     }
 
-    override fun onMessageReceived(message: RemoteMessage?) {
+    override fun onMessageReceived(message: RemoteMessage) {
         val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        val data = message?.data ?: return
+        val data = message.data
         val messageType = data["type"] ?: return
         val notificationId = data[EXTRA_NOTIFICATION_ID]?.toInt() ?: 1
 
