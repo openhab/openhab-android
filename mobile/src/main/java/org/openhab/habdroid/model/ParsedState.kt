@@ -159,7 +159,7 @@ data class ParsedState internal constructor(
             return getActualValue().toString()
         }
 
-        private fun getActualValue() : Number {
+        private fun getActualValue(): Number {
             return if (format != null && format.contains("%d")) value.roundToInt() else value
         }
     }
