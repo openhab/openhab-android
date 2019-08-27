@@ -267,7 +267,6 @@
     <string name="item_picker_custom">Egyéni</string>
     <string name="item_picker_dialog_title">Válasszon állapotot</string>
     <string name="item_picker">openHAB elememek</string>
-    <string name="item_picker_blurb">Beállít erről \"%s\" (%s) erre \"%s\"</string>
     <string name="search">Keresés</string>
     <string name="settings_tasker_plugin">Teendők integrálása</string>
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
