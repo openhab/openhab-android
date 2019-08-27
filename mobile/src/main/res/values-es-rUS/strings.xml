@@ -270,7 +270,6 @@
     <string name="item_picker_custom">Personalizado</string>
     <string name="item_picker_dialog_title">Seleccionar estado</string>
     <string name="item_picker">ítems de openHAB</string>
-    <string name="item_picker_blurb">Establecer \"%s\" (%s) a \"%s\"</string>
     <string name="search">Buscar</string>
     <string name="settings_tasker_plugin">Integración con Tasker</string>
     <string name="settings_tasker_plugin_summary">Habilitar el action plugin de Tasker que permite actualizar ítems a través de Tasker u otras aplicaciones compatibles</string>
