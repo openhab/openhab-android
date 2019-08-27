@@ -272,7 +272,6 @@
     <string name="item_picker_custom">התאמה אישית</string>
     <string name="item_picker_dialog_title">בחר מצב</string>
     <string name="item_picker">פריט openHAB</string>
-    <string name="item_picker_blurb">קבע \"%s\" (%s) ל- \"%s\"</string>
     <string name="search">חיפוש</string>
     <string name="settings_tasker_plugin">שילוב עם Tasker</string>
     <string name="settings_tasker_plugin_summary">אפשר את תוסף פעולת Tasker על מנת לעדכן פריטים דרך Tasker או אפליקציות אחרות התומכות בכך</string>
