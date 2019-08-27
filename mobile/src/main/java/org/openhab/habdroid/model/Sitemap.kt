@@ -38,14 +38,12 @@ fun Node.toSitemap(): Sitemap? {
     var label: String? = null
     var name: String? = null
     var icon: String? = null
-    var link: String? = null
     var homepageLink: String? = null
 
     childNodes.forEach { node ->
         when (node.nodeName) {
             "name" -> name = node.textContent
             "label" -> label = node.textContent
-            "link" -> link = node.textContent
             "icon" -> icon = node.textContent
             "homepage" -> node.childNodes.forEach { pageNode ->
                 if (pageNode.nodeName == "link") {
