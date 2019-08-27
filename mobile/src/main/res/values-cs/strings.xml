@@ -272,7 +272,6 @@
     <string name="item_picker_custom">Vlastní</string>
     <string name="item_picker_dialog_title">Vyberte stav</string>
     <string name="item_picker">openHAB Items</string>
-    <string name="item_picker_blurb">Nastavit \"%s\" (%s) na „%s“</string>
     <string name="search">Hledat</string>
     <string name="settings_tasker_plugin">Integrace Taskeru</string>
     <string name="settings_tasker_plugin_summary">Povolit Tasker akční plugin, který umožňuje aktualizaci Items prostřednictvím Taskeru nebo jiných kompatibilních aplikací</string>
