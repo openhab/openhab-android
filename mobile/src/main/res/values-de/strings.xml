@@ -270,6 +270,7 @@
     <string name="item_picker_custom">Benutzerdefiniert</string>
     <string name="item_picker_dialog_title">Status auswählen</string>
     <string name="item_picker">openHAB-Items</string>
+    <string name="item_picker_blurb">\"%1$s\" (%2$s) auf \"%3$s\" stellen</string>
     <string name="search">Suchen</string>
     <string name="settings_tasker_plugin">Tasker-Integration</string>
     <string name="settings_tasker_plugin_summary">Tasker-Action-Plugin aktivieren, das es erlaubt, Items über Tasker oder andere kompatible Apps zu aktualisieren</string>
