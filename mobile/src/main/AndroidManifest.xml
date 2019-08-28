@@ -151,7 +151,7 @@
         </receiver>
 
         <activity
-            android:name=".background.BackgroundIntentReceiveActivity"
+            android:name=".background.NfcReceiveActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.NoDisplay"
             android:noHistory="true">

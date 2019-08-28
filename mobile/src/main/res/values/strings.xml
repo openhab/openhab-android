@@ -325,6 +325,6 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item control</string>
     <string name="item_update_widget_content_description">Widget for changing Item state</string>
-    <string name="item_update_widget_text">%s: %s</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Select an Item</string>
 </resources>

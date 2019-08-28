@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import androidx.work.BackoffPolicy
@@ -32,7 +31,8 @@ import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
-import org.openhab.habdroid.ui.AbstractItemPickerActivity
+import org.openhab.habdroid.ui.TaskerItemPickerActivity
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.TaskerIntent
@@ -68,8 +68,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     return
                 }
                 val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
-                val itemName = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_NAME)
-                val state = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_STATE)
+                val itemName = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_NAME)
+                val state = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_STATE)
                 if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
                     return
                 }
@@ -147,13 +147,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
         }
 
-        fun enqueueWidgetItemUpdateIfNeeded(bundle: Bundle) {
-            val itemName = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_NAME)
-            val state = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_STATE)
-            if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
-                return
-            }
-            enqueueItemUpload(WORKER_TAG_PREFIX_WIDGET + itemName, itemName, state, BackoffPolicy.LINEAR)
+        fun enqueueWidgetItemUpdateIfNeeded(data: ItemUpdateWidget.ItemUpdateWidgetData) {
+            enqueueItemUpload(WORKER_TAG_PREFIX_WIDGET + data.item, data.item, data.state, BackoffPolicy.LINEAR)
         }
 
         private fun scheduleWorker(context: Context, key: String) {

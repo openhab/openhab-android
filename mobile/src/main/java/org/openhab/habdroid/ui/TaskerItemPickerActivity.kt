@@ -50,4 +50,9 @@ class TaskerItemPickerActivity(override var disabledMessageId: Int = R.string.se
         setResult(RESULT_OK, intent)
         finish()
     }
+
+    companion object {
+        const val EXTRA_ITEM_NAME = "itemName"
+        const val EXTRA_ITEM_STATE = "itemState"
+    }
 }

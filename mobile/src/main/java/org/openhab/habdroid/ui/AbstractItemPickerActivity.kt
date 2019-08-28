@@ -247,8 +247,5 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
     companion object {
         private val TAG = AbstractItemPickerActivity::class.java.simpleName
-
-        const val EXTRA_ITEM_NAME = "itemName"
-        const val EXTRA_ITEM_STATE = "itemState"
     }
 }

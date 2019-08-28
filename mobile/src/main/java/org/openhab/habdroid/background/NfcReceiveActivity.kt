@@ -21,7 +21,7 @@ import android.os.Bundle
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.MainActivity
 
-class BackgroundIntentReceiveActivity : Activity() {
+class NfcReceiveActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,8 +41,6 @@ class BackgroundIntentReceiveActivity : Activity() {
                 }
                 startActivity(startMainIntent)
             }
-        } else if (intent.action == BackgroundTasksManager.ACTION_UPDATE_WIDGET) {
-            intent.extras?.let { BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(it) }
         }
 
         finishAndRemoveTaskIfPossible()

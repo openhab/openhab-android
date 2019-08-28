@@ -30,18 +30,16 @@ import androidx.core.content.edit
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.BackgroundIntentReceiveActivity
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.ui.AbstractItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.svgToBitmap
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isIconFormatPng
+import org.openhab.habdroid.util.svgToBitmap
 import java.io.IOException
 import kotlin.math.min
 
@@ -67,7 +65,15 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d(TAG, "onReceive() $intent")
+        Log.d(TAG, "onReceive() ${intent?.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -42)}") // TODO remove comment
+        if (intent == null || context == null) {
+            return super.onReceive(context, intent)
+        }
+        val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        if (intent.action == BackgroundTasksManager.ACTION_UPDATE_WIDGET
+            && id != AppWidgetManager.INVALID_APPWIDGET_ID) {
+            BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(getInfoForWidget(context, id))
+        }
         super.onReceive(context, intent)
     }
 
@@ -104,13 +110,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 context.resources.getDimension(R.dimen.small_widget_threshold)
             val views = RemoteViews(context.packageName,
                 if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update)
-            val intent = Intent(context, BackgroundIntentReceiveActivity::class.java).apply {
+            val intent = Intent(context, ItemUpdateWidget::class.java).apply {
                 action = BackgroundTasksManager.ACTION_UPDATE_WIDGET
-                putExtra(AbstractItemPickerActivity.EXTRA_ITEM_NAME, data.item)
-                putExtra(AbstractItemPickerActivity.EXTRA_ITEM_STATE, data.state)
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             }
 
-            val pendingIntent = PendingIntent.getActivity(context, 6, intent, 0)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
             views.setTextViewText(R.id.text,
                 context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
@@ -126,8 +131,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             appWidgetId: Int,
             appWidgetManager: AppWidgetManager
         ) = GlobalScope.launch {
-            val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
-
             if (data.icon.isNotEmpty()) {
                 val encodedIcon = Uri.encode(data.icon)
                 val iconFormat = context.getPrefs().getIconFormat()
@@ -138,6 +141,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         Log.d(TAG, "Icon exits")
                     } else {
                         Log.d(TAG, "Download icon")
+                        ConnectionFactory.waitForInitialization()
+                        val connection = ConnectionFactory.usableConnectionOrNull
+                        if (connection == null) {
+                            Log.d(TAG, "Got no connection")
+                            return@launch
+                        }
                         val content = connection.httpClient.get(iconUrl).response.bytes()
                         context.openFileOutput(getFileNameForWidget(appWidgetId), MODE_PRIVATE).use {
                             it.write(content)
@@ -162,22 +171,22 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         ) = GlobalScope.launch {
             val bitmap = try {
                 context.openFileInput(getFileNameForWidget(appWidgetId)).use { fileInputStream ->
-                    val byteArray = fileInputStream.readBytes()
+                    val inputStream = fileInputStream.readBytes().inputStream()
                     if (context.getPrefs().isIconFormatPng()) {
-                        BitmapFactory.decodeStream(byteArray.inputStream())
+                        BitmapFactory.decodeStream(inputStream)
                     } else {
                         val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
                         var height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
                         val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
                         if (!smallWidget) {
+                            // Image view height is 50% of the widget height
                             height *= 0.5F
                         }
-                        // Image view height is 50% of the widget height
                         val sizeInDp = min(height, width)
                         @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
                         Log.d(TAG, "Icon size: $size")
-                        fileInputStream.svgToBitmap(size)
-                    }
+                        inputStream.svgToBitmap(size)
+                    }.also { inputStream.close() }
                 }
             } catch (e: IOException) {
                 Log.e(TAG, "Error getting icon from disk", e)
