@@ -119,7 +119,6 @@
     <string name="info_write_tag_disabled">NFC が無効です。 デバイスの設定メニューで有効にしてください。</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB シークレット</string>
     <string name="info_openhab_push_notification_label">プッシュ通知ステータス</string>
     <string name="action_settings">設定</string>
     <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
