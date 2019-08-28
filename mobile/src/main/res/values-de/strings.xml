@@ -61,6 +61,10 @@
     <string name="settings_connection_summary">Verbunden mit %s</string>
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Bildschirmsperre</string>
+    <string name="settings_screen_lock_off">Aus</string>
+    <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
+    <string name="settings_screen_lock_on">An</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="title_voice_widget_icon">Sprachbefehle und Startbildschirm-Verknüpfung</string>
