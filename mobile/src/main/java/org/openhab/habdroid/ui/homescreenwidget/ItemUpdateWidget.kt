@@ -65,13 +65,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d(TAG, "onReceive() ${intent?.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -42)}") // TODO remove comment
+        Log.d(TAG, "onReceive() $intent")
         if (intent == null || context == null) {
             return super.onReceive(context, intent)
         }
         val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        if (intent.action == BackgroundTasksManager.ACTION_UPDATE_WIDGET
-            && id != AppWidgetManager.INVALID_APPWIDGET_ID) {
+        if (intent.action == BackgroundTasksManager.ACTION_UPDATE_WIDGET &&
+            id != AppWidgetManager.INVALID_APPWIDGET_ID) {
             BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(getInfoForWidget(context, id))
         }
         super.onReceive(context, intent)
@@ -115,7 +115,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             }
 
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+            val pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, intent, 0)
             views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
             views.setTextViewText(R.id.text,
                 context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
