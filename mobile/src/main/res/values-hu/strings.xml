@@ -118,7 +118,6 @@
     <string name="info_write_tag_disabled">NFC le van tiltva. Kérjük, engedélyezze a készüléken a beállítások menüpontban.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API verziója</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB titkos címke</string>
     <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
     <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
