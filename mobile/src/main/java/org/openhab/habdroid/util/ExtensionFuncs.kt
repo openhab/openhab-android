@@ -35,6 +35,7 @@ import org.openhab.habdroid.R
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.io.IOException
+import java.io.InputStream
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -114,13 +115,13 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
         }
     }
 
-    return bitmapToSvg(string(), targetSize)
+    return byteStream().svgToBitmap(targetSize)
 }
 
 @Throws(IOException::class)
-fun bitmapToSvg(svgString: String, targetSize: Int): Bitmap {
+fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
     return try {
-        val svg = SVG.getFromString(svgString)
+        val svg = SVG.getFromInputStream(this)
         val displayMetrics = Resources.getSystem().displayMetrics
         svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
         var density: Float? = displayMetrics.density

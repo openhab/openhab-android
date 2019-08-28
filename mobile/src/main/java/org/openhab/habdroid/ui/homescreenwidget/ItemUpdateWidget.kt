@@ -36,7 +36,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.AbstractItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.bitmapToSvg
+import org.openhab.habdroid.util.svgToBitmap
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -161,25 +161,24 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             appWidgetManager: AppWidgetManager
         ) = GlobalScope.launch {
             val bitmap = try {
-                context.openFileInput(getFileNameForWidget(appWidgetId)).use {
-                if (context.getPrefs().isIconFormatPng()) {
-                    val byteArray = it.readBytes()
-                    BitmapFactory.decodeStream(byteArray.inputStream())
-                } else {
-                    val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
-                    var height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
-                    val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
-                    if (!smallWidget) {
-                        height *= 0.5F
+                context.openFileInput(getFileNameForWidget(appWidgetId)).use { fileInputStream ->
+                    val byteArray = fileInputStream.readBytes()
+                    if (context.getPrefs().isIconFormatPng()) {
+                        BitmapFactory.decodeStream(byteArray.inputStream())
+                    } else {
+                        val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
+                        var height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
+                        val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
+                        if (!smallWidget) {
+                            height *= 0.5F
+                        }
+                        // Image view height is 50% of the widget height
+                        val sizeInDp = min(height, width)
+                        @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
+                        Log.d(TAG, "Icon size: $size")
+                        fileInputStream.svgToBitmap(size)
                     }
-                    // Image view height is 50% of the widget height
-                    val sizeInDp = min(height, width)
-                    @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
-                    Log.d(TAG, "Icon size: $size")
-                    val svg = String(it.readBytes())
-                    bitmapToSvg(svg, size)
                 }
-            }
             } catch (e: IOException) {
                 Log.e(TAG, "Error getting icon from disk", e)
                 null
