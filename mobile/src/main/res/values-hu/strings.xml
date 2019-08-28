@@ -61,6 +61,10 @@
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <string name="beta">Béta</string>
+    <string name="settings_screen_lock">Képernyőzár</string>
+    <string name="settings_screen_lock_off">Ki</string>
+    <string name="settings_screen_lock_kiosk">Kiosk mód</string>
+    <string name="settings_screen_lock_on">Be</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="title_voice_widget_icon">Hangutasítások és alkalmazás parancsikon</string>
@@ -270,4 +274,5 @@
     <string name="settings_tasker_plugin">Teendők integrálása</string>
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
     <string name="turn_on">Bekapcsol</string>
+    <string name="press_back_to_exit">Kilépéshez érintse meg újra a vissza gombot</string>
 </resources>
