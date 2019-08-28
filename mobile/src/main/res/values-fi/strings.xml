@@ -108,7 +108,6 @@
     <string name="info_write_tag_disabled">NFC on pois päältä. Ole hyvä ja kytke se päälle laitteen asetuksista.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB salanimi</string>
     <string name="info_openhab_push_notification_label">Push ilmoitusten tila</string>
     <string name="action_settings">Asetukset</string>
     <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>

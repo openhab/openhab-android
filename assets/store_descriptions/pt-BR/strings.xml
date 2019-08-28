@@ -5,7 +5,7 @@
     <rules>No topo da camada de abstração unificada, todos os dispositivos conectados estão disponíveis para os mecanismos de regras de automação abrangentes e diferentes interfaces de usuário.</rules>
     <supported>Produtos suportados</supported>
     <bindings>Mais de 200 add-ons específicos fornecem suporte para marcas, dispositivos, tecnologias e protocolos de comunicação. Exemplos são o Z-Wave, Philips Hue, Amazon eco, Chromecast e Sonos. Descubra todos os add-ons disponíveis e dispositivos suportados e/ou funções em: https://www.openhab.org/addons/</bindings>
-    <automation_apps/>
+    <automation_apps>O aplicativo tem um plugin de ação para Tasker e Locale incluído.</automation_apps>
 
     <oss_community>Comunidade Open Source</oss_community>
     <forum>A iniciativa de código aberto openHAB apoia fortemente sua comunidade vibrante. O fórum com mais de 13.000 usuários registrados é um lugar para encontrar orientação, ajuda e inspiração. Participe do fórum da comunidade openHAB em https://community.openhab.org</forum>
@@ -15,7 +15,7 @@
     <foundation>Fundação openHAB</foundation>
     <about_foundation>A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão de educar o público sobre as possibilidades e benefícios de soluções de automação residencial gratuitas e abertas. Aprenda sobre a missão e os serviços da fundação em https://www.openhabfoundation.org</about_foundation>
     <important_note>Nota importante</important_note>
-    <oh_server/>
+    <oh_server>Você precisa de um servidor openHAB para este app.</oh_server>
     <short_description>Fornecedor e tecnologia agnóstica de código aberto de automação residencial</short_description>
     <fdroid>As compilações em F-Droid têm FCM e o relatório de falha removidos e não serão capazes de receber notificações push do openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Você pode instalar a versão beta junto da <a href="https://f-droid.org/packages/org.openhab.habdroid/">versão estável</a>.]]></fdroid_beta>

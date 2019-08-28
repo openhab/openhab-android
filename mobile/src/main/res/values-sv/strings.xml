@@ -100,7 +100,6 @@
     <string name="info_write_tag_disabled">NFS är inaktiverat. Vänligen aktivera det i inställningarna för enheten.</string>
     <string name="info_openhab_apiversion_label">Version på openHABs REST-API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB-hemlighet</string>
     <string name="info_openhab_push_notification_label">Status på push-aviseringar</string>
     <string name="action_settings">Inställningar</string>
     <string name="nfc_dialog_title">Skriv NFS-tagg för detta element</string>

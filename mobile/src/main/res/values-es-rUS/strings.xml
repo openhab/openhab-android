@@ -121,7 +121,6 @@
     <string name="info_write_tag_disabled">NFC está deshabilitado. Por favor, activar en el menú de configuración del dispositivo.</string>
     <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">Clave secreta de openHAB</string>
     <string name="info_openhab_push_notification_label">Estado de notificaciones Push</string>
     <string name="action_settings">Configuración</string>
     <string name="nfc_dialog_title">Acción a grabar en la etiqueta NFC para este elemento</string>
@@ -270,7 +269,7 @@
     <string name="item_picker_custom">Personalizado</string>
     <string name="item_picker_dialog_title">Seleccionar estado</string>
     <string name="item_picker">ítems de openHAB</string>
-    <string name="item_picker_blurb">Establecer \"%s\" (%s) a \"%s\"</string>
+    <string name="item_picker_blurb">Ajustar \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="search">Buscar</string>
     <string name="settings_tasker_plugin">Integración con Tasker</string>
     <string name="settings_tasker_plugin_summary">Habilitar el action plugin de Tasker que permite actualizar ítems a través de Tasker u otras aplicaciones compatibles</string>

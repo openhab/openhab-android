@@ -121,7 +121,6 @@
     <string name="info_write_tag_disabled">NFC выключено. Пожалуйста включите в настройках устройства.</string>
     <string name="info_openhab_apiversion_label">Rest API версия openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">Пароль openHAB</string>
     <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
     <string name="action_settings">Настройки</string>
     <string name="nfc_dialog_title">Выберите действие тега NFC</string>
@@ -272,7 +271,7 @@
     <string name="item_picker_custom">Произвольно</string>
     <string name="item_picker_dialog_title">Выберите состояния</string>
     <string name="item_picker">openHAB элементы</string>
-    <string name="item_picker_blurb">Установить \"%s\" (%s) на \"%s\"</string>
+    <string name="item_picker_blurb">Установить \"%1$s\" (%2$s) на \"%3$s\"</string>
     <string name="search">Поиск</string>
     <string name="settings_tasker_plugin">Интеграция с Tasker</string>
     <string name="settings_tasker_plugin_summary">Включить плагин действий Tasker, который позволяет обновлять элементы через Tasker или другие совместимые приложения</string>

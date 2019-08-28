@@ -68,10 +68,15 @@
     <string name="info_voice_recognized_text">Commande identifiée: %1$s</string>
     <string name="info_demo_mode_short">Exécution en mode démo</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Éteindre</string>
     <string name="info_conn_url">Connexion à l\'adresse locale</string>
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
+    <string name="app_shortcut_disabled_habpanel">HABPanel n\'est pas installé sur votre serveur</string>
+    <string name="app_shortcut_disabled_notifications">Votre serveur distant n\'est pas disponible</string>
+    <string name="app_shortcut_disabled_voice_recognition">Votre appareil n\'a pas d\'application de reconnaissance vocale installée</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
+    <string name="error_sitemap_generic_load_error">Le Sitemap n\'a pas pu être téléchargé. L\'erreur suivante s\'est produite : %1$s</string>
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
     <string name="error_wifi_not_available">Le Wi-Fi est désactivé</string>
     <string name="error_http_connection_failed">Connexion échouée. Une réponse inattendue a été reçue en essayant de se connecter au serveur openHAB configuré (code de réponse HTTP reçu : %d).</string>
@@ -103,6 +108,9 @@
     <string name="error_http_code_511">L’authentification réseau est obligatoire (code de réponse HTTP 511)</string>
     <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
     <string name="error_openhab_offline">Votre serveur openHAB est déconnecté alors que l\'instance dans le cloud est en cours d\'exécution</string>
+    <string name="error_no_browser_found">Aucun navigateur trouvé sur votre appareil</string>
+    <string name="error_no_speech_to_text_app_found">Aucune application de reconnaissance vocale trouvée</string>
+    <string name="install">Installer</string>
     <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
     <string name="title_activity_libraries">Librairies utilisées</string>
     <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse</string>
@@ -113,13 +121,36 @@
     <string name="info_write_tag_disabled">NFC est désactivé. Merci d\'activer la fonctionnalité dans les paramètres du téléphone.</string>
     <string name="info_openhab_apiversion_label">Version API Rest openHAB</string>
     <string name="info_openhab_uuid_label">UUID openHAB</string>
-    <string name="info_openhab_secret_label">Phrase secrète openHAB</string>
     <string name="info_openhab_push_notification_label">Statut des notifications push</string>
     <string name="action_settings">Paramétrage</string>
     <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
+    <string name="nfc_tag_recognized_label">Tag NFC pour \"%s\" reconnu</string>
+    <string name="nfc_tag_recognized_item">Tag NFC pour l\'Item \"%s\" reconnu</string>
     <string name="info_not_set">Non paramétré</string>
     <string name="empty_page">Cette page ne contient aucun widget qui soit défini pour être visible</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Envoyer les infos de l\'appareil au serveur</string>
+    <string name="send_device_info_item_prefix">Préfixe du nom de l\'Item</string>
+    <string name="send_device_info_item_prefix_summary">Les noms des Items des fonctionnalités suivantes ont ce préfixe</string>
+    <string name="settings_alarm_clock">Envoyer le réveil à openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Envoie des heures du réveil à l\'Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">N’envoie pas les heures du réveil au serveur</string>
+    <string name="settings_alarm_clock_howto_summary">Cliquez ici pour obtenir des conseils sur la façon de configurer cette fonctionnalité côté serveur</string>
+    <string name="settings_item_pref_item_name">Nom d\'Item</string>
+    <string name="waiting_for_item_upload">En attente de réseau pour mettre à jour les Items</string>
+    <string name="item_upload_in_progress">Mise à jour des Items en cours</string>
+    <string name="notification_channel_background">Arrière-plan</string>
+    <string name="notification_channel_background_description">Permet d’afficher les tâches de fond en attente</string>
+    <string name="notification_channel_background_error">Erreur dans les tâches en arrière-plan</string>
+    <string name="notification_channel_background_error_description">Permet d’informer sur les erreurs en tâches de fond</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">Impossible de mettre à jour %d Item</item>
+        <item quantity="other">Impossible de mettre à jour %d Items</item>
+    </plurals>
+    <string name="item_update_http_error">La mise à jour de l\'Item \'%1$s\' a échoué (Erreur HTTP %2$d)</string>
+    <string name="item_update_connection_error">La mise à jour de l\'Item \'%1$s\' a échoué (Aucune connexion)</string>
+    <string name="error_sending_alarm_clock_item_empty">Veuillez entrer un nom d\'Item valide</string>
+    <string name="retry">Réessayer</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Aucune notification n\'a été envoyée jusqu\'à maintenant</string>
     <string name="notification_list_error">Une erreur s’est produite lors de la récupération des notifications</string>
@@ -149,6 +180,17 @@
     <string name="nfc_action_off">Arrêt</string>
     <string name="nfc_action_down">Descendre</string>
     <string name="nfc_action_toggle">Basculer</string>
+    <string name="nfc_action_undefined">Non défini</string>
+    <string name="nfc_action_empty_string">Chaîne vide</string>
+    <string name="nfc_action_increase">Augmenter</string>
+    <string name="nfc_action_decrease">Diminuer</string>
+    <string name="nfc_action_play">Jouer</string>
+    <string name="nfc_action_pause">Suspendre</string>
+    <string name="nfc_action_next">Suivant</string>
+    <string name="nfc_action_previous">Précédent</string>
+    <string name="nfc_action_fastforward">Avance rapide</string>
+    <string name="nfc_action_move">Déplacer</string>
+    <string name="nfc_action_stop">Arrêter</string>
     <string name="nfc_activate">Activer</string>
     <string name="nfc_action_current_color">Couleur actuelle</string>
     <string name="nfc_action_to_sitemap_page">Aller à la page de la Sitemap</string>
@@ -172,6 +214,7 @@
     <string name="settings_debug_messages_title">Afficher les informations de déboguage</string>
     <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
     <string name="unknown">Inconnu</string>
+    <string name="error_network_type_unsupported">Le type de réseau n\'est pas supporté</string>
     <string name="set">Définir</string>
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
@@ -189,6 +232,9 @@
     <string name="clear_log">Effacer le journal</string>
     <string name="empty_log">Le journal est vide</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Ajouter à l\'écran d\'accueil</string>
+    <string name="home_shortcut_error_pinning">Erreur lors de l\'ajout à l\'écran d\'accueil</string>
+    <string name="home_shortcut_success_pinning">Ajouté à l\'écran d\'accueil</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
     <string name="content_description_stop_roller_shutter">Stopper le volet</string>
@@ -199,6 +245,8 @@
     <string name="content_description_open_number_picker">Ouvrir le sélecteur numérique</string>
     <string name="content_description_video">Vidéo</string>
     <string name="content_description_open_openhab">Ouvrir openHAB</string>
+    <string name="content_description_increase_item_value">Augmente la valeur de l\'Item</string>
+    <string name="content_description_decrease_item_value">Diminue la valeur de l\'Item</string>
     <string name="swipe_to_refresh_description">L\'actualisation se fait automatiquement, vous n\'avez normalement rien à faire</string>
     <string name="swipe_to_refresh_dismiss">Compris !</string>
     <!-- Intro strings -->
@@ -215,4 +263,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">OK</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Aucun Item trouvé</string>
 </resources>

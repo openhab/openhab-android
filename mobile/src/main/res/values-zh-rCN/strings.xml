@@ -115,7 +115,6 @@
     <string name="info_write_tag_disabled">NFC 已被禁用。请在设备设置菜单中启用。</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API 版本</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB 密钥</string>
     <string name="info_openhab_push_notification_label">推送通知状态</string>
     <string name="action_settings">设置</string>
     <string name="nfc_dialog_title">为此元素写入 NFC 标签行为</string>

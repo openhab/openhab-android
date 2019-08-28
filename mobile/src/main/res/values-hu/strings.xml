@@ -118,7 +118,6 @@
     <string name="info_write_tag_disabled">NFC le van tiltva. Kérjük, engedélyezze a készüléken a beállítások menüpontban.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API verziója</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB titkos címke</string>
     <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
     <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
@@ -267,7 +266,6 @@
     <string name="item_picker_custom">Egyéni</string>
     <string name="item_picker_dialog_title">Válasszon állapotot</string>
     <string name="item_picker">openHAB elememek</string>
-    <string name="item_picker_blurb">Beállít erről \"%s\" (%s) erre \"%s\"</string>
     <string name="search">Keresés</string>
     <string name="settings_tasker_plugin">Teendők integrálása</string>
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
