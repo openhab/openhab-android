@@ -502,7 +502,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             serverProperties = props
             updateSitemapAndHabPanelDrawerItems()
             if (props.sitemaps.isEmpty()) {
-                Log.e(TAG, "openHAB returned empty sitemap list")
+                Log.e(TAG, "openHAB returned empty Sitemap list")
                 controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
             } else {
                 chooseSitemap()
