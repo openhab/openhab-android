@@ -61,6 +61,10 @@
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Bloqueio de tela</string>
+    <string name="settings_screen_lock_summary">Bloquear acesso ao openHAB pelo bloqueio de tela ou por digital. Widgets de voz poderão ser usados.</string>
+    <string name="screen_lock_unlock_screen_description">Desbloquear acesso ao openHAB</string>
+    <string name="settings_screen_lock_off">Desligar</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de Voz</string>
     <string name="title_voice_widget_icon">Comandos de voz e atalho de app</string>
