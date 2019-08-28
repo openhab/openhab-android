@@ -36,6 +36,7 @@ import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.obfuscate
 import org.openhab.habdroid.util.openInBrowser
@@ -80,6 +81,10 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
     override fun onBackStackChanged() {
         updateTitle()
+    }
+
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode == ScreenLockMode.Enabled
     }
 
     private fun updateTitle() {
@@ -204,26 +209,6 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         apiVersionItem.subText = getString(R.string.error_about_no_conn)
                     }
                     refreshMaterialAboutList()
-                }
-
-                if (!props.hasJsonApi()) {
-                    val secretItem = MaterialAboutActionItem.Builder()
-                        .text(R.string.info_openhab_secret_label)
-                        .subText(R.string.list_loading_message)
-                        .icon(R.drawable.ic_info_outline_grey_24dp)
-                        .build()
-                    ohServerCard.addItem(secretItem)
-                    scope.launch {
-                        try {
-                            val response = httpClient.get("static/secret").asText().response
-                            Log.d(TAG, "Got secret ${response.obfuscate()}")
-                            secretItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
-                        } catch (e: HttpClient.HttpException) {
-                            Log.e(TAG, "Could not fetch server secret $e")
-                            secretItem.subText = getString(R.string.error_about_no_conn)
-                        }
-                        refreshMaterialAboutList()
-                    }
                 }
             }
 

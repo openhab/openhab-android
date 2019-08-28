@@ -120,4 +120,17 @@
         <item>@string/settings_notification_vibration_value_long</item>
         <item>@string/settings_notification_vibration_value_twice</item>
     </string-array>
+
+    <string-array name="screen_lock">
+        <item>@string/settings_screen_lock_off</item>
+        <item>@string/settings_screen_lock_kiosk</item>
+        <item>@string/settings_screen_lock_on</item>
+    </string-array>
+
+    <string-array name="screen_lock_values">
+        <item>@string/settings_screen_lock_off_value</item>
+        <item>@string/settings_screen_lock_kiosk_value</item>
+        <item>@string/settings_screen_lock_on_value</item>
+    </string-array>
+
 </resources>
