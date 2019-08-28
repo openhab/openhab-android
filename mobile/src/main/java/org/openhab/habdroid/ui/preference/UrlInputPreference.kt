@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.preference
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -42,6 +43,9 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : Ed
             if (view != null) {
                 editor = view.findViewById(android.R.id.edit)
                 editor.addTextChangedListener(this)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                }
             }
         }
 
