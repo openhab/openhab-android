@@ -121,7 +121,6 @@
     <string name="info_write_tag_disabled">NFC אינו זמין. אנא הפעל אותו מתפריט הגדרות המכשיר.</string>
     <string name="info_openhab_apiversion_label">גרסת ממשק תכנות יישומי REST של openHAB</string>
     <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
-    <string name="info_openhab_secret_label">קוד מזהה של openHAB</string>
     <string name="info_openhab_push_notification_label">מצב התראות בדחיפה</string>
     <string name="action_settings">הגדרות</string>
     <string name="nfc_dialog_title">כתוב על תגית NFC את הפעולה עבור רכיב זה</string>
