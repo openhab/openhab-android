@@ -61,6 +61,12 @@
     <string name="settings_connection_summary">Connesso a %s</string>
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Blocco schermo</string>
+    <string name="settings_screen_lock_summary">Blocca accesso openHAB con il blocca schermo o l\'impronta digitale da Android. I widget vocali possono sempre essere utilizzati.</string>
+    <string name="screen_lock_unlock_screen_description">Sblocca per accedere a openHAB</string>
+    <string name="settings_screen_lock_off">Off</string>
+    <string name="settings_screen_lock_kiosk">Modalità Chiosco</string>
+    <string name="settings_screen_lock_on">On</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="title_voice_widget_icon">Comandi vocali e collegamento app</string>
@@ -269,6 +275,7 @@
     <string name="item_picker_custom">Personalizza</string>
     <string name="item_picker_dialog_title">Seleziona stato</string>
     <string name="item_picker">Item openHAB</string>
+    <string name="item_picker_blurb">Imposta \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="search">Cerca</string>
     <string name="settings_tasker_plugin">Integrazione con Tasker</string>
     <string name="settings_tasker_plugin_summary">Abilita Tasker action plugin per aggiornare gli Item via Tasker o app compatibili</string>
