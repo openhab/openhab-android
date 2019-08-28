@@ -119,7 +119,6 @@
     <string name="info_write_tag_disabled">NFC jest wyłączone. Uruchom je w menu ustawień swojego urządzenia.</string>
     <string name="info_openhab_apiversion_label">wersja Rest API openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">sekret openHAB</string>
     <string name="info_openhab_push_notification_label">Stan powiadomień push</string>
     <string name="action_settings">Ustawienia</string>
     <string name="nfc_dialog_title">Napisz akcję tagu NFC dla tego elementu</string>
