@@ -95,6 +95,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getPrefs
