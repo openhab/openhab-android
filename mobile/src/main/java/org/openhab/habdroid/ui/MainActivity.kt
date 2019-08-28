@@ -36,6 +36,7 @@ import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
@@ -464,10 +465,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     fun enableWifiAndIndicateStartup() {
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        wifiManager.isWifiEnabled = true
-        controller.updateConnection(null, getString(R.string.waiting_for_wifi),
-            R.drawable.ic_wifi_strength_outline_black_24dp)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val panelIntent = Intent(Settings.Panel.ACTION_WIFI)
+            startActivity(panelIntent)
+        } else {
+            val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            @Suppress("DEPRECATION")
+            wifiManager.isWifiEnabled = true
+            controller.updateConnection(null, getString(R.string.waiting_for_wifi),
+                R.drawable.ic_wifi_strength_outline_black_24dp)
+        }
     }
 
     fun retryServerPropertyQuery() {
