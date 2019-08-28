@@ -65,6 +65,8 @@
     <string name="settings_screen_lock_summary">Bloquear acesso ao openHAB pelo bloqueio de tela ou por digital. Widgets de voz poderão ser usados.</string>
     <string name="screen_lock_unlock_screen_description">Desbloquear acesso ao openHAB</string>
     <string name="settings_screen_lock_off">Desligar</string>
+    <string name="settings_screen_lock_kiosk">Modo Kiosk</string>
+    <string name="settings_screen_lock_on">Ligar</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de Voz</string>
     <string name="title_voice_widget_icon">Comandos de voz e atalho de app</string>
@@ -273,6 +275,7 @@
     <string name="item_picker_custom">Personalizado</string>
     <string name="item_picker_dialog_title">Selecione o estado</string>
     <string name="item_picker">itens openHAB</string>
+    <string name="item_picker_blurb">Definir \"%1$s\" (%2$s) para \"%3$s\"</string>
     <string name="search">Buscar</string>
     <string name="settings_tasker_plugin">Integração do Tasker</string>
     <string name="settings_tasker_plugin_summary">Ativar plugin de ação Tasker que permite a atualização de itens via Tasker ou outros apps compatíveis</string>
