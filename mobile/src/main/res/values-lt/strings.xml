@@ -51,7 +51,6 @@
     <string name="info_write_tag_disabled">NFC išjungtas. Prašome jį įjungti įrenginio nustatymuose.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versija</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="action_settings">Nustatymai</string>
     <string name="nfc_dialog_title">Prašome pasirinkti NFC žymos veiksmą</string>
     <string name="info_not_set">Nenustatyta</string>
