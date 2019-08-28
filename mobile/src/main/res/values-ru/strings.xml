@@ -61,6 +61,12 @@
     <string name="settings_connection_summary">Подключен к %s</string>
     <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
     <string name="beta">Бета</string>
+    <string name="settings_screen_lock">Блокировка экрана</string>
+    <string name="settings_screen_lock_summary">Блокировка доступа к openHAB с помощью экрана блокировки Android или отпечатка пальца. Голосовой виджет не будет заблокирован.</string>
+    <string name="screen_lock_unlock_screen_description">Разблокировать для доступа к openHAB</string>
+    <string name="settings_screen_lock_off">Выкл</string>
+    <string name="settings_screen_lock_kiosk">Режим киоска</string>
+    <string name="settings_screen_lock_on">Вкл</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосовые команды</string>
     <string name="title_voice_widget_icon">Голосовые команды и ярлыки приложений</string>
