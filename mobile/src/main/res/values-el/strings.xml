@@ -99,7 +99,6 @@
     <string name="info_write_tag_disabled">Το NFC είναι απενεργοποιημένο. Παρακαλώ ενεργοποιήστε το από το μενού ρυθμίσεων συσκευής.</string>
     <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">Μυστικό openHAB</string>
     <string name="info_openhab_push_notification_label">Κατάσταση ειδοποιήσεων</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="nfc_dialog_title">Παρακαλώ επιλέξτε ενέργεια για την ετικέτα NFC</string>

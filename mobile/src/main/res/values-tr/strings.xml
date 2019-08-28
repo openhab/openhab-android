@@ -115,7 +115,6 @@
     <string name="info_write_tag_disabled">NFC devre dışı. Lütfen ayarlar bölümünden NFC\'yi devreye sokunuz.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versiyon</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB Parola</string>
     <string name="info_openhab_push_notification_label">Push bildirimleri</string>
     <string name="action_settings">Ayarlar</string>
     <string name="nfc_dialog_title">Bu element için NFC eylem etiketi yazınız</string>

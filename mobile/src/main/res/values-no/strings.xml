@@ -108,7 +108,6 @@
     <string name="info_write_tag_disabled">NFC er deaktivert. Aktiver i enhetens innstillinger-meny.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versjon</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB hemmelighet</string>
     <string name="info_openhab_push_notification_label">Push melding status</string>
     <string name="action_settings">Innstillinger</string>
     <string name="nfc_dialog_title">Skriv NFC handlinger for dette elementet</string>

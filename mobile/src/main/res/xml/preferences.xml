@@ -93,6 +93,14 @@
             android:icon="@drawable/ic_alarm_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
+        <ListPreference
+            android:key="screen_lock"
+            android:title="@string/settings_screen_lock"
+            android:summary="@string/settings_screen_lock_summary"
+            android:defaultValue="@string/settings_screen_lock_off_value"
+            android:entries="@array/screen_lock"
+            android:entryValues="@array/screen_lock_values"
+            android:icon="@drawable/ic_lock_outline_grey_24dp" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="taskerPlugin"

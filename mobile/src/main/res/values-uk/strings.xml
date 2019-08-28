@@ -121,7 +121,6 @@
     <string name="info_write_tag_disabled">NFC вимкнено. Будь ласка, увімкніть його у налаштуваннях пристрою.</string>
     <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">ключ openHAB</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
     <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
@@ -272,7 +271,6 @@
     <string name="item_picker_custom">Користувацький</string>
     <string name="item_picker_dialog_title">Виберіть стан</string>
     <string name="item_picker">Об’єкти openHAB</string>
-    <string name="item_picker_blurb">Встановити \"%s\" (%s) в \"%s\"</string>
     <string name="search">Пошук</string>
     <string name="settings_tasker_plugin">Інтеграція з Tasker</string>
     <string name="settings_tasker_plugin_summary">Увімкнути додаток дій Tasker, який дозволить оновляти об’єкти через Tasker або сумісні програми</string>

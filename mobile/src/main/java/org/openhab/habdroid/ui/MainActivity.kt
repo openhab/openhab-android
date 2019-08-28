@@ -342,7 +342,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
         when (requestCode) {
             SETTINGS_REQUEST_CODE -> {
@@ -489,6 +490,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     fun retryServerPropertyQuery() {
         controller.clearServerCommunicationFailure()
         queryServerProperties()
+    }
+
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode == ScreenLockMode.Enabled
     }
 
     private fun queryServerProperties() {

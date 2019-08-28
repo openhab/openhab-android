@@ -121,7 +121,6 @@
     <string name="info_write_tag_disabled">NFC je zakázáno. Povolte jej v nastavení zařízení.</string>
     <string name="info_openhab_apiversion_label">Verze openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
     <string name="action_settings">Nastavení</string>
     <string name="nfc_dialog_title">Zapsat akci do NFC tagu</string>
@@ -272,7 +271,6 @@
     <string name="item_picker_custom">Vlastní</string>
     <string name="item_picker_dialog_title">Vyberte stav</string>
     <string name="item_picker">openHAB Items</string>
-    <string name="item_picker_blurb">Nastavit \"%s\" (%s) na „%s“</string>
     <string name="search">Hledat</string>
     <string name="settings_tasker_plugin">Integrace Taskeru</string>
     <string name="settings_tasker_plugin_summary">Povolit Tasker akční plugin, který umožňuje aktualizaci Items prostřednictvím Taskeru nebo jiných kompatibilních aplikací</string>
