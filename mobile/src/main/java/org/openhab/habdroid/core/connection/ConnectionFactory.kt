@@ -14,25 +14,40 @@
 package org.openhab.habdroid.core.connection
 
 import android.app.Activity
-import android.content.*
+import android.content.Context
+import android.content.SharedPreferences
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import de.duenndns.ssl.MemorizingTrustManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.connection.exception.*
-import org.openhab.habdroid.util.*
+import org.openhab.habdroid.core.connection.exception.ConnectionException
+import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedException
+import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
+import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
+import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
+import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.isDemoModeEnabled
+import org.openhab.habdroid.util.toNormalizedUrl
 import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
-import java.util.*
+import java.util.HashSet
 import javax.net.ssl.KeyManager
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
@@ -335,7 +350,7 @@ class ConnectionFactory internal constructor(
         override fun getCertificateChain(alias: String?): Array<X509Certificate>? {
             Log.d(TAG, "getCertificateChain", Throwable())
             return try {
-                KeyChain.getCertificateChain(context, alias)
+                alias?.let { KeyChain.getCertificateChain(context, alias) }
             } catch (e: KeyChainException) {
                 Log.e(TAG, "Failed loading certificate chain", e)
                 null
@@ -358,7 +373,7 @@ class ConnectionFactory internal constructor(
         override fun getPrivateKey(alias: String?): PrivateKey? {
             Log.d(TAG, "getPrivateKey")
             return try {
-                KeyChain.getPrivateKey(context, alias)
+                alias?.let { KeyChain.getPrivateKey(context, alias) }
             } catch (e: KeyChainException) {
                 Log.e(TAG, "Failed loading private key", e)
                 null
