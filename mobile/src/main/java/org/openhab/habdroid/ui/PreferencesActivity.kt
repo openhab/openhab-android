@@ -337,6 +337,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 alarmClockPref.setOnPreferenceChangeListener { preference, newValue ->
                     val prefix = sendDeviceInfoPrefixPref.getPrefValue()
+                    @Suppress("UNCHECKED_CAST")
                     val value = newValue as Pair<Boolean, String>
                     updateAlarmClockPreferenceIcon(preference, newValue)
                     updateAlarmClockPreferenceSummary(preference, prefix, value)

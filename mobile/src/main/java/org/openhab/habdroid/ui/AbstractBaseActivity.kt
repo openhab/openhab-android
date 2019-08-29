@@ -28,7 +28,6 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.ScreenLockMode
@@ -56,10 +55,18 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val typedValue = TypedValue()
             theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-            setTaskDescription(ActivityManager.TaskDescription(
-                getString(R.string.app_name),
-                BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                typedValue.data))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                setTaskDescription(ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    R.mipmap.icon,
+                    typedValue.data))
+            } else {
+                @Suppress("DEPRECATION")
+                setTaskDescription(ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    BitmapFactory.decodeResource(resources, R.mipmap.icon),
+                    typedValue.data))
+            }
         }
 
         super.onCreate(savedInstanceState)
