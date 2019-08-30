@@ -36,6 +36,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconFormat
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.IOException
@@ -63,9 +64,9 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         /**
          * Ask parent for the icon format to use
          *
-         * @return Icon format ('PNG' or 'SVG')
+         * @return Icon format
          */
-        val iconFormat: String
+        val iconFormat: IconFormat
 
         /**
          * Ask parent whether logging should include detailed output

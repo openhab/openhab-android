@@ -303,7 +303,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
-        val iconFormat = context.getPrefs().getIconFormat()
+        val iconFormat = when (context.getPrefs().getIconFormat()) {
+            IconFormat.Png -> "PNG"
+            IconFormat.Svg -> "SVG"
+        }
         val url = Uri.Builder()
             .appendEncodedPath(linkedPage.iconPath)
             .appendQueryParameter("format", iconFormat)

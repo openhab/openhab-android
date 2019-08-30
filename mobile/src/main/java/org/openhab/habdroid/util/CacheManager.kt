@@ -52,23 +52,18 @@ class CacheManager private constructor(appContext: Context) {
         bitmapCache.put(url, bitmap)
     }
 
-    enum class WidgetIconFormat {
-        PNG,
-        SVG
-    }
-
-    fun saveWidgetIcon(widgetId: Int, iconData: InputStream, format: WidgetIconFormat) {
+    fun saveWidgetIcon(widgetId: Int, iconData: InputStream, format: IconFormat) {
         FileOutputStream(getWidgetIconFile(widgetId, format)).use {
             iconData.copyTo(it)
         }
     }
 
     fun removeWidgetIcon(widgetId: Int) {
-        WidgetIconFormat.values().forEach { format -> getWidgetIconFile(widgetId, format).delete() }
+        IconFormat.values().forEach { format -> getWidgetIconFile(widgetId, format).delete() }
     }
 
-    fun getWidgetIconFormat(widgetId: Int): WidgetIconFormat? {
-        return WidgetIconFormat.values()
+    fun getWidgetIconFormat(widgetId: Int): IconFormat? {
+        return IconFormat.values()
             .filter { format -> getWidgetIconFile(widgetId, format).exists() }
             .firstOrNull()
     }
@@ -89,10 +84,10 @@ class CacheManager private constructor(appContext: Context) {
         widgetIconDirectory.listFiles().forEach { f -> f.delete() }
     }
 
-    private fun getWidgetIconFile(widgetId: Int, format: WidgetIconFormat): File {
+    private fun getWidgetIconFile(widgetId: Int, format: IconFormat): File {
         val suffix = when (format) {
-            WidgetIconFormat.SVG -> ".svg"
-            WidgetIconFormat.PNG -> ".png"
+            IconFormat.Svg -> ".svg"
+            IconFormat.Png -> ".png"
         }
         return File(widgetIconDirectory, widgetId.toString() + suffix)
     }

@@ -35,6 +35,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -65,7 +66,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val data = getInfoForWidget(context ?: return, appWidgetId)
         // Clear out cached icon if it's SVG, since SVG icons are size dependant
         val cm = CacheManager.getInstance(context)
-        if (cm.getWidgetIconFormat(appWidgetId) == CacheManager.WidgetIconFormat.SVG) {
+        if (cm.getWidgetIconFormat(appWidgetId) == IconFormat.Svg) {
             cm.removeWidgetIcon(appWidgetId)
         }
         setupWidget(context, data, appWidgetId, appWidgetManager ?: return)
@@ -167,7 +168,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 val cachedIcon = if (cachedIconType != null) cm.getWidgetIconStream(appWidgetId) else null
                 if (cachedIcon != null) {
                     Log.d(TAG, "Icon exits")
-                    cachedIcon.use { setIcon(it, cachedIconType == CacheManager.WidgetIconFormat.SVG) }
+                    cachedIcon.use { setIcon(it, cachedIconType == IconFormat.Svg) }
                 } else {
                     Log.d(TAG, "Download icon")
                     ConnectionFactory.waitForInitialization()
@@ -183,8 +184,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         contentType.type() == "image" &&
                         contentType.subtype().contains("svg")
                     ByteArrayInputStream(content).use {
-                        val type =
-                            if (isSvg) CacheManager.WidgetIconFormat.SVG else CacheManager.WidgetIconFormat.PNG
+                        val type = if (isSvg) IconFormat.Svg else IconFormat.Png
                         cm.saveWidgetIcon(appWidgetId, it, type)
                         it.reset()
                         setIcon(it, isSvg)
