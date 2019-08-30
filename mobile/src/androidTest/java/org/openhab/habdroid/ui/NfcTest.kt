@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.InstrumentationRegistry
@@ -72,7 +73,7 @@ class NfcTest : TestWithoutIntro() {
             view.check(matches(withText(title)))
             return view
         } catch (e: Exception) {
-            throw Exception("Emulator: ${Util.isEmulator()}", e)
+            throw Exception("Emulator: ${Util.isEmulator()}, Fingerprint: ${Build.FINGERPRINT}, Model: ${Build.MODEL}, Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}, Device: ${Build.DEVICE}, Product: ${Build.PRODUCT}", e)
         }
     }
 }
