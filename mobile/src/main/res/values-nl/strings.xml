@@ -116,7 +116,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push meldingen status</string>
     <string name="action_settings">Instellingen</string>
-    <string name="nfc_dialog_title">Selecteer een actie voor de NFC-tag</string>
     <string name="info_not_set">Niet ingesteld</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
@@ -167,7 +166,6 @@
     <string name="nfc_action_toggle">Wissel</string>
     <string name="nfc_activate">Activeren</string>
     <string name="nfc_action_current_color">Huidige kleur</string>
-    <string name="nfc_action_to_sitemap_page">Ga naar de Sitemap pagina</string>
     <!-- Drawer -->
     <string name="drawer_open">Sitemap drawer geopend</string>
     <string name="drawer_close">Sitemap drawer gesloten</string>
