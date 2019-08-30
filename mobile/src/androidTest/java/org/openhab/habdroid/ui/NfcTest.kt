@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.content.Context
-import android.os.Build
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.InstrumentationRegistry
@@ -34,7 +33,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.openhab.habdroid.R
 import org.openhab.habdroid.TestWithoutIntro
-import org.openhab.habdroid.util.Util
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
