@@ -53,7 +53,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 Log.d(TAG, "Item '$item' successfully updated to value $value")
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error sending alarm clock. Got HTTP error ${e.statusCode}", e)
+                Log.e(TAG, "Error updating item '$item' to value $value. Got HTTP error ${e.statusCode}", e)
                 Result.failure(buildOutputData(true, e.statusCode))
             }
         }
