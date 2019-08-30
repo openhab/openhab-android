@@ -129,7 +129,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
     <string name="action_settings">Настройки</string>
-    <string name="nfc_dialog_title">Выберите действие тега NFC</string>
     <string name="nfc_tag_recognized_label">Распознана метка NFC для \"%s\"</string>
     <string name="nfc_tag_recognized_item">Распознана метка NFC для элемента \"%s\"</string>
     <string name="info_not_set">Не задано</string>
@@ -202,7 +201,6 @@
     <string name="nfc_action_stop">Остановить</string>
     <string name="nfc_activate">Включить</string>
     <string name="nfc_action_current_color">Текущий цвет</string>
-    <string name="nfc_action_to_sitemap_page">Перейти на страницу sitemap</string>
     <!-- Drawer -->
     <string name="drawer_open">Отображение Sitemap открыто</string>
     <string name="drawer_close">Отображение Sitemap закрыто</string>
