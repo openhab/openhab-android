@@ -102,7 +102,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status på push-aviseringar</string>
     <string name="action_settings">Inställningar</string>
-    <string name="nfc_dialog_title">Skriv NFS-tagg för detta element</string>
     <string name="info_not_set">Ej angivet</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
@@ -136,7 +135,6 @@
     <string name="nfc_action_toggle">Växla</string>
     <string name="nfc_activate">Aktivera</string>
     <string name="nfc_action_current_color">Nuvarande färg</string>
-    <string name="nfc_action_to_sitemap_page">Navigera till Sitemap-sida</string>
     <!-- Drawer -->
     <string name="drawer_open">Sitemap-låda öppnad</string>
     <string name="drawer_close">Sitemap-låda stängd</string>
