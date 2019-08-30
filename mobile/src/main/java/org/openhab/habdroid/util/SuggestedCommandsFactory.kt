@@ -18,10 +18,9 @@ import android.text.InputType
 import androidx.annotation.StringRes
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
-import java.util.*
+import java.util.ArrayList
 
 class SuggestedCommandsFactory(private val context: Context, private val showUndef: Boolean) {
     fun fill(widget: Widget?): SuggestedCommands {
@@ -66,16 +65,17 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
                 add(suggestedCommands, item.state.asString, R.string.nfc_action_current_color)
             }
             addCommonPercentCommands(suggestedCommands)
+            suggestedCommands.shouldShowCustom = true
         }
         item.isOfTypeOrGroupType(Item.Type.Contact) -> {
             // Contact items cannot receive commands
-            suggestedCommands.shouldShowCustom = false
         }
         item.isOfTypeOrGroupType(Item.Type.Dimmer) -> {
             addOnOffCommands(suggestedCommands)
             addIncreaseDecreaseCommands(suggestedCommands)
             addCommonPercentCommands(suggestedCommands)
             suggestedCommands.inputTypeFlags = INPUT_TYPE_SINGED_DECIMAL_NUMBER
+            suggestedCommands.shouldShowCustom = true
         }
         item.isOfTypeOrGroupType(Item.Type.Number) -> {
             // Don't suggest numbers that might be totally out of context if there's already
@@ -85,12 +85,14 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             }
             item.state?.asString?.let { value -> add(suggestedCommands, value) }
             suggestedCommands.inputTypeFlags = INPUT_TYPE_SINGED_DECIMAL_NUMBER
+            suggestedCommands.shouldShowCustom = true
         }
         item.isOfTypeOrGroupType(Item.Type.NumberWithDimension) -> {
             val numberState = item.state?.asNumber
             if (numberState != null) {
                 add(suggestedCommands, numberState.toString())
-            } else {}
+            }
+            suggestedCommands.shouldShowCustom = true
         }
         item.isOfTypeOrGroupType(Item.Type.Player) -> {
             add(suggestedCommands, "PLAY", R.string.nfc_action_play)
@@ -99,7 +101,6 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             add(suggestedCommands, "PREVIOUS", R.string.nfc_action_previous)
             add(suggestedCommands, "REWIND", R.string.nfc_action_rewind)
             add(suggestedCommands, "FASTFORWARD", R.string.nfc_action_fastforward)
-            suggestedCommands.shouldShowCustom = false
         }
         item.isOfTypeOrGroupType(Item.Type.Rollershutter) -> {
             add(suggestedCommands, "UP", R.string.nfc_action_up)
@@ -114,15 +115,16 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             if (showUndef) {
                 add(suggestedCommands, "", R.string.nfc_action_empty_string)
                 add(suggestedCommands, "UNDEF", R.string.nfc_action_undefined)
-            } else {}
+            }
             item.state?.asString?.let { value -> add(suggestedCommands, value) }
+            suggestedCommands.shouldShowCustom = true
         }
         item.isOfTypeOrGroupType(Item.Type.Switch) -> {
             addOnOffCommands(suggestedCommands)
-            suggestedCommands.shouldShowCustom = false
         }
         showUndef -> {
             add(suggestedCommands, "UNDEF", R.string.nfc_action_undefined)
+            suggestedCommands.shouldShowCustom = true
         }
         else -> {}
     }
@@ -168,7 +170,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
     inner class SuggestedCommands {
         var commands: MutableList<String> = ArrayList()
         var labels: MutableList<String> = ArrayList()
-        var shouldShowCustom = true
+        var shouldShowCustom = false
         var inputTypeFlags = InputType.TYPE_CLASS_TEXT
     }
 
