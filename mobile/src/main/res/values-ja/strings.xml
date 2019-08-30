@@ -121,7 +121,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">プッシュ通知ステータス</string>
     <string name="action_settings">設定</string>
-    <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
     <string name="nfc_tag_recognized_label">\"%s\" の NFC タグを認識しました</string>
     <string name="nfc_tag_recognized_item">アイテム \"%s\" の NFC タグを認識しました</string>
     <string name="info_not_set">未設定</string>
@@ -181,7 +180,6 @@
     <string name="nfc_action_fastforward">早送り</string>
     <string name="nfc_activate">アクティベート</string>
     <string name="nfc_action_current_color">現在の色</string>
-    <string name="nfc_action_to_sitemap_page">サイトマップのページに移動</string>
     <!-- Drawer -->
     <string name="drawer_open">サイトマップドロワーを開きました</string>
     <string name="drawer_close">サイトマップドロワーを閉じました</string>
