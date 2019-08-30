@@ -22,9 +22,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.util.DisplayMetrics
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty

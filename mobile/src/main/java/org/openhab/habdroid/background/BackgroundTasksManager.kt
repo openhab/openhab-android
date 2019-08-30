@@ -58,7 +58,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 NotificationUpdateObserver.createNotificationChannels(context)
             }
             ACTION_RETRY_UPLOAD -> {
-                for (info in intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)) {
+                val retryInfoList = intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST) ?: return
+                for (info in retryInfoList) {
                     enqueueItemUpload(context, info.tag, info.itemName, info.value)
                 }
             }

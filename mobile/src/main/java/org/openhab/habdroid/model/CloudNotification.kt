@@ -20,6 +20,7 @@ import org.json.JSONObject
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.TimeZone
 
 @Parcelize
@@ -35,10 +36,10 @@ data class CloudNotification internal constructor(
 fun JSONObject.toCloudNotification(): CloudNotification {
     var created: Long = 0
     if (has("created")) {
-        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'")
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'", Locale.US)
         format.timeZone = TimeZone.getTimeZone("UTC")
         try {
-            created = format.parse(getString("created")).time
+            created = format.parse(getString("created"))?.time  ?: 0
         } catch (e: ParseException) {
             // keep created at 0
         }

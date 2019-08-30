@@ -18,9 +18,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.os.Build
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 typealias ConnectionChangedCallback = () -> Unit
 interface ConnectionManagerHelper {
@@ -100,39 +106,35 @@ interface ConnectionManagerHelper {
         private var callbackJob: Job? = null
 
         init {
-            connectivityManager.registerDefaultNetworkCallback(this)
+            connectivityManager?.registerDefaultNetworkCallback(this)
         }
 
         fun shutdown() {
             callbackJob?.cancel()
-            connectivityManager.unregisterNetworkCallback(this)
+            connectivityManager?.unregisterNetworkCallback(this)
         }
 
-        override fun onCapabilitiesChanged(network: Network?, networkCapabilities: NetworkCapabilities?) {
-            if (network != null) {
-                val knownCaps = lastKnownCaps[network]
-                if (knownCaps != null && networkCapabilities != null) {
-                    if (knownCaps.isUsable() != networkCapabilities.isUsable()) {
-                        scheduleCallback()
-                    }
-                    lastKnownCaps[network] = networkCapabilities
+        override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+            val knownCaps = lastKnownCaps[network]
+            if (knownCaps != null) {
+                if (knownCaps.isUsable() != networkCapabilities.isUsable()) {
+                    scheduleCallback()
                 }
+                lastKnownCaps[network] = networkCapabilities
             }
             super.onCapabilitiesChanged(network, networkCapabilities)
         }
 
-        override fun onLost(network: Network?) {
-            if (network != null) {
-                val caps = lastKnownCaps.remove(network)
-                if (caps?.isUsable() == true) {
-                    scheduleCallback()
-                }
+        override fun onLost(network: Network) {
+            val caps = lastKnownCaps.remove(network)
+            if (caps?.isUsable() == true) {
+                scheduleCallback()
             }
             super.onLost(network)
         }
 
-        override fun onAvailable(network: Network?) {
-            val caps = network?.let { connectivityManager.getNetworkCapabilities(it) }
+        override fun onAvailable(network: Network) {
+            val caps = connectivityManager?.getNetworkCapabilities(network)
             if (caps != null) {
                 if (caps.isUsable()) {
                     scheduleCallback()
@@ -174,10 +176,13 @@ interface ConnectionManagerHelper {
     private class NetworkTypeHelperApi23 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
         val currentConnection: ConnectionType get() {
+            if (connectivityManager == null) {
+                return ConnectionType.None
+            }
             val activeConnectionTypes = connectivityManager.allNetworks
                     .map { network -> connectivityManager.getNetworkInfo(network) }
-                    .filter { info -> info.isConnected }
-                    .map { info -> info.type }
+                    .filter { info -> info?.isConnected ?: false}
+                    .map { info -> info?.type }
             return when {
                 activeConnectionTypes.isEmpty() -> ConnectionType.None
                 ConnectivityManager.TYPE_VPN in activeConnectionTypes -> ConnectionType.Vpn
@@ -193,12 +198,15 @@ interface ConnectionManagerHelper {
     private class NetworkTypeHelperApi26 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
         val currentConnection: ConnectionType get() {
+            if (connectivityManager == null) {
+                return ConnectionType.None
+            }
             val activeNetworkCaps = connectivityManager.allNetworks
                     .map { network -> connectivityManager.getNetworkCapabilities(network) }
-                    .filter { caps -> caps.isUsable() }
+                    .filter { caps -> caps?.isUsable() ?: false }
 
             val hasConnectionOver: (transport: Int) -> Boolean = {
-                activeNetworkCaps.any { caps -> caps.hasTransport(it) }
+                activeNetworkCaps.any { caps -> caps?.hasTransport(it) ?: false }
             }
             return when {
                 activeNetworkCaps.isEmpty() -> ConnectionType.None
