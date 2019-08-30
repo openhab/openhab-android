@@ -123,7 +123,6 @@
     <string name="info_openhab_uuid_label">UUID openHAB</string>
     <string name="info_openhab_push_notification_label">Statut des notifications push</string>
     <string name="action_settings">Paramétrage</string>
-    <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
     <string name="nfc_tag_recognized_label">Tag NFC pour \"%s\" reconnu</string>
     <string name="nfc_tag_recognized_item">Tag NFC pour l\'Item \"%s\" reconnu</string>
     <string name="info_not_set">Non paramétré</string>
@@ -193,7 +192,6 @@
     <string name="nfc_action_stop">Arrêter</string>
     <string name="nfc_activate">Activer</string>
     <string name="nfc_action_current_color">Couleur actuelle</string>
-    <string name="nfc_action_to_sitemap_page">Aller à la page de la Sitemap</string>
     <!-- Drawer -->
     <string name="drawer_open">Menu sitemap ouvert</string>
     <string name="drawer_close">Menu sitemap fermé</string>
