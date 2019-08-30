@@ -143,7 +143,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
 
             val convertSvgIcon = { iconData: InputStream ->
                 val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
-                var height= widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
+                var height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
                 val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
                 if (!smallWidget) {
                     // Image view height is 50% of the widget height
