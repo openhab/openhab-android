@@ -67,13 +67,9 @@ class NfcTest : TestWithoutIntro() {
     }
 
     private fun checkViewWithText(context: Context, @StringRes stringResId: Int): ViewInteraction {
-        try {
-            val title = context.getString(stringResId)
-            val view = onView(withText(title))
-            view.check(matches(withText(title)))
-            return view
-        } catch (e: Exception) {
-            throw Exception("Emulator: ${Util.isEmulator()}, Fingerprint: ${Build.FINGERPRINT}, Model: ${Build.MODEL}, Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}, Device: ${Build.DEVICE}, Product: ${Build.PRODUCT}", e)
-        }
+        val title = context.getString(stringResId)
+        val view = onView(withText(title))
+        view.check(matches(withText(title)))
+        return view
     }
 }
