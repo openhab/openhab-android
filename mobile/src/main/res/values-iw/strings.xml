@@ -123,7 +123,6 @@
     <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
     <string name="info_openhab_push_notification_label">מצב התראות בדחיפה</string>
     <string name="action_settings">הגדרות</string>
-    <string name="nfc_dialog_title">כתוב על תגית NFC את הפעולה עבור רכיב זה</string>
     <string name="nfc_tag_recognized_label">זוהה תג NFC עבור \"%s\"</string>
     <string name="nfc_tag_recognized_item">זוהה תג NFC עבור פריט \"%s\"</string>
     <string name="info_not_set">לא מוגדר</string>
@@ -196,7 +195,6 @@
     <string name="nfc_action_stop">עצור</string>
     <string name="nfc_activate">הפעל</string>
     <string name="nfc_action_current_color">צבע נוכחי</string>
-    <string name="nfc_action_to_sitemap_page">נווט אל הדף הראשי של תצורת המערכת</string>
     <!-- Drawer -->
     <string name="drawer_open">מגירת תצורת מערכת נפתחה</string>
     <string name="drawer_close">מגירת תצורת מערכת נסגרה</string>
