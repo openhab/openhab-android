@@ -108,7 +108,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private val TAG = BackgroundTasksManager::class.java.simpleName
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
-        internal const val ACTION_UPDATE_WIDGET = "org.openhab.habdroid.background.action.UPDATE_WIDGET"
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
@@ -148,7 +147,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         fun enqueueWidgetItemUpdateIfNeeded(data: ItemUpdateWidget.ItemUpdateWidgetData) {
-            enqueueItemUpload(WORKER_TAG_PREFIX_WIDGET + data.item, data.item, data.state, BackoffPolicy.LINEAR)
+            if (!data.item.isEmpty() && !data.state.isEmpty()) {
+                enqueueItemUpload(
+                    WORKER_TAG_PREFIX_WIDGET + data.item,
+                    data.item,
+                    data.state,
+                    BackoffPolicy.LINEAR
+                )
+            }
         }
 
         private fun scheduleWorker(context: Context, key: String) {

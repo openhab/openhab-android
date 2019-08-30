@@ -77,8 +77,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             return super.onReceive(context, intent)
         }
         val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        if (intent.action == BackgroundTasksManager.ACTION_UPDATE_WIDGET &&
-            id != AppWidgetManager.INVALID_APPWIDGET_ID) {
+        if (intent.action == ACTION_UPDATE_WIDGET && id != AppWidgetManager.INVALID_APPWIDGET_ID) {
             BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(getInfoForWidget(context, id))
         }
         super.onReceive(context, intent)
@@ -103,105 +102,105 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         super.onDeleted(context, appWidgetIds)
     }
 
+    private fun setupWidget(
+        context: Context,
+        data: ItemUpdateWidgetData,
+        appWidgetId: Int,
+        appWidgetManager: AppWidgetManager
+    ) {
+        val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
+        val smallWidget = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) <
+            context.resources.getDimension(R.dimen.small_widget_threshold)
+        val views = RemoteViews(context.packageName,
+            if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update)
+        val intent = Intent(context, ItemUpdateWidget::class.java).apply {
+            action = ACTION_UPDATE_WIDGET
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, intent, 0)
+        views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
+        views.setTextViewText(R.id.text,
+            context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+        fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
+    }
+
+    private fun fetchAndSetIcon(
+        context: Context,
+        views: RemoteViews,
+        data: ItemUpdateWidgetData,
+        smallWidget: Boolean,
+        appWidgetId: Int,
+        appWidgetManager: AppWidgetManager
+    ) = GlobalScope.launch {
+        if (data.icon.isNotEmpty()) {
+            val encodedIcon = Uri.encode(data.icon)
+            val iconFormat = context.getPrefs().getIconFormat()
+            val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat"
+            val cm = CacheManager.getInstance(context)
+
+            val convertSvgIcon = { iconData: InputStream ->
+                val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
+                var height= widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
+                val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
+                if (!smallWidget) {
+                    // Image view height is 50% of the widget height
+                    height *= 0.5F
+                }
+                val sizeInDp = min(height, width)
+                @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
+                Log.d(TAG, "Icon size: $size")
+                iconData.svgToBitmap(size)
+            }
+
+            val setIcon = { iconData: InputStream, isSvg: Boolean ->
+                val iconBitmap = if (isSvg) convertSvgIcon(iconData) else BitmapFactory.decodeStream(iconData)
+                if (iconBitmap != null) {
+                    views.setImageViewBitmap(R.id.item_icon, iconBitmap)
+                    appWidgetManager.updateAppWidget(appWidgetId, views)
+                }
+            }
+
+            try {
+                val cachedIconType = cm.getWidgetIconFormat(appWidgetId)
+                val cachedIcon = if (cachedIconType != null) cm.getWidgetIconStream(appWidgetId) else null
+                if (cachedIcon != null) {
+                    Log.d(TAG, "Icon exits")
+                    cachedIcon.use { setIcon(it, cachedIconType == CacheManager.WidgetIconFormat.SVG) }
+                } else {
+                    Log.d(TAG, "Download icon")
+                    ConnectionFactory.waitForInitialization()
+                    val connection = ConnectionFactory.usableConnectionOrNull
+                    if (connection == null) {
+                        Log.d(TAG, "Got no connection")
+                        return@launch
+                    }
+                    val response = connection.httpClient.get(iconUrl).response
+                    val content = response.bytes()
+                    val contentType = response.contentType()
+                    val isSvg = contentType != null &&
+                        contentType.type() == "image" &&
+                        contentType.subtype().contains("svg")
+                    ByteArrayInputStream(content).use {
+                        val type =
+                            if (isSvg) CacheManager.WidgetIconFormat.SVG else CacheManager.WidgetIconFormat.PNG
+                        cm.saveWidgetIcon(appWidgetId, it, type)
+                        it.reset()
+                        setIcon(it, isSvg)
+                    }
+                }
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Error downloading icon for url $iconUrl", e)
+            } catch (e: IOException) {
+                Log.e(TAG, "Error saving icon to disk", e)
+            }
+        }
+    }
+
     companion object {
         private val TAG = ItemUpdateWidget::class.java.simpleName
-
-        fun setupWidget(
-            context: Context,
-            data: ItemUpdateWidgetData,
-            appWidgetId: Int,
-            appWidgetManager: AppWidgetManager
-        ) {
-            val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
-            val smallWidget = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) <
-                context.resources.getDimension(R.dimen.small_widget_threshold)
-            val views = RemoteViews(context.packageName,
-                if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update)
-            val intent = Intent(context, ItemUpdateWidget::class.java).apply {
-                action = BackgroundTasksManager.ACTION_UPDATE_WIDGET
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            }
-
-            val pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, intent, 0)
-            views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
-            views.setTextViewText(R.id.text,
-                context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
-            views.setImageViewResource(R.id.item_icon, R.mipmap.icon)
-            appWidgetManager.updateAppWidget(appWidgetId, views)
-            fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
-        }
-
-        private fun fetchAndSetIcon(
-            context: Context,
-            views: RemoteViews,
-            data: ItemUpdateWidgetData,
-            smallWidget: Boolean,
-            appWidgetId: Int,
-            appWidgetManager: AppWidgetManager
-        ) = GlobalScope.launch {
-            if (data.icon.isNotEmpty()) {
-                val encodedIcon = Uri.encode(data.icon)
-                val iconFormat = context.getPrefs().getIconFormat()
-                val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat"
-                val cm = CacheManager.getInstance(context)
-
-                val convertSvgIcon = { iconData: InputStream ->
-                    val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
-                    var height= widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
-                    val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
-                    if (!smallWidget) {
-                        // Image view height is 50% of the widget height
-                        height *= 0.5F
-                    }
-                    val sizeInDp = min(height, width)
-                    @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
-                    Log.d(TAG, "Icon size: $size")
-                    iconData.svgToBitmap(size)
-                }
-
-                val setIcon = { iconData: InputStream, isSvg: Boolean ->
-                    val iconBitmap = if (isSvg) convertSvgIcon(iconData) else BitmapFactory.decodeStream(iconData)
-                    if (iconBitmap != null) {
-                        views.setImageViewBitmap(R.id.item_icon, iconBitmap)
-                        appWidgetManager.updateAppWidget(appWidgetId, views)
-                    }
-                }
-
-                try {
-                    val cachedIconType = cm.getWidgetIconFormat(appWidgetId)
-                    val cachedIcon = if (cachedIconType != null) cm.getWidgetIconStream(appWidgetId) else null
-                    if (cachedIcon != null) {
-                        Log.d(TAG, "Icon exits")
-                        cachedIcon.use { setIcon(it, cachedIconType == CacheManager.WidgetIconFormat.SVG) }
-                    } else {
-                        Log.d(TAG, "Download icon")
-                        ConnectionFactory.waitForInitialization()
-                        val connection = ConnectionFactory.usableConnectionOrNull
-                        if (connection == null) {
-                            Log.d(TAG, "Got no connection")
-                            return@launch
-                        }
-                        val response = connection.httpClient.get(iconUrl).response
-                        val content = response.bytes()
-                        val contentType = response.contentType()
-                        val isSvg = contentType != null &&
-                            contentType.type() == "image" &&
-                            contentType.subtype().contains("svg")
-                        ByteArrayInputStream(content).use {
-                            val type =
-                                if (isSvg) CacheManager.WidgetIconFormat.SVG else CacheManager.WidgetIconFormat.PNG
-                            cm.saveWidgetIcon(appWidgetId, it, type)
-                            it.reset()
-                            setIcon(it, isSvg)
-                        }
-                    }
-                } catch (e: HttpClient.HttpException) {
-                    Log.e(TAG, "Error downloading icon for url $iconUrl", e)
-                } catch (e: IOException) {
-                    Log.e(TAG, "Error saving icon to disk", e)
-                }
-            }
-        }
+        private const val ACTION_UPDATE_WIDGET = "org.openhab.habdroid.action.UPDATE_ITEM_FROM_WIDGET"
 
         fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData {
             val prefs = getPrefsForWidget(context, id)
