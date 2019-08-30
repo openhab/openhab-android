@@ -110,7 +110,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push ilmoitusten tila</string>
     <string name="action_settings">Asetukset</string>
-    <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
     <string name="info_not_set">Ei määritetty</string>
     <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Background tasks -->
@@ -145,7 +144,6 @@
     <string name="nfc_action_toggle">Vaihda</string>
     <string name="nfc_activate">Aktivoi</string>
     <string name="nfc_action_current_color">Nykyinen väri</string>
-    <string name="nfc_action_to_sitemap_page">Mene sivukartalle</string>
     <!-- Drawer -->
     <string name="drawer_open">Sivukartan valitsin avattu</string>
     <string name="drawer_close">Sivukartan valitsin suljettu</string>
