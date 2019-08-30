@@ -17,8 +17,8 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
@@ -33,14 +33,16 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
-import org.openhab.habdroid.util.isIconFormatPng
 import org.openhab.habdroid.util.svgToBitmap
+import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.io.InputStream
 import kotlin.math.min
 
 open class ItemUpdateWidget : AppWidgetProvider() {
@@ -84,11 +86,11 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         }
         appWidgetIds.forEach {
             Log.d(TAG, "Deleting data for id $it")
-            context.deleteFile(getFileNameForWidget(it))
+            CacheManager.getInstance(context).removeWidgetIcon(it)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                context.deleteSharedPreferences(getFileNameForWidget(it))
+                context.deleteSharedPreferences(getPrefsNameForWidget(it))
             } else {
-                context.getSharedPreferences(getFileNameForWidget(it), MODE_PRIVATE).edit {
+                getPrefsForWidget(context, it).edit {
                     clear()
                 }
             }
@@ -119,6 +121,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
             views.setTextViewText(R.id.text,
                 context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
+            views.setImageViewResource(R.id.item_icon, R.mipmap.icon)
             appWidgetManager.updateAppWidget(appWidgetId, views)
             fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
         }
@@ -135,10 +138,36 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 val encodedIcon = Uri.encode(data.icon)
                 val iconFormat = context.getPrefs().getIconFormat()
                 val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat"
+                val cm = CacheManager.getInstance(context)
+
+                val convertSvgIcon = { iconData: InputStream ->
+                    val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
+                    var height= widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
+                    val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
+                    if (!smallWidget) {
+                        // Image view height is 50% of the widget height
+                        height *= 0.5F
+                    }
+                    val sizeInDp = min(height, width)
+                    @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
+                    Log.d(TAG, "Icon size: $size")
+                    iconData.svgToBitmap(size)
+                }
+
+                val setIcon = { iconData: InputStream, isSvg: Boolean ->
+                    val iconBitmap = if (isSvg) convertSvgIcon(iconData) else BitmapFactory.decodeStream(iconData)
+                    if (iconBitmap != null) {
+                        views.setImageViewBitmap(R.id.item_icon, iconBitmap)
+                        appWidgetManager.updateAppWidget(appWidgetId, views)
+                    }
+                }
 
                 try {
-                    if (context.fileList().contains(getFileNameForWidget(appWidgetId))) {
+                    val cachedIconType = cm.getWidgetIconFormat(appWidgetId)
+                    val cachedIcon = if (cachedIconType != null) cm.getWidgetIconStream(appWidgetId) else null
+                    if (cachedIcon != null) {
                         Log.d(TAG, "Icon exits")
+                        cachedIcon.use { setIcon(it, cachedIconType == CacheManager.WidgetIconFormat.SVG) }
                     } else {
                         Log.d(TAG, "Download icon")
                         ConnectionFactory.waitForInitialization()
@@ -147,9 +176,18 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                             Log.d(TAG, "Got no connection")
                             return@launch
                         }
-                        val content = connection.httpClient.get(iconUrl).response.bytes()
-                        context.openFileOutput(getFileNameForWidget(appWidgetId), MODE_PRIVATE).use {
-                            it.write(content)
+                        val response = connection.httpClient.get(iconUrl).response
+                        val content = response.bytes()
+                        val contentType = response.contentType()
+                        val isSvg = contentType != null &&
+                            contentType.type() == "image" &&
+                            contentType.subtype().contains("svg")
+                        ByteArrayInputStream(content).use {
+                            val type =
+                                if (isSvg) CacheManager.WidgetIconFormat.SVG else CacheManager.WidgetIconFormat.PNG
+                            cm.saveWidgetIcon(appWidgetId, it, type)
+                            it.reset()
+                            setIcon(it, isSvg)
                         }
                     }
                 } catch (e: HttpClient.HttpException) {
@@ -158,53 +196,10 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     Log.e(TAG, "Error saving icon to disk", e)
                 }
             }
-
-            setIcon(context, views, smallWidget, appWidgetId, appWidgetManager)
-        }
-
-        private fun setIcon(
-            context: Context,
-            views: RemoteViews,
-            smallWidget: Boolean,
-            appWidgetId: Int,
-            appWidgetManager: AppWidgetManager
-        ) = GlobalScope.launch {
-            val bitmap = try {
-                context.openFileInput(getFileNameForWidget(appWidgetId)).use { fileInputStream ->
-                    val inputStream = fileInputStream.readBytes().inputStream()
-                    if (context.getPrefs().isIconFormatPng()) {
-                        BitmapFactory.decodeStream(inputStream)
-                    } else {
-                        val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
-                        var height = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT).toFloat()
-                        val width = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH).toFloat()
-                        if (!smallWidget) {
-                            // Image view height is 50% of the widget height
-                            height *= 0.5F
-                        }
-                        val sizeInDp = min(height, width)
-                        @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
-                        Log.d(TAG, "Icon size: $size")
-                        inputStream.svgToBitmap(size)
-                    }.also { inputStream.close() }
-                }
-            } catch (e: IOException) {
-                Log.e(TAG, "Error getting icon from disk", e)
-                null
-            }
-
-            if (bitmap == null) {
-                Log.d(TAG, "Bitmap is null")
-                views.setImageViewResource(R.id.item_icon, R.mipmap.icon)
-            } else {
-                views.setImageViewBitmap(R.id.item_icon, bitmap)
-            }
-
-            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
         fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData {
-            val prefs = context.getSharedPreferences(getFileNameForWidget(id), MODE_PRIVATE)
+            val prefs = getPrefsForWidget(context, id)
             val item = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
             val state = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
             val label = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
@@ -218,7 +213,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             data: ItemUpdateWidgetData,
             id: Int
         ) {
-            context.getSharedPreferences(getFileNameForWidget(id), MODE_PRIVATE).edit {
+            getPrefsForWidget(context, id).edit {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM, data.item)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE, data.state)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
@@ -227,9 +222,11 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             }
         }
 
-        fun getFileNameForWidget(id: Int): String {
-            return "widget-$id"
+        private fun getPrefsForWidget(context: Context, id: Int): SharedPreferences {
+            return context.getSharedPreferences(getPrefsNameForWidget(id), Context.MODE_PRIVATE)
         }
+
+        private fun getPrefsNameForWidget(id: Int) = "widget-$id"
     }
 
     data class ItemUpdateWidgetData(
