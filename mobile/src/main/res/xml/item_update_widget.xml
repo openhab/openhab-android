@@ -3,7 +3,7 @@
     android:minWidth="40dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="0"
-    android:previewImage="@drawable/item_update_widget_preview"
+    android:previewImage="@drawable/widget_preview_item_update"
     android:initialLayout="@layout/widget_item_update"
     android:widgetCategory="home_screen|keyguard"
     android:configure="org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity"
