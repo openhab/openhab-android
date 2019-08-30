@@ -33,6 +33,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.openhab.habdroid.R
 import org.openhab.habdroid.TestWithoutIntro
+import org.openhab.habdroid.util.Util
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -65,9 +66,13 @@ class NfcTest : TestWithoutIntro() {
     }
 
     private fun checkViewWithText(context: Context, @StringRes stringResId: Int): ViewInteraction {
-        val title = context.getString(stringResId)
-        val view = onView(withText(title))
-        view.check(matches(withText(title)))
-        return view
+        try {
+            val title = context.getString(stringResId)
+            val view = onView(withText(title))
+            view.check(matches(withText(title)))
+            return view
+        } catch (e: Exception) {
+            throw Exception("Emulator: ${Util.isEmulator()}", e)
+        }
     }
 }
