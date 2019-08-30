@@ -59,7 +59,6 @@
     <string name="info_openhab_apiversion_label">openHAB versão Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="action_settings">Definições</string>
-    <string name="nfc_dialog_title">Escrever a ação de marca NFC para este elemento</string>
     <string name="info_not_set">Não definido</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
