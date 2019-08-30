@@ -124,7 +124,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
-    <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
     <string name="nfc_tag_recognized_label">NFC tag a \"%s\" -hoz felismerve</string>
     <string name="nfc_tag_recognized_item">NFC tag az elemhez \"%s\" felismerve</string>
     <string name="info_not_set">Nincs beállítva</string>
@@ -195,7 +194,6 @@
     <string name="nfc_action_stop">Megállítás</string>
     <string name="nfc_activate">Aktiválás</string>
     <string name="nfc_action_current_color">Aktuális szín</string>
-    <string name="nfc_action_to_sitemap_page">Ugrás az felületekhez</string>
     <!-- Drawer -->
     <string name="drawer_open">Felület tervező nyitva</string>
     <string name="drawer_close">Felület tervező zárva</string>
