@@ -101,17 +101,17 @@ interface ConnectionManagerHelper {
     @TargetApi(26)
     private open class ChangeCallbackHelperApi26 constructor(context: Context) : ConnectivityManager.NetworkCallback() {
         var changeCallback: ConnectionChangedCallback? = null
-        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         private val lastKnownCaps = HashMap<Network, NetworkCapabilities>()
         private var callbackJob: Job? = null
 
         init {
-            connectivityManager?.registerDefaultNetworkCallback(this)
+            connectivityManager.registerDefaultNetworkCallback(this)
         }
 
         fun shutdown() {
             callbackJob?.cancel()
-            connectivityManager?.unregisterNetworkCallback(this)
+            connectivityManager.unregisterNetworkCallback(this)
         }
 
         override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
@@ -132,7 +132,7 @@ interface ConnectionManagerHelper {
         }
 
         override fun onAvailable(network: Network) {
-            val caps = connectivityManager?.getNetworkCapabilities(network)
+            val caps = connectivityManager.getNetworkCapabilities(network)
             if (caps != null) {
                 if (caps.isUsable()) {
                     scheduleCallback()
@@ -172,11 +172,8 @@ interface ConnectionManagerHelper {
     @TargetApi(23)
     @Suppress("DEPRECATION")
     private class NetworkTypeHelperApi23 constructor(context: Context) {
-        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         val currentConnection: ConnectionType get() {
-            if (connectivityManager == null) {
-                return ConnectionType.None
-            }
             val activeConnectionTypes = connectivityManager.allNetworks
                     .map { network -> connectivityManager.getNetworkInfo(network) }
                     .filter { info -> info?.isConnected == true }
@@ -194,11 +191,8 @@ interface ConnectionManagerHelper {
 
     @TargetApi(26)
     private class NetworkTypeHelperApi26 constructor(context: Context) {
-        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         val currentConnection: ConnectionType get() {
-            if (connectivityManager == null) {
-                return ConnectionType.None
-            }
             val activeNetworkCaps = connectivityManager.allNetworks
                     .map { network -> connectivityManager.getNetworkCapabilities(network) }
                     .filter { caps -> caps?.isUsable() == true }
