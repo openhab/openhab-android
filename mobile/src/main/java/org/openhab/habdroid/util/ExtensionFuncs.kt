@@ -115,7 +115,7 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
     return byteStream().svgToBitmap(targetSize)
 }
 
-fun MediaType?.isSvg() : Boolean {
+fun MediaType?.isSvg(): Boolean {
     return this != null && this.type() == "image" && this.subtype().contains("svg")
 }
 
