@@ -75,7 +75,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         }
         val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         if (intent.action == ACTION_UPDATE_WIDGET && id != AppWidgetManager.INVALID_APPWIDGET_ID) {
-            BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(getInfoForWidget(context, id))
+            BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, getInfoForWidget(context, id))
         }
         super.onReceive(context, intent)
     }

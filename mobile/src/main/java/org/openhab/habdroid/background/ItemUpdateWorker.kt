@@ -21,14 +21,13 @@ import androidx.work.WorkerParameters
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.Util
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
         runBlocking {
             ConnectionFactory.waitForInitialization()
         }
-
-        val data = inputData
 
         Log.d(TAG, "Trying to get connection")
         val connection = ConnectionFactory.usableConnectionOrNull
@@ -42,8 +41,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             }
         }
 
-        val item = data.getString(INPUT_DATA_ITEM)
+        val item = inputData.getString(INPUT_DATA_ITEM)
         val value = inputData.getString(INPUT_DATA_VALUE) as String
+        val successToastMessage = inputData.getString(INPUT_DATA_SUCCESS_TOAST_MESSAGE)
 
         return runBlocking {
             try {
@@ -51,6 +51,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     .post("rest/items/$item", value, "text/plain;charset=UTF-8")
                     .asStatus()
                 Log.d(TAG, "Item '$item' successfully updated to value $value")
+                successToastMessage?.let { Util.showToast(applicationContext, it) }
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error updating item '$item' to value $value. Got HTTP error ${e.statusCode}", e)
@@ -75,6 +76,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         private const val INPUT_DATA_ITEM = "item"
         private const val INPUT_DATA_VALUE = "value"
+        private const val INPUT_DATA_SUCCESS_TOAST_MESSAGE = "successToast"
 
         const val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
         const val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
@@ -82,10 +84,11 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         const val OUTPUT_DATA_VALUE = "value"
         const val OUTPUT_DATA_TIMESTAMP = "timestamp"
 
-        fun buildData(item: String, value: String): Data {
+        fun buildData(item: String, value: String, successToast: String?): Data {
             return Data.Builder()
                 .putString(INPUT_DATA_ITEM, item)
                 .putString(INPUT_DATA_VALUE, value)
+                .putString(INPUT_DATA_SUCCESS_TOAST_MESSAGE, successToast)
                 .build()
         }
     }

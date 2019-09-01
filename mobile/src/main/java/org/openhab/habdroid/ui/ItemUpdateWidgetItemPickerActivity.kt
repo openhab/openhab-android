@@ -22,7 +22,6 @@ class ItemUpdateWidgetItemPickerActivity(override var disabledMessageId: Int = 0
     }
 
     override fun finish(item: Item, state: String, mappedState: String) {
-        val appWidgetManager: AppWidgetManager = AppWidgetManager.getInstance(this)
         val label = if (item.label.isNullOrEmpty()) item.name else item.label
         val data = ItemUpdateWidget.ItemUpdateWidgetData(item.name, state, label, mappedState, item.category.orEmpty())
 
