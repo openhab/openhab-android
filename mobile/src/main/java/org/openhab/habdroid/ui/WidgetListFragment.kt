@@ -196,7 +196,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private fun populateContextMenu(widget: Widget, menu: ContextMenu) {
         val context = context ?: return
         val suggestedCommands = suggestedCommandsFactory.fill(widget)
-        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || Util.isEmulator(context)
+        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || Util.isEmulator()
         val hasCommandOptions = suggestedCommands.commands.isNotEmpty() || suggestedCommands.shouldShowCustom
 
         // Offer opening website if only one position is set

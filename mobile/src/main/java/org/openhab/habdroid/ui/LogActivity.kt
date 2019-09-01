@@ -14,13 +14,13 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -36,6 +36,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import java.io.BufferedReader
 import java.io.InputStreamReader
+
 
 class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var logTextView: TextView
@@ -138,6 +139,11 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             return@withContext ""
         }
 
+        logBuilder.append("-----------------------\n")
+        logBuilder.append("Device information\n")
+        logBuilder.append(getDeviceInfo())
+        logBuilder.append("-----------------------\n\n")
+
         try {
             InputStreamReader(process.inputStream).use { reader ->
                 BufferedReader(reader).use { bufferedReader ->
@@ -156,6 +162,16 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         log = redactHost(log, getPrefs().getLocalUrl(), "<openhab-local-address>")
         log = redactHost(log, getPrefs().getRemoteUrl(), "<openhab-remote-address>")
         log
+    }
+
+    private fun getDeviceInfo() : String {
+        return "Fingerprint: ${Build.FINGERPRINT}\n" +
+            "Model: ${Build.MODEL}\n" +
+            "Manufacturer: ${Build.MANUFACTURER}\n" +
+            "Brand: ${Build.BRAND}\n" +
+            "Device: ${Build.DEVICE}\n" +
+            "Product: ${Build.PRODUCT}\n" +
+            "OS: ${Build.VERSION.RELEASE}\n"
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {
