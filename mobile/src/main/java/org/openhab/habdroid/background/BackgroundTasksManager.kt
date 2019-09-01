@@ -149,6 +149,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         fun enqueueWidgetItemUpdateIfNeeded(context: Context, data: ItemUpdateWidget.ItemUpdateWidgetData) {
             if (data.item.isNotEmpty() && data.state.isNotEmpty()) {
                 enqueueItemUpload(
+                    context,
                     WORKER_TAG_PREFIX_WIDGET + data.item,
                     data.item,
                     data.state,
