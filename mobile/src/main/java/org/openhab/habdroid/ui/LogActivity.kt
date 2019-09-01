@@ -25,8 +25,11 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
@@ -34,12 +37,12 @@ import org.openhab.habdroid.util.getRemoteUrl
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class LogActivity : AbstractBaseActivity() {
-    private lateinit var progressBar: ProgressBar
+class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var scrollView: ScrollView
     private lateinit var emptyView: LinearLayout
+    private lateinit var swipeLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +54,11 @@ class LogActivity : AbstractBaseActivity() {
 
         fab = findViewById(R.id.shareFab)
         logTextView = findViewById(R.id.log)
-        progressBar = findViewById(R.id.progressBar)
         scrollView = findViewById(R.id.scrollview)
         emptyView = findViewById(android.R.id.empty)
+        swipeLayout = findViewById(R.id.swipe_refresh)
+        swipeLayout.setOnRefreshListener(this)
+        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
 
         fab.setOnClickListener {
             val sendIntent = Intent().apply {
@@ -83,7 +88,7 @@ class LogActivity : AbstractBaseActivity() {
         Log.d(TAG, "onOptionsItemSelected()")
         return when (item.itemId) {
             R.id.delete_log -> {
-                setUiState(isLoading = true, isEmpty = false)
+                setUiState(isLoading = false, isEmpty = false)
                 fetchLog(true)
                 true
             }
@@ -95,8 +100,13 @@ class LogActivity : AbstractBaseActivity() {
         }
     }
 
+    override fun onRefresh() {
+        setUiState(isLoading = true, isEmpty = false)
+        fetchLog(false)
+    }
+
     private fun setUiState(isLoading: Boolean, isEmpty: Boolean) {
-        progressBar.isVisible = isLoading
+        swipeLayout.isRefreshing = isLoading
         logTextView.isVisible = !isLoading && !isEmpty
         emptyView.isVisible = isEmpty
         if (isLoading || isEmpty) {
