@@ -37,7 +37,6 @@ import org.openhab.habdroid.util.getRemoteUrl
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-
 class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
@@ -164,7 +163,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         log
     }
 
-    private fun getDeviceInfo() : String {
+    private fun getDeviceInfo(): String {
         return "Fingerprint: ${Build.FINGERPRINT}\n" +
             "Model: ${Build.MODEL}\n" +
             "Manufacturer: ${Build.MANUFACTURER}\n" +
