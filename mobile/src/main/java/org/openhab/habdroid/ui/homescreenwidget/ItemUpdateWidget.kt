@@ -64,11 +64,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     ) {
         Log.d(TAG, "onAppWidgetOptionsChanged()")
         val data = getInfoForWidget(context ?: return, appWidgetId)
-        // Clear out cached icon if it's SVG, since SVG icons are size dependant
-        val cm = CacheManager.getInstance(context)
-        if (cm.getWidgetIconFormat(appWidgetId) == IconFormat.Svg) {
-            cm.removeWidgetIcon(appWidgetId)
-        }
         setupWidget(context, data, appWidgetId, appWidgetManager ?: return)
     }
 
