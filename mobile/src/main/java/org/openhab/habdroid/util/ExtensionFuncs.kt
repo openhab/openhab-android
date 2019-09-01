@@ -28,6 +28,7 @@ import android.util.Log
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty
+import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
@@ -101,11 +102,7 @@ fun Resources.dpToPixel(dp: Float): Float {
 
 @Throws(IOException::class)
 fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
-    val contentType = contentType()
-    val isSvg = contentType != null &&
-        contentType.type() == "image" &&
-        contentType.subtype().contains("svg")
-    if (!isSvg) {
+    if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
             ?: throw IOException("Bitmap decoding failed")
         return if (!enforceSize) {
@@ -116,6 +113,10 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
     }
 
     return byteStream().svgToBitmap(targetSize)
+}
+
+fun MediaType?.isSvg() : Boolean {
+    return this != null && this.type() == "image" && this.subtype().contains("svg")
 }
 
 @Throws(IOException::class)

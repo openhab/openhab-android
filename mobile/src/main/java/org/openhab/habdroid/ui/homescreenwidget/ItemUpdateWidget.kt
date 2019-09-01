@@ -40,6 +40,7 @@ import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.svgToBitmap
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -174,10 +175,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     }
                     val response = connection.httpClient.get(iconUrl).response
                     val content = response.bytes()
-                    val contentType = response.contentType()
-                    val isSvg = contentType != null &&
-                        contentType.type() == "image" &&
-                        contentType.subtype().contains("svg")
+                    val isSvg = response.contentType().isSvg()
                     ByteArrayInputStream(content).use {
                         val type = if (isSvg) IconFormat.Svg else IconFormat.Png
                         cm.saveWidgetIcon(appWidgetId, it, type)
