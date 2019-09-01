@@ -116,12 +116,10 @@ interface ConnectionManagerHelper {
 
         override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
             val knownCaps = lastKnownCaps[network]
-            if (knownCaps != null) {
-                if (knownCaps.isUsable() != networkCapabilities.isUsable()) {
-                    scheduleCallback()
-                }
-                lastKnownCaps[network] = networkCapabilities
+            if (knownCaps?.isUsable() != networkCapabilities.isUsable()) {
+                scheduleCallback()
             }
+            lastKnownCaps[network] = networkCapabilities
             super.onCapabilitiesChanged(network, networkCapabilities)
         }
 
@@ -181,7 +179,7 @@ interface ConnectionManagerHelper {
             }
             val activeConnectionTypes = connectivityManager.allNetworks
                     .map { network -> connectivityManager.getNetworkInfo(network) }
-                    .filter { info -> info?.isConnected ?: false}
+                    .filter { info -> info?.isConnected == true }
                     .map { info -> info?.type }
             return when {
                 activeConnectionTypes.isEmpty() -> ConnectionType.None
@@ -203,10 +201,10 @@ interface ConnectionManagerHelper {
             }
             val activeNetworkCaps = connectivityManager.allNetworks
                     .map { network -> connectivityManager.getNetworkCapabilities(network) }
-                    .filter { caps -> caps?.isUsable() ?: false }
+                    .filter { caps -> caps?.isUsable() == true }
 
             val hasConnectionOver: (transport: Int) -> Boolean = {
-                activeNetworkCaps.any { caps -> caps?.hasTransport(it) ?: false }
+                activeNetworkCaps.any { caps -> caps?.hasTransport(it) == true }
             }
             return when {
                 activeNetworkCaps.isEmpty() -> ConnectionType.None
