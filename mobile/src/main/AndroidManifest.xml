@@ -84,6 +84,13 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.ItemUpdateWidgetItemPickerActivity"
+            android:label="@string/item_update_widget_item_picker_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".core.VoiceService"
@@ -110,6 +117,17 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_with_icon_info" />
+        </receiver>
+        <receiver
+            android:name=".ui.homescreenwidget.ItemUpdateWidget"
+            android:label="@string/item_update_widget_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/item_update_widget" />
         </receiver>
         <receiver android:name=".core.OnUpdateBroadcastReceiver">
             <intent-filter>

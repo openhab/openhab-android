@@ -155,7 +155,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                         customDialog.window?.setSoftInputMode(mode)
                     }
                 } else {
-                    finish(item, commands[which])
+                    finish(item, commands[which], labels[which])
                 }
             }
             .show()
@@ -175,7 +175,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     }
 
     protected fun loadItems() {
+        Log.d(TAG, "loadItems()")
         if (isDisabled) {
+            Log.d(TAG, "Feature is disabled")
             return
         }
 
@@ -208,7 +210,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String)
+    protected abstract fun finish(item: Item, state: String, mappedState: String)
+
+    private fun finish(item: Item, state: String) {
+        finish(item, state, state)
+    }
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName
@@ -241,8 +247,5 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
     companion object {
         private val TAG = AbstractItemPickerActivity::class.java.simpleName
-
-        const val EXTRA_ITEM_NAME = "itemName"
-        const val EXTRA_ITEM_STATE = "itemState"
     }
 }

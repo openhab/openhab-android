@@ -55,6 +55,7 @@ import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
@@ -303,7 +304,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
-        val iconFormat = context.getPrefs().getIconFormat()
+        val iconFormat = when (context.getPrefs().getIconFormat()) {
+            IconFormat.Png -> "PNG"
+            IconFormat.Svg -> "SVG"
+        }
         val url = Uri.Builder()
             .appendEncodedPath(linkedPage.iconPath)
             .appendQueryParameter("format", iconFormat)

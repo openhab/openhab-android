@@ -19,6 +19,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
@@ -77,7 +78,7 @@ data class Widget(
 
     companion object {
         @Throws(JSONException::class)
-        fun updateFromEvent(source: Widget, eventPayload: JSONObject, iconFormat: String): Widget {
+        fun updateFromEvent(source: Widget, eventPayload: JSONObject, iconFormat: IconFormat): Widget {
             val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
             val icon = eventPayload.optString("icon", source.icon)
             val iconPath = determineOH2IconPath(item, source.type, icon, iconFormat,
@@ -110,7 +111,7 @@ data class Widget(
             item: Item?,
             type: Type,
             icon: String?,
-            iconFormat: String,
+            iconFormat: IconFormat,
             hasMappings: Boolean
         ): String {
             val itemState = item?.state
@@ -140,7 +141,11 @@ data class Widget(
                 }
             }
 
-            return "icon/$icon?state=$iconState&format=$iconFormat"
+            val iconFormatString = when (iconFormat) {
+                IconFormat.Png -> "PNG"
+                IconFormat.Svg -> "SVG"
+            }
+            return "icon/$icon?state=$iconState&format=$iconFormatString"
         }
     }
 }
@@ -230,7 +235,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
 }
 
 @Throws(JSONException::class)
-fun JSONObject.collectWidgets(parent: Widget?, iconFormat: String): List<Widget> {
+fun JSONObject.collectWidgets(parent: Widget?, iconFormat: IconFormat): List<Widget> {
     val mappings = if (has("mappings")) {
         getJSONArray("mappings").map { obj -> obj.toLabeledValue("command", "label") }
     } else {

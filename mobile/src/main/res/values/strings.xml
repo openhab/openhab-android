@@ -321,4 +321,11 @@
     <string name="settings_tasker_plugin_summary">Enable Tasker action plugin which allows updating Items via Tasker or other compatible apps</string>
     <string name="turn_on">Turn on</string>
     <string name="press_back_to_exit">Press back again to exit</string>
+
+    <!-- Item update widget -->
+    <string name="item_update_widget_title">Item control</string>
+    <string name="item_update_widget_content_description">Widget for changing Item state</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Select an Item</string>
+    <string name="item_update_widget_success_toast">%1$s set to %2$s</string>
 </resources>

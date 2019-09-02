@@ -18,7 +18,6 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
-
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.MainActivity
 
@@ -26,8 +25,8 @@ class NfcReceiveActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (intent == null || intent.data == null) {
-            finish()
+        if (intent == null) {
+            finishAndRemoveTaskIfPossible()
             return
         }
 
@@ -44,6 +43,10 @@ class NfcReceiveActivity : Activity() {
             }
         }
 
+        finishAndRemoveTaskIfPossible()
+    }
+
+    private fun finishAndRemoveTaskIfPossible() {
         if (Build.VERSION.SDK_INT >= 21) {
             finishAndRemoveTask()
         } else {

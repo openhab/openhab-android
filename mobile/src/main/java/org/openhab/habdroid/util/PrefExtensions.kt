@@ -27,6 +27,11 @@ enum class ScreenLockMode {
     Enabled
 }
 
+enum class IconFormat {
+    Png,
+    Svg
+}
+
 fun SharedPreferences.getLocalUrl(): String {
     return getString(Constants.PREFERENCE_LOCAL_URL)
 }
@@ -39,8 +44,9 @@ fun SharedPreferences.getDefaultSitemap(): String {
     return getString(Constants.PREFERENCE_SITEMAP_NAME)
 }
 
-fun SharedPreferences.getIconFormat(): String {
-    return getString(Constants.PREFERENCE_ICON_FORMAT, "PNG").orEmpty()
+fun SharedPreferences.getIconFormat(): IconFormat {
+    val formatString = getString(Constants.PREFERENCE_ICON_FORMAT, "PNG")
+    return if (formatString == "SVG") IconFormat.Svg else IconFormat.Png
 }
 
 fun SharedPreferences.isDemoModeEnabled(): Boolean {

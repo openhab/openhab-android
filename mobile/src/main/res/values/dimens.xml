@@ -15,4 +15,5 @@
     <dimen name="notificationlist_icon_size">40dp</dimen>
     <dimen name="widgetlist_icon_size">50dp</dimen>
     <dimen name="widgetlist_slider_width">130dp</dimen>
+    <dimen name="small_widget_threshold">60dp</dimen>
 </resources>

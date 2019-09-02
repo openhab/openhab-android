@@ -31,7 +31,8 @@ import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
-import org.openhab.habdroid.ui.AbstractItemPickerActivity
+import org.openhab.habdroid.ui.TaskerItemPickerActivity
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.TaskerIntent
@@ -67,8 +68,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     return
                 }
                 val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
-                val itemName = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_NAME)
-                val state = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_STATE)
+                val itemName = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_NAME)
+                val state = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_STATE)
                 if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
                     return
                 }
@@ -112,6 +113,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
         private const val WORKER_TAG_PREFIX_TASKER = "tasker-"
+        private const val WORKER_TAG_PREFIX_WIDGET = "widget-"
 
         internal val KNOWN_KEYS = listOf(
             Constants.PREFERENCE_ALARM_CLOCK
@@ -144,6 +146,19 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
         }
 
+        fun enqueueWidgetItemUpdateIfNeeded(context: Context, data: ItemUpdateWidget.ItemUpdateWidgetData) {
+            if (data.item.isNotEmpty() && data.state.isNotEmpty()) {
+                enqueueItemUpload(
+                    context,
+                    WORKER_TAG_PREFIX_WIDGET + data.item,
+                    data.item,
+                    data.state,
+                    BackoffPolicy.LINEAR,
+                    context.getString(R.string.item_update_widget_success_toast, data.label, data.mappedState)
+                )
+            }
+        }
+
         private fun scheduleWorker(context: Context, key: String) {
             val prefs = context.getPrefs()
             val setting = if (prefs.isDemoModeEnabled()) {
@@ -168,7 +183,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             tag: String,
             itemName: String,
             value: String,
-            backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL
+            backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL,
+            successToast: String? = null
         ) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -178,7 +194,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, value))
+                .setInputData(ItemUpdateWorker.buildData(itemName, value, successToast))
                 .build()
 
             val workManager = WorkManager.getInstance(context)
