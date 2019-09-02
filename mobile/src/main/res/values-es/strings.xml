@@ -279,4 +279,5 @@
     <string name="settings_tasker_plugin_summary">Habilitar el action plugin de Tasker que permite actualizar ítems a través de Tasker u otras aplicaciones compatibles</string>
     <string name="turn_on">Encender</string>
     <string name="press_back_to_exit">Presione atrás de nuevo para salir</string>
+    <!-- Item update widget -->
 </resources>
