@@ -274,4 +274,5 @@
     <string name="settings_tasker_plugin_summary">אפשר את תוסף פעולת Tasker על מנת לעדכן פריטים דרך Tasker או אפליקציות אחרות התומכות בכך</string>
     <string name="turn_on">הפעל</string>
     <string name="press_back_to_exit">לחץ \'חזור\' פעם נוספת כדי לצאת</string>
+    <!-- Item update widget -->
 </resources>
