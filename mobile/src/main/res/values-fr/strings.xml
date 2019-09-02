@@ -61,6 +61,7 @@
     <string name="settings_connection_summary">Connecté à %s</string>
     <string name="settings_insecure_connection_summary">Connexion non sécurisée à %s</string>
     <string name="beta">Bêta</string>
+    <string name="settings_screen_lock">Verrouillage de l\'écran</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Commandes vocales</string>
     <string name="title_voice_widget_icon">Commandes vocales et raccourci</string>
