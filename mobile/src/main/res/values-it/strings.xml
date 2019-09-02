@@ -281,4 +281,5 @@
     <string name="settings_tasker_plugin_summary">Abilita Tasker action plugin per aggiornare gli Item via Tasker o app compatibili</string>
     <string name="turn_on">Accendi</string>
     <string name="press_back_to_exit">Premi ancora indietro per uscire</string>
+    <!-- Item update widget -->
 </resources>
