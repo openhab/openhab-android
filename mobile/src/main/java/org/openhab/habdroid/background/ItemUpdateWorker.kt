@@ -51,7 +51,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     .post("rest/items/$item", value, "text/plain;charset=UTF-8")
                     .asStatus()
                 Log.d(TAG, "Item '$item' successfully updated to value $value")
-                successToastMessage?.let { Util.showToast(applicationContext, it) }
+                if (successToastMessage != null) {
+                    Util.showToast(applicationContext, successToastMessage)
+                }
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error updating item '$item' to value $value. Got HTTP error ${e.statusCode}", e)

@@ -377,14 +377,6 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun clearImageCache(context: Context) {
-            // Clear widget icons
-            val files = context.fileList()
-            files.forEach {
-                if (it.matches("^widget-\\d+$".toRegex())) {
-                    Log.d(TAG, "Deleting file $it")
-                    context.deleteFile(it)
-                }
-            }
             // Get launch intent for application
             val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
             restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

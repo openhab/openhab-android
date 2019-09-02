@@ -81,7 +81,7 @@ class CacheManager private constructor(appContext: Context) {
         } catch (ignored: IOException) {
             // ignored
         }
-        widgetIconDirectory.listFiles().forEach { f -> f.delete() }
+        widgetIconDirectory?.listFiles()?.forEach { f -> f.delete() }
     }
 
     private fun getWidgetIconFile(widgetId: Int, format: IconFormat): File {

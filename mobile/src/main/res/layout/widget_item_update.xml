@@ -24,5 +24,6 @@
         android:layout_weight="50"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/light"
         tools:text="Dimmer: 33 %" />
 </LinearLayout>
