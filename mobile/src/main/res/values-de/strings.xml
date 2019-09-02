@@ -280,4 +280,8 @@
     <string name="press_back_to_exit">Zum Beenden erneut Zurück drücken</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item-Kontrolle</string>
+    <string name="item_update_widget_content_description">Widget, um Item-Status zu ändern</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
+    <string name="item_update_widget_success_toast">%1$s zu %2$s geändert</string>
 </resources>
