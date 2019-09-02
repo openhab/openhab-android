@@ -17,6 +17,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.getStringOrNull
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -49,6 +50,6 @@ fun JSONObject.toCloudNotification(): CloudNotification {
         getString("_id"),
         getString("message"),
         created,
-        optString("icon", null),
-        optString("severity", null))
+        getStringOrNull("icon"),
+        getStringOrNull("severity"))
 }

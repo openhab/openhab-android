@@ -18,6 +18,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.getStringOrNull
 import org.w3c.dom.Node
 
 /**
@@ -69,10 +70,10 @@ class WidgetDataSource(private val iconFormat: IconFormat) {
             jsonObject.getJSONArray("widgets").forEach {
                     obj -> allWidgets.addAll(obj.collectWidgets(null, iconFormat))
             }
-            id = jsonObject.optString("id", null)
+            id = jsonObject.getStringOrNull("id")
             title = jsonObject.optString("title", id.orEmpty())
-            icon = jsonObject.optString("icon", null)
-            link = jsonObject.optString("link", null)
+            icon = jsonObject.getStringOrNull("icon")
+            link = jsonObject.getStringOrNull("link")
         } catch (e: JSONException) {
             Log.d(TAG, e.message, e)
         }

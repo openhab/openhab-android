@@ -21,11 +21,14 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
 
 import java.util.ArrayList
 import java.util.Locale
+import kotlin.math.abs
+import kotlin.math.max
 
 @Parcelize
 data class Widget(
@@ -58,6 +61,7 @@ data class Widget(
     val mappingsOrItemOptions get() =
         if (mappings.isEmpty() && item?.options != null) item.options else mappings
 
+    @Suppress("unused")
     enum class Type {
         Chart,
         Colorpicker,
@@ -86,7 +90,7 @@ data class Widget(
             return Widget(source.id, source.parentId,
                 eventPayload.optString("label", source.label),
                 sanitizeIcon(icon), iconPath,
-                determineWidgetState(eventPayload.optString("state", null), item),
+                determineWidgetState(eventPayload.getStringOrNull("state"), item),
                 source.type, source.url, item, source.linkedPage, source.mappings,
                 source.encoding, source.iconColor,
                 eventPayload.optString("labelcolor", source.labelColor),
@@ -101,7 +105,7 @@ data class Widget(
         internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
         internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
         internal fun sanitizeMinMaxStep(min: Float, max: Float, step: Float) =
-            Triple(min, Math.max(min, max), Math.abs(step))
+            Triple(min, max(min, max), abs(step))
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
             return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
@@ -244,7 +248,7 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: IconFormat): List<Wid
 
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
-    val icon = optString("icon", null)
+    val icon = getStringOrNull("icon")
     val (minValue, maxValue, step) = Widget.sanitizeMinMaxStep(
         optDouble("minValue", 0.0).toFloat(),
         optDouble("maxValue", 100.0).toFloat(),
@@ -257,16 +261,16 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: IconFormat): List<Wid
         optString("label", ""),
         Widget.sanitizeIcon(icon),
         Widget.determineOH2IconPath(item, type, icon, iconFormat, mappings.isNotEmpty()),
-        Widget.determineWidgetState(optString("state", null), item),
+        Widget.determineWidgetState(getStringOrNull("state"), item),
         type,
-        optString("url", null),
+        getStringOrNull("url"),
         item,
         optJSONObject("linkedPage").toLinkedPage(),
         mappings,
-        optString("encoding", null),
-        optString("iconcolor", null),
-        optString("labelcolor", null),
-        optString("valuecolor", null),
+        getStringOrNull("encoding"),
+        getStringOrNull("iconcolor"),
+        getStringOrNull("labelcolor"),
+        getStringOrNull("valuecolor"),
         Widget.sanitizeRefreshRate(optInt("refresh")),
         minValue, maxValue, step,
         Widget.sanitizePeriod(optString("period")),

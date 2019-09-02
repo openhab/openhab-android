@@ -184,6 +184,11 @@ inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
     return (0 until length()).map { index -> transform(getJSONObject(index)) }
 }
 
+fun JSONObject.getStringOrNull(key: String): String? {
+    val value = optString(key, "")
+    return if (value.isEmpty()) null else value
+}
+
 fun Context.getPrefs(): SharedPreferences {
     return PreferenceManager.getDefaultSharedPreferences(this)
 }

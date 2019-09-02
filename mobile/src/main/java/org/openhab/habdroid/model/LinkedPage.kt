@@ -18,6 +18,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.getStringOrNull
 import org.w3c.dom.Node
 
 /**
@@ -71,10 +72,10 @@ fun JSONObject?.toLinkedPage(): LinkedPage? {
     if (this == null) {
         return null
     }
-    val icon = optString("icon", null)
+    val icon = getStringOrNull("icon")
     return LinkedPage.build(
         getString("id"),
-        optString("title", null),
+        getStringOrNull("title"),
         icon,
         "icon/$icon",
         getString("link"))
