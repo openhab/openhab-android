@@ -230,4 +230,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">GEREED</string>
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>
