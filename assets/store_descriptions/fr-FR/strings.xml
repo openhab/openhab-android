@@ -5,7 +5,7 @@
     <rules>S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.</rules>
     <supported>Produits pris en charge</supported>
     <bindings>Plus de 200 modules offrant le support de nombreuses marques, équipements, technologies et protocoles. Exemples : Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Découvrez tous les modules et équipements supportés sur : https://www.openhab.org/addons/</bindings>
-    <automation_apps/>
+    <automation_apps>L'application dispose d'un plugin d'action pour Tasker et Locale.</automation_apps>
 
     <oss_community>Communauté open source</oss_community>
     <forum>L'initiative Open Source openHAB soutient vivement sa communauté très dynamique. Le forum avec plus de 13.000 utilisateurs enregistrés est le lieu où l'on peut trouver aide et inspiration. Rejoignez le forum de la communauté openHAB sur https://community.openhab.org</forum>
