@@ -193,3 +193,7 @@ fun GoogleMap.setMarker(position: LatLng, item: Item, label: CharSequence?, canD
 fun Location.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
 }
+
+fun getUrlForMaps(location: Location): String {
+    return "https://www.google.de/maps/@${location.latitude},${location.longitude},16z"
+}

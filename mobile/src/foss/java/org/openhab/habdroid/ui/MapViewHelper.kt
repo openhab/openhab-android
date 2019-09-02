@@ -37,7 +37,8 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
-import java.util.*
+import java.util.ArrayList
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 
@@ -259,4 +260,8 @@ fun MapView.setMarker(
 
 fun Location.toGeoPoint(): GeoPoint {
     return GeoPoint(this)
+}
+
+fun getUrlForMaps(location: Location): String {
+    return "https://www.openstreetmap.org/#map=16/${location.latitude}/${location.longitude}"
 }
