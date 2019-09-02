@@ -251,4 +251,5 @@
     <string name="search">Szukaj</string>
     <string name="turn_on">Włącz</string>
     <string name="press_back_to_exit">Naciśnij ponownie, aby wyjść</string>
+    <!-- Item update widget -->
 </resources>
