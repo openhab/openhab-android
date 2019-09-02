@@ -21,7 +21,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
-import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 
@@ -59,10 +59,10 @@ fun Node.toSitemap(): Sitemap? {
 }
 
 fun JSONObject.toSitemap(): Sitemap? {
-    val name = getStringOrNull("name") ?: return null
-    val homepageLink = optJSONObject("homepage")?.getStringOrNull("link") ?: return null
-    val label = getStringOrNull("label")
-    val icon = getStringOrNull("icon")
+    val name = optStringOrNull("name") ?: return null
+    val homepageLink = optJSONObject("homepage")?.optStringOrNull("link") ?: return null
+    val label = optStringOrNull("label")
+    val icon = optStringOrNull("icon")
 
     return Sitemap(name, label ?: name, icon, "icon/$icon", homepageLink)
 }

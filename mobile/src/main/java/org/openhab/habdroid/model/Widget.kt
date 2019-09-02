@@ -21,7 +21,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
-import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
 
@@ -90,7 +90,7 @@ data class Widget(
             return Widget(source.id, source.parentId,
                 eventPayload.optString("label", source.label),
                 sanitizeIcon(icon), iconPath,
-                determineWidgetState(eventPayload.getStringOrNull("state"), item),
+                determineWidgetState(eventPayload.optStringOrNull("state"), item),
                 source.type, source.url, item, source.linkedPage, source.mappings,
                 source.encoding, source.iconColor,
                 eventPayload.optString("labelcolor", source.labelColor),
@@ -248,7 +248,7 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: IconFormat): List<Wid
 
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
-    val icon = getStringOrNull("icon")
+    val icon = optStringOrNull("icon")
     val (minValue, maxValue, step) = Widget.sanitizeMinMaxStep(
         optDouble("minValue", 0.0).toFloat(),
         optDouble("maxValue", 100.0).toFloat(),
@@ -261,16 +261,16 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: IconFormat): List<Wid
         optString("label", ""),
         Widget.sanitizeIcon(icon),
         Widget.determineOH2IconPath(item, type, icon, iconFormat, mappings.isNotEmpty()),
-        Widget.determineWidgetState(getStringOrNull("state"), item),
+        Widget.determineWidgetState(optStringOrNull("state"), item),
         type,
-        getStringOrNull("url"),
+        optStringOrNull("url"),
         item,
         optJSONObject("linkedPage").toLinkedPage(),
         mappings,
-        getStringOrNull("encoding"),
-        getStringOrNull("iconcolor"),
-        getStringOrNull("labelcolor"),
-        getStringOrNull("valuecolor"),
+        optStringOrNull("encoding"),
+        optStringOrNull("iconcolor"),
+        optStringOrNull("labelcolor"),
+        optStringOrNull("valuecolor"),
         Widget.sanitizeRefreshRate(optInt("refresh")),
         minValue, maxValue, step,
         Widget.sanitizePeriod(optString("period")),

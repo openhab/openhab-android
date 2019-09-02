@@ -19,7 +19,7 @@ import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
-import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
 
@@ -124,10 +124,10 @@ fun JSONObject.toItem(): Item {
     val numberPattern = stateDescription?.optString("pattern")
     return Item(name,
         optString("label", name),
-        getStringOrNull("category"),
+        optStringOrNull("category"),
         getString("type").toItemType(),
         optString("groupType").toItemType(),
-        getStringOrNull("link"),
+        optStringOrNull("link"),
         readOnly,
         members,
         options,
