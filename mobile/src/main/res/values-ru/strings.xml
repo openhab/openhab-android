@@ -281,4 +281,5 @@
     <string name="settings_tasker_plugin_summary">Включить плагин действий Tasker, который позволяет обновлять элементы через Tasker или другие совместимые приложения</string>
     <string name="turn_on">Включить</string>
     <string name="press_back_to_exit">Нажмите ещё раз для выхода</string>
+    <!-- Item update widget -->
 </resources>
