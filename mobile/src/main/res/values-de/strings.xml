@@ -62,7 +62,8 @@
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bildschirmsperre</string>
-    <string name="screen_lock_unlock_screen_description">Entsperren um Zugriff auf openHAB zu erlangen</string>
+    <string name="settings_screen_lock_summary">openHAB mit Bildschirmsperre oder Fingerabdruck entsperren. Sprach-Widgets sind hiervon ausgenommen und können immer verwendet werden.</string>
+    <string name="screen_lock_unlock_screen_description">Entsperren, um Zugriff auf openHAB zu erlangen</string>
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
     <string name="settings_screen_lock_on">An</string>
@@ -198,6 +199,8 @@
     <string name="nfc_action_stop">Stop</string>
     <string name="nfc_activate">Aktivieren</string>
     <string name="nfc_action_current_color">Momentane Farbe</string>
+    <string name="nfc_action_to_sitemap_page">NFC-Tag für Sitemap beschreiben</string>
+    <string name="nfc_action_write_command_tag">NFC-Tag für Item beschreiben</string>
     <!-- Drawer -->
     <string name="drawer_open">Sitemap-Auswahl öffnen</string>
     <string name="drawer_close">Sitemap-Auswahl schließen</string>
@@ -279,8 +282,8 @@
     <string name="turn_on">Einschalten</string>
     <string name="press_back_to_exit">Zum Beenden erneut Zurück drücken</string>
     <!-- Item update widget -->
-    <string name="item_update_widget_title">Item-Kontrolle</string>
-    <string name="item_update_widget_content_description">Widget, um Item-Status zu ändern</string>
+    <string name="item_update_widget_title">Item-Steuerung</string>
+    <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
     <string name="item_update_widget_success_toast">%1$s zu %2$s geändert</string>
