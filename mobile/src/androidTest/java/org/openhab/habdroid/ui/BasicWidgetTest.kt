@@ -45,25 +45,25 @@ class BasicWidgetTest : TestWithoutIntro() {
         val recyclerView = onView(withId(R.id.recyclerview))
 
         recyclerView
-                .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
-                .check(matches(atPositionOnView(0, isDisplayed(), R.id.widgetlabel)))
-                .check(matches(atPositionOnView(0, withText("First Floor"), R.id.widgetlabel)))
+                .perform(scrollToPosition<RecyclerView.ViewHolder>(1))
+                .check(matches(atPositionOnView(1, isDisplayed(), R.id.widgetlabel)))
+                .check(matches(atPositionOnView(1, withText("First Floor"), R.id.widgetlabel)))
 
         recyclerView
-                .perform(scrollToPosition<RecyclerView.ViewHolder>(6))
-                .check(matches(atPositionOnView(6, isDisplayed(), R.id.widgetlabel)))
+                .perform(scrollToPosition<RecyclerView.ViewHolder>(7))
+                .check(matches(atPositionOnView(7, isDisplayed(), R.id.widgetlabel)))
                 .check(matches(
-                        atPositionOnView(6, withText("Astronomical Data"), R.id.widgetlabel)))
+                        atPositionOnView(7, withText("Astronomical Data"), R.id.widgetlabel)))
 
         // does it show "garden"?
         recyclerView
-                .perform(scrollToPosition<RecyclerView.ViewHolder>(3))
-                .check(matches(atPositionOnView(3, isDisplayed(), R.id.widgetlabel)))
-                .check(matches(atPositionOnView(3, withText("Garden"), R.id.widgetlabel)))
+                .perform(scrollToPosition<RecyclerView.ViewHolder>(4))
+                .check(matches(atPositionOnView(4, isDisplayed(), R.id.widgetlabel)))
+                .check(matches(atPositionOnView(4, withText("Garden"), R.id.widgetlabel)))
 
         // open widget overview
         recyclerView
-                .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(10, click()))
+                .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(11, click()))
 
         // check whether selection widget appears and click on it
         recyclerView
