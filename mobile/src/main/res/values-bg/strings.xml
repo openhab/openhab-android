@@ -156,4 +156,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">Готово</string>
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>
