@@ -15,16 +15,15 @@ package org.openhab.habdroid.model
 
 import android.graphics.Color
 import android.os.Parcelable
-
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
-import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.optStringOrFallback
+import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
-
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.math.abs
@@ -84,7 +83,7 @@ data class Widget(
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject, iconFormat: IconFormat): Widget {
             val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
-            val icon = eventPayload.optString("icon", source.icon)
+            val icon = eventPayload.optStringOrFallback("icon", source.icon)
             val iconPath = determineOH2IconPath(item, source.type, icon, iconFormat,
                 source.mappings.isNotEmpty())
             return Widget(source.id, source.parentId,
@@ -93,8 +92,8 @@ data class Widget(
                 determineWidgetState(eventPayload.optStringOrNull("state"), item),
                 source.type, source.url, item, source.linkedPage, source.mappings,
                 source.encoding, source.iconColor,
-                eventPayload.optString("labelcolor", source.labelColor),
-                eventPayload.optString("valuecolor", source.valueColor),
+                eventPayload.optStringOrFallback("labelcolor", source.labelColor),
+                eventPayload.optStringOrFallback("valuecolor", source.valueColor),
                 source.refresh, source.minValue, source.maxValue, source.step,
                 source.period, source.service, source.legend,
                 source.switchSupport, source.height,

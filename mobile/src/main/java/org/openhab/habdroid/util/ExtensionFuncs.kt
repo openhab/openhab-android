@@ -185,7 +185,11 @@ inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
 }
 
 fun JSONObject.optStringOrNull(key: String): String? {
-    return if (has(key)) getString(key) else null
+    return optStringOrFallback(key, null)
+}
+
+fun JSONObject.optStringOrFallback(key: String, fallback: String?): String? {
+    return if (has(key)) getString(key) else fallback
 }
 
 fun Context.getPrefs(): SharedPreferences {
