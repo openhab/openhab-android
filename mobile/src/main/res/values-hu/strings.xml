@@ -273,4 +273,5 @@
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
     <string name="turn_on">Bekapcsol</string>
     <string name="press_back_to_exit">Kilépéshez érintse meg újra a vissza gombot</string>
+    <!-- Item update widget -->
 </resources>
