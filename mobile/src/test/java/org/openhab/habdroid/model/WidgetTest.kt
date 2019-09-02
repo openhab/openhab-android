@@ -13,10 +13,13 @@
 
 package org.openhab.habdroid.model
 
-import junit.framework.Assert.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.assertNull
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
+import org.openhab.habdroid.util.IconFormat
 import org.w3c.dom.Node
 import org.xml.sax.InputSource
 import java.io.StringReader
@@ -34,9 +37,9 @@ class WidgetTest {
     @Throws(Exception::class)
     fun parse_createsWidget() {
         sutXml = createXmlNode().collectWidgets(null)
-        sut1 = createJsonObject(1).collectWidgets(null, "PNG")
-        sut2 = createJsonObject(2).collectWidgets(null, "SVG")
-        sut3 = createJsonObject(3).collectWidgets(null, "SVG")
+        sut1 = createJsonObject(1).collectWidgets(null, IconFormat.Png)
+        sut2 = createJsonObject(2).collectWidgets(null, IconFormat.Svg)
+        sut3 = createJsonObject(3).collectWidgets(null, IconFormat.Svg)
     }
 
     @Test
