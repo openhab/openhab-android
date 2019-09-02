@@ -258,4 +258,5 @@
     <string name="settings_tasker_plugin">Taskerin integraatio</string>
     <string name="turn_on">Ota käyttöön</string>
     <string name="press_back_to_exit">Paina uudestaan takaisin poistuaksesi</string>
+    <!-- Item update widget -->
 </resources>
