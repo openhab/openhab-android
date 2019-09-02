@@ -277,4 +277,5 @@
     <string name="settings_tasker_plugin_summary">Tasker-Action-Plugin aktivieren, das es erlaubt, Items über Tasker oder andere kompatible Apps zu aktualisieren</string>
     <string name="turn_on">Einschalten</string>
     <string name="press_back_to_exit">Zum Beenden erneut Zurück drücken</string>
+    <!-- Item update widget -->
 </resources>
