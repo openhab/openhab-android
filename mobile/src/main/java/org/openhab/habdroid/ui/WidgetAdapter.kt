@@ -36,6 +36,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.core.view.get
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.larswerkman.holocolorpicker.ColorPicker
@@ -321,8 +322,7 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             labelView.text = widget.label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
-            // hide empty frames
-            itemView.isVisible = widget.label.isNotEmpty()
+            labelView.isGone = widget.label.isEmpty()
         }
 
         fun setShownAsFirst(shownAsFirst: Boolean) {
