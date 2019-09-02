@@ -9,4 +9,8 @@
     <string name="info_openhab_gcm_connected">Enregistrement auprès de Google Cloud Messaging effectué avec succès</string>
     <string name="notification_channel_default">Défaut</string>
     <string name="notification_channel_severity_value">Gravité «%1$s »</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nouvelle notification</item>
+        <item quantity="other">%d nouvelles notifications</item>
+    </plurals>
 </resources>
