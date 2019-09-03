@@ -30,7 +30,8 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
-import java.util.*
+import java.util.ArrayList
+import java.util.Locale
 
 object MapViewHelper {
     fun createViewHolder(
@@ -192,4 +193,8 @@ fun GoogleMap.setMarker(position: LatLng, item: Item, label: CharSequence?, canD
 
 fun Location.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
+}
+
+fun Location.toMapsUrl(): String? {
+    return "https://www.google.de/maps/@$latitude,$longitude,16z"
 }
