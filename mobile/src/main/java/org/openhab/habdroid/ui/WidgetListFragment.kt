@@ -185,7 +185,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     return true
                 }
                 CONTEXT_MENU_ID_OPEN_IN_MAPS -> {
-                    getUrlForMaps(widget.item?.state?.asLocation ?: return true).toUri().openInBrowser(context)
+                    widget.item?.state?.asLocation?.toMapsUrl()?.toUri().openInBrowser(context)
                     return true
                 }
             }

@@ -262,6 +262,6 @@ fun Location.toGeoPoint(): GeoPoint {
     return GeoPoint(this)
 }
 
-fun getUrlForMaps(location: Location): String {
-    return "https://www.openstreetmap.org/#map=16/${location.latitude}/${location.longitude}"
+fun Location.toMapsUrl(): String? {
+    return "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
 }
