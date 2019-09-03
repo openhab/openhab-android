@@ -123,7 +123,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
-    <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
     <string name="nfc_tag_recognized_label">NFC-теґ для \"%s\" розпізнано</string>
     <string name="nfc_tag_recognized_item">NFC-теґ для елемента \"%s\" розпізнано</string>
     <string name="info_not_set">Не вказано</string>
@@ -196,7 +195,6 @@
     <string name="nfc_action_stop">Стоп</string>
     <string name="nfc_activate">Активувати</string>
     <string name="nfc_action_current_color">Поточний колір</string>
-    <string name="nfc_action_to_sitemap_page">Перейти на сторінку інтерфейсу</string>
     <!-- Drawer -->
     <string name="drawer_open">Відображення сторінки інтерфейсу відкрито</string>
     <string name="drawer_close">Відображення сторінки інтерфейсу закрито</string>
@@ -276,4 +274,5 @@
     <string name="settings_tasker_plugin_summary">Увімкнути додаток дій Tasker, який дозволить оновляти об’єкти через Tasker або сумісні програми</string>
     <string name="turn_on">Увімкнути</string>
     <string name="press_back_to_exit">Натисніть ще раз, щоб вийти</string>
+    <!-- Item update widget -->
 </resources>

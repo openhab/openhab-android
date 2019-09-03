@@ -110,7 +110,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push melding status</string>
     <string name="action_settings">Innstillinger</string>
-    <string name="nfc_dialog_title">Skriv NFC handlinger for dette elementet</string>
     <string name="info_not_set">Ikke angitt</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
@@ -144,7 +143,6 @@
     <string name="nfc_action_toggle">Veksle</string>
     <string name="nfc_activate">Aktivere</string>
     <string name="nfc_action_current_color">Nåværende farge</string>
-    <string name="nfc_action_to_sitemap_page">Gå til lokasjonskart</string>
     <!-- Drawer -->
     <string name="drawer_open">Lokasjonskart mappe åpnet</string>
     <string name="drawer_close">Lokasjonskart mappe lukket</string>
@@ -199,4 +197,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">UTFØRT</string>
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>

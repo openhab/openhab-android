@@ -123,7 +123,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
     <string name="action_settings">Nastavení</string>
-    <string name="nfc_dialog_title">Zapsat akci do NFC tagu</string>
     <string name="nfc_tag_recognized_label">Rozpoznán NFC tag pro „%s“</string>
     <string name="nfc_tag_recognized_item">Rozpoznán NFC tag pro Item „%s“</string>
     <string name="info_not_set">Není nastaveno</string>
@@ -196,7 +195,6 @@
     <string name="nfc_action_stop">Zastavit</string>
     <string name="nfc_activate">Aktivovat</string>
     <string name="nfc_action_current_color">Současná barva</string>
-    <string name="nfc_action_to_sitemap_page">Přejít na stránku Sitemap</string>
     <!-- Drawer -->
     <string name="drawer_open">Boční menu Sitemap vysunuté</string>
     <string name="drawer_close">Boční menu Sitemap zasunuté</string>
@@ -276,4 +274,5 @@
     <string name="settings_tasker_plugin_summary">Povolit Tasker akční plugin, který umožňuje aktualizaci Items prostřednictvím Taskeru nebo jiných kompatibilních aplikací</string>
     <string name="turn_on">Zapnout</string>
     <string name="press_back_to_exit">Pro ukončení stiskněte znovu tlačítko zpět</string>
+    <!-- Item update widget -->
 </resources>

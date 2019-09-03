@@ -97,7 +97,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">حالة التنبيهات الصادرة</string>
     <string name="action_settings">إعدادات</string>
-    <string name="nfc_dialog_title">أكتب وسم فعل NFC لهذا العنصر</string>
     <string name="info_not_set">لم يُعين</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
@@ -168,4 +167,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">تم</string>
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>

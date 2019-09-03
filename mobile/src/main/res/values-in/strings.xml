@@ -52,7 +52,6 @@
     <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="action_settings">Pengaturan</string>
-    <string name="nfc_dialog_title">Tuliskan tag NFC untuk elemen ini</string>
     <string name="info_not_set">Tidak diatur</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
@@ -96,4 +95,5 @@
     <!-- Intro "SKIP" button -->
     <!-- Intro "DONE" button -->
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>

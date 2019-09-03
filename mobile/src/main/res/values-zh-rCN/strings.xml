@@ -117,7 +117,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">推送通知状态</string>
     <string name="action_settings">设置</string>
-    <string name="nfc_dialog_title">为此元素写入 NFC 标签行为</string>
     <string name="info_not_set">未设置</string>
     <string name="empty_page">此页不含有可见的小挂件</string>
     <!-- Background tasks -->
@@ -173,7 +172,6 @@
     <string name="nfc_action_toggle">切换开关</string>
     <string name="nfc_activate">激活</string>
     <string name="nfc_action_current_color">当前颜色</string>
-    <string name="nfc_action_to_sitemap_page">导航至系统布局页</string>
     <!-- Drawer -->
     <string name="drawer_open">已开启系统布局抽屉</string>
     <string name="drawer_close">已关闭系统布局抽屉</string>
@@ -239,4 +237,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">完成</string>
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>
