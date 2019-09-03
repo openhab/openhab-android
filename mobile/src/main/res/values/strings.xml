@@ -273,6 +273,7 @@
     <string name="log">Log</string>
     <string name="view_log">View log</string>
     <string name="clear_log">Clear log</string>
+    <string name="show_errors">Toggle showing errors only</string>
     <string name="empty_log">Log is empty</string>
 
     <!-- Home screen shortcuts -->

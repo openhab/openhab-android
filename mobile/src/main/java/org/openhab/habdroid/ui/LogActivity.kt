@@ -23,6 +23,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -43,6 +44,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     private lateinit var scrollView: ScrollView
     private lateinit var emptyView: LinearLayout
     private lateinit var swipeLayout: SwipeRefreshLayout
+    private var showErrorsOnly: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +94,18 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                 fetchLog(true)
                 true
             }
+            R.id.show_errors -> {
+                showErrorsOnly = showErrorsOnly.not()
+                @DrawableRes val icon = if (showErrorsOnly) {
+                    R.drawable.ic_error_white_24dp
+                } else {
+                    R.drawable.ic_error_outline_white_24dp
+                }
+                item.setIcon(icon)
+                setUiState(isLoading = true, isEmpty = false)
+                fetchLog(false)
+                true
+            }
             android.R.id.home -> {
                 finish()
                 super.onOptionsItemSelected(item)
@@ -127,7 +141,10 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         val logBuilder = StringBuilder()
         val separator = System.getProperty("line.separator")
         val process = try {
-            val args = if (clear) "-c" else "-v threadtime -d"
+            var args = if (clear) "-c" else "-v threadtime -d"
+            if (showErrorsOnly) {
+                args += " *:E"
+            }
             Runtime.getRuntime().exec("logcat -b all $args")
         } catch (e: Exception) {
             Log.e(TAG, "Error reading process", e)
