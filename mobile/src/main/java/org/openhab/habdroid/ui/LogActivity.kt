@@ -76,8 +76,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
 
     override fun onResume() {
         super.onResume()
-        setUiState(isLoading = true, isEmpty = false)
-        fetchLog(false)
+        onRefresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -102,8 +101,11 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                     R.drawable.ic_error_outline_white_24dp
                 }
                 item.setIcon(icon)
-                setUiState(isLoading = true, isEmpty = false)
-                fetchLog(false)
+                onRefresh()
+                true
+            }
+            R.id.refresh -> {
+                onRefresh()
                 true
             }
             android.R.id.home -> {
