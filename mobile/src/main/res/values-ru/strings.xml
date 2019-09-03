@@ -138,12 +138,12 @@
     <string name="send_device_info_item_prefix">Префикс Item</string>
     <string name="send_device_info_item_prefix_summary">Имена Item следующих функций имеют этот префикс</string>
     <string name="settings_alarm_clock">Отправить время будильника на openHAB</string>
-    <string name="settings_alarm_clock_summary_on">Посылать время будильника элементу \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_on">Посылать время будильника Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не отправлять время будильника на сервер</string>
     <string name="settings_alarm_clock_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
-    <string name="settings_item_pref_item_name">Имя элемента</string>
+    <string name="settings_item_pref_item_name">Имя Item</string>
     <string name="waiting_for_item_upload">Ожидание сети для отправки обновленений элемента</string>
-    <string name="item_upload_in_progress">Элементы обновляются...</string>
+    <string name="item_upload_in_progress">Items обновляются...</string>
     <string name="notification_channel_background">Фоновый</string>
     <string name="notification_channel_background_description">Используется для отображения ожидающих фоновых задач</string>
     <string name="notification_channel_background_error">Ошибка в фоновых задачах</string>
@@ -152,11 +152,11 @@
         <item quantity="one">%d элемент не может быть обновлен</item>
         <item quantity="few">%d элементы не могут быть обновлены</item>
         <item quantity="many">%d элементы не могут быть обновлены</item>
-        <item quantity="other">%d элементы не могут быть обновлены</item>
+        <item quantity="other">%d Items не могут быть обновлены</item>
     </plurals>
-    <string name="item_update_http_error">Не удалось обновить элемент \'%1$s\' (HTTP ошибка %2$d)</string>
-    <string name="item_update_connection_error">Не удалось обновить элемент \'%1$s\' (нет соединения)</string>
-    <string name="error_sending_alarm_clock_item_empty">Пожалуйста, введите правильное название элемента</string>
+    <string name="item_update_http_error">Не удалось обновить Item \'%1$s\' (HTTP ошибка %2$d)</string>
+    <string name="item_update_connection_error">Не удалось обновить Item \'%1$s\' (нет соединения)</string>
+    <string name="error_sending_alarm_clock_item_empty">Пожалуйста, введите правильное название Item</string>
     <string name="retry">Повтор</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Нет недавно отправленных уведомлений</string>
@@ -273,10 +273,10 @@
     <string name="app_intro_done_button">ГОТОВО</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Элементы не найдены</string>
-    <string name="item_picker_list_error">Ошибка загрузки элементов</string>
+    <string name="item_picker_list_error">Ошибка загрузки Items</string>
     <string name="item_picker_custom">Произвольно</string>
     <string name="item_picker_dialog_title">Выберите состояния</string>
-    <string name="item_picker">openHAB элементы</string>
+    <string name="item_picker">openHAB Items</string>
     <string name="item_picker_blurb">Установить \"%1$s\" (%2$s) на \"%3$s\"</string>
     <string name="search">Поиск</string>
     <string name="settings_tasker_plugin">Интеграция с Tasker</string>
