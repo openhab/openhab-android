@@ -58,7 +58,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 NotificationUpdateObserver.createNotificationChannels(context)
             }
             ACTION_RETRY_UPLOAD -> {
-                for (info in intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)) {
+                intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
                     enqueueItemUpload(context, info.tag, info.itemName, info.value)
                 }
             }

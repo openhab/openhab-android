@@ -19,6 +19,7 @@ import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
 
@@ -100,7 +101,7 @@ fun Node.toItem(): Item? {
 @Throws(JSONException::class)
 fun JSONObject.toItem(): Item {
     val name = getString("name")
-    var state = optString("state", "")
+    var state: String? = optString("state", "")
     if (state == "NULL" || state == "UNDEF" || state.equals("undefined", ignoreCase = true)) {
         state = null
     }
@@ -123,10 +124,10 @@ fun JSONObject.toItem(): Item {
     val numberPattern = stateDescription?.optString("pattern")
     return Item(name,
         optString("label", name),
-        optString("category", null),
+        optStringOrNull("category"),
         getString("type").toItemType(),
         optString("groupType").toItemType(),
-        optString("link", null),
+        optStringOrNull("link"),
         readOnly,
         members,
         options,
