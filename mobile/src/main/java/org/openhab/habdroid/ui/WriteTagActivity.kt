@@ -26,7 +26,6 @@ import android.nfc.NfcManager
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -258,11 +257,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             val nfcActivate = view?.findViewById<TextView>(R.id.nfc_activate)
             nfcActivate?.isVisible = true
             nfcActivate?.setOnClickListener {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
-                } else {
-                    startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-                }
+                startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
             }
 
             return view

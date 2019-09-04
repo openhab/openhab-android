@@ -41,7 +41,7 @@ interface ConnectionManagerHelper {
     companion object {
         fun create(context: Context): ConnectionManagerHelper {
             return when (Build.VERSION.SDK_INT) {
-                in 14..22 -> HelperApi22(context)
+                in 19..22 -> HelperApi22(context)
                 in 23..25 -> HelperApi23To25(context)
                 else -> HelperApi26(context)
             }
