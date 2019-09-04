@@ -13,4 +13,5 @@
         <item quantity="one">%d nuova notifica</item>
         <item quantity="other">%d nuove notifiche</item>
     </plurals>
+    <string name="open_in_maps">Apri in Google Maps</string>
 </resources>
