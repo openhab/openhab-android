@@ -13,12 +13,15 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.Context
 import android.speech.SpeechRecognizer
 import android.view.View
-import androidx.test.InstrumentationRegistry
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Assume.assumeTrue
 import org.junit.Before
@@ -29,7 +32,7 @@ import org.openhab.habdroid.TestWithoutIntro
 class VoiceRecognitionTest : TestWithoutIntro() {
     @Before
     fun checkVoiceRecognitionAvailableOnDevice() {
-        val context = InstrumentationRegistry.getTargetContext()
+        val context = ApplicationProvider.getApplicationContext<Context>()
         assumeTrue("Voice recognition not available, skipping tests for it.",
                 SpeechRecognizer.isRecognitionAvailable(context))
     }

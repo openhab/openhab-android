@@ -13,12 +13,12 @@
 
 package org.openhab.habdroid.util
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toSitemapList

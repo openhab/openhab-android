@@ -16,7 +16,7 @@ package org.openhab.habdroid.ui
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.InstrumentationRegistry
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewInteraction
@@ -27,8 +27,8 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.openhab.habdroid.R
@@ -40,7 +40,7 @@ class NfcTest : TestWithoutIntro() {
     @Test
     fun nfcTest() {
         val recyclerView = onView(withId(R.id.recyclerview))
-        val context = InstrumentationRegistry.getTargetContext()
+        val context = ApplicationProvider.getApplicationContext<Context>()
 
         // Long click "Widget Overview"
         recyclerView.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(11, longClick()))

@@ -14,16 +14,8 @@
 package org.openhab.habdroid.ui
 
 import android.view.View
-import androidx.test.espresso.ViewInteraction
-import androidx.test.filters.LargeTest
-import androidx.test.runner.AndroidJUnit4
-
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.openhab.habdroid.R
-import org.openhab.habdroid.TestWithIntro
-
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -31,8 +23,14 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import org.hamcrest.Matchers.allOf
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.openhab.habdroid.R
 import org.openhab.habdroid.TestUtils.childAtPosition
+import org.openhab.habdroid.TestWithIntro
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
