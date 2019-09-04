@@ -40,12 +40,14 @@ class AutoHeightVideoView constructor(context: Context, attrs: AttributeSet) : V
     private val executor = object : Executor {
         private val handler = Handler(Looper.getMainLooper())
         override fun execute(r: Runnable?) {
-            handler.post(r)
+            if (r != null) {
+                handler.post(r)
+            }
         }
     }
 
     override fun setPlayer(player: SessionPlayer) {
-        currentPlayer?.let { player -> player.unregisterPlayerCallback(playerCallback) }
+        currentPlayer?.let { p -> p.unregisterPlayerCallback(playerCallback) }
         super.setPlayer(player)
         player.registerPlayerCallback(executor, playerCallback)
     }
