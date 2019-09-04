@@ -25,10 +25,10 @@ import androidx.media2.player.VideoSize
 import androidx.media2.widget.VideoView
 import java.util.concurrent.Executor
 
-class AutoHeightVideoView constructor(context: Context, attrs: AttributeSet): VideoView(context, attrs) {
+class AutoHeightVideoView constructor(context: Context, attrs: AttributeSet) : VideoView(context, attrs) {
     private var currentPlayer: SessionPlayer? = null
     private var videoSize: VideoSize? = null
-    private val playerCallback = object: MediaPlayer.PlayerCallback() {
+    private val playerCallback = object : MediaPlayer.PlayerCallback() {
         override fun onVideoSizeChanged(mp: MediaPlayer, item: MediaItem, size: VideoSize) {
             super.onVideoSizeChanged(mp, item, size)
             if (size != videoSize) {
@@ -37,7 +37,7 @@ class AutoHeightVideoView constructor(context: Context, attrs: AttributeSet): Vi
             }
         }
     }
-    private val executor = object: Executor {
+    private val executor = object : Executor {
         private val handler = Handler(Looper.getMainLooper())
         override fun execute(r: Runnable?) {
             handler.post(r)
