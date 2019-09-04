@@ -17,6 +17,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.nfc.FormatException
 import android.nfc.NdefMessage
@@ -44,11 +45,13 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.transaction
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
-
 import java.io.IOException
 
 class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
@@ -122,8 +125,8 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
             writeTagMessage.setText(R.string.info_write_tag_progress)
 
-            val tag: Tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
-            if (writeTag(tag)) {
+            val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
+            if (tag != null && writeTag(tag)) {
                 val progressBar = findViewById<ProgressBar>(R.id.nfc_wait_progress)
                 progressBar.isInvisible = true
 
@@ -223,7 +226,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             val watermark = view.findViewById<ImageView>(R.id.nfc_watermark)
 
             val nfcIcon = ContextCompat.getDrawable(view.context, watermarkIcon)
-            nfcIcon?.setColorFilter(
+            nfcIcon?.colorFilter = PorterDuffColorFilter(
                 ContextCompat.getColor(view.context, R.color.empty_list_text_color),
                 PorterDuff.Mode.SRC_IN)
             watermark.setImageDrawable(nfcIcon)

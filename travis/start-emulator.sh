@@ -34,5 +34,3 @@ adb shell am broadcast -a com.android.systemui.demo -e command notifications -e 
 adb shell am broadcast -a com.android.systemui.demo -e command status -e location hide -e alarm hide -e volume hide
 adb shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 0815
 adb shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e datatype 4g -e level 4 -e wifi show -e fully true -e level 3
-sed -i -e /device_type/d fastlane/Screengrabfile
-echo "device_type('$1')" >> fastlane/Screengrabfile

@@ -57,9 +57,16 @@
     <string name="settings_notification_vibration_short">Lyhyt</string>
     <string name="settings_notification_vibration_long">Pitkä</string>
     <string name="settings_notification_vibration_twice">Kaksi kertaa</string>
+    <string name="settings_notification_ringtone_vibration">Ilmoitusasetukset</string>
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Näytön lukitus</string>
+    <string name="settings_screen_lock_summary">Lukitse opeHAB Androidin näyttölukituksella tai sormenjäljellä. Ääniwidgettejä voi aina käyttää.</string>
+    <string name="screen_lock_unlock_screen_description">Avaa lukitus</string>
+    <string name="settings_screen_lock_off">Off</string>
+    <string name="settings_screen_lock_kiosk">Kiosk moodi</string>
+    <string name="settings_screen_lock_on">On</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Äänikomennot</string>
     <string name="title_voice_widget_icon">Äänikomennot ja sovelluksen pikakuvake</string>
@@ -67,20 +74,27 @@
     <string name="info_voice_recognized_text">Tunnistettu komento: %1$s</string>
     <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Sammuta</string>
     <string name="info_conn_url">Yhdistetään paikalliskäytön URL osoitteeseen</string>
     <string name="info_conn_rem_url">Yhdistetään etäkäytön URL osoitteeseen</string>
+    <string name="app_shortcut_disabled_habpanel">Palvelimellasi ei ole HABPanel asennettuna</string>
+    <string name="app_shortcut_disabled_notifications">Etäpalvelintasi ei tavoiteta</string>
+    <string name="app_shortcut_disabled_voice_recognition">Laitteellasi ei ole \"puheesta tekstiksi\"-sovellusta asennettuna</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
+    <string name="error_sitemap_generic_load_error">Sitemap ei ladattu. Virhe: %1$s</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
     <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
     <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus: %d).</string>
     <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
+    <string name="error_port_seems_invalid">Antamasi portti ei sovi valitulle protokollalle</string>
     <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
     <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
     <string name="error_connection_sslhandshake_failed">SSL kättely epäonnistui</string>
     <string name="error_certificate_not_trusted">SSL sertifikaatti ei ole luotettu. Ole hyvä ja tuo root-sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana.</string>
     <string name="error_certificate_expired">SSL serifikaatti on vanhentunut. Hanki uusi sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana.</string>
     <string name="error_certificate_not_valid_yet">SSL sertifikaatti ei ole vielä kelvollinen. Hanki sopiva sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana. Tarkista myös, että laitteessasi on oikea kellonaika.</string>
+    <string name="error_certificate_invalid_date">SSL sertifikaatissa on väärä päivämäärä. Ole hyvä ja vaihda oikeaan setrifikaattiin. Tarkasta myös että laitteesi kello on oikeassa ajassa.</string>
     <string name="error_certificate_revoked">SSL serifikaatti on kumottu. Hanki uusi sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana.</string>
     <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
     <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 401).</string>
@@ -98,6 +112,9 @@
     <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
     <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
     <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
+    <string name="error_no_browser_found">Laitteeltasi ei löytynyt selainta</string>
+    <string name="error_no_speech_to_text_app_found">Puheentunnistussovellusta ei löytynyt</string>
+    <string name="install">Asenna</string>
     <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
     <string name="title_activity_libraries">Käytetyt kirjastot</string>
     <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>
@@ -108,13 +125,15 @@
     <string name="info_write_tag_disabled">NFC on pois päältä. Ole hyvä ja kytke se päälle laitteen asetuksista.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB salanimi</string>
     <string name="info_openhab_push_notification_label">Push ilmoitusten tila</string>
     <string name="action_settings">Asetukset</string>
-    <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
     <string name="info_not_set">Ei määritetty</string>
     <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Background tasks -->
+    <string name="send_device_info_item_prefix">Itemin nimen etuliite</string>
+    <string name="settings_alarm_clock">Lähetä herätyskello openHABiin</string>
+    <string name="notification_channel_background">Tausta</string>
+    <string name="retry">Yritä uudelleen</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
@@ -144,9 +163,22 @@
     <string name="nfc_action_off">Off</string>
     <string name="nfc_action_down">Alas</string>
     <string name="nfc_action_toggle">Vaihda</string>
+    <string name="nfc_action_undefined">Määrittämätön</string>
+    <string name="nfc_action_empty_string">Tyhjä merkkijono</string>
+    <string name="nfc_action_increase">Lisää</string>
+    <string name="nfc_action_decrease">Vähennä</string>
+    <string name="nfc_action_play">Toista</string>
+    <string name="nfc_action_pause">Tauko</string>
+    <string name="nfc_action_next">Seuraava</string>
+    <string name="nfc_action_previous">Edellinen</string>
+    <string name="nfc_action_rewind">Kelaa taaksepäin</string>
+    <string name="nfc_action_fastforward">Kelaa eteenpäin</string>
+    <string name="nfc_action_move">Siirrä</string>
+    <string name="nfc_action_stop">Pysäytä</string>
     <string name="nfc_activate">Aktivoi</string>
     <string name="nfc_action_current_color">Nykyinen väri</string>
-    <string name="nfc_action_to_sitemap_page">Mene sivukartalle</string>
+    <string name="nfc_action_to_sitemap_page">Kirjoita Sitemapin NFC-tunniste</string>
+    <string name="nfc_action_write_command_tag">Kirjoita Itemin NFC-tunniste</string>
     <!-- Drawer -->
     <string name="drawer_open">Sivukartan valitsin avattu</string>
     <string name="drawer_close">Sivukartan valitsin suljettu</string>
@@ -167,6 +199,7 @@
     <string name="settings_debug_messages_title">Näytä tietoja vianmääritykseen</string>
     <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
     <string name="unknown">Tuntematon</string>
+    <string name="error_network_type_unsupported">Verkon tyyppi ei tuettu</string>
     <string name="set">Aseta</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
@@ -184,6 +217,9 @@
     <string name="clear_log">Tyhjennä loki</string>
     <string name="empty_log">Loki on tyhjä</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Kiinnitä kotinäyttöön</string>
+    <string name="home_shortcut_error_pinning">Virhe kiinnitettäessä kotinäyttöön</string>
+    <string name="home_shortcut_success_pinning">Kiinnitetty kotinäyttöön</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Avaa rullaverho</string>
     <string name="content_description_stop_roller_shutter">Pysäytä rullaverho</string>
@@ -194,6 +230,8 @@
     <string name="content_description_open_number_picker">Avaa numerovalitsin</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Avaa openHAB</string>
+    <string name="content_description_increase_item_value">Suurenna Itemin arvoa</string>
+    <string name="content_description_decrease_item_value">Pienennä Itemin arvoa</string>
     <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
     <string name="swipe_to_refresh_dismiss">Selvä!</string>
     <!-- Intro strings -->
@@ -210,4 +248,15 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">VALMIS</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Yhtään Itemiä ei löytynyt</string>
+    <string name="item_picker_list_error">Virhe ladattaessa Itemejä</string>
+    <string name="item_picker_custom">Mukautettu</string>
+    <string name="item_picker_dialog_title">Valitse tila</string>
+    <string name="item_picker">openHAB Itemit</string>
+    <string name="item_picker_blurb">Aseta \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
+    <string name="search">Etsi</string>
+    <string name="settings_tasker_plugin">Taskerin integraatio</string>
+    <string name="turn_on">Ota käyttöön</string>
+    <string name="press_back_to_exit">Paina uudestaan takaisin poistuaksesi</string>
+    <!-- Item update widget -->
 </resources>

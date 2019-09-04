@@ -1,6 +1,6 @@
-openHAB - "empowering the smart home" - une solution de domotique libre et indépendante de tout fournisseur pour votre maison connectée
+openHAB - Une solution de domotique libre et ouverte à toutes les technologies
 
-The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+Les builds sur F-Droid n'incluent pas les rapports de plantage, et ne seront pas en mesure de recevoir les notifications push d’openHAB Cloud.
 Essayer les nouvelles fonctionnalités et donner un premier retour d'expérience !
 Vous pouvez installer la version bêta en parallèle de la <a href="https://f-droid.org/packages/org.openhab.habdroid/">version stable</a>.
 
@@ -10,7 +10,7 @@ S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connecté
 <b>Produits pris en charge</b>
 
 Plus de 200 modules offrant le support de nombreuses marques, équipements, technologies et protocoles. Exemples : Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Découvrez tous les modules et équipements supportés sur : https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+L'application dispose d'un plugin d'action pour Tasker et Locale.
 
 <b>Communauté open source</b>
 
@@ -24,6 +24,6 @@ La fondation openHAB est une organisation à but non lucratif qui a pour mission
 
 <b>Remarque importante</b>
 
-You need an openHAB server for this app.
+Un serveur openHAB est nécessaire pour que cette application fonctionne.
 
 Politique de Confidentialité : https://www.openhabfoundation.org/privacy.html

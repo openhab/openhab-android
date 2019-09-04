@@ -21,6 +21,17 @@ import androidx.core.net.toUri
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Sitemap
 
+enum class ScreenLockMode {
+    Disabled,
+    KioskMode,
+    Enabled
+}
+
+enum class IconFormat {
+    Png,
+    Svg
+}
+
 fun SharedPreferences.getLocalUrl(): String {
     return getString(Constants.PREFERENCE_LOCAL_URL)
 }
@@ -33,8 +44,9 @@ fun SharedPreferences.getDefaultSitemap(): String {
     return getString(Constants.PREFERENCE_SITEMAP_NAME)
 }
 
-fun SharedPreferences.getIconFormat(): String {
-    return getString(Constants.PREFERENCE_ICON_FORMAT, "PNG").orEmpty()
+fun SharedPreferences.getIconFormat(): IconFormat {
+    val formatString = getString(Constants.PREFERENCE_ICON_FORMAT, "PNG")
+    return if (formatString == "SVG") IconFormat.Svg else IconFormat.Png
 }
 
 fun SharedPreferences.isDemoModeEnabled(): Boolean {
@@ -72,6 +84,16 @@ fun SharedPreferences.isTaskerPluginEnabled(): Boolean {
 
 fun SharedPreferences.getString(key: String): String {
     return getString(key, "").orEmpty()
+}
+
+fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
+    val settingValue = getString(Constants.PREFERENCE_SCREEN_LOCK,
+        context.getString(R.string.settings_screen_lock_off_value))
+    return when (settingValue) {
+        context.getString(R.string.settings_screen_lock_kiosk_value) -> ScreenLockMode.KioskMode
+        context.getString(R.string.settings_screen_lock_on_value) -> ScreenLockMode.Enabled
+        else -> ScreenLockMode.Disabled
+    }
 }
 
 /**

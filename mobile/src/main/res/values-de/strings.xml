@@ -61,6 +61,12 @@
     <string name="settings_connection_summary">Verbunden mit %s</string>
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Bildschirmsperre</string>
+    <string name="settings_screen_lock_summary">openHAB mit Bildschirmsperre oder Fingerabdruck entsperren. Sprach-Widgets sind hiervon ausgenommen und können immer verwendet werden.</string>
+    <string name="screen_lock_unlock_screen_description">Entsperren, um Zugriff auf openHAB zu erlangen</string>
+    <string name="settings_screen_lock_off">Aus</string>
+    <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
+    <string name="settings_screen_lock_on">An</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="title_voice_widget_icon">Sprachbefehle und Startbildschirm-Verknüpfung</string>
@@ -121,10 +127,8 @@
     <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es in den Geräte-Einstellungen.</string>
     <string name="info_openhab_apiversion_label">openHAB-Rest-API-Version</string>
     <string name="info_openhab_uuid_label">openHAB-UUID</string>
-    <string name="info_openhab_secret_label">openHAB-Secret</string>
     <string name="info_openhab_push_notification_label">Push-Benachrichtigungsstatus</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="nfc_dialog_title">Schreibe eine Aktion für dieses Element in einen NFC-Tag</string>
     <string name="nfc_tag_recognized_label">NFC-Tag für \"%s\" erkannt</string>
     <string name="nfc_tag_recognized_item">NFC-Tag für Item \"%s\" erkannt</string>
     <string name="info_not_set">Nicht gesetzt</string>
@@ -195,7 +199,8 @@
     <string name="nfc_action_stop">Stop</string>
     <string name="nfc_activate">Aktivieren</string>
     <string name="nfc_action_current_color">Momentane Farbe</string>
-    <string name="nfc_action_to_sitemap_page">Zur Sitemap-Seite navigieren</string>
+    <string name="nfc_action_to_sitemap_page">NFC-Tag für Sitemap beschreiben</string>
+    <string name="nfc_action_write_command_tag">NFC-Tag für Item beschreiben</string>
     <!-- Drawer -->
     <string name="drawer_open">Sitemap-Auswahl öffnen</string>
     <string name="drawer_close">Sitemap-Auswahl schließen</string>
@@ -270,10 +275,16 @@
     <string name="item_picker_custom">Benutzerdefiniert</string>
     <string name="item_picker_dialog_title">Status auswählen</string>
     <string name="item_picker">openHAB-Items</string>
-    <string name="item_picker_blurb">\"%s\" (%s) auf \"%s\" stellen</string>
+    <string name="item_picker_blurb">\"%1$s\" (%2$s) auf \"%3$s\" stellen</string>
     <string name="search">Suchen</string>
     <string name="settings_tasker_plugin">Tasker-Integration</string>
     <string name="settings_tasker_plugin_summary">Tasker-Action-Plugin aktivieren, das es erlaubt, Items über Tasker oder andere kompatible Apps zu aktualisieren</string>
     <string name="turn_on">Einschalten</string>
     <string name="press_back_to_exit">Zum Beenden erneut Zurück drücken</string>
+    <!-- Item update widget -->
+    <string name="item_update_widget_title">Item-Steuerung</string>
+    <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
+    <string name="item_update_widget_success_toast">%1$s zu %2$s geändert</string>
 </resources>

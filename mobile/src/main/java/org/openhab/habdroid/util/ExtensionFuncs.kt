@@ -22,12 +22,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.util.DisplayMetrics
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty
+import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
@@ -35,6 +36,7 @@ import org.openhab.habdroid.R
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.io.IOException
+import java.io.InputStream
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -100,11 +102,7 @@ fun Resources.dpToPixel(dp: Float): Float {
 
 @Throws(IOException::class)
 fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
-    val contentType = contentType()
-    val isSvg = contentType != null &&
-        contentType.type() == "image" &&
-        contentType.subtype().contains("svg")
-    if (!isSvg) {
+    if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
             ?: throw IOException("Bitmap decoding failed")
         return if (!enforceSize) {
@@ -114,8 +112,17 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
         }
     }
 
+    return byteStream().svgToBitmap(targetSize)
+}
+
+fun MediaType?.isSvg(): Boolean {
+    return this != null && this.type() == "image" && this.subtype().contains("svg")
+}
+
+@Throws(IOException::class)
+fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
     return try {
-        val svg = SVG.getFromInputStream(byteStream())
+        val svg = SVG.getFromInputStream(this)
         val displayMetrics = Resources.getSystem().displayMetrics
         svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
         var density: Float? = displayMetrics.density
@@ -175,6 +182,14 @@ fun JSONArray.forEach(action: (JSONObject) -> Unit) =
 
 inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
     return (0 until length()).map { index -> transform(getJSONObject(index)) }
+}
+
+fun JSONObject.optStringOrNull(key: String): String? {
+    return optStringOrFallback(key, null)
+}
+
+fun JSONObject.optStringOrFallback(key: String, fallback: String?): String? {
+    return if (has(key)) getString(key) else fallback
 }
 
 fun Context.getPrefs(): SharedPreferences {

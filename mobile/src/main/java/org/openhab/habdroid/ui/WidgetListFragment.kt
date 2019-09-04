@@ -20,11 +20,17 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
+import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.EditText
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -45,8 +51,17 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
-import org.openhab.habdroid.util.*
+import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconFormat
+import org.openhab.habdroid.util.SuggestedCommandsFactory
+import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getIconFormat
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.openInBrowser
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -104,6 +119,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        registerForContextMenu(recyclerView)
 
         refreshLayout = view.findViewById(R.id.swiperefresh)
         refreshLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
@@ -140,41 +156,119 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         return false
     }
 
-    override fun onItemLongClicked(widget: Widget): Boolean {
-        val context = context ?: return false
-        val suggestedCommands = suggestedCommandsFactory.fill(widget)
-        val labels = suggestedCommands.labels
-        val commands = suggestedCommands.commands
-        if (widget.linkedPage != null) {
-            labels.add(getString(R.string.nfc_action_to_sitemap_page))
-            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-                labels.add(getString(R.string.home_shortcut_pin_to_home))
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        if (menu != null && menuInfo is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo) {
+            val widget = adapter?.getItemForContextMenu(menuInfo)
+            if (widget != null) {
+                populateContextMenu(widget, menu)
             }
         }
+    }
 
-        if (labels.isEmpty()) {
-            return false
-        }
-
-        AlertDialog.Builder(context)
-            .setTitle(R.string.nfc_dialog_title)
-            .setItems(labels.toTypedArray()) { _, which ->
-                if (which == commands.size + 1 && widget.linkedPage != null) {
-                    createShortcut(context, widget.linkedPage)
-                } else {
-                    val itemToHandle = if (which < commands.size) widget.item else null
-                    val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
-                    if (itemToHandle != null) {
-                        startActivity(WriteTagActivity.createItemUpdateIntent(context,
-                            itemToHandle.name, commands[which], labels[which], itemToHandle.label.orEmpty()))
-                    } else if (linkToHandle != null) {
-                        startActivity(WriteTagActivity.createSitemapNavigationIntent(context, linkToHandle))
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        val context = context
+        val info = item?.menuInfo
+        val widget = if (info is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo)
+            adapter?.getItemForContextMenu(info) else null
+        if (item != null && widget != null && context != null) {
+            when (item.itemId) {
+                CONTEXT_MENU_ID_WRITE_SITEMAP_TAG -> {
+                    widget.linkedPage?.link?.let {
+                        startActivity(WriteTagActivity.createSitemapNavigationIntent(context, it))
                     }
+                    return true
+                }
+                CONTEXT_MENU_ID_PIN_HOME -> {
+                    widget.linkedPage?.let { createShortcut(context, it) }
+                    return true
+                }
+                CONTEXT_MENU_ID_OPEN_IN_MAPS -> {
+                    widget.item?.state?.asLocation?.toMapsUrl()?.toUri().openInBrowser(context)
+                    return true
                 }
             }
-            .show()
+        }
+        return super.onContextItemSelected(item)
+    }
 
-        return true
+    private fun populateContextMenu(widget: Widget, menu: ContextMenu) {
+        val context = context ?: return
+        val suggestedCommands = suggestedCommandsFactory.fill(widget)
+        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || Util.isEmulator(context)
+        val hasCommandOptions = suggestedCommands.commands.isNotEmpty() || suggestedCommands.shouldShowCustom
+
+        // Offer opening website if only one position is set
+        if (widget.type == Widget.Type.Mapview && widget.item?.state?.asLocation != null) {
+            menu.add(Menu.NONE, CONTEXT_MENU_ID_OPEN_IN_MAPS, Menu.NONE, R.string.open_in_maps)
+        }
+
+        if (widget.linkedPage != null) {
+            if (nfcSupported) {
+                if (hasCommandOptions) {
+                    val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
+                        R.string.nfc_action_write_command_tag)
+                    nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
+                    populateNfcStatesMenu(nfcMenu, context, suggestedCommands, widget)
+                }
+                menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_SITEMAP_TAG, Menu.NONE, R.string.nfc_action_to_sitemap_page)
+            }
+            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
+                menu.add(Menu.NONE, CONTEXT_MENU_ID_PIN_HOME, Menu.NONE, R.string.home_shortcut_pin_to_home)
+            }
+        } else if (hasCommandOptions && nfcSupported) {
+            menu.setHeaderTitle(R.string.nfc_action_write_command_tag)
+            populateNfcStatesMenu(menu, context, suggestedCommands, widget)
+        }
+    }
+
+    private fun populateNfcStatesMenu(
+        menu: Menu,
+        context: Context,
+        suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
+        widget: Widget
+    ) {
+        val name = widget.item?.name ?: return
+        val listener = object : MenuItem.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                val id = item?.itemId ?: return false
+                if (id == CONTEXT_MENU_ID_WRITE_CUSTOM_TAG) {
+                    val input = EditText(context)
+                    input.inputType = suggestedCommands.inputTypeFlags
+                    val customDialog = AlertDialog.Builder(context)
+                        .setTitle(getString(R.string.item_picker_custom))
+                        .setView(input)
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            startActivity(WriteTagActivity.createItemUpdateIntent(context, name, input.text.toString(),
+                                input.text.toString(), widget.item.label.orEmpty()))
+                        }
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+                    input.setOnFocusChangeListener { _, hasFocus ->
+                        val mode = if (hasFocus)
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                        else
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                        customDialog.window?.setSoftInputMode(mode)
+                    }
+                    return true
+                } else if (id < suggestedCommands.commands.size) {
+                    startActivity(WriteTagActivity.createItemUpdateIntent(context, name,
+                        suggestedCommands.commands[id], suggestedCommands.labels[id], widget.item.label.orEmpty()))
+                    return true
+                }
+                return false
+            }
+        }
+
+        suggestedCommands.labels.forEachIndexed { index, label ->
+            menu.add(Menu.NONE, index, Menu.NONE, label).setOnMenuItemClickListener(listener)
+        }
+        if (suggestedCommands.shouldShowCustom) {
+            menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_CUSTOM_TAG, Menu.NONE, R.string.item_picker_custom)
+                .setOnMenuItemClickListener(listener)
+        }
     }
 
     fun setHighlightedPageLink(highlightedPageLink: String?) {
@@ -222,7 +316,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
-        val iconFormat = context.getPrefs().getIconFormat()
+        val iconFormat = when (context.getPrefs().getIconFormat()) {
+            IconFormat.Png -> "PNG"
+            IconFormat.Svg -> "SVG"
+        }
         val url = Uri.Builder()
             .appendEncodedPath(linkedPage.iconPath)
             .appendQueryParameter("format", iconFormat)
@@ -284,6 +381,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
 
     companion object {
         private val TAG = WidgetListFragment::class.java.simpleName
+        private const val CONTEXT_MENU_ID_WRITE_ITEM_TAG = 1000
+        private const val CONTEXT_MENU_ID_WRITE_SITEMAP_TAG = 1001
+        private const val CONTEXT_MENU_ID_PIN_HOME = 1002
+        private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1003
+        private const val CONTEXT_MENU_ID_WRITE_CUSTOM_TAG = 10000
 
         fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {
             val fragment = WidgetListFragment()

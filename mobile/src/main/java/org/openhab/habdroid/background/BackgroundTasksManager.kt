@@ -22,14 +22,26 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Parcelable
 import android.util.Log
-import androidx.work.*
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
-import org.openhab.habdroid.ui.AbstractItemPickerActivity
+import org.openhab.habdroid.ui.TaskerItemPickerActivity
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
-import org.openhab.habdroid.util.*
-import java.util.*
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.TaskerIntent
+import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.isDemoModeEnabled
+import org.openhab.habdroid.util.isTaskerPluginEnabled
+import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
 class BackgroundTasksManager : BroadcastReceiver() {
@@ -46,8 +58,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 NotificationUpdateObserver.createNotificationChannels(context)
             }
             ACTION_RETRY_UPLOAD -> {
-                for (info in intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)) {
-                    enqueueItemUpload(info.tag, info.itemName, info.value)
+                intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
+                    enqueueItemUpload(context, info.tag, info.itemName, info.value)
                 }
             }
             TaskerIntent.ACTION_QUERY_CONDITION, TaskerIntent.ACTION_FIRE_SETTING -> {
@@ -56,12 +68,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     return
                 }
                 val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
-                val itemName = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_NAME)
-                val state = bundle.getString(AbstractItemPickerActivity.EXTRA_ITEM_STATE)
+                val itemName = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_NAME)
+                val state = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_STATE)
                 if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
                     return
                 }
-                enqueueItemUpload(WORKER_TAG_PREFIX_TASKER + itemName, itemName, state)
+                enqueueItemUpload(context, WORKER_TAG_PREFIX_TASKER + itemName, itemName, state)
             }
         }
     }
@@ -76,7 +88,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 key == Constants.PREFERENCE_DEMO_MODE && prefs.isDemoModeEnabled() -> {
                     // demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
-                    with(WorkManager.getInstance()) {
+                    with(WorkManager.getInstance(context)) {
                         cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
                         pruneWork()
                     }
@@ -101,6 +113,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
         private const val WORKER_TAG_PREFIX_TASKER = "tasker-"
+        private const val WORKER_TAG_PREFIX_WIDGET = "widget-"
 
         internal val KNOWN_KEYS = listOf(
             Constants.PREFERENCE_ALARM_CLOCK
@@ -113,7 +126,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private lateinit var prefsListener: PrefsListener
 
         fun initialize(context: Context) {
-            val workManager = WorkManager.getInstance()
+            val workManager = WorkManager.getInstance(context)
             val infoLiveData = workManager.getWorkInfosByTagLiveData(WORKER_TAG_ITEM_UPLOADS)
             infoLiveData.observeForever(NotificationUpdateObserver(context))
 
@@ -128,7 +141,21 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
                 Util.showToast(context, message)
-                enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state, BackoffPolicy.LINEAR)
+                enqueueItemUpload(context, WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state,
+                    BackoffPolicy.LINEAR)
+            }
+        }
+
+        fun enqueueWidgetItemUpdateIfNeeded(context: Context, data: ItemUpdateWidget.ItemUpdateWidgetData) {
+            if (data.item.isNotEmpty() && data.state.isNotEmpty()) {
+                enqueueItemUpload(
+                    context,
+                    WORKER_TAG_PREFIX_WIDGET + data.item,
+                    data.item,
+                    data.state,
+                    BackoffPolicy.LINEAR,
+                    context.getString(R.string.item_update_widget_success_toast, data.label, data.mappedState)
+                )
             }
         }
 
@@ -141,21 +168,23 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             if (!setting.first) {
-                WorkManager.getInstance().cancelAllWorkByTag(key)
+                WorkManager.getInstance(context).cancelAllWorkByTag(key)
                 return
             }
 
             val getter = VALUE_GETTER_MAP[key] ?: return
 
             val prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
-            enqueueItemUpload(key, prefix + setting.second, getter(context))
+            enqueueItemUpload(context, key, prefix + setting.second, getter(context))
         }
 
         private fun enqueueItemUpload(
+            context: Context,
             tag: String,
             itemName: String,
             value: String,
-            backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL
+            backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL,
+            successToast: String? = null
         ) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -165,10 +194,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, value))
+                .setInputData(ItemUpdateWorker.buildData(itemName, value, successToast))
                 .build()
 
-            val workManager = WorkManager.getInstance()
+            val workManager = WorkManager.getInstance(context)
             Log.d(TAG, "Scheduling work for tag $tag")
             workManager.cancelAllWorkByTag(tag)
             workManager.enqueue(workRequest)

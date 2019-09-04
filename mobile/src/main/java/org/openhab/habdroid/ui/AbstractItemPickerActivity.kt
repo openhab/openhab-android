@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -137,6 +138,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 if (which == labelArray.size - 1 && suggestedCommands.shouldShowCustom) {
                     val input = EditText(this)
                     input.inputType = suggestedCommands.inputTypeFlags
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        input.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                    }
                     val customDialog = AlertDialog.Builder(this)
                         .setTitle(getString(R.string.item_picker_custom))
                         .setView(input)
@@ -151,7 +155,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                         customDialog.window?.setSoftInputMode(mode)
                     }
                 } else {
-                    finish(item, commands[which])
+                    finish(item, commands[which], labels[which])
                 }
             }
             .show()
@@ -171,7 +175,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     }
 
     protected fun loadItems() {
+        Log.d(TAG, "loadItems()")
         if (isDisabled) {
+            Log.d(TAG, "Feature is disabled")
             return
         }
 
@@ -204,7 +210,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String)
+    protected abstract fun finish(item: Item, state: String, mappedState: String)
+
+    private fun finish(item: Item, state: String) {
+        finish(item, state, state)
+    }
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName
@@ -237,8 +247,5 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
     companion object {
         private val TAG = AbstractItemPickerActivity::class.java.simpleName
-
-        const val EXTRA_ITEM_NAME = "itemName"
-        const val EXTRA_ITEM_STATE = "itemState"
     }
 }

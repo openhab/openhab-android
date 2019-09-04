@@ -67,7 +67,6 @@ The Item name's default is `AlarmClock`, but you can change it in the settings.
 Example item definition:
 ```
 Number AlarmClock
-
 ```
 
 Example rule:
@@ -88,7 +87,6 @@ then
     }
 
 end
-
 ```
 
 ## Help and Technical Details

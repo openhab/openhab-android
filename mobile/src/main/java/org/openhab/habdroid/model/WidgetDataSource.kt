@@ -16,7 +16,9 @@ package org.openhab.habdroid.model
 import android.util.Log
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
 /**
@@ -24,7 +26,7 @@ import org.w3c.dom.Node
  * It uses a sitemap page XML document to create a list of widgets
  */
 
-class WidgetDataSource(private val iconFormat: String) {
+class WidgetDataSource(private val iconFormat: IconFormat) {
     private val allWidgets = ArrayList<Widget>()
     var title: String = ""
         private set
@@ -68,10 +70,10 @@ class WidgetDataSource(private val iconFormat: String) {
             jsonObject.getJSONArray("widgets").forEach {
                     obj -> allWidgets.addAll(obj.collectWidgets(null, iconFormat))
             }
-            id = jsonObject.optString("id", null)
+            id = jsonObject.optStringOrNull("id")
             title = jsonObject.optString("title", id.orEmpty())
-            icon = jsonObject.optString("icon", null)
-            link = jsonObject.optString("link", null)
+            icon = jsonObject.optStringOrNull("icon")
+            link = jsonObject.optStringOrNull("link")
         } catch (e: JSONException) {
             Log.d(TAG, e.message, e)
         }

@@ -13,10 +13,14 @@
 
 package org.openhab.habdroid.ui
 
+import android.annotation.TargetApi
 import android.app.ActivityManager
+import android.app.KeyguardManager
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.CallSuper
@@ -24,11 +28,12 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getScreenLockMode
 import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
@@ -50,13 +55,27 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val typedValue = TypedValue()
             theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-            setTaskDescription(ActivityManager.TaskDescription(
-                getString(R.string.app_name),
-                BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                typedValue.data))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                setTaskDescription(ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    R.mipmap.icon,
+                    typedValue.data))
+            } else {
+                @Suppress("DEPRECATION")
+                setTaskDescription(ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    BitmapFactory.decodeResource(resources, R.mipmap.icon),
+                    typedValue.data))
+            }
         }
 
         super.onCreate(savedInstanceState)
+    }
+
+    @CallSuper
+    override fun onStart() {
+        promptForDevicePasswordIfRequired()
+        super.onStart()
     }
 
     override fun onDestroy() {
@@ -81,5 +100,62 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             uiOptions and flags.inv()
         }
         window.decorView.systemUiVisibility = uiOptions
+    }
+
+    @TargetApi(21)
+    private fun promptForDevicePassword() {
+        val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
+        val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
+        if (locked) {
+            val intent = km.createConfirmDeviceCredentialIntent(null,
+                getString(R.string.screen_lock_unlock_screen_description))
+            startActivityForResult(intent, SCREEN_LOCK_REQUEST_CODE)
+        }
+    }
+
+    internal open fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode != ScreenLockMode.Disabled
+    }
+
+    private fun promptForDevicePasswordIfRequired() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return
+        }
+        if (doesLockModeRequirePrompt(getPrefs().getScreenLockMode(this))) {
+            if (timestampNeedsReauth(lastAuthenticationTimestamp)) {
+                promptForDevicePassword()
+            }
+        } else {
+            // Reset last authentication timestamp when going from an activity requiring authentication to an
+            // activity that does not require authentication, so that the prompt will re-appear when going back
+            // to the activity requiring authentication
+            lastAuthenticationTimestamp = 0L
+        }
+    }
+
+    private fun timestampNeedsReauth(ts: Long) =
+        ts == 0L || SystemClock.elapsedRealtime() - ts > AUTHENTICATION_VALIDITY_PERIOD
+
+    @CallSuper
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SCREEN_LOCK_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
+            } else if (getPrefs().getScreenLockMode(this) == ScreenLockMode.KioskMode) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    finishAndRemoveTask()
+                } else {
+                    finish()
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val AUTHENTICATION_VALIDITY_PERIOD = 2 * 60 * 1000L
+        private const val SCREEN_LOCK_REQUEST_CODE = 2001
+
+        var lastAuthenticationTimestamp = 0L
     }
 }

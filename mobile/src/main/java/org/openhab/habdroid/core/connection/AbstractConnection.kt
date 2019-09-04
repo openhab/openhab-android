@@ -67,7 +67,7 @@ abstract class AbstractConnection : Connection {
             s.close()
             return true
         } catch (e: Exception) {
-            Log.d(TAG, e.message)
+            Log.d(TAG, "Error checking reachability", e)
             return false
         }
     }

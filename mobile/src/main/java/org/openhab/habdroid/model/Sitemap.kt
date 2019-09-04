@@ -21,6 +21,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 
@@ -28,7 +29,6 @@ import org.w3c.dom.Node
 data class Sitemap internal constructor(
     val name: String,
     val label: String,
-    val link: String,
     val icon: String?,
     val iconPath: String,
     val homepageLink: String
@@ -38,14 +38,12 @@ fun Node.toSitemap(): Sitemap? {
     var label: String? = null
     var name: String? = null
     var icon: String? = null
-    var link: String? = null
     var homepageLink: String? = null
 
     childNodes.forEach { node ->
         when (node.nodeName) {
             "name" -> name = node.textContent
             "label" -> label = node.textContent
-            "link" -> link = node.textContent
             "icon" -> icon = node.textContent
             "homepage" -> node.childNodes.forEach { pageNode ->
                 if (pageNode.nodeName == "link") {
@@ -57,17 +55,16 @@ fun Node.toSitemap(): Sitemap? {
 
     val finalName = name ?: return null
     val finalLink = homepageLink ?: return null
-    return Sitemap(finalName, label ?: finalName, finalLink, icon, "images/$icon.png", finalLink)
+    return Sitemap(finalName, label ?: finalName, icon, "images/$icon.png", finalLink)
 }
 
 fun JSONObject.toSitemap(): Sitemap? {
-    val name = optString("name", null) ?: return null
-    val homepageLink = optJSONObject("homepage")?.optString("link", null) ?: return null
-    val label = optString("label", null)
-    val icon = optString("icon", null)
-    val link = optString("link", null) ?: return null
+    val name = optStringOrNull("name") ?: return null
+    val homepageLink = optJSONObject("homepage")?.optStringOrNull("link") ?: return null
+    val label = optStringOrNull("label")
+    val icon = optStringOrNull("icon")
 
-    return Sitemap(name, label ?: name, link, icon, "icon/$icon", homepageLink)
+    return Sitemap(name, label ?: name, icon, "icon/$icon", homepageLink)
 }
 
 fun Document.toSitemapList(): List<Sitemap> {

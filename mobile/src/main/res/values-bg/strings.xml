@@ -87,10 +87,8 @@
     <string name="info_write_tag_disabled">NFC е изключено. Моля включете го от менюто за настройки на устройството.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API версия</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB секрет</string>
     <string name="info_openhab_push_notification_label">Статус на известия</string>
     <string name="action_settings">Настройки</string>
-    <string name="nfc_dialog_title">Запиши NFC етикет за действие на този елемент</string>
     <string name="info_not_set">Не е зададено</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
@@ -121,7 +119,6 @@
     <string name="nfc_action_toggle">Превключи</string>
     <string name="nfc_activate">Активиране</string>
     <string name="nfc_action_current_color">Текущ цвят</string>
-    <string name="nfc_action_to_sitemap_page">Отидете на сйтмап страницата</string>
     <!-- Drawer -->
     <string name="mainmenu_openhab_voice_recognition">Разпознаване на глас</string>
     <!-- About -->
@@ -159,4 +156,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">Готово</string>
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>

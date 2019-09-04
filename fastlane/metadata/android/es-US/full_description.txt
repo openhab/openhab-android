@@ -1,4 +1,4 @@
-openHAB - "potenciando el hogar inteligente" - automatización del hogar en código abierto independiente del proveedor y la tecnología
+openHAB - "potenciando el hogar inteligente" - automatización del hogar en código abierto independiente del proveedor y de la tecnología
 
 A las versiones basadas en F-Droid se les ha eliminado el soporte para FCM y los informes de errores, y no podrán recibir notificaciones push de openHAB Cloud.
 ¡Pruebe las nuevas características y repórtenos su experiencia!
@@ -10,7 +10,7 @@ Por encima de la capa unificada de abstracción, todos los dispositivos conectad
 <b>Productos compatibles</b>
 
 Más de 200 complementos específicos proporcionan soporte para distintas marcas, dispositivos, tecnologías y protocolos de comunicación. Algunos ejemplos son Z-Wave, Philips Hue, Amazon eco, Chromecast y Sonos. Descubra todos los complementos disponibles, dispositivos compatibles y otras funciones en: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+La aplicación incluye un plugin de acciones para Tasker y Locale.
 
 <b>Comunidad de código abierto</b>
 
@@ -24,6 +24,6 @@ La openHAB Foundation e.V. es una organización sin ánimo de lucro cuya misión
 
 <b>Nota importante</b>
 
-You need an openHAB server for this app.
+Usted necesita un servidor openHAB para usar esta aplicación.
 
 Política de privacidad: https://www.openhabfoundation.org/privacy.html

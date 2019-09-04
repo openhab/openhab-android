@@ -61,6 +61,12 @@
     <string name="settings_connection_summary">Connesso a %s</string>
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Blocco schermo</string>
+    <string name="settings_screen_lock_summary">Blocca accesso openHAB con il blocca schermo o l\'impronta digitale da Android. I widget vocali possono sempre essere utilizzati.</string>
+    <string name="screen_lock_unlock_screen_description">Sblocca per accedere a openHAB</string>
+    <string name="settings_screen_lock_off">Off</string>
+    <string name="settings_screen_lock_kiosk">Modalità Chiosco</string>
+    <string name="settings_screen_lock_on">On</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="title_voice_widget_icon">Comandi vocali e collegamento app</string>
@@ -121,10 +127,8 @@
     <string name="info_write_tag_disabled">NFC e\' disabilitato. Attivarlo nel menu impostazioni del dispositivo.</string>
     <string name="info_openhab_apiversion_label">versione delle Rest API di openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
     <string name="action_settings">Impostazioni</string>
-    <string name="nfc_dialog_title">Salvare le azioni sul tag NFC per questo elemento</string>
     <string name="nfc_tag_recognized_label">Tag NFC per \"%s\" riconosciuto</string>
     <string name="nfc_tag_recognized_item">Tag NFC per item \"%s\" riconosciuto</string>
     <string name="info_not_set">Non impostato</string>
@@ -195,7 +199,8 @@
     <string name="nfc_action_stop">Stop</string>
     <string name="nfc_activate">Attiva</string>
     <string name="nfc_action_current_color">Colore attuale</string>
-    <string name="nfc_action_to_sitemap_page">Naviga alla pagina dei Sitemap</string>
+    <string name="nfc_action_to_sitemap_page">Scrivi sul Sitemap NFC tag</string>
+    <string name="nfc_action_write_command_tag">Scrivi su Item NFC tag</string>
     <!-- Drawer -->
     <string name="drawer_open">Sitemap drawer aperto</string>
     <string name="drawer_close">Sitemap drawer chiuso</string>
@@ -270,10 +275,11 @@
     <string name="item_picker_custom">Personalizza</string>
     <string name="item_picker_dialog_title">Seleziona stato</string>
     <string name="item_picker">Item openHAB</string>
-    <string name="item_picker_blurb">Imposta \"%s\" (%s) a \"%s\"</string>
+    <string name="item_picker_blurb">Imposta \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="search">Cerca</string>
     <string name="settings_tasker_plugin">Integrazione con Tasker</string>
     <string name="settings_tasker_plugin_summary">Abilita Tasker action plugin per aggiornare gli Item via Tasker o app compatibili</string>
     <string name="turn_on">Accendi</string>
     <string name="press_back_to_exit">Premi ancora indietro per uscire</string>
+    <!-- Item update widget -->
 </resources>

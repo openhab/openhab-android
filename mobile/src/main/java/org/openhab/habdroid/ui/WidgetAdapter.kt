@@ -36,6 +36,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.core.view.get
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.larswerkman.holocolorpicker.ColorPicker
@@ -44,6 +45,7 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.*
+import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.SegmentedControlButton
@@ -61,7 +63,7 @@ class WidgetAdapter(
     context: Context,
     private val connection: Connection,
     private val itemClickListener: ItemClickListener
-) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener, View.OnLongClickListener {
+) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
     private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
@@ -73,7 +75,6 @@ class WidgetAdapter(
 
     interface ItemClickListener {
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
-        fun onItemLongClicked(widget: Widget): Boolean
     }
 
     init {
@@ -123,6 +124,10 @@ class WidgetAdapter(
         return true
     }
 
+    fun getItemForContextMenu(info: ContextMenuAwareRecyclerView.RecyclerContextMenuInfo): Widget? {
+        return if (info.position < items.size) items[info.position] else null
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val holder = when (viewType) {
             TYPE_GENERICITEM -> GenericViewHolder(inflater, parent, connection, colorMapper)
@@ -159,9 +164,9 @@ class WidgetAdapter(
         }
         with(holder.itemView) {
             isClickable = true
+            isLongClickable = true
             isActivated = selectedPosition == position
             setOnClickListener(this@WidgetAdapter)
-            setOnLongClickListener(this@WidgetAdapter)
         }
     }
 
@@ -191,15 +196,6 @@ class WidgetAdapter(
                 holder.handleRowClick()
             }
         }
-    }
-
-    override fun onLongClick(view: View): Boolean {
-        val holder = view.tag as ViewHolder
-        val position = holder.adapterPosition
-        if (position != RecyclerView.NO_POSITION) {
-            return itemClickListener.onItemLongClicked(items[position])
-        }
-        return false
     }
 
     private fun updateWidgetAtPosition(position: Int, widget: Widget) {
@@ -328,8 +324,7 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             labelView.text = widget.label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
-            // hide empty frames
-            itemView.isVisible = widget.label.isNotEmpty()
+            labelView.isGone = widget.label.isEmpty()
         }
 
         fun setShownAsFirst(shownAsFirst: Boolean) {

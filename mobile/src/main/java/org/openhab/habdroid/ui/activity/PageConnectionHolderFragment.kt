@@ -36,6 +36,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconFormat
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.IOException
@@ -63,9 +64,9 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         /**
          * Ask parent for the icon format to use
          *
-         * @return Icon format ('PNG' or 'SVG')
+         * @return Icon format
          */
-        val iconFormat: String
+        val iconFormat: IconFormat
 
         /**
          * Ask parent whether logging should include detailed output
@@ -322,7 +323,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             if (hasUpdate) {
                 // Remove frame widgets with no label text
                 val widgetList = dataSource.widgets
-                    .filterNot { w -> w.type == Widget.Type.Frame && w.label.isEmpty() }
                 Log.d(TAG, "Updated page data for URL $url (${widgetList.size} widgets)")
                 if (callback.isDetailedLoggingEnabled) {
                     widgetList.forEachIndexed { index, widget ->

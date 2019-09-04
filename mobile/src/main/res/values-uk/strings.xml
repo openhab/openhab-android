@@ -121,10 +121,8 @@
     <string name="info_write_tag_disabled">NFC вимкнено. Будь ласка, увімкніть його у налаштуваннях пристрою.</string>
     <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">ключ openHAB</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
-    <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
     <string name="nfc_tag_recognized_label">NFC-теґ для \"%s\" розпізнано</string>
     <string name="nfc_tag_recognized_item">NFC-теґ для елемента \"%s\" розпізнано</string>
     <string name="info_not_set">Не вказано</string>
@@ -197,7 +195,6 @@
     <string name="nfc_action_stop">Стоп</string>
     <string name="nfc_activate">Активувати</string>
     <string name="nfc_action_current_color">Поточний колір</string>
-    <string name="nfc_action_to_sitemap_page">Перейти на сторінку інтерфейсу</string>
     <!-- Drawer -->
     <string name="drawer_open">Відображення сторінки інтерфейсу відкрито</string>
     <string name="drawer_close">Відображення сторінки інтерфейсу закрито</string>
@@ -272,10 +269,10 @@
     <string name="item_picker_custom">Користувацький</string>
     <string name="item_picker_dialog_title">Виберіть стан</string>
     <string name="item_picker">Об’єкти openHAB</string>
-    <string name="item_picker_blurb">Встановити \"%s\" (%s) в \"%s\"</string>
     <string name="search">Пошук</string>
     <string name="settings_tasker_plugin">Інтеграція з Tasker</string>
     <string name="settings_tasker_plugin_summary">Увімкнути додаток дій Tasker, який дозволить оновляти об’єкти через Tasker або сумісні програми</string>
     <string name="turn_on">Увімкнути</string>
     <string name="press_back_to_exit">Натисніть ще раз, щоб вийти</string>
+    <!-- Item update widget -->
 </resources>

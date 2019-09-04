@@ -4,7 +4,6 @@
     android:title="@string/settings_openhab_connection">
     <org.openhab.habdroid.ui.preference.UrlInputPreference
         android:defaultValue="@string/empty_string"
-        android:inputType="textNoSuggestions"
         android:key="default_openhab_url"
         android:summary="@string/settings_openhab_url_summary"
         android:title="@string/settings_openhab_url"
@@ -14,11 +13,13 @@
         android:inputType="textNoSuggestions"
         android:key="default_openhab_username"
         android:title="@string/settings_openhab_username"
+        android:autofillHints="username,emailAddress"
         android:icon="@drawable/ic_person_outline_grey_24dp" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
         android:inputType="textPassword"
         android:key="default_openhab_password"
         android:title="@string/settings_openhab_password"
+        android:autofillHints="password"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />
 </androidx.preference.PreferenceScreen>

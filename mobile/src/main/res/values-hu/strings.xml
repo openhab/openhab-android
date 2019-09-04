@@ -61,6 +61,10 @@
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <string name="beta">Béta</string>
+    <string name="settings_screen_lock">Képernyőzár</string>
+    <string name="settings_screen_lock_off">Ki</string>
+    <string name="settings_screen_lock_kiosk">Kiosk mód</string>
+    <string name="settings_screen_lock_on">Be</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="title_voice_widget_icon">Hangutasítások és alkalmazás parancsikon</string>
@@ -118,10 +122,8 @@
     <string name="info_write_tag_disabled">NFC le van tiltva. Kérjük, engedélyezze a készüléken a beállítások menüpontban.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API verziója</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB titkos címke</string>
     <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
-    <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
     <string name="nfc_tag_recognized_label">NFC tag a \"%s\" -hoz felismerve</string>
     <string name="nfc_tag_recognized_item">NFC tag az elemhez \"%s\" felismerve</string>
     <string name="info_not_set">Nincs beállítva</string>
@@ -192,7 +194,6 @@
     <string name="nfc_action_stop">Megállítás</string>
     <string name="nfc_activate">Aktiválás</string>
     <string name="nfc_action_current_color">Aktuális szín</string>
-    <string name="nfc_action_to_sitemap_page">Ugrás az felületekhez</string>
     <!-- Drawer -->
     <string name="drawer_open">Felület tervező nyitva</string>
     <string name="drawer_close">Felület tervező zárva</string>
@@ -267,9 +268,10 @@
     <string name="item_picker_custom">Egyéni</string>
     <string name="item_picker_dialog_title">Válasszon állapotot</string>
     <string name="item_picker">openHAB elememek</string>
-    <string name="item_picker_blurb">Beállít erről \"%s\" (%s) erre \"%s\"</string>
     <string name="search">Keresés</string>
     <string name="settings_tasker_plugin">Teendők integrálása</string>
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
     <string name="turn_on">Bekapcsol</string>
+    <string name="press_back_to_exit">Kilépéshez érintse meg újra a vissza gombot</string>
+    <!-- Item update widget -->
 </resources>

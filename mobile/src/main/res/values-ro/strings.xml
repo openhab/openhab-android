@@ -99,10 +99,8 @@
     <string name="info_write_tag_disabled">NFC este dezactivat. Vă rugăm să-l activaţi în meniul de setări.</string>
     <string name="info_openhab_apiversion_label">versiune openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
-    <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_push_notification_label">Starea notificărilor Push</string>
     <string name="action_settings">Setări</string>
-    <string name="nfc_dialog_title">Scrie o actiune in tag-ul NFC pentru acest element</string>
     <string name="info_not_set">Nu este setat</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
@@ -136,7 +134,6 @@
     <string name="nfc_action_toggle">Comută</string>
     <string name="nfc_activate">Activare</string>
     <string name="nfc_action_current_color">Culoarea curentă</string>
-    <string name="nfc_action_to_sitemap_page">Navigare la pagina Sitemap</string>
     <!-- Drawer -->
     <string name="drawer_open">Secțiunea Sitemap deschisă</string>
     <string name="drawer_close">Secțiunea Sitemap închisă</string>
@@ -191,4 +188,5 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">GATA</string>
     <!-- Item picker -->
+    <!-- Item update widget -->
 </resources>

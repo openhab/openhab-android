@@ -17,11 +17,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
 import android.content.ActivityNotFoundException
-import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
@@ -29,6 +27,7 @@ import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
@@ -36,6 +35,7 @@ import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
@@ -95,6 +95,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getPrefs
@@ -127,19 +128,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var propsUpdateHandle: ServerProperties.Companion.UpdateHandle? = null
     var isStarted: Boolean = false
         private set
-    private lateinit var shortcutManager: ShortcutManager
-
-    /**
-     * Daydreaming gets us into a funk when in fullscreen, this allows us to
-     * reset ourselves to fullscreen.
-     * @author Dan Cunningham
-     */
-    private val dreamReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            Log.i("INTENTFILTER", "Received intent: $intent")
-            checkFullscreen()
-        }
-    }
+    private var shortcutManager: ShortcutManager? = null
 
     /**
      * This method is called when activity receives a new intent while running
@@ -212,12 +201,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         processIntent(intent)
-
-        if (isFullscreenEnabled) {
-            val filter = IntentFilter(Intent.ACTION_DREAMING_STARTED)
-            filter.addAction(Intent.ACTION_DREAMING_STOPPED)
-            registerReceiver(dreamReceiver, filter)
-        }
 
         //  Create a new boolean and preference and set it to true
         val isFirstStart = prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true)
@@ -315,7 +298,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition)
         @ColorInt val iconColor = ContextCompat.getColor(this, R.color.light)
         voiceRecognitionItem.isVisible = connection != null
-        voiceRecognitionItem.icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+        voiceRecognitionItem.icon.colorFilter = PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         return true
     }
 
@@ -342,7 +325,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
         when (requestCode) {
             SETTINGS_REQUEST_CODE -> {
@@ -480,15 +464,25 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     fun enableWifiAndIndicateStartup() {
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        wifiManager.isWifiEnabled = true
-        controller.updateConnection(null, getString(R.string.waiting_for_wifi),
-            R.drawable.ic_wifi_strength_outline_black_24dp)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val panelIntent = Intent(Settings.Panel.ACTION_WIFI)
+            startActivity(panelIntent)
+        } else {
+            val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            @Suppress("DEPRECATION")
+            wifiManager.isWifiEnabled = true
+            controller.updateConnection(null, getString(R.string.waiting_for_wifi),
+                R.drawable.ic_wifi_strength_outline_black_24dp)
+        }
     }
 
     fun retryServerPropertyQuery() {
         controller.clearServerCommunicationFailure()
         queryServerProperties()
+    }
+
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode == ScreenLockMode.Enabled
     }
 
     private fun queryServerProperties() {
@@ -497,7 +491,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             serverProperties = props
             updateSitemapAndHabPanelDrawerItems()
             if (props.sitemaps.isEmpty()) {
-                Log.e(TAG, "openHAB returned empty sitemap list")
+                Log.e(TAG, "openHAB returned empty Sitemap list")
                 controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
             } else {
                 chooseSitemap()
@@ -557,7 +551,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             ACTION_HABPANEL_SELECTED -> executeOrStoreAction(PendingAction.OpenHabPanel())
             ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
             ACTION_SITEMAP_SELECTED -> {
-                val sitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL)
+                val sitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL) ?: return
                 executeOrStoreAction(PendingAction.OpenSitemapUrl(sitemapUrl))
             }
         }
@@ -978,9 +972,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 .setIcon(Icon.createWithResource(this, icon))
                 .setIntent(intent)
                 .build()
-            shortcutManager.addDynamicShortcuts(listOf(shortcut))
+            shortcutManager?.addDynamicShortcuts(listOf(shortcut))
         } else {
-            shortcutManager.disableShortcuts(listOf(id), getString(disableMessage))
+            shortcutManager?.disableShortcuts(listOf(id), getString(disableMessage))
         }
     }
 

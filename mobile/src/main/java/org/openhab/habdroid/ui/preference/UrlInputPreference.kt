@@ -13,13 +13,15 @@
 
 package org.openhab.habdroid.ui.preference
 
-import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
@@ -33,6 +35,10 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : Ed
         return PrefFragment.newInstance(key)
     }
 
+    override fun setText(text: String?) {
+        super.setText(text?.trim())
+    }
+
     class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
         private lateinit var editor: EditText
         private var urlIsValid: Boolean = false
@@ -42,6 +48,10 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : Ed
             if (view != null) {
                 editor = view.findViewById(android.R.id.edit)
                 editor.addTextChangedListener(this)
+                editor.inputType = InputType.TYPE_TEXT_VARIATION_URI
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                }
             }
         }
 
@@ -64,7 +74,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : Ed
                 urlIsValid = true
             } else {
                 val value = editable.toString()
-                if (value.contains("\n") || value.contains(" ")) {
+                if (value.contains("\n")) {
                     urlIsValid = false
                 } else {
                     try {

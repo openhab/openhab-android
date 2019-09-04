@@ -1,1 +1,1 @@
-Domótica de código abierto independiente de proveedores y tecnologías
+Domótica de código abierto independiente del proveedor y de la tecnología

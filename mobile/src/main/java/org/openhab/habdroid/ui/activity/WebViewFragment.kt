@@ -18,7 +18,12 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -70,7 +75,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         val action = args.getString(KEY_SHORTCUT_ACTION)
         @StringRes val label = args.getInt(KEY_SHORTCUT_LABEL)
         @DrawableRes val icon = args.getInt(KEY_SHORTCUT_ICON_RES)
-        action.let {
+        action?.let {
             val intent = Intent(context, MainActivity::class.java)
                 .setAction(action)
             shortcutInfo = ShortcutInfoCompat.Builder(view.context, action)

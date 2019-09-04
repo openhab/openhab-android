@@ -15,11 +15,10 @@ package org.openhab.habdroid.model
 
 import org.json.JSONException
 import org.json.JSONObject
-import org.junit.Before
-import org.junit.Test
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Before
+import org.junit.Test
 
 class SitemapTest {
     private lateinit var demoSitemapWithLabel: Sitemap
@@ -46,14 +45,6 @@ class SitemapTest {
         assertEquals("Main Menu", demoSitemapWithLabel.label)
         assertEquals("Sitemap without explicit label should return name for getLabel",
                 "home", homeSitemapWithoutLabel.label)
-    }
-
-    @Test
-    fun testGetLink() {
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/demo",
-                demoSitemapWithLabel.link)
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/home",
-                homeSitemapWithoutLabel.link)
     }
 
     @Test
