@@ -276,14 +276,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher")
-                preferenceScreen.removePreferenceFromHierarchy(fullscreenPreference)
-            } else {
-                fullscreenPreference.setOnPreferenceChangeListener { _, newValue ->
-                    (activity as AbstractBaseActivity).checkFullscreen(newValue as Boolean)
-                    true
-                }
+            fullscreenPreference.setOnPreferenceChangeListener { _, newValue ->
+                (activity as AbstractBaseActivity).checkFullscreen(newValue as Boolean)
+                true
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

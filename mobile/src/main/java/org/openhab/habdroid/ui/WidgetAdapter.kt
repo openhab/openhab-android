@@ -38,6 +38,10 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.media2.common.MediaMetadata
+import androidx.media2.common.UriMediaItem
+import androidx.media2.player.MediaPlayer
+import androidx.media2.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
 import com.larswerkman.holocolorpicker.ColorPicker
 import kotlinx.coroutines.GlobalScope
@@ -53,7 +57,6 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.*
 import java.util.*
 import kotlin.math.abs
-import kotlin.math.ceil
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -808,28 +811,49 @@ class WidgetAdapter(
     class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup) :
         ViewHolder(inflater, parent, R.layout.widgetlist_videoitem) {
         private val videoView: VideoView = itemView.findViewById(R.id.video)
+        private val mediaPlayer = MediaPlayer(parent.context)
+
+        init {
+            videoView.setPlayer(mediaPlayer)
+        }
 
         override fun bind(widget: Widget) {
-            // FIXME: check for URL changes here
-            if (!videoView.isPlaying) {
-                var videoUrl = widget.url
-                if ("hls".equals(widget.encoding, ignoreCase = true)) {
-                    val state = widget.item?.state?.asString
-                    if (state != null && widget.item.type == Item.Type.StringItem) {
-                        videoUrl = state
-                    }
+            val mediaItem = determineVideoUrlForWidget(widget)?.let { url ->
+                val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
+                UriMediaItem.Builder(url.toUri())
+                    .setMetadata(meta)
+                    .build()
+            }
+
+            if (mediaItem != mediaPlayer.currentMediaItem) {
+                mediaPlayer.reset()
+                if (mediaItem != null) {
+                    mediaPlayer.setMediaItem(mediaItem)
+                    mediaPlayer.prepare()
                 }
-                Log.d(TAG, "Opening video at $videoUrl")
-                videoView.setVideoURI(videoUrl?.toUri())
             }
         }
 
         override fun start() {
-            videoView.start()
+            if (mediaPlayer.currentMediaItem != null) {
+                mediaPlayer.play()
+            }
         }
 
         override fun stop() {
-            videoView.stopPlayback()
+            if (mediaPlayer.currentMediaItem != null) {
+                mediaPlayer.pause()
+            }
+        }
+
+        private fun determineVideoUrlForWidget(widget: Widget): String? {
+            if (widget.encoding.equals("hls", ignoreCase = true)) {
+                val state = widget.item?.state?.asString
+                if (state != null && widget.item.type == Item.Type.StringItem) {
+                    return state
+                }
+            }
+            return widget.url
         }
     }
 
