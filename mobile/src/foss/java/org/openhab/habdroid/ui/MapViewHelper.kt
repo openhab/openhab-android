@@ -16,12 +16,12 @@ package org.openhab.habdroid.ui
 import android.app.AlertDialog
 import android.location.Location
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
@@ -37,7 +37,8 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
-import java.util.*
+import java.util.ArrayList
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 
@@ -259,4 +260,8 @@ fun MapView.setMarker(
 
 fun Location.toGeoPoint(): GeoPoint {
     return GeoPoint(this)
+}
+
+fun Location.toMapsUrl(): String? {
+    return "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
 }

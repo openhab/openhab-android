@@ -61,6 +61,7 @@ import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.openInBrowser
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -183,6 +184,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     widget.linkedPage?.let { createShortcut(context, it) }
                     return true
                 }
+                CONTEXT_MENU_ID_OPEN_IN_MAPS -> {
+                    widget.item?.state?.asLocation?.toMapsUrl()?.toUri().openInBrowser(context)
+                    return true
+                }
             }
         }
         return super.onContextItemSelected(item)
@@ -194,17 +199,23 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || Util.isEmulator(context)
         val hasCommandOptions = suggestedCommands.commands.isNotEmpty() || suggestedCommands.shouldShowCustom
 
+        // Offer opening website if only one position is set
+        if (widget.type == Widget.Type.Mapview && widget.item?.state?.asLocation != null) {
+            menu.add(Menu.NONE, CONTEXT_MENU_ID_OPEN_IN_MAPS, Menu.NONE, R.string.open_in_maps)
+        }
+
         if (widget.linkedPage != null) {
             if (nfcSupported) {
                 if (hasCommandOptions) {
-                    val nfcMenu = menu.addSubMenu(Menu.NONE, 1000, Menu.NONE, R.string.nfc_action_write_command_tag)
+                    val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
+                        R.string.nfc_action_write_command_tag)
                     nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
                     populateNfcStatesMenu(nfcMenu, context, suggestedCommands, widget)
                 }
-                menu.add(Menu.NONE, 1001, Menu.NONE, R.string.nfc_action_to_sitemap_page)
+                menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_SITEMAP_TAG, Menu.NONE, R.string.nfc_action_to_sitemap_page)
             }
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-                menu.add(Menu.NONE, 1002, Menu.NONE, R.string.home_shortcut_pin_to_home)
+                menu.add(Menu.NONE, CONTEXT_MENU_ID_PIN_HOME, Menu.NONE, R.string.home_shortcut_pin_to_home)
             }
         } else if (hasCommandOptions && nfcSupported) {
             menu.setHeaderTitle(R.string.nfc_action_write_command_tag)
@@ -255,7 +266,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             menu.add(Menu.NONE, index, Menu.NONE, label).setOnMenuItemClickListener(listener)
         }
         if (suggestedCommands.shouldShowCustom) {
-            menu.add(Menu.NONE, 10000, Menu.NONE, R.string.item_picker_custom).setOnMenuItemClickListener(listener)
+            menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_CUSTOM_TAG, Menu.NONE, R.string.item_picker_custom)
+                .setOnMenuItemClickListener(listener)
         }
     }
 
@@ -369,8 +381,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
 
     companion object {
         private val TAG = WidgetListFragment::class.java.simpleName
+        private const val CONTEXT_MENU_ID_WRITE_ITEM_TAG = 1000
         private const val CONTEXT_MENU_ID_WRITE_SITEMAP_TAG = 1001
         private const val CONTEXT_MENU_ID_PIN_HOME = 1002
+        private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1003
         private const val CONTEXT_MENU_ID_WRITE_CUSTOM_TAG = 10000
 
         fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {

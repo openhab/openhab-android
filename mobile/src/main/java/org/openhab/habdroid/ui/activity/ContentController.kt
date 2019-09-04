@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
@@ -635,7 +636,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             @DrawableRes val drawableResId = arguments.getInt(KEY_DRAWABLE)
             if (drawableResId != 0) {
                 val drawable = ContextCompat.getDrawable(view.context, drawableResId)
-                drawable?.setColorFilter(
+                drawable?.colorFilter = PorterDuffColorFilter(
                     ContextCompat.getColor(view.context, R.color.empty_list_text_color),
                     PorterDuff.Mode.SRC_IN)
                 watermark.setImageDrawable(drawable)

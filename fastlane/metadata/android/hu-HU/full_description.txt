@@ -11,7 +11,7 @@ Az egyes eszközök fölött található, mely így összefogja, és vezérli il
 
 104/5000
 Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, technológiákat és kommunikációs protokollokat. Például a Z-Wave, a Philips Hue, az Amazon Echo, a Chromecast és a Sonos. Fedezze fel az összes rendelkezésre álló bővítményt és támogatott eszközt és / vagy funkciót a következő címen: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+Az alkalmazás rendelkezik eseménykezelő bővítménnyel a Tasker és a Locale számára.
 
 <b>Nyílt forráskódú közösség</b>
 
@@ -25,6 +25,6 @@ A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy
 
 <b>Fontos megjegyzés</b>
 
-You need an openHAB server for this app.
+openHAB szerverre van szükség az alkalmazás használatához.
 
 Adatvédelem: https://www.openhabfoundation.org/privacy.html

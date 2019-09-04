@@ -17,11 +17,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
 import android.content.ActivityNotFoundException
-import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
@@ -29,6 +27,7 @@ import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
@@ -129,7 +128,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var propsUpdateHandle: ServerProperties.Companion.UpdateHandle? = null
     var isStarted: Boolean = false
         private set
-    private lateinit var shortcutManager: ShortcutManager
+    private var shortcutManager: ShortcutManager? = null
 
     /**
      * This method is called when activity receives a new intent while running
@@ -299,7 +298,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition)
         @ColorInt val iconColor = ContextCompat.getColor(this, R.color.light)
         voiceRecognitionItem.isVisible = connection != null
-        voiceRecognitionItem.icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+        voiceRecognitionItem.icon.colorFilter = PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         return true
     }
 
@@ -552,7 +551,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             ACTION_HABPANEL_SELECTED -> executeOrStoreAction(PendingAction.OpenHabPanel())
             ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
             ACTION_SITEMAP_SELECTED -> {
-                val sitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL)
+                val sitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL) ?: return
                 executeOrStoreAction(PendingAction.OpenSitemapUrl(sitemapUrl))
             }
         }
@@ -973,9 +972,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 .setIcon(Icon.createWithResource(this, icon))
                 .setIntent(intent)
                 .build()
-            shortcutManager.addDynamicShortcuts(listOf(shortcut))
+            shortcutManager?.addDynamicShortcuts(listOf(shortcut))
         } else {
-            shortcutManager.disableShortcuts(listOf(id), getString(disableMessage))
+            shortcutManager?.disableShortcuts(listOf(id), getString(disableMessage))
         }
     }
 
