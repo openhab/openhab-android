@@ -59,12 +59,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
+import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.SegmentedControlButton
@@ -74,8 +74,7 @@ import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.shouldRequestHighResChart
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
 import java.util.Random
@@ -86,7 +85,7 @@ import kotlin.math.abs
  */
 
 class WidgetAdapter(
-    val context: Context,
+    context: Context,
     private val connection: Connection,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
@@ -161,7 +160,7 @@ class WidgetAdapter(
             TYPE_GROUP -> GroupViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SWITCH -> SwitchViewHolder(inflater, parent, connection, colorMapper)
             TYPE_TEXT -> TextViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_SLIDER -> SliderViewHolder(inflater, parent, connection, colorMapper, context)
+            TYPE_SLIDER -> SliderViewHolder(inflater, parent, connection, colorMapper)
             TYPE_IMAGE -> ImageViewHolder(inflater, parent, connection)
             TYPE_SELECTION -> SelectionViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
@@ -425,8 +424,7 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
-        colorMapper: ColorMapper,
-        context: Context
+        colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
         SeekBar.OnSeekBarChangeListener {
         private val seekBar: SeekBar = itemView.findViewById(R.id.seekbar)
@@ -434,9 +432,9 @@ class WidgetAdapter(
 
         init {
             seekBar.setOnSeekBarChangeListener(this)
-            val date = SimpleDateFormat("MM-dd", Locale.US).format(Date())
-            if (date == "10-31") {
-                seekBar.thumb = ContextCompat.getDrawable(context, R.drawable.ic_halloween_orange_24dp)
+            val now = Calendar.getInstance()
+            if (now.get(Calendar.DAY_OF_MONTH) == 31 && now.get(Calendar.MONTH) == 10) {
+                seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp)
             }
         }
 
