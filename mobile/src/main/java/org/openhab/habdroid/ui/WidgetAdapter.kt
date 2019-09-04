@@ -26,13 +26,24 @@ import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.WebView
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.NumberPicker
+import android.widget.RadioGroup
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.VideoView
 import androidx.annotation.LayoutRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.core.view.get
@@ -48,14 +59,26 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.model.*
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
+import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.LabeledValue
+import org.openhab.habdroid.model.ParsedState
+import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.SegmentedControlButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
-import org.openhab.habdroid.util.*
-import java.util.*
+import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.MjpegStreamer
+import org.openhab.habdroid.util.getChartScalingFactor
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.shouldRequestHighResChart
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.HashMap
+import java.util.Locale
+import java.util.Random
 import kotlin.math.abs
 
 /**
@@ -63,7 +86,7 @@ import kotlin.math.abs
  */
 
 class WidgetAdapter(
-    context: Context,
+    val context: Context,
     private val connection: Connection,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
@@ -138,7 +161,7 @@ class WidgetAdapter(
             TYPE_GROUP -> GroupViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SWITCH -> SwitchViewHolder(inflater, parent, connection, colorMapper)
             TYPE_TEXT -> TextViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_SLIDER -> SliderViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SLIDER -> SliderViewHolder(inflater, parent, connection, colorMapper, context)
             TYPE_IMAGE -> ImageViewHolder(inflater, parent, connection)
             TYPE_SELECTION -> SelectionViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
@@ -402,7 +425,8 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
-        colorMapper: ColorMapper
+        colorMapper: ColorMapper,
+        context: Context
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
         SeekBar.OnSeekBarChangeListener {
         private val seekBar: SeekBar = itemView.findViewById(R.id.seekbar)
@@ -410,6 +434,10 @@ class WidgetAdapter(
 
         init {
             seekBar.setOnSeekBarChangeListener(this)
+            val date = SimpleDateFormat("MM-dd", Locale.US).format(Date())
+            if (date == "10-31") {
+                seekBar.thumb = ContextCompat.getDrawable(context, R.drawable.ic_halloween_orange_24dp)
+            }
         }
 
         override fun bind(widget: Widget) {
