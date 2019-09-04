@@ -1,4 +1,4 @@
-openHAB - "potenciando el hogar inteligente" - automatización del hogar en código abierto independiente del proveedor y la tecnología
+openHAB - "potenciando el hogar inteligente" - automatización del hogar en código abierto independiente del proveedor y de la tecnología
 
 A las versiones basadas en F-Droid se les ha eliminado el soporte para FCM y los informes de errores, y no podrán recibir notificaciones push de openHAB Cloud.
 ¡Pruebe las nuevas características y repórtenos su experiencia!
