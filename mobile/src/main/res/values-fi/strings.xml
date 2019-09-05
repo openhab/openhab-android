@@ -214,7 +214,6 @@
     <!-- Log -->
     <string name="log">Loki</string>
     <string name="view_log">Näytä loki</string>
-    <string name="clear_log">Tyhjennä loki</string>
     <string name="empty_log">Loki on tyhjä</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Kiinnitä kotinäyttöön</string>
