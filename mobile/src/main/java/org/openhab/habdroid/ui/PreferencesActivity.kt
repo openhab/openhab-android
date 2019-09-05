@@ -213,6 +213,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val fullscreenPreference = getPreference(Constants.PREFERENCE_FULLSCREEN)
             val sendDeviceInfoPrefixPref = getPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
             val alarmClockPref = getPreference(Constants.PREFERENCE_ALARM_CLOCK)
+            val phoneStatePref = getPreference(Constants.PREFERENCE_PHONE_STATE)
             val iconFormatPreference = getPreference(Constants.PREFERENCE_ICON_FORMAT)
             val taskerPref = getPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
             val vibrationPref = getPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
@@ -339,9 +340,22 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
             }
 
+            updatePhoneStatePreferenceSummary(phoneStatePref,
+                sendDeviceInfoPrefixPref.getPrefValue(),
+                phoneStatePref.getPrefValue().toItemUpdatePrefValue())
+            phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
+                val prefix = sendDeviceInfoPrefixPref.getPrefValue()
+                @Suppress("UNCHECKED_CAST")
+                val value = newValue as Pair<Boolean, String>
+                updatePhoneStatePreferenceSummary(preference, prefix, value)
+                true
+            }
+
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String,
                     alarmClockPref.getPrefValue().toItemUpdatePrefValue())
+                updatePhoneStatePreferenceSummary(phoneStatePref, newValue,
+                    phoneStatePref.getPrefValue().toItemUpdatePrefValue())
                 true
             }
 
@@ -425,6 +439,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                 getString(R.string.settings_alarm_clock_summary_on, (prefix.orEmpty()) + value.second)
             else
                 getString(R.string.settings_alarm_clock_summary_off)
+        }
+
+        private fun updatePhoneStatePreferenceSummary(pref: Preference, prefix: String?, value: Pair<Boolean, String>) {
+            pref.summary = if (value.first)
+                getString(R.string.settings_phone_state_summary_on, (prefix.orEmpty()) + value.second)
+            else
+                getString(R.string.settings_phone_state_summary_off)
         }
 
         private fun updateAlarmClockPreferenceIcon(pref: Preference, value: Pair<Boolean, String>) {

@@ -89,6 +89,32 @@ then
 end
 ```
 
+## Call State
+
+The openHAB app will send the current call state to the server.
+
+Example item definition:
+```
+String CallState
+```
+
+Example rule:
+```
+rule "Call State Trigger"
+when
+    Item CallState changed
+then
+    if (CallState.state == "IDLE") {
+        // No call activity
+    } else if (CallState.state == "RINGING") {
+        // A new call arrived and is ringing or waiting. In the latter case, another call is already active.
+    } else if (CallState.state == "OFFHOOK") {
+        // At least one call exists that is dialing, active, or on hold, and no calls are ringing or waiting.
+    }
+
+end
+```
+
 ## Help and Technical Details
 
 Please refer to the [openhab-android project on GitHub](https://github.com/openhab/openhab-android) for more details.

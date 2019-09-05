@@ -154,11 +154,15 @@
     <string name="send_device_info_to_server">Send device information to server</string>
     <string name="send_device_info_item_prefix">Item name prefix</string>
     <string name="send_device_info_item_prefix_summary">The Item names of the following features have this prefix</string>
+    <string name="settings_item_update_pref_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
     <string name="settings_alarm_clock">Send alarm clock to openHAB</string>
     <string name="settings_alarm_clock_summary_on">Sends alarm clock time to item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Don\'t send alarm clock time to server</string>
-    <string name="settings_alarm_clock_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
     <string name="settings_alarm_clock_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#alarm-clock</string>
+    <string name="settings_phone_state">Send call state to openHAB</string>
+    <string name="settings_phone_state_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#call-state</string>
+    <string name="settings_phone_state_summary_on">Sends call state to item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Don\'t send call state to server</string>
     <string name="settings_item_pref_item_name">Item name</string>
     <string name="waiting_for_item_upload">Waiting for network to send Item updates</string>
     <string name="item_upload_in_progress">Items are currently being updated</string>
