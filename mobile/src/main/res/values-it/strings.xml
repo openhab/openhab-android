@@ -286,4 +286,9 @@
     <string name="turn_on">Accendi</string>
     <string name="press_back_to_exit">Premi ancora indietro per uscire</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Controllo Item</string>
+    <string name="item_update_widget_content_description">Widget per cambiare lo stato Item</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
+    <string name="item_update_widget_success_toast">%1$s impostato a %2$s</string>
 </resources>
