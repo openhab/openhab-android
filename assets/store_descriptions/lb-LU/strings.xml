@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+    <intro/>
+    <whatis/>
+    <rules/>
+    <supported/>
+    <bindings>  </bindings>
+    <automation_apps/>
+
+    <oss_community/>
+    <forum>  </forum>
+
+    <report_issues/>
+    <translation/>
+    <foundation/>
+    <about_foundation> </about_foundation>
+    <important_note/>
+    <oh_server/>
+    <short_description/>
+    <fdroid/>
+    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <fdroid_privacy_policy/>
+    <beta/>
+    <play_beta/>
+</strings>
