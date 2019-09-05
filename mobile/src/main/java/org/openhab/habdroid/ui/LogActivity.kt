@@ -14,19 +14,22 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
@@ -34,12 +37,13 @@ import org.openhab.habdroid.util.getRemoteUrl
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class LogActivity : AbstractBaseActivity() {
-    private lateinit var progressBar: ProgressBar
+class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var scrollView: ScrollView
     private lateinit var emptyView: LinearLayout
+    private lateinit var swipeLayout: SwipeRefreshLayout
+    private var showErrorsOnly: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +55,11 @@ class LogActivity : AbstractBaseActivity() {
 
         fab = findViewById(R.id.shareFab)
         logTextView = findViewById(R.id.log)
-        progressBar = findViewById(R.id.progressBar)
         scrollView = findViewById(R.id.scrollview)
         emptyView = findViewById(android.R.id.empty)
+        swipeLayout = findViewById(R.id.swipe_refresh)
+        swipeLayout.setOnRefreshListener(this)
+        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
 
         fab.setOnClickListener {
             val sendIntent = Intent().apply {
@@ -69,8 +75,7 @@ class LogActivity : AbstractBaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        setUiState(isLoading = true, isEmpty = false)
-        fetchLog(false)
+        onRefresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -83,8 +88,24 @@ class LogActivity : AbstractBaseActivity() {
         Log.d(TAG, "onOptionsItemSelected()")
         return when (item.itemId) {
             R.id.delete_log -> {
-                setUiState(isLoading = true, isEmpty = false)
+                setUiState(isLoading = false, isEmpty = false)
                 fetchLog(true)
+                true
+            }
+            R.id.show_errors -> {
+                showErrorsOnly = showErrorsOnly.not()
+                if (showErrorsOnly) {
+                    item.setIcon(R.drawable.ic_error_white_24dp)
+                    item.setTitle(R.string.log_activity_action_show_all)
+                } else {
+                    item.setIcon(R.drawable.ic_error_outline_white_24dp)
+                    item.setTitle(R.string.log_activity_action_show_errors)
+                }
+                onRefresh()
+                true
+            }
+            R.id.refresh -> {
+                onRefresh()
                 true
             }
             android.R.id.home -> {
@@ -95,8 +116,13 @@ class LogActivity : AbstractBaseActivity() {
         }
     }
 
+    override fun onRefresh() {
+        setUiState(isLoading = true, isEmpty = false)
+        fetchLog(false)
+    }
+
     private fun setUiState(isLoading: Boolean, isEmpty: Boolean) {
-        progressBar.isVisible = isLoading
+        swipeLayout.isRefreshing = isLoading
         logTextView.isVisible = !isLoading && !isEmpty
         emptyView.isVisible = isEmpty
         if (isLoading || isEmpty) {
@@ -117,7 +143,10 @@ class LogActivity : AbstractBaseActivity() {
         val logBuilder = StringBuilder()
         val separator = System.getProperty("line.separator")
         val process = try {
-            val args = if (clear) "-c" else "-v threadtime -d"
+            var args = if (clear) "-c" else "-v threadtime -d"
+            if (showErrorsOnly) {
+                args += " *:E"
+            }
             Runtime.getRuntime().exec("logcat -b all $args")
         } catch (e: Exception) {
             Log.e(TAG, "Error reading process", e)
@@ -127,6 +156,11 @@ class LogActivity : AbstractBaseActivity() {
         if (clear) {
             return@withContext ""
         }
+
+        logBuilder.append("-----------------------\n")
+        logBuilder.append("Device information\n")
+        logBuilder.append(getDeviceInfo())
+        logBuilder.append("-----------------------\n\n")
 
         try {
             InputStreamReader(process.inputStream).use { reader ->
@@ -146,6 +180,16 @@ class LogActivity : AbstractBaseActivity() {
         log = redactHost(log, getPrefs().getLocalUrl(), "<openhab-local-address>")
         log = redactHost(log, getPrefs().getRemoteUrl(), "<openhab-remote-address>")
         log
+    }
+
+    private fun getDeviceInfo(): String {
+        return "Fingerprint: ${Build.FINGERPRINT}\n" +
+            "Model: ${Build.MODEL}\n" +
+            "Manufacturer: ${Build.MANUFACTURER}\n" +
+            "Brand: ${Build.BRAND}\n" +
+            "Device: ${Build.DEVICE}\n" +
+            "Product: ${Build.PRODUCT}\n" +
+            "OS: ${Build.VERSION.RELEASE}\n"
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {

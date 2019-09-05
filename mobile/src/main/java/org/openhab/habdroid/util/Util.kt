@@ -116,7 +116,7 @@ object Util {
         }
     }
 
-    fun isEmulator(context: Context): Boolean {
+    fun isEmulator(): Boolean {
         val isEmulator = Build.FINGERPRINT.startsWith("generic") ||
             Build.FINGERPRINT.startsWith("unknown") ||
             Build.MODEL.contains("google_sdk") ||
@@ -127,11 +127,6 @@ object Util {
             (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
             "google_sdk" == Build.PRODUCT
         Log.d(TAG, "Device is emulator: $isEmulator")
-        if (context.getPrefs().isDebugModeEnabled()) {
-            Log.d(TAG, "Fingerprint: ${Build.FINGERPRINT}, Model: ${Build.MODEL}," +
-                " Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}, Device: ${Build.DEVICE}," +
-                " Product: ${Build.PRODUCT}")
-        }
         return isEmulator
     }
 }
