@@ -234,7 +234,6 @@
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Ver Log</string>
-    <string name="clear_log">Limpar Log</string>
     <string name="empty_log">Log está vazio</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Fixar na tela principal</string>
