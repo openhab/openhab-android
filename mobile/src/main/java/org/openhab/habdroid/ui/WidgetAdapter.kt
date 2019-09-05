@@ -433,7 +433,7 @@ class WidgetAdapter(
         init {
             seekBar.setOnSeekBarChangeListener(this)
             val now = Calendar.getInstance()
-            if (now.get(Calendar.DAY_OF_MONTH) == 31 && now.get(Calendar.MONTH) == 10) {
+            if (now.get(Calendar.DAY_OF_MONTH) == 31 && now.get(Calendar.MONTH) == Calendar.OCTOBER) {
                 seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp)
             }
         }
