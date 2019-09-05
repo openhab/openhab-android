@@ -86,7 +86,7 @@
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|AlarmClock"
             android:key="alarmClock"
-            app:helpHint="@string/settings_alarm_clock_howto_summary"
+            app:helpHint="@string/settings_item_update_pref_howto_summary"
             app:helpUrl="@string/settings_alarm_clock_howto_url"
             android:title="@string/settings_alarm_clock"
             android:dependency="default_openhab_demomode"
@@ -94,7 +94,7 @@
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|CallState"
             android:key="phoneState"
-            app:helpHint="@string/settings_alarm_clock_howto_summary"
+            app:helpHint="@string/settings_item_update_pref_howto_summary"
             app:helpUrl="@string/settings_phone_state_howto_url"
             android:title="@string/settings_phone_state"
             android:dependency="default_openhab_demomode"
