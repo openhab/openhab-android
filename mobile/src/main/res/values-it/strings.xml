@@ -236,6 +236,11 @@
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Mostra log</string>
+    <string name="log_activity_action_clear_log">Cancella log</string>
+    <string name="log_activity_action_show_errors">Mostra solo errori</string>
+    <string name="log_activity_action_show_all">Mostra tutti i messaggi</string>
+    <string name="log_activity_action_reload">Aggiorna</string>
+    <string name="log_activity_content_description_share">Condividi Log</string>
     <string name="empty_log">Log è vuoto</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Fissa nella home</string>
