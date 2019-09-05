@@ -209,7 +209,6 @@
     <!-- Log -->
     <string name="log">ログ</string>
     <string name="view_log">ログの表示</string>
-    <string name="clear_log">ログの消去</string>
     <string name="empty_log">ログはありません</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
