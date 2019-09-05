@@ -236,7 +236,6 @@
     <!-- Log -->
     <string name="log">Journal</string>
     <string name="view_log">Afficher le journal</string>
-    <string name="clear_log">Effacer le journal</string>
     <string name="empty_log">Le journal est vide</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Ajouter à l\'écran d\'accueil</string>
