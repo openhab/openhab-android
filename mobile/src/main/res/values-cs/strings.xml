@@ -230,7 +230,6 @@
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Zobrazit log</string>
-    <string name="clear_log">Vymazat log</string>
     <string name="empty_log">Log je prázný</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Připnout na domovskou obrazovku</string>
