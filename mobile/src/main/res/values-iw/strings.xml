@@ -230,7 +230,6 @@
     <!-- Log -->
     <string name="log">יומן רישום</string>
     <string name="view_log">הצג יומן רישום</string>
-    <string name="clear_log">מחיקת יומן הרישום</string>
     <string name="empty_log">יומן הרישום ריק</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">נעץ למסך הבית</string>
