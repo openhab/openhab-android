@@ -273,7 +273,8 @@
     <string name="log">Log</string>
     <string name="view_log">View log</string>
     <string name="log_activity_action_clear_log">Clear log</string>
-    <string name="log_activity_action_show_errors">Toggle showing errors only</string>
+    <string name="log_activity_action_show_errors">Show errors only</string>
+    <string name="log_activity_action_show_all">Show all messages</string>
     <string name="log_activity_action_reload">Reload</string>
     <string name="log_activity_content_description_share">Share log</string>
     <string name="empty_log">Log is empty</string>

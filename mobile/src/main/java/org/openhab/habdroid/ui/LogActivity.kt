@@ -23,7 +23,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -95,12 +94,13 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             }
             R.id.show_errors -> {
                 showErrorsOnly = showErrorsOnly.not()
-                @DrawableRes val icon = if (showErrorsOnly) {
-                    R.drawable.ic_error_white_24dp
+                if (showErrorsOnly) {
+                    item.setIcon(R.drawable.ic_error_white_24dp)
+                    item.setTitle(R.string.log_activity_action_show_all)
                 } else {
-                    R.drawable.ic_error_outline_white_24dp
+                    item.setIcon(R.drawable.ic_error_outline_white_24dp)
+                    item.setTitle(R.string.log_activity_action_show_errors)
                 }
-                item.setIcon(icon)
                 onRefresh()
                 true
             }
