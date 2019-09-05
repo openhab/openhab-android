@@ -236,7 +236,6 @@
     <!-- Log -->
     <string name="log">Protokoll</string>
     <string name="view_log">Protokoll anzeigen</string>
-    <string name="clear_log">Protokoll löschen</string>
     <string name="empty_log">Protokoll ist leer</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Anheften an Startbildschirm</string>
