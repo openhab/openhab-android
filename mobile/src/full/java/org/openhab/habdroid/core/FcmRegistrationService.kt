@@ -42,7 +42,7 @@ class FcmRegistrationService : JobIntentService() {
         val manufacturer = Build.MANUFACTURER
         val model = Build.MODEL
 
-        val actualModel = if (model.toLowerCase().startsWith(manufacturer.toLowerCase()))
+        val actualModel = if (model.toLowerCase(Locale.ROOT).startsWith(manufacturer.toLowerCase(Locale.ROOT)))
             model else "$manufacturer $model"
 
         // Capitalize returned value
@@ -66,9 +66,11 @@ class FcmRegistrationService : JobIntentService() {
                     runBlocking { registerFcm(connection) }
                 } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
+                    Util.showToast(this, R.string.info_openhab_gcm_failed_toast)
                     Log.e(TAG, "FCM registration failed", e)
                 } catch (e: IOException) {
                     CloudMessagingHelper.registrationFailureReason = e
+                    Util.showToast(this, R.string.info_openhab_gcm_failed_toast)
                     Log.e(TAG, "FCM registration failed", e)
                 }
 
