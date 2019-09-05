@@ -162,7 +162,6 @@
     <!-- Log -->
     <string name="log">Günlük kayıtları</string>
     <string name="view_log">Sistem günlüklerini göster</string>
-    <string name="clear_log">Sistem günlüklerini temizle</string>
     <string name="empty_log">Günlük kaydı boş</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
