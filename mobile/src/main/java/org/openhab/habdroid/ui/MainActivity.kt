@@ -54,6 +54,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
@@ -99,13 +100,11 @@ import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.disableItemUpdatePref
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInBrowser
-import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 import java.nio.charset.Charset
 import javax.jmdns.ServiceInfo
@@ -221,8 +220,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java, isSpeechRecognizerAvailable)
             setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
         }
-
-        showMissingPermissionsWarningIfNeeded()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -281,6 +278,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         updateTitle()
+        showMissingPermissionsWarningIfNeeded()
     }
 
     override fun onPause() {
@@ -943,9 +941,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !=
             PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "READ_PHONE_STATE permission has been denied")
-            showToast(R.string.settings_phone_state_permission_denied)
-            prefs.edit {
-                disableItemUpdatePref(this@MainActivity, Constants.PREFERENCE_PHONE_STATE)
+            showSnackbar(R.string.settings_phone_state_permission_denied,
+                R.string.settings_phone_state_permission_allow) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE),
+                    READ_PHONE_STATE_REQUEST_CODE)
             }
         }
     }
@@ -1032,6 +1031,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private const val SETTINGS_REQUEST_CODE = 1002
         private const val WRITE_NFC_TAG_REQUEST_CODE = 1003
         private const val INFO_REQUEST_CODE = 1004
+        private const val READ_PHONE_STATE_REQUEST_CODE = 1005
         // Drawer item codes
         private const val GROUP_ID_SITEMAPS = 1
     }
