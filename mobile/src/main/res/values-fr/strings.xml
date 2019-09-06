@@ -236,6 +236,11 @@
     <!-- Log -->
     <string name="log">Journal</string>
     <string name="view_log">Afficher le journal</string>
+    <string name="log_activity_action_clear_log">Effacer le journal</string>
+    <string name="log_activity_action_show_errors">Afficher les erreurs seulement</string>
+    <string name="log_activity_action_show_all">Afficher tous les messages</string>
+    <string name="log_activity_action_reload">Actualiser</string>
+    <string name="log_activity_content_description_share">Partager un log</string>
     <string name="empty_log">Le journal est vide</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Ajouter à l\'écran d\'accueil</string>
