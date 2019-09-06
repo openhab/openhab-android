@@ -30,6 +30,7 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.showToast
 import java.io.IOException
 import java.net.URLEncoder
 import java.util.Locale
