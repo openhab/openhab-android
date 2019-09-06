@@ -150,7 +150,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
             val showDialog: (DialogFragment) -> Unit = { fragment ->
                 fragment.setTargetFragment(this, 0)
-                fragment.show(fragmentManager, "SettingsFragment.DIALOG:${preference.key}")
+                fragmentManager?.let { fragment.show(it, "SettingsFragment.DIALOG:${preference.key}") }
             }
             when (preference) {
                 is UrlInputPreference -> showDialog(preference.createDialog())
