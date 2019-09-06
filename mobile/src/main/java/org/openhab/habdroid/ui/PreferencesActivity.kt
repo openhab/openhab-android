@@ -48,12 +48,12 @@ import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.disableItemUpdatePref
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 import java.util.BitSet
 
@@ -400,7 +400,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (requestCode) {
                 PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        Util.showToast(context!!, context!!.getString(R.string.settings_phone_state_permission_denied))
+                        context!!.showToast(R.string.settings_phone_state_permission_denied)
                         prefs.edit {
                             disableItemUpdatePref(context!!, Constants.PREFERENCE_PHONE_STATE)
                         }

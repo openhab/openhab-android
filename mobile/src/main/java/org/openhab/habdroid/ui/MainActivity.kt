@@ -105,6 +105,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 import java.nio.charset.Charset
 import javax.jmdns.ServiceInfo
@@ -942,7 +943,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !=
             PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "READ_PHONE_STATE permission has been denied")
-            Util.showToast(this, getString(R.string.settings_phone_state_permission_denied))
+            showToast(R.string.settings_phone_state_permission_denied)
             prefs.edit {
                 disableItemUpdatePref(this@MainActivity, Constants.PREFERENCE_PHONE_STATE)
             }

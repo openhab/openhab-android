@@ -37,11 +37,11 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.TaskerIntent
-import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.showToast
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
@@ -146,7 +146,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context.getString(R.string.nfc_tag_recognized_label, tag.label)
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
-                Util.showToast(context, message)
+                context.showToast(message)
                 enqueueItemUpload(context, WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state,
                     BackoffPolicy.LINEAR)
             }

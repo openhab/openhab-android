@@ -66,11 +66,11 @@ class FcmRegistrationService : JobIntentService() {
                     runBlocking { registerFcm(connection) }
                 } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
-                    Util.showToast(this, R.string.info_openhab_gcm_failed_toast)
+                    showToast(R.string.info_openhab_gcm_failed_toast)
                     Log.e(TAG, "FCM registration failed", e)
                 } catch (e: IOException) {
                     CloudMessagingHelper.registrationFailureReason = e
-                    Util.showToast(this, R.string.info_openhab_gcm_failed_toast)
+                    showToast(R.string.info_openhab_gcm_failed_toast)
                     Log.e(TAG, "FCM registration failed", e)
                 }
 

@@ -22,7 +22,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.showToast
 import java.util.Locale
 
 /**
@@ -34,7 +34,7 @@ class VoiceService : IntentService("VoiceService") {
             ?: return
 
         Log.i(TAG, "Recognized text: $voiceCommand")
-        Util.showToast(this, getString(R.string.info_voice_recognized_text, voiceCommand))
+        showToast(getString(R.string.info_voice_recognized_text, voiceCommand))
 
         runBlocking {
             ConnectionFactory.waitForInitialization()
@@ -45,7 +45,7 @@ class VoiceService : IntentService("VoiceService") {
                 Log.d(TAG, "Voice command was sent successfully")
             } catch (e: ConnectionException) {
                 Log.w(TAG, "Couldn't determine openHAB URL", e)
-                Util.showToast(this@VoiceService, R.string.error_couldnt_determine_openhab_url)
+                showToast(R.string.error_couldnt_determine_openhab_url)
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Sending voice command failed", e)
             }
