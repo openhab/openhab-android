@@ -291,9 +291,8 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             mappedState: String,
             label: String
         ): Intent {
-            if (itemName.isEmpty() || state.isEmpty()) {
-                throw IllegalArgumentException("Item name or state is empty")
-            }
+            require(itemName.isNotEmpty()) { "Item name is empty" }
+
             val uriBuilder = Uri.Builder()
                 .scheme(NfcTag.SCHEME)
                 .authority("")
