@@ -117,11 +117,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
-        private const val WORKER_TAG_PREFIX_TASKER = "tasker-"
-        private const val WORKER_TAG_PREFIX_WIDGET = "widget-"
+        const val WORKER_TAG_PREFIX_TASKER = "tasker-"
+        const val WORKER_TAG_PREFIX_WIDGET = "widget-"
 
         internal val KNOWN_KEYS = listOf(
-            Constants.PREFERENCE_ALARM_CLOCK
+            Constants.PREFERENCE_ALARM_CLOCK,
+            Constants.PREFERENCE_PHONE_STATE
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String>()
 

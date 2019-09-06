@@ -22,6 +22,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 
 enum class ScreenLockMode {
     Disabled,
@@ -125,4 +126,9 @@ fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?) {
 
 fun PreferenceFragmentCompat.getPreference(key: String): Preference {
     return findPreference(key) ?: throw IllegalArgumentException("No such preference: $key")
+}
+
+fun SharedPreferences.Editor.disableItemUpdatePref(context: Context, key: String) {
+    val item = context.getPrefs().getString(key).toItemUpdatePrefValue().second
+    putString(key, "false|$item")
 }

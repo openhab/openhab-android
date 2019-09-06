@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -47,6 +48,8 @@ import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.disableItemUpdatePref
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getString
@@ -348,6 +351,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                 @Suppress("UNCHECKED_CAST")
                 val value = newValue as Pair<Boolean, String>
                 updatePhoneStatePreferenceSummary(preference, prefix, value)
+                if (value.first && ContextCompat.checkSelfPermission(preference.context,
+                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "Request READ_PHONE_STATE permission")
+                    requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
+                        PERMISSIONS_REQUEST_READ_PHONE_STATE)
+                }
+
                 true
             }
 
@@ -383,6 +393,20 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
             if (flags and ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT == 0) {
                 preferenceScreen.removePreferenceFromHierarchy(chartScalingPreference)
+            }
+        }
+
+        override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+            when (requestCode) {
+                PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
+                    if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                        Util.showToast(context!!, context!!.getString(R.string.settings_phone_state_permission_denied))
+                        prefs.edit {
+                            disableItemUpdatePref(context!!, Constants.PREFERENCE_PHONE_STATE)
+                        }
+                        activity?.recreate()
+                    }
+                }
             }
         }
 
@@ -602,6 +626,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
         const val ITEM_UPDATE_WIDGET_ICON = "icon"
         private const val STATE_KEY_RESULT = "result"
+        private const val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }
@@ -612,6 +637,13 @@ fun Preference?.getPrefValue(defaultValue: String? = null): String? {
         return defaultValue
     }
     return sharedPreferences?.getString(key, defaultValue)
+}
+
+fun Preference?.setPrefValue(value: String? = null) {
+    if (this == null || value == null) {
+        return
+    }
+    sharedPreferences?.edit()?.putString(key, value)?.apply()
 }
 
 fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {

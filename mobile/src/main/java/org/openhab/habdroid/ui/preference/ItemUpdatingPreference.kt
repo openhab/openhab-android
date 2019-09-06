@@ -20,14 +20,16 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
-
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon

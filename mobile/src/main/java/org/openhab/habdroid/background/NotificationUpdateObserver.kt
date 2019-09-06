@@ -25,11 +25,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
-import org.openhab.habdroid.util.*
-
+import org.openhab.habdroid.util.getNotificationTone
+import org.openhab.habdroid.util.getNotificationVibrationPattern
+import org.openhab.habdroid.util.getPrefs
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -42,7 +42,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         for (info in workInfos) {
             for (tag in info.tags) {
                 if (tag in BackgroundTasksManager.KNOWN_KEYS ||
-                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC)
+                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC) ||
+                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TASKER) ||
+                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_WIDGET)
                 ) {
                     val state = info.state
                     if (state == WorkInfo.State.ENQUEUED || state == WorkInfo.State.RUNNING) {

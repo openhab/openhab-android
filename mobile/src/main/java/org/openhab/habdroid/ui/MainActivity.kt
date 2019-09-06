@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
@@ -92,11 +93,13 @@ import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
+import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.disableItemUpdatePref
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
@@ -217,6 +220,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java, isSpeechRecognizerAvailable)
             setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
         }
+
+        showMissingPermissionsWarningIfNeeded()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -930,6 +935,18 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         controller.indicateServerCommunicationFailure(message)
         propsUpdateHandle = null
+    }
+
+    private fun showMissingPermissionsWarningIfNeeded() {
+        if (prefs.getString(Constants.PREFERENCE_PHONE_STATE, null)?.toItemUpdatePrefValue()?.first == true &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !=
+            PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "READ_PHONE_STATE permission has been denied")
+            Util.showToast(this, getString(R.string.settings_phone_state_permission_denied))
+            prefs.edit {
+                disableItemUpdatePref(this@MainActivity, Constants.PREFERENCE_PHONE_STATE)
+            }
+        }
     }
 
     private fun manageHabPanelShortcut(visible: Boolean) {
