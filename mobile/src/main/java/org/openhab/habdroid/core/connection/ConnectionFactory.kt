@@ -39,6 +39,7 @@ import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
@@ -62,6 +63,7 @@ import javax.net.ssl.X509KeyManager
 class ConnectionFactory internal constructor(
     private val context: Context,
     private val prefs: SharedPreferences,
+    private val secretPrefs: SharedPreferences,
     private val connectionHelper: ConnectionManagerHelper
 ) : CoroutineScope by CoroutineScope(Dispatchers.Main), SharedPreferences.OnSharedPreferenceChangeListener {
     private val trustManager: MemorizingTrustManager
@@ -93,6 +95,7 @@ class ConnectionFactory internal constructor(
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(this)
+        secretPrefs.registerOnSharedPreferenceChangeListener(this)
 
         httpLogger = HttpLoggingInterceptor()
         updateHttpLoggerSettings()
@@ -291,8 +294,8 @@ class ConnectionFactory internal constructor(
             return null
         }
         return DefaultConnection(httpClient, type, url,
-            prefs.getString(userNameKey, null),
-            prefs.getString(passwordKey, null))
+            secretPrefs.getString(userNameKey, null),
+            secretPrefs.getString(passwordKey, null))
     }
 
     private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
@@ -403,15 +406,16 @@ class ConnectionFactory internal constructor(
         @VisibleForTesting lateinit var instance: ConnectionFactory
 
         fun initialize(ctx: Context) {
-            instance = ConnectionFactory(ctx, ctx.getPrefs(), ConnectionManagerHelper.create(ctx))
+            instance = ConnectionFactory(ctx, ctx.getPrefs(), ctx.getSecretPrefs(), ConnectionManagerHelper.create(ctx))
             instance.launch {
                 instance.updateConnections()
             }
         }
 
         @VisibleForTesting
-        fun initialize(ctx: Context, settings: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
-            instance = ConnectionFactory(ctx, settings, connectionHelper)
+        fun initialize(ctx: Context, settings: SharedPreferences, secretPrefs: SharedPreferences,
+            connectionHelper: ConnectionManagerHelper) {
+            instance = ConnectionFactory(ctx, settings, secretPrefs, connectionHelper)
         }
 
         fun shutdown() {

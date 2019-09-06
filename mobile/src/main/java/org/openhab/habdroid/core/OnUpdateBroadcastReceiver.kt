@@ -19,12 +19,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
-
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.util.Constants
-
 import org.openhab.habdroid.util.Constants.PREFERENCE_COMPARABLE_VERSION
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getSecretPrefs
 
 class OnUpdateBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -45,6 +44,25 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
                         prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null))
                 }
             }
+            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= SECURE_CREDENTIALS) {
+                Log.d(TAG, "Put username/password to encrypted prefs.")
+                context.getSecretPrefs()
+                    .edit()
+                    .putString(Constants.PREFERENCE_LOCAL_USERNAME,
+                        prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null))
+                    .putString(Constants.PREFERENCE_LOCAL_PASSWORD,
+                        prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null))
+                    .putString(Constants.PREFERENCE_REMOTE_USERNAME,
+                        prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null))
+                    .putString(Constants.PREFERENCE_REMOTE_PASSWORD,
+                        prefs.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null))
+                    .apply()
+                // Clear from unencrypted prefs
+                putString(Constants.PREFERENCE_LOCAL_USERNAME, null)
+                putString(Constants.PREFERENCE_LOCAL_PASSWORD, null)
+                putString(Constants.PREFERENCE_REMOTE_USERNAME, null)
+                putString(Constants.PREFERENCE_REMOTE_PASSWORD, null)
+            }
             updateComparableVersion(this)
         }
     }
@@ -53,6 +71,7 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
         private val TAG = OnUpdateBroadcastReceiver::class.java.simpleName
 
         private const val UPDATE_LOCAL_CREDENTIALS = 26
+        private const val SECURE_CREDENTIALS = 167
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()

@@ -30,6 +30,9 @@ import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import android.os.Build
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty
@@ -220,4 +223,19 @@ fun Context.showToast(@StringRes message: Int) {
 
 fun Context.hasPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.getSecretPrefs(): SharedPreferences {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+        EncryptedSharedPreferences.create(
+            "secret_shared_prefs_encrypted",
+            masterKeyAlias,
+            this,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    } else {
+        getSharedPreferences("secret_shared_prefs", Context.MODE_PRIVATE)
+    }
 }
