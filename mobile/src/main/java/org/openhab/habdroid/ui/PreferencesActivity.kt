@@ -34,7 +34,7 @@ import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
@@ -69,7 +69,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         if (savedInstanceState == null) {
             resultIntent = Intent()
-            supportFragmentManager.transaction {
+            supportFragmentManager.commit {
                 add(R.id.prefs_container, MainSettingsFragment())
             }
         } else {
@@ -106,7 +106,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     fun openSubScreen(subScreenFragment: AbstractSettingsFragment) {
-        supportFragmentManager.transaction {
+        supportFragmentManager.commit {
             replace(R.id.prefs_container, subScreenFragment)
             addToBackStack(null)
         }

@@ -17,8 +17,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
 import androidx.core.view.isVisible
-import androidx.fragment.app.transaction
-
+import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.ui.MainActivity
@@ -62,7 +62,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         val currentLeftFragment = fm.findFragmentById(R.id.content_left)
         val currentRightFragment = fm.findFragmentById(R.id.content_right)
 
-        fm.transaction(now = true, allowStateLoss = allowStateLoss) {
+        fm.commitNow(allowStateLoss) {
             if (currentLeftFragment != null && currentLeftFragment !== leftFragment) {
                 remove(currentLeftFragment)
             }
@@ -71,7 +71,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
             }
         }
 
-        fm.transaction(allowStateLoss = allowStateLoss) {
+        fm.commit(allowStateLoss) {
             setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
             if (leftFragment != null) {
                 setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))

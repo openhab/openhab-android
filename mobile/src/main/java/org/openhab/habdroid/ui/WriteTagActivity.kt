@@ -43,6 +43,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.fragment.app.transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -76,7 +77,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         nfcAdapter = manager.defaultAdapter
 
         if (savedInstanceState == null) {
-            supportFragmentManager.transaction {
+            supportFragmentManager.commit {
                 add(R.id.write_nfc_container, fragment)
             }
         }
@@ -108,7 +109,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             adapter.enableForegroundDispatch(this, pendingIntent, null, null)
         }
 
-        supportFragmentManager.transaction {
+        supportFragmentManager.commit {
             replace(R.id.write_nfc_container, fragment)
         }
     }
