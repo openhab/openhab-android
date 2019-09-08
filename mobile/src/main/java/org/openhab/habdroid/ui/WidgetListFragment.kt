@@ -156,10 +156,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         return false
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
 
-        if (menu != null && menuInfo is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo) {
+        if (menuInfo is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo) {
             val widget = adapter?.getItemForContextMenu(menuInfo)
             if (widget != null) {
                 populateContextMenu(widget, menu)
@@ -167,12 +167,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
     }
 
-    override fun onContextItemSelected(item: MenuItem?): Boolean {
+    override fun onContextItemSelected(item: MenuItem): Boolean {
         val context = context
-        val info = item?.menuInfo
+        val info = item.menuInfo
         val widget = if (info is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo)
             adapter?.getItemForContextMenu(info) else null
-        if (item != null && widget != null && context != null) {
+        if (widget != null && context != null) {
             when (item.itemId) {
                 CONTEXT_MENU_ID_WRITE_SITEMAP_TAG -> {
                     widget.linkedPage?.link?.let {

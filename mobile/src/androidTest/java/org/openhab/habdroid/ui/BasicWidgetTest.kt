@@ -25,7 +25,10 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.filters.LargeTest
 import androidx.test.runner.AndroidJUnit4
 import org.hamcrest.Description
@@ -74,7 +77,7 @@ class BasicWidgetTest : TestWithoutIntro() {
 
         val appCompatCheckedTextView = onData(anything())
                 .inAdapterView(withClassName(
-                        `is`("com.android.internal.app.AlertController\$RecycleListView")))
+                        `is`("androidx.appcompat.app.AlertController\$RecycleListView")))
                 .atPosition(0)
         appCompatCheckedTextView.check(matches(withText("off")))
         appCompatCheckedTextView.perform(click())
