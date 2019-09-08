@@ -22,6 +22,8 @@
     <declare-styleable name="ItemUpdatingPreference">
         <attr name="summaryEnabled" format="string" />
         <attr name="summaryDisabled" format="string" />
+        <attr name="iconEnabled" format="integer" />
+        <attr name="iconDisabled" format="integer" />
         <attr name="helpHint" format="string" />
         <attr name="helpUrl" format="string" />
     </declare-styleable>

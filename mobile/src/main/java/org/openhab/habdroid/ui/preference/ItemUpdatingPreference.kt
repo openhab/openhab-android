@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.preference
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -40,6 +41,8 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
     private val howtoUrl: String?
     private val summaryOn: String?
     private val summaryOff: String?
+    private val iconOn: Drawable?
+    private val iconOff: Drawable?
     private var value: Pair<Boolean, String>? = null
 
     init {
@@ -48,6 +51,8 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
             howtoUrl = getString(R.styleable.ItemUpdatingPreference_helpUrl)
             summaryOn = getString(R.styleable.ItemUpdatingPreference_summaryEnabled)
             summaryOff = getString(R.styleable.ItemUpdatingPreference_summaryDisabled)
+            iconOn = getDrawable(R.styleable.ItemUpdatingPreference_iconEnabled)
+            iconOff = getDrawable(R.styleable.ItemUpdatingPreference_iconDisabled)
             recycle()
         }
 
@@ -66,7 +71,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
             defaultValue as Pair<Boolean, String>?
             // XXX: persist if not yet present
         }
-        updateSummary()
+        updateSummaryAndIcon()
     }
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any? {
@@ -84,16 +89,17 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
                 persistString("${newValue.first}|${newValue.second}")
             }
             this.value = newValue
-            updateSummary()
+            updateSummaryAndIcon()
         }
     }
 
-    private fun updateSummary() {
+    private fun updateSummaryAndIcon() {
         val value = value ?: return
         val summary = if (value.first) summaryOn else summaryOff
         if (summary != null) {
             setSummary(String.format(summary, value.second))
         }
+        icon = if (value.first) iconOn else iconOff
     }
 
     class PrefDialogFragment : PreferenceDialogFragmentCompat(), CompoundButton.OnCheckedChangeListener, TextWatcher {

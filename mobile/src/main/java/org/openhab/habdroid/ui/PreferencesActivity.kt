@@ -328,8 +328,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 Log.d(TAG, "Removing alarm clock pref")
                 preferenceScreen.removePreference(alarmClockPref)
             } else {
-                updateAlarmClockPreferenceIcon(alarmClockPref,
-                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 updateAlarmClockPreferenceSummary(alarmClockPref,
                     sendDeviceInfoPrefixPref.getPrefValue(),
                     alarmClockPref.getPrefValue().toItemUpdatePrefValue())
@@ -337,7 +335,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                     val prefix = sendDeviceInfoPrefixPref.getPrefValue()
                     @Suppress("UNCHECKED_CAST")
                     val value = newValue as Pair<Boolean, String>
-                    updateAlarmClockPreferenceIcon(preference, newValue)
                     updateAlarmClockPreferenceSummary(preference, prefix, value)
                     true
                 }
@@ -470,10 +467,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 getString(R.string.settings_phone_state_summary_on, (prefix.orEmpty()) + value.second)
             else
                 getString(R.string.settings_phone_state_summary_off)
-        }
-
-        private fun updateAlarmClockPreferenceIcon(pref: Preference, value: Pair<Boolean, String>) {
-            pref.setIcon(if (value.first) R.drawable.ic_alarm_grey_24dp else R.drawable.ic_alarm_off_grey_24dp)
         }
 
         private fun updateConnectionSummary(
