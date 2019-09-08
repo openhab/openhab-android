@@ -14,7 +14,7 @@
 package org.openhab.habdroid.ui.activity
 
 import android.view.ViewStub
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
 
@@ -30,7 +30,7 @@ class ContentControllerOnePane(activity: MainActivity) : ContentController(activ
             else -> sitemapFragment
         }
 
-        fm.transaction(allowStateLoss = allowStateLoss) {
+        fm.commit(allowStateLoss) {
             setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
             replace(R.id.content, fragment ?: defaultProgressFragment)
         }

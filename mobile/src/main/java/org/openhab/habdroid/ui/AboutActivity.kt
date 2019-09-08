@@ -19,7 +19,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
@@ -38,11 +38,11 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.obfuscate
 import org.openhab.habdroid.util.openInBrowser
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChangedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         if (savedInstanceState == null) {
             val f = AboutMainFragment()
             f.arguments = intent.extras
-            supportFragmentManager.transaction {
+            supportFragmentManager.commit {
                 add(R.id.about_container, f)
             }
         }
@@ -150,7 +150,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         .withLicenseShown(true)
                         .withAutoDetect(true)
                         .supportFragment()
-                    fragmentManager?.transaction {
+                    fragmentManager?.commit {
                         setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                             R.anim.slide_in_left, R.anim.slide_out_right)
                         replace(R.id.about_container, f)
