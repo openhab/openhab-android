@@ -251,8 +251,10 @@ class WidgetAdapter(
             Widget.Type.Frame -> TYPE_FRAME
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
-                widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
+                widget.mappings.isNotEmpty() -> TYPE_SECTIONSWITCH
+                widget.item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> TYPE_SWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
+                widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
                 else -> TYPE_SWITCH
             }
             Widget.Type.Text -> TYPE_TEXT
