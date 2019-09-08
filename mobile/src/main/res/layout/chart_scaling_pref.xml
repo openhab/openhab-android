@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textAppearance="@style/Preference_TextAppearanceMaterialSubhead"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal" />
 
@@ -84,8 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:paddingStart="@dimen/preference_seekbar_padding_start"
-                android:paddingEnd="@dimen/preference_seekbar_padding_end"
+                android:paddingStart="0dp"
+                android:paddingEnd="22dp"
                 android:focusable="false"
                 android:clickable="false"
                 android:background="@null" />
