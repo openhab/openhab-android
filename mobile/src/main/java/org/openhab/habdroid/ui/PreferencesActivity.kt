@@ -45,7 +45,6 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
-import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.disableItemUpdatePref
@@ -327,27 +326,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 Log.d(TAG, "Removing alarm clock pref")
                 preferenceScreen.removePreference(alarmClockPref)
-            } else {
-                updateAlarmClockPreferenceSummary(alarmClockPref,
-                    sendDeviceInfoPrefixPref.getPrefValue(),
-                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
-                alarmClockPref.setOnPreferenceChangeListener { preference, newValue ->
-                    val prefix = sendDeviceInfoPrefixPref.getPrefValue()
-                    @Suppress("UNCHECKED_CAST")
-                    val value = newValue as Pair<Boolean, String>
-                    updateAlarmClockPreferenceSummary(preference, prefix, value)
-                    true
-                }
             }
 
-            updatePhoneStatePreferenceSummary(phoneStatePref,
-                sendDeviceInfoPrefixPref.getPrefValue(),
-                phoneStatePref.getPrefValue().toItemUpdatePrefValue())
             phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
-                val prefix = sendDeviceInfoPrefixPref.getPrefValue()
                 @Suppress("UNCHECKED_CAST")
                 val value = newValue as Pair<Boolean, String>
-                updatePhoneStatePreferenceSummary(preference, prefix, value)
                 if (value.first && ContextCompat.checkSelfPermission(preference.context,
                         Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "Request READ_PHONE_STATE permission")
@@ -359,10 +342,9 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
-                updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String,
-                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
-                updatePhoneStatePreferenceSummary(phoneStatePref, newValue,
-                    phoneStatePref.getPrefValue().toItemUpdatePrefValue())
+                val prefix = newValue as String
+                (alarmClockPref as ItemUpdatingPreference).updateSummaryAndIcon(prefix)
+                (phoneStatePref as ItemUpdatingPreference).updateSummaryAndIcon(prefix)
                 true
             }
 
@@ -453,20 +435,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 R.drawable.ic_vibrate_off_grey_24dp
             else
                 R.drawable.ic_vibration_grey_24dp)
-        }
-
-        private fun updateAlarmClockPreferenceSummary(pref: Preference, prefix: String?, value: Pair<Boolean, String>) {
-            pref.summary = if (value.first)
-                getString(R.string.settings_alarm_clock_summary_on, (prefix.orEmpty()) + value.second)
-            else
-                getString(R.string.settings_alarm_clock_summary_off)
-        }
-
-        private fun updatePhoneStatePreferenceSummary(pref: Preference, prefix: String?, value: Pair<Boolean, String>) {
-            pref.summary = if (value.first)
-                getString(R.string.settings_phone_state_summary_on, (prefix.orEmpty()) + value.second)
-            else
-                getString(R.string.settings_phone_state_summary_off)
         }
 
         private fun updateConnectionSummary(
