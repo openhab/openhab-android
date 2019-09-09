@@ -74,6 +74,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private lateinit var emptyPageView: View
     private lateinit var layoutManager: LinearLayoutManager
     private var adapter: WidgetAdapter? = null
+    private var lastContextMenu: ContextMenu? = null
     // parent activity
     private var titleOverride: String? = null
     private var highlightedPageLink: String? = null
@@ -144,6 +145,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause() $displayPageUrl")
+        lastContextMenu?.close()
         startOrStopVisibleViewHolders(false)
     }
 
@@ -162,6 +164,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         if (menuInfo is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo) {
             val widget = adapter?.getItemForContextMenu(menuInfo)
             if (widget != null) {
+                lastContextMenu = menu
                 populateContextMenu(widget, menu)
             }
         }
