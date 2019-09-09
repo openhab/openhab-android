@@ -38,6 +38,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
 import androidx.preference.Preference
+import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import org.openhab.habdroid.R
@@ -340,7 +341,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                     Log.d(TAG, "Request READ_PHONE_STATE permission")
                     requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
                         PERMISSIONS_REQUEST_READ_PHONE_STATE)
-                }
 
                 true
             }
@@ -447,11 +447,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         ) {
             val pref = getPreference(subscreenPrefKey)
             val url = beautifyUrl(prefs.getString(urlPrefKey))
+            val userName = secretPrefs.getString(userPrefKey, null)
+            val password = secretPrefs.getString(passwordPrefKey, null)
             val summary = when {
                 url.isEmpty() -> getString(R.string.info_not_set)
-                isConnectionSecure(url, secretPrefs.getString(userPrefKey), secretPrefs.getString(passwordPrefKey)) -> {
-                    getString(R.string.settings_connection_summary, url)
-                }
+                isConnectionSecure(url, userName, password) -> getString(R.string.settings_connection_summary, url)
                 else -> getString(R.string.settings_insecure_connection_summary, url)
             }
             pref.summary = summary
@@ -486,19 +486,19 @@ class PreferencesActivity : AbstractBaseActivity() {
         protected fun initPreferences(
             urlPrefKey: String,
             userNamePrefKey: String,
-            userNameHintPrefKey: String,
             passwordPrefKey: String,
             @StringRes urlSummaryFormatResId: Int
         ) {
-            urlPreference = initEditor(urlPrefKey, null, prefs, R.drawable.ic_earth_grey_24dp) { value ->
+            urlPreference = initEditor(urlPrefKey, prefs, R.drawable.ic_earth_grey_24dp) { value ->
                 val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
                 getString(urlSummaryFormatResId, actualValue)
             }
-            userNamePreference = initEditor(userNamePrefKey, userNameHintPrefKey, secretPrefs,
+
+            userNamePreference = initEditor(userNamePrefKey, secretPrefs,
                 R.drawable.ic_person_outline_grey_24dp) { value ->
                 if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
             }
-            passwordPreference = initEditor(passwordPrefKey, null, secretPrefs,
+            passwordPreference = initEditor(passwordPrefKey, secretPrefs,
                 R.drawable.ic_shield_key_outline_grey_24dp) { value ->
                 getString(when {
                     value.isNullOrEmpty() -> R.string.info_not_set
@@ -507,37 +507,32 @@ class PreferencesActivity : AbstractBaseActivity() {
                 })
             }
 
-            updateIconColors(prefs.getString(urlPrefKey),
-                prefs.getString(userNamePrefKey), prefs.getString(passwordPrefKey))
+            updateIconColors(urlPreference.getPrefValue(),
+                userNamePreference.getPrefValue(), passwordPreference.getPrefValue())
         }
 
         private fun initEditor(
             key: String,
-            hintKey: String?,
             prefsForValue: SharedPreferences,
             @DrawableRes iconResId: Int,
             summaryGenerator: (value: String?) -> CharSequence
         ): Preference {
             val preference: Preference = preferenceScreen.findPreference(key)!!
+            preference.preferenceDataStore = SharedPrefsDataStore(prefsForValue)
             preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(preference.context, iconResId)!!)
             preference.setOnPreferenceChangeListener { pref, newValue ->
-                updateIconColors(getActualValue(prefs, pref, newValue, urlPreference),
-                    getActualValue(secretPrefs, pref, newValue, userNamePreference),
-                    getActualValue(secretPrefs, pref, newValue, passwordPreference))
+                updateIconColors(getActualValue(pref, newValue, urlPreference),
+                    getActualValue(pref, newValue, userNamePreference),
+                    getActualValue(pref, newValue, passwordPreference))
                 pref.summary = summaryGenerator(newValue as String)
-                prefsForValue.edit().putString(key, newValue).apply()
-                hintKey?.let {
-                    prefs.edit().putString(hintKey, newValue.obfuscate(3)).apply()
-                }
-                false
+                true
             }
             preference.summary = summaryGenerator(prefsForValue.getString(key))
             return preference
         }
 
-        private fun getActualValue(prefs: SharedPreferences, pref: Preference, newValue: Any, reference: Preference?):
-            String? {
-            return if (pref === reference) newValue as String else reference.getPrefValue(prefs)
+        private fun getActualValue(pref: Preference, newValue: Any, reference: Preference?): String? {
+            return if (pref === reference) newValue as String else reference.getPrefValue()
         }
 
         private fun updateIconColors(url: String?, userName: String?, password: String?) {
@@ -575,8 +570,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.local_connection_preferences)
             initPreferences(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                Constants.PREFERENCE_LOCAL_USERNAME_HINT, Constants.PREFERENCE_LOCAL_PASSWORD,
-                R.string.settings_openhab_url_summary)
+                Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary)
         }
     }
 
@@ -586,8 +580,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.remote_connection_preferences)
             initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                Constants.PREFERENCE_REMOTE_USERNAME_HINT, Constants.PREFERENCE_REMOTE_PASSWORD,
-                R.string.settings_openhab_alturl_summary)
+                Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary)
         }
     }
 
@@ -607,11 +600,14 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 }
 
-fun Preference?.getPrefValue(prefs: SharedPreferences, defaultValue: String? = null): String? {
+fun Preference?.getPrefValue(defaultValue: String? = null): String? {
     if (this == null) {
         return defaultValue
     }
-    return prefs.getString(key, defaultValue)
+    preferenceDataStore?.let {
+        return it.getString(key, defaultValue)
+    }
+    return sharedPreferences.getString(key, defaultValue)
 }
 
 fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {
@@ -640,4 +636,54 @@ fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {
 
     val parent = getParent(pref, this)
     parent?.removePreference(pref)
+}
+
+class SharedPrefsDataStore constructor(val prefs: SharedPreferences) : PreferenceDataStore() {
+    override fun getBoolean(key: String?, defValue: Boolean): Boolean {
+        return prefs.getBoolean(key, defValue)
+    }
+
+    override fun getInt(key: String?, defValue: Int): Int {
+        return prefs.getInt(key, defValue)
+    }
+
+    override fun getLong(key: String?, defValue: Long): Long {
+        return prefs.getLong(key, defValue)
+    }
+
+    override fun getFloat(key: String?, defValue: Float): Float {
+        return prefs.getFloat(key, defValue)
+    }
+
+    override fun getString(key: String?, defValue: String?): String? {
+        return prefs.getString(key, defValue)
+    }
+
+    override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String> {
+        return prefs.getStringSet(key, defValues) ?: mutableSetOf()
+    }
+
+    override fun putBoolean(key: String?, value: Boolean) {
+        prefs.edit { putBoolean(key, value) }
+    }
+
+    override fun putInt(key: String?, value: Int) {
+        prefs.edit { putInt(key, value) }
+    }
+
+    override fun putLong(key: String?, value: Long) {
+        prefs.edit { putLong(key, value) }
+    }
+
+    override fun putFloat(key: String?, value: Float) {
+        prefs.edit { putFloat(key, value) }
+    }
+
+    override fun putString(key: String?, value: String?) {
+        prefs.edit { putString(key, value) }
+    }
+
+    override fun putStringSet(key: String?, values: MutableSet<String>?) {
+        prefs.edit { putStringSet(key, values) }
+    }
 }

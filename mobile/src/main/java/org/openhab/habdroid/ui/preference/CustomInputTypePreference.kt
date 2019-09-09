@@ -22,33 +22,23 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
-import org.openhab.habdroid.R
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getSecretPrefs
-import org.openhab.habdroid.util.getString
 
 class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs) {
     private val inputType: Int
     private var autofillHints: Array<String>? = null
-    private var hintPrefKey: String? = null
-    private val isPrefSecret: Boolean
 
     init {
-        context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints,
-            R.attr.hintPrefKey, R.attr.isPrefSecret))
-            .apply {
-                inputType = getInt(0, 0)
-                autofillHints = getString(1)?.split(',')?.toTypedArray()
-                hintPrefKey = getString(2)
-                isPrefSecret = getBoolean(3, false)
-                recycle()
+        val attrArray = intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints)
+        context.obtainStyledAttributes(attrs, attrArray).apply {
+            inputType = getInt(0, 0)
+            autofillHints = getString(1)?.split(',')?.toTypedArray()
+            recycle()
         }
     }
 
     fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, inputType, autofillHints, hintPrefKey, isPrefSecret)
+        return PrefFragment.newInstance(key, inputType, autofillHints)
     }
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat() {
@@ -56,9 +46,6 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
             val editor = view?.findViewById<EditText>(android.R.id.edit)
             arguments?.getInt(KEY_INPUT_TYPE)?.let { type ->
                 editor?.inputType = type
-            }
-            arguments?.getString(KEY_HINT_PREF_KEY)?.let { key ->
-                editor?.hint = context?.getPrefs()?.getString(key)
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
@@ -70,24 +57,16 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
                 }
             }
             super.onBindDialogView(view)
-            if (arguments?.getBoolean(KEY_IS_PREF_SECRET) == true) {
-                editor?.setText(context?.getSecretPrefs()?.getString(this.preference.key))
-            }
         }
 
         companion object {
             private const val KEY_INPUT_TYPE = "inputType"
             private const val KEY_AUTOFILL_HINTS = "autofillHint"
-            private const val KEY_HINT_PREF_KEY = "hintPrefKey"
-            private const val KEY_IS_PREF_SECRET = "isPrefSecret"
 
-            fun newInstance(key: String, inputType: Int, autofillHints: Array<String>?, hintPrefKey: String?,
-                isPrefSecret: Boolean):
-                PrefFragment {
+            fun newInstance(key: String, inputType: Int, autofillHints: Array<String>?): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(ARG_KEY to key, KEY_INPUT_TYPE to inputType,
-                    KEY_AUTOFILL_HINTS to autofillHints, KEY_HINT_PREF_KEY to hintPrefKey,
-                    KEY_IS_PREF_SECRET to isPrefSecret)
+                    KEY_AUTOFILL_HINTS to autofillHints)
                 return f
             }
         }

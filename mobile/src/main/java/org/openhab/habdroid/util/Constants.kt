@@ -16,11 +16,9 @@ package org.openhab.habdroid.util
 object Constants {
     const val PREFERENCE_SCREEN_TIMER_OFF = "default_openhab_screentimeroff"
     const val PREFERENCE_LOCAL_USERNAME = "default_openhab_username"
-    const val PREFERENCE_LOCAL_USERNAME_HINT = "default_openhab_username_hint"
     const val PREFERENCE_LOCAL_PASSWORD = "default_openhab_password"
     const val PREFERENCE_REMOTE_PASSWORD = "default_openhab_remote_password"
     const val PREFERENCE_REMOTE_USERNAME = "default_openhab_remote_username"
-    const val PREFERENCE_REMOTE_USERNAME_HINT = "default_openhab_remote_username_hint"
     const val PREFERENCE_SITEMAP_NAME = "default_openhab_sitemap"
     const val PREFERENCE_SITEMAP_LABEL = "default_openhab_sitemap_label"
     const val PREFERENCE_REMOTE_URL = "default_openhab_alturl"

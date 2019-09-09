@@ -46,22 +46,21 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
             }
             if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= SECURE_CREDENTIALS) {
                 Log.d(TAG, "Put username/password to encrypted prefs.")
-                context.getSecretPrefs()
-                    .edit()
-                    .putString(Constants.PREFERENCE_LOCAL_USERNAME,
+                context.getSecretPrefs().edit {
+                    putString(Constants.PREFERENCE_LOCAL_USERNAME,
                         prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null))
-                    .putString(Constants.PREFERENCE_LOCAL_PASSWORD,
+                    putString(Constants.PREFERENCE_LOCAL_PASSWORD,
                         prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null))
-                    .putString(Constants.PREFERENCE_REMOTE_USERNAME,
+                    putString(Constants.PREFERENCE_REMOTE_USERNAME,
                         prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null))
-                    .putString(Constants.PREFERENCE_REMOTE_PASSWORD,
+                    putString(Constants.PREFERENCE_REMOTE_PASSWORD,
                         prefs.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null))
-                    .apply()
+                }
                 // Clear from unencrypted prefs
-                putString(Constants.PREFERENCE_LOCAL_USERNAME, null)
-                putString(Constants.PREFERENCE_LOCAL_PASSWORD, null)
-                putString(Constants.PREFERENCE_REMOTE_USERNAME, null)
-                putString(Constants.PREFERENCE_REMOTE_PASSWORD, null)
+                remove(Constants.PREFERENCE_LOCAL_USERNAME)
+                remove(Constants.PREFERENCE_LOCAL_PASSWORD)
+                remove(Constants.PREFERENCE_REMOTE_USERNAME)
+                remove(Constants.PREFERENCE_REMOTE_PASSWORD)
             }
             updateComparableVersion(this)
         }

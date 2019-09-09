@@ -40,8 +40,6 @@
         <attr name="imageLoadingIndicator" format="reference" />
         <attr name="chartTheme" format="string" />
         <attr name="valueColors" format="reference" />
-        <attr name="hintPrefKey" format="string" />
-        <attr name="isPrefSecret" format="boolean" />
     </declare-styleable>
 
     <attr name="themedDrawerBackground" format="reference|color" />

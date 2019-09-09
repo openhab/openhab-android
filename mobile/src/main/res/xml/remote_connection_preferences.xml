@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_openhab_alt_connection">
     <org.openhab.habdroid.ui.preference.UrlInputPreference
         android:defaultValue="@string/empty_string"
@@ -14,8 +14,6 @@
         android:key="default_openhab_remote_username"
         android:title="@string/settings_openhab_username"
         android:autofillHints="username,emailAddress"
-        app:hintPrefKey="default_openhab_remote_username_hint"
-        app:isPrefSecret="true"
         android:icon="@drawable/ic_person_outline_grey_24dp" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
@@ -23,6 +21,5 @@
         android:key="default_openhab_remote_password"
         android:title="@string/settings_openhab_password"
         android:autofillHints="password"
-        app:isPrefSecret="true"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />
 </androidx.preference.PreferenceScreen>
