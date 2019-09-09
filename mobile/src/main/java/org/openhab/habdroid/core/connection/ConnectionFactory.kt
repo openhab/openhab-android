@@ -413,9 +413,8 @@ class ConnectionFactory internal constructor(
         }
 
         @VisibleForTesting
-        fun initialize(ctx: Context, settings: SharedPreferences, secretPrefs: SharedPreferences,
-            connectionHelper: ConnectionManagerHelper) {
-            instance = ConnectionFactory(ctx, settings, secretPrefs, connectionHelper)
+        fun initialize(ctx: Context, prefs: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
+            instance = ConnectionFactory(ctx, prefs, prefs, connectionHelper)
         }
 
         fun shutdown() {
