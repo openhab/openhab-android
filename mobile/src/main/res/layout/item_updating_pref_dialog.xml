@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -15,9 +16,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginEnd="-12dp"
-        android:layout_marginRight="-12dp"
         android:layout_marginTop="-12dp"
         android:src="@drawable/ic_help_circle_outline"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -28,11 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/enabled"
-        android:layout_toRightOf="@id/enabled"
         android:layout_toStartOf="@id/help_icon"
-        android:layout_toLeftOf="@id/help_icon"
         android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
         android:layout_alignBaseline="@id/enabled" />
 
     <com.google.android.material.textfield.TextInputLayout
