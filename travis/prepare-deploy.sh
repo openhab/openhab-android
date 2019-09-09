@@ -14,7 +14,7 @@ then
     releaseFlavorCapital="Beta"
 fi
 echo "Build apk"
-time ./gradlew :mobile:assembleFull${releaseFlavorCapital}Release
+time ./gradlew :mobile:assembleFull${releaseFlavorCapital}Release -PchecksumPrint
 echo "Sign apk"
 openssl aes-256-cbc -K $encrypted_903a93ed2309_key -iv $encrypted_903a93ed2309_iv -in keystore.enc -out keystore -d
 cp $TRAVIS_BUILD_DIR/keystore $HOME

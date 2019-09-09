@@ -17,11 +17,11 @@ fi
 bash travis/bump-versioncode.sh
 bash travis/start-emulator.sh phone
 
-./gradlew :mobile:assemble{Foss,Full}${releaseFlavorCapital}{Debug,Release} :mobile:test{Foss,Full}${releaseFlavorCapital}ReleaseUnitTest
+./gradlew :mobile:assemble{Foss,Full}${releaseFlavorCapital}{Debug,Release} :mobile:test{Foss,Full}${releaseFlavorCapital}ReleaseUnitTest -PchecksumFailOn=build_finish -PchecksumPrint
 retryCount=0
 while true
 do
-    ./gradlew :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest && break
+    ./gradlew :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest -PchecksumPrint && break
     echo "Build failed. Retry..."
     ((retryCount+=1))
     if [ "$retryCount" -gt 3 ]
