@@ -4,5 +4,6 @@ linters:
     ktlint:
         android: true
         config: ./.editorconfig
+        fixer: true
     yamllint:
         config: ./stickler/yamllint.yml
