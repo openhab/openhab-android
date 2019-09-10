@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator"
-    android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin">
+    android:paddingStart="@dimen/widgetlist_item_side_margin"
+    android:paddingEnd="@dimen/widgetlist_item_side_margin">
 
     <include layout="@layout/widgetlist_icontext" />
 
