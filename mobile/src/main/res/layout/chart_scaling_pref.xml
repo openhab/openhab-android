@@ -15,14 +15,15 @@
 -->
 
 <!-- Layout used by SeekBarPreference for the seekbar widget style. -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
-    android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+    android:paddingStart="?android:attr/listPreferredItemPaddingLeft"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -30,11 +31,11 @@
         android:id="@+id/icon_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-4dp"
+        android:layout_marginStart="-4dp"
         android:minWidth="60dp"
         android:gravity="start|center_vertical"
         android:orientation="horizontal"
-        android:paddingRight="12dp"
+        android:paddingEnd="12dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp">
         <androidx.preference.internal.PreferenceImageView
@@ -60,7 +61,7 @@
             android:singleLine="true"
             android:textAppearance="@style/Preference_TextAppearanceMaterialSubhead"
             android:ellipsize="marquee"
-            android:fadingEdge="horizontal"/>
+            android:fadingEdge="horizontal" />
 
         <!-- Using UnPressableLinearLayout as a workaround to disable the pressed state propagation
         to the children of this container layout. Otherwise, the animated pressed state will also
@@ -72,7 +73,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
             android:layout_alignStart="@android:id/title"
-            android:layout_alignLeft="@android:id/title"
             android:clipChildren="false"
             android:clipToPadding="false">
 
@@ -86,8 +86,6 @@
                 android:layout_marginBottom="4dp"
                 android:paddingStart="@dimen/preference_seekbar_padding_start"
                 android:paddingEnd="@dimen/preference_seekbar_padding_end"
-                android:paddingLeft="@dimen/preference_seekbar_padding_start"
-                android:paddingRight="@dimen/preference_seekbar_padding_end"
                 android:focusable="false"
                 android:clickable="false"
                 android:background="@null" />
@@ -96,7 +94,7 @@
                 android:id="@+id/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|end|center_vertical"
+                android:layout_gravity="end|center_vertical"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary" />
 
@@ -106,11 +104,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@android:id/title"
-            android:layout_alignLeft="@android:id/title"
             android:layout_below="@id/seekbar_wrapper"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="?android:attr/textColorSecondary"
-            android:maxLines="4"/>
+            android:maxLines="4" />
 
     </RelativeLayout>
 

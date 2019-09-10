@@ -5,15 +5,15 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp">
 
     <ProgressBar
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:indeterminate="true" />
 
     <TextView

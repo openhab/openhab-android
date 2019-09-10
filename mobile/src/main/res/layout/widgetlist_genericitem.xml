@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:background="?android:activatedBackgroundIndicator"
-    android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin">
+    android:paddingStart="@dimen/widgetlist_item_side_margin"
+    android:paddingEnd="@dimen/widgetlist_item_side_margin">
 
-    <include
-        layout="@layout/widgetlist_icontext" />
+    <include layout="@layout/widgetlist_icontext" />
 
 </LinearLayout>
