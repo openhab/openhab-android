@@ -133,6 +133,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
     }
 
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         launch {
             val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
             writeTagMessage.setText(R.string.info_write_tag_progress)

@@ -130,10 +130,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private set
     private var shortcutManager: ShortcutManager? = null
 
-    /**
-     * This method is called when activity receives a new intent while running
-     */
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         Log.d(TAG, "onNewIntent()")
         processIntent(intent)
     }
