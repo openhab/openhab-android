@@ -349,9 +349,9 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
     inner class NfcStateChangeReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action.equals(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)) {
-                when (intent?.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE, NfcAdapter.STATE_OFF)) {
-                    NfcAdapter.STATE_OFF -> replaceFragment()
-                    NfcAdapter.STATE_ON -> replaceFragment()
+                val state = intent?.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE, NfcAdapter.STATE_OFF)
+                if (state == NfcAdapter.STATE_ON || state == NfcAdapter.STATE_OFF) {
+                    replaceFragment()
                 }
             }
         }
