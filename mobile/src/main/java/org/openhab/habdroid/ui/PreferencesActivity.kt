@@ -48,6 +48,7 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.getNotificationTone
+import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -203,21 +204,22 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences)
 
-            val localConnPref = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION)
-            val remoteConnPref = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION)
-            val themePref = findPreference(Constants.PREFERENCE_THEME)
-            val clearCachePref = findPreference(Constants.PREFERENCE_CLEAR_CACHE)
-            val clearDefaultSitemapPref = findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP)
-            val ringtonePref = findPreference(Constants.PREFERENCE_TONE)
-            val fullscreenPreference = findPreference(Constants.PREFERENCE_FULLSCREEN)
-            val sendDeviceInfoPrefixPref = findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
-            val alarmClockPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK)
-            val iconFormatPreference = preferenceScreen.findPreference(Constants.PREFERENCE_ICON_FORMAT)
-            val taskerPref = findPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
-            val vibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
-            val ringtoneVibrationPref = findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION)
-            val viewLogPref = findPreference(Constants.PREFERENCE_LOG)
-            val screenLockPref = findPreference(Constants.PREFERENCE_SCREEN_LOCK)
+            val localConnPref = getPreference(Constants.SUBSCREEN_LOCAL_CONNECTION)
+            val remoteConnPref = getPreference(Constants.SUBSCREEN_REMOTE_CONNECTION)
+            val themePref = getPreference(Constants.PREFERENCE_THEME)
+            val clearCachePref = getPreference(Constants.PREFERENCE_CLEAR_CACHE)
+            val clearDefaultSitemapPref = getPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP)
+            val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
+            val fullscreenPreference = getPreference(Constants.PREFERENCE_FULLSCREEN)
+            val sendDeviceInfoPrefixPref = getPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
+            val alarmClockPref = getPreference(Constants.PREFERENCE_ALARM_CLOCK)
+            val iconFormatPreference = getPreference(Constants.PREFERENCE_ICON_FORMAT)
+            val taskerPref = getPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
+            val vibrationPref = getPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
+            val ringtoneVibrationPref = getPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION)
+            val viewLogPref = getPreference(Constants.PREFERENCE_LOG)
+            val screenLockPref = getPreference(Constants.PREFERENCE_SCREEN_LOCK)
+            val chartScalingPreference = getPreference(Constants.PREFERENCE_CHART_SCALING)
             val prefs = preferenceScreen.sharedPreferences
 
             val currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME)
@@ -366,7 +368,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
             }
             if (flags and ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT == 0) {
-                val chartScalingPreference = preferenceScreen.findPreference(Constants.PREFERENCE_CHART_SCALING)
                 preferenceScreen.removePreferenceFromHierarchy(chartScalingPreference)
             }
         }
@@ -385,7 +386,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             if (requestCode == REQUEST_CODE_RINGTONE && data != null) {
                 val ringtoneUri = data.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
-                val ringtonePref = findPreference(Constants.PREFERENCE_TONE)
+                val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
                 updateRingtonePreferenceSummary(ringtonePref, ringtoneUri)
                 prefs.edit {
                     putString(Constants.PREFERENCE_TONE, ringtoneUri?.toString() ?: "")
@@ -436,7 +437,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             userPrefKey: String,
             passwordPrefKey: String
         ) {
-            val pref = findPreference(subscreenPrefKey)
+            val pref = getPreference(subscreenPrefKey)
             val url = beautifyUrl(prefs.getString(urlPrefKey))
             val summary = when {
                 url.isEmpty() -> getString(R.string.info_not_set)
@@ -504,7 +505,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             @DrawableRes iconResId: Int,
             summaryGenerator: (value: String?) -> CharSequence
         ): Preference {
-            val preference = preferenceScreen.findPreference(key)
+            val preference: Preference = preferenceScreen.findPreference(key)!!
             preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(preference.context, iconResId)!!)
             preference.setOnPreferenceChangeListener { pref, newValue ->
                 updateIconColors(getActualValue(pref, newValue, urlPreference),
