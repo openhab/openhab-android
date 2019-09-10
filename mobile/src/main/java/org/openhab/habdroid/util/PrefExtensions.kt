@@ -18,6 +18,8 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.provider.Settings
 import androidx.core.net.toUri
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Sitemap
 
@@ -119,4 +121,8 @@ fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?) {
         putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name)
         putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label)
     }
+}
+
+fun PreferenceFragmentCompat.getPreference(key: String): Preference {
+    return findPreference(key) ?: throw IllegalArgumentException("No such preference: $key")
 }
