@@ -14,8 +14,10 @@
 package org.openhab.habdroid.ui
 
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.net.Uri
@@ -27,6 +29,7 @@ import android.nfc.NfcManager
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -56,6 +59,7 @@ import java.io.IOException
 
 class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
     private var nfcAdapter: NfcAdapter? = null
+    private var nfcStateChangeReceiver: NfcStateChangeReceiver = NfcStateChangeReceiver()
     private var longUri: Uri? = null
     private var shortUri: Uri? = null
 
@@ -109,6 +113,13 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             adapter.enableForegroundDispatch(this, pendingIntent, null, null)
         }
 
+        replaceFragment()
+
+        val filter = IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)
+        registerReceiver(nfcStateChangeReceiver, filter)
+    }
+
+    private fun replaceFragment() {
         supportFragmentManager.commit {
             replace(R.id.write_nfc_container, fragment)
         }
@@ -118,6 +129,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         Log.d(TAG, "onPause()")
         super.onPause()
         nfcAdapter?.disableForegroundDispatch(this)
+        unregisterReceiver(nfcStateChangeReceiver)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -260,8 +272,14 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
             val nfcActivate = view?.findViewById<TextView>(R.id.nfc_activate)
             nfcActivate?.isVisible = true
+
+            val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Settings.Panel.ACTION_NFC
+            } else {
+                Settings.ACTION_NFC_SETTINGS
+            }
             nfcActivate?.setOnClickListener {
-                startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
+                startActivity(Intent(action))
             }
 
             return view
@@ -325,6 +343,17 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
                 .build()
             return Intent(context, WriteTagActivity::class.java)
                 .putExtra(EXTRA_LONG_URI, longUri)
+        }
+    }
+
+    inner class NfcStateChangeReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action.equals(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)) {
+                val state = intent?.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE, NfcAdapter.STATE_OFF)
+                if (state == NfcAdapter.STATE_ON || state == NfcAdapter.STATE_OFF) {
+                    replaceFragment()
+                }
+            }
         }
     }
 }
