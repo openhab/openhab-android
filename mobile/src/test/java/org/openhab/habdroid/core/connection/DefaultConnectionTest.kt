@@ -13,11 +13,14 @@
 
 package org.openhab.habdroid.core.connection
 
-import junit.framework.Assert.*
 import kotlinx.coroutines.runBlocking
 import okhttp3.Credentials
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.openhab.habdroid.util.HttpClient

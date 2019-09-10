@@ -13,15 +13,16 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.Context
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.test.InstrumentationRegistry
-import junit.framework.Assert.assertEquals
+import androidx.test.core.app.ApplicationProvider
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.WidgetAdapter.ColorMapper
 
 class WidgetAdapterTest {
-    private val context = InstrumentationRegistry.getTargetContext()
+    private val context = ApplicationProvider.getApplicationContext<Context>()
 
     @Test
     fun testColorMappingDarkTheme() {

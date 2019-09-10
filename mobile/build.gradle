@@ -7,8 +7,7 @@ buildscript {
     ext.work_manager_version = '2.2.0'
     ext.powermock_version = '2.0.2'
     ext.espresso_version = '3.2.0'
-    ext.androidx_test_version = '1.2.0'
-    ext.androidx_media_version = '1.0.0'
+    ext.androidx_media_version = '1.0.0-rc02'
 
     repositories {
         maven {
@@ -187,8 +186,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version", {
         exclude group: "com.android.support", module: "support-annotations"
     }
-    androidTestImplementation "androidx.test:runner:$androidx_test_version"
-    androidTestImplementation "androidx.test:rules:$androidx_test_version"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 }
 
 if (!isFoss) {

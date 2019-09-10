@@ -16,8 +16,12 @@ package org.openhab.habdroid.core.connection
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.nhaarman.mockitokotlin2.*
-import junit.framework.Assert.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doAnswer
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
@@ -27,6 +31,9 @@ import kotlinx.coroutines.test.setMain
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.AfterClass
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -148,7 +155,7 @@ class ConnectionFactoryTest {
         assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
             Connection.TYPE_CLOUD, conn.connectionType)
         assertEquals("The sender ID of the cloud connection should be '12345'",
-            "12345", (conn as CloudConnection).messagingSenderId)
+            "12345", conn.messagingSenderId)
 
         server.shutdown()
     }

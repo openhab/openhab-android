@@ -14,11 +14,10 @@
 package org.openhab.habdroid.core.connection
 
 import okhttp3.OkHttpClient
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 
 class DemoConnectionTest {
     private lateinit var testConnection: Connection
