@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui.preference
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.text.Editable
@@ -27,6 +28,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
@@ -202,4 +204,11 @@ fun String?.toItemUpdatePrefValue(): Pair<Boolean, String> {
         return Pair(false, "")
     }
     return Pair(this!!.substring(0, pos).toBoolean(), substring(pos + 1))
+}
+
+fun disableItemUpdatingPref(prefs: SharedPreferences, key: String) {
+    val item = prefs.getString(key).toItemUpdatePrefValue().second
+    prefs.edit {
+        putString(key, "false|$item")
+    }
 }

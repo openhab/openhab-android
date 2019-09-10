@@ -45,12 +45,13 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
+import org.openhab.habdroid.ui.preference.disableItemUpdatingPref
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.disableItemUpdatePref
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -331,8 +332,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
                 @Suppress("UNCHECKED_CAST")
                 val value = newValue as Pair<Boolean, String>
-                if (value.first && ContextCompat.checkSelfPermission(preference.context,
-                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                if (value.first && preference.context.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
                     Log.d(TAG, "Request READ_PHONE_STATE permission")
                     requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
                         PERMISSIONS_REQUEST_READ_PHONE_STATE)
@@ -379,10 +379,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (requestCode) {
                 PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        context!!.showToast(R.string.settings_phone_state_permission_denied)
-                        prefs.edit {
-                            disableItemUpdatePref(context!!, Constants.PREFERENCE_PHONE_STATE)
-                        }
+                        context?.showToast(R.string.settings_phone_state_permission_denied)
+                        disableItemUpdatingPref(prefs, Constants.PREFERENCE_PHONE_STATE)
                         activity?.recreate()
                     }
                 }
@@ -598,13 +596,6 @@ fun Preference?.getPrefValue(defaultValue: String? = null): String? {
         return defaultValue
     }
     return sharedPreferences?.getString(key, defaultValue)
-}
-
-fun Preference?.setPrefValue(value: String? = null) {
-    if (this == null || value == null) {
-        return
-    }
-    sharedPreferences?.edit()?.putString(key, value)?.apply()
 }
 
 fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {

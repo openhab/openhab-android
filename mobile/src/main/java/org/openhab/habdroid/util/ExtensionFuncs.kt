@@ -17,6 +17,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -27,6 +28,7 @@ import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
@@ -214,4 +216,8 @@ fun Context.showToast(message: CharSequence) {
  */
 fun Context.showToast(@StringRes message: Int) {
     showToast(getString(message))
+}
+
+fun Context.hasPermission(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
 }
