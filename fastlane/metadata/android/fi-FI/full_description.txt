@@ -24,6 +24,6 @@ openHAB Säätiö e.V. on yleishyödyllinen järjestö, jonka tehtävänä on ke
 
 <b>Tärkeä huomautus</b>
 
-You need an openHAB server for this app.
+Tarvitset openHAB palvelimen tätä sovellusta varten.
 
 Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy.html
