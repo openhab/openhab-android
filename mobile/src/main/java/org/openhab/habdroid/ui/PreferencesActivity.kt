@@ -215,8 +215,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
             val fullscreenPreference = getPreference(Constants.PREFERENCE_FULLSCREEN)
             val sendDeviceInfoPrefixPref = getPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
-            val alarmClockPref = getPreference(Constants.PREFERENCE_ALARM_CLOCK)
-            val phoneStatePref = getPreference(Constants.PREFERENCE_PHONE_STATE)
+            val alarmClockPref = getPreference(Constants.PREFERENCE_ALARM_CLOCK) as ItemUpdatingPreference
+            val phoneStatePref = getPreference(Constants.PREFERENCE_PHONE_STATE) as ItemUpdatingPreference
             val iconFormatPreference = getPreference(Constants.PREFERENCE_ICON_FORMAT)
             val taskerPref = getPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
             val vibrationPref = getPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
@@ -343,8 +343,8 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
-                (alarmClockPref as ItemUpdatingPreference).updateSummaryAndIcon(prefix)
-                (phoneStatePref as ItemUpdatingPreference).updateSummaryAndIcon(prefix)
+                alarmClockPref.updateSummaryAndIcon(prefix)
+                phoneStatePref.updateSummaryAndIcon(prefix)
                 true
             }
 
