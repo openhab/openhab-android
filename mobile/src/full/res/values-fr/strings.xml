@@ -6,6 +6,7 @@
     <string name="info_openhab_gcm_in_progress">Enregistrement de l\'équipement en cours</string>
     <string name="info_openhab_gcm_failed">L\'enregistrement de l\'équipement a échoué</string>
     <string name="info_openhab_gcm_failed_with_reason">L’authentification de l\'appareil a échoué en raison d\'un problème des services Google Play : %s</string>
+    <string name="info_openhab_gcm_failed_toast">Échec de l\'enregistrement de l\'envoi de notification</string>
     <string name="info_openhab_gcm_connected">Enregistrement auprès de Google Cloud Messaging effectué avec succès</string>
     <string name="notification_channel_default">Défaut</string>
     <string name="notification_channel_severity_value">Gravité «%1$s »</string>
@@ -13,4 +14,5 @@
         <item quantity="one">%d nouvelle notification</item>
         <item quantity="other">%d nouvelles notifications</item>
     </plurals>
+    <string name="open_in_maps">Ouvrir dans Google Maps</string>
 </resources>

@@ -143,10 +143,10 @@
     <string name="notification_channel_background_error">שגיאה במשימות ברקע</string>
     <string name="notification_channel_background_error_description">משמש כדי להודיע על שגיאות במשימות שברקע</string>
     <plurals name="item_update_error_title">
-        <item quantity="one">לפריט d% לא היתה אפשרות להתעדכן</item>
-        <item quantity="two">ל d% פריטים לא היתה אפשרות להתעדכן</item>
-        <item quantity="many">ל d% פריטים לא היתה אפשרות להתעדכן</item>
-        <item quantity="other">ל d% פריטים לא היתה אפשרות להתעדכן</item>
+        <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
+        <item quantity="two">ל %d פריטים לא היתה אפשרות להתעדכן</item>
+        <item quantity="many">ל %d פריטים לא היתה אפשרות להתעדכן</item>
+        <item quantity="other">ל %d פריטים לא היתה אפשרות להתעדכן</item>
     </plurals>
     <string name="item_update_http_error">עדכון הפריט \'%1$s\' נכשל (שגיאת HTTP %2$d)</string>
     <string name="item_update_connection_error">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
@@ -230,7 +230,6 @@
     <!-- Log -->
     <string name="log">יומן רישום</string>
     <string name="view_log">הצג יומן רישום</string>
-    <string name="clear_log">מחיקת יומן הרישום</string>
     <string name="empty_log">יומן הרישום ריק</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">נעץ למסך הבית</string>

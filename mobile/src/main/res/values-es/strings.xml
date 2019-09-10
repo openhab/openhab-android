@@ -236,7 +236,6 @@
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Ver log</string>
-    <string name="clear_log">Borrar Registro</string>
     <string name="empty_log">El registro esta vacío</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Crear atajo en pantalla de inicio</string>

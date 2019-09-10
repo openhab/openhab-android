@@ -238,7 +238,11 @@
     <!-- Log -->
     <string name="log">Журнал</string>
     <string name="view_log">Просмотр журнала</string>
-    <string name="clear_log">Очистить журнал</string>
+    <string name="log_activity_action_clear_log">Очистить журнал</string>
+    <string name="log_activity_action_show_errors">Показывать только ошибки</string>
+    <string name="log_activity_action_show_all">Показывать все сообщения</string>
+    <string name="log_activity_action_reload">Перезагрузить</string>
+    <string name="log_activity_content_description_share">Отправить журнал</string>
     <string name="empty_log">Журнал пуст</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Закрепить на home</string>

@@ -229,7 +229,6 @@
     <!-- Log -->
     <string name="log">Napló</string>
     <string name="view_log">Napló megtekintése</string>
-    <string name="clear_log">Napló törlése</string>
     <string name="empty_log">A Napló üres</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Kitűzés a kezdőképernyőre</string>

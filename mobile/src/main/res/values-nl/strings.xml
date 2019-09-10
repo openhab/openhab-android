@@ -199,7 +199,6 @@
     <!-- Log -->
     <string name="log">Logboek</string>
     <string name="view_log">Bekijk log</string>
-    <string name="clear_log">Logboek leegmaken</string>
     <string name="empty_log">Logboek is leeg</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->

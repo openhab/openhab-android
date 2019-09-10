@@ -206,7 +206,6 @@
     <!-- Log -->
     <string name="log">日志</string>
     <string name="view_log">查看日志</string>
-    <string name="clear_log">清除日志</string>
     <string name="empty_log">日志空空如也</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
