@@ -22,4 +22,5 @@
     <fdroid_privacy_policy>Privacybeleid: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Probeer nieuwe functies uit en geef alvast feedback!</beta>
     <play_beta>De beta versie kan geïnstalleerd worden naast de stabiele versie.</play_beta>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>
