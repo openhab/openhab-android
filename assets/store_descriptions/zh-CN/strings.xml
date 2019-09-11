@@ -22,4 +22,5 @@
     <fdroid_privacy_policy>隐私政策：https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>尝试新功能并提供早期反馈！</beta>
     <play_beta>您可以在安装稳定版的情况下安装测试版。</play_beta>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>
