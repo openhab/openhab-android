@@ -24,4 +24,5 @@ https://www.openhab.org/addons/</bindings>
     <fdroid_privacy_policy>سياسة الخصوصية: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>جرب الميزات الجديدة واعطنا ملاحظاتك!</beta>
     <play_beta>يمكنك تثبيت الإصدار التجريبي بجانب الإصدار المستقر.</play_beta>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>
