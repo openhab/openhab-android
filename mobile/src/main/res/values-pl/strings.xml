@@ -7,7 +7,7 @@
     <string name="app_preferences_name">Ustawienia</string>
     <string name="app_notifications">Powiadomienia</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Mapy witryn</string>
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Ustawienia</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Wystąpił błąd podczas wczytywania HABPanel</string>
