@@ -203,13 +203,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         processIntent(intent)
 
-        //  Create a new boolean and preference and set it to true
-        val isFirstStart = prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true)
-
-        //  If the activity has never started before...
-        if (isFirstStart) {
-            //  Launch app intro
-            val i = Intent(this@MainActivity, IntroActivity::class.java)
+        if (prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true) ||
+            prefs.getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
+        ) {
+            val i = Intent(this, IntroActivity::class.java)
             startActivityForResult(i, INTRO_REQUEST_CODE)
         }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
