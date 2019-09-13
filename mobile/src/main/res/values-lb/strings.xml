@@ -82,9 +82,15 @@
     <string name="install">Installéieren</string>
     <string name="title_activity_openhabwritetag">NFC-Tag schreiwen</string>
     <string name="title_activity_libraries">Benotzten Librairien</string>
+    <string name="info_write_tag_progress">Tag gëtt geschriwwen</string>
     <string name="info_write_tag_finished">Erfollegräich ofgeschloss</string>
+    <string name="info_write_failed">Feeler beim schreiwen vum Tag</string>
+    <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
+    <string name="info_openhab_apiversion_label">Versioun vun der openHAB Rest API</string>
+    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status vun den Push Notifikatiounen</string>
     <string name="action_settings">Astellungen</string>
+    <string name="nfc_tag_recognized_label">NFC Tag fir \"%s\" erkannt</string>
     <string name="nfc_tag_recognized_item">NFC Tag vum Item \"%s\" erkannt</string>
     <string name="info_not_set">Net gesat</string>
     <!-- Background tasks -->
@@ -199,17 +205,34 @@
     <string name="content_description_open_openhab">openHAB opmaachen</string>
     <string name="content_description_increase_item_value">Wäert vum Item eropsetzen</string>
     <string name="content_description_decrease_item_value">Wäert vum Item erofsetzen</string>
+    <string name="swipe_to_refresh_description">D\'App aktualiséiert sech automatesch, Du brauchs et net manuell ze maachen</string>
     <string name="swipe_to_refresh_dismiss">Verstanen!</string>
     <!-- Intro strings -->
+    <string name="app_intro">Introduktioun</string>
+    <string name="intro_welcome">Wëllkomm bei openHAB</string>
+    <string name="intro_whatis">Eng Verkeefer an Technik agnostescht Open-Source Automatiséierungs Software fir Äert Haus</string>
     <string name="intro_themes">Designs</string>
+    <string name="intro_themes_description">Wiel tëschen verschiddenen Themes aus</string>
+    <string name="intro_voice_description">Kontrolléiert Äert Haus mat Ärer Stemm</string>
     <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">Iwwersprangen</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">Fäerdeg</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Keen Item fonnt</string>
+    <string name="item_picker_list_error">E Feeler ass beim lueden vun den Items opgetrueden</string>
     <string name="item_picker_custom">Personaliséiert</string>
+    <string name="item_picker_dialog_title">Status auswielen</string>
+    <string name="item_picker">openHAB Items</string>
+    <string name="item_picker_blurb">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
+    <string name="search">Sichen</string>
+    <string name="settings_tasker_plugin">Abannen vum Tasker</string>
     <string name="turn_on">Aschalten</string>
     <string name="press_back_to_exit">Nach eemol drécke fir zou ze maachen</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Item auswielen</string>
     <string name="item_update_widget_success_toast">%1$s ass op %2$s gesat</string>
 </resources>
