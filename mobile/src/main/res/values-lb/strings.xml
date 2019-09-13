@@ -43,6 +43,8 @@
     <string name="settings_chart_scaling_value_m">Standard</string>
     <string name="settings_chart_scaling_value_l">Grouss</string>
     <string name="settings_ringtone_none">Keen</string>
+    <string name="settings_no_default_sitemap">Keng Standard Sitemap gewielt</string>
+    <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Lokal</string>
     <string name="settings_notification_vibration_off">Aus</string>
@@ -67,7 +69,9 @@
     <string name="turn_off">Ausschalte</string>
     <string name="info_conn_url">Verbanne mat URL</string>
     <string name="info_conn_rem_url">Verbanne mat Remote URL</string>
+    <string name="app_shortcut_disabled_notifications">Däin Remote-Host Server ass net verfügbar</string>
     <!-- Error messages -->
+    <string name="error_network_not_available">D\'Netzwierk ass net verfügbar</string>
     <string name="error_wifi_not_available">Wi-Fi ass ausgeschalt</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="install">Installéieren</string>
