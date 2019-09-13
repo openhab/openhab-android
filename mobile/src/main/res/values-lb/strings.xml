@@ -73,21 +73,50 @@
     <!-- Error messages -->
     <string name="error_network_not_available">D\'Netzwierk ass net verfügbar</string>
     <string name="error_wifi_not_available">Wi-Fi ass ausgeschalt</string>
+    <string name="error_connection_failed">D\'Verbindung zum Host ass schif gaangen</string>
+    <string name="error_unable_to_resolve_hostname">Den Hostname kann net opgeléist ginn</string>
+    <string name="error_connection_sslhandshake_failed">Den SSL Handshake ass schif gaangen</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_no_speech_to_text_app_found">Keng Sproocherkennungs App fonnt</string>
     <string name="install">Installéieren</string>
     <string name="title_activity_openhabwritetag">NFC-Tag schreiwen</string>
+    <string name="title_activity_libraries">Benotzten Librairien</string>
+    <string name="info_write_tag_finished">Erfollegräich ofgeschloss</string>
+    <string name="info_openhab_push_notification_label">Status vun den Push Notifikatiounen</string>
     <string name="action_settings">Astellungen</string>
+    <string name="nfc_tag_recognized_item">NFC Tag vum Item \"%s\" erkannt</string>
     <string name="info_not_set">Net gesat</string>
     <!-- Background tasks -->
+    <string name="send_device_info_item_prefix">Prefix vum Item Numm</string>
+    <string name="settings_alarm_clock_howto_summary">Tipp hei fir Erklärungen zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
+    <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
+    <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
     <string name="notification_channel_background">Hannergrond</string>
+    <string name="notification_channel_background_description">Gëtt gebraucht fir onerleedegt Hannergrond Prozesser unzeweisen</string>
+    <string name="notification_channel_background_error">Feeler an den Hannergrond Prozesser</string>
+    <string name="notification_channel_background_error_description">Gëtt gebraucht fir d\'Notifikatiounen zu Feeler an den Hannergrond Prozesser</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
+        <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
+    </plurals>
+    <string name="error_sending_alarm_clock_item_empty">Gitt w.e.g. en valabelen Item Numm un</string>
     <string name="retry">Nach emol probéieren</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">Bis elo goufe keng Notifikatiounen verschéckt</string>
+    <string name="notification_list_error">Wärend dem Lueden vun den Notifikatiounen ass e Feeler geschitt</string>
     <string name="list_loading_message">Lueden\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Onbekannten Zertifikat unhuelen?</string>
+    <string name="mtm_trust_anchor">Den Zertifikat ass net vun enger bekannter Zertifikat Autoritéit signéiert ginn</string>
+    <string name="mtm_cert_expired">Den Zertifikat vum Server ass ofgelaf</string>
+    <string name="mtm_accept_servername">Onpassenden Server Numm unhuelen?</string>
+    <string name="mtm_connect_anyway">Wëllt Dir Iech awer verbannen?</string>
+    <string name="mtm_cert_details">Detailer vum Zertifikat:</string>
     <string name="mtm_decision_always">Acceptéieren</string>
     <string name="mtm_decision_once">Eng Kéier</string>
     <string name="mtm_decision_abort">Ofbriechen</string>
+    <string name="mtm_notification">Kontroll vum Zertifikat</string>
     <string name="settings_openhab_none">Keen</string>
     <!-- Themes -->
     <string name="theme_name_light">Hell</string>
@@ -115,13 +144,20 @@
     <string name="nfc_action_stop">Stopp</string>
     <string name="nfc_activate">Aktivéieren</string>
     <string name="nfc_action_current_color">Aktuell Faarw</string>
+    <string name="nfc_action_to_sitemap_page">NFC Tag vun der Sitemap schreiwen</string>
+    <string name="nfc_action_write_command_tag">NFC Tag vum Item schreiwen</string>
     <!-- Drawer -->
+    <string name="mainmenu_openhab_voice_recognition">Sproocherkennung</string>
     <!-- About -->
     <string name="about_title">Iwwer</string>
     <string name="about_license_title">Lizenz</string>
     <string name="about_changelog">Changelog</string>
     <string name="about_source_code">Source Code</string>
+    <string name="about_issues">E Problem mellen</string>
     <string name="about_docs">Dokumentatioun</string>
+    <string name="about_community_forum">Community-Forum</string>
+    <string name="about_foundation">openHAB Fondatioun</string>
+    <string name="about_community">openHAB-Community</string>
     <string name="about_server">openHAB Server</string>
     <string name="about_privacy_policy">Dateschutzerklärung</string>
     <string name="unknown">Onbekannt</string>
