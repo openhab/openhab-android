@@ -43,6 +43,7 @@
     <string name="settings_chart_scaling_value_m">Standard</string>
     <string name="settings_chart_scaling_value_l">Grouss</string>
     <string name="settings_ringtone_none">Keen</string>
+    <string name="settings_clear_default_sitemap">Standard Sitemap ophiewen</string>
     <string name="settings_no_default_sitemap">Keng Standard Sitemap gewielt</string>
     <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
@@ -159,15 +160,45 @@
     <string name="about_foundation">openHAB Fondatioun</string>
     <string name="about_community">openHAB-Community</string>
     <string name="about_server">openHAB Server</string>
+    <string name="about_translation">Hëllef eis openHAB ze iwwersetzen</string>
     <string name="about_privacy_policy">Dateschutzerklärung</string>
+    <string name="settings_debug_messages_title">Weis Informatiounen zur Léisung vun Problemer</string>
+    <string name="error_couldnt_determine_openhab_url">Konnt d\'openHAB URL net eraus fannen</string>
     <string name="unknown">Onbekannt</string>
+    <string name="error_network_type_unsupported">Den Netzwierk Typ ass net ënnerstëtzt</string>
+    <string name="set">Setzen</string>
+    <string name="cancel">Ofbriechen</string>
     <string name="close">Zoumaachen</string>
     <string name="try_again_button">Nach eng Kéier probéieren</string>
+    <string name="enable_wifi_button">Wi-Fi u maachen</string>
+    <string name="go_to_settings_button">Bei d\' Astellungen goen</string>
+    <string name="enable_demo_mode_button">Demo Modus umaachen</string>
+    <string name="configuration_missing">Mir hu keen openHAB Server an dengem Netzwierk fonnt. Wann s du schonn en Server hues, dann konfiguréier d\'IP Adress oder den Hostname, an den Server Astellungen. Wann s du nach keen Server hues, kanns du den Demo Modus aktivéieren fir ze gesinn wat den openHAB System kann.</string>
+    <string name="no_remote_server">D\'Verbindung zum lokalen Server ass schif gaangen an du hues keen Remote Server konfiguréiert</string>
+    <string name="resolving_openhab">Versichen d\'openHAB Server Instanz \u2026 ze fannen</string>
+    <string name="waiting_for_wifi">Waarden op d\'Hierstellung vun der Wi-Fi Verbindung \u2026</string>
     <!-- Log -->
     <string name="log">Log</string>
+    <string name="view_log">Log uweisen</string>
+    <string name="log_activity_action_clear_log">Log läschen</string>
+    <string name="log_activity_action_show_errors">Nëmmen Feeler uweisen</string>
+    <string name="log_activity_action_show_all">All Messagen uweisen</string>
+    <string name="log_activity_action_reload">Nei lueden</string>
+    <string name="log_activity_content_description_share">Log deelen</string>
+    <string name="empty_log">Log ass eidel</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Rolllued op maachen</string>
+    <string name="content_description_stop_roller_shutter">Rolllued stoppen</string>
+    <string name="content_description_close_roller_shutter">Rolllued zou maachen</string>
+    <string name="content_description_open_color_wheel">Faarw Auswiel opmaachen</string>
+    <string name="content_description_color_up">Un oder halen fir d\'Hellegkeet erop ze setzen</string>
+    <string name="content_description_color_down">Aus oder halen fir d\'Hellegkeet erof ze setzen</string>
+    <string name="content_description_open_number_picker">Nummer Auswiel opmaachen</string>
     <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">openHAB opmaachen</string>
+    <string name="content_description_increase_item_value">Wäert vum Item eropsetzen</string>
+    <string name="content_description_decrease_item_value">Wäert vum Item erofsetzen</string>
     <string name="swipe_to_refresh_dismiss">Verstanen!</string>
     <!-- Intro strings -->
     <string name="intro_themes">Designs</string>
