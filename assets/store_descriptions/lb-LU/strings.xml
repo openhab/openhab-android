@@ -23,5 +23,5 @@ https://www.openhab.org/addons/</bindings>
     <fdroid_privacy_policy>Dateschutzerklärung: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Probéier nei Features aus a gëff eis Feedback!</beta>
     <play_beta>Du kann s d´ Beta Versioun parallel zu der stabeler Versioun installéieren.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Feeler an Stabilitéits Verbesserungen. Fir den Log vun den Ännerungen kuck ënnert https://github.com/openhab/openhab-android/releases</changelog_play_beta>
 </strings>
