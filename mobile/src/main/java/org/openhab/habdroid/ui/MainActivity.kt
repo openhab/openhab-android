@@ -235,7 +235,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     override fun onStart() {
         Log.d(TAG, "onStart()")
         super.onStart()
-        isStarted = true
 
         ConnectionFactory.addListener(this)
 
@@ -251,7 +250,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     public override fun onStop() {
         Log.d(TAG, "onStop()")
-        isStarted = false
         super.onStop()
         ConnectionFactory.removeListener(this)
         serviceResolveJob?.cancel()
@@ -264,6 +262,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onResume() {
         Log.d(TAG, "onResume()")
+        isStarted = true
         super.onResume()
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -279,6 +278,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onPause() {
         Log.d(TAG, "onPause()")
+        isStarted = false
         super.onPause()
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         nfcAdapter?.disableForegroundDispatch(this)
