@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui.preference
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.os.Build
 import android.security.KeyChain
@@ -24,10 +25,14 @@ import android.view.ContextThemeWrapper
 import android.widget.ImageView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
+import org.openhab.habdroid.util.Util
 
 class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var currentAlias: String? = null
@@ -52,12 +57,17 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
     }
 
     override fun onClick() {
-        val keyTypes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        val keyTypes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             arrayOf(KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC)
-        else
+        } else {
             arrayOf("RSA", "DSA")
-        KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) },
-            keyTypes, null, null, -1, null)
+        }
+
+        try {
+            KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) }, keyTypes, null, null, -1, null)
+        } catch (e: ActivityNotFoundException) {
+            Util.showToast(context, R.string.settings_openhab_sslclientcert_not_supported)
+        }
     }
 
     override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {
@@ -76,6 +86,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         }
         throw IllegalStateException("Unknown context $c")
     }
+
     private fun handleAliasChosen(alias: String?) {
         if (callChangeListener(alias)) {
             setValue(alias)
