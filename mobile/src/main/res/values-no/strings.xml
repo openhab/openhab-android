@@ -105,7 +105,6 @@
     <string name="info_write_tag_finished">Fullført</string>
     <string name="info_write_failed">Tag skrivefeil</string>
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
-    <string name="info_write_tag_disabled">NFC er deaktivert. Aktiver i enhetens innstillinger-meny.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versjon</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push melding status</string>
