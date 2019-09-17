@@ -338,8 +338,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 val value = newValue as Pair<Boolean, String>
                 if (value.first && preference.context.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
                     Log.d(TAG, "Request READ_PHONE_STATE permission")
-                    requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), PERMISSIONS_REQUEST_READ_PHONE_STATE)
+                    requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
+                        PERMISSIONS_REQUEST_READ_PHONE_STATE)
                 }
+
                 true
             }
 
