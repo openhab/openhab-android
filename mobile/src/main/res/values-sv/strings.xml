@@ -97,7 +97,6 @@
     <string name="info_write_tag_finished">Färdig</string>
     <string name="info_write_failed">Fel vid skrivning till tagg</string>
     <string name="info_write_tag_unsupported">Denna enhet har inte stöd för NFC</string>
-    <string name="info_write_tag_disabled">NFS är inaktiverat. Vänligen aktivera det i inställningarna för enheten.</string>
     <string name="info_openhab_apiversion_label">Version på openHABs REST-API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status på push-aviseringar</string>
