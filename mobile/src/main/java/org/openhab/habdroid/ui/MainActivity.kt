@@ -75,7 +75,7 @@ import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.OnUpdateBroadcastReceiver
+import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.VoiceService
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
@@ -203,16 +203,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         processIntent(intent)
 
-        //  Create a new boolean and preference and set it to true
-        val isFirstStart = prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true)
-
-        //  If the activity has never started before...
-        if (isFirstStart) {
-            //  Launch app intro
-            val i = Intent(this@MainActivity, IntroActivity::class.java)
+        if (prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true) ||
+            prefs.getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
+        ) {
+            val i = Intent(this, IntroActivity::class.java)
             startActivityForResult(i, INTRO_REQUEST_CODE)
         }
-        OnUpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
+        UpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
 
         val isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this)
         GlobalScope.launch {

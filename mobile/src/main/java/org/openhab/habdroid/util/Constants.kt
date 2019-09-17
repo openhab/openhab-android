@@ -36,6 +36,7 @@ object Constants {
     const val PREFERENCE_CLEAR_DEFAULT_SITEMAP = "default_openhab_clear_default_sitemap"
     const val PREFERENCE_COMPARABLE_VERSION = "versionAsInt"
     const val PREFERENCE_FIRST_START = "firstStart"
+    const val PREFERENCE_RECENTLY_RESTORED = "recentlyRestored"
     const val PREFERENCE_SWIPE_REFRESH_EXPLAINED = "swipToRefreshExplained"
     const val PREFERENCE_CHART_SCALING = "chartScalingFactor"
     const val PREFERENCE_CHART_HQ = "default_openhab_chart_hq"

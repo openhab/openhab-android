@@ -18,8 +18,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import org.openhab.habdroid.R
@@ -30,19 +30,24 @@ class IntroActivity : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Add slides
-        addSlide(R.string.intro_welcome,
-            R.string.intro_whatis,
-            R.drawable.ic_openhab_appicon_340dp)
-        addSlide(R.string.intro_themes,
-            R.string.intro_themes_description,
-            R.drawable.ic_palette_outline_orange_340dp)
-        addSlide(R.string.mainmenu_openhab_voice_recognition,
-            R.string.intro_voice_description,
-            R.drawable.ic_microphone_outline_orange_340dp)
-        addSlide(R.string.intro_nfc,
-            R.string.intro_nfc_description,
-            R.drawable.ic_nfc_orange_340dp)
+        if (getPrefs().getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)) {
+            addSlide(R.string.intro_welcome_back,
+                R.string.intro_app_restored,
+                R.drawable.ic_openhab_appicon_340dp)
+        } else {
+            addSlide(R.string.intro_welcome,
+                R.string.intro_whatis,
+                R.drawable.ic_openhab_appicon_340dp)
+            addSlide(R.string.intro_themes,
+                R.string.intro_themes_description,
+                R.drawable.ic_palette_outline_orange_340dp)
+            addSlide(R.string.mainmenu_openhab_voice_recognition,
+                R.string.intro_voice_description,
+                R.drawable.ic_microphone_outline_orange_340dp)
+            addSlide(R.string.intro_nfc,
+                R.string.intro_nfc_description,
+                R.drawable.ic_nfc_orange_340dp)
+        }
 
         // Change bar color
         setBarColor(ContextCompat.getColor(this, R.color.openhab_orange))
@@ -55,7 +60,6 @@ class IntroActivity : AppIntro() {
      */
     override fun onSkipPressed(currentFragment: Fragment?) {
         super.onSkipPressed(currentFragment)
-        getPrefs().edit().putBoolean(Constants.PREFERENCE_FIRST_START, false).apply()
         finish()
     }
 
@@ -65,8 +69,15 @@ class IntroActivity : AppIntro() {
      */
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
-        getPrefs().edit().putBoolean(Constants.PREFERENCE_FIRST_START, false).apply()
         finish()
+    }
+
+    override fun finish() {
+        getPrefs().edit {
+            putBoolean(Constants.PREFERENCE_FIRST_START, false)
+            putBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
+        }
+        super.finish()
     }
 
     /**
@@ -81,11 +92,11 @@ class IntroActivity : AppIntro() {
 
         addSlide(AppIntroFragment.newInstance(getString(title),
             null, // Title font: null => default
-            getString(description), null, // Description font: null => default
+            getString(description),
+            null, // Description font: null => default
             imageDrawable,
             greyColor, // Background color
             blackColor, // Title color
-            // Description color
             ContextCompat.getColor(this, R.color.black))) // Description color
     }
 }

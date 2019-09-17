@@ -29,8 +29,8 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
     private var autofillHints: Array<String>? = null
 
     init {
-        context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints))
-            .apply {
+        val attrArray = intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints)
+        context.obtainStyledAttributes(attrs, attrArray).apply {
             inputType = getInt(0, 0)
             autofillHints = getString(1)?.split(',')?.toTypedArray()
             recycle()

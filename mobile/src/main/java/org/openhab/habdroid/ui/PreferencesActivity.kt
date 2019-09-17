@@ -18,6 +18,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
@@ -37,6 +38,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
 import androidx.preference.Preference
+import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import org.openhab.habdroid.R
@@ -50,6 +52,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isTaskerPluginEnabled
@@ -123,6 +126,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         protected val parentActivity get() = activity as PreferencesActivity
         protected val prefs get() = preferenceScreen.sharedPreferences!!
+        protected val secretPrefs get() = context!!.getSecretPrefs()
 
         override fun onStart() {
             super.onStart()
@@ -443,11 +447,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         ) {
             val pref = getPreference(subscreenPrefKey)
             val url = beautifyUrl(prefs.getString(urlPrefKey))
+            val userName = secretPrefs.getString(userPrefKey, null)
+            val password = secretPrefs.getString(passwordPrefKey, null)
             val summary = when {
                 url.isEmpty() -> getString(R.string.info_not_set)
-                isConnectionSecure(url, prefs.getString(userPrefKey), prefs.getString(passwordPrefKey)) -> {
-                    getString(R.string.settings_connection_summary, url)
-                }
+                isConnectionSecure(url, userName, password) -> getString(R.string.settings_connection_summary, url)
                 else -> getString(R.string.settings_insecure_connection_summary, url)
             }
             pref.summary = summary
@@ -485,14 +489,17 @@ class PreferencesActivity : AbstractBaseActivity() {
             passwordPrefKey: String,
             @StringRes urlSummaryFormatResId: Int
         ) {
-            urlPreference = initEditor(urlPrefKey, R.drawable.ic_earth_grey_24dp) { value ->
+            urlPreference = initEditor(urlPrefKey, prefs, R.drawable.ic_earth_grey_24dp) { value ->
                 val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
                 getString(urlSummaryFormatResId, actualValue)
             }
-            userNamePreference = initEditor(userNamePrefKey, R.drawable.ic_person_outline_grey_24dp) { value ->
+
+            userNamePreference = initEditor(userNamePrefKey, secretPrefs,
+                R.drawable.ic_person_outline_grey_24dp) { value ->
                 if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
             }
-            passwordPreference = initEditor(passwordPrefKey, R.drawable.ic_shield_key_outline_grey_24dp) { value ->
+            passwordPreference = initEditor(passwordPrefKey, secretPrefs,
+                R.drawable.ic_shield_key_outline_grey_24dp) { value ->
                 getString(when {
                     value.isNullOrEmpty() -> R.string.info_not_set
                     isWeakPassword(value) -> R.string.settings_openhab_password_summary_weak
@@ -500,16 +507,18 @@ class PreferencesActivity : AbstractBaseActivity() {
                 })
             }
 
-            updateIconColors(prefs.getString(urlPrefKey),
-                prefs.getString(userNamePrefKey), prefs.getString(passwordPrefKey))
+            updateIconColors(urlPreference.getPrefValue(),
+                userNamePreference.getPrefValue(), passwordPreference.getPrefValue())
         }
 
         private fun initEditor(
             key: String,
+            prefsForValue: SharedPreferences,
             @DrawableRes iconResId: Int,
             summaryGenerator: (value: String?) -> CharSequence
         ): Preference {
             val preference: Preference = preferenceScreen.findPreference(key)!!
+            preference.preferenceDataStore = SharedPrefsDataStore(prefsForValue)
             preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(preference.context, iconResId)!!)
             preference.setOnPreferenceChangeListener { pref, newValue ->
                 updateIconColors(getActualValue(pref, newValue, urlPreference),
@@ -518,7 +527,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 pref.summary = summaryGenerator(newValue as String)
                 true
             }
-            preference.summary = summaryGenerator(prefs.getString(key))
+            preference.summary = summaryGenerator(prefsForValue.getString(key))
             return preference
         }
 
@@ -595,7 +604,10 @@ fun Preference?.getPrefValue(defaultValue: String? = null): String? {
     if (this == null) {
         return defaultValue
     }
-    return sharedPreferences?.getString(key, defaultValue)
+    preferenceDataStore?.let {
+        return it.getString(key, defaultValue)
+    }
+    return sharedPreferences.getString(key, defaultValue)
 }
 
 fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {
@@ -624,4 +636,54 @@ fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {
 
     val parent = getParent(pref, this)
     parent?.removePreference(pref)
+}
+
+class SharedPrefsDataStore constructor(val prefs: SharedPreferences) : PreferenceDataStore() {
+    override fun getBoolean(key: String?, defValue: Boolean): Boolean {
+        return prefs.getBoolean(key, defValue)
+    }
+
+    override fun getInt(key: String?, defValue: Int): Int {
+        return prefs.getInt(key, defValue)
+    }
+
+    override fun getLong(key: String?, defValue: Long): Long {
+        return prefs.getLong(key, defValue)
+    }
+
+    override fun getFloat(key: String?, defValue: Float): Float {
+        return prefs.getFloat(key, defValue)
+    }
+
+    override fun getString(key: String?, defValue: String?): String? {
+        return prefs.getString(key, defValue)
+    }
+
+    override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String> {
+        return prefs.getStringSet(key, defValues) ?: mutableSetOf()
+    }
+
+    override fun putBoolean(key: String?, value: Boolean) {
+        prefs.edit { putBoolean(key, value) }
+    }
+
+    override fun putInt(key: String?, value: Int) {
+        prefs.edit { putInt(key, value) }
+    }
+
+    override fun putLong(key: String?, value: Long) {
+        prefs.edit { putLong(key, value) }
+    }
+
+    override fun putFloat(key: String?, value: Float) {
+        prefs.edit { putFloat(key, value) }
+    }
+
+    override fun putString(key: String?, value: String?) {
+        prefs.edit { putString(key, value) }
+    }
+
+    override fun putStringSet(key: String?, values: MutableSet<String>?) {
+        prefs.edit { putStringSet(key, values) }
+    }
 }
