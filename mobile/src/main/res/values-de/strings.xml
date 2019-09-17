@@ -124,7 +124,6 @@
     <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
     <string name="info_write_failed">Fehler beim Beschreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
-    <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es in den Geräte-Einstellungen.</string>
     <string name="info_openhab_apiversion_label">openHAB-Rest-API-Version</string>
     <string name="info_openhab_uuid_label">openHAB-UUID</string>
     <string name="info_openhab_push_notification_label">Push-Benachrichtigungsstatus</string>
@@ -140,7 +139,6 @@
     <string name="settings_alarm_clock">Weckzeit an openHAB senden</string>
     <string name="settings_alarm_clock_summary_on">Sendet Weckzeit an Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Weckzeit nicht an den Server senden</string>
-    <string name="settings_alarm_clock_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
