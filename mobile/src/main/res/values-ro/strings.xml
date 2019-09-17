@@ -96,7 +96,6 @@
     <string name="info_write_tag_finished">Terminat cu succes</string>
     <string name="info_write_failed">Eroare la scrierea tag-ului NFC</string>
     <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
-    <string name="info_write_tag_disabled">NFC este dezactivat. Vă rugăm să-l activaţi în meniul de setări.</string>
     <string name="info_openhab_apiversion_label">versiune openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Starea notificărilor Push</string>
