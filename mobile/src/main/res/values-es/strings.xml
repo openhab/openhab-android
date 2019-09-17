@@ -269,6 +269,8 @@
     <!-- Intro strings -->
     <string name="app_intro">Introducción</string>
     <string name="intro_welcome">Bienvenido a openHAB</string>
+    <string name="intro_welcome_back">Bienvenido de nuevo a openHAB</string>
+    <string name="intro_app_restored">Todos sus ajustes han sido restaurados, excepto las credenciales del servidor</string>
     <string name="intro_whatis">Un software de automatización de código abierto para tu hogar independiente del proveedor y de la tecnología</string>
     <string name="intro_themes">Temas</string>
     <string name="intro_themes_description">Elegir entre varios temas</string>
