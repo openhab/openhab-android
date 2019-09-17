@@ -92,7 +92,6 @@
     <string name="info_write_tag_finished">أنهاء بنجاح</string>
     <string name="info_write_failed">خطأ كتابة الوسم</string>
     <string name="info_write_tag_unsupported">هذا الجهاز لا بدعم NFC</string>
-    <string name="info_write_tag_disabled">NFC معطل. الرجاء تفعيلها من قائمة إعدادات الجهاز.</string>
     <string name="info_openhab_apiversion_label">إصدار Rest API openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">حالة التنبيهات الصادرة</string>
