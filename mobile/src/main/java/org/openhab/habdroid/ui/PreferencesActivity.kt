@@ -56,7 +56,6 @@ import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isTaskerPluginEnabled
-import org.openhab.habdroid.util.obfuscate
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 import java.util.BitSet
@@ -339,9 +338,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                 val value = newValue as Pair<Boolean, String>
                 if (value.first && preference.context.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
                     Log.d(TAG, "Request READ_PHONE_STATE permission")
-                    requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
-                        PERMISSIONS_REQUEST_READ_PHONE_STATE)
-
+                    requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), PERMISSIONS_REQUEST_READ_PHONE_STATE)
+                }
                 true
             }
 
