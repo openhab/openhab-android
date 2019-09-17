@@ -116,7 +116,6 @@
     <string name="info_write_tag_finished">Zakończono pomyślnie</string>
     <string name="info_write_failed">Błąd pisania tag\'u</string>
     <string name="info_write_tag_unsupported">To urządzenie nie wspiera technologii NFC</string>
-    <string name="info_write_tag_disabled">NFC jest wyłączone. Uruchom je w menu ustawień swojego urządzenia.</string>
     <string name="info_openhab_apiversion_label">wersja Rest API openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stan powiadomień push</string>
@@ -132,7 +131,6 @@
     <string name="settings_alarm_clock">Wyślij budzik do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Wysyła czas budzika do Item\'u \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Nie wysyłaj czasu budzika do serwera</string>
-    <string name="settings_alarm_clock_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
     <string name="settings_item_pref_item_name">Nazwa Item\'u</string>
     <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
     <string name="item_upload_in_progress">Item\'y są obecnie aktualizowane</string>
