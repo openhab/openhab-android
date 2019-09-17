@@ -124,7 +124,6 @@
     <string name="info_write_tag_finished">Écriture du tag terminée</string>
     <string name="info_write_failed">Erreur d\'écriture du tag</string>
     <string name="info_write_tag_unsupported">Ce téléphone n\'est pas compatible NFC</string>
-    <string name="info_write_tag_disabled">NFC est désactivé. Merci d\'activer la fonctionnalité dans les paramètres du téléphone.</string>
     <string name="info_openhab_apiversion_label">Version API Rest openHAB</string>
     <string name="info_openhab_uuid_label">UUID openHAB</string>
     <string name="info_openhab_push_notification_label">Statut des notifications push</string>
@@ -140,7 +139,6 @@
     <string name="settings_alarm_clock">Envoyer le réveil à openHAB</string>
     <string name="settings_alarm_clock_summary_on">Envoie des heures du réveil à l\'Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">N’envoie pas les heures du réveil au serveur</string>
-    <string name="settings_alarm_clock_howto_summary">Cliquez ici pour obtenir des conseils sur la façon de configurer cette fonctionnalité côté serveur</string>
     <string name="settings_item_pref_item_name">Nom d\'Item</string>
     <string name="waiting_for_item_upload">En attente de réseau pour mettre à jour les Items</string>
     <string name="item_upload_in_progress">Mise à jour des Items en cours</string>
