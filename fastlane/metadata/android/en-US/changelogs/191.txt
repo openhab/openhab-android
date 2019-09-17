@@ -1,0 +1,2 @@
+## Changed
+* Enable backups and encrypt username and password (#1526)
