@@ -27,6 +27,7 @@
     <string name="settings_openhab_password_summary_strong">Contraseña segura</string>
     <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Clic aquí para obtener sugerencias y explicaciones sobre cómo configurar la autenticación del certificado de cliente SSL</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Los certificados de cliente SSL no son compatibles con su dispositivo</string>
     <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
@@ -124,6 +125,7 @@
     <string name="info_write_tag_finished">Finalizado correctamente</string>
     <string name="info_write_failed">Error al escribir la etiqueta</string>
     <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC</string>
+    <string name="info_write_tag_disabled">NFC está deshabilitado</string>
     <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Estado de notificaciones Push</string>
@@ -136,9 +138,15 @@
     <string name="send_device_info_to_server">Enviar información del dispositivo al servidor</string>
     <string name="send_device_info_item_prefix">Prefijo del nombre del ítem</string>
     <string name="send_device_info_item_prefix_summary">Los nombres de los ítems de las siguientes características tienen este prefijo</string>
+    <string name="settings_item_update_pref_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
     <string name="settings_alarm_clock">Enviar alarma a openHAB</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de la alarma al elemento \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">No enviar la hora de la alarma al servidor</string>
+    <string name="settings_phone_state">Enviar estado de llamada a openHAB</string>
+    <string name="settings_phone_state_summary_on">Envía el estado de llamada al ítem \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">No enviar estado de llamada al servidor</string>
+    <string name="settings_phone_state_permission_denied">El envío del estado de la llamada ha sido deshabilitado debido a la falta permisos</string>
+    <string name="settings_phone_state_permission_allow">Permitir</string>
     <string name="settings_item_pref_item_name">Nombre del ítem</string>
     <string name="waiting_for_item_upload">Esperando a que la red envíe actualizaciones de los ítem</string>
     <string name="item_upload_in_progress">Los ítems están siendo actualizados ahora mismo</string>
@@ -234,6 +242,11 @@
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Ver log</string>
+    <string name="log_activity_action_clear_log">Borrar registro</string>
+    <string name="log_activity_action_show_errors">Mostrar sólo errores</string>
+    <string name="log_activity_action_show_all">Mostrar todos los mensajes</string>
+    <string name="log_activity_action_reload">Recargar</string>
+    <string name="log_activity_content_description_share">Compartir log</string>
     <string name="empty_log">El registro esta vacío</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Crear atajo en pantalla de inicio</string>
