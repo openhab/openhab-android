@@ -100,7 +100,6 @@
     <string name="info_not_set">Net gesat</string>
     <!-- Background tasks -->
     <string name="send_device_info_item_prefix">Prefix vum Item Numm</string>
-    <string name="settings_alarm_clock_howto_summary">Tipp hei fir Erklärungen zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
     <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
