@@ -75,7 +75,7 @@ import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.OnUpdateBroadcastReceiver
+import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.VoiceService
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
@@ -209,7 +209,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val i = Intent(this, IntroActivity::class.java)
             startActivityForResult(i, INTRO_REQUEST_CODE)
         }
-        OnUpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
+        UpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
 
         val isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this)
         GlobalScope.launch {

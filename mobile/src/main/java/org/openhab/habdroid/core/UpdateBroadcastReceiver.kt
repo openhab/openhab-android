@@ -25,7 +25,7 @@ import org.openhab.habdroid.util.Constants.PREFERENCE_COMPARABLE_VERSION
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 
-class OnUpdateBroadcastReceiver : BroadcastReceiver() {
+class UpdateBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) {
             return
@@ -67,10 +67,10 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        private val TAG = OnUpdateBroadcastReceiver::class.java.simpleName
+        private val TAG = UpdateBroadcastReceiver::class.java.simpleName
 
         private const val UPDATE_LOCAL_CREDENTIALS = 26
-        private const val SECURE_CREDENTIALS = 167
+        private const val SECURE_CREDENTIALS = 190
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
