@@ -124,7 +124,6 @@
     <string name="info_write_tag_finished">Úspěšně dokončeno</string>
     <string name="info_write_failed">Chyba při zápisu do tagu</string>
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
-    <string name="info_write_tag_disabled">NFC je zakázáno. Povolte jej v nastavení zařízení.</string>
     <string name="info_openhab_apiversion_label">Verze openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
@@ -140,7 +139,6 @@
     <string name="settings_alarm_clock">Odeslat budík do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku na server</string>
-    <string name="settings_alarm_clock_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
     <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
     <string name="item_upload_in_progress">Items se právě aktualizují</string>
