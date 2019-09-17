@@ -124,7 +124,6 @@
     <string name="info_write_tag_finished">Успешно</string>
     <string name="info_write_failed">Ошибка записи метки</string>
     <string name="info_write_tag_unsupported">Это устройство не поддерживает NFC</string>
-    <string name="info_write_tag_disabled">NFC выключено. Пожалуйста включите в настройках устройства.</string>
     <string name="info_openhab_apiversion_label">Rest API версия openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
@@ -140,7 +139,6 @@
     <string name="settings_alarm_clock">Отправить время будильника на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Посылать время будильника Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не отправлять время будильника на сервер</string>
-    <string name="settings_alarm_clock_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
     <string name="settings_item_pref_item_name">Имя Item</string>
     <string name="waiting_for_item_upload">Ожидание сети для отправки обновленений элемента</string>
     <string name="item_upload_in_progress">Items обновляются...</string>
