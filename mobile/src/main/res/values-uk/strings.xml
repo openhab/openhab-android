@@ -124,6 +124,7 @@
     <string name="info_write_tag_finished">Записування успішно завершено</string>
     <string name="info_write_failed">Помилка запису мітки</string>
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
+    <string name="info_write_tag_disabled">NFC вимкнено</string>
     <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
@@ -136,9 +137,11 @@
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
     <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
     <string name="send_device_info_item_prefix_summary">Назви об\'єктів наступних функцій мають такий префікс</string>
+    <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
     <string name="settings_alarm_clock">Відправити будильник на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">Не надсилати часу будильника до сервера</string>
+    <string name="settings_phone_state_permission_allow">Дозволити</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
     <string name="item_upload_in_progress">Об\'єкти зараз оновлюються</string>
