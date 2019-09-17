@@ -21,7 +21,7 @@ import androidx.work.WorkerParameters
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.showToast
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
@@ -52,7 +52,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     .asStatus()
                 Log.d(TAG, "Item '$item' successfully updated to value $value")
                 if (successToastMessage != null) {
-                    Util.showToast(applicationContext, successToastMessage)
+                    applicationContext.showToast(successToastMessage)
                 }
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {

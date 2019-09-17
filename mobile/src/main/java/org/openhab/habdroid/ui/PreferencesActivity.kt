@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -44,13 +45,15 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
-import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.preference.disableItemUpdatingPref
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 import java.util.BitSet
 
@@ -212,7 +215,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
             val fullscreenPreference = getPreference(Constants.PREFERENCE_FULLSCREEN)
             val sendDeviceInfoPrefixPref = getPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
-            val alarmClockPref = getPreference(Constants.PREFERENCE_ALARM_CLOCK)
+            val alarmClockPref = getPreference(Constants.PREFERENCE_ALARM_CLOCK) as ItemUpdatingPreference
+            val phoneStatePref = getPreference(Constants.PREFERENCE_PHONE_STATE) as ItemUpdatingPreference
             val iconFormatPreference = getPreference(Constants.PREFERENCE_ICON_FORMAT)
             val taskerPref = getPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
             val vibrationPref = getPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
@@ -323,25 +327,24 @@ class PreferencesActivity : AbstractBaseActivity() {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 Log.d(TAG, "Removing alarm clock pref")
                 preferenceScreen.removePreference(alarmClockPref)
-            } else {
-                updateAlarmClockPreferenceIcon(alarmClockPref,
-                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
-                updateAlarmClockPreferenceSummary(alarmClockPref,
-                    sendDeviceInfoPrefixPref.getPrefValue(),
-                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
-                alarmClockPref.setOnPreferenceChangeListener { preference, newValue ->
-                    val prefix = sendDeviceInfoPrefixPref.getPrefValue()
-                    @Suppress("UNCHECKED_CAST")
-                    val value = newValue as Pair<Boolean, String>
-                    updateAlarmClockPreferenceIcon(preference, newValue)
-                    updateAlarmClockPreferenceSummary(preference, prefix, value)
-                    true
+            }
+
+            phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
+                @Suppress("UNCHECKED_CAST")
+                val value = newValue as Pair<Boolean, String>
+                if (value.first && preference.context.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
+                    Log.d(TAG, "Request READ_PHONE_STATE permission")
+                    requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
+                        PERMISSIONS_REQUEST_READ_PHONE_STATE)
                 }
+
+                true
             }
 
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
-                updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String,
-                    alarmClockPref.getPrefValue().toItemUpdatePrefValue())
+                val prefix = newValue as String
+                alarmClockPref.updateSummaryAndIcon(prefix)
+                phoneStatePref.updateSummaryAndIcon(prefix)
                 true
             }
 
@@ -369,6 +372,18 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
             if (flags and ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT == 0) {
                 preferenceScreen.removePreferenceFromHierarchy(chartScalingPreference)
+            }
+        }
+
+        override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+            when (requestCode) {
+                PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
+                    if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                        context?.showToast(R.string.settings_phone_state_permission_denied)
+                        disableItemUpdatingPref(prefs, Constants.PREFERENCE_PHONE_STATE)
+                        activity?.recreate()
+                    }
+                }
             }
         }
 
@@ -418,17 +433,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 R.drawable.ic_vibrate_off_grey_24dp
             else
                 R.drawable.ic_vibration_grey_24dp)
-        }
-
-        private fun updateAlarmClockPreferenceSummary(pref: Preference, prefix: String?, value: Pair<Boolean, String>) {
-            pref.summary = if (value.first)
-                getString(R.string.settings_alarm_clock_summary_on, (prefix.orEmpty()) + value.second)
-            else
-                getString(R.string.settings_alarm_clock_summary_off)
-        }
-
-        private fun updateAlarmClockPreferenceIcon(pref: Preference, value: Pair<Boolean, String>) {
-            pref.setIcon(if (value.first) R.drawable.ic_alarm_grey_24dp else R.drawable.ic_alarm_off_grey_24dp)
         }
 
         private fun updateConnectionSummary(
@@ -581,6 +585,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
         const val ITEM_UPDATE_WIDGET_ICON = "icon"
         private const val STATE_KEY_RESULT = "result"
+        private const val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }

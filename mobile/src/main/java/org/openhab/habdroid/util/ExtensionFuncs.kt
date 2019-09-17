@@ -17,13 +17,18 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
@@ -194,4 +199,25 @@ fun JSONObject.optStringOrFallback(key: String, fallback: String?): String? {
 
 fun Context.getPrefs(): SharedPreferences {
     return PreferenceManager.getDefaultSharedPreferences(this)
+}
+
+/**
+ * Shows an orange Toast with the openHAB icon. Can be called from the background.
+ */
+fun Context.showToast(message: CharSequence) {
+    Handler(Looper.getMainLooper()).post {
+        Toasty.custom(this, message, R.drawable.ic_openhab_appicon_24dp, R.color.openhab_orange,
+            Toasty.LENGTH_SHORT, true, true).show()
+    }
+}
+
+/**
+ * Shows an orange Toast with the openHAB icon. Can be called from the background.
+ */
+fun Context.showToast(@StringRes message: Int) {
+    showToast(getString(message))
+}
+
+fun Context.hasPermission(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
 }

@@ -30,6 +30,7 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.showToast
 import java.io.IOException
 import java.net.URLEncoder
 import java.util.Locale
@@ -66,11 +67,11 @@ class FcmRegistrationService : JobIntentService() {
                     runBlocking { registerFcm(connection) }
                 } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
-                    Util.showToast(this, R.string.info_openhab_gcm_failed_toast)
+                    showToast(R.string.info_openhab_gcm_failed_toast)
                     Log.e(TAG, "FCM registration failed", e)
                 } catch (e: IOException) {
                     CloudMessagingHelper.registrationFailureReason = e
-                    Util.showToast(this, R.string.info_openhab_gcm_failed_toast)
+                    showToast(R.string.info_openhab_gcm_failed_toast)
                     Log.e(TAG, "FCM registration failed", e)
                 }
 

@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
@@ -53,6 +54,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
@@ -92,6 +94,7 @@ import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
+import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
@@ -275,6 +278,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         updateTitle()
+        showMissingPermissionsWarningIfNeeded()
     }
 
     override fun onPause() {
@@ -932,6 +936,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         propsUpdateHandle = null
     }
 
+    private fun showMissingPermissionsWarningIfNeeded() {
+        if (prefs.getString(Constants.PREFERENCE_PHONE_STATE, null)?.toItemUpdatePrefValue()?.first == true &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !=
+            PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "READ_PHONE_STATE permission has been denied")
+            showSnackbar(R.string.settings_phone_state_permission_denied,
+                R.string.settings_phone_state_permission_allow) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE),
+                    READ_PHONE_STATE_REQUEST_CODE)
+            }
+        }
+    }
+
     private fun manageHabPanelShortcut(visible: Boolean) {
         manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
             R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
@@ -1014,6 +1031,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private const val SETTINGS_REQUEST_CODE = 1002
         private const val WRITE_NFC_TAG_REQUEST_CODE = 1003
         private const val INFO_REQUEST_CODE = 1004
+        private const val READ_PHONE_STATE_REQUEST_CODE = 1005
         // Drawer item codes
         private const val GROUP_ID_SITEMAPS = 1
     }

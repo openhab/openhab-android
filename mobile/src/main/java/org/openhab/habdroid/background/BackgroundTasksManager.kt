@@ -21,6 +21,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Parcelable
+import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -36,11 +37,11 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.TaskerIntent
-import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.showToast
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
@@ -52,6 +53,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> {
                 Log.d(TAG, "Alarm clock changed")
                 scheduleWorker(context, Constants.PREFERENCE_ALARM_CLOCK)
+            }
+            TelephonyManager.ACTION_PHONE_STATE_CHANGED -> {
+                Log.d(TAG, "Phone state changed")
+                scheduleWorker(context, Constants.PREFERENCE_PHONE_STATE)
             }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
@@ -112,11 +117,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
-        private const val WORKER_TAG_PREFIX_TASKER = "tasker-"
-        private const val WORKER_TAG_PREFIX_WIDGET = "widget-"
+        const val WORKER_TAG_PREFIX_TASKER = "tasker-"
+        const val WORKER_TAG_PREFIX_WIDGET = "widget-"
 
         internal val KNOWN_KEYS = listOf(
-            Constants.PREFERENCE_ALARM_CLOCK
+            Constants.PREFERENCE_ALARM_CLOCK,
+            Constants.PREFERENCE_PHONE_STATE
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String>()
 
@@ -140,7 +146,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context.getString(R.string.nfc_tag_recognized_label, tag.label)
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
-                Util.showToast(context, message)
+                context.showToast(message)
                 enqueueItemUpload(context, WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state,
                     BackoffPolicy.LINEAR)
             }
@@ -209,6 +215,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     val info = alarmManager.nextAlarmClock
                     (info?.triggerTime ?: 0).toString()
+                }
+            }
+            VALUE_GETTER_MAP[Constants.PREFERENCE_PHONE_STATE] = { context ->
+                val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                when (manager.callState) {
+                    TelephonyManager.CALL_STATE_IDLE -> "IDLE"
+                    TelephonyManager.CALL_STATE_RINGING -> "RINGING"
+                    TelephonyManager.CALL_STATE_OFFHOOK -> "OFFHOOK"
+                    else -> "UNDEF"
                 }
             }
         }

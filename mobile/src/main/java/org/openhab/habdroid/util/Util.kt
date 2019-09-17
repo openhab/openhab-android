@@ -17,17 +17,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.core.net.toUri
-import es.dmoral.toasty.Toasty
-
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
-
 import java.io.EOFException
 import java.io.IOException
 import java.net.ConnectException
@@ -37,7 +31,6 @@ import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.CertificateRevokedException
-
 import javax.net.ssl.SSLException
 import javax.net.ssl.SSLPeerUnverifiedException
 
@@ -104,24 +97,6 @@ object Util {
             Log.e(TAG, "REST call to $url failed", error)
             return error.message.orEmpty()
         }
-    }
-
-    /**
-     * Shows an orange Toast with the openHAB icon. Can be called from the background.
-     */
-    fun showToast(context: Context, message: CharSequence) {
-        Handler(Looper.getMainLooper()).post {
-            Toasty.custom(context, message, R.drawable.ic_openhab_appicon_24dp,
-                R.color.openhab_orange, Toasty.LENGTH_SHORT, true, true)
-                .show()
-        }
-    }
-
-    /**
-     * Shows an orange Toast with the openHAB icon. Can be called from the background.
-     */
-    fun showToast(context: Context, @StringRes message: Int) {
-        showToast(context, context.getString(message))
     }
 
     fun isEmulator(): Boolean {
