@@ -22,5 +22,5 @@
     <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>
     <play_beta>Vedle stabilní verze můžete nainstalovat i beta verzi.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Opravy chyb a vylepšení stability. Prosím navštivte https://github.com/openhab/openhab-android/releases pro detailní informace o změnách.</changelog_play_beta>
 </strings>
