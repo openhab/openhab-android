@@ -142,6 +142,10 @@
     <string name="settings_alarm_clock">Відправити будильник на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">Не надсилати часу будильника до сервера</string>
+    <string name="settings_phone_state">Відправити стан дзвінка в openHAB</string>
+    <string name="settings_phone_state_summary_on">Відправити стан дзвінка в об’єкт \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Не відправляти стан дзвінка на сервер</string>
+    <string name="settings_phone_state_permission_denied">Відправка стану дзвінка відключена через брак дозволів</string>
     <string name="settings_phone_state_permission_allow">Дозволити</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
@@ -267,6 +271,8 @@
     <!-- Intro strings -->
     <string name="app_intro">Вступ</string>
     <string name="intro_welcome">Ласкаво просимо до openHAB</string>
+    <string name="intro_welcome_back">З поверненням до openHAB</string>
+    <string name="intro_app_restored">Більшість налаштувань відновлено, крім облікових даних</string>
     <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
     <string name="intro_themes">Теми</string>
     <string name="intro_themes_description">Виберіть між декількома темами</string>
