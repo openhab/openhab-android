@@ -612,7 +612,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.nfc -> {
-                    val intent = Intent(this, NfcInfo::class.java)
+                    val intent = Intent(this, NfcInfoActivity::class.java)
                     startActivity(intent)
                     handled = true
                 }

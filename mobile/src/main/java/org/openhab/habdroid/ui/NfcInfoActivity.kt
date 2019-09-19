@@ -21,7 +21,7 @@ import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.wasNfcInfoHintShown
 
-class NfcInfo(
+class NfcInfoActivity(
     override var hintMessageId: Int = R.string.nfc_info_hint,
     override var hintButtonMessageId: Int = R.string.got_it,
     override var hintIconId: Int = R.drawable.ic_nfc_black_120dp
