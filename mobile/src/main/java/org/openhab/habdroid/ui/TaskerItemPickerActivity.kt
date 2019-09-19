@@ -11,25 +11,28 @@ import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 
-class TaskerItemPickerActivity(override var disabledMessageId: Int = R.string.settings_tasker_plugin_summary) :
-    AbstractItemPickerActivity() {
+class TaskerItemPickerActivity(
+    override var hintMessageId: Int = R.string.settings_tasker_plugin_summary,
+    override var hintButtonMessageId: Int = R.string.turn_on,
+    override var hintIconId: Int = R.drawable.ic_connection_error
+) : AbstractItemPickerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         retryButton.setOnClickListener {
-            if (isDisabled) {
+            if (needToShowHint) {
                 getPrefs().edit {
                     putBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, true)
                 }
-                isDisabled = false
+                needToShowHint = false
             }
             loadItems()
         }
 
         if (!getPrefs().isTaskerPluginEnabled()) {
-            isDisabled = true
-            updateViewVisibility(loading = false, loadError = false, isDisabled = true)
+            needToShowHint = true
+            updateViewVisibility(loading = false, loadError = false, showHint = true)
         }
 
         val editItem = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE)

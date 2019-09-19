@@ -84,6 +84,10 @@ fun SharedPreferences.isTaskerPluginEnabled(): Boolean {
     return getBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, false)
 }
 
+fun SharedPreferences.wasNfcInfoHintShown(): Boolean {
+    return getBoolean(Constants.PREFERENCE_NFC_INFO_HINT_SHOWN, false)
+}
+
 fun SharedPreferences.getString(key: String): String {
     return getString(key, "").orEmpty()
 }

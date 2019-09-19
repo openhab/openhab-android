@@ -22,6 +22,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -55,13 +56,16 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var emptyView: View
     private lateinit var emptyMessage: TextView
+    private lateinit var watermark: ImageView
     protected lateinit var retryButton: TextView
-    protected abstract var disabledMessageId: Int
+    protected abstract var hintMessageId: Int
+    protected abstract var hintButtonMessageId: Int
+    protected abstract var hintIconId: Int
 
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(this, true)
     }
-    protected var isDisabled: Boolean = false
+    protected var needToShowHint: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +84,12 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         recyclerView = findViewById(android.R.id.list)
         emptyView = findViewById(android.R.id.empty)
         emptyMessage = findViewById(R.id.empty_message)
+        watermark = findViewById(R.id.watermark)
         retryButton = findViewById(R.id.retry_button)
+
+        retryButton.setOnClickListener {
+            loadItems()
+        }
 
         itemPickerAdapter = ItemPickerAdapter(this, this)
         layoutManager = LinearLayoutManager(this)
@@ -176,19 +185,19 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
     protected fun loadItems() {
         Log.d(TAG, "loadItems()")
-        if (isDisabled) {
-            Log.d(TAG, "Feature is disabled")
+        if (needToShowHint) {
+            Log.d(TAG, "Hint is shown")
             return
         }
 
         val connection = ConnectionFactory.usableConnectionOrNull
         if (connection == null) {
-            updateViewVisibility(loading = false, loadError = true, isDisabled = false)
+            updateViewVisibility(loading = false, loadError = true, showHint = false)
             return
         }
 
         itemPickerAdapter.clear()
-        updateViewVisibility(loading = true, loadError = false, isDisabled = false)
+        updateViewVisibility(loading = true, loadError = false, showHint = false)
 
         requestJob = launch {
             try {
@@ -199,12 +208,12 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 Log.d(TAG, "Item request success, got ${items.size} items")
                 itemPickerAdapter.setItems(items)
                 handleInitialHighlight()
-                updateViewVisibility(loading = false, loadError = false, isDisabled = false)
+                updateViewVisibility(loading = false, loadError = false, showHint = false)
             } catch (e: JSONException) {
                 Log.d(TAG, "Item response could not be parsed", e)
-                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
+                updateViewVisibility(loading = false, loadError = true, showHint = false)
             } catch (e: HttpClient.HttpException) {
-                updateViewVisibility(loading = false, loadError = true, isDisabled = false)
+                updateViewVisibility(loading = false, loadError = true, showHint = false)
                 Log.e(TAG, "Item request failure", e)
             }
         }
@@ -231,18 +240,19 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         initialHighlightItemName = null
     }
 
-    protected fun updateViewVisibility(loading: Boolean, loadError: Boolean, isDisabled: Boolean) {
-        val showEmpty = isDisabled || !loading && (itemPickerAdapter.itemCount == 0 || loadError)
+    protected fun updateViewVisibility(loading: Boolean, loadError: Boolean, showHint: Boolean) {
+        val showEmpty = showHint || !loading && (itemPickerAdapter.itemCount == 0 || loadError)
         recyclerView.isVisible = !showEmpty
         emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(when {
             loadError -> R.string.item_picker_list_error
-            isDisabled -> disabledMessageId
+            showHint -> hintMessageId
             else -> R.string.item_picker_list_empty
         })
-        retryButton.setText(if (isDisabled) R.string.turn_on else R.string.try_again_button)
-        retryButton.isVisible = loadError || isDisabled
+        watermark.setImageResource(if (showHint) hintIconId else R.drawable.ic_connection_error)
+        retryButton.setText(if (showHint) hintButtonMessageId else R.string.try_again_button)
+        retryButton.isVisible = loadError || showHint
     }
 
     companion object {
