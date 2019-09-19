@@ -1,0 +1,4 @@
+(same as 2.8.23-beta)
+
+## Changed
+* Enable backups and encrypt username and password (#1526)
