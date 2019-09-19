@@ -27,6 +27,7 @@
     <string name="settings_openhab_password_summary_strong">Password sicura</string>
     <string name="settings_openhab_sslclientcert">Certificato SSL client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tocca qui per suggerimenti e spiegazioni su come configurare l\'autenticazione con certificato SSL client</string>
+    <string name="settings_openhab_sslclientcert_not_supported">I certificati del client SSL non sono supportati dal tuo dispositivo</string>
     <string name="settings_openhab_screentimeroff">Disattivare la visualizzazione del timer</string>
     <string name="settings_openhab_screentimeroff_summary">Non mostrare timer di spegnimento quando openHAB e\' in esecuzione</string>
     <string name="settings_openhab_demomode">Modalità demo</string>
@@ -124,6 +125,7 @@
     <string name="info_write_tag_finished">Completato correttamente</string>
     <string name="info_write_failed">Errore in scrittura sul tag</string>
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
+    <string name="info_write_tag_disabled">NFC è disabilitato</string>
     <string name="info_openhab_apiversion_label">versione delle Rest API di openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
@@ -136,9 +138,15 @@
     <string name="send_device_info_to_server">Invia informazioni del dispositivo al server</string>
     <string name="send_device_info_item_prefix">Prefisso nome Item</string>
     <string name="send_device_info_item_prefix_summary">I nomi degli Item delle seguenti funzionalità hanno questo prefisso</string>
+    <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
     <string name="settings_alarm_clock">Invia allarme sveglia a openHAB</string>
     <string name="settings_alarm_clock_summary_on">Invia ora dell’allarme sveglia all’Item ‘%1$s’</string>
     <string name="settings_alarm_clock_summary_off">Non inviare l’ora della sveglia al server</string>
+    <string name="settings_phone_state">Invia lo stato ad openHAB</string>
+    <string name="settings_phone_state_summary_on">Invia lo stato dell’item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Non inviare lo stato al server</string>
+    <string name="settings_phone_state_permission_denied">L\'invio dello stato è disabilitata a causa dei permessi mancanti</string>
+    <string name="settings_phone_state_permission_allow">Consenti</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
     <string name="waiting_for_item_upload">In attesa della rete per inviare aggiornamenti degli Item</string>
     <string name="item_upload_in_progress">Item in corso di aggiornamento</string>
@@ -261,6 +269,8 @@
     <!-- Intro strings -->
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Benvenuto in openHAB</string>
+    <string name="intro_welcome_back">Bentornato in openHAB</string>
+    <string name="intro_app_restored">La maggior parte delle tue impostazioni è stata ripristinata, tranne le credenziali del server</string>
     <string name="intro_whatis">Una soluzione domotica open source per la tua casa, indipendente da tecnologia e da produttori</string>
     <string name="intro_themes">Temi</string>
     <string name="intro_themes_description">Scegli tra i diversi temi</string>
