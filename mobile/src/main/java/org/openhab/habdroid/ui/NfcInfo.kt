@@ -46,7 +46,6 @@ class NfcInfo(
     }
 
     override fun finish(item: Item, state: String, mappedState: String) {
-        startActivity(WriteTagActivity.createItemUpdateIntent(this, item.name, state, mappedState,
-            item.label.orEmpty()))
+        startActivity(WriteTagActivity.createItemUpdateIntent(this, item.name, state, mappedState, item.label))
     }
 }

@@ -244,7 +244,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                         .setView(input)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             startActivity(WriteTagActivity.createItemUpdateIntent(context, name, input.text.toString(),
-                                input.text.toString(), widget.item.label.orEmpty()))
+                                input.text.toString(), widget.item.label))
                         }
                         .setNegativeButton(android.R.string.cancel, null)
                         .show()
@@ -258,7 +258,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     return true
                 } else if (id < suggestedCommands.commands.size) {
                     startActivity(WriteTagActivity.createItemUpdateIntent(context, name,
-                        suggestedCommands.commands[id], suggestedCommands.labels[id], widget.item.label.orEmpty()))
+                        suggestedCommands.commands[id], suggestedCommands.labels[id], widget.item.label))
                     return true
                 }
                 return false
