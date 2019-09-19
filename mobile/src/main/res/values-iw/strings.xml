@@ -118,7 +118,6 @@
     <string name="info_write_tag_finished">הכתיבה הסתימה בהצלחה</string>
     <string name="info_write_failed">הכתיבה לתגית נכשלה</string>
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
-    <string name="info_write_tag_disabled">NFC אינו זמין. אנא הפעל אותו מתפריט הגדרות המכשיר.</string>
     <string name="info_openhab_apiversion_label">גרסת ממשק תכנות יישומי REST של openHAB</string>
     <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
     <string name="info_openhab_push_notification_label">מצב התראות בדחיפה</string>
@@ -134,7 +133,6 @@
     <string name="settings_alarm_clock">שלח את השעון המעורר ל- openHAB</string>
     <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">לא לשלוח את שעת השעון המעורר אל השרת</string>
-    <string name="settings_alarm_clock_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
     <string name="item_upload_in_progress">הפריטים מתעדכנים כעת</string>

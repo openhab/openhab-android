@@ -27,6 +27,7 @@
     <string name="settings_openhab_password_summary_strong">Надійний пароль</string>
     <string name="settings_openhab_sslclientcert">SSL сертифікат клієнта</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Натисніть тут, щоб отримати підказки та пояснення, щодо налаштування SSL сертифікату автентифікації клієнта</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Клієнтські сертифікати SSL не підтримуються вашим пристроєм</string>
     <string name="settings_openhab_screentimeroff">Вимкнути таймер дисплею</string>
     <string name="settings_openhab_screentimeroff_summary">Вимкнути таймер вимикання дисплея, коли працює openHAB</string>
     <string name="settings_openhab_demomode">Демонстраційний режим</string>
@@ -61,6 +62,12 @@
     <string name="settings_connection_summary">З\'єднано з %s</string>
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <string name="beta">Бета</string>
+    <string name="settings_screen_lock">Блокування екрану</string>
+    <string name="settings_screen_lock_summary">Блокування доступу до openHAB через екран блокування Android або відбиток пальця. Голосові віджети можна використовувати.</string>
+    <string name="screen_lock_unlock_screen_description">Розблокувати для доступу до openHAB</string>
+    <string name="settings_screen_lock_off">Вимкнено</string>
+    <string name="settings_screen_lock_kiosk">Режим Kiosk</string>
+    <string name="settings_screen_lock_on">Увімкнено</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="title_voice_widget_icon">Голосові команди та ярлик застосунку</string>
@@ -118,7 +125,7 @@
     <string name="info_write_tag_finished">Записування успішно завершено</string>
     <string name="info_write_failed">Помилка запису мітки</string>
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
-    <string name="info_write_tag_disabled">NFC вимкнено. Будь ласка, увімкніть його у налаштуваннях пристрою.</string>
+    <string name="info_write_tag_disabled">NFC вимкнено</string>
     <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
@@ -131,10 +138,15 @@
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
     <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
     <string name="send_device_info_item_prefix_summary">Назви об\'єктів наступних функцій мають такий префікс</string>
+    <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
     <string name="settings_alarm_clock">Відправити будильник на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">Не надсилати часу будильника до сервера</string>
-    <string name="settings_alarm_clock_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на стороні сервера</string>
+    <string name="settings_phone_state">Відправити стан дзвінка в openHAB</string>
+    <string name="settings_phone_state_summary_on">Відправити стан дзвінка в об’єкт \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Не відправляти стан дзвінка на сервер</string>
+    <string name="settings_phone_state_permission_denied">Відправка стану дзвінка відключена через брак дозволів</string>
+    <string name="settings_phone_state_permission_allow">Дозволити</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
     <string name="item_upload_in_progress">Об\'єкти зараз оновлюються</string>
@@ -195,6 +207,8 @@
     <string name="nfc_action_stop">Стоп</string>
     <string name="nfc_activate">Активувати</string>
     <string name="nfc_action_current_color">Поточний колір</string>
+    <string name="nfc_action_to_sitemap_page">Записати сторінки інтерфейсу в NFC-мітку</string>
+    <string name="nfc_action_write_command_tag">Записати елемент в NFC-мітку</string>
     <!-- Drawer -->
     <string name="drawer_open">Відображення сторінки інтерфейсу відкрито</string>
     <string name="drawer_close">Відображення сторінки інтерфейсу закрито</string>
@@ -231,6 +245,10 @@
     <string name="log">Журнал</string>
     <string name="view_log">Переглянути журнал</string>
     <string name="log_activity_action_clear_log">Очистити журнал</string>
+    <string name="log_activity_action_show_errors">Показати тільки помилки</string>
+    <string name="log_activity_action_show_all">Показати всі повідомлення</string>
+    <string name="log_activity_action_reload">Оновити</string>
+    <string name="log_activity_content_description_share">Надіслати журнал</string>
     <string name="empty_log">Журнал порожній</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Прикріпити на домашню сторінку</string>
@@ -253,6 +271,8 @@
     <!-- Intro strings -->
     <string name="app_intro">Вступ</string>
     <string name="intro_welcome">Ласкаво просимо до openHAB</string>
+    <string name="intro_welcome_back">З поверненням до openHAB</string>
+    <string name="intro_app_restored">Більшість налаштувань відновлено, крім облікових даних</string>
     <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
     <string name="intro_themes">Теми</string>
     <string name="intro_themes_description">Виберіть між декількома темами</string>
@@ -269,10 +289,16 @@
     <string name="item_picker_custom">Користувацький</string>
     <string name="item_picker_dialog_title">Виберіть стан</string>
     <string name="item_picker">Об’єкти openHAB</string>
+    <string name="item_picker_blurb">Встановити \"%1$s\" (%2$s) в \"%3$s\"</string>
     <string name="search">Пошук</string>
     <string name="settings_tasker_plugin">Інтеграція з Tasker</string>
     <string name="settings_tasker_plugin_summary">Увімкнути додаток дій Tasker, який дозволить оновляти об’єкти через Tasker або сумісні програми</string>
     <string name="turn_on">Увімкнути</string>
     <string name="press_back_to_exit">Натисніть ще раз, щоб вийти</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Керування елементом</string>
+    <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
+    <string name="item_update_widget_success_toast">%1$s встановлено в %2$s</string>
 </resources>

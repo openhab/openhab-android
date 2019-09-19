@@ -48,7 +48,6 @@
     <string name="info_write_tag_finished">Berhasil selesai</string>
     <string name="info_write_failed">Kesalahan penulisan tag</string>
     <string name="info_write_tag_unsupported">Perangkat ini tidak memiliki dukungan NFC</string>
-    <string name="info_write_tag_disabled">NFC dinonaktifkan Aktifkan di menu setelan perangkat.</string>
     <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="action_settings">Pengaturan</string>

@@ -111,7 +111,6 @@
     <string name="info_write_tag_finished">Gelukt</string>
     <string name="info_write_failed">Tag schrijffout</string>
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
-    <string name="info_write_tag_disabled">NFC is uitgeschakeld. Zet het aan in het apparaat instellingenmenu.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versie</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push meldingen status</string>

@@ -122,7 +122,6 @@
     <string name="info_write_tag_finished">Onnistui</string>
     <string name="info_write_failed">Virhe kirjoitettessa tagia</string>
     <string name="info_write_tag_unsupported">Tämä laite ei tue NFCtä</string>
-    <string name="info_write_tag_disabled">NFC on pois päältä. Ole hyvä ja kytke se päälle laitteen asetuksista.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push ilmoitusten tila</string>

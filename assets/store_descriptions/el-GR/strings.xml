@@ -22,4 +22,5 @@
     <fdroid_privacy_policy>Πολιτική προστασίας προσωπικών δεδομένων: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Δοκιμάστε νέες δυνατότητες και να δώστε έγκαιρη ανατροφοδότηση!</beta>
     <play_beta>Μπορείτε να εγκαταστήσετε την έκδοση beta παράλληλα με την σταθερή έκδοση.</play_beta>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>

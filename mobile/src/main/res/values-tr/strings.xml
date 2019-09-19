@@ -112,7 +112,6 @@
     <string name="info_write_tag_finished">Başarılı bir şekilde bitirildi</string>
     <string name="info_write_failed">Etiket yazma hatası</string>
     <string name="info_write_tag_unsupported">Bu cihazın NFC desteği yoktur</string>
-    <string name="info_write_tag_disabled">NFC devre dışı. Lütfen ayarlar bölümünden NFC\'yi devreye sokunuz.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versiyon</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push bildirimleri</string>

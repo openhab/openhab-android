@@ -84,7 +84,6 @@
     <string name="info_write_tag_finished">Успешен край</string>
     <string name="info_write_failed">Грешка на писане на етикет</string>
     <string name="info_write_tag_unsupported">Устройството не поддържа NFC</string>
-    <string name="info_write_tag_disabled">NFC е изключено. Моля включете го от менюто за настройки на устройството.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API версия</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Статус на известия</string>

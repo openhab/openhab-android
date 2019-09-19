@@ -112,7 +112,6 @@
     <string name="info_write_tag_finished">已成功完成</string>
     <string name="info_write_failed">标签写入错误</string>
     <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
-    <string name="info_write_tag_disabled">NFC 已被禁用。请在设备设置菜单中启用。</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API 版本</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">推送通知状态</string>
@@ -126,7 +125,6 @@
     <string name="settings_alarm_clock">发送闹钟至 openHAB</string>
     <string name="settings_alarm_clock_summary_on">发送闹钟至项 \"%1$s\"</string>
     <string name="settings_alarm_clock_summary_off">请勿发送闹钟时间至服务器</string>
-    <string name="settings_alarm_clock_howto_summary">轻触此处以获取如何在服务器端设置此功能的提示</string>
     <string name="settings_item_pref_item_name">项目名</string>
     <string name="waiting_for_item_upload">等待网络以发送项目更新</string>
     <string name="item_upload_in_progress">项目正被更新</string>

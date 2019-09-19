@@ -55,7 +55,6 @@
     <string name="info_write_tag_finished">Concluído com êxito</string>
     <string name="info_write_failed">Erro de escrita da etiqueta</string>
     <string name="info_write_tag_unsupported">Este dispositivo não tem suporte de NFC</string>
-    <string name="info_write_tag_disabled">NFC está desabilitado. Por favor habilitá-lo no menu de configurações do dispositivo.</string>
     <string name="info_openhab_apiversion_label">openHAB versão Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="action_settings">Definições</string>

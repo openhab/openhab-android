@@ -124,7 +124,6 @@
     <string name="info_write_tag_finished">Completato correttamente</string>
     <string name="info_write_failed">Errore in scrittura sul tag</string>
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
-    <string name="info_write_tag_disabled">NFC e\' disabilitato. Attivarlo nel menu impostazioni del dispositivo.</string>
     <string name="info_openhab_apiversion_label">versione delle Rest API di openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
@@ -140,7 +139,6 @@
     <string name="settings_alarm_clock">Invia allarme sveglia a openHAB</string>
     <string name="settings_alarm_clock_summary_on">Invia ora dell’allarme sveglia all’Item ‘%1$s’</string>
     <string name="settings_alarm_clock_summary_off">Non inviare l’ora della sveglia al server</string>
-    <string name="settings_alarm_clock_howto_summary">Tocca qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
     <string name="waiting_for_item_upload">In attesa della rete per inviare aggiornamenti degli Item</string>
     <string name="item_upload_in_progress">Item in corso di aggiornamento</string>

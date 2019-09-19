@@ -61,6 +61,12 @@
     <string name="settings_connection_summary">Koblet til %s</string>
     <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Skjermlås</string>
+    <string name="settings_screen_lock_summary">Lås openHAB tilganger med Android skjermlås eller fingeravtrykk. Stemme-widget kan også brukes.</string>
+    <string name="screen_lock_unlock_screen_description">Lås opp for tilgang til openHAB</string>
+    <string name="settings_screen_lock_off">Av</string>
+    <string name="settings_screen_lock_kiosk">Kiosk-modus</string>
+    <string name="settings_screen_lock_on">På</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Talekommandoer</string>
     <string name="title_voice_widget_icon">Talekommandoer og app snarvei</string>
@@ -68,8 +74,11 @@
     <string name="info_voice_recognized_text">Gjenkjent kommando: %1$s</string>
     <string name="info_demo_mode_short">Kjører i demomodus</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Slå av</string>
     <string name="info_conn_url">Kobler til lokal URL</string>
     <string name="info_conn_rem_url">Kobler til ekstern URL</string>
+    <string name="app_shortcut_disabled_habpanel">Serveren har ikke HABPanel installert</string>
+    <string name="app_shortcut_disabled_notifications">Den eksterne serveren ikke er tilgjengelig</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerte tom lokasjonskart-liste</string>
     <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
@@ -105,7 +114,6 @@
     <string name="info_write_tag_finished">Fullført</string>
     <string name="info_write_failed">Tag skrivefeil</string>
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
-    <string name="info_write_tag_disabled">NFC er deaktivert. Aktiver i enhetens innstillinger-meny.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versjon</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push melding status</string>

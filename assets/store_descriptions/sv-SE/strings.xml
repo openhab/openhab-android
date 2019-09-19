@@ -22,4 +22,5 @@
     <fdroid_privacy_policy>Integritetspolicy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Testa nya funktioner och ge tidig feedback!</beta>
     <play_beta>Beta-versionen kan installeras parallellt med den stabila versionen.</play_beta>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>

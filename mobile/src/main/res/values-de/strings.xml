@@ -27,6 +27,7 @@
     <string name="settings_openhab_password_summary_strong">Starkes Passwort gesetzt</string>
     <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Für Hinweise und Erläuterungen zur SSL-Authentifizierung mittels Client-Zertifikat hier tippen</string>
+    <string name="settings_openhab_sslclientcert_not_supported">SSL-Client-Zertifikate werden von Ihrem Gerät nicht unterstützt</string>
     <string name="settings_openhab_screentimeroff">Bildschirm-Abschaltung deaktivieren</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
@@ -124,7 +125,7 @@
     <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
     <string name="info_write_failed">Fehler beim Beschreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
-    <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es in den Geräte-Einstellungen.</string>
+    <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
     <string name="info_openhab_apiversion_label">openHAB-Rest-API-Version</string>
     <string name="info_openhab_uuid_label">openHAB-UUID</string>
     <string name="info_openhab_push_notification_label">Push-Benachrichtigungsstatus</string>
@@ -137,10 +138,15 @@
     <string name="send_device_info_to_server">Geräteinformationen an Server senden</string>
     <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
     <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben dieses Präfix</string>
+    <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="settings_alarm_clock">Weckzeit an openHAB senden</string>
     <string name="settings_alarm_clock_summary_on">Sendet Weckzeit an Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Weckzeit nicht an den Server senden</string>
-    <string name="settings_alarm_clock_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
+    <string name="settings_phone_state">Anrufstatus an openHAB senden</string>
+    <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Anrufstatus nicht an den Server senden</string>
+    <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_phone_state_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
@@ -263,6 +269,8 @@
     <!-- Intro strings -->
     <string name="app_intro">Einführung</string>
     <string name="intro_welcome">Willkommen bei openHAB</string>
+    <string name="intro_welcome_back">Willkommen zurück bei openHAB</string>
+    <string name="intro_app_restored">Die meisten Einstellungen wurden wiederhergestellt, außer den Server-Zugangsdaten</string>
     <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
     <string name="intro_themes">Designs</string>
     <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>

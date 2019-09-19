@@ -27,6 +27,7 @@
     <string name="settings_openhab_password_summary_strong">Silné heslo</string>
     <string name="settings_openhab_sslclientcert">Klientský certifikát SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Klepnutím sem získáte informace o tom, jak nastavit ověřování klientských certifikátů SSL</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Certifikáty SSL klienta nejsou podporována vaším zařízením</string>
     <string name="settings_openhab_screentimeroff">Nezhasínat displej</string>
     <string name="settings_openhab_screentimeroff_summary">Zabránit systému zhasnout automaticky displej pokud je aplikace openHAB spuštěna</string>
     <string name="settings_openhab_demomode">Ukázkový režim</string>
@@ -124,7 +125,7 @@
     <string name="info_write_tag_finished">Úspěšně dokončeno</string>
     <string name="info_write_failed">Chyba při zápisu do tagu</string>
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
-    <string name="info_write_tag_disabled">NFC je zakázáno. Povolte jej v nastavení zařízení.</string>
+    <string name="info_write_tag_disabled">NFC je vypnuto</string>
     <string name="info_openhab_apiversion_label">Verze openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
@@ -137,10 +138,11 @@
     <string name="send_device_info_to_server">Odeslat informace o zařízení na server</string>
     <string name="send_device_info_item_prefix">Prefix názvu Item</string>
     <string name="send_device_info_item_prefix_summary">Názvy Item s těmito vlastnostmi mají tento prefix</string>
+    <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
     <string name="settings_alarm_clock">Odeslat budík do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku na server</string>
-    <string name="settings_alarm_clock_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
+    <string name="settings_phone_state_permission_allow">Povolit</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
     <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
     <string name="item_upload_in_progress">Items se právě aktualizují</string>
@@ -265,6 +267,8 @@
     <!-- Intro strings -->
     <string name="app_intro">Úvod</string>
     <string name="intro_welcome">Vítejte v openHAB</string>
+    <string name="intro_welcome_back">Vítejte zpět v openHAB</string>
+    <string name="intro_app_restored">Většina vašich nastavení byla obnovena, s výjimkou přihlašovacích údajů na server</string>
     <string name="intro_whatis">Open source program pro domácí automatizaci</string>
     <string name="intro_themes">Motivy vzhledu</string>
     <string name="intro_themes_description">Vyberte si mezi několika motivy</string>

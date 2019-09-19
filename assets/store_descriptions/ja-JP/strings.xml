@@ -22,4 +22,5 @@
     <fdroid_privacy_policy>プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>新しい機能をお試しの上、フィードバックしてください!</beta>
     <play_beta>安定版の他にベータ版をインストールできます.</play_beta>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>

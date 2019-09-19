@@ -22,4 +22,5 @@
     <fdroid_privacy_policy>Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Testen Sie neue Features und geben Sie früh Feedback!</beta>
     <play_beta>Sie können die Betaversion neben der stabilen Version installieren.</play_beta>
+    <changelog_play_beta>Stabilitätsverbesserungen und Fehlerbehebungen. Bitte besuchen Sie https://github.com/openhab/openhab-android/releases für ein detailliertes Changelog.</changelog_play_beta>
 </strings>

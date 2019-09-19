@@ -48,7 +48,6 @@
     <string name="info_write_tag_finished">Sėkmingai baigta</string>
     <string name="info_write_failed">Žymos rašymo klaida</string>
     <string name="info_write_tag_unsupported">Jūsų įrenginys nepalaiko NFC</string>
-    <string name="info_write_tag_disabled">NFC išjungtas. Prašome jį įjungti įrenginio nustatymuose.</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versija</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="action_settings">Nustatymai</string>
