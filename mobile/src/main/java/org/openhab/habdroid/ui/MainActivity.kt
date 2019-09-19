@@ -206,8 +206,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true) ||
             prefs.getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
         ) {
-            val i = Intent(this, IntroActivity::class.java)
-            startActivityForResult(i, REQUEST_CODE_INTRO)
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
         }
         UpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
 
@@ -339,7 +339,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     recreate()
                 }
             }
-            REQUEST_CODE_WRITE_TAG -> Log.d(TAG, "Got back from Write NFC tag")
         }
     }
 
@@ -613,7 +612,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.nfc -> {
-                    openNfc()
+                    val intent = Intent(this, NfcInfo::class.java)
+                    startActivity(intent)
                     handled = true
                 }
                 R.id.habpanel -> {
@@ -627,7 +627,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.about -> {
-                    openAbout()
+                    val aboutIntent = Intent(this, AboutActivity::class.java)
+                    aboutIntent.putExtra("serverProperties", serverProperties)
+                    startActivity(aboutIntent)
                     handled = true
                 }
             }
@@ -744,17 +746,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             true
         }
         else -> false
-    }
-
-    private fun openAbout() {
-        val aboutIntent = Intent(this, AboutActivity::class.java)
-        aboutIntent.putExtra("serverProperties", serverProperties)
-        startActivityForResult(aboutIntent, REQUEST_CODE_ABOUT)
-    }
-
-    private fun openNfc() {
-        val intent = Intent(this, NfcInfo::class.java)
-        startActivityForResult(intent, REQUEST_CODE_NFC_INFO)
     }
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
@@ -1034,12 +1025,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private val TAG = MainActivity::class.java.simpleName
 
         // Activities request codes
-        private const val REQUEST_CODE_INTRO = 1001
-        private const val REQUEST_CODE_SETTINGS = 1002
-        private const val REQUEST_CODE_ABOUT = 1003
-        private const val REQUEST_CODE_NFC_INFO = 1004
-        private const val REQUEST_CODE_WRITE_TAG = 1005
-        private const val REQUEST_CODE_READ_PHONE_STATE = 1006
+        private const val REQUEST_CODE_SETTINGS = 1001
+        private const val REQUEST_CODE_READ_PHONE_STATE = 1002
         // Drawer item codes
         private const val GROUP_ID_SITEMAPS = 1
     }
