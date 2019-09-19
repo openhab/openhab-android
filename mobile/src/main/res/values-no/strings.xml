@@ -118,6 +118,7 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push melding status</string>
     <string name="action_settings">Innstillinger</string>
+    <string name="nfc_tag_recognized_label">NFC brikke for \"%s\" gjenkjent</string>
     <string name="info_not_set">Ikke angitt</string>
     <!-- Background tasks -->
     <!-- Notification list strings -->
