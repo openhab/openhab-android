@@ -34,13 +34,22 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
-            android:key="default_openhab_theme"
+            android:key="theme"
             android:title="@string/settings_openhab_theme"
-            android:defaultValue="@string/theme_value_light"
+            android:defaultValue="@string/theme_value_system"
             android:summary="%s"
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues"
             android:icon="@drawable/ic_palette_outline_grey_24dp" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            android:defaultValue="@color/openhab_orange"
+            android:key="theme_color"
+            app:cpv_dialogType="preset"
+            app:cpv_showColorShades="false"
+            app:cpv_allowCustom="false"
+            app:cpv_dialogTitle="@string/settings_select_a_color"
+            app:cpv_colorPresets="@array/accentColors"
+            android:title="@string/settings_accent_color"/>
         <ListPreference
             android:title="@string/settings_openhab_icon_format"
             android:key="iconFormatType"

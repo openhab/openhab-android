@@ -25,6 +25,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,6 +33,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
 import kotlin.coroutines.CoroutineContext
@@ -47,6 +49,13 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Util.getActivityThemeId(this))
+        val wantedNightMode = getPrefs().getDayNightMode(this)
+        val currentNightMode = AppCompatDelegate.getDefaultNightMode()
+
+        if (wantedNightMode != currentNightMode) {
+            AppCompatDelegate.setDefaultNightMode(wantedNightMode)
+            recreate()
+        }
         checkFullscreen()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

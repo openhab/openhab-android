@@ -41,12 +41,11 @@
             android:textColor="@color/empty_list_text_color"
             tools:text="Some error occurred" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/retry_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            style="?attr/buttonBarButtonStyle"
             android:text="@string/try_again_button" />
 
     </LinearLayout>

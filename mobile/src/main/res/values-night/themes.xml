@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="openHAB.DayNight" parent="openHAB.Base">
+        <item name="chartTheme">dark</item>
+        <item name="valueColors">@array/valueColorsDarkBackground</item>
+    </style>
+</resources>

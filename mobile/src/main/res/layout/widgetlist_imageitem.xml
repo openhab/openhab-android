@@ -14,6 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dip"
         android:adjustViewBounds="true"
-        app:progressIndicator="?attr/imageLoadingIndicator" />
+        app:progressIndicator="@drawable/ic_image_loading_themed" />
 
 </FrameLayout>

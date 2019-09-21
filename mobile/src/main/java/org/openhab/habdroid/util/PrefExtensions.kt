@@ -16,7 +16,9 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -86,6 +88,18 @@ fun SharedPreferences.isTaskerPluginEnabled(): Boolean {
 
 fun SharedPreferences.wasNfcInfoHintShown(): Boolean {
     return getBoolean(Constants.PREFERENCE_NFC_INFO_HINT_SHOWN, false)
+}
+
+fun SharedPreferences.getDayNightMode(context: Context): Int {
+    return when (getString(Constants.PREFERENCE_THEME)) {
+        context.getString(R.string.theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
+        context.getString(R.string.theme_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
+        else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        } else {
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+        }
+    }
 }
 
 fun SharedPreferences.getString(key: String): String {

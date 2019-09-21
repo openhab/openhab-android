@@ -10,17 +10,13 @@
     <string-array name="themeArray">
         <item>@string/theme_name_light</item>
         <item>@string/theme_name_dark</item>
-        <item>@string/theme_name_black</item>
-        <item>@string/theme_name_basic_ui</item>
-        <item>@string/theme_name_basic_ui_dark</item>
+        <item>@string/theme_name_battery_saver</item>
     </string-array>
 
     <string-array name="themeValues">
         <item>@string/theme_value_light</item>
         <item>@string/theme_value_dark</item>
-        <item>@string/theme_value_black</item>
-        <item>@string/theme_value_basic_ui</item>
-        <item>@string/theme_value_basic_ui_dark</item>
+        <item>@string/theme_value_system</item>
     </string-array>
 
     <string-array name="iconTypeNames">
@@ -133,4 +129,13 @@
         <item>@string/settings_screen_lock_on_value</item>
     </string-array>
 
+    <array name="accentColors">
+        <item>@color/openhab_orange</item>
+        <item>#F44336</item>
+        <item>#3F51B5</item>
+        <item>#009688</item>
+        <item>#4CAF50</item>
+        <item>#FBC02D</item>
+        <item>#607D8B</item>
+    </array>
 </resources>

@@ -21,6 +21,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -57,10 +58,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     private lateinit var emptyView: View
     private lateinit var emptyMessage: TextView
     private lateinit var watermark: ImageView
-    protected lateinit var retryButton: TextView
+    protected lateinit var retryButton: Button
     protected abstract var hintMessageId: Int
     protected abstract var hintButtonMessageId: Int
     protected abstract var hintIconId: Int
+    protected abstract var disabledMessageId: Int
 
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(this, true)

@@ -37,12 +37,11 @@
             android:gravity="center"
             android:text="@string/info_write_tag" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/nfc_activate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            style="?attr/buttonBarButtonStyle"
             android:text="@string/nfc_activate"
             android:visibility="gone"
             tools:visibility="visible" />

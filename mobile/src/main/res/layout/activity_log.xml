@@ -30,7 +30,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/log_activity_content_description_share"
+        style="@style/Widget.Design.FloatingActionButton"
         android:visibility="gone"
+        app:tint="@color/light"
         tools:visibility="visible" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

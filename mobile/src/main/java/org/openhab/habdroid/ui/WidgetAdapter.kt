@@ -41,7 +41,6 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.children
@@ -53,6 +52,7 @@ import androidx.media2.common.UriMediaItem
 import androidx.media2.player.MediaPlayer
 import androidx.media2.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.larswerkman.holocolorpicker.ColorPicker
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -378,7 +378,7 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem, connection, colorMapper),
         View.OnTouchListener {
-        private val switch: SwitchCompat = itemView.findViewById(R.id.toggle)
+        private val switch: SwitchMaterial = itemView.findViewById(R.id.toggle)
         private var boundItem: Item? = null
 
         init {

@@ -20,7 +20,7 @@
         android:layout_height="8dip"
         android:layout_marginStart="@dimen/widgetlist_divider_side_margin"
         android:layout_marginEnd="@dimen/widgetlist_divider_side_margin"
-        android:background="?attr/frameWidgetDividerBackground" />
+        android:background="@drawable/material_divider_themed" />
 
     <TextView
         android:id="@+id/widgetlabel"
@@ -33,7 +33,7 @@
         android:minHeight="36dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="?attr/themedHeaderTextColor"
+        android:textColor="@color/colorAccent_themeDark"
         android:textStyle="bold"
         tools:ignore="SelectableText" />
 

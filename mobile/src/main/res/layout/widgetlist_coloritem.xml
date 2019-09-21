@@ -12,18 +12,18 @@
         style="@style/ActionButton"
         android:id="@+id/up_button"
         android:contentDescription="@string/content_description_color_up"
-        android:src="?themedArrowUpIcon" />
+        android:src="@drawable/ic_keyboard_arrow_up_themed_24dp" />
 
     <ImageButton
         style="@style/ActionButton"
         android:id="@+id/select_color_button"
         android:contentDescription="@string/content_description_open_color_wheel"
-        android:src="?themedColorIcon" />
+        android:src="@drawable/ic_palette_outline_themed_24dp" />
 
     <ImageButton
         style="@style/ActionButton"
         android:id="@+id/down_button"
         android:contentDescription="@string/content_description_color_down"
-        android:src="?themedArrowDownIcon" />
+        android:src="@drawable/ic_keyboard_arrow_down_themed_24dp" />
 
 </LinearLayout>

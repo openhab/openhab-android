@@ -27,6 +27,7 @@ import android.view.ViewGroup
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
@@ -85,7 +86,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 .build()
         }
 
-        val retryButton = view.findViewById<TextView>(R.id.retry_button)
+        val retryButton = view.findViewById<Button>(R.id.retry_button)
         retryButton.setOnClickListener { loadWebsite() }
         val error = view.findViewById<TextView>(R.id.empty_message)
         error.text = getString(args.getInt(KEY_ERROR))
