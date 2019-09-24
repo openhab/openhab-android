@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert.assertEquals
@@ -26,7 +27,8 @@ class WidgetAdapterTest {
 
     @Test
     fun testColorMappingDarkTheme() {
-        val colorMapper = ColorMapper(ContextThemeWrapper(context, R.style.HABDroid_Basic_ui_dark))
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        val colorMapper = ColorMapper(ContextThemeWrapper(context, R.style.openHAB_DayNight_orange))
         testMapping(colorMapper, "Map #ffffff", "#ffffff", -0x1)
         testMapping(colorMapper, "Must return \"null\" for invalid colors", "#fffzzz", null)
         testMapping(colorMapper, "Map white => #ffffff in dark themes", "white", -0x1)
@@ -36,7 +38,8 @@ class WidgetAdapterTest {
 
     @Test
     fun testColorMappingBrightTheme() {
-        val colorMapper = ColorMapper(ContextThemeWrapper(context, R.style.HABDroid_Basic_ui))
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        val colorMapper = ColorMapper(ContextThemeWrapper(context, R.style.openHAB_DayNight_orange))
         testMapping(colorMapper, "Map #ffffff", "#ffffff", -0x1)
         testMapping(colorMapper, "Must return \"null\" for invalid colors", "#fffzzz", null)
         testMapping(colorMapper, "Map white => #000000 in bright themes", "white", -0x1000000)
