@@ -264,6 +264,11 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             previousColor = prefs.getInt(accentColorPref.key, 0)
             accentColorPref.setOnPreferenceChangeListener { _, newValue ->
+                fragmentManager?.findFragmentByTag(accentColorPref.fragmentTag)?.let { dialog ->
+                    fragmentManager?.commit(allowStateLoss = true) {
+                        remove(dialog)
+                    }
+                }
                 if (previousColor != newValue) {
                     parentActivity.handleThemeChange()
                 }

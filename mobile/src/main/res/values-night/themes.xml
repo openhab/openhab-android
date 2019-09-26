@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="openHAB.DayNight" parent="openHAB.Base">
+        <item name="mal_card_background">@android:color/background_dark</item>
+        <item name="mal_color_primary">@android:color/primary_text_dark</item>
+        <item name="mal_color_secondary">@android:color/secondary_text_dark</item>
+
+        <item name="about_libraries_card">@android:color/background_dark</item>
+        <item name="about_libraries_title_openSource">@android:color/primary_text_dark</item>
+        <item name="about_libraries_text_openSource">@android:color/secondary_text_dark</item>
+
         <item name="chartTheme">dark</item>
         <item name="valueColors">@array/valueColorsDarkBackground</item>
     </style>

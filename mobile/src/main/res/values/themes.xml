@@ -5,17 +5,17 @@
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="android:windowBackground">?android:colorBackground</item>
-
-        <item name="mal_card_background">?android:colorBackgroundFloating</item>
-        <item name="mal_color_primary">?android:colorForeground</item>
-        <item name="mal_color_secondary">?android:colorForeground</item>
-
-        <item name="about_libraries_card">?android:colorBackgroundFloating</item>
-        <item name="about_libraries_title_openSource">?android:colorForeground</item>
-        <item name="about_libraries_text_openSource">?android:colorForeground</item>
     </style>
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
+        <item name="mal_card_background">@android:color/background_light</item>
+        <item name="mal_color_primary">@android:color/primary_text_light</item>
+        <item name="mal_color_secondary">@android:color/secondary_text_light</item>
+
+        <item name="about_libraries_card">@android:color/background_light</item>
+        <item name="about_libraries_title_openSource">@android:color/primary_text_light</item>
+        <item name="about_libraries_text_openSource">@android:color/secondary_text_light</item>
+
         <item name="chartTheme">white</item>
         <item name="valueColors">@array/valueColorsBrightBackground</item>
     </style>
