@@ -149,6 +149,9 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         .withFields(R.string::class.java.fields)
                         .withLicenseShown(true)
                         .withAutoDetect(true)
+                        .withAboutIconShown(false)
+                        .withAboutVersionShown(false)
+                        .withAboutVersionShownCode(false)
                         .supportFragment()
                     fragmentManager?.commit {
                         setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
