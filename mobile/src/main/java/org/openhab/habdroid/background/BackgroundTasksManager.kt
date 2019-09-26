@@ -124,7 +124,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
             Constants.PREFERENCE_ALARM_CLOCK,
             Constants.PREFERENCE_PHONE_STATE
         )
-        private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String>()
+        private val IGNORED_PACKAGES_FOR_ALARM = listOf(
+            "net.dinglisch.android.taskerm"
+        )
+        private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String?>()
 
         // need to keep a ref for this to avoid it being GC'ed
         // (SharedPreferences only keeps a WeakReference)
@@ -181,7 +184,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val getter = VALUE_GETTER_MAP[key] ?: return
 
             val prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
-            enqueueItemUpload(context, key, prefix + setting.second, getter(context))
+            enqueueItemUpload(context, key, prefix + setting.second, getter(context) ?: return)
         }
 
         private fun enqueueItemUpload(
@@ -214,7 +217,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 VALUE_GETTER_MAP[Constants.PREFERENCE_ALARM_CLOCK] = { context ->
                     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     val info = alarmManager.nextAlarmClock
-                    (info?.triggerTime ?: 0).toString()
+                    val sender = info?.showIntent?.creatorPackage
+                    if (sender in IGNORED_PACKAGES_FOR_ALARM) {
+                        Log.d(TAG, "Alarm sent by $sender, ignoring")
+                        null
+                    } else {
+                        Log.d(TAG, "Alarm sent by $sender")
+                        (info?.triggerTime ?: 0).toString()
+                    }
                 }
             }
             VALUE_GETTER_MAP[Constants.PREFERENCE_PHONE_STATE] = { context ->
