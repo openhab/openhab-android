@@ -48,6 +48,7 @@ object Constants {
     const val PREFERENCE_TASKER_PLUGIN_ENABLED = "taskerPlugin"
     const val PREFERENCE_NFC_INFO_HINT_SHOWN = "nfcInfoHintShown"
     const val PREFERENCE_SCREEN_LOCK = "screen_lock"
+    const val PREFERENCE_SHOW_SITEMAPS_IN_DRAWER = "show_sitemaps"
 
     const val PREV_SERVER_FLAGS = "prevServerFlags"
 

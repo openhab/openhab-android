@@ -100,6 +100,7 @@ import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
@@ -334,6 +335,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
                     executeOrStoreAction(PendingAction.ChooseSitemap())
+                }
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, false)) {
+                    updateSitemapAndHabPanelDrawerItems()
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                     recreate()
@@ -668,9 +672,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             manageHabPanelShortcut(props.hasHabPanelInstalled())
             val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap())
 
-            if (sitemaps.isEmpty()) {
-                sitemapItem.isVisible = false
-            } else {
+            if (sitemaps.isNotEmpty() && prefs.areSitemapsShownInDrawer()) {
                 sitemapItem.isVisible = true
                 val menu = sitemapItem.subMenu
                 menu.clear()
@@ -679,6 +681,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     val item = menu.add(GROUP_ID_SITEMAPS, sitemap.name.hashCode(), index, sitemap.label)
                     loadSitemapIcon(sitemap, item)
                 }
+            } else {
+                sitemapItem.isVisible = false
             }
         }
     }

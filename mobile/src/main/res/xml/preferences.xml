@@ -31,6 +31,10 @@
             android:clickable="true"
             android:key="default_openhab_clear_default_sitemap"
             android:title="@string/settings_clear_default_sitemap" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="show_sitemaps"
+            android:title="@string/settings_show_sitemaps_in_drawer" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
