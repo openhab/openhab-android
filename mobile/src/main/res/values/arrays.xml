@@ -131,11 +131,7 @@
 
     <array name="accentColors">
         <item>@color/openhab_orange</item>
-        <item>#F44336</item>
         <item>#3F51B5</item>
-        <item>#009688</item>
-        <item>#4CAF50</item>
-        <item>#FBC02D</item>
-        <item>#607D8B</item>
+        <item>#455A64</item>
     </array>
 </resources>

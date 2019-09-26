@@ -26,40 +26,16 @@
         <item name="colorPrimaryDark">#BF360C</item>
     </style>
 
-    <style name="openHAB.DayNight.red" parent="openHAB.DayNight">
-        <item name="colorPrimary">#F44336</item>
-        <item name="colorAccent">#F44336</item>
-        <item name="colorPrimaryDark">#C62828</item>
-    </style>
-
     <style name="openHAB.DayNight.indigo" parent="openHAB.DayNight">
         <item name="colorPrimary">#3F51B5</item>
         <item name="colorAccent">#3F51B5</item>
         <item name="colorPrimaryDark">#283593</item>
     </style>
 
-    <style name="openHAB.DayNight.teal" parent="openHAB.DayNight">
-        <item name="colorPrimary">#009688</item>
-        <item name="colorAccent">#009688</item>
-        <item name="colorPrimaryDark">#00695C</item>
-    </style>
-
-    <style name="openHAB.DayNight.green" parent="openHAB.DayNight">
-        <item name="colorPrimary">#4CAF50</item>
-        <item name="colorAccent">#4CAF50</item>
-        <item name="colorPrimaryDark">#2E7D32</item>
-    </style>
-
-    <style name="openHAB.DayNight.yellow" parent="openHAB.DayNight">
-        <item name="colorPrimary">#FBC02D</item>
-        <item name="colorAccent">#FBC02D</item>
-        <item name="colorPrimaryDark">#F57F17</item>
-    </style>
-
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
-        <item name="colorPrimary">#607D8B</item>
-        <item name="colorAccent">#607D8B</item>
-        <item name="colorPrimaryDark">#455A64</item>
+        <item name="colorPrimary">#37474F</item>
+        <item name="colorAccent">#37474F</item>
+        <item name="colorPrimaryDark">#263238</item>
     </style>
 
     <style name="Theme.MaterialComponents.TranslucentBase">
