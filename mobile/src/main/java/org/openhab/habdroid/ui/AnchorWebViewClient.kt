@@ -39,7 +39,7 @@ open class AnchorWebViewClient(
 
     init {
         val pos = url.lastIndexOf("#") + 1
-        if (pos != 0 && pos < url.length - 1) {
+        if (pos != 0 && pos < url.length - 1 && url[pos] != '/') {
             anchor = url.substring(pos)
             Log.d(TAG, "Found anchor $anchor from url $url")
         } else {
