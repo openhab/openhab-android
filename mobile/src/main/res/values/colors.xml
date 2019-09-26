@@ -14,6 +14,8 @@
     <color name="indigo_800">#283593</color>
     <color name="pink_a200">#ff4081</color>
     <color name="grey_300">#E0E0E0</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
     <color name="empty_list_text_color">#b2b2b2</color>
     <color name="pref_icon_red">#D32F2F</color>
     <color name="pref_icon_green">#388E3C</color>

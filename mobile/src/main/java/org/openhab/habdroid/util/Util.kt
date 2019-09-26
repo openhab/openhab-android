@@ -15,10 +15,10 @@ package org.openhab.habdroid.util
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
@@ -45,8 +45,8 @@ object Util {
     @StyleRes
     fun getActivityThemeId(context: Context): Int {
         return when (context.getPrefs().getInt(Constants.PREFERENCE_ACCENT_COLOR, 0)) {
-            Color.parseColor("#3F51B5") -> R.style.openHAB_DayNight_indigo
-            Color.parseColor("#455A64") -> R.style.openHAB_DayNight_grey
+            ContextCompat.getColor(context, R.color.indigo_500) -> R.style.openHAB_DayNight_basicui
+            ContextCompat.getColor(context, R.color.blue_grey_800) -> R.style.openHAB_DayNight_grey
             else -> R.style.openHAB_DayNight_orange
         }
     }

@@ -17,7 +17,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -76,6 +75,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     val newTheme = when (prefs.getString("default_openhab_theme")) {
                         "black" -> context.getString(R.string.theme_value_dark)
                         "basicuidark" -> context.getString(R.string.theme_value_dark)
+                        "dark" -> context.getString(R.string.theme_value_dark)
                         else -> context.getString(R.string.theme_value_system)
                     }
 
@@ -83,9 +83,10 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 }
 
                 val accentColor = when (prefs.getString("default_openhab_theme")) {
-                    "basicui" -> Color.parseColor("#3F51B5")
-                    "basicuidark" -> Color.parseColor("#3F51B5")
-                    "black" -> Color.parseColor("#607D8B")
+                    "basicui" -> ContextCompat.getColor(context, R.color.indigo_500)
+                    "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
+                    "black" -> ContextCompat.getColor(context, R.color.blue_grey_800)
+                    "dark" -> ContextCompat.getColor(context, R.color.blue_grey_800)
                     else -> ContextCompat.getColor(context, R.color.openhab_orange)
                 }
 

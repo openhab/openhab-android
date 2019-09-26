@@ -23,19 +23,19 @@
     <style name="openHAB.DayNight.orange" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/openhab_orange</item>
         <item name="colorAccent">@color/openhab_orange</item>
-        <item name="colorPrimaryDark">#BF360C</item>
+        <item name="colorPrimaryDark">@color/openhab_orange_dark</item>
     </style>
 
-    <style name="openHAB.DayNight.indigo" parent="openHAB.DayNight">
-        <item name="colorPrimary">#3F51B5</item>
-        <item name="colorAccent">#3F51B5</item>
-        <item name="colorPrimaryDark">#283593</item>
+    <style name="openHAB.DayNight.basicui" parent="openHAB.DayNight">
+        <item name="colorPrimary">@color/indigo_500</item>
+        <item name="colorAccent">@color/pink_a200</item>
+        <item name="colorPrimaryDark">@color/indigo_800</item>
     </style>
 
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
-        <item name="colorPrimary">#37474F</item>
-        <item name="colorAccent">#37474F</item>
-        <item name="colorPrimaryDark">#263238</item>
+        <item name="colorPrimary">@color/blue_grey_800</item>
+        <item name="colorAccent">@color/blue_grey_800</item>
+        <item name="colorPrimaryDark">@color/blue_grey_900</item>
     </style>
 
     <style name="Theme.MaterialComponents.TranslucentBase">
