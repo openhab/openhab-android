@@ -134,7 +134,7 @@ Please have a look at [dontkillmyapp.com](https://dontkillmyapp.com/) how to mak
 
 Please make sure `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/paperui/index.html#/configuration/system) and `Rule Voice Interpreter` => `Configure` => Select correct item (http://openhab:8080/paperui/index.html#/configuration/services?tab=voice).
 
-### The charts are loaded to slow
+### Chart loading is too slow
 
 Generating charts can be taxing to the server.
 If you experience slow chart loading times and your server isn't powerful, open `Settings` and disable `High resolution charts` to improve loading times.
