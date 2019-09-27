@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert.assertEquals
@@ -26,7 +27,7 @@ class WidgetAdapterTest {
 
     @Test
     fun testColorMappingDarkTheme() {
-        val colorMapper = ColorMapper(ContextThemeWrapper(context, R.style.openHAB_Night_Debug))
+        val colorMapper = ColorMapper(createThemedContext(true))
         testMapping(colorMapper, "Map #ffffff", "#ffffff", -0x1)
         testMapping(colorMapper, "Must return \"null\" for invalid colors", "#fffzzz", null)
         testMapping(colorMapper, "Map white => #ffffff in dark themes", "white", -0x1)
@@ -36,7 +37,7 @@ class WidgetAdapterTest {
 
     @Test
     fun testColorMappingBrightTheme() {
-        val colorMapper = ColorMapper(ContextThemeWrapper(context, R.style.openHAB_DayNight_orange))
+        val colorMapper = ColorMapper(createThemedContext(false))
         testMapping(colorMapper, "Map #ffffff", "#ffffff", -0x1)
         testMapping(colorMapper, "Must return \"null\" for invalid colors", "#fffzzz", null)
         testMapping(colorMapper, "Map white => #000000 in bright themes", "white", -0x1000000)
@@ -46,5 +47,14 @@ class WidgetAdapterTest {
 
     private fun testMapping(mapper: ColorMapper, message: String, value: String, expected: Int?) {
         assertEquals(message, expected, mapper.mapColor(value))
+    }
+
+    private fun createThemedContext(nightModeEnabled: Boolean): Context {
+        val themedContext = ContextThemeWrapper(context, R.style.openHAB_DayNight_orange)
+        val nightModeBits = if (nightModeEnabled) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO
+        val nightModeConfig = Configuration()
+        nightModeConfig.uiMode = nightModeBits or (nightModeConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv())
+        themedContext.applyOverrideConfiguration(nightModeConfig)
+        return themedContext
     }
 }
