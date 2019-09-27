@@ -20,6 +20,10 @@
         <item name="valueColors">@array/valueColorsBrightBackground</item>
     </style>
 
+    <style name="openHAB.Night.Debug" parent="openHAB.DayNight">
+        <item name="valueColors">@array/valueColorsDarkBackground</item>
+    </style>
+
     <style name="openHAB.DayNight.orange" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/openhab_orange</item>
         <item name="colorAccent">@color/openhab_orange</item>
