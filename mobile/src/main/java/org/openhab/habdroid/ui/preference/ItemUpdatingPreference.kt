@@ -174,9 +174,9 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         override fun afterTextChanged(s: Editable) {
             val value = s.toString()
             if (value.trim().isEmpty() || value.contains(" ") || value.contains("\n")) {
-                editor.error = context?.getString(R.string.error_sending_alarm_clock_item_empty)
+                editorWrapper.error = context?.getString(R.string.error_sending_alarm_clock_item_empty)
             } else {
-                editor.error = null
+                editorWrapper.error = null
             }
             updateOkButtonState()
         }
@@ -184,7 +184,8 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         private fun updateOkButtonState() {
             val dialog = this.dialog
             if (dialog is AlertDialog) {
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !editor.isEnabled || editor.error == null
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !editor.isEnabled
+                    || editorWrapper.error == null
             }
         }
 
