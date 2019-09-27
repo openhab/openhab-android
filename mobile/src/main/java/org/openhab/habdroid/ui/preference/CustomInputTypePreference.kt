@@ -78,7 +78,8 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
             private const val KEY_TITLE = "title"
             private const val KEY_AUTOFILL_HINTS = "autofillHint"
 
-            fun newInstance(key: String,
+            fun newInstance(
+                key: String,
                 title: CharSequence,
                 inputType: Int,
                 autofillHints: Array<String>?

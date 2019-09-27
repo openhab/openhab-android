@@ -184,8 +184,8 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         private fun updateOkButtonState() {
             val dialog = this.dialog
             if (dialog is AlertDialog) {
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !editor.isEnabled
-                    || editorWrapper.error == null
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !editor.isEnabled ||
+                    editorWrapper.error == null
             }
         }
 
