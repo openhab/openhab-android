@@ -24,7 +24,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
@@ -66,6 +65,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
         override fun onStart() {
             super.onStart()
             updateOkButtonState()
+            afterTextChanged(editor.text)
         }
 
         override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
