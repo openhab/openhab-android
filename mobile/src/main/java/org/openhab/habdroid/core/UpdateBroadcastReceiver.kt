@@ -73,9 +73,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     putString(Constants.PREFERENCE_THEME, context.getString(R.string.theme_value_system))
                 } else {
                     val newTheme = when (prefs.getString("default_openhab_theme")) {
-                        "black" -> context.getString(R.string.theme_value_dark)
-                        "basicuidark" -> context.getString(R.string.theme_value_dark)
-                        "dark" -> context.getString(R.string.theme_value_dark)
+                        "black", "basicuidark", "dark" -> context.getString(R.string.theme_value_dark)
                         else -> context.getString(R.string.theme_value_system)
                     }
 
@@ -83,10 +81,8 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 }
 
                 val accentColor = when (prefs.getString("default_openhab_theme")) {
-                    "basicui" -> ContextCompat.getColor(context, R.color.indigo_500)
-                    "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
-                    "black" -> ContextCompat.getColor(context, R.color.blue_grey_800)
-                    "dark" -> ContextCompat.getColor(context, R.color.blue_grey_800)
+                    "basicui", "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
+                    "black", "dark" -> ContextCompat.getColor(context, R.color.blue_grey_800)
                     else -> ContextCompat.getColor(context, R.color.openhab_orange)
                 }
 
