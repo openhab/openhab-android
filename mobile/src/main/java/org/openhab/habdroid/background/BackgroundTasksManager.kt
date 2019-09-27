@@ -177,7 +177,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             if (!setting.first) {
-                WorkManager.getInstance(context).cancelAllWorkByTag(key)
+                with(WorkManager.getInstance(context)) {
+                    cancelAllWorkByTag(key)
+                    pruneWork()
+                }
                 return
             }
 
