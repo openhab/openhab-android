@@ -17,7 +17,6 @@
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="-12dp"
-        android:layout_marginTop="-12dp"
         android:src="@drawable/ic_help_circle_outline"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="center" />
@@ -37,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/enabled"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/settings_item_pref_item_name">
 
         <com.google.android.material.textfield.TextInputEditText

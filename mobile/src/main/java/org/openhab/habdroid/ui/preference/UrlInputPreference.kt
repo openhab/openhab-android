@@ -26,13 +26,16 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import java.net.MalformedURLException
 import java.net.URL
 
-class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : EditTextPreference(context, attrs) {
-    fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key)
+class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
+    CustomInputTypePreference(context, attrs) {
+
+    override fun createDialog(): DialogFragment {
+        return PrefFragment.newInstance(key, title)
     }
 
     override fun setText(text: String?) {
@@ -40,12 +43,17 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : Ed
     }
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
+        private lateinit var wrapper: TextInputLayout
         private lateinit var editor: EditText
         private var urlIsValid: Boolean = false
 
         override fun onBindDialogView(view: View?) {
             super.onBindDialogView(view)
             if (view != null) {
+                wrapper = view.findViewById<TextInputLayout>(R.id.input_wrapper)
+                arguments?.getCharSequence(KEY_TITLE)?.let { title ->
+                    wrapper.hint = title
+                }
                 editor = view.findViewById(android.R.id.edit)
                 editor.addTextChangedListener(this)
                 editor.inputType = InputType.TYPE_TEXT_VARIATION_URI
@@ -90,7 +98,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : Ed
                 }
             }
             val res = editor.resources
-            editor.error = when {
+            wrapper.error = when {
                 !urlIsValid -> res.getString(R.string.error_invalid_url)
                 portSeemsInvalid -> res.getString(R.string.error_port_seems_invalid)
                 else -> null
@@ -106,9 +114,11 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) : Ed
         }
 
         companion object {
-            fun newInstance(key: String): PrefFragment {
+            private const val KEY_TITLE = "title"
+
+            fun newInstance(key: String, title: CharSequence): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(ARG_KEY to key)
+                f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title)
                 return f
             }
         }

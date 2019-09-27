@@ -22,8 +22,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import com.google.android.material.textfield.TextInputLayout
+import org.openhab.habdroid.R
 
-class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
+open class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs) {
     private val inputType: Int
     private var autofillHints: Array<String>? = null
@@ -37,15 +39,27 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
         }
     }
 
-    fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, inputType, autofillHints)
+    override fun getDialogLayoutResource(): Int {
+        return R.layout.text_input_pref_dialog
+    }
+
+    override fun getDialogTitle(): CharSequence? {
+        return null
+    }
+
+    open fun createDialog(): DialogFragment {
+        return PrefFragment.newInstance(key, title, inputType, autofillHints)
     }
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat() {
         override fun onBindDialogView(view: View?) {
+            val wrapper = view?.findViewById<TextInputLayout>(R.id.input_wrapper)
             val editor = view?.findViewById<EditText>(android.R.id.edit)
             arguments?.getInt(KEY_INPUT_TYPE)?.let { type ->
                 editor?.inputType = type
+            }
+            arguments?.getCharSequence(KEY_TITLE)?.let { title ->
+                wrapper?.hint = title
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
@@ -61,12 +75,17 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
 
         companion object {
             private const val KEY_INPUT_TYPE = "inputType"
+            private const val KEY_TITLE = "title"
             private const val KEY_AUTOFILL_HINTS = "autofillHint"
 
-            fun newInstance(key: String, inputType: Int, autofillHints: Array<String>?): PrefFragment {
+            fun newInstance(key: String,
+                title: CharSequence,
+                inputType: Int,
+                autofillHints: Array<String>?
+            ): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(ARG_KEY to key, KEY_INPUT_TYPE to inputType,
-                    KEY_AUTOFILL_HINTS to autofillHints)
+                f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title,
+                    KEY_INPUT_TYPE to inputType, KEY_AUTOFILL_HINTS to autofillHints)
                 return f
             }
         }
