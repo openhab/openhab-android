@@ -1,0 +1,5 @@
+• Send call state to server
+• Add widgets
+• Add lock screen
+• Improve video widgets
+• Needs Android 4.4 KitKat or higher
