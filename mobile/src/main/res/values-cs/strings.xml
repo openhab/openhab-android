@@ -142,6 +142,10 @@
     <string name="settings_alarm_clock">Odeslat budík do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku na server</string>
+    <string name="settings_phone_state">Poslat stav hovoru telefonu do openHAB</string>
+    <string name="settings_phone_state_summary_on">Poslat stav hovoru telefonu do item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Neposílat stav hovoru na server</string>
+    <string name="settings_phone_state_permission_denied">Odeslání stavu hovoru telefonu bylo deaktivováno kvůli chybějícím oprávněním</string>
     <string name="settings_phone_state_permission_allow">Povolit</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
     <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
