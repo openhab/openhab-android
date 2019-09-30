@@ -31,6 +31,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -43,6 +44,8 @@ import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -52,8 +55,10 @@ import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.ui.preference.disableItemUpdatingPref
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.hasPermission
@@ -258,7 +263,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             themePref.setOnPreferenceChangeListener { _, _ ->
-                parentActivity.handleThemeChange()
+                // getDayNightMode() needs the new preference value, so delay the call until
+                // after this listener has returned
+                parentActivity.launch(Dispatchers.Main) {
+                    val mode = parentActivity.getPrefs().getDayNightMode(parentActivity)
+                    AppCompatDelegate.setDefaultNightMode(mode)
+                }
                 true
             }
 
