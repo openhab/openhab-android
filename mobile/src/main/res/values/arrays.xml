@@ -132,6 +132,6 @@
     <array name="accentColors">
         <item>@color/openhab_orange</item>
         <item>@color/indigo_500</item>
-        <item>@color/blue_grey_800</item>
+        <item>@color/blue_grey_700</item>
     </array>
 </resources>

@@ -82,7 +82,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
                 val accentColor = when (prefs.getString("default_openhab_theme")) {
                     "basicui", "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
-                    "black", "dark" -> ContextCompat.getColor(context, R.color.blue_grey_800)
+                    "black", "dark" -> ContextCompat.getColor(context, R.color.blue_grey_700)
                     else -> ContextCompat.getColor(context, R.color.openhab_orange)
                 }
 

@@ -33,8 +33,8 @@
     </style>
 
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
-        <item name="colorPrimary">@color/blue_grey_800</item>
-        <item name="colorAccent">@color/blue_grey_800</item>
+        <item name="colorPrimary">@color/blue_grey_700</item>
+        <item name="colorAccent">@color/blue_grey_700</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
     </style>
 
