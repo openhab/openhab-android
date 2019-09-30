@@ -239,12 +239,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                     R.string.settings_current_default_sitemap, currentDefaultSitemapLabel)
             }
 
-            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
-                Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                Constants.PREFERENCE_LOCAL_PASSWORD)
-            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
-                Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                Constants.PREFERENCE_REMOTE_PASSWORD)
             updateRingtonePreferenceSummary(ringtonePref, prefs.getNotificationTone())
             updateVibrationPreferenceIcon(vibrationPref,
                 prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION))
