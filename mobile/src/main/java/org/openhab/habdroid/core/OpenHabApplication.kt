@@ -13,13 +13,32 @@
 
 package org.openhab.habdroid.core
 
+import android.content.SharedPreferences
+import android.os.Build
 import androidx.multidex.MultiDexApplication
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 
 @Suppress("UNUSED")
 class OpenHabApplication : MultiDexApplication() {
+    val secretPrefs: SharedPreferences by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+            EncryptedSharedPreferences.create(
+                "secret_shared_prefs_encrypted",
+                masterKeyAlias,
+                this,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } else {
+            getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         ConnectionFactory.initialize(this)
