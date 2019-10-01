@@ -22,6 +22,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import org.openhab.habdroid.R
 
 class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs) {
@@ -38,7 +39,8 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
     }
 
     fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, inputType, autofillHints)
+        val inputText = preferenceDataStore?.getString(key, context.getString(R.string.empty_string))
+        return PrefFragment.newInstance(key, inputText, inputType, autofillHints)
     }
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat() {
@@ -47,8 +49,16 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
             arguments?.getInt(KEY_INPUT_TYPE)?.let { type ->
                 editor?.inputType = type
             }
+
+            arguments?.getString(KEY_INPUT_TEXT)?.let { text ->
+                editor?.post {
+                    editor.setText(text)
+                    editor.setSelection(text.length)
+                }
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
+                val hints = arguments?.getStringArray(KEY_AUTO_FILL_HINTS)
                 if (hints == null) {
                     editor?.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
                 } else {
@@ -60,13 +70,22 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
         }
 
         companion object {
+            private const val KEY_INPUT_TEXT = "inputText"
             private const val KEY_INPUT_TYPE = "inputType"
-            private const val KEY_AUTOFILL_HINTS = "autofillHint"
+            private const val KEY_AUTO_FILL_HINTS = "autoFillHints"
 
-            fun newInstance(key: String, inputType: Int, autofillHints: Array<String>?): PrefFragment {
+            fun newInstance(
+                key: String,
+                inputText: String?,
+                inputType: Int,
+                autoFillHints: Array<String>?
+            ): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(ARG_KEY to key, KEY_INPUT_TYPE to inputType,
-                    KEY_AUTOFILL_HINTS to autofillHints)
+                f.arguments = bundleOf(
+                    ARG_KEY to key,
+                    KEY_INPUT_TEXT to inputText,
+                    KEY_INPUT_TYPE to inputType,
+                    KEY_AUTO_FILL_HINTS to autoFillHints)
                 return f
             }
         }
