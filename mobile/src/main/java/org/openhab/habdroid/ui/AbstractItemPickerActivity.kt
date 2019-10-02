@@ -62,7 +62,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     protected abstract var hintMessageId: Int
     protected abstract var hintButtonMessageId: Int
     protected abstract var hintIconId: Int
-    protected abstract var disabledMessageId: Int
 
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(this, true)
