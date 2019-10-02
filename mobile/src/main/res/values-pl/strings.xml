@@ -32,6 +32,7 @@
     <string name="settings_openhab_demomode">Wersja demonstracyjna</string>
     <string name="settings_openhab_demomode_summary">Jeśli nie masz serwera openHAB, włącz tryb demo aby zobaczyć co potrafi.</string>
     <string name="settings_openhab_theme">Motyw</string>
+    <string name="settings_select_a_color">Wybierz kolor</string>
     <string name="settings_openhab_fullscreen">Pełny ekran</string>
     <string name="settings_openhab_fullscreen_summary">Wyświetl w trybie pełnego ekranu</string>
     <string name="settings_openhab_icon_format">Format ikon</string>
@@ -62,6 +63,8 @@
     <string name="settings_insecure_connection_summary">Połączono z %s niebezpiecznym połączeniem</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Blokada ekranu</string>
+    <string name="settings_screen_lock_off">Wył</string>
+    <string name="settings_screen_lock_on">Wł</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Polecenia głosowe</string>
     <string name="title_voice_widget_icon">Polecenia głosowe i skrót do aplikacji</string>
@@ -219,11 +222,12 @@
     <string name="waiting_for_wifi">Czekam aż Wi-Fi nawiąże połączenie\2026</string>
     <!-- Log -->
     <string name="log">Log</string>
-    <string name="view_log">Wyświetl logi</string>
+    <string name="view_log">Wyświetl log</string>
     <string name="log_activity_action_clear_log">Wyczyść log</string>
     <string name="log_activity_action_show_errors">Pokaż tylko błędy</string>
     <string name="log_activity_action_show_all">Pokaż wszystkie wiadomości</string>
     <string name="log_activity_action_reload">Odśwież</string>
+    <string name="log_activity_content_description_share">Udostępnij log</string>
     <string name="empty_log">Log jest pusty</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Przypnij do pulpitu</string>
@@ -242,6 +246,7 @@
     <string name="content_description_increase_item_value">Zwiększ wartość</string>
     <string name="content_description_decrease_item_value">Zmniejsz wartość</string>
     <string name="swipe_to_refresh_description">Aplikacja odświeża się automatycznie, nie musisz robić tego ręcznie</string>
+    <string name="got_it">Rozumiem!</string>
     <!-- Intro strings -->
     <string name="app_intro">Wprowadzenie</string>
     <string name="intro_welcome">Witaj w openHAB</string>
