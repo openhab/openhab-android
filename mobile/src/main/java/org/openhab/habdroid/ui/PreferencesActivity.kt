@@ -27,9 +27,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -41,6 +43,9 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
+import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -50,8 +55,10 @@ import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.ui.preference.disableItemUpdatingPref
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.hasPermission
@@ -197,6 +204,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
     class MainSettingsFragment : AbstractSettingsFragment() {
         override val titleResId: Int @StringRes get() = R.string.action_settings
+        @ColorInt var previousColor: Int = 0
 
         override fun onStart() {
             super.onStart()
@@ -214,6 +222,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val localConnPref = getPreference(Constants.SUBSCREEN_LOCAL_CONNECTION)
             val remoteConnPref = getPreference(Constants.SUBSCREEN_REMOTE_CONNECTION)
             val themePref = getPreference(Constants.PREFERENCE_THEME)
+            val accentColorPref = getPreference(Constants.PREFERENCE_ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(Constants.PREFERENCE_CLEAR_CACHE)
             val clearDefaultSitemapPref = getPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP)
             val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
@@ -254,7 +263,25 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             themePref.setOnPreferenceChangeListener { _, _ ->
-                parentActivity.handleThemeChange()
+                // getDayNightMode() needs the new preference value, so delay the call until
+                // after this listener has returned
+                parentActivity.launch(Dispatchers.Main) {
+                    val mode = parentActivity.getPrefs().getDayNightMode(parentActivity)
+                    AppCompatDelegate.setDefaultNightMode(mode)
+                }
+                true
+            }
+
+            previousColor = prefs.getInt(accentColorPref.key, 0)
+            accentColorPref.setOnPreferenceChangeListener { _, newValue ->
+                fragmentManager?.findFragmentByTag(accentColorPref.fragmentTag)?.let { dialog ->
+                    fragmentManager?.commit(allowStateLoss = true) {
+                        remove(dialog)
+                    }
+                }
+                if (previousColor != newValue) {
+                    parentActivity.handleThemeChange()
+                }
                 true
             }
 

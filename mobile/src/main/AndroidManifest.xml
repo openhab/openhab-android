@@ -35,7 +35,7 @@
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
         android:supportsRtl="true"
-        android:theme="@style/HABDroid.Light">
+        android:theme="@style/openHAB.DayNight.orange">
         <activity
             android:name=".ui.PreferencesActivity"
             android:label="@string/app_preferences_name">
@@ -83,7 +83,7 @@
         <activity
             android:name="de.duenndns.ssl.MemorizingActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Translucent" />
+            android:theme="@style/Theme.MaterialComponents.Translucent" />
         <activity android:name=".ui.TaskerItemPickerActivity"
             android:label="@string/item_picker" >
             <intent-filter>

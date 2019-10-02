@@ -39,7 +39,7 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 195
+        versionCode 199
         versionName "2.9.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -130,7 +130,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"
     implementation "androidx.preference:preference:1.1.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:1.1.0-alpha10"
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.work:work-runtime:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
@@ -142,6 +142,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
     implementation "com.github.heremaps:oksse:be5d2cd6deb8cf3ca2c9a740bdacec816871d4f7"
     implementation "com.larswerkman:HoloColorPicker:1.5"
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation "com.caverock:androidsvg-aar:1.4"
     implementation("com.github.paolorotolo:appintro:v5.1.0") {
         transitive false
@@ -157,7 +158,7 @@ dependencies {
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"
     // Used libraries
-    implementation("com.mikepenz:aboutlibraries:6.2.3@aar") {
+    implementation("com.mikepenz:aboutlibraries:7.0.3@aar") {
         transitive = true
     }
     implementation "com.github.GrenderG:Toasty:1.4.2"

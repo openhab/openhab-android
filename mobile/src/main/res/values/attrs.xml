@@ -29,21 +29,9 @@
     </declare-styleable>
 
     <declare-styleable name="customAttrs">
-        <attr name="themedArrowDownIcon" format="reference" />
-        <attr name="themedArrowUpIcon" format="reference" />
-        <attr name="themedArrowRightIcon" format="reference" />
-        <attr name="themedColorIcon" format="reference" />
-        <attr name="themedClearIcon" format="reference" />
-        <attr name="themedSpinnerCaret" format="reference" />
-        <attr name="widgetlistItemDivider" format="reference" />
-        <attr name="frameWidgetDividerBackground" format="reference" />
-        <attr name="imageLoadingIndicator" format="reference" />
         <attr name="chartTheme" format="string" />
         <attr name="valueColors" format="reference" />
     </declare-styleable>
-
-    <attr name="themedDrawerBackground" format="reference|color" />
-    <attr name="themedHeaderTextColor" format="reference|color" />
 
     <item name="originalColor" type="id" />
 </resources>

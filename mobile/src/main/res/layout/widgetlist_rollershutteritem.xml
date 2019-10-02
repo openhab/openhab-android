@@ -12,18 +12,18 @@
         style="@style/ActionButton"
         android:id="@+id/up_button"
         android:contentDescription="@string/content_description_open_roller_shutter"
-        android:src="?themedArrowUpIcon" />
+        android:src="@drawable/ic_keyboard_arrow_up_themed_24dp" />
 
     <ImageButton
         style="@style/ActionButton"
         android:id="@+id/stop_button"
         android:contentDescription="@string/content_description_stop_roller_shutter"
-        android:src="?themedClearIcon" />
+        android:src="@drawable/ic_clear_themed_24dp" />
 
     <ImageButton
         style="@style/ActionButton"
         android:id="@+id/down_button"
         android:contentDescription="@string/content_description_close_roller_shutter"
-        android:src="?themedArrowDownIcon" />
+        android:src="@drawable/ic_keyboard_arrow_down_themed_24dp" />
 
 </LinearLayout>

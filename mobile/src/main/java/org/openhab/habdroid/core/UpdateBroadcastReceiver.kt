@@ -17,13 +17,17 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
+import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Constants.PREFERENCE_COMPARABLE_VERSION
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.getString
 
 class UpdateBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -62,6 +66,28 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 remove(Constants.PREFERENCE_REMOTE_USERNAME)
                 remove(Constants.PREFERENCE_REMOTE_PASSWORD)
             }
+            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= DARK_MODE) {
+                Log.d(TAG, "Migrate to day/night themes")
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    putString(Constants.PREFERENCE_THEME, context.getString(R.string.theme_value_system))
+                } else {
+                    val newTheme = when (prefs.getString("default_openhab_theme")) {
+                        "black", "basicuidark", "dark" -> context.getString(R.string.theme_value_dark)
+                        else -> context.getString(R.string.theme_value_system)
+                    }
+
+                    putString(Constants.PREFERENCE_THEME, newTheme)
+                }
+
+                val accentColor = when (prefs.getString("default_openhab_theme")) {
+                    "basicui", "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
+                    "black", "dark" -> ContextCompat.getColor(context, R.color.blue_grey_700)
+                    else -> ContextCompat.getColor(context, R.color.openhab_orange)
+                }
+
+                putInt(Constants.PREFERENCE_ACCENT_COLOR, accentColor)
+            }
             updateComparableVersion(this)
         }
     }
@@ -71,6 +97,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
         private const val UPDATE_LOCAL_CREDENTIALS = 26
         private const val SECURE_CREDENTIALS = 190
+        private const val DARK_MODE = 200
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
