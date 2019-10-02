@@ -76,7 +76,7 @@
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Screen lock</string>
-    <string name="settings_screen_lock_summary">Lock openHAB access with Android screen lock or fingerprint. Voice widgets can always be used.</string>
+    <string name="settings_screen_lock_summary">Lock openHAB access with Android screen lock or fingerprint. Widgets can always be used.</string>
     <string name="screen_lock_unlock_screen_description">Unlock to access openHAB</string>
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Kiosk mode</string>
