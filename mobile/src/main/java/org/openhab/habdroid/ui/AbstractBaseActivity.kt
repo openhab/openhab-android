@@ -25,21 +25,27 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.view.isInvisible
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
+import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     protected open val forceNonFullscreen = false
+    private var authPrompt: AuthPrompt? = null
 
     protected val isFullscreenEnabled: Boolean
         get() = getPrefs().getBoolean(Constants.PREFERENCE_FULLSCREEN, false)
@@ -104,9 +110,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
         val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
         if (locked) {
-            val intent = km.createConfirmDeviceCredentialIntent(null,
-                getString(R.string.screen_lock_unlock_screen_description))
-            startActivityForResult(intent, SCREEN_LOCK_REQUEST_CODE)
+            authPrompt = AuthPrompt()
+            authPrompt?.authenticate()
         }
     }
 
@@ -116,6 +121,9 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     private fun promptForDevicePasswordIfRequired() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return
+        }
+        if (authPrompt != null) {
             return
         }
         if (doesLockModeRequirePrompt(getPrefs().getScreenLockMode(this))) {
@@ -146,6 +154,37 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                     finish()
                 }
             }
+        }
+    }
+
+    private inner class AuthPrompt : BiometricPrompt.AuthenticationCallback() {
+        private val contentView = findViewById<View>(R.id.activity_content)
+        private val prompt = BiometricPrompt(this@AbstractBaseActivity, Dispatchers.Main.asExecutor(), this)
+
+        fun authenticate() {
+            val info = BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getString(R.string.app_name))
+                .setDescription(getString(R.string.screen_lock_unlock_screen_description))
+                .setDeviceCredentialAllowed(true)
+                .build()
+            contentView.isInvisible = true
+            prompt.authenticate(info)
+        }
+
+        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+            super.onAuthenticationError(errorCode, errString)
+            finish()
+        }
+
+        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+            super.onAuthenticationSucceeded(result)
+            contentView.isInvisible = false
+            authPrompt = null
+        }
+
+        override fun onAuthenticationFailed() {
+            super.onAuthenticationFailed()
+            finish()
         }
     }
 

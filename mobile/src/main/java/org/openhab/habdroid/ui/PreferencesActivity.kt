@@ -77,7 +77,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         if (savedInstanceState == null) {
             resultIntent = Intent()
             supportFragmentManager.commit {
-                add(R.id.prefs_container, MainSettingsFragment())
+                add(R.id.activity_content, MainSettingsFragment())
             }
         } else {
             resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT) ?: Intent()
@@ -114,7 +114,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
     fun openSubScreen(subScreenFragment: AbstractSettingsFragment) {
         supportFragmentManager.commit {
-            replace(R.id.prefs_container, subScreenFragment)
+            replace(R.id.activity_content, subScreenFragment)
             addToBackStack(null)
         }
     }
