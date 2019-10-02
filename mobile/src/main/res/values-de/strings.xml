@@ -261,6 +261,7 @@
     <string name="content_description_increase_item_value">Item-Wert erhöhen</string>
     <string name="content_description_decrease_item_value">Item-Wert verringern</string>
     <string name="swipe_to_refresh_description">Die Inhalte werden automatisch aktualisiert, Sie müssen das normalerweise nicht manuell tun</string>
+    <string name="got_it">Verstanden!</string>
     <!-- Intro strings -->
     <string name="app_intro">Einführung</string>
     <string name="intro_welcome">Willkommen bei openHAB</string>
