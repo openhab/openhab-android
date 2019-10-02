@@ -267,7 +267,6 @@
     <string name="content_description_increase_item_value">Zvýšit hodnotu Item</string>
     <string name="content_description_decrease_item_value">Snížit hodnotu Item</string>
     <string name="swipe_to_refresh_description">Aplikace se aktualizuje automaticky, obvykle není třeba to dělat ručně</string>
-    <string name="swipe_to_refresh_dismiss">Rozumím!</string>
     <!-- Intro strings -->
     <string name="app_intro">Úvod</string>
     <string name="intro_welcome">Vítejte v openHAB</string>
