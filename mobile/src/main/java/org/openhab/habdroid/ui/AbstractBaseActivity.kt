@@ -74,8 +74,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     @CallSuper
     override fun onStart() {
-        promptForDevicePasswordIfRequired()
         super.onStart()
+        promptForDevicePasswordIfRequired()
     }
 
     override fun onDestroy() {
