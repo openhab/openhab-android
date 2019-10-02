@@ -62,7 +62,6 @@
     <string name="settings_insecure_connection_summary">Connexion non sécurisée à %s</string>
     <string name="beta">Bêta</string>
     <string name="settings_screen_lock">Verrouillage de l\'écran</string>
-    <string name="settings_screen_lock_summary">Verrouiller l\'accès à openHAB avec le verrouillage d\'écran Android. Les widgets vocaux peuvent toujours être utilisés.</string>
     <string name="screen_lock_unlock_screen_description">Déverrouiller pour accéder à openHAB</string>
     <string name="settings_screen_lock_off">Désactivé</string>
     <string name="settings_screen_lock_kiosk">Mode kiosque</string>
