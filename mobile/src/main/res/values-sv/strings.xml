@@ -173,7 +173,6 @@
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Öppna openHAB</string>
     <string name="swipe_to_refresh_description">Denna app uppdaterar sig även automatiskt, du behöver normalt sett inte göra det manuellt</string>
-    <string name="swipe_to_refresh_dismiss">Jag förstår!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introduktion</string>
     <string name="intro_welcome">Välkommen till openHAB</string>
