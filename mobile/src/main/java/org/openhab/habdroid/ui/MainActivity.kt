@@ -206,8 +206,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true) ||
             prefs.getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
         ) {
-            val i = Intent(this, IntroActivity::class.java)
-            startActivityForResult(i, INTRO_REQUEST_CODE)
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
         }
         UpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
 
@@ -328,7 +328,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
         when (requestCode) {
-            SETTINGS_REQUEST_CODE -> {
+            REQUEST_CODE_SETTINGS -> {
                 if (data == null) {
                     return
                 }
@@ -339,7 +339,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     recreate()
                 }
             }
-            WRITE_NFC_TAG_REQUEST_CODE -> Log.d(TAG, "Got back from Write NFC tag")
         }
     }
 
@@ -612,6 +611,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     openNotifications(null)
                     handled = true
                 }
+                R.id.nfc -> {
+                    val intent = Intent(this, NfcInfoActivity::class.java)
+                    startActivity(intent)
+                    handled = true
+                }
                 R.id.habpanel -> {
                     openHabPanel()
                     handled = true
@@ -619,11 +623,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 R.id.settings -> {
                     val settingsIntent = Intent(this@MainActivity, PreferencesActivity::class.java)
                     settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES, serverProperties)
-                    startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE)
+                    startActivityForResult(settingsIntent, REQUEST_CODE_SETTINGS)
                     handled = true
                 }
                 R.id.about -> {
-                    openAbout()
+                    val aboutIntent = Intent(this, AboutActivity::class.java)
+                    aboutIntent.putExtra("serverProperties", serverProperties)
+                    startActivity(aboutIntent)
                     handled = true
                 }
             }
@@ -636,6 +642,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             handled
         }
+
+        drawerMenu.findItem(R.id.nfc).isVisible = NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()
     }
 
     private fun updateNotificationDrawerItem() {
@@ -738,13 +746,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             true
         }
         else -> false
-    }
-
-    private fun openAbout() {
-        val aboutIntent = Intent(this, AboutActivity::class.java)
-        aboutIntent.putExtra("serverProperties", serverProperties)
-
-        startActivityForResult(aboutIntent, INFO_REQUEST_CODE)
     }
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
@@ -859,7 +860,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             return
         }
 
-        showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss) {
+        showSnackbar(R.string.swipe_to_refresh_description, R.string.got_it) {
             prefs.edit {
                 putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
             }
@@ -941,7 +942,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             showSnackbar(R.string.settings_phone_state_permission_denied,
                 R.string.settings_phone_state_permission_allow) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE),
-                    READ_PHONE_STATE_REQUEST_CODE)
+                    REQUEST_CODE_READ_PHONE_STATE)
             }
         }
     }
@@ -1024,11 +1025,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private val TAG = MainActivity::class.java.simpleName
 
         // Activities request codes
-        private const val INTRO_REQUEST_CODE = 1001
-        private const val SETTINGS_REQUEST_CODE = 1002
-        private const val WRITE_NFC_TAG_REQUEST_CODE = 1003
-        private const val INFO_REQUEST_CODE = 1004
-        private const val READ_PHONE_STATE_REQUEST_CODE = 1005
+        private const val REQUEST_CODE_SETTINGS = 1001
+        private const val REQUEST_CODE_READ_PHONE_STATE = 1002
         // Drawer item codes
         private const val GROUP_ID_SITEMAPS = 1
     }

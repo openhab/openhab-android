@@ -47,7 +47,6 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -309,9 +308,10 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             itemName: String,
             state: String,
             mappedState: String,
-            label: String
+            label: String?
         ): Intent {
             require(itemName.isNotEmpty()) { "Item name is empty" }
+            val labelOrItemName = if (label.isNullOrEmpty()) itemName else label
 
             val uriBuilder = Uri.Builder()
                 .scheme(NfcTag.SCHEME)
@@ -322,7 +322,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             val shortUri = uriBuilder.build()
             val longUri = uriBuilder
                 .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mappedState)
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, label)
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, labelOrItemName)
                 .build()
 
             return Intent(context, WriteTagActivity::class.java).apply {

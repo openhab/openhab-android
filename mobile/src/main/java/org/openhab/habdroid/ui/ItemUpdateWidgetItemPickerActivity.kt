@@ -6,15 +6,15 @@ import android.os.Bundle
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 
-class ItemUpdateWidgetItemPickerActivity(override var disabledMessageId: Int = 0) : AbstractItemPickerActivity() {
+class ItemUpdateWidgetItemPickerActivity(
+    override var hintMessageId: Int = 0,
+    override var hintButtonMessageId: Int = 0,
+    override var hintIconId: Int = 0
+) : AbstractItemPickerActivity() {
     private var appWidgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retryButton.setOnClickListener {
-            loadItems()
-        }
-
         appWidgetId = intent?.extras?.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID

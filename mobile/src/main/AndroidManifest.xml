@@ -98,6 +98,9 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.NfcInfoActivity"
+            android:label="@string/intro_nfc" />
 
         <service
             android:name=".core.VoiceService"
