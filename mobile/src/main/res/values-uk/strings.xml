@@ -63,7 +63,6 @@
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокування екрану</string>
-    <string name="settings_screen_lock_summary">Блокування доступу до openHAB через екран блокування Android або відбиток пальця. Голосові віджети можна використовувати.</string>
     <string name="screen_lock_unlock_screen_description">Розблокувати для доступу до openHAB</string>
     <string name="settings_screen_lock_off">Вимкнено</string>
     <string name="settings_screen_lock_kiosk">Режим Kiosk</string>
