@@ -16,7 +16,6 @@ package org.openhab.habdroid.ui
 import android.annotation.TargetApi
 import android.app.ActivityManager
 import android.app.KeyguardManager
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -31,14 +30,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
-import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
@@ -141,22 +138,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     private fun timestampNeedsReauth(ts: Long) =
         ts == 0L || SystemClock.elapsedRealtime() - ts > AUTHENTICATION_VALIDITY_PERIOD
 
-    @CallSuper
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SCREEN_LOCK_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
-            } else if (getPrefs().getScreenLockMode(this) == ScreenLockMode.KioskMode) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    finishAndRemoveTask()
-                } else {
-                    finish()
-                }
-            }
-        }
-    }
-
     private inner class AuthPrompt : BiometricPrompt.AuthenticationCallback() {
         private val contentView = findViewById<View>(R.id.activity_content)
         private val prompt = BiometricPrompt(this@AbstractBaseActivity, Dispatchers.Main.asExecutor(), this)
@@ -173,24 +154,32 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             super.onAuthenticationError(errorCode, errString)
-            finish()
+            finishActivity()
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             super.onAuthenticationSucceeded(result)
+            lastAuthenticationTimestamp = SystemClock.elapsedRealtime()
             contentView.isInvisible = false
             authPrompt = null
         }
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
-            finish()
+            finishActivity()
+        }
+
+        private fun finishActivity() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAndRemoveTask()
+            } else {
+                finish()
+            }
         }
     }
 
     companion object {
         private const val AUTHENTICATION_VALIDITY_PERIOD = 2 * 60 * 1000L
-        private const val SCREEN_LOCK_REQUEST_CODE = 2001
 
         var lastAuthenticationTimestamp = 0L
     }
