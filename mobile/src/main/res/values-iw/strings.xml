@@ -246,7 +246,6 @@
     <string name="content_description_increase_item_value">הגדלת ערך הפריט</string>
     <string name="content_description_decrease_item_value">הקטנת ערך הפריט</string>
     <string name="swipe_to_refresh_description">היישום מרענן באופן אוטומטי, בדרך כלל אין צורך לבצע זאת ידנית</string>
-    <string name="swipe_to_refresh_dismiss">הבנתי!</string>
     <!-- Intro strings -->
     <string name="app_intro">הקדמה</string>
     <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
