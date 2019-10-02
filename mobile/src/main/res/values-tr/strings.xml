@@ -134,9 +134,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Açık</string>
     <string name="theme_name_dark">Koyu</string>
-    <string name="theme_name_black">Siyah/Amoled</string>
-    <string name="theme_name_basic_ui">Basit UI</string>
-    <string name="theme_name_basic_ui_dark">Basit UI Koyu</string>
     <!-- NFC -->
     <string name="nfc_action_on">Açık</string>
     <string name="nfc_action_up">Yukarı</string>
