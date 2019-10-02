@@ -265,7 +265,6 @@
     <string name="content_description_increase_item_value">Wäert vum Item eropsetzen</string>
     <string name="content_description_decrease_item_value">Wäert vum Item erofsetzen</string>
     <string name="swipe_to_refresh_description">D\'App aktualiséiert sech automatesch, Du brauchs et net manuell ze maachen</string>
-    <string name="swipe_to_refresh_dismiss">Verstanen!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introduktioun</string>
     <string name="intro_welcome">Wëllkomm bei openHAB</string>
