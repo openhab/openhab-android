@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.TranslucentBase">
+    <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

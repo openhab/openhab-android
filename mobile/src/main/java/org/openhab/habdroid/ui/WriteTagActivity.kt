@@ -37,6 +37,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -270,7 +271,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             val message = view?.findViewById<TextView>(R.id.write_tag_message)
             message?.setText(R.string.info_write_tag_disabled)
 
-            val nfcActivate = view?.findViewById<TextView>(R.id.nfc_activate)
+            val nfcActivate = view?.findViewById<Button>(R.id.nfc_activate)
             nfcActivate?.isVisible = true
 
             val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

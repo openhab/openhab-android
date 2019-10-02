@@ -13,12 +13,12 @@
 
 package org.openhab.habdroid.util
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.util.Log
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
@@ -43,16 +43,11 @@ object Util {
     val isFlavorFoss get() = !isFlavorFull
 
     @StyleRes
-    @JvmOverloads
-    fun getActivityThemeId(activity: Activity, theme: String? = null): Int {
-        val actualTheme = theme ?: activity.getPrefs().getString(Constants.PREFERENCE_THEME)
-
-        return when (actualTheme) {
-            activity.getString(R.string.theme_value_dark) -> R.style.HABDroid_Dark
-            activity.getString(R.string.theme_value_black) -> R.style.HABDroid_Black
-            activity.getString(R.string.theme_value_basic_ui) -> R.style.HABDroid_Basic_ui
-            activity.getString(R.string.theme_value_basic_ui_dark) -> R.style.HABDroid_Basic_ui_dark
-            else -> R.style.HABDroid_Light
+    fun getActivityThemeId(context: Context): Int {
+        return when (context.getPrefs().getInt(Constants.PREFERENCE_ACCENT_COLOR, 0)) {
+            ContextCompat.getColor(context, R.color.indigo_500) -> R.style.openHAB_DayNight_basicui
+            ContextCompat.getColor(context, R.color.blue_grey_700) -> R.style.openHAB_DayNight_grey
+            else -> R.style.openHAB_DayNight_orange
         }
     }
 

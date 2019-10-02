@@ -13,7 +13,7 @@
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:scaleType="center"
-        android:src="?themedSpinnerCaret"
+        android:src="@drawable/ic_spinner_caret_themed"
         android:contentDescription="@string/content_description_open_number_picker" />
 
     <ImageButton
@@ -21,13 +21,13 @@
         android:id="@+id/up_button"
         android:padding="4dp"
         android:contentDescription="@string/content_description_increase_item_value"
-        android:src="?themedArrowUpIcon" />
+        android:src="@drawable/ic_keyboard_arrow_up_themed_24dp" />
 
     <ImageButton
         style="@style/ActionButton"
         android:id="@+id/down_button"
         android:padding="4dp"
         android:contentDescription="@string/content_description_decrease_item_value"
-        android:src="?themedArrowDownIcon" />
+        android:src="@drawable/ic_keyboard_arrow_down_themed_24dp" />
 
 </LinearLayout>
