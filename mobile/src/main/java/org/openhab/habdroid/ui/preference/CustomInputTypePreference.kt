@@ -22,11 +22,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import androidx.preference.PreferenceDataStore
 
 class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs) {
     private val inputType: Int
     private var autofillHints: Array<String>? = null
+    private var defValue: Any? = null
 
     init {
         val attrArray = intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints)
@@ -35,6 +37,19 @@ class CustomInputTypePreference constructor(context: Context, attrs: AttributeSe
             autofillHints = getString(1)?.split(',')?.toTypedArray()
             recycle()
         }
+    }
+
+    override fun onSetInitialValue(defaultValue: Any?) {
+        defValue = defaultValue
+        super.onSetInitialValue(defaultValue)
+    }
+
+    override fun setPreferenceDataStore(dataStore: PreferenceDataStore?) {
+        super.setPreferenceDataStore(dataStore)
+        // The initial onSetInitialValue call, which initializes the editor content, is called before
+        // setPreferenceDataStore can possibly be called, so re-do that initialization here to get the content
+        // populated from the data store that was just set
+        super.onSetInitialValue(defValue)
     }
 
     fun createDialog(): DialogFragment {
