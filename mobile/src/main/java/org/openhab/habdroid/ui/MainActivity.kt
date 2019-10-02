@@ -642,8 +642,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             handled
         }
-
-        drawerMenu.findItem(R.id.nfc).isVisible = NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()
     }
 
     private fun updateNotificationDrawerItem() {
@@ -658,12 +656,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun updateSitemapAndHabPanelDrawerItems() {
         val sitemapItem = drawerMenu.findItem(R.id.sitemaps)
         val habPanelItem = drawerMenu.findItem(R.id.habpanel)
+        val nfcItem = drawerMenu.findItem(R.id.nfc)
         val props = serverProperties
         if (props == null) {
             sitemapItem.isVisible = false
             habPanelItem.isVisible = false
+            nfcItem.isVisible = false
         } else {
             habPanelItem.isVisible = props.hasHabPanelInstalled()
+            nfcItem.isVisible = NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()
             manageHabPanelShortcut(props.hasHabPanelInstalled())
             val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap())
 
