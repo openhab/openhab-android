@@ -172,7 +172,6 @@
     <string name="content_description_video">Βίντεο</string>
     <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
     <string name="swipe_to_refresh_description">Η εφαρμογή ανανεώνεται αυτόματα, κανονικά δε χρειάζεται να το κάνετε με το χέρι</string>
-    <string name="swipe_to_refresh_dismiss">Το κατάλαβα!</string>
     <!-- Intro strings -->
     <string name="app_intro">Εισαγωγή</string>
     <string name="intro_welcome">Καλώς ήρθατε στο openHAB</string>
