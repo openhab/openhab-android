@@ -15,6 +15,6 @@
         android:adjustViewBounds="true"
         android:layout_margin="4dip"
         android:contentDescription="@string/content_description_video"
-        app:progressIndicator="?attr/imageLoadingIndicator" />
+        app:progressIndicator="@drawable/ic_image_loading_themed" />
 
 </FrameLayout>

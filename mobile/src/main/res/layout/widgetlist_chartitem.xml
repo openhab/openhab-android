@@ -17,6 +17,6 @@
         android:scaleType="fitCenter"
         android:layout_margin="4dip"
         app:emptyHeightToWidthRatio="50%"
-        app:progressIndicator="?attr/imageLoadingIndicator" />
+        app:progressIndicator="@drawable/ic_image_loading_themed" />
 
 </FrameLayout>

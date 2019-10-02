@@ -42,9 +42,8 @@
             android:layout_margin="8dp"
             android:layout_gravity="center_horizontal" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button1"
-            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -53,9 +52,8 @@
             android:gravity="center"
             tools:text="Some action" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button2"
-            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

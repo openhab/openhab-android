@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/right_arrow"
         android:visibility="gone"
-        android:src="?themedArrowRightIcon"
+        android:src="@drawable/ic_keyboard_arrow_right_themed_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

@@ -50,6 +50,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Util.getActivityThemeId(this))
+
         checkFullscreen()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
