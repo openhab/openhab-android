@@ -65,7 +65,6 @@
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Blocco schermo</string>
-    <string name="settings_screen_lock_summary">Blocca accesso openHAB con il blocca schermo o l\'impronta digitale da Android. I widget vocali possono sempre essere utilizzati.</string>
     <string name="screen_lock_unlock_screen_description">Sblocca per accedere a openHAB</string>
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Modalità Chiosco</string>
