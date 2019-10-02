@@ -63,7 +63,6 @@
     <string name="settings_insecure_connection_summary">Ongeséchert mat %s verbonnen</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Displayspär</string>
-    <string name="settings_screen_lock_summary">openHAB Accès via Android Displayspär oder Fangerofdrock blockéieren. Sprooch Widgets kennen ëmmer benotzt ginn.</string>
     <string name="screen_lock_unlock_screen_description">Entspären fir Zougrëff op openHAB ze kréien</string>
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk Modus</string>
