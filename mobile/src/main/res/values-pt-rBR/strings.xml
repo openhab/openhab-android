@@ -182,9 +182,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Claro</string>
     <string name="theme_name_dark">Escuro</string>
-    <string name="theme_name_black">Preto/AMOLED</string>
-    <string name="theme_name_basic_ui">UI Básica</string>
-    <string name="theme_name_basic_ui_dark">UI Básica escura</string>
     <!-- NFC -->
     <string name="nfc_action_on">Ligar</string>
     <string name="nfc_action_up">Para cima</string>
