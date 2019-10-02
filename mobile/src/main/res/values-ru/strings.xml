@@ -131,6 +131,7 @@
     <string name="action_settings">Настройки</string>
     <string name="nfc_tag_recognized_label">Распознана метка NFC для \"%s\"</string>
     <string name="nfc_tag_recognized_item">Распознана метка NFC для Item \"%s\"</string>
+    <string name="nfc_info_hint">Обновления Item можно записать на NFC метку. Выберите Item тут или на Sitemap долгим нажатием на виджет.</string>
     <string name="info_not_set">Не задано</string>
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Background tasks -->
@@ -183,6 +184,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Светлая</string>
     <string name="theme_name_dark">Темная</string>
+    <string name="theme_name_system">Как в настройках</string>
+    <string name="theme_name_battery_saver">Темная тема в режиме экономии батареи</string>
     <!-- NFC -->
     <string name="nfc_action_on">Вкл</string>
     <string name="nfc_action_up">Вверх</string>
