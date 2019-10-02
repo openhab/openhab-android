@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:alpha="0.3"
         android:src="@mipmap/icon"
+        android:visibility="gone"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -24,5 +25,16 @@
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="@color/light"
+        android:visibility="gone"
         tools:text="Dimmer: 33 %" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?attr/indeterminateProgressStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/openhab_orange"
+        android:indeterminateTintMode="src_in" />
+
 </FrameLayout>
