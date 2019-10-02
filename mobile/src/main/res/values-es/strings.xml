@@ -265,7 +265,6 @@
     <string name="content_description_increase_item_value">Aumentar el valor del ítem</string>
     <string name="content_description_decrease_item_value">Disminuir el valor del ítem</string>
     <string name="swipe_to_refresh_description">La aplicación se refresca automáticamente, normalmente no necesitas hacerlo manualmente</string>
-    <string name="swipe_to_refresh_dismiss">¡Lo tengo!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introducción</string>
     <string name="intro_welcome">Bienvenido a openHAB</string>
