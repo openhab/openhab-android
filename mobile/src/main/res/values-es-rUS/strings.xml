@@ -265,10 +265,11 @@
     <string name="content_description_increase_item_value">Aumentar el valor del ítem</string>
     <string name="content_description_decrease_item_value">Disminuir el valor del ítem</string>
     <string name="swipe_to_refresh_description">La aplicación se refresca automáticamente, normalmente no necesitas hacerlo manualmente</string>
-    <string name="swipe_to_refresh_dismiss">¡Lo tengo!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introducción</string>
     <string name="intro_welcome">Bienvenido a openHAB</string>
+    <string name="intro_welcome_back">Bienvenido de nuevo a openHAB</string>
+    <string name="intro_app_restored">Todos sus ajustes han sido restaurados, excepto las credenciales del servidor</string>
     <string name="intro_whatis">Un software de automatización de código abierto para tu hogar independiente del proveedor y de la tecnología</string>
     <string name="intro_themes">Temas</string>
     <string name="intro_themes_description">Elegir entre varios temas</string>
