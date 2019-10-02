@@ -128,6 +128,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
 
                 when {
                     !response.isSuccessful -> {
+                        body?.close()
                         cont.resumeWithException(
                             HttpException(call.request(), url, response.message(), response.code()))
                     }
