@@ -34,6 +34,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.finishAndRemoveTaskIfPossible
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
 import kotlin.coroutines.CoroutineContext
@@ -155,7 +156,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             super.onAuthenticationError(errorCode, errString)
-            finishActivity()
+            finishAndRemoveTaskIfPossible()
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -167,15 +168,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
-            finishActivity()
-        }
-
-        private fun finishActivity() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                finishAndRemoveTask()
-            } else {
-                finish()
-            }
+            finishAndRemoveTaskIfPossible()
         }
     }
 
