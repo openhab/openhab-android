@@ -159,9 +159,6 @@
     <!-- Themes -->
     <string name="theme_name_light">亮色</string>
     <string name="theme_name_dark">暗色</string>
-    <string name="theme_name_black">黑色 / AMOLED</string>
-    <string name="theme_name_basic_ui">基本 UI</string>
-    <string name="theme_name_basic_ui_dark">基本暗色 UI</string>
     <!-- NFC -->
     <string name="nfc_action_on">开启</string>
     <string name="nfc_action_up">向上</string>
