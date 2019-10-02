@@ -220,7 +220,6 @@
     <string name="content_description_video">ビデオ</string>
     <string name="content_description_open_openhab">openHAB を開く</string>
     <string name="swipe_to_refresh_description">アプリも自動的に更新されます、通常、手動で行う必要はありません</string>
-    <string name="swipe_to_refresh_dismiss">了解!</string>
     <!-- Intro strings -->
     <string name="app_intro">はじめに</string>
     <string name="intro_welcome">openHAB へようこそ</string>
