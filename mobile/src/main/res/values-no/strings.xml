@@ -62,7 +62,6 @@
     <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Skjermlås</string>
-    <string name="settings_screen_lock_summary">Lås openHAB tilganger med Android skjermlås eller fingeravtrykk. Stemme-widget kan også brukes.</string>
     <string name="screen_lock_unlock_screen_description">Lås opp for tilgang til openHAB</string>
     <string name="settings_screen_lock_off">Av</string>
     <string name="settings_screen_lock_kiosk">Kiosk-modus</string>
