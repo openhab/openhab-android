@@ -27,11 +27,13 @@
     <string name="settings_openhab_password_summary_strong">Ustawiono mocne hasło</string>
     <string name="settings_openhab_sslclientcert">Certyfikat klienta SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Naciśnij tutaj, aby uzyskać kilka wskazówek i wyjaśnień o tym, jak skonfigurować autoryzację certyfikatu klienta SSL</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Certyfikaty SSL klienta nie są obsługiwane na twoim urządzeniu</string>
     <string name="settings_openhab_screentimeroff">Wyłącz wyświetlanie zegara</string>
     <string name="settings_openhab_screentimeroff_summary">Wyłącz wyświetlanie wyłącznik zegara, kiedy openHAB jest włączony</string>
     <string name="settings_openhab_demomode">Wersja demonstracyjna</string>
     <string name="settings_openhab_demomode_summary">Jeśli nie masz serwera openHAB, włącz tryb demo aby zobaczyć co potrafi.</string>
     <string name="settings_openhab_theme">Motyw</string>
+    <string name="settings_accent_color">Kolor akcentów</string>
     <string name="settings_select_a_color">Wybierz kolor</string>
     <string name="settings_openhab_fullscreen">Pełny ekran</string>
     <string name="settings_openhab_fullscreen_summary">Wyświetl w trybie pełnego ekranu</string>
@@ -63,7 +65,10 @@
     <string name="settings_insecure_connection_summary">Połączono z %s niebezpiecznym połączeniem</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Blokada ekranu</string>
+    <string name="settings_screen_lock_summary">Zablokuj dostęp do openHAB ekranem blokady Androida lub odciskiem palca. Widżety można zawsze używać.</string>
+    <string name="screen_lock_unlock_screen_description">Odblokuj by uzyskać dostęp do openHAB</string>
     <string name="settings_screen_lock_off">Wył</string>
+    <string name="settings_screen_lock_kiosk">Tryb kiosku</string>
     <string name="settings_screen_lock_on">Wł</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Polecenia głosowe</string>
@@ -135,6 +140,7 @@
     <string name="send_device_info_to_server">Wyślij informacje o urządzeniu do serwera</string>
     <string name="send_device_info_item_prefix">Prefiks Item\'u</string>
     <string name="send_device_info_item_prefix_summary">Nazwy Item\'ów następujących funkcji mają ten prefiks</string>
+    <string name="settings_item_update_pref_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
     <string name="settings_alarm_clock">Wyślij budzik do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Wysyła czas budzika do Item\'u \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Nie wysyłaj czasu budzika do serwera</string>
@@ -146,6 +152,12 @@
     <string name="notification_channel_background_description">Służy do wyświetlania oczekujących zadań w tle</string>
     <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
     <string name="notification_channel_background_error_description">Służy do powiadamiania o błędach w zadaniach w tle</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Element nie mogły zostać zaktualizowany</item>
+        <item quantity="few">%d Elementy nie mogły zostać zaktualizowane</item>
+        <item quantity="many">%d Elementów nie mogło zostać zaktualizowanych</item>
+        <item quantity="other">%d Elementów nie mogło zostać zaktualizowanych</item>
+    </plurals>
     <string name="error_sending_alarm_clock_item_empty">Wprowadź poprawną nazwę Item\'u</string>
     <string name="retry">Ponów</string>
     <!-- Notification list strings -->
@@ -250,6 +262,8 @@
     <!-- Intro strings -->
     <string name="app_intro">Wprowadzenie</string>
     <string name="intro_welcome">Witaj w openHAB</string>
+    <string name="intro_welcome_back">Witaj ponownie w openHAB</string>
+    <string name="intro_app_restored">Przywrócono większość twoich ustawień, poza danymi logowania do serwera</string>
     <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
     <string name="intro_themes">Motywy</string>
     <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
@@ -261,9 +275,18 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">GOTOWE</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Nie znaleziono żadnych Itemów</string>
+    <string name="item_picker_list_error">Wystąpił błąd podczas ładowania Itemów</string>
+    <string name="item_picker_custom">Niestandardowy</string>
     <string name="item_picker_dialog_title">Wybierz stan</string>
+    <string name="item_picker">Itemy openHAB</string>
+    <string name="item_picker_blurb">Ustaw \"%1$s\" (%2$s) na \"%3$s\"</string>
     <string name="search">Szukaj</string>
     <string name="turn_on">Włącz</string>
     <string name="press_back_to_exit">Naciśnij ponownie, aby wyjść</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Sterowanie Item</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Wybierz Item</string>
+    <string name="item_update_widget_success_toast">%1$s ustawiono na %2$s</string>
 </resources>
