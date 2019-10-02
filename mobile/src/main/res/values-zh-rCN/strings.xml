@@ -219,7 +219,6 @@
     <string name="content_description_increase_item_value">增加项目权重</string>
     <string name="content_description_decrease_item_value">减少项目权重</string>
     <string name="swipe_to_refresh_description">此应用程序将自动刷新，您通常无需手动操作</string>
-    <string name="swipe_to_refresh_dismiss">知道了！</string>
     <!-- Intro strings -->
     <string name="app_intro">介绍</string>
     <string name="intro_welcome">欢迎来到 openHAB</string>
