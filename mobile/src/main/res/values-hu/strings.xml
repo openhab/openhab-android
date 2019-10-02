@@ -169,9 +169,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Világos</string>
     <string name="theme_name_dark">Sötét</string>
-    <string name="theme_name_black">Fekete/AMOLED</string>
-    <string name="theme_name_basic_ui">Egyszerű felhasználói Felületet</string>
-    <string name="theme_name_basic_ui_dark">Egyszerű felhasználói Felületet - sötét</string>
     <!-- NFC -->
     <string name="nfc_action_on">Be</string>
     <string name="nfc_action_up">Fel</string>
@@ -245,7 +242,6 @@
     <string name="content_description_increase_item_value">Érték növelése</string>
     <string name="content_description_decrease_item_value">Érték csökkentése</string>
     <string name="swipe_to_refresh_description">Az alkalmazás frissül automatikusan, általában nem kell saját kezűleg ezt megtenni</string>
-    <string name="swipe_to_refresh_dismiss">Értettem!</string>
     <!-- Intro strings -->
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Üdvözöljük openHAB-ban</string>

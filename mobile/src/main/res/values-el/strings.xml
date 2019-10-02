@@ -122,9 +122,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Ανοιχτόχρωμο</string>
     <string name="theme_name_dark">Σκοτεινό</string>
-    <string name="theme_name_black">Μαύρο/AMOLED</string>
-    <string name="theme_name_basic_ui">Βασικό UI</string>
-    <string name="theme_name_basic_ui_dark">Βασικό σκοτεινό UI</string>
     <!-- NFC -->
     <string name="nfc_action_on">Αναμμένο</string>
     <string name="nfc_action_up">Πάνω</string>
@@ -172,7 +169,6 @@
     <string name="content_description_video">Βίντεο</string>
     <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
     <string name="swipe_to_refresh_description">Η εφαρμογή ανανεώνεται αυτόματα, κανονικά δε χρειάζεται να το κάνετε με το χέρι</string>
-    <string name="swipe_to_refresh_dismiss">Το κατάλαβα!</string>
     <!-- Intro strings -->
     <string name="app_intro">Εισαγωγή</string>
     <string name="intro_welcome">Καλώς ήρθατε στο openHAB</string>

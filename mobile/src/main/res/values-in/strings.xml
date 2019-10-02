@@ -61,9 +61,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Cahaya</string>
     <string name="theme_name_dark">Gelap</string>
-    <string name="theme_name_black">Hitam/AMOLED</string>
-    <string name="theme_name_basic_ui">UI Dasar</string>
-    <string name="theme_name_basic_ui_dark">Dasar UI gelap</string>
     <!-- NFC -->
     <string name="nfc_action_on">Di</string>
     <string name="nfc_action_up">Naik</string>

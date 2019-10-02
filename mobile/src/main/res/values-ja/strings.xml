@@ -157,9 +157,6 @@
     <!-- Themes -->
     <string name="theme_name_light">ライト</string>
     <string name="theme_name_dark">ダーク</string>
-    <string name="theme_name_black">ブラック/AMOLED</string>
-    <string name="theme_name_basic_ui">基本 UI</string>
-    <string name="theme_name_basic_ui_dark">基本 UI ダーク</string>
     <!-- NFC -->
     <string name="nfc_action_on">オン</string>
     <string name="nfc_action_up">上</string>
@@ -220,7 +217,6 @@
     <string name="content_description_video">ビデオ</string>
     <string name="content_description_open_openhab">openHAB を開く</string>
     <string name="swipe_to_refresh_description">アプリも自動的に更新されます、通常、手動で行う必要はありません</string>
-    <string name="swipe_to_refresh_dismiss">了解!</string>
     <!-- Intro strings -->
     <string name="app_intro">はじめに</string>
     <string name="intro_welcome">openHAB へようこそ</string>

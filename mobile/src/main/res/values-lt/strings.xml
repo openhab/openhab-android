@@ -61,9 +61,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Šviesi</string>
     <string name="theme_name_dark">Tamsi</string>
-    <string name="theme_name_black">Juoda/AMOLED</string>
-    <string name="theme_name_basic_ui">Paprastas UI</string>
-    <string name="theme_name_basic_ui_dark">Paprastas UI (tamsus)</string>
     <!-- NFC -->
     <string name="nfc_action_on">Įjungti</string>
     <string name="nfc_action_up">Į viršų</string>
