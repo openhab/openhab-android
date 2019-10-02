@@ -154,7 +154,6 @@
     <string name="content_description_open_number_picker">فتح منتقي الرقم</string>
     <string name="content_description_video">فيديو</string>
     <string name="content_description_open_openhab">افتح openHAB</string>
-    <string name="swipe_to_refresh_dismiss">أعي ذلك!</string>
     <!-- Intro strings -->
     <string name="app_intro">مقدمة</string>
     <string name="intro_welcome">مرحبا في openHAB</string>
