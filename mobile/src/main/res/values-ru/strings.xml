@@ -33,6 +33,8 @@
     <string name="settings_openhab_demomode">Демо режим</string>
     <string name="settings_openhab_demomode_summary">Если у вас нет сервера openHAB - включите режим Демо, чтобы понять на что способен openHAB.</string>
     <string name="settings_openhab_theme">Тема</string>
+    <string name="settings_accent_color">Контрастный цвет</string>
+    <string name="settings_select_a_color">Выберите цвет</string>
     <string name="settings_openhab_fullscreen">Во весь экран</string>
     <string name="settings_openhab_fullscreen_summary">Показать во весь экран</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
@@ -63,6 +65,7 @@
     <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокировка экрана</string>
+    <string name="settings_screen_lock_summary">Ограничить доступ к openHAB c помощью экрана блокировки или отпечатка пальца. Виджетом можно будет пользоваться свободно.</string>
     <string name="screen_lock_unlock_screen_description">Разблокировать для доступа к openHAB</string>
     <string name="settings_screen_lock_off">Выкл</string>
     <string name="settings_screen_lock_kiosk">Режим киоска</string>
