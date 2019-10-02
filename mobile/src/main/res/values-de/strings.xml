@@ -63,7 +63,6 @@
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bildschirmsperre</string>
-    <string name="settings_screen_lock_summary">openHAB mit Bildschirmsperre oder Fingerabdruck entsperren. Sprach-Widgets sind hiervon ausgenommen und können immer verwendet werden.</string>
     <string name="screen_lock_unlock_screen_description">Entsperren, um Zugriff auf openHAB zu erlangen</string>
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
