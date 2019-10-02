@@ -231,7 +231,6 @@
     <string name="content_description_increase_item_value">Suurenna Itemin arvoa</string>
     <string name="content_description_decrease_item_value">Pienennä Itemin arvoa</string>
     <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
-    <string name="swipe_to_refresh_dismiss">Selvä!</string>
     <!-- Intro strings -->
     <string name="app_intro">Esittely</string>
     <string name="intro_welcome">Tervetuloa openHABiin</string>
