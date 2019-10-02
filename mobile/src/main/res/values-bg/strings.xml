@@ -146,7 +146,6 @@
     <string name="content_description_video">Видео</string>
     <string name="content_description_open_openhab">Отвори openHAB</string>
     <string name="swipe_to_refresh_description">Тази програма се обновява автоматично, нормално не е необходимо да го правите ръчно</string>
-    <string name="swipe_to_refresh_dismiss">Разбрах!</string>
     <!-- Intro strings -->
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
     <string name="intro_nfc">NFC</string>
