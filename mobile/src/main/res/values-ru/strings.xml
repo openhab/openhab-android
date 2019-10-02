@@ -263,6 +263,7 @@
     <string name="content_description_increase_item_value">Увеличить значение</string>
     <string name="content_description_decrease_item_value">Уменьшить значение</string>
     <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет необходимости делать это вручную</string>
+    <string name="got_it">Ясно!</string>
     <!-- Intro strings -->
     <string name="app_intro">Введение</string>
     <string name="intro_welcome">Добро пожаловать в openHAB</string>
