@@ -172,7 +172,6 @@
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Deschide openHAB</string>
     <string name="swipe_to_refresh_description">Aplicația se actualizează automat, în mod normal nu este necesar să faceți actualizarea manual</string>
-    <string name="swipe_to_refresh_dismiss">Am înțeles!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introducere</string>
     <string name="intro_welcome">Bine ați venit la openHAB</string>
