@@ -170,9 +170,6 @@
     <!-- Themes -->
     <string name="theme_name_light">בהיר</string>
     <string name="theme_name_dark">כהה</string>
-    <string name="theme_name_black">שחור/AMOLED</string>
-    <string name="theme_name_basic_ui">ממשק משתמש בסיסי</string>
-    <string name="theme_name_basic_ui_dark">ממשק משתמש בסיסי כהה</string>
     <!-- NFC -->
     <string name="nfc_action_on">הפעל</string>
     <string name="nfc_action_up">העלה</string>
