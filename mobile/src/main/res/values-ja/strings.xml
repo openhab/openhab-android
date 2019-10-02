@@ -157,9 +157,6 @@
     <!-- Themes -->
     <string name="theme_name_light">ライト</string>
     <string name="theme_name_dark">ダーク</string>
-    <string name="theme_name_black">ブラック/AMOLED</string>
-    <string name="theme_name_basic_ui">基本 UI</string>
-    <string name="theme_name_basic_ui_dark">基本 UI ダーク</string>
     <!-- NFC -->
     <string name="nfc_action_on">オン</string>
     <string name="nfc_action_up">上</string>
