@@ -62,7 +62,6 @@
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Näytön lukitus</string>
-    <string name="settings_screen_lock_summary">Lukitse opeHAB Androidin näyttölukituksella tai sormenjäljellä. Ääniwidgettejä voi aina käyttää.</string>
     <string name="screen_lock_unlock_screen_description">Avaa lukitus</string>
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Kiosk moodi</string>
