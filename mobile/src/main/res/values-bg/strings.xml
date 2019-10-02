@@ -109,7 +109,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Светло</string>
     <string name="theme_name_dark">Тъмно</string>
-    <string name="theme_name_black">Черно/AMOLED</string>
     <!-- NFC -->
     <string name="nfc_action_on">Включено</string>
     <string name="nfc_action_up">Нагоре</string>
