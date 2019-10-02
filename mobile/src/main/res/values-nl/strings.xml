@@ -213,7 +213,6 @@
     <string name="content_description_increase_item_value">Verhoog de waarde</string>
     <string name="content_description_decrease_item_value">Verlaag de waarde</string>
     <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
-    <string name="swipe_to_refresh_dismiss">Begrepen!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introductie</string>
     <string name="intro_welcome">Welkom bij openHAB</string>
