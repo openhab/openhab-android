@@ -169,9 +169,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Világos</string>
     <string name="theme_name_dark">Sötét</string>
-    <string name="theme_name_black">Fekete/AMOLED</string>
-    <string name="theme_name_basic_ui">Egyszerű felhasználói Felületet</string>
-    <string name="theme_name_basic_ui_dark">Egyszerű felhasználói Felületet - sötét</string>
     <!-- NFC -->
     <string name="nfc_action_on">Be</string>
     <string name="nfc_action_up">Fel</string>
