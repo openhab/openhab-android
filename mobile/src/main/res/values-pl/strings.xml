@@ -134,6 +134,7 @@
     <string name="action_settings">Ustawienia</string>
     <string name="nfc_tag_recognized_label">Rozpoznano tag NFC dla \"%s\"</string>
     <string name="nfc_tag_recognized_item">Rozpoznano tag NFC dla Item\'u \"%s\"</string>
+    <string name="nfc_info_hint">Zmiany Itemu mogą być zapisane do tagu NFC. Item możesz wybrać tutaj lub przytrzymać widżet w Sitemapie.</string>
     <string name="info_not_set">Nie ustawiono</string>
     <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Background tasks -->
@@ -158,6 +159,8 @@
         <item quantity="many">%d Elementów nie mogło zostać zaktualizowanych</item>
         <item quantity="other">%d Elementów nie mogło zostać zaktualizowanych</item>
     </plurals>
+    <string name="item_update_http_error">Nie udało się zaktualizować Itemu \'%1$s\' (błąd HTTP %2$d)</string>
+    <string name="item_update_connection_error">Nie udało się zaktualizować Itemu \'%1$s\' (Brak połączenia)</string>
     <string name="error_sending_alarm_clock_item_empty">Wprowadź poprawną nazwę Item\'u</string>
     <string name="retry">Ponów</string>
     <!-- Notification list strings -->
@@ -180,6 +183,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Jasny</string>
     <string name="theme_name_dark">Ciemny</string>
+    <string name="theme_name_system">Z motywu systemu</string>
+    <string name="theme_name_battery_saver">Włącz tryb ciemny w trybie oszczędzania baterii</string>
     <!-- NFC -->
     <string name="nfc_action_on">Włączony</string>
     <string name="nfc_action_up">W górę</string>
@@ -200,6 +205,8 @@
     <string name="nfc_action_stop">Zatrzymaj</string>
     <string name="nfc_activate">Aktywuj</string>
     <string name="nfc_action_current_color">Bieżący kolor</string>
+    <string name="nfc_action_to_sitemap_page">Zapisz Sitemap do tagu NFC</string>
+    <string name="nfc_action_write_command_tag">Zapisz Item do tagu NFC</string>
     <!-- Drawer -->
     <string name="drawer_open">Szuflada map witryn otwarta</string>
     <string name="drawer_close">Szuflada map witryn zamknięta</string>
@@ -282,10 +289,13 @@
     <string name="item_picker">Itemy openHAB</string>
     <string name="item_picker_blurb">Ustaw \"%1$s\" (%2$s) na \"%3$s\"</string>
     <string name="search">Szukaj</string>
+    <string name="settings_tasker_plugin">Integracja z Taskerem</string>
+    <string name="settings_tasker_plugin_summary">Włącz wtyczkę Taskera która pozwala aktualizować Itemy przez Taskera i inne kompatybilne aplikacje</string>
     <string name="turn_on">Włącz</string>
     <string name="press_back_to_exit">Naciśnij ponownie, aby wyjść</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Sterowanie Item</string>
+    <string name="item_update_widget_content_description">Widżet do zmiany stanu Itemu</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wybierz Item</string>
     <string name="item_update_widget_success_toast">%1$s ustawiono na %2$s</string>
