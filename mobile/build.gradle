@@ -140,7 +140,7 @@ dependencies {
     implementation "org.jmdns:jmdns:3.5.5"
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
-    implementation "com.github.heremaps:oksse:be5d2cd6deb8cf3ca2c9a740bdacec816871d4f7"
+    implementation "com.github.heremaps:oksse:0.9.0"
     implementation "com.larswerkman:HoloColorPicker:1.5"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation "com.caverock:androidsvg-aar:1.4"
