@@ -672,7 +672,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             manageHabPanelShortcut(props.hasHabPanelInstalled())
             val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap())
 
-            if (sitemaps.isNotEmpty() && prefs.areSitemapsShownInDrawer()) {
+            if (sitemaps.size > 1 && prefs.areSitemapsShownInDrawer()) {
                 sitemapItem.isVisible = true
                 val menu = sitemapItem.subMenu
                 menu.clear()
