@@ -893,14 +893,13 @@ class WidgetAdapter(
 
         @SuppressLint("SetJavaScriptEnabled")
         override fun bind(widget: Widget) {
-            val url = connection.httpClient.buildUrl(widget.url!!).toString()
+            val url = connection.httpClient.buildUrl(widget.url!!)
             with(webView) {
                 adjustForWidgetHeight(widget, 0)
                 loadUrl("about:blank")
 
                 setUpForConnection(connection, url)
-                webViewClient = AnchorWebViewClient(url, connection.username, connection.password)
-                loadUrl(url)
+                loadUrl(url.toString())
             }
         }
     }

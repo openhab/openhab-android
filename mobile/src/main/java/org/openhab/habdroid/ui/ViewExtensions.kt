@@ -28,6 +28,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import okhttp3.HttpUrl
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.openInBrowser
 
@@ -48,14 +49,14 @@ fun SwipeRefreshLayout.applyColors(@AttrRes vararg colorAttrIds: Int) {
     setColorSchemeColors(*colors)
 }
 
-fun WebView.setUpForConnection(connection: Connection, url: String) {
+fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val webViewDatabase = WebViewDatabase.getInstance(context)
-        webViewDatabase.setHttpAuthUsernamePassword(url.toUri().host, "",
+        webViewDatabase.setHttpAuthUsernamePassword(url.host(), "",
             connection.username, connection.password)
     } else {
         @Suppress("DEPRECATION")
-        setHttpAuthUsernamePassword(url.toUri().host, "",
+        setHttpAuthUsernamePassword(url.host(), "",
             connection.username, connection.password)
     }
 
@@ -65,6 +66,7 @@ fun WebView.setUpForConnection(connection: Connection, url: String) {
         setSupportMultipleWindows(true)
     }
 
+    webViewClient = ConnectionWebViewClient(connection)
     webChromeClient = object : WebChromeClient() {
         override fun onCreateWindow(view: WebView, dialog: Boolean, userGesture: Boolean, resultMsg: Message): Boolean {
             val href = view.handler.obtainMessage()
