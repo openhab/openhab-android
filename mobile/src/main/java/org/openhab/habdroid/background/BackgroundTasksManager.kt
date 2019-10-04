@@ -106,7 +106,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val value: String,
         val label: String?,
         val mappedValue: String?
-    ): Parcelable
+    ) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
         SharedPreferences.OnSharedPreferenceChangeListener {
