@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -58,6 +59,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     private lateinit var emptyView: View
     private lateinit var emptyMessage: TextView
     private lateinit var watermark: ImageView
+    private lateinit var searchView: SearchView
     protected lateinit var retryButton: Button
     protected abstract var hintMessageId: Int
     protected abstract var hintButtonMessageId: Int
@@ -117,7 +119,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         menuInflater.inflate(R.menu.item_picker, menu)
 
         val searchItem = menu.findItem(R.id.app_bar_search)
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
+        searchView.inputType = InputType.TYPE_CLASS_TEXT
         searchView.setOnQueryTextListener(this)
 
         return true
@@ -126,10 +129,18 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onOptionsItemSelected()")
         if (item.itemId == android.R.id.home) {
-            finish()
+            onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (!searchView.isIconified) {
+            searchView.isIconified = true
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onItemClicked(item: Item) {
