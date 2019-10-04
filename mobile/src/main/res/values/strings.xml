@@ -84,6 +84,7 @@
     <string name="settings_screen_lock_off_value" translatable="false">off</string>
     <string name="settings_screen_lock_kiosk_value" translatable="false">kiosk</string>
     <string name="settings_screen_lock_on_value" translatable="false">on</string>
+    <string name="settings_show_sitemaps_in_drawer">Show all Sitemaps in side menu</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -341,5 +342,4 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Select an Item</string>
     <string name="item_update_widget_success_toast">%1$s set to %2$s</string>
-    <string name="settings_show_sitemaps_in_drawer">Show sitemaps in drawer</string>
 </resources>
