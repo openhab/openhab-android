@@ -19,9 +19,20 @@ import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.runBlocking
+import org.json.JSONException
+import org.json.JSONObject
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.showToast
+import org.xml.sax.InputSource
+import org.xml.sax.SAXException
+import java.io.IOException
+import java.io.StringReader
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
@@ -41,24 +52,76 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             }
         }
 
-        val item = inputData.getString(INPUT_DATA_ITEM)
-        val value = inputData.getString(INPUT_DATA_VALUE) as String
+        val itemName = inputData.getString(INPUT_DATA_ITEM)!!
+        var value = inputData.getString(INPUT_DATA_VALUE)!!
         val successToastMessage = inputData.getString(INPUT_DATA_SUCCESS_TOAST_MESSAGE)
 
         return runBlocking {
             try {
+                val item = loadItem(connection, itemName)
+                if (item == null) {
+                    return@runBlocking Result.failure(buildOutputData(true, 500))
+                }
+                if (value == "TOGGLE") {
+                    value = determineOppositeState(item)
+                }
                 val result = connection.httpClient
-                    .post("rest/items/$item", value, "text/plain;charset=UTF-8")
+                    .post("rest/items/$itemName", value, "text/plain;charset=UTF-8")
                     .asStatus()
-                Log.d(TAG, "Item '$item' successfully updated to value $value")
+                Log.d(TAG, "Item '$itemName' successfully updated to value $value")
                 if (successToastMessage != null) {
                     applicationContext.showToast(successToastMessage)
                 }
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error updating item '$item' to value $value. Got HTTP error ${e.statusCode}", e)
+                Log.e(TAG, "Error updating item '$itemName' to value $value. Got HTTP error ${e.statusCode}", e)
                 Result.failure(buildOutputData(true, e.statusCode))
             }
+        }
+    }
+
+    private suspend fun loadItem(connection: Connection, itemName: String): Item? {
+        val response = connection.httpClient.get("rest/items/$itemName")
+        val contentType = response.response.contentType()
+        val content = response.asText().response
+
+
+        if (contentType?.type() == "application" && contentType?.subtype() == "json") {
+            // JSON
+            return try {
+                JSONObject(content).toItem()
+            } catch (e: JSONException) {
+                Log.e(TAG, "Failed parsing JSON result for item $itemName", e)
+                null
+            }
+        } else {
+            // XML
+            return try {
+                val dbf = DocumentBuilderFactory.newInstance()
+                val builder = dbf.newDocumentBuilder()
+                val document = builder.parse(InputSource(StringReader(content)))
+                document.toItem()
+            } catch (e: ParserConfigurationException) {
+                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
+                null
+            } catch (e: SAXException) {
+                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
+                null
+            } catch (e: IOException) {
+                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
+                null
+            }
+        }
+    }
+
+    private fun determineOppositeState(item: Item): String {
+        if (item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
+            // If shutter is (partially) closed, open it, else close it
+            return if (item.state?.asNumber?.value == 0F) "100" else "0"
+        } else if (item.state?.asBoolean == true) {
+            return "OFF"
+        } else {
+            return "ON"
         }
     }
 
