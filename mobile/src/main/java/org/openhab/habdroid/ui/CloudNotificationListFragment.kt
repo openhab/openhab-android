@@ -13,6 +13,8 @@
 
 package org.openhab.habdroid.ui
 
+import android.app.NotificationManager
+import android.content.Context.NOTIFICATION_SERVICE
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -111,6 +113,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
     }
 
     private fun loadNotifications(clearExisting: Boolean) {
+        clearStatusbarNotifications()
         val activity = activity as AbstractBaseActivity? ?: return
         val conn = ConnectionFactory.cloudConnection
         if (conn == null) {
@@ -145,6 +148,14 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
                 Log.e(TAG, "Notifications request failure", e)
             }
         }
+    }
+
+    // Statusbar notifications should be cleared on visiting notifications page
+    // in the app. Currently clearing all the notifications, but it could be
+    // modified further to remove specific only.
+    private fun clearStatusbarNotifications() {
+        val notificationManager: NotificationManager = activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
     }
 
     private fun handleInitialHighlight() {
