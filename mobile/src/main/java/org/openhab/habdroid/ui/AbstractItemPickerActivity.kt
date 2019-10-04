@@ -206,6 +206,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 val items = JSONArray(result.response)
                     .map { obj -> obj.toItem() }
                     .filterNot { item -> item.readOnly }
+                    // Contact Items cannot receive commands
+                    .filterNot { item -> item.type == Item.Type.Contact }
                 Log.d(TAG, "Item request success, got ${items.size} items")
                 itemPickerAdapter.setItems(items)
                 handleInitialHighlight()
