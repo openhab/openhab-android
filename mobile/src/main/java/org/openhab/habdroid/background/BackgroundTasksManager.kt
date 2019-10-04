@@ -91,7 +91,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
             when {
                 key == Constants.PREFERENCE_DEMO_MODE && prefs.isDemoModeEnabled() -> {
-                    // demo mode was enabled -> cancel all uploads and clear DB
+                    // Demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
                     with(WorkManager.getInstance(context)) {
                         cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
@@ -99,10 +99,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     }
                 }
                 key == Constants.PREFERENCE_DEMO_MODE && !prefs.isDemoModeEnabled() -> {
-                    // demo mode was disabled -> reschedule uploads
-                    for (knownKey in KNOWN_KEYS) {
-                        scheduleWorker(context, knownKey)
-                    }
+                    // Demo mode was disabled -> reschedule uploads
+                    KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
+
+                }
+                key == Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX -> {
+                    KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
                 }
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
             }
