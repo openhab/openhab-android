@@ -46,7 +46,7 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.ui.AnchorWebViewClient
+import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
 
@@ -177,9 +177,12 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         updateViewVisibility(error = false, loading = true)
 
         val webView = webView ?: return
-        val url = conn.httpClient.buildUrl(urlToLoad).toString()
+        val url = conn.httpClient.buildUrl(urlToLoad)
 
-        webView.webViewClient = object : AnchorWebViewClient(url, conn.username, conn.password) {
+        webView.setUpForConnection(conn, url)
+        webView.setBackgroundColor(Color.TRANSPARENT)
+
+        webView.webViewClient = object : ConnectionWebViewClient(conn) {
             override fun onPageFinished(view: WebView, url: String) {
                 updateViewVisibility(error = false, loading = false)
             }
@@ -198,9 +201,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 updateViewVisibility(error = true, loading = false)
             }
         }
-        webView.setUpForConnection(conn, url)
-        webView.loadUrl(url)
-        webView.setBackgroundColor(Color.TRANSPARENT)
+        webView.loadUrl(url.toString())
     }
 
     private fun updateViewVisibility(error: Boolean, loading: Boolean) {

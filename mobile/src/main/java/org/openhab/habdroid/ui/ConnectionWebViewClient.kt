@@ -21,42 +21,20 @@ import android.webkit.HttpAuthHandler
 import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.core.net.toUri
 import de.duenndns.ssl.MemorizingTrustManager
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
 import java.io.ByteArrayInputStream
 import java.security.cert.Certificate
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 
-open class AnchorWebViewClient(
-    url: String,
-    private val userName: String?,
-    private val password: String?
+open class ConnectionWebViewClient(
+    private val connection: Connection
 ) : WebViewClient() {
-    private val anchor: String?
-    private val host: String? = url.toUri().host
-
-    init {
-        val pos = url.lastIndexOf("#") + 1
-        if (pos != 0 && pos < url.length - 1) {
-            anchor = url.substring(pos)
-            Log.d(TAG, "Found anchor $anchor from url $url")
-        } else {
-            Log.d(TAG, "Did not find anchor from url $url")
-            anchor = null
-        }
-    }
 
     override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler, host: String, realm: String) {
-        handler.proceed(userName, password)
-    }
-
-    override fun onPageFinished(view: WebView, url: String) {
-        if (anchor != null) {
-            Log.d(TAG, "Now jumping to anchor $anchor")
-            view.loadUrl("javascript:location.hash = '#$anchor';")
-        }
+        handler.proceed(connection.username, connection.password)
     }
 
     override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
@@ -69,6 +47,7 @@ open class AnchorWebViewClient(
         } else {
             Log.e(TAG, "Invalid certificate")
             handler.cancel()
+            val host = connection.httpClient.buildUrl("").host()
             val errorMessage = when (error.primaryError) {
                 SslError.SSL_NOTYETVALID -> context.getString(R.string.error_certificate_not_valid_yet)
                 SslError.SSL_EXPIRED -> context.getString(R.string.error_certificate_expired)
@@ -97,6 +76,6 @@ open class AnchorWebViewClient(
     }
 
     companion object {
-        private val TAG = AnchorWebViewClient::class.java.simpleName
+        private val TAG = ConnectionWebViewClient::class.java.simpleName
     }
 }
