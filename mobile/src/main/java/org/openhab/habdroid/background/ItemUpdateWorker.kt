@@ -59,9 +59,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return runBlocking {
             try {
                 val item = loadItem(connection, itemName)
-                if (item == null) {
-                    return@runBlocking Result.failure(buildOutputData(true, 500))
-                }
+                    ?: return@runBlocking Result.failure(buildOutputData(true, 500))
                 if (value == "TOGGLE") {
                     value = determineOppositeState(item)
                 }
@@ -85,8 +83,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val contentType = response.response.contentType()
         val content = response.asText().response
 
-
-        if (contentType?.type() == "application" && contentType?.subtype() == "json") {
+        if (contentType?.type() == "application" && contentType.subtype() == "json") {
             // JSON
             return try {
                 JSONObject(content).toItem()
@@ -115,13 +112,13 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     }
 
     private fun determineOppositeState(item: Item): String {
-        if (item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
+        return if (item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
             // If shutter is (partially) closed, open it, else close it
-            return if (item.state?.asNumber?.value == 0F) "100" else "0"
+            if (item.state?.asNumber?.value == 0F) "100" else "0"
         } else if (item.state?.asBoolean == true) {
-            return "OFF"
+            "OFF"
         } else {
-            return "ON"
+            "ON"
         }
     }
 
