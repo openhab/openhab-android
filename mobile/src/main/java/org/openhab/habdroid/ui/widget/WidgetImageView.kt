@@ -20,12 +20,17 @@ import android.os.SystemClock
 import android.util.AttributeSet
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.HttpClient
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
@@ -103,7 +108,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         super.setImageDrawable(drawable)
     }
 
-    override fun setImageBitmap(bm: Bitmap) {
+    override fun setImageBitmap(bm: Bitmap?) {
         cancelCurrentLoad()
         lastRequest = null
         removeProgressDrawable()
