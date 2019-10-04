@@ -366,8 +366,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            updatePrefixSummary(sendDeviceInfoPrefixPref, prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX))
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
+                updatePrefixSummary(sendDeviceInfoPrefixPref, prefix)
                 alarmClockPref.updateSummaryAndIcon(prefix)
                 phoneStatePref.updateSummaryAndIcon(prefix)
                 true
@@ -450,6 +452,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                 val ringtone = RingtoneManager.getRingtone(activity, newValue)
                 pref.summary = ringtone?.getTitle(activity)
             }
+        }
+
+        private fun updatePrefixSummary(pref: Preference, newValue: String?) {
+            val prefix = if (newValue.isNullOrEmpty()) pref.context.getString(R.string.info_not_set) else newValue
+            pref.summary = pref.context.getString(R.string.send_device_info_item_prefix_summary, prefix)
         }
 
         private fun updateVibrationPreferenceIcon(pref: Preference, newValue: String?) {
