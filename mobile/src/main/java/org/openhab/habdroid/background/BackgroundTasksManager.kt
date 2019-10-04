@@ -101,7 +101,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 key == Constants.PREFERENCE_DEMO_MODE && !prefs.isDemoModeEnabled() -> {
                     // Demo mode was disabled -> reschedule uploads
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
-
                 }
                 key == Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
