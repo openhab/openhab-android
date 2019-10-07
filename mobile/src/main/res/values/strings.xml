@@ -157,7 +157,8 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Send device information to server</string>
     <string name="send_device_info_item_prefix">Item name prefix</string>
-    <string name="send_device_info_item_prefix_summary">The Item names of the following features have this prefix: %s</string>
+    <string name="send_device_info_item_prefix_summary">The Item names of the following features are prefixed with \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">No prefix is set for the Item names of the following features</string>
     <string name="settings_item_update_pref_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
     <string name="settings_alarm_clock">Send alarm clock to openHAB</string>
     <string name="settings_alarm_clock_summary_on">Sends alarm clock time to item \'%1$s\'</string>

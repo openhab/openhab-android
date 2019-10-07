@@ -455,8 +455,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun updatePrefixSummary(pref: Preference, newValue: String?) {
-            val prefix = if (newValue.isNullOrEmpty()) pref.context.getString(R.string.info_not_set) else newValue
-            pref.summary = pref.context.getString(R.string.send_device_info_item_prefix_summary, prefix)
+            pref.summary = if (newValue.isNullOrEmpty()) {
+                pref.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
+            } else {
+                pref.context.getString(R.string.send_device_info_item_prefix_summary, newValue)
+            }
         }
 
         private fun updateVibrationPreferenceIcon(pref: Preference, newValue: String?) {
