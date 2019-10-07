@@ -86,18 +86,28 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             val retryInfoList = ArrayList<BackgroundTasksManager.RetryInfo>()
             for ((tag, info) in failedInfoList) {
                 val data = info.outputData
-                val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM)
+                val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM_NAME)
+                val label = data.getString(ItemUpdateWorker.OUTPUT_DATA_LABEL)
                 val value = data.getString(ItemUpdateWorker.OUTPUT_DATA_VALUE)
+                val mappedValue = data.getString(ItemUpdateWorker.OUTPUT_DATA_MAPPED_VALUE)
                 val hadConnection = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_HAS_CONNECTION, false)
                 val httpStatus = data.getInt(ItemUpdateWorker.OUTPUT_DATA_HTTP_STATUS, 0)
 
                 if (itemName != null && value != null) {
-                    retryInfoList.add(BackgroundTasksManager.RetryInfo(tag, itemName, value))
+                    retryInfoList.add(BackgroundTasksManager.RetryInfo(tag, itemName, label, value, mappedValue))
                 }
                 errors.add(if (hadConnection) {
-                    context.getString(R.string.item_update_http_error, itemName, httpStatus)
+                    if (label.isNullOrEmpty()) {
+                        context.getString(R.string.item_update_http_error, itemName, httpStatus)
+                    } else {
+                        context.getString(R.string.item_update_http_error_label, label, httpStatus)
+                    }
                 } else {
-                    context.getString(R.string.item_update_connection_error, itemName)
+                    if (label.isNullOrEmpty()) {
+                        context.getString(R.string.item_update_connection_error, itemName)
+                    } else {
+                        context.getString(R.string.item_update_connection_error_label, label)
+                    }
                 })
             }
             val n = createErrorNotification(context, errors, retryInfoList)

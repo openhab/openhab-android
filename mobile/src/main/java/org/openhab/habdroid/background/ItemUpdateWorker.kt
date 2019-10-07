@@ -52,7 +52,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             }
         }
 
-        val itemName = inputData.getString(INPUT_DATA_ITEM)!!
+        val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
         var value = inputData.getString(INPUT_DATA_VALUE)!!
         val successToastMessage = inputData.getString(INPUT_DATA_SUCCESS_TOAST_MESSAGE)
 
@@ -126,8 +126,10 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return Data.Builder()
             .putBoolean(OUTPUT_DATA_HAS_CONNECTION, hasConnection)
             .putInt(OUTPUT_DATA_HTTP_STATUS, httpStatus)
-            .putString(OUTPUT_DATA_ITEM, inputData.getString(INPUT_DATA_ITEM))
+            .putString(OUTPUT_DATA_ITEM_NAME, inputData.getString(INPUT_DATA_ITEM_NAME))
+            .putString(OUTPUT_DATA_LABEL, inputData.getString(INPUT_DATA_LABEL))
             .putString(OUTPUT_DATA_VALUE, inputData.getString(INPUT_DATA_VALUE))
+            .putString(OUTPUT_DATA_MAPPED_VALUE, inputData.getString(INPUT_DATA_MAPPED_VALUE))
             .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
             .build()
     }
@@ -136,20 +138,32 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         private val TAG = ItemUpdateWorker::class.java.simpleName
         private const val MAX_RETRIES = 10
 
-        private const val INPUT_DATA_ITEM = "item"
+        private const val INPUT_DATA_ITEM_NAME = "item"
+        private const val INPUT_DATA_LABEL = "label"
         private const val INPUT_DATA_VALUE = "value"
+        private const val INPUT_DATA_MAPPED_VALUE = "mappedValue"
         private const val INPUT_DATA_SUCCESS_TOAST_MESSAGE = "successToast"
 
         const val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
         const val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
-        const val OUTPUT_DATA_ITEM = "item"
+        const val OUTPUT_DATA_ITEM_NAME = "item"
+        const val OUTPUT_DATA_LABEL = "label"
         const val OUTPUT_DATA_VALUE = "value"
+        const val OUTPUT_DATA_MAPPED_VALUE = "mappedValue"
         const val OUTPUT_DATA_TIMESTAMP = "timestamp"
 
-        fun buildData(item: String, value: String, successToast: String?): Data {
+        fun buildData(
+            itemName: String,
+            label: String?,
+            value: String,
+            mappedValue: String?,
+            successToast: String?
+        ): Data {
             return Data.Builder()
-                .putString(INPUT_DATA_ITEM, item)
+                .putString(INPUT_DATA_ITEM_NAME, itemName)
+                .putString(INPUT_DATA_LABEL, label)
                 .putString(INPUT_DATA_VALUE, value)
+                .putString(INPUT_DATA_MAPPED_VALUE, mappedValue)
                 .putString(INPUT_DATA_SUCCESS_TOAST_MESSAGE, successToast)
                 .build()
         }

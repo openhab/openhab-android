@@ -64,7 +64,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             ACTION_RETRY_UPLOAD -> {
                 intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
-                    enqueueItemUpload(context, info.tag, info.itemName, info.value)
+                    enqueueItemUpload(
+                        context,
+                        info.tag,
+                        info.itemName,
+                        info.label,
+                        info.value,
+                        info.mappedValue
+                    )
                 }
             }
             TaskerIntent.ACTION_QUERY_CONDITION, TaskerIntent.ACTION_FIRE_SETTING -> {
@@ -74,17 +81,32 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
                 val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
                 val itemName = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_NAME)
+                val label = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_LABEL)
                 val state = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_STATE)
+                val mappedState = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_MAPPED_STATE)
                 if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
                     return
                 }
-                enqueueItemUpload(context, WORKER_TAG_PREFIX_TASKER + itemName, itemName, state)
+                enqueueItemUpload(
+                    context,
+                    WORKER_TAG_PREFIX_TASKER + itemName,
+                    itemName,
+                    label,
+                    state,
+                    mappedState
+                )
             }
         }
     }
 
     @Parcelize
-    internal data class RetryInfo(val tag: String, val itemName: String, val value: String) : Parcelable
+    internal data class RetryInfo(
+        val tag: String,
+        val itemName: String,
+        val label: String?,
+        val value: String,
+        val mappedValue: String?
+    ) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -150,8 +172,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
                 context.showToast(message)
-                enqueueItemUpload(context, WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state,
-                    BackoffPolicy.LINEAR)
+                enqueueItemUpload(
+                    context,
+                    WORKER_TAG_PREFIX_NFC + tag.item,
+                    tag.item,
+                    tag.label,
+                    tag.state,
+                    tag.mappedState,
+                    BackoffPolicy.LINEAR
+                )
             }
         }
 
@@ -161,7 +190,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context,
                     WORKER_TAG_PREFIX_WIDGET + data.item,
                     data.item,
+                    data.label,
                     data.state,
+                    data.mappedState,
                     BackoffPolicy.LINEAR,
                     context.getString(R.string.item_update_widget_success_toast, data.label, data.mappedState)
                 )
@@ -187,14 +218,23 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val getter = VALUE_GETTER_MAP[key] ?: return
 
             val prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
-            enqueueItemUpload(context, key, prefix + setting.second, getter(context) ?: return)
+            enqueueItemUpload(
+                context,
+                key,
+                prefix + setting.second,
+                null,
+                getter(context) ?: return,
+                null
+            )
         }
 
         private fun enqueueItemUpload(
             context: Context,
             tag: String,
             itemName: String,
+            label: String?,
             value: String,
+            mappedValue: String?,
             backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL,
             successToast: String? = null
         ) {
@@ -206,7 +246,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, value, successToast))
+                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, successToast))
                 .build()
 
             val workManager = WorkManager.getInstance(context)
