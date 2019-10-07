@@ -86,7 +86,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             val retryInfoList = ArrayList<BackgroundTasksManager.RetryInfo>()
             for ((tag, info) in failedInfoList) {
                 val data = info.outputData
-                val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM)
+                val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM_NAME)
                 val label = data.getString(ItemUpdateWorker.OUTPUT_DATA_LABEL)
                 val value = data.getString(ItemUpdateWorker.OUTPUT_DATA_VALUE)
                 val mappedValue = data.getString(ItemUpdateWorker.OUTPUT_DATA_MAPPED_VALUE)
@@ -94,7 +94,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val httpStatus = data.getInt(ItemUpdateWorker.OUTPUT_DATA_HTTP_STATUS, 0)
 
                 if (itemName != null && value != null) {
-                    retryInfoList.add(BackgroundTasksManager.RetryInfo(tag, itemName, value, label, mappedValue))
+                    retryInfoList.add(BackgroundTasksManager.RetryInfo(tag, itemName, label, value, mappedValue))
                 }
                 errors.add(if (hadConnection) {
                     if (label.isNullOrEmpty()) {

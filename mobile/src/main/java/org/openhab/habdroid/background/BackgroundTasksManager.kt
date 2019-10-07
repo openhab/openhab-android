@@ -68,8 +68,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         context,
                         info.tag,
                         info.itemName,
-                        info.value,
                         info.label,
+                        info.value,
                         info.mappedValue
                     )
                 }
@@ -91,8 +91,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context,
                     WORKER_TAG_PREFIX_TASKER + itemName,
                     itemName,
-                    state,
                     label,
+                    state,
                     mappedState
                 )
             }
@@ -103,8 +103,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
     internal data class RetryInfo(
         val tag: String,
         val itemName: String,
-        val value: String,
         val label: String?,
+        val value: String,
         val mappedValue: String?
     ) : Parcelable
 
@@ -176,8 +176,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context,
                     WORKER_TAG_PREFIX_NFC + tag.item,
                     tag.item,
-                    tag.state,
                     tag.label,
+                    tag.state,
                     tag.mappedState,
                     BackoffPolicy.LINEAR
                 )
@@ -190,8 +190,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context,
                     WORKER_TAG_PREFIX_WIDGET + data.item,
                     data.item,
-                    data.state,
                     data.label,
+                    data.state,
                     data.mappedState,
                     BackoffPolicy.LINEAR,
                     context.getString(R.string.item_update_widget_success_toast, data.label, data.mappedState)
@@ -222,8 +222,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 context,
                 key,
                 prefix + setting.second,
-                getter(context) ?: return,
                 null,
+                getter(context) ?: return,
                 null
             )
         }
@@ -232,8 +232,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             context: Context,
             tag: String,
             itemName: String,
-            value: String,
             label: String?,
+            value: String,
             mappedValue: String?,
             backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL,
             successToast: String? = null
@@ -246,7 +246,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, value, label, mappedValue, successToast))
+                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, successToast))
                 .build()
 
             val workManager = WorkManager.getInstance(context)
