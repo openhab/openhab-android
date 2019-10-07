@@ -19,12 +19,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Constants.PREFERENCE_COMPARABLE_VERSION
+import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getString
@@ -79,6 +81,8 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
                     putString(Constants.PREFERENCE_THEME, newTheme)
                 }
+
+                AppCompatDelegate.setDefaultNightMode(prefs.getDayNightMode(context))
 
                 val accentColor = when (prefs.getString("default_openhab_theme")) {
                     "basicui", "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
