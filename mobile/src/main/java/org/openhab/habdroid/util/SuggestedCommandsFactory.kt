@@ -68,7 +68,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             suggestedCommands.shouldShowCustom = true
         }
         item.isOfTypeOrGroupType(Item.Type.Contact) -> {
-            // Contact items cannot receive commands
+            // Contact Items cannot receive commands
         }
         item.isOfTypeOrGroupType(Item.Type.Dimmer) -> {
             addOnOffCommands(suggestedCommands)
