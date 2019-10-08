@@ -136,7 +136,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Geräteinformationen an Server senden</string>
     <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
-    <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben dieses Präfix</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="settings_alarm_clock">Weckzeit an openHAB senden</string>
     <string name="settings_alarm_clock_summary_on">Sendet Weckzeit an Item \'%1$s\'</string>
