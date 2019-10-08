@@ -140,7 +140,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Odeslat informace o zařízení na server</string>
     <string name="send_device_info_item_prefix">Prefix názvu Item</string>
-    <string name="send_device_info_item_prefix_summary">Názvy Item s těmito vlastnostmi mají tento prefix</string>
     <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
     <string name="settings_alarm_clock">Odeslat budík do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
