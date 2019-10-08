@@ -31,6 +31,7 @@ import org.openhab.habdroid.util.getPrefs
 
 import java.util.ArrayList
 import java.util.Comparator
+import java.util.Locale
 
 class ItemPickerAdapter(context: Context, private val itemClickListener: ItemClickListener?) :
     RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(), View.OnClickListener {
@@ -56,11 +57,11 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
     fun filter(filter: String) {
         filteredItems.clear()
-        val searchTerm = filter.toLowerCase()
+        val searchTerm = filter.toLowerCase(Locale.getDefault())
         allItems.filterTo(filteredItems) { item ->
-            searchTerm in item.name.toLowerCase() ||
-                searchTerm in item.label?.toLowerCase().orEmpty() ||
-                searchTerm in item.type.toString().toLowerCase()
+            searchTerm in item.name.toLowerCase(Locale.getDefault()) ||
+                searchTerm in item.label?.toLowerCase(Locale.getDefault()).orEmpty() ||
+                searchTerm in item.type.toString().toLowerCase(Locale.getDefault())
         }
         notifyDataSetChanged()
     }

@@ -46,7 +46,9 @@ class TaskerItemPickerActivity(
 
             putExtra(TaskerIntent.EXTRA_BUNDLE, bundleOf(
                 EXTRA_ITEM_NAME to item.name,
-                EXTRA_ITEM_STATE to state
+                EXTRA_ITEM_LABEL to item.label,
+                EXTRA_ITEM_STATE to state,
+                EXTRA_ITEM_MAPPED_STATE to mappedState
             ))
         }
 
@@ -56,6 +58,8 @@ class TaskerItemPickerActivity(
 
     companion object {
         const val EXTRA_ITEM_NAME = "itemName"
+        const val EXTRA_ITEM_LABEL = "itemLabel"
         const val EXTRA_ITEM_STATE = "itemState"
+        const val EXTRA_ITEM_MAPPED_STATE = "itemMappedState"
     }
 }

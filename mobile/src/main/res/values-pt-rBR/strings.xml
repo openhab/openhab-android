@@ -63,7 +63,6 @@
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de tela</string>
-    <string name="settings_screen_lock_summary">Bloquear acesso ao openHAB pelo bloqueio de tela ou por digital. Widgets de voz poderão ser usados.</string>
     <string name="screen_lock_unlock_screen_description">Desbloquear acesso ao openHAB</string>
     <string name="settings_screen_lock_off">Desligar</string>
     <string name="settings_screen_lock_kiosk">Modo Kiosk</string>
@@ -182,9 +181,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Claro</string>
     <string name="theme_name_dark">Escuro</string>
-    <string name="theme_name_black">Preto/AMOLED</string>
-    <string name="theme_name_basic_ui">UI Básica</string>
-    <string name="theme_name_basic_ui_dark">UI Básica escura</string>
     <!-- NFC -->
     <string name="nfc_action_on">Ligar</string>
     <string name="nfc_action_up">Para cima</string>
@@ -265,7 +261,6 @@
     <string name="content_description_increase_item_value">Aumentar o valor do item</string>
     <string name="content_description_decrease_item_value">Diminuir o valor do item</string>
     <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita fazer manualmente</string>
-    <string name="swipe_to_refresh_dismiss">Entendido!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introdução</string>
     <string name="intro_welcome">Bem-vindo ao openHAB</string>

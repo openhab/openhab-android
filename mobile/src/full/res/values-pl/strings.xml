@@ -15,4 +15,5 @@
         <item quantity="many">%d nowych powiadomień</item>
         <item quantity="other">%d nowych powiadomień</item>
     </plurals>
+    <string name="open_in_maps">Otwórz w Google Maps</string>
 </resources>

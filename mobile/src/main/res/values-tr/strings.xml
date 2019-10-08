@@ -134,9 +134,6 @@
     <!-- Themes -->
     <string name="theme_name_light">Açık</string>
     <string name="theme_name_dark">Koyu</string>
-    <string name="theme_name_black">Siyah/Amoled</string>
-    <string name="theme_name_basic_ui">Basit UI</string>
-    <string name="theme_name_basic_ui_dark">Basit UI Koyu</string>
     <!-- NFC -->
     <string name="nfc_action_on">Açık</string>
     <string name="nfc_action_up">Yukarı</string>
@@ -174,7 +171,6 @@
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB\'ı aç</string>
     <string name="swipe_to_refresh_description">Bu uygulama aynı zamanda kendini otomatik yeniler, tekrar yenilemene gerek yok</string>
-    <string name="swipe_to_refresh_dismiss">Anladım!</string>
     <!-- Intro strings -->
     <string name="app_intro">Giriş</string>
     <string name="intro_welcome">openHAB\'a Hoş geldiniz</string>

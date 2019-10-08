@@ -24,6 +24,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.Px
 import androidx.core.content.edit
@@ -119,6 +120,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
         views.setTextViewText(R.id.text,
             context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
+        hideLoadingIndicator(views)
         appWidgetManager.updateAppWidget(appWidgetId, views)
         fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
     }
@@ -155,6 +157,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 val iconBitmap = if (isSvg) convertSvgIcon(iconData) else BitmapFactory.decodeStream(iconData)
                 if (iconBitmap != null) {
                     views.setImageViewBitmap(R.id.item_icon, iconBitmap)
+                    hideLoadingIndicator(views)
                     appWidgetManager.updateAppWidget(appWidgetId, views)
                 }
             }
@@ -189,6 +192,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 Log.e(TAG, "Error saving icon to disk", e)
             }
         }
+    }
+
+    private fun hideLoadingIndicator(views: RemoteViews) {
+        views.setViewVisibility(R.id.item_icon, View.VISIBLE)
+        views.setViewVisibility(R.id.text, View.VISIBLE)
+        views.setViewVisibility(R.id.progress_bar, View.GONE)
     }
 
     companion object {

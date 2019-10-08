@@ -39,8 +39,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 200
-        versionName "2.9.1-beta"
+        versionCode 202
+        versionName "2.9.3-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -131,7 +131,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"
     implementation "androidx.preference:preference:1.1.0"
     implementation "androidx.biometric:biometric:1.0.0-beta02"
-    implementation "com.google.android.material:material:1.1.0-alpha10"
+    implementation "com.google.android.material:material:1.1.0-beta01"
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.work:work-runtime:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"

@@ -78,6 +78,7 @@ import java.util.HashMap
 import java.util.Locale
 import java.util.Random
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -504,11 +505,12 @@ class WidgetAdapter(
             // Make sure images fit into the content frame by scaling
             // them at max 90% of the available height
             if (parent.height > 0) {
-                imageView.maxHeight = Math.round(0.9f * parent.height)
+                imageView.maxHeight = (0.9f * parent.height).roundToInt()
             } else {
                 imageView.maxHeight = Integer.MAX_VALUE
             }
 
+            @Suppress("LiftReturnOrAssignment")
             if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
                 val dataString = value.substring(value.indexOf(",") + 1)
                 val data = Base64.decode(dataString, Base64.DEFAULT)
@@ -893,14 +895,13 @@ class WidgetAdapter(
 
         @SuppressLint("SetJavaScriptEnabled")
         override fun bind(widget: Widget) {
-            val url = connection.httpClient.buildUrl(widget.url!!).toString()
+            val url = connection.httpClient.buildUrl(widget.url!!)
             with(webView) {
                 adjustForWidgetHeight(widget, 0)
                 loadUrl("about:blank")
 
                 setUpForConnection(connection, url)
-                webViewClient = AnchorWebViewClient(url, connection.username, connection.password)
-                loadUrl(url)
+                loadUrl(url.toString())
             }
         }
     }

@@ -1,0 +1,4 @@
+## Fixed
+* Fix WebViews for URLs containing a fragment (#1584)
+* Fix NPE if image couldn't be rendered (#1559)
+* Fix TOGGLE home screen widgets (#1585)
