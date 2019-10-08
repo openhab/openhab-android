@@ -140,7 +140,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Wyślij informacje o urządzeniu do serwera</string>
     <string name="send_device_info_item_prefix">Prefiks Item\'u</string>
-    <string name="send_device_info_item_prefix_summary">Nazwy Item\'ów następujących funkcji mają ten prefiks</string>
     <string name="settings_item_update_pref_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
     <string name="settings_alarm_clock">Wyślij budzik do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Wysyła czas budzika do Item\'u \'%1$s\'</string>
