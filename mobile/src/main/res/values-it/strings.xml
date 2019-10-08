@@ -139,7 +139,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Invia informazioni del dispositivo al server</string>
     <string name="send_device_info_item_prefix">Prefisso nome Item</string>
-    <string name="send_device_info_item_prefix_summary">I nomi degli Item delle seguenti funzionalità hanno questo prefisso</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
     <string name="settings_alarm_clock">Invia allarme sveglia a openHAB</string>
     <string name="settings_alarm_clock_summary_on">Invia ora dell’allarme sveglia all’Item ‘%1$s’</string>
