@@ -134,7 +134,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Envoyer les infos de l\'appareil au serveur</string>
     <string name="send_device_info_item_prefix">Préfixe du nom de l\'Item</string>
-    <string name="send_device_info_item_prefix_summary">Les noms des Items des fonctionnalités suivantes ont ce préfixe</string>
     <string name="settings_alarm_clock">Envoyer le réveil à openHAB</string>
     <string name="settings_alarm_clock_summary_on">Envoie des heures du réveil à l\'Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">N’envoie pas les heures du réveil au serveur</string>

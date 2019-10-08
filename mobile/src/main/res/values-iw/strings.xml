@@ -129,7 +129,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">שלח מידע על ההתקן לשרת</string>
     <string name="send_device_info_item_prefix">קידומת שם פריט</string>
-    <string name="send_device_info_item_prefix_summary">לשמות הפריטים עם התכונות הבאות יש קידומת זו</string>
     <string name="settings_alarm_clock">שלח את השעון המעורר ל- openHAB</string>
     <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">לא לשלוח את שעת השעון המעורר אל השרת</string>

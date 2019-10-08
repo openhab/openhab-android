@@ -121,7 +121,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Sunucu bilgilerini sunucuya gönder</string>
     <string name="send_device_info_item_prefix">Öğe adı ön eki</string>
-    <string name="send_device_info_item_prefix_summary">Aşağıdaki özelliklerin öğe adları bu ön eke sahiptir</string>
     <string name="settings_alarm_clock">Çalar saati openHAB\'a gönder</string>
     <string name="settings_alarm_clock_summary_on">Çalar saat zamanını \'%1$s \' öğesine gönderir</string>
     <string name="settings_alarm_clock_summary_off">Çalar saat zamanını sunucuya gönderme</string>

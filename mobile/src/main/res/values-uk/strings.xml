@@ -136,7 +136,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
     <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
-    <string name="send_device_info_item_prefix_summary">Назви об\'єктів наступних функцій мають такий префікс</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
     <string name="settings_alarm_clock">Відправити будильник на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>

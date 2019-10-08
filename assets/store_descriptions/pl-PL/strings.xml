@@ -17,11 +17,11 @@ znaleźć wskazówki, pomoc i inspirację. Dołącz do forum społeczności open
     <about_foundation>Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji na https://www.openhabfoundation.org</about_foundation>
     <important_note>Istotne kwestie</important_note>
     <oh_server>Potrzebujesz serwera openHAB dla tej aplikacji.</oh_server>
-    <short_description/>
-    <fdroid/>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <short_description>Agnostyczna technologia automatyki domowej dla dostawców i technologii</short_description>
+    <fdroid>Kompilacje na F-Droid są usuwane z raportów FCM i awarii i nie będą mogły odbierać powiadomień push od openHAB Cloud.</fdroid>
+    <fdroid_beta><![CDATA[Możesz zainstalować wersję beta obok <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Polityka prywatności: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Wypróbuj nowe funkcje i dziel się uwagami!</beta>
     <play_beta>Możesz zainstalować wersję beta obok wersji stabilnej.</play_beta>
-    <changelog_play_beta>Poprawki błędów i poprawki stabilności. </changelog_play_beta>
+    <changelog_play_beta>Poprawki błędów i poprawki stabilności. Odwiedź https://github.com/openhab/openhab-android/releases po dokładną listę zmian.</changelog_play_beta>
 </strings>

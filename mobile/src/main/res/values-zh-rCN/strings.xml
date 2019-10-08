@@ -121,7 +121,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">发送设备信息至服务器</string>
     <string name="send_device_info_item_prefix">项目名前缀</string>
-    <string name="send_device_info_item_prefix_summary">下列功能的项目名含此前缀</string>
     <string name="settings_alarm_clock">发送闹钟至 openHAB</string>
     <string name="settings_alarm_clock_summary_on">发送闹钟至项 \"%1$s\"</string>
     <string name="settings_alarm_clock_summary_off">请勿发送闹钟时间至服务器</string>

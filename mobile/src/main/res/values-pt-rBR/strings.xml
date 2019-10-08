@@ -33,6 +33,8 @@
     <string name="settings_openhab_demomode">Modo de demonstração</string>
     <string name="settings_openhab_demomode_summary">Se você não tiver um servidor openHAB, ative o modo de demonstração para obter uma imaginação do que openHAB é capaz de fazer.</string>
     <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_accent_color">Cor de destaque</string>
+    <string name="settings_select_a_color">Selecione uma cor</string>
     <string name="settings_openhab_fullscreen">Tela cheia</string>
     <string name="settings_openhab_fullscreen_summary">Exibir no modo de tela cheia</string>
     <string name="settings_openhab_icon_format">Formato de ícone</string>
@@ -63,6 +65,7 @@
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de tela</string>
+    <string name="settings_screen_lock_summary">Bloquear acesso ao openHAB pelo bloqueio de tela ou por digital. Widgets poderão ser usados.</string>
     <string name="screen_lock_unlock_screen_description">Desbloquear acesso ao openHAB</string>
     <string name="settings_screen_lock_off">Desligar</string>
     <string name="settings_screen_lock_kiosk">Modo Kiosk</string>
@@ -131,12 +134,12 @@
     <string name="action_settings">Configurações</string>
     <string name="nfc_tag_recognized_label">Tag NFC para \"%s\" reconhecido</string>
     <string name="nfc_tag_recognized_item">Tag NFC para o Item \"%s\" reconhecido</string>
+    <string name="nfc_info_hint">Atualizações de Item poderão ser escritas em tags NFC. Você pode selecionar um Item aqui ou por um widget no Sitemap.</string>
     <string name="info_not_set">Não definido</string>
     <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Enviar informações do dispositivo para o servidor</string>
     <string name="send_device_info_item_prefix">Prefixo do nome do Item</string>
-    <string name="send_device_info_item_prefix_summary">Os nomes de Item dos seguintes recursos tem este prefixo</string>
     <string name="settings_item_update_pref_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
     <string name="settings_alarm_clock">Enviar alarme despertador para openHAB</string>
     <string name="settings_alarm_clock_summary_on">Envia a hora do alarme para item \'%1$s \'</string>
@@ -181,6 +184,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Claro</string>
     <string name="theme_name_dark">Escuro</string>
+    <string name="theme_name_system">Seguir o sistema</string>
+    <string name="theme_name_battery_saver">Modo escuro na economia de bateria</string>
     <!-- NFC -->
     <string name="nfc_action_on">Ligar</string>
     <string name="nfc_action_up">Para cima</string>
@@ -261,6 +266,7 @@
     <string name="content_description_increase_item_value">Aumentar o valor do item</string>
     <string name="content_description_decrease_item_value">Diminuir o valor do item</string>
     <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita fazer manualmente</string>
+    <string name="got_it">Entendido!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introdução</string>
     <string name="intro_welcome">Bem-vindo ao openHAB</string>
