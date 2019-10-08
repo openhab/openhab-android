@@ -14,20 +14,18 @@
 package org.openhab.habdroid.ui.activity
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import com.here.oksse.ServerSentEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.Headers
 import okhttp3.HttpUrl
-import okhttp3.Request
 import okhttp3.Response
+import okhttp3.sse.EventSource
+import okhttp3.sse.EventSourceListener
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
@@ -459,11 +457,9 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             private val pageId: String,
             private val updateCb: (pageId: String, message: String) -> Unit,
             private val failureCb: (sseUnsupported: Boolean) -> Unit
-        ) : ServerSentEvent.Listener {
-            private val handler: Handler = Handler(Looper.getMainLooper())
+        ) : EventSourceListener() {
             private var subscribeJob: Job? = null
-            private var eventStream: ServerSentEvent? = null
-            private var retries: Int = 0
+            private var eventStream: EventSource? = null
 
             internal fun connect() {
                 shutdown()
@@ -501,48 +497,29 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
 
             internal fun shutdown() {
-                eventStream?.close()
+                eventStream?.cancel()
                 eventStream = null
                 subscribeJob?.cancel()
                 subscribeJob = null
             }
 
-            override fun onOpen(sse: ServerSentEvent, response: Response) {
-                retries = 0
-            }
-
-            override fun onMessage(sse: ServerSentEvent, id: String?, event: String?, message: String) {
-                handler.post { updateCb(pageId, message) }
-            }
-
-            override fun onComment(sse: ServerSentEvent, comment: String) {}
-
-            override fun onRetryTime(sse: ServerSentEvent, milliseconds: Long): Boolean {
-                return true
-            }
-
-            override fun onRetryError(sse: ServerSentEvent, throwable: Throwable, response: Response?): Boolean {
-                val statusCode = response?.code() ?: return false
-                Log.w(TAG, "SSE stream $sse failed for page $pageId with status $statusCode (retry $retries)")
-                // Stop retrying after maximum amount of subsequent retries is reached
-                return ++retries < MAX_RETRIES
-            }
-
-            override fun onClosed(sse: ServerSentEvent) {
-                // We're only interested in permanent failure here, not in callbacks we caused
-                // ourselves by calling close(), so check for the reporter matching our expectations
-                // (mismatch means shutdown was called)
-                if (sse === eventStream) {
-                    failureCb(false)
+            override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
+                scope.launch {
+                    updateCb(pageId, data)
                 }
             }
 
-            override fun onPreRetry(sse: ServerSentEvent, originalRequest: Request): Request {
-                return originalRequest
-            }
-
-            companion object {
-                private const val MAX_RETRIES = 10
+            override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
+                // We're only interested in permanent failure here, not in callbacks we caused
+                // ourselves by calling close(), so check for the reporter matching our expectations
+                // (mismatch means shutdown was called)
+                val statusCode = response?.code() ?: 0
+                Log.w(TAG, "SSE stream $eventSource failed for page $pageId with status $statusCode")
+                if (eventSource === eventStream) {
+                    scope.launch {
+                        failureCb(false)
+                    }
+                }
             }
         }
     }
