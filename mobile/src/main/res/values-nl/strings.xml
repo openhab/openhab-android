@@ -119,7 +119,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
     <string name="send_device_info_item_prefix">Voorvoegsel Itemnaam</string>
-    <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben dit voorvoegsel</string>
     <string name="settings_alarm_clock">Wekker verzenden naar openHAB</string>
     <string name="settings_alarm_clock_summary_on">Stuurt wekkertijd naar item \'%1$s \'</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
