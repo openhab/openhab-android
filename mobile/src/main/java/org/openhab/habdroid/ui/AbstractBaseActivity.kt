@@ -161,7 +161,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             super.onAuthenticationError(errorCode, errString)
-            finishAndRemoveTaskIfPossible()
+            finish()
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -173,7 +173,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
-            finishAndRemoveTaskIfPossible()
+            finish()
         }
     }
 
