@@ -1,8 +1,8 @@
 openHAB - "empowering the smart home" - niezależne i otwarte oprogramowanie dla automatyki domowej
 
-The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+Kompilacje na F-Droid są usuwane z raportów FCM i awarii i nie będą mogły odbierać powiadomień push od openHAB Cloud.
 Wypróbuj nowe funkcje i dziel się uwagami!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+Możesz zainstalować wersję beta obok <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 openHAB jest otwartą platformą dla automatyki domowej opartą na Javie, która integruje szeroki zakres różnych systemów i technologi "smart home" w jedno rozwiązanie.
 Na górnej ujednoliconej warstwie abstrakcji wszystkie połączone urządzenia są dostępne dla silnika reguł a także różnych interfejsów użytkownika.
