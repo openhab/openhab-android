@@ -136,7 +136,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
     <string name="send_device_info_item_prefix">Prefix vum Item Numm</string>
-    <string name="send_device_info_item_prefix_summary">D‘ Item Nimm vu folgende Features hunn dëse Prefix</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_alarm_clock">Erwächzäit un openHAB schécken</string>
     <string name="settings_alarm_clock_summary_on">Erwächzäit un den Item \'%1$s\' schécken</string>
