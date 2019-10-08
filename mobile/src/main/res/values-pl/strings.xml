@@ -11,7 +11,7 @@
     <string name="mainmenu_openhab_preferences">Ustawienia</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Wystąpił błąd podczas wczytywania HABPanel</string>
-    <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną mapę witryn</string>
+    <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną Sitemapę</string>
     <string name="mainmenu_openhab_clearcache">Wyczyść obrazy pamięci podręcznej</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Ustawienia połączenia</string>
@@ -164,7 +164,9 @@
         <item quantity="other">%d Elementów nie mogło zostać zaktualizowanych</item>
     </plurals>
     <string name="item_update_http_error">Nie udało się zaktualizować Itemu \'%1$s\' (błąd HTTP %2$d)</string>
+    <string name="item_update_http_error_label">Nie udało się zaktualizować %1$s (błąd HTTP %2$d)</string>
     <string name="item_update_connection_error">Nie udało się zaktualizować Itemu \'%1$s\' (Brak połączenia)</string>
+    <string name="item_update_connection_error_label">Nie udało się zaktualizować %1$s (Brak połączenia)</string>
     <string name="error_sending_alarm_clock_item_empty">Wprowadź poprawną nazwę Item\'u</string>
     <string name="retry">Ponów</string>
     <!-- Notification list strings -->
