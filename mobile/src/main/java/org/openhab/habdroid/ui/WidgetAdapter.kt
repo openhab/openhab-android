@@ -35,7 +35,6 @@ import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.NumberPicker
-import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.LayoutRes
@@ -52,6 +51,8 @@ import androidx.media2.common.UriMediaItem
 import androidx.media2.player.MediaPlayer
 import androidx.media2.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.larswerkman.holocolorpicker.ColorPicker
 import kotlinx.coroutines.GlobalScope
@@ -66,7 +67,6 @@ import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
-import org.openhab.habdroid.ui.widget.SegmentedControlButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
@@ -600,7 +600,8 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
         View.OnClickListener {
-        private val radioGroup: RadioGroup = itemView.findViewById(R.id.switch_group)
+        private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
+        private val spareViews = mutableListOf<MaterialButton>()
         private var boundItem: Item? = null
 
         override fun bind(widget: Widget) {
@@ -609,41 +610,56 @@ class WidgetAdapter(
 
             val mappings = widget.mappingsOrItemOptions
             // inflate missing views
-            for (i in radioGroup.childCount until mappings.size) {
-                val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, radioGroup, false)
+            while (spareViews.isNotEmpty() && group.childCount < mappings.size) {
+                group.addView(spareViews.removeAt(0))
+            }
+            for (i in group.childCount until mappings.size) {
+                val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, group, false)
                 view.setOnClickListener(this)
-                radioGroup.addView(view)
+                group.addView(view)
             }
             // bind views
-            val state = boundItem?.state?.asString
             mappings.forEachIndexed { index, mapping ->
-                with(radioGroup[index] as SegmentedControlButton) {
+                with(group[index] as MaterialButton) {
                     text = mapping.label
                     tag = mapping.value
-                    isChecked = mapping.value == state
                     isVisible = true
                 }
             }
+
             // hide spare views
-            for (i in mappings.size until radioGroup.childCount) {
-                radioGroup[i].isVisible = false
+            for (i in mappings.size until group.childCount) {
+                val view = group[i] as MaterialButton
+                spareViews.add(view)
+                group.removeView(view)
             }
+
+            // check selected view
+            val state = boundItem?.state?.asString
+            val checkedId = group.children
+                .filter { it.tag == state }
+                .map { it.id }
+                .ifEmpty { sequenceOf(View.NO_ID) }
+                .first()
+            group.check(checkedId)
         }
 
         override fun onClick(view: View) {
+            // Make sure one can't uncheck buttons by clicking a checked one
+            (view as MaterialButton).isChecked = true
             connection.httpClient.sendItemCommand(boundItem, view.tag as String)
         }
 
         override fun handleRowClick() {
-            val visibleChildCount = radioGroup.children.filter { v -> v.isVisible }.count()
+            val visibleChildCount = group.children.filter { v -> v.isVisible }.count()
             if (visibleChildCount == 1) {
-                onClick(radioGroup[0])
+                onClick(group[0])
             } else if (visibleChildCount == 2) {
                 val state = boundItem?.state?.asString
-                if (state == radioGroup[0].tag.toString()) {
-                    onClick(radioGroup[1])
-                } else if (state == radioGroup[1].tag.toString()) {
-                    onClick(radioGroup[0])
+                if (state == group[0].tag.toString()) {
+                    onClick(group[1])
+                } else if (state == group[1].tag.toString()) {
+                    onClick(group[0])
                 }
             }
         }
