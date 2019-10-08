@@ -140,6 +140,8 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Отправить информацию устройства на сервер</string>
     <string name="send_device_info_item_prefix">Префикс Item</string>
+    <string name="send_device_info_item_prefix_summary">Имена Item следующих функций имеют этот префикс \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Префикс не установлен для имен Item для следующих функций</string>
     <string name="settings_item_update_pref_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
     <string name="settings_alarm_clock">Отправить время будильника на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Посылать время будильника Item \'%1$s\'</string>
