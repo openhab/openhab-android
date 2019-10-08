@@ -78,6 +78,7 @@
     <string name="settings_screen_lock">Screen lock</string>
     <string name="settings_screen_lock_summary">Lock openHAB access with Android screen lock or fingerprint. Voice widgets can always be used.</string>
     <string name="screen_lock_unlock_screen_description">Unlock to access openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Unlock to access settings</string>
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Kiosk mode</string>
     <string name="settings_screen_lock_on">On</string>

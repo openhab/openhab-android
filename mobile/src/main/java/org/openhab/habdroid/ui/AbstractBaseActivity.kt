@@ -145,9 +145,14 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         private val prompt = BiometricPrompt(this@AbstractBaseActivity, Dispatchers.Main.asExecutor(), this)
 
         fun authenticate() {
+            val descriptionResId = if (getPrefs().getScreenLockMode(contentView.context) == ScreenLockMode.KioskMode) {
+                R.string.screen_lock_unlock_preferences_description
+            } else {
+                R.string.screen_lock_unlock_screen_description
+            }
             val info = BiometricPrompt.PromptInfo.Builder()
                 .setTitle(getString(R.string.app_name))
-                .setDescription(getString(R.string.screen_lock_unlock_screen_description))
+                .setDescription(getString(descriptionResId))
                 .setDeviceCredentialAllowed(true)
                 .build()
             contentView.isInvisible = true
