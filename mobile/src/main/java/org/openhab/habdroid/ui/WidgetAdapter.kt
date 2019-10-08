@@ -610,7 +610,7 @@ class WidgetAdapter(
 
             val mappings = widget.mappingsOrItemOptions
             // inflate missing views
-            while (!spareViews.isEmpty() && group.childCount < mappings.size) {
+            while (spareViews.isNotEmpty() && group.childCount < mappings.size) {
                 group.addView(spareViews.removeAt(0))
             }
             for (i in group.childCount until mappings.size) {
