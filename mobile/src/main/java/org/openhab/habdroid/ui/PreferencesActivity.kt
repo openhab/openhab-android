@@ -366,8 +366,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            updatePrefixSummary(sendDeviceInfoPrefixPref, prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX))
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
+                updatePrefixSummary(sendDeviceInfoPrefixPref, prefix)
                 alarmClockPref.updateSummaryAndIcon(prefix)
                 phoneStatePref.updateSummaryAndIcon(prefix)
                 true
@@ -449,6 +451,14 @@ class PreferencesActivity : AbstractBaseActivity() {
                 pref.setIcon(R.drawable.ic_bell_ring_outline_grey_24dp)
                 val ringtone = RingtoneManager.getRingtone(activity, newValue)
                 pref.summary = ringtone?.getTitle(activity)
+            }
+        }
+
+        private fun updatePrefixSummary(pref: Preference, newValue: String?) {
+            pref.summary = if (newValue.isNullOrEmpty()) {
+                pref.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
+            } else {
+                pref.context.getString(R.string.send_device_info_item_prefix_summary, newValue)
             }
         }
 
