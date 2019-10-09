@@ -169,11 +169,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             contentView.isInvisible = false
             authPrompt = null
         }
-
-        override fun onAuthenticationFailed() {
-            super.onAuthenticationFailed()
-            finish()
-        }
     }
 
     companion object {
