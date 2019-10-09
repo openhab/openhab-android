@@ -34,7 +34,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.finishAndRemoveTaskIfPossible
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
 import kotlin.coroutines.CoroutineContext
