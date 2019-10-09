@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.Manifest
+import android.app.KeyguardManager
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -214,6 +215,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
                 Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
                 Constants.PREFERENCE_REMOTE_PASSWORD)
+            updateScreenLockStateAndSummary(prefs.getString(Constants.PREFERENCE_SCREEN_LOCK,
+                getString(R.string.settings_screen_lock_off_value)))
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -375,6 +378,11 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 preferenceScreen.removePreferenceFromHierarchy(screenLockPref)
+            } else {
+                screenLockPref.setOnPreferenceChangeListener { _, newValue ->
+                    updateScreenLockStateAndSummary(newValue as String)
+                    true
+                }
             }
 
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
@@ -439,6 +447,20 @@ class PreferencesActivity : AbstractBaseActivity() {
         private fun onNoDefaultSitemap(pref: Preference) {
             pref.isEnabled = false
             pref.setSummary(R.string.settings_no_default_sitemap)
+        }
+
+        private fun updateScreenLockStateAndSummary(value: String?) {
+            val pref = findPreference<Preference>(Constants.PREFERENCE_SCREEN_LOCK) ?: return
+            val km = ContextCompat.getSystemService(pref.context, KeyguardManager::class.java)!!
+            val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
+            pref.isEnabled = locked
+            pref.summary = getString(when {
+                !locked -> R.string.settings_screen_lock_nolock_summary
+                value == getString(R.string.settings_screen_lock_on_value) -> R.string.settings_screen_lock_on_summary
+                value == getString(R.string.settings_screen_lock_kiosk_value) ->
+                    R.string.settings_screen_lock_kiosk_summary
+                else -> R.string.settings_screen_lock_off_summary
+            })
         }
 
         private fun updateRingtonePreferenceSummary(pref: Preference, newValue: Uri?) {
