@@ -148,8 +148,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push notification status</string>
     <string name="action_settings">Settings</string>
-    <string name="nfc_tag_recognized_label">NFC tag for \"%s\" recognized</string>
-    <string name="nfc_tag_recognized_item">NFC tag for Item \"%s\" recognized</string>
     <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long click a widget on the Sitemap.</string>
     <string name="info_not_set">Not set</string>
     <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
@@ -343,5 +341,22 @@
     <string name="item_update_widget_content_description">Widget for changing Item state</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Select an Item</string>
-    <string name="item_update_widget_success_toast">%1$s set to %2$s</string>
+    <string name="item_update_success_message_generic">%1$s has been set to %2$s</string>
+    <string name="item_update_success_message_on">%s has been turned on</string>
+    <string name="item_update_success_message_off">%s has been turned off</string>
+    <string name="item_update_success_message_up">%s starts moving up</string>
+    <string name="item_update_success_message_down">%s starts moving down</string>
+    <string name="item_update_success_message_move">%s starts moving</string>
+    <string name="item_update_success_message_stop">%s has been stopped</string>
+    <string name="item_update_success_message_increase">%s has been increased</string>
+    <string name="item_update_success_message_decrease">%s has been decreased</string>
+    <string name="item_update_success_message_undefined">%s has been set to undefined</string>
+    <string name="item_update_success_message_empty_string">%s has been set to an empty string</string>
+    <string name="item_update_success_message_play">%s is playing</string>
+    <string name="item_update_success_message_pause">%s has been paused</string>
+    <string name="item_update_success_message_next">%s is showing the next title</string>
+    <string name="item_update_success_message_previous">%s is showing the previous title</string>
+    <string name="item_update_success_message_rewind">%s is rewinding</string>
+    <string name="item_update_success_message_fastforward">%s is fast forwarding</string>
+    <string name="item_update_error_no_connection">Error sending Item update, retrying\u2026</string>
 </resources>

@@ -30,7 +30,6 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
-import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -41,7 +40,6 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
-import org.openhab.habdroid.util.showToast
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
@@ -70,7 +68,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         info.itemName,
                         info.label,
                         info.value,
-                        info.mappedValue
+                        info.mappedValue,
+                        BackoffPolicy.EXPONENTIAL,
+                        info.showToast
                     )
                 }
             }
@@ -93,7 +93,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     itemName,
                     label,
                     state,
-                    mappedState
+                    mappedState,
+                    BackoffPolicy.EXPONENTIAL,
+                    false
                 )
             }
         }
@@ -105,7 +107,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val itemName: String,
         val label: String?,
         val value: String,
-        val mappedValue: String?
+        val mappedValue: String?,
+        val showToast: Boolean
     ) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
@@ -167,11 +170,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         fun enqueueNfcUpdateIfNeeded(context: Context, tag: NfcTag?) {
             if (tag != null && tag.sitemap == null && tag.item != null && tag.state != null) {
-                val message = if (tag.label?.isEmpty() == true)
-                    context.getString(R.string.nfc_tag_recognized_label, tag.label)
-                else
-                    context.getString(R.string.nfc_tag_recognized_item, tag.item)
-                context.showToast(message)
                 enqueueItemUpload(
                     context,
                     WORKER_TAG_PREFIX_NFC + tag.item,
@@ -179,7 +177,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     tag.label,
                     tag.state,
                     tag.mappedState,
-                    BackoffPolicy.LINEAR
+                    BackoffPolicy.LINEAR,
+                    true
                 )
             }
         }
@@ -194,7 +193,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     data.state,
                     data.mappedState,
                     BackoffPolicy.LINEAR,
-                    context.getString(R.string.item_update_widget_success_toast, data.label, data.mappedState)
+                    true
                 )
             }
         }
@@ -224,7 +223,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 prefix + setting.second,
                 null,
                 getter(context) ?: return,
-                null
+                null,
+                BackoffPolicy.EXPONENTIAL,
+                false
             )
         }
 
@@ -235,8 +236,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             label: String?,
             value: String,
             mappedValue: String?,
-            backoffPolicy: BackoffPolicy = BackoffPolicy.EXPONENTIAL,
-            successToast: String? = null
+            backoffPolicy: BackoffPolicy,
+            showToast: Boolean
         ) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -246,7 +247,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, successToast))
+                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast))
                 .build()
 
             val workManager = WorkManager.getInstance(context)
