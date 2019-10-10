@@ -65,6 +65,9 @@
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bildschirmsperre</string>
+    <string name="settings_screen_lock_off_summary">Zugriff auf die App ist nicht gesperrt</string>
+    <string name="settings_screen_lock_kiosk_summary">Zugriff auf die App-Einstellungen ist mit Android-Bildschirmsperre oder Fingerabdruck gesperrt</string>
+    <string name="settings_screen_lock_on_summary">Zugriff auf die App ist mit Android-Bildschirmsperre oder Fingerabdruck gesperrt\nHinweis: Widgets können trotzdem verwendet werden</string>
     <string name="screen_lock_unlock_screen_description">Entsperren, um Zugriff auf openHAB zu erlangen</string>
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
