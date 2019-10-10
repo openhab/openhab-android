@@ -159,7 +159,9 @@
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
     </plurals>
     <string name="item_update_http_error">Update von Item \'%1$s\' fehlgeschlagen (HTTP-Fehler %2$d)</string>
+    <string name="item_update_http_error_label">Update von %1$s fehlgeschlagen (HTTP-Fehler %2$d)</string>
     <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
+    <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
     <string name="retry">Erneut versuchen</string>
     <!-- Notification list strings -->
