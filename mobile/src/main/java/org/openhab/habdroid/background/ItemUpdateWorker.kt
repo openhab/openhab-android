@@ -150,8 +150,12 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             .build()
     }
 
-
-    private fun getItemUpdateSuccessMessage(context: Context, label: String, value: String, mappedValue: String): String {
+    private fun getItemUpdateSuccessMessage(
+        context: Context,
+        label: String,
+        value: String,
+        mappedValue: String
+    ): String {
         return when (value) {
             "ON" -> context.getString(R.string.item_update_success_message_on, label)
             "OFF" -> context.getString(R.string.item_update_success_message_off, label)
