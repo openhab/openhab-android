@@ -57,7 +57,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         logTextView = findViewById(R.id.log)
         scrollView = findViewById(R.id.scrollview)
         emptyView = findViewById(android.R.id.empty)
-        swipeLayout = findViewById(R.id.swipe_refresh)
+        swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
 

@@ -58,7 +58,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             val f = AboutMainFragment()
             f.arguments = intent.extras
             supportFragmentManager.commit {
-                add(R.id.about_container, f)
+                add(R.id.activity_content, f)
             }
         }
 
@@ -156,7 +156,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                     fragmentManager?.commit {
                         setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                             R.anim.slide_in_left, R.anim.slide_out_right)
-                        replace(R.id.about_container, f)
+                        replace(R.id.activity_content, f)
                         setBreadCrumbTitle(R.string.title_activity_libraries)
                         addToBackStack(null)
                     }

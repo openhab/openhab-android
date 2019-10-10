@@ -118,7 +118,6 @@
         <ListPreference
             android:key="screen_lock"
             android:title="@string/settings_screen_lock"
-            android:summary="@string/settings_screen_lock_summary"
             android:defaultValue="@string/settings_screen_lock_off_value"
             android:entries="@array/screen_lock"
             android:entryValues="@array/screen_lock_values"

@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.util
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -23,6 +24,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
@@ -226,3 +228,12 @@ fun Context.showToast(@StringRes message: Int) {
 fun Context.hasPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
 }
+
+fun Activity.finishAndRemoveTaskIfPossible() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        finishAndRemoveTask()
+    } else {
+        finish()
+    }
+}
+

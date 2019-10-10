@@ -76,8 +76,12 @@
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Screen lock</string>
-    <string name="settings_screen_lock_summary">Lock openHAB access with Android screen lock or fingerprint. Widgets can always be used.</string>
+    <string name="settings_screen_lock_nolock_summary">You need to enable a screen lock for your device for enabling app access locking</string>
+    <string name="settings_screen_lock_off_summary">Access to the app is not locked</string>
+    <string name="settings_screen_lock_kiosk_summary">Access to app settings is locked with Android screen lock or fingerprint</string>
+    <string name="settings_screen_lock_on_summary">Access to the app is locked with Android screen lock or fingerprint\nNote: Widgets can be used nevertheless</string>
     <string name="screen_lock_unlock_screen_description">Unlock to access openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Unlock to access settings</string>
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Kiosk mode</string>
     <string name="settings_screen_lock_on">On</string>
