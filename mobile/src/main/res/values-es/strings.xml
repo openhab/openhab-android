@@ -65,6 +65,8 @@
     <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueo de pantalla</string>
+    <string name="settings_screen_lock_nolock_summary">Necesita activar el bloqueo de pantalla en su dispositivo para habilitar el bloqueo de acceso a la aplicación</string>
+    <string name="settings_screen_lock_off_summary">El acceso a la aplicación no está bloqueado</string>
     <string name="screen_lock_unlock_screen_description">Desbloquear para acceder a openHAB</string>
     <string name="settings_screen_lock_off">Desactivado</string>
     <string name="settings_screen_lock_kiosk">Modo Kiosko</string>
