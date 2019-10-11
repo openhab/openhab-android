@@ -22,19 +22,19 @@
 
     <style name="openHAB.DayNight.orange" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/openhab_orange</item>
-        <item name="colorAccent">@color/openhab_orange</item>
+        <item name="colorSecondary">@color/openhab_orange</item>
         <item name="colorPrimaryDark">@color/openhab_orange_dark</item>
     </style>
 
     <style name="openHAB.DayNight.basicui" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/indigo_500</item>
-        <item name="colorAccent">@color/pink_a200</item>
+        <item name="colorSecondary">@color/pink_a200</item>
         <item name="colorPrimaryDark">@color/indigo_800</item>
     </style>
 
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/blue_grey_700</item>
-        <item name="colorAccent">@color/blue_grey_700</item>
+        <item name="colorSecondary">@color/blue_grey_700</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
     </style>
 
@@ -44,6 +44,10 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.MaterialComponents.SecondaryAsPrimary">
+        <item name="colorPrimary">?colorSecondary</item>
     </style>
 
     <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase" />
