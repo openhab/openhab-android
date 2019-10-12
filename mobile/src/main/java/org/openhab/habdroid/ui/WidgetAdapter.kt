@@ -601,7 +601,7 @@ class WidgetAdapter(
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
-        private val spareViews = mutableListOf<MaterialButton>()
+        private val spareViews = mutableListOf<View>()
         private var boundItem: Item? = null
 
         override fun bind(widget: Widget) {
@@ -609,15 +609,17 @@ class WidgetAdapter(
             boundItem = widget.item
 
             val mappings = widget.mappingsOrItemOptions
+
             // inflate missing views
             while (spareViews.isNotEmpty() && group.childCount < mappings.size) {
                 group.addView(spareViews.removeAt(0))
             }
-            for (i in group.childCount until mappings.size) {
+            while (group.childCount < mappings.size) {
                 val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, group, false)
                 view.setOnClickListener(this)
                 group.addView(view)
             }
+
             // bind views
             mappings.forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
@@ -627,9 +629,9 @@ class WidgetAdapter(
                 }
             }
 
-            // hide spare views
-            for (i in mappings.size until group.childCount) {
-                val view = group[i] as MaterialButton
+            // remove unneded views
+            while (group.childCount > mappings.size) {
+                val view = group[group.childCount - 1]
                 spareViews.add(view)
                 group.removeView(view)
             }
