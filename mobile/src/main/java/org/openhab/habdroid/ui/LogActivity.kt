@@ -78,9 +78,20 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         onRefresh()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_ERRORS_ONLY, showErrorsOnly)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        showErrorsOnly = savedInstanceState.getBoolean(KEY_ERRORS_ONLY)
+        super.onRestoreInstanceState(savedInstanceState)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "onCreateOptionsMenu()")
         menuInflater.inflate(R.menu.log_menu, menu)
+        updateErrorsOnlyButtonState(menu.findItem(R.id.show_errors))
         return true
     }
 
@@ -94,14 +105,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             }
             R.id.show_errors -> {
                 showErrorsOnly = showErrorsOnly.not()
-                if (showErrorsOnly) {
-                    item.setIcon(R.drawable.ic_error_white_24dp)
-                    item.setTitle(R.string.log_activity_action_show_all)
-                } else {
-                    item.setIcon(R.drawable.ic_error_outline_white_24dp)
-                    item.setTitle(R.string.log_activity_action_show_errors)
-                }
-                onRefresh()
+                updateErrorsOnlyButtonState(item)
                 true
             }
             R.id.refresh -> {
@@ -114,6 +118,17 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun updateErrorsOnlyButtonState(item: MenuItem) {
+        if (showErrorsOnly) {
+            item.setIcon(R.drawable.ic_error_white_24dp)
+            item.setTitle(R.string.log_activity_action_show_all)
+        } else {
+            item.setIcon(R.drawable.ic_error_outline_white_24dp)
+            item.setTitle(R.string.log_activity_action_show_errors)
+        }
+        onRefresh()
     }
 
     override fun onRefresh() {
@@ -198,6 +213,8 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     companion object {
+        private const val KEY_ERRORS_ONLY = "errorsOnly"
+
         private val TAG = LogActivity::class.java.simpleName
     }
 }
