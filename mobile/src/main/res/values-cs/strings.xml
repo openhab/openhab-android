@@ -131,8 +131,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
     <string name="action_settings">Nastavení</string>
-    <string name="nfc_tag_recognized_label">Rozpoznán NFC tag pro „%s“</string>
-    <string name="nfc_tag_recognized_item">Rozpoznán NFC tag pro Item „%s“</string>
     <string name="nfc_info_hint">Aktualizace Item lze zapsat na NFC tagy. Item můžete vybrat zde, nebo můžete dlouze kliknout na widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
@@ -300,5 +298,4 @@
     <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vyberte Item</string>
-    <string name="item_update_widget_success_toast">%1$s nastaven na %2$s</string>
 </resources>
