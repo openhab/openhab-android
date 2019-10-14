@@ -70,6 +70,7 @@
     <string name="settings_screen_lock_kiosk_summary">Zugriff auf die App-Einstellungen ist mit Android-Bildschirmsperre oder Fingerabdruck gesperrt</string>
     <string name="settings_screen_lock_on_summary">Zugriff auf die App ist mit Android-Bildschirmsperre oder Fingerabdruck gesperrt\nHinweis: Widgets können trotzdem verwendet werden</string>
     <string name="screen_lock_unlock_screen_description">Entsperren, um Zugriff auf openHAB zu erlangen</string>
+    <string name="screen_lock_unlock_preferences_description">Entsperren, um Zugriff auf Einstellungen zu erlangen</string>
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
     <string name="settings_screen_lock_on">An</string>
@@ -135,12 +136,14 @@
     <string name="info_openhab_uuid_label">openHAB-UUID</string>
     <string name="info_openhab_push_notification_label">Push-Benachrichtigungsstatus</string>
     <string name="action_settings">Einstellungen</string>
+    <string name="nfc_info_hint">Item-Updates können auf NFC-Tags geschrieben werden. Sie können hier ein Item auswählen oder ein Widget auf der Sitemap anklicken.</string>
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Geräteinformationen an Server senden</string>
     <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
     <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben dieses Präfix \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen der folgenden Funktionen ist kein Präfix gesetzt</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="settings_alarm_clock">Weckzeit an openHAB senden</string>
     <string name="settings_alarm_clock_summary_on">Sendet Weckzeit an Item \'%1$s\'</string>
