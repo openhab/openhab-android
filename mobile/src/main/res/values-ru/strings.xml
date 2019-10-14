@@ -136,8 +136,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
     <string name="action_settings">Настройки</string>
-    <string name="nfc_tag_recognized_label">Распознана метка NFC для \"%s\"</string>
-    <string name="nfc_tag_recognized_item">Распознана метка NFC для Item \"%s\"</string>
     <string name="nfc_info_hint">Обновления Item можно записать на NFC метку. Выберите Item тут или на Sitemap долгим нажатием на виджет.</string>
     <string name="info_not_set">Не задано</string>
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
@@ -309,5 +307,4 @@
     <string name="item_update_widget_content_description">Виджет для смены состояния Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Выберите Item</string>
-    <string name="item_update_widget_success_toast">%1$s установлен в %2$s</string>
 </resources>
