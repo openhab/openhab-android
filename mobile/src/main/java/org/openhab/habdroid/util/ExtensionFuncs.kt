@@ -209,6 +209,15 @@ fun Context.getSecretPrefs(): SharedPreferences {
 }
 
 /**
+ * Shows a red Toast. Can be called from the background.
+ */
+fun Context.showErrorToast(message: CharSequence) {
+    Handler(Looper.getMainLooper()).post {
+        Toasty.error(this, message).show()
+    }
+}
+
+/**
  * Shows an orange Toast with the openHAB icon. Can be called from the background.
  */
 fun Context.showToast(message: CharSequence) {

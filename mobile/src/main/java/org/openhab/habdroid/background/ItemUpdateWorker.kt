@@ -21,11 +21,13 @@ import androidx.work.WorkerParameters
 import kotlinx.coroutines.runBlocking
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.showErrorToast
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
@@ -43,9 +45,15 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         Log.d(TAG, "Trying to get connection")
         val connection = ConnectionFactory.usableConnectionOrNull
 
+        val showToast = inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false)
+
         if (connection == null) {
             Log.e(TAG, "Got no connection")
             return if (runAttemptCount <= MAX_RETRIES) {
+                if (showToast) {
+                    applicationContext.showErrorToast(
+                        applicationContext.getString(R.string.item_update_error_no_connection))
+                }
                 Result.retry()
             } else {
                 Result.failure(buildOutputData(false, 0))
@@ -54,7 +62,12 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
         var value = inputData.getString(INPUT_DATA_VALUE)!!
-        val successToastMessage = inputData.getString(INPUT_DATA_SUCCESS_TOAST_MESSAGE)
+
+        var label = inputData.getString(INPUT_DATA_LABEL)
+        if (label.isNullOrEmpty()) label = itemName
+
+        var mappedValue = inputData.getString(INPUT_DATA_MAPPED_VALUE)
+        if (mappedValue.isNullOrEmpty()) mappedValue = value
 
         return runBlocking {
             try {
@@ -62,13 +75,15 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     ?: return@runBlocking Result.failure(buildOutputData(true, 500))
                 if (value == "TOGGLE") {
                     value = determineOppositeState(item)
+                    mappedValue = value
                 }
                 val result = connection.httpClient
                     .post("rest/items/$itemName", value, "text/plain;charset=UTF-8")
                     .asStatus()
                 Log.d(TAG, "Item '$itemName' successfully updated to value $value")
-                if (successToastMessage != null) {
-                    applicationContext.showToast(successToastMessage)
+                if (showToast) {
+                    applicationContext.showToast(
+                        getItemUpdateSuccessMessage(applicationContext, label, value, mappedValue!!))
                 }
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
@@ -130,8 +145,36 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             .putString(OUTPUT_DATA_LABEL, inputData.getString(INPUT_DATA_LABEL))
             .putString(OUTPUT_DATA_VALUE, inputData.getString(INPUT_DATA_VALUE))
             .putString(OUTPUT_DATA_MAPPED_VALUE, inputData.getString(INPUT_DATA_MAPPED_VALUE))
+            .putString(OUTPUT_DATA_SHOW_TOAST, inputData.getString(INPUT_DATA_SHOW_TOAST))
             .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
             .build()
+    }
+
+    private fun getItemUpdateSuccessMessage(
+        context: Context,
+        label: String,
+        value: String,
+        mappedValue: String
+    ): String {
+        return when (value) {
+            "ON" -> context.getString(R.string.item_update_success_message_on, label)
+            "OFF" -> context.getString(R.string.item_update_success_message_off, label)
+            "UP" -> context.getString(R.string.item_update_success_message_up, label)
+            "DOWN" -> context.getString(R.string.item_update_success_message_down, label)
+            "MOVE" -> context.getString(R.string.item_update_success_message_move, label)
+            "STOP" -> context.getString(R.string.item_update_success_message_stop, label)
+            "INCREASE" -> context.getString(R.string.item_update_success_message_increase, label)
+            "DECREASE" -> context.getString(R.string.item_update_success_message_decrease, label)
+            "UNDEF" -> context.getString(R.string.item_update_success_message_undefined, label)
+            "" -> context.getString(R.string.item_update_success_message_empty_string, label)
+            "PLAY" -> context.getString(R.string.item_update_success_message_play, label)
+            "PAUSE" -> context.getString(R.string.item_update_success_message_pause, label)
+            "NEXT" -> context.getString(R.string.item_update_success_message_next, label)
+            "PREVIOUS" -> context.getString(R.string.item_update_success_message_previous, label)
+            "REWIND" -> context.getString(R.string.item_update_success_message_rewind, label)
+            "FASTFORWARD" -> context.getString(R.string.item_update_success_message_fastforward, label)
+            else -> context.getString(R.string.item_update_success_message_generic, label, mappedValue)
+        }
     }
 
     companion object {
@@ -142,7 +185,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         private const val INPUT_DATA_LABEL = "label"
         private const val INPUT_DATA_VALUE = "value"
         private const val INPUT_DATA_MAPPED_VALUE = "mappedValue"
-        private const val INPUT_DATA_SUCCESS_TOAST_MESSAGE = "successToast"
+        private const val INPUT_DATA_SHOW_TOAST = "showToast"
 
         const val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
         const val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
@@ -150,6 +193,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         const val OUTPUT_DATA_LABEL = "label"
         const val OUTPUT_DATA_VALUE = "value"
         const val OUTPUT_DATA_MAPPED_VALUE = "mappedValue"
+        const val OUTPUT_DATA_SHOW_TOAST = "showToast"
         const val OUTPUT_DATA_TIMESTAMP = "timestamp"
 
         fun buildData(
@@ -157,14 +201,14 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             label: String?,
             value: String,
             mappedValue: String?,
-            successToast: String?
+            showToast: Boolean
         ): Data {
             return Data.Builder()
                 .putString(INPUT_DATA_ITEM_NAME, itemName)
                 .putString(INPUT_DATA_LABEL, label)
                 .putString(INPUT_DATA_VALUE, value)
                 .putString(INPUT_DATA_MAPPED_VALUE, mappedValue)
-                .putString(INPUT_DATA_SUCCESS_TOAST_MESSAGE, successToast)
+                .putBoolean(INPUT_DATA_SHOW_TOAST, showToast)
                 .build()
         }
     }
