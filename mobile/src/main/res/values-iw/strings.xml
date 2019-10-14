@@ -122,8 +122,6 @@
     <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
     <string name="info_openhab_push_notification_label">מצב התראות בדחיפה</string>
     <string name="action_settings">הגדרות</string>
-    <string name="nfc_tag_recognized_label">זוהה תג NFC עבור \"%s\"</string>
-    <string name="nfc_tag_recognized_item">זוהה תג NFC עבור פריט \"%s\"</string>
     <string name="info_not_set">לא מוגדר</string>
     <string name="empty_page">דף זה אינו מכיל יישומונים המוגדרים כגלויים</string>
     <!-- Background tasks -->
