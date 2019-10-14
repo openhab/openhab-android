@@ -120,8 +120,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">プッシュ通知ステータス</string>
     <string name="action_settings">設定</string>
-    <string name="nfc_tag_recognized_label">\"%s\" の NFC タグを認識しました</string>
-    <string name="nfc_tag_recognized_item">アイテム \"%s\" の NFC タグを認識しました</string>
     <string name="info_not_set">未設定</string>
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
