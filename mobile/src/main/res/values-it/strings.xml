@@ -131,8 +131,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
     <string name="action_settings">Impostazioni</string>
-    <string name="nfc_tag_recognized_label">Tag NFC per \"%s\" riconosciuto</string>
-    <string name="nfc_tag_recognized_item">Tag NFC per item \"%s\" riconosciuto</string>
     <string name="nfc_info_hint">Gli aggiornamenti degli Item possono essere scritti sui tag NFC. Puoi selezionare un Item qui o puoi cliccare a lungo su un widget della Sitemap.</string>
     <string name="info_not_set">Non impostato</string>
     <string name="empty_page">Questa pagina non contiene tutti i widget impostati per essere visibili</string>
@@ -298,5 +296,4 @@
     <string name="item_update_widget_content_description">Widget per cambiare lo stato Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
-    <string name="item_update_widget_success_toast">%1$s impostato a %2$s</string>
 </resources>
