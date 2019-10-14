@@ -127,8 +127,6 @@
     <string name="info_openhab_uuid_label">UUID openHAB</string>
     <string name="info_openhab_push_notification_label">Statut des notifications push</string>
     <string name="action_settings">Paramétrage</string>
-    <string name="nfc_tag_recognized_label">Tag NFC pour \"%s\" reconnu</string>
-    <string name="nfc_tag_recognized_item">Tag NFC pour l\'Item \"%s\" reconnu</string>
     <string name="info_not_set">Non paramétré</string>
     <string name="empty_page">Cette page ne contient aucun widget qui soit défini pour être visible</string>
     <!-- Background tasks -->
@@ -282,5 +280,4 @@
     <string name="item_update_widget_content_description">Widget pour changer l\'état de l\'élément</string>
     <string name="item_update_widget_text">%1$s : %2$s</string>
     <string name="item_update_widget_item_picker_title">Sélectionner un objet</string>
-    <string name="item_update_widget_success_toast">%1$s défini à %2$s</string>
 </resources>
