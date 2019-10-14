@@ -1,0 +1,5 @@
+## Changed
+* Beautify success messages (#1582)
+
+## Fixed
+* Restore "errors only" state after device rotation (#1609)
