@@ -307,4 +307,22 @@
     <string name="item_update_widget_content_description">Виджет для смены состояния Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Выберите Item</string>
+    <string name="item_update_success_message_generic">%1$s был установлен в %2$s</string>
+    <string name="item_update_success_message_on">%s был включен</string>
+    <string name="item_update_success_message_off">%s был отключен</string>
+    <string name="item_update_success_message_up">%s начинает двигаться вверх</string>
+    <string name="item_update_success_message_down">%s начинает двигаться вниз</string>
+    <string name="item_update_success_message_move">%s начинает двигаться</string>
+    <string name="item_update_success_message_stop">%s был остановлен</string>
+    <string name="item_update_success_message_increase">%s был увеличен</string>
+    <string name="item_update_success_message_decrease">%s был уменьшен</string>
+    <string name="item_update_success_message_undefined">%s был установлен в неопределенное состояние</string>
+    <string name="item_update_success_message_empty_string">%s был установлен на пустую строку</string>
+    <string name="item_update_success_message_play">%s воспроизводится</string>
+    <string name="item_update_success_message_pause">%s был преостановлен</string>
+    <string name="item_update_success_message_next">%s показывает следующее название</string>
+    <string name="item_update_success_message_previous">%s показывает предыдущее название</string>
+    <string name="item_update_success_message_rewind">%s перематывается назад</string>
+    <string name="item_update_success_message_fastforward">%s перематывается вперед</string>
+    <string name="item_update_error_no_connection">Ошибка отправки обновления Item, повторяю\u2026</string>
 </resources>
