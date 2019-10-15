@@ -142,6 +142,8 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Enviar información del dispositivo al servidor</string>
     <string name="send_device_info_item_prefix">Prefijo del nombre del Item</string>
+    <string name="send_device_info_item_prefix_summary">Los nombres de Item de las siguientes características llevan el prefijo \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">No se ha especificado ningún prefijo para los nombres de Item de las siguientes características</string>
     <string name="settings_item_update_pref_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
     <string name="settings_alarm_clock">Enviar alarma a openHAB</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de la alarma al elemento \'%1$s\'</string>
@@ -163,7 +165,9 @@
         <item quantity="other">No se pudieron actualizar %d Items</item>
     </plurals>
     <string name="item_update_http_error">Error de actualización del Item \'%1$s\' (HTTP error %2$d)</string>
+    <string name="item_update_http_error_label">Error de actualización del Item \'%1$s\' (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Fallo en la actualización del Item \'%1$s\' (sin conexión)</string>
+    <string name="item_update_connection_error_label">Falló la actualización de %1$s (sin conexión)</string>
     <string name="error_sending_alarm_clock_item_empty">Por favor, introduzca un nombre de Item válido</string>
     <string name="retry">Reintentar</string>
     <!-- Notification list strings -->
@@ -301,4 +305,22 @@
     <string name="item_update_widget_content_description">Widget para cambiar el estado del Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleccione un Item</string>
+    <string name="item_update_success_message_generic">%1$s se ha establecido a %2$s</string>
+    <string name="item_update_success_message_on">%s ha sido activado</string>
+    <string name="item_update_success_message_off">%s ha sido desactivado</string>
+    <string name="item_update_success_message_up">%s empieza a subir</string>
+    <string name="item_update_success_message_down">%s empieza a bajar</string>
+    <string name="item_update_success_message_move">%s empieza a moverse</string>
+    <string name="item_update_success_message_stop">%s ha sido detenido</string>
+    <string name="item_update_success_message_increase">%s ha sido incrementado</string>
+    <string name="item_update_success_message_decrease">%s ha sido decrementado</string>
+    <string name="item_update_success_message_undefined">%s ha sido establecido como no definido</string>
+    <string name="item_update_success_message_empty_string">%s se ha establecido a una cadena vacía</string>
+    <string name="item_update_success_message_play">%s se está reproduciendo</string>
+    <string name="item_update_success_message_pause">%s ha sido pausado</string>
+    <string name="item_update_success_message_next">%s está mostrando el título siguiente</string>
+    <string name="item_update_success_message_previous">%s está mostrando el título anterior</string>
+    <string name="item_update_success_message_rewind">%s está retrocediendo</string>
+    <string name="item_update_success_message_fastforward">%s está avanzando rápido</string>
+    <string name="item_update_error_no_connection">Error al enviar una actualización al Item, reintentando\u2026</string>
 </resources>
