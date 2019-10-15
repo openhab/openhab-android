@@ -82,7 +82,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                add(R.id.write_nfc_container, fragment)
+                add(R.id.activity_content, fragment)
             }
         }
 
@@ -121,7 +121,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
     private fun replaceFragment() {
         supportFragmentManager.commit {
-            replace(R.id.write_nfc_container, fragment)
+            replace(R.id.activity_content, fragment)
         }
     }
 
