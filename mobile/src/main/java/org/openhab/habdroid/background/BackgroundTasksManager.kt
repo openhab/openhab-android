@@ -150,7 +150,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             Constants.PREFERENCE_PHONE_STATE
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
-            "net.dinglisch.android.taskerm"
+            "net.dinglisch.android.taskerm",
+            "com.android.providers.calendar"
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String?>()
 
