@@ -305,4 +305,10 @@
     <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
+    <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
+    <string name="item_update_success_message_on">%s wurde eingeschaltet</string>
+    <string name="item_update_success_message_off">%s wurde ausgeschaltet</string>
+    <string name="item_update_success_message_stop">%s wurde gestoppt</string>
+    <string name="item_update_success_message_increase">%s wurde erhöht</string>
+    <string name="item_update_success_message_decrease">%s wurde verringert</string>
 </resources>
