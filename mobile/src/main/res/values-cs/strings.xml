@@ -65,6 +65,7 @@
     <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
     <string name="beta">Zkušební verze</string>
     <string name="settings_screen_lock">Zámek obrazovky</string>
+    <string name="settings_screen_lock_nolock_summary">Abyste mohli zamknout přístup k této aplikaci, musíte nejprve nastavit zámek obrazovky Vašeho zařízení</string>
     <string name="screen_lock_unlock_screen_description">Odemknout openHAB</string>
     <string name="settings_screen_lock_off">Vypnuto</string>
     <string name="settings_screen_lock_kiosk">Kioskový režim</string>
