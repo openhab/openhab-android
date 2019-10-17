@@ -66,7 +66,11 @@
     <string name="beta">Zkušební verze</string>
     <string name="settings_screen_lock">Zámek obrazovky</string>
     <string name="settings_screen_lock_nolock_summary">Abyste mohli zamknout přístup k této aplikaci, musíte nejprve nastavit zámek obrazovky Vašeho zařízení</string>
+    <string name="settings_screen_lock_off_summary">Přístup k této aplikaci není omezen</string>
+    <string name="settings_screen_lock_kiosk_summary">Přístup k nastavení aplikace je uzamčen zámkem obrazovky zařízení nebo otiskem prstu</string>
+    <string name="settings_screen_lock_on_summary">Přístup k aplikaci je chráněn zámkem obrazovky zařízení nebo otiskem prstu\nPoznámka: Widgety mohou být použity bez omezení</string>
     <string name="screen_lock_unlock_screen_description">Odemknout openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Odemknout nastavení</string>
     <string name="settings_screen_lock_off">Vypnuto</string>
     <string name="settings_screen_lock_kiosk">Kioskový režim</string>
     <string name="settings_screen_lock_on">Zapnuto</string>
