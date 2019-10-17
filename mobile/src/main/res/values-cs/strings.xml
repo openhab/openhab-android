@@ -65,8 +65,12 @@
     <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
     <string name="beta">Zkušební verze</string>
     <string name="settings_screen_lock">Zámek obrazovky</string>
-    <string name="settings_screen_lock_summary">Zamknout openHAB pomocí zámku Android zařízení nebo čtečkou otisku prstu. Widgety budou i přesto použitelné.</string>
+    <string name="settings_screen_lock_nolock_summary">Abyste mohli zamknout přístup k této aplikaci, musíte nejprve nastavit zámek obrazovky Vašeho zařízení</string>
+    <string name="settings_screen_lock_off_summary">Přístup k této aplikaci není omezen</string>
+    <string name="settings_screen_lock_kiosk_summary">Přístup k nastavení aplikace je uzamčen zámkem obrazovky zařízení nebo otiskem prstu</string>
+    <string name="settings_screen_lock_on_summary">Přístup k aplikaci je chráněn zámkem obrazovky zařízení nebo otiskem prstu\nPoznámka: Widgety mohou být použity bez omezení</string>
     <string name="screen_lock_unlock_screen_description">Odemknout openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Odemknout nastavení</string>
     <string name="settings_screen_lock_off">Vypnuto</string>
     <string name="settings_screen_lock_kiosk">Kioskový režim</string>
     <string name="settings_screen_lock_on">Zapnuto</string>
@@ -132,14 +136,14 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
     <string name="action_settings">Nastavení</string>
-    <string name="nfc_tag_recognized_label">Rozpoznán NFC tag pro „%s“</string>
-    <string name="nfc_tag_recognized_item">Rozpoznán NFC tag pro Item „%s“</string>
     <string name="nfc_info_hint">Aktualizace Item lze zapsat na NFC tagy. Item můžete vybrat zde, nebo můžete dlouze kliknout na widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Odeslat informace o zařízení na server</string>
     <string name="send_device_info_item_prefix">Prefix názvu Item</string>
+    <string name="send_device_info_item_prefix_summary">Jména Item následujících funkcí jsou s předponou \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Pro jména Item s následujícími funkcemi není nastavena žádná předpona</string>
     <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
     <string name="settings_alarm_clock">Odeslat budík do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
@@ -163,7 +167,9 @@
         <item quantity="other">%d Items nemohlo být aktualizováno</item>
     </plurals>
     <string name="item_update_http_error">Chyba aktualizace Item \'%1$s\' (HTTP chyba %2$d)</string>
+    <string name="item_update_http_error_label">Chyba aktualizace %1$s (HTTP chyba %2$d)</string>
     <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
+    <string name="item_update_connection_error_label">Chyba aktualizace %1$s (žádné připojení)</string>
     <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
     <string name="retry">Opakovat</string>
     <!-- Notification list strings -->
@@ -301,5 +307,22 @@
     <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vyberte Item</string>
-    <string name="item_update_widget_success_toast">%1$s nastaven na %2$s</string>
+    <string name="item_update_success_message_generic">%1$s - nastaveno na %2$s</string>
+    <string name="item_update_success_message_on">%s - zapnuto</string>
+    <string name="item_update_success_message_off">%s - vypnuto</string>
+    <string name="item_update_success_message_up">%s se začíná pohybovat nahoru</string>
+    <string name="item_update_success_message_down">%s se začíná pohybovat dolů</string>
+    <string name="item_update_success_message_move">%s se začíná pohybovat</string>
+    <string name="item_update_success_message_stop">%s - zastaveno</string>
+    <string name="item_update_success_message_increase">%s - zvýšeno</string>
+    <string name="item_update_success_message_decrease">%s - sníženo</string>
+    <string name="item_update_success_message_undefined">%s má hodnotu undefined</string>
+    <string name="item_update_success_message_empty_string">%s je prázdný textový řetězec</string>
+    <string name="item_update_success_message_play">%s právě hraje</string>
+    <string name="item_update_success_message_pause">%s - pozastaveno</string>
+    <string name="item_update_success_message_next">%s ukazuje další název</string>
+    <string name="item_update_success_message_previous">%s ukazuje předchozí název</string>
+    <string name="item_update_success_message_rewind">%s přetáčí zpět</string>
+    <string name="item_update_success_message_fastforward">%s přetáčí vpřed</string>
+    <string name="item_update_error_no_connection">Aktualizace Item se nezdařila, zkouším znovu\u2026</string>
 </resources>

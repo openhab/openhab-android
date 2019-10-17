@@ -65,7 +65,6 @@
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de tela</string>
-    <string name="settings_screen_lock_summary">Bloquear acesso ao openHAB pelo bloqueio de tela ou por digital. Widgets poderão ser usados.</string>
     <string name="screen_lock_unlock_screen_description">Desbloquear acesso ao openHAB</string>
     <string name="settings_screen_lock_off">Desligar</string>
     <string name="settings_screen_lock_kiosk">Modo Kiosk</string>
@@ -132,8 +131,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status da notificação por push</string>
     <string name="action_settings">Configurações</string>
-    <string name="nfc_tag_recognized_label">Tag NFC para \"%s\" reconhecido</string>
-    <string name="nfc_tag_recognized_item">Tag NFC para o Item \"%s\" reconhecido</string>
     <string name="nfc_info_hint">Atualizações de Item poderão ser escritas em tags NFC. Você pode selecionar um Item aqui ou por um widget no Sitemap.</string>
     <string name="info_not_set">Não definido</string>
     <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
@@ -299,5 +296,4 @@
     <string name="item_update_widget_content_description">Widget para alterar estado do Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecione um Item</string>
-    <string name="item_update_widget_success_toast">%1$s para %2$s</string>
 </resources>

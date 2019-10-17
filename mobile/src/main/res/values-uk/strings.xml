@@ -129,8 +129,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
-    <string name="nfc_tag_recognized_label">NFC-теґ для \"%s\" розпізнано</string>
-    <string name="nfc_tag_recognized_item">NFC-теґ для елемента \"%s\" розпізнано</string>
     <string name="info_not_set">Не вказано</string>
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
@@ -294,5 +292,4 @@
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
-    <string name="item_update_widget_success_toast">%1$s встановлено в %2$s</string>
 </resources>

@@ -123,8 +123,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
-    <string name="nfc_tag_recognized_label">NFC tag a \"%s\" -hoz felismerve</string>
-    <string name="nfc_tag_recognized_item">NFC tag az elemhez \"%s\" felismerve</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->

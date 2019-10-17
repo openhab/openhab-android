@@ -65,8 +65,12 @@
     <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокировка экрана</string>
-    <string name="settings_screen_lock_summary">Ограничить доступ к openHAB c помощью экрана блокировки или отпечатка пальца. Виджетом можно будет пользоваться свободно.</string>
+    <string name="settings_screen_lock_nolock_summary">Вам нужно включить блокировку экрана для включения блокировки доступа к приложению</string>
+    <string name="settings_screen_lock_off_summary">Доступ к приложению не заблокирован</string>
+    <string name="settings_screen_lock_kiosk_summary">Доступ к настройкам приложения заблокирован с помощью экрана блокировки Android или отпечатка пальца</string>
+    <string name="settings_screen_lock_on_summary">Доступ к приложению заблокирован с помощью блокировки экрана Android или отпечатка пальца\nПримечание: Виджеты могут быть использованы, тем не менее</string>
     <string name="screen_lock_unlock_screen_description">Разблокировать для доступа к openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Разблокировать для доступа к настройкам</string>
     <string name="settings_screen_lock_off">Выкл</string>
     <string name="settings_screen_lock_kiosk">Режим киоска</string>
     <string name="settings_screen_lock_on">Вкл</string>
@@ -132,14 +136,14 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
     <string name="action_settings">Настройки</string>
-    <string name="nfc_tag_recognized_label">Распознана метка NFC для \"%s\"</string>
-    <string name="nfc_tag_recognized_item">Распознана метка NFC для Item \"%s\"</string>
     <string name="nfc_info_hint">Обновления Item можно записать на NFC метку. Выберите Item тут или на Sitemap долгим нажатием на виджет.</string>
     <string name="info_not_set">Не задано</string>
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Отправить информацию устройства на сервер</string>
     <string name="send_device_info_item_prefix">Префикс Item</string>
+    <string name="send_device_info_item_prefix_summary">Имена Item следующих функций имеют этот префикс \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Префикс не установлен для имен Item для следующих функций</string>
     <string name="settings_item_update_pref_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
     <string name="settings_alarm_clock">Отправить время будильника на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Посылать время будильника Item \'%1$s\'</string>
@@ -303,5 +307,22 @@
     <string name="item_update_widget_content_description">Виджет для смены состояния Item</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Выберите Item</string>
-    <string name="item_update_widget_success_toast">%1$s установлен в %2$s</string>
+    <string name="item_update_success_message_generic">%1$s был установлен в %2$s</string>
+    <string name="item_update_success_message_on">%s был включен</string>
+    <string name="item_update_success_message_off">%s был отключен</string>
+    <string name="item_update_success_message_up">%s начинает двигаться вверх</string>
+    <string name="item_update_success_message_down">%s начинает двигаться вниз</string>
+    <string name="item_update_success_message_move">%s начинает двигаться</string>
+    <string name="item_update_success_message_stop">%s был остановлен</string>
+    <string name="item_update_success_message_increase">%s был увеличен</string>
+    <string name="item_update_success_message_decrease">%s был уменьшен</string>
+    <string name="item_update_success_message_undefined">%s был установлен в неопределенное состояние</string>
+    <string name="item_update_success_message_empty_string">%s был установлен на пустую строку</string>
+    <string name="item_update_success_message_play">%s воспроизводится</string>
+    <string name="item_update_success_message_pause">%s был преостановлен</string>
+    <string name="item_update_success_message_next">%s показывает следующее название</string>
+    <string name="item_update_success_message_previous">%s показывает предыдущее название</string>
+    <string name="item_update_success_message_rewind">%s перематывается назад</string>
+    <string name="item_update_success_message_fastforward">%s перематывается вперед</string>
+    <string name="item_update_error_no_connection">Ошибка отправки обновления Item, повторяю\u2026</string>
 </resources>
