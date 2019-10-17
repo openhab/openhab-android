@@ -308,6 +308,8 @@
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
     <string name="item_update_success_message_on">%s wurde eingeschaltet</string>
     <string name="item_update_success_message_off">%s wurde ausgeschaltet</string>
+    <string name="item_update_success_message_up">%s beginnt sich nach oben zu bewegen</string>
+    <string name="item_update_success_message_down">%s beginnt sich nach unten zu bewegen</string>
     <string name="item_update_success_message_move">%s beginnt sich zu bewegen</string>
     <string name="item_update_success_message_stop">%s wurde gestoppt</string>
     <string name="item_update_success_message_increase">%s wurde erhöht</string>
@@ -320,4 +322,5 @@
     <string name="item_update_success_message_previous">%s zeigt den vorherigen Titel</string>
     <string name="item_update_success_message_rewind">%s wird zurückgespult</string>
     <string name="item_update_success_message_fastforward">%s wird vorgespult</string>
+    <string name="item_update_error_no_connection">Senden des Item-Updates fehlgeschlagen, wiederhole\u2026</string>
 </resources>
