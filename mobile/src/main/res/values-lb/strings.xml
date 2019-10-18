@@ -33,6 +33,7 @@
     <string name="settings_openhab_demomode">Demo Modus</string>
     <string name="settings_openhab_demomode_summary">Wann s de keen openHAB Server hues, schalt den Demo Modus an fir eng Iddi ze kréien wat openHAB kann.</string>
     <string name="settings_openhab_theme">Design</string>
+    <string name="settings_accent_color">Akzent Faarw</string>
     <string name="settings_select_a_color">Faarf auswielen</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
     <string name="settings_openhab_fullscreen_summary">Am Fullscreen Modus uweisen</string>
@@ -64,7 +65,12 @@
     <string name="settings_insecure_connection_summary">Ongeséchert mat %s verbonnen</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Displayspär</string>
+    <string name="settings_screen_lock_nolock_summary">Du muss eng Display Spär uschalten fir d‘ Spären vun App Zougrëff ze aktivéieren</string>
+    <string name="settings_screen_lock_off_summary">Zougrëff op d‘ App ass net gespaart</string>
+    <string name="settings_screen_lock_kiosk_summary">Zougrëff op d‘ App Astellungen ass mat der Android Display Spär oder Fangerofdrock gespaart</string>
+    <string name="settings_screen_lock_on_summary">Zougrëff op d‘ App Astellungen ass mat der Android Display Spär oder Fangerofdrock gespaart\nHiwäis: Widgets kennen trotzdeem benotzt ginn</string>
     <string name="screen_lock_unlock_screen_description">Entspären fir Zougrëff op openHAB ze kréien</string>
+    <string name="screen_lock_unlock_preferences_description">Entspär fir Zougrëff op d‘ Astellungen ze kréien</string>
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk Modus</string>
     <string name="settings_screen_lock_on">Un</string>
@@ -130,11 +136,14 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status vun den Push Notifikatiounen</string>
     <string name="action_settings">Astellungen</string>
+    <string name="nfc_info_hint">Item Updates kennen op NFC Tags geschriwwe ginn. Du kanns en Item hei auswielen oder duerch laang-Klicken op der Sitemap.</string>
     <string name="info_not_set">Net gesat</string>
     <string name="empty_page">Des Säit huet keng visibel Widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
     <string name="send_device_info_item_prefix">Prefix vum Item Numm</string>
+    <string name="send_device_info_item_prefix_summary">D‘ Item Nimm vu folgende Features hunn dëse Prefix \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Fir Item Nimm vun de folgenden Funktiounen ass keen Prefix gesat</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_alarm_clock">Erwächzäit un openHAB schécken</string>
     <string name="settings_alarm_clock_summary_on">Erwächzäit un den Item \'%1$s\' schécken</string>
@@ -156,7 +165,9 @@
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
     </plurals>
     <string name="item_update_http_error">Den Item \'%1$s\' konnt net geupdate ginn (HTTP Feeler %2$d)</string>
+    <string name="item_update_http_error_label">Update vun %1$s huet net funktionéiert (HTTP Feeler %2$d)</string>
     <string name="item_update_connection_error">Den Item \'%1$s\' konnt net geupdate ginn (Keng Verbindung)</string>
+    <string name="item_update_connection_error_label">%1$s Update huet net funktionéiert (keng Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Gitt w.e.g. en valabelen Item Numm un</string>
     <string name="retry">Nach emol probéieren</string>
     <!-- Notification list strings -->
@@ -179,6 +190,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Hell</string>
     <string name="theme_name_dark">Däischter</string>
+    <string name="theme_name_system">System no goen</string>
+    <string name="theme_name_battery_saver">Donkele Modus am Energiespuermodus</string>
     <!-- NFC -->
     <string name="nfc_action_on">Un</string>
     <string name="nfc_action_up">Erop</string>
@@ -259,6 +272,7 @@
     <string name="content_description_increase_item_value">Wäert vum Item eropsetzen</string>
     <string name="content_description_decrease_item_value">Wäert vum Item erofsetzen</string>
     <string name="swipe_to_refresh_description">D\'App aktualiséiert sech automatesch, Du brauchs et net manuell ze maachen</string>
+    <string name="got_it">Verstanen!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introduktioun</string>
     <string name="intro_welcome">Wëllkomm bei openHAB</string>
@@ -291,4 +305,22 @@
     <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Item auswielen</string>
+    <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
+    <string name="item_update_success_message_on">%s ass ageschalt ginn</string>
+    <string name="item_update_success_message_off">%s ass ausgeschalt ginn</string>
+    <string name="item_update_success_message_up">%s fänkt un erop ze goen</string>
+    <string name="item_update_success_message_down">%s fänkt un erof ze goen</string>
+    <string name="item_update_success_message_move">%s fänkt un sech ze beweegen</string>
+    <string name="item_update_success_message_stop">%s ass gestoppt ginn</string>
+    <string name="item_update_success_message_increase">%s ass erhéicht ginn</string>
+    <string name="item_update_success_message_decrease">%s ass verréngert ginn</string>
+    <string name="item_update_success_message_undefined">%s ass op ondefinéiert gesat ginn</string>
+    <string name="item_update_success_message_empty_string">%s ass op en eidelen String gesat ginn</string>
+    <string name="item_update_success_message_play">%s leeft</string>
+    <string name="item_update_success_message_pause">%s ass gepaust ginn</string>
+    <string name="item_update_success_message_next">%s weist den nächsten Titel</string>
+    <string name="item_update_success_message_previous">%s weist den viregten Titel</string>
+    <string name="item_update_success_message_rewind">%s spullt zeréck</string>
+    <string name="item_update_success_message_fastforward">%s spullt no fir</string>
+    <string name="item_update_error_no_connection">Feeler beim schécken vum Item Update, probéieren weider\u2026</string>
 </resources>
