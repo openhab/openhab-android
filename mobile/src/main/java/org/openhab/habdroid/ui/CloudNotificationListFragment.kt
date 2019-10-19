@@ -85,6 +85,9 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(DividerItemDecoration(view.context))
         recyclerView.adapter = adapter
+
+        // Clear notifications from statusbar
+        CloudMessagingHelper.clearAllNotifications(context!!)
     }
 
     override fun onResume() {
@@ -112,7 +115,6 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
     }
 
     private fun loadNotifications(clearExisting: Boolean) {
-        CloudMessagingHelper.clearAllNotifications(context)
         val activity = activity as AbstractBaseActivity? ?: return
         val conn = ConnectionFactory.cloudConnection
         if (conn == null) {

@@ -105,12 +105,14 @@ class FcmRegistrationService : JobIntentService() {
     }
 
     private fun sendHideNotificationRequest(notificationId: Int, senderId: String) {
+
         val fcm = FirebaseMessaging.getInstance()
         val message = RemoteMessage.Builder("$senderId@gcm.googleapis.com")
                 .addData("type", "hideNotification")
                 .addData("notificationId", notificationId.toString())
                 .build()
         fcm.send(message)
+        Log.d(TAG, "FCM request sent to $senderId")
     }
 
     class ProxyReceiver : BroadcastReceiver() {

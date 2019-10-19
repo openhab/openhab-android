@@ -74,10 +74,13 @@ object CloudMessagingHelper {
     }
 
     // Used to clear all notifications from statusbar
-    fun clearAllNotifications(context: Context?) {
-        val nm = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        nm.cancelAll()
+    fun clearAllNotifications(context: Context) {
+        // to clear the notifications on current device
+        val notificationManager: NotificationManager =
+            context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
 
-        // FcmRegistrationService.scheduleHideNotification(context, 0)
+        // to clear the notifications on other devices
+        FcmRegistrationService.scheduleHideNotification(context, FcmMessageListenerService.SUMMARY_NOTIFICATION_ID)
     }
 }
