@@ -61,6 +61,10 @@
     <string name="settings_connection_summary">מחובר ל- %s</string>
     <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
     <string name="beta">בטא</string>
+    <string name="settings_screen_lock_nolock_summary">כדי לאפשר נעילת גישה ליישום יש צורך בהפעלת נעילת המכשיר</string>
+    <string name="settings_screen_lock_off_summary">אין נעילת גישה ליישום</string>
+    <string name="settings_screen_lock_kiosk_summary">הגישה להגדרות היישום נעולה באמצעות מסך הנעילה של אנדרואיד או טביעת אצבע</string>
+    <string name="settings_screen_lock_on_summary">הגישה ליישום נעולה באמצעות מסך הנעילה של אנדרואיד או טביעת אצבע\nהערה: בכל מקרה ניתן להשתמש ווידג\'טים</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="title_voice_widget_icon">פקודות קוליות וקיצורי דרך ליישום</string>
