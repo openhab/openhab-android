@@ -143,6 +143,7 @@
     <string name="send_device_info_to_server">שלח מידע על ההתקן לשרת</string>
     <string name="send_device_info_item_prefix">קידומת שם פריט</string>
     <string name="send_device_info_item_prefix_summary">לשמות הפריטים עם התכונות הבאות יש קידומת זו \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">אין קידומת לשמות הפריטים עם התכונות הבאות</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
     <string name="settings_alarm_clock">שלח את השעון המעורר ל- openHAB</string>
     <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
@@ -192,6 +193,7 @@
     <string name="theme_name_light">בהיר</string>
     <string name="theme_name_dark">כהה</string>
     <string name="theme_name_system">בהתאם למערכת</string>
+    <string name="theme_name_battery_saver">ערכת נושא כהה במצב חיסכון בסוללה</string>
     <!-- NFC -->
     <string name="nfc_action_on">הפעל</string>
     <string name="nfc_action_up">העלה</string>
@@ -212,6 +214,8 @@
     <string name="nfc_action_stop">עצור</string>
     <string name="nfc_activate">הפעל</string>
     <string name="nfc_action_current_color">צבע נוכחי</string>
+    <string name="nfc_action_to_sitemap_page">‏כתוב Sitemap לתג NFC</string>
+    <string name="nfc_action_write_command_tag">‏כתוב פריט לתג NFC</string>
     <!-- Drawer -->
     <string name="drawer_open">מגירת תצורת מערכת נפתחה</string>
     <string name="drawer_close">מגירת תצורת מערכת נסגרה</string>
@@ -247,6 +251,11 @@
     <!-- Log -->
     <string name="log">יומן רישום</string>
     <string name="view_log">הצג יומן רישום</string>
+    <string name="log_activity_action_clear_log">מחיקת יומן הרישום</string>
+    <string name="log_activity_action_show_errors">הצג שגיאות בלבד</string>
+    <string name="log_activity_action_show_all">הצג את כל ההודעות</string>
+    <string name="log_activity_action_reload">רענן</string>
+    <string name="log_activity_content_description_share">שתף יומן</string>
     <string name="empty_log">יומן הרישום ריק</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">נעץ למסך הבית</string>
@@ -265,9 +274,12 @@
     <string name="content_description_increase_item_value">הגדלת ערך הפריט</string>
     <string name="content_description_decrease_item_value">הקטנת ערך הפריט</string>
     <string name="swipe_to_refresh_description">היישום מרענן באופן אוטומטי, בדרך כלל אין צורך לבצע זאת ידנית</string>
+    <string name="got_it">הבנתי!</string>
     <!-- Intro strings -->
     <string name="app_intro">הקדמה</string>
     <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
+    <string name="intro_welcome_back">ברוך שובך ל openHAB</string>
+    <string name="intro_app_restored">רוב ההגדרות שלך שוחזרו למעט אישורי שרת</string>
     <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכנולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
     <string name="intro_themes">ערכות עיצוב</string>
     <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
@@ -290,6 +302,9 @@
     <string name="turn_on">הפעל</string>
     <string name="press_back_to_exit">לחץ \'חזור\' פעם נוספת כדי לצאת</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">שליטה בפריט</string>
+    <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
+    <string name="item_update_widget_item_picker_title">בחר פריט</string>
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>
     <string name="item_update_success_message_off">%s עבר למצב כבוי</string>
