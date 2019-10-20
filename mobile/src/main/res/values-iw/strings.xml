@@ -65,6 +65,7 @@
     <string name="settings_screen_lock_off_summary">אין נעילת גישה ליישום</string>
     <string name="settings_screen_lock_kiosk_summary">הגישה להגדרות היישום נעולה באמצעות מסך הנעילה של אנדרואיד או טביעת אצבע</string>
     <string name="settings_screen_lock_on_summary">הגישה ליישום נעולה באמצעות מסך הנעילה של אנדרואיד או טביעת אצבע\nהערה: בכל מקרה ניתן להשתמש ווידג\'טים</string>
+    <string name="screen_lock_unlock_preferences_description">שיחרור נעילה לגישה להגדרות</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="title_voice_widget_icon">פקודות קוליות וקיצורי דרך ליישום</string>
@@ -131,6 +132,7 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">שלח מידע על ההתקן לשרת</string>
     <string name="send_device_info_item_prefix">קידומת שם פריט</string>
+    <string name="send_device_info_item_prefix_summary">לשמות הפריטים עם התכונות הבאות יש קידומת זו \'%s\'</string>
     <string name="settings_alarm_clock">שלח את השעון המעורר ל- openHAB</string>
     <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">לא לשלוח את שעת השעון המעורר אל השרת</string>
@@ -148,7 +150,9 @@
         <item quantity="other">ל %d פריטים לא היתה אפשרות להתעדכן</item>
     </plurals>
     <string name="item_update_http_error">עדכון הפריט \'%1$s\' נכשל (שגיאת HTTP %2$d)</string>
+    <string name="item_update_http_error_label">עדכון \'%1$s\' נכשל (שגיאת HTTP %2$d)</string>
     <string name="item_update_connection_error">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
+    <string name="item_update_connection_error_label">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="error_sending_alarm_clock_item_empty">אנא הכנס שם פריט תקף</string>
     <string name="retry">נסה שנית</string>
     <!-- Notification list strings -->
@@ -269,4 +273,17 @@
     <string name="turn_on">הפעל</string>
     <string name="press_back_to_exit">לחץ \'חזור\' פעם נוספת כדי לצאת</string>
     <!-- Item update widget -->
+    <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
+    <string name="item_update_success_message_on">%s עבר למצב דולק</string>
+    <string name="item_update_success_message_off">%s עבר למצב כבוי</string>
+    <string name="item_update_success_message_up">%s מתחיל להתרומם</string>
+    <string name="item_update_success_message_down">%s מתחיל לרדת</string>
+    <string name="item_update_success_message_move">%s מתחיל לנוע</string>
+    <string name="item_update_success_message_stop">%s נעצר</string>
+    <string name="item_update_success_message_increase">%s התגבר</string>
+    <string name="item_update_success_message_decrease">%s הופחת</string>
+    <string name="item_update_success_message_undefined">%s עבר למצב לא מוגדר</string>
+    <string name="item_update_success_message_empty_string">%s עבר למצב מחרוזת ריקה</string>
+    <string name="item_update_success_message_play">%s מתנגן</string>
+    <string name="item_update_success_message_pause">%s הושהה</string>
 </resources>
