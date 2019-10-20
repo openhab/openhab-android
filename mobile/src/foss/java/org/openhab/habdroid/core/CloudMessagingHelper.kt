@@ -36,4 +36,6 @@ object CloudMessagingHelper {
     fun getPushNotificationStatus(context: Context): String {
         return context.getString(R.string.info_openhab_notification_status_unavailable)
     }
+
+    fun clearAllNotifications(context: Context) {}
 }

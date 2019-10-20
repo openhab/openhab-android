@@ -112,7 +112,6 @@ class FcmRegistrationService : JobIntentService() {
                 .addData("notificationId", notificationId.toString())
                 .build()
         fcm.send(message)
-        Log.d(TAG, "FCM request sent to $senderId")
     }
 
     class ProxyReceiver : BroadcastReceiver() {
