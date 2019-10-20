@@ -296,6 +296,7 @@
     <string name="item_picker_custom">התאמה אישית</string>
     <string name="item_picker_dialog_title">בחר מצב</string>
     <string name="item_picker">פריט openHAB</string>
+    <string name="item_picker_blurb">קבע\"%1$s\" (%2$s) ל \"%3$s\"</string>
     <string name="search">חיפוש</string>
     <string name="settings_tasker_plugin">שילוב עם Tasker</string>
     <string name="settings_tasker_plugin_summary">אפשר את תוסף פעולת Tasker על מנת לעדכן פריטים דרך Tasker או אפליקציות אחרות התומכות בכך</string>
@@ -304,6 +305,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">שליטה בפריט</string>
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
+    <string name="item_update_widget_text">%2$s: %1$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>
