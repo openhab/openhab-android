@@ -6,6 +6,7 @@
     <string name="info_openhab_gcm_in_progress">מתבצע רישום ההתקן</string>
     <string name="info_openhab_gcm_failed">רישום ההתקן נכשל</string>
     <string name="info_openhab_gcm_failed_with_reason">רישום ההתקן נכשל עקב בעיית שירותי גוגל: %s</string>
+    <string name="info_openhab_gcm_failed_toast">רישום להודעות בדחיפה נכשל</string>
     <string name="info_openhab_gcm_connected">המכשיר נרשם בהצלחה לשירות העברת הודעות בענן של גוגל (FCM)</string>
     <string name="notification_channel_default">ברירת מחדל</string>
     <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
@@ -15,4 +16,5 @@
         <item quantity="many">%d התראות חדשות</item>
         <item quantity="other">%d התראות חדשות</item>
     </plurals>
+    <string name="open_in_maps">פתח באמצעות מפות גוגל</string>
 </resources>
