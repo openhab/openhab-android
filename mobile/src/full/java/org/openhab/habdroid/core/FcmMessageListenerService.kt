@@ -18,6 +18,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
@@ -202,10 +203,24 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         internal const val EXTRA_NOTIFICATION_ID = "notificationId"
 
         private const val CHANNEL_ID_DEFAULT = "default"
-        const val SUMMARY_NOTIFICATION_ID = 0
+        internal const val SUMMARY_NOTIFICATION_ID = 0
 
         // Notification grouping is only available on N or higher, as mentioned in
         // https://developer.android.com/guide/topics/ui/notifiers/notifications#bundle
         private val HAS_GROUPING_SUPPORT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+        fun clearFcmNotifications(context: Context) {
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.cancel(SUMMARY_NOTIFICATION_ID)
+            if (HAS_GROUPING_SUPPORT) {
+                val activeNotifications = nm.activeNotifications
+                activeNotifications
+                    .filter { it.groupKey.endsWith("gcm") }
+                    .forEach {
+                        nm.cancel(it.id)
+                        FcmRegistrationService.scheduleHideNotification(context, it.id)
+                    }
+            }
+        }
     }
 }

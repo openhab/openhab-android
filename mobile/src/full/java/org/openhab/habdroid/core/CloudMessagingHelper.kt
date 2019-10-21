@@ -13,9 +13,7 @@
 
 package org.openhab.habdroid.core
 
-import android.app.NotificationManager
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import androidx.annotation.DrawableRes
 import com.google.android.gms.common.ConnectionResult
@@ -73,14 +71,9 @@ object CloudMessagingHelper {
         else -> context.getString(R.string.info_openhab_gcm_connected)
     }
 
-    // Used to clear all notifications from statusbar
+    // Used to clear Fcm and Summary notifications
     fun clearAllNotifications(context: Context) {
-        // to clear the notifications on current device
-        val notificationManager: NotificationManager =
-            context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancelAll()
-
-        // to clear the notifications on other devices
         FcmRegistrationService.scheduleHideNotification(context, FcmMessageListenerService.SUMMARY_NOTIFICATION_ID)
+        FcmMessageListenerService.clearFcmNotifications(context)
     }
 }

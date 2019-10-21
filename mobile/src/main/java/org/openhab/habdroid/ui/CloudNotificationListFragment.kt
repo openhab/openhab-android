@@ -87,7 +87,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         recyclerView.adapter = adapter
 
         // Clear notifications from statusbar
-        CloudMessagingHelper.clearAllNotifications(context!!)
+        CloudMessagingHelper.clearAllNotifications(view.context)
     }
 
     override fun onResume() {

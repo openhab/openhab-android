@@ -105,7 +105,6 @@ class FcmRegistrationService : JobIntentService() {
     }
 
     private fun sendHideNotificationRequest(notificationId: Int, senderId: String) {
-
         val fcm = FirebaseMessaging.getInstance()
         val message = RemoteMessage.Builder("$senderId@gcm.googleapis.com")
                 .addData("type", "hideNotification")
