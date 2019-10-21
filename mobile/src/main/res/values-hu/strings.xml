@@ -264,4 +264,5 @@
     <string name="turn_on">Bekapcsol</string>
     <string name="press_back_to_exit">Kilépéshez érintse meg újra a vissza gombot</string>
     <!-- Item update widget -->
+    <string name="item_update_success_message_undefined">%s nem meghatározható értéke lett beállítva</string>
 </resources>
