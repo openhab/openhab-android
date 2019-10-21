@@ -65,7 +65,11 @@
     <string name="settings_insecure_connection_summary">Połączono z %s niebezpiecznym połączeniem</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Blokada ekranu</string>
+    <string name="settings_screen_lock_off_summary">Dostęp do aplikacji nie jest zablokowany</string>
+    <string name="settings_screen_lock_kiosk_summary">Dostęp do aplikacji jest zablokowany przez ekran blokady Androida lub odcisk palca</string>
+    <string name="settings_screen_lock_on_summary">Dostęp do aplikacji jest zablokowany przez ekran blokady Androida lub odcisk palca\nWidżety można użyć mimo blokady</string>
     <string name="screen_lock_unlock_screen_description">Odblokuj by uzyskać dostęp do openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Odblokuj by uzyskać dostęp do ustawień</string>
     <string name="settings_screen_lock_off">Wył</string>
     <string name="settings_screen_lock_kiosk">Tryb kiosku</string>
     <string name="settings_screen_lock_on">Wł</string>
@@ -137,6 +141,8 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Wyślij informacje o urządzeniu do serwera</string>
     <string name="send_device_info_item_prefix">Prefiks Item\'u</string>
+    <string name="send_device_info_item_prefix_summary">Nazwy itemów z następującymi właściwościami mają przedrostek \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Nie ustawiono przedrostka dla nazw itemów z następującymi właściwościami</string>
     <string name="settings_item_update_pref_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
     <string name="settings_alarm_clock">Wyślij budzik do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Wysyła czas budzika do Item\'u \'%1$s\'</string>
@@ -300,4 +306,11 @@
     <string name="item_update_widget_content_description">Widżet do zmiany stanu Itemu</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wybierz Item</string>
+    <string name="item_update_success_message_generic">%1$s ustawiono na %2$s</string>
+    <string name="item_update_success_message_on">%s zostało włączone</string>
+    <string name="item_update_success_message_off">%s zostało wyłączone</string>
+    <string name="item_update_success_message_undefined">%s ustawiono na niezdefiniowany</string>
+    <string name="item_update_success_message_empty_string">%s ustawiono na pusty tekst</string>
+    <string name="item_update_success_message_play">%s gra</string>
+    <string name="item_update_error_no_connection">Błąd podczas wysyłania aktualizacji Itemu, próbuję ponownie\u2026</string>
 </resources>
