@@ -27,11 +27,14 @@
     <string name="settings_openhab_password_summary_strong">Erős jelszó</string>
     <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Hungarian</string>
     <string name="settings_openhab_screentimeroff">Időzített kijelző tiltása</string>
     <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
     <string name="settings_openhab_demomode_summary">Ha nincs openHAB szervere, engedélyezze a demo módot, hogy láthassa mire képes az openHAB.</string>
     <string name="settings_openhab_theme">Sablonok</string>
+    <string name="settings_accent_color">Kiemelőszín</string>
+    <string name="settings_select_a_color">Szín kiválasztása</string>
     <string name="settings_openhab_fullscreen">Teljes képernyő</string>
     <string name="settings_openhab_fullscreen_summary">Megjelenítése teljes képernyős módban</string>
     <string name="settings_openhab_icon_format">Ikon formátum</string>
@@ -62,6 +65,12 @@
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <string name="beta">Béta</string>
     <string name="settings_screen_lock">Képernyőzár</string>
+    <string name="settings_screen_lock_nolock_summary">Engedélyeznie kell a képernyőzárat, hogy engedélyezhesse az alkalmazás zárolását</string>
+    <string name="settings_screen_lock_off_summary">Hozzáférés az alkalmazáshoz nincs zárolva</string>
+    <string name="settings_screen_lock_kiosk_summary">Zárolva van az alkalmazás beállításai az Android képernyőzárral vagy ujjlenyomattal</string>
+    <string name="settings_screen_lock_on_summary">Zárolva van az alkalmazás az Android képernyőzárral vagy ujjlenyomattal\nNote: A Widget zavartalanul tud működni</string>
+    <string name="screen_lock_unlock_screen_description">Oldja fel, hogy hozzáférjen az openHAB-hoz</string>
+    <string name="screen_lock_unlock_preferences_description">Oldja fel az alkalmazás beállításaihoz</string>
     <string name="settings_screen_lock_off">Ki</string>
     <string name="settings_screen_lock_kiosk">Kiosk mód</string>
     <string name="settings_screen_lock_on">Be</string>
@@ -75,6 +84,9 @@
     <string name="turn_off">Kikapcsol</string>
     <string name="info_conn_url">Kapcsolódás a helyi URL-hez</string>
     <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
+    <string name="app_shortcut_disabled_habpanel">A szerveren nincs telepítve HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">A távoli szerver nem érhető el</string>
+    <string name="app_shortcut_disabled_voice_recognition">Ez az eszköz nem rendelkezik hangfelismerő alkalmazással</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_sitemap_generic_load_error">A felület nem tölthető be. Akövetkező hiba miatt: %1$s</string>
@@ -119,18 +131,26 @@
     <string name="info_write_tag_finished">Sikeresen befejezve</string>
     <string name="info_write_failed">Címke írása sikertelen</string>
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
+    <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API verziója</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
+    <string name="nfc_info_hint">Elem frissítés kiírható NFC címkére. Kiválaszthatja az elemet, vagy hosszan koppintva a widget-en a kijelzőn.</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Eszközadatok küldése a kiszolgálónak</string>
     <string name="send_device_info_item_prefix">Elem név előtagja</string>
+    <string name="send_device_info_item_prefix_summary">A következő funkciók elemnevei ezt az előtagot tartalmazzák\'%s\'</string>
+    <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
     <string name="settings_alarm_clock">Ébresztőóra küldése a openHAB-nak</string>
     <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_alarm_clock_summary_off">Ne küldje a szervernek az ébresztési időt</string>
+    <string name="settings_phone_state">Hívás állapotának küldése az openHAB-nak</string>
+    <string name="settings_phone_state_summary_on">Hívás állapotának küldése a(z) \'%1$s\' elemnek</string>
+    <string name="settings_phone_state_summary_off">Ne küldje el a hívás állapotát az openHAB-nak</string>
+    <string name="settings_phone_state_permission_allow">Engedélyezés</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
     <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
     <string name="item_upload_in_progress">Az Elemek jelenleg frissülnek</string>
@@ -143,7 +163,9 @@
         <item quantity="other">%d az Elemek nem frissíthetőek</item>
     </plurals>
     <string name="item_update_http_error">AZ elem \'%1$s\' frissítése sikertelen (HTTP hiba %2$d)</string>
+    <string name="item_update_http_error_label">AZ elem \'%1$s\' frissítése sikertelen (HTTP hiba %2$d)</string>
     <string name="item_update_connection_error">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
+    <string name="item_update_connection_error_label">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="error_sending_alarm_clock_item_empty">Kérlek add meg az Elem helyes nevét</string>
     <string name="retry">Újra</string>
     <!-- Notification list strings -->
@@ -166,6 +188,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Világos</string>
     <string name="theme_name_dark">Sötét</string>
+    <string name="theme_name_system">Rendszertéma-követés</string>
+    <string name="theme_name_battery_saver">Sötét mód energiatakarékos módban</string>
     <!-- NFC -->
     <string name="nfc_action_on">Be</string>
     <string name="nfc_action_up">Fel</string>
@@ -186,6 +210,8 @@
     <string name="nfc_action_stop">Megállítás</string>
     <string name="nfc_activate">Aktiválás</string>
     <string name="nfc_action_current_color">Aktuális szín</string>
+    <string name="nfc_action_to_sitemap_page">Felület írása NFC címkére</string>
+    <string name="nfc_action_write_command_tag">NFC-címke írása</string>
     <!-- Drawer -->
     <string name="drawer_open">Felület tervező nyitva</string>
     <string name="drawer_close">Felület tervező zárva</string>
@@ -221,6 +247,11 @@
     <!-- Log -->
     <string name="log">Napló</string>
     <string name="view_log">Napló megtekintése</string>
+    <string name="log_activity_action_clear_log">Napló (log) törlése</string>
+    <string name="log_activity_action_show_errors">Csak a hibák mutatása</string>
+    <string name="log_activity_action_show_all">Összes üzenet mutatása</string>
+    <string name="log_activity_action_reload">Újratöltés</string>
+    <string name="log_activity_content_description_share">Napló(log) megosztása</string>
     <string name="empty_log">A Napló üres</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Kitűzés a kezdőképernyőre</string>
@@ -239,9 +270,12 @@
     <string name="content_description_increase_item_value">Érték növelése</string>
     <string name="content_description_decrease_item_value">Érték csökkentése</string>
     <string name="swipe_to_refresh_description">Az alkalmazás frissül automatikusan, általában nem kell saját kezűleg ezt megtenni</string>
+    <string name="got_it">Értettem!</string>
     <!-- Intro strings -->
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Üdvözöljük openHAB-ban</string>
+    <string name="intro_welcome_back">Üdvözöljük újra openHAB-ban</string>
+    <string name="intro_app_restored">A legtöbb beállítása visszaállítva, kivéve a szerver hitelesítő adatokat</string>
     <string name="intro_whatis">Szállító- és technológia független nyílt forráskódú automatizálási szoftver az Ön otthonába</string>
     <string name="intro_themes">Témák</string>
     <string name="intro_themes_description">Választhat számos téma közül</string>
@@ -258,11 +292,33 @@
     <string name="item_picker_custom">Egyéni</string>
     <string name="item_picker_dialog_title">Válasszon állapotot</string>
     <string name="item_picker">openHAB elememek</string>
+    <string name="item_picker_blurb">Beállítás erről \"%1$s\" (%2$s) erre \"%3$s\"</string>
     <string name="search">Keresés</string>
     <string name="settings_tasker_plugin">Teendők integrálása</string>
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
     <string name="turn_on">Bekapcsol</string>
     <string name="press_back_to_exit">Kilépéshez érintse meg újra a vissza gombot</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Elem vezérlése</string>
+    <string name="item_update_widget_content_description">Widget az elem állapot megváltoztatásához</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Válassz egy elemet</string>
+    <string name="item_update_success_message_generic">%1$s beállításra került ide: %2$s</string>
+    <string name="item_update_success_message_on">%s fel lett kapcsolva</string>
+    <string name="item_update_success_message_off">%s le lett kapcsolva</string>
+    <string name="item_update_success_message_up">%s elindult felfelé</string>
+    <string name="item_update_success_message_down">%s elindult lefelé</string>
+    <string name="item_update_success_message_move">%s elindult</string>
+    <string name="item_update_success_message_stop">%s megállt</string>
+    <string name="item_update_success_message_increase">%s növelte értékét</string>
+    <string name="item_update_success_message_decrease">%s csökkentette értékét</string>
     <string name="item_update_success_message_undefined">%s nem meghatározható értéke lett beállítva</string>
+    <string name="item_update_success_message_empty_string">%s üres szövegre lett beállítva</string>
+    <string name="item_update_success_message_play">%s folyamatban</string>
+    <string name="item_update_success_message_pause">%s szüneteltetve</string>
+    <string name="item_update_success_message_next">%s mutatja a következő címet</string>
+    <string name="item_update_success_message_previous">%s mutatja az előző címet</string>
+    <string name="item_update_success_message_rewind">%s visszateker</string>
+    <string name="item_update_success_message_fastforward">%s gyors pörgetés</string>
+    <string name="item_update_error_no_connection">Hiba az elem frissítésekor, újrapróbálkozás\u2026</string>
 </resources>
