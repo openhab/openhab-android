@@ -213,12 +213,10 @@ class FcmMessageListenerService : FirebaseMessagingService() {
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.cancel(SUMMARY_NOTIFICATION_ID)
             if (HAS_GROUPING_SUPPORT) {
-                val activeNotifications = nm.activeNotifications
-                activeNotifications
+                nm.activeNotifications
                     .filter { it.groupKey.endsWith("gcm") }
                     .forEach {
                         nm.cancel(it.id)
-                        FcmRegistrationService.scheduleHideNotification(context, it.id)
                     }
             }
         }
