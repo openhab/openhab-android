@@ -10,7 +10,7 @@ Na górnej ujednoliconej warstwie abstrakcji wszystkie połączone urządzenia s
 <b>Wspierane Produkty</b>
 
 Ponad 200 dodatków wspierających marki, urządzenia, technologie i protokoły komunikacji. Jednymi z przykładów są Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Odkryj wszystkie dostępne dodatki i obsługiwane urządzenia i/lub funkcje na: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+Aplikacja zawiera wtyczkę akcji dla Taskera i Locale.
 
 <b>Społeczność Open Source</b>
 
