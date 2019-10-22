@@ -14,6 +14,9 @@
 package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -21,6 +24,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.nfc.NfcAdapter
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextMenu
@@ -51,6 +55,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
@@ -213,26 +218,65 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
                         R.string.nfc_action_write_command_tag)
                     nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                    populateNfcStatesMenu(nfcMenu, context, suggestedCommands, widget)
+                    populateStatesMenu(nfcMenu, context, suggestedCommands) { state, mappedState ->
+                        startActivity(WriteTagActivity.createItemUpdateIntent(
+                            context,
+                            widget.item?.name ?: return@populateStatesMenu,
+                            state,
+                            mappedState,
+                            widget.label)
+                        )
+                    }
                 }
                 menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_SITEMAP_TAG, Menu.NONE, R.string.nfc_action_to_sitemap_page)
+            }
+            if (hasCommandOptions) {
+                val widgetMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET, Menu.NONE,
+                    R.string.create_home_screen_widget_title)
+                widgetMenu.setHeaderTitle(R.string.item_picker_dialog_title)
+                populateStatesMenu(widgetMenu, context, suggestedCommands) { state, mappedState ->
+                    requestPinAppWidget(context, widget, state, mappedState)
+                }
             }
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
                 menu.add(Menu.NONE, CONTEXT_MENU_ID_PIN_HOME, Menu.NONE, R.string.home_shortcut_pin_to_home)
             }
-        } else if (hasCommandOptions && nfcSupported) {
-            menu.setHeaderTitle(R.string.nfc_action_write_command_tag)
-            populateNfcStatesMenu(menu, context, suggestedCommands, widget)
+        } else if (hasCommandOptions) {
+            if (nfcSupported) {
+                val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
+                    R.string.nfc_action_write_command_tag)
+                nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
+                populateStatesMenu(nfcMenu, context, suggestedCommands) { state, mappedState ->
+                    startActivity(WriteTagActivity.createItemUpdateIntent(
+                        context,
+                        widget.item?.name ?: return@populateStatesMenu,
+                        state,
+                        mappedState,
+                        widget.label)
+                    )
+                }
+
+                val widgetMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET, Menu.NONE,
+                    R.string.create_home_screen_widget_title)
+                widgetMenu.setHeaderTitle(R.string.item_picker_dialog_title)
+                populateStatesMenu(widgetMenu, context, suggestedCommands) { state, mappedState ->
+                    requestPinAppWidget(context, widget, state, mappedState)
+                }
+            } else {
+                menu.setHeaderTitle(R.string.create_home_screen_widget_title)
+                populateStatesMenu(menu, context, suggestedCommands) { state, mappedState ->
+                    requestPinAppWidget(context, widget, state, mappedState)
+                }
+            }
         }
     }
 
-    private fun populateNfcStatesMenu(
+    private fun populateStatesMenu(
         menu: Menu,
         context: Context,
         suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
-        widget: Widget
+        callback: (state: String, mappedState: String) -> Unit
     ) {
-        val name = widget.item?.name ?: return
         val listener = object : MenuItem.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 val id = item?.itemId ?: return false
@@ -243,8 +287,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                         .setTitle(getString(R.string.item_picker_custom))
                         .setView(input)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
-                            startActivity(WriteTagActivity.createItemUpdateIntent(context, name, input.text.toString(),
-                                input.text.toString(), widget.item.label))
+                            callback(input.text.toString(), input.text.toString())
                         }
                         .setNegativeButton(android.R.string.cancel, null)
                         .show()
@@ -257,8 +300,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     }
                     return true
                 } else if (id < suggestedCommands.commands.size) {
-                    startActivity(WriteTagActivity.createItemUpdateIntent(context, name,
-                        suggestedCommands.commands[id], suggestedCommands.labels[id], widget.item.label))
+                    callback(suggestedCommands.commands[id], suggestedCommands.labels[id])
                     return true
                 }
                 return false
@@ -315,6 +357,44 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             } else {
                 holder?.stop()
             }
+        }
+    }
+
+    private fun requestPinAppWidget(context: Context, widget: Widget, state: String, mappedState: String) {
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && appWidgetManager.isRequestPinAppWidgetSupported) {
+            val data = ItemUpdateWidget.ItemUpdateWidgetData(
+                widget.item?.name ?: return,
+                state,
+                widget.item.label.orEmpty(),
+                mappedState, widget.icon.orEmpty()
+            )
+
+            val callbackIntent = Intent(context, ItemUpdateWidget::class.java).apply {
+                action = ItemUpdateWidget.ACTION_CREATE_WIDGET
+                putExtra(
+                    ItemUpdateWidget.EXTRA_BUNDLE,
+                    bundleOf(ItemUpdateWidget.EXTRA_DATA to data)
+                )
+            }
+
+            val successCallback = PendingIntent.getBroadcast(
+                context,
+                0,
+                callbackIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            val remoteViews = ItemUpdateWidget.getRemoteViews(context, true, null, data)
+            appWidgetManager.requestPinAppWidget(
+                ComponentName(context, ItemUpdateWidget::class.java),
+                bundleOf(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW to remoteViews),
+                successCallback
+            )
+        } else {
+            Toasty
+                .error(context, R.string.create_home_screen_widget_not_supported, Toasty.LENGTH_LONG)
+                .show()
         }
     }
 
@@ -386,9 +466,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     companion object {
         private val TAG = WidgetListFragment::class.java.simpleName
         private const val CONTEXT_MENU_ID_WRITE_ITEM_TAG = 1000
-        private const val CONTEXT_MENU_ID_WRITE_SITEMAP_TAG = 1001
-        private const val CONTEXT_MENU_ID_PIN_HOME = 1002
-        private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1003
+        private const val CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET = 1001
+        private const val CONTEXT_MENU_ID_WRITE_SITEMAP_TAG = 1002
+        private const val CONTEXT_MENU_ID_PIN_HOME = 1003
+        private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1004
         private const val CONTEXT_MENU_ID_WRITE_CUSTOM_TAG = 10000
 
         fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {
