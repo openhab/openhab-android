@@ -260,6 +260,7 @@
     <string name="content_description_increase_item_value">Збільшення значення об\'єкта</string>
     <string name="content_description_decrease_item_value">Зменшення значення об\'єкта</string>
     <string name="swipe_to_refresh_description">Додаток періодично оновлюється автоматично, зазвичай не потрібно робити це вручну</string>
+    <string name="got_it">Зрозуміло!</string>
     <!-- Intro strings -->
     <string name="app_intro">Вступ</string>
     <string name="intro_welcome">Ласкаво просимо до openHAB</string>
