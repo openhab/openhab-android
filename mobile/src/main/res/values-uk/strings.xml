@@ -33,6 +33,8 @@
     <string name="settings_openhab_demomode">Демонстраційний режим</string>
     <string name="settings_openhab_demomode_summary">Якщо ви не маєте сервера openHAB, увімкніть демонстраційний режим, щоб мати уяву на що openHAB здатний.</string>
     <string name="settings_openhab_theme">Тема</string>
+    <string name="settings_accent_color">Контрастний колір</string>
+    <string name="settings_select_a_color">Оберіть колір</string>
     <string name="settings_openhab_fullscreen">Повноекранний режим</string>
     <string name="settings_openhab_fullscreen_summary">Відображення в повноекранному режимі</string>
     <string name="settings_openhab_icon_format">Формат іконок</string>
@@ -63,7 +65,12 @@
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокування екрану</string>
+    <string name="settings_screen_lock_nolock_summary">Необхідно увімкнути блокування екрану для блокування доступу до програми</string>
+    <string name="settings_screen_lock_off_summary">Доступ до програми не заблоковано</string>
+    <string name="settings_screen_lock_kiosk_summary">Доступ до програми заблоковано екраном блокування Android, або відбитком пальця</string>
+    <string name="settings_screen_lock_on_summary">Доступ до програми заблоковано екраном блокування Android, або відбитком пальця\nПримітка: віджети доступні</string>
     <string name="screen_lock_unlock_screen_description">Розблокувати для доступу до openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Розблокуйте для доступу до налаштувань</string>
     <string name="settings_screen_lock_off">Вимкнено</string>
     <string name="settings_screen_lock_kiosk">Режим Kiosk</string>
     <string name="settings_screen_lock_on">Увімкнено</string>
@@ -129,11 +136,14 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
+    <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисненням віджету на сторінці інтерфейсу.</string>
     <string name="info_not_set">Не вказано</string>
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
     <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
+    <string name="send_device_info_item_prefix_summary">Назви обʼєктів наступних функцій мають префікс „%s“</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс назв об’єктів наступних функцій</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
     <string name="settings_alarm_clock">Відправити будильник на openHAB</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>
@@ -157,7 +167,9 @@
         <item quantity="other">Неможливо оновити %d об\'єктів</item>
     </plurals>
     <string name="item_update_http_error">Об\'єкт \'%1$s\' оновлення не вдалося (HTTP error %2$d)</string>
+    <string name="item_update_http_error_label">Не вдалось оновити „%1$s“ (помилка HTTP %2$d)</string>
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
+    <string name="item_update_connection_error_label">Не вдалось оновити „%1$s“ (немає підключення)</string>
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
     <string name="retry">Повторити</string>
     <!-- Notification list strings -->
@@ -180,6 +192,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Світла</string>
     <string name="theme_name_dark">Темна</string>
+    <string name="theme_name_system">Наслідувати систему</string>
+    <string name="theme_name_battery_saver">Темна тема в режимі економії заряду акумулятора</string>
     <!-- NFC -->
     <string name="nfc_action_on">Увімкнути</string>
     <string name="nfc_action_up">Підняти</string>
@@ -260,6 +274,7 @@
     <string name="content_description_increase_item_value">Збільшення значення об\'єкта</string>
     <string name="content_description_decrease_item_value">Зменшення значення об\'єкта</string>
     <string name="swipe_to_refresh_description">Додаток періодично оновлюється автоматично, зазвичай не потрібно робити це вручну</string>
+    <string name="got_it">Зрозуміло!</string>
     <!-- Intro strings -->
     <string name="app_intro">Вступ</string>
     <string name="intro_welcome">Ласкаво просимо до openHAB</string>
@@ -292,4 +307,22 @@
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
+    <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
+    <string name="item_update_success_message_on">%s увімкнено</string>
+    <string name="item_update_success_message_off">%s вимкнено</string>
+    <string name="item_update_success_message_up">%s починає рухатись вверх</string>
+    <string name="item_update_success_message_down">%s починає рухатись вниз</string>
+    <string name="item_update_success_message_move">%s починає рух</string>
+    <string name="item_update_success_message_stop">%s зупинено</string>
+    <string name="item_update_success_message_increase">%s збільшено</string>
+    <string name="item_update_success_message_decrease">%s зменшено</string>
+    <string name="item_update_success_message_undefined">%s встановлено у невизначений стан</string>
+    <string name="item_update_success_message_empty_string">%s встановлено як порожню строку</string>
+    <string name="item_update_success_message_play">%s відтворюється</string>
+    <string name="item_update_success_message_pause">%s призупинено</string>
+    <string name="item_update_success_message_next">%s показує наступну назву</string>
+    <string name="item_update_success_message_previous">%s показує попередню назву</string>
+    <string name="item_update_success_message_rewind">%s перемотується назад</string>
+    <string name="item_update_success_message_fastforward">%s перемотується вперед</string>
+    <string name="item_update_error_no_connection">Помилка відправки оновлення об’єкту, повторна спроба\u2026</string>
 </resources>

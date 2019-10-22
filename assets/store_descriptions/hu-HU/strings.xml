@@ -23,5 +23,5 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
     <play_beta>Telepíthetsz béta verziót is a stabil mellé.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Hibajavítások és kisebb fejlesztések. Kérem látogassa meg a https://github.com/openhab/openhab-android/releases hogy többet tudjon meg a változásokról.</changelog_play_beta>
 </strings>
