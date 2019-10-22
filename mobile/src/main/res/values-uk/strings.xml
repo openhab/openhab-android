@@ -302,4 +302,5 @@
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
+    <string name="item_update_error_no_connection">Помилка відправки оновлення об’єкту, повторна спроба\u2026</string>
 </resources>
