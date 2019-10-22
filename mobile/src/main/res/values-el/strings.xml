@@ -157,6 +157,7 @@
     <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
     <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
     <!-- Log -->
+    <string name="log_activity_action_clear_log">Καθαρισμός αρχείου καταγραφής</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Άνοιγμα ρολών</string>
