@@ -65,7 +65,12 @@
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокування екрану</string>
+    <string name="settings_screen_lock_nolock_summary">Необхідно увімкнути блокування екрану для блокування доступу до програми</string>
+    <string name="settings_screen_lock_off_summary">Доступ до програми не заблоковано</string>
+    <string name="settings_screen_lock_kiosk_summary">Доступ до програми заблоковано екраном блокування Android, або відбитком пальця</string>
+    <string name="settings_screen_lock_on_summary">Доступ до програми заблоковано екраном блокування Android, або відбитком пальця\nПримітка: віджети доступні</string>
     <string name="screen_lock_unlock_screen_description">Розблокувати для доступу до openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Розблокуйте для доступу до налаштувань</string>
     <string name="settings_screen_lock_off">Вимкнено</string>
     <string name="settings_screen_lock_kiosk">Режим Kiosk</string>
     <string name="settings_screen_lock_on">Увімкнено</string>
@@ -302,5 +307,15 @@
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
+    <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
+    <string name="item_update_success_message_on">%s увімкнено</string>
+    <string name="item_update_success_message_off">%s вимкнено</string>
+    <string name="item_update_success_message_up">%s починає рухатись вверх</string>
+    <string name="item_update_success_message_down">%s починає рухатись вниз</string>
+    <string name="item_update_success_message_move">%s починає рух</string>
+    <string name="item_update_success_message_stop">%s зупинено</string>
+    <string name="item_update_success_message_increase">%s збільшено</string>
+    <string name="item_update_success_message_decrease">%s зменшено</string>
+    <string name="item_update_success_message_undefined">%s встановлено у невизначений стан</string>
     <string name="item_update_error_no_connection">Помилка відправки оновлення об’єкту, повторна спроба\u2026</string>
 </resources>
