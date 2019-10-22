@@ -317,5 +317,12 @@
     <string name="item_update_success_message_increase">%s збільшено</string>
     <string name="item_update_success_message_decrease">%s зменшено</string>
     <string name="item_update_success_message_undefined">%s встановлено у невизначений стан</string>
+    <string name="item_update_success_message_empty_string">%s встановлено як порожню строку</string>
+    <string name="item_update_success_message_play">%s відтворюється</string>
+    <string name="item_update_success_message_pause">%s призупинено</string>
+    <string name="item_update_success_message_next">%s показує наступну назву</string>
+    <string name="item_update_success_message_previous">%s показує попередню назву</string>
+    <string name="item_update_success_message_rewind">%s перемотується назад</string>
+    <string name="item_update_success_message_fastforward">%s перемотується вперед</string>
     <string name="item_update_error_no_connection">Помилка відправки оновлення об’єкту, повторна спроба\u2026</string>
 </resources>
