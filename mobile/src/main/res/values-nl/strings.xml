@@ -134,14 +134,25 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push meldingen status</string>
     <string name="action_settings">Instellingen</string>
+    <string name="nfc_info_hint">Item updates kunnen naar NFC-tags worden geschreven. Kies hier een Item of houd een Sitemap widget enige tijd ingedrukt.</string>
     <string name="info_not_set">Niet ingesteld</string>
+    <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
     <string name="send_device_info_item_prefix">Voorvoegsel Itemnaam</string>
+    <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben als voorvoegsel \'%s\'</string>
+    <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
     <string name="settings_alarm_clock">Wekker verzenden naar openHAB</string>
     <string name="settings_alarm_clock_summary_on">Stuurt wekkertijd naar item \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">Stuur geen wekkertijd naar de server</string>
+    <string name="settings_phone_state">Verzend belstatus naar openHAB</string>
+    <string name="settings_phone_state_summary_on">Verzend belstatus naar item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Belstatus niet naar server versturen</string>
+    <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
+    <string name="settings_phone_state_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
+    <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
     <string name="notification_channel_background">Achtergrond</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
     <plurals name="item_update_error_title">
