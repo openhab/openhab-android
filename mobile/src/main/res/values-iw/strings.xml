@@ -69,7 +69,7 @@
     <string name="settings_screen_lock_off_summary">אין נעילת גישה ליישום</string>
     <string name="settings_screen_lock_kiosk_summary">הגישה להגדרות היישום נעולה באמצעות מסך הנעילה של אנדרואיד או טביעת אצבע</string>
     <string name="settings_screen_lock_on_summary">הגישה ליישום נעולה באמצעות מסך הנעילה של אנדרואיד או טביעת אצבע\nהערה: בכל מקרה ניתן להשתמש ווידג\'טים</string>
-    <string name="screen_lock_unlock_screen_description">בטל נעילה על מנת לגשת ל-openHab</string>
+    <string name="screen_lock_unlock_screen_description">בטל נעילה על מנת לגשת ל-openHAB</string>
     <string name="screen_lock_unlock_preferences_description">שיחרור נעילה לגישה להגדרות</string>
     <string name="settings_screen_lock_off">כבוי</string>
     <string name="settings_screen_lock_kiosk">מצב קיוסק</string>
@@ -148,7 +148,7 @@
     <string name="settings_alarm_clock">שלח את השעון המעורר ל- openHAB</string>
     <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">לא לשלוח את שעת השעון המעורר אל השרת</string>
-    <string name="settings_phone_state">שלח מצב שיחה ל-openHab</string>
+    <string name="settings_phone_state">שלח מצב שיחה ל-openHAB</string>
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">אל תשלח מצב שיחה לשרת</string>
     <string name="settings_phone_state_permission_denied">שליחת מצב שיחה נוטרל בעקבות חוסר הרשאות</string>
