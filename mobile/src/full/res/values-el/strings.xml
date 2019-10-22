@@ -11,4 +11,5 @@
         <item quantity="one">%d νέα ειδοποίηση</item>
         <item quantity="other">%d νέες ειδοποίησεις</item>
     </plurals>
+    <string name="open_in_maps">Άνοιγμα μέσω Google Maps</string>
 </resources>
