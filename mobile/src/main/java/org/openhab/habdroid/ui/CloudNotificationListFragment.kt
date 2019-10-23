@@ -85,15 +85,14 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(DividerItemDecoration(view.context))
         recyclerView.adapter = adapter
-
-        // Clear notifications from statusbar
-        CloudMessagingHelper.clearAllNotifications(view.context)
     }
 
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume()")
         loadNotifications(true)
+        // Clear notifications from statusbar
+        CloudMessagingHelper.clearAllNotifications(context!!)
     }
 
     override fun onPause() {
