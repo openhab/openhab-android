@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - automatizare de locuințe open source, independent de producatori și tehnologii
 
 The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
-Încercați funcții noi și lăsați primele impresii!
-Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 openHAB este o platformă open-source pentru automatizarea locuințelor, bazată pe Java, care integrează o gamă largă de diferite sisteme și tehnologii într-o singură soluție.
 Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivele pentru motorul de automatizare bazat pe reguli și diferite interfețe de utilizator.
