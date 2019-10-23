@@ -27,10 +27,14 @@
     <string name="settings_openhab_password_summary_strong">Sterk Wachtwoord ingesteld</string>
     <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tik hier voor enkele tips en uitleg over het instellen van SSL certificaat authenticatie</string>
+    <string name="settings_openhab_sslclientcert_not_supported">SSL-cliëntcertificaten worden niet ondersteund door uw apparaat</string>
     <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
     <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als de openHAB App actief is</string>
     <string name="settings_openhab_demomode">Demonstratiemodus</string>
+    <string name="settings_openhab_demomode_summary">Als je geen openHAB server hebt, schakel dan de demo-modus in, om een idee te krijgen wat openHAB allemaal kan.</string>
     <string name="settings_openhab_theme">Thema</string>
+    <string name="settings_accent_color">Accentkleur</string>
+    <string name="settings_select_a_color">Selecteer een kleur</string>
     <string name="settings_openhab_fullscreen">Volledig scherm</string>
     <string name="settings_openhab_fullscreen_summary">Gebruik volledige scherm</string>
     <string name="settings_openhab_icon_format">Pictogramindeling</string>
@@ -60,6 +64,15 @@
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Schermvergrendeling</string>
+    <string name="settings_screen_lock_off_summary">Toegang tot de app is niet vergrendeld</string>
+    <string name="settings_screen_lock_kiosk_summary">Toegang tot de app instellingen is vergrendeld met Android-schermvergrendeling of vingerafdruk</string>
+    <string name="settings_screen_lock_on_summary">Toegang tot de app is vergrendeld met Android schermvergrendeling of vingerafdruk\nOpmerking: Widgets kunnen nog steeds gebruikt worden</string>
+    <string name="screen_lock_unlock_screen_description">Ontgrendel voor toegang tot openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Ontgrendel voor toegang tot instellingen</string>
+    <string name="settings_screen_lock_off">Uit</string>
+    <string name="settings_screen_lock_kiosk">Kioskmodus</string>
+    <string name="settings_screen_lock_on">Aan</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Spraakcommando\'s</string>
     <string name="title_voice_widget_icon">Spraakcommando\'s en app snelkoppeling</string>
@@ -70,6 +83,8 @@
     <string name="turn_off">Uitzetten</string>
     <string name="info_conn_url">Verbinden met ingestelde URL</string>
     <string name="info_conn_rem_url">Verbinden naar externe URL</string>
+    <string name="app_shortcut_disabled_habpanel">Op de server is geen HABPanel geïnstalleerd</string>
+    <string name="app_shortcut_disabled_voice_recognition">Op dit apparaat is geen app voor spraakherkenning geïnstalleerd</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
     <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
@@ -104,6 +119,9 @@
     <string name="error_http_code_511">Netwerkverificatie is vereist (HTTP responscode 511)</string>
     <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
+    <string name="error_no_browser_found">Geen browser gevonden op dit apparaat</string>
+    <string name="error_no_speech_to_text_app_found">Geen app voor spraakherkenning gevonden</string>
+    <string name="install">Installeren</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
     <string name="title_activity_libraries">Gebruikte bibliotheken</string>
     <string name="info_write_tag">Raak de tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
@@ -111,18 +129,30 @@
     <string name="info_write_tag_finished">Gelukt</string>
     <string name="info_write_failed">Tag schrijffout</string>
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
+    <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versie</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push meldingen status</string>
     <string name="action_settings">Instellingen</string>
+    <string name="nfc_info_hint">Item updates kunnen naar NFC-tags worden geschreven. Kies hier een Item of houd een Sitemap widget enige tijd ingedrukt.</string>
     <string name="info_not_set">Niet ingesteld</string>
+    <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
     <string name="send_device_info_item_prefix">Voorvoegsel Itemnaam</string>
+    <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben als voorvoegsel \'%s\'</string>
+    <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
     <string name="settings_alarm_clock">Wekker verzenden naar openHAB</string>
     <string name="settings_alarm_clock_summary_on">Stuurt wekkertijd naar item \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">Stuur geen wekkertijd naar de server</string>
+    <string name="settings_phone_state">Verzend belstatus naar openHAB</string>
+    <string name="settings_phone_state_summary_on">Verzend belstatus naar item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Belstatus niet naar server versturen</string>
+    <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
+    <string name="settings_phone_state_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
+    <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
     <string name="notification_channel_background">Achtergrond</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
     <plurals name="item_update_error_title">
