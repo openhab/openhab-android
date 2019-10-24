@@ -54,6 +54,9 @@ class NfcTest : TestWithoutIntro() {
 
         checkViewWithText(context, R.string.nfc_action_write_command_tag)
 
+        val writeTagButton = checkViewWithText(context, R.string.nfc_action_write_command_tag)
+        writeTagButton.perform(click())
+
         checkViewWithText(context, R.string.nfc_action_off)
         checkViewWithText(context, R.string.nfc_action_toggle)
 
