@@ -147,6 +147,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         val suggestedCommands = suggestedCommandsFactory.fill(item)
         val labels = suggestedCommands.labels
         val commands = suggestedCommands.commands
+        addAdditionalCommands(labels, commands)
 
         if (suggestedCommands.shouldShowCustom) {
             labels.add(getString(R.string.item_picker_custom))
@@ -180,6 +181,10 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 }
             }
             .show()
+    }
+
+    protected open fun addAdditionalCommands(labels: MutableList<String>, commands: MutableList<String>) {
+        // no-op
     }
 
     override fun onRefresh() {

@@ -334,6 +334,7 @@
     <string name="item_picker_dialog_title">Select state</string>
     <string name="item_picker">openHAB Items</string>
     <string name="item_picker_blurb">Set \"%1$s\" (%2$s) to \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Tasker variable \"%s\"</string>
     <string name="search">Search</string>
     <string name="settings_tasker_plugin">Tasker integration</string>
     <string name="settings_tasker_plugin_summary">Enable Tasker action plugin which allows updating Items via Tasker or other compatible apps</string>
