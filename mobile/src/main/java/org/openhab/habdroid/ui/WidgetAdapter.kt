@@ -20,6 +20,7 @@ import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Message
 import android.util.Base64
@@ -40,6 +41,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.children
@@ -429,7 +431,7 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
         SeekBar.OnSeekBarChangeListener {
-        private val seekBar: SeekBar = itemView.findViewById(R.id.seekbar)
+        private val seekBar: AppCompatSeekBar = itemView.findViewById(R.id.seekbar)
         private var boundWidget: Widget? = null
 
         init {
@@ -461,7 +463,14 @@ class WidgetAdapter(
                 val number = state.asNumber
                 if (number != null) {
                     val progress = (number.value - widget.minValue) / widget.step
-                    seekBar.progress = Math.round(progress)
+                    seekBar.progress = progress.roundToInt()
+                }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                seekBar.tickMark = if (stepCount <= 10) {
+                    ContextCompat.getDrawable(itemView.context, R.drawable.slider_tickmark)
+                } else {
+                    null
                 }
             }
         }
