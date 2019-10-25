@@ -34,7 +34,7 @@
 
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/blue_grey_700</item>
-        <item name="colorSecondary">@color/blue_grey_700</item>
+        <item name="colorSecondary">?android:colorForeground</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
     </style>
 
