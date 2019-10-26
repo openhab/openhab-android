@@ -445,6 +445,13 @@ class WidgetAdapter(
             boundWidget = widget
 
             val stepCount = (widget.maxValue - widget.minValue) / widget.step
+
+            if (stepCount <= DISCRETE_SLIDER_STATES_THRESHOLD) {
+                seekBar.context.setTheme(R.style.Widget_AppCompat_SeekBar_Discrete)
+            } else {
+                seekBar.context.setTheme(R.style.Widget_AppCompat_SeekBar)
+            }
+
             seekBar.max = Math.ceil(stepCount.toDouble()).toInt()
             seekBar.progress = 0
 
@@ -488,6 +495,10 @@ class WidgetAdapter(
             val item = widget?.item ?: return
             val newValue = widget.minValue + widget.step * progress
             connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(newValue))
+        }
+
+        private companion object {
+            const val DISCRETE_SLIDER_STATES_THRESHOLD = 10
         }
     }
 
