@@ -472,7 +472,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             } else {
                 pref.setIcon(R.drawable.ic_bell_ring_outline_grey_24dp)
                 val ringtone = RingtoneManager.getRingtone(activity, newValue)
-                pref.summary = ringtone?.getTitle(activity)
+                pref.summary = try {
+                    ringtone?.getTitle(activity)
+                } catch (e: SecurityException) {
+                    getString(R.string.settings_ringtone_on_external)
+                }
             }
         }
 
