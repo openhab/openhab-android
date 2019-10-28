@@ -5,7 +5,7 @@
     <rules>Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.</rules>
     <supported>Ondersteunde producten</supported>
     <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://www.openhab.org/addons/</bindings>
-    <automation_apps/>
+    <automation_apps>De app heeft een action plugin voor Tasker en Locale.</automation_apps>
 
     <oss_community>Open Source Community</oss_community>
     <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org</forum>
@@ -17,10 +17,10 @@
     <important_note>Belangrijke opmerking</important_note>
     <oh_server/>
     <short_description>Leverancier en technologie onafhankelijke open source domotica software</short_description>
-    <fdroid/>
+    <fdroid>De builds op F-Droid hebben geen ondersteuning voor FCM en crash rapportage, en kunnen geen push-meldingen ontvangen van openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[U kunt de beta-versie installeer samen met de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiele versie</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Privacybeleid: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Probeer nieuwe functies uit en geef alvast feedback!</beta>
     <play_beta>De beta versie kan geïnstalleerd worden naast de stabiele versie.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Bug fixes en stabiliteitsverbeteringen. Bezoek https://github.com/openhab/openhab-android/releases voor een gedetailleerde changelog.</changelog_play_beta>
 </strings>
