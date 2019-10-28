@@ -68,7 +68,8 @@ class TaskerItemPickerActivity(
 
         if (TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)) {
             TaskerPlugin.Setting.setVariableReplaceKeys(resultBundle,
-                arrayOf(EXTRA_ITEM_STATE, EXTRA_ITEM_MAPPED_STATE) )
+                arrayOf(EXTRA_ITEM_STATE, EXTRA_ITEM_MAPPED_STATE)
+            )
         }
 
         setResult(RESULT_OK, intent)
