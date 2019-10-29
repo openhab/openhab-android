@@ -50,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">Создание графиков может выполняться сервером. Если ваш сервер не достаточно мощный и вы испытываете проблемы со скоростью их загрузки, отключите этот параметр.</string>
     <string name="settings_ringtone">Звук уведомления</string>
     <string name="settings_ringtone_none">Без рингтона</string>
+    <string name="settings_ringtone_on_external">Неизвестный рингтон на внешнем накопителе</string>
     <string name="settings_clear_default_sitemap">Очистить Sitemap по умолчанию</string>
     <string name="settings_no_default_sitemap">Не выбран Sitemap по умолчанию</string>
     <string name="settings_current_default_sitemap">Текущий Sitemap по умолчанию: %1$s</string>
