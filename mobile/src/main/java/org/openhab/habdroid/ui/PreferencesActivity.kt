@@ -503,13 +503,15 @@ class PreferencesActivity : AbstractBaseActivity() {
             passwordPrefKey: String
         ) {
             val pref = getPreference(subscreenPrefKey)
-            val url = beautifyUrl(prefs.getString(urlPrefKey))
+            val url = prefs.getString(urlPrefKey)
+            val beautyUrl = beautifyUrl(url)
             val userName = secretPrefs.getString(userPrefKey, null)
             val password = secretPrefs.getString(passwordPrefKey, null)
             val summary = when {
                 url.isEmpty() -> getString(R.string.info_not_set)
-                isConnectionSecure(url, userName, password) -> getString(R.string.settings_connection_summary, url)
-                else -> getString(R.string.settings_insecure_connection_summary, url)
+                isConnectionSecure(url, userName, password) ->
+                    getString(R.string.settings_connection_summary, beautyUrl)
+                else -> getString(R.string.settings_insecure_connection_summary, beautyUrl)
             }
             pref.summary = summary
         }
