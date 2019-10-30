@@ -33,8 +33,17 @@ import java.net.URL
 class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
 
+    var isHttpEnabled = false
+
+    init {
+        context.obtainStyledAttributes(attrs, R.styleable.UrlInputPreference).apply {
+            isHttpEnabled = getBoolean(R.styleable.UrlInputPreference_isHttpEnabled, false)
+            recycle()
+        }
+    }
+
     override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, title)
+        return PrefFragment.newInstance(key, title, isHttpEnabled)
     }
 
     override fun setText(text: String?) {
@@ -45,6 +54,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
         private lateinit var wrapper: TextInputLayout
         private lateinit var editor: EditText
         private var urlIsValid: Boolean = false
+        private var isHttpEnabled = false
 
         override fun onBindDialogView(view: View?) {
             super.onBindDialogView(view)
@@ -60,6 +70,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                     editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
                 }
             }
+            isHttpEnabled = arguments!!.getBoolean(IS_HTTP_ENABLED, false)
         }
 
         override fun onStart() {
@@ -89,8 +100,12 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                         val url = URL(value)
                         urlIsValid = true
                         when (url.protocol) {
-                            "http" -> portSeemsInvalid = url.port == 443 || url.port == 8443
                             "https" -> portSeemsInvalid = url.port == 80 || url.port == 8080
+                            "http" -> if(isHttpEnabled){
+                                portSeemsInvalid = url.port == 443 || url.port == 8443
+                            } else {
+                                urlIsValid = false
+                            }
                         }
                     } catch (e: MalformedURLException) {
                         urlIsValid = false
@@ -99,7 +114,8 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
             }
             val res = editor.resources
             wrapper.error = when {
-                !urlIsValid -> res.getString(R.string.error_invalid_url)
+                !urlIsValid && !isHttpEnabled -> res.getString(R.string.error_invalid_https_url)
+                !urlIsValid && isHttpEnabled -> res.getString(R.string.error_invalid_url)
                 portSeemsInvalid -> res.getString(R.string.error_port_seems_invalid)
                 else -> null
             }
@@ -115,10 +131,11 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
 
         companion object {
             private const val KEY_TITLE = "title"
+            private const val IS_HTTP_ENABLED = "isHttpEnabled"
 
-            fun newInstance(key: String, title: CharSequence): PrefFragment {
+            fun newInstance(key: String, title: CharSequence, isHttpEnabled: Boolean): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title)
+                f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title, IS_HTTP_ENABLED to isHttpEnabled)
                 return f
             }
         }
