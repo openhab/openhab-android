@@ -34,7 +34,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
 
     private val isHttpEnabled: Boolean
-    
+
     init {
         context.obtainStyledAttributes(attrs, R.styleable.UrlInputPreference).apply {
             isHttpEnabled = getBoolean(R.styleable.UrlInputPreference_isHttpEnabled, false)
