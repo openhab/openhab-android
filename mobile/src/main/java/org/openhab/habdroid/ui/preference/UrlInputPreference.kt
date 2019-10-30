@@ -33,14 +33,8 @@ import java.net.URL
 class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
 
-    var isHttpEnabled = false
-
-    init {
-        context.obtainStyledAttributes(attrs, R.styleable.UrlInputPreference).apply {
-            isHttpEnabled = getBoolean(R.styleable.UrlInputPreference_isHttpEnabled, false)
-            recycle()
-        }
-    }
+    private val isHttpEnabled = context.obtainStyledAttributes(attrs, R.styleable.UrlInputPreference)
+        .getBoolean(R.styleable.UrlInputPreference_isHttpEnabled, false)
 
     override fun createDialog(): DialogFragment {
         return PrefFragment.newInstance(key, title, isHttpEnabled)
@@ -54,7 +48,6 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
         private lateinit var wrapper: TextInputLayout
         private lateinit var editor: EditText
         private var urlIsValid: Boolean = false
-        private var isHttpEnabled = false
 
         override fun onBindDialogView(view: View?) {
             super.onBindDialogView(view)
@@ -70,7 +63,6 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                     editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
                 }
             }
-            isHttpEnabled = arguments!!.getBoolean(IS_HTTP_ENABLED, false)
         }
 
         override fun onStart() {
@@ -89,6 +81,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
 
         override fun afterTextChanged(editable: Editable) {
             var portSeemsInvalid = false
+            val isHttpEnabled = arguments!!.getBoolean(IS_HTTP_ENABLED, false)
             if (editable.isEmpty()) {
                 urlIsValid = true
             } else {
@@ -101,7 +94,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                         urlIsValid = true
                         when (url.protocol) {
                             "https" -> portSeemsInvalid = url.port == 80 || url.port == 8080
-                            "http" -> if(isHttpEnabled){
+                            "http" -> if (isHttpEnabled) {
                                 portSeemsInvalid = url.port == 443 || url.port == 8443
                             } else {
                                 urlIsValid = false
