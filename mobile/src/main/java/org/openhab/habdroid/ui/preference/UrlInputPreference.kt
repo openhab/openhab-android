@@ -33,8 +33,15 @@ import java.net.URL
 class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
 
-    private val isHttpEnabled = context.obtainStyledAttributes(attrs, R.styleable.UrlInputPreference)
-        .getBoolean(R.styleable.UrlInputPreference_isHttpEnabled, false)
+    private val isHttpEnabled:Boolean
+
+
+    init {
+        context.obtainStyledAttributes(attrs, R.styleable.UrlInputPreference).apply {
+            isHttpEnabled = getBoolean(R.styleable.UrlInputPreference_isHttpEnabled, false)
+            recycle()
+        }
+    }
 
     override fun createDialog(): DialogFragment {
         return PrefFragment.newInstance(key, title, isHttpEnabled)
