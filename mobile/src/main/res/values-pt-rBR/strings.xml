@@ -50,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">Gerar gráficos pode pesar servidor. Se você se deparar com carregamento lento do gráfico e seu servidor não é poderoso, desabilite essa opção para melhorar o tempo de carregamento.</string>
     <string name="settings_ringtone">Toque de notificação</string>
     <string name="settings_ringtone_none">Nenhum</string>
+    <string name="settings_ringtone_on_external">Toque desconhecido no armazenamento externo</string>
     <string name="settings_clear_default_sitemap">Limpar o sitemap padrão</string>
     <string name="settings_no_default_sitemap">Nenhum Sitemap selecionado</string>
     <string name="settings_current_default_sitemap">Atual Sitemap padrão: %1$s</string>
