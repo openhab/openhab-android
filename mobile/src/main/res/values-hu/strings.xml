@@ -94,6 +94,7 @@
     <string name="error_wifi_not_available">Wi-Fi ki van kapcsolva</string>
     <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
+    <string name="error_invalid_https_url">Adjon meg egy érvényes URL-címet \' https://kiszolgáló(:port)/\' formában</string>
     <string name="error_port_seems_invalid">Úgy tűnik, a megadott port érvénytelen a kiválasztott protokollhoz</string>
     <string name="error_connection_failed">Sikertelen kapcsolódás</string>
     <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
