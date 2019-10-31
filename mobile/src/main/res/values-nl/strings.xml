@@ -50,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">Het genereren van grafieken kan belastend zijn voor de server. Zet deze optie uit als grafieken langzaam laden en je server niet krachtig is.</string>
     <string name="settings_ringtone">Notficatiegeluid</string>
     <string name="settings_ringtone_none">Geen</string>
+    <string name="settings_ringtone_on_external">Onbekende beltoon op externe opslag</string>
     <string name="settings_clear_default_sitemap">Verwijder standaard Sitemap</string>
     <string name="settings_no_default_sitemap">Geen standaard Sitemap geselecteerd</string>
     <string name="settings_current_default_sitemap">Standaard Sitemap: %1$s</string>
@@ -65,6 +66,7 @@
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Schermvergrendeling</string>
+    <string name="settings_screen_lock_nolock_summary">Schakel schermvergrendeling op het apparaat in om toegang tot de app te vergrendelen</string>
     <string name="settings_screen_lock_off_summary">Toegang tot de app is niet vergrendeld</string>
     <string name="settings_screen_lock_kiosk_summary">Toegang tot de app instellingen is vergrendeld met Android-schermvergrendeling of vingerafdruk</string>
     <string name="settings_screen_lock_on_summary">Toegang tot de app is vergrendeld met Android schermvergrendeling of vingerafdruk\nOpmerking: Widgets kunnen nog steeds gebruikt worden</string>
@@ -84,6 +86,7 @@
     <string name="info_conn_url">Verbinden met ingestelde URL</string>
     <string name="info_conn_rem_url">Verbinden naar externe URL</string>
     <string name="app_shortcut_disabled_habpanel">Op de server is geen HABPanel geïnstalleerd</string>
+    <string name="app_shortcut_disabled_notifications">Uw externe server is niet beschikbaar</string>
     <string name="app_shortcut_disabled_voice_recognition">Op dit apparaat is geen app voor spraakherkenning geïnstalleerd</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
@@ -92,6 +95,7 @@
     <string name="error_wifi_not_available">Wi-Fi is uitgeschakeld</string>
     <string name="error_http_connection_failed">Verbinding mislukt. Een onverwachte reactie werd ontvangen tijdens het verbinden met de openHAB server (Ontvangen HTTP response code: %d).</string>
     <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
+    <string name="error_invalid_https_url">Geef een correcte URL op in de \'https://host(:port)/\' vorm</string>
     <string name="error_port_seems_invalid">De ingevoerde poort lijkt ongeldig voor het geselecteerde protocol</string>
     <string name="error_connection_failed">Verbinding met host mislukt</string>
     <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
@@ -141,6 +145,7 @@
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
     <string name="send_device_info_item_prefix">Voorvoegsel Itemnaam</string>
     <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben als voorvoegsel \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Er is geen voorvoegsel ingesteld voor de Item namen van de volgende functies</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
     <string name="settings_alarm_clock">Wekker verzenden naar openHAB</string>
     <string name="settings_alarm_clock_summary_on">Stuurt wekkertijd naar item \'%1$s \'</string>
@@ -299,6 +304,7 @@
     <string name="press_back_to_exit">Druk nogmaals op \'terug\' om te sluiten</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item controleren</string>
+    <string name="item_update_widget_content_description">Widget voor aanpassen van Item status</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecteer een Item</string>
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
