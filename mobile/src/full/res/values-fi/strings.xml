@@ -5,10 +5,14 @@
     <string name="info_openhab_gcm_unsupported">Ei saatavilla, etäpalvelin ei vastaa openHAB pilveä</string>
     <string name="info_openhab_gcm_in_progress">Laitteen rekisteröinti on käynnissä</string>
     <string name="info_openhab_gcm_failed">Laitteen rekisteröinti epäonnistui</string>
+    <string name="info_openhab_gcm_failed_with_reason">Laitteen rekisteröinti epäonnistui Google Play Servicen vian takia: %s</string>
+    <string name="info_openhab_gcm_failed_toast">Push ilmoitusten rekisteröinti epäonnistui</string>
+    <string name="info_openhab_gcm_connected">Laite rekisteröity onnistuneesti Firebase Cloud Viestintään (FCM)</string>
     <string name="notification_channel_default">Oletus</string>
     <string name="notification_channel_severity_value">Vakavuus \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d uusi ilmoitus</item>
         <item quantity="other">%d uutta ilmoitusta</item>
     </plurals>
+    <string name="open_in_maps">Avaa Google Mapsissa</string>
 </resources>
