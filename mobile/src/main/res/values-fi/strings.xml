@@ -315,4 +315,14 @@
     <string name="item_update_success_message_move">%s alkaa liikkua</string>
     <string name="item_update_success_message_stop">%s on pysäytetty</string>
     <string name="item_update_success_message_increase">%s arvoa on korotettu</string>
+    <string name="item_update_success_message_decrease">%s arvoa on vähennetty</string>
+    <string name="item_update_success_message_undefined">%s on asetettu määrittämättömäksi</string>
+    <string name="item_update_success_message_empty_string">%s on asetettu tyhjäksi merkkijonoksi</string>
+    <string name="item_update_success_message_play">%s soittaa</string>
+    <string name="item_update_success_message_pause">%s on asetettu tauolle</string>
+    <string name="item_update_success_message_next">%s näyttää seuraavan nimikkeen</string>
+    <string name="item_update_success_message_previous">%s näyttää edellisen nimikkeen</string>
+    <string name="item_update_success_message_rewind">%s kelaa taaksepäin</string>
+    <string name="item_update_success_message_fastforward">%s kelaa eteenpäin</string>
+    <string name="item_update_error_no_connection">Virhe lähetettäessä Itemin päivitystä, yritetään uudelleen\u2026</string>
 </resources>
