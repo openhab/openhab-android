@@ -27,11 +27,14 @@
     <string name="settings_openhab_password_summary_strong">Vahva salasana asetettu</string>
     <string name="settings_openhab_sslclientcert">Asiakkaan SSL sertifikaatti</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Näpäytä tästä nähdäksesi muutamia vinkkejä ja ohjeita kuinka asennat asiakkaan SSL todennuksen</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Laitteesi ei tue asiakkaan SSL sertifikaattia</string>
     <string name="settings_openhab_screentimeroff">Poista näytön sammutuksen ajastin</string>
     <string name="settings_openhab_screentimeroff_summary">Näytön sammutuksen ajastin pois päältä openHABin ollessa käynnissä</string>
     <string name="settings_openhab_demomode">Esittelytila</string>
     <string name="settings_openhab_demomode_summary">Jos sinulla ei ole openHAB palvelinta, niin valitse demo moodi saadaksesi käsityksen mihin openHAB pystyy.</string>
     <string name="settings_openhab_theme">Teema</string>
+    <string name="settings_accent_color">Korostusväri</string>
+    <string name="settings_select_a_color">Valitse väri</string>
     <string name="settings_openhab_fullscreen">Kokonäyttö</string>
     <string name="settings_openhab_fullscreen_summary">Näytä koko näytöllä</string>
     <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
@@ -47,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">Kuvaajien generointi voi olla raskasta palvelimelle. Jos havaitset hitautta kuvaajien latauksessa ja palvelimesi on tehoton, aseta tämä pois päältä parantaaksesi latausaikoja.</string>
     <string name="settings_ringtone">Ilmoituksen merkkiääni</string>
     <string name="settings_ringtone_none">Ei mikään</string>
+    <string name="settings_ringtone_on_external">Tuntematon soittoääni ulkoisessa tallennusvälineessä</string>
     <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
     <string name="settings_no_default_sitemap">Ei sivukarttaa oletuksena</string>
     <string name="settings_current_default_sitemap">Nykyinen oletussivukartta: %1$s</string>
@@ -62,7 +66,12 @@
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Näytön lukitus</string>
+    <string name="settings_screen_lock_nolock_summary">Ennen kuin voit käyttää sovelluksen käyttöoikeuslukitusta sinun pitää ottaa käyttöön näytön lukitus laitteellasi</string>
+    <string name="settings_screen_lock_off_summary">Pääsy sovellukseen ei ole estetty</string>
+    <string name="settings_screen_lock_kiosk_summary">Pääsy sovelluksen asetuksiin on estetty Androidin näyttö- tai sormenjälkilukituksella</string>
+    <string name="settings_screen_lock_on_summary">Pääsy sovellukseen on estetty Androidin näyttö- tai sormenjälkilukituksella\nHuom: Widgettejä voi silti käyttää</string>
     <string name="screen_lock_unlock_screen_description">Avaa lukitus</string>
+    <string name="screen_lock_unlock_preferences_description">Poista lukitus päästäksesi asetuksiin</string>
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Kiosk moodi</string>
     <string name="settings_screen_lock_on">On</string>
@@ -86,6 +95,7 @@
     <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
     <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus: %d).</string>
     <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
+    <string name="error_invalid_https_url">Kirjoita kelvollinen URL osoite \'https://isäntä(:port)/\' muodossa</string>
     <string name="error_port_seems_invalid">Antamasi portti ei sovi valitulle protokollalle</string>
     <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
     <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
@@ -96,6 +106,8 @@
     <string name="error_certificate_invalid_date">SSL sertifikaatissa on väärä päivämäärä. Ole hyvä ja vaihda oikeaan setrifikaattiin. Tarkasta myös että laitteesi kello on oikeassa ajassa.</string>
     <string name="error_certificate_revoked">SSL serifikaatti on kumottu. Hanki uusi sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana.</string>
     <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
+    <string name="error_http_to_https_port">Odottamaton yhteyden katkaisu. Yritätkö yhdistää HTTPS porttiin käyttäen HTTP?</string>
+    <string name="webview_ssl">Sovellus ei tällä hetkellä tue itse allekirjoitettuja SSL sertifikaatteja Webview widgeteissä</string>
     <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 401).</string>
     <string name="error_http_code_403">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 403).</string>
     <string name="error_http_code_407">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 407).</string>
@@ -121,16 +133,44 @@
     <string name="info_write_tag_finished">Onnistui</string>
     <string name="info_write_failed">Virhe kirjoitettessa tagia</string>
     <string name="info_write_tag_unsupported">Tämä laite ei tue NFCtä</string>
+    <string name="info_write_tag_disabled">NFC on poistettu käytöstä</string>
     <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push ilmoitusten tila</string>
     <string name="action_settings">Asetukset</string>
+    <string name="nfc_info_hint">Item päivitykset voi kirjoittaa NFC tagiin. Voit valita Itemin täällä tai pitkään painamalla Sitemapissa.</string>
     <string name="info_not_set">Ei määritetty</string>
     <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Lähetä laitteen tiedot palvelimelle</string>
     <string name="send_device_info_item_prefix">Itemin nimen etuliite</string>
+    <string name="send_device_info_item_prefix_summary">Seuraavien toimintojen Itemien nimillä on etuliite \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Seuraavien toimintojen Itemien nimillä ei ole etuliitettä asetettuna</string>
+    <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
     <string name="settings_alarm_clock">Lähetä herätyskello openHABiin</string>
+    <string name="settings_alarm_clock_summary_on">Lähetä herätyskellon aika Itemille \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Älä lähetä herätyskellon aikaa palvelimelle</string>
+    <string name="settings_phone_state">Lähetä puhelun tila openHAB palvelimelle</string>
+    <string name="settings_phone_state_summary_on">Lähettää puhelun tilan Itemille \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Älä lähetä puhelun tilaa palvelimelle</string>
+    <string name="settings_phone_state_permission_denied">Puhelun tilan lähetys on poistettu käytöstä puuttuvien oikeuksien takia</string>
+    <string name="settings_phone_state_permission_allow">Salli</string>
+    <string name="settings_item_pref_item_name">Itemin nimi</string>
+    <string name="waiting_for_item_upload">Itemien päivitykset odottaa verkkoa</string>
+    <string name="item_upload_in_progress">Itemien päivitys meneillään</string>
     <string name="notification_channel_background">Tausta</string>
+    <string name="notification_channel_background_description">Jonossa olevien taustatehtävien näyttämiseen</string>
+    <string name="notification_channel_background_error">Virhe taustatehtävissä</string>
+    <string name="notification_channel_background_error_description">Taustatehtävien virheiden ilmoituksille</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">Item %d ei voitu päivittää</item>
+        <item quantity="other">Itemeitä %d ei voitu päivittää</item>
+    </plurals>
+    <string name="item_update_http_error">Itemin \'%1$s\' päivitys epäonnistui (HTTP virhe %2$d)</string>
+    <string name="item_update_http_error_label">%1$s päivitys epäonnistui (HTTP virhe %2$d)</string>
+    <string name="item_update_connection_error">Itemin \'%1$s\' päivitys epäonnistui (Ei yhteyttä)</string>
+    <string name="item_update_connection_error_label">%1$s päivitys epäonnistui (Ei yhteyttä)</string>
+    <string name="error_sending_alarm_clock_item_empty">Syötä kelvollinen Itemin nimi</string>
     <string name="retry">Yritä uudelleen</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
@@ -152,6 +192,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Valoisa</string>
     <string name="theme_name_dark">Tumma</string>
+    <string name="theme_name_system">Seuraa järjestelmää</string>
+    <string name="theme_name_battery_saver">Tumma teema virransäästön aikana</string>
     <!-- NFC -->
     <string name="nfc_action_on">On</string>
     <string name="nfc_action_up">Ylös</string>
@@ -209,6 +251,11 @@
     <!-- Log -->
     <string name="log">Loki</string>
     <string name="view_log">Näytä loki</string>
+    <string name="log_activity_action_clear_log">Tyhjennä loki</string>
+    <string name="log_activity_action_show_errors">Näytä vain virheet</string>
+    <string name="log_activity_action_show_all">Näytä kaikki viestit</string>
+    <string name="log_activity_action_reload">Lataa uudelleen</string>
+    <string name="log_activity_content_description_share">Jaa loki</string>
     <string name="empty_log">Loki on tyhjä</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Kiinnitä kotinäyttöön</string>
@@ -227,9 +274,12 @@
     <string name="content_description_increase_item_value">Suurenna Itemin arvoa</string>
     <string name="content_description_decrease_item_value">Pienennä Itemin arvoa</string>
     <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
+    <string name="got_it">Selvä!</string>
     <!-- Intro strings -->
     <string name="app_intro">Esittely</string>
     <string name="intro_welcome">Tervetuloa openHABiin</string>
+    <string name="intro_welcome_back">Tervetuloa takaisin openHABiin</string>
+    <string name="intro_app_restored">Lähes kaikki asetuksesi on palautettu, paitsi palvelimen tunnukset</string>
     <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
     <string name="intro_themes">Teemat</string>
     <string name="intro_themes_description">Valitse useista teemoista</string>
@@ -249,7 +299,20 @@
     <string name="item_picker_blurb">Aseta \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
     <string name="search">Etsi</string>
     <string name="settings_tasker_plugin">Taskerin integraatio</string>
+    <string name="settings_tasker_plugin_summary">Aktivoi Tasker liitännäinen joka sallii Itemien päivityksen Taskerin tai muiden sopivien sovellusten kautta</string>
     <string name="turn_on">Ota käyttöön</string>
     <string name="press_back_to_exit">Paina uudestaan takaisin poistuaksesi</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Itemin käyttö</string>
+    <string name="item_update_widget_content_description">Widgetti Itemin tilan vaihtoa varten</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Valitse Item</string>
+    <string name="item_update_success_message_generic">%1$s on lähetetty kohteeseen %2$s</string>
+    <string name="item_update_success_message_on">%s on kytketty päälle</string>
+    <string name="item_update_success_message_off">%s kytketty pois</string>
+    <string name="item_update_success_message_up">%s alkaa liikkua ylös</string>
+    <string name="item_update_success_message_down">%s alkaa liikkua alas</string>
+    <string name="item_update_success_message_move">%s alkaa liikkua</string>
+    <string name="item_update_success_message_stop">%s on pysäytetty</string>
+    <string name="item_update_success_message_increase">%s arvoa on korotettu</string>
 </resources>
