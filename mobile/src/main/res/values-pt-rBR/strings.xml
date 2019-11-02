@@ -95,6 +95,7 @@
     <string name="error_wifi_not_available">Wi-Fi está desligado</string>
     <string name="error_http_connection_failed">Conexão sem sucesso. Foi recebida uma resposta inesperada ao conectar com servidor openHAB configurado (código de resposta HTTP recebido: %d).</string>
     <string name="error_invalid_url">Por favor insira uma URL válida num padrão \'http(s)://endereço(:porta)/\'</string>
+    <string name="error_invalid_https_url">Por favor, insira uma URL válida no formulário \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">A porta que você digitou parece inválida para o protocolo selecionado</string>
     <string name="error_connection_failed">Conexão ao host falhou</string>
     <string name="error_unable_to_resolve_hostname">Não foi possível resolver o hostname</string>
