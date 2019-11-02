@@ -27,11 +27,14 @@
     <string name="settings_openhab_password_summary_strong">強力なパスワードです</string>
     <string name="settings_openhab_sslclientcert">SSL クライアント証明書</string>
     <string name="settings_openhab_sslclientcert_howto_summary">ここをタップすると SSL クライアント証明書認証を設定する方法について、いくつかのヒントや説明を得ることができます</string>
+    <string name="settings_openhab_sslclientcert_not_supported">お使いのデバイスで SSL クライアント証明書はサポートされていません</string>
     <string name="settings_openhab_screentimeroff">ディスプレイタイマーを無効にする</string>
     <string name="settings_openhab_screentimeroff_summary">openHAB が実行中のとき、ディスプレイがオフにならないようにします</string>
     <string name="settings_openhab_demomode">デモモード</string>
     <string name="settings_openhab_demomode_summary">openHAB サーバーをお持ちでない場合は、デモモードを有効にすると、openHAB どのようなことができるか想像できます。</string>
     <string name="settings_openhab_theme">テーマ</string>
+    <string name="settings_accent_color">アクセント色</string>
+    <string name="settings_select_a_color">色を選択</string>
     <string name="settings_openhab_fullscreen">フルスクリーン</string>
     <string name="settings_openhab_fullscreen_summary">全画面モードで表示します</string>
     <string name="settings_openhab_icon_format">アイコン形式</string>
@@ -47,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">グラフの生成をサーバーに負担させることができます。グラフの読み込みに時間がかかって、お使いのサーバーが強力ではない場合は、このオプションを無効にすると読み込み時間が改善します。</string>
     <string name="settings_ringtone">通知の着信音</string>
     <string name="settings_ringtone_none">なし</string>
+    <string name="settings_ringtone_on_external">外部ストレージの不明な着信音</string>
     <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
     <string name="settings_no_default_sitemap">デフォルトのサイトマップが選択されていません</string>
     <string name="settings_current_default_sitemap">現在のデフォルトサイトマップ: %1$s</string>
@@ -61,6 +65,16 @@
     <string name="settings_connection_summary">%s に接続しました</string>
     <string name="settings_insecure_connection_summary">%s に安全ではない接続をしました</string>
     <string name="beta">ベータ版</string>
+    <string name="settings_screen_lock">画面ロック</string>
+    <string name="settings_screen_lock_nolock_summary">アプリのアクセスロックを有効にするには、お使いのデバイスの画面ロックを有効にする必要があります</string>
+    <string name="settings_screen_lock_off_summary">アプリへのアクセスはロックされていません</string>
+    <string name="settings_screen_lock_kiosk_summary">Android の画面ロックまたは指紋で、アプリの設定へのアクセスがロックされています</string>
+    <string name="settings_screen_lock_on_summary">Android の画面ロックまたは指紋で、アプリへのアクセスがロックされています\n注: それでもウィジェットは使用できます</string>
+    <string name="screen_lock_unlock_screen_description">openHAB のアクセスをロック解除します</string>
+    <string name="screen_lock_unlock_preferences_description">設定へのアクセスをロック解除</string>
+    <string name="settings_screen_lock_off">オフ</string>
+    <string name="settings_screen_lock_kiosk">Kioskモード</string>
+    <string name="settings_screen_lock_on">オン</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">音声コマンド</string>
     <string name="title_voice_widget_icon">音声コマンドとアプリのショートカット</string>
@@ -80,6 +94,7 @@
     <string name="error_wifi_not_available">Wi-Fi がオフになっています</string>
     <string name="error_http_connection_failed">接続が失敗しました。設定された openHAB サーバーに接続しようとしたときに予期しない応答を受け取りました (受信した HTTP 応答コード: %d)。</string>
     <string name="error_invalid_url">\'http(s)://host(:port)/\' の形式で、正しい URL を入力してください</string>
+    <string name="error_invalid_https_url">\'https://host(:port)/\' の形式で、正しい URL を入力してください</string>
     <string name="error_port_seems_invalid">入力したポートは、選択したプロトコルでは正しくないようです</string>
     <string name="error_connection_failed">ホストへの接続に失敗しました</string>
     <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
@@ -116,16 +131,26 @@
     <string name="info_write_tag_finished">正常に完了しました</string>
     <string name="info_write_failed">タグの書き込みエラー</string>
     <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
+    <string name="info_write_tag_disabled">NFC は無効です</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">プッシュ通知ステータス</string>
     <string name="action_settings">設定</string>
+    <string name="nfc_info_hint">アイテムの更新をNFCタグに書き込むことができます。 ここでアイテムを選択するか、サイトマップでウィジェットを長押しします。</string>
     <string name="info_not_set">未設定</string>
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">デバイス情報をサーバーに送信</string>
     <string name="send_device_info_item_prefix">アイテム名の接頭辞</string>
+    <string name="send_device_info_item_prefix_summary">次の機能のアイテム名は \'%s\' が頭につきます</string>
+    <string name="send_device_info_item_prefix_summary_not_set">次の機能のアイテム名に接頭語は設定されていません</string>
+    <string name="settings_item_update_pref_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
     <string name="settings_alarm_clock">アラーム時計を openHAB に送信</string>
+    <string name="settings_phone_state">通話状態を openHAB に送信</string>
+    <string name="settings_phone_state_summary_on">通話状態をアイテム \'%1$s\' に送信</string>
+    <string name="settings_phone_state_summary_off">サーバーに通話状態を送信しない</string>
+    <string name="settings_phone_state_permission_denied">アクセス許可がないため通話状態の送信は無効です</string>
+    <string name="settings_phone_state_permission_allow">許可する</string>
     <string name="settings_item_pref_item_name">アイテム名</string>
     <string name="waiting_for_item_upload">アイテムの更新を送信するため、ネットワークを待機しています</string>
     <string name="item_upload_in_progress">アイテムを現在更新しています</string>
