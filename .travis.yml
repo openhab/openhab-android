@@ -52,7 +52,6 @@ jobs:
       if: tag IS present AND tag != "-fdroid$"
       deploy:
         provider: releases
-        prerelease: true
         file:
           - $HOME/apks_to_deploy/openhab-android.apk
         skip_cleanup: true
