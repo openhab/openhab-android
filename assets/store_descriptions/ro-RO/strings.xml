@@ -15,7 +15,7 @@
     <foundation>Fundația openHAB</foundation>
     <about_foundation>Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. Află mai multe despre misiunea și serviciile fundației la https://www.openhabfoundation.org</about_foundation>
     <important_note>Notă importantă</important_note>
-    <oh_server/>
+    <oh_server>Ai nevoie de un server openHAB pentru această aplicație.</oh_server>
     <short_description>Automatizare de locuințe open source, independentă de producători și tehnologii</short_description>
     <fdroid/>
     <fdroid_beta><![CDATA[Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
