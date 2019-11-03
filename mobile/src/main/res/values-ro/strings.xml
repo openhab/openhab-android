@@ -227,9 +227,18 @@
     <string name="go_to_settings_button">Mergi la setări</string>
     <string name="enable_demo_mode_button">Activează modul demonstrativ</string>
     <string name="configuration_missing">Nu găsim un server openHAB în reţea. Dacă aveţi deja un server, vă rugăm să configuraţi adresa IP sau host name-ul în setările de server. Dacă nu aveți încă un server, activaţi modul demo pentru a vedea ce de ce este capabil openHAB.</string>
+    <string name="no_remote_server">Conectarea la serverul local nu a reuşit şi nu aţi configurat un server pentru accesul de la distanţă</string>
     <string name="resolving_openhab">Se încearcă găsirea unui server openHAB\u2026</string>
+    <string name="waiting_for_wifi">Se aşteptă Wi-Fi pentru a stabili conexiunea\u2026</string>
     <!-- Log -->
+    <string name="log">Jurnal</string>
+    <string name="view_log">Afișare jurnal</string>
+    <string name="log_activity_action_reload">Reîncarcă</string>
+    <string name="log_activity_content_description_share">Partajează jurnalul</string>
+    <string name="empty_log">Jurnalul este gol</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Adăugaţi la pagina de pornire</string>
+    <string name="home_shortcut_success_pinning">Adăugat la pagina de pornire</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Deschide oblonul</string>
     <string name="content_description_stop_roller_shutter">Oprește oblonul</string>
@@ -241,9 +250,11 @@
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Deschide openHAB</string>
     <string name="swipe_to_refresh_description">Aplicația se actualizează automat, în mod normal nu este necesar să faceți actualizarea manual</string>
+    <string name="got_it">Am înțeles!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introducere</string>
     <string name="intro_welcome">Bine ați venit la openHAB</string>
+    <string name="intro_welcome_back">Bine ați revenit la openHAB</string>
     <string name="intro_whatis">Un software open source de automatizare pentru locuința dumneavoastră, independent de producători și tehnologii</string>
     <string name="intro_themes">Teme</string>
     <string name="intro_themes_description">Alege dintre câteva teme</string>
@@ -255,5 +266,10 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">GATA</string>
     <!-- Item picker -->
+    <string name="item_picker_custom">Personalizat</string>
+    <string name="search">Caută</string>
+    <string name="turn_on">Porneşte</string>
+    <string name="press_back_to_exit">Apăsaţi înapoi din nou pentru a ieşi</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_item_picker_title">Selectaţi un Item</string>
 </resources>
