@@ -9,6 +9,7 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Harta site-ului</string>
     <string name="mainmenu_openhab_preferences">Setări</string>
+    <string name="habpanel_error">O eroare a avut loc la încărcarea HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
     <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
     <!-- App settings strings -->
@@ -25,10 +26,14 @@
     <string name="settings_openhab_password_summary_strong">Ati ales o parola puternica</string>
     <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Apasati aici pentru cateva instructiuni si explicatii descpre cum se seteaza autentificarea clientului prin certificat SSL</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Certificatele client SSL nu sunt acceptate de dispozitiv</string>
     <string name="settings_openhab_screentimeroff">Dezactiveaza afisarea cronometrului</string>
     <string name="settings_openhab_screentimeroff_summary">Dezactiveaza afisarea comutatorului de oprire a cronometrului atunci cand openHAB este pornit</string>
     <string name="settings_openhab_demomode">Modul demonstrativ</string>
+    <string name="settings_openhab_demomode_summary">Dacă nu aveţi un server openHAB, activaţi modul demo pentru a vă face o idee de ce este capabil openHAB.</string>
     <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_accent_color">Culoare de accent</string>
+    <string name="settings_select_a_color">Selectați o culoare</string>
     <string name="settings_openhab_fullscreen">Ecran complet</string>
     <string name="settings_openhab_fullscreen_summary">Afișează în modul ecran complet</string>
     <string name="settings_openhab_icon_format">Format pictograma</string>
@@ -40,8 +45,11 @@
     <string name="settings_chart_scaling_value_s">Mic</string>
     <string name="settings_chart_scaling_value_m">Implicit</string>
     <string name="settings_chart_scaling_value_l">Mare</string>
+    <string name="settings_openhab_chart_hq">Diagrame de înaltă rezoluţie</string>
+    <string name="settings_openhab_chart_hq_summary">Generarea de diagrame poate fi dificilă pentru server. Dacă vă confruntaţi cu diagrame încărcate lent şi serverul nu este puternic, dezactivaţi această opţiune pentru a îmbunătăţi timpii de încărcare.</string>
     <string name="settings_ringtone">Sonerie de notificare</string>
     <string name="settings_ringtone_none">Nici unul</string>
+    <string name="settings_ringtone_on_external">Ton de apel necunoscut pe stocarea externă</string>
     <string name="settings_clear_default_sitemap">Sterge fisierul Sitemap implicit</string>
     <string name="settings_no_default_sitemap">Niciun Sitemap implicit nu este selectat</string>
     <string name="settings_current_default_sitemap">Predefiniție actuală Sitemap: %1$s</string>
@@ -52,17 +60,27 @@
     <string name="settings_notification_vibration_short">Scurt</string>
     <string name="settings_notification_vibration_long">Lung</string>
     <string name="settings_notification_vibration_twice">De doua ori</string>
+    <string name="settings_notification_ringtone_vibration">Setări pentru notificări</string>
     <string name="settings_connection_summary">Conectat la %s</string>
     <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
+    <string name="settings_screen_lock_kiosk">Modul Kiosk</string>
+    <string name="settings_screen_lock_on">Pornit</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Comandă vocală</string>
+    <string name="title_voice_widget_icon">Comenzi vocale şi scurtătură aplicaţie</string>
     <string name="info_voice_input">openHAB, la comanda ta!</string>
     <string name="info_voice_recognized_text">Comandă recunoscută: %1$s</string>
     <string name="info_demo_mode_short">Rulează în modul demonstrativ</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Oprește</string>
     <string name="info_conn_url">Se conectează la URL-ul local</string>
     <string name="info_conn_rem_url">Conectare la adresa URL la distanță</string>
+    <string name="app_shortcut_disabled_habpanel">Nu aveți HABPanel instalat pe server</string>
+    <string name="app_shortcut_disabled_notifications">Serverul dvs. de la distanță nu este disponibil</string>
+    <string name="app_shortcut_disabled_voice_recognition">Dispozitivul dvs. nu are instalată o aplicație de recunoaștere vocală</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB a returnat lista Sitemap goală</string>
+    <string name="error_sitemap_generic_load_error">Sitemap-ul nu a putut fi încărcat. A apărut următoarea eroare: %1$s</string>
     <string name="error_network_not_available">Rețeaua nu este disponibilă</string>
     <string name="error_http_connection_failed">Conexiune eșuată. Un răspuns neașteptat a fost primit în încercarea de conectare la serverul openHAB configurat (Received HTTP response code: %d).</string>
     <string name="error_invalid_url">Introdu adresa URL în forma \'http(s)://host(:port)/\'</string>
