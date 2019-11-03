@@ -63,6 +63,15 @@
     <string name="settings_notification_ringtone_vibration">Setări pentru notificări</string>
     <string name="settings_connection_summary">Conectat la %s</string>
     <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
+    <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Blocare ecran</string>
+    <string name="settings_screen_lock_nolock_summary">Trebuie să activați un blocaj de ecran dispozitivului pentru a putea activa blocarea accesului la aplicație</string>
+    <string name="settings_screen_lock_off_summary">Accesul la aplicație nu este blocat</string>
+    <string name="settings_screen_lock_kiosk_summary">Accesul la setările aplicației este blocat prin blocarea ecranului Android sau amprentă digitală</string>
+    <string name="settings_screen_lock_on_summary">Accesul la aplicației este blocat prin blocarea ecranului Android sau amprentă digitală\nNotă: Widget-urile pot fi totuși utilizate</string>
+    <string name="screen_lock_unlock_screen_description">Deblocați pentru a avea acces la openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Deblocați pentru a avea acces la setări</string>
+    <string name="settings_screen_lock_off">Oprit</string>
     <string name="settings_screen_lock_kiosk">Modul Kiosk</string>
     <string name="settings_screen_lock_on">Pornit</string>
     <!-- App messages strings -->
@@ -267,6 +276,7 @@
     <string name="app_intro_done_button">GATA</string>
     <!-- Item picker -->
     <string name="item_picker_custom">Personalizat</string>
+    <string name="item_picker">openHAB Items</string>
     <string name="search">Caută</string>
     <string name="turn_on">Porneşte</string>
     <string name="press_back_to_exit">Apăsaţi înapoi din nou pentru a ieşi</string>
