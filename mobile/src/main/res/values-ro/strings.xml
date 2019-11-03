@@ -115,6 +115,7 @@
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
     <string name="error_no_browser_found">Nu a fost găsit nici un browser pe dispozitivul tău</string>
     <string name="error_no_speech_to_text_app_found">Nu a fost găsită nicio aplicație de recunoaștere vocală</string>
+    <string name="install">Instalează</string>
     <string name="title_activity_openhabwritetag">Scrie NFC-tag</string>
     <string name="title_activity_libraries">Librării utilizate</string>
     <string name="info_write_tag">Atingeţi eticheta şi păstraţi tag-ul NFC aproape, până când apare mesajul de confirmare</string>
@@ -122,12 +123,26 @@
     <string name="info_write_tag_finished">Terminat cu succes</string>
     <string name="info_write_failed">Eroare la scrierea tag-ului NFC</string>
     <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
+    <string name="info_write_tag_disabled">Serviciul NFC este dezactivat</string>
     <string name="info_openhab_apiversion_label">versiune openHAB Rest API</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Starea notificărilor Push</string>
     <string name="action_settings">Setări</string>
+    <string name="nfc_info_hint">Comanda unui Item pot fi scrise pe etichete NFC. Puteți selecta un Item aici sau puteți să faceți clic lung pe un widget din Sitemap.</string>
     <string name="info_not_set">Nu este setat</string>
+    <string name="empty_page">Această pagină nu conţine widget-uri setate ca vizibile</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Trimiteți informațiile dispozitivului pe server</string>
+    <string name="send_device_info_item_prefix">Prefix nume Item</string>
+    <string name="settings_item_update_pref_howto_summary">Atingeți aici pentru a obține indicații despre cum puteți configura această caracteristică pe server</string>
+    <string name="settings_alarm_clock">Trimite ceas de alarmă la openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Trimite timpul ceasului de alarmă la item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Nu trimiteți ora ceasului de alarmă către server</string>
+    <string name="settings_phone_state">Trimiteți starea de apel la openHAB</string>
+    <string name="settings_phone_state_summary_on">Trimiteți starea de apel la item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Nu trimite starea de apel pe server</string>
+    <string name="settings_phone_state_permission_denied">Trimiterea stării de apel a fost dezactivată din cauza permisiunilor care lipsesc</string>
+    <string name="settings_phone_state_permission_allow">Permite</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nicio notificare nu a fost trimisă până acum</string>
     <string name="notification_list_error">A apărut o eroare în timpul încărcării notificărilor</string>
