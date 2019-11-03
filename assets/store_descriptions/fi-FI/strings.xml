@@ -5,7 +5,7 @@
     <rules>Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.</rules>
     <supported>Tuetut laitteet ja tuotteet</supported>
     <bindings>Yli 200 yksilöllistä lisäosaa antaa tuen erilaisille tuotteille, laitteille, teknologioille ja protokollille. Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Loydä kaikki saatavailla olevat lisäosat ja tuetut laitteet sekä toiminnot osoitteesta: https://www.openhab.org/addons/</bindings>
-    <automation_apps/>
+    <automation_apps>Sovelluksessa on liitännäinen Taskeria ja Localea varten.</automation_apps>
 
     <oss_community>Avoimen lähdekoodin yhteisö</oss_community>
     <forum>openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org</forum>
@@ -17,10 +17,10 @@
     <important_note>Tärkeä huomautus</important_note>
     <oh_server>Tarvitset openHAB palvelimen tätä sovellusta varten.</oh_server>
     <short_description>Toimittaja- ja teknologiariippumatonta avoimen lähdekoodin kotiautomaatiota</short_description>
-    <fdroid/>
+    <fdroid>F-Droid sovelluskaupasta ladatuissa koontiversioissa FCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.</fdroid>
     <fdroid_beta><![CDATA[Voit asentaa beta version <a href="https://f-droid.org/packages/org.openhab.habdroid/">vakaan version</a> rinnalle.]]></fdroid_beta>
     <fdroid_privacy_policy>Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Kokeilla uusia ominaisuuksia ja anna pian palautetta!</beta>
     <play_beta>Voit asentaa beta version vakaan version rinnalle.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Vikojen korjauksia ja pieniä parannuksia. Tarkan muutoslokin löydät osoitteesta https://github.com/openhab/openhab-android/releases.</changelog_play_beta>
 </strings>

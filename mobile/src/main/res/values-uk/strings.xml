@@ -95,6 +95,7 @@
     <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
     <string name="error_http_connection_failed">Помилка підключення. Отримана неочікувана відповідь від openHAB. Переконайтесь у правильності роботи сервера openHAB (код відповіді HTTP: %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
+    <string name="error_invalid_https_url">Будь ласка, введіть правильне посилання URL у форматі \"https://хост(:порт)/\"</string>
     <string name="error_port_seems_invalid">Введений порт здається непридатний для вибраного протоколу</string>
     <string name="error_connection_failed">Підключення до хоста не вдалося</string>
     <string name="error_unable_to_resolve_hostname">Не вдалося знайти доменне ім\'я</string>

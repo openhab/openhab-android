@@ -5,6 +5,9 @@
     <string name="info_openhab_gcm_unsupported">Indisponibil, serverul distant nu este o instanță openHAB cloud</string>
     <string name="info_openhab_gcm_in_progress">Înregistrarea dispozitivului este în progres</string>
     <string name="info_openhab_gcm_failed">Înregistrarea dispozitivului a eșuat</string>
+    <string name="info_openhab_gcm_failed_with_reason">Înregistrarea dispozitivului a eșuat din cauza unei probleme privind serviciile Google Play: %s</string>
+    <string name="info_openhab_gcm_failed_toast">Înregistrarea pentru notificările Push a eșuat</string>
+    <string name="info_openhab_gcm_connected">Dispozitivul a fost înregistrat cu succes în serviciul Google Cloud Messaging</string>
     <string name="notification_channel_default">Implicit</string>
     <string name="notification_channel_severity_value">Severitate \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -12,4 +15,5 @@
         <item quantity="few">%d Notificări noi</item>
         <item quantity="other">%d Notificări noi</item>
     </plurals>
+    <string name="open_in_maps">Deschide în Google Maps</string>
 </resources>
