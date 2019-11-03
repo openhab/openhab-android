@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota
 
-The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+F-Droid sovelluskaupasta ladatuissa koontiversioissa FCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.
 Kokeilla uusia ominaisuuksia ja anna pian palautetta!
 Voit asentaa beta version <a href="https://f-droid.org/packages/org.openhab.habdroid/">vakaan version</a> rinnalle.
 
@@ -10,7 +10,7 @@ Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymiss�
 <b>Tuetut laitteet ja tuotteet</b>
 
 Yli 200 yksilöllistä lisäosaa antaa tuen erilaisille tuotteille, laitteille, teknologioille ja protokollille. Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Loydä kaikki saatavailla olevat lisäosat ja tuetut laitteet sekä toiminnot osoitteesta: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+Sovelluksessa on liitännäinen Taskeria ja Localea varten.
 
 <b>Avoimen lähdekoodin yhteisö</b>
 

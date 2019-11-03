@@ -1,6 +1,6 @@
-openHAB - "empowering the smart home" - automatizare de locuințe open source, independent de producatori și tehnologii
+openHAB - "empowering the smart home" - aplicatie independentă, open source, pentru casa ta inteligentă
 
-The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+Build-urile de pe F-Droid au eliminat FCM, raportarea erorilor și nu vor putea primi notificări de la openHAB Cloud.
 Încercați funcții noi și lăsați primele impresii!
 Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
@@ -10,7 +10,7 @@ Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivel
 <b>Produse suportate</b>
 
 Peste 200 de add-onuri specifice furnizează suport pentru producători, dispozitive, tehnologii și protocoale de comunicație. Exemple sunt Z-Wave, Philips Hue, Amazon Echo, Chromecast și Sonos. Descoperiți toate add-onurile disponibile, dispozitivele și/sau funcțiile suportate la: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+Aplicația are un plugin de acțiune pentru Tasker și Locale inclus.
 
 <b>Comunitate open source</b>
 
@@ -24,6 +24,6 @@ Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publ
 
 <b>Notă importantă</b>
 
-You need an openHAB server for this app.
+Ai nevoie de un server openHAB pentru această aplicație.
 
 Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html
