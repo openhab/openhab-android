@@ -206,6 +206,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true) ||
             prefs.getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
         ) {
+            Log.d(TAG, "Start intro")
             val intent = Intent(this, IntroActivity::class.java)
             startActivity(intent)
         }
