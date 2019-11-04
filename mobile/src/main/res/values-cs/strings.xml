@@ -50,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">Generování grafů může být náročné na server. Pokud dochází k pomalému načítání grafů a váš server je slabší, zakažte tuto možnost aby se zlepšila doba načítání.</string>
     <string name="settings_ringtone">Tón oznámení</string>
     <string name="settings_ringtone_none">Žádné</string>
+    <string name="settings_ringtone_on_external">Neznámé vyzvánění na externím úložišti</string>
     <string name="settings_clear_default_sitemap">Vymazat výchozí Sitemap</string>
     <string name="settings_no_default_sitemap">Žádná výchozí Sitemap nebyla vybrána</string>
     <string name="settings_current_default_sitemap">Aktuální výchozí Sitemap: %1$s</string>
@@ -94,6 +95,7 @@
     <string name="error_wifi_not_available">Wi-Fi je vypnuta</string>
     <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
+    <string name="error_invalid_https_url">Zadejte platnou adresu URL ve formátu \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">Port, který jste zadali, se zdá být neplatný pro vybraný protokol</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
     <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
