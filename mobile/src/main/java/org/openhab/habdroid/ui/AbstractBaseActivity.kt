@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui
 import android.annotation.TargetApi
 import android.app.ActivityManager
 import android.app.KeyguardManager
+import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -87,6 +88,14 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     override fun onResume() {
         super.onResume()
         checkFullscreen()
+    }
+
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        // Work around appcompat in versions <= 1.1.0 forcing font scale to 1.0 unconditionally
+        // (see https://android.googlesource.com/platform/frameworks/support/+/1795e4ebdd262598f3c90b79cd3d75d79a5a2264)
+        // REMOVE ME after updating to an appcompat release which includes the above commit
+        overrideConfiguration?.fontScale = 0F
+        super.applyOverrideConfiguration(overrideConfiguration)
     }
 
     @JvmOverloads
