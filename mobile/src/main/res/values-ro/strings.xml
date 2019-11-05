@@ -286,11 +286,37 @@
     <string name="app_intro_done_button">GATA</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Nu a fost găsit niciun Items</string>
+    <string name="item_picker_list_error">A apărut o eroare la încărcarea unor Items</string>
     <string name="item_picker_custom">Personalizat</string>
+    <string name="item_picker_dialog_title">Selectează statusul</string>
     <string name="item_picker">openHAB Items</string>
+    <string name="item_picker_blurb">Setează \"%1$s\" (%2$s) la \"%3$s\"</string>
     <string name="search">Caută</string>
+    <string name="settings_tasker_plugin">Integrează Tasker</string>
+    <string name="settings_tasker_plugin_summary">Activați Tasker-Action-Plugin care permite actualizarea Items prin Tasker sau alte aplicații compatibile</string>
     <string name="turn_on">Porneşte</string>
     <string name="press_back_to_exit">Apăsaţi înapoi din nou pentru a ieşi</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Item control</string>
+    <string name="item_update_widget_content_description">Widget pentru o modifica starea unui Item</string>
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selectaţi un Item</string>
+    <string name="item_update_success_message_generic">%1$s a fost setat la %2$s</string>
+    <string name="item_update_success_message_on">%s a fost pornit</string>
+    <string name="item_update_success_message_off">%s a fost oprit</string>
+    <string name="item_update_success_message_up">%s începe să se miște în sus</string>
+    <string name="item_update_success_message_down">%s începe să se miște în jos</string>
+    <string name="item_update_success_message_move">%s începe să se miște</string>
+    <string name="item_update_success_message_stop">%s a fost oprit</string>
+    <string name="item_update_success_message_increase">%s a fost mărit</string>
+    <string name="item_update_success_message_decrease">%s a fost micșorat</string>
+    <string name="item_update_success_message_undefined">%s a fost setat pe nedefinit</string>
+    <string name="item_update_success_message_empty_string">%s a fost setat pe un String gol</string>
+    <string name="item_update_success_message_play">%s se redă acum</string>
+    <string name="item_update_success_message_pause">%s a fost pus pe pauză</string>
+    <string name="item_update_success_message_next">%s arată următorul titlu</string>
+    <string name="item_update_success_message_previous">%s arată titlul anterior</string>
+    <string name="item_update_success_message_rewind">%s se derulează înapoi</string>
+    <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
+    <string name="item_update_error_no_connection">Eroare la actualizarea unui Item, se reîncearcă\u2026</string>
 </resources>
