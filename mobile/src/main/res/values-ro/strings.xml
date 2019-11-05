@@ -160,6 +160,11 @@
     <string name="notification_channel_background_description">Folosit pentru a afișa sarcini de fundal în așteptare</string>
     <string name="notification_channel_background_error">Eroare în sarcinile de fundal</string>
     <string name="notification_channel_background_error_description">Folosit pentru notificarea unor erori din sarcinile de fundal</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item nu a putut fi actualizat</item>
+        <item quantity="few">%d Items nu au putut fi actualizate</item>
+        <item quantity="other">%d Items nu au putut fi actualizate</item>
+    </plurals>
     <string name="item_update_http_error">Item \'%1$s\' actualizarea a eșuat (HTTP error %2$d)</string>
     <string name="item_update_http_error_label">%1$s actualizare eșuată (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Item \'%1$s\' actualizare eșuată (fără conexiune)</string>
