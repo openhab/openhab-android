@@ -118,7 +118,7 @@ data class ParsedState internal constructor(
             val hsbMatcher = HSB_PATTERN.matcher(state)
             if (hsbMatcher.find()) {
                 try {
-                    return hsbMatcher.group(3)?.toInt()
+                    return hsbMatcher.group(3)?.toFloat()?.roundToInt()
                 } catch (e: NumberFormatException) {
                     // fall through
                 }
