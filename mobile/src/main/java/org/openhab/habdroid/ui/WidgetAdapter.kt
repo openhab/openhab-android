@@ -460,7 +460,7 @@ class WidgetAdapter(
             } else {
                 val number = state.asNumber
                 if (number != null) {
-                    val progress = (number.value.toFloat() - widget.minValue) / widget.step
+                    val progress = (number.value - widget.minValue) / widget.step
                     seekBar.progress = Math.round(progress)
                 }
             }
@@ -486,8 +486,12 @@ class WidgetAdapter(
             Log.d(TAG, "onStopTrackingTouch position = $progress")
             val widget = boundWidget
             val item = widget?.item ?: return
-            val newValue = widget.minValue + widget.step * progress
-            connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(newValue))
+            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                connection.httpClient.sendItemCommand(item, progress.toString())
+            } else {
+                val newValue = widget.minValue + widget.step * progress
+                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(newValue))
+            }
         }
     }
 
