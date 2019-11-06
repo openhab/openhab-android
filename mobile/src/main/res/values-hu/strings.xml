@@ -50,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">Grafikonok generálása leterhelheti a szervert. Ha úgy érzékeli hogy lassan töltődnek, és a szervere nem túl erős, ennek a beállítás tiltásával javíthat a töltési sebességen.</string>
     <string name="settings_ringtone">Értesítési csengőhang</string>
     <string name="settings_ringtone_none">Nincs</string>
+    <string name="settings_ringtone_on_external">Ismeretlen csengőhang a külső meghajtón</string>
     <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
     <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
     <string name="settings_current_default_sitemap">Jelenlegi alapértelmezett felületet: %1$s</string>
@@ -151,6 +152,7 @@
     <string name="settings_phone_state">Hívás állapotának küldése az openHAB-nak</string>
     <string name="settings_phone_state_summary_on">Hívás állapotának küldése a(z) \'%1$s\' elemnek</string>
     <string name="settings_phone_state_summary_off">Ne küldje el a hívás állapotát az openHAB-nak</string>
+    <string name="settings_phone_state_permission_denied">Hívás állapotának küldése letiltva jogosultság hiánya matt</string>
     <string name="settings_phone_state_permission_allow">Engedélyezés</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
     <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
@@ -294,6 +296,7 @@
     <string name="item_picker_dialog_title">Válasszon állapotot</string>
     <string name="item_picker">openHAB elememek</string>
     <string name="item_picker_blurb">Beállítás erről \"%1$s\" (%2$s) erre \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Tasker változó \"%s\"</string>
     <string name="search">Keresés</string>
     <string name="settings_tasker_plugin">Teendők integrálása</string>
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
