@@ -27,6 +27,8 @@
             android:summary="@string/settings_openhab_none"
             android:title="@string/settings_openhab_sslclientcert"
             android:dependency="default_openhab_demomode" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_sitemap_title">
         <Preference
             android:clickable="true"
             android:key="default_openhab_clear_default_sitemap"
@@ -35,6 +37,28 @@
             android:defaultValue="false"
             android:key="show_sitemaps"
             android:title="@string/settings_show_sitemaps_in_drawer" />
+        <ListPreference
+            android:title="@string/settings_openhab_icon_format"
+            android:key="iconFormatType"
+            android:defaultValue="@string/settings_openhab_icon_format_value_png"
+            android:summary="%s"
+            android:entries="@array/iconTypeNames"
+            android:entryValues="@array/iconTypeValues"
+            android:icon="@drawable/ic_image_outline_grey_24dp" />
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_cleacache"
+            android:title="@string/mainmenu_openhab_clearcache" />
+        <org.openhab.habdroid.ui.preference.ChartScalingPreference
+            android:title="@string/settings_chart_scaling"
+            android:summary="@string/settings_chart_scaling_summary"
+            android:key="chartScalingFactor"
+            android:defaultValue="1.5" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="default_openhab_chart_hq"
+            android:summary="@string/settings_openhab_chart_hq_summary"
+            android:title="@string/settings_openhab_chart_hq" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
@@ -54,28 +78,6 @@
             app:cpv_dialogTitle="@string/settings_select_a_color"
             app:cpv_colorPresets="@array/accentColors"
             android:title="@string/settings_accent_color"/>
-        <ListPreference
-            android:title="@string/settings_openhab_icon_format"
-            android:key="iconFormatType"
-            android:defaultValue="@string/settings_openhab_icon_format_value_png"
-            android:summary="%s"
-            android:entries="@array/iconTypeNames"
-            android:entryValues="@array/iconTypeValues"
-            android:icon="@drawable/ic_image_outline_grey_24dp" />
-        <org.openhab.habdroid.ui.preference.ChartScalingPreference
-            android:title="@string/settings_chart_scaling"
-            android:summary="@string/settings_chart_scaling_summary"
-            android:key="chartScalingFactor"
-            android:defaultValue="1.5" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="default_openhab_chart_hq"
-            android:summary="@string/settings_openhab_chart_hq_summary"
-            android:title="@string/settings_openhab_chart_hq" />
-        <Preference
-            android:clickable="true"
-            android:key="default_openhab_cleacache"
-            android:title="@string/mainmenu_openhab_clearcache" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
@@ -84,7 +86,6 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_fullscreen"
-            android:summary="@string/settings_openhab_fullscreen_summary"
             android:title="@string/settings_openhab_fullscreen" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/send_device_info_to_server"

@@ -20,6 +20,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection</string>
     <string name="settings_display_title">Display</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Miscellaneous</string>
     <string name="settings_openhab_url">Local server URL</string>
     <string name="settings_openhab_url_summary">The URL of the openHAB dashboard (based on hostname or IP). If configured, autodiscovery is disabled. Current setting: %s</string>
@@ -41,7 +42,6 @@
     <string name="settings_accent_color">Accent color</string>
     <string name="settings_select_a_color">Select a color</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
-    <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
