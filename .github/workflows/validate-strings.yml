@@ -1,5 +1,5 @@
 name: Validate Strings
-on: [push, pull_request, pull-request]
+on: [push, pull_request]
 
 jobs:
   app-store:
