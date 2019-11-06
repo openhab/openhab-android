@@ -1,7 +1,6 @@
 documentation:
   - docs/*
   - assets/*
-  - *.md
   
 automation:
   - travis/*
