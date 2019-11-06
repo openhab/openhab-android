@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -31,10 +32,12 @@ class IntroActivity : AppIntro() {
         super.onCreate(savedInstanceState)
 
         if (getPrefs().getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)) {
+            Log.d(TAG, "Show restore intro")
             addSlide(R.string.intro_welcome_back,
                 R.string.intro_app_restored,
                 R.drawable.ic_openhab_appicon_340dp)
         } else {
+            Log.d(TAG, "Show regular intro")
             addSlide(R.string.intro_welcome,
                 R.string.intro_whatis,
                 R.drawable.ic_openhab_appicon_340dp)
@@ -59,6 +62,7 @@ class IntroActivity : AppIntro() {
      * @param currentFragment
      */
     override fun onSkipPressed(currentFragment: Fragment?) {
+        Log.d(TAG, "onSkipPressed()")
         super.onSkipPressed(currentFragment)
         finish()
     }
@@ -68,11 +72,13 @@ class IntroActivity : AppIntro() {
      * @param currentFragment
      */
     override fun onDonePressed(currentFragment: Fragment?) {
+        Log.d(TAG, "onDonePressed()")
         super.onDonePressed(currentFragment)
         finish()
     }
 
     override fun finish() {
+        Log.d(TAG, "finish()")
         getPrefs().edit {
             putBoolean(Constants.PREFERENCE_FIRST_START, false)
             putBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
@@ -98,5 +104,9 @@ class IntroActivity : AppIntro() {
             greyColor, // Background color
             blackColor, // Title color
             ContextCompat.getColor(this, R.color.black))) // Description color
+    }
+
+    companion object {
+        private val TAG = IntroActivity::class.java.simpleName
     }
 }
