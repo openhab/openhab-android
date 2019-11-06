@@ -334,6 +334,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     return
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
+                    updateSitemapAndHabPanelDrawerItems()
                     executeOrStoreAction(PendingAction.ChooseSitemap())
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, false)) {
@@ -636,6 +637,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     startActivity(aboutIntent)
                     handled = true
                 }
+                R.id.default_sitemap -> {
+                    val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name == prefs.getDefaultSitemap() }
+                    if (sitemap != null) {
+                        controller.openSitemap(sitemap)
+                        handled = true
+                    } else if (prefs.getDefaultSitemap().isEmpty()) {
+                        executeOrStoreAction(PendingAction.ChooseSitemap())
+                        handled = true
+                    }
+                }
             }
             if (item.groupId == GROUP_ID_SITEMAPS) {
                 val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name.hashCode() == item.itemId }
@@ -658,12 +669,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun updateSitemapAndHabPanelDrawerItems() {
-        val sitemapItem = drawerMenu.findItem(R.id.sitemaps)
+        val sitemapsItem = drawerMenu.findItem(R.id.sitemaps)
+        val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
         val habPanelItem = drawerMenu.findItem(R.id.habpanel)
         val nfcItem = drawerMenu.findItem(R.id.nfc)
         val props = serverProperties
         if (props == null) {
-            sitemapItem.isVisible = false
+            sitemapsItem.isVisible = false
+            defaultSitemapItem.isVisible = false
             habPanelItem.isVisible = false
             nfcItem.isVisible = false
         } else {
@@ -672,9 +685,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             manageHabPanelShortcut(props.hasHabPanelInstalled())
             val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap())
 
-            if (sitemaps.size > 1 && prefs.areSitemapsShownInDrawer()) {
-                sitemapItem.isVisible = true
-                val menu = sitemapItem.subMenu
+            if (sitemaps.isEmpty()) {
+                sitemapsItem.isVisible = false
+                defaultSitemapItem.isVisible = false
+            } else if (prefs.areSitemapsShownInDrawer()) {
+                sitemapsItem.isVisible = true
+                defaultSitemapItem.isVisible = false
+                val menu = sitemapsItem.subMenu
                 menu.clear()
 
                 sitemaps.forEachIndexed { index, sitemap ->
@@ -682,7 +699,18 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     loadSitemapIcon(sitemap, item)
                 }
             } else {
-                sitemapItem.isVisible = false
+                sitemapsItem.isVisible = false
+                defaultSitemapItem.isVisible = true
+
+                val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name == prefs.getDefaultSitemap() }
+                if (sitemap != null) {
+                    defaultSitemapItem.title = sitemap.label
+                    loadSitemapIcon(sitemap, defaultSitemapItem)
+                } else {
+                    defaultSitemapItem.title = getString(R.string.settings_no_default_sitemap)
+                    defaultSitemapItem.icon =
+                        applyDrawerIconTint(ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp))
+                }
             }
         }
     }
@@ -799,6 +827,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     updateDefaultSitemap(sitemap)
                 }
                 controller.openSitemap(sitemap)
+                updateSitemapAndHabPanelDrawerItems()
             }
             .show()
     }
