@@ -298,6 +298,7 @@
     <string name="item_picker_dialog_title">Выберите состояния</string>
     <string name="item_picker">openHAB Items</string>
     <string name="item_picker_blurb">Установить \"%1$s\" (%2$s) на \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Переменная в Tasker \"%s\"</string>
     <string name="search">Поиск</string>
     <string name="settings_tasker_plugin">Интеграция с Tasker</string>
     <string name="settings_tasker_plugin_summary">Включить плагин действий Tasker, который позволяет обновлять элементы через Tasker или другие совместимые приложения</string>
