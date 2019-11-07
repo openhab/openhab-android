@@ -513,9 +513,9 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 // We're only interested in permanent failure here, not in callbacks we caused
                 // ourselves by calling close(), so check for the reporter matching our expectations
                 // (mismatch means shutdown was called)
-                val statusCode = response?.code() ?: 0
-                Log.w(TAG, "SSE stream $eventSource failed for page $pageId with status $statusCode")
                 if (eventSource === eventStream) {
+                    val statusCode = response?.code() ?: 0
+                    Log.w(TAG, "SSE stream $eventSource failed for page $pageId with status $statusCode: ${t?.message}")
                     scope.launch {
                         failureCb(false)
                     }
