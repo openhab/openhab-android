@@ -326,6 +326,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val url = Uri.Builder()
             .appendEncodedPath(linkedPage.iconPath)
             .appendQueryParameter("format", iconFormat)
+            .appendQueryParameter("anyFormat", "true")
             .toString()
         val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
         /**

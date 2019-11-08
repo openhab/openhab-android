@@ -148,7 +148,7 @@ data class Widget(
                 IconFormat.Png -> "PNG"
                 IconFormat.Svg -> "SVG"
             }
-            return "icon/$icon?state=$iconState&format=$iconFormatString"
+            return "icon/$icon?state=$iconState&format=$iconFormatString&anyFormat=true"
         }
     }
 }
