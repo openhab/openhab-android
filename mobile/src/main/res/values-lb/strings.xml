@@ -50,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">Diagrammer generéieren ass opwänneg fir de Server. Wann s de keen staarke Server hues an d‘ Diagrammer lues lueden, schalt des Optioun aus fir d‘ Luedzäiten ze verbesseren.</string>
     <string name="settings_ringtone">Notifikatioun s Toun</string>
     <string name="settings_ringtone_none">Keen</string>
+    <string name="settings_ringtone_on_external">Onbekannte Ringtone op externem Spächer</string>
     <string name="settings_clear_default_sitemap">Standard Sitemap ophiewen</string>
     <string name="settings_no_default_sitemap">Keng Standard Sitemap gewielt</string>
     <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
@@ -94,6 +95,7 @@
     <string name="error_wifi_not_available">Wi-Fi ass ausgeschalt</string>
     <string name="error_http_connection_failed">Connectioun ass feelgeschloen. Et ass eng onerwaarten Äntwert ukomm, beim Versuch sech un den konfiguréierten openHAB Server ze verbannen (Empfaangenen HTTP Äntwert Code: %d).</string>
     <string name="error_invalid_url">Gëff w.e.g. eng valid URL an der \'http(s)://host(:port)/\' Form an</string>
+    <string name="error_invalid_https_url">Gëff w.e.g. eng valid URL an der \'https://host(:port)/\' Form an</string>
     <string name="error_port_seems_invalid">De Port deen s du uginn schéngt net valid fir den ausgewielten Protokoll</string>
     <string name="error_connection_failed">D\'Verbindung zum Host ass schif gaangen</string>
     <string name="error_unable_to_resolve_hostname">Den Hostname kann net opgeléist ginn</string>
@@ -295,6 +297,7 @@
     <string name="item_picker_dialog_title">Status auswielen</string>
     <string name="item_picker">openHAB Items</string>
     <string name="item_picker_blurb">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
+    <string name="item_picker_tasker_variable">Tasker Variabel \"%s\"</string>
     <string name="search">Sichen</string>
     <string name="settings_tasker_plugin">Abannen vum Tasker</string>
     <string name="settings_tasker_plugin_summary">Schalt Tasker Action Plugin an fir d‘ Updaten vun Items via Tasker oder aneren kompatibelen Apps ze erlaben</string>
