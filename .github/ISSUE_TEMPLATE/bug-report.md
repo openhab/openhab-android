@@ -40,7 +40,7 @@ Describe us what should happen
 
 #### openHAB Cloud
 * Self hosted cloud or myopenhab.org: 
-* openHAB Cloud version <!-- If self hosted-->: 
+* openHAB Cloud version <!-- If self hosted -->: 
 * Authentication method <!--(None, user and password, SSL Client certificate)-->: 
 
 ### Logs
