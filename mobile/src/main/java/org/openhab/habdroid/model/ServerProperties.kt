@@ -59,6 +59,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_CHART_SCALING_SUPPORT = 1 shl 3
         const val SERVER_FLAG_HABPANEL_INSTALLED = 1 shl 4
         const val SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS = 1 shl 5
+        const val SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON = 1 shl 6
 
         class UpdateHandle internal constructor(internal val scope: CoroutineScope) {
             internal var job: Job? = null
@@ -115,6 +116,9 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             flags = flags or SERVER_FLAG_SSE_SUPPORT
                             if (version >= 2) {
                                 flags = flags or SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS
+                            }
+                            if (version >= 3) {
+                                flags = flags or SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON
                             }
                         } catch (nfe: NumberFormatException) {
                             // ignored: older versions without SSE support didn't return a number

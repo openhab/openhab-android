@@ -390,7 +390,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
                 ?: preferenceScreen.sharedPreferences.getInt(Constants.PREV_SERVER_FLAGS, 0)
 
-            if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0) {
+            if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0
+                || flags and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
                 preferenceScreen.removePreferenceFromHierarchy(iconFormatPreference)
             } else {
                 iconFormatPreference.setOnPreferenceChangeListener { pref, _ ->

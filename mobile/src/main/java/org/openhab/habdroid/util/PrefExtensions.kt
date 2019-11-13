@@ -18,12 +18,15 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.openhab.habdroid.R
+import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.util.Util.TAG
 
 enum class ScreenLockMode {
     Disabled,
@@ -49,6 +52,10 @@ fun SharedPreferences.getDefaultSitemap(): String {
 }
 
 fun SharedPreferences.getIconFormat(): IconFormat {
+    val serverProps = getInt(Constants.PREV_SERVER_FLAGS, 0)
+    if (serverProps and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
+        return IconFormat.Svg
+    }
     val formatString = getString(Constants.PREFERENCE_ICON_FORMAT, "PNG")
     return if (formatString == "SVG") IconFormat.Svg else IconFormat.Png
 }
