@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -122,11 +123,12 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
             val connection = ConnectionFactory.usableConnectionOrNull
             if (item.category != null && connection != null) {
+                val encodedIcon = Uri.encode(item.category)
                 val suffix = when (iconFormat) {
                     IconFormat.Png -> "png"
                     IconFormat.Svg -> "svg"
                 }
-                val iconUrl = "icon/${item.category}?&format=$suffix&anyFormat=true"
+                val iconUrl = "icon/$encodedIcon?&format=$suffix&anyFormat=true"
                 val size = iconView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
                 iconView.setImageUrl(connection, iconUrl, size, 2000)
             } else {

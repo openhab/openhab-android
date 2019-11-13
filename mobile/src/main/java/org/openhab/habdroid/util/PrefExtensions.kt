@@ -18,7 +18,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
 import androidx.preference.Preference
@@ -26,7 +25,6 @@ import androidx.preference.PreferenceFragmentCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
-import org.openhab.habdroid.util.Util.TAG
 
 enum class ScreenLockMode {
     Disabled,
