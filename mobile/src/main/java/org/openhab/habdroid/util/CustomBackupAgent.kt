@@ -17,6 +17,8 @@ import android.app.backup.BackupAgentHelper
 import android.util.Log
 import androidx.core.content.edit
 
+// Used in manifest
+@Suppress("unused")
 class CustomBackupAgent : BackupAgentHelper() {
     override fun onRestoreFinished() {
         super.onRestoreFinished()
@@ -27,6 +29,6 @@ class CustomBackupAgent : BackupAgentHelper() {
     }
 
     companion object {
-        val TAG = CustomBackupAgent::class.java.simpleName
+        private val TAG = CustomBackupAgent::class.java.simpleName
     }
 }
