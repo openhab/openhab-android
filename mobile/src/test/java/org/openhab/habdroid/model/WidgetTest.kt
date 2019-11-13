@@ -57,12 +57,12 @@ class WidgetTest {
 
     @Test
     fun testGetIconPath() {
-        assertEquals("icon/groupicon?state=OFF&format=PNG", sut1[0].iconPath)
-        assertEquals("icon/groupicon?state=ON&format=SVG", sut2[0].iconPath)
-        assertEquals("icon/slider?state=81&format=SVG", sut3[1].iconPath)
+        assertEquals("icon/groupicon?state=OFF&format=PNG&anyFormat=true", sut1[0].iconPath)
+        assertEquals("icon/groupicon?state=ON&format=SVG&anyFormat=true", sut2[0].iconPath)
+        assertEquals("icon/slider?state=81&format=SVG&anyFormat=true", sut3[1].iconPath)
         assertEquals("Rollersutter icon must always be 0 to 100, not ON/OFF",
-                "icon/rollershutter?state=0&format=SVG", sut3[2].iconPath)
-        assertEquals("icon/rollershutter?state=42&format=SVG", sut3[3].iconPath)
+                "icon/rollershutter?state=0&format=SVG&anyFormat=true", sut3[2].iconPath)
+        assertEquals("icon/rollershutter?state=42&format=SVG&anyFormat=true", sut3[3].iconPath)
     }
 
     @Test
