@@ -10,7 +10,7 @@ openHAB は、Java ベースのオープンソース ホームオートメーシ
 <b>サポートされている製品</b>
 
 200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 利用可能なアドオンやサポートされているデバイス、および機能は: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+アプリは Tasker と Locale 用のアクションプラグインが含まれています.
 
 <b>オープンソース コミュニティ</b>
 
@@ -24,6 +24,6 @@ openHAB 財団は、フリーでオープンなスマートホームソリュー
 
 <b>重要な注意事項</b>
 
-You need an openHAB server for this app.
+このアプリは openHAB サーバーが必要です.
 
 プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html
