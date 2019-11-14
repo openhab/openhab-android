@@ -8,13 +8,13 @@ jobs:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
-      - name: Validate App Store Strings: play
+      - name: Validate App Store Strings (play)
         run: python3 assets/store_descriptions/generate_and_validate.py play
-      - name: Validate App Store Strings: playBeta
+      - name: Validate App Store Strings (playBeta)
         run: python3 assets/store_descriptions/generate_and_validate.py playBeta
-      - name: Validate App Store Strings: fdroid
+      - name: Validate App Store Strings (fdroid)
         run: python3 assets/store_descriptions/generate_and_validate.py fdroid
-      - name: Validate App Store Strings: fdroidBeta
+      - name: Validate App Store Strings (fdroidBeta)
         run: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
       - name: Validate App Strings
         run: python3 travis/validate-app-strings.py
