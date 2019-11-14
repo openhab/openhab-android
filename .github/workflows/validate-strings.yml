@@ -1,0 +1,27 @@
+name: Validate Strings
+on: [push, pull_request]
+
+jobs:
+  app-store:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: [play, playBeta, fdroid, fdroidBeta]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Validate App Store Strings
+        run: python3 assets/store_descriptions/generate_and_validate.py ${{ matrix.flavor }}
+      - name: Print Short Description
+        run: for i in fastlane/metadata/android/*/short_description.txt ; do echo -e "$i:\n"; cat $i; echo -e "\n\n\n"; done
+      - name: Print Full Description
+        run: for i in fastlane/metadata/android/*/full_description.txt ; do echo -e "$i:\n"; cat $i; echo -e "\n\n\n"; done
+  app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Validate App Strings
+        run: python3 travis/validate-app-strings.py
