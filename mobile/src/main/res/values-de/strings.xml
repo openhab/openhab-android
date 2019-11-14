@@ -4,7 +4,6 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
-    <string name="app_preferences_name">Einstellungen</string>
     <string name="app_notifications">Benachrichtigungen</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
@@ -297,6 +296,7 @@
     <string name="item_picker_dialog_title">Status auswählen</string>
     <string name="item_picker">openHAB-Items</string>
     <string name="item_picker_blurb">\"%1$s\" (%2$s) auf \"%3$s\" stellen</string>
+    <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
     <string name="search">Suchen</string>
     <string name="settings_tasker_plugin">Tasker-Integration</string>
     <string name="settings_tasker_plugin_summary">Tasker-Action-Plugin aktivieren, das es erlaubt, Items über Tasker oder andere kompatible Apps zu aktualisieren</string>

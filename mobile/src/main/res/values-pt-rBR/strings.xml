@@ -297,6 +297,7 @@
     <string name="item_picker_dialog_title">Selecione o estado</string>
     <string name="item_picker">itens openHAB</string>
     <string name="item_picker_blurb">Definir \"%1$s\" (%2$s) para \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Variável do Tasker \"%s\"</string>
     <string name="search">Buscar</string>
     <string name="settings_tasker_plugin">Integração do Tasker</string>
     <string name="settings_tasker_plugin_summary">Ativar plugin de ação Tasker que permite a atualização de itens via Tasker ou outros apps compatíveis</string>

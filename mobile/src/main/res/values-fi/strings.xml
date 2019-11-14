@@ -297,6 +297,7 @@
     <string name="item_picker_dialog_title">Valitse tila</string>
     <string name="item_picker">openHAB Itemit</string>
     <string name="item_picker_blurb">Aseta \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Taskerin muuttuja \"%s\"</string>
     <string name="search">Etsi</string>
     <string name="settings_tasker_plugin">Taskerin integraatio</string>
     <string name="settings_tasker_plugin_summary">Aktivoi Tasker liitännäinen joka sallii Itemien päivityksen Taskerin tai muiden sopivien sovellusten kautta</string>
