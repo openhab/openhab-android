@@ -1,14 +1,10 @@
 name: Build App
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        license: [full, foss]
-        release: [Beta, Stable]
     steps:
       - uses: actions/checkout@v1
         with:
@@ -19,7 +15,19 @@ jobs:
           java-version: 1.8
       - name: Setup Gradle
         run: mkdir ~/.gradle/ && echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
-      - name: Build
-        run: ./gradlew :mobile:assemble${{ matrix.license }}${{ matrix.release }}
-      - name: Unit Tests
-        run: ./gradlew :mobile:test${{ matrix.license }}${{ matrix.release }}ReleaseUnitTest
+      - name: Build (full, beta)
+        run: ./gradlew :mobile:assembleFullBeta
+      - name: Unit Tests (full, beta)
+        run: ./gradlew :mobile:testFullBetaReleaseUnitTest
+      - name: Build (full, stable)
+        run: ./gradlew :mobile:assembleFullStable
+      - name: Unit Tests (full, stable)
+        run: ./gradlew :mobile:testFullStableReleaseUnitTest
+      - name: Build (foss, beta)
+        run: ./gradlew :mobile:assembleFossBeta
+      - name: Unit Tests (foss, beta)
+        run: ./gradlew :mobile:testFossBetaReleaseUnitTest
+      - name: Build (foss, stable)
+        run: ./gradlew :mobile:assembleFossStable
+      - name: Unit Tests (foss, stable)
+        run: ./gradlew :mobile:testFossStableReleaseUnitTest
