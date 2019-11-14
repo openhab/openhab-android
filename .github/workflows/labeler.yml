@@ -1,8 +1,10 @@
 name: Labeler
-on: pull_request
+on:
+  schedule:
+    - cron: '0/15 * * * *'
 
 jobs:
-  label:
+  labeler:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/labeler@v2
