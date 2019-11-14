@@ -331,7 +331,7 @@ public class TaskerPlugin {
          *  @see #signalFinish(Context, Intent, int, Bundle)
          *  @see #addCompletionIntent(Intent, Intent,ComponentName, boolean)
          */
-        private final static String 	EXTRA_PLUGIN_COMPLETION_INTENT = EXTRAS_PREFIX + "COMPLETION_INTENT";
+        public final static String 	EXTRA_PLUGIN_COMPLETION_INTENT = EXTRAS_PREFIX + "COMPLETION_INTENT";
 
         /**
          *  @see #signalFinish(Context, Intent, int, Bundle)
@@ -498,6 +498,57 @@ public class TaskerPlugin {
             boolean okFlag = false;
 
             String completionIntentString = (String) getExtraValueSafe( originalFireIntent, Setting.EXTRA_PLUGIN_COMPLETION_INTENT, String.class, "signalFinish" );
+
+            if ( completionIntentString != null ) {
+
+                Uri completionIntentUri = null;
+                try {
+                    completionIntentUri = Uri.parse( completionIntentString );
+                }
+                // 	should only throw NullPointer but don't particularly trust it
+                catch ( Exception e ) {
+                    Log.w( TAG, errorPrefix + "couldn't parse " + completionIntentString );
+                }
+
+                if ( completionIntentUri != null ) {
+                    try {
+                        Intent completionIntent = Intent.parseUri( completionIntentString, Intent.URI_INTENT_SCHEME );
+
+                        completionIntent.putExtra( EXTRA_RESULT_CODE, resultCode );
+
+                        if ( vars != null )
+                            completionIntent.putExtra( EXTRA_VARIABLES_BUNDLE, vars );
+
+                        String callServicePackage = (String) getExtraValueSafe(completionIntent, Setting.EXTRA_CALL_SERVICE_PACKAGE, String.class, "signalFinish");
+                        String callService = (String) getExtraValueSafe(completionIntent, Setting.EXTRA_CALL_SERVICE, String.class, "signalFinish");
+                        Boolean foreground = (Boolean) getExtraValueSafe(completionIntent, Setting.EXTRA_CALL_SERVICE_FOREGROUND, Boolean.class, "signalFinish");
+                        if (callServicePackage != null && callService != null && foreground != null) {
+                            completionIntent.setComponent(new ComponentName(callServicePackage, callService));
+                            if (foreground && android.os.Build.VERSION.SDK_INT >= 26) {
+                                context.startForegroundService(completionIntent);
+                            } else {
+                                context.startService(completionIntent);
+                            }
+                        } else {
+                            context.sendBroadcast(completionIntent);
+                        }
+
+                        okFlag = true;
+                    }
+                    catch ( URISyntaxException e ) {
+                        Log.w( TAG, errorPrefix + "bad URI: " + completionIntentUri );
+                    }
+                }
+            }
+
+            return okFlag;
+        }
+
+        public static boolean signalFinish( Context context, String completionIntentString, int resultCode, Bundle vars ) {
+
+            String errorPrefix = "signalFinish: ";
+
+            boolean okFlag = false;
 
             if ( completionIntentString != null ) {
 

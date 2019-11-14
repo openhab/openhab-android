@@ -130,6 +130,24 @@ then
 end
 ```
 
+## Tasker Action Plugin
+
+The Tasker Action Plugin can be used to send Item commands to the server.
+
+For security reasons the plugin is disabled by default.
+You can enable it by clicking on "Turn on" when trying to select an Item or go to the openHAB app settings and turn on "Tasker integration".
+
+Variables can be selected as state after they have been created in the task.
+The variable `%httpcode` is returned by the plugin and contains the HTTP code returned by the server.
+
+In case of an error the plugin returns an error code.
+
+| Error Code | Description                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| 10         | Tasker plugin is disabled                                                                  |
+| 11         | The app couldn't establish a connection                                                    |
+| 1000+      | A connection was established, but an error occured. The error code is 1000 + the HTTP code |
+
 ## Help and Technical Details
 
 Please refer to the [openhab-android project on GitHub](https://github.com/openhab/openhab-android) for more details.

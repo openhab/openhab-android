@@ -15,6 +15,7 @@ package org.openhab.habdroid.background
 
 import android.content.Context
 import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -26,7 +27,9 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
+import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.showErrorToast
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
@@ -46,6 +49,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val connection = ConnectionFactory.usableConnectionOrNull
 
         val showToast = inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false)
+        val taskerIntent = inputData.getString(INPUT_DATA_TASKER_INTENT)
 
         if (connection == null) {
             Log.e(TAG, "Got no connection")
@@ -56,7 +60,13 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 }
                 Result.retry()
             } else {
-                Result.failure(buildOutputData(false, 0))
+                sendTaskerSignalIfNeeded(
+                    taskerIntent,
+                    false,
+                    500,
+                    applicationContext.getString(R.string.item_update_error_no_connection)
+                )
+                Result.failure(buildOutputData(false, 500))
             }
         }
 
@@ -72,7 +82,15 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return runBlocking {
             try {
                 val item = loadItem(connection, itemName)
-                    ?: return@runBlocking Result.failure(buildOutputData(true, 500))
+                if (item == null) {
+                    sendTaskerSignalIfNeeded(
+                        taskerIntent,
+                        true,
+                        500,
+                        applicationContext.getString(R.string.item_update_error_couldnt_get_item_type)
+                    )
+                    return@runBlocking Result.failure(buildOutputData(true, 500))
+                }
                 if (value == "TOGGLE") {
                     value = determineOppositeState(item)
                     mappedValue = value
@@ -85,12 +103,40 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     applicationContext.showToast(
                         getItemUpdateSuccessMessage(applicationContext, label, value, mappedValue!!))
                 }
+                sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error updating item '$itemName' to value $value. Got HTTP error ${e.statusCode}", e)
+                sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
                 Result.failure(buildOutputData(true, e.statusCode))
             }
         }
+    }
+
+    private fun sendTaskerSignalIfNeeded(
+        taskerIntent: String?,
+        hadConnection: Boolean,
+        httpCode: Int,
+        errorMessage: String?
+    ) {
+        if (taskerIntent == null) {
+            return
+        }
+        val resultCode = when {
+            errorMessage == null -> TaskerPlugin.Setting.RESULT_CODE_OK
+            hadConnection -> TaskerItemPickerActivity.getResultCodeForHttpFailure(httpCode)
+            else -> TaskerItemPickerActivity.RESULT_CODE_NO_CONNECTION
+        }
+        Log.d(TAG, "Tasker result code: $resultCode, HTTP code: $httpCode")
+        TaskerPlugin.Setting.signalFinish(
+            applicationContext,
+            taskerIntent,
+            resultCode,
+            bundleOf(
+                TaskerItemPickerActivity.VAR_HTTP_CODE to httpCode,
+                TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE to errorMessage
+            )
+        )
     }
 
     private suspend fun loadItem(connection: Connection, itemName: String): Item? {
@@ -145,7 +191,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             .putString(OUTPUT_DATA_LABEL, inputData.getString(INPUT_DATA_LABEL))
             .putString(OUTPUT_DATA_VALUE, inputData.getString(INPUT_DATA_VALUE))
             .putString(OUTPUT_DATA_MAPPED_VALUE, inputData.getString(INPUT_DATA_MAPPED_VALUE))
-            .putString(OUTPUT_DATA_SHOW_TOAST, inputData.getString(INPUT_DATA_SHOW_TOAST))
+            .putBoolean(OUTPUT_DATA_SHOW_TOAST, inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false))
+            .putString(OUTPUT_DATA_TASKER_INTENT, inputData.getString(INPUT_DATA_TASKER_INTENT))
             .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
             .build()
     }
@@ -186,6 +233,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         private const val INPUT_DATA_VALUE = "value"
         private const val INPUT_DATA_MAPPED_VALUE = "mappedValue"
         private const val INPUT_DATA_SHOW_TOAST = "showToast"
+        private const val INPUT_DATA_TASKER_INTENT = "taskerIntent"
 
         const val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
         const val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
@@ -194,6 +242,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         const val OUTPUT_DATA_VALUE = "value"
         const val OUTPUT_DATA_MAPPED_VALUE = "mappedValue"
         const val OUTPUT_DATA_SHOW_TOAST = "showToast"
+        const val OUTPUT_DATA_TASKER_INTENT = "taskerIntent"
         const val OUTPUT_DATA_TIMESTAMP = "timestamp"
 
         fun buildData(
@@ -201,7 +250,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             label: String?,
             value: String,
             mappedValue: String?,
-            showToast: Boolean
+            showToast: Boolean,
+            taskerIntent: String?
         ): Data {
             return Data.Builder()
                 .putString(INPUT_DATA_ITEM_NAME, itemName)
@@ -209,6 +259,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 .putString(INPUT_DATA_VALUE, value)
                 .putString(INPUT_DATA_MAPPED_VALUE, mappedValue)
                 .putBoolean(INPUT_DATA_SHOW_TOAST, showToast)
+                .putString(INPUT_DATA_TASKER_INTENT, taskerIntent)
                 .build()
         }
     }

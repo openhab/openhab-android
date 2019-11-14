@@ -61,7 +61,7 @@ class TaskerItemPickerActivity(
         )
         val blurb = getString(R.string.item_picker_blurb, item.label, item.name, state)
 
-        val intent = Intent().apply {
+        val resultIntent = Intent().apply {
             putExtra(TaskerIntent.EXTRA_STRING_BLURB, blurb)
             putExtra(TaskerIntent.EXTRA_BUNDLE, resultBundle)
         }
@@ -72,7 +72,16 @@ class TaskerItemPickerActivity(
             )
         }
 
-        setResult(RESULT_OK, intent)
+        if (TaskerPlugin.Setting.hostSupportsSynchronousExecution(intent.extras)) {
+            TaskerPlugin.Setting.requestTimeoutMS(resultIntent, TaskerPlugin.Setting.REQUESTED_TIMEOUT_MS_MAX)
+        }
+
+        if (TaskerPlugin.hostSupportsRelevantVariables(intent.extras)) {
+            TaskerPlugin.addRelevantVariableList(resultIntent,
+                arrayOf("$VAR_HTTP_CODE\nHTTP code\nHTTP code returned by the server"))
+        }
+
+        setResult(RESULT_OK, resultIntent)
         finish()
     }
 
@@ -81,5 +90,13 @@ class TaskerItemPickerActivity(
         const val EXTRA_ITEM_LABEL = "itemLabel"
         const val EXTRA_ITEM_STATE = "itemState"
         const val EXTRA_ITEM_MAPPED_STATE = "itemMappedState"
+
+        const val RESULT_CODE_PLUGIN_DISABLED = TaskerPlugin.Setting.RESULT_CODE_FAILED_PLUGIN_FIRST
+        const val RESULT_CODE_NO_CONNECTION = TaskerPlugin.Setting.RESULT_CODE_FAILED_PLUGIN_FIRST + 1
+        fun getResultCodeForHttpFailure(httpCode: Int): Int {
+            return 1000 + httpCode
+        }
+
+        const val VAR_HTTP_CODE = "%httpcode"
     }
 }
