@@ -8,6 +8,7 @@
     <string name="app_notifications">Сповіщення</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
+    <string name="mainmenu_openhab_no_default_sitemap">Не обрано сторінку інтерфейсу за умовчанням</string>
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
@@ -16,6 +17,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">З\'єднання</string>
     <string name="settings_display_title">Вигляд</string>
+    <string name="settings_sitemap_title">Сторінкa інтерфейсу</string>
     <string name="settings_misc_title">Різне</string>
     <string name="settings_openhab_url">URL-адреса локального сервера</string>
     <string name="settings_openhab_url_summary">URL-адреса інформаційної панелі openHAB (на основі імені вузла або IP-адреси). Якщо налаштовано, автоматичне виявлення вимкнено. Поточне налаштування: %s</string>
@@ -74,6 +76,7 @@
     <string name="settings_screen_lock_off">Вимкнено</string>
     <string name="settings_screen_lock_kiosk">Режим Kiosk</string>
     <string name="settings_screen_lock_on">Увімкнено</string>
+    <string name="settings_show_sitemaps_in_drawer">Показувати всі сторінки інтерфейсу в бічному меню</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="title_voice_widget_icon">Голосові команди та ярлик застосунку</string>
