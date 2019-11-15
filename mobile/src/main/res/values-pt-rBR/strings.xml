@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Cor de destaque</string>
     <string name="settings_select_a_color">Selecione uma cor</string>
     <string name="settings_openhab_fullscreen">Tela cheia</string>
-    <string name="settings_openhab_fullscreen_summary">Exibir no modo de tela cheia</string>
     <string name="settings_openhab_icon_format">Formato de ícone</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vetor</string>
