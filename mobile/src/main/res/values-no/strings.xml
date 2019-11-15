@@ -33,7 +33,6 @@
     <string name="settings_openhab_demomode_summary">Hvis du ikke har en openHAB server, aktiver demomodus for å få en oversikt over hva openHAB er i stand til.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
-    <string name="settings_openhab_fullscreen_summary">Visning i fullskjerm modus</string>
     <string name="settings_openhab_icon_format">Ikonformatering</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
