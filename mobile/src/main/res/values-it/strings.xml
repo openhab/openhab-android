@@ -8,6 +8,7 @@
     <string name="app_notifications">Notifiche</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
+    <string name="mainmenu_openhab_no_default_sitemap">Nessun Sitemap predefinito selezionato</string>
     <string name="mainmenu_openhab_preferences">Impostazioni</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
@@ -16,6 +17,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Connessione</string>
     <string name="settings_display_title">Display</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Altro</string>
     <string name="settings_openhab_url">URL del server locale</string>
     <string name="settings_openhab_url_summary">L\'URL dell\'interfaccia openHAB (inserire IP o hostname). Se configurato, il rilevamento automatico sarà disattivato. L’Impostazione corrente è: %s</string>
@@ -74,6 +76,7 @@
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Modalità Chiosco</string>
     <string name="settings_screen_lock_on">On</string>
+    <string name="settings_show_sitemaps_in_drawer">Mostra tutte le Sitemaps nel menu laterale</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="title_voice_widget_icon">Comandi vocali e collegamento app</string>
