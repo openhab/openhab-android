@@ -228,6 +228,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val accentColorPref = getPreference(Constants.PREFERENCE_ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(Constants.PREFERENCE_CLEAR_CACHE)
             val clearDefaultSitemapPref = getPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP)
+            val showSitemapInDrawerPref = getPreference(Constants.PREFERENCE_SHOW_SITEMAPS_IN_DRAWER)
             val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
             val fullscreenPreference = getPreference(Constants.PREFERENCE_FULLSCREEN)
             val sendDeviceInfoPrefixPref = getPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
@@ -290,6 +291,11 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             clearCachePref.setOnPreferenceClickListener { pref ->
                 clearImageCache(pref.context)
+                true
+            }
+
+            showSitemapInDrawerPref.setOnPreferenceChangeListener { _, _ ->
+                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, true)
                 true
             }
 
@@ -646,6 +652,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     companion object {
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
+        const val RESULT_EXTRA_SITEMAP_DRAWER_CHANGED = "sitemap_drawer_changed"
         const val START_EXTRA_SERVER_PROPERTIES = "server_properties"
         const val ITEM_UPDATE_WIDGET_ITEM = "item"
         const val ITEM_UPDATE_WIDGET_STATE = "state"

@@ -102,6 +102,10 @@ fun SharedPreferences.getDayNightMode(context: Context): Int {
     }
 }
 
+fun SharedPreferences.areSitemapsShownInDrawer(): Boolean {
+    return getBoolean(Constants.PREFERENCE_SHOW_SITEMAPS_IN_DRAWER, false)
+}
+
 fun SharedPreferences.getString(key: String): String {
     return getString(key, "").orEmpty()
 }
