@@ -1,0 +1,2 @@
+## Changed
+* Show only default Sitemap in drawer (#1554). There's a new setting to show all Sitemaps in the drawer.
