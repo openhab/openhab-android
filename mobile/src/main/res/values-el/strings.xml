@@ -30,7 +30,6 @@
     <string name="settings_openhab_demomode">Κατάσταση επίδειξης</string>
     <string name="settings_openhab_theme">Θέμα</string>
     <string name="settings_openhab_fullscreen">Πλήρης Οθόνη</string>
-    <string name="settings_openhab_fullscreen_summary">Προβολή σε πλήρη οθόνη</string>
     <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Διάνυσμα</string>
