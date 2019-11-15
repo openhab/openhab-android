@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Kiemelőszín</string>
     <string name="settings_select_a_color">Szín kiválasztása</string>
     <string name="settings_openhab_fullscreen">Teljes képernyő</string>
-    <string name="settings_openhab_fullscreen_summary">Megjelenítése teljes képernyős módban</string>
     <string name="settings_openhab_icon_format">Ikon formátum</string>
     <string name="settings_openhab_icon_format_png">Bitkép</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
