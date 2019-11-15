@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Контрастный цвет</string>
     <string name="settings_select_a_color">Выберите цвет</string>
     <string name="settings_openhab_fullscreen">Во весь экран</string>
-    <string name="settings_openhab_fullscreen_summary">Показать во весь экран</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
     <string name="settings_openhab_icon_format_png">Точечный рисунок</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
