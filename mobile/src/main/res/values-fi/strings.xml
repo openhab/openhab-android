@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Korostusväri</string>
     <string name="settings_select_a_color">Valitse väri</string>
     <string name="settings_openhab_fullscreen">Kokonäyttö</string>
-    <string name="settings_openhab_fullscreen_summary">Näytä koko näytöllä</string>
     <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">SVG</string>
