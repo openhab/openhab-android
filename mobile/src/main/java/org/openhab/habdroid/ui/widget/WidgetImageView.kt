@@ -259,6 +259,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     }
 
     companion object {
-        val TAG = WidgetImageView::class.java.simpleName
+        private val TAG = WidgetImageView::class.java.simpleName
     }
 }
