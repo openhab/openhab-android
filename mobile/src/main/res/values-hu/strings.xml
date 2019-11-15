@@ -8,6 +8,7 @@
     <string name="app_notifications">Értesítések</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
+    <string name="mainmenu_openhab_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
@@ -16,6 +17,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Kapcsolat</string>
     <string name="settings_display_title">Kijelző</string>
+    <string name="settings_sitemap_title">Felület</string>
     <string name="settings_misc_title">Egyéb</string>
     <string name="settings_openhab_url">Helyi kiszolgáló URL-címe</string>
     <string name="settings_openhab_url_summary">Az openHAB felülete URL-e(gépnev vagy IP alapján). Ha be van állítva, az automatikus keresés tiltva lesz. Jelenlegi beállítás: %s</string>
