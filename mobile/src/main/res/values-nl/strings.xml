@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Accentkleur</string>
     <string name="settings_select_a_color">Selecteer een kleur</string>
     <string name="settings_openhab_fullscreen">Volledig scherm</string>
-    <string name="settings_openhab_fullscreen_summary">Gebruik volledige scherm</string>
     <string name="settings_openhab_icon_format">Pictogramindeling</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
