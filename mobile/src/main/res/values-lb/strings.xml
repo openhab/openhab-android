@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Akzent Faarw</string>
     <string name="settings_select_a_color">Faarf auswielen</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
-    <string name="settings_openhab_fullscreen_summary">Am Fullscreen Modus uweisen</string>
     <string name="settings_openhab_icon_format">Icon Format</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
