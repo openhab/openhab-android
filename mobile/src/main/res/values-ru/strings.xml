@@ -76,6 +76,7 @@
     <string name="settings_screen_lock_off">Выкл</string>
     <string name="settings_screen_lock_kiosk">Режим киоска</string>
     <string name="settings_screen_lock_on">Вкл</string>
+    <string name="settings_show_sitemaps_in_drawer">Показать все Sitemap в боковом меню</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосовые команды</string>
     <string name="title_voice_widget_icon">Голосовые команды и ярлыки приложений</string>
