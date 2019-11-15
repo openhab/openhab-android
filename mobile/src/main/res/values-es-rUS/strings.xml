@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Color destacado</string>
     <string name="settings_select_a_color">Seleccione un color</string>
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
-    <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
@@ -297,6 +296,7 @@
     <string name="item_picker_dialog_title">Seleccionar estado</string>
     <string name="item_picker">Items de openHAB</string>
     <string name="item_picker_blurb">Ajustar \"%1$s\" (%2$s) a \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Variable de Tasker \"%s\"</string>
     <string name="search">Buscar</string>
     <string name="settings_tasker_plugin">Integración con Tasker</string>
     <string name="settings_tasker_plugin_summary">Habilitar el action plugin de Tasker que permite actualizar Items a través de Tasker u otras aplicaciones compatibles</string>
