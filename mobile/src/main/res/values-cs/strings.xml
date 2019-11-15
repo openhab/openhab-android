@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Barva zvýraznění</string>
     <string name="settings_select_a_color">Vybrat barvu</string>
     <string name="settings_openhab_fullscreen">Na celou obrazovku</string>
-    <string name="settings_openhab_fullscreen_summary">Zobrazit v režimu celé obrazovky</string>
     <string name="settings_openhab_icon_format">Formát ikon</string>
     <string name="settings_openhab_icon_format_png">Bitmapa</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
