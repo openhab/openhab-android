@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Контрастний колір</string>
     <string name="settings_select_a_color">Оберіть колір</string>
     <string name="settings_openhab_fullscreen">Повноекранний режим</string>
-    <string name="settings_openhab_fullscreen_summary">Відображення в повноекранному режимі</string>
     <string name="settings_openhab_icon_format">Формат іконок</string>
     <string name="settings_openhab_icon_format_png">Растрові</string>
     <string name="settings_openhab_icon_format_svg">Векторні</string>
