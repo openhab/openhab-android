@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">חיבור</string>
     <string name="settings_display_title">תצוגה</string>
+    <string name="settings_sitemap_title">תצורת מערכת</string>
     <string name="settings_misc_title">שונות</string>
     <string name="settings_openhab_url">כתובת שרת מקומי</string>
     <string name="settings_openhab_url_summary">כתובת לוח השליטה ב openHAB (בהתבסס על שם מחשב מארח או IP). אם הוגדרה, האיתור האוטומטי לא יופעל. הגדרה נוכחית: %s</string>
@@ -49,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">יצירת תרשימים יכולה להעמיס על השרת. אם זמן טעינת התרשים איטי והשרת שלך לא חזק, ביטול אפשרות זו משפר את זמני הטעינה.</string>
     <string name="settings_ringtone">צליל התראה</string>
     <string name="settings_ringtone_none">ללא</string>
+    <string name="settings_ringtone_on_external">נעימון לא ידוע באחסון חיצוני</string>
     <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
     <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
     <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
@@ -73,6 +75,7 @@
     <string name="settings_screen_lock_off">כבוי</string>
     <string name="settings_screen_lock_kiosk">מצב קיוסק</string>
     <string name="settings_screen_lock_on">פעיל</string>
+    <string name="settings_show_sitemaps_in_drawer">הצג את כל תצורות המערכת בתפריט צדדי</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="title_voice_widget_icon">פקודות קוליות וקיצורי דרך ליישום</string>
