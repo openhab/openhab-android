@@ -8,6 +8,7 @@
     <string name="app_notifications">Notifikatiounen</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
+    <string name="mainmenu_openhab_no_default_sitemap">Keng Standard Sitemap gewielt</string>
     <string name="mainmenu_openhab_preferences">Astellungen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
@@ -16,6 +17,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Connectioun</string>
     <string name="settings_display_title">Display</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Verschiddenes</string>
     <string name="settings_openhab_url">URL vum lokale Server</string>
     <string name="settings_openhab_url_summary">D´ URL vum openHAB Dashboard (baséierend um Hostname oder IP). Wa konfiguréiert ass déi automatesch Erkennung desaktivéiert. Aktuell Astellung: %s</string>
@@ -74,6 +76,7 @@
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk Modus</string>
     <string name="settings_screen_lock_on">Un</string>
+    <string name="settings_show_sitemaps_in_drawer">Weis all Sitemaps am Menü op der lénker Säit un</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
     <string name="title_voice_widget_icon">Sproochbefeeler an App Shortcut</string>
