@@ -8,6 +8,7 @@
     <string name="app_notifications">התראות</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
+    <string name="mainmenu_openhab_no_default_sitemap">לא נבחרה ברירת המחדל לתצורת המערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
@@ -96,6 +97,7 @@
     <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
     <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
+    <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
     <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
@@ -299,6 +301,7 @@
     <string name="item_picker_dialog_title">בחר מצב</string>
     <string name="item_picker">פריט openHAB</string>
     <string name="item_picker_blurb">קבע\"%1$s\" (%2$s) ל \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">משתנה %s ב Tasker</string>
     <string name="search">חיפוש</string>
     <string name="settings_tasker_plugin">שילוב עם Tasker</string>
     <string name="settings_tasker_plugin_summary">אפשר את תוסף פעולת Tasker על מנת לעדכן פריטים דרך Tasker או אפליקציות אחרות התומכות בכך</string>
