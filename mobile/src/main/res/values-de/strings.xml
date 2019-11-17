@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindung</string>
     <string name="settings_display_title">Anzeige</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Verschiedenes</string>
     <string name="settings_openhab_url">Lokale Server-URL</string>
     <string name="settings_openhab_url_summary">Die Adresse des openHAB-Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
@@ -74,6 +75,7 @@
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
     <string name="settings_screen_lock_on">An</string>
+    <string name="settings_show_sitemaps_in_drawer">Alle Sitemaps im Seitenmenü anzeigen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="title_voice_widget_icon">Sprachbefehle und Startbildschirm-Verknüpfung</string>
