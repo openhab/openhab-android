@@ -264,7 +264,7 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: IconFormat): List<Wid
         type,
         optStringOrNull("url"),
         item,
-        optJSONObject("linkedPage").toLinkedPage(),
+        optJSONObject("linkedPage").toLinkedPage(iconFormat),
         mappings,
         optStringOrNull("encoding"),
         optStringOrNull("iconcolor"),
