@@ -8,6 +8,7 @@
     <string name="app_notifications">Ilmoitukset</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
+    <string name="mainmenu_openhab_no_default_sitemap">Oletus Sitemap ei asetettu</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
@@ -16,6 +17,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Yhteys</string>
     <string name="settings_display_title">Näyttö</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Sekalaiset</string>
     <string name="settings_openhab_url">Paikallisen palvelimen URL osoite</string>
     <string name="settings_openhab_url_summary">openHAB palvelimen URL osoite (isäntänimi tai IP osoite). Jos määritetty, automaattinen etsintä poistetaan käytöstä. Nykyinen asetus: %s</string>
@@ -74,6 +76,7 @@
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Kiosk moodi</string>
     <string name="settings_screen_lock_on">On</string>
+    <string name="settings_show_sitemaps_in_drawer">Näytä kaikki Sitemapit reunavalikossa</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Äänikomennot</string>
     <string name="title_voice_widget_icon">Äänikomennot ja sovelluksen pikakuvake</string>
