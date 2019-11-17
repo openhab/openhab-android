@@ -7,12 +7,12 @@
     <string name="app_preferences_name">Asetukset</string>
     <string name="app_notifications">Ilmoitukset</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
+    <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
     <string name="mainmenu_openhab_no_default_sitemap">Oletus Sitemap ei asetettu</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
-    <string name="mainmenu_openhab_selectsitemap">Valitse oletussivukartta</string>
+    <string name="mainmenu_openhab_selectsitemap">Valitse oletus Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Yhteys</string>
@@ -52,9 +52,9 @@
     <string name="settings_ringtone">Ilmoituksen merkkiääni</string>
     <string name="settings_ringtone_none">Ei mikään</string>
     <string name="settings_ringtone_on_external">Tuntematon soittoääni ulkoisessa tallennusvälineessä</string>
-    <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
-    <string name="settings_no_default_sitemap">Ei sivukarttaa oletuksena</string>
-    <string name="settings_current_default_sitemap">Nykyinen oletussivukartta: %1$s</string>
+    <string name="settings_clear_default_sitemap">Poista oletus Sitemap</string>
+    <string name="settings_no_default_sitemap">Ei Sitemappia oletuksena</string>
+    <string name="settings_current_default_sitemap">Nykyinen oletus Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Etäkäyttö</string>
     <string name="settings_openhab_connection">Paikalliskäyttö</string>
     <string name="settings_notification_vibration">Ilmoituksen värinä</string>
@@ -91,7 +91,7 @@
     <string name="app_shortcut_disabled_notifications">Etäpalvelintasi ei tavoiteta</string>
     <string name="app_shortcut_disabled_voice_recognition">Laitteellasi ei ole \"puheesta tekstiksi\"-sovellusta asennettuna</string>
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
+    <string name="error_empty_sitemap_list">openHAB palautti tyhjän Sitemap luettelon</string>
     <string name="error_sitemap_generic_load_error">Sitemap ei ladattu. Virhe: %1$s</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
     <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
@@ -219,8 +219,8 @@
     <string name="nfc_action_to_sitemap_page">Kirjoita Sitemapin NFC-tunniste</string>
     <string name="nfc_action_write_command_tag">Kirjoita Itemin NFC-tunniste</string>
     <!-- Drawer -->
-    <string name="drawer_open">Sivukartan valitsin avattu</string>
-    <string name="drawer_close">Sivukartan valitsin suljettu</string>
+    <string name="drawer_open">Sitemapin valitsin avattu</string>
+    <string name="drawer_close">Sitemapin valitsin suljettu</string>
     <string name="mainmenu_openhab_voice_recognition">Puheentunnistus</string>
     <!-- About -->
     <string name="about_title">Tietoja</string>
