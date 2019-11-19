@@ -8,7 +8,6 @@
     <string name="app_notifications">Ilmoitukset</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
-    <string name="mainmenu_openhab_no_default_sitemap">Oletus Sitemap ei asetettu</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
