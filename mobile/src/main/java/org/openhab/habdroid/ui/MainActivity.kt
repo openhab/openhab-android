@@ -708,7 +708,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     defaultSitemapItem.title = sitemap.label
                     loadSitemapIcon(sitemap, defaultSitemapItem)
                 } else {
-                    defaultSitemapItem.title = getString(R.string.settings_no_default_sitemap)
+                    defaultSitemapItem.title = getString(R.string.mainmenu_openhab_selectsitemap)
                     defaultSitemapItem.icon =
                         applyDrawerIconTint(ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp))
                 }
