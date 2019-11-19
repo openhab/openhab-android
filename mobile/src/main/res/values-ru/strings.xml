@@ -327,5 +327,4 @@
     <string name="item_update_success_message_previous">%s показывает предыдущее название</string>
     <string name="item_update_success_message_rewind">%s перематывается назад</string>
     <string name="item_update_success_message_fastforward">%s перематывается вперед</string>
-    <string name="item_update_error_no_connection">Ошибка отправки обновления Item, повторяю\u2026</string>
 </resources>
