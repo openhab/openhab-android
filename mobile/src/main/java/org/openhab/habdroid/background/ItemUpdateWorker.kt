@@ -56,7 +56,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             return if (runAttemptCount <= MAX_RETRIES) {
                 if (showToast) {
                     applicationContext.showErrorToast(
-                        applicationContext.getString(R.string.item_update_error_no_connection))
+                        applicationContext.getString(R.string.item_update_error_no_connection_retry))
                 }
                 Result.retry()
             } else {
