@@ -8,7 +8,6 @@
     <string name="app_notifications">Értesítések</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
-    <string name="mainmenu_openhab_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
