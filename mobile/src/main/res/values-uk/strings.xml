@@ -328,5 +328,4 @@
     <string name="item_update_success_message_previous">%s показує попередню назву</string>
     <string name="item_update_success_message_rewind">%s перемотується назад</string>
     <string name="item_update_success_message_fastforward">%s перемотується вперед</string>
-    <string name="item_update_error_no_connection">Помилка відправки оновлення об’єкту, повторна спроба\u2026</string>
 </resources>
