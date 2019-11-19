@@ -23,6 +23,7 @@ import android.os.Build
 import android.os.Parcelable
 import android.telephony.TelephonyManager
 import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.NetworkType
@@ -30,12 +31,14 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
+import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.TaskerIntent
+import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isDemoModeEnabled
@@ -70,13 +73,25 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         info.value,
                         info.mappedValue,
                         BackoffPolicy.EXPONENTIAL,
-                        info.showToast
+                        info.showToast,
+                        info.taskerIntent
                     )
                 }
             }
             TaskerIntent.ACTION_QUERY_CONDITION, TaskerIntent.ACTION_FIRE_SETTING -> {
                 if (!context.getPrefs().isTaskerPluginEnabled()) {
                     Log.d(TAG, "Tasker plugin is disabled")
+                    if (isOrderedBroadcast) {
+                        Log.d(TAG, "Send failure to Tasker")
+                        resultCode = TaskerItemPickerActivity.RESULT_CODE_PLUGIN_DISABLED
+                        TaskerPlugin.addVariableBundle(
+                            getResultExtras(true),
+                            bundleOf(
+                                TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE to
+                                    context.getString(R.string.tasker_plugin_disabled)
+                            )
+                        )
+                    }
                     return
                 }
                 val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
@@ -95,8 +110,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     state,
                     mappedState,
                     BackoffPolicy.EXPONENTIAL,
-                    false
+                    false,
+                    intent.getStringExtra(TaskerPlugin.Setting.EXTRA_PLUGIN_COMPLETION_INTENT)
                 )
+                if (isOrderedBroadcast) {
+                    resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
+                }
             }
         }
     }
@@ -108,7 +127,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val label: String?,
         val value: String,
         val mappedValue: String?,
-        val showToast: Boolean
+        val showToast: Boolean,
+        val taskerIntent: String?
     ) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
@@ -239,7 +259,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             value: String,
             mappedValue: String?,
             backoffPolicy: BackoffPolicy,
-            showToast: Boolean
+            showToast: Boolean,
+            taskerIntent: String? = null
         ) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -249,7 +270,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast))
+                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast, taskerIntent))
                 .build()
 
             val workManager = WorkManager.getInstance(context)
