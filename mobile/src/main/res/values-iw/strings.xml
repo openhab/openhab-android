@@ -8,7 +8,6 @@
     <string name="app_notifications">התראות</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
-    <string name="mainmenu_openhab_no_default_sitemap">לא נבחרה ברירת המחדל לתצורת המערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
