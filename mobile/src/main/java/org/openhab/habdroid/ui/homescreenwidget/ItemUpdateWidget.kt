@@ -23,11 +23,14 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.Px
 import androidx.core.content.edit
+import es.dmoral.toasty.Toasty
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
@@ -75,8 +78,21 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             return super.onReceive(context, intent)
         }
         val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        if (intent.action == ACTION_UPDATE_WIDGET && id != AppWidgetManager.INVALID_APPWIDGET_ID) {
-            BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, getInfoForWidget(context, id))
+        if (id != AppWidgetManager.INVALID_APPWIDGET_ID) {
+            when (intent.action) {
+                ACTION_CREATE_WIDGET -> {
+                    val data = intent
+                        .getBundleExtra(EXTRA_BUNDLE)
+                        ?.getParcelable<ItemUpdateWidgetData>(EXTRA_DATA)
+                        ?: return
+                    saveInfoForWidget(context, data, id)
+                    setupWidget(context, data, id, AppWidgetManager.getInstance(context))
+                    Toasty.success(context, R.string.home_shortcut_success_pinning).show()
+                }
+                ACTION_UPDATE_WIDGET -> {
+                    BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, getInfoForWidget(context, id))
+                }
+            }
         }
         super.onReceive(context, intent)
     }
@@ -109,18 +125,15 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId)
         val smallWidget = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) <
             context.resources.getDimension(R.dimen.small_widget_threshold)
-        val views = RemoteViews(context.packageName,
-            if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update)
+
         val intent = Intent(context, ItemUpdateWidget::class.java).apply {
             action = ACTION_UPDATE_WIDGET
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
 
         val pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, intent, 0)
-        views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
-        views.setTextViewText(R.id.text,
-            context.getString(R.string.item_update_widget_text, data.label, data.mappedState))
-        hideLoadingIndicator(views)
+
+        val views = getRemoteViews(context, smallWidget, pendingIntent, data)
         appWidgetManager.updateAppWidget(appWidgetId, views)
         fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
     }
@@ -194,15 +207,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         }
     }
 
-    private fun hideLoadingIndicator(views: RemoteViews) {
-        views.setViewVisibility(R.id.item_icon, View.VISIBLE)
-        views.setViewVisibility(R.id.text, View.VISIBLE)
-        views.setViewVisibility(R.id.progress_bar, View.GONE)
-    }
-
     companion object {
         private val TAG = ItemUpdateWidget::class.java.simpleName
         private const val ACTION_UPDATE_WIDGET = "org.openhab.habdroid.action.UPDATE_ITEM_FROM_WIDGET"
+        const val ACTION_CREATE_WIDGET = "org.openhab.habdroid.action.CREATE_WIDGET"
+        const val EXTRA_DATA = "data"
+        const val EXTRA_BUNDLE = "bundle"
 
         fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData {
             val prefs = getPrefsForWidget(context, id)
@@ -228,6 +238,31 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             }
         }
 
+        fun getRemoteViews(
+            context: Context,
+            smallWidget: Boolean,
+            pendingIntent: PendingIntent?,
+            data: ItemUpdateWidgetData
+        ): RemoteViews {
+            val views = RemoteViews(
+                context.packageName,
+                if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update
+            )
+            views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
+            views.setTextViewText(
+                R.id.text,
+                context.getString(R.string.item_update_widget_text, data.label, data.mappedState)
+            )
+            hideLoadingIndicator(views)
+            return views
+        }
+
+        private fun hideLoadingIndicator(views: RemoteViews) {
+            views.setViewVisibility(R.id.item_icon, View.VISIBLE)
+            views.setViewVisibility(R.id.text, View.VISIBLE)
+            views.setViewVisibility(R.id.progress_bar, View.GONE)
+        }
+
         private fun getPrefsForWidget(context: Context, id: Int): SharedPreferences {
             return context.getSharedPreferences(getPrefsNameForWidget(id), Context.MODE_PRIVATE)
         }
@@ -235,11 +270,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         private fun getPrefsNameForWidget(id: Int) = "widget-$id"
     }
 
+    @Parcelize
     data class ItemUpdateWidgetData(
         val item: String,
         val state: String,
         val label: String,
         val mappedState: String,
         val icon: String
-    )
+    ) : Parcelable
 }
