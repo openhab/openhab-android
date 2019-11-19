@@ -25,7 +25,6 @@
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Пълен екран</string>
-    <string name="settings_openhab_fullscreen_summary">Показване в режим на цял екран</string>
     <string name="settings_openhab_icon_format">Формат на иконите</string>
     <string name="settings_openhab_icon_format_png">Растерна графика</string>
     <string name="settings_openhab_icon_format_svg">Вектор</string>

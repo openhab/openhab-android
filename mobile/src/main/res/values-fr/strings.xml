@@ -33,7 +33,6 @@
     <string name="settings_openhab_demomode_summary">Si vous n’avez pas de serveur openHAB, activez le mode démo pour avoir un aperçu de ce dont openHAB est capable.</string>
     <string name="settings_openhab_theme">Thème</string>
     <string name="settings_openhab_fullscreen">Plein écran</string>
-    <string name="settings_openhab_fullscreen_summary">Afficher l\'app openHAB en mode plein écran</string>
     <string name="settings_openhab_icon_format">Format des icônes</string>
     <string name="settings_openhab_icon_format_png">Image bitmap</string>
     <string name="settings_openhab_icon_format_svg">Image vectorielle</string>

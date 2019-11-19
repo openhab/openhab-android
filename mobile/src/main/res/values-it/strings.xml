@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Connessione</string>
     <string name="settings_display_title">Display</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Altro</string>
     <string name="settings_openhab_url">URL del server locale</string>
     <string name="settings_openhab_url_summary">L\'URL dell\'interfaccia openHAB (inserire IP o hostname). Se configurato, il rilevamento automatico sarà disattivato. L’Impostazione corrente è: %s</string>
@@ -36,7 +37,6 @@
     <string name="settings_accent_color">Colore tinta</string>
     <string name="settings_select_a_color">Seleziona un colore</string>
     <string name="settings_openhab_fullscreen">Schermo intero</string>
-    <string name="settings_openhab_fullscreen_summary">Visualizza a schermo intero</string>
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
@@ -75,6 +75,7 @@
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Modalità Chiosco</string>
     <string name="settings_screen_lock_on">On</string>
+    <string name="settings_show_sitemaps_in_drawer">Mostra tutte le Sitemaps nel menu laterale</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="title_voice_widget_icon">Comandi vocali e collegamento app</string>
@@ -301,6 +302,7 @@
     <string name="search">Cerca</string>
     <string name="settings_tasker_plugin">Integrazione con Tasker</string>
     <string name="settings_tasker_plugin_summary">Abilita Tasker action plugin per aggiornare gli Item via Tasker o app compatibili</string>
+    <string name="tasker_plugin_disabled">Il plugin Tasker è disattivato</string>
     <string name="turn_on">Accendi</string>
     <string name="press_back_to_exit">Premi ancora indietro per uscire</string>
     <!-- Item update widget -->
@@ -325,5 +327,9 @@
     <string name="item_update_success_message_previous">%s sta mostrando il titolo precedente</string>
     <string name="item_update_success_message_rewind">%s sta riavvolgendo</string>
     <string name="item_update_success_message_fastforward">%s sta andando avanti</string>
-    <string name="item_update_error_no_connection">Errore nell\'invio dell\'aggiornamento dell’Item, riprovo\u2026</string>
+    <string name="item_update_error_no_connection_retry">Errore nell\'invio dell\'aggiornamento dell’Item, riprovo\u2026</string>
+    <string name="item_update_error_no_connection">Nessuna connessione</string>
+    <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
+    <string name="create_home_screen_widget_title">Crea widget</string>
+    <string name="create_home_screen_widget_not_supported">Il tuo dispositivo non supporta la creazione di widget all\'interno di un\'app. Vai al menu widget della schermata iniziale e crea un widget da lì.</string>
 </resources>

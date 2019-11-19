@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Параметры подключения</string>
     <string name="settings_display_title">Параметры дисплея</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Прочее</string>
     <string name="settings_openhab_url">URL адрес локального openHAB</string>
     <string name="settings_openhab_url_summary">URL-адрес панели openHAB. Если указано имя хоста или IP-адрес, то автообнаружение будет отключено. Текущие настройки: %s</string>
@@ -36,7 +37,6 @@
     <string name="settings_accent_color">Контрастный цвет</string>
     <string name="settings_select_a_color">Выберите цвет</string>
     <string name="settings_openhab_fullscreen">Во весь экран</string>
-    <string name="settings_openhab_fullscreen_summary">Показать во весь экран</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
     <string name="settings_openhab_icon_format_png">Точечный рисунок</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
@@ -75,6 +75,7 @@
     <string name="settings_screen_lock_off">Выкл</string>
     <string name="settings_screen_lock_kiosk">Режим киоска</string>
     <string name="settings_screen_lock_on">Вкл</string>
+    <string name="settings_show_sitemaps_in_drawer">Показать все Sitemap в боковом меню</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосовые команды</string>
     <string name="title_voice_widget_icon">Голосовые команды и ярлыки приложений</string>
@@ -95,6 +96,7 @@
     <string name="error_wifi_not_available">Wi-Fi выключен</string>
     <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d).</string>
     <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
+    <string name="error_invalid_https_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
     <string name="error_port_seems_invalid">Введенный вами порт неверен для выбранного протокола</string>
     <string name="error_connection_failed">Ошибка подключения к хосту</string>
     <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
@@ -302,6 +304,7 @@
     <string name="search">Поиск</string>
     <string name="settings_tasker_plugin">Интеграция с Tasker</string>
     <string name="settings_tasker_plugin_summary">Включить плагин действий Tasker, который позволяет обновлять элементы через Tasker или другие совместимые приложения</string>
+    <string name="tasker_plugin_disabled">Tasker плагин отключен</string>
     <string name="turn_on">Включить</string>
     <string name="press_back_to_exit">Нажмите ещё раз для выхода</string>
     <!-- Item update widget -->
@@ -326,5 +329,9 @@
     <string name="item_update_success_message_previous">%s показывает предыдущее название</string>
     <string name="item_update_success_message_rewind">%s перематывается назад</string>
     <string name="item_update_success_message_fastforward">%s перематывается вперед</string>
-    <string name="item_update_error_no_connection">Ошибка отправки обновления Item, повторяю\u2026</string>
+    <string name="item_update_error_no_connection_retry">Ошибка отправки обновления Item, повторяю\u2026</string>
+    <string name="item_update_error_no_connection">Нет подключения</string>
+    <string name="item_update_error_couldnt_get_item_type">Не удалось получить тип Item</string>
+    <string name="create_home_screen_widget_title">Создать виджет</string>
+    <string name="create_home_screen_widget_not_supported">Ваше устройство не поддерживает создание виджетов из приложения. Пожалуйста, перейдите в меню виджета на вашем домашнем экране и создайте виджет оттуда.</string>
 </resources>

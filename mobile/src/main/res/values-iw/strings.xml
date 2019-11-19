@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">חיבור</string>
     <string name="settings_display_title">תצוגה</string>
+    <string name="settings_sitemap_title">תצורת מערכת</string>
     <string name="settings_misc_title">שונות</string>
     <string name="settings_openhab_url">כתובת שרת מקומי</string>
     <string name="settings_openhab_url_summary">כתובת לוח השליטה ב openHAB (בהתבסס על שם מחשב מארח או IP). אם הוגדרה, האיתור האוטומטי לא יופעל. הגדרה נוכחית: %s</string>
@@ -36,7 +37,6 @@
     <string name="settings_accent_color">צבע נושא</string>
     <string name="settings_select_a_color">בחר צבע</string>
     <string name="settings_openhab_fullscreen">מסך מלא</string>
-    <string name="settings_openhab_fullscreen_summary">הצג במסך מלא</string>
     <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
     <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
     <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
@@ -50,6 +50,7 @@
     <string name="settings_openhab_chart_hq_summary">יצירת תרשימים יכולה להעמיס על השרת. אם זמן טעינת התרשים איטי והשרת שלך לא חזק, ביטול אפשרות זו משפר את זמני הטעינה.</string>
     <string name="settings_ringtone">צליל התראה</string>
     <string name="settings_ringtone_none">ללא</string>
+    <string name="settings_ringtone_on_external">נעימון לא ידוע באחסון חיצוני</string>
     <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
     <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
     <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
@@ -74,6 +75,7 @@
     <string name="settings_screen_lock_off">כבוי</string>
     <string name="settings_screen_lock_kiosk">מצב קיוסק</string>
     <string name="settings_screen_lock_on">פעיל</string>
+    <string name="settings_show_sitemaps_in_drawer">הצג את כל תצורות המערכת בתפריט צדדי</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="title_voice_widget_icon">פקודות קוליות וקיצורי דרך ליישום</string>
@@ -94,6 +96,7 @@
     <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
     <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
+    <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
     <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
@@ -297,6 +300,7 @@
     <string name="item_picker_dialog_title">בחר מצב</string>
     <string name="item_picker">פריט openHAB</string>
     <string name="item_picker_blurb">קבע\"%1$s\" (%2$s) ל \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">משתנה %s ב Tasker</string>
     <string name="search">חיפוש</string>
     <string name="settings_tasker_plugin">שילוב עם Tasker</string>
     <string name="settings_tasker_plugin_summary">אפשר את תוסף פעולת Tasker על מנת לעדכן פריטים דרך Tasker או אפליקציות אחרות התומכות בכך</string>
@@ -324,5 +328,4 @@
     <string name="item_update_success_message_previous">%s מציג את הכותרת הקודמת</string>
     <string name="item_update_success_message_rewind">%s מריץ אחורה</string>
     <string name="item_update_success_message_fastforward">%s מריץ קדימה</string>
-    <string name="item_update_error_no_connection">שגיאה בעדכון פריט, מנסה שנית\u2026</string>
 </resources>

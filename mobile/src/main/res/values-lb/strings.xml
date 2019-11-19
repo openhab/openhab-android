@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Connectioun</string>
     <string name="settings_display_title">Display</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Verschiddenes</string>
     <string name="settings_openhab_url">URL vum lokale Server</string>
     <string name="settings_openhab_url_summary">D´ URL vum openHAB Dashboard (baséierend um Hostname oder IP). Wa konfiguréiert ass déi automatesch Erkennung desaktivéiert. Aktuell Astellung: %s</string>
@@ -36,7 +37,6 @@
     <string name="settings_accent_color">Akzent Faarw</string>
     <string name="settings_select_a_color">Faarf auswielen</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
-    <string name="settings_openhab_fullscreen_summary">Am Fullscreen Modus uweisen</string>
     <string name="settings_openhab_icon_format">Icon Format</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -75,6 +75,7 @@
     <string name="settings_screen_lock_off">Aus</string>
     <string name="settings_screen_lock_kiosk">Kiosk Modus</string>
     <string name="settings_screen_lock_on">Un</string>
+    <string name="settings_show_sitemaps_in_drawer">Weis all Sitemaps am Menü op der lénker Säit un</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
     <string name="title_voice_widget_icon">Sproochbefeeler an App Shortcut</string>
@@ -325,5 +326,4 @@
     <string name="item_update_success_message_previous">%s weist den viregten Titel</string>
     <string name="item_update_success_message_rewind">%s spullt zeréck</string>
     <string name="item_update_success_message_fastforward">%s spullt no fir</string>
-    <string name="item_update_error_no_connection">Feeler beim schécken vum Item Update, probéieren weider\u2026</string>
 </resources>

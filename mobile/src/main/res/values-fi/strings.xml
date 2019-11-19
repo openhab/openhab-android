@@ -7,15 +7,16 @@
     <string name="app_preferences_name">Asetukset</string>
     <string name="app_notifications">Ilmoitukset</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
+    <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
-    <string name="mainmenu_openhab_selectsitemap">Valitse oletussivukartta</string>
+    <string name="mainmenu_openhab_selectsitemap">Valitse oletus Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Yhteys</string>
     <string name="settings_display_title">Näyttö</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Sekalaiset</string>
     <string name="settings_openhab_url">Paikallisen palvelimen URL osoite</string>
     <string name="settings_openhab_url_summary">openHAB palvelimen URL osoite (isäntänimi tai IP osoite). Jos määritetty, automaattinen etsintä poistetaan käytöstä. Nykyinen asetus: %s</string>
@@ -36,7 +37,6 @@
     <string name="settings_accent_color">Korostusväri</string>
     <string name="settings_select_a_color">Valitse väri</string>
     <string name="settings_openhab_fullscreen">Kokonäyttö</string>
-    <string name="settings_openhab_fullscreen_summary">Näytä koko näytöllä</string>
     <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">SVG</string>
@@ -51,9 +51,9 @@
     <string name="settings_ringtone">Ilmoituksen merkkiääni</string>
     <string name="settings_ringtone_none">Ei mikään</string>
     <string name="settings_ringtone_on_external">Tuntematon soittoääni ulkoisessa tallennusvälineessä</string>
-    <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
-    <string name="settings_no_default_sitemap">Ei sivukarttaa oletuksena</string>
-    <string name="settings_current_default_sitemap">Nykyinen oletussivukartta: %1$s</string>
+    <string name="settings_clear_default_sitemap">Poista oletus Sitemap</string>
+    <string name="settings_no_default_sitemap">Ei Sitemappia oletuksena</string>
+    <string name="settings_current_default_sitemap">Nykyinen oletus Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Etäkäyttö</string>
     <string name="settings_openhab_connection">Paikalliskäyttö</string>
     <string name="settings_notification_vibration">Ilmoituksen värinä</string>
@@ -75,6 +75,7 @@
     <string name="settings_screen_lock_off">Off</string>
     <string name="settings_screen_lock_kiosk">Kiosk moodi</string>
     <string name="settings_screen_lock_on">On</string>
+    <string name="settings_show_sitemaps_in_drawer">Näytä kaikki Sitemapit reunavalikossa</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Äänikomennot</string>
     <string name="title_voice_widget_icon">Äänikomennot ja sovelluksen pikakuvake</string>
@@ -89,7 +90,7 @@
     <string name="app_shortcut_disabled_notifications">Etäpalvelintasi ei tavoiteta</string>
     <string name="app_shortcut_disabled_voice_recognition">Laitteellasi ei ole \"puheesta tekstiksi\"-sovellusta asennettuna</string>
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
+    <string name="error_empty_sitemap_list">openHAB palautti tyhjän Sitemap luettelon</string>
     <string name="error_sitemap_generic_load_error">Sitemap ei ladattu. Virhe: %1$s</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
     <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
@@ -217,8 +218,8 @@
     <string name="nfc_action_to_sitemap_page">Kirjoita Sitemapin NFC-tunniste</string>
     <string name="nfc_action_write_command_tag">Kirjoita Itemin NFC-tunniste</string>
     <!-- Drawer -->
-    <string name="drawer_open">Sivukartan valitsin avattu</string>
-    <string name="drawer_close">Sivukartan valitsin suljettu</string>
+    <string name="drawer_open">Sitemapin valitsin avattu</string>
+    <string name="drawer_close">Sitemapin valitsin suljettu</string>
     <string name="mainmenu_openhab_voice_recognition">Puheentunnistus</string>
     <!-- About -->
     <string name="about_title">Tietoja</string>
@@ -301,6 +302,7 @@
     <string name="search">Etsi</string>
     <string name="settings_tasker_plugin">Taskerin integraatio</string>
     <string name="settings_tasker_plugin_summary">Aktivoi Tasker liitännäinen joka sallii Itemien päivityksen Taskerin tai muiden sopivien sovellusten kautta</string>
+    <string name="tasker_plugin_disabled">Tasker liitännäinen pois päältä</string>
     <string name="turn_on">Ota käyttöön</string>
     <string name="press_back_to_exit">Paina uudestaan takaisin poistuaksesi</string>
     <!-- Item update widget -->
@@ -325,5 +327,7 @@
     <string name="item_update_success_message_previous">%s näyttää edellisen nimikkeen</string>
     <string name="item_update_success_message_rewind">%s kelaa taaksepäin</string>
     <string name="item_update_success_message_fastforward">%s kelaa eteenpäin</string>
-    <string name="item_update_error_no_connection">Virhe lähetettäessä Itemin päivitystä, yritetään uudelleen\u2026</string>
+    <string name="item_update_error_no_connection_retry">Virhe lähetettäessä Itemin päivitystä, yritetään uudelleen\u2026</string>
+    <string name="item_update_error_no_connection">Ei yhteyttä</string>
+    <string name="item_update_error_couldnt_get_item_type">Ei saatu Itemin tyyppiä</string>
 </resources>

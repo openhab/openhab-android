@@ -33,7 +33,6 @@
     <string name="settings_openhab_demomode_summary">若您没有 openHAB 服务器，请启用演示模式来一览 openHAB 的功能。</string>
     <string name="settings_openhab_theme">主题</string>
     <string name="settings_openhab_fullscreen">全屏</string>
-    <string name="settings_openhab_fullscreen_summary">以全屏模式显示</string>
     <string name="settings_openhab_icon_format">图标格式</string>
     <string name="settings_openhab_icon_format_png">位图</string>
     <string name="settings_openhab_icon_format_svg">矢量图</string>

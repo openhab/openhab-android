@@ -33,7 +33,6 @@
     <string name="settings_openhab_demomode_summary">openHAB sunucunuz yoksa, openHAB\'ın ne yapabileceğini hayal etmek için demo modunu etkinleştirin.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tam Ekran</string>
-    <string name="settings_openhab_fullscreen_summary">Tam ekran modunda görüntüle</string>
     <string name="settings_openhab_icon_format">Simge formatı</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>

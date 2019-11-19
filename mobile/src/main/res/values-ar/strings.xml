@@ -33,7 +33,6 @@
     <string name="settings_openhab_demomode_summary">إذا لم يكن لديك ملقم openHAB، فعل وضع العرض التجريبي لتصور أمكانيات وقدرات openHAB.</string>
     <string name="settings_openhab_theme">السمة</string>
     <string name="settings_openhab_fullscreen">ملء الشاشة</string>
-    <string name="settings_openhab_fullscreen_summary">عرض في وضع ملء الشاشة</string>
     <string name="settings_openhab_icon_format">تنسيق الرمز</string>
     <string name="settings_openhab_icon_format_png">صورة نقطية</string>
     <string name="settings_openhab_icon_format_svg">صورة خطية</string>

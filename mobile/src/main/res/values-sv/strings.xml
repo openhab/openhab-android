@@ -31,7 +31,6 @@
     <string name="settings_openhab_demomode">Demoläge</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Fullskärm</string>
-    <string name="settings_openhab_fullscreen_summary">Visa i fullskärmsläge</string>
     <string name="settings_openhab_icon_format">Ikonformat</string>
     <string name="settings_openhab_icon_format_png">Bitmapp</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>

@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexión</string>
     <string name="settings_display_title">Pantalla</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Varios</string>
     <string name="settings_openhab_url">Dirección URL del servidor local</string>
     <string name="settings_openhab_url_summary">La dirección URL de la consola de openHAB (basada en el nombre de host o IP). Si está configurada, se desactiva la detección automática. Valor actual: %s</string>
@@ -36,7 +37,6 @@
     <string name="settings_accent_color">Color destacado</string>
     <string name="settings_select_a_color">Seleccione un color</string>
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
-    <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
@@ -75,6 +75,7 @@
     <string name="settings_screen_lock_off">Desactivado</string>
     <string name="settings_screen_lock_kiosk">Modo Kiosko</string>
     <string name="settings_screen_lock_on">Activado</string>
+    <string name="settings_show_sitemaps_in_drawer">Mostrar todos los Sitemaps en el menú lateral</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="title_voice_widget_icon">Comandos de voz y acceso directo a la aplicación</string>
@@ -325,5 +326,4 @@
     <string name="item_update_success_message_previous">%s está mostrando el título anterior</string>
     <string name="item_update_success_message_rewind">%s está retrocediendo</string>
     <string name="item_update_success_message_fastforward">%s está avanzando rápido</string>
-    <string name="item_update_error_no_connection">Error al enviar una actualización al Item, reintentando\u2026</string>
 </resources>

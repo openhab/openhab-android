@@ -36,7 +36,6 @@
     <string name="settings_accent_color">Accentkleur</string>
     <string name="settings_select_a_color">Selecteer een kleur</string>
     <string name="settings_openhab_fullscreen">Volledig scherm</string>
-    <string name="settings_openhab_fullscreen_summary">Gebruik volledige scherm</string>
     <string name="settings_openhab_icon_format">Pictogramindeling</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
@@ -324,5 +323,4 @@
     <string name="item_update_success_message_previous">%s toont de vorige titel</string>
     <string name="item_update_success_message_rewind">%s spoelt terug</string>
     <string name="item_update_success_message_fastforward">%s spoelt vooruit</string>
-    <string name="item_update_error_no_connection">Fout bij verzenden Item update, opnieuw proberen\u2026</string>
 </resources>

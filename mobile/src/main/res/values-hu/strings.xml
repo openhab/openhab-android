@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Kapcsolat</string>
     <string name="settings_display_title">Kijelző</string>
+    <string name="settings_sitemap_title">Felület</string>
     <string name="settings_misc_title">Egyéb</string>
     <string name="settings_openhab_url">Helyi kiszolgáló URL-címe</string>
     <string name="settings_openhab_url_summary">Az openHAB felülete URL-e(gépnev vagy IP alapján). Ha be van állítva, az automatikus keresés tiltva lesz. Jelenlegi beállítás: %s</string>
@@ -36,7 +37,6 @@
     <string name="settings_accent_color">Kiemelőszín</string>
     <string name="settings_select_a_color">Szín kiválasztása</string>
     <string name="settings_openhab_fullscreen">Teljes képernyő</string>
-    <string name="settings_openhab_fullscreen_summary">Megjelenítése teljes képernyős módban</string>
     <string name="settings_openhab_icon_format">Ikon formátum</string>
     <string name="settings_openhab_icon_format_png">Bitkép</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -324,5 +324,4 @@
     <string name="item_update_success_message_previous">%s mutatja az előző címet</string>
     <string name="item_update_success_message_rewind">%s visszateker</string>
     <string name="item_update_success_message_fastforward">%s gyors pörgetés</string>
-    <string name="item_update_error_no_connection">Hiba az elem frissítésekor, újrapróbálkozás\u2026</string>
 </resources>
