@@ -17,7 +17,6 @@ fi
 bash travis/bump-versioncode.sh
 bash travis/start-emulator.sh phone
 
-./gradlew :mobile:assemble{Foss,Full}${releaseFlavorCapital}{Debug,Release} :mobile:test{Foss,Full}${releaseFlavorCapital}ReleaseUnitTest
 retryCount=0
 while true
 do
