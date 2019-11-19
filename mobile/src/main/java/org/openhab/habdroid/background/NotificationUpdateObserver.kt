@@ -92,6 +92,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val mappedValue = data.getString(ItemUpdateWorker.OUTPUT_DATA_MAPPED_VALUE)
                 val showToast = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_SHOW_TOAST, false)
                 val taskerIntent = data.getString(ItemUpdateWorker.OUTPUT_DATA_TASKER_INTENT)
+                val asCommand = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_AS_COMMAND, false)
                 val hadConnection = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_HAS_CONNECTION, false)
                 val httpStatus = data.getInt(ItemUpdateWorker.OUTPUT_DATA_HTTP_STATUS, 0)
 
@@ -104,7 +105,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             value,
                             mappedValue,
                             showToast,
-                            taskerIntent
+                            taskerIntent,
+                            asCommand
                         )
                     )
                 }

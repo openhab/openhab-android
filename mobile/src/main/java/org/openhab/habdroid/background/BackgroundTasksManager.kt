@@ -74,7 +74,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         info.mappedValue,
                         BackoffPolicy.EXPONENTIAL,
                         info.showToast,
-                        info.taskerIntent
+                        info.taskerIntent,
+                        info.asCommand
                     )
                 }
             }
@@ -99,6 +100,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val label = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_LABEL)
                 val state = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_STATE)
                 val mappedState = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_MAPPED_STATE)
+                val asCommand = bundle.getBoolean(TaskerItemPickerActivity.EXTRA_ITEM_AS_COMMAND, true)
                 if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
                     return
                 }
@@ -111,7 +113,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     mappedState,
                     BackoffPolicy.EXPONENTIAL,
                     false,
-                    intent.getStringExtra(TaskerPlugin.Setting.EXTRA_PLUGIN_COMPLETION_INTENT)
+                    intent.getStringExtra(TaskerPlugin.Setting.EXTRA_PLUGIN_COMPLETION_INTENT),
+                    asCommand
                 )
                 if (isOrderedBroadcast) {
                     resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
@@ -128,7 +131,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val value: String,
         val mappedValue: String?,
         val showToast: Boolean,
-        val taskerIntent: String?
+        val taskerIntent: String?,
+        val asCommand: Boolean
     ) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
@@ -200,7 +204,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     tag.state,
                     tag.mappedState,
                     BackoffPolicy.LINEAR,
-                    true
+                    showToast = true,
+                    asCommand = true
                 )
             }
         }
@@ -215,7 +220,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     data.state,
                     data.mappedState,
                     BackoffPolicy.LINEAR,
-                    true
+                    showToast = true,
+                    asCommand = true
                 )
             }
         }
@@ -247,7 +253,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 getter(context) ?: return,
                 null,
                 BackoffPolicy.EXPONENTIAL,
-                false
+                showToast = false,
+                asCommand = true
             )
         }
 
@@ -260,7 +267,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             mappedValue: String?,
             backoffPolicy: BackoffPolicy,
             showToast: Boolean,
-            taskerIntent: String? = null
+            taskerIntent: String? = null,
+            asCommand: Boolean
         ) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -270,7 +278,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast, taskerIntent))
+                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast, taskerIntent, asCommand))
                 .build()
 
             val workManager = WorkManager.getInstance(context)

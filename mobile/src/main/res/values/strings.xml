@@ -241,6 +241,8 @@
     <string name="nfc_action_fastforward">Fast forward</string>
     <string name="nfc_action_move">Move</string>
     <string name="nfc_action_stop">Stop</string>
+    <string name="nfc_action_open">Opened</string>
+    <string name="nfc_action_closed">Closed</string>
     <string name="nfc_activate">Activate</string>
     <string name="nfc_action_current_color">Current color</string>
     <string name="nfc_action_to_sitemap_page">Write Sitemap NFC tag</string>
@@ -335,8 +337,12 @@
     <string name="item_picker_list_error">An error occurred while loading Items</string>
     <string name="item_picker_custom">Custom</string>
     <string name="item_picker_dialog_title">Select state</string>
-    <string name="item_picker_blurb">Set \"%1$s\" (%2$s) to \"%3$s\"</string>
+    <string name="item_picker_blurb_command">Send command \"%3$s\" to \"%1$s\" (%2$s)</string>
+    <string name="item_picker_blurb_update">Update \"%1$s\" (%2$s) to \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker variable \"%s\"</string>
+    <string name="item_picker_item_update">Update</string>
+    <string name="item_picker_item_command">Command</string>
+    <string name="item_picker_contact_no_command">Contact Items cannot receive Item commands, changed to update</string>
     <string name="search">Search</string>
     <string name="settings_tasker_plugin">Tasker integration</string>
     <string name="settings_tasker_plugin_summary">Enable Tasker action plugin which allows updating Items via Tasker or other compatible apps</string>

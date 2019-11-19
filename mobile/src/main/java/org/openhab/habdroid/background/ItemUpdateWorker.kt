@@ -95,9 +95,15 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     value = determineOppositeState(item)
                     mappedValue = value
                 }
-                val result = connection.httpClient
-                    .post("rest/items/$itemName", value, "text/plain;charset=UTF-8")
-                    .asStatus()
+                val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false)) {
+                    connection.httpClient
+                        .post("rest/items/$itemName", value, "text/plain;charset=UTF-8")
+                        .asStatus()
+                } else {
+                    connection.httpClient
+                        .put("rest/items/$itemName/state", value, "text/plain;charset=UTF-8")
+                        .asStatus()
+                }
                 Log.d(TAG, "Item '$itemName' successfully updated to value $value")
                 if (showToast) {
                     applicationContext.showToast(
@@ -193,6 +199,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             .putString(OUTPUT_DATA_MAPPED_VALUE, inputData.getString(INPUT_DATA_MAPPED_VALUE))
             .putBoolean(OUTPUT_DATA_SHOW_TOAST, inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false))
             .putString(OUTPUT_DATA_TASKER_INTENT, inputData.getString(INPUT_DATA_TASKER_INTENT))
+            .putString(OUTPUT_DATA_AS_COMMAND, inputData.getString(INPUT_DATA_AS_COMMAND))
             .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
             .build()
     }
@@ -234,6 +241,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         private const val INPUT_DATA_MAPPED_VALUE = "mappedValue"
         private const val INPUT_DATA_SHOW_TOAST = "showToast"
         private const val INPUT_DATA_TASKER_INTENT = "taskerIntent"
+        private const val INPUT_DATA_AS_COMMAND = "command"
 
         const val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
         const val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
@@ -243,6 +251,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         const val OUTPUT_DATA_MAPPED_VALUE = "mappedValue"
         const val OUTPUT_DATA_SHOW_TOAST = "showToast"
         const val OUTPUT_DATA_TASKER_INTENT = "taskerIntent"
+        const val OUTPUT_DATA_AS_COMMAND = "command"
         const val OUTPUT_DATA_TIMESTAMP = "timestamp"
 
         fun buildData(
@@ -251,7 +260,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             value: String,
             mappedValue: String?,
             showToast: Boolean,
-            taskerIntent: String?
+            taskerIntent: String?,
+            asCommand: Boolean
         ): Data {
             return Data.Builder()
                 .putString(INPUT_DATA_ITEM_NAME, itemName)
@@ -260,6 +270,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 .putString(INPUT_DATA_MAPPED_VALUE, mappedValue)
                 .putBoolean(INPUT_DATA_SHOW_TOAST, showToast)
                 .putString(INPUT_DATA_TASKER_INTENT, taskerIntent)
+                .putBoolean(INPUT_DATA_AS_COMMAND, asCommand)
                 .build()
         }
     }
