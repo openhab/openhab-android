@@ -323,5 +323,4 @@
     <string name="item_update_success_message_previous">%s toont de vorige titel</string>
     <string name="item_update_success_message_rewind">%s spoelt terug</string>
     <string name="item_update_success_message_fastforward">%s spoelt vooruit</string>
-    <string name="item_update_error_no_connection">Fout bij verzenden Item update, opnieuw proberen\u2026</string>
 </resources>
