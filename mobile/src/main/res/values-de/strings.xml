@@ -302,6 +302,7 @@
     <string name="search">Suchen</string>
     <string name="settings_tasker_plugin">Tasker-Integration</string>
     <string name="settings_tasker_plugin_summary">Tasker-Action-Plugin aktivieren, das es erlaubt, Items über Tasker oder andere kompatible Apps zu aktualisieren</string>
+    <string name="tasker_plugin_disabled">Tasker-Plugin ist deaktiviert</string>
     <string name="turn_on">Einschalten</string>
     <string name="press_back_to_exit">Zum Beenden erneut Zurück drücken</string>
     <!-- Item update widget -->
@@ -326,4 +327,7 @@
     <string name="item_update_success_message_previous">%s zeigt den vorherigen Titel</string>
     <string name="item_update_success_message_rewind">%s wird zurückgespult</string>
     <string name="item_update_success_message_fastforward">%s wird vorgespult</string>
+    <string name="item_update_error_no_connection_retry">Senden des Item-Updates fehlgeschlagen, wiederhole\u2026</string>
+    <string name="item_update_error_no_connection">Keine Verbindung</string>
+    <string name="create_home_screen_widget_title">Widget erstellen</string>
 </resources>
