@@ -325,5 +325,4 @@
     <string name="item_update_success_message_previous">%s ukazuje předchozí název</string>
     <string name="item_update_success_message_rewind">%s přetáčí zpět</string>
     <string name="item_update_success_message_fastforward">%s přetáčí vpřed</string>
-    <string name="item_update_error_no_connection">Aktualizace Item se nezdařila, zkouším znovu\u2026</string>
 </resources>
