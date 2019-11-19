@@ -311,5 +311,4 @@
     <string name="item_update_success_message_undefined">%s ustawiono na niezdefiniowany</string>
     <string name="item_update_success_message_empty_string">%s ustawiono na pusty tekst</string>
     <string name="item_update_success_message_play">%s gra</string>
-    <string name="item_update_error_no_connection">Błąd podczas wysyłania aktualizacji Itemu, próbuję ponownie\u2026</string>
 </resources>
