@@ -136,7 +136,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         if (data.icon.isNotEmpty()) {
             val encodedIcon = Uri.encode(data.icon)
             val iconFormat = context.getPrefs().getIconFormat()
-            val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat"
+            val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat&anyFormat=true"
             val cm = CacheManager.getInstance(context)
 
             val convertSvgIcon = { iconData: InputStream ->

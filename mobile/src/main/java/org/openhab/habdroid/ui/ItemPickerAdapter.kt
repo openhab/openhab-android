@@ -20,7 +20,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
@@ -28,7 +27,6 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
-
 import java.util.ArrayList
 import java.util.Comparator
 import java.util.Locale
@@ -130,7 +128,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
                     IconFormat.Png -> "png"
                     IconFormat.Svg -> "svg"
                 }
-                val iconUrl = "images/$encodedIcon.$suffix"
+                val iconUrl = "icon/$encodedIcon?&format=$suffix&anyFormat=true"
                 val size = iconView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
                 iconView.setImageUrl(connection, iconUrl, size, 2000)
             } else {

@@ -148,7 +148,7 @@ data class Widget(
                 IconFormat.Png -> "PNG"
                 IconFormat.Svg -> "SVG"
             }
-            return "icon/$icon?state=$iconState&format=$iconFormatString"
+            return "icon/$icon?state=$iconState&format=$iconFormatString&anyFormat=true"
         }
     }
 }
@@ -264,7 +264,7 @@ fun JSONObject.collectWidgets(parent: Widget?, iconFormat: IconFormat): List<Wid
         type,
         optStringOrNull("url"),
         item,
-        optJSONObject("linkedPage").toLinkedPage(),
+        optJSONObject("linkedPage").toLinkedPage(iconFormat),
         mappings,
         optStringOrNull("encoding"),
         optStringOrNull("iconcolor"),
