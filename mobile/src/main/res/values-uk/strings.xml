@@ -8,7 +8,6 @@
     <string name="app_notifications">Сповіщення</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
-    <string name="mainmenu_openhab_no_default_sitemap">Не обрано сторінку інтерфейсу за умовчанням</string>
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
