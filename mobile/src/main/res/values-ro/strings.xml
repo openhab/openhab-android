@@ -322,5 +322,4 @@
     <string name="item_update_success_message_previous">%s arată titlul anterior</string>
     <string name="item_update_success_message_rewind">%s se derulează înapoi</string>
     <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
-    <string name="item_update_error_no_connection">Eroare la actualizarea unui Item, se reîncearcă\u2026</string>
 </resources>
