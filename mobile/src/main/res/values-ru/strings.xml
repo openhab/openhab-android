@@ -8,7 +8,6 @@
     <string name="app_notifications">Уведомления</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
-    <string name="mainmenu_openhab_no_default_sitemap">Не выбран Sitemap по умолчанию</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Произошла ошибка при загрузке HABPanel</string>
