@@ -326,5 +326,4 @@
     <string name="item_update_success_message_previous">%s sta mostrando il titolo precedente</string>
     <string name="item_update_success_message_rewind">%s sta riavvolgendo</string>
     <string name="item_update_success_message_fastforward">%s sta andando avanti</string>
-    <string name="item_update_error_no_connection">Errore nell\'invio dell\'aggiornamento dell’Item, riprovo\u2026</string>
 </resources>
