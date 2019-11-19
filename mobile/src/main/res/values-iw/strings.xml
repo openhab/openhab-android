@@ -328,5 +328,4 @@
     <string name="item_update_success_message_previous">%s מציג את הכותרת הקודמת</string>
     <string name="item_update_success_message_rewind">%s מריץ אחורה</string>
     <string name="item_update_success_message_fastforward">%s מריץ קדימה</string>
-    <string name="item_update_error_no_connection">שגיאה בעדכון פריט, מנסה שנית\u2026</string>
 </resources>
