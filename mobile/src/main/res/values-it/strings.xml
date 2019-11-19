@@ -8,7 +8,6 @@
     <string name="app_notifications">Notifiche</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
-    <string name="mainmenu_openhab_no_default_sitemap">Nessun Sitemap predefinito selezionato</string>
     <string name="mainmenu_openhab_preferences">Impostazioni</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
