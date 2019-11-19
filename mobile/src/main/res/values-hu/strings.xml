@@ -324,5 +324,4 @@
     <string name="item_update_success_message_previous">%s mutatja az előző címet</string>
     <string name="item_update_success_message_rewind">%s visszateker</string>
     <string name="item_update_success_message_fastforward">%s gyors pörgetés</string>
-    <string name="item_update_error_no_connection">Hiba az elem frissítésekor, újrapróbálkozás\u2026</string>
 </resources>
