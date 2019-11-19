@@ -326,5 +326,4 @@
     <string name="item_update_success_message_previous">%s zeigt den vorherigen Titel</string>
     <string name="item_update_success_message_rewind">%s wird zurückgespult</string>
     <string name="item_update_success_message_fastforward">%s wird vorgespult</string>
-    <string name="item_update_error_no_connection">Senden des Item-Updates fehlgeschlagen, wiederhole\u2026</string>
 </resources>
