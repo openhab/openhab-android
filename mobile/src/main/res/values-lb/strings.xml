@@ -326,5 +326,4 @@
     <string name="item_update_success_message_previous">%s weist den viregten Titel</string>
     <string name="item_update_success_message_rewind">%s spullt zeréck</string>
     <string name="item_update_success_message_fastforward">%s spullt no fir</string>
-    <string name="item_update_error_no_connection">Feeler beim schécken vum Item Update, probéieren weider\u2026</string>
 </resources>
