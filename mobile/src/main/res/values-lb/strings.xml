@@ -8,7 +8,6 @@
     <string name="app_notifications">Notifikatiounen</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
-    <string name="mainmenu_openhab_no_default_sitemap">Keng Standard Sitemap gewielt</string>
     <string name="mainmenu_openhab_preferences">Astellungen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
