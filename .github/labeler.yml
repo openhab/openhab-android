@@ -1,0 +1,11 @@
+documentation:
+  - docs/*
+  - assets/*
+
+automation:
+  - travis/*
+  - .github/workflows/*
+
+localization:
+  - assets/store_descriptions/*/strings.xml
+  - mobile/src/*/res/values-*/strings.xml
