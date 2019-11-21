@@ -15,12 +15,13 @@ package org.openhab.habdroid.util
 
 import android.graphics.Bitmap
 import androidx.annotation.VisibleForTesting
-import com.here.oksse.OkSse
-import com.here.oksse.ServerSentEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import okhttp3.*
+import okhttp3.sse.EventSource
+import okhttp3.sse.EventSourceListener
+import okhttp3.sse.EventSources
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
@@ -37,7 +38,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
         FORCE_CACHE_IF_POSSIBLE
     }
 
-    fun makeSse(url: HttpUrl, listener: ServerSentEvent.Listener): ServerSentEvent {
+    fun makeSse(url: HttpUrl, listener: EventSourceListener): EventSource {
         val request = makeAuthenticatedRequestBuilder()
             .url(url)
             .build()
@@ -45,7 +46,7 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
             .readTimeout(0, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .build()
-        return OkSse(client).newServerSentEvent(request, listener)
+        return EventSources.createFactory(client).newEventSource(request, listener)
     }
 
     fun buildUrl(url: String): HttpUrl {
