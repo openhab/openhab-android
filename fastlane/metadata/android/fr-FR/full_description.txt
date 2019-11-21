@@ -18,7 +18,7 @@ L'initiative Open Source openHAB soutient vivement sa communauté très dynamiqu
 Si vous rencontrez un problème, veuillez nous en faire part sur le forum ou sur https://github.com/openhab/openhab-android/issues
 Si vous souhaitez traduire l'application dans votre langue, rejoignez-nous sur https://crowdin.com/project/openhab-android
 
-<b>openHAB Foundation</b>
+<b>Fondation openHAB</b>
 
 La fondation openHAB est une organisation à but non lucratif qui a pour mission d'informer le public sur les possibilités et les bénéfices des solutions domotiques libres et open source. Découvrez les missions et les services de la fondation sur https://www.openhabfoundation.org
 

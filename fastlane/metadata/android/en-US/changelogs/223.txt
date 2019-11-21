@@ -1,0 +1,3 @@
+## Changed
+* Switch to OkHttp-internal SSE implementation. (#1600)
+* Bump dependencies
