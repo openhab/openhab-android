@@ -330,4 +330,5 @@
     <string name="item_update_error_no_connection_retry">Senden des Item-Updates fehlgeschlagen, wiederhole\u2026</string>
     <string name="item_update_error_no_connection">Keine Verbindung</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
+    <string name="create_home_screen_widget_not_supported">Ihr Gerät unterstützt das Erstellen von Widgets innerhalb einer App nicht. Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget.</string>
 </resources>
