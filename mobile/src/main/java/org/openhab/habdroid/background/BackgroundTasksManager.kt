@@ -278,7 +278,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast, taskerIntent, asCommand))
+                .setInputData(
+                    ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast, taskerIntent, asCommand))
                 .build()
 
             val workManager = WorkManager.getInstance(context)
