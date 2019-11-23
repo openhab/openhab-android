@@ -85,7 +85,7 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.MaterialComponents.Translucent" />
         <activity android:name=".ui.TaskerItemPickerActivity"
-            android:label="@string/item_picker" >
+            android:label="@string/tasker_item_picker_title" >
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
