@@ -294,7 +294,6 @@
     <string name="item_picker_list_error">Er is een fout opgetreden bij het laden van de Items</string>
     <string name="item_picker_custom">Aangepast</string>
     <string name="item_picker_dialog_title">Status selecteren</string>
-    <string name="item_picker_blurb">Verander \"%1$s\" (%2$s) naar \"%3$s\"</string>
     <string name="search">Zoeken</string>
     <string name="settings_tasker_plugin">Tasker integratie</string>
     <string name="settings_tasker_plugin_summary">Activeer de Tasker action plugin voor het updaten van Items via Tasker en andere compatibele apps</string>
