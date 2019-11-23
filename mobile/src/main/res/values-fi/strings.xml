@@ -213,6 +213,8 @@
     <string name="nfc_action_fastforward">Kelaa eteenpäin</string>
     <string name="nfc_action_move">Siirrä</string>
     <string name="nfc_action_stop">Pysäytä</string>
+    <string name="nfc_action_open">Avattu</string>
+    <string name="nfc_action_closed">Suljettu</string>
     <string name="nfc_activate">Aktivoi</string>
     <string name="nfc_action_current_color">Nykyinen väri</string>
     <string name="nfc_action_to_sitemap_page">Kirjoita Sitemapin NFC-tunniste</string>
@@ -296,7 +298,12 @@
     <string name="item_picker_list_error">Virhe ladattaessa Itemejä</string>
     <string name="item_picker_custom">Mukautettu</string>
     <string name="item_picker_dialog_title">Valitse tila</string>
+    <string name="item_picker_blurb_command">Lähetä komento \"%3$s\" -> \"%1$s\" (%2$s)</string>
+    <string name="item_picker_blurb_update">Päivitä \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Taskerin muuttuja \"%s\"</string>
+    <string name="item_picker_item_update">Päivitä</string>
+    <string name="item_picker_item_command">Komento</string>
+    <string name="item_picker_contact_no_command">Kontakti Itemit eivät voi vastaanottaa Item komentoja, muutettu päivitykseksi</string>
     <string name="search">Etsi</string>
     <string name="settings_tasker_plugin">Taskerin integraatio</string>
     <string name="settings_tasker_plugin_summary">Aktivoi Tasker liitännäinen joka sallii Itemien päivityksen Taskerin tai muiden sopivien sovellusten kautta</string>
