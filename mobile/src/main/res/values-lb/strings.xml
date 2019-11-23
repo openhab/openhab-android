@@ -296,7 +296,6 @@
     <string name="item_picker_list_error">E Feeler ass beim lueden vun den Items opgetrueden</string>
     <string name="item_picker_custom">Personaliséiert</string>
     <string name="item_picker_dialog_title">Status auswielen</string>
-    <string name="item_picker">openHAB Items</string>
     <string name="item_picker_blurb">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
     <string name="item_picker_tasker_variable">Tasker Variabel \"%s\"</string>
     <string name="search">Sichen</string>
