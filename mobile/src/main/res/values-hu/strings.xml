@@ -294,7 +294,6 @@
     <string name="item_picker_list_error">Hiba történt az elemek betöltése során</string>
     <string name="item_picker_custom">Egyéni</string>
     <string name="item_picker_dialog_title">Válasszon állapotot</string>
-    <string name="item_picker_blurb">Beállítás erről \"%1$s\" (%2$s) erre \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker változó \"%s\"</string>
     <string name="search">Keresés</string>
     <string name="settings_tasker_plugin">Teendők integrálása</string>
