@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.os.Bundle
+import androidx.annotation.LayoutRes
 import androidx.core.content.edit
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
@@ -21,12 +22,13 @@ import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.wasNfcInfoHintShown
 
-class NfcInfoActivity(
+class NfcItemPickerActivity(
     override var hintMessageId: Int = R.string.nfc_info_hint,
     override var hintButtonMessageId: Int = R.string.got_it,
     override var hintIconId: Int = R.drawable.ic_nfc_black_120dp
 ) : AbstractItemPickerActivity() {
     override val forceNonFullscreen = false
+    @LayoutRes override val additionalConfigLayoutRes: Int = R.layout.nfc_item_picker_config
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
