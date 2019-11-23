@@ -23,7 +23,7 @@ import org.openhab.habdroid.model.withValue
 import java.util.ArrayList
 
 class SuggestedCommandsFactory(private val context: Context, private val showUndef: Boolean) {
-    fun fill(widget: Widget?): SuggestedCommands {
+    fun fill(widget: Widget?, forItemUpdate: Boolean = false): SuggestedCommands {
         val suggestedCommands = SuggestedCommands()
         if (widget?.item == null || widget.type == Widget.Type.Chart) {
             return suggestedCommands
@@ -45,19 +45,19 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             }
         }
 
-        fill(widget.item, suggestedCommands)
+        fill(widget.item, suggestedCommands, forItemUpdate)
         return suggestedCommands
     }
 
-    fun fill(item: Item?): SuggestedCommands {
+    fun fill(item: Item?, forItemUpdate: Boolean = false): SuggestedCommands {
         val suggestedCommands = SuggestedCommands()
         if (item != null) {
-            fill(item, suggestedCommands)
+            fill(item, suggestedCommands, forItemUpdate)
         }
         return suggestedCommands
     }
 
-    private fun fill(item: Item, suggestedCommands: SuggestedCommands) = when {
+    private fun fill(item: Item, suggestedCommands: SuggestedCommands, forItemUpdate: Boolean) = when {
         item.isOfTypeOrGroupType(Item.Type.Color) -> {
             addOnOffCommands(suggestedCommands)
             addIncreaseDecreaseCommands(suggestedCommands)
@@ -68,7 +68,13 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             suggestedCommands.shouldShowCustom = true
         }
         item.isOfTypeOrGroupType(Item.Type.Contact) -> {
-            // Contact Items cannot receive commands
+            @Suppress("ControlFlowWithEmptyBody")
+            if (forItemUpdate) {
+                add(suggestedCommands, "OPEN", R.string.nfc_action_open)
+                add(suggestedCommands, "CLOSED", R.string.nfc_action_closed)
+            } else {
+                // Contact Items cannot receive commands
+            }
         }
         item.isOfTypeOrGroupType(Item.Type.Dimmer) -> {
             addOnOffCommands(suggestedCommands)

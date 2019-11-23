@@ -21,11 +21,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewStub
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
@@ -56,6 +58,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var swipeLayout: SwipeRefreshLayout
+    private var additionalConfigLayout: View? = null
     private lateinit var emptyView: View
     private lateinit var emptyMessage: TextView
     private lateinit var watermark: ImageView
@@ -69,6 +72,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         SuggestedCommandsFactory(this, true)
     }
     protected var needToShowHint: Boolean = false
+    protected open val forItemCommandOnly: Boolean = true
+    @LayoutRes protected open val additionalConfigLayoutRes: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +85,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        swipeLayout = findViewById(R.id.activity_content)
+        swipeLayout = findViewById(R.id.swipe_refresh)
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
 
@@ -100,6 +105,16 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(DividerItemDecoration(this))
         recyclerView.adapter = itemPickerAdapter
+
+        if (additionalConfigLayoutRes != 0) {
+            additionalConfigLayout = findViewById(R.id.additional_config_parent)
+            additionalConfigLayout?.visibility = View.VISIBLE
+
+            findViewById<ViewStub>(R.id.additional_config_placeholder).apply {
+                layoutResource = additionalConfigLayoutRes
+                inflate()
+            }
+        }
     }
 
     override fun onResume() {
@@ -144,7 +159,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     }
 
     override fun onItemClicked(item: Item) {
-        val suggestedCommands = suggestedCommandsFactory.fill(item)
+        val suggestedCommands = suggestedCommandsFactory.fill(item, !forItemCommandOnly)
         val labels = suggestedCommands.labels
         val commands = suggestedCommands.commands
         addAdditionalCommands(labels, commands)
@@ -219,11 +234,14 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         requestJob = launch {
             try {
                 val result = connection.httpClient.get("rest/items").asText()
-                val items = JSONArray(result.response)
+                var items = JSONArray(result.response)
                     .map { obj -> obj.toItem() }
                     .filterNot { item -> item.readOnly }
+
+                if (forItemCommandOnly) {
                     // Contact Items cannot receive commands
-                    .filterNot { item -> item.type == Item.Type.Contact }
+                    items = items.filterNot { item -> item.type == Item.Type.Contact }
+                }
                 Log.d(TAG, "Item request success, got ${items.size} items")
                 itemPickerAdapter.setItems(items)
                 handleInitialHighlight()
@@ -262,6 +280,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     protected fun updateViewVisibility(loading: Boolean, loadError: Boolean, showHint: Boolean) {
         val showEmpty = showHint || !loading && (itemPickerAdapter.itemCount == 0 || loadError)
         recyclerView.isVisible = !showEmpty
+        additionalConfigLayout?.isVisible = !showEmpty
         emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(when {

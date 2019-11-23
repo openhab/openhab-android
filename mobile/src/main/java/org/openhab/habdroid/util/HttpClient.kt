@@ -18,7 +18,18 @@ import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import okhttp3.*
+import okhttp3.CacheControl
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Credentials
+import okhttp3.Headers
+import okhttp3.HttpUrl
+import okhttp3.MediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
+import okhttp3.ResponseBody
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
@@ -82,6 +93,17 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
             mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE)
     }
 
+    @Throws(HttpException::class)
+    suspend fun put(
+        url: String,
+        requestBody: String,
+        mediaType: String,
+        headers: Map<String, String>? = null
+    ): HttpResult {
+        return method(url, "PUT", headers, requestBody,
+            mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE)
+    }
+
     private suspend fun method(
         url: String,
         method: String,
@@ -105,7 +127,8 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
         when (caching) {
             CachingMode.AVOID_CACHE -> requestBuilder.cacheControl(CacheControl.FORCE_NETWORK)
             CachingMode.FORCE_CACHE_IF_POSSIBLE -> {
-                requestBuilder.cacheControl(CacheControl.Builder()
+                requestBuilder.cacheControl(
+                    CacheControl.Builder()
                     .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
                     .build())
             }
