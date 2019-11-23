@@ -298,7 +298,6 @@
     <string name="item_picker_list_error">Помилка при завантажені об’єкта</string>
     <string name="item_picker_custom">Користувацький</string>
     <string name="item_picker_dialog_title">Виберіть стан</string>
-    <string name="item_picker">Об’єкти openHAB</string>
     <string name="item_picker_blurb">Встановити \"%1$s\" (%2$s) в \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Змінна Tasker \"%s\"</string>
     <string name="search">Пошук</string>
