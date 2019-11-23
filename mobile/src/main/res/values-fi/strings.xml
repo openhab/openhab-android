@@ -296,7 +296,6 @@
     <string name="item_picker_list_error">Virhe ladattaessa Itemejä</string>
     <string name="item_picker_custom">Mukautettu</string>
     <string name="item_picker_dialog_title">Valitse tila</string>
-    <string name="item_picker">openHAB Itemit</string>
     <string name="item_picker_blurb">Aseta \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Taskerin muuttuja \"%s\"</string>
     <string name="search">Etsi</string>
