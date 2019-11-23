@@ -296,7 +296,6 @@
     <string name="item_picker_list_error">Laden der Items fehlgeschlagen</string>
     <string name="item_picker_custom">Benutzerdefiniert</string>
     <string name="item_picker_dialog_title">Status auswählen</string>
-    <string name="item_picker">openHAB-Items</string>
     <string name="item_picker_blurb">\"%1$s\" (%2$s) auf \"%3$s\" stellen</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
     <string name="search">Suchen</string>
