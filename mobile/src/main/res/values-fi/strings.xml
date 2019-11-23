@@ -296,7 +296,6 @@
     <string name="item_picker_list_error">Virhe ladattaessa Itemejä</string>
     <string name="item_picker_custom">Mukautettu</string>
     <string name="item_picker_dialog_title">Valitse tila</string>
-    <string name="item_picker_blurb">Aseta \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Taskerin muuttuja \"%s\"</string>
     <string name="search">Etsi</string>
     <string name="settings_tasker_plugin">Taskerin integraatio</string>
@@ -329,4 +328,6 @@
     <string name="item_update_error_no_connection_retry">Virhe lähetettäessä Itemin päivitystä, yritetään uudelleen\u2026</string>
     <string name="item_update_error_no_connection">Ei yhteyttä</string>
     <string name="item_update_error_couldnt_get_item_type">Ei saatu Itemin tyyppiä</string>
+    <string name="create_home_screen_widget_title">Luo widget</string>
+    <string name="create_home_screen_widget_not_supported">Laitteesi ei tuo widgetin luontia sovelluksen kautta. Ole hyvä ja mene aloitusnäyttöön ja luo widget sitä kautta.</string>
 </resources>
