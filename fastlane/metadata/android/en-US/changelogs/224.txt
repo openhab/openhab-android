@@ -1,0 +1,2 @@
+## Added
+* Choose between item commands and item updates in Tasker plugin (#1631)
