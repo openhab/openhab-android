@@ -267,7 +267,6 @@
     <string name="item_picker_list_error">Une erreur s\'est produite lors du chargement des objets</string>
     <string name="item_picker_custom">Personnaliser</string>
     <string name="item_picker_dialog_title">Sélectionner l\'état</string>
-    <string name="item_picker_blurb">Définir \"%1$s\" (%2$s) à \"%3$s\"</string>
     <string name="search">Rechercher</string>
     <string name="settings_tasker_plugin">Interaction Tasker</string>
     <string name="settings_tasker_plugin_summary">Activer le plugin d\'action Tasker qui permet de mettre à jour des éléments via Tasker ou d\'autres applications compatibles</string>
