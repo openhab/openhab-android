@@ -298,7 +298,6 @@
     <string name="item_picker_list_error">אירעה שגיאה בעת טעינת הפריטים</string>
     <string name="item_picker_custom">התאמה אישית</string>
     <string name="item_picker_dialog_title">בחר מצב</string>
-    <string name="item_picker_blurb">קבע\"%1$s\" (%2$s) ל \"%3$s\"</string>
     <string name="item_picker_tasker_variable">משתנה %s ב Tasker</string>
     <string name="search">חיפוש</string>
     <string name="settings_tasker_plugin">שילוב עם Tasker</string>
