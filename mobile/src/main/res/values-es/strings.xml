@@ -296,7 +296,6 @@
     <string name="item_picker_list_error">Se ha producido un error al cargar Items</string>
     <string name="item_picker_custom">Personalizado</string>
     <string name="item_picker_dialog_title">Seleccionar estado</string>
-    <string name="item_picker">Items de openHAB</string>
     <string name="item_picker_blurb">Ajustar \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variable de Tasker \"%s\"</string>
     <string name="search">Buscar</string>
