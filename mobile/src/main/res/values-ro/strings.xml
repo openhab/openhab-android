@@ -293,7 +293,6 @@
     <string name="item_picker_list_error">A apărut o eroare la încărcarea unor Items</string>
     <string name="item_picker_custom">Personalizat</string>
     <string name="item_picker_dialog_title">Selectează statusul</string>
-    <string name="item_picker">openHAB Items</string>
     <string name="item_picker_blurb">Setează \"%1$s\" (%2$s) la \"%3$s\"</string>
     <string name="search">Caută</string>
     <string name="settings_tasker_plugin">Integrează Tasker</string>
