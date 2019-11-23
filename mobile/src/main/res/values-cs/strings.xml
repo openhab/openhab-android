@@ -296,7 +296,6 @@
     <string name="item_picker_list_error">Při načítání Items došlo k chybě</string>
     <string name="item_picker_custom">Vlastní</string>
     <string name="item_picker_dialog_title">Vyberte stav</string>
-    <string name="item_picker_blurb">Nastavit \"%1$s\" (%2$s) na “%3$s“</string>
     <string name="search">Hledat</string>
     <string name="settings_tasker_plugin">Integrace Taskeru</string>
     <string name="settings_tasker_plugin_summary">Povolit Tasker akční plugin, který umožňuje aktualizaci Items prostřednictvím Taskeru nebo jiných kompatibilních aplikací</string>
