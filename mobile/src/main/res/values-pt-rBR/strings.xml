@@ -296,7 +296,6 @@
     <string name="item_picker_list_error">Ocorreu um erro ao carregar itens</string>
     <string name="item_picker_custom">Personalizado</string>
     <string name="item_picker_dialog_title">Selecione o estado</string>
-    <string name="item_picker_blurb">Definir \"%1$s\" (%2$s) para \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variável do Tasker \"%s\"</string>
     <string name="search">Buscar</string>
     <string name="settings_tasker_plugin">Integração do Tasker</string>
