@@ -28,6 +28,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
+import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.showErrorToast
@@ -36,6 +37,9 @@ import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.IOException
 import java.io.StringReader
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 
@@ -91,9 +95,11 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     )
                     return@runBlocking Result.failure(buildOutputData(true, 500))
                 }
-                if (value == "TOGGLE") {
-                    value = determineOppositeState(item)
-                    mappedValue = value
+
+                val modifiedValue = getModifiedValueOrNull(item)
+                if (modifiedValue != null) {
+                    value = modifiedValue
+                    mappedValue = modifiedValue
                 }
                 val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false)) {
                     connection.httpClient
@@ -117,6 +123,20 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 Result.failure(buildOutputData(true, e.statusCode))
             }
         }
+    }
+
+    private fun getModifiedValueOrNull(item: Item): String? {
+        val value = inputData.getString(INPUT_DATA_VALUE)!!
+        if (value == "TOGGLE") {
+            return determineOppositeState(item)
+        }
+        if (tags.contains(Constants.PREFERENCE_ALARM_CLOCK) && item.type == Item.Type.DateTime) {
+            val datePattern = "yyyy-mm-dd HH-MM-SS"
+            val formatter = SimpleDateFormat(datePattern, Locale.US)
+            formatter.timeZone = TimeZone.getTimeZone("UTC")
+            return formatter.format(value)
+        }
+        return null
     }
 
     private fun sendTaskerSignalIfNeeded(
