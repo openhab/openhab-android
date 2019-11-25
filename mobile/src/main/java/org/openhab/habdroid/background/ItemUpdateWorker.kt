@@ -14,11 +14,13 @@
 package org.openhab.habdroid.background
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.runBlocking
 import org.json.JSONException
 import org.json.JSONObject
@@ -28,9 +30,9 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
-import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showErrorToast
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
@@ -75,13 +77,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         }
 
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
-        var value = inputData.getString(INPUT_DATA_VALUE)!!
-
-        var label = inputData.getString(INPUT_DATA_LABEL)
-        if (label.isNullOrEmpty()) label = itemName
-
-        var mappedValue = inputData.getString(INPUT_DATA_MAPPED_VALUE)
-        if (mappedValue.isNullOrEmpty()) mappedValue = value
 
         return runBlocking {
             try {
@@ -96,47 +91,60 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     return@runBlocking Result.failure(buildOutputData(true, 500))
                 }
 
-                val modifiedValue = getModifiedValueOrNull(item)
-                if (modifiedValue != null) {
-                    value = modifiedValue
-                    mappedValue = modifiedValue
+                val value = inputData.getValueWithInfo(INPUT_DATA_VALUE)!!
+                val valueToBeSent = mapValueAccordingToItemTypeAndValue(value, item)
+                val actualMappedValue = if (value.value != valueToBeSent) {
+                    valueToBeSent
+                } else {
+                    value.mappedValue.orDefaultIfEmpty(value.value)
                 }
+
                 val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false)) {
                     connection.httpClient
-                        .post("rest/items/$itemName", value, "text/plain;charset=UTF-8")
+                        .post("rest/items/$itemName", valueToBeSent, "text/plain;charset=UTF-8")
                         .asStatus()
                 } else {
                     connection.httpClient
-                        .put("rest/items/$itemName/state", value, "text/plain;charset=UTF-8")
+                        .put("rest/items/$itemName/state", valueToBeSent, "text/plain;charset=UTF-8")
                         .asStatus()
                 }
                 Log.d(TAG, "Item '$itemName' successfully updated to value $value")
                 if (showToast) {
+                    val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
                     applicationContext.showToast(
-                        getItemUpdateSuccessMessage(applicationContext, label, value, mappedValue!!))
+                        getItemUpdateSuccessMessage(applicationContext, label, value.value, actualMappedValue))
                 }
                 sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error updating item '$itemName' to value $value. Got HTTP error ${e.statusCode}", e)
+                Log.e(TAG, "Error updating item '$itemName'. Got HTTP error ${e.statusCode}", e)
                 sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
                 Result.failure(buildOutputData(true, e.statusCode))
             }
         }
     }
 
-    private fun getModifiedValueOrNull(item: Item): String? {
-        val value = inputData.getString(INPUT_DATA_VALUE)!!
-        if (value == "TOGGLE") {
-            return determineOppositeState(item)
+    private fun mapValueAccordingToItemTypeAndValue(value: ValueWithInfo, item: Item) = when {
+        value.value == "TOGGLE" && item.isOfTypeOrGroupType(Item.Type.Switch) -> determineOppositeState(item)
+        value.type == ValueType.Timestamp && item.isOfTypeOrGroupType(Item.Type.DateTime) -> convertToTimestamp(value)
+        else -> value.value
+    }
+
+    private fun determineOppositeState(item: Item): String {
+        return if (item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
+            // If shutter is (partially) closed, open it, else close it
+            if (item.state?.asNumber?.value == 0F) "100" else "0"
+        } else if (item.state?.asBoolean == true) {
+            "OFF"
+        } else {
+            "ON"
         }
-        if (tags.contains(Constants.PREFERENCE_ALARM_CLOCK) && item.type == Item.Type.DateTime) {
-            val datePattern = "yyyy-mm-dd HH-MM-SS"
-            val formatter = SimpleDateFormat(datePattern, Locale.US)
-            formatter.timeZone = TimeZone.getTimeZone("UTC")
-            return formatter.format(value)
-        }
-        return null
+    }
+
+    private fun convertToTimestamp(value: ValueWithInfo): String {
+        val formatter = SimpleDateFormat("yyyy-mm-dd HH-MM-SS", Locale.US)
+        formatter.timeZone = TimeZone.getTimeZone("UTC")
+        return formatter.format(value.value)
     }
 
     private fun sendTaskerSignalIfNeeded(
@@ -198,25 +206,13 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         }
     }
 
-    private fun determineOppositeState(item: Item): String {
-        return if (item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
-            // If shutter is (partially) closed, open it, else close it
-            if (item.state?.asNumber?.value == 0F) "100" else "0"
-        } else if (item.state?.asBoolean == true) {
-            "OFF"
-        } else {
-            "ON"
-        }
-    }
-
     private fun buildOutputData(hasConnection: Boolean, httpStatus: Int): Data {
         return Data.Builder()
             .putBoolean(OUTPUT_DATA_HAS_CONNECTION, hasConnection)
             .putInt(OUTPUT_DATA_HTTP_STATUS, httpStatus)
             .putString(OUTPUT_DATA_ITEM_NAME, inputData.getString(INPUT_DATA_ITEM_NAME))
             .putString(OUTPUT_DATA_LABEL, inputData.getString(INPUT_DATA_LABEL))
-            .putString(OUTPUT_DATA_VALUE, inputData.getString(INPUT_DATA_VALUE))
-            .putString(OUTPUT_DATA_MAPPED_VALUE, inputData.getString(INPUT_DATA_MAPPED_VALUE))
+            .putValueWithInfo(OUTPUT_DATA_VALUE, inputData.getValueWithInfo(INPUT_DATA_VALUE))
             .putBoolean(OUTPUT_DATA_SHOW_TOAST, inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false))
             .putString(OUTPUT_DATA_TASKER_INTENT, inputData.getString(INPUT_DATA_TASKER_INTENT))
             .putString(OUTPUT_DATA_AS_COMMAND, inputData.getString(INPUT_DATA_AS_COMMAND))
@@ -258,7 +254,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         private const val INPUT_DATA_ITEM_NAME = "item"
         private const val INPUT_DATA_LABEL = "label"
         private const val INPUT_DATA_VALUE = "value"
-        private const val INPUT_DATA_MAPPED_VALUE = "mappedValue"
         private const val INPUT_DATA_SHOW_TOAST = "showToast"
         private const val INPUT_DATA_TASKER_INTENT = "taskerIntent"
         private const val INPUT_DATA_AS_COMMAND = "command"
@@ -268,7 +263,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         const val OUTPUT_DATA_ITEM_NAME = "item"
         const val OUTPUT_DATA_LABEL = "label"
         const val OUTPUT_DATA_VALUE = "value"
-        const val OUTPUT_DATA_MAPPED_VALUE = "mappedValue"
         const val OUTPUT_DATA_SHOW_TOAST = "showToast"
         const val OUTPUT_DATA_TASKER_INTENT = "taskerIntent"
         const val OUTPUT_DATA_AS_COMMAND = "command"
@@ -277,8 +271,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         fun buildData(
             itemName: String,
             label: String?,
-            value: String,
-            mappedValue: String?,
+            value: ValueWithInfo,
             showToast: Boolean,
             taskerIntent: String?,
             asCommand: Boolean
@@ -286,12 +279,34 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             return Data.Builder()
                 .putString(INPUT_DATA_ITEM_NAME, itemName)
                 .putString(INPUT_DATA_LABEL, label)
-                .putString(INPUT_DATA_VALUE, value)
-                .putString(INPUT_DATA_MAPPED_VALUE, mappedValue)
+                .putValueWithInfo(INPUT_DATA_VALUE, value)
                 .putBoolean(INPUT_DATA_SHOW_TOAST, showToast)
                 .putString(INPUT_DATA_TASKER_INTENT, taskerIntent)
                 .putBoolean(INPUT_DATA_AS_COMMAND, asCommand)
                 .build()
         }
     }
+
+    enum class ValueType {
+        Raw,
+        Timestamp
+    }
+
+    @Parcelize
+    data class ValueWithInfo(
+        val value: String,
+        val mappedValue: String? = null,
+        val type: ValueType = ValueType.Raw) : Parcelable
+}
+
+fun Data.Builder.putValueWithInfo(key: String, value: ItemUpdateWorker.ValueWithInfo?): Data.Builder {
+    if (value != null) {
+        putStringArray(key, arrayOf(value.value, value.mappedValue, value.type.name))
+    }
+    return this
+}
+
+fun Data.getValueWithInfo(key: String): ItemUpdateWorker.ValueWithInfo? {
+    val array = getStringArray(key) ?: return null
+    return ItemUpdateWorker.ValueWithInfo(array[0], array[1], ItemUpdateWorker.ValueType.valueOf(array[2]))
 }

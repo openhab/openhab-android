@@ -84,6 +84,8 @@ fun String?.toNormalizedUrl(): String {
     }
 }
 
+fun String?.orDefaultIfEmpty(defaultValue: String) = if (isNullOrEmpty()) defaultValue else this!!
+
 fun Uri?.openInBrowser(context: Context) {
     if (this == null) {
         return
