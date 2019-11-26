@@ -11,6 +11,8 @@ import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
+import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.finishAndRemoveTaskIfPossible
 
 class ItemUpdateWidgetItemPickerActivity(
     override var hintMessageId: Int = 0,
@@ -31,14 +33,26 @@ class ItemUpdateWidgetItemPickerActivity(
             AppWidgetManager.INVALID_APPWIDGET_ID
         ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
+        var data: ItemUpdateWidget.ItemUpdateWidgetData? = null
+        if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+            data = ItemUpdateWidget.getInfoForWidget(this, appWidgetId)
+            initialHighlightItemName = data.item
+        }
+
         autoGenSwitch = findViewById(R.id.auto_gen_label_switch)
+        autoGenSwitch.setOnClickListener(this)
         labelEditText = findViewById(android.R.id.edit)
         labelEditTextWrapper = findViewById(R.id.input_wrapper)
 
-        autoGenSwitch.setOnClickListener(this)
-        autoGenSwitch.isChecked = true
-        labelEditText.setText(R.string.item_update_widget_default_label)
-        labelEditTextWrapper.isEnabled = false
+        if (data?.widgetLabel != null) {
+            autoGenSwitch.isChecked = false
+            labelEditText.setText(data.widgetLabel)
+            labelEditTextWrapper.isEnabled = true
+        } else {
+            autoGenSwitch.isChecked = true
+            labelEditText.setText(R.string.item_update_widget_default_label)
+            labelEditTextWrapper.isEnabled = false
+        }
     }
 
     override fun finish(item: Item, state: String, mappedState: String) {
@@ -58,6 +72,11 @@ class ItemUpdateWidgetItemPickerActivity(
             item.category.orEmpty()
         )
 
+        val oldIcon = ItemUpdateWidget.getInfoForWidget(this, appWidgetId).icon
+        if (oldIcon != item.category.orEmpty()) {
+            CacheManager.getInstance(this).removeWidgetIcon(appWidgetId)
+        }
+
         ItemUpdateWidget.saveInfoForWidget(this, data, appWidgetId)
 
         val updateIntent = Intent(this, ItemUpdateWidget::class.java).apply {
@@ -68,7 +87,11 @@ class ItemUpdateWidgetItemPickerActivity(
 
         val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(RESULT_OK, resultValue)
-        finish()
+        finishAndRemoveTaskIfPossible()
+    }
+
+    override fun onBackPressed() {
+        finishAndRemoveTaskIfPossible()
     }
 
     override fun onClick(v: View?) {
