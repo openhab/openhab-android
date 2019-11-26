@@ -16,6 +16,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Připojení</string>
     <string name="settings_display_title">Zobrazení</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Různé</string>
     <string name="settings_openhab_url">URL adresa lokálního serveru</string>
     <string name="settings_openhab_url_summary">Adresa URL Vašeho openHAB serveru (název hostitele nebo IP). Je-li adresa zvolena ručně, automatické hledání adresy je vypnuto. Aktuální nastavení: %s</string>
@@ -74,6 +75,7 @@
     <string name="settings_screen_lock_off">Vypnuto</string>
     <string name="settings_screen_lock_kiosk">Kioskový režim</string>
     <string name="settings_screen_lock_on">Zapnuto</string>
+    <string name="settings_show_sitemaps_in_drawer">Zobrazit všechny Sitemap v bočním menu</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="title_voice_widget_icon">Hlasové příkazy a zástupce aplikace</string>
@@ -213,6 +215,8 @@
     <string name="nfc_action_fastforward">Přetočit vpřed</string>
     <string name="nfc_action_move">Přesunout</string>
     <string name="nfc_action_stop">Zastavit</string>
+    <string name="nfc_action_open">Otevřeno</string>
+    <string name="nfc_action_closed">Zavřeno</string>
     <string name="nfc_activate">Aktivovat</string>
     <string name="nfc_action_current_color">Současná barva</string>
     <string name="nfc_action_to_sitemap_page">Zapsat Sitemap NFC tag</string>
@@ -296,9 +300,16 @@
     <string name="item_picker_list_error">Při načítání Items došlo k chybě</string>
     <string name="item_picker_custom">Vlastní</string>
     <string name="item_picker_dialog_title">Vyberte stav</string>
+    <string name="item_picker_blurb_command">Odeslat příkaz \"%3$s\" do \"%1$s\" (%2$s)</string>
+    <string name="item_picker_blurb_update">Nastavit \"%1$s\" (%2$s) na “%3$s“</string>
+    <string name="item_picker_tasker_variable">Proměnná Taskeru \"%s\"</string>
+    <string name="item_picker_item_update">Aktualizovat</string>
+    <string name="item_picker_item_command">Příkaz</string>
+    <string name="item_picker_contact_no_command">Item typu kontakt nemůže přijmout příkaz (command), změněno na aktualizaci (update)</string>
     <string name="search">Hledat</string>
     <string name="settings_tasker_plugin">Integrace Taskeru</string>
     <string name="settings_tasker_plugin_summary">Povolit Tasker akční plugin, který umožňuje aktualizaci Items prostřednictvím Taskeru nebo jiných kompatibilních aplikací</string>
+    <string name="tasker_plugin_disabled">Plugin pro Tasker je zakázán</string>
     <string name="turn_on">Zapnout</string>
     <string name="press_back_to_exit">Pro ukončení stiskněte znovu tlačítko zpět</string>
     <!-- Item update widget -->
@@ -323,4 +334,9 @@
     <string name="item_update_success_message_previous">%s ukazuje předchozí název</string>
     <string name="item_update_success_message_rewind">%s přetáčí zpět</string>
     <string name="item_update_success_message_fastforward">%s přetáčí vpřed</string>
+    <string name="item_update_error_no_connection_retry">Aktualizace Item se nezdařila, zkouším znovu\u2026</string>
+    <string name="item_update_error_no_connection">Žádné připojení</string>
+    <string name="item_update_error_couldnt_get_item_type">Typ Item nelze zjistit</string>
+    <string name="create_home_screen_widget_title">Vytvořit widget</string>
+    <string name="create_home_screen_widget_not_supported">Vaše zařízení nepodporuje vytváření widgetů uvnitř aplikace. Přejděte do nabídky widgetů na domovské obrazovce a vytvořte widget tam.</string>
 </resources>
