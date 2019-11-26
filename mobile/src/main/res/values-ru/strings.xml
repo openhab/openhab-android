@@ -215,6 +215,8 @@
     <string name="nfc_action_fastforward">Быстрая перемотка вперед</string>
     <string name="nfc_action_move">Переместить</string>
     <string name="nfc_action_stop">Остановить</string>
+    <string name="nfc_action_open">Открыт</string>
+    <string name="nfc_action_closed">Закрыт</string>
     <string name="nfc_activate">Включить</string>
     <string name="nfc_action_current_color">Текущий цвет</string>
     <string name="nfc_action_to_sitemap_page">Записать Sitemap на NFC метку</string>
@@ -298,7 +300,12 @@
     <string name="item_picker_list_error">Ошибка загрузки Items</string>
     <string name="item_picker_custom">Произвольно</string>
     <string name="item_picker_dialog_title">Выберите состояния</string>
+    <string name="item_picker_blurb_command">Отправить команду \"%3$s\" в \" \"%1$s\" (%2$s)</string>
+    <string name="item_picker_blurb_update">Обновить \"%1$s\" (%2$s) до \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Переменная в Tasker \"%s\"</string>
+    <string name="item_picker_item_update">Обновить</string>
+    <string name="item_picker_item_command">Команда</string>
+    <string name="item_picker_contact_no_command">Items типа контакт не могут получать Item команды, поменялось на обновление</string>
     <string name="search">Поиск</string>
     <string name="settings_tasker_plugin">Интеграция с Tasker</string>
     <string name="settings_tasker_plugin_summary">Включить плагин действий Tasker, который позволяет обновлять элементы через Tasker или другие совместимые приложения</string>
