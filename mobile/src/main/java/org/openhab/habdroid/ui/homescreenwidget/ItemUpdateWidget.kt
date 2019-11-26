@@ -219,9 +219,10 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val item = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
             val state = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
             val label = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
+            val widgetLabel = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, null)
             val mappedState = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
-            return ItemUpdateWidgetData(item, state, label, mappedState, icon)
+            return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon)
         }
 
         fun saveInfoForWidget(
@@ -233,6 +234,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM, data.item)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE, data.state)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
             }
@@ -249,10 +251,9 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update
             )
             views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
-            views.setTextViewText(
-                R.id.text,
-                context.getString(R.string.item_update_widget_text, data.label, data.mappedState)
-            )
+            val widgetLabel = data.widgetLabel
+                ?: context.getString(R.string.item_update_widget_text, data.label, data.mappedState)
+            views.setTextViewText(R.id.text, widgetLabel)
             hideLoadingIndicator(views)
             return views
         }
@@ -275,6 +276,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val item: String,
         val state: String,
         val label: String,
+        val widgetLabel: String?,
         val mappedState: String,
         val icon: String
     ) : Parcelable
