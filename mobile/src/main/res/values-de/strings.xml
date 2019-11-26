@@ -213,6 +213,8 @@
     <string name="nfc_action_fastforward">Schnell vorwärts</string>
     <string name="nfc_action_move">Bewegen</string>
     <string name="nfc_action_stop">Stop</string>
+    <string name="nfc_action_open">Geöffnet</string>
+    <string name="nfc_action_closed">Geschlossen</string>
     <string name="nfc_activate">Aktivieren</string>
     <string name="nfc_action_current_color">Momentane Farbe</string>
     <string name="nfc_action_to_sitemap_page">NFC-Tag für Sitemap beschreiben</string>
@@ -296,9 +298,12 @@
     <string name="item_picker_list_error">Laden der Items fehlgeschlagen</string>
     <string name="item_picker_custom">Benutzerdefiniert</string>
     <string name="item_picker_dialog_title">Status auswählen</string>
-    <string name="item_picker">openHAB-Items</string>
-    <string name="item_picker_blurb">\"%1$s\" (%2$s) auf \"%3$s\" stellen</string>
+    <string name="item_picker_blurb_command">Sende Befehl \"%3$s\" an \"%1$s\" (%2$s)</string>
+    <string name="item_picker_blurb_update">\"%1$s\" (%2$s) auf \"%3$s\" ändern</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
+    <string name="item_picker_item_update">Update</string>
+    <string name="item_picker_item_command">Befehl</string>
+    <string name="item_picker_contact_no_command">Kontakt-Items können keine Item-Befehle empfangen, auf Update geändert</string>
     <string name="search">Suchen</string>
     <string name="settings_tasker_plugin">Tasker-Integration</string>
     <string name="settings_tasker_plugin_summary">Tasker-Action-Plugin aktivieren, das es erlaubt, Items über Tasker oder andere kompatible Apps zu aktualisieren</string>
@@ -329,6 +334,7 @@
     <string name="item_update_success_message_fastforward">%s wird vorgespult</string>
     <string name="item_update_error_no_connection_retry">Senden des Item-Updates fehlgeschlagen, wiederhole\u2026</string>
     <string name="item_update_error_no_connection">Keine Verbindung</string>
+    <string name="item_update_error_couldnt_get_item_type">Item-Typ konnte nicht abgerufen werden</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
     <string name="create_home_screen_widget_not_supported">Ihr Gerät unterstützt das Erstellen von Widgets innerhalb einer App nicht. Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget.</string>
 </resources>

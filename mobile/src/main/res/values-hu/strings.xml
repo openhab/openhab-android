@@ -75,6 +75,7 @@
     <string name="settings_screen_lock_off">Ki</string>
     <string name="settings_screen_lock_kiosk">Kiosk mód</string>
     <string name="settings_screen_lock_on">Be</string>
+    <string name="settings_show_sitemaps_in_drawer">Mutasson minden felületet a menüben</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="title_voice_widget_icon">Hangutasítások és alkalmazás parancsikon</string>
@@ -211,6 +212,8 @@
     <string name="nfc_action_fastforward">Előretekerés</string>
     <string name="nfc_action_move">Áthelyezés</string>
     <string name="nfc_action_stop">Megállítás</string>
+    <string name="nfc_action_open">Nyitva</string>
+    <string name="nfc_action_closed">Zárva</string>
     <string name="nfc_activate">Aktiválás</string>
     <string name="nfc_action_current_color">Aktuális szín</string>
     <string name="nfc_action_to_sitemap_page">Felület írása NFC címkére</string>
@@ -294,12 +297,15 @@
     <string name="item_picker_list_error">Hiba történt az elemek betöltése során</string>
     <string name="item_picker_custom">Egyéni</string>
     <string name="item_picker_dialog_title">Válasszon állapotot</string>
-    <string name="item_picker">openHAB elememek</string>
-    <string name="item_picker_blurb">Beállítás erről \"%1$s\" (%2$s) erre \"%3$s\"</string>
+    <string name="item_picker_blurb_command">Parancs küldése \"%3$s\" to \"%1$s\" (%2$s)</string>
+    <string name="item_picker_blurb_update">Beállítás erről \"%1$s\" (%2$s) erre \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker változó \"%s\"</string>
+    <string name="item_picker_item_update">Frissítés</string>
+    <string name="item_picker_item_command">Parancs</string>
     <string name="search">Keresés</string>
     <string name="settings_tasker_plugin">Teendők integrálása</string>
     <string name="settings_tasker_plugin_summary">Engedélyezi a Teendők(Tasker) bővítményt, mely frissíti az elemeket a Tasker-el, vagy más kompatibilis alkalmazással </string>
+    <string name="tasker_plugin_disabled">Tasker bővítmény letiltva</string>
     <string name="turn_on">Bekapcsol</string>
     <string name="press_back_to_exit">Kilépéshez érintse meg újra a vissza gombot</string>
     <!-- Item update widget -->
@@ -324,4 +330,8 @@
     <string name="item_update_success_message_previous">%s mutatja az előző címet</string>
     <string name="item_update_success_message_rewind">%s visszateker</string>
     <string name="item_update_success_message_fastforward">%s gyors pörgetés</string>
+    <string name="item_update_error_no_connection_retry">Hiba az elem frissítésekor, újrapróbálkozás\u2026</string>
+    <string name="item_update_error_no_connection">Nincs kapcsolat</string>
+    <string name="item_update_error_couldnt_get_item_type">Nem megállapítható az elem típusa</string>
+    <string name="create_home_screen_widget_title">Widget létrehozása</string>
 </resources>

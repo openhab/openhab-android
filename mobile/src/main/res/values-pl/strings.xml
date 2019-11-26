@@ -293,8 +293,6 @@
     <string name="item_picker_list_error">Wystąpił błąd podczas ładowania Itemów</string>
     <string name="item_picker_custom">Niestandardowy</string>
     <string name="item_picker_dialog_title">Wybierz stan</string>
-    <string name="item_picker">Itemy openHAB</string>
-    <string name="item_picker_blurb">Ustaw \"%1$s\" (%2$s) na \"%3$s\"</string>
     <string name="search">Szukaj</string>
     <string name="settings_tasker_plugin">Integracja z Taskerem</string>
     <string name="settings_tasker_plugin_summary">Włącz wtyczkę Taskera która pozwala aktualizować Itemy przez Taskera i inne kompatybilne aplikacje</string>

@@ -213,6 +213,8 @@
     <string name="nfc_action_fastforward">Avanti veloce</string>
     <string name="nfc_action_move">Sposta</string>
     <string name="nfc_action_stop">Stop</string>
+    <string name="nfc_action_open">Aperto</string>
+    <string name="nfc_action_closed">Chiuso</string>
     <string name="nfc_activate">Attiva</string>
     <string name="nfc_action_current_color">Colore attuale</string>
     <string name="nfc_action_to_sitemap_page">Scrivi sul Sitemap NFC tag</string>
@@ -296,9 +298,12 @@
     <string name="item_picker_list_error">Errore durante il caricamento degli Items</string>
     <string name="item_picker_custom">Personalizza</string>
     <string name="item_picker_dialog_title">Seleziona stato</string>
-    <string name="item_picker">Item openHAB</string>
-    <string name="item_picker_blurb">Imposta \"%1$s\" (%2$s) a \"%3$s\"</string>
+    <string name="item_picker_blurb_command">Invia il comando \"%3$s\" a \"%1$s\" (%2$s)</string>
+    <string name="item_picker_blurb_update">Aggiorna \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variabile Tasker \"%s\"</string>
+    <string name="item_picker_item_update">Aggiorna</string>
+    <string name="item_picker_item_command">Comando</string>
+    <string name="item_picker_contact_no_command">Item di contatto non possono ricevere comandi, cambiato in update</string>
     <string name="search">Cerca</string>
     <string name="settings_tasker_plugin">Integrazione con Tasker</string>
     <string name="settings_tasker_plugin_summary">Abilita Tasker action plugin per aggiornare gli Item via Tasker o app compatibili</string>
