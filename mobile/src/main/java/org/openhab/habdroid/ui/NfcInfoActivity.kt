@@ -26,6 +26,8 @@ class NfcInfoActivity(
     override var hintButtonMessageId: Int = R.string.got_it,
     override var hintIconId: Int = R.drawable.ic_nfc_black_120dp
 ) : AbstractItemPickerActivity() {
+    override val forceNonFullscreen = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
