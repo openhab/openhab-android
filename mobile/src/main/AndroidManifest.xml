@@ -99,7 +99,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.NfcInfoActivity"
+            android:name=".ui.NfcItemPickerActivity"
             android:label="@string/intro_nfc" />
 
         <service
