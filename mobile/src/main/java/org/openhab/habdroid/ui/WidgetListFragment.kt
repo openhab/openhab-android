@@ -367,7 +367,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 widget.item?.name ?: return,
                 state,
                 widget.item.label.orEmpty(),
-                mappedState, widget.icon.orEmpty()
+                null,
+                mappedState,
+                widget.icon.orEmpty()
             )
 
             val callbackIntent = Intent(context, ItemUpdateWidget::class.java).apply {
