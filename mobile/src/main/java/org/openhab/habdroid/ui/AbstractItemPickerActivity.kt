@@ -222,16 +222,18 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             return
         }
 
-        val connection = ConnectionFactory.usableConnectionOrNull
-        if (connection == null) {
-            updateViewVisibility(loading = false, loadError = true, showHint = false)
-            return
-        }
-
-        itemPickerAdapter.clear()
         updateViewVisibility(loading = true, loadError = false, showHint = false)
+        itemPickerAdapter.clear()
 
         requestJob = launch {
+            ConnectionFactory.waitForInitialization()
+
+            val connection = ConnectionFactory.usableConnectionOrNull
+            if (connection == null) {
+                updateViewVisibility(loading = false, loadError = true, showHint = false)
+                return@launch
+            }
+
             try {
                 val result = connection.httpClient.get("rest/items").asText()
                 var items = JSONArray(result.response)
