@@ -108,7 +108,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                         .put("rest/items/$itemName/state", valueToBeSent, "text/plain;charset=UTF-8")
                         .asStatus()
                 }
-                Log.d(TAG, "Item '$itemName' successfully updated to value $value")
+                Log.d(TAG, "Item '$itemName' successfully updated to value $valueToBeSent")
                 if (showToast) {
                     val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
                     applicationContext.showToast(
@@ -142,9 +142,10 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     }
 
     private fun convertToTimestamp(value: ValueWithInfo): String {
-        val formatter = SimpleDateFormat("yyyy-mm-dd HH-MM-SS", Locale.US)
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+0000", Locale.US)
         formatter.timeZone = TimeZone.getTimeZone("UTC")
-        return formatter.format(value.value)
+        return formatter.format(value.value.toLong())
+
     }
 
     private fun sendTaskerSignalIfNeeded(
