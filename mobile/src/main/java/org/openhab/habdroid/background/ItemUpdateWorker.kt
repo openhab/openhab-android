@@ -145,7 +145,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+0000", Locale.US)
         formatter.timeZone = TimeZone.getTimeZone("UTC")
         return formatter.format(value.value.toLong())
-
     }
 
     private fun sendTaskerSignalIfNeeded(
@@ -297,7 +296,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     data class ValueWithInfo(
         val value: String,
         val mappedValue: String? = null,
-        val type: ValueType = ValueType.Raw) : Parcelable
+        val type: ValueType = ValueType.Raw
+    ) : Parcelable
 }
 
 fun Data.Builder.putValueWithInfo(key: String, value: ItemUpdateWorker.ValueWithInfo?): Data.Builder {
