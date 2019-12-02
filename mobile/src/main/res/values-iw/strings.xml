@@ -305,6 +305,7 @@
     <string name="item_picker_tasker_variable">משתנה %s ב Tasker</string>
     <string name="item_picker_item_update">עדכן</string>
     <string name="item_picker_item_command">פקודה</string>
+    <string name="item_picker_contact_no_command">פריטי contact אינם יכולים לקבל פקודות items, שונה ל-update</string>
     <string name="search">חיפוש</string>
     <string name="settings_tasker_plugin">שילוב עם Tasker</string>
     <string name="settings_tasker_plugin_summary">אפשר את תוסף פעולת Tasker על מנת לעדכן פריטים דרך Tasker או אפליקציות אחרות התומכות בכך</string>
@@ -336,4 +337,9 @@
     <string name="item_update_error_no_connection_retry">שגיאה בעדכון פריט, מנסה שנית\u2026</string>
     <string name="item_update_error_no_connection">לא מחובר</string>
     <string name="item_update_error_couldnt_get_item_type">כשל בזיהוי סוג פריט</string>
+    <string name="create_home_screen_widget_title">יצירת יישומון</string>
+    <string name="create_home_screen_widget_not_supported">המכשיר שלך אינו תומך ביצירת יישומונים מתוך אפליקציה. צור יישומון מתפריט היישומונים במסך הבית.</string>
+    <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
+    <string name="item_update_widget_widget_label">תווית יישומון</string>
+    <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <מצב>]]></string>
 </resources>
