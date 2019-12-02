@@ -5,4 +5,5 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- Name used for beta builds -->
     <string name="app_name">openHAB גרסת בטא</string>
+    <string name="tasker_item_picker_title">פריטי בטא של openHAB</string>
 </resources>
