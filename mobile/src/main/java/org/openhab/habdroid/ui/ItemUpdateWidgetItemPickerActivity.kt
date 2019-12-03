@@ -90,10 +90,6 @@ class ItemUpdateWidgetItemPickerActivity(
         finishAndRemoveTaskIfPossible()
     }
 
-    override fun onBackPressed() {
-        finishAndRemoveTaskIfPossible()
-    }
-
     override fun onClick(v: View?) {
         labelEditTextWrapper.isEnabled = !autoGenSwitch.isChecked
         labelEditText.setText(if (labelEditTextWrapper.isEnabled) {
