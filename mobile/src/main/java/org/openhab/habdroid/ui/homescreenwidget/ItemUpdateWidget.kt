@@ -18,6 +18,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
@@ -92,6 +94,14 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 ACTION_UPDATE_WIDGET -> {
                     BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, getInfoForWidget(context, id))
                 }
+                ACTION_EDIT_WIDGET -> {
+                    Log.d(TAG, "Edit widget $id")
+                    val openEditIntent = Intent(context, ItemUpdateWidgetItemPickerActivity::class.java).apply {
+                        addFlags(FLAG_ACTIVITY_NEW_TASK)
+                        putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
+                    }
+                    context.startActivity(openEditIntent)
+                }
             }
         }
         super.onReceive(context, intent)
@@ -126,14 +136,21 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val smallWidget = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) <
             context.resources.getDimension(R.dimen.small_widget_threshold)
 
-        val intent = Intent(context, ItemUpdateWidget::class.java).apply {
+        val itemUpdateIntent = Intent(context, ItemUpdateWidget::class.java).apply {
             action = ACTION_UPDATE_WIDGET
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
 
-        val pendingIntent = PendingIntent.getBroadcast(context, appWidgetId, intent, 0)
+        val itemUpdatePendingIntent = PendingIntent.getBroadcast(context, appWidgetId, itemUpdateIntent, 0)
 
-        val views = getRemoteViews(context, smallWidget, pendingIntent, data)
+        val editIntent = Intent(context, ItemUpdateWidget::class.java).apply {
+            action = ACTION_EDIT_WIDGET
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        }
+
+        val editPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, editIntent, 0)
+
+        val views = getRemoteViews(context, smallWidget, itemUpdatePendingIntent, editPendingIntent, data)
         appWidgetManager.updateAppWidget(appWidgetId, views)
         fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
     }
@@ -210,6 +227,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     companion object {
         private val TAG = ItemUpdateWidget::class.java.simpleName
         private const val ACTION_UPDATE_WIDGET = "org.openhab.habdroid.action.UPDATE_ITEM_FROM_WIDGET"
+        private const val ACTION_EDIT_WIDGET = "org.openhab.habdroid.action.EDIT_WIDGET"
         const val ACTION_CREATE_WIDGET = "org.openhab.habdroid.action.CREATE_WIDGET"
         const val EXTRA_DATA = "data"
         const val EXTRA_BUNDLE = "bundle"
@@ -243,14 +261,16 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         fun getRemoteViews(
             context: Context,
             smallWidget: Boolean,
-            pendingIntent: PendingIntent?,
+            itemUpdatePendingIntent: PendingIntent?,
+            editPendingIntent: PendingIntent?,
             data: ItemUpdateWidgetData
         ): RemoteViews {
             val views = RemoteViews(
                 context.packageName,
                 if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update
             )
-            views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
+            views.setOnClickPendingIntent(R.id.outer_layout, itemUpdatePendingIntent)
+            views.setOnClickPendingIntent(R.id.edit, editPendingIntent)
             val widgetLabel = data.widgetLabel
                 ?: context.getString(R.string.item_update_widget_text, data.label, data.mappedState)
             views.setTextViewText(R.id.text, widgetLabel)

@@ -387,7 +387,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-            val remoteViews = ItemUpdateWidget.getRemoteViews(context, true, null, data)
+            val remoteViews = ItemUpdateWidget.getRemoteViews(context, true, null, null, data)
             appWidgetManager.requestPinAppWidget(
                 ComponentName(context, ItemUpdateWidget::class.java),
                 bundleOf(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW to remoteViews),

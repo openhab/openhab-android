@@ -9,6 +9,14 @@
     android:contentDescription="@string/item_update_widget_content_description">
 
     <ImageView
+        android:id="@+id/edit"
+        android:src="@drawable/ic_settings_outline_black_12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:contentDescription="@string/item_update_widget_content_description_edit" />
+
+    <ImageView
         android:id="@+id/item_icon"
         android:padding="4dp"
         android:layout_width="match_parent"
@@ -16,6 +24,7 @@
         android:alpha="0.3"
         android:src="@mipmap/icon"
         android:visibility="gone"
+        tools:visibility="visible"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -26,6 +35,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="@color/light"
         android:visibility="gone"
+        tools:visibility="visible"
         tools:text="Dimmer: 33 %" />
 
     <ProgressBar
@@ -35,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminateTint="@color/openhab_orange"
-        android:indeterminateTintMode="src_in" />
+        android:indeterminateTintMode="src_in"
+        tools:visibility="gone" />
 
 </FrameLayout>
