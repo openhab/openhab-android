@@ -313,6 +313,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item Steierung</string>
     <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
+    <string name="item_update_widget_content_description_edit">Wdiet editéieren</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Item auswielen</string>
     <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
