@@ -23,6 +23,7 @@ import android.os.Build
 import android.os.Parcelable
 import android.telephony.TelephonyManager
 import android.util.Log
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -294,13 +295,24 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     val info = alarmManager.nextAlarmClock
                     val sender = info?.showIntent?.creatorPackage
-                    if (sender in IGNORED_PACKAGES_FOR_ALARM) {
-                        Log.d(TAG, "Alarm sent by $sender, ignoring")
-                        null
+                    Log.d(TAG, "Alarm sent by $sender")
+                    var time: String? = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
+                        "0"
                     } else {
-                        Log.d(TAG, "Alarm sent by $sender")
                         (info?.triggerTime ?: 0).toString()
                     }
+
+                    val prefs = context.getPrefs()
+
+                    if (time == "0" && prefs.getBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, false)) {
+                        time = null
+                    }
+
+                    prefs.edit {
+                        putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, time == "0" || time == null)
+                    }
+
+                    time
                 }
             }
             VALUE_GETTER_MAP[Constants.PREFERENCE_PHONE_STATE] = { context ->
