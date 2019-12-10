@@ -532,7 +532,7 @@ class WidgetAdapter(
 
         override fun start() {
             if (refreshRate > 0) {
-                imageView.setRefreshRate(refreshRate)
+                imageView.startRefreshing(refreshRate)
             } else {
                 imageView.cancelRefresh()
             }
@@ -848,7 +848,7 @@ class WidgetAdapter(
 
         override fun start() {
             if (refreshRate > 0) {
-                chart.setRefreshRate(refreshRate)
+                chart.startRefreshing(refreshRate)
             } else {
                 chart.cancelRefresh()
             }
