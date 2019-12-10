@@ -154,7 +154,7 @@ dependencies {
     fossImplementation "org.osmdroid:osmdroid-android:6.1.4"
 
     // FCM
-    fullImplementation "com.google.firebase:firebase-messaging:20.0.1"
+    fullImplementation "com.google.firebase:firebase-messaging:20.1.0"
 
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"
