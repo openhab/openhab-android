@@ -79,6 +79,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
 
+        var valueForLog: String? = null
+        var valueToBeSentForLog: String? = null
+
         return runBlocking {
             try {
                 val item = loadItem(connection, itemName)
@@ -93,7 +96,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 }
 
                 val value = inputData.getValueWithInfo(INPUT_DATA_VALUE)!!
+                valueForLog = value.value
                 val valueToBeSent = mapValueAccordingToItemTypeAndValue(value, item)
+                valueToBeSentForLog = valueToBeSent
                 val actualMappedValue = if (value.value != valueToBeSent) {
                     valueToBeSent
                 } else {
@@ -118,7 +123,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error updating item '$itemName'. Got HTTP error ${e.statusCode}", e)
+                Log.e(TAG, "Error updating item '$itemName' to $valueToBeSentForLog (was $valueForLog)." +
+                    " Got HTTP error ${e.statusCode}", e)
                 sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
                 Result.failure(buildOutputData(true, e.statusCode))
             }
