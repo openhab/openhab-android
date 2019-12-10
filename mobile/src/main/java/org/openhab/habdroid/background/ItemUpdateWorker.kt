@@ -28,6 +28,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.canBeToggled
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
@@ -125,7 +126,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     }
 
     private fun mapValueAccordingToItemTypeAndValue(value: ValueWithInfo, item: Item) = when {
-        value.value == "TOGGLE" && item.isOfTypeOrGroupType(Item.Type.Switch) -> determineOppositeState(item)
+        value.value == "TOGGLE" && item.canBeToggled() -> determineOppositeState(item)
         value.type == ValueType.Timestamp && item.isOfTypeOrGroupType(Item.Type.DateTime) -> convertToTimestamp(value)
         else -> value.value
     }
