@@ -56,6 +56,13 @@ data class Item internal constructor(
         return this.type == type || groupType == type
     }
 
+    fun canBeToggled(): Boolean {
+        return isOfTypeOrGroupType(Type.Color) ||
+            isOfTypeOrGroupType(Type.Dimmer) ||
+            isOfTypeOrGroupType(Type.Rollershutter) ||
+            isOfTypeOrGroupType(Type.Switch)
+    }
+
     companion object {
         @Throws(JSONException::class)
         fun updateFromEvent(item: Item?, jsonObject: JSONObject?): Item? {
@@ -157,11 +164,4 @@ fun String?.toItemType(): Item.Type {
     } catch (e: IllegalArgumentException) {
         Item.Type.None
     }
-}
-
-fun Item.canBeToggled(): Boolean {
-    return isOfTypeOrGroupType(Item.Type.Color) ||
-        isOfTypeOrGroupType(Item.Type.Dimmer) ||
-        isOfTypeOrGroupType(Item.Type.Rollershutter) ||
-        isOfTypeOrGroupType(Item.Type.Switch)
 }

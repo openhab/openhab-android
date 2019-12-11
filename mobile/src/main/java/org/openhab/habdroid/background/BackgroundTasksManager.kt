@@ -305,11 +305,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, time == "0" || time == null)
                     }
 
-                    if (time == null) {
-                        null
-                    } else {
-                        ItemUpdateWorker.ValueWithInfo(time, type = ItemUpdateWorker.ValueType.Timestamp)
-                    }
+                    time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
                 }
             }
             VALUE_GETTER_MAP[Constants.PREFERENCE_PHONE_STATE] = { context ->

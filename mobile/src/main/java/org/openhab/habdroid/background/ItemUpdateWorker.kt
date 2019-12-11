@@ -28,7 +28,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.canBeToggled
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
@@ -79,9 +78,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
 
-        var valueForLog: String? = null
-        var valueToBeSentForLog: String? = null
-
         return runBlocking {
             try {
                 val item = loadItem(connection, itemName)
@@ -96,9 +92,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 }
 
                 val value = inputData.getValueWithInfo(INPUT_DATA_VALUE)!!
-                valueForLog = value.value
                 val valueToBeSent = mapValueAccordingToItemTypeAndValue(value, item)
-                valueToBeSentForLog = valueToBeSent
+                Log.d(TAG, "Trying to update Item '$itemName' to value $valueToBeSent, was ${value.value}")
                 val actualMappedValue = if (value.value != valueToBeSent) {
                     valueToBeSent
                 } else {
@@ -123,8 +118,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
                 Result.success(buildOutputData(true, result.statusCode))
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error updating item '$itemName' to $valueToBeSentForLog (was $valueForLog)." +
-                    " Got HTTP error ${e.statusCode}", e)
+                Log.e(TAG, "Error updating item '$itemName'. Got HTTP error ${e.statusCode}", e)
                 sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
                 Result.failure(buildOutputData(true, e.statusCode))
             }
