@@ -2,13 +2,13 @@
 <strings>
     <intro>openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota</intro>
     <whatis>openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.</whatis>
-    <rules>Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.</rules>
+    <rules>Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä kaiken kattavassa sääntö- ja automaatio-ohjelmoinnissa.</rules>
     <supported>Tuetut laitteet ja tuotteet</supported>
     <bindings>Yli 200 yksilöllistä lisäosaa antaa tuen erilaisille tuotteille, laitteille, teknologioille ja protokollille. Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Loydä kaikki saatavailla olevat lisäosat ja tuetut laitteet sekä toiminnot osoitteesta: https://www.openhab.org/addons/</bindings>
     <automation_apps>Sovelluksessa on liitännäinen Taskeria ja Localea varten.</automation_apps>
 
     <oss_community>Avoimen lähdekoodin yhteisö</oss_community>
-    <forum>openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org</forum>
+    <forum>openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka josta löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org</forum>
 
     <report_issues>Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android</translation>
