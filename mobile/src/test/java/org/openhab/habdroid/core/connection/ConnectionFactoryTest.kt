@@ -148,7 +148,7 @@ class ConnectionFactoryTest {
 
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.cloudConnection
+        val conn = ConnectionFactory.cloudConnectionOrNull
 
         assertNotNull("Should return a cloud connection if remote url is set.", conn)
         assertEquals(CloudConnection::class.java, conn!!.javaClass)

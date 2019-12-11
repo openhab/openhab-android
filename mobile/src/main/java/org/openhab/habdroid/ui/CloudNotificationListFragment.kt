@@ -112,7 +112,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
     private fun loadNotifications(clearExisting: Boolean) {
         val activity = activity as AbstractBaseActivity? ?: return
-        val conn = ConnectionFactory.cloudConnection
+        val conn = ConnectionFactory.cloudConnectionOrNull
         if (conn == null) {
             updateViewVisibility(loading = false, loadError = true)
             return
