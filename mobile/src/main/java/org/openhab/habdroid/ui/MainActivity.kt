@@ -935,11 +935,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         Log.e(TAG, "Error: $error", error)
         Log.e(TAG, "HTTP status code: $statusCode")
         var message = Util.getHumanReadableErrorMessage(this,
-            request.url().toString(), statusCode, error)
+            request.url.toString(), statusCode, error)
         if (prefs.isDebugModeEnabled()) {
             message = SpannableStringBuilder(message).apply {
                 inSpans(RelativeSizeSpan(0.8f)) {
-                    append("\n\nURL: ").append(request.url().toString())
+                    append("\n\nURL: ").append(request.url.toString())
 
                     val authHeader = request.header("Authorization")
                     if (authHeader?.startsWith("Basic") == true) {

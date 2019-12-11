@@ -126,7 +126,7 @@ fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap
 }
 
 fun MediaType?.isSvg(): Boolean {
-    return this != null && this.type() == "image" && this.subtype().contains("svg")
+    return this != null && this.type == "image" && this.subtype.contains("svg")
 }
 
 @Throws(IOException::class)
