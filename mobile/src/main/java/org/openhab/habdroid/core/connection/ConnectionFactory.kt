@@ -175,7 +175,7 @@ class ConnectionFactory internal constructor(
                 Constants.PREFERENCE_REMOTE_URL,
                 Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
 
-            updateState(false, available = null, availableFailureReason = null, cloudInitialized = false, cloud = null, cloudFailureReason = null)
+            updateState(false, null, null, false, null, null)
             triggerConnectionUpdateIfNeeded()
         }
     }
@@ -286,7 +286,6 @@ class ConnectionFactory internal constructor(
             } catch (e: Exception) {
                 updateState(true, cloudInitialized = true, cloud = null, cloudFailureReason = e)
             }
-
         }
     }
 
