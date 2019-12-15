@@ -315,6 +315,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">שליטה בפריט</string>
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
+    <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
     <string name="item_update_widget_text">%2$s: %1$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
