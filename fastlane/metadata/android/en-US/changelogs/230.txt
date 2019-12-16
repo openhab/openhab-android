@@ -1,0 +1,5 @@
+## Added
+* Support DateTime items as Alarm clock receiver (#1707)
+
+## Changed
+* Increase size of widget edit button (#1718)
