@@ -88,8 +88,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val data = info.outputData
                 val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM_NAME)
                 val label = data.getString(ItemUpdateWorker.OUTPUT_DATA_LABEL)
-                val value = data.getString(ItemUpdateWorker.OUTPUT_DATA_VALUE)
-                val mappedValue = data.getString(ItemUpdateWorker.OUTPUT_DATA_MAPPED_VALUE)
+                val value = data.getValueWithInfo(ItemUpdateWorker.OUTPUT_DATA_VALUE)
                 val showToast = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_SHOW_TOAST, false)
                 val taskerIntent = data.getString(ItemUpdateWorker.OUTPUT_DATA_TASKER_INTENT)
                 val asCommand = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_AS_COMMAND, false)
@@ -103,7 +102,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             itemName,
                             label,
                             value,
-                            mappedValue,
                             showToast,
                             taskerIntent,
                             asCommand

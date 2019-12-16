@@ -14,13 +14,12 @@
 package org.openhab.habdroid.model
 
 import android.os.Parcelable
-
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
-import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
 @Parcelize
@@ -55,6 +54,13 @@ data class Item internal constructor(
 
     fun isOfTypeOrGroupType(type: Type): Boolean {
         return this.type == type || groupType == type
+    }
+
+    fun canBeToggled(): Boolean {
+        return isOfTypeOrGroupType(Type.Color) ||
+            isOfTypeOrGroupType(Type.Dimmer) ||
+            isOfTypeOrGroupType(Type.Rollershutter) ||
+            isOfTypeOrGroupType(Type.Switch)
     }
 
     companion object {

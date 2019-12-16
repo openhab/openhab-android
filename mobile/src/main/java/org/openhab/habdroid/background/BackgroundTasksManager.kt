@@ -72,7 +72,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         info.itemName,
                         info.label,
                         info.value,
-                        info.mappedValue,
                         BackoffPolicy.EXPONENTIAL,
                         info.showToast,
                         info.taskerIntent,
@@ -110,8 +109,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     WORKER_TAG_PREFIX_TASKER + itemName,
                     itemName,
                     label,
-                    state,
-                    mappedState,
+                    ItemUpdateWorker.ValueWithInfo(state, mappedState),
                     BackoffPolicy.EXPONENTIAL,
                     false,
                     intent.getStringExtra(TaskerPlugin.Setting.EXTRA_PLUGIN_COMPLETION_INTENT),
@@ -129,8 +127,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val tag: String,
         val itemName: String,
         val label: String?,
-        val value: String,
-        val mappedValue: String?,
+        val value: ItemUpdateWorker.ValueWithInfo,
         val showToast: Boolean,
         val taskerIntent: String?,
         val asCommand: Boolean
@@ -179,7 +176,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             "com.android.providers.calendar",
             "com.android.calendar"
         )
-        private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String?>()
+        private val VALUE_GETTER_MAP = HashMap<String, (Context) -> ItemUpdateWorker.ValueWithInfo?>()
 
         // need to keep a ref for this to avoid it being GC'ed
         // (SharedPreferences only keeps a WeakReference)
@@ -202,8 +199,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     WORKER_TAG_PREFIX_NFC + tag.item,
                     tag.item,
                     tag.label,
-                    tag.state,
-                    tag.mappedState,
+                    ItemUpdateWorker.ValueWithInfo(tag.state, tag.mappedState),
                     BackoffPolicy.LINEAR,
                     showToast = true,
                     asCommand = true
@@ -218,8 +214,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     WORKER_TAG_PREFIX_WIDGET + data.item,
                     data.item,
                     data.label,
-                    data.state,
-                    data.mappedState,
+                    ItemUpdateWorker.ValueWithInfo(data.state, data.mappedState),
                     BackoffPolicy.LINEAR,
                     showToast = true,
                     asCommand = true
@@ -243,16 +238,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 return
             }
 
-            val getter = VALUE_GETTER_MAP[key] ?: return
-
+            val value = VALUE_GETTER_MAP[key]?.invoke(context) ?: return
             val prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
+
             enqueueItemUpload(
                 context,
                 key,
                 prefix + setting.second,
                 null,
-                getter(context) ?: return,
-                null,
+                value,
                 BackoffPolicy.EXPONENTIAL,
                 showToast = false,
                 asCommand = true
@@ -264,8 +258,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             tag: String,
             itemName: String,
             label: String?,
-            value: String,
-            mappedValue: String?,
+            value: ItemUpdateWorker.ValueWithInfo,
             backoffPolicy: BackoffPolicy,
             showToast: Boolean,
             taskerIntent: String? = null,
@@ -274,13 +267,13 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
+            val inputData = ItemUpdateWorker.buildData(itemName, label, value, showToast, taskerIntent, asCommand)
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
                 .setConstraints(constraints)
                 .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .setInputData(
-                    ItemUpdateWorker.buildData(itemName, label, value, mappedValue, showToast, taskerIntent, asCommand))
+                .setInputData(inputData)
                 .build()
 
             val workManager = WorkManager.getInstance(context)
@@ -312,17 +305,18 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, time == "0" || time == null)
                     }
 
-                    time
+                    time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
                 }
             }
             VALUE_GETTER_MAP[Constants.PREFERENCE_PHONE_STATE] = { context ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                when (manager.callState) {
+                val state = when (manager.callState) {
                     TelephonyManager.CALL_STATE_IDLE -> "IDLE"
                     TelephonyManager.CALL_STATE_RINGING -> "RINGING"
                     TelephonyManager.CALL_STATE_OFFHOOK -> "OFFHOOK"
                     else -> "UNDEF"
                 }
+                ItemUpdateWorker.ValueWithInfo(state)
             }
         }
     }
