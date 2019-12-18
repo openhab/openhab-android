@@ -63,7 +63,7 @@ class ItemUpdateWidgetItemPickerActivity(
         }
         val label = if (item.label.isNullOrEmpty()) item.name else item.label
 
-        val data = ItemUpdateWidget.ItemUpdateWidgetData(
+        val newData = ItemUpdateWidget.ItemUpdateWidgetData(
             item.name,
             state,
             label,
@@ -72,12 +72,12 @@ class ItemUpdateWidgetItemPickerActivity(
             item.category.orEmpty()
         )
 
-        val oldIcon = ItemUpdateWidget.getInfoForWidget(this, appWidgetId).icon
-        if (oldIcon != item.category.orEmpty()) {
+        val oldData = ItemUpdateWidget.getInfoForWidget(this, appWidgetId)
+        if (oldData.icon != newData.icon || oldData.state != newData.state) {
             CacheManager.getInstance(this).removeWidgetIcon(appWidgetId)
         }
 
-        ItemUpdateWidget.saveInfoForWidget(this, data, appWidgetId)
+        ItemUpdateWidget.saveInfoForWidget(this, newData, appWidgetId)
 
         val updateIntent = Intent(this, ItemUpdateWidget::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
