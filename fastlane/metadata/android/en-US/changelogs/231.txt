@@ -1,0 +1,2 @@
+## Fixed
+* Update icon if widget is edited (#1729)
