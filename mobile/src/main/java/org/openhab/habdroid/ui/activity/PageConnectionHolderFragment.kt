@@ -35,6 +35,7 @@ import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconFormat
+import org.openhab.habdroid.util.appendQueryParameter
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.IOException
@@ -282,7 +283,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             val timeoutMillis = if (longPolling) 300000L else 10000L
             val requestUrl = url.toUri()
                 .buildUpon()
-                .appendQueryParameter("includeHidden", "true")
+                .appendQueryParameter("includeHidden", true)
                 .toString()
 
             requestJob = scope.launch {

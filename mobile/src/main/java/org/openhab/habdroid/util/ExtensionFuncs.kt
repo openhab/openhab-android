@@ -247,3 +247,7 @@ fun Activity.finishAndRemoveTaskIfPossible() {
         finish()
     }
 }
+
+fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
+    return appendQueryParameter(key, value.toString())
+}

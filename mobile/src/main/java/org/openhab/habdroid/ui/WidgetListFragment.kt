@@ -63,6 +63,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -408,7 +409,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val url = Uri.Builder()
             .appendEncodedPath(linkedPage.iconPath)
             .appendQueryParameter("format", iconFormat)
-            .appendQueryParameter("anyFormat", "true")
+            .appendQueryParameter("anyFormat", true)
             .toString()
         val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
         /**
