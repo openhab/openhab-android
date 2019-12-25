@@ -315,6 +315,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Керування елементом</string>
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
+    <string name="item_update_widget_content_description_edit">Редагувати віджет</string>
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
     <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
