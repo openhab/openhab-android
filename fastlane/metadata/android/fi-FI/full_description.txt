@@ -1,11 +1,9 @@
 openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota
 
 F-Droid sovelluskaupasta ladatuissa koontiversioissa FCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.
-Kokeilla uusia ominaisuuksia ja anna pian palautetta!
-Voit asentaa beta version <a href="https://f-droid.org/packages/org.openhab.habdroid/">vakaan version</a> rinnalle.
 
 openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.
-Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.
+Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä kaiken kattavassa sääntö- ja automaatio-ohjelmoinnissa.
 
 <b>Tuetut laitteet ja tuotteet</b>
 
@@ -14,7 +12,7 @@ Sovelluksessa on liitännäinen Taskeria ja Localea varten.
 
 <b>Avoimen lähdekoodin yhteisö</b>
 
-openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org
+openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka josta löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org
 Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues
 Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android
 
