@@ -302,7 +302,7 @@ fun Context.getShortHumanReadableErrorMessage(url: String, statusCode: Int, erro
         } else {
             try {
                 getString(
-                    resources.getIdentifier("error_short_http_code_$statusCode","string",packageName),
+                    resources.getIdentifier("error_short_http_code_$statusCode", "string", packageName),
                     statusCode
                 )
             } catch (e: Resources.NotFoundException) {
