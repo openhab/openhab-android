@@ -104,13 +104,13 @@ class ConnectionFactory internal constructor(
         httpClient = OkHttpClient.Builder()
             .cache(CacheManager.getInstance(context).httpCache)
             .addInterceptor(httpLogger)
-            .hostnameVerifier(trustManager.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
+            .hostnameVerifier(trustManager.wrapHostnameVerifier(OkHostnameVerifier))
             .build()
         updateHttpClientForClientCert(true)
 
         // Relax per-host connection limit, as the default limit (max 5 connections per host) is
         // too low considering SSE connections count against that limit.
-        httpClient.dispatcher().maxRequestsPerHost = httpClient.dispatcher().maxRequests
+        httpClient.dispatcher.maxRequestsPerHost = httpClient.dispatcher.maxRequests
 
         connectionHelper.changeCallback = {
             if (listeners.isEmpty()) {

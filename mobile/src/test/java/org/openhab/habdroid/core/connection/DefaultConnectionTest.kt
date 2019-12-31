@@ -127,10 +127,10 @@ class DefaultConnectionTest {
             val result = testConnection.httpClient.get(url)
             result.close()
             assertFalse("The request should never succeed in tests", true)
-            result.request.url()
+            result.request.url
         }
     } catch (e: HttpClient.HttpException) {
-        e.request.url()
+        e.request.url
     }
 
     companion object {

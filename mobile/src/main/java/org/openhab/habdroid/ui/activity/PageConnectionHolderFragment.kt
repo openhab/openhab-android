@@ -22,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.Headers
-import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Response
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
@@ -40,7 +40,6 @@ import org.xml.sax.SAXException
 import java.io.IOException
 import java.io.StringReader
 import java.util.HashMap
-
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 
@@ -474,7 +473,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                             throw JSONException("Unexpected status $status")
                         }
                         val headerObject = result.getJSONObject("context").getJSONObject("headers")
-                        val url = HttpUrl.parse(headerObject.getJSONArray("Location").getString(0))
+                        val url = headerObject.getJSONArray("Location").getString(0).toHttpUrlOrNull()
                         if (url != null) {
                             val u = url.newBuilder()
                                 .addQueryParameter("sitemap", sitemap)
@@ -514,7 +513,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 // ourselves by calling close(), so check for the reporter matching our expectations
                 // (mismatch means shutdown was called)
                 if (eventSource === eventStream) {
-                    val statusCode = response?.code() ?: 0
+                    val statusCode = response?.code ?: 0
                     Log.w(TAG, "SSE stream $eventSource failed for page $pageId with status $statusCode: ${t?.message}")
                     scope.launch {
                         failureCb(false)

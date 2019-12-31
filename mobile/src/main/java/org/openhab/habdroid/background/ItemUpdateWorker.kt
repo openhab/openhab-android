@@ -179,7 +179,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val contentType = response.response.contentType()
         val content = response.asText().response
 
-        if (contentType?.type() == "application" && contentType.subtype() == "json") {
+        if (contentType?.type == "application" && contentType.subtype == "json") {
             // JSON
             return try {
                 JSONObject(content).toItem()

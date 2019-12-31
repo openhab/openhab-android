@@ -24,24 +24,26 @@ import okhttp3.Callback
 import okhttp3.Credentials
 import okhttp3.Headers
 import okhttp3.HttpUrl
-import okhttp3.MediaType
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
 import java.io.IOException
+import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
-    private val baseUrl: HttpUrl? = if (baseUrl != null) HttpUrl.parse(baseUrl) else null
+    private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
     @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
-        Credentials.basic(username, password, okhttp3.internal.Util.UTF_8) else null
+        Credentials.basic(username, password, StandardCharsets.UTF_8) else null
 
     enum class CachingMode {
         DEFAULT,
@@ -61,10 +63,10 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
     }
 
     fun buildUrl(url: String): HttpUrl {
-        var absoluteUrl = HttpUrl.parse(url)
+        var absoluteUrl = url.toHttpUrlOrNull()
         if (absoluteUrl == null && baseUrl != null) {
             val actualUrl = if (url.startsWith("/")) url.substring(1) else url
-            absoluteUrl = HttpUrl.parse(baseUrl.toString() + actualUrl)
+            absoluteUrl = (baseUrl.toString() + actualUrl).toHttpUrlOrNull()
         }
         if (absoluteUrl == null) {
             throw IllegalArgumentException("URL '$url' is invalid")
@@ -121,8 +123,8 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
             }
         }
         if (requestBody != null) {
-            val actualMediaType = if (mediaType != null) MediaType.parse(mediaType) else null
-            requestBuilder.method(method, RequestBody.create(actualMediaType, requestBody))
+            val actualMediaType = mediaType?.toMediaTypeOrNull()
+            requestBuilder.method(method, requestBody.toRequestBody(actualMediaType))
         }
         when (caching) {
             CachingMode.AVOID_CACHE -> requestBuilder.cacheControl(CacheControl.FORCE_NETWORK)
@@ -148,19 +150,19 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val body = response.body()
+                val body = response.body
 
                 when {
                     !response.isSuccessful -> {
                         body?.close()
                         cont.resumeWithException(
-                            HttpException(call.request(), url, response.message(), response.code()))
+                            HttpException(call.request(), url, response.message, response.code))
                     }
                     body == null -> {
                         cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))
                     }
                     else -> {
-                        cont.resume(HttpResult(call.request(), url, body, response.code(), response.headers()))
+                        cont.resume(HttpResult(call.request(), url, body, response.code, response.headers))
                     }
                 }
             }

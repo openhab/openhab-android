@@ -47,7 +47,7 @@ open class ConnectionWebViewClient(
         } else {
             Log.e(TAG, "Invalid certificate")
             handler.cancel()
-            val host = connection.httpClient.buildUrl("").host()
+            val host = connection.httpClient.buildUrl("").host
             val errorMessage = when (error.primaryError) {
                 SslError.SSL_NOTYETVALID -> context.getString(R.string.error_certificate_not_valid_yet)
                 SslError.SSL_EXPIRED -> context.getString(R.string.error_certificate_expired)
