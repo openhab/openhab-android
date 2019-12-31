@@ -104,6 +104,7 @@
     <string name="error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy er oppe, men den får ikke svar fra openHAB-serveren (HTTP-respons kode 504).</string>
     <string name="error_http_code_507">openHAB-serveren har ikke nok ledig minne (HTTP-responskode 507)</string>
     <string name="error_http_code_511">Nettverksautentisering påkrevd (HTTP-responskode 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Feil ved henting av informasjon fra openHAB-serveren</string>
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
