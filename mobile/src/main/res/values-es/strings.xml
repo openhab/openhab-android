@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Agotado el tiempo de espera de la puerta de enlace. Parece que su proxy inverso se está ejecutando, pero no pudo obtener una respuesta del servidor openHAB (código de respuesta HTTP 504).</string>
     <string name="error_http_code_507">El servidor openHAB no tiene suficiente espacio libre (código de respuesta HTTP 507)</string>
     <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Error al obtener información del servidor openHAB</string>
     <string name="error_openhab_offline">Su servidor openHAB está fuera de línea mientras se ejecuta la instancia de la nube</string>
     <string name="error_no_browser_found">No se encontró ningún navegador en su dispositivo</string>
