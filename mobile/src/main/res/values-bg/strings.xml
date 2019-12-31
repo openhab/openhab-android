@@ -76,6 +76,7 @@
     <string name="error_http_code_503">openHAB сървъра е временно недостъпен (HTTP отговор 503)</string>
     <string name="error_http_code_507">openHAB сървъра няма достатъчно свободно място (HTTP отговор 507)</string>
     <string name="error_http_code_511">Изисква се мрежово удостоверяване (HTTP отговор 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Грешка при извличане на информация от openHAB сървъра</string>
     <string name="title_activity_openhabwritetag">Запиши NFC етикет</string>
     <string name="title_activity_libraries">Използвани библиотеки</string>
