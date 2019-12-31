@@ -1,0 +1,4 @@
+## Changed
+* Refresh Image and Chart items after resuming the app (#1717)
+* Improve error reporting if push registration failed (#1720 and #1722)
+* Bump okhttp to 4.X (#1719). Bumps minApi to Android 5.
