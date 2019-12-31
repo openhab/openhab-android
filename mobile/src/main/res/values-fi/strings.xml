@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus 504).</string>
     <string name="error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus 507)</string>
     <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
     <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
     <string name="error_no_browser_found">Laitteeltasi ei löytynyt selainta</string>
