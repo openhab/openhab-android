@@ -48,6 +48,7 @@
     <string name="error_http_code_503">O Servidor openHAB está temporariamente indisponível (HTTP código de resposta 503)</string>
     <string name="error_http_code_507">O servidor openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
     <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="title_activity_openhabwritetag">Escrever na etiqueta NFC</string>
     <string name="info_write_tag">Toque na etiqueta e mantenha-la perto até aparecer a mensagem de confirmação</string>
     <string name="info_write_tag_progress">Escrever a etiqueta</string>
