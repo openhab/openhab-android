@@ -58,8 +58,12 @@ object Util {
             } else {
                 try {
                     context.getString(context.resources.getIdentifier(
-                        "error_http_code_$statusCode",
-                        "string", context.packageName))
+                            "error_http_code_$statusCode",
+                            "string",
+                            context.packageName
+                        ),
+                        statusCode
+                    )
                 } catch (e: Resources.NotFoundException) {
                     context.getString(R.string.error_http_connection_failed, statusCode)
                 }
@@ -98,16 +102,20 @@ object Util {
         context: Context,
         url: String,
         statusCode: Int,
-        error: Throwable
+        error: Throwable?
     ): CharSequence {
         if (statusCode >= 400) {
-            return if (error.message == "openHAB is offline") {
+            return if (error?.message == "openHAB is offline") {
                 context.getString(R.string.error_short_openhab_offline)
             } else {
                 try {
                     context.getString(context.resources.getIdentifier(
                         "error_short_http_code_$statusCode",
-                        "string", context.packageName))
+                        "string",
+                        context.packageName
+                    ),
+                        statusCode
+                    )
                 } catch (e: Resources.NotFoundException) {
                     context.getString(R.string.error_short_http_connection_failed, statusCode)
                 }
@@ -138,7 +146,7 @@ object Util {
             return context.getString(R.string.error_short_http_to_https_port)
         } else {
             Log.e(TAG, "REST call to $url failed", error)
-            return error.localizedMessage.orEmpty()
+            return error?.localizedMessage.orEmpty()
         }
     }
 
