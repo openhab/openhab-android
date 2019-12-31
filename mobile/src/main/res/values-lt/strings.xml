@@ -41,6 +41,7 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_496">Reikalingas SSL kliento sertifikatas (HTTP atsakymo kodas 496)</string>
     <string name="error_http_code_511">Reikalingas tinklo autentifikavimas (HTTP atsakymo kodas 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="title_activity_openhabwritetag">Rašyti NFC žymą</string>
     <string name="info_write_tag">Palieskite žymą ir laikykite ją arti kol bus parodyta patvirtinimo žinutė</string>
     <string name="info_write_tag_progress">Rašoma žyma</string>
