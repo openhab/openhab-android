@@ -83,6 +83,7 @@
     <string name="error_http_code_503">خادم openHAB غير متوفر مؤقتاً (رمز استجابة HTTP 503)</string>
     <string name="error_http_code_507">خادم openHAB لا يمتلك مساحة خالية كافية (رمز استجابة HTTP 507)</string>
     <string name="error_http_code_511">يتطلب مصادقة الشبكة (رمز استجابة HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
     <string name="title_activity_openhabwritetag">أكتب وسم NFC</string>
     <string name="title_activity_libraries">المكتبات المستخدمة</string>
