@@ -83,7 +83,7 @@ object CloudMessagingHelper {
                 val errorCode = gaa.isGooglePlayServicesAvailable(context)
                 if (errorCode != ConnectionResult.SUCCESS) {
                     context.getString(
-                        R.string.info_openhab_gcm_failed_with_reason,
+                        R.string.info_openhab_gcm_failed_play_services,
                         gaa.getErrorString(errorCode)
                     )
                 } else {

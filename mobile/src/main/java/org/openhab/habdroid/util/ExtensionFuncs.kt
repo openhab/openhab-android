@@ -215,7 +215,8 @@ fun Context.getSecretPrefs(): SharedPreferences {
  */
 fun Context.showErrorToast(message: CharSequence) {
     Handler(Looper.getMainLooper()).post {
-        Toasty.error(this, message).show()
+        Toasty.custom(this, message, R.drawable.ic_openhab_appicon_24dp, R.color.pref_icon_red,
+            Toasty.LENGTH_LONG, true, true).show()
     }
 }
 
