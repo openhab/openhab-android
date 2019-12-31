@@ -87,6 +87,7 @@
     <string name="error_http_code_504">Gateway time-out. Det verkar som att din omvända proxy är uppe, men den får inget svar ifrån openHAB-servern (HTTP-svarskod 504).</string>
     <string name="error_http_code_507">openHAB-servern har inte tillräckligt ledigt diskutrymme (HTTP-svarskod 507)</string>
     <string name="error_http_code_511">Nätverksautentisering krävs (HTTP-svarskod 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Fel vid hämtning av information ifrån openHAB-servern</string>
     <string name="error_openhab_offline">Molninstansen är igång, men din openHAB-server är offline</string>
     <string name="title_activity_openhabwritetag">Skriv NFC-tagg</string>
