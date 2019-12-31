@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504).</string>
     <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
     <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
