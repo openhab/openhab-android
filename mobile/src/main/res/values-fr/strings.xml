@@ -110,6 +110,7 @@
     <string name="error_http_code_504">Expiration du délai d\'attente de la passerelle. Votre proxy fonctionne, mais il n\'a pas pu recevoir une réponse du serveur openHAB (code de réponse HTTP 504).</string>
     <string name="error_http_code_507">Le serveur openHAB n\'a pas assez d\'espace disque (code de réponse HTTP 507)</string>
     <string name="error_http_code_511">L’authentification réseau est obligatoire (code de réponse HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
     <string name="error_openhab_offline">Votre serveur openHAB est déconnecté alors que l\'instance dans le cloud est en cours d\'exécution</string>
     <string name="error_no_browser_found">Aucun navigateur trouvé sur votre appareil</string>
