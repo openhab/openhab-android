@@ -120,6 +120,7 @@
     <string name="error_http_code_504">Gateway time-out. Het lijkt erop dat uw reverse-proxy actief is, maar er kan geen antwoord gekregen worden van de openHAB server (HTTP response code 504).</string>
     <string name="error_http_code_507">De openHAB-server heeft onvoldoende vrije ruimte (HTTP-reactiecode 507)</string>
     <string name="error_http_code_511">Netwerkverificatie is vereist (HTTP responscode 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
     <string name="error_no_browser_found">Geen browser gevonden op dit apparaat</string>
