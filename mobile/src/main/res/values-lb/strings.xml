@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Gateway Time-out. Et gesäit sou aus wei wann däin Reverse-Proxy leeft mä keng Äntwert vum openHAB Server krut (HTTP Äntwert Code 504).</string>
     <string name="error_http_code_507">Den openHAB Server huet net genuch fräie Späicher (HTTP Äntwert Code 507)</string>
     <string name="error_http_code_511">Netzwierk-Authentifizéierung erfuerderlech (HTTP Äntwert Code 507)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Feeler beim lueden vun openHAB Server Informatiounen</string>
     <string name="error_openhab_offline">Däin openHAB Server ass Offline, mä d‘ Cloud Instanz leeft</string>
     <string name="error_no_browser_found">Es ass kee Browser op dengem Gerät fonnt ginn</string>
