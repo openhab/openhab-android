@@ -120,6 +120,7 @@
     <string name="error_http_code_504">Expirare conexiune gateway. Se pare că serverul proxy este pornit, însă nu a putut primi un raspuns de la serverul openHAB (cod răspuns HTTP 504).</string>
     <string name="error_http_code_507">Serverul openHAB nu are suficient spațiu liber (cod răspuns HTTP 507)</string>
     <string name="error_http_code_511">Autentificarea în rețea este necesară (cod răspuns HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Eroare la obținerea informațiilor despre serverul openHAB</string>
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
     <string name="error_no_browser_found">Nu a fost găsit nici un browser pe dispozitivul tău</string>
