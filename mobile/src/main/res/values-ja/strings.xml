@@ -118,6 +118,7 @@
     <string name="error_http_code_504">ゲートウェイ タイムアウト。リバースプロキシが実行中ですが、openHAB サーバーから回答を受け取ることができなかったようです (HTTP 応答コード 504).</string>
     <string name="error_http_code_507">openHAB に十分な空き容量がありません (HTTP 応答コード 507)</string>
     <string name="error_http_code_511">ネットワーク認証が必要 (HTTP 応答コード 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">openHAB サーバー情報の取得時にエラーが発生しました</string>
     <string name="error_openhab_offline">クラウドインスタンス実行中、お使いの openHAB サーバーがオフラインです</string>
     <string name="error_no_browser_found">お使いのデバイス上にブラウザーが見つかりません</string>
