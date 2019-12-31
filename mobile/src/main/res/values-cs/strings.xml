@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Gateway time-out. Zdá se, že Vaše reverse proxy běží, ale nemůže získat odpověď od serveru openHAB (kód odpovědi HTTP 504).</string>
     <string name="error_http_code_507">Server openHAB má nedostatek volného místa (kód odpovědi HTTP 507)</string>
     <string name="error_http_code_511">Vyžaduje se síťové ověření (kód odpovědi HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
     <string name="error_no_browser_found">Na Vašem zařízení nebyl nalezen žádný prohlížeč</string>
