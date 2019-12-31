@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Tempo expirado do gateway. Parece que o seu proxy reverso está rodando, mas não foi possível obter uma resposta do servidor openHAB (código de resposta HTTP 504).</string>
     <string name="error_http_code_507">O servidor openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
     <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Erro ao buscar informações do servidor openHAB</string>
     <string name="error_openhab_offline">Seu servidor openHAB está offline enquanto está executando a instância de nuvem</string>
     <string name="error_no_browser_found">Nenhum navegador encontrado no seu dispositivo</string>
