@@ -102,6 +102,7 @@
     <string name="error_http_code_504">网关超时。看似您的反向代理正在运行但无法从 openHAB 服务器获取回应 (HTTP 代码 504)。</string>
     <string name="error_http_code_507">openHAB 服务器空间不足 (HTTP 响应码 507)</string>
     <string name="error_http_code_511">需要网络认证 (HTTP 响应码 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">获取 openHAB 服务器信息时出错</string>
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
     <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
