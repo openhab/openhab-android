@@ -102,6 +102,7 @@
     <string name="error_http_code_504">Gateway zaman aşımı. Görünüşe göre sizin ters proxy\'iniz çalışıyor, fakat openHAB\'dan bir cevap alamıyor (HTTP yanıt kodu 504).</string>
     <string name="error_http_code_507">openHAB yeteri kadar boş alana sahip değil (HTTP yanıt kodu 507)</string>
     <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">openHAB\'tan sunucu bilgileri alınırken bir hata oluştu</string>
     <string name="error_openhab_offline">Bulut örneğinin çalıştığı sırada, openHAB sunucu çevrimdışı</string>
     <string name="title_activity_openhabwritetag">NFC etiketini yazınız</string>
