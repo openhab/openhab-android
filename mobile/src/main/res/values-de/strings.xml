@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort vom openHAB-Server (HTTP-Statuscode 504).</string>
     <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
     <string name="error_http_code_511">Netzwerkauthentifizierung ist erforderlich (HTTP-Antwortcode 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
