@@ -23,7 +23,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.Util.getShortHumanReadableErrorMessage
+import org.openhab.habdroid.util.getShortHumanReadableErrorMessage
 
 object CloudMessagingHelper {
     internal var registrationDone: Boolean = false
