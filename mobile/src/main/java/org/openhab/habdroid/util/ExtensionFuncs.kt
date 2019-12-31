@@ -31,6 +31,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
@@ -43,10 +44,20 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
+import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
+import java.net.ConnectException
 import java.net.MalformedURLException
+import java.net.SocketTimeoutException
 import java.net.URL
+import java.net.UnknownHostException
+import java.security.cert.CertPathValidatorException
+import java.security.cert.CertificateExpiredException
+import java.security.cert.CertificateNotYetValidException
+import java.security.cert.CertificateRevokedException
+import javax.net.ssl.SSLException
+import javax.net.ssl.SSLPeerUnverifiedException
 
 fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
     var error = this
@@ -238,6 +249,94 @@ fun Context.showToast(@StringRes message: Int) {
 
 fun Context.hasPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.getHumanReadableErrorMessage(url: String, statusCode: Int, error: Throwable): CharSequence {
+    if (statusCode >= 400) {
+        return if (error.message == "openHAB is offline") {
+            getString(R.string.error_openhab_offline)
+        } else {
+            try {
+                getString(
+                    resources.getIdentifier("error_http_code_$statusCode", "string", packageName),
+                    statusCode
+                )
+            } catch (e: Resources.NotFoundException) {
+                getString(R.string.error_http_connection_failed, statusCode)
+            }
+        }
+    } else if (error is UnknownHostException) {
+        Log.e(Util.TAG, "Unable to resolve hostname")
+        return getString(R.string.error_unable_to_resolve_hostname)
+    } else if (error is SSLException) {
+        // If ssl exception, check for some common problems
+        return if (error.hasCause(CertPathValidatorException::class.java)) {
+            getString(R.string.error_certificate_not_trusted)
+        } else if (error.hasCause(CertificateExpiredException::class.java)) {
+            getString(R.string.error_certificate_expired)
+        } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
+            getString(R.string.error_certificate_not_valid_yet)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            error.hasCause(CertificateRevokedException::class.java)
+        ) {
+            getString(R.string.error_certificate_revoked)
+        } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
+            getString(R.string.error_certificate_wrong_host, url.toUri().host)
+        } else {
+            getString(R.string.error_connection_sslhandshake_failed)
+        }
+    } else if (error is ConnectException || error is SocketTimeoutException) {
+        return getString(R.string.error_connection_failed)
+    } else if (error is IOException && error.hasCause(EOFException::class.java)) {
+        return getString(R.string.error_http_to_https_port)
+    } else {
+        Log.e(Util.TAG, "REST call to $url failed", error)
+        return error.localizedMessage.orEmpty()
+    }
+}
+
+fun Context.getShortHumanReadableErrorMessage(url: String, statusCode: Int, error: Throwable?): CharSequence {
+    if (statusCode >= 400) {
+        return if (error?.message == "openHAB is offline") {
+            getString(R.string.error_short_openhab_offline)
+        } else {
+            try {
+                getString(
+                    resources.getIdentifier("error_short_http_code_$statusCode","string",packageName),
+                    statusCode
+                )
+            } catch (e: Resources.NotFoundException) {
+                getString(R.string.error_short_http_connection_failed, statusCode)
+            }
+        }
+    } else if (error is UnknownHostException) {
+        Log.e(Util.TAG, "Unable to resolve hostname")
+        return getString(R.string.error_short_unable_to_resolve_hostname)
+    } else if (error is SSLException) {
+        // If ssl exception, check for some common problems
+        return if (error.hasCause(CertPathValidatorException::class.java)) {
+            getString(R.string.error_short_certificate_not_trusted)
+        } else if (error.hasCause(CertificateExpiredException::class.java)) {
+            getString(R.string.error_short_certificate_expired)
+        } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
+            getString(R.string.error_short_certificate_not_valid_yet)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            error.hasCause(CertificateRevokedException::class.java)
+        ) {
+            getString(R.string.error_short_certificate_revoked)
+        } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
+            getString(R.string.error_short_certificate_wrong_host, url.toUri().host)
+        } else {
+            getString(R.string.error_short_connection_sslhandshake_failed)
+        }
+    } else if (error is ConnectException || error is SocketTimeoutException) {
+        return getString(R.string.error_short_connection_failed)
+    } else if (error is IOException && error.hasCause(EOFException::class.java)) {
+        return getString(R.string.error_short_http_to_https_port)
+    } else {
+        Log.e(Util.TAG, "REST call to $url failed", error)
+        return error?.localizedMessage.orEmpty()
+    }
 }
 
 fun Activity.finishAndRemoveTaskIfPossible() {

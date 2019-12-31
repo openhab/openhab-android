@@ -51,7 +51,7 @@ import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
@@ -430,7 +430,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     override fun onLoadFailure(error: HttpClient.HttpException) {
         val url = error.request.url.toString()
-        val errorMessage = Util.getHumanReadableErrorMessage(activity, url, error.statusCode, error)
+        val errorMessage = activity.getHumanReadableErrorMessage(url, error.statusCode, error)
             .toString()
 
         noConnectionFragment = CommunicationFailureFragment.newInstance(
