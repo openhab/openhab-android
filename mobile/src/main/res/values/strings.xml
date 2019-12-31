@@ -336,7 +336,7 @@
     <string name="item_picker_list_empty">No Items found</string>
     <string name="item_picker_list_error">An error occurred while loading Items</string>
     <string name="item_picker_custom">Custom</string>
-    <string name="item_picker_dialog_title">Select state</string>
+    <string name="item_picker_dialog_title">Select action</string>
     <string name="item_picker_blurb_command">Send command \"%3$s\" to \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Update \"%1$s\" (%2$s) to \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker variable \"%s\"</string>
@@ -380,5 +380,5 @@
     <string name="create_home_screen_widget_not_supported">Your device doesn\'t support creating widgets from inside an app. Please go to the widget menu on your home screen and create a widget from there.</string>
     <string name="item_update_widget_auto_generate_widget_label">Auto generate widget label</string>
     <string name="item_update_widget_widget_label">Widget label</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 </resources>
