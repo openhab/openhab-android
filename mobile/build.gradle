@@ -5,6 +5,7 @@ buildscript {
     ext.kotlin_coroutines_version = '1.3.3'
     ext.ok_http_version = '4.2.2'
     ext.work_manager_version = '2.2.0'
+    ext.about_libraries_version = '7.1.0'
     ext.powermock_version = '2.0.4'
     ext.espresso_version = '3.2.0'
     ext.androidx_media_version = '1.0.1'
@@ -143,7 +144,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
     implementation "com.squareup.okhttp3:okhttp-sse:$ok_http_version"
     implementation "com.larswerkman:HoloColorPicker:1.5"
-    implementation 'com.jaredrummler:colorpicker:1.1.0'
+    implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
     implementation("com.github.paolorotolo:appintro:v5.1.0") {
         transitive false
@@ -159,7 +160,8 @@ dependencies {
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"
     // Used libraries
-    implementation("com.github.mueller-ma:aboutlibraries:1078f3f276cf36d0edaba4d7d39bc85cce13ca46")
+    implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
+    implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
     implementation "com.github.GrenderG:Toasty:1.4.2"
 
     // Crash reporting
@@ -187,7 +189,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version", {
         exclude group: "com.android.support", module: "support-annotations"
     }
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
 }
 
 if (!isFoss) {
