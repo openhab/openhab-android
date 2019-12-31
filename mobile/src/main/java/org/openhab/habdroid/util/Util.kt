@@ -68,7 +68,7 @@ object Util {
             Log.e(TAG, "Unable to resolve hostname")
             return context.getString(R.string.error_unable_to_resolve_hostname)
         } else if (error is SSLException) {
-            // if ssl exception, check for some common problems
+            // If ssl exception, check for some common problems
             return if (error.hasCause(CertPathValidatorException::class.java)) {
                 context.getString(R.string.error_certificate_not_trusted)
             } else if (error.hasCause(CertificateExpiredException::class.java)) {
@@ -90,7 +90,55 @@ object Util {
             return context.getString(R.string.error_http_to_https_port)
         } else {
             Log.e(TAG, "REST call to $url failed", error)
-            return error.message.orEmpty()
+            return error.localizedMessage.orEmpty()
+        }
+    }
+
+    fun getShortHumanReadableErrorMessage(
+        context: Context,
+        url: String,
+        statusCode: Int,
+        error: Throwable
+    ): CharSequence {
+        if (statusCode >= 400) {
+            return if (error.message == "openHAB is offline") {
+                context.getString(R.string.error_short_openhab_offline)
+            } else {
+                try {
+                    context.getString(context.resources.getIdentifier(
+                        "error_short_http_code_$statusCode",
+                        "string", context.packageName))
+                } catch (e: Resources.NotFoundException) {
+                    context.getString(R.string.error_short_http_connection_failed, statusCode)
+                }
+            }
+        } else if (error is UnknownHostException) {
+            Log.e(TAG, "Unable to resolve hostname")
+            return context.getString(R.string.error_short_unable_to_resolve_hostname)
+        } else if (error is SSLException) {
+            // If ssl exception, check for some common problems
+            return if (error.hasCause(CertPathValidatorException::class.java)) {
+                context.getString(R.string.error_short_certificate_not_trusted)
+            } else if (error.hasCause(CertificateExpiredException::class.java)) {
+                context.getString(R.string.error_short_certificate_expired)
+            } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
+                context.getString(R.string.error_short_certificate_not_valid_yet)
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                error.hasCause(CertificateRevokedException::class.java)
+            ) {
+                context.getString(R.string.error_short_certificate_revoked)
+            } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
+                context.getString(R.string.error_short_certificate_wrong_host, url.toUri().host)
+            } else {
+                context.getString(R.string.error_short_connection_sslhandshake_failed)
+            }
+        } else if (error is ConnectException || error is SocketTimeoutException) {
+            return context.getString(R.string.error_short_connection_failed)
+        } else if (error is IOException && error.hasCause(EOFException::class.java)) {
+            return context.getString(R.string.error_short_http_to_https_port)
+        } else {
+            Log.e(TAG, "REST call to $url failed", error)
+            return error.localizedMessage.orEmpty()
         }
     }
 

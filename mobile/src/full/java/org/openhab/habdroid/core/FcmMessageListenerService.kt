@@ -122,7 +122,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         var iconBitmap: Bitmap? = null
 
         if (icon != null) {
-            val connection = ConnectionFactory.cloudConnection
+            val connection = ConnectionFactory.cloudConnectionOrNull
             if (connection != null) {
                 try {
                     iconBitmap = connection.httpClient

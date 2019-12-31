@@ -84,9 +84,10 @@ class ConnectionFactory internal constructor(
         val available: Connection?,
         val availableFailureReason: ConnectionException?,
         val cloudInitialized: Boolean,
-        val cloud: CloudConnection?
+        val cloud: CloudConnection?,
+        val cloudFailureReason: Exception?
     )
-    private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, false, null))
+    private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, false, null, null))
 
     interface UpdateListener {
         fun onAvailableConnectionChanged()
@@ -165,7 +166,7 @@ class ConnectionFactory internal constructor(
             remoteConnection = DemoConnection(httpClient)
             localConnection = remoteConnection
             updateState(true, available = localConnection, availableFailureReason = null,
-                cloudInitialized = true, cloud = null)
+                cloudInitialized = true, cloud = null, cloudFailureReason = null)
         } else {
             localConnection = makeConnection(Connection.TYPE_LOCAL,
                 Constants.PREFERENCE_LOCAL_URL,
@@ -174,7 +175,7 @@ class ConnectionFactory internal constructor(
                 Constants.PREFERENCE_REMOTE_URL,
                 Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
 
-            updateState(false, available = null, availableFailureReason = null, cloudInitialized = false, cloud = null)
+            updateState(false, null, null, false, null, null)
             triggerConnectionUpdateIfNeeded()
         }
     }
@@ -226,10 +227,11 @@ class ConnectionFactory internal constructor(
         available: Connection? = stateChannel.value.available,
         availableFailureReason: ConnectionException? = stateChannel.value.availableFailureReason,
         cloudInitialized: Boolean = stateChannel.value.cloudInitialized,
-        cloud: CloudConnection? = stateChannel.value.cloud
+        cloud: CloudConnection? = stateChannel.value.cloud,
+        cloudFailureReason: Exception? = stateChannel.value.cloudFailureReason
     ) {
         val prevState = stateChannel.value
-        val newState = StateHolder(available, availableFailureReason, cloudInitialized, cloud)
+        val newState = StateHolder(available, availableFailureReason, cloudInitialized, cloud, cloudFailureReason)
         stateChannel.offer(newState)
         if (callListenersOnChange) launch {
             if (newState.availableFailureReason != null || prevState.available !== newState.available) {
@@ -276,10 +278,14 @@ class ConnectionFactory internal constructor(
             }
         }
         cloudCheck = launch {
-            val result = withContext(Dispatchers.IO) {
-                remoteConnection?.toCloudConnection()
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    remoteConnection?.toCloudConnection()
+                }
+                updateState(true, cloudInitialized = true, cloud = result, cloudFailureReason = null)
+            } catch (e: Exception) {
+                updateState(true, cloudInitialized = true, cloud = null, cloudFailureReason = e)
             }
-            updateState(true, cloudInitialized = true, cloud = result)
         }
     }
 
@@ -492,9 +498,28 @@ class ConnectionFactory internal constructor(
 
         /**
          * Returns the resolved cloud connection.
+         * May throw an exception if no remote connection is configured
+         * or the remote connection is not usable as cloud connection.
+         */
+        val cloudConnection: CloudConnection
+            @Throws(Exception::class)
+            get() {
+                instance.triggerConnectionUpdateIfNeededAndPending()
+                val (_, _, _, cloud, cloudFailureReason) = instance.stateChannel.value
+                if (cloudFailureReason != null) {
+                    throw cloudFailureReason
+                }
+                if (cloud == null) {
+                    throw ConnectionNotInitializedException()
+                }
+                return cloud
+            }
+
+        /**
+         * Returns the resolved cloud connection.
          * May return null if no remote connection is configured
          * or the remote connection is not usable as cloud connection.
          */
-        val cloudConnection get() = instance.stateChannel.value.cloud
+        val cloudConnectionOrNull get() = instance.stateChannel.value.cloud
     }
 }

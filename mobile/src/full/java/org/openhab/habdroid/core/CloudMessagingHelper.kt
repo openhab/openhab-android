@@ -15,19 +15,23 @@ package org.openhab.habdroid.core
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.annotation.DrawableRes
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.Util.getShortHumanReadableErrorMessage
 
 object CloudMessagingHelper {
     internal var registrationDone: Boolean = false
     internal var registrationFailureReason: Throwable? = null
+    private val TAG = CloudMessagingHelper::class.java.simpleName
 
     val pushNotificationIconResId: Int @DrawableRes get() = when {
-        ConnectionFactory.cloudConnection == null -> R.drawable.ic_bell_off_outline_grey_24dp
+        ConnectionFactory.cloudConnectionOrNull == null -> R.drawable.ic_bell_off_outline_grey_24dp
         !registrationDone -> R.drawable.ic_bell_outline_grey_24dp
         registrationFailureReason != null -> R.drawable.ic_bell_off_outline_grey_24dp
         else -> R.drawable.ic_bell_ring_outline_grey_24dp
@@ -50,24 +54,43 @@ object CloudMessagingHelper {
         }
     }
 
-    fun getPushNotificationStatus(context: Context): String = when {
-        ConnectionFactory.cloudConnection == null -> {
-            if (ConnectionFactory.remoteConnection == null) {
-                context.getString(R.string.info_openhab_gcm_no_remote)
-            } else {
-                context.getString(R.string.info_openhab_gcm_unsupported)
-            }
+    fun getPushNotificationStatus(context: Context): String {
+        val cloudFailure = try {
+            ConnectionFactory.cloudConnection
+            null
+        } catch (e: Exception) {
+            Log.d(TAG, "Got exception: $e")
+            e
         }
-        !registrationDone -> context.getString(R.string.info_openhab_gcm_in_progress)
-        registrationFailureReason != null -> {
-            val gaa = GoogleApiAvailability.getInstance()
-            val errorCode = gaa.isGooglePlayServicesAvailable(context)
-            if (errorCode != ConnectionResult.SUCCESS) {
-                context.getString(R.string.info_openhab_gcm_failed_with_reason, gaa.getErrorString(errorCode))
-            } else {
-                context.getString(R.string.info_openhab_gcm_failed)
+        return when {
+            ConnectionFactory.cloudConnectionOrNull == null -> {
+                when {
+                    cloudFailure != null -> context.getString(R.string.info_openhab_gcm_http_error,
+                        getShortHumanReadableErrorMessage(
+                            context,
+                            if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
+                            if (cloudFailure is HttpClient.HttpException) cloudFailure.statusCode else 0,
+                            cloudFailure
+                        )
+                    )
+                    ConnectionFactory.remoteConnection == null -> context.getString(R.string.info_openhab_gcm_no_remote)
+                    else -> context.getString(R.string.info_openhab_gcm_unsupported)
+                }
             }
+            !registrationDone -> context.getString(R.string.info_openhab_gcm_in_progress)
+            registrationFailureReason != null -> {
+                val gaa = GoogleApiAvailability.getInstance()
+                val errorCode = gaa.isGooglePlayServicesAvailable(context)
+                if (errorCode != ConnectionResult.SUCCESS) {
+                    context.getString(
+                        R.string.info_openhab_gcm_failed_with_reason,
+                        gaa.getErrorString(errorCode)
+                    )
+                } else {
+                    context.getString(R.string.info_openhab_gcm_failed)
+                }
+            }
+            else -> context.getString(R.string.info_openhab_gcm_connected)
         }
-        else -> context.getString(R.string.info_openhab_gcm_connected)
     }
 }

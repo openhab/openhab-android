@@ -662,7 +662,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun updateNotificationDrawerItem() {
         val notificationsItem = drawerMenu.findItem(R.id.notifications)
-        val hasCloudConnection = ConnectionFactory.cloudConnection != null
+        val hasCloudConnection = ConnectionFactory.cloudConnectionOrNull != null
         notificationsItem.isVisible = hasCloudConnection
         if (hasCloudConnection) {
             manageNotificationShortcut(true)
@@ -775,7 +775,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             launchVoiceRecognition()
             true
         }
-        action is PendingAction.OpenNotification && isStarted && ConnectionFactory.cloudConnection != null -> {
+        action is PendingAction.OpenNotification && isStarted && ConnectionFactory.cloudConnectionOrNull != null -> {
             openNotifications(action.notificationId)
             true
         }
