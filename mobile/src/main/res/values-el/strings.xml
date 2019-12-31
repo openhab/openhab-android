@@ -86,6 +86,7 @@
     <string name="error_http_code_504">Τέλος χρόνου Πύλης (Gateway). Φαίνεται ότι ο reverse proxy είναι σε λειτουργία αλλά δε μπορούσε να λάβει απάντηση από το openHAB (κωδικός απόκρισης HTTP 504).</string>
     <string name="error_http_code_507">Tο openHAB δεν έχει αρκετό ελεύθερο χώρο (κωδικός απόκρισης HTTP 507)</string>
     <string name="error_http_code_511">Απαιτείται πιστοποίηση δικτύου (κωδικός απόκρισης HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Σφάλμα κατά τη λήψη των πληροφοριών διακομιστή openHAB</string>
     <string name="error_openhab_offline">Ο openHAB διακομιστής σας βρίσκεται εκτός σύνδεσης ενώ εκτελείται η παρουσία στο cloud</string>
     <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
