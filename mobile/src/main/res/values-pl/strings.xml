@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Przekroczenie czasu oczekiwania. Wygląda na to, że twój serwer zwrotny proxy jest włączony, ale nie otrzymał odpowiedzi od openHAB (Kod HTTP - 504).</string>
     <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
     <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Wystąpił błąd podczas pobierania informacji o serwerze openHAB</string>
     <string name="error_openhab_offline">Twój serwer openHAB nie jest podłączony, ale instancja cloud pracuje prawidłowo</string>
     <string name="error_no_browser_found">Nie znaleziono przeglądarki na Twoim urządzeniu</string>
