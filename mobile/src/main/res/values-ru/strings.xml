@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Тайм-аут шлюза. Возможно, что ваш прокси-сервер работает, но не может получить ответ от сервера openHAB (код ответа HTTP 504).</string>
     <string name="error_http_code_507">Серверу openHAB недостаточно свободного места (код ответа HTTP 507)</string>
     <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
     <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
     <string name="error_no_browser_found">На вашем устройстве не найден браузер</string>
