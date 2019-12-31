@@ -122,6 +122,7 @@
     <string name="error_http_code_504">Gateway timeout. Sembra che il tuo reverse proxy e\' in esecuzione, ma non riceve una risposta dal server openHAB (codice risposta HTTP 504).</string>
     <string name="error_http_code_507">Il server openHAB non ha abbastanza spazio disponibile (codice risposta HTTP 507)</string>
     <string name="error_http_code_511">È richiesta un\'autenticazione di rete (codice risposta HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Errore nel recupero delle informazioni dal server openHAB</string>
     <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
