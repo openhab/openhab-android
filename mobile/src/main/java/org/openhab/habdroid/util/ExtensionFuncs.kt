@@ -291,7 +291,7 @@ fun Context.getHumanReadableErrorMessage(url: String, statusCode: Int, error: Th
         return getString(R.string.error_http_to_https_port)
     } else {
         Log.e(Util.TAG, "REST call to $url failed", error)
-        return error.localizedMessage.orEmpty()
+        return error.localizedMessage ?: getString(R.string.error_unknown, error.javaClass)
     }
 }
 
@@ -335,7 +335,7 @@ fun Context.getShortHumanReadableErrorMessage(url: String, statusCode: Int, erro
         return getString(R.string.error_short_http_to_https_port)
     } else {
         Log.e(Util.TAG, "REST call to $url failed", error)
-        return error?.localizedMessage.orEmpty()
+        return error?.localizedMessage ?: getString(R.string.error_short_unknown, error?.javaClass)
     }
 }
 

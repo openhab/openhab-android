@@ -116,6 +116,7 @@
     <string name="error_port_seems_invalid">The port you have entered seems invalid for the selected protocol</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
+    <string name="error_unknown">An unknown error occurred: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
     <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or accept the certificate during SSL handshake.</string>
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or accept the certificate during SSL handshake.</string>
@@ -142,6 +143,7 @@
     <string name="error_short_openhab_offline">openHAB is offline</string>
     <string name="error_short_http_connection_failed">HTTP code %d</string>
     <string name="error_short_unable_to_resolve_hostname">Error resolving hostname</string>
+    <string name="error_short_unknown">Unknown error: %s</string>
     <string name="error_short_certificate_not_trusted">Certificate not trusted</string>
     <string name="error_short_certificate_expired">Certificate not expired</string>
     <string name="error_short_certificate_not_valid_yet">Certificate not valid yet</string>
