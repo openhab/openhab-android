@@ -100,7 +100,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     value.mappedValue.orDefaultIfEmpty(value.value)
                 }
 
-                val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false)) {
+                val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false) && valueToBeSent != "UNDEF") {
                     connection.httpClient
                         .post("rest/items/$itemName", valueToBeSent, "text/plain;charset=UTF-8")
                         .asStatus()
@@ -127,7 +127,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     private fun mapValueAccordingToItemTypeAndValue(value: ValueWithInfo, item: Item) = when {
         value.value == "TOGGLE" && item.canBeToggled() -> determineOppositeState(item)
-        value.type == ValueType.Timestamp && item.isOfTypeOrGroupType(Item.Type.DateTime) -> convertToTimestamp(value)
+        value.type == ValueType.Timestamp && item.isOfTypeOrGroupType(Item.Type.DateTime) && value.value != "UNDEF" ->
+            convertToTimestamp(value)
         else -> value.value
     }
 
