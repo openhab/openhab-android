@@ -32,8 +32,8 @@ import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.orDefaultIfEmpty
-import org.openhab.habdroid.util.showErrorToast
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
@@ -61,8 +61,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             Log.e(TAG, "Got no connection")
             return if (runAttemptCount <= MAX_RETRIES) {
                 if (showToast) {
-                    applicationContext.showErrorToast(
-                        applicationContext.getString(R.string.item_update_error_no_connection_retry))
+                    applicationContext.showToast(R.string.item_update_error_no_connection_retry, ToastType.ERROR)
                 }
                 Result.retry()
             } else {
@@ -113,7 +112,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 if (showToast) {
                     val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
                     applicationContext.showToast(
-                        getItemUpdateSuccessMessage(applicationContext, label, value.value, actualMappedValue))
+                        getItemUpdateSuccessMessage(applicationContext, label, value.value, actualMappedValue),
+                        ToastType.SUCCESS
+                    )
                 }
                 sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
                 Result.success(buildOutputData(true, result.statusCode))

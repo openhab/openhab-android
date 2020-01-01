@@ -32,6 +32,7 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
+import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.showToast
 
 class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
@@ -66,7 +67,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         try {
             KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) }, keyTypes, null, null, -1, null)
         } catch (e: ActivityNotFoundException) {
-            context.showToast(R.string.settings_openhab_sslclientcert_not_supported)
+            context.showToast(R.string.settings_openhab_sslclientcert_not_supported, ToastType.ERROR)
         }
     }
 

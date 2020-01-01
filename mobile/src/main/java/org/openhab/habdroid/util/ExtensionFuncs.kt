@@ -210,31 +210,41 @@ fun Context.getSecretPrefs(): SharedPreferences {
     return (applicationContext as OpenHabApplication).secretPrefs
 }
 
+enum class ToastType {
+    NORMAL,
+    SUCCESS,
+    ERROR
+}
+
 /**
- * Shows a red Toast. Can be called from the background.
+ * Shows an Toast with the openHAB icon. Can be called from the background.
  */
-fun Context.showErrorToast(message: CharSequence) {
+fun Context.showToast(message: CharSequence, type: ToastType = ToastType.NORMAL) {
+    val color = when (type) {
+        ToastType.SUCCESS -> R.color.pref_icon_green
+        ToastType.ERROR -> R.color.pref_icon_red
+        else -> R.color.openhab_orange
+    }
+    val length = if (type == ToastType.ERROR) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT
+
     Handler(Looper.getMainLooper()).post {
-        Toasty.custom(this, message, R.drawable.ic_openhab_appicon_24dp, R.color.pref_icon_red,
-            Toasty.LENGTH_LONG, true, true).show()
+        Toasty.custom(
+            this,
+            message,
+            R.drawable.ic_openhab_appicon_24dp,
+            color,
+            length,
+            true,
+            true
+        ).show()
     }
 }
 
 /**
- * Shows an orange Toast with the openHAB icon. Can be called from the background.
+ * Shows an Toast with the openHAB icon. Can be called from the background.
  */
-fun Context.showToast(message: CharSequence) {
-    Handler(Looper.getMainLooper()).post {
-        Toasty.custom(this, message, R.drawable.ic_openhab_appicon_24dp, R.color.openhab_orange,
-            Toasty.LENGTH_SHORT, true, true).show()
-    }
-}
-
-/**
- * Shows an orange Toast with the openHAB icon. Can be called from the background.
- */
-fun Context.showToast(@StringRes message: Int) {
-    showToast(getString(message))
+fun Context.showToast(@StringRes message: Int, type: ToastType = ToastType.NORMAL) {
+    showToast(getString(message), type)
 }
 
 fun Context.hasPermission(permission: String): Boolean {

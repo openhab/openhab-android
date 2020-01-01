@@ -46,7 +46,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -62,11 +61,13 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.SuggestedCommandsFactory
+import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.showToast
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -394,9 +395,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 successCallback
             )
         } else {
-            Toasty
-                .error(context, R.string.create_home_screen_widget_not_supported, Toasty.LENGTH_LONG)
-                .show()
+            context.showToast(R.string.create_home_screen_widget_not_supported, ToastType.ERROR)
         }
     }
 
@@ -454,9 +453,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         withContext(Dispatchers.Main) {
             if (success) {
-                Toasty.success(context, R.string.home_shortcut_success_pinning).show()
+                context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
             } else {
-                Toasty.error(context, R.string.home_shortcut_error_pinning).show()
+                context.showToast(R.string.home_shortcut_error_pinning, ToastType.ERROR)
             }
         }
     }
