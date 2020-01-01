@@ -19,7 +19,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Parcelable
 import android.telephony.TelephonyManager
 import android.util.Log
@@ -283,30 +282,28 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         init {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                VALUE_GETTER_MAP[Constants.PREFERENCE_ALARM_CLOCK] = { context ->
-                    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    val info = alarmManager.nextAlarmClock
-                    val sender = info?.showIntent?.creatorPackage
-                    Log.d(TAG, "Alarm sent by $sender")
-                    var time: String? = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
-                        "0"
-                    } else {
-                        (info?.triggerTime ?: 0).toString()
-                    }
-
-                    val prefs = context.getPrefs()
-
-                    if (time == "0" && prefs.getBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, false)) {
-                        time = null
-                    }
-
-                    prefs.edit {
-                        putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, time == "0" || time == null)
-                    }
-
-                    time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
+            VALUE_GETTER_MAP[Constants.PREFERENCE_ALARM_CLOCK] = { context ->
+                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val info = alarmManager.nextAlarmClock
+                val sender = info?.showIntent?.creatorPackage
+                Log.d(TAG, "Alarm sent by $sender")
+                var time: String? = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
+                    "0"
+                } else {
+                    (info?.triggerTime ?: 0).toString()
                 }
+
+                val prefs = context.getPrefs()
+
+                if (time == "0" && prefs.getBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, false)) {
+                    time = null
+                }
+
+                prefs.edit {
+                    putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, time == "0" || time == null)
+                }
+
+                time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
             }
             VALUE_GETTER_MAP[Constants.PREFERENCE_PHONE_STATE] = { context ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
