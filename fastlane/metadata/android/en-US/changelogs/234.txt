@@ -1,0 +1,3 @@
+## Changed
+* Send UNDEF instead of 0 if no alarm is active (#1745)
+* Use "Action" instead of "Status" in ItemPicker (#1742)
