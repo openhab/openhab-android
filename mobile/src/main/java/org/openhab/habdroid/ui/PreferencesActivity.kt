@@ -358,11 +358,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
             }
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                Log.d(TAG, "Removing alarm clock pref")
-                preferenceScreen.removePreference(alarmClockPref)
-            }
-
             phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
                 @Suppress("UNCHECKED_CAST")
                 val value = newValue as Pair<Boolean, String>
@@ -384,13 +379,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                preferenceScreen.removePreferenceFromHierarchy(screenLockPref)
-            } else {
-                screenLockPref.setOnPreferenceChangeListener { _, newValue ->
-                    updateScreenLockStateAndSummary(newValue as String)
-                    true
-                }
+            screenLockPref.setOnPreferenceChangeListener { _, newValue ->
+                updateScreenLockStateAndSummary(newValue as String)
+                true
             }
 
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags

@@ -54,21 +54,19 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         checkFullscreen()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val typedValue = TypedValue()
-            theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                setTaskDescription(ActivityManager.TaskDescription(
-                    getString(R.string.app_name),
-                    R.mipmap.icon,
-                    typedValue.data))
-            } else {
-                @Suppress("DEPRECATION")
-                setTaskDescription(ActivityManager.TaskDescription(
-                    getString(R.string.app_name),
-                    BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                    typedValue.data))
-            }
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            setTaskDescription(ActivityManager.TaskDescription(
+                getString(R.string.app_name),
+                R.mipmap.icon,
+                typedValue.data))
+        } else {
+            @Suppress("DEPRECATION")
+            setTaskDescription(ActivityManager.TaskDescription(
+                getString(R.string.app_name),
+                BitmapFactory.decodeResource(resources, R.mipmap.icon),
+                typedValue.data))
         }
 
         super.onCreate(savedInstanceState)
@@ -127,9 +125,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun promptForDevicePasswordIfRequired() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return
-        }
         if (authPrompt != null) {
             return
         }

@@ -50,5 +50,7 @@
         <item name="colorPrimary">?colorSecondary</item>
     </style>
 
-    <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase" />
+    <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>
