@@ -298,7 +298,6 @@
     <string name="item_picker_list_empty">Keine Items gefunden</string>
     <string name="item_picker_list_error">Laden der Items fehlgeschlagen</string>
     <string name="item_picker_custom">Benutzerdefiniert</string>
-    <string name="item_picker_dialog_title">Status auswählen</string>
     <string name="item_picker_blurb_command">Sende Befehl \"%3$s\" an \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) auf \"%3$s\" ändern</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
@@ -341,5 +340,4 @@
     <string name="create_home_screen_widget_not_supported">Ihr Gerät unterstützt das Erstellen von Widgets innerhalb einer App nicht. Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Status>]]></string>
 </resources>
