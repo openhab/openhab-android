@@ -123,6 +123,29 @@
     <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
     <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB jest offline</string>
+    <string name="error_short_http_connection_failed">Błąd HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Błąd podczas rozwiązywania nazwy hosta</string>
+    <string name="error_short_certificate_not_trusted">Certyfikat nie jest zaufany</string>
+    <string name="error_short_certificate_expired">Certyfikat nie wygasł</string>
+    <string name="error_short_certificate_not_valid_yet">Certyfikat nie jest jeszcze ważny</string>
+    <string name="error_short_certificate_revoked">Certyfikat cofnięty</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL nie powiodło się</string>
+    <string name="error_short_connection_failed">Połączenie nie powiodło się</string>
+    <string name="error_short_http_to_https_port">Łączenie z portem HTTPS przez HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certyfikat nie jest ważny dla %s</string>
+    <string name="error_short_http_code_401">Uwierzytelnianie nie powiodło się (kod odpowiedzi HTTP 401)</string>
+    <string name="error_short_http_code_403">Uwierzytelnianie nie powiodło się (kod odpowiedzi HTTP 403)</string>
+    <string name="error_short_http_code_407">Uwierzytelnianie nie powiodło się (kod odpowiedzi HTTP 407)</string>
+    <string name="error_short_http_code_414">Adres URL jest zbyt długi (kod odpowiedzi HTTP 414)</string>
+    <string name="error_short_http_code_426">Wymagany HTTPS (kod odpowiedzi HTTP 426)</string>
+    <string name="error_short_http_code_495">Uwierzytelnianie nie powiodło się (kod odpowiedzi HTTP 495)</string>
+    <string name="error_short_http_code_496">Wymagany certyfikat klienta SSL (kod odpowiedzi HTTP 496)</string>
+    <string name="error_short_http_code_502">Odwrotny proxy otrzymał nieprawidłową odpowiedź od openHAB (kod odpowiedzi HTTP 502)</string>
+    <string name="error_short_http_code_503">openHAB tymczasowo niedostępny (kod odpowiedzi HTTP 503)</string>
+    <string name="error_short_http_code_504">Przekroczono limit czasu bramki (kod odpowiedzi HTTP 504).</string>
+    <string name="error_short_http_code_507">Za mało wolnego miejsca na serwerze (kod odpowiedzi HTTP 507)</string>
+    <string name="error_short_http_code_511">Wymagane uwierzytelnianie sieci (kod odpowiedzi HTTP 511)</string>
     <string name="error_about_no_conn">Wystąpił błąd podczas pobierania informacji o serwerze openHAB</string>
     <string name="error_openhab_offline">Twój serwer openHAB nie jest podłączony, ale instancja cloud pracuje prawidłowo</string>
     <string name="error_no_browser_found">Nie znaleziono przeglądarki na Twoim urządzeniu</string>
@@ -300,6 +323,7 @@
     <string name="item_picker_list_empty">Nie znaleziono żadnych Itemów</string>
     <string name="item_picker_list_error">Wystąpił błąd podczas ładowania Itemów</string>
     <string name="item_picker_custom">Niestandardowy</string>
+    <string name="item_picker_dialog_title">Wybierz akcję</string>
     <string name="item_picker_blurb_command">Wyślij polecenie \"%3$s\" do \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Zaktualizuj \"%1$s\" (%2$s) do \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Zmienna Taskera \"%s\"</string>
@@ -342,4 +366,5 @@
     <string name="create_home_screen_widget_not_supported">Twoje urządzenie nie obsługuje tworzenia widżetów w aplikacji. Przejdź do menu widżetu na ekranie głównym i utwórz z niego widżet.</string>
     <string name="item_update_widget_auto_generate_widget_label">Automatycznie generuj etykietę widżetu</string>
     <string name="item_update_widget_widget_label">Etykieta widżetu</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 </resources>
