@@ -298,7 +298,6 @@
     <string name="item_picker_list_empty">Keen Item fonnt</string>
     <string name="item_picker_list_error">E Feeler ass beim lueden vun den Items opgetrueden</string>
     <string name="item_picker_custom">Personaliséiert</string>
-    <string name="item_picker_dialog_title">Status auswielen</string>
     <string name="item_picker_blurb_command">\"%3$s\" Kommando un \"%1$s\" (%2$s) schécken</string>
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
     <string name="item_picker_tasker_variable">Tasker Variabel \"%s\"</string>
@@ -341,5 +340,4 @@
     <string name="create_home_screen_widget_not_supported">Däi Gerät ënnerstëtzt d\' Erstellen net vun Widgets an der App. Gei w.e.g. an den Widget Menü op dengem Startbildschirm an erstell do e Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
     <string name="item_update_widget_widget_label">Widget Label</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
 </resources>
