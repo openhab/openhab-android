@@ -300,7 +300,6 @@
     <string name="item_picker_list_empty">Элементы не найдены</string>
     <string name="item_picker_list_error">Ошибка загрузки Items</string>
     <string name="item_picker_custom">Произвольно</string>
-    <string name="item_picker_dialog_title">Выберите состояния</string>
     <string name="item_picker_blurb_command">Отправить команду \"%3$s\" в \" \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Обновить \"%1$s\" (%2$s) до \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Переменная в Tasker \"%s\"</string>
@@ -343,5 +342,4 @@
     <string name="create_home_screen_widget_not_supported">Ваше устройство не поддерживает создание виджетов из приложения. Пожалуйста, перейдите в меню виджета на вашем домашнем экране и создайте виджет оттуда.</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматически генерировать метку виджета</string>
     <string name="item_update_widget_widget_label">Метка виджета</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
 </resources>
