@@ -141,6 +141,11 @@
     <string name="error_short_http_code_426">נדרש HTTPS (קוד תגובה HTTP 426)</string>
     <string name="error_short_http_code_495">האימות נכשל (קוד תגובה HTTP 495)</string>
     <string name="error_short_http_code_496">נדרשת תעודת אישור לקוח SSL (קוד תגובה HTTP 496)</string>
+    <string name="error_short_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP 502)</string>
+    <string name="error_short_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
+    <string name="error_short_http_code_504">תם הזמן המוקצב ל-Gateway (קוד תגובה HTTP 504).</string>
+    <string name="error_short_http_code_507">אין מספיק מקום פנוי בשרת (קוד תגובה HTTP 507)</string>
+    <string name="error_short_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
     <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
@@ -318,6 +323,7 @@
     <string name="item_picker_list_empty">לא נמצאו פריטים</string>
     <string name="item_picker_list_error">אירעה שגיאה בעת טעינת הפריטים</string>
     <string name="item_picker_custom">התאמה אישית</string>
+    <string name="item_picker_dialog_title">בחר פעולה</string>
     <string name="item_picker_blurb_command">שלח פקודה \"%3$s\" אל \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">עדכן \"%1$s\" (%2$s) ל- \"%3$s\"</string>
     <string name="item_picker_tasker_variable">משתנה %s ב Tasker</string>
