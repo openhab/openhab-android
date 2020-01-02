@@ -321,6 +321,7 @@
     <string name="item_picker_list_empty">Nenhum item encontrado</string>
     <string name="item_picker_list_error">Ocorreu um erro ao carregar itens</string>
     <string name="item_picker_custom">Personalizado</string>
+    <string name="item_picker_dialog_title">Selecionar ação</string>
     <string name="item_picker_blurb_command">Enviar comando \"%3$s\" para \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Atualizar \"%1$s\" (%2$s) para \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variável do Tasker \"%s\"</string>
@@ -363,4 +364,5 @@
     <string name="create_home_screen_widget_not_supported">Seu dispositivo não suporta a criação de widgets de dentro de um app. Por favor, vá ao menu widget em sua tela inicial e crie um widget a partir de lá.</string>
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 </resources>
