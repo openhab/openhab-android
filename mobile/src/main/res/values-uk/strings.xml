@@ -300,7 +300,6 @@
     <string name="item_picker_list_empty">Об’єкт не знайдено</string>
     <string name="item_picker_list_error">Помилка при завантажені об’єкта</string>
     <string name="item_picker_custom">Користувацький</string>
-    <string name="item_picker_dialog_title">Виберіть стан</string>
     <string name="item_picker_blurb_command">Надіслати команду „%3$s“ до „%1$s“ (%2$s)</string>
     <string name="item_picker_blurb_update">Оновити „%1$s“ (%2$s) до „%3$s“</string>
     <string name="item_picker_tasker_variable">Змінна Tasker \"%s\"</string>
@@ -343,5 +342,4 @@
     <string name="create_home_screen_widget_not_supported">Ваш пристрій не підтримує створення віджетів безпосередньо з програми. Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти.</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
     <string name="item_update_widget_widget_label">Мітка віджета</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
 </resources>
