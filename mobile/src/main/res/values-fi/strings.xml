@@ -321,7 +321,6 @@
     <string name="item_picker_list_empty">Yhtään Itemiä ei löytynyt</string>
     <string name="item_picker_list_error">Virhe ladattaessa Itemejä</string>
     <string name="item_picker_custom">Mukautettu</string>
-    <string name="item_picker_dialog_title">Valitse tila</string>
     <string name="item_picker_blurb_command">Lähetä komento \"%3$s\" -> \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Päivitä \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Taskerin muuttuja \"%s\"</string>
@@ -364,5 +363,4 @@
     <string name="create_home_screen_widget_not_supported">Laitteesi ei tuo widgetin luontia sovelluksen kautta. Ole hyvä ja mene aloitusnäyttöön ja luo widget sitä kautta.</string>
     <string name="item_update_widget_auto_generate_widget_label">Luo automaattisesti widgetin nimi</string>
     <string name="item_update_widget_widget_label">Widgetin nimi</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
 </resources>
