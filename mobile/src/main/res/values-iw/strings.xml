@@ -123,6 +123,24 @@
     <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
     <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB איננו מחובר</string>
+    <string name="error_short_http_connection_failed">שגיאת HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">שגיאה בפענוח שם שרת מארח</string>
+    <string name="error_short_certificate_not_trusted">האישור אינו מהימן</string>
+    <string name="error_short_certificate_expired">האישור אינו פג תוקף</string>
+    <string name="error_short_certificate_not_valid_yet">האישור אינו תקף עדיין</string>
+    <string name="error_short_certificate_revoked">האישור בוטל</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL נכשל</string>
+    <string name="error_short_connection_failed">החיבור נכשל</string>
+    <string name="error_short_http_to_https_port">חיבור לפורט HTTPS דרך HTTP?</string>
+    <string name="error_short_certificate_wrong_host">האישור אינו תקף עבור %s</string>
+    <string name="error_short_http_code_401">האימות נכשל (קוד תגובה HTTP 401)</string>
+    <string name="error_short_http_code_403">האימות נכשל (קוד תגובה HTTP 403)</string>
+    <string name="error_short_http_code_407">האימות נכשל (קוד תגובה HTTP 407)</string>
+    <string name="error_short_http_code_414">כתובת אתר ארוכה מדי (קוד תגובה HTTP 414)</string>
+    <string name="error_short_http_code_426">נדרש HTTPS (קוד תגובה HTTP 426)</string>
+    <string name="error_short_http_code_495">האימות נכשל (קוד תגובה HTTP 495)</string>
+    <string name="error_short_http_code_496">נדרשת תעודת אישור לקוח SSL (קוד תגובה HTTP 496)</string>
     <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
@@ -300,7 +318,6 @@
     <string name="item_picker_list_empty">לא נמצאו פריטים</string>
     <string name="item_picker_list_error">אירעה שגיאה בעת טעינת הפריטים</string>
     <string name="item_picker_custom">התאמה אישית</string>
-    <string name="item_picker_dialog_title">בחר מצב</string>
     <string name="item_picker_blurb_command">שלח פקודה \"%3$s\" אל \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">עדכן \"%1$s\" (%2$s) ל- \"%3$s\"</string>
     <string name="item_picker_tasker_variable">משתנה %s ב Tasker</string>
@@ -343,5 +360,4 @@
     <string name="create_home_screen_widget_not_supported">המכשיר שלך אינו תומך ביצירת יישומונים מתוך אפליקציה. צור יישומון מתפריט היישומונים במסך הבית.</string>
     <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
     <string name="item_update_widget_widget_label">תווית יישומון</string>
-    <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <מצב>]]></string>
 </resources>
