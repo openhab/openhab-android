@@ -123,6 +123,17 @@
     <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
     <string name="error_http_code_511">Netzwerkauthentifizierung ist erforderlich (HTTP-Antwortcode 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB ist offline</string>
+    <string name="error_short_http_connection_failed">HTTP-Fehler %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="error_short_certificate_not_trusted">Zertifikat nicht vertrauenswürdig</string>
+    <string name="error_short_certificate_expired">Zertifikat nicht abgelaufen</string>
+    <string name="error_short_certificate_not_valid_yet">Zertifikat noch nicht gültig</string>
+    <string name="error_short_certificate_revoked">Zertifikat widerrufen</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL fehlgeschlagen</string>
+    <string name="error_short_connection_failed">Verbindung fehlgeschlagen</string>
+    <string name="error_short_http_to_https_port">Mit HTTPS-Port über HTTP verbinden?</string>
+    <string name="error_short_certificate_wrong_host">Zertifikat nicht gültig für %s</string>
     <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
@@ -298,6 +309,7 @@
     <string name="item_picker_list_empty">Keine Items gefunden</string>
     <string name="item_picker_list_error">Laden der Items fehlgeschlagen</string>
     <string name="item_picker_custom">Benutzerdefiniert</string>
+    <string name="item_picker_dialog_title">Aktion auswählen</string>
     <string name="item_picker_blurb_command">Sende Befehl \"%3$s\" an \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) auf \"%3$s\" ändern</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
@@ -340,4 +352,5 @@
     <string name="create_home_screen_widget_not_supported">Ihr Gerät unterstützt das Erstellen von Widgets innerhalb einer App nicht. Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
 </resources>
