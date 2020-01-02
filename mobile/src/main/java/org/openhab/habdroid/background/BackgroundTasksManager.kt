@@ -288,19 +288,19 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val sender = info?.showIntent?.creatorPackage
                 Log.d(TAG, "Alarm sent by $sender")
                 var time: String? = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
-                    "0"
+                    "UNDEF"
                 } else {
                     (info?.triggerTime ?: 0).toString()
                 }
 
                 val prefs = context.getPrefs()
 
-                if (time == "0" && prefs.getBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, false)) {
+                if (time == "UNDEF" && prefs.getBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, false)) {
                     time = null
                 }
 
                 prefs.edit {
-                    putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_ZERO, time == "0" || time == null)
+                    putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, time == "UNDEF" || time == null)
                 }
 
                 time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
