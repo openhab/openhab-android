@@ -64,7 +64,6 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerade en tom Sitemap-lista</string>
     <string name="error_network_not_available">Nätverk inte tillgängligt</string>
-    <string name="error_http_connection_failed">Anslutningen misslyckas. Ett oväntat svar mottogs vid anslutningsförsök mot den konfigurerade openHAB-servern (mottagen HTTP-svarskod: %d).</string>
     <string name="error_invalid_url">Vänligen ange en giltig URL i en formen \' http(s)://host(:port) /\'</string>
     <string name="error_connection_failed">Anslutningen till värddatorn misslyckades</string>
     <string name="error_unable_to_resolve_hostname">Det går inte att slå upp värdnamnet</string>
@@ -74,19 +73,7 @@
     <string name="error_certificate_not_valid_yet">SSL-certifikatet är inte giltigt ännu. Vänligen skaffa ett giltigt certifikat eller acceptera certifikatet under SSL-handskakningen. Kontrollera också om klockan på enheten är korrekt.</string>
     <string name="error_certificate_revoked">SSL-certifikatet har blivit återkallat. Vänligen skaffa ett nytt certifikat eller acceptera certifikatet under SSL-handskakningen.</string>
     <string name="error_certificate_wrong_host">SSL-certifikatet är inte giltigt för %s</string>
-    <string name="error_http_code_401">Autentiseringen misslyckades. Vänligen kontrollera ditt konfigurerade användarnamn och lösenord i förhållande till SSL-klientcertifikatet (http-svarskod 401).</string>
-    <string name="error_http_code_403">Autentiseringen misslyckades. Vänligen kontrollera ditt konfigurerade användarnamn och lösenord i förhållande till SSL-klientcertifikatet (http-svarskod 403).</string>
-    <string name="error_http_code_407">Autentiseringen misslyckades. Vänligen kontrollera ditt konfigurerade användarnamn och lösenord i förhållande till SSL-klientcertifikatet (http-svarskod 407).</string>
-    <string name="error_http_code_414">Angiven URL är för lång. Använd IP-adressen eller en kortare webbadress (http-svarskod 414).</string>
-    <string name="error_http_code_426">HTTPS krävs. Vänligen ändra din URL (HTTP-svarskod 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autentiseringen misslyckades. Vänligen kontrollera SSH-klientcertifikatet (HTTP-svarskod 495).</string>
-    <string name="error_http_code_496">SSL-klientcertifikat krävs (HTTP-svarskod 496)</string>
-    <string name="error_http_code_502">Din omvända proxy fick ett ogiltigt svar från openHAB-servern (HTTP-svarskod 502)</string>
-    <string name="error_http_code_503">openHAB-servern är tillfälligt otillgänglig (HTTP-svarskod 503)</string>
-    <string name="error_http_code_504">Gateway time-out. Det verkar som att din omvända proxy är uppe, men den får inget svar ifrån openHAB-servern (HTTP-svarskod 504).</string>
-    <string name="error_http_code_507">openHAB-servern har inte tillräckligt ledigt diskutrymme (HTTP-svarskod 507)</string>
-    <string name="error_http_code_511">Nätverksautentisering krävs (HTTP-svarskod 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Fel vid hämtning av information ifrån openHAB-servern</string>
     <string name="error_openhab_offline">Molninstansen är igång, men din openHAB-server är offline</string>
