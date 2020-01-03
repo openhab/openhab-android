@@ -43,11 +43,6 @@
     <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
     <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_496">Certificado de cliente SSL é necessário (HTTP código de resposta 496)</string>
-    <string name="error_http_code_502">O seu reverse proxy tem uma resposta inválida de openHAB (HTTP código de resposta 502)</string>
-    <string name="error_http_code_503">O Servidor openHAB está temporariamente indisponível (HTTP código de resposta 503)</string>
-    <string name="error_http_code_507">O servidor openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
-    <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="title_activity_openhabwritetag">Escrever na etiqueta NFC</string>
     <string name="info_write_tag">Toque na etiqueta e mantenha-la perto até aparecer a mensagem de confirmação</string>
