@@ -25,8 +25,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.annotation.StringRes
@@ -35,6 +33,9 @@ import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.json.JSONArray
@@ -227,9 +228,9 @@ fun Context.showToast(message: CharSequence, type: ToastType = ToastType.NORMAL)
     }
     val length = if (type == ToastType.ERROR) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT
 
-    Handler(Looper.getMainLooper()).post {
+    GlobalScope.launch(Dispatchers.Main) {
         Toasty.custom(
-            this,
+            applicationContext,
             message,
             R.drawable.ic_openhab_appicon_24dp,
             color,
