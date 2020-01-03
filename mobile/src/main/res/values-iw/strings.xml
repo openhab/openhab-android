@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
     <string name="error_network_not_available">הרשת לא זמינה</string>
     <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
-    <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
@@ -109,22 +108,9 @@
     <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
     <string name="error_http_to_https_port">החיבור הסתיים באופן בלתי-צפוי. האם אתה מנסה להתחבר לפִּתְחָה HTTPS דרך HTTP?</string>
     <string name="webview_ssl">כרגע יישום זה אינו תומך בחתימת SSL עצמית עבור יישומוני Web</string>
-    <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401).</string>
-    <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 403).</string>
-    <string name="error_http_code_407">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 407).</string>
-    <string name="error_http_code_414">שורת הכתובת ארוכה מדי. נא השתמש בכתובת IP או בכתובת קצרה יותר (קוד תגובה HTTP 414).</string>
-    <string name="error_http_code_426">HTTPS נדרש. יש לשנות את הכתובת (קוד תגובה HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">האימות נכשל. בדוק את תעודת SSL (קוד תגובה HTTP 495).</string>
-    <string name="error_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP 496)</string>
-    <string name="error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP 502)</string>
-    <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
-    <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504).</string>
-    <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
-    <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB איננו מחובר</string>
-    <string name="error_short_http_connection_failed">שגיאת HTTP %d</string>
     <string name="error_short_unable_to_resolve_hostname">שגיאה בפענוח שם שרת מארח</string>
     <string name="error_short_certificate_not_trusted">האישור אינו מהימן</string>
     <string name="error_short_certificate_expired">האישור אינו פג תוקף</string>
@@ -134,18 +120,6 @@
     <string name="error_short_connection_failed">החיבור נכשל</string>
     <string name="error_short_http_to_https_port">חיבור לפורט HTTPS דרך HTTP?</string>
     <string name="error_short_certificate_wrong_host">האישור אינו תקף עבור %s</string>
-    <string name="error_short_http_code_401">האימות נכשל (קוד תגובה HTTP 401)</string>
-    <string name="error_short_http_code_403">האימות נכשל (קוד תגובה HTTP 403)</string>
-    <string name="error_short_http_code_407">האימות נכשל (קוד תגובה HTTP 407)</string>
-    <string name="error_short_http_code_414">כתובת אתר ארוכה מדי (קוד תגובה HTTP 414)</string>
-    <string name="error_short_http_code_426">נדרש HTTPS (קוד תגובה HTTP 426)</string>
-    <string name="error_short_http_code_495">האימות נכשל (קוד תגובה HTTP 495)</string>
-    <string name="error_short_http_code_496">נדרשת תעודת אישור לקוח SSL (קוד תגובה HTTP 496)</string>
-    <string name="error_short_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP 502)</string>
-    <string name="error_short_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
-    <string name="error_short_http_code_504">תם הזמן המוקצב ל-Gateway (קוד תגובה HTTP 504).</string>
-    <string name="error_short_http_code_507">אין מספיק מקום פנוי בשרת (קוד תגובה HTTP 507)</string>
-    <string name="error_short_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
     <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
@@ -193,8 +167,6 @@
         <item quantity="many">ל %d פריטים לא היתה אפשרות להתעדכן</item>
         <item quantity="other">ל %d פריטים לא היתה אפשרות להתעדכן</item>
     </plurals>
-    <string name="item_update_http_error">עדכון הפריט \'%1$s\' נכשל (שגיאת HTTP %2$d)</string>
-    <string name="item_update_http_error_label">עדכון \'%1$s\' נכשל (שגיאת HTTP %2$d)</string>
     <string name="item_update_connection_error">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="item_update_connection_error_label">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="error_sending_alarm_clock_item_empty">אנא הכנס שם פריט תקף</string>
