@@ -83,7 +83,6 @@
     <string name="error_sitemap_generic_load_error">Le Sitemap n\'a pas pu être téléchargé. L\'erreur suivante s\'est produite : %1$s</string>
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
     <string name="error_wifi_not_available">Le Wi-Fi est désactivé</string>
-    <string name="error_http_connection_failed">Connexion échouée. Une réponse inattendue a été reçue en essayant de se connecter au serveur openHAB configuré (code de réponse HTTP reçu : %d).</string>
     <string name="error_invalid_url">Entrez une URL valide au format \'http(s)://hote(:port)/\'</string>
     <string name="error_port_seems_invalid">Le port que vous avez entré semble invalide pour le protocole sélectionné</string>
     <string name="error_connection_failed">Connexion au domaine échouée</string>
@@ -97,19 +96,7 @@
     <string name="error_certificate_wrong_host">Le certificat SSL n\'est pas valide pour %s</string>
     <string name="error_http_to_https_port">Fin de flux inattendue. Essayez-vous de vous connecter à un port HTTPS via HTTP ?</string>
     <string name="webview_ssl">Actuellement cette application ne supporte pas les certificats SSL auto-signés pour les widgets Webview</string>
-    <string name="error_http_code_401">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 401).</string>
-    <string name="error_http_code_403">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 403).</string>
-    <string name="error_http_code_407">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 407).</string>
-    <string name="error_http_code_414">URL trop longue. Veuillez utiliser l’adresse IP ou une URL plus courte (code de réponse HTTP 414).</string>
-    <string name="error_http_code_426">HTTPS est requis. Veuillez modifier l’URL (code de réponse HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">L\'authentification a échoué. Veuillez vérifier le certificat SSL client (code de réponse HTTP 495).</string>
-    <string name="error_http_code_496">Certificat SSL client requis (code de réponse HTTP 496)</string>
-    <string name="error_http_code_502">Votre proxy inversé a obtenu une réponse non valide du serveur openHAB (code de réponse HTTP 502)</string>
-    <string name="error_http_code_503">Le serveur openHAB est temporairement indisponible (code de réponse HTTP 503)</string>
-    <string name="error_http_code_504">Expiration du délai d\'attente de la passerelle. Votre proxy fonctionne, mais il n\'a pas pu recevoir une réponse du serveur openHAB (code de réponse HTTP 504).</string>
-    <string name="error_http_code_507">Le serveur openHAB n\'a pas assez d\'espace disque (code de réponse HTTP 507)</string>
-    <string name="error_http_code_511">L’authentification réseau est obligatoire (code de réponse HTTP 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
     <string name="error_openhab_offline">Votre serveur openHAB est déconnecté alors que l\'instance dans le cloud est en cours d\'exécution</string>
@@ -146,7 +133,6 @@
         <item quantity="one">Impossible de mettre à jour %d Item</item>
         <item quantity="other">Impossible de mettre à jour %d Items</item>
     </plurals>
-    <string name="item_update_http_error">La mise à jour de l\'Item \'%1$s\' a échoué (Erreur HTTP %2$d)</string>
     <string name="item_update_connection_error">La mise à jour de l\'Item \'%1$s\' a échoué (Aucune connexion)</string>
     <string name="error_sending_alarm_clock_item_empty">Veuillez entrer un nom d\'Item valide</string>
     <string name="retry">Réessayer</string>
