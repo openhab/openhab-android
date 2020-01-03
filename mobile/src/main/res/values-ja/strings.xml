@@ -91,7 +91,6 @@
     <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
     <string name="error_network_not_available">ネットワークが利用できません</string>
     <string name="error_wifi_not_available">Wi-Fi がオフになっています</string>
-    <string name="error_http_connection_failed">接続が失敗しました。設定された openHAB サーバーに接続しようとしたときに予期しない応答を受け取りました (受信した HTTP 応答コード: %d)。</string>
     <string name="error_invalid_url">\'http(s)://host(:port)/\' の形式で、正しい URL を入力してください</string>
     <string name="error_invalid_https_url">\'https://host(:port)/\' の形式で、正しい URL を入力してください</string>
     <string name="error_port_seems_invalid">入力したポートは、選択したプロトコルでは正しくないようです</string>
@@ -105,19 +104,7 @@
     <string name="error_certificate_revoked">SSL 証明書が失効しています。新しい証明書を取得するか、SSL ハンドシェイク中に証明書を確認してください。</string>
     <string name="error_certificate_wrong_host">%s の SSL 証明書が無効です</string>
     <string name="error_http_to_https_port">予期しないストリームの終わり。HTTP 経由で HTTPS ポートに接続しようとしていませんか?</string>
-    <string name="error_http_code_401">認証に失敗しました。提供された SSL クライアント証明書と、ユーザー名、パスワードを確認してください (HTTP 応答コード 401).</string>
-    <string name="error_http_code_403">認証に失敗しました。提供された SSL クライアント証明書と、ユーザー名、パスワードを確認してください (HTTP 応答コード 403).</string>
-    <string name="error_http_code_407">認証に失敗しました。提供された SSL クライアント証明書と、ユーザー名、パスワードを確認してください (HTTP 応答コード 407).</string>
-    <string name="error_http_code_414">URL が長すぎます。IP アドレスまたは短縮 URL を使用してください (HTTP 応答コード 414).</string>
-    <string name="error_http_code_426">HTTPS が必要です。URL を変更してください (HTTP 応答コード 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">認証に失敗しました。提供された SSL クライアント証明書を確認してください (HTTP 応答コード 495).</string>
-    <string name="error_http_code_496">SSL クライアント証明書が必要 (HTTP 応答コード 496)</string>
-    <string name="error_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP 応答コード 502)</string>
-    <string name="error_http_code_503">openHAB は一時的に利用できません (HTTP 応答コード 503)</string>
-    <string name="error_http_code_504">ゲートウェイ タイムアウト。リバースプロキシが実行中ですが、openHAB サーバーから回答を受け取ることができなかったようです (HTTP 応答コード 504).</string>
-    <string name="error_http_code_507">openHAB に十分な空き容量がありません (HTTP 応答コード 507)</string>
-    <string name="error_http_code_511">ネットワーク認証が必要 (HTTP 応答コード 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">openHAB サーバー情報の取得時にエラーが発生しました</string>
     <string name="error_openhab_offline">クラウドインスタンス実行中、お使いの openHAB サーバーがオフラインです</string>
@@ -156,7 +143,6 @@
     <string name="item_upload_in_progress">アイテムを現在更新しています</string>
     <string name="notification_channel_background">バックグラウンド</string>
     <string name="notification_channel_background_error_description">バックグラウンド タスクのエラーを通知するために使用します</string>
-    <string name="item_update_http_error">アイテム \'%1$s\' を更新できませんでした (HTTP エラー %2$d)</string>
     <string name="item_update_connection_error">アイテム \'%1$s\' を更新できませんでした (接続がありません)</string>
     <string name="error_sending_alarm_clock_item_empty">正しいアイテム名を入力してください</string>
     <!-- Notification list strings -->
