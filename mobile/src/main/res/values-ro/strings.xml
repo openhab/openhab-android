@@ -92,7 +92,6 @@
     <string name="error_sitemap_generic_load_error">Sitemap-ul nu a putut fi încărcat. A apărut următoarea eroare: %1$s</string>
     <string name="error_network_not_available">Rețeaua nu este disponibilă</string>
     <string name="error_wifi_not_available">Wi-Fi este dezactivat</string>
-    <string name="error_http_connection_failed">Conexiune eșuată. Un răspuns neașteptat a fost primit în încercarea de conectare la serverul openHAB configurat (Received HTTP response code: %d).</string>
     <string name="error_invalid_url">Introdu adresa URL în forma \'http(s)://host(:port)/\'</string>
     <string name="error_invalid_https_url">Vă rugăm să introduceți o adresă URL validă în format \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">Portul introdus pare să fie nevalid pentru protocolul selectat</string>
@@ -107,19 +106,7 @@
     <string name="error_certificate_wrong_host">Certificatul SSL nu este valid pentru %s</string>
     <string name="error_http_to_https_port">Terminare neașteptată a conexiunii. Încercați să vă conectați la un port HTTPS prin HTTP?</string>
     <string name="webview_ssl">În prezent, această aplicație nu acceptă certificate SSL auto-semnate pentru widget-urile Webview</string>
-    <string name="error_http_code_401">Autentificare eșuată. Vă rugăm verificați numele de utilizator și parola, respectiv certificatul SSL (HTTP response code 401).</string>
-    <string name="error_http_code_403">Autentificare eșuată. Vă rugăm verificați numele de utilizator și parola, respectiv certificatul SSL (HTTP response code 403).</string>
-    <string name="error_http_code_407">Autentificare eșuată. Vă rugăm verificați numele de utilizator și parola, respectiv certificatul SSL (HTTP response code 407).</string>
-    <string name="error_http_code_414">URL-ul este prea lung. Vă rugăm să utilizaţi adresa IP sau un URL mai scurt (HTTP response code 414).</string>
-    <string name="error_http_code_426">Este necesar HTTPS. Vă rugăm schimbați adresa URL (HTTP response code 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autentificare eșuată. Vă rugăm verificați certificatul SSL (cod raspuns HTTP 495).</string>
-    <string name="error_http_code_496">Este necesar un certificat de client SSL (cod raspuns HTTP 496)</string>
-    <string name="error_http_code_502">Serverul dumneavoastră proxy a primit un răspuns invalid de la serverul openHAB (cod răspuns HTTP 502)</string>
-    <string name="error_http_code_503">Serverul openHAB este temporar indisponibil (cod raspuns HTTP 503)</string>
-    <string name="error_http_code_504">Expirare conexiune gateway. Se pare că serverul proxy este pornit, însă nu a putut primi un raspuns de la serverul openHAB (cod răspuns HTTP 504).</string>
-    <string name="error_http_code_507">Serverul openHAB nu are suficient spațiu liber (cod răspuns HTTP 507)</string>
-    <string name="error_http_code_511">Autentificarea în rețea este necesară (cod răspuns HTTP 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Eroare la obținerea informațiilor despre serverul openHAB</string>
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
@@ -165,8 +152,6 @@
         <item quantity="few">%d Items nu au putut fi actualizate</item>
         <item quantity="other">%d Items nu au putut fi actualizate</item>
     </plurals>
-    <string name="item_update_http_error">Item \'%1$s\' actualizarea a eșuat (HTTP error %2$d)</string>
-    <string name="item_update_http_error_label">%1$s actualizare eșuată (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Item \'%1$s\' actualizare eșuată (fără conexiune)</string>
     <string name="item_update_connection_error_label">%1$s actualizare eșuată (fără conexiune)</string>
     <string name="error_sending_alarm_clock_item_empty">Vă rugăm să introduceți numele unui Item valid</string>
