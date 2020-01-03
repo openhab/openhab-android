@@ -92,7 +92,6 @@
     <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
     <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
     <string name="error_wifi_not_available">Wi-Fi is uitgeschakeld</string>
-    <string name="error_http_connection_failed">Verbinding mislukt. Een onverwachte reactie werd ontvangen tijdens het verbinden met de openHAB server (Ontvangen HTTP response code: %d).</string>
     <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
     <string name="error_invalid_https_url">Geef een correcte URL op in de \'https://host(:port)/\' vorm</string>
     <string name="error_port_seems_invalid">De ingevoerde poort lijkt ongeldig voor het geselecteerde protocol</string>
@@ -107,19 +106,7 @@
     <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
     <string name="error_http_to_https_port">Onverwachte beëindiging van een stream. Probeert u verbinding te maken met een HTTPS poort via HTTP?</string>
     <string name="webview_ssl">Momenteel ondersteunt deze app geen zelf ondertekende SSL-certificaten voor Webview widgets</string>
-    <string name="error_http_code_401">Verificatie is mislukt. Controleer alstublieft de geconfigureerde gebruikersnaam en wachtwoord (HTTP response code 401).</string>
-    <string name="error_http_code_403">Verificatie is mislukt. Controleer alstublieft de geconfigureerde gebruikersnaam en wachtwoord (HTTP response code 403).</string>
-    <string name="error_http_code_407">Verificatie is mislukt. Controleer alstublieft de geconfigureerde gebruikersnaam en wachtwoord (HTTP response code 407).</string>
-    <string name="error_http_code_414">De URL is te lang. Gebruik alstublieft het IP-adres of een kortere URL (HTTP response code 414).</string>
-    <string name="error_http_code_426">HTTPS is vereist. Verander alstublieft de URL (HTTP response code 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Verificatie is mislukt. Controleer alstublieft het SSL-clientcertificaat (HTTP response code 495).</string>
-    <string name="error_http_code_496">SSL-clientcertificaat is vereist (HTTP responscode 496)</string>
-    <string name="error_http_code_502">De reverse proxy heeft een ongeldig antwoord van de openHAB server ontvangen (HTTP-reactiecode 502)</string>
-    <string name="error_http_code_503">De openHAB server is tijdelijk niet beschikbaar (HTTP-reactiecode 503)</string>
-    <string name="error_http_code_504">Gateway time-out. Het lijkt erop dat uw reverse-proxy actief is, maar er kan geen antwoord gekregen worden van de openHAB server (HTTP response code 504).</string>
-    <string name="error_http_code_507">De openHAB-server heeft onvoldoende vrije ruimte (HTTP-reactiecode 507)</string>
-    <string name="error_http_code_511">Netwerkverificatie is vereist (HTTP responscode 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
@@ -166,8 +153,6 @@
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
         <item quantity="other">%d Items konden niet worden bijgewerkt</item>
     </plurals>
-    <string name="item_update_http_error">Updaten van Item \'%1$s\' mislukt (HTTP fout %2$d)</string>
-    <string name="item_update_http_error_label">%1$s update mislukt (HTTP fout %2$d)</string>
     <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
     <string name="item_update_connection_error_label">%1$s update mislukt (Geen verbinding)</string>
     <string name="error_sending_alarm_clock_item_empty">Voer een geldige Itemnaam in</string>
