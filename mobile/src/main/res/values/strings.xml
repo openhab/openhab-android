@@ -110,12 +110,13 @@
     <string name="error_sitemap_generic_load_error">The Sitemap could not be loaded. The following error occurred: %1$s</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_wifi_not_available">Wi-Fi is turned off</string>
-    <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d).</string>
+    <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (HTTP code %d).</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_invalid_https_url">Please enter a valid URL in a \'https://host(:port)/\' form</string>
     <string name="error_port_seems_invalid">The port you have entered seems invalid for the selected protocol</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
+    <string name="error_unknown">An unknown error occurred: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
     <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or accept the certificate during SSL handshake.</string>
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or accept the certificate during SSL handshake.</string>
@@ -125,23 +126,24 @@
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_to_https_port">Unexpected end of stream. Are you trying to connect to an HTTPS port via HTTP?</string>
     <string name="webview_ssl">Currently this app doesn\'t support self-signed SSL certificates for Webview widgets</string>
-    <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401).</string>
-    <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403).</string>
-    <string name="error_http_code_407">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 407).</string>
-    <string name="error_http_code_414">URL is too long. Please use the IP address or a shorter URL (HTTP response code 414).</string>
-    <string name="error_http_code_426">HTTPS is required. Please change the URL (HTTP response code 426).</string>
+    <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP code %d).</string>
+    <string name="error_http_code_403" translatable="false">@string/error_http_code_401</string>
+    <string name="error_http_code_407" translatable="false">@string/error_http_code_401</string>
+    <string name="error_http_code_414">URL is too long. Please use the IP address or a shorter URL (HTTP code %d).</string>
+    <string name="error_http_code_426">HTTPS is required. Please change the URL (HTTP code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP response code 495).</string>
-    <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
-    <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP response code 502)</string>
-    <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP response code 503)</string>
-    <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504).</string>
-    <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
-    <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
+    <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP code %d).</string>
+    <string name="error_http_code_496">SSL client certificate is required (HTTP code %d)</string>
+    <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP code %d)</string>
+    <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP code %d)</string>
+    <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP code %d).</string>
+    <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP code %d)</string>
+    <string name="error_http_code_511">Network authentication is required (HTTP code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB is offline</string>
-    <string name="error_short_http_connection_failed">HTTP error %d</string>
+    <string name="error_short_http_connection_failed">HTTP code %d</string>
     <string name="error_short_unable_to_resolve_hostname">Error resolving hostname</string>
+    <string name="error_short_unknown">Unknown error: %s</string>
     <string name="error_short_certificate_not_trusted">Certificate not trusted</string>
     <string name="error_short_certificate_expired">Certificate not expired</string>
     <string name="error_short_certificate_not_valid_yet">Certificate not valid yet</string>
@@ -150,18 +152,18 @@
     <string name="error_short_connection_failed">Connection failed</string>
     <string name="error_short_http_to_https_port">Connecting to HTTPS port via HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certificate not valid for %s</string>
-    <string name="error_short_http_code_401">Authentication failed (HTTP response code 401)</string>
-    <string name="error_short_http_code_403">Authentication failed (HTTP response code 403)</string>
-    <string name="error_short_http_code_407">Authentication failed (HTTP response code 407)</string>
-    <string name="error_short_http_code_414">URL too long (HTTP response code 414)</string>
-    <string name="error_short_http_code_426">HTTPS required (HTTP response code 426)</string>
-    <string name="error_short_http_code_495">Authentication failed (HTTP response code 495)</string>
-    <string name="error_short_http_code_496">SSL client certificate required (HTTP response code 496)</string>
-    <string name="error_short_http_code_502">Reverse proxy got invalid answer from openHAB (HTTP response code 502)</string>
-    <string name="error_short_http_code_503">openHAB temporarily unavailable (HTTP response code 503)</string>
-    <string name="error_short_http_code_504">Gateway time-out (HTTP response code 504).</string>
-    <string name="error_short_http_code_507">Not enough free space on server (HTTP response code 507)</string>
-    <string name="error_short_http_code_511">Network authentication required (HTTP response code 511)</string>
+    <string name="error_short_http_code_401">Authentication failed (HTTP code %d)</string>
+    <string name="error_short_http_code_403" translatable="false">@string/error_short_http_code_401</string>
+    <string name="error_short_http_code_407" translatable="false">@string/error_short_http_code_401</string>
+    <string name="error_short_http_code_414">URL too long (HTTP code %d)</string>
+    <string name="error_short_http_code_426">HTTPS required (HTTP code %d)</string>
+    <string name="error_short_http_code_495">Authentication failed (HTTP code %d)</string>
+    <string name="error_short_http_code_496">SSL client certificate required (HTTP code %d)</string>
+    <string name="error_short_http_code_502">Reverse proxy got invalid answer from openHAB (HTTP code %d)</string>
+    <string name="error_short_http_code_503">openHAB temporarily unavailable (HTTP code %d)</string>
+    <string name="error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
+    <string name="error_short_http_code_507">Not enough free space on server (HTTP code %d)</string>
+    <string name="error_short_http_code_511">Network authentication required (HTTP code %d)</string>
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="error_openhab_offline">Your openHAB server is offline while the cloud instance is running</string>
     <string name="error_no_browser_found">No browser found on your device</string>
@@ -210,8 +212,8 @@
         <item quantity="one">%d Item could not be updated</item>
         <item quantity="other">%d Items could not be updated</item>
     </plurals>
-    <string name="item_update_http_error">Item \'%1$s\' update failed (HTTP error %2$d)</string>
-    <string name="item_update_http_error_label">%1$s update failed (HTTP error %2$d)</string>
+    <string name="item_update_http_error">Item \'%1$s\' update failed: %2$s</string>
+    <string name="item_update_http_error_label">%1$s update failed: %2$s</string>
     <string name="item_update_connection_error">Item \'%1$s\' update failed (No connection)</string>
     <string name="item_update_connection_error_label">%1$s update failed (No connection)</string>
     <string name="error_sending_alarm_clock_item_empty">Please enter a valid Item name</string>

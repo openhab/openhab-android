@@ -102,6 +102,7 @@ import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.getDefaultSitemap
+import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
@@ -934,8 +935,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
         Log.e(TAG, "Error: $error", error)
         Log.e(TAG, "HTTP status code: $statusCode")
-        var message = Util.getHumanReadableErrorMessage(this,
-            request.url.toString(), statusCode, error)
+        var message = getHumanReadableErrorMessage(request.url.toString(), statusCode, error)
         if (prefs.isDebugModeEnabled()) {
             message = SpannableStringBuilder(message).apply {
                 inSpans(RelativeSizeSpan(0.8f)) {
