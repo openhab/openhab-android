@@ -34,7 +34,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
-import com.caverock.androidsvg.SVGParseException
 import es.dmoral.toasty.Toasty
 import okhttp3.MediaType
 import okhttp3.ResponseBody
@@ -188,9 +187,7 @@ fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
         }
         svg.renderToCanvas(canvas)
         bitmap
-    } catch (e: SVGParseException) {
-        throw IOException("SVG decoding failed", e)
-    } catch (e: IllegalArgumentException) {
+    } catch (e: Exception) {
         throw IOException("SVG decoding failed", e)
     }
 }
