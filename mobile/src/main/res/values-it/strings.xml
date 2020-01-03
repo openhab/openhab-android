@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">Sitemap non può essere caricato. Si è verificato il seguente errore: %1$s</string>
     <string name="error_network_not_available">Rete non disponibile</string>
     <string name="error_wifi_not_available">Il Wi-Fi è spento</string>
-    <string name="error_http_connection_failed">Connessione non riuscita. È stata ricevuta una risposta imprevista durante il tentativo di connessione al server openHAB configurato (codice di risposta HTTP ricevuto: %d).</string>
     <string name="error_invalid_url">Inserisci un URL valido nella forma \'http(s)://host(:port)/\'</string>
     <string name="error_invalid_https_url">Inserire un URL valido nella forma \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">La porta inserita non sembra valida per il protocollo selezionato</string>
@@ -109,22 +108,9 @@
     <string name="error_certificate_wrong_host">Il certificato SSL non e\' valido per %s</string>
     <string name="error_http_to_https_port">Fine imprevista dello stream. Stai cercando di connetterti ad una porta HTTPS tramite HTTP?</string>
     <string name="webview_ssl">Attualmente questa app non supporta certificati SSL autofirmati per i widget Webview</string>
-    <string name="error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 401).</string>
-    <string name="error_http_code_403">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 403).</string>
-    <string name="error_http_code_407">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 407).</string>
-    <string name="error_http_code_414">URL è troppo lungo. Utilizzare l\'indirizzo IP o un URL più corto (codice di risposta HTTP 414).</string>
-    <string name="error_http_code_426">HTTPS è obbligatorio. Si prega di cambiare l\'URL (codice di risposta HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autenticazione non riuscita. Verificare il certificato SSL client fornito (codice di risposta HTTP 495).</string>
-    <string name="error_http_code_496">E\' richiesto un certificato SSL (codice risposta HTTP 496)</string>
-    <string name="error_http_code_502">Il reverse proxy ha ricevuto una risposta non valida dal server openHAB (codice risposta HTTP 502)</string>
-    <string name="error_http_code_503">Il server openHAB non e\' temporaneamente disponibile (codice risposta HTTP 503)</string>
-    <string name="error_http_code_504">Gateway timeout. Sembra che il tuo reverse proxy e\' in esecuzione, ma non riceve una risposta dal server openHAB (codice risposta HTTP 504).</string>
-    <string name="error_http_code_507">Il server openHAB non ha abbastanza spazio disponibile (codice risposta HTTP 507)</string>
-    <string name="error_http_code_511">È richiesta un\'autenticazione di rete (codice risposta HTTP 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB è offline</string>
-    <string name="error_short_http_connection_failed">Errore HTTP %d</string>
     <string name="error_short_unable_to_resolve_hostname">Errore nella risoluzione dell\'hostname</string>
     <string name="error_short_certificate_not_trusted">Certificato non attendibile</string>
     <string name="error_short_certificate_expired">Certificato non scaduto</string>
@@ -134,18 +120,6 @@
     <string name="error_short_connection_failed">Connessione non riuscita</string>
     <string name="error_short_http_to_https_port">Connessione alla porta HTTPS tramite HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certificato non valido per %s</string>
-    <string name="error_short_http_code_401">Autenticazione non riuscita (codice risposta HTTP 401)</string>
-    <string name="error_short_http_code_403">Autenticazione non riuscita (codice risposta HTTP 403)</string>
-    <string name="error_short_http_code_407">Autenticazione non riuscita (codice risposta HTTP 407)</string>
-    <string name="error_short_http_code_414">URL troppo lungo (codice risposta HTTP 414)</string>
-    <string name="error_short_http_code_426">HTTPS richiesto (codice di risposta HTTP 426)</string>
-    <string name="error_short_http_code_495">Autenticazione non riuscita (codice risposta HTTP 495)</string>
-    <string name="error_short_http_code_496">Certificato SSL client richiesto (codice risposta HTTP 496)</string>
-    <string name="error_short_http_code_502">Il reverse proxy ha ricevuto una risposta non valida da openHAB (codice risposta HTTP 502)</string>
-    <string name="error_short_http_code_503">openHAB temporaneamente non disponibile (codice risposta HTTP 503)</string>
-    <string name="error_short_http_code_504">Timeout del gateway (codice risposta HTTP 504).</string>
-    <string name="error_short_http_code_507">Spazio libero insufficiente sul server (codice risposta HTTP 507)</string>
-    <string name="error_short_http_code_511">Richiesta autenticazione di rete (codice risposta HTTP 511)</string>
     <string name="error_about_no_conn">Errore nel recupero delle informazioni dal server openHAB</string>
     <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
@@ -191,8 +165,6 @@
         <item quantity="one">L’item %d non può essere aggiornato</item>
         <item quantity="other">Gli item %d non possono essere aggiornati</item>
     </plurals>
-    <string name="item_update_http_error">L’aggiornamento dell’item \'%1$s\' è fallito (Errore HTTP %2$d)</string>
-    <string name="item_update_http_error_label">%1$s aggiornamento fallito (errore HTTP %2$d)</string>
     <string name="item_update_connection_error">L’aggiornamento dell’item \'%1$s\' è fallito (Manca connessione)</string>
     <string name="item_update_connection_error_label">%1$s aggiornamento fallito (Nessuna connessione)</string>
     <string name="error_sending_alarm_clock_item_empty">Inserire un nome valido per l’item</string>
