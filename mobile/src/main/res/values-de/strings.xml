@@ -111,7 +111,9 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB ist offline</string>
+    <string name="error_short_http_connection_failed">HTTP-Code %d</string>
     <string name="error_short_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="error_short_unknown">Unbekannter Fehler: %s</string>
     <string name="error_short_certificate_not_trusted">Zertifikat nicht vertrauenswürdig</string>
     <string name="error_short_certificate_expired">Zertifikat nicht abgelaufen</string>
     <string name="error_short_certificate_not_valid_yet">Zertifikat noch nicht gültig</string>
@@ -120,6 +122,16 @@
     <string name="error_short_connection_failed">Verbindung fehlgeschlagen</string>
     <string name="error_short_http_to_https_port">Mit HTTPS-Port über HTTP verbinden?</string>
     <string name="error_short_certificate_wrong_host">Zertifikat nicht gültig für %s</string>
+    <string name="error_short_http_code_401">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
+    <string name="error_short_http_code_414">URL zu lang (HTTP-Code %d)</string>
+    <string name="error_short_http_code_426">HTTPS erforderlich (HTTP-Code %d)</string>
+    <string name="error_short_http_code_495">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
+    <string name="error_short_http_code_496">SSL-Client-Zertifikat erforderlich (HTTP-Code %d)</string>
+    <string name="error_short_http_code_502">Der Reverse-Proxy hat eine ungültige Antwort von openHAB erhalten (HTTP-Code %d)</string>
+    <string name="error_short_http_code_503">openHAB vorübergehend nicht verfügbar (HTTP-Code %d)</string>
+    <string name="error_short_http_code_504">Gateway-Timeout (HTTP-Code %d).</string>
+    <string name="error_short_http_code_507">Nicht genügend freier Speicherplatz auf dem Server (HTTP-Code %d)</string>
+    <string name="error_short_http_code_511">Netzwerkauthentifizierung erforderlich (HTTP-Code %d)</string>
     <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
