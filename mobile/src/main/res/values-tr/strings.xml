@@ -75,7 +75,6 @@
     <string name="error_sitemap_generic_load_error">Sitemap yüklenmemiş olabilir. Şu hata oluştu: %1$s</string>
     <string name="error_network_not_available">Network müsait değil</string>
     <string name="error_wifi_not_available">Wi-Fi kapatıldı</string>
-    <string name="error_http_connection_failed">Bağlantı başarısız. Yapılandırılmış openHAB sunucusuna bağlanmaya çalışırken beklenmeyen bir yanıt alındı ​​(Alınan HTTP yanıt kodu: %d).</string>
     <string name="error_invalid_url">Lütfen \'http(s)://host:(port)/\' formunda geçerli bir URL giriniz</string>
     <string name="error_port_seems_invalid">Girdiğiniz port numarası seçili protokol için yanlış görünüyor</string>
     <string name="error_connection_failed">Ana cihaza bağlantı başarısız oldu</string>
@@ -89,19 +88,7 @@
     <string name="error_certificate_wrong_host">SSL sertifikası %s için geçerli değildir</string>
     <string name="error_http_to_https_port">Beklenmeyen akış sonu. Bir HTTPS bağlantı noktasına HTTP üzerinden bağlanmaya mı çalışıyorsunuz?</string>
     <string name="webview_ssl">Şu anda bu uygulama için Webview widget otomatik olarak imzalanan SSL sertifikalarını desteklemiyor</string>
-    <string name="error_http_code_401">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adını, şifreyi ve SSL müşteri sertifikasını kontrol ediniz (HTTP yanıt kodu 401).</string>
-    <string name="error_http_code_403">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 403).</string>
-    <string name="error_http_code_407">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 407).</string>
-    <string name="error_http_code_414">URL çok uzun. Lütfen IP adresi veya daha kısa URL (HTTP yanıt kodu 414) kullanın.</string>
-    <string name="error_http_code_426">HTTPS gereklidir. Lütfen openHAB URL\'sini değiştirin (HTTP yanıt kodu 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 495).</string>
-    <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
-    <string name="error_http_code_502">Ters proxy\'iniz openHAB\'tan geçersiz bir yanıt aldı (HTTP yanıt kodu 502)</string>
-    <string name="error_http_code_503">openHAB geçici olarak kullanım dışı (HTTP yanıt kodu 503)</string>
-    <string name="error_http_code_504">Gateway zaman aşımı. Görünüşe göre sizin ters proxy\'iniz çalışıyor, fakat openHAB\'dan bir cevap alamıyor (HTTP yanıt kodu 504).</string>
-    <string name="error_http_code_507">openHAB yeteri kadar boş alana sahip değil (HTTP yanıt kodu 507)</string>
-    <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">openHAB\'tan sunucu bilgileri alınırken bir hata oluştu</string>
     <string name="error_openhab_offline">Bulut örneğinin çalıştığı sırada, openHAB sunucu çevrimdışı</string>
