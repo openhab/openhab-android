@@ -94,11 +94,13 @@
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_wifi_not_available">WLAN ist ausgeschaltet</string>
+    <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen (HTTP-Code %d).</string>
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
     <string name="error_invalid_https_url">Bitte geben Sie eine gültige URL im Format \'https://Adresse(:Port)/\' an</string>
     <string name="error_port_seems_invalid">Der eingegebene Port für das ausgewählte Protokoll scheint ungültig zu sein</string>
     <string name="error_connection_failed">Verbindung zum Host fehlgeschlagen</string>
     <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="error_unknown">Ein unbekannter Fehler ist aufgetreten: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen</string>
     <string name="error_certificate_not_trusted">Das SSL-Zertifikat ist nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder akzeptieren Sie das Zertifikat während des SSL-Handshakes.</string>
     <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder akzeptieren Sie das Zertifikat während des Verbindungsaufbaus.</string>
@@ -108,7 +110,17 @@
     <string name="error_certificate_wrong_host">Das Zertifikat ist für %s nicht gültig</string>
     <string name="error_http_to_https_port">Unerwartetes Ende des Streams. Versuchen Sie, über HTTP eine Verbindung zu einem HTTPS-Port herzustellen?</string>
     <string name="webview_ssl">Derzeit unterstützt diese App keine selbstsignierten SSL-Zertifikate für Webview-Widgets</string>
+    <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Benutzernamen und das Passwort bzw. das angegebene SSL-Client-Zertifikat (HTTP-Code %d).</string>
+    <string name="error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Code %d).</string>
+    <string name="error_http_code_426">HTTPS ist erforderlich. Bitte ändern Sie die URL (HTTP-Code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie das bereitgestellte SSL-Client-Zertifikat (HTTP-Code %d).</string>
+    <string name="error_http_code_496">SSL-Client-Zertifikat ist erforderlich (HTTP-Code %d)</string>
+    <string name="error_http_code_502">Ihr Reverse-Proxy hat eine ungültige Antwort vom openHAB-Server erhalten (HTTP-Code %d)</string>
+    <string name="error_http_code_503">Der openHAB-Server ist vorübergehend nicht verfügbar (HTTP-Code %d)</string>
+    <string name="error_http_code_504">Gateway-Timeout. Ihr Reverse-Proxy scheint zu laufen, aber konnte keine Antwort vom openHAB-Server erhalten (HTTP-Code %d).</string>
+    <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicherplatz (HTTP-Code %d)</string>
+    <string name="error_http_code_511">Netzwerkauthentifizierung ist erforderlich (HTTP-Code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB ist offline</string>
     <string name="error_short_http_connection_failed">HTTP-Code %d</string>
