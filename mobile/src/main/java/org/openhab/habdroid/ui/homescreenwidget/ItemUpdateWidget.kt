@@ -30,7 +30,6 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.Px
 import androidx.core.content.edit
-import es.dmoral.toasty.Toasty
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,11 +41,13 @@ import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconFormat
+import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isSvg
+import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -89,7 +90,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         ?: return
                     saveInfoForWidget(context, data, id)
                     setupWidget(context, data, id, AppWidgetManager.getInstance(context))
-                    Toasty.success(context, R.string.home_shortcut_success_pinning).show()
+                    context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
                 }
                 ACTION_UPDATE_WIDGET -> {
                     BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, getInfoForWidget(context, id))

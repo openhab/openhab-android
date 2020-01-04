@@ -56,6 +56,7 @@ import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.ui.preference.disableItemUpdatingPref
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
@@ -412,7 +413,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (requestCode) {
                 PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        context?.showToast(R.string.settings_phone_state_permission_denied)
+                        context?.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
                         disableItemUpdatingPref(prefs, Constants.PREFERENCE_PHONE_STATE)
                         activity?.recreate()
                     }

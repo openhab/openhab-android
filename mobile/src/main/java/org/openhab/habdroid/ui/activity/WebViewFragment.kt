@@ -38,7 +38,6 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -49,6 +48,8 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
+import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.showToast
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
@@ -145,9 +146,9 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         val success = ShortcutManagerCompat.requestPinShortcut(context, info, null)
         withContext(Dispatchers.Main) {
             if (success) {
-                Toasty.success(context, R.string.home_shortcut_success_pinning).show()
+                context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
             } else {
-                Toasty.error(context, R.string.home_shortcut_error_pinning).show()
+                context.showToast(R.string.home_shortcut_error_pinning, ToastType.ERROR)
             }
         }
     }
