@@ -55,7 +55,6 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
-    <string name="error_http_connection_failed">Връзката е неуспешна. Получен е неочакван отговор при опит за свързване към конфигурирания openHAB сървър (получени код на HTTP отговор: %d).</string>
     <string name="error_invalid_url">Моля, въведете валиден URL адрес в \"http(s)://host(:port) /\" формата</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешно</string>
     <string name="error_unable_to_resolve_hostname">Не може да се свържи с домейна</string>
@@ -65,17 +64,8 @@
     <string name="error_certificate_not_valid_yet">SSL сертификат не е валиден все още. Моля получете правилния сертификат или приемете сертификат по време на SSL ръкостискане. Също така проверете дали часовникът на вашето устройство е настроен правилно.</string>
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
-    <string name="error_http_code_401">Неуспешно удостоверяване. Проверете конфигурираните username и парола съответно предоставения SSL сертификат на клиента (отговор HTTP код 401).</string>
-    <string name="error_http_code_403">Неуспешно удостоверяване. Проверете конфигурираните потребителско име и парола съответно предоставения SSL сертификат на клиента (HTTP отговор 403).</string>
-    <string name="error_http_code_407">Неуспешно удостоверяване. Проверете конфигурираните потребителско име и парола съответно предоставения SSL сертификат на клиента (HTTP отговор 407).</string>
-    <string name="error_http_code_414">URL Адресът е твърде дълъг. Моля, използвайте IP адреса или по-кратък URL адрес (HTTP отговор 414).</string>
-    <string name="error_http_code_426">Изисква се HTTPS. Моля, променете URL адреса (HTTP отговор 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Неуспешно удостоверяване. Моля, проверете предоставения SSL сертификат на клиент (HTTP отговор 495).</string>
-    <string name="error_http_code_496">SSL сертификат на клиент е задължителен (HTTP отговор 496)</string>
-    <string name="error_http_code_503">openHAB сървъра е временно недостъпен (HTTP отговор 503)</string>
-    <string name="error_http_code_507">openHAB сървъра няма достатъчно свободно място (HTTP отговор 507)</string>
-    <string name="error_http_code_511">Изисква се мрежово удостоверяване (HTTP отговор 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Грешка при извличане на информация от openHAB сървъра</string>
     <string name="title_activity_openhabwritetag">Запиши NFC етикет</string>
     <string name="title_activity_libraries">Използвани библиотеки</string>

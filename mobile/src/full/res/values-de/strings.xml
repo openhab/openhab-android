@@ -4,9 +4,6 @@
     <string name="info_openhab_gcm_no_remote">Nicht verfügbar, da kein Remote-Server konfiguriert ist</string>
     <string name="info_openhab_gcm_unsupported">Nicht verfügbar, da der Remote-Server keine openHAB-Cloud-Instanz ist</string>
     <string name="info_openhab_gcm_in_progress">Geräteregistrierung wird durchgeführt</string>
-    <string name="info_openhab_gcm_failed">Geräteregistrierung fehlgeschlagen</string>
-    <string name="info_openhab_gcm_failed_with_reason">Geräteregistrierung wegen eines Google-Play-Services-Problems fehlgeschlagen: %s</string>
-    <string name="info_openhab_gcm_failed_toast">Aktivierung von Push-Benachrichtigungen fehlgeschlagen</string>
     <string name="info_openhab_gcm_connected">Gerät erfolgreich bei Firebase-Cloud-Messaging registriert</string>
     <string name="notification_channel_default">Standard</string>
     <string name="notification_channel_severity_value">Dringlichkeit \'%1$s\'</string>

@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">A felület nem tölthető be. Akövetkező hiba miatt: %1$s</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
     <string name="error_wifi_not_available">Wi-Fi ki van kapcsolva</string>
-    <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
     <string name="error_invalid_https_url">Adjon meg egy érvényes URL-címet \' https://kiszolgáló(:port)/\' formában</string>
     <string name="error_port_seems_invalid">Úgy tűnik, a megadott port érvénytelen a kiválasztott protokollhoz</string>
@@ -109,19 +108,8 @@
     <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
     <string name="error_http_to_https_port">Váratlanul leállt a kapcsolat. Lehetséges hogy HTTPS-portot használ HTTP kapcsolathoz?</string>
     <string name="webview_ssl">Jelenleg ez alkalmazás nem támogatja az önaláírt SSL-tanúsítványokat a \"WebView\" megjelenítőkhöz</string>
-    <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 401).</string>
-    <string name="error_http_code_403">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 403).</string>
-    <string name="error_http_code_407">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 407).</string>
-    <string name="error_http_code_414">URL túl hosszú. Kérjük, használja az IP-címet vagy egy rövidebb URL-t (HTTP-válaszkód 414).</string>
-    <string name="error_http_code_426">Kötelező a HTTPS használata. Módosítsa az URL-t (HTTP válaszkód, 426.).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">A hitelesítés sikertelen. Kérjük, ellenőrizze a megadott SSL ügyféltanúsítvány (HTTP-válaszkód 495).</string>
-    <string name="error_http_code_496">SSL ügyfél-tanúsítvány szükség (HTTP válasz-kód 496)</string>
-    <string name="error_http_code_502">Az átjáró érvénytelen választ kapott a openHAB szervertől (HTTP válaszkód, 502.)</string>
-    <string name="error_http_code_503">A openHAB szerver ideiglenesen nem érhető el (HTTP válasz-kód 503)</string>
-    <string name="error_http_code_504">Átjáró időtúllépés. Úgy tűnik, hogy a átjáró fut, de nem kap választ a openHAB szervertől (HTTP-válaszkód 504).</string>
-    <string name="error_http_code_507">A openHAB kiszolgálón nincs elég szabad hely (HTTP-válaszkód 507)</string>
-    <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP válasz-kód 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
@@ -166,8 +154,6 @@
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>
     </plurals>
-    <string name="item_update_http_error">AZ elem \'%1$s\' frissítése sikertelen (HTTP hiba %2$d)</string>
-    <string name="item_update_http_error_label">AZ elem \'%1$s\' frissítése sikertelen (HTTP hiba %2$d)</string>
     <string name="item_update_connection_error">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="item_update_connection_error_label">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="error_sending_alarm_clock_item_empty">Kérlek add meg az Elem helyes nevét</string>
@@ -296,7 +282,6 @@
     <string name="item_picker_list_empty">Elem nem található</string>
     <string name="item_picker_list_error">Hiba történt az elemek betöltése során</string>
     <string name="item_picker_custom">Egyéni</string>
-    <string name="item_picker_dialog_title">Válasszon állapotot</string>
     <string name="item_picker_blurb_command">Parancs küldése \"%3$s\" to \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Beállítás erről \"%1$s\" (%2$s) erre \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker változó \"%s\"</string>

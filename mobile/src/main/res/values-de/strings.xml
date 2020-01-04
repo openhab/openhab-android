@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_wifi_not_available">WLAN ist ausgeschaltet</string>
-    <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen. (HTTP-Statuscode: %d).</string>
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
     <string name="error_invalid_https_url">Bitte geben Sie eine gültige URL im Format \'https://Adresse(:Port)/\' an</string>
     <string name="error_port_seems_invalid">Der eingegebene Port für das ausgewählte Protokoll scheint ungültig zu sein</string>
@@ -109,19 +108,30 @@
     <string name="error_certificate_wrong_host">Das Zertifikat ist für %s nicht gültig</string>
     <string name="error_http_to_https_port">Unerwartetes Ende des Streams. Versuchen Sie, über HTTP eine Verbindung zu einem HTTPS-Port herzustellen?</string>
     <string name="webview_ssl">Derzeit unterstützt diese App keine selbstsignierten SSL-Zertifikate für Webview-Widgets</string>
-    <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 401).</string>
-    <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 403).</string>
-    <string name="error_http_code_407">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 407).</string>
-    <string name="error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Statuscode 414).</string>
-    <string name="error_http_code_426">HTTPS ist erforderlich. Bitte ändern Sie die URL (HTTP-Antwortcode 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 495).</string>
-    <string name="error_http_code_496">SSL-Client-Zertifikat ist erforderlich (HTTP-Statuscode 496)</string>
-    <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort vom openHAB-Server (HTTP-Statuscode 502)</string>
-    <string name="error_http_code_503">Der openHAB-Server steht temporär nicht zur Verfügung (HTTP-Statuscode 503)</string>
-    <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort vom openHAB-Server (HTTP-Statuscode 504).</string>
-    <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
-    <string name="error_http_code_511">Netzwerkauthentifizierung ist erforderlich (HTTP-Antwortcode 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB ist offline</string>
+    <string name="error_short_http_connection_failed">HTTP-Code %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="error_short_unknown">Unbekannter Fehler: %s</string>
+    <string name="error_short_certificate_not_trusted">Zertifikat nicht vertrauenswürdig</string>
+    <string name="error_short_certificate_expired">Zertifikat nicht abgelaufen</string>
+    <string name="error_short_certificate_not_valid_yet">Zertifikat noch nicht gültig</string>
+    <string name="error_short_certificate_revoked">Zertifikat widerrufen</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL fehlgeschlagen</string>
+    <string name="error_short_connection_failed">Verbindung fehlgeschlagen</string>
+    <string name="error_short_http_to_https_port">Mit HTTPS-Port über HTTP verbinden?</string>
+    <string name="error_short_certificate_wrong_host">Zertifikat nicht gültig für %s</string>
+    <string name="error_short_http_code_401">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
+    <string name="error_short_http_code_414">URL zu lang (HTTP-Code %d)</string>
+    <string name="error_short_http_code_426">HTTPS erforderlich (HTTP-Code %d)</string>
+    <string name="error_short_http_code_495">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
+    <string name="error_short_http_code_496">SSL-Client-Zertifikat erforderlich (HTTP-Code %d)</string>
+    <string name="error_short_http_code_502">Der Reverse-Proxy hat eine ungültige Antwort von openHAB erhalten (HTTP-Code %d)</string>
+    <string name="error_short_http_code_503">openHAB vorübergehend nicht verfügbar (HTTP-Code %d)</string>
+    <string name="error_short_http_code_504">Gateway-Timeout (HTTP-Code %d).</string>
+    <string name="error_short_http_code_507">Nicht genügend freier Speicherplatz auf dem Server (HTTP-Code %d)</string>
+    <string name="error_short_http_code_511">Netzwerkauthentifizierung erforderlich (HTTP-Code %d)</string>
     <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
@@ -167,8 +177,6 @@
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
     </plurals>
-    <string name="item_update_http_error">Update von Item \'%1$s\' fehlgeschlagen (HTTP-Fehler %2$d)</string>
-    <string name="item_update_http_error_label">Update von %1$s fehlgeschlagen (HTTP-Fehler %2$d)</string>
     <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
     <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
@@ -297,7 +305,7 @@
     <string name="item_picker_list_empty">Keine Items gefunden</string>
     <string name="item_picker_list_error">Laden der Items fehlgeschlagen</string>
     <string name="item_picker_custom">Benutzerdefiniert</string>
-    <string name="item_picker_dialog_title">Status auswählen</string>
+    <string name="item_picker_dialog_title">Aktion auswählen</string>
     <string name="item_picker_blurb_command">Sende Befehl \"%3$s\" an \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) auf \"%3$s\" ändern</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
@@ -340,5 +348,5 @@
     <string name="create_home_screen_widget_not_supported">Ihr Gerät unterstützt das Erstellen von Widgets innerhalb einer App nicht. Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Status>]]></string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
 </resources>

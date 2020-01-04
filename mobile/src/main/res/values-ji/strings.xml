@@ -10,6 +10,7 @@
     <!-- Please try to keep the string as short as possible -->
     <!-- Error messages -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- Background tasks -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->

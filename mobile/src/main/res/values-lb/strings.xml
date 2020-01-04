@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">D‘ Sitemap konnt net geluede ginn. Folgende Feeler ass opgetrueden: %1$s</string>
     <string name="error_network_not_available">D\'Netzwierk ass net verfügbar</string>
     <string name="error_wifi_not_available">Wi-Fi ass ausgeschalt</string>
-    <string name="error_http_connection_failed">Connectioun ass feelgeschloen. Et ass eng onerwaarten Äntwert ukomm, beim Versuch sech un den konfiguréierten openHAB Server ze verbannen (Empfaangenen HTTP Äntwert Code: %d).</string>
     <string name="error_invalid_url">Gëff w.e.g. eng valid URL an der \'http(s)://host(:port)/\' Form an</string>
     <string name="error_invalid_https_url">Gëff w.e.g. eng valid URL an der \'https://host(:port)/\' Form an</string>
     <string name="error_port_seems_invalid">De Port deen s du uginn schéngt net valid fir den ausgewielten Protokoll</string>
@@ -109,19 +108,8 @@
     <string name="error_certificate_wrong_host">D‘ SSL Zertifikat ass net valid fir %s</string>
     <string name="error_http_to_https_port">Onerwaarten Enn vum Stream. Probéiers du dech op en HTTPS Port via HTTP ze verbannen?</string>
     <string name="webview_ssl">Momentan ënnerstëtzt des App keng selwer-signéiert SSL Zertifikater fir Webview Widgets</string>
-    <string name="error_http_code_401">Authentifizéierung feelgeschloe. Iwwerpréif w.e.g. de konfiguréierten Benotzernumm an Passwuert bezéiungsweis d‘ SSL Client-Zertifikat (HTTP Äntwert Code 401).</string>
-    <string name="error_http_code_403">Authentifizéierung feelgeschloe. Iwwerpréif w.e.g. de konfiguréierten Benotzernumm an Passwuert bezéiungsweis d‘ SSL Client-Zertifikat (HTTP Äntwert Code 403).</string>
-    <string name="error_http_code_407">Authentifizéierung feelgeschloe. Iwwerpréif w.e.g. de konfiguréierten Benotzernumm an Passwuert bezéiungsweis d‘ SSL Client-Zertifikat (HTTP Äntwert Code 407).</string>
-    <string name="error_http_code_414">URL ass ze laang. Benotz w.e.g. d‘ IP oder eng méi kuerz URL (HTTP Äntwert Code 414).</string>
-    <string name="error_http_code_426">HTTPS ass verlaangt. Änner w.e.g. d‘ URL (HTTP Äntwert Code 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Authentifizéierung feelgeschloen. Iwwerpréif w.e.g. d‘ SSL Client-Zertifikat (HTTP Äntwert Code 495).</string>
-    <string name="error_http_code_496">Et gëtt en SSL Client-Zertifika gebraucht (HTTP Äntwert Code 496)</string>
-    <string name="error_http_code_502">Däi Reverse-Proxy huet eng invalid Äntwert vum openHAB Server kritt (HTTP Äntwert Code 502)</string>
-    <string name="error_http_code_503">Den openHAB Server ass temporär net verfügbar (HTTP Äntwert Code 503)</string>
-    <string name="error_http_code_504">Gateway Time-out. Et gesäit sou aus wei wann däin Reverse-Proxy leeft mä keng Äntwert vum openHAB Server krut (HTTP Äntwert Code 504).</string>
-    <string name="error_http_code_507">Den openHAB Server huet net genuch fräie Späicher (HTTP Äntwert Code 507)</string>
-    <string name="error_http_code_511">Netzwierk-Authentifizéierung erfuerderlech (HTTP Äntwert Code 507)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Feeler beim lueden vun openHAB Server Informatiounen</string>
     <string name="error_openhab_offline">Däin openHAB Server ass Offline, mä d‘ Cloud Instanz leeft</string>
     <string name="error_no_browser_found">Es ass kee Browser op dengem Gerät fonnt ginn</string>
@@ -167,8 +155,6 @@
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
     </plurals>
-    <string name="item_update_http_error">Den Item \'%1$s\' konnt net geupdate ginn (HTTP Feeler %2$d)</string>
-    <string name="item_update_http_error_label">Update vun %1$s huet net funktionéiert (HTTP Feeler %2$d)</string>
     <string name="item_update_connection_error">Den Item \'%1$s\' konnt net geupdate ginn (Keng Verbindung)</string>
     <string name="item_update_connection_error_label">%1$s Update huet net funktionéiert (keng Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Gitt w.e.g. en valabelen Item Numm un</string>
@@ -297,7 +283,6 @@
     <string name="item_picker_list_empty">Keen Item fonnt</string>
     <string name="item_picker_list_error">E Feeler ass beim lueden vun den Items opgetrueden</string>
     <string name="item_picker_custom">Personaliséiert</string>
-    <string name="item_picker_dialog_title">Status auswielen</string>
     <string name="item_picker_blurb_command">\"%3$s\" Kommando un \"%1$s\" (%2$s) schécken</string>
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
     <string name="item_picker_tasker_variable">Tasker Variabel \"%s\"</string>
@@ -340,5 +325,4 @@
     <string name="create_home_screen_widget_not_supported">Däi Gerät ënnerstëtzt d\' Erstellen net vun Widgets an der App. Gei w.e.g. an den Widget Menü op dengem Startbildschirm an erstell do e Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
     <string name="item_update_widget_widget_label">Widget Label</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
 </resources>

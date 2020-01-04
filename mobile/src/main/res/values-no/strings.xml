@@ -81,7 +81,6 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerte tom lokasjonskart-liste</string>
     <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
-    <string name="error_http_connection_failed">Tilkobling mislyktes. Mottok et uventet svar under forsøk på å koble til den konfigurerte openHAB-serveren (mottatt HTTP responskode: %d).</string>
     <string name="error_invalid_url">Angi en gyldig URL-adresse i en \' http(s)://host(:port) / \" form</string>
     <string name="error_connection_failed">Tilkobling til verten mislyktes</string>
     <string name="error_unable_to_resolve_hostname">Kan ikke løse vertnavn</string>
@@ -91,19 +90,8 @@
     <string name="error_certificate_not_valid_yet">SSL-sertifikatet er ikke gyldig ennå. Få et riktig sertifikat, eller godta sertifikatet under SSL-håndtrykk. Sjekk også om klokken på enheten er riktig angitt.</string>
     <string name="error_certificate_revoked">SSL-sertifikatet er tilbakekalt. Hent et nytt sertifikat, eller godta sertifikatet under SSL-håndtrykk.</string>
     <string name="error_certificate_wrong_host">Sertifikatet er ikke gyldig for %s</string>
-    <string name="error_http_code_401">Godkjenning mislyktes. Kontroller konfigurerte brukernavn og passord iht. angitt SSL-klientsertifikat (HTTP responskode 401).</string>
-    <string name="error_http_code_403">Godkjenning mislyktes. Kontroller konfigurerte brukernavn og passord iht. angitt SSL-klientsertifikat (HTTP responskode 403).</string>
-    <string name="error_http_code_407">Godkjenning mislyktes. Kontroller konfigurerte brukernavn og passord iht. angitt SSL-klientsertifikat (HTTP responskode 407).</string>
-    <string name="error_http_code_414">Nettadressen er for lang. Bruk IP-adressen eller en kortere URL (HTTP responskode 414).</string>
-    <string name="error_http_code_426">HTTPS er nødvendig. Endre URL-adressen (HTTP responskode 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Godkjenning mislyktes. Kontroller det angitte SSL-klientsertifikatet (HTTP responskode 495).</string>
-    <string name="error_http_code_496">SSL klient sertifikat er påkrevd (HTTP respons kode 496)</string>
-    <string name="error_http_code_502">Din omvendte proxy fikk et ugyldig svar fra openHAB-serveren (HTTP-respons kode 502)</string>
-    <string name="error_http_code_503">openHAB-serveren er midlertidig utilgjengelig (HTTP-respons kode 503)</string>
-    <string name="error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy er oppe, men den får ikke svar fra openHAB-serveren (HTTP-respons kode 504).</string>
-    <string name="error_http_code_507">openHAB-serveren har ikke nok ledig minne (HTTP-responskode 507)</string>
-    <string name="error_http_code_511">Nettverksautentisering påkrevd (HTTP-responskode 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Feil ved henting av informasjon fra openHAB-serveren</string>
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>

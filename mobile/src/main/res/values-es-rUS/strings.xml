@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">No se pudo cargar el Sitemap. Ocurrió el siguiente error: %1$s</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
     <string name="error_wifi_not_available">Wi-Fi está desactivada</string>
-    <string name="error_http_connection_failed">Conexión sin éxito. Se ha recibido una respuesta inesperada al intentar conectar con el servidor openHAB configurado (código de respuesta HTTP recibido: %d).</string>
     <string name="error_invalid_url">Por favor, introducir una URL válida con formato \'http(s)://host(:puerto)/\'</string>
     <string name="error_invalid_https_url">Por favor, introduzca una URL válida con el formato \'https://host(:puerto)/\'</string>
     <string name="error_port_seems_invalid">El puerto introducido no es válido para el protocolo seleccionado</string>
@@ -109,19 +108,8 @@
     <string name="error_certificate_wrong_host">El certificado no es válido para %s</string>
     <string name="error_http_to_https_port">Final inesperado de secuencia. ¿Está Ud. tratando de conectar a un puerto HTTPS por HTTP?</string>
     <string name="webview_ssl">Esta aplicación no soporta actualmente certificados SSL auto-firmados para widgets de Webview</string>
-    <string name="error_http_code_401">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 401).</string>
-    <string name="error_http_code_403">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 403).</string>
-    <string name="error_http_code_407">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 407).</string>
-    <string name="error_http_code_414">La URL es demasiado larga. Por favor, utilice la dirección IP o una URL más corta (código de respuesta HTTP 414).</string>
-    <string name="error_http_code_426">Se requiere HTTPS. Por favor cambie la URL (código de respuesta HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autenticación fallida. Por favor, compruebe el certificado de cliente SSL proporcionado (código de respuesta HTTP 495).</string>
-    <string name="error_http_code_496">SSL client certificate is required (Código de respuesta HTTP 496)</string>
-    <string name="error_http_code_502">Tu proxy inverso obtuvo una respuesta inválida del servidor openHAB (código de respuesta HTTP 502)</string>
-    <string name="error_http_code_503">El servidor openHAB no está disponible temporalmente (código de respuesta HTTP 503)</string>
-    <string name="error_http_code_504">Agotado el tiempo de espera de la puerta de enlace. Parece que su proxy inverso se está ejecutando, pero no pudo obtener una respuesta del servidor openHAB (código de respuesta HTTP 504).</string>
-    <string name="error_http_code_507">El servidor openHAB no tiene suficiente espacio libre (código de respuesta HTTP 507)</string>
-    <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Error al obtener información del servidor openHAB</string>
     <string name="error_openhab_offline">Su servidor openHAB está fuera de línea mientras se ejecuta la instancia de la nube</string>
     <string name="error_no_browser_found">No se encontró ningún navegador en su dispositivo</string>
@@ -167,8 +155,6 @@
         <item quantity="one">No se pudieron actualizar los Ítems %d</item>
         <item quantity="other">No se pudieron actualizar %d Items</item>
     </plurals>
-    <string name="item_update_http_error">Error de actualización del Item \'%1$s\' (HTTP error %2$d)</string>
-    <string name="item_update_http_error_label">Error de actualización del Item \'%1$s\' (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Fallo en la actualización del Item \'%1$s\' (sin conexión)</string>
     <string name="item_update_connection_error_label">Falló la actualización de %1$s (sin conexión)</string>
     <string name="error_sending_alarm_clock_item_empty">Por favor, introduzca un nombre de Item válido</string>
@@ -297,7 +283,7 @@
     <string name="item_picker_list_empty">No se han encontrado Items</string>
     <string name="item_picker_list_error">Se ha producido un error al cargar Items</string>
     <string name="item_picker_custom">Personalizado</string>
-    <string name="item_picker_dialog_title">Seleccionar estado</string>
+    <string name="item_picker_dialog_title">Seleccionar acción</string>
     <string name="item_picker_blurb_command">Enviar comando \"%3$s\" a \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Actualizar \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variable de Tasker \"%s\"</string>
@@ -337,4 +323,5 @@
     <string name="item_update_error_couldnt_get_item_type">No se pudo obtener el tipo del Item</string>
     <string name="create_home_screen_widget_title">Crear widget</string>
     <string name="create_home_screen_widget_not_supported">Tu dispositivo no soporta la creación de widgets desde dentro de una aplicación. Por favor, ve al menú del widget en tu pantalla de inicio y crea un widget desde ahí.</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 </resources>

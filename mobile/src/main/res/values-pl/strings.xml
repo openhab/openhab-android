@@ -94,12 +94,13 @@
     <string name="error_sitemap_generic_load_error">Nie można załadować Sitemap. Wystąpił następujący błąd: %1$s</string>
     <string name="error_network_not_available">Sieć jest niedostępna</string>
     <string name="error_wifi_not_available">Wi-Fi jest wyłączone</string>
-    <string name="error_http_connection_failed">Połączenie nie powiodło się. Otrzymano nieoczekiwaną odpowiedź podczas próby połączenia z skonfigurowanym serwerem openHAB (kod odpowiedzi HTTP otrzymane: %d).</string>
+    <string name="error_http_connection_failed">Połączenie nie powiodło się. Otrzymano nieoczekiwaną odpowiedź podczas próby połączenia ze skonfigurowanym serwerem openHAB (kod HTTP %d).</string>
     <string name="error_invalid_url">Proszę wprowadź poprawny adres URL w formie \'protokół://host:port/\'</string>
     <string name="error_invalid_https_url">Proszę wprowadź poprawny adres URL w formie \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">Port który wybrałeś jest niepoprawny dla wybranego protokołu</string>
     <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
     <string name="error_unable_to_resolve_hostname">Nie można określić nazwy hosta</string>
+    <string name="error_unknown">Wystąpił nieznany błąd: %s</string>
     <string name="error_connection_sslhandshake_failed">Uzgadnianie SSL nie powiodło się - może potrzebujesz właściwego certyfikatu klienta</string>
     <string name="error_certificate_not_trusted">Certyfikat SSL nie jest zaufany. Proszę zaimportuj certyfikat root lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
     <string name="error_certificate_expired">Certyfikat SSL stracił ważność. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
@@ -109,19 +110,39 @@
     <string name="error_certificate_wrong_host">Certyfikat SSL dla %s jest nieprawidłowy</string>
     <string name="error_http_to_https_port">Nieoczekiwany koniec strumienia. Czy próbujesz podłączyć do portu HTTPS za pośrednictwem protokołu HTTP?</string>
     <string name="webview_ssl">Obecnie ta aplikacja nie obsługuje certyfikatów SSL z podpisem własnym dla widżetów Webview</string>
-    <string name="error_http_code_401">Autoryzacja nie powiodła się. Proszę sprawdź nazwę użytkownika i hasło dla dostarczonego certyfikatu klienta SSL (kod odpowiedzi HTTP 401).</string>
-    <string name="error_http_code_403">Autoryzacja nie powiodła się. Proszę sprawdź nazwę użytkownika i hasło dla dostarczonego certyfikatu klienta SSL (kod odpowiedzi HTTP 403).</string>
-    <string name="error_http_code_407">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod odpowiedzi HTTP 407).</string>
-    <string name="error_http_code_414">Adres URL jest zbyt długi. Użyj adresu IP lub któtszego URL\'a (kod odpowiedzi HTTP 414).</string>
-    <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL openHAB (kod odpowiedzi HTTP 426).</string>
+    <string name="error_http_code_401">Uwierzytelnianie nie powiodło się. Sprawdź skonfigurowaną nazwę użytkownika i hasło dostarczonego certyfikatu klienta SSL (kod HTTP %d).</string>
+    <string name="error_http_code_414">Adres URL jest zbyt długi. Proszę użyć adresu IP lub krótszego adresu URL (kod HTTP %d).</string>
+    <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL (kod HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autoryzacja nie powiodła się. Sprawdź certyfikat SSL klienta (kod odpowiedzi HTTP 495).</string>
-    <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (kod odpowiedzi HTTP 496)</string>
-    <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (kod odpowiedzi HTTP 502)</string>
-    <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (kod odpowiedzi HTTP 503)</string>
-    <string name="error_http_code_504">Przekroczenie czasu oczekiwania. Wygląda na to, że twój serwer zwrotny proxy jest włączony, ale nie otrzymał odpowiedzi od openHAB (Kod HTTP - 504).</string>
-    <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
-    <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
+    <string name="error_http_code_495">Uwierzytelnianie nie powiodło się. Sprawdź dostarczony certyfikat klienta SSL (kod HTTP %d).</string>
+    <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (kod HTTP %d)</string>
+    <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź z serwera openHAB (kod HTTP %d)</string>
+    <string name="error_http_code_503">Serwer openHAB jest tymczasowo niedostępny (kod HTTP %d)</string>
+    <string name="error_http_code_504">Przekroczono limit czasu bramy. Wygląda na to, że twój odwrócony serwer proxy jest uruchomiony, ale nie można uzyskać odpowiedzi od serwera openHAB (kod HTTP %d).</string>
+    <string name="error_http_code_507">Serwer openHAB nie ma wystarczającej ilości wolnego miejsca (kod HTTP %d)</string>
+    <string name="error_http_code_511">Autoryzacja sieci jest wymagana (kod HTTP %d)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB jest offline</string>
+    <string name="error_short_http_connection_failed">Kod HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Błąd podczas rozwiązywania nazwy hosta</string>
+    <string name="error_short_unknown">Nieznany błąd: %s</string>
+    <string name="error_short_certificate_not_trusted">Certyfikat nie jest zaufany</string>
+    <string name="error_short_certificate_expired">Certyfikat nie wygasł</string>
+    <string name="error_short_certificate_not_valid_yet">Certyfikat nie jest jeszcze ważny</string>
+    <string name="error_short_certificate_revoked">Certyfikat cofnięty</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL nie powiodło się</string>
+    <string name="error_short_connection_failed">Połączenie nie powiodło się</string>
+    <string name="error_short_http_to_https_port">Łączenie z portem HTTPS przez HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certyfikat nie jest ważny dla %s</string>
+    <string name="error_short_http_code_414">Adres URL jest zbyt długi (kod HTTP %d)</string>
+    <string name="error_short_http_code_426">Wymagany HTTPS (kod HTTP %d)</string>
+    <string name="error_short_http_code_495">Uwierzytelnianie nie powiodło się (kod HTTP %d)</string>
+    <string name="error_short_http_code_496">Wymagany certyfikat klienta SSL (kod HTTP %d)</string>
+    <string name="error_short_http_code_502">Proxy odwrotne otrzymało nieprawidłową odpowiedź od openHAB (kod HTTP %d)</string>
+    <string name="error_short_http_code_503">openHAB tymczasowo niedostępny (kod HTTP %d)</string>
+    <string name="error_short_http_code_504">Limit czasu bramki (kod HTTP %d).</string>
+    <string name="error_short_http_code_507">Za mało wolnego miejsca na serwerze (kod HTTP %d)</string>
+    <string name="error_short_http_code_511">Wymagane uwierzytelnianie sieci (kod HTTP %d)</string>
     <string name="error_about_no_conn">Wystąpił błąd podczas pobierania informacji o serwerze openHAB</string>
     <string name="error_openhab_offline">Twój serwer openHAB nie jest podłączony, ale instancja cloud pracuje prawidłowo</string>
     <string name="error_no_browser_found">Nie znaleziono przeglądarki na Twoim urządzeniu</string>
@@ -169,8 +190,8 @@
         <item quantity="many">%d Elementów nie mogło zostać zaktualizowanych</item>
         <item quantity="other">%d Elementów nie mogło zostać zaktualizowanych</item>
     </plurals>
-    <string name="item_update_http_error">Nie udało się zaktualizować Itemu \'%1$s\' (błąd HTTP %2$d)</string>
-    <string name="item_update_http_error_label">Nie udało się zaktualizować %1$s (błąd HTTP %2$d)</string>
+    <string name="item_update_http_error">Aktualizacja Item-u \'%1$s\' nie powiodła się: %2$s</string>
+    <string name="item_update_http_error_label">Aktualizacja %1$s nie powiodła się: %2$s</string>
     <string name="item_update_connection_error">Nie udało się zaktualizować Itemu \'%1$s\' (Brak połączenia)</string>
     <string name="item_update_connection_error_label">Nie udało się zaktualizować %1$s (Brak połączenia)</string>
     <string name="error_sending_alarm_clock_item_empty">Wprowadź poprawną nazwę Item\'u</string>
@@ -299,7 +320,7 @@
     <string name="item_picker_list_empty">Nie znaleziono żadnych Itemów</string>
     <string name="item_picker_list_error">Wystąpił błąd podczas ładowania Itemów</string>
     <string name="item_picker_custom">Niestandardowy</string>
-    <string name="item_picker_dialog_title">Wybierz stan</string>
+    <string name="item_picker_dialog_title">Wybierz akcję</string>
     <string name="item_picker_blurb_command">Wyślij polecenie \"%3$s\" do \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Zaktualizuj \"%1$s\" (%2$s) do \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Zmienna Taskera \"%s\"</string>
@@ -342,5 +363,5 @@
     <string name="create_home_screen_widget_not_supported">Twoje urządzenie nie obsługuje tworzenia widżetów w aplikacji. Przejdź do menu widżetu na ekranie głównym i utwórz z niego widżet.</string>
     <string name="item_update_widget_auto_generate_widget_label">Automatycznie generuj etykietę widżetu</string>
     <string name="item_update_widget_widget_label">Etykieta widżetu</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 </resources>

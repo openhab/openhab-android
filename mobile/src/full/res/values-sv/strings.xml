@@ -4,7 +4,6 @@
     <string name="info_openhab_gcm_no_remote">Inte tillgängligt, konfiguration för fjärrserver saknas</string>
     <string name="info_openhab_gcm_unsupported">Otillgänglig, fjärrserver kör inte openHAB</string>
     <string name="info_openhab_gcm_in_progress">Enhetsregistrering pågår</string>
-    <string name="info_openhab_gcm_failed">Enhetsregistrering misslyckades</string>
     <string name="notification_channel_default">Standard</string>
     <string name="notification_channel_severity_value">Felgrad \'%1$s\'</string>
     <plurals name="summary_notification_text">

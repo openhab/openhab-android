@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
     <string name="error_network_not_available">Мережа недоступна</string>
     <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
-    <string name="error_http_connection_failed">Помилка підключення. Отримана неочікувана відповідь від openHAB. Переконайтесь у правильності роботи сервера openHAB (код відповіді HTTP: %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Будь ласка, введіть правильне посилання URL у форматі \"https://хост(:порт)/\"</string>
     <string name="error_port_seems_invalid">Введений порт здається непридатний для вибраного протоколу</string>
@@ -109,19 +108,8 @@
     <string name="error_certificate_wrong_host">Сертифікат SSL не дійсний для %s</string>
     <string name="error_http_to_https_port">Неочікуване завершення потоку. Ви намагаєтесь під\'єднатися до HTTPS порту через HTTP?</string>
     <string name="webview_ssl">Наразі цей застосунок не підтримує SSL сертифікати з власним підписом для віджетів</string>
-    <string name="error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 401).</string>
-    <string name="error_http_code_403">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 403).</string>
-    <string name="error_http_code_407">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 407).</string>
-    <string name="error_http_code_414">URL-адреса openHAB надто довга. Будь ласка, використовуйте IP-адресу або коротшу URL-адресу (код відповіді HTTP 414).</string>
-    <string name="error_http_code_426">Вимагається HTTPS. Змініть URL-адресу openHAB (код відповіді HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Не вдалося виконати автентифікацію. Будь ласка, перевірте наданий SSL сертифікат клієнта (код відповіді HTTP 495).</string>
-    <string name="error_http_code_496">Необхідний SSL сертифікат клієнта (код відповіді HTTP 496)</string>
-    <string name="error_http_code_502">Ваш проксі отримав неприпустиму відповідь від сервера openHAB (код відповіді HTTP 502)</string>
-    <string name="error_http_code_503">Сервер openHAB тимчасово недоступний (код відповіді HTTP 503)</string>
-    <string name="error_http_code_504">Тайм-аут шлюзу. Здається, що ваш проксі-сервер працює, але не міг отримати відповідь від сервера openHAB (код відповіді HTTP 504).</string>
-    <string name="error_http_code_507">На сервері openHAB не достатньо вільного місця (код відповіді HTTP 507)</string>
-    <string name="error_http_code_511">Необхідна аутентифікації мережі (код відповіді HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
@@ -169,8 +157,6 @@
         <item quantity="many">Неможливо оновити %d об\'єктів</item>
         <item quantity="other">Неможливо оновити %d об\'єктів</item>
     </plurals>
-    <string name="item_update_http_error">Об\'єкт \'%1$s\' оновлення не вдалося (HTTP error %2$d)</string>
-    <string name="item_update_http_error_label">Не вдалось оновити „%1$s“ (помилка HTTP %2$d)</string>
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
     <string name="item_update_connection_error_label">Не вдалось оновити „%1$s“ (немає підключення)</string>
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
@@ -299,7 +285,6 @@
     <string name="item_picker_list_empty">Об’єкт не знайдено</string>
     <string name="item_picker_list_error">Помилка при завантажені об’єкта</string>
     <string name="item_picker_custom">Користувацький</string>
-    <string name="item_picker_dialog_title">Виберіть стан</string>
     <string name="item_picker_blurb_command">Надіслати команду „%3$s“ до „%1$s“ (%2$s)</string>
     <string name="item_picker_blurb_update">Оновити „%1$s“ (%2$s) до „%3$s“</string>
     <string name="item_picker_tasker_variable">Змінна Tasker \"%s\"</string>
@@ -342,5 +327,4 @@
     <string name="create_home_screen_widget_not_supported">Ваш пристрій не підтримує створення віджетів безпосередньо з програми. Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти.</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
     <string name="item_update_widget_widget_label">Мітка віджета</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
 </resources>

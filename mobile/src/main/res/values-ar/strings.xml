@@ -76,13 +76,8 @@
     <string name="error_unable_to_resolve_hostname">غير قادر على معالجة المضيف</string>
     <string name="error_connection_sslhandshake_failed">فشل مصافحة SSL</string>
     <string name="error_certificate_wrong_host">شهادة SSL غير صالح ل %s</string>
-    <string name="error_http_code_426">مطلوب HTTPS. الرجاء تغيير عنوان URL (رمز استجابة HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_496">شهادة عميل SSL مطلوبة (رمز استجابة HTTP 496)</string>
-    <string name="error_http_code_502">حصل الوكيل العكسي على رد خاطيء من openHAB (رمز استجابة HTTP 502)</string>
-    <string name="error_http_code_503">خادم openHAB غير متوفر مؤقتاً (رمز استجابة HTTP 503)</string>
-    <string name="error_http_code_507">خادم openHAB لا يمتلك مساحة خالية كافية (رمز استجابة HTTP 507)</string>
-    <string name="error_http_code_511">يتطلب مصادقة الشبكة (رمز استجابة HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
     <string name="title_activity_openhabwritetag">أكتب وسم NFC</string>
     <string name="title_activity_libraries">المكتبات المستخدمة</string>

@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">Sitemap не может быть загружен. Произошла следующая ошибка: %1$s</string>
     <string name="error_network_not_available">Сеть недоступна</string>
     <string name="error_wifi_not_available">Wi-Fi выключен</string>
-    <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d).</string>
     <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
     <string name="error_port_seems_invalid">Введенный вами порт неверен для выбранного протокола</string>
@@ -109,19 +108,8 @@
     <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
     <string name="error_http_to_https_port">Непредвиденный конец потока. Вы пытаетесь подключиться к порту HTTPS через HTTP?</string>
     <string name="webview_ssl">В настоящее время это приложение не поддерживает самоподписанные SSL-сертификаты для виджетов Webview</string>
-    <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401).</string>
-    <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403).</string>
-    <string name="error_http_code_407">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 407).</string>
-    <string name="error_http_code_414">URL-адрес openHAB слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP 414).</string>
-    <string name="error_http_code_426">Требуется HTTPS. Измените URL-адрес openHAB (код ответа HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP 495).</string>
-    <string name="error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP 496)</string>
-    <string name="error_http_code_502">Ваш прокси получил неверный ответ от openHAB (код ответа HTTP 502)</string>
-    <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
-    <string name="error_http_code_504">Тайм-аут шлюза. Возможно, что ваш прокси-сервер работает, но не может получить ответ от сервера openHAB (код ответа HTTP 504).</string>
-    <string name="error_http_code_507">Серверу openHAB недостаточно свободного места (код ответа HTTP 507)</string>
-    <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
     <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
     <string name="error_no_browser_found">На вашем устройстве не найден браузер</string>
@@ -169,8 +157,6 @@
         <item quantity="many">%d элементы не могут быть обновлены</item>
         <item quantity="other">%d Items не могут быть обновлены</item>
     </plurals>
-    <string name="item_update_http_error">Не удалось обновить Item \'%1$s\' (HTTP ошибка %2$d)</string>
-    <string name="item_update_http_error_label">%1$s обновление не удалось (ошибка HTTP %2$d)</string>
     <string name="item_update_connection_error">Не удалось обновить Item \'%1$s\' (нет соединения)</string>
     <string name="item_update_connection_error_label">%1$s обновление не удалось (нет соединения)</string>
     <string name="error_sending_alarm_clock_item_empty">Пожалуйста, введите правильное название Item</string>
@@ -299,7 +285,6 @@
     <string name="item_picker_list_empty">Элементы не найдены</string>
     <string name="item_picker_list_error">Ошибка загрузки Items</string>
     <string name="item_picker_custom">Произвольно</string>
-    <string name="item_picker_dialog_title">Выберите состояния</string>
     <string name="item_picker_blurb_command">Отправить команду \"%3$s\" в \" \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Обновить \"%1$s\" (%2$s) до \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Переменная в Tasker \"%s\"</string>
@@ -342,5 +327,4 @@
     <string name="create_home_screen_widget_not_supported">Ваше устройство не поддерживает создание виджетов из приложения. Пожалуйста, перейдите в меню виджета на вашем домашнем экране и создайте виджет оттуда.</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматически генерировать метку виджета</string>
     <string name="item_update_widget_widget_label">Метка виджета</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
 </resources>

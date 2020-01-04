@@ -94,7 +94,6 @@
     <string name="error_sitemap_generic_load_error">Sitemap ei ladattu. Virhe: %1$s</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
     <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
-    <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus: %d).</string>
     <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
     <string name="error_invalid_https_url">Kirjoita kelvollinen URL osoite \'https://isäntä(:port)/\' muodossa</string>
     <string name="error_port_seems_invalid">Antamasi portti ei sovi valitulle protokollalle</string>
@@ -109,19 +108,18 @@
     <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
     <string name="error_http_to_https_port">Odottamaton yhteyden katkaisu. Yritätkö yhdistää HTTPS porttiin käyttäen HTTP?</string>
     <string name="webview_ssl">Sovellus ei tällä hetkellä tue itse allekirjoitettuja SSL sertifikaatteja Webview widgeteissä</string>
-    <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 401).</string>
-    <string name="error_http_code_403">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 403).</string>
-    <string name="error_http_code_407">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 407).</string>
-    <string name="error_http_code_414">Liian pitkä URL osoite. Ole hyvä ja käytä IP osoitetta tai lyhyempää URL osoitetta (HTTP vastaus 414).</string>
-    <string name="error_http_code_426">HTTPS on pakollinen. Ole hyvä ja vaihda URL osoite (HTTP vastaus 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Todennus epäonnistui. Ole hyvä ja tarkista annettu SSL sertifikaatti (HTTP vastaus 495).</string>
-    <string name="error_http_code_496">SSL sertifikaatti on pakollinen (HTTP vastaus 496)</string>
-    <string name="error_http_code_502">Sinun käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus 502)</string>
-    <string name="error_http_code_503">openHAB palvelin on väliaikaisesti pois käytöstä (HTTP vastaus 503)</string>
-    <string name="error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus 504).</string>
-    <string name="error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus 507)</string>
-    <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB ei ole verkossa</string>
+    <string name="error_short_unable_to_resolve_hostname">Virhe isäntänimen selvityksessä</string>
+    <string name="error_short_certificate_not_trusted">Sertifikaatti ei luotettu</string>
+    <string name="error_short_certificate_expired">Sertifikaatti vanhentunut</string>
+    <string name="error_short_certificate_not_valid_yet">Sertifikaatti ei ole vielä voimassa</string>
+    <string name="error_short_certificate_revoked">Sertifikaatti kumottu</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL epäonnistui</string>
+    <string name="error_short_connection_failed">Yhteys epäonnistui</string>
+    <string name="error_short_http_to_https_port">Yritätkö yhdistää HTTPS porttiin käyttäen HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Sertifikaatti ei pätevä osoitteelle %s</string>
     <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
     <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
     <string name="error_no_browser_found">Laitteeltasi ei löytynyt selainta</string>
@@ -167,8 +165,6 @@
         <item quantity="one">Item %d ei voitu päivittää</item>
         <item quantity="other">Itemeitä %d ei voitu päivittää</item>
     </plurals>
-    <string name="item_update_http_error">Itemin \'%1$s\' päivitys epäonnistui (HTTP virhe %2$d)</string>
-    <string name="item_update_http_error_label">%1$s päivitys epäonnistui (HTTP virhe %2$d)</string>
     <string name="item_update_connection_error">Itemin \'%1$s\' päivitys epäonnistui (Ei yhteyttä)</string>
     <string name="item_update_connection_error_label">%1$s päivitys epäonnistui (Ei yhteyttä)</string>
     <string name="error_sending_alarm_clock_item_empty">Syötä kelvollinen Itemin nimi</string>
@@ -297,7 +293,7 @@
     <string name="item_picker_list_empty">Yhtään Itemiä ei löytynyt</string>
     <string name="item_picker_list_error">Virhe ladattaessa Itemejä</string>
     <string name="item_picker_custom">Mukautettu</string>
-    <string name="item_picker_dialog_title">Valitse tila</string>
+    <string name="item_picker_dialog_title">Valitse toiminto</string>
     <string name="item_picker_blurb_command">Lähetä komento \"%3$s\" -> \"%1$s\" (%2$s)</string>
     <string name="item_picker_blurb_update">Päivitä \"%1$s\" (%2$s) arvoon \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Taskerin muuttuja \"%s\"</string>
@@ -340,5 +336,5 @@
     <string name="create_home_screen_widget_not_supported">Laitteesi ei tuo widgetin luontia sovelluksen kautta. Ole hyvä ja mene aloitusnäyttöön ja luo widget sitä kautta.</string>
     <string name="item_update_widget_auto_generate_widget_label">Luo automaattisesti widgetin nimi</string>
     <string name="item_update_widget_widget_label">Widgetin nimi</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <State>]]></string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 </resources>

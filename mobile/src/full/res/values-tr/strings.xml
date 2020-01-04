@@ -4,7 +4,6 @@
     <string name="info_openhab_gcm_no_remote">Kullanılamıyor, uzak sunucu yapılandırılmamış</string>
     <string name="info_openhab_gcm_unsupported">Kullanılamıyor, uzak sunucu bir openHAB bulut örneği değil</string>
     <string name="info_openhab_gcm_in_progress">Cihaz kaydı devam ediyor</string>
-    <string name="info_openhab_gcm_failed">Cihaz kaydı başarısız oldu</string>
     <string name="info_openhab_gcm_connected">Cihaz Firebase Cloud Messaging’e başarıyla kaydedildi</string>
     <string name="notification_channel_default">Varsayılan</string>
     <string name="notification_channel_severity_value">Önem derecesi \'%1$s\'</string>
