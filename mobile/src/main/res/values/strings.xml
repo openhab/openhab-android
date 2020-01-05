@@ -212,7 +212,9 @@
         <item quantity="one">%d Item could not be updated</item>
         <item quantity="other">%d Items could not be updated</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
     <string name="item_update_http_error">Item \'%1$s\' update failed: %2$s</string>
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_http_error_label">%1$s update failed: %2$s</string>
     <string name="item_update_connection_error">Item \'%1$s\' update failed (No connection)</string>
     <string name="item_update_connection_error_label">%1$s update failed (No connection)</string>
@@ -363,7 +365,9 @@
     <string name="item_picker_list_error">An error occurred while loading Items</string>
     <string name="item_picker_custom">Custom</string>
     <string name="item_picker_dialog_title">Select action</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Send command \"%3$s\" to \"%1$s\" (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">Update \"%1$s\" (%2$s) to \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker variable \"%s\"</string>
     <string name="item_picker_item_update">Update</string>
@@ -380,6 +384,7 @@
     <string name="item_update_widget_title">Item control</string>
     <string name="item_update_widget_content_description">Widget for changing Item state</string>
     <string name="item_update_widget_content_description_edit">Edit widget</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Select an Item</string>
     <string name="item_update_success_message_generic">%1$s has been set to %2$s</string>
