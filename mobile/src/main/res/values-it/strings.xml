@@ -189,7 +189,9 @@
         <item quantity="one">L’item %d non può essere aggiornato</item>
         <item quantity="other">Gli item %d non possono essere aggiornati</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
     <string name="item_update_http_error">Aggiornamento Item \'%1$s\' fallito: %2$s</string>
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_http_error_label">Aggiornamento %1$s fallito: %2$s</string>
     <string name="item_update_connection_error">L’aggiornamento dell’item \'%1$s\' è fallito (Manca connessione)</string>
     <string name="item_update_connection_error_label">%1$s aggiornamento fallito (Nessuna connessione)</string>
@@ -320,7 +322,9 @@
     <string name="item_picker_list_error">Errore durante il caricamento degli Items</string>
     <string name="item_picker_custom">Personalizza</string>
     <string name="item_picker_dialog_title">Seleziona l’azione</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Invia il comando \"%3$s\" a \"%1$s\" (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">Aggiorna \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variabile Tasker \"%s\"</string>
     <string name="item_picker_item_update">Aggiorna</string>
@@ -336,6 +340,7 @@
     <string name="item_update_widget_title">Controllo Item</string>
     <string name="item_update_widget_content_description">Widget per cambiare lo stato Item</string>
     <string name="item_update_widget_content_description_edit">Modifica widget</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
     <string name="item_update_success_message_generic">%1$s è stato impostato a %2$s</string>
