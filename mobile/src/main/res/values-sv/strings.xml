@@ -90,6 +90,8 @@
     <string name="action_settings">Inställningar</string>
     <string name="info_not_set">Ej angivet</string>
     <!-- Background tasks -->
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Inga aviseringar har hittills skickats</string>
     <string name="notification_list_error">Ett fel uppstod när aviseringar laddades</string>
@@ -171,5 +173,8 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FÄRDIGT</string>
     <!-- Item picker -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
 </resources>
