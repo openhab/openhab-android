@@ -190,7 +190,9 @@
         <item quantity="many">%d Elementów nie mogło zostać zaktualizowanych</item>
         <item quantity="other">%d Elementów nie mogło zostać zaktualizowanych</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
     <string name="item_update_http_error">Aktualizacja Item-u \'%1$s\' nie powiodła się: %2$s</string>
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_http_error_label">Aktualizacja %1$s nie powiodła się: %2$s</string>
     <string name="item_update_connection_error">Nie udało się zaktualizować Itemu \'%1$s\' (Brak połączenia)</string>
     <string name="item_update_connection_error_label">Nie udało się zaktualizować %1$s (Brak połączenia)</string>
@@ -321,7 +323,9 @@
     <string name="item_picker_list_error">Wystąpił błąd podczas ładowania Itemów</string>
     <string name="item_picker_custom">Niestandardowy</string>
     <string name="item_picker_dialog_title">Wybierz akcję</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Wyślij polecenie \"%3$s\" do \"%1$s\" (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">Zaktualizuj \"%1$s\" (%2$s) do \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Zmienna Taskera \"%s\"</string>
     <string name="item_picker_item_update">Aktualizuj</string>
@@ -337,6 +341,7 @@
     <string name="item_update_widget_title">Sterowanie Item</string>
     <string name="item_update_widget_content_description">Widżet do zmiany stanu Itemu</string>
     <string name="item_update_widget_content_description_edit">Edytuj Widget</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wybierz Item</string>
     <string name="item_update_success_message_generic">%1$s ustawiono na %2$s</string>
