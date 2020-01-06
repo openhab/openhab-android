@@ -189,6 +189,10 @@
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Update von Item \'%1$s\' fehlgeschlagen: %2$s</string>
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">Update von %1$s fehlgeschlagen: %2$s</string>
     <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
     <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
@@ -318,7 +322,9 @@
     <string name="item_picker_list_error">Laden der Items fehlgeschlagen</string>
     <string name="item_picker_custom">Benutzerdefiniert</string>
     <string name="item_picker_dialog_title">Aktion auswählen</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Sende Befehl \"%3$s\" an \"%1$s\" (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) auf \"%3$s\" ändern</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
     <string name="item_picker_item_update">Update</string>
@@ -334,6 +340,7 @@
     <string name="item_update_widget_title">Item-Steuerung</string>
     <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_content_description_edit">Widget bearbeiten</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
