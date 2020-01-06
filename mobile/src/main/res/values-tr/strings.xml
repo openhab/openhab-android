@@ -111,6 +111,8 @@
     <string name="settings_alarm_clock">Çalar saati openHAB\'a gönder</string>
     <string name="settings_alarm_clock_summary_on">Çalar saat zamanını \'%1$s \' öğesine gönderir</string>
     <string name="settings_alarm_clock_summary_off">Çalar saat zamanını sunucuya gönderme</string>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_connect_anyway">Yine de bağlanmak istiyor musunuz?</string>
@@ -170,5 +172,8 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">TAMAM</string>
     <!-- Item picker -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
 </resources>
