@@ -157,6 +157,8 @@
         <item quantity="many">Неможливо оновити %d об\'єктів</item>
         <item quantity="other">Неможливо оновити %d об\'єктів</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
     <string name="item_update_connection_error_label">Не вдалось оновити „%1$s“ (немає підключення)</string>
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
@@ -285,7 +287,9 @@
     <string name="item_picker_list_empty">Об’єкт не знайдено</string>
     <string name="item_picker_list_error">Помилка при завантажені об’єкта</string>
     <string name="item_picker_custom">Користувацький</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Надіслати команду „%3$s“ до „%1$s“ (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">Оновити „%1$s“ (%2$s) до „%3$s“</string>
     <string name="item_picker_tasker_variable">Змінна Tasker \"%s\"</string>
     <string name="item_picker_item_update">Оновити</string>
@@ -301,6 +305,7 @@
     <string name="item_update_widget_title">Керування елементом</string>
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_content_description_edit">Редагувати віджет</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
     <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
