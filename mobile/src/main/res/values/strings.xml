@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
 
@@ -365,10 +368,8 @@
     <string name="item_picker_list_error">An error occurred while loading Items</string>
     <string name="item_picker_custom">Custom</string>
     <string name="item_picker_dialog_title">Select action</string>
-    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
-    <string name="item_picker_blurb_command">Send command \"%3$s\" to \"%1$s\" (%2$s)</string>
-    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
-    <string name="item_picker_blurb_update">Update \"%1$s\" (%2$s) to \"%3$s\"</string>
+    <string name="item_picker_blurb_command">Send command \"<xliff:g id="state" example="On">%3$s</xliff:g>\" to \"<xliff:g id="item_label" example="Lights">%1$s</xliff:g>\" (<xliff:g id="item_name" example="LIGHTS">%2$s</xliff:g>)</string>
+    <string name="item_picker_blurb_update">Update \"<xliff:g id="item_label" example="Lights">%1$s</xliff:g>\" (<xliff:g id="item_name" example="LIGHTS">%2$s</xliff:g>) to \"<xliff:g id="state" example="On">%3$s</xliff:g>\"</string>
     <string name="item_picker_tasker_variable">Tasker variable \"%s\"</string>
     <string name="item_picker_item_update">Update</string>
     <string name="item_picker_item_command">Command</string>
@@ -384,8 +385,7 @@
     <string name="item_update_widget_title">Item control</string>
     <string name="item_update_widget_content_description">Widget for changing Item state</string>
     <string name="item_update_widget_content_description_edit">Edit widget</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_text"><xliff:g id="item_label" example="Lights">%1$s</xliff:g>: <xliff:g id="action" example="On">%2$s</xliff:g></string>
     <string name="item_update_widget_item_picker_title">Select an Item</string>
     <string name="item_update_success_message_generic">%1$s has been set to %2$s</string>
     <string name="item_update_success_message_on">%s has been turned on</string>
