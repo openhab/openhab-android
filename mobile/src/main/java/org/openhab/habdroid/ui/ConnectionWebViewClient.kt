@@ -15,19 +15,28 @@ package org.openhab.habdroid.ui
 
 import android.net.http.SslCertificate
 import android.net.http.SslError
+import android.security.KeyChain
+import android.security.KeyChainException
 import android.util.Base64
 import android.util.Log
+import android.webkit.ClientCertRequest
 import android.webkit.HttpAuthHandler
 import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import de.duenndns.ssl.MemorizingTrustManager
-import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import java.io.ByteArrayInputStream
 import java.security.cert.Certificate
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.R
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDemoModeEnabled
 
 open class ConnectionWebViewClient(
     private val connection: Connection
@@ -59,6 +68,36 @@ open class ConnectionWebViewClient(
             val html = "<html><body><p>$errorMessage</p><p>${error.certificate}</p></body></html>"
             val encodedHtml = Base64.encodeToString(html.toByteArray(), Base64.NO_PADDING)
             view.loadData(encodedHtml, "text/html; charset=UTF-8", "base64")
+        }
+    }
+
+    override fun onReceivedClientCertRequest(view: WebView, request: ClientCertRequest) {
+        Log.d(TAG, "SSL Client Cert required")
+        val prefs = view.context.getPrefs()
+        if (prefs.isDemoModeEnabled()) {
+            request.cancel()
+            return
+        }
+
+        val alias = prefs.getString(Constants.PREFERENCE_SSL_CLIENT_CERT, null)
+        Log.d(TAG, "Using alias $alias")
+        if (alias == null) {
+            request.cancel()
+            return
+        }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val chain = KeyChain.getCertificateChain(view.context, alias)
+                val privateKey = KeyChain.getPrivateKey(view.context, alias)
+                request.proceed(privateKey, chain)
+            } catch (e: KeyChainException) {
+                Log.d(TAG, "Error getting certificate chain or private key", e)
+                request.ignore()
+            } catch (e: InterruptedException) {
+                Log.d(TAG, "Error getting certificate chain or private key", e)
+                request.ignore()
+            }
         }
     }
 
