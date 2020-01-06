@@ -133,6 +133,8 @@
         <item quantity="one">Impossible de mettre à jour %d Item</item>
         <item quantity="other">Impossible de mettre à jour %d Items</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">La mise à jour de l\'Item \'%1$s\' a échoué (Aucune connexion)</string>
     <string name="error_sending_alarm_clock_item_empty">Veuillez entrer un nom d\'Item valide</string>
     <string name="retry">Réessayer</string>
@@ -253,6 +255,8 @@
     <string name="item_picker_list_empty">Aucun Item trouvé</string>
     <string name="item_picker_list_error">Une erreur s\'est produite lors du chargement des objets</string>
     <string name="item_picker_custom">Personnaliser</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="search">Rechercher</string>
     <string name="settings_tasker_plugin">Interaction Tasker</string>
     <string name="settings_tasker_plugin_summary">Activer le plugin d\'action Tasker qui permet de mettre à jour des éléments via Tasker ou d\'autres applications compatibles</string>
@@ -261,6 +265,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Contrôle de l\'objet</string>
     <string name="item_update_widget_content_description">Widget pour changer l\'état de l\'élément</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s : %2$s</string>
     <string name="item_update_widget_item_picker_title">Sélectionner un objet</string>
 </resources>
