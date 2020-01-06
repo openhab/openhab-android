@@ -155,6 +155,8 @@
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Den Item \'%1$s\' konnt net geupdate ginn (Keng Verbindung)</string>
     <string name="item_update_connection_error_label">%1$s Update huet net funktionéiert (keng Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Gitt w.e.g. en valabelen Item Numm un</string>
@@ -283,7 +285,9 @@
     <string name="item_picker_list_empty">Keen Item fonnt</string>
     <string name="item_picker_list_error">E Feeler ass beim lueden vun den Items opgetrueden</string>
     <string name="item_picker_custom">Personaliséiert</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">\"%3$s\" Kommando un \"%1$s\" (%2$s) schécken</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
     <string name="item_picker_tasker_variable">Tasker Variabel \"%s\"</string>
     <string name="item_picker_item_update">Aktualiséierung</string>
@@ -299,6 +303,7 @@
     <string name="item_update_widget_title">Item Steierung</string>
     <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
     <string name="item_update_widget_content_description_edit">Wdiet editéieren</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Item auswielen</string>
     <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
