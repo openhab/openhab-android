@@ -157,6 +157,8 @@
         <item quantity="many">%d Items nemohlo být aktualizováno</item>
         <item quantity="other">%d Items nemohlo být aktualizováno</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
     <string name="item_update_connection_error_label">Chyba aktualizace %1$s (žádné připojení)</string>
     <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
@@ -285,7 +287,9 @@
     <string name="item_picker_list_empty">Žádné Items nebyly nalezeny</string>
     <string name="item_picker_list_error">Při načítání Items došlo k chybě</string>
     <string name="item_picker_custom">Vlastní</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Odeslat příkaz \"%3$s\" do \"%1$s\" (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">Nastavit \"%1$s\" (%2$s) na “%3$s“</string>
     <string name="item_picker_tasker_variable">Proměnná Taskeru \"%s\"</string>
     <string name="item_picker_item_update">Aktualizovat</string>
@@ -301,6 +305,7 @@
     <string name="item_update_widget_title">Kontrola Item</string>
     <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_content_description_edit">Upravit widget</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vyberte Item</string>
     <string name="item_update_success_message_generic">%1$s - nastaveno na %2$s</string>
