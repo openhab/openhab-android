@@ -322,6 +322,8 @@
     <string name="item_picker_list_error">Errore durante il caricamento degli Items</string>
     <string name="item_picker_custom">Personalizza</string>
     <string name="item_picker_dialog_title">Seleziona l’azione</string>
+    <string name="item_picker_blurb_command">Invia comando \"<xliff:g id="state" example="On">%3$s</xliff:g>" a "<xliff:g id="item_label" example="Lights">%1$s</xliff:g>" (<xliff:g id="item_name" example="LIGHTS">%2$s</xliff:g>)</string>
+    <string name="item_picker_blurb_update">Aggiorna \"<xliff:g id="item_label" example="Lights">%1$s</xliff:g>" (<xliff:g id="item_name" example="LIGHTS">%2$s</xliff:g>) a "<xliff:g id="state" example="On">%3$s</xliff:g>\"</string>
     <string name="item_picker_tasker_variable">Variabile Tasker \"%s\"</string>
     <string name="item_picker_item_update">Aggiorna</string>
     <string name="item_picker_item_command">Comando</string>
@@ -336,6 +338,7 @@
     <string name="item_update_widget_title">Controllo Item</string>
     <string name="item_update_widget_content_description">Widget per cambiare lo stato Item</string>
     <string name="item_update_widget_content_description_edit">Modifica widget</string>
+    <string name="item_update_widget_text"><xliff:g id="item_label" example="Lights">%1$s</xliff:g>: <xliff:g id="action" example="On">%2$s</xliff:g></string>
     <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
     <string name="item_update_success_message_generic">%1$s è stato impostato a %2$s</string>
     <string name="item_update_success_message_on">%s è stato acceso</string>
