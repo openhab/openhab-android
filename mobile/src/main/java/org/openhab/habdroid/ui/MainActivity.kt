@@ -804,6 +804,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
                 // update result
                 updateDefaultSitemap(result)
+                updateSitemapAndHabPanelDrawerItems()
             }
         }
 
