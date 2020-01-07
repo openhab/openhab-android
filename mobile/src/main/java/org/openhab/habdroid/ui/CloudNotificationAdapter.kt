@@ -26,7 +26,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.WidgetImageView
-import org.openhab.habdroid.util.IconFormat
+import org.openhab.habdroid.util.addIconUrlParameters
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import java.util.ArrayList
@@ -113,12 +113,12 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
             val conn = ConnectionFactory.cloudConnectionOrNull
             if (notification.icon != null && conn != null) {
                 val encodedIcon = Uri.encode(notification.icon)
-                val suffix = when (itemView.context.getPrefs().getIconFormat()) {
-                    IconFormat.Png -> "png"
-                    IconFormat.Svg -> "svg"
-                }
-                iconView.setImageUrl(conn, "icon/$encodedIcon?format=$suffix&anyFormat=true",
-                    itemView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000)
+                iconView.setImageUrl(
+                    conn,
+                    "icon/$encodedIcon".addIconUrlParameters(itemView.context.getPrefs().getIconFormat()),
+                    itemView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size),
+                    2000
+                )
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
             }

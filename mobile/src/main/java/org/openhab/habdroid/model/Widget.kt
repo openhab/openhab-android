@@ -19,6 +19,7 @@ import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.IconFormat
+import org.openhab.habdroid.util.addIconUrlParameters
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optStringOrFallback
@@ -144,11 +145,7 @@ data class Widget(
                 }
             }
 
-            val iconFormatString = when (iconFormat) {
-                IconFormat.Png -> "PNG"
-                IconFormat.Svg -> "SVG"
-            }
-            return "icon/$icon?state=$iconState&format=$iconFormatString&anyFormat=true"
+            return "icon/$icon".addIconUrlParameters(iconFormat, iconState)
         }
     }
 }

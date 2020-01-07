@@ -97,6 +97,24 @@ fun String?.toNormalizedUrl(): String {
 
 fun String?.orDefaultIfEmpty(defaultValue: String) = if (isNullOrEmpty()) defaultValue else this!!
 
+fun String.addIconUrlParameters(iconFormat: IconFormat, state: String? = null): String {
+    val suffix = when (iconFormat) {
+        IconFormat.Png -> "PNG"
+        IconFormat.Svg -> "SVG"
+    }
+
+    val url = Uri.Builder()
+        .path(this)
+        .appendQueryParameter("format", suffix)
+        .appendQueryParameter("anyFormat", "true")
+
+    if (state != null) {
+        url.appendQueryParameter("state", state)
+    }
+
+    return url.build().toString()
+}
+
 fun Uri?.openInBrowser(context: Context) {
     if (this == null) {
         return

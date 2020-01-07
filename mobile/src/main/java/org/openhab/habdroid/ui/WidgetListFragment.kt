@@ -22,7 +22,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.net.Uri
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
@@ -59,10 +58,10 @@ import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.addIconUrlParameters
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -407,15 +406,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
-        val iconFormat = when (context.getPrefs().getIconFormat()) {
-            IconFormat.Png -> "PNG"
-            IconFormat.Svg -> "SVG"
-        }
-        val url = Uri.Builder()
-            .appendEncodedPath(linkedPage.iconPath)
-            .appendQueryParameter("format", iconFormat)
-            .appendQueryParameter("anyFormat", "true")
-            .toString()
+        val url = linkedPage.iconPath.addIconUrlParameters(context.getPrefs().getIconFormat())
         val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
         /**
          *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of

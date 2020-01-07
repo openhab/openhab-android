@@ -32,7 +32,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.IconFormat
+import org.openhab.habdroid.util.addIconUrlParameters
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
@@ -126,15 +126,11 @@ class FcmMessageListenerService : FirebaseMessagingService() {
 
         if (icon != null) {
             val connection = ConnectionFactory.cloudConnectionOrNull
-            val encodedIcon = Uri.encode(icon)
-            val suffix = when (getPrefs().getIconFormat()) {
-                IconFormat.Png -> "png"
-                IconFormat.Svg -> "svg"
-            }
             if (connection != null) {
                 try {
                     iconBitmap = connection.httpClient
-                            .get("icon/$encodedIcon?format=$suffix&anyFormat=true", timeoutMillis = 1000)
+                            .get("icon/${Uri.encode(icon)}".addIconUrlParameters(getPrefs().getIconFormat()),
+                                timeoutMillis = 1000)
                             .asBitmap(resources.getDimensionPixelSize(R.dimen.svg_image_default_size), false)
                             .response
                 } catch (e: HttpClient.HttpException) {

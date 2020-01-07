@@ -25,6 +25,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.IconFormat
+import org.openhab.habdroid.util.addIconUrlParameters
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import java.util.ArrayList
@@ -123,12 +124,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
             val connection = ConnectionFactory.usableConnectionOrNull
             if (item.category != null && connection != null) {
-                val encodedIcon = Uri.encode(item.category)
-                val suffix = when (iconFormat) {
-                    IconFormat.Png -> "png"
-                    IconFormat.Svg -> "svg"
-                }
-                val iconUrl = "icon/$encodedIcon?&format=$suffix&anyFormat=true"
+                val iconUrl = "icon/${Uri.encode(item.category)}".addIconUrlParameters(iconFormat)
                 val size = iconView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
                 iconView.setImageUrl(connection, iconUrl, size, 2000)
             } else {

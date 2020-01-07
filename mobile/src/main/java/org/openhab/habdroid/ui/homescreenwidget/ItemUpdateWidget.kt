@@ -42,6 +42,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.addIconUrlParameters
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -166,8 +167,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     ) = GlobalScope.launch {
         if (data.icon.isNotEmpty()) {
             val encodedIcon = Uri.encode(data.icon)
-            val iconFormat = context.getPrefs().getIconFormat()
-            val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat&anyFormat=true"
+            val iconUrl = "icon/$encodedIcon".addIconUrlParameters(context.getPrefs().getIconFormat(), data.state)
             val cm = CacheManager.getInstance(context)
 
             val convertSvgIcon = { iconData: InputStream ->
