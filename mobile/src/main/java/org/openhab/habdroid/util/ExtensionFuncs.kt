@@ -261,20 +261,7 @@ fun Context.hasPermission(permission: String): Boolean {
 }
 
 fun Context.getHumanReadableErrorMessage(url: String, statusCode: Int, error: Throwable): CharSequence {
-    if (statusCode >= 400) {
-        return if (error.message == "openHAB is offline") {
-            getString(R.string.error_openhab_offline)
-        } else {
-            try {
-                getString(
-                    resources.getIdentifier("error_http_code_$statusCode", "string", packageName),
-                    statusCode
-                )
-            } catch (e: Resources.NotFoundException) {
-                getString(R.string.error_http_connection_failed, statusCode)
-            }
-        }
-    } else if (error is UnknownHostException) {
+    if (error is UnknownHostException) {
         Log.e(Util.TAG, "Unable to resolve hostname")
         return getString(R.string.error_unable_to_resolve_hostname)
     } else if (error is SSLException) {
@@ -298,6 +285,19 @@ fun Context.getHumanReadableErrorMessage(url: String, statusCode: Int, error: Th
         return getString(R.string.error_connection_failed)
     } else if (error is IOException && error.hasCause(EOFException::class.java)) {
         return getString(R.string.error_http_to_https_port)
+    } else if (statusCode >= 400) {
+        return if (error.message == "openHAB is offline") {
+            getString(R.string.error_openhab_offline)
+        } else {
+            try {
+                getString(
+                    resources.getIdentifier("error_http_code_$statusCode", "string", packageName),
+                    statusCode
+                )
+            } catch (e: Resources.NotFoundException) {
+                getString(R.string.error_http_connection_failed, statusCode)
+            }
+        }
     } else {
         Log.e(Util.TAG, "REST call to $url failed", error)
         return error.localizedMessage ?: getString(R.string.error_unknown, error.javaClass)
@@ -305,20 +305,7 @@ fun Context.getHumanReadableErrorMessage(url: String, statusCode: Int, error: Th
 }
 
 fun Context.getShortHumanReadableErrorMessage(url: String, statusCode: Int, error: Throwable?): CharSequence {
-    if (statusCode >= 400) {
-        return if (error?.message == "openHAB is offline") {
-            getString(R.string.error_short_openhab_offline)
-        } else {
-            try {
-                getString(
-                    resources.getIdentifier("error_short_http_code_$statusCode", "string", packageName),
-                    statusCode
-                )
-            } catch (e: Resources.NotFoundException) {
-                getString(R.string.error_short_http_connection_failed, statusCode)
-            }
-        }
-    } else if (error is UnknownHostException) {
+    if (error is UnknownHostException) {
         Log.e(Util.TAG, "Unable to resolve hostname")
         return getString(R.string.error_short_unable_to_resolve_hostname)
     } else if (error is SSLException) {
@@ -342,6 +329,19 @@ fun Context.getShortHumanReadableErrorMessage(url: String, statusCode: Int, erro
         return getString(R.string.error_short_connection_failed)
     } else if (error is IOException && error.hasCause(EOFException::class.java)) {
         return getString(R.string.error_short_http_to_https_port)
+    } else if (statusCode >= 400) {
+        return if (error?.message == "openHAB is offline") {
+            getString(R.string.error_short_openhab_offline)
+        } else {
+            try {
+                getString(
+                    resources.getIdentifier("error_short_http_code_$statusCode", "string", packageName),
+                    statusCode
+                )
+            } catch (e: Resources.NotFoundException) {
+                getString(R.string.error_short_http_connection_failed, statusCode)
+            }
+        }
     } else {
         Log.e(Util.TAG, "REST call to $url failed", error)
         return error?.localizedMessage ?: getString(R.string.error_short_unknown, error?.javaClass)
