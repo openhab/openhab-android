@@ -21,12 +21,14 @@ buildscript {
     dependencies {
         classpath "com.google.gms:google-services:4.3.3"
         classpath "io.fabric.tools:gradle:1.31.2"
+        classpath 'de.mobilej.unmock:UnMockPlugin:0.7.3'
     }
 }
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
+apply plugin: 'de.mobilej.unmock'
 if (!isFoss) {
     apply plugin: "io.fabric"
 }
@@ -106,6 +108,12 @@ android {
     androidExtensions {
         experimental = true // For Parcelize
     }
+}
+
+unMock {
+    keepStartingWith "libcore."
+    keepStartingWith "android.net.Uri"
+    keepAndRename "java.nio.charset.Charsets" to "xjava.nio.charset.Charsets"
 }
 
 repositories {

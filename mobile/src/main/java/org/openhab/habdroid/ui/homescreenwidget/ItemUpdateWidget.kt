@@ -21,7 +21,6 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -42,10 +41,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.ToastType
-import org.openhab.habdroid.util.addIconUrlParameters
 import org.openhab.habdroid.util.dpToPixel
-import org.openhab.habdroid.util.getIconFormat
-import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.showToast
@@ -165,9 +161,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         appWidgetId: Int,
         appWidgetManager: AppWidgetManager
     ) = GlobalScope.launch {
-        if (data.icon.isNotEmpty()) {
-            val encodedIcon = Uri.encode(data.icon)
-            val iconUrl = "icon/$encodedIcon".addIconUrlParameters(context.getPrefs().getIconFormat(), data.state)
+        if (data.iconUrl != null) {
             val cm = CacheManager.getInstance(context)
 
             val convertSvgIcon = { iconData: InputStream ->
@@ -207,7 +201,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         Log.d(TAG, "Got no connection")
                         return@launch
                     }
-                    val response = connection.httpClient.get(iconUrl).response
+                    val response = connection.httpClient.get(data.iconUrl).response
                     val content = response.bytes()
                     val isSvg = response.contentType().isSvg()
                     ByteArrayInputStream(content).use {
@@ -218,7 +212,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     }
                 }
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error downloading icon for url $iconUrl", e)
+                Log.e(TAG, "Error downloading icon for url ${data.iconUrl}", e)
             } catch (e: IOException) {
                 Log.e(TAG, "Error saving icon to disk", e)
             }
@@ -255,7 +249,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
-                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.iconUrl)
             }
         }
 
@@ -299,6 +293,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val label: String,
         val widgetLabel: String?,
         val mappedState: String,
-        val icon: String
+        val iconUrl: String?
     ) : Parcelable
 }

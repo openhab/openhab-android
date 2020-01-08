@@ -29,7 +29,7 @@ data class CloudNotification internal constructor(
     val id: String,
     val message: String,
     val createdTimestamp: Long,
-    val icon: String?,
+    val icon: IconResource?,
     val severity: String?
 ) : Parcelable
 
@@ -50,6 +50,6 @@ fun JSONObject.toCloudNotification(): CloudNotification {
         getString("_id"),
         getString("message"),
         created,
-        optStringOrNull("icon"),
+        optStringOrNull("icon").toOH2IconResource(),
         optStringOrNull("severity"))
 }

@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.finishAndRemoveTaskIfPossible
@@ -82,11 +83,11 @@ class ItemUpdateWidgetItemPickerActivity(
             label,
             widgetLabel,
             mappedState,
-            item.category.orEmpty()
+            item.category.toOH2IconResource()?.withCustomState(state)?.toUrl(this)
         )
 
         val oldData = ItemUpdateWidget.getInfoForWidget(this, appWidgetId)
-        if (oldData.icon != newData.icon || oldData.state != newData.state) {
+        if (oldData.iconUrl != newData.iconUrl || oldData.state != newData.state) {
             CacheManager.getInstance(this).removeWidgetIcon(appWidgetId)
         }
 

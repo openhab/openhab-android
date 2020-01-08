@@ -26,7 +26,7 @@ import org.w3c.dom.Node
  * It uses a sitemap page XML document to create a list of widgets
  */
 
-class WidgetDataSource(private val iconFormat: IconFormat) {
+class WidgetDataSource() {
     private val allWidgets = ArrayList<Widget>()
     var title: String = ""
         private set
@@ -68,7 +68,7 @@ class WidgetDataSource(private val iconFormat: IconFormat) {
         }
         try {
             jsonObject.getJSONArray("widgets").forEach {
-                    obj -> allWidgets.addAll(obj.collectWidgets(null, iconFormat))
+                    obj -> allWidgets.addAll(obj.collectWidgets(null))
             }
             id = jsonObject.optStringOrNull("id")
             title = jsonObject.optString("title", id.orEmpty())

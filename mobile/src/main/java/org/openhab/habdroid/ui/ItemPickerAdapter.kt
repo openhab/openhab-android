@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +22,8 @@ import androidx.recyclerview.widget.RecyclerView
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.widget.WidgetImageView
-import org.openhab.habdroid.util.IconFormat
-import org.openhab.habdroid.util.addIconUrlParameters
-import org.openhab.habdroid.util.getIconFormat
-import org.openhab.habdroid.util.getPrefs
 import java.util.ArrayList
 import java.util.Comparator
 import java.util.Locale
@@ -38,7 +34,6 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
     private val filteredItems = ArrayList<Item>()
     private val allItems = ArrayList<Item>()
     private val inflater = LayoutInflater.from(context)
-    private val iconFormat = context.getPrefs().getIconFormat()
     private var highlightedPosition = -1
 
     interface ItemClickListener {
@@ -84,7 +79,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(filteredItems[position], iconFormat)
+        holder.bind(filteredItems[position])
         holder.itemView.setOnClickListener(if (itemClickListener != null) this else null)
 
         if (position == highlightedPosition) {
@@ -117,16 +112,16 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             itemView.tag = this
         }
 
-        fun bind(item: Item, iconFormat: IconFormat) {
+        fun bind(item: Item) {
             itemNameView.text = item.name
             itemLabelView.text = item.label
             itemTypeView.text = item.type.toString()
 
             val connection = ConnectionFactory.usableConnectionOrNull
-            if (item.category != null && connection != null) {
-                val iconUrl = "icon/${Uri.encode(item.category)}".addIconUrlParameters(iconFormat)
+            val icon = item.category.toOH2IconResource()
+            if (icon != null && connection != null) {
                 val size = iconView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
-                iconView.setImageUrl(connection, iconUrl, size, 2000)
+                iconView.setImageUrl(connection, icon.toUrl(itemView.context), size, 2000)
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
             }

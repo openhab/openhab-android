@@ -19,6 +19,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
+import org.openhab.habdroid.util.IconFormat
 
 class SitemapTest {
     private lateinit var demoSitemapWithLabel: Sitemap
@@ -58,7 +59,7 @@ class SitemapTest {
     @Test
     fun testGetIcon() {
         assertNull(demoSitemapWithLabel.icon)
-        assertEquals("home", homeSitemapWithoutLabel.icon)
+        assertEquals("icon/home?format=SVG&anyFormat=true", homeSitemapWithoutLabel.icon?.toUrl(IconFormat.Svg))
     }
 
     @Test
