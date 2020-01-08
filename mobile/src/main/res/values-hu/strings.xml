@@ -113,6 +113,8 @@
     <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód: %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB nem elérhető</string>
+    <string name="error_short_unable_to_resolve_hostname">Hiba a gépnév feloldásakor</string>
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
