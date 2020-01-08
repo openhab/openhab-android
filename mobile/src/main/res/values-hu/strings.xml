@@ -112,9 +112,26 @@
     <string name="webview_ssl">Jelenleg ez alkalmazás nem támogatja az önaláírt SSL-tanúsítványokat a \"WebView\" megjelenítőkhöz</string>
     <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód: %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_507">A openHAB kiszolgálón nincs elég szabad hely (HTTP kód %d)</string>
+    <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP kód %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB nem elérhető</string>
+    <string name="error_short_http_connection_failed">HTTP kód %d</string>
     <string name="error_short_unable_to_resolve_hostname">Hiba a gépnév feloldásakor</string>
+    <string name="error_short_unknown">Ismeretlen hiba: %s</string>
+    <string name="error_short_certificate_not_trusted">A tanúsítvány nem megbízható</string>
+    <string name="error_short_certificate_expired">A tanúsítvány nem lejárt</string>
+    <string name="error_short_certificate_not_valid_yet">A tanúsítvány még nem érvényes</string>
+    <string name="error_short_certificate_revoked">A tanúsítvány vissza lett vonva</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL hiba</string>
+    <string name="error_short_connection_failed">Sikertelen csatlakozás</string>
+    <string name="error_short_http_to_https_port">HTTPS porthoz csatlakozik HTTP-vel?</string>
+    <string name="error_short_certificate_wrong_host">A tanúsítvány nem érvényes a %s -hoz</string>
+    <string name="error_short_http_code_401">Sikertelen azonosítás (HTTP kód %d)</string>
+    <string name="error_short_http_code_414">URL túl hosszú (HTTP kód%d)</string>
+    <string name="error_short_http_code_426">HTTPS szükséges (HTTP kód%d)</string>
+    <string name="error_short_http_code_495">Sikertelen azonosítás (HTTP kód %d)</string>
+    <string name="error_short_http_code_496">SSL ügyfél-tanúsítvány szükség (HTTP kód %d)</string>
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
