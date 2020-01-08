@@ -323,7 +323,9 @@
     <string name="item_picker_custom">Personalizza</string>
     <string name="item_picker_dialog_title">Seleziona l’azione</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Invia comando \"%3$s\" a \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Aggiorna \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variabile Tasker \"%s\"</string>
     <string name="item_picker_item_update">Aggiorna</string>
     <string name="item_picker_item_command">Comando</string>
@@ -339,6 +341,7 @@
     <string name="item_update_widget_content_description">Widget per cambiare lo stato Item</string>
     <string name="item_update_widget_content_description_edit">Modifica widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
     <string name="item_update_success_message_generic">%1$s è stato impostato a %2$s</string>
     <string name="item_update_success_message_on">%s è stato acceso</string>
