@@ -94,11 +94,13 @@
     <string name="error_sitemap_generic_load_error">A felület nem tölthető be. Akövetkező hiba miatt: %1$s</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
     <string name="error_wifi_not_available">Wi-Fi ki van kapcsolva</string>
+    <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
     <string name="error_invalid_https_url">Adjon meg egy érvényes URL-címet \' https://kiszolgáló(:port)/\' formában</string>
     <string name="error_port_seems_invalid">Úgy tűnik, a megadott port érvénytelen a kiválasztott protokollhoz</string>
     <string name="error_connection_failed">Sikertelen kapcsolódás</string>
     <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
+    <string name="error_unknown">Ismeretlen hiba történt: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL ellenőrzés sikertelen</string>
     <string name="error_certificate_not_trusted">Az SSL-tanúsítvány nem megbízható. Kérjük, importálja a gyökér tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben.</string>
     <string name="error_certificate_expired">Az SSL tanúsítvány lejárt. Kérjük, szerezzen be új tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben.</string>
@@ -108,6 +110,7 @@
     <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
     <string name="error_http_to_https_port">Váratlanul leállt a kapcsolat. Lehetséges hogy HTTPS-portot használ HTTP kapcsolathoz?</string>
     <string name="webview_ssl">Jelenleg ez alkalmazás nem támogatja az önaláírt SSL-tanúsítványokat a \"WebView\" megjelenítőkhöz</string>
+    <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód: %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
@@ -285,7 +288,9 @@
     <string name="item_picker_list_error">Hiba történt az elemek betöltése során</string>
     <string name="item_picker_custom">Egyéni</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Parancs küldése \"%3$s\" to \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Beállítás erről \"%1$s\" (%2$s) erre \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker változó \"%s\"</string>
     <string name="item_picker_item_update">Frissítés</string>
     <string name="item_picker_item_command">Parancs</string>
@@ -299,6 +304,7 @@
     <string name="item_update_widget_title">Elem vezérlése</string>
     <string name="item_update_widget_content_description">Widget az elem állapot megváltoztatásához</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Válassz egy elemet</string>
     <string name="item_update_success_message_generic">%1$s beállításra került ide: %2$s</string>
     <string name="item_update_success_message_on">%s fel lett kapcsolva</string>
