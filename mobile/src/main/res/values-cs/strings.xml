@@ -191,6 +191,7 @@
     <string name="nfc_action_off">Vypnout</string>
     <string name="nfc_action_down">Dolů</string>
     <string name="nfc_action_toggle">Přepnout</string>
+    <string name="nfc_action_toggled">Přepnuto</string>
     <string name="nfc_action_undefined">Nedefinováno</string>
     <string name="nfc_action_empty_string">Prázdný řetězec</string>
     <string name="nfc_action_increase">Zvýšit</string>
