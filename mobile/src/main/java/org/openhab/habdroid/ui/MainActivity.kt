@@ -936,7 +936,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
         Log.e(TAG, "Error: $error", error)
         Log.e(TAG, "HTTP status code: $statusCode")
-        var message = getHumanReadableErrorMessage(request.url.toString(), statusCode, error)
+        var message = getHumanReadableErrorMessage(request.url.toString(), statusCode, error, false)
         if (prefs.isDebugModeEnabled()) {
             message = SpannableStringBuilder(message).apply {
                 inSpans(RelativeSizeSpan(0.8f)) {

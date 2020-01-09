@@ -23,7 +23,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.getShortHumanReadableErrorMessage
+import org.openhab.habdroid.util.getHumanReadableErrorMessage
 
 object CloudMessagingHelper {
     internal var registrationDone: Boolean = false
@@ -66,10 +66,11 @@ object CloudMessagingHelper {
             ConnectionFactory.cloudConnectionOrNull == null -> {
                 when {
                     cloudFailure != null -> context.getString(R.string.info_openhab_gcm_http_error,
-                        context.getShortHumanReadableErrorMessage(
+                        context.getHumanReadableErrorMessage(
                             if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
                             if (cloudFailure is HttpClient.HttpException) cloudFailure.statusCode else 0,
-                            cloudFailure
+                            cloudFailure,
+                            true
                         )
                     )
                     ConnectionFactory.remoteConnection == null -> context.getString(R.string.info_openhab_gcm_no_remote)
