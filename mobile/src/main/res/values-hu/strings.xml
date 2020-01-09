@@ -210,6 +210,7 @@
     <string name="nfc_action_off">Ki</string>
     <string name="nfc_action_down">Le</string>
     <string name="nfc_action_toggle">Átvált</string>
+    <string name="nfc_action_toggled">Átkapcsol</string>
     <string name="nfc_action_undefined">Nem definiált</string>
     <string name="nfc_action_empty_string">Üres karakterlánc</string>
     <string name="nfc_action_increase">Növelés</string>
