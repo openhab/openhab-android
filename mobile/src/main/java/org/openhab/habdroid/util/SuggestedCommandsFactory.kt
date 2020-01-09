@@ -72,6 +72,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             if (forItemUpdate) {
                 add(suggestedCommands, "OPEN", R.string.nfc_action_open)
                 add(suggestedCommands, "CLOSED", R.string.nfc_action_closed)
+                add(suggestedCommands, "TOGGLE", R.string.nfc_action_toggled)
             } else {
                 // Contact Items cannot receive commands
             }

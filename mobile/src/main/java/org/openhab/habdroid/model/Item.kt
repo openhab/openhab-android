@@ -58,6 +58,7 @@ data class Item internal constructor(
 
     fun canBeToggled(): Boolean {
         return isOfTypeOrGroupType(Type.Color) ||
+            isOfTypeOrGroupType(Type.Contact) ||
             isOfTypeOrGroupType(Type.Dimmer) ||
             isOfTypeOrGroupType(Type.Rollershutter) ||
             isOfTypeOrGroupType(Type.Switch)
