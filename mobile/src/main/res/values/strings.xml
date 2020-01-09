@@ -154,6 +154,7 @@
     <string name="error_short_certificate_wrong_host">Certificate not valid for %s</string>
     <string name="error_short_http_code_401">Authentication failed (HTTP code %d)</string>
     <string name="error_short_http_code_403" translatable="false">@string/error_short_http_code_401</string>
+    <string name="error_short_http_code_404">Not found (HTTP code %d)</string>
     <string name="error_short_http_code_407" translatable="false">@string/error_short_http_code_401</string>
     <string name="error_short_http_code_414">URL too long (HTTP code %d)</string>
     <string name="error_short_http_code_426">HTTPS required (HTTP code %d)</string>
@@ -220,6 +221,7 @@
     <string name="item_update_connection_error_label">%1$s update failed (No connection)</string>
     <string name="error_sending_alarm_clock_item_empty">Please enter a valid Item name</string>
     <string name="retry">Retry</string>
+    <string name="clear_errors">Clear errors</string>
 
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>
