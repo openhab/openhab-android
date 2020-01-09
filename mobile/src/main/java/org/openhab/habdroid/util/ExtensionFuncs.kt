@@ -269,8 +269,8 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
     } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
         getString(
             if (short) R.string.error_short_certificate_not_valid_yet else R.string.error_certificate_not_valid_yet)
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-        && error.hasCause(CertificateRevokedException::class.java)) {
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+        error.hasCause(CertificateRevokedException::class.java)) {
         getString(if (short) R.string.error_short_certificate_revoked else R.string.error_certificate_revoked)
     } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
         getString(
