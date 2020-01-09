@@ -62,7 +62,7 @@ class IconResource internal constructor(
     }
 }
 
-fun String?.toOH1IconResource() : IconResource? {
+fun String?.toOH1IconResource(): IconResource? {
     return if (this != null && this != "none") IconResource(this, false, null) else null
 }
 
@@ -70,7 +70,7 @@ fun String?.toOH2IconResource(
     item: Item? = null,
     type: Widget.Type? = Widget.Type.Unknown,
     hasMappings: Boolean = false
-) : IconResource? {
+): IconResource? {
     if (this == null || this == "none") {
         return null
     }

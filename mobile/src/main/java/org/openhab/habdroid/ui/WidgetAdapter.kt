@@ -1148,7 +1148,11 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
         setImageDrawable(null)
         return
     }
-    setImageUrl(connection, widget.icon.toUrl(context), resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size))
+    setImageUrl(
+        connection,
+        widget.icon.toUrl(context),
+        resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
+    )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {
         setColorFilter(color)
