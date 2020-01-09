@@ -225,6 +225,7 @@
     <string name="nfc_action_off">Off</string>
     <string name="nfc_action_down">Giù</string>
     <string name="nfc_action_toggle">Alterna</string>
+    <string name="nfc_action_toggled">Toggled</string>
     <string name="nfc_action_undefined">Non definito</string>
     <string name="nfc_action_empty_string">Stringa Vuota</string>
     <string name="nfc_action_increase">Aumenta</string>
