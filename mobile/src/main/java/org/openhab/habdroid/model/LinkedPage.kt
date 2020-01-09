@@ -17,7 +17,6 @@ import android.os.Parcelable
 
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node

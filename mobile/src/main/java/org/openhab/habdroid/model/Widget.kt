@@ -17,7 +17,6 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optStringOrFallback

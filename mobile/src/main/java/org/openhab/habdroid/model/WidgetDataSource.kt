@@ -16,7 +16,6 @@ package org.openhab.habdroid.model
 import android.util.Log
 import org.json.JSONException
 import org.json.JSONObject
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node

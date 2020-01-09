@@ -17,8 +17,8 @@ import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Parcelable
+import androidx.annotation.VisibleForTesting
 import kotlinx.android.parcel.Parcelize
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import java.util.Locale
@@ -33,6 +33,7 @@ class IconResource internal constructor(
         return toUrl(context.getPrefs().getIconFormat())
     }
 
+    @VisibleForTesting
     fun toUrl(iconFormat: IconFormat): String {
         if (!isOh2) {
             return "images/$icon.png"
@@ -103,4 +104,9 @@ fun String?.toOH2IconResource(
     }
 
     return IconResource(this, true, iconState)
+}
+
+enum class IconFormat {
+    Png,
+    Svg
 }

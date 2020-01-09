@@ -87,7 +87,7 @@ class ItemUpdateWidgetItemPickerActivity(
         )
 
         val oldData = ItemUpdateWidget.getInfoForWidget(this, appWidgetId)
-        if (oldData.iconUrl != newData.iconUrl || oldData.state != newData.state) {
+        if (oldData.iconUrl != newData.iconUrl) {
             CacheManager.getInstance(this).removeWidgetIcon(appWidgetId)
         }
 

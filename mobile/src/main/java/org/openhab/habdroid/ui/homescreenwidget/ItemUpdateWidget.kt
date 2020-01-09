@@ -35,11 +35,11 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getString
