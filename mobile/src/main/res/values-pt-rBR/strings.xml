@@ -225,6 +225,7 @@
     <string name="nfc_action_off">Desligar</string>
     <string name="nfc_action_down">Para baixo</string>
     <string name="nfc_action_toggle">Alternar</string>
+    <string name="nfc_action_toggled">Alternado</string>
     <string name="nfc_action_undefined">Indefinido</string>
     <string name="nfc_action_empty_string">String vazia</string>
     <string name="nfc_action_increase">Aumentar</string>
@@ -323,7 +324,9 @@
     <string name="item_picker_custom">Personalizado</string>
     <string name="item_picker_dialog_title">Selecionar ação</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Enviar comando \"%3$s\" para \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Atualizar \"%1$s\" (%2$s) para \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variável do Tasker \"%s\"</string>
     <string name="item_picker_item_update">Atualizar</string>
     <string name="item_picker_item_command">Comando</string>
@@ -339,6 +342,7 @@
     <string name="item_update_widget_content_description">Widget para alterar estado do Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecione um Item</string>
     <string name="item_update_success_message_generic">%1$s foi definido para %2$s</string>
     <string name="item_update_success_message_on">%s foi ligado</string>
