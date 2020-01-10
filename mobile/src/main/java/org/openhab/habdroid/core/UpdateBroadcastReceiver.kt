@@ -13,7 +13,9 @@
 
 package org.openhab.habdroid.core
 
+import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -24,6 +26,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
+import org.openhab.habdroid.model.putIconResource
+import org.openhab.habdroid.model.toOH2IconResource
+import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Constants.PREFERENCE_COMPARABLE_VERSION
 import org.openhab.habdroid.util.getDayNightMode
@@ -92,6 +98,17 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
                 putInt(Constants.PREFERENCE_ACCENT_COLOR, accentColor)
             }
+            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= WIDGET_ICON) {
+                val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
+                AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
+                    val widgetPrefs = ItemUpdateWidget.getPrefsForWidget(context, id)
+                    val icon = widgetPrefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
+                    widgetPrefs.edit {
+                        putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, icon.toOH2IconResource())
+                    }
+                }
+            }
+
             updateComparableVersion(this)
         }
     }
@@ -102,6 +119,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val UPDATE_LOCAL_CREDENTIALS = 26
         private const val SECURE_CREDENTIALS = 190
         private const val DARK_MODE = 200
+        private const val WIDGET_ICON = 237
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()

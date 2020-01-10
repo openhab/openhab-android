@@ -36,6 +36,9 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.IconFormat
+import org.openhab.habdroid.model.IconResource
+import org.openhab.habdroid.model.getIconResource
+import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
@@ -161,7 +164,9 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         appWidgetId: Int,
         appWidgetManager: AppWidgetManager
     ) = GlobalScope.launch {
-        if (data.iconUrl != null) {
+        val iconUrl = data.icon?.withCustomState(data.state)?.toUrl(context)
+
+        if (iconUrl != null) {
             val cm = CacheManager.getInstance(context)
 
             val convertSvgIcon = { iconData: InputStream ->
@@ -201,7 +206,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         Log.d(TAG, "Got no connection")
                         return@launch
                     }
-                    val response = connection.httpClient.get(data.iconUrl).response
+                    val response = connection.httpClient.get(iconUrl).response
                     val content = response.bytes()
                     val isSvg = response.contentType().isSvg()
                     ByteArrayInputStream(content).use {
@@ -212,7 +217,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     }
                 }
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error downloading icon for url ${data.iconUrl}", e)
+                Log.e(TAG, "Error downloading icon for url ${iconUrl}", e)
             } catch (e: IOException) {
                 Log.e(TAG, "Error saving icon to disk", e)
             }
@@ -234,7 +239,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val label = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
             val widgetLabel = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, null)
             val mappedState = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
-            val icon = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
+            val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
             return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon)
         }
 
@@ -249,7 +254,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
-                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.iconUrl)
+                putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
             }
         }
 
@@ -279,7 +284,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             views.setViewVisibility(R.id.progress_bar, View.GONE)
         }
 
-        private fun getPrefsForWidget(context: Context, id: Int): SharedPreferences {
+        fun getPrefsForWidget(context: Context, id: Int): SharedPreferences {
             return context.getSharedPreferences(getPrefsNameForWidget(id), Context.MODE_PRIVATE)
         }
 
@@ -293,6 +298,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val label: String,
         val widgetLabel: String?,
         val mappedState: String,
-        val iconUrl: String?
+        val icon: IconResource?
     ) : Parcelable
 }

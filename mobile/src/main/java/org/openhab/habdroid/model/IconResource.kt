@@ -14,20 +14,23 @@
 package org.openhab.habdroid.model
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import kotlinx.android.parcel.Parcelize
+import org.json.JSONException
+import org.json.JSONObject
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import java.util.Locale
 
 @Parcelize
 class IconResource internal constructor(
-    private val icon: String,
-    private val isOh2: Boolean,
-    private val customState: String?
+    internal val icon: String,
+    internal val isOh2: Boolean,
+    internal val customState: String?
 ) : Parcelable {
     fun toUrl(context: Context): String {
         return toUrl(context.getPrefs().getIconFormat())
@@ -62,15 +65,42 @@ class IconResource internal constructor(
     }
 }
 
+fun SharedPreferences.getIconResource(key: String): IconResource? {
+    val iconString = getString(key, null) ?: return null
+    return try {
+        val obj = JSONObject(iconString)
+        val icon = obj.getString("icon")
+        val isOh2 = obj.getInt("ohversion") == 2
+        val customState = obj.optString("state")
+        IconResource(icon, isOh2, customState)
+    } catch (e: JSONException) {
+        null
+    }
+}
+
+fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): SharedPreferences.Editor {
+    if (icon == null) {
+        putString(key, null)
+    } else {
+        val iconString = JSONObject()
+            .put("icon", icon.icon)
+            .put("ohversion", if (icon.isOh2) 2 else 1)
+            .put("state", icon.customState)
+            .toString()
+        putString(key, iconString)
+    }
+    return this
+}
+
 fun String?.toOH1IconResource(): IconResource? {
     return if (this != null && this != "none") IconResource(this, false, null) else null
 }
 
-fun String?.toOH2IconResource(
-    item: Item? = null,
-    type: Widget.Type? = Widget.Type.Unknown,
-    hasMappings: Boolean = false
-): IconResource? {
+fun String?.toOH2IconResource(): IconResource? {
+    return if (this != null && this != "none") IconResource(this, true, null) else null
+}
+
+internal fun String?.toOH2WidgetIconResource(item: Item?, type: Widget.Type, hasMappings: Boolean): IconResource? {
     if (this == null || this == "none") {
         return null
     }

@@ -81,7 +81,7 @@ data class Widget(
             val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
             val iconName = eventPayload.optStringOrNull("icon")
             val icon = if (iconName != null)
-                iconName.toOH2IconResource(item, source.type, source.mappings.isNotEmpty()) else source.icon
+                iconName.toOH2WidgetIconResource(item, source.type, source.mappings.isNotEmpty()) else source.icon
             return Widget(source.id, source.parentId,
                 eventPayload.optString("label", source.label),
                 icon,
@@ -211,7 +211,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         getString("widgetId"),
         parent?.id,
         optString("label", ""),
-        icon.toOH2IconResource(item, type, mappings.isNotEmpty()),
+        icon.toOH2WidgetIconResource(item, type, mappings.isNotEmpty()),
         Widget.determineWidgetState(optStringOrNull("state"), item),
         type,
         optStringOrNull("url"),

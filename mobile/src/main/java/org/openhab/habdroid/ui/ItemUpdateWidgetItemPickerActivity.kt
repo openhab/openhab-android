@@ -83,11 +83,11 @@ class ItemUpdateWidgetItemPickerActivity(
             label,
             widgetLabel,
             mappedState,
-            item.category.toOH2IconResource()?.withCustomState(state)?.toUrl(this)
+            item.category.toOH2IconResource()
         )
 
         val oldData = ItemUpdateWidget.getInfoForWidget(this, appWidgetId)
-        if (oldData.iconUrl != newData.iconUrl) {
+        if (oldData.icon != newData.icon) {
             CacheManager.getInstance(this).removeWidgetIcon(appWidgetId)
         }
 
