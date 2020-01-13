@@ -227,7 +227,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val clearPendingIntent = PendingIntent.getBroadcast(context, 0,
                     clearIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 nb.addAction(NotificationCompat.Action(R.drawable.ic_clear_grey_24dp,
-                    context.getString(R.string.clear_errors), clearPendingIntent))
+                    context.getString(R.string.ignore), clearPendingIntent))
             }
 
             return nb.build()
