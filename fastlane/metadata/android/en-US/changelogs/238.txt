@@ -1,0 +1,6 @@
+## Added
+* Support TOGGLE for Contact items (#1760)
+* Add 'Ignore' action to background error notification (#1766)
+
+## Fixed
+* Update sitemap title in drawer if only one sitemap is returned (#1762)
