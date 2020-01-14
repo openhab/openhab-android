@@ -78,6 +78,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     )
                 }
             }
+            ACTION_CLEAR_UPLOAD -> {
+                WorkManager.getInstance(context).pruneWork()
+            }
             TaskerIntent.ACTION_QUERY_CONDITION, TaskerIntent.ACTION_FIRE_SETTING -> {
                 if (!context.getPrefs().isTaskerPluginEnabled()) {
                     Log.d(TAG, "Tasker plugin is disabled")
@@ -159,6 +162,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private val TAG = BackgroundTasksManager::class.java.simpleName
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
+        internal const val ACTION_CLEAR_UPLOAD = "org.openhab.habdroid.background.action.CLEAR_UPLOAD"
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
