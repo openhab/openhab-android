@@ -338,8 +338,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     fun updateWidgets(widgets: List<Widget>) {
         val adapter = adapter ?: return
         adapter.update(widgets, refreshLayout.isRefreshing)
-        recyclerView.isVisible = widgets.isNotEmpty()
-        emptyPageView.isVisible = widgets.isEmpty()
+        recyclerView.isVisible = adapter.hasVisibleWidgets
+        emptyPageView.isVisible = adapter.hasVisibleWidgets.not()
         setHighlightedPageLink(highlightedPageLink)
         refreshLayout.isRefreshing = false
     }

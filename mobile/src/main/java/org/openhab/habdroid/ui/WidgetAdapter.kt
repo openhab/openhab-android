@@ -92,6 +92,7 @@ class WidgetAdapter(
     private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
+    var hasVisibleWidgets: Boolean = true
 
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence
@@ -126,6 +127,8 @@ class WidgetAdapter(
             widgets.forEach { w -> widgetsById[w.id] = w }
             notifyDataSetChanged()
         }
+
+        hasVisibleWidgets = widgets.any { widget -> isWidgetIncludingAllParentsVisible(widget) }
     }
 
     fun updateWidget(widget: Widget) {
