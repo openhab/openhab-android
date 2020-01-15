@@ -13,14 +13,12 @@
 
 package org.openhab.habdroid.model
 
-import android.net.Uri
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import org.openhab.habdroid.util.IconFormat
 import org.w3c.dom.Node
 import org.xml.sax.InputSource
 import java.io.StringReader
