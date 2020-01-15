@@ -135,6 +135,7 @@
     <string name="error_short_http_to_https_port">Mit HTTPS-Port über HTTP verbinden?</string>
     <string name="error_short_certificate_wrong_host">Zertifikat nicht gültig für %s</string>
     <string name="error_short_http_code_401">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
+    <string name="error_short_http_code_404">Nicht gefunden (HTTP-Code %d)</string>
     <string name="error_short_http_code_414">URL zu lang (HTTP-Code %d)</string>
     <string name="error_short_http_code_426">HTTPS erforderlich (HTTP-Code %d)</string>
     <string name="error_short_http_code_495">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
@@ -197,6 +198,7 @@
     <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
     <string name="retry">Erneut versuchen</string>
+    <string name="ignore">Ignorieren</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
