@@ -150,6 +150,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
          * Creates notification channels for background tasks.
          * @param context
          */
+        @JvmStatic
         fun createNotificationChannels(context: Context) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 return

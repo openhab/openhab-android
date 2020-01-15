@@ -635,6 +635,7 @@ public class MemorizingTrustManager implements X509TrustManager {
             .setAutoCancel(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationUpdateObserver.createNotificationChannels(context);
             notification.setChannelId(NotificationUpdateObserver.CHANNEL_ID_BACKGROUND_ERROR);
         }
 
