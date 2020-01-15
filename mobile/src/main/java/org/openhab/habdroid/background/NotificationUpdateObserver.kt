@@ -144,18 +144,19 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
     companion object {
         private const val NOTIFICATION_ID_BACKGROUND_WORK = 1000
         private const val CHANNEL_ID_BACKGROUND = "background"
-        private const val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
+        const val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
 
         /**
          * Creates notification channels for background tasks.
          * @param context
          */
+        @JvmStatic
         fun createNotificationChannels(context: Context) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 return
             }
 
-            val nm = context.getSystemService(NotificationManager::class.java)
+            val nm = context.getSystemService(NotificationManager::class.java)!!
 
             val bgChannel = NotificationChannel(CHANNEL_ID_BACKGROUND,
                 context.getString(R.string.notification_channel_background),

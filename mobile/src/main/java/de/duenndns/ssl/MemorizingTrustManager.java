@@ -43,6 +43,7 @@ import android.text.style.RelativeSizeSpan;
 import android.util.SparseArray;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.background.NotificationUpdateObserver;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +61,6 @@ import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
@@ -619,37 +619,27 @@ public class MemorizingTrustManager implements X509TrustManager {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     void startActivityNotification(Intent intent, int decisionId, CharSequence certName) {
-        Notification notification;
         final PendingIntent call = PendingIntent.getActivity(master, 0, intent,
                 0);
         final String mtmNotification = master.getString(R.string.mtm_notification);
         final long currentMillis = System.currentTimeMillis();
         final Context context = master.getApplicationContext();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            @SuppressWarnings("deprecation")
-            // Use an extra identifier for the legacy build notification, so
-                    // that we suppress the deprecation warning. We will latter assign
-                    // this to the correct identifier.
-                    Notification n  = new Notification(android.R.drawable.ic_lock_lock,
-                    mtmNotification,
-                    currentMillis);
-            setLatestEventInfoReflective(n, context, mtmNotification, certName, call);
-            n.flags |= Notification.FLAG_AUTO_CANCEL;
-            notification = n;
-        } else {
-            notification = new Notification.Builder(master)
-                    .setContentTitle(mtmNotification)
-                    .setContentText(certName)
-                    .setTicker(certName)
-                    .setSmallIcon(android.R.drawable.ic_lock_lock)
-                    .setWhen(currentMillis)
-                    .setContentIntent(call)
-                    .setAutoCancel(true)
-                    .getNotification();
+        Notification.Builder notification = new Notification.Builder(master)
+            .setContentTitle(mtmNotification)
+            .setContentText(certName)
+            .setTicker(certName)
+            .setSmallIcon(android.R.drawable.ic_lock_lock)
+            .setWhen(currentMillis)
+            .setContentIntent(call)
+            .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationUpdateObserver.createNotificationChannels(context);
+            notification.setChannelId(NotificationUpdateObserver.CHANNEL_ID_BACKGROUND_ERROR);
         }
 
-        notificationManager.notify(NOTIFICATION_ID + decisionId, notification);
+        notificationManager.notify(NOTIFICATION_ID + decisionId, notification.build());
     }
 
     /**
