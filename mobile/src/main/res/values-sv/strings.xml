@@ -17,7 +17,6 @@
     <string name="settings_display_title">Visning</string>
     <string name="settings_misc_title">Diverse</string>
     <string name="settings_openhab_url">Lokal server-URL</string>
-    <string name="settings_openhab_url_summary">URL för openHABs dashboard (baserad på värdnamn eller IP). Om konfigurerad inaktiveras autodiscovery. Aktuell inställning: %s</string>
     <string name="settings_openhab_alturl">Fjärrserver-URL</string>
     <string name="settings_openhab_alturl_summary">URL för openHABs dashboard att använda när den lokala adressen inte är tillgänglig. Aktuell inställning: %s</string>
     <string name="settings_openhab_username">Användarnamn</string>
