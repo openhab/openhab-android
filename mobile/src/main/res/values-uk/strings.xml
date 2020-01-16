@@ -114,14 +114,33 @@
     <string name="error_http_code_414">Посилання надто довге. Будь ласка, використовуйте IP-адресу або коротше посилання (код HTTP %d).</string>
     <string name="error_http_code_426">Вимагається HTTPS. Змініть посилання (код HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Не вдалося виконати автентифікацію. Будь ласка, перевірте наданий SSL-сертифікат клієнта (код HTTP %d).</string>
+    <string name="error_http_code_495">Не вдалося виконати аутентифікацію. Будь ласка, перевірте наданий SSL-сертифікат клієнта (код HTTP %d).</string>
     <string name="error_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
     <string name="error_http_code_502">Ваш зворотний проксі отримав неприпустиму відповідь від сервера openHAB (код HTTP %d)</string>
     <string name="error_http_code_503">Сервер openHAB тимчасово недоступний (код HTTP %d)</string>
     <string name="error_http_code_504">Тайм-аут шлюзу. Здається, що Ваш проксі-сервер працює, але не зміг отримати відповідь від сервера openHAB (код HTTP %d).</string>
     <string name="error_http_code_507">На сервері openHAB не достатньо вільного місця (код HTTP %d)</string>
-    <string name="error_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
+    <string name="error_http_code_511">Потрібна аутентифікація мережі (код HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB не в мережі</string>
+    <string name="error_short_http_connection_failed">Код HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Помилка пошуку доменного імені</string>
+    <string name="error_short_unknown">Невідома помилка: %s</string>
+    <string name="error_short_certificate_not_trusted">Сертифікат не є довіреним</string>
+    <string name="error_short_certificate_expired">Термін дії сертифіката дійсний</string>
+    <string name="error_short_certificate_not_valid_yet">Сертифікат ще не дійсний</string>
+    <string name="error_short_certificate_revoked">Сертифікат відкликано</string>
+    <string name="error_short_connection_sslhandshake_failed">Помилка SSL</string>
+    <string name="error_short_connection_failed">Помилка зʼєднання</string>
+    <string name="error_short_http_to_https_port">Підключення до HTTPS-порту через HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Сертифікат не дійсний для %s</string>
+    <string name="error_short_http_code_401">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_404">Не знайдено (код HTTP %d)</string>
+    <string name="error_short_http_code_414">Надто довге посилання (код HTTP %d)</string>
+    <string name="error_short_http_code_426">Вимагається HTTPS (код HTTP %d)</string>
+    <string name="error_short_http_code_495">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
+    <string name="error_short_http_code_502">Зворотний проксі отримав неприпустиму відповідь від openHAB (код HTTP %d)</string>
     <string name="error_short_http_code_503">openHAB тимчасово недоступний (код HTTP %d)</string>
     <string name="error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
     <string name="error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
