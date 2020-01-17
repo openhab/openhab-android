@@ -57,6 +57,7 @@ import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.CertificateRevokedException
 import javax.net.ssl.SSLException
+import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
 
 fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
@@ -279,7 +280,7 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
         )
     } else if (error.hasCause(CertPathValidatorException::class.java)) {
         getString(if (short) R.string.error_short_certificate_not_trusted else R.string.error_certificate_not_trusted)
-    } else if (error.hasCause(SSLException::class.java)) {
+    } else if (error.hasCause(SSLException::class.java) || error.hasCause(SSLHandshakeException::class.java)) {
         getString(if (short) R.string.error_short_connection_sslhandshake_failed else
             R.string.error_connection_sslhandshake_failed)
     } else if (error.hasCause(ConnectException::class.java) || error.hasCause(SocketTimeoutException::class.java)) {
