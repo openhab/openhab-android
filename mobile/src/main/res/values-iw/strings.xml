@@ -94,11 +94,13 @@
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
     <string name="error_network_not_available">הרשת לא זמינה</string>
     <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
+    <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
     <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
+    <string name="error_unknown">התרחשה שגיאה לא מזוהה: %s</string>
     <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
     <string name="error_certificate_not_trusted">תעודת SSL אינה אמינה. בבקשה ייבא את התעודה הראשית או קבל את התעודה במהלך חיבור SSL.</string>
     <string name="error_certificate_expired">פג תוקפה של תעודת SSL. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL.</string>
@@ -108,10 +110,22 @@
     <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
     <string name="error_http_to_https_port">החיבור הסתיים באופן בלתי-צפוי. האם אתה מנסה להתחבר לפִּתְחָה HTTPS דרך HTTP?</string>
     <string name="webview_ssl">כרגע יישום זה אינו תומך בחתימת SSL עצמית עבור יישומוני Web</string>
+    <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_414">שורת הכתובת ארוכה מדי. נא השתמש בכתובת IP או בכתובת קצרה יותר (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">האימות נכשל. בדוק את תעודת אישור לקוח SSL (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB איננו מחובר</string>
+    <string name="error_short_http_connection_failed">קוד תגובה HTTP %d</string>
     <string name="error_short_unable_to_resolve_hostname">שגיאה בפענוח שם שרת מארח</string>
+    <string name="error_short_unknown">שגיאה לא ידועה: %s</string>
     <string name="error_short_certificate_not_trusted">האישור אינו מהימן</string>
     <string name="error_short_certificate_expired">האישור אינו פג תוקף</string>
     <string name="error_short_certificate_not_valid_yet">האישור אינו תקף עדיין</string>
@@ -120,6 +134,17 @@
     <string name="error_short_connection_failed">החיבור נכשל</string>
     <string name="error_short_http_to_https_port">חיבור לפורט HTTPS דרך HTTP?</string>
     <string name="error_short_certificate_wrong_host">האישור אינו תקף עבור %s</string>
+    <string name="error_short_http_code_401">האימות נכשל (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_404">לא נמצא (קוד שגיאת HTTP %d)</string>
+    <string name="error_short_http_code_414">כתובת אתר ארוכה מדי (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_426">נדרש HTTPS (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_495">האימות נכשל (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_504">תם הזמן המוקצב ל-Gateway (קוד תגובה HTTP %d).</string>
+    <string name="error_short_http_code_507">אין מספיק מקום פנוי בשרת (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_511">נדרש אימות רשת (קוד תגובה HTTP %d)</string>
     <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
@@ -168,11 +193,14 @@
         <item quantity="other">ל %d פריטים לא היתה אפשרות להתעדכן</item>
     </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">עדכון פריט \'%1$s\' נכשל: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">עדכון %1$s נכשל: %2$s</string>
     <string name="item_update_connection_error">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="item_update_connection_error_label">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="error_sending_alarm_clock_item_empty">אנא הכנס שם פריט תקף</string>
     <string name="retry">נסה שנית</string>
+    <string name="ignore">התעלם</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
@@ -201,6 +229,7 @@
     <string name="nfc_action_off">כבה</string>
     <string name="nfc_action_down">הורד</string>
     <string name="nfc_action_toggle">החלף מצב</string>
+    <string name="nfc_action_toggled">החלפת מצב</string>
     <string name="nfc_action_undefined">לא מוגדר</string>
     <string name="nfc_action_empty_string">מחרוזת ריקה</string>
     <string name="nfc_action_increase">הגדל</string>
@@ -299,7 +328,9 @@
     <string name="item_picker_custom">התאמה אישית</string>
     <string name="item_picker_dialog_title">בחר פעולה</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">שלח פקודה \"%3$s\" אל \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">עדכן \"%1$s\" (%2$s) ל- \"%3$s\"</string>
     <string name="item_picker_tasker_variable">משתנה %s ב Tasker</string>
     <string name="item_picker_item_update">עדכן</string>
     <string name="item_picker_item_command">פקודה</string>
@@ -315,6 +346,7 @@
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
     <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>
@@ -340,4 +372,5 @@
     <string name="create_home_screen_widget_not_supported">המכשיר שלך אינו תומך ביצירת יישומונים מתוך אפליקציה. צור יישומון מתפריט היישומונים במסך הבית.</string>
     <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
     <string name="item_update_widget_widget_label">תווית יישומון</string>
+    <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
 </resources>
