@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import java.io.IOException
 import java.io.InputStream
+import java.lang.IllegalArgumentException
 import java.util.Properties
 
 class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStream(stream, FRAME_MAX_LENGTH)) {
@@ -51,7 +52,11 @@ class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStrea
     private fun parseContentLength(headerBytes: ByteArray): Int {
         val headerIn = ByteArrayInputStream(headerBytes)
         val props = Properties()
-        props.load(headerIn)
+        try {
+            props.load(headerIn)
+        } catch (e: IllegalArgumentException) {
+            throw IOException("Error loading props", e)
+        }
         return Integer.parseInt(props.getProperty(CONTENT_LENGTH))
     }
 
