@@ -19,7 +19,6 @@ import android.net.wifi.WifiManager.MulticastLock
 import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import java.lang.Exception
 import java.net.BindException
 import java.net.Inet4Address
 import java.net.InetAddress
