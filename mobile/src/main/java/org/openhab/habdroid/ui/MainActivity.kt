@@ -283,9 +283,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onPause() {
         Log.d(TAG, "onPause()")
-        super.onPause()
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         nfcAdapter?.disableForegroundDispatch(this)
+        super.onPause()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
