@@ -19,6 +19,7 @@ import android.net.wifi.WifiManager.MulticastLock
 import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import java.net.BindException
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -62,7 +63,7 @@ class AsyncServiceResolver(
     }
 
     init {
-        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         multicastLock = wifiManager.createMulticastLock("HABDroidMulticastLock")
         multicastLock.setReferenceCounted(true)
     }
@@ -77,7 +78,15 @@ class AsyncServiceResolver(
         Log.i(TAG, "Discovering service $serviceType")
 
         withContext(Dispatchers.IO) {
-            jmDns = JmDNS.create(localIpv4Address)
+            try {
+                jmDns = JmDNS.create(localIpv4Address)
+            } catch (e: SocketException) {
+                Log.e(TAG, "Error creating JmDNS instance", e)
+                return@withContext null
+            } catch (e: BindException) {
+                Log.e(TAG, "Error creating JmDNS instance", e)
+                return@withContext null
+            }
             jmDns?.addServiceListener(serviceType, this@AsyncServiceResolver)
         }
 
@@ -86,7 +95,9 @@ class AsyncServiceResolver(
         }
 
         multicastLock.release()
-        jmDns?.close()
+        withContext(Dispatchers.IO) {
+            jmDns?.close()
+        }
         return info
     }
 
