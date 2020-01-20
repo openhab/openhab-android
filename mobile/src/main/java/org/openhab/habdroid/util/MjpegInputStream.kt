@@ -21,7 +21,6 @@ import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import java.io.IOException
 import java.io.InputStream
-import java.lang.IllegalArgumentException
 import java.util.Properties
 
 class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStream(stream, FRAME_MAX_LENGTH)) {
