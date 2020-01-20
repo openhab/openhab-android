@@ -19,7 +19,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import org.openhab.habdroid.util.IconFormat
 import org.w3c.dom.Node
 import org.xml.sax.InputSource
 import java.io.StringReader
@@ -37,9 +36,9 @@ class WidgetTest {
     @Throws(Exception::class)
     fun parse_createsWidget() {
         sutXml = createXmlNode().collectWidgets(null)
-        sut1 = createJsonObject(1).collectWidgets(null, IconFormat.Png)
-        sut2 = createJsonObject(2).collectWidgets(null, IconFormat.Svg)
-        sut3 = createJsonObject(3).collectWidgets(null, IconFormat.Svg)
+        sut1 = createJsonObject(1).collectWidgets(null)
+        sut2 = createJsonObject(2).collectWidgets(null)
+        sut3 = createJsonObject(3).collectWidgets(null)
     }
 
     @Test
@@ -52,17 +51,17 @@ class WidgetTest {
 
     @Test
     fun getIconPath_iconExists_returnIconUrlFromImages() {
-        assertEquals("images/groupicon.png", sutXml[0].iconPath)
+        assertEquals("images/groupicon.png", sutXml[0].icon?.toUrl(IconFormat.Png))
     }
 
     @Test
     fun testGetIconPath() {
-        assertEquals("icon/groupicon?state=OFF&format=PNG&anyFormat=true", sut1[0].iconPath)
-        assertEquals("icon/groupicon?state=ON&format=SVG&anyFormat=true", sut2[0].iconPath)
-        assertEquals("icon/slider?state=81&format=SVG&anyFormat=true", sut3[1].iconPath)
+        assertEquals("icon/groupicon?format=PNG&anyFormat=true&state=OFF", sut1[0].icon?.toUrl(IconFormat.Png))
+        assertEquals("icon/groupicon?format=SVG&anyFormat=true&state=ON", sut2[0].icon?.toUrl(IconFormat.Svg))
+        assertEquals("icon/slider?format=SVG&anyFormat=true&state=81", sut3[1].icon?.toUrl(IconFormat.Svg))
         assertEquals("Rollersutter icon must always be 0 to 100, not ON/OFF",
-                "icon/rollershutter?state=0&format=SVG&anyFormat=true", sut3[2].iconPath)
-        assertEquals("icon/rollershutter?state=42&format=SVG&anyFormat=true", sut3[3].iconPath)
+                "icon/rollershutter?format=SVG&anyFormat=true&state=0", sut3[2].icon?.toUrl(IconFormat.Svg))
+        assertEquals("icon/rollershutter?format=SVG&anyFormat=true&state=42", sut3[3].icon?.toUrl(IconFormat.Svg))
     }
 
     @Test

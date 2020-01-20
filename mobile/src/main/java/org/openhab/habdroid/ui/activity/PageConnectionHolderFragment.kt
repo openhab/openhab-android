@@ -34,7 +34,6 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.IconFormat
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.IOException
@@ -58,13 +57,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
     private var started: Boolean = false
 
     interface ParentCallback {
-        /**
-         * Ask parent for the icon format to use
-         *
-         * @return Icon format
-         */
-        val iconFormat: IconFormat
-
         /**
          * Ask parent whether logging should include detailed output
          *
@@ -313,7 +305,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 return
             }
 
-            val dataSource = WidgetDataSource(callback.iconFormat)
+            val dataSource = WidgetDataSource()
             val hasUpdate = if (callback.serverProperties?.hasJsonApi() == true)
                 parseResponseJson(dataSource, response) else parseResponseXml(dataSource, response)
 
@@ -421,7 +413,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                     if (callback.serverProperties?.hasInvisibleWidgetSupport() == true ||
                         visibility == widget.visibility
                     ) {
-                        val updatedWidget = Widget.updateFromEvent(widget, jsonObject, callback.iconFormat)
+                        val updatedWidget = Widget.updateFromEvent(widget, jsonObject)
                         callback.onWidgetUpdated(url, updatedWidget)
                         return
                     }

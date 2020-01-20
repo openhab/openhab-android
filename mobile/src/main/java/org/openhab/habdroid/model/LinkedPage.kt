@@ -17,7 +17,6 @@ import android.os.Parcelable
 
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
@@ -30,21 +29,19 @@ import org.w3c.dom.Node
 data class LinkedPage(
     val id: String,
     val title: String,
-    val icon: String?,
-    val iconPath: String,
+    val icon: IconResource?,
     val link: String
 ) : Parcelable {
     companion object {
         internal fun build(
             id: String,
             title: String?,
-            icon: String?,
-            iconPath: String,
+            icon: IconResource?,
             link: String
         ): LinkedPage {
             val actualTitle = if (title != null && title.indexOf('[') > 0)
                 title.substring(0, title.indexOf('[')) else title
-            return LinkedPage(id, actualTitle.orEmpty(), icon, iconPath, link)
+            return LinkedPage(id, actualTitle.orEmpty(), icon, link)
         }
     }
 }
@@ -66,22 +63,17 @@ fun Node.toLinkedPage(): LinkedPage? {
 
     val finalId = id ?: return null
     val finalLink = link ?: return null
-    return LinkedPage.build(finalId, title, icon, "images/$icon.png", finalLink)
+    return LinkedPage.build(finalId, title, icon.toOH1IconResource(), finalLink)
 }
 
-fun JSONObject?.toLinkedPage(iconFormat: IconFormat): LinkedPage? {
+fun JSONObject?.toLinkedPage(): LinkedPage? {
     if (this == null) {
         return null
-    }
-    val suffix = when (iconFormat) {
-        IconFormat.Png -> "png"
-        IconFormat.Svg -> "svg"
     }
     val icon = optStringOrNull("icon")
     return LinkedPage.build(
         getString("id"),
         optStringOrNull("title"),
-        icon,
-        "icon/$icon?&format=$suffix&anyFormat=true",
+        icon.toOH2IconResource(),
         getString("link"))
 }

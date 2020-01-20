@@ -23,6 +23,7 @@ import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.openhab.habdroid.R
+import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 
@@ -30,11 +31,6 @@ enum class ScreenLockMode {
     Disabled,
     KioskMode,
     Enabled
-}
-
-enum class IconFormat {
-    Png,
-    Svg
 }
 
 fun SharedPreferences.getLocalUrl(): String {

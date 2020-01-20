@@ -78,7 +78,6 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
 
-    override val iconFormat get() = activity.getPrefs().getIconFormat()
     override val isDetailedLoggingEnabled get() = activity.getPrefs().isDebugModeEnabled()
     override val serverProperties get() = activity.serverProperties
 
@@ -239,7 +238,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.updateTitle()
         } else {
             // we didn't find it
-            val page = LinkedPage("", "", null, "", url)
+            val page = LinkedPage("", "", null, url)
             val f = makePageFragment(page)
             pageStack.clear()
             pageStack.push(Pair(page, f))

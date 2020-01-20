@@ -29,8 +29,7 @@ import org.w3c.dom.Node
 data class Sitemap internal constructor(
     val name: String,
     val label: String,
-    val icon: String?,
-    val iconPath: String,
+    val icon: IconResource?,
     val homepageLink: String
 ) : Parcelable
 
@@ -55,7 +54,7 @@ fun Node.toSitemap(): Sitemap? {
 
     val finalName = name ?: return null
     val finalLink = homepageLink ?: return null
-    return Sitemap(finalName, label ?: finalName, icon, "images/$icon.png", finalLink)
+    return Sitemap(finalName, label ?: finalName, icon.toOH1IconResource(), finalLink)
 }
 
 fun JSONObject.toSitemap(): Sitemap? {
@@ -64,7 +63,7 @@ fun JSONObject.toSitemap(): Sitemap? {
     val label = optStringOrNull("label")
     val icon = optStringOrNull("icon")
 
-    return Sitemap(name, label ?: name, icon, "icon/$icon", homepageLink)
+    return Sitemap(name, label ?: name, icon.toOH2IconResource(), homepageLink)
 }
 
 fun Document.toSitemapList(): List<Sitemap> {

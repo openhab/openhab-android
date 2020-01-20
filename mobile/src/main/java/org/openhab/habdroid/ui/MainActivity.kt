@@ -31,7 +31,6 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
-import android.net.Uri
 import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
 import android.os.Build
@@ -718,16 +717,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun loadSitemapIcon(sitemap: Sitemap, item: MenuItem) {
-        val url = if (sitemap.icon != null) Uri.encode(sitemap.iconPath, "/?=") else null
         val defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp)
         item.icon = applyDrawerIconTint(defaultIcon)
 
-        if (url == null || connection == null) {
+        if (sitemap.icon == null || connection == null) {
             return
         }
         launch {
             try {
-                item.icon = connection!!.httpClient.get(url)
+                item.icon = connection!!.httpClient.get(sitemap.icon.toUrl(this@MainActivity))
                     .asBitmap(defaultIcon!!.intrinsicWidth, true)
                     .response
                     .toDrawable(resources)

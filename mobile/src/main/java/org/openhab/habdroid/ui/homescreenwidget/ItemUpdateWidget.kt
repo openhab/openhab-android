@@ -16,12 +16,12 @@ package org.openhab.habdroid.ui.homescreenwidget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -36,15 +36,16 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.IconFormat
+import org.openhab.habdroid.model.IconResource
+import org.openhab.habdroid.model.getIconResource
+import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
-import org.openhab.habdroid.util.getIconFormat
-import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.showToast
@@ -164,10 +165,9 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         appWidgetId: Int,
         appWidgetManager: AppWidgetManager
     ) = GlobalScope.launch {
-        if (data.icon.isNotEmpty()) {
-            val encodedIcon = Uri.encode(data.icon)
-            val iconFormat = context.getPrefs().getIconFormat()
-            val iconUrl = "icon/$encodedIcon?state=${data.state}&format=$iconFormat&anyFormat=true"
+        val iconUrl = data.icon?.withCustomState(data.state)?.toUrl(context)
+
+        if (iconUrl != null) {
             val cm = CacheManager.getInstance(context)
 
             val convertSvgIcon = { iconData: InputStream ->
@@ -240,7 +240,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val label = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
             val widgetLabel = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, null)
             val mappedState = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
-            val icon = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
+            val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
             return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon)
         }
 
@@ -255,7 +255,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
-                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
+                putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
             }
         }
 
@@ -285,11 +285,20 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             views.setViewVisibility(R.id.progress_bar, View.GONE)
         }
 
-        private fun getPrefsForWidget(context: Context, id: Int): SharedPreferences {
+        fun getPrefsForWidget(context: Context, id: Int): SharedPreferences {
             return context.getSharedPreferences(getPrefsNameForWidget(id), Context.MODE_PRIVATE)
         }
 
         private fun getPrefsNameForWidget(id: Int) = "widget-$id"
+
+        fun updateAllWidgets(context: Context) {
+            val ids = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
+            val intent = Intent(context, ItemUpdateWidget::class.java)
+                .setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            context.sendBroadcast(intent)
+        }
     }
 
     @Parcelize
@@ -299,6 +308,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val label: String,
         val widgetLabel: String?,
         val mappedState: String,
-        val icon: String
+        val icon: IconResource?
     ) : Parcelable
 }

@@ -29,6 +29,8 @@ import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.IconResource
+import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getNotificationTone
@@ -51,7 +53,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
             "notification" -> {
                 val messageText = data["message"]
                 val severity = data["severity"]
-                val icon = data["icon"]
+                val icon = data["icon"].toOH2IconResource()
                 val persistedId = data["persistedId"]
                 // Older versions of openhab-cloud didn't send the notification generation
                 // timestamp, so use the (undocumented) google.sent_time as a time reference
@@ -114,7 +116,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
     private suspend fun makeNotification(
         msg: String?,
         channelId: String,
-        icon: String?,
+        icon: IconResource?,
         timestamp: Long,
         persistedId: String?,
         notificationId: Int
@@ -126,8 +128,8 @@ class FcmMessageListenerService : FirebaseMessagingService() {
             if (connection != null) {
                 try {
                     iconBitmap = connection.httpClient
-                            .get("images/$icon.png", timeoutMillis = 1000)
-                            .asBitmap(0, false)
+                            .get(icon.toUrl(this), timeoutMillis = 1000)
+                            .asBitmap(resources.getDimensionPixelSize(R.dimen.svg_image_default_size), false)
                             .response
                 } catch (e: HttpClient.HttpException) {
                     // ignored, keep bitmap null

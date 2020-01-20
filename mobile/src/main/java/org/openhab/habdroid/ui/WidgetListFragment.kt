@@ -22,7 +22,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.net.Uri
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
@@ -59,13 +58,10 @@ import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.IconFormat
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
-import org.openhab.habdroid.util.getIconFormat
-import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.showToast
 
@@ -377,7 +373,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 widget.item.label.orEmpty(),
                 null,
                 mappedState,
-                widget.icon.orEmpty()
+                widget.icon
             )
 
             val callbackIntent = Intent(context, ItemUpdateWidget::class.java).apply {
@@ -407,15 +403,6 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
-        val iconFormat = when (context.getPrefs().getIconFormat()) {
-            IconFormat.Png -> "PNG"
-            IconFormat.Svg -> "SVG"
-        }
-        val url = Uri.Builder()
-            .appendEncodedPath(linkedPage.iconPath)
-            .appendQueryParameter("format", iconFormat)
-            .appendQueryParameter("anyFormat", "true")
-            .toString()
         val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
         /**
          *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
@@ -423,20 +410,32 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
          *  46dp foreground + 2 * 31dp border = 108dp
          **/
         val foregroundSize = context.resources.dpToPixel(46F).toInt()
-        val icon = try {
-            val bitmap = connection.httpClient.get(url).asBitmap(foregroundSize, true).response
+        val iconBitmap = if (linkedPage.icon != null) {
+            try {
+                connection.httpClient
+                    .get(linkedPage.icon.toUrl(context))
+                    .asBitmap(foregroundSize, true)
+                    .response
+            } catch (e: HttpClient.HttpException) {
+                null
+            }
+        } else {
+            null
+        }
+
+        val icon = if (iconBitmap != null) {
             val borderSize = context.resources.dpToPixel(31F)
             val totalFrameWidth = (borderSize * 2).toInt()
             val bitmapWithBackground = Bitmap.createBitmap(
-                bitmap.width + totalFrameWidth,
-                bitmap.height + totalFrameWidth,
-                bitmap.config)
+                iconBitmap.width + totalFrameWidth,
+                iconBitmap.height + totalFrameWidth,
+                iconBitmap.config)
             with(Canvas(bitmapWithBackground)) {
                 drawColor(Color.WHITE)
-                drawBitmap(bitmap, borderSize, borderSize, null)
+                drawBitmap(iconBitmap, borderSize, borderSize, null)
             }
             IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
-        } catch (e: HttpClient.HttpException) {
+        } else {
             // Fall back to openHAB icon
             IconCompat.createWithResource(context, R.mipmap.icon)
         }

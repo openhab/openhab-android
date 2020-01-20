@@ -19,6 +19,7 @@ import android.util.LruCache
 
 import okhttp3.Cache
 import okhttp3.HttpUrl
+import org.openhab.habdroid.model.IconFormat
 
 import java.io.File
 import java.io.FileInputStream

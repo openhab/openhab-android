@@ -19,7 +19,6 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.net.Uri
 import android.os.Handler
 import android.os.Message
 import android.util.Base64
@@ -1149,9 +1148,11 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
         setImageDrawable(null)
         return
     }
-    // This is needed to escape possible spaces and everything according to rfc2396
-    val iconUrl = Uri.encode(widget.iconPath, "/?=&")
-    setImageUrl(connection, iconUrl, resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size))
+    setImageUrl(
+        connection,
+        widget.icon.toUrl(context),
+        resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
+    )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {
         setColorFilter(color)
