@@ -229,7 +229,8 @@ class ConnectionFactoryTest {
     private inner class MockConnectionHelper : ConnectionManagerHelper {
         override var changeCallback: ConnectionChangedCallback? = null
         private var currentType = ConnectionManagerHelper.ConnectionType.Unknown
-        override val currentConnection: ConnectionManagerHelper.ConnectionType get() = currentType
+        override val currentConnection: ConnectionManagerHelper.ConnectionResult
+            get() = ConnectionManagerHelper.ConnectionResult(currentType, null)
 
         fun update(type: ConnectionManagerHelper.ConnectionType) {
             currentType = type
