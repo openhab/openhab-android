@@ -51,8 +51,8 @@ import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
-import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import java.util.ArrayList
@@ -293,16 +293,17 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param message Error message to show
      */
     fun indicateServerCommunicationFailure(message: CharSequence) {
-        Log.d(TAG, "Indicate server failure (message $message)")
+        RemoteLog.d(TAG, "Indicate server failure (message $message)")
         noConnectionFragment = CommunicationFailureFragment.newInstance(message)
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
     }
 
     /**
-     * Clear the error previously set by [.indicateServerCommunicationFailure]
+     * Clear the error previously set by [indicateServerCommunicationFailure]
      */
     fun clearServerCommunicationFailure() {
+        RemoteLog.d(TAG, "clearServerCommunicationFailure()")
         if (noConnectionFragment is CommunicationFailureFragment) {
             noConnectionFragment = null
             resetState()
@@ -432,6 +433,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         val errorMessage = activity.getHumanReadableErrorMessage(url, error.statusCode, error)
             .toString()
 
+        RemoteLog.d(TAG, "onLoadFailure() with message $errorMessage")
         noConnectionFragment = CommunicationFailureFragment.newInstance(
             activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
