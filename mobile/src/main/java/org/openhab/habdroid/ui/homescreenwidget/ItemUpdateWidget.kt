@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui.homescreenwidget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
@@ -289,6 +290,15 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         }
 
         private fun getPrefsNameForWidget(id: Int) = "widget-$id"
+
+        fun updateAllWidgets(context: Context) {
+            val ids = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
+            val intent = Intent(context, ItemUpdateWidget::class.java)
+                .setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            context.sendBroadcast(intent)
+        }
     }
 
     @Parcelize

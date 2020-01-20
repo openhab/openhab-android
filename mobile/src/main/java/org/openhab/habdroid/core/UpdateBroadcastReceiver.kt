@@ -99,6 +99,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 putInt(Constants.PREFERENCE_ACCENT_COLOR, accentColor)
             }
             if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= WIDGET_ICON) {
+                Log.d(TAG, "Migrate widget icon prefs")
                 val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
                 AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
                     val widgetPrefs = ItemUpdateWidget.getPrefsForWidget(context, id)
@@ -107,6 +108,9 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, icon.toOH2IconResource())
                     }
                 }
+
+                Log.d(TAG, "Update widgets")
+                ItemUpdateWidget.updateAllWidgets(context)
             }
 
             updateComparableVersion(this)
@@ -119,7 +123,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val UPDATE_LOCAL_CREDENTIALS = 26
         private const val SECURE_CREDENTIALS = 190
         private const val DARK_MODE = 200
-        private const val WIDGET_ICON = 237
+        private const val WIDGET_ICON = 250
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
