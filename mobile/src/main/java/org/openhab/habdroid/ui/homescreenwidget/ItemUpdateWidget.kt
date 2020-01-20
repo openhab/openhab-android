@@ -218,7 +218,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     }
                 }
             } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error downloading icon for url ${iconUrl}", e)
+                Log.e(TAG, "Error downloading icon for url $iconUrl", e)
             } catch (e: IOException) {
                 Log.e(TAG, "Error saving icon to disk", e)
             }
