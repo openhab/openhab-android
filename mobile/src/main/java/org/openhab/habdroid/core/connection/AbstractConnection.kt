@@ -119,7 +119,6 @@ abstract class AbstractConnection : Connection, SocketFactory {
         return Socket(host, port, clientAddress, clientPort)
     }
 
-
     companion object {
         private val TAG = AbstractConnection::class.java.simpleName
     }

@@ -181,7 +181,7 @@ interface ConnectionManagerHelper {
                     .map { network -> Pair(network, connectivityManager.getNetworkInfo(network)) }
                     .filter { (network, info) -> info?.isConnected == true }
 
-            val knownTypes= listOf(
+            val knownTypes = listOf(
                 ConnectivityManager.TYPE_VPN to ConnectionType.Vpn,
                 ConnectivityManager.TYPE_WIFI to ConnectionType.Wifi,
                 ConnectivityManager.TYPE_ETHERNET to ConnectionType.Ethernet,
