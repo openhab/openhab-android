@@ -305,8 +305,8 @@ class ConnectionFactory internal constructor(
     }
 
     private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
-        val type = connectionHelper.currentConnection
-        return when (type) {
+        val result = connectionHelper.currentConnection
+        return when (result.type) {
             ConnectionManagerHelper.ConnectionType.None -> {
                 Log.e(TAG, "Network is not available")
                 throw NetworkNotAvailableException()
@@ -318,22 +318,27 @@ class ConnectionFactory internal constructor(
             // Else if we are on Wifi, Ethernet or VPN network
             ConnectionManagerHelper.ConnectionType.Wifi,
             ConnectionManagerHelper.ConnectionType.Ethernet,
-            ConnectionManagerHelper.ConnectionType.Vpn -> when {
-                // If local URL is configured and reachable
-                local?.checkReachabilityInBackground() == true -> {
-                    Log.d(TAG, "Connecting to local URL")
-                    local
+            ConnectionManagerHelper.ConnectionType.Vpn -> {
+                if (local is DefaultConnection) {
+                    local.network = result.network
                 }
-                remote != null -> {
-                    // If local URL is not reachable or not configured, use remote URL
-                    Log.d(TAG, "Connecting to remote URL")
-                    remote
+                when {
+                    // If local URL is configured and reachable
+                    local?.checkReachabilityInBackground() == true -> {
+                        Log.d(TAG, "Connecting to local URL")
+                        local
+                    }
+                    remote != null -> {
+                        // If local URL is not reachable or not configured, use remote URL
+                        Log.d(TAG, "Connecting to remote URL")
+                        remote
+                    }
+                    else -> throw NoUrlInformationException(true)
                 }
-                else -> throw NoUrlInformationException(true)
             }
             // Else we treat other networks types as unsupported
             else -> {
-                Log.e(TAG, "Network type $type is unsupported")
+                Log.e(TAG, "Network type ${result.type} is unsupported")
                 throw NetworkNotSupportedException()
             }
         }

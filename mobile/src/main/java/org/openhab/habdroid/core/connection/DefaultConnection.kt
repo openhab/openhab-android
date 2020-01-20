@@ -13,9 +13,13 @@
 
 package org.openhab.habdroid.core.connection
 
+import android.net.Network
 import okhttp3.OkHttpClient
+import java.net.Socket
 
 open class DefaultConnection : AbstractConnection {
+    internal var network: Network? = null
+
     internal constructor(
         httpClient: OkHttpClient,
         connectionType: Int,
@@ -26,4 +30,10 @@ open class DefaultConnection : AbstractConnection {
 
     internal constructor(baseConnection: AbstractConnection, connectionType: Int) :
         super(baseConnection, connectionType)
+
+    override fun createSocket(): Socket {
+        val s = super.createSocket()
+        network?.bindSocket(s)
+        return s
+    }
 }

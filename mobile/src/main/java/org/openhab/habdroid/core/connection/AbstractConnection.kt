@@ -19,12 +19,14 @@ import okhttp3.OkHttpClient
 import org.openhab.habdroid.util.HttpClient
 
 import java.io.IOException
+import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketTimeoutException
 import java.net.URL
+import javax.net.SocketFactory
 
-abstract class AbstractConnection : Connection {
+abstract class AbstractConnection : Connection, SocketFactory {
     final override val connectionType: Int
     final override val username: String?
     final override val password: String?
@@ -43,7 +45,7 @@ abstract class AbstractConnection : Connection {
         this.password = password
         this.baseUrl = baseUrl
         this.connectionType = connectionType
-        this.httpClient = HttpClient(httpClient, baseUrl, username, password)
+        this.httpClient = HttpClient(httpClient.newBuilder().socketFactory(this).build(), baseUrl, username, password)
     }
 
     internal constructor(base: AbstractConnection, connectionType: Int) {
@@ -73,7 +75,7 @@ abstract class AbstractConnection : Connection {
     }
 
     private fun createConnectedSocket(socketAddress: InetSocketAddress): Socket? {
-        val s = Socket()
+        val s = createSocket()
         var retries = 0
         while (retries < 10) {
             try {
@@ -96,6 +98,27 @@ abstract class AbstractConnection : Connection {
         }
         return null
     }
+
+    override fun createSocket(): Socket {
+        return Socket()
+    }
+
+    override fun createSocket(host: String?, port: Int): Socket {
+        return Socket(host, port)
+    }
+
+    override fun createSocket(host: String?, port: Int, clientAddress: InetAddress?, clientPort: Int): Socket {
+        return Socket(host, port, clientAddress, clientPort)
+    }
+
+    override fun createSocket(host: InetAddress?, port: Int): Socket {
+        return Socket(host, port)
+    }
+
+    override fun createSocket(host: InetAddress?, port: Int, clientAddress: InetAddress?, clientPort: Int): Socket {
+        return Socket(host, port, clientAddress, clientPort)
+    }
+
 
     companion object {
         private val TAG = AbstractConnection::class.java.simpleName
