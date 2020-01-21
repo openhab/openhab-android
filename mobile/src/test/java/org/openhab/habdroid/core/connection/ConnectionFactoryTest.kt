@@ -163,7 +163,7 @@ class ConnectionFactoryTest {
     @Test(expected = NetworkNotAvailableException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionNoNetwork() {
-        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.None)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.None())
         updateAndWaitForConnections()
         ConnectionFactory.usableConnection
     }
@@ -171,7 +171,7 @@ class ConnectionFactoryTest {
     @Test(expected = NetworkNotSupportedException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionUnsupportedNetwork() {
-        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(null))
         updateAndWaitForConnections()
         ConnectionFactory.usableConnection
     }
@@ -184,7 +184,7 @@ class ConnectionFactoryTest {
         server.start()
 
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
-        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
 
         val conn = ConnectionFactory.usableConnection
@@ -205,7 +205,7 @@ class ConnectionFactoryTest {
 
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn "https://myopenhab.org:443"
-        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
 
         val conn = ConnectionFactory.usableConnection
@@ -221,16 +221,16 @@ class ConnectionFactoryTest {
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionWifiNoLocalNoRemote() {
         whenever(mockPrefs.getString(any(), any())) doReturn null
-        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi)
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
         ConnectionFactory.usableConnection
     }
 
     private inner class MockConnectionHelper : ConnectionManagerHelper {
         override var changeCallback: ConnectionChangedCallback? = null
-        private var currentType = ConnectionManagerHelper.ConnectionType.Unknown
-        override val currentConnection: ConnectionManagerHelper.ConnectionResult
-            get() = ConnectionManagerHelper.ConnectionResult(currentType, null)
+        private var currentType: ConnectionManagerHelper.ConnectionType =
+            ConnectionManagerHelper.ConnectionType.Unknown(null)
+        override val currentConnection: ConnectionManagerHelper.ConnectionType get() = currentType
 
         fun update(type: ConnectionManagerHelper.ConnectionType) {
             currentType = type

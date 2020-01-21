@@ -30,21 +30,19 @@ import kotlinx.coroutines.launch
 
 typealias ConnectionChangedCallback = () -> Unit
 interface ConnectionManagerHelper {
-    val currentConnection: ConnectionResult
+    val currentConnection: ConnectionType
     var changeCallback: ConnectionChangedCallback?
 
     fun shutdown()
 
-    enum class ConnectionType {
-        None,
-        Wifi,
-        Ethernet,
-        Mobile,
-        Unknown,
-        Vpn
+    sealed class ConnectionType {
+        class None : ConnectionType()
+        class Wifi(val network: Network?) : ConnectionType()
+        class Ethernet(val network: Network?) : ConnectionType()
+        class Mobile(val network: Network?) : ConnectionType()
+        class Unknown(val network: Network?) : ConnectionType()
+        class Vpn(val network: Network?): ConnectionType()
     }
-
-    data class ConnectionResult(val type: ConnectionType, val network: Network?)
 
     companion object {
         fun create(context: Context): ConnectionManagerHelper {
@@ -59,19 +57,19 @@ interface ConnectionManagerHelper {
     private class HelperApi22 constructor(context: Context) :
         ConnectionManagerHelper, ChangeCallbackHelperApi25(context) {
         private val typeHelper = NetworkTypeHelperApi22(context)
-        override val currentConnection: ConnectionResult get() = typeHelper.currentConnection
+        override val currentConnection: ConnectionType get() = typeHelper.currentConnection
     }
 
     private class HelperApi23To25 constructor(context: Context) :
         ConnectionManagerHelper, ChangeCallbackHelperApi25(context) {
         private val typeHelper = NetworkTypeHelperApi23(context)
-        override val currentConnection: ConnectionResult get() = typeHelper.currentConnection
+        override val currentConnection: ConnectionType get() = typeHelper.currentConnection
     }
 
     private class HelperApi26 constructor(context: Context) :
         ConnectionManagerHelper, ChangeCallbackHelperApi26(context) {
         private val typeHelper = NetworkTypeHelperApi26(context)
-        override val currentConnection: ConnectionResult get() = typeHelper.currentConnection
+        override val currentConnection: ConnectionType get() = typeHelper.currentConnection
     }
 
     private open class ChangeCallbackHelperApi25 constructor(context: Context) : BroadcastReceiver() {
@@ -156,19 +154,18 @@ interface ConnectionManagerHelper {
     @Suppress("DEPRECATION")
     private class NetworkTypeHelperApi22 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val currentConnection: ConnectionResult get() {
+        val currentConnection: ConnectionType get() {
             val activeConnectionTypes = connectivityManager.allNetworkInfo
                     .filter { info -> info.isConnected }
                     .map { info -> info.type }
-            val type = when {
-                activeConnectionTypes.isEmpty() -> ConnectionType.None
-                ConnectivityManager.TYPE_VPN in activeConnectionTypes -> ConnectionType.Vpn
-                ConnectivityManager.TYPE_WIFI in activeConnectionTypes -> ConnectionType.Wifi
-                ConnectivityManager.TYPE_ETHERNET in activeConnectionTypes -> ConnectionType.Ethernet
-                ConnectivityManager.TYPE_MOBILE in activeConnectionTypes -> ConnectionType.Mobile
-                else -> ConnectionType.Unknown
+            return when {
+                activeConnectionTypes.isEmpty() -> ConnectionType.None()
+                ConnectivityManager.TYPE_VPN in activeConnectionTypes -> ConnectionType.Vpn(null)
+                ConnectivityManager.TYPE_WIFI in activeConnectionTypes -> ConnectionType.Wifi(null)
+                ConnectivityManager.TYPE_ETHERNET in activeConnectionTypes -> ConnectionType.Ethernet(null)
+                ConnectivityManager.TYPE_MOBILE in activeConnectionTypes -> ConnectionType.Mobile(null)
+                else -> ConnectionType.Unknown(null)
             }
-            return ConnectionResult(type, null)
         }
     }
 
@@ -176,60 +173,70 @@ interface ConnectionManagerHelper {
     @Suppress("DEPRECATION")
     private class NetworkTypeHelperApi23 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
-        val currentConnection: ConnectionResult get() {
-            val activeConnections = connectivityManager.allNetworks
+        val currentConnection: ConnectionType get() {
+            val knownConnectionTypesByPrio = listOf(
+                ConnectivityManager.TYPE_VPN,
+                ConnectivityManager.TYPE_WIFI,
+                ConnectivityManager.TYPE_ETHERNET,
+                ConnectivityManager.TYPE_MOBILE
+            )
+            val active = connectivityManager.allNetworks
                     .map { network -> Pair(network, connectivityManager.getNetworkInfo(network)) }
                     .filter { (network, info) -> info?.isConnected == true }
+                    .map { (network, info) -> info.type to network }
+                    .sortedBy { (type, network) ->
+                        val index = knownConnectionTypesByPrio.indexOf(type)
+                        if (index < 0) Integer.MAX_VALUE else index
+                    }
+                    .firstOrNull()
 
-            val knownTypes = listOf(
-                ConnectivityManager.TYPE_VPN to ConnectionType.Vpn,
-                ConnectivityManager.TYPE_WIFI to ConnectionType.Wifi,
-                ConnectivityManager.TYPE_ETHERNET to ConnectionType.Ethernet,
-                ConnectivityManager.TYPE_MOBILE to ConnectionType.Mobile
-            )
-
-            if (activeConnections.isEmpty()) {
-                return ConnectionResult(ConnectionType.None, null)
+            return when {
+                active == null -> ConnectionType.None()
+                active.first == ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(active.second)
+                active.first == ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(active.second)
+                active.first == ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(active.second)
+                active.first == ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(active.second)
+                else -> ConnectionType.Unknown(active.second)
             }
-            for ((cmType, type) in knownTypes) {
-                val entry = activeConnections.firstOrNull { (network, info) ->
-                    info?.type == cmType
-                }
-                if (entry != null) {
-                    return ConnectionResult(type, entry.first)
-                }
-            }
-            return ConnectionResult(ConnectionType.Unknown, null)
         }
     }
 
     @TargetApi(26)
     private class NetworkTypeHelperApi26 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
-        val currentConnection: ConnectionResult get() {
-            val activeNetworksWithCaps = connectivityManager.allNetworks
-                    .map { network -> Pair(network, connectivityManager.getNetworkCapabilities(network)) }
-                    .filter { (network, caps) -> caps?.isUsable() == true }
-
-            val knownTransports = listOf(
-                NetworkCapabilities.TRANSPORT_VPN to ConnectionType.Vpn,
-                NetworkCapabilities.TRANSPORT_WIFI to ConnectionType.Wifi,
-                NetworkCapabilities.TRANSPORT_WIFI_AWARE to ConnectionType.Wifi,
-                NetworkCapabilities.TRANSPORT_ETHERNET to ConnectionType.Ethernet,
-                NetworkCapabilities.TRANSPORT_CELLULAR to ConnectionType.Mobile
+        val currentConnection: ConnectionType get() {
+            val knownTransportsByPrio = listOf(
+                NetworkCapabilities.TRANSPORT_VPN,
+                NetworkCapabilities.TRANSPORT_WIFI,
+                NetworkCapabilities.TRANSPORT_WIFI_AWARE,
+                NetworkCapabilities.TRANSPORT_ETHERNET,
+                NetworkCapabilities.TRANSPORT_CELLULAR
             )
-            if (activeNetworksWithCaps.isEmpty()) {
-                return ConnectionResult(ConnectionType.None, null)
-            }
-            for ((transport, type) in knownTransports) {
-                val entry = activeNetworksWithCaps.firstOrNull { (network, caps) ->
-                    caps?.hasTransport(transport) == true
+            fun findMostRelevantTransport(caps: NetworkCapabilities?): Int {
+                knownTransportsByPrio.forEachIndexed { index, transport ->
+                    if (caps?.hasTransport(transport) == true) {
+                        return transport
+                    }
                 }
-                if (entry != null) {
-                    return ConnectionResult(type, entry.first)
-                }
+                return 0
             }
-            return ConnectionResult(ConnectionType.Unknown, null)
+            val active = connectivityManager.allNetworks
+                .map { network -> network to connectivityManager.getNetworkCapabilities(network) }
+                .filter { (network, caps) -> caps?.isUsable() == true }
+                .map { (network, caps) -> network to findMostRelevantTransport(caps) }
+                .filter { (network, transport) -> transport != 0 }
+                .sortedBy { (network, transport) -> knownTransportsByPrio.indexOf(transport) }
+                .firstOrNull()
+
+            return when {
+                active == null -> ConnectionType.None()
+                active.second == NetworkCapabilities.TRANSPORT_VPN -> ConnectionType.Vpn(active.first)
+                active.second == NetworkCapabilities.TRANSPORT_WIFI ||
+                    active.second == NetworkCapabilities.TRANSPORT_WIFI_AWARE -> ConnectionType.Wifi(active.first)
+                active.second == NetworkCapabilities.TRANSPORT_ETHERNET -> ConnectionType.Ethernet(active.first)
+                active.second == NetworkCapabilities.TRANSPORT_CELLULAR -> ConnectionType.Mobile(active.first)
+                else -> ConnectionType.Unknown(active.first)
+            }
         }
     }
 }

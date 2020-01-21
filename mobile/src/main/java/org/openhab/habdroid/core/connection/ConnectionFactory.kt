@@ -16,6 +16,7 @@ package org.openhab.habdroid.core.connection
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Network
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
@@ -305,40 +306,48 @@ class ConnectionFactory internal constructor(
     }
 
     private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
-        val result = connectionHelper.currentConnection
-        return when (result.type) {
-            ConnectionManagerHelper.ConnectionType.None -> {
+        fun handleLocalNetworkType(network: Network?): Connection {
+            if (local is DefaultConnection) {
+                local.network = network
+            }
+            return when {
+                // If local URL is configured and reachable
+                local?.checkReachabilityInBackground() == true -> {
+                    Log.d(TAG, "Connecting to local URL")
+                    local
+                }
+                remote != null -> {
+                    // If local URL is not reachable or not configured, use remote URL
+                    Log.d(TAG, "Connecting to remote URL")
+                    remote
+                }
+                else -> throw NoUrlInformationException(true)
+            }
+        }
+
+        return when (val type = connectionHelper.currentConnection) {
+            is ConnectionManagerHelper.ConnectionType.None -> {
                 Log.e(TAG, "Network is not available")
                 throw NetworkNotAvailableException()
             }
             // If we are on a mobile network go directly to remote URL from settings
-            ConnectionManagerHelper.ConnectionType.Mobile -> {
+            is ConnectionManagerHelper.ConnectionType.Mobile -> {
                 remote ?: throw NoUrlInformationException(false)
             }
-            // Else if we are on Wifi, Ethernet or VPN network
-            ConnectionManagerHelper.ConnectionType.Wifi,
-            ConnectionManagerHelper.ConnectionType.Ethernet,
-            ConnectionManagerHelper.ConnectionType.Vpn -> {
-                if (local is DefaultConnection) {
-                    local.network = result.network
-                }
-                when {
-                    // If local URL is configured and reachable
-                    local?.checkReachabilityInBackground() == true -> {
-                        Log.d(TAG, "Connecting to local URL")
-                        local
-                    }
-                    remote != null -> {
-                        // If local URL is not reachable or not configured, use remote URL
-                        Log.d(TAG, "Connecting to remote URL")
-                        remote
-                    }
-                    else -> throw NoUrlInformationException(true)
-                }
+            // Else if we are on Wifi, Ethernet or VPN network, check whether local connection
+            // is available and use remote connection if it isn't available
+            is ConnectionManagerHelper.ConnectionType.Wifi -> {
+                handleLocalNetworkType(type.network)
+            }
+            is ConnectionManagerHelper.ConnectionType.Ethernet -> {
+                handleLocalNetworkType(type.network)
+            }
+            is ConnectionManagerHelper.ConnectionType.Vpn -> {
+                handleLocalNetworkType(type.network)
             }
             // Else we treat other networks types as unsupported
             else -> {
-                Log.e(TAG, "Network type ${result.type} is unsupported")
+                Log.e(TAG, "Network type ${type} is unsupported")
                 throw NetworkNotSupportedException()
             }
         }
