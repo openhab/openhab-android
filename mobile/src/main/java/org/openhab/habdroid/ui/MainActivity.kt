@@ -97,6 +97,7 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
@@ -136,12 +137,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        Log.d(TAG, "onNewIntent()")
+        RemoteLog.d(TAG, "onNewIntent()")
         processIntent(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate()")
+        RemoteLog.d(TAG, "onCreate()")
 
         prefs = getPrefs()
 
@@ -222,20 +223,20 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onPostCreate()")
+        RemoteLog.d(TAG, "onPostCreate()")
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
-        Log.d(TAG, "onConfigurationChanged()")
+        RemoteLog.d(TAG, "onConfigurationChanged()")
         super.onConfigurationChanged(newConfig)
         drawerToggle.onConfigurationChanged(newConfig)
     }
 
     override fun onStart() {
-        Log.d(TAG, "onStart()")
+        RemoteLog.d(TAG, "onStart()")
         super.onStart()
         isStarted = true
 
@@ -252,7 +253,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     public override fun onStop() {
-        Log.d(TAG, "onStop()")
+        RemoteLog.d(TAG, "onStop()")
         isStarted = false
         super.onStop()
         ConnectionFactory.removeListener(this)
@@ -265,7 +266,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onResume() {
-        Log.d(TAG, "onResume()")
+        RemoteLog.d(TAG, "onResume()")
         super.onResume()
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -281,21 +282,21 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onPause() {
-        Log.d(TAG, "onPause()")
+        RemoteLog.d(TAG, "onPause()")
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         nfcAdapter?.disableForegroundDispatch(this)
         super.onPause()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        Log.d(TAG, "onCreateOptionsMenu()")
+        RemoteLog.d(TAG, "onCreateOptionsMenu()")
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        Log.d(TAG, "onPrepareOptionsMenu()")
+        RemoteLog.d(TAG, "onPrepareOptionsMenu()")
         val voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition)
         @ColorInt val iconColor = ContextCompat.getColor(this, R.color.light)
         voiceRecognitionItem.isVisible = connection != null
@@ -304,7 +305,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d(TAG, "onOptionsItemSelected()")
+        RemoteLog.d(TAG, "onOptionsItemSelected()")
         // Handle back navigation arrow
         if (item.itemId == android.R.id.home && controller.canGoBack()) {
             controller.goBack()
@@ -328,7 +329,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
+        RemoteLog.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
         when (requestCode) {
             REQUEST_CODE_SETTINGS -> {
                 if (data == null) {
@@ -349,7 +350,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
-        Log.d(TAG, "onSaveInstanceState()")
+        RemoteLog.d(TAG, "onSaveInstanceState()")
         isStarted = false
         with(savedInstanceState) {
             putParcelable(STATE_KEY_SERVER_PROPERTIES, serverProperties)
@@ -362,7 +363,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onBackPressed() {
-        Log.d(TAG, "onBackPressed()")
+        RemoteLog.d(TAG, "onBackPressed()")
         when {
             controller.canGoBack() -> controller.goBack()
             isFullscreenEnabled -> when {
@@ -376,7 +377,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onAvailableConnectionChanged() {
-        Log.d(TAG, "onAvailableConnectionChanged()")
+        RemoteLog.d(TAG, "onAvailableConnectionChanged()")
         var newConnection: Connection?
         var failureReason: ConnectionException?
 
@@ -446,7 +447,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onCloudConnectionChanged(connection: CloudConnection?) {
-        Log.d(TAG, "onCloudConnectionChanged()")
+        RemoteLog.d(TAG, "onCloudConnectionChanged()")
         updateNotificationDrawerItem()
         handlePendingAction()
     }

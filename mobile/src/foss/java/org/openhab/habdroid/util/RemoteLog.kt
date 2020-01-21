@@ -21,11 +21,15 @@ object RemoteLog {
         // no-op
     }
 
-    fun d(tag: String, message: String) {
-        Log.d(tag, message)
+    fun d(tag: String, message: String, remoteOnly: Boolean = false) {
+        if (!remoteOnly) {
+            Log.d(tag, message)
+        }
     }
 
-    fun e(tag: String, message: String) {
-        Log.e(tag, message)
+    fun e(tag: String, message: String, remoteOnly: Boolean = false) {
+        if (!remoteOnly) {
+            Log.e(tag, message)
+        }
     }
 }

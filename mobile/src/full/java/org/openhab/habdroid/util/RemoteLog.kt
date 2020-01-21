@@ -23,11 +23,19 @@ object RemoteLog {
         Fabric.with(context, Crashlytics())
     }
 
-    fun d(tag: String, message: String) {
-        Crashlytics.log(Log.DEBUG, tag, message)
+    fun d(tag: String, message: String, remoteOnly: Boolean = false) {
+        if (remoteOnly) {
+            Crashlytics.log("[$tag] $message")
+        } else {
+            Crashlytics.log(Log.DEBUG, tag, message)
+        }
     }
 
-    fun e(tag: String, message: String) {
-        Crashlytics.log(Log.ERROR, tag, message)
+    fun e(tag: String, message: String, remoteOnly: Boolean = false) {
+        if (remoteOnly) {
+            Crashlytics.log("[$tag] $message")
+        } else {
+            Crashlytics.log(Log.ERROR, tag, message)
+        }
     }
 }
