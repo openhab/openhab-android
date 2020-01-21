@@ -67,8 +67,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
@@ -109,6 +111,7 @@ import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.updateDefaultSitemap
 import java.nio.charset.Charset
+import java.util.concurrent.CancellationException
 import javax.jmdns.ServiceInfo
 
 class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
@@ -131,6 +134,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     var serverProperties: ServerProperties? = null
         private set
     private var propsUpdateHandle: ServerProperties.Companion.UpdateHandle? = null
+    private var retryJob: Job? = null
     var isStarted: Boolean = false
         private set
     private var shortcutManager: ShortcutManager? = null
@@ -286,6 +290,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         nfcAdapter?.disableForegroundDispatch(this)
         super.onPause()
+        retryJob?.cancel(CancellationException("onPause() was called"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -395,6 +400,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             return
         }
 
+        retryJob?.cancel(CancellationException("onAvailableConnectionChanged() was called"))
+
         connection = newConnection
         hideSnackbar()
         serverProperties = null
@@ -437,6 +444,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             else -> {
                 controller.indicateNoNetwork(getString(R.string.error_network_not_available), false)
+                scheduleRetry {
+                    ConnectionFactory.restartNetworkCheck()
+                    recreate()
+                }
             }
         }
 
@@ -444,6 +455,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         updateSitemapAndHabPanelDrawerItems()
         invalidateOptionsMenu()
         updateTitle()
+    }
+
+    private fun scheduleRetry(runAfterDelay: () -> Unit) {
+        retryJob?.cancel(CancellationException("scheduleRetry() was called"))
+        retryJob = GlobalScope.launch(Dispatchers.Main) {
+            delay(30 * 1000)
+            Log.d(TAG, "runAfterDelay()")
+            runAfterDelay()
+        }
     }
 
     override fun onCloudConnectionChanged(connection: CloudConnection?) {
@@ -492,12 +512,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun queryServerProperties() {
         propsUpdateHandle?.cancel()
+        retryJob?.cancel(CancellationException("queryServerProperties() was called"))
         val successCb: (ServerProperties) -> Unit = { props ->
             serverProperties = props
             updateSitemapAndHabPanelDrawerItems()
             if (props.sitemaps.isEmpty()) {
                 Log.e(TAG, "openHAB returned empty Sitemap list")
                 controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
+                scheduleRetry {
+                    retryServerPropertyQuery()
+                }
             } else {
                 chooseSitemap()
             }
@@ -966,6 +990,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         controller.indicateServerCommunicationFailure(message)
+        scheduleRetry {
+            retryServerPropertyQuery()
+        }
         propsUpdateHandle = null
     }
 
