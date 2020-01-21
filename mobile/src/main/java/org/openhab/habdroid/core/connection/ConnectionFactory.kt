@@ -347,7 +347,7 @@ class ConnectionFactory internal constructor(
             }
             // Else we treat other networks types as unsupported
             else -> {
-                Log.e(TAG, "Network type ${type} is unsupported")
+                Log.e(TAG, "Network type $type is unsupported")
                 throw NetworkNotSupportedException()
             }
         }

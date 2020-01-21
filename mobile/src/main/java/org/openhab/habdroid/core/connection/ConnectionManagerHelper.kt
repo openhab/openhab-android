@@ -41,7 +41,7 @@ interface ConnectionManagerHelper {
         class Ethernet(val network: Network?) : ConnectionType()
         class Mobile(val network: Network?) : ConnectionType()
         class Unknown(val network: Network?) : ConnectionType()
-        class Vpn(val network: Network?): ConnectionType()
+        class Vpn(val network: Network?) : ConnectionType()
     }
 
     companion object {
