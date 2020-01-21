@@ -22,7 +22,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.net.Uri
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
@@ -52,7 +51,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -64,8 +62,6 @@ import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
-import org.openhab.habdroid.util.getIconFormat
-import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.showToast
 
