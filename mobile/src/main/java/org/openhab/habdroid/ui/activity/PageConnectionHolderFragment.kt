@@ -414,6 +414,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                         visibility == widget.visibility
                     ) {
                         val updatedWidget = Widget.updateFromEvent(widget, jsonObject)
+                        lastWidgetList?.let { it[it.indexOf(widget)] = updatedWidget }
                         callback.onWidgetUpdated(url, updatedWidget)
                         return
                     }
