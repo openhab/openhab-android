@@ -13,9 +13,14 @@
 
 package org.openhab.habdroid.util
 
+import android.content.Context
 import android.util.Log
 
 object RemoteLog {
+    fun initialize(context: Context) {
+        // no-op
+    }
+
     fun d(tag: String, message: String) {
         Log.d(tag, message)
     }

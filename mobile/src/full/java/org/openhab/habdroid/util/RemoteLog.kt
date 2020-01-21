@@ -13,10 +13,16 @@
 
 package org.openhab.habdroid.util
 
+import android.content.Context
 import android.util.Log
 import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 object RemoteLog {
+    fun initialize(context: Context) {
+        Fabric.with(context, Crashlytics())
+    }
+
     fun d(tag: String, message: String) {
         Crashlytics.log(Log.DEBUG, tag, message)
     }
