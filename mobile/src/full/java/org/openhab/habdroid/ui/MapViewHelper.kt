@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.location.Location
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ object MapViewHelper {
         private val mapView: MapView = itemView.findViewById(R.id.mapview)
         private var map: GoogleMap? = null
         private var started: Boolean = false
+        override val dialogManager = WidgetAdapter.DialogManager()
 
         init {
             mapView.onCreate(null)
@@ -124,6 +126,7 @@ object MapViewHelper {
                     .setNegativeButton(R.string.close, null)
                     .create()
 
+            dialogManager.manage(dialog)
             with(dialog) {
                 setOnDismissListener {
                     mapView.onPause()
