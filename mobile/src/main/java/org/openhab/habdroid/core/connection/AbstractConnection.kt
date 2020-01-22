@@ -19,18 +19,37 @@ import okhttp3.OkHttpClient
 import org.openhab.habdroid.util.HttpClient
 
 import java.io.IOException
+import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketTimeoutException
 import java.net.URL
+import javax.net.SocketFactory
 
 abstract class AbstractConnection : Connection {
     final override val connectionType: Int
     final override val username: String?
     final override val password: String?
-    private val baseUrl: String
-
     final override val httpClient: HttpClient
+
+    private val baseUrl: String
+    private val socketFactory = object : SocketFactory() {
+        override fun createSocket(): Socket {
+            return prepareSocket(Socket())
+        }
+        override fun createSocket(host: String?, port: Int): Socket {
+            return prepareSocket(Socket(host, port))
+        }
+        override fun createSocket(host: String?, port: Int, clientAddress: InetAddress?, clientPort: Int): Socket {
+            return prepareSocket(Socket(host, port, clientAddress, clientPort))
+        }
+        override fun createSocket(host: InetAddress?, port: Int): Socket {
+            return prepareSocket(Socket(host, port))
+        }
+        override fun createSocket(host: InetAddress?, port: Int, clientAddress: InetAddress?, clientPort: Int): Socket {
+            return prepareSocket(Socket(host, port, clientAddress, clientPort))
+        }
+    }
 
     internal constructor(
         httpClient: OkHttpClient,
@@ -39,11 +58,15 @@ abstract class AbstractConnection : Connection {
         username: String?,
         password: String?
     ) {
+        val httpClientWithSocketFactory = httpClient.newBuilder()
+            .socketFactory(socketFactory)
+            .build()
+
         this.username = username
         this.password = password
         this.baseUrl = baseUrl
         this.connectionType = connectionType
-        this.httpClient = HttpClient(httpClient, baseUrl, username, password)
+        this.httpClient = HttpClient(httpClientWithSocketFactory, baseUrl, username, password)
     }
 
     internal constructor(base: AbstractConnection, connectionType: Int) {
@@ -72,8 +95,12 @@ abstract class AbstractConnection : Connection {
         }
     }
 
+    open fun prepareSocket(socket: Socket): Socket {
+        return socket
+    }
+
     private fun createConnectedSocket(socketAddress: InetSocketAddress): Socket? {
-        val s = Socket()
+        val s = socketFactory.createSocket()
         var retries = 0
         while (retries < 10) {
             try {

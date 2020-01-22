@@ -35,13 +35,13 @@ interface ConnectionManagerHelper {
 
     fun shutdown()
 
-    enum class ConnectionType {
-        None,
-        Wifi,
-        Ethernet,
-        Mobile,
-        Unknown,
-        Vpn
+    sealed class ConnectionType {
+        class None : ConnectionType()
+        class Wifi(val network: Network?) : ConnectionType()
+        class Ethernet(val network: Network?) : ConnectionType()
+        class Mobile(val network: Network?) : ConnectionType()
+        class Unknown(val network: Network?) : ConnectionType()
+        class Vpn(val network: Network?) : ConnectionType()
     }
 
     companion object {
@@ -159,12 +159,12 @@ interface ConnectionManagerHelper {
                     .filter { info -> info.isConnected }
                     .map { info -> info.type }
             return when {
-                activeConnectionTypes.isEmpty() -> ConnectionType.None
-                ConnectivityManager.TYPE_VPN in activeConnectionTypes -> ConnectionType.Vpn
-                ConnectivityManager.TYPE_WIFI in activeConnectionTypes -> ConnectionType.Wifi
-                ConnectivityManager.TYPE_ETHERNET in activeConnectionTypes -> ConnectionType.Ethernet
-                ConnectivityManager.TYPE_MOBILE in activeConnectionTypes -> ConnectionType.Mobile
-                else -> ConnectionType.Unknown
+                activeConnectionTypes.isEmpty() -> ConnectionType.None()
+                ConnectivityManager.TYPE_VPN in activeConnectionTypes -> ConnectionType.Vpn(null)
+                ConnectivityManager.TYPE_WIFI in activeConnectionTypes -> ConnectionType.Wifi(null)
+                ConnectivityManager.TYPE_ETHERNET in activeConnectionTypes -> ConnectionType.Ethernet(null)
+                ConnectivityManager.TYPE_MOBILE in activeConnectionTypes -> ConnectionType.Mobile(null)
+                else -> ConnectionType.Unknown(null)
             }
         }
     }
@@ -174,17 +174,31 @@ interface ConnectionManagerHelper {
     private class NetworkTypeHelperApi23 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         val currentConnection: ConnectionType get() {
-            val activeConnectionTypes = connectivityManager.allNetworks
-                    .map { network -> connectivityManager.getNetworkInfo(network) }
-                    .filter { info -> info?.isConnected == true }
-                    .map { info -> info?.type }
-            return when {
-                activeConnectionTypes.isEmpty() -> ConnectionType.None
-                ConnectivityManager.TYPE_VPN in activeConnectionTypes -> ConnectionType.Vpn
-                ConnectivityManager.TYPE_WIFI in activeConnectionTypes -> ConnectionType.Wifi
-                ConnectivityManager.TYPE_ETHERNET in activeConnectionTypes -> ConnectionType.Ethernet
-                ConnectivityManager.TYPE_MOBILE in activeConnectionTypes -> ConnectionType.Mobile
-                else -> ConnectionType.Unknown
+            val knownConnectionTypesByPrio = listOf(
+                ConnectivityManager.TYPE_VPN,
+                ConnectivityManager.TYPE_WIFI,
+                ConnectivityManager.TYPE_ETHERNET,
+                ConnectivityManager.TYPE_MOBILE
+            )
+            val active = connectivityManager.allNetworks
+                    .map { network -> network to connectivityManager.getNetworkInfo(network) }
+                    .filter { (_, info) -> info?.isConnected == true }
+                    // info can not be null here, as the condition in the line above covers that case already
+                    .map { (network, info) -> info!!.type to network }
+                    // sort the list by connection type priority, putting irrelevant networks at the end
+                    .sortedBy { (type, _) ->
+                        val index = knownConnectionTypesByPrio.indexOf(type)
+                        if (index < 0) Integer.MAX_VALUE else index
+                    }
+                    .firstOrNull()
+
+            return when (active?.first) {
+                null -> ConnectionType.None()
+                ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(active.second)
+                ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(active.second)
+                ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(active.second)
+                ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(active.second)
+                else -> ConnectionType.Unknown(active.second)
             }
         }
     }
@@ -193,21 +207,34 @@ interface ConnectionManagerHelper {
     private class NetworkTypeHelperApi26 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         val currentConnection: ConnectionType get() {
-            val activeNetworkCaps = connectivityManager.allNetworks
-                    .map { network -> connectivityManager.getNetworkCapabilities(network) }
-                    .filter { caps -> caps?.isUsable() == true }
+            val knownTransportsByPrio = listOf(
+                NetworkCapabilities.TRANSPORT_VPN,
+                NetworkCapabilities.TRANSPORT_WIFI,
+                NetworkCapabilities.TRANSPORT_WIFI_AWARE,
+                NetworkCapabilities.TRANSPORT_ETHERNET,
+                NetworkCapabilities.TRANSPORT_CELLULAR
+            )
+            fun findMostRelevantTransport(caps: NetworkCapabilities?): Int =
+                knownTransportsByPrio.firstOrNull { transport -> caps?.hasTransport(transport) == true } ?: 0
 
-            val hasConnectionOver: (transport: Int) -> Boolean = {
-                activeNetworkCaps.any { caps -> caps?.hasTransport(it) == true }
-            }
-            return when {
-                activeNetworkCaps.isEmpty() -> ConnectionType.None
-                hasConnectionOver(NetworkCapabilities.TRANSPORT_VPN) -> ConnectionType.Vpn
-                hasConnectionOver(NetworkCapabilities.TRANSPORT_WIFI) ||
-                hasConnectionOver(NetworkCapabilities.TRANSPORT_WIFI_AWARE) -> ConnectionType.Wifi
-                hasConnectionOver(NetworkCapabilities.TRANSPORT_ETHERNET) -> ConnectionType.Ethernet
-                hasConnectionOver(NetworkCapabilities.TRANSPORT_CELLULAR) -> ConnectionType.Mobile
-                else -> ConnectionType.Unknown
+            val active = connectivityManager.allNetworks
+                .map { network -> network to connectivityManager.getNetworkCapabilities(network) }
+                .filter { (_, caps) -> caps?.isUsable() == true }
+                .map { (network, caps) -> network to findMostRelevantTransport(caps) }
+                // filter out irrelevant networks
+                .filter { (_, transport) -> transport != 0 }
+                // sort remaining relevant networks by their priority
+                .sortedBy { (_, transport) -> knownTransportsByPrio.indexOf(transport) }
+                .firstOrNull()
+
+            return when (active?.second) {
+                null -> ConnectionType.None()
+                NetworkCapabilities.TRANSPORT_VPN -> ConnectionType.Vpn(active.first)
+                NetworkCapabilities.TRANSPORT_WIFI,
+                NetworkCapabilities.TRANSPORT_WIFI_AWARE -> ConnectionType.Wifi(active.first)
+                NetworkCapabilities.TRANSPORT_ETHERNET -> ConnectionType.Ethernet(active.first)
+                NetworkCapabilities.TRANSPORT_CELLULAR -> ConnectionType.Mobile(active.first)
+                else -> ConnectionType.Unknown(active.first)
             }
         }
     }
