@@ -57,12 +57,13 @@ import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.CertificateRevokedException
 import javax.net.ssl.SSLException
+import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
 
 fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
     var error = this
     while (error != null) {
-        if (error.javaClass == cause) {
+        if (error::class.java == cause) {
             return true
         }
         error = error.cause
@@ -260,91 +261,49 @@ fun Context.hasPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
 }
 
-fun Context.getHumanReadableErrorMessage(url: String, statusCode: Int, error: Throwable): CharSequence {
-    if (statusCode >= 400) {
-        return if (error.message == "openHAB is offline") {
-            getString(R.string.error_openhab_offline)
+fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Throwable?, short: Boolean): CharSequence {
+    return if (error.hasCause(UnknownHostException::class.java)) {
+        getString(
+            if (short) R.string.error_short_unable_to_resolve_hostname else R.string.error_unable_to_resolve_hostname)
+    } else if (error.hasCause(CertificateExpiredException::class.java)) {
+        getString(if (short) R.string.error_short_certificate_expired else R.string.error_certificate_expired)
+    } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
+        getString(
+            if (short) R.string.error_short_certificate_not_valid_yet else R.string.error_certificate_not_valid_yet)
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+        error.hasCause(CertificateRevokedException::class.java)) {
+        getString(if (short) R.string.error_short_certificate_revoked else R.string.error_certificate_revoked)
+    } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
+        getString(
+            if (short) R.string.error_short_certificate_wrong_host else R.string.error_certificate_wrong_host,
+            url.toUri().host
+        )
+    } else if (error.hasCause(CertPathValidatorException::class.java)) {
+        getString(if (short) R.string.error_short_certificate_not_trusted else R.string.error_certificate_not_trusted)
+    } else if (error.hasCause(SSLException::class.java) || error.hasCause(SSLHandshakeException::class.java)) {
+        getString(if (short) R.string.error_short_connection_sslhandshake_failed else
+            R.string.error_connection_sslhandshake_failed)
+    } else if (error.hasCause(ConnectException::class.java) || error.hasCause(SocketTimeoutException::class.java)) {
+        getString(if (short) R.string.error_short_connection_failed else R.string.error_connection_failed)
+    } else if (error.hasCause(IOException::class.java) && error.hasCause(EOFException::class.java)) {
+        getString(if (short) R.string.error_short_http_to_https_port else R.string.error_http_to_https_port)
+    } else if (httpCode >= 400) {
+        if (error?.message == "openHAB is offline") {
+            getString(if (short) R.string.error_short_openhab_offline else R.string.error_openhab_offline)
         } else {
             try {
-                getString(
-                    resources.getIdentifier("error_http_code_$statusCode", "string", packageName),
-                    statusCode
-                )
+                val resName = if (short) "error_short_http_code_$httpCode" else "error_http_code_$httpCode"
+                getString(resources.getIdentifier(resName, "string", packageName), httpCode)
             } catch (e: Resources.NotFoundException) {
-                getString(R.string.error_http_connection_failed, statusCode)
+                getString(
+                    if (short) R.string.error_short_http_connection_failed else R.string.error_http_connection_failed,
+                    httpCode
+                )
             }
         }
-    } else if (error is UnknownHostException) {
-        Log.e(Util.TAG, "Unable to resolve hostname")
-        return getString(R.string.error_unable_to_resolve_hostname)
-    } else if (error is SSLException) {
-        // If ssl exception, check for some common problems
-        return if (error.hasCause(CertPathValidatorException::class.java)) {
-            getString(R.string.error_certificate_not_trusted)
-        } else if (error.hasCause(CertificateExpiredException::class.java)) {
-            getString(R.string.error_certificate_expired)
-        } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
-            getString(R.string.error_certificate_not_valid_yet)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-            error.hasCause(CertificateRevokedException::class.java)
-        ) {
-            getString(R.string.error_certificate_revoked)
-        } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
-            getString(R.string.error_certificate_wrong_host, url.toUri().host)
-        } else {
-            getString(R.string.error_connection_sslhandshake_failed)
-        }
-    } else if (error is ConnectException || error is SocketTimeoutException) {
-        return getString(R.string.error_connection_failed)
-    } else if (error is IOException && error.hasCause(EOFException::class.java)) {
-        return getString(R.string.error_http_to_https_port)
     } else {
-        Log.e(Util.TAG, "REST call to $url failed", error)
-        return error.localizedMessage ?: getString(R.string.error_unknown, error.javaClass)
-    }
-}
-
-fun Context.getShortHumanReadableErrorMessage(url: String, statusCode: Int, error: Throwable?): CharSequence {
-    if (statusCode >= 400) {
-        return if (error?.message == "openHAB is offline") {
-            getString(R.string.error_short_openhab_offline)
-        } else {
-            try {
-                getString(
-                    resources.getIdentifier("error_short_http_code_$statusCode", "string", packageName),
-                    statusCode
-                )
-            } catch (e: Resources.NotFoundException) {
-                getString(R.string.error_short_http_connection_failed, statusCode)
-            }
-        }
-    } else if (error is UnknownHostException) {
-        Log.e(Util.TAG, "Unable to resolve hostname")
-        return getString(R.string.error_short_unable_to_resolve_hostname)
-    } else if (error is SSLException) {
-        // If ssl exception, check for some common problems
-        return if (error.hasCause(CertPathValidatorException::class.java)) {
-            getString(R.string.error_short_certificate_not_trusted)
-        } else if (error.hasCause(CertificateExpiredException::class.java)) {
-            getString(R.string.error_short_certificate_expired)
-        } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
-            getString(R.string.error_short_certificate_not_valid_yet)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-            error.hasCause(CertificateRevokedException::class.java)
-        ) {
-            getString(R.string.error_short_certificate_revoked)
-        } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
-            getString(R.string.error_short_certificate_wrong_host, url.toUri().host)
-        } else {
-            getString(R.string.error_short_connection_sslhandshake_failed)
-        }
-    } else if (error is ConnectException || error is SocketTimeoutException) {
-        return getString(R.string.error_short_connection_failed)
-    } else if (error is IOException && error.hasCause(EOFException::class.java)) {
-        return getString(R.string.error_short_http_to_https_port)
-    } else {
-        Log.e(Util.TAG, "REST call to $url failed", error)
-        return error?.localizedMessage ?: getString(R.string.error_short_unknown, error?.javaClass)
+        error.let { Log.e(Util.TAG, "REST call to $url failed", it) }
+        getString(if (short) R.string.error_short_unknown else R.string.error_unknown, error?.localizedMessage)
     }
 }
 

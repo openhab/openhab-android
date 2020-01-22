@@ -27,10 +27,10 @@ import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getShortHumanReadableErrorMessage
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -112,10 +112,10 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 errors.add(if (hadConnection) {
                     if (label.isNullOrEmpty()) {
                         context.getString(R.string.item_update_http_error, itemName,
-                            context.getShortHumanReadableErrorMessage("", httpStatus, null))
+                            context.getHumanReadableErrorMessage("", httpStatus, null, true))
                     } else {
                         context.getString(R.string.item_update_http_error_label, label,
-                            context.getShortHumanReadableErrorMessage("", httpStatus, null))
+                            context.getHumanReadableErrorMessage("", httpStatus, null, true))
                     }
                 } else {
                     if (label.isNullOrEmpty()) {

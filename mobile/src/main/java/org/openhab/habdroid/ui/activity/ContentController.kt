@@ -429,7 +429,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     override fun onLoadFailure(error: HttpClient.HttpException) {
         val url = error.request.url.toString()
-        val errorMessage = activity.getHumanReadableErrorMessage(url, error.statusCode, error)
+        val errorMessage = activity.getHumanReadableErrorMessage(url, error.statusCode, error, false)
             .toString()
 
         noConnectionFragment = CommunicationFailureFragment.newInstance(
