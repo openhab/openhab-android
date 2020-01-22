@@ -31,9 +31,8 @@ open class DefaultConnection : AbstractConnection {
     internal constructor(baseConnection: AbstractConnection, connectionType: Int) :
         super(baseConnection, connectionType)
 
-    override fun createSocket(): Socket {
-        val s = super.createSocket()
-        network?.bindSocket(s)
-        return s
+    override fun prepareSocket(socket: Socket): Socket {
+        network?.bindSocket(socket)
+        return socket
     }
 }

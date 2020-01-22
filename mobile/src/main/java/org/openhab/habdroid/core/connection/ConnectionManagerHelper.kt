@@ -181,21 +181,23 @@ interface ConnectionManagerHelper {
                 ConnectivityManager.TYPE_MOBILE
             )
             val active = connectivityManager.allNetworks
-                    .map { network -> Pair(network, connectivityManager.getNetworkInfo(network)) }
-                    .filter { (network, info) -> info?.isConnected == true }
-                    .map { (network, info) -> info.type to network }
-                    .sortedBy { (type, network) ->
+                    .map { network -> network to connectivityManager.getNetworkInfo(network) }
+                    .filter { (_, info) -> info?.isConnected == true }
+                    // info can not be null here, as the condition in the line above covers that case already
+                    .map { (network, info) -> info!!.type to network }
+                    // sort the list by connection type priority, putting irrelevant networks at the end
+                    .sortedBy { (type, _) ->
                         val index = knownConnectionTypesByPrio.indexOf(type)
                         if (index < 0) Integer.MAX_VALUE else index
                     }
                     .firstOrNull()
 
-            return when {
-                active == null -> ConnectionType.None()
-                active.first == ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(active.second)
-                active.first == ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(active.second)
-                active.first == ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(active.second)
-                active.first == ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(active.second)
+            return when (active?.first) {
+                null -> ConnectionType.None()
+                ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(active.second)
+                ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(active.second)
+                ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(active.second)
+                ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(active.second)
                 else -> ConnectionType.Unknown(active.second)
             }
         }
@@ -212,29 +214,26 @@ interface ConnectionManagerHelper {
                 NetworkCapabilities.TRANSPORT_ETHERNET,
                 NetworkCapabilities.TRANSPORT_CELLULAR
             )
-            fun findMostRelevantTransport(caps: NetworkCapabilities?): Int {
-                knownTransportsByPrio.forEachIndexed { index, transport ->
-                    if (caps?.hasTransport(transport) == true) {
-                        return transport
-                    }
-                }
-                return 0
-            }
+            fun findMostRelevantTransport(caps: NetworkCapabilities?): Int =
+                knownTransportsByPrio.firstOrNull { transport -> caps?.hasTransport(transport) == true } ?: 0
+
             val active = connectivityManager.allNetworks
                 .map { network -> network to connectivityManager.getNetworkCapabilities(network) }
-                .filter { (network, caps) -> caps?.isUsable() == true }
+                .filter { (_, caps) -> caps?.isUsable() == true }
                 .map { (network, caps) -> network to findMostRelevantTransport(caps) }
-                .filter { (network, transport) -> transport != 0 }
-                .sortedBy { (network, transport) -> knownTransportsByPrio.indexOf(transport) }
+                // filter out irrelevant networks
+                .filter { (_, transport) -> transport != 0 }
+                // sort remaining relevant networks by their priority
+                .sortedBy { (_, transport) -> knownTransportsByPrio.indexOf(transport) }
                 .firstOrNull()
 
-            return when {
-                active == null -> ConnectionType.None()
-                active.second == NetworkCapabilities.TRANSPORT_VPN -> ConnectionType.Vpn(active.first)
-                active.second == NetworkCapabilities.TRANSPORT_WIFI ||
-                    active.second == NetworkCapabilities.TRANSPORT_WIFI_AWARE -> ConnectionType.Wifi(active.first)
-                active.second == NetworkCapabilities.TRANSPORT_ETHERNET -> ConnectionType.Ethernet(active.first)
-                active.second == NetworkCapabilities.TRANSPORT_CELLULAR -> ConnectionType.Mobile(active.first)
+            return when (active?.second) {
+                null -> ConnectionType.None()
+                NetworkCapabilities.TRANSPORT_VPN -> ConnectionType.Vpn(active.first)
+                NetworkCapabilities.TRANSPORT_WIFI,
+                NetworkCapabilities.TRANSPORT_WIFI_AWARE -> ConnectionType.Wifi(active.first)
+                NetworkCapabilities.TRANSPORT_ETHERNET -> ConnectionType.Ethernet(active.first)
+                NetworkCapabilities.TRANSPORT_CELLULAR -> ConnectionType.Mobile(active.first)
                 else -> ConnectionType.Unknown(active.first)
             }
         }

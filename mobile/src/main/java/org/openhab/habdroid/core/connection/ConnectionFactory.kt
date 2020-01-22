@@ -325,7 +325,10 @@ class ConnectionFactory internal constructor(
             }
         }
 
-        return when (val type = connectionHelper.currentConnection) {
+        val type = connectionHelper.currentConnection
+        Log.d(TAG, "checkAvailableConnection: found connection type $type")
+
+        return when (type) {
             is ConnectionManagerHelper.ConnectionType.None -> {
                 Log.e(TAG, "Network is not available")
                 throw NetworkNotAvailableException()
