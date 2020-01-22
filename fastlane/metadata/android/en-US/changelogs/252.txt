@@ -1,0 +1,4 @@
+## Fixed
+* Correctly update widget list when updating widgets via SSE (#1780)
+* Bind local connections to their respective networks (#1769)
+* Fix error message for SSL errors (#1761)
