@@ -135,6 +135,7 @@
     <string name="error_short_http_to_https_port">Conectando à porta HTTPS via HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certificado inválido para %s</string>
     <string name="error_short_http_code_401">Falha na autenticação (código HTTP %d)</string>
+    <string name="error_short_http_code_404">Não encontrado (código HTTP %d)</string>
     <string name="error_short_http_code_414">URL muito longa (código HTTP %d)</string>
     <string name="error_short_http_code_426">HTTPS é necessário (código HTTP %d)</string>
     <string name="error_short_http_code_495">Falha na autenticação (código HTTP %d)</string>
@@ -197,6 +198,7 @@
     <string name="item_update_connection_error_label">%1$s a atualização falhou (sem conexão)</string>
     <string name="error_sending_alarm_clock_item_empty">Por favor, insira um nome de Item válido</string>
     <string name="retry">Tente novamente</string>
+    <string name="ignore">Ignorar</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
