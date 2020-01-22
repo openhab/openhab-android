@@ -39,13 +39,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.NumberPicker
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.core.view.get
@@ -538,15 +536,16 @@ class WidgetAdapter(
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
-        SeekBar.OnSeekBarChangeListener {
-        private val seekBar: SeekBar = itemView.findViewById(R.id.seekbar)
+        Slider.OnSliderTouchListener, Slider.LabelFormatter {
+        private val seekBar: Slider = itemView.findViewById(R.id.seekbar)
         private var boundWidget: Widget? = null
 
         init {
-            seekBar.setOnSeekBarChangeListener(this)
+            seekBar.addOnSliderTouchListener(this)
+            seekBar.setLabelFormatter(this)
             val now = Calendar.getInstance()
             if (now.get(Calendar.DAY_OF_MONTH) == 31 && now.get(Calendar.MONTH) == Calendar.OCTOBER) {
-                seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp)
+                //seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp) // TODO
             }
         }
 
@@ -554,9 +553,10 @@ class WidgetAdapter(
             super.bind(widget)
             boundWidget = widget
 
-            val stepCount = (widget.maxValue - widget.minValue) / widget.step
-            seekBar.max = Math.ceil(stepCount.toDouble()).toInt()
-            seekBar.progress = 0
+            seekBar.valueTo = widget.maxValue
+            seekBar.valueFrom = widget.minValue
+            // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
+            seekBar.stepSize = if ((widget.maxValue - widget.minValue).rem(widget.step) == 0F) widget.step else 0F
 
             val item = widget.item
             val state = item?.state ?: return
@@ -564,43 +564,47 @@ class WidgetAdapter(
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 val brightness = state.asBrightness
                 if (brightness != null) {
-                    seekBar.max = 100
-                    seekBar.progress = brightness
+                    seekBar.valueTo = 100F
+                    seekBar.value = brightness.toFloat()
                 }
             } else {
                 val number = state.asNumber
                 if (number != null) {
                     val progress = (number.value - widget.minValue) / widget.step
-                    seekBar.progress = Math.round(progress)
+                    seekBar.value = progress
                 }
             }
         }
 
         override fun handleRowClick() {
-            if (boundWidget?.switchSupport == true) {
-                connection.httpClient.sendItemCommand(boundWidget?.item,
-                    if (seekBar.progress == 0) "ON" else "OFF")
+            val widget = boundWidget ?: return
+            if (widget.switchSupport) {
+                connection.httpClient.sendItemCommand(widget.item,
+                    if (seekBar.value <= widget.minValue) "ON" else "OFF")
             }
         }
 
-        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+        override fun onStartTrackingTouch(slider: Slider) {
             // no-op
         }
 
-        override fun onStartTrackingTouch(seekBar: SeekBar) {
-            Log.d(TAG, "onStartTrackingTouch position = ${seekBar.progress}")
+        override fun onStopTrackingTouch(slider: Slider) {
+            val value = slider.value
+            Log.e(TAG, "onValueChange value = $value")
+            val item = boundWidget?.item ?: return
+            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                connection.httpClient.sendItemCommand(item, value.toString())
+            } else {
+                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value))
+            }
         }
 
-        override fun onStopTrackingTouch(seekBar: SeekBar) {
-            val progress = seekBar.progress
-            Log.d(TAG, "onStopTrackingTouch position = $progress")
-            val widget = boundWidget
-            val item = widget?.item ?: return
-            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                connection.httpClient.sendItemCommand(item, progress.toString())
+        override fun getFormattedValue(value: Float): String {
+            val item = boundWidget?.item ?: return ""
+            return if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                value.toString()
             } else {
-                val newValue = widget.minValue + widget.step * progress
-                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(newValue))
+                item.state?.asNumber.withValue(value).toString()
             }
         }
     }
