@@ -1,0 +1,2 @@
+## Added
+* Add ability to create shortcut with dark background (#1756)
