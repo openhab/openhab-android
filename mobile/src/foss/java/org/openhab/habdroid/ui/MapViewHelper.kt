@@ -62,12 +62,10 @@ object MapViewHelper {
         parent: ViewGroup,
         private val connection: Connection,
         colorMapper: WidgetAdapter.ColorMapper
-    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
-        R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
+    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper),
         Marker.OnMarkerDragListener {
         private val mapView: MapView = itemView.findViewById(R.id.mapview)
         private val handler: Handler = Handler()
-        private var boundItem: Item? = null
         private var started: Boolean = false
 
         init {
@@ -95,8 +93,8 @@ object MapViewHelper {
             super.bind(widget)
 
             mapView.adjustForWidgetHeight(widget, 5)
-
             boundItem = widget.item
+            updateUiState(mapView)
             handler.post {
                 mapView.applyPositionAndLabel(boundItem, labelView.text, 15.0f,
                     allowDrag = false, allowScroll = false, markerDragListener = this)
@@ -119,10 +117,6 @@ object MapViewHelper {
             }
         }
 
-        override fun handleRowClick() {
-            openPopup()
-        }
-
         override fun onMarkerDragStart(marker: Marker) {
             // no-op, we're interested in drag end only
         }
@@ -142,7 +136,7 @@ object MapViewHelper {
             connection.httpClient.sendItemCommand(item, newState)
         }
 
-        private fun openPopup() {
+        override fun openPopup() {
             val mapView = MapView(itemView.context)
 
             val dialog = AlertDialog.Builder(itemView.context)

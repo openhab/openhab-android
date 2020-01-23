@@ -33,6 +33,7 @@ import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.NumberPicker
 import android.widget.SeekBar
 import android.widget.TextView
@@ -1023,6 +1024,32 @@ class WidgetAdapter(
 
         override fun stop() {
             streamer?.stop()
+        }
+    }
+
+    abstract class AbstractMapViewHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        connection: Connection,
+        colorMapper: ColorMapper
+    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
+        R.layout.widgetlist_mapitem, connection, colorMapper) {
+        protected var boundItem: Item? = null
+        private val hasPositions
+            get() = boundItem?.state?.asLocation != null || boundItem?.members?.isNotEmpty() == true
+        private val emptyView: LinearLayout = itemView.findViewById(android.R.id.empty)
+
+        override fun handleRowClick() {
+            if (hasPositions) {
+                openPopup()
+            }
+        }
+
+        protected abstract fun openPopup()
+
+        protected fun updateUiState(mapView: View) {
+            mapView.isVisible = hasPositions
+            emptyView.isVisible = mapView.isVisible.not()
         }
     }
 
