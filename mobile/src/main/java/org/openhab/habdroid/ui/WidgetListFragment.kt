@@ -185,10 +185,6 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     }
                     return true
                 }
-                CONTEXT_MENU_ID_PIN_HOME -> {
-                    widget.linkedPage?.let { createShortcut(context, it) }
-                    return true
-                }
                 CONTEXT_MENU_ID_OPEN_IN_MAPS -> {
                     widget.item?.state?.asLocation?.toMapsUrl()?.toUri().openInBrowser(context)
                     return true
@@ -236,7 +232,28 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 }
             }
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-                menu.add(Menu.NONE, CONTEXT_MENU_ID_PIN_HOME, Menu.NONE, R.string.home_shortcut_pin_to_home)
+                val shortcutMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_PIN_HOME_MENU, Menu.NONE,
+                    R.string.home_shortcut_pin_to_home)
+                shortcutMenu.setHeaderTitle(R.string.settings_openhab_theme)
+                shortcutMenu.add(
+                    Menu.NONE,
+                    CONTEXT_MENU_ID_PIN_HOME_WHITE,
+                    Menu.NONE,
+                    R.string.theme_name_light
+                ).setOnMenuItemClickListener {
+                    createShortcut(context, widget.linkedPage, true)
+                    return@setOnMenuItemClickListener true
+                }
+
+                shortcutMenu.add(
+                    Menu.NONE,
+                    CONTEXT_MENU_ID_PIN_HOME_BLACK,
+                    Menu.NONE,
+                    R.string.theme_name_dark
+                ).setOnMenuItemClickListener {
+                    createShortcut(context, widget.linkedPage, false)
+                    return@setOnMenuItemClickListener true
+                }
             }
         } else if (hasCommandOptions) {
             if (nfcSupported) {
@@ -402,7 +419,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
     }
 
-    private fun createShortcut(context: Context, linkedPage: LinkedPage) = GlobalScope.launch {
+    private fun createShortcut(
+        context: Context,
+        linkedPage: LinkedPage,
+        whiteBackground: Boolean
+    ) = GlobalScope.launch {
         val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
         /**
          *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
@@ -431,7 +452,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 iconBitmap.height + totalFrameWidth,
                 iconBitmap.config)
             with(Canvas(bitmapWithBackground)) {
-                drawColor(Color.WHITE)
+                drawColor(if (whiteBackground) Color.WHITE else Color.DKGRAY)
                 drawBitmap(iconBitmap, borderSize, borderSize, null)
             }
             IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
@@ -475,8 +496,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         private const val CONTEXT_MENU_ID_WRITE_ITEM_TAG = 1000
         private const val CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET = 1001
         private const val CONTEXT_MENU_ID_WRITE_SITEMAP_TAG = 1002
-        private const val CONTEXT_MENU_ID_PIN_HOME = 1003
-        private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1004
+        private const val CONTEXT_MENU_ID_PIN_HOME_MENU = 1003
+        private const val CONTEXT_MENU_ID_PIN_HOME_WHITE = 1004
+        private const val CONTEXT_MENU_ID_PIN_HOME_BLACK = 1005
+        private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1006
         private const val CONTEXT_MENU_ID_WRITE_CUSTOM_TAG = 10000
 
         fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {
