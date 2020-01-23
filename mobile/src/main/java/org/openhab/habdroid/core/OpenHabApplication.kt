@@ -22,6 +22,7 @@ import androidx.security.crypto.MasterKeys
 
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 
@@ -47,6 +48,7 @@ class OpenHabApplication : MultiDexApplication() {
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))
         ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
+        RemoteLog.initialize(this)
     }
 
     override fun onTerminate() {

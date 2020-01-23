@@ -51,8 +51,8 @@ import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
-import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import java.util.ArrayList
@@ -123,6 +123,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param state Bundle to save state into
      */
     fun onSaveInstanceState(state: Bundle) {
+        RemoteLog.d(TAG, "onSaveInstanceState()")
         val pages = ArrayList<LinkedPage>()
         for ((page, fragment) in pageStack) {
             pages.add(page)
@@ -157,6 +158,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param state Bundle including previously saved state
      */
     open fun onRestoreInstanceState(state: Bundle) {
+        RemoteLog.d(TAG, "onRestoreInstanceState()")
         currentSitemap = state.getParcelable(STATE_KEY_SITEMAP)
         currentSitemap?.let { sitemap ->
             sitemapFragment = fm.getFragment(state, STATE_KEY_SITEMAP_FRAGMENT) as WidgetListFragment?
@@ -183,6 +185,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param sitemap Sitemap to show
      */
     fun openSitemap(sitemap: Sitemap) {
+        RemoteLog.d(TAG, "openSitemap()", remoteOnly = true)
         Log.d(TAG, "Opening sitemap $sitemap (current: $currentSitemap)")
         currentSitemap = sitemap
         // First clear the old fragment stack to show the progress spinner...
@@ -206,6 +209,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param source Fragment this action was triggered from
      */
     open fun openPage(page: LinkedPage, source: WidgetListFragment) {
+        RemoteLog.d(TAG, "openPage(LinkedPage, WidgetListFragment)", remoteOnly = true)
         Log.d(TAG, "Opening page $page")
         val f = makePageFragment(page)
         while (!pageStack.isEmpty() && pageStack.peek().second !== source) {
@@ -225,6 +229,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param url URL to follow
      */
     fun openPage(url: String) {
+        RemoteLog.d(TAG, "openPage(String)", remoteOnly = true)
         val matchingPageIndex = pageStack.indexOfFirst { entry -> entry.first.link == url }
         Log.d(TAG, "Opening page $url (present at $matchingPageIndex)")
 
@@ -261,7 +266,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param shouldSuggestEnablingWifi
      */
     fun indicateNoNetwork(message: CharSequence, shouldSuggestEnablingWifi: Boolean) {
-        Log.d(TAG, "Indicate no network (message $message)")
+        RemoteLog.d(TAG, "Indicate no network (message $message)")
         resetState()
         noConnectionFragment = if (shouldSuggestEnablingWifi) {
             EnableWifiNetworkFragment.newInstance(message)
@@ -278,7 +283,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param resolveAttempted Indicate if discovery was attempted, but not successful
      */
     fun indicateMissingConfiguration(resolveAttempted: Boolean) {
-        Log.d(TAG, "Indicate missing configuration (resolveAttempted $resolveAttempted)")
+        RemoteLog.d(TAG, "Indicate missing configuration (resolveAttempted $resolveAttempted)")
         resetState()
         val wifiManager = activity.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         noConnectionFragment = MissingConfigurationFragment.newInstance(activity,
@@ -293,16 +298,17 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param message Error message to show
      */
     fun indicateServerCommunicationFailure(message: CharSequence) {
-        Log.d(TAG, "Indicate server failure (message $message)")
+        RemoteLog.d(TAG, "Indicate server failure (message $message)")
         noConnectionFragment = CommunicationFailureFragment.newInstance(message)
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
     }
 
     /**
-     * Clear the error previously set by [.indicateServerCommunicationFailure]
+     * Clear the error previously set by [indicateServerCommunicationFailure]
      */
     fun clearServerCommunicationFailure() {
+        RemoteLog.d(TAG, "clearServerCommunicationFailure()")
         if (noConnectionFragment is CommunicationFailureFragment) {
             noConnectionFragment = null
             resetState()
@@ -319,7 +325,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param progressMessage Message to show to the user if no connection is available
      */
     fun updateConnection(connection: Connection?, progressMessage: CharSequence?, @DrawableRes icon: Int) {
-        Log.d(TAG, "Update to connection $connection (message $progressMessage)")
+        RemoteLog.d(TAG, "Update to connection $connection (message $progressMessage)")
         noConnectionFragment = if (connection == null)
             ProgressFragment.newInstance(progressMessage, icon) else null
         resetState()
@@ -432,6 +438,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         val errorMessage = activity.getHumanReadableErrorMessage(url, error.statusCode, error, false)
             .toString()
 
+        RemoteLog.d(TAG, "onLoadFailure() with message $errorMessage")
         noConnectionFragment = CommunicationFailureFragment.newInstance(
             activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
