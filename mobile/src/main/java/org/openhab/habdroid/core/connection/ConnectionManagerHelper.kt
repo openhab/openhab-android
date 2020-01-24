@@ -214,15 +214,15 @@ interface ConnectionManagerHelper {
                 NetworkCapabilities.TRANSPORT_ETHERNET,
                 NetworkCapabilities.TRANSPORT_CELLULAR
             )
-            fun findMostRelevantTransport(caps: NetworkCapabilities?): Int =
-                knownTransportsByPrio.firstOrNull { transport -> caps?.hasTransport(transport) == true } ?: 0
+            fun findMostRelevantTransport(caps: NetworkCapabilities?): Int? =
+                knownTransportsByPrio.firstOrNull { transport -> caps?.hasTransport(transport) == true }
 
             val active = connectivityManager.allNetworks
                 .map { network -> network to connectivityManager.getNetworkCapabilities(network) }
                 .filter { (_, caps) -> caps?.isUsable() == true }
                 .map { (network, caps) -> network to findMostRelevantTransport(caps) }
                 // filter out irrelevant networks
-                .filter { (_, transport) -> transport != 0 }
+                .filter { (_, transport) -> transport != null }
                 // sort remaining relevant networks by their priority
                 .sortedBy { (_, transport) -> knownTransportsByPrio.indexOf(transport) }
                 .firstOrNull()
