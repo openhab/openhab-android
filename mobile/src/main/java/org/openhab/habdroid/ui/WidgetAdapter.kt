@@ -1035,6 +1035,7 @@ class WidgetAdapter(
     ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
         R.layout.widgetlist_mapitem, connection, colorMapper) {
         protected var boundItem: Item? = null
+            private set
         private val hasPositions
             get() = boundItem?.state?.asLocation != null || boundItem?.members?.isNotEmpty() == true
         private val emptyView: LinearLayout = itemView.findViewById(android.R.id.empty)
@@ -1045,11 +1046,16 @@ class WidgetAdapter(
             }
         }
 
+        override fun bind(widget: Widget) {
+            super.bind(widget)
+            boundItem = widget.item
+        }
+
         protected abstract fun openPopup()
 
         protected fun updateUiState(mapView: View) {
             mapView.isVisible = hasPositions
-            emptyView.isVisible = mapView.isVisible.not()
+            emptyView.isVisible = !mapView.isVisible
         }
     }
 

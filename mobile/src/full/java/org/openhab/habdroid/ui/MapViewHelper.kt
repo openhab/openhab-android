@@ -77,7 +77,6 @@ object MapViewHelper {
 
             mapView.adjustForWidgetHeight(widget, 5)
 
-            boundItem = widget.item
             updateUiState(mapView)
             map?.clear()
             map?.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
