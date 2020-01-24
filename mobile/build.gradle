@@ -103,6 +103,7 @@ android {
     }
     kotlinOptions {
         freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
+        allWarningsAsErrors = true
     }
 
     androidExtensions {
