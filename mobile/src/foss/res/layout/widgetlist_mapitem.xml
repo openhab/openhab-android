@@ -37,4 +37,6 @@
         android:layout_height="180dp"
         android:layout_margin="4dp" />
 
+    <include layout="@layout/widgetlist_mapitem_no_position" />
+
 </LinearLayout>

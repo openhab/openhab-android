@@ -39,4 +39,6 @@
         android:layout_margin="4dp"
         app:liteMode="true" />
 
+    <include layout="@layout/widgetlist_mapitem_no_position" />
+
 </LinearLayout>
