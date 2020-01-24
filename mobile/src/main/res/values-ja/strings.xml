@@ -143,6 +143,8 @@
     <string name="item_upload_in_progress">アイテムを現在更新しています</string>
     <string name="notification_channel_background">バックグラウンド</string>
     <string name="notification_channel_background_error_description">バックグラウンド タスクのエラーを通知するために使用します</string>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">アイテム \'%1$s\' を更新できませんでした (接続がありません)</string>
     <string name="error_sending_alarm_clock_item_empty">正しいアイテム名を入力してください</string>
     <!-- Notification list strings -->
@@ -239,5 +241,8 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">完了</string>
     <!-- Item picker -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
 </resources>

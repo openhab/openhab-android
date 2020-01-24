@@ -94,11 +94,13 @@
     <string name="error_sitemap_generic_load_error">Nelze načíst Sitemap. Došlo k následující chybě: %1$s</string>
     <string name="error_network_not_available">Síť není k dispozici</string>
     <string name="error_wifi_not_available">Wi-Fi je vypnuta</string>
+    <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Zadejte platnou adresu URL ve formátu \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">Port, který jste zadali, se zdá být neplatný pro vybraný protokol</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
     <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
+    <string name="error_unknown">Došlo k neznámé chybě: %s</string>
     <string name="error_connection_sslhandshake_failed">Ověření SSL metodou handshake se nezdařilo</string>
     <string name="error_certificate_not_trusted">SSL certifikát není důvěryhodný. Importujte kořenový certifikát nebo akceptujte certifikát během SSL handshake.</string>
     <string name="error_certificate_expired">Vypršela platnost certifikátu SSL. Získejte nový certifikát nebo akceptujte ověření certifikátu během SSL handshake.</string>
@@ -108,8 +110,40 @@
     <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
     <string name="error_http_to_https_port">Neočekávaný konec datového proudu. Snažíte se připojit k HTTPS portu pomocí HTTP?</string>
     <string name="webview_ssl">V současné době tato aplikace nepodporuje vlastnoručně podepsané SSL certifikáty pro Webview widgety</string>
+    <string name="error_http_code_401">Ověření se nezdařilo. Zkontrolujte prosím uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP %d).</string>
+    <string name="error_http_code_414">URL je příliš dlouhá. Použijte prosím IP adresu nebo kratší URL (kód HTTP %d).</string>
+    <string name="error_http_code_426">Je vyžadován protokol HTTPS. Změňte prosím URL (kód HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Ověření se nezdařilo. Zkontrolujte klientský certifikát SSL (kód HTTP %d).</string>
+    <string name="error_http_code_496">Je vyžadován klientský certifikát SSL (kód HTTP %d)</string>
+    <string name="error_http_code_502">Vaše reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP %d)</string>
+    <string name="error_http_code_503">Server openHAB je dočasně nedostupný (HTTP kód %d)</string>
+    <string name="error_http_code_504">Gateway time-out. Zdá se, že Vaše reverse proxy běží, ale nemůže získat odpověď od serveru openHAB (kód odpovědi HTTP %d).</string>
+    <string name="error_http_code_507">Server openHAB nemá dostatek volného místa (kód HTTP %d)</string>
+    <string name="error_http_code_511">Vyžaduje se síťové ověření (kód HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB je offline</string>
+    <string name="error_short_http_connection_failed">HTTP kód %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Chyba při řešení názvu hostitele</string>
+    <string name="error_short_unknown">Neznámá chyba: %s</string>
+    <string name="error_short_certificate_not_trusted">Certifikát není důvěryhodný</string>
+    <string name="error_short_certificate_expired">Platnost certifikátu nevypršela</string>
+    <string name="error_short_certificate_not_valid_yet">Certifikát ještě není platný</string>
+    <string name="error_short_certificate_revoked">Certifikát zrušen</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL se nezdařilo</string>
+    <string name="error_short_connection_failed">Připojení se nezdařilo</string>
+    <string name="error_short_http_to_https_port">Připojuji se k HTTPS portu přes HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certifikát není platný pro %s</string>
+    <string name="error_short_http_code_401">Ověření selhalo (kód HTTP %d)</string>
+    <string name="error_short_http_code_414">URL je příliš dlouhá (HTTP kód %d)</string>
+    <string name="error_short_http_code_426">Vyžaduje HTTPS (kód HTTP %d)</string>
+    <string name="error_short_http_code_495">Ověření selhalo (kód HTTP %d)</string>
+    <string name="error_short_http_code_496">Je vyžadován klientský certifikát SSL (kód HTTP %d)</string>
+    <string name="error_short_http_code_502">Reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP %d)</string>
+    <string name="error_short_http_code_503">openHAB je dočasně nedostupný (HTTP kód %d)</string>
+    <string name="error_short_http_code_504">Gateway time-out (kód HTTP %d).</string>
+    <string name="error_short_http_code_507">Nedostatek volného místa na serveru (kód HTTP %d)</string>
+    <string name="error_short_http_code_511">Vyžaduje se síťové ověření (kód HTTP %d)</string>
     <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
     <string name="error_no_browser_found">Na Vašem zařízení nebyl nalezen žádný prohlížeč</string>
@@ -157,6 +191,10 @@
         <item quantity="many">%d Items nemohlo být aktualizováno</item>
         <item quantity="other">%d Items nemohlo být aktualizováno</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Aktualizace Item \'%1$s\' selhala: %2$s</string>
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s aktualizace selhala: %2$s</string>
     <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
     <string name="item_update_connection_error_label">Chyba aktualizace %1$s (žádné připojení)</string>
     <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
@@ -189,6 +227,7 @@
     <string name="nfc_action_off">Vypnout</string>
     <string name="nfc_action_down">Dolů</string>
     <string name="nfc_action_toggle">Přepnout</string>
+    <string name="nfc_action_toggled">Přepnuto</string>
     <string name="nfc_action_undefined">Nedefinováno</string>
     <string name="nfc_action_empty_string">Prázdný řetězec</string>
     <string name="nfc_action_increase">Zvýšit</string>
@@ -285,7 +324,10 @@
     <string name="item_picker_list_empty">Žádné Items nebyly nalezeny</string>
     <string name="item_picker_list_error">Při načítání Items došlo k chybě</string>
     <string name="item_picker_custom">Vlastní</string>
+    <string name="item_picker_dialog_title">Zvolte akci</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Odeslat příkaz \"%3$s\" do \"%1$s\" (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">Nastavit \"%1$s\" (%2$s) na “%3$s“</string>
     <string name="item_picker_tasker_variable">Proměnná Taskeru \"%s\"</string>
     <string name="item_picker_item_update">Aktualizovat</string>
@@ -301,6 +343,7 @@
     <string name="item_update_widget_title">Kontrola Item</string>
     <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_content_description_edit">Upravit widget</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vyberte Item</string>
     <string name="item_update_success_message_generic">%1$s - nastaveno na %2$s</string>
@@ -327,4 +370,5 @@
     <string name="create_home_screen_widget_not_supported">Vaše zařízení nepodporuje vytváření widgetů uvnitř aplikace. Přejděte do nabídky widgetů na domovské obrazovce a vytvořte widget tam.</string>
     <string name="item_update_widget_auto_generate_widget_label">Automaticky generovat popisek widgetu</string>
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 </resources>

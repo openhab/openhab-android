@@ -157,6 +157,8 @@
         <item quantity="many">%d элементы не могут быть обновлены</item>
         <item quantity="other">%d Items не могут быть обновлены</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Не удалось обновить Item \'%1$s\' (нет соединения)</string>
     <string name="item_update_connection_error_label">%1$s обновление не удалось (нет соединения)</string>
     <string name="error_sending_alarm_clock_item_empty">Пожалуйста, введите правильное название Item</string>
@@ -285,8 +287,8 @@
     <string name="item_picker_list_empty">Элементы не найдены</string>
     <string name="item_picker_list_error">Ошибка загрузки Items</string>
     <string name="item_picker_custom">Произвольно</string>
-    <string name="item_picker_blurb_command">Отправить команду \"%3$s\" в \" \"%1$s\" (%2$s)</string>
-    <string name="item_picker_blurb_update">Обновить \"%1$s\" (%2$s) до \"%3$s\"</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_tasker_variable">Переменная в Tasker \"%s\"</string>
     <string name="item_picker_item_update">Обновить</string>
     <string name="item_picker_item_command">Команда</string>
@@ -301,7 +303,7 @@
     <string name="item_update_widget_title">Управление Item</string>
     <string name="item_update_widget_content_description">Виджет для смены состояния Item</string>
     <string name="item_update_widget_content_description_edit">Редактировать виджет</string>
-    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_item_picker_title">Выберите Item</string>
     <string name="item_update_success_message_generic">%1$s был установлен в %2$s</string>
     <string name="item_update_success_message_on">%s был включен</string>

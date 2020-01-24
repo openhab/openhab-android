@@ -17,7 +17,6 @@
     <string name="settings_display_title">Visning</string>
     <string name="settings_misc_title">Diverse</string>
     <string name="settings_openhab_url">Lokal server-URL</string>
-    <string name="settings_openhab_url_summary">URL för openHABs dashboard (baserad på värdnamn eller IP). Om konfigurerad inaktiveras autodiscovery. Aktuell inställning: %s</string>
     <string name="settings_openhab_alturl">Fjärrserver-URL</string>
     <string name="settings_openhab_alturl_summary">URL för openHABs dashboard att använda när den lokala adressen inte är tillgänglig. Aktuell inställning: %s</string>
     <string name="settings_openhab_username">Användarnamn</string>
@@ -90,6 +89,8 @@
     <string name="action_settings">Inställningar</string>
     <string name="info_not_set">Ej angivet</string>
     <!-- Background tasks -->
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Inga aviseringar har hittills skickats</string>
     <string name="notification_list_error">Ett fel uppstod när aviseringar laddades</string>
@@ -171,5 +172,8 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FÄRDIGT</string>
     <!-- Item picker -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
 </resources>

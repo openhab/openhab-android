@@ -121,6 +121,8 @@
     <plurals name="item_update_error_title">
         <item quantity="other">无法更新 %d 个项目</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">项目 \'%1$s\'\' 更新失败（无连接）</string>
     <string name="error_sending_alarm_clock_item_empty">请输入有效的项目名称</string>
     <string name="retry">重试</string>
@@ -215,5 +217,8 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">完成</string>
     <!-- Item picker -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
 </resources>

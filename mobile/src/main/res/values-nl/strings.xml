@@ -153,6 +153,8 @@
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
         <item quantity="other">%d Items konden niet worden bijgewerkt</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
     <string name="item_update_connection_error_label">%1$s update mislukt (Geen verbinding)</string>
     <string name="error_sending_alarm_clock_item_empty">Voer een geldige Itemnaam in</string>
@@ -279,6 +281,8 @@
     <string name="item_picker_list_empty">Geen Items gevonden</string>
     <string name="item_picker_list_error">Er is een fout opgetreden bij het laden van de Items</string>
     <string name="item_picker_custom">Aangepast</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="search">Zoeken</string>
     <string name="settings_tasker_plugin">Tasker integratie</string>
     <string name="settings_tasker_plugin_summary">Activeer de Tasker action plugin voor het updaten van Items via Tasker en andere compatibele apps</string>
@@ -287,7 +291,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item controleren</string>
     <string name="item_update_widget_content_description">Widget voor aanpassen van Item status</string>
-    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_item_picker_title">Selecteer een Item</string>
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
     <string name="item_update_success_message_on">%s is ingeschakeld</string>

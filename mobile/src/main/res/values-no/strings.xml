@@ -107,6 +107,8 @@
     <string name="action_settings">Innstillinger</string>
     <string name="info_not_set">Ikke angitt</string>
     <!-- Background tasks -->
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
     <string name="notification_list_error">Det oppstod en feil under lasting av meldinger</string>
@@ -188,5 +190,8 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">UTFØRT</string>
     <!-- Item picker -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
 </resources>

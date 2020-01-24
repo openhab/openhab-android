@@ -94,11 +94,13 @@
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_wifi_not_available">WLAN ist ausgeschaltet</string>
+    <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen (HTTP-Code %d).</string>
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
     <string name="error_invalid_https_url">Bitte geben Sie eine gültige URL im Format \'https://Adresse(:Port)/\' an</string>
     <string name="error_port_seems_invalid">Der eingegebene Port für das ausgewählte Protokoll scheint ungültig zu sein</string>
     <string name="error_connection_failed">Verbindung zum Host fehlgeschlagen</string>
     <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="error_unknown">Ein unbekannter Fehler ist aufgetreten: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen</string>
     <string name="error_certificate_not_trusted">Das SSL-Zertifikat ist nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder akzeptieren Sie das Zertifikat während des SSL-Handshakes.</string>
     <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder akzeptieren Sie das Zertifikat während des Verbindungsaufbaus.</string>
@@ -108,7 +110,17 @@
     <string name="error_certificate_wrong_host">Das Zertifikat ist für %s nicht gültig</string>
     <string name="error_http_to_https_port">Unerwartetes Ende des Streams. Versuchen Sie, über HTTP eine Verbindung zu einem HTTPS-Port herzustellen?</string>
     <string name="webview_ssl">Derzeit unterstützt diese App keine selbstsignierten SSL-Zertifikate für Webview-Widgets</string>
+    <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Benutzernamen und das Passwort bzw. das angegebene SSL-Client-Zertifikat (HTTP-Code %d).</string>
+    <string name="error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Code %d).</string>
+    <string name="error_http_code_426">HTTPS ist erforderlich. Bitte ändern Sie die URL (HTTP-Code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie das bereitgestellte SSL-Client-Zertifikat (HTTP-Code %d).</string>
+    <string name="error_http_code_496">SSL-Client-Zertifikat ist erforderlich (HTTP-Code %d)</string>
+    <string name="error_http_code_502">Ihr Reverse-Proxy hat eine ungültige Antwort vom openHAB-Server erhalten (HTTP-Code %d)</string>
+    <string name="error_http_code_503">Der openHAB-Server ist vorübergehend nicht verfügbar (HTTP-Code %d)</string>
+    <string name="error_http_code_504">Gateway-Timeout. Ihr Reverse-Proxy scheint zu laufen, aber konnte keine Antwort vom openHAB-Server erhalten (HTTP-Code %d).</string>
+    <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicherplatz (HTTP-Code %d)</string>
+    <string name="error_http_code_511">Netzwerkauthentifizierung ist erforderlich (HTTP-Code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB ist offline</string>
     <string name="error_short_http_connection_failed">HTTP-Code %d</string>
@@ -123,6 +135,7 @@
     <string name="error_short_http_to_https_port">Mit HTTPS-Port über HTTP verbinden?</string>
     <string name="error_short_certificate_wrong_host">Zertifikat nicht gültig für %s</string>
     <string name="error_short_http_code_401">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
+    <string name="error_short_http_code_404">Nicht gefunden (HTTP-Code %d)</string>
     <string name="error_short_http_code_414">URL zu lang (HTTP-Code %d)</string>
     <string name="error_short_http_code_426">HTTPS erforderlich (HTTP-Code %d)</string>
     <string name="error_short_http_code_495">Authentifizierung fehlgeschlagen (HTTP-Code %d)</string>
@@ -177,10 +190,15 @@
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
     </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Update von Item \'%1$s\' fehlgeschlagen: %2$s</string>
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">Update von %1$s fehlgeschlagen: %2$s</string>
     <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
     <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
     <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
     <string name="retry">Erneut versuchen</string>
+    <string name="ignore">Ignorieren</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
@@ -209,6 +227,7 @@
     <string name="nfc_action_off">Aus</string>
     <string name="nfc_action_down">Runter</string>
     <string name="nfc_action_toggle">Umschalten</string>
+    <string name="nfc_action_toggled">Umgeschaltet</string>
     <string name="nfc_action_undefined">Undefiniert</string>
     <string name="nfc_action_empty_string">Leerer String</string>
     <string name="nfc_action_increase">Erhöhen</string>
@@ -306,7 +325,9 @@
     <string name="item_picker_list_error">Laden der Items fehlgeschlagen</string>
     <string name="item_picker_custom">Benutzerdefiniert</string>
     <string name="item_picker_dialog_title">Aktion auswählen</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Sende Befehl \"%3$s\" an \"%1$s\" (%2$s)</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) auf \"%3$s\" ändern</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
     <string name="item_picker_item_update">Update</string>
@@ -322,6 +343,7 @@
     <string name="item_update_widget_title">Item-Steuerung</string>
     <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_content_description_edit">Widget bearbeiten</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
