@@ -102,6 +102,7 @@ android {
         sourceCompatibility 1.8
     }
     kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
         allWarningsAsErrors = true
     }
