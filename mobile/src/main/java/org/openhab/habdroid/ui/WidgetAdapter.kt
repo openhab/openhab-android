@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
@@ -282,11 +281,12 @@ class WidgetAdapter(
     class DialogManager {
         private var dialog: DialogInterface? = null
 
-        fun manage(dialog: Dialog) {
+        fun manage(dialog: AlertDialog) {
             this.dialog?.dismiss()
             this.dialog = dialog
             dialog.setOnDismissListener { d -> if (d == this.dialog) this.dialog = null }
         }
+
         fun close() {
             dialog?.dismiss()
         }

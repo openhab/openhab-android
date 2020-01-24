@@ -13,12 +13,11 @@
 
 package org.openhab.habdroid.ui
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.location.Location
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView

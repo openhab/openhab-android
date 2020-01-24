@@ -13,13 +13,13 @@
 
 package org.openhab.habdroid.ui
 
-import android.app.AlertDialog
 import android.location.Location
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import org.openhab.habdroid.R
