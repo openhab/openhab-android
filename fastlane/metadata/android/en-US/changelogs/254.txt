@@ -1,0 +1,2 @@
+## Fixed
+* Fix remote connectivity on API level 26+ (#1790)
