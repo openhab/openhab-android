@@ -89,6 +89,7 @@
     <string name="app_shortcut_disabled_habpanel">Ihr Server hat kein HABPanel installiert</string>
     <string name="app_shortcut_disabled_notifications">Ihr Server für den Fernzugriff ist nicht verfügbar</string>
     <string name="app_shortcut_disabled_voice_recognition">Ihr Gerät hat keine Spracherkennungs-App installiert</string>
+    <string name="no_position_set">Keine Position gesetzt</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB schickte eine leere Sitemap-Liste</string>
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
