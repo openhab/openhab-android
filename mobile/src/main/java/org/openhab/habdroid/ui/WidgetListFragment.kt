@@ -136,6 +136,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         emptyPageView = view.findViewById(android.R.id.empty)
     }
 
+    override fun onDetach() {
+        closeAllDialogs()
+        super.onDetach()
+    }
+
     override fun onStart() {
         Log.d(TAG, "onStart() $displayPageUrl")
         super.onStart()
