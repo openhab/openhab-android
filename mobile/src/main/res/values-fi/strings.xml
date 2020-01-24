@@ -89,6 +89,7 @@
     <string name="app_shortcut_disabled_habpanel">Palvelimellasi ei ole HABPanel asennettuna</string>
     <string name="app_shortcut_disabled_notifications">Etäpalvelintasi ei tavoiteta</string>
     <string name="app_shortcut_disabled_voice_recognition">Laitteellasi ei ole \"puheesta tekstiksi\"-sovellusta asennettuna</string>
+    <string name="no_position_set">Sijaintia ei asetettu</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB palautti tyhjän Sitemap luettelon</string>
     <string name="error_sitemap_generic_load_error">Sitemap ei ladattu. Virhe: %1$s</string>
