@@ -67,6 +67,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -459,7 +460,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun scheduleRetry(runAfterDelay: () -> Unit) {
         retryJob?.cancel(CancellationException("scheduleRetry() was called"))
-        retryJob = GlobalScope.launch(Dispatchers.Main) {
+        retryJob = CoroutineScope(Dispatchers.Main + Job()).launch {
             delay(30 * 1000)
             Log.d(TAG, "runAfterDelay()")
             runAfterDelay()
