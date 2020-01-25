@@ -15,8 +15,6 @@ package org.openhab.habdroid.ui
 
 import android.Manifest
 import android.app.KeyguardManager
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -301,7 +299,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
-                preference.sharedPreferences.edit { updateDefaultSitemap(null) }
+                preference.sharedPreferences.edit { updateDefaultSitemap(null, null) }
                 onNoDefaultSitemap(preference)
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true

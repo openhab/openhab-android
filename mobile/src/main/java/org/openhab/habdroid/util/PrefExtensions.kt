@@ -23,6 +23,8 @@ import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
@@ -41,8 +43,12 @@ fun SharedPreferences.getRemoteUrl(): String {
     return getString(Constants.PREFERENCE_REMOTE_URL)
 }
 
-fun SharedPreferences.getDefaultSitemap(): String {
-    return getString(Constants.PREFERENCE_SITEMAP_NAME)
+fun SharedPreferences.getDefaultSitemap(connection: Connection?): String {
+    return if (connection is DemoConnection) {
+        "default"
+    } else {
+        getString(Constants.PREFERENCE_SITEMAP_NAME)
+    }
 }
 
 fun SharedPreferences.getIconFormat(): IconFormat {
@@ -136,7 +142,10 @@ fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArr
     }
 }
 
-fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?) {
+fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?, connection: Connection?) {
+    if (connection is DemoConnection) {
+        return
+    }
     if (sitemap == null) {
         remove(Constants.PREFERENCE_SITEMAP_NAME)
         remove(Constants.PREFERENCE_SITEMAP_LABEL)
