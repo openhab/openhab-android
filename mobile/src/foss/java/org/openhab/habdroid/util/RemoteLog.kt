@@ -17,7 +17,8 @@ import android.content.Context
 import android.util.Log
 
 object RemoteLog {
-    fun initialize(context: Context) {
+    // context is used in full flavor
+    fun initialize(@Suppress("UNUSED_PARAMETER") context: Context) {
         // no-op
     }
 

@@ -23,6 +23,7 @@ import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
@@ -48,6 +49,7 @@ import java.io.File
 import java.io.IOException
 
 class ConnectionFactoryTest {
+    @ObsoleteCoroutinesApi
     companion object {
         private val mainThread = newSingleThreadContext("UI thread")
 
