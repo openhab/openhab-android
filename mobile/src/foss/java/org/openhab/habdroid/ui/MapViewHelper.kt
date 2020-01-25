@@ -13,13 +13,13 @@
 
 package org.openhab.habdroid.ui
 
-import android.app.AlertDialog
 import android.location.Location
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import org.openhab.habdroid.R
@@ -67,6 +67,7 @@ object MapViewHelper {
         private val mapView: MapView = itemView.findViewById(R.id.mapview)
         private val handler: Handler = Handler()
         private var started: Boolean = false
+        override val dialogManager = WidgetAdapter.DialogManager()
 
         init {
             with(mapView) {
@@ -144,6 +145,7 @@ object MapViewHelper {
                     .setNegativeButton(R.string.close, null)
                     .create()
 
+            dialogManager.manage(dialog)
             with(dialog) {
                 setOnDismissListener { mapView.onPause() }
                 setCanceledOnTouchOutside(true)

@@ -136,6 +136,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         emptyPageView = view.findViewById(android.R.id.empty)
     }
 
+    override fun onDetach() {
+        closeAllDialogs()
+        super.onDetach()
+    }
+
     override fun onStart() {
         Log.d(TAG, "onStart() $displayPageUrl")
         super.onStart()
@@ -366,6 +371,15 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private fun updateUiState(adapter: WidgetAdapter) {
         recyclerView.isVisible = adapter.hasVisibleWidgets
         emptyPageView.isVisible = !recyclerView.isVisible
+    }
+
+    fun closeAllDialogs() {
+        val itemCount = adapter?.itemCount ?: 0
+        for (pos in 0 until itemCount) {
+            val holder =
+                recyclerView.findViewHolderForAdapterPosition(pos) as WidgetAdapter.ViewHolder?
+            holder?.dialogManager?.close()
+        }
     }
 
     private fun startOrStopVisibleViewHolders(start: Boolean) {

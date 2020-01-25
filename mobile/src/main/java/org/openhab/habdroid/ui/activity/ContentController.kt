@@ -454,6 +454,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         // Allow state loss if activity is still started, as we'll get
         // another onSaveInstanceState() callback on activity stop
         executeStateUpdate(reason, activity.isStarted)
+        collectWidgetFragments().forEach { f -> f.closeAllDialogs() }
     }
 
     private fun handleNewWidgetFragment(f: WidgetListFragment) {
