@@ -640,8 +640,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.default_sitemap -> {
-                    val sitemap = serverProperties?.sitemaps?.firstOrNull {
-                            s -> s.name == prefs.getDefaultSitemap(connection)
+                    val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
+                        s.name == prefs.getDefaultSitemap(connection)
                     }
                     if (sitemap != null) {
                         controller.openSitemap(sitemap)
@@ -706,8 +706,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 sitemapsItem.isVisible = false
                 defaultSitemapItem.isVisible = true
 
-                val sitemap = serverProperties?.sitemaps?.firstOrNull {
-                        s -> s.name == prefs.getDefaultSitemap(connection)
+                val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
+                    s.name == prefs.getDefaultSitemap(connection)
                 }
                 if (sitemap != null) {
                     defaultSitemapItem.title = sitemap.label
