@@ -640,11 +640,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.default_sitemap -> {
-                    val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name == prefs.getDefaultSitemap() }
+                    val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
+                        s.name == prefs.getDefaultSitemap(connection)
+                    }
                     if (sitemap != null) {
                         controller.openSitemap(sitemap)
                         handled = true
-                    } else if (prefs.getDefaultSitemap().isEmpty()) {
+                    } else if (prefs.getDefaultSitemap(connection).isEmpty()) {
                         executeOrStoreAction(PendingAction.ChooseSitemap())
                         handled = true
                     }
@@ -685,7 +687,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             habPanelItem.isVisible = props.hasHabPanelInstalled()
             nfcItem.isVisible = NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()
             manageHabPanelShortcut(props.hasHabPanelInstalled())
-            val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap())
+            val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap(connection))
 
             if (sitemaps.isEmpty()) {
                 sitemapsItem.isVisible = false
@@ -704,7 +706,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 sitemapsItem.isVisible = false
                 defaultSitemapItem.isVisible = true
 
-                val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name == prefs.getDefaultSitemap() }
+                val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
+                    s.name == prefs.getDefaultSitemap(connection)
+                }
                 if (sitemap != null) {
                     defaultSitemapItem.title = sitemap.label
                     loadSitemapIcon(sitemap, defaultSitemapItem)
@@ -783,7 +787,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
-        val configuredSitemap = prefs.getDefaultSitemap()
+        val configuredSitemap = prefs.getDefaultSitemap(connection)
         val sitemaps = serverProperties?.sitemaps
         val result = when {
             sitemaps == null -> null
@@ -799,10 +803,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         prefs.edit {
             if (result == null && configuredSitemap.isNotEmpty()) {
                 // clear old configuration
-                updateDefaultSitemap(null)
+                updateDefaultSitemap(null, connection)
             } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
                 // update result
-                updateDefaultSitemap(result)
+                updateDefaultSitemap(result, connection)
                 updateSitemapAndHabPanelDrawerItems()
             }
         }
@@ -826,7 +830,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 val sitemap = sitemaps[which]
                 Log.d(TAG, "Selected sitemap $sitemap")
                 prefs.edit {
-                    updateDefaultSitemap(sitemap)
+                    updateDefaultSitemap(sitemap, connection)
                 }
                 controller.openSitemap(sitemap)
                 updateSitemapAndHabPanelDrawerItems()
