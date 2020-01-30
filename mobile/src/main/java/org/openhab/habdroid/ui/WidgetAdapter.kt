@@ -545,7 +545,7 @@ class WidgetAdapter(
             seekBar.setLabelFormatter(this)
             val now = Calendar.getInstance()
             if (now.get(Calendar.DAY_OF_MONTH) == 31 && now.get(Calendar.MONTH) == Calendar.OCTOBER) {
-                //seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp) // TODO
+                // seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp) // TODO
             }
         }
 
@@ -553,10 +553,10 @@ class WidgetAdapter(
             super.bind(widget)
             boundWidget = widget
 
-            seekBar.valueTo = widget.maxValue
-            seekBar.valueFrom = widget.minValue
             // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
-            seekBar.stepSize = if ((widget.maxValue - widget.minValue).rem(widget.step) == 0F) widget.step else 0F
+            seekBar.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
+            seekBar.valueFrom = widget.minValue
+            seekBar.stepSize = widget.step
 
             val item = widget.item
             val state = item?.state ?: return
