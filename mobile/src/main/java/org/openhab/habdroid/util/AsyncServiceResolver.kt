@@ -17,8 +17,12 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.MulticastLock
 import android.util.Log
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import java.net.BindException
 import java.net.Inet4Address
 import java.net.InetAddress
@@ -46,7 +50,7 @@ class AsyncServiceResolver(
             while (en.hasMoreElements()) {
                 val intf = en.nextElement()
                 val enumIpAddr = intf.inetAddresses
-                while (enumIpAddr.hasMoreElements()) {
+                while (enumIpAddr?.hasMoreElements() == true) {
                     val inetAddress = enumIpAddr.nextElement()
                     Log.i(TAG, "IP: ${inetAddress.hostAddress}")
                     if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
@@ -55,8 +59,8 @@ class AsyncServiceResolver(
                     }
                 }
             }
-        } catch (ex: SocketException) {
-            Log.e(TAG, ex.toString())
+        } catch (e: SocketException) {
+            Log.e(TAG, e.toString())
         }
 
         return null
