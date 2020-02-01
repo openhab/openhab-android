@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
@@ -806,18 +807,22 @@ class WidgetAdapter(
         private val parent: ViewGroup,
         private val chartTheme: CharSequence?,
         private val connection: Connection
-    ) : ViewHolder(inflater, parent, R.layout.widgetlist_chartitem) {
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_chartitem), View.OnClickListener {
         private val chart: WidgetImageView = itemView.findViewById(R.id.chart)
         private val random = Random()
         private val prefs: SharedPreferences
         private var refreshRate = 0
         private val density: Int
+        private var baseChartUrl: String? = null
+        private var boundWidget: Widget? = null
 
         init {
             val context = itemView.context
             val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val metrics = DisplayMetrics()
             wm.defaultDisplay.getMetrics(metrics)
+
+            chart.setOnClickListener(this)
 
             density = metrics.densityDpi
             prefs = context.getPrefs()
@@ -832,24 +837,27 @@ class WidgetAdapter(
                 return
             }
 
+            boundWidget = widget
+
             val actualDensity = density.toFloat() / prefs.getChartScalingFactor()
             val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
 
             val chartUrl = StringBuilder("chart?")
-                .append(if (item.type === Item.Type.Group) "groups=" else "items=")
-                .append(item.name)
-                .append("&period=")
-                .append(widget.period)
-                .append("&random=")
-                .append(random.nextInt())
-                .append("&dpi=")
-                .append(actualDensity.toInt() / resDivider)
+                .append(if (item.type === Item.Type.Group) "groups=" else "items=").append(item.name)
+                .append("&dpi=").append(actualDensity.toInt() / resDivider)
             if (widget.service.isNotEmpty()) {
                 chartUrl.append("&service=").append(widget.service)
             }
             if (chartTheme != null) {
                 chartUrl.append("&theme=").append(chartTheme)
             }
+
+            baseChartUrl = chartUrl.toString()
+
+            chartUrl
+                .append("&period=").append(widget.period)
+                .append("&random=").append(random.nextInt())
+
             if (widget.legend != null) {
                 chartUrl.append("&legend=").append(widget.legend)
             }
@@ -876,6 +884,14 @@ class WidgetAdapter(
 
         override fun stop() {
             chart.cancelRefresh()
+        }
+
+        override fun onClick(v: View?) {
+            v ?: return
+            val intent = Intent(v.context, ChartActivity::class.java)
+            intent.putExtra(ChartActivity.CHART_URL, baseChartUrl)
+            intent.putExtra(ChartActivity.WIDGET, boundWidget)
+            v.context.startActivity(intent)
         }
     }
 

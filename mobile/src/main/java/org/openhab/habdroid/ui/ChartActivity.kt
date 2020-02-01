@@ -1,0 +1,168 @@
+/*
+ * Copyright (c) 2010-2020 Contributors to the openHAB project
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ */
+
+package org.openhab.habdroid.ui
+
+import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.net.toUri
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.ui.widget.WidgetImageView
+import org.openhab.habdroid.util.orDefaultIfEmpty
+import kotlin.random.Random
+
+class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+    private lateinit var swipeLayout: SwipeRefreshLayout
+    private lateinit var chart: WidgetImageView
+    private lateinit var baseChartUrl: String
+    private lateinit var period: String
+    private lateinit var widget: Widget
+    private var showLegend: Boolean = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_chart)
+
+        baseChartUrl = intent.getStringExtra(CHART_URL)!!
+        widget = intent.getParcelableExtra<Widget>(WIDGET)!!
+        period = widget.period
+        showLegend = widget.legend ?: true
+
+        setSupportActionBar(findViewById(R.id.openhab_toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.chart_activity_title))
+
+        chart = findViewById(R.id.chart)
+        swipeLayout = findViewById(R.id.activity_content)
+        swipeLayout.setOnRefreshListener(this)
+        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onRefresh()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        Log.d(TAG, "onCreateOptionsMenu()")
+        menuInflater.inflate(R.menu.chart_menu, menu)
+        updateHasLegendButtonState(menu.findItem(R.id.show_legend))
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG, "onOptionsItemSelected()")
+        return when (item.itemId) {
+            R.id.refresh -> {
+                swipeLayout.isRefreshing = true
+                onRefresh()
+                true
+            }
+            R.id.show_legend -> {
+                showLegend = !showLegend
+                updateHasLegendButtonState(item)
+                true
+            }
+            android.R.id.home -> {
+                finish()
+                super.onOptionsItemSelected(item)
+            }
+            R.id.period -> true
+            else -> {
+                updatePeriod(item.itemId)
+                onRefresh()
+                true
+            }
+        }
+    }
+
+    private fun updatePeriod(itemId: Int) {
+        period = when (itemId) {
+            R.id.period_h -> "h"
+            R.id.period_4h -> "4h"
+            R.id.period_8h -> "8h"
+            R.id.period_12h -> "12h"
+            R.id.period_2d -> "2D"
+            R.id.period_3d -> "3D"
+            R.id.period_w -> "W"
+            R.id.period_2w -> "2W"
+            R.id.period_m -> "M"
+            R.id.period_2m -> "2M"
+            R.id.period_4m -> "4M"
+            R.id.period_y -> "Y"
+            else -> "D"
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(SHOW_LEGEND, showLegend)
+        outState.putString(PERIOD, period)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        showLegend = savedInstanceState.getBoolean(SHOW_LEGEND)
+        period = savedInstanceState.getString(PERIOD)!!
+        super.onRestoreInstanceState(savedInstanceState)
+    }
+
+    override fun onRefresh() {
+        val connection = ConnectionFactory.usableConnectionOrNull
+        if (connection == null) {
+            finish()
+            return
+        }
+
+        if (chart.height == 0 || chart.width == 0) {
+            Log.d(TAG, "Height or width is 0")
+            return
+        }
+
+        val chartUrl = baseChartUrl.toUri().buildUpon()
+            .appendQueryParameter("h", chart.height.toString())
+            .appendQueryParameter("w", chart.width.toString())
+            .appendQueryParameter("legend", showLegend.toString())
+            .appendQueryParameter("period", period)
+            .appendQueryParameter("random", Random.nextInt().toString())
+
+        Log.d(TAG, "Load chart with url $chartUrl")
+        chart.setImageUrl(connection, chartUrl.toString(), chart.width, forceLoad = true)
+        swipeLayout.isRefreshing = false
+    }
+
+    private fun updateHasLegendButtonState(item: MenuItem) {
+        if (showLegend) {
+            item.setIcon(R.drawable.ic_error_white_24dp)
+            item.setTitle(R.string.chart_activity_hide_legend)
+        } else {
+            item.setIcon(R.drawable.ic_error_outline_white_24dp)
+            item.setTitle(R.string.chart_activity_show_legend)
+        }
+        onRefresh()
+    }
+
+    companion object {
+        private val TAG = ChartActivity::class.java.simpleName
+
+        private const val SHOW_LEGEND = "show_legend"
+        private const val PERIOD = "period"
+        const val CHART_URL = "chart_url"
+        const val WIDGET = "widget"
+    }
+}

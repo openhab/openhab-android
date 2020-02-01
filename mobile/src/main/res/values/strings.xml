@@ -254,6 +254,25 @@
     <string name="theme_name_system">Follow system</string>
     <string name="theme_name_battery_saver">Dark mode in battery saver</string>
 
+    <!-- Chart -->
+    <string name="chart_activity_title">Chart</string>
+    <string name="chart_activity_hide_legend">Hide legend</string>
+    <string name="chart_activity_show_legend">Show legend</string>
+    <string name="chart_activity_period">Period</string>
+    <string name="chart_activity_period_hour">1 h</string>
+    <string name="chart_activity_period_4_hour">4 h</string>
+    <string name="chart_activity_period_8_hour">8 h</string>
+    <string name="chart_activity_period_12_hour">12 h</string>
+    <string name="chart_activity_period_day">1 D</string>
+    <string name="chart_activity_period_2_day">2 D</string>
+    <string name="chart_activity_period_3_day">3 D</string>
+    <string name="chart_activity_period_week">1 W</string>
+    <string name="chart_activity_period_2_week">2 W</string>
+    <string name="chart_activity_period_month">1 M</string>
+    <string name="chart_activity_period_2_month">2 M</string>
+    <string name="chart_activity_period_4_month">4 M</string>
+    <string name="chart_activity_period_year">1 Y</string>
+
     <!-- NFC -->
     <string name="nfc_action_on">On</string>
     <string name="nfc_action_up">Up</string>

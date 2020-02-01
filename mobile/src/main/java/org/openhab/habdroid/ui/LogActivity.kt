@@ -104,7 +104,8 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                 true
             }
             R.id.show_errors -> {
-                showErrorsOnly = showErrorsOnly.not()
+                showErrorsOnly = !showErrorsOnly
+                onRefresh()
                 updateErrorsOnlyButtonState(item)
                 true
             }
@@ -128,7 +129,6 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             item.setIcon(R.drawable.ic_error_outline_white_24dp)
             item.setTitle(R.string.log_activity_action_show_errors)
         }
-        onRefresh()
     }
 
     override fun onRefresh() {

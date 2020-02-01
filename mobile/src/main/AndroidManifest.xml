@@ -56,6 +56,9 @@
             android:name=".ui.LogActivity"
             android:label="@string/log" />
         <activity
+            android:name=".ui.ChartActivity"
+            android:label="@string/chart_activity_title" />
+        <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
