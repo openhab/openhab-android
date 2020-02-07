@@ -20,8 +20,6 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.os.Handler
-import android.os.Message
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
@@ -47,6 +45,7 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
 import androidx.media2.common.MediaMetadata
 import androidx.media2.common.UriMediaItem
 import androidx.media2.player.MediaPlayer
@@ -55,7 +54,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.larswerkman.holocolorpicker.ColorPicker
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
@@ -86,7 +86,7 @@ import kotlin.math.roundToInt
  */
 
 class WidgetAdapter(
-    context: Context,
+    private val activity: FragmentActivity,
     private val connection: Connection,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
@@ -96,10 +96,10 @@ class WidgetAdapter(
     val hasVisibleWidgets: Boolean
         get() = items.any { widget -> isWidgetIncludingAllParentsVisible(widget) }
 
-    private val inflater = LayoutInflater.from(context)
+    private val inflater = LayoutInflater.from(activity)
     private val chartTheme: CharSequence
     private var selectedPosition = -1
-    private val colorMapper = ColorMapper(context)
+    private val colorMapper = ColorMapper(activity)
 
     interface ItemClickListener {
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
@@ -107,7 +107,7 @@ class WidgetAdapter(
 
     init {
         val tv = TypedValue()
-        context.theme.resolveAttribute(R.attr.chartTheme, tv, true)
+        activity.theme.resolveAttribute(R.attr.chartTheme, tv, true)
         chartTheme = tv.string
     }
 
@@ -172,7 +172,7 @@ class WidgetAdapter(
             TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection)
             TYPE_VIDEO -> VideoViewHolder(inflater, parent)
             TYPE_WEB -> WebViewHolder(inflater, parent, connection)
-            TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper, activity)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(inflater, parent, connection)
             TYPE_LOCATION -> MapViewHelper.createViewHolder(inflater, parent, connection, colorMapper)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(inflater, parent)
@@ -949,14 +949,14 @@ class WidgetAdapter(
     }
 
     class ColorViewHolder internal constructor(
-        private val inflater: LayoutInflater,
+        inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
-        colorMapper: ColorMapper
+        colorMapper: ColorMapper,
+        private val mainActivity: FragmentActivity
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
-        View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
+        View.OnTouchListener, ColorPickerDialogListener {
         private var boundItem: Item? = null
-        private val handler = Handler(this)
         override val dialogManager = DialogManager()
 
         init {
@@ -989,40 +989,39 @@ class WidgetAdapter(
             return false
         }
 
-        override fun handleMessage(msg: Message): Boolean {
+        private fun showColorPickerDialog() {
+            val presets = ColorPickerDialog.MATERIAL_COLORS.toMutableList()
+            presets.add(Color.BLACK)
+            presets.add(Color.WHITE)
+
+            val builder = ColorPickerDialog.newBuilder()
+                .setAllowCustom(true)
+                .setAllowPresets(true)
+                .setPresets(presets.toIntArray())
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+
+            val initialColor = boundItem?.state?.asHsv?.toColor()
+            if (initialColor != null) {
+                builder.setColor(initialColor)
+            }
+
+            builder.create().apply {
+                setColorPickerDialogListener(this@ColorViewHolder)
+                show(mainActivity.supportFragmentManager, "ColorPicker")
+            }
+        }
+
+        override fun onDialogDismissed(dialogId: Int) {
+            // no-op
+        }
+
+        override fun onColorSelected(dialogId: Int, color: Int) {
             val hsv = FloatArray(3)
-            Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
+            Color.RGBToHSV(Color.red(color), Color.green(color), Color.blue(color), hsv)
             Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
             val newColorValue = String.format(Locale.US, "%f,%f,%f",
                 hsv[0], hsv[1] * 100, hsv[2] * 100)
             connection.httpClient.sendItemCommand(boundItem, newColorValue)
-            return true
-        }
-
-        override fun onColorChanged(color: Int) {
-            handler.removeMessages(0)
-            handler.sendMessageDelayed(handler.obtainMessage(0, color, 0), 100)
-        }
-
-        private fun showColorPickerDialog() {
-            val contentView = inflater.inflate(R.layout.color_picker_dialog, null)
-            val picker = contentView.findViewById<ColorPicker>(R.id.picker).apply {
-                addSaturationBar(contentView.findViewById(R.id.saturation_bar))
-                addValueBar(contentView.findViewById(R.id.value_bar))
-                onColorChangedListener = this@ColorViewHolder
-                showOldCenterColor = false
-            }
-
-            val initialColor = boundItem?.state?.asHsv?.toColor()
-            if (initialColor != null) {
-                picker.color = initialColor
-            }
-
-            dialogManager.manage(AlertDialog.Builder(contentView.context)
-                .setView(contentView)
-                .setNegativeButton(R.string.close, null)
-                .show()
-            )
         }
     }
 

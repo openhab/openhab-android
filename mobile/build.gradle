@@ -153,7 +153,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
     implementation "com.squareup.okhttp3:okhttp-sse:$ok_http_version"
-    implementation "com.larswerkman:HoloColorPicker:1.5"
     implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
     implementation("com.github.paolorotolo:appintro:v5.1.0") {
