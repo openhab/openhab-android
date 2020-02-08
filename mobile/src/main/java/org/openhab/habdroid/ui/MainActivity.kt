@@ -288,10 +288,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onPause() {
         RemoteLog.d(TAG, "onPause()")
-        val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        nfcAdapter?.disableForegroundDispatch(this)
         super.onPause()
         retryJob?.cancel(CancellationException("onPause() was called"))
+        val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        try {
+            nfcAdapter?.disableForegroundDispatch(this)
+        } catch (e: IllegalStateException) {
+            // See #1776
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
