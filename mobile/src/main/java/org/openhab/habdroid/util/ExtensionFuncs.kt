@@ -122,6 +122,10 @@ fun Resources.dpToPixel(dp: Float): Float {
     return dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 }
 
+fun Resources.pixelToDp(pixel: Int): Float {
+    return pixel / (displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+}
+
 @Throws(IOException::class)
 fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
     if (!contentType().isSvg()) {

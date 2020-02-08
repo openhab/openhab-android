@@ -54,8 +54,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.jaredrummler.android.colorpicker.ColorPickerDialog
-import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
@@ -69,6 +67,7 @@ import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.WidgetImageView
+import org.openhab.habdroid.util.ColorPicker
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.getChartScalingFactor
@@ -949,13 +948,13 @@ class WidgetAdapter(
     }
 
     class ColorViewHolder internal constructor(
-        inflater: LayoutInflater,
+        private val inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
         colorMapper: ColorMapper,
         private val mainActivity: FragmentActivity
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
-        View.OnTouchListener, ColorPickerDialogListener {
+        View.OnTouchListener, ColorPicker.OnColorPickerChangeListener {
         private var boundItem: Item? = null
         override val dialogManager = DialogManager()
 
@@ -990,7 +989,9 @@ class WidgetAdapter(
         }
 
         private fun showColorPickerDialog() {
-            val presets = ColorPickerDialog.MATERIAL_COLORS.toMutableList()
+            val item = boundItem ?: return
+
+            /*val presets = ColorPickerDialog.MATERIAL_COLORS.toMutableList()
             presets.add(Color.BLACK)
             presets.add(Color.WHITE)
 
@@ -1008,20 +1009,45 @@ class WidgetAdapter(
             builder.create().apply {
                 setColorPickerDialogListener(this@ColorViewHolder)
                 show(mainActivity.supportFragmentManager, "ColorPicker")
-            }
+            }*/
+
+            val presets = intArrayOf(
+                -0xbbcca,  // RED 500
+                -0x16e19d,  // PINK 500
+                -0xd36d,  // LIGHT PINK 500
+                -0x63d850,  // PURPLE 500
+                -0x98c549,  // DEEP PURPLE 500
+                -0xc0ae4b,  // INDIGO 500
+                -0xde690d,  // BLUE 500
+                -0xfc560c,  // LIGHT BLUE 500
+                -0xff432c,  // CYAN 500
+                -0xff6978,  // TEAL 500
+                -0xb350b0,  // GREEN 500
+                -0x743cb6,  // LIGHT GREEN 500
+                -0x3223c7,  // LIME 500
+                -0x14c5,  // YELLOW 500
+                -0x3ef9,  // AMBER 500
+                -0x6800,  // ORANGE 500
+                -0x86aab8,  // BROWN 500
+                -0x9f8275,  // BLUE GREY 500
+                -0x616162, // GREY 500
+                Color.BLACK,
+                Color.WHITE
+            )
+
+
+            ColorPicker(itemView.context, inflater).showDialog(presets, this, item)
         }
 
-        override fun onDialogDismissed(dialogId: Int) {
-            // no-op
-        }
-
-        override fun onColorSelected(dialogId: Int, color: Int) {
-            val hsv = FloatArray(3)
-            Color.RGBToHSV(Color.red(color), Color.green(color), Color.blue(color), hsv)
+        override fun onColorChange(hsv: FloatArray) {
             Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
             val newColorValue = String.format(Locale.US, "%f,%f,%f",
-                hsv[0], hsv[1] * 100, hsv[2] * 100)
+                hsv[0], hsv[1] * 100, hsv[2])
             connection.httpClient.sendItemCommand(boundItem, newColorValue)
+        }
+
+        override fun onBrightnessChange(brightness: Int) {
+            connection.httpClient.sendItemCommand(boundItem, brightness.toString())
         }
     }
 
