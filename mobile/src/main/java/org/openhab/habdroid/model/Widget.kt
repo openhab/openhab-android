@@ -16,7 +16,6 @@ package org.openhab.habdroid.model
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Parcelable
-import android.view.ViewGroup
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
