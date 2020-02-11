@@ -328,3 +328,7 @@ fun Socket.bindToNetworkIfPossible(network: Network?) {
 fun Uri.Builder.appendQueryParameter(key: String, value: Int): Uri.Builder {
     return appendQueryParameter(key, value.toString())
 }
+
+fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
+    return appendQueryParameter(key, value.toString())
+}

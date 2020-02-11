@@ -98,7 +98,7 @@ data class Widget(
         val chartUrl = Uri.Builder()
             .path("chart")
             .appendQueryParameter(if (item!!.type === Item.Type.Group) "groups" else "items", item!!.name)
-            .appendQueryParameter("dpi", (actualDensity.toInt() / resDivider))
+            .appendQueryParameter("dpi", actualDensity.toInt() / resDivider)
             .appendQueryParameter("period", forcedPeriod)
             .appendQueryParameter("random", random.nextInt())
 
@@ -109,7 +109,7 @@ data class Widget(
             chartUrl.appendQueryParameter("theme", chartTheme.toString())
         }
         if (forcedLegend != null) {
-            chartUrl.appendQueryParameter("legend", forcedLegend.toString())
+            chartUrl.appendQueryParameter("legend", forcedLegend)
         }
         if (width > 0) {
             chartUrl.appendQueryParameter("w", width / resDivider)
