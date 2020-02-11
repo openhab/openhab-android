@@ -813,7 +813,6 @@ class WidgetAdapter(
         private val prefs: SharedPreferences
         private var refreshRate = 0
         private val density: Int
-        private var baseChartUrl: String? = null
         private var boundWidget: Widget? = null
 
         init {
@@ -821,11 +820,9 @@ class WidgetAdapter(
             val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val metrics = DisplayMetrics()
             wm.defaultDisplay.getMetrics(metrics)
-
-            chart.setOnClickListener(this)
-
             density = metrics.densityDpi
             prefs = context.getPrefs()
+            chart.setOnClickListener(this)
         }
 
         override fun bind(widget: Widget) {
@@ -839,38 +836,9 @@ class WidgetAdapter(
 
             boundWidget = widget
 
-            val actualDensity = density.toFloat() / prefs.getChartScalingFactor()
-            val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
-
-            val chartUrl = StringBuilder("chart?")
-                .append(if (item.type === Item.Type.Group) "groups=" else "items=").append(item.name)
-                .append("&dpi=").append(actualDensity.toInt() / resDivider)
-            if (widget.service.isNotEmpty()) {
-                chartUrl.append("&service=").append(widget.service)
-            }
-            if (chartTheme != null) {
-                chartUrl.append("&theme=").append(chartTheme)
-            }
-
-            baseChartUrl = chartUrl.toString()
-
-            chartUrl
-                .append("&period=").append(widget.period)
-                .append("&random=").append(random.nextInt())
-
-            if (widget.legend != null) {
-                chartUrl.append("&legend=").append(widget.legend)
-            }
-
-            val parentWidth = parent.width
-            if (parentWidth > 0) {
-                chartUrl.append("&w=").append(parentWidth / resDivider)
-                chartUrl.append("&h=").append(parentWidth / 2 / resDivider)
-            }
-
+            val chartUrl = widget.toChartUrl(prefs, random, parent.width, chartTheme = chartTheme, density = density)
             Log.d(TAG, "Chart url = $chartUrl")
-
-            chart.setImageUrl(connection, chartUrl.toString(), parentWidth, forceLoad = true)
+            chart.setImageUrl(connection, chartUrl, parent.width, forceLoad = true)
             refreshRate = widget.refresh
         }
 
@@ -889,7 +857,6 @@ class WidgetAdapter(
         override fun onClick(v: View?) {
             v ?: return
             val intent = Intent(v.context, ChartActivity::class.java)
-            intent.putExtra(ChartActivity.CHART_URL, baseChartUrl)
             intent.putExtra(ChartActivity.WIDGET, boundWidget)
             v.context.startActivity(intent)
         }

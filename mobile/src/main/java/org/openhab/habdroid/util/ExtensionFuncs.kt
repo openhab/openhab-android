@@ -324,3 +324,7 @@ fun Socket.bindToNetworkIfPossible(network: Network?) {
         Log.d(Util.TAG, "Binding socket $this to network $network failed: $e")
     }
 }
+
+fun Uri.Builder.appendQueryParameter(key: String, value: Int): Uri.Builder {
+    return appendQueryParameter(key, value.toString())
+}
