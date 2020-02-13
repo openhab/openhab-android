@@ -36,11 +36,11 @@ interface ConnectionManagerHelper {
     fun shutdown()
 
     sealed class ConnectionType constructor(val network: Network?) {
-        class Wifi(network: Network?) : ConnectionType(network)
         class Ethernet(network: Network?) : ConnectionType(network)
         class Mobile(network: Network?) : ConnectionType(network)
         class Unknown(network: Network?) : ConnectionType(network)
         class Vpn(network: Network?) : ConnectionType(network)
+        class Wifi(network: Network?) : ConnectionType(network)
     }
 
     companion object {

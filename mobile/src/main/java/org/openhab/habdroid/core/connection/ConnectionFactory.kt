@@ -323,9 +323,9 @@ class ConnectionFactory internal constructor(
         if (local != null) {
             val localCandidates = available
                 .filter { type ->
-                    type is ConnectionManagerHelper.ConnectionType.Wifi
-                        || type is ConnectionManagerHelper.ConnectionType.Ethernet
-                        || type is ConnectionManagerHelper.ConnectionType.Vpn
+                    type is ConnectionManagerHelper.ConnectionType.Wifi ||
+                        type is ConnectionManagerHelper.ConnectionType.Ethernet ||
+                        type is ConnectionManagerHelper.ConnectionType.Vpn
                 }
             for (type in localCandidates) {
                 if (local is DefaultConnection) {
