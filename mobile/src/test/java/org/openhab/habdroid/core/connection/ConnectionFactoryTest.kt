@@ -165,7 +165,7 @@ class ConnectionFactoryTest {
     @Test(expected = NetworkNotAvailableException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionNoNetwork() {
-        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.None())
+        mockConnectionHelper.update(null)
         updateAndWaitForConnections()
         ConnectionFactory.usableConnection
     }
@@ -230,12 +230,11 @@ class ConnectionFactoryTest {
 
     private inner class MockConnectionHelper : ConnectionManagerHelper {
         override var changeCallback: ConnectionChangedCallback? = null
-        private var currentType: ConnectionManagerHelper.ConnectionType =
-            ConnectionManagerHelper.ConnectionType.Unknown(null)
-        override val currentConnection: ConnectionManagerHelper.ConnectionType get() = currentType
+        private var currentTypes: List<ConnectionManagerHelper.ConnectionType> = emptyList()
+        override val currentConnections: List<ConnectionManagerHelper.ConnectionType> get() = currentTypes
 
-        fun update(type: ConnectionManagerHelper.ConnectionType) {
-            currentType = type
+        fun update(type: ConnectionManagerHelper.ConnectionType?) {
+            currentTypes = if (type != null) listOf(type) else emptyList()
             changeCallback?.invoke()
         }
         override fun shutdown() {}
