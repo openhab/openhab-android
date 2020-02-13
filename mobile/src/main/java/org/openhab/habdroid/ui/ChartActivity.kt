@@ -83,7 +83,6 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         Log.d(TAG, "onOptionsItemSelected()")
         return when (item.itemId) {
             R.id.refresh -> {
-                swipeLayout.isRefreshing = true
                 onRefresh()
                 true
             }
