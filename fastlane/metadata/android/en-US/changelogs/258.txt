@@ -1,0 +1,2 @@
+## Fixed
+* Fix connection issues (#1815)
