@@ -939,7 +939,7 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
         View.OnTouchListener, Handler.Callback, OnColorChangedListener, OnColorSelectedListener,
-        Slider.LabelFormatter, Slider.OnChangeListener {
+        Slider.LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
         private var boundItem: Item? = null
         private val handler = Handler(this)
         private var slider: Slider? = null
@@ -986,12 +986,28 @@ class WidgetAdapter(
         }
 
         override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-            handleChange()
+            if (fromUser) {
+                handleChange()
+            }
+        }
+
+        override fun onStartTrackingTouch(slider: Slider) {
+            // no-op
+        }
+
+        override fun onStopTrackingTouch(slider: Slider) {
+            handleChange(delay = 0)
         }
 
         private fun handleChange(newColor: Int = 0, delay: Long = 1000) {
             Log.e(TAG, "handleChange($newColor, $delay)")
-            val brightness = slider?.value?.toInt() ?: 0
+            var brightness = slider?.value?.toInt() ?: 0
+
+            // If the color is changed and the brightness 0
+            if (newColor != 0 && brightness == 0) {
+                brightness = 100
+                slider?.value = 100F
+            }
             handler.removeMessages(0)
             handler.sendMessageDelayed(handler.obtainMessage(0, newColor, brightness), delay)
         }
@@ -1025,6 +1041,7 @@ class WidgetAdapter(
 
                 addOnChangeListener(this@ColorViewHolder)
                 setLabelFormatter(this@ColorViewHolder)
+                addOnSliderTouchListener(this@ColorViewHolder)
             }
 
             dialogManager.manage(AlertDialog.Builder(contentView.context)
