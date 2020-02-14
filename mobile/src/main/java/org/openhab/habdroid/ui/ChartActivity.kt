@@ -27,6 +27,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.WidgetImageView
+import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import java.util.Random
@@ -171,6 +172,10 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
             item.setTitle(R.string.chart_activity_show_legend)
         }
         onRefresh()
+    }
+
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
+        return mode == ScreenLockMode.Enabled
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
