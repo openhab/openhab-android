@@ -940,6 +940,7 @@ class WidgetAdapter(
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
         View.OnTouchListener, Handler.Callback, OnColorChangedListener, OnColorSelectedListener,
         Slider.LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
+        private var boundWidget: Widget? = null
         private var boundItem: Item? = null
         private val handler = Handler(this)
         private var slider: Slider? = null
@@ -957,6 +958,7 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
+            boundWidget = widget
             boundItem = widget.item
         }
 
@@ -1045,6 +1047,7 @@ class WidgetAdapter(
             }
 
             dialogManager.manage(AlertDialog.Builder(contentView.context)
+                .setTitle(boundWidget?.label)
                 .setView(contentView)
                 .setNegativeButton(R.string.close, null)
                 .show()
