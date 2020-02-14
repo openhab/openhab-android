@@ -53,10 +53,13 @@ import androidx.media2.common.UriMediaItem
 import androidx.media2.player.MediaPlayer
 import androidx.media2.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.OnColorChangedListener
+import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.larswerkman.holocolorpicker.ColorPicker
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
@@ -935,9 +938,11 @@ class WidgetAdapter(
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
-        View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
+        View.OnTouchListener, Handler.Callback, OnColorChangedListener, OnColorSelectedListener,
+        Slider.LabelFormatter, Slider.OnChangeListener {
         private var boundItem: Item? = null
         private val handler = Handler(this)
+        private var slider: Slider? = null
         override val dialogManager = DialogManager()
 
         init {
@@ -970,33 +975,56 @@ class WidgetAdapter(
             return false
         }
 
+        override fun onColorSelected(selectedColor: Int) {
+            Log.e(TAG, "onColorSelected($selectedColor)")
+            handleChange(selectedColor, 0)
+        }
+
+        override fun onColorChanged(selectedColor: Int) {
+            Log.e(TAG, "onColorChanged($selectedColor)")
+            handleChange(selectedColor)
+        }
+
+        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+            handleChange()
+        }
+
+        private fun handleChange(newColor: Int = 0, delay: Long = 1000) {
+            Log.e(TAG, "handleChange($newColor, $delay)")
+            val brightness = slider?.value?.toInt() ?: 0
+            handler.removeMessages(0)
+            handler.sendMessageDelayed(handler.obtainMessage(0, newColor, brightness), delay)
+        }
+
         override fun handleMessage(msg: Message): Boolean {
             val hsv = FloatArray(3)
+            if(msg.arg1 == 0) {
+                connection.httpClient.sendItemCommand(boundItem, msg.arg2.toString())
+                return true
+            }
+
             Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
+            hsv[2] = msg.arg2.toFloat()
             Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
-            val newColorValue = String.format(Locale.US, "%f,%f,%f",
-                hsv[0], hsv[1] * 100, hsv[2] * 100)
+            val newColorValue = String.format(Locale.US, "%f,%f,%f", hsv[0], hsv[1] * 100, hsv[2])
             connection.httpClient.sendItemCommand(boundItem, newColorValue)
             return true
         }
 
-        override fun onColorChanged(color: Int) {
-            handler.removeMessages(0)
-            handler.sendMessageDelayed(handler.obtainMessage(0, color, 0), 100)
-        }
-
         private fun showColorPickerDialog() {
             val contentView = inflater.inflate(R.layout.color_picker_dialog, null)
-            val picker = contentView.findViewById<ColorPicker>(R.id.picker).apply {
-                addSaturationBar(contentView.findViewById(R.id.saturation_bar))
-                addValueBar(contentView.findViewById(R.id.value_bar))
-                onColorChangedListener = this@ColorViewHolder
-                showOldCenterColor = false
+            contentView.findViewById<ColorPickerView>(R.id.picker).apply {
+                boundItem?.state?.asHsv?.toColor(false)?.let { it -> setColor(it, true) }
+
+                addOnColorChangedListener(this@ColorViewHolder)
+                addOnColorSelectedListener(this@ColorViewHolder)
             }
 
-            val initialColor = boundItem?.state?.asHsv?.toColor()
-            if (initialColor != null) {
-                picker.color = initialColor
+            slider = contentView.findViewById<Slider>(R.id.brightness_slider).apply {
+                boundItem?.state?.asBrightness?.let { it -> value = it.toFloat() }
+
+                addOnChangeListener(this@ColorViewHolder)
+                setLabelFormatter(this@ColorViewHolder)
             }
 
             dialogManager.manage(AlertDialog.Builder(contentView.context)
@@ -1004,6 +1032,10 @@ class WidgetAdapter(
                 .setNegativeButton(R.string.close, null)
                 .show()
             )
+        }
+
+        override fun getFormattedValue(value: Float): String {
+            return "${value.toInt()} %"
         }
     }
 

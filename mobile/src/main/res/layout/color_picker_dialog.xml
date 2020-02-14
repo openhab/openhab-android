@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:paddingBottom="16dp"
+    android:paddingTop="8dp"
     android:orientation="vertical">
 
-    <com.larswerkman.holocolorpicker.ColorPicker
+    <com.flask.colorpicker.ColorPickerView
         android:id="@+id/picker"
         android:layout_width="240dp"
-        android:layout_height="240dp" />
+        android:layout_height="240dp"
+        app:alphaSlider="true"
+        app:density="8"
+        app:lightnessSlider="true"
+        app:wheelType="CIRCLE" />
 
-    <com.larswerkman.holocolorpicker.SaturationBar
-        android:id="@+id/saturation_bar"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content" />
-
-    <com.larswerkman.holocolorpicker.ValueBar
-        android:id="@+id/value_bar"
+    <com.google.android.material.slider.Slider
+        android:id="@+id/brightness_slider"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp" />
-
+        android:valueFrom="0"
+        android:valueTo="100" />
 </LinearLayout>
