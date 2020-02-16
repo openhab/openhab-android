@@ -14,9 +14,7 @@
         android:id="@+id/picker"
         android:layout_width="240dp"
         android:layout_height="240dp"
-        app:alphaSlider="true"
         app:density="8"
-        app:lightnessSlider="true"
         app:wheelType="CIRCLE" />
 
     <com.google.android.material.slider.Slider

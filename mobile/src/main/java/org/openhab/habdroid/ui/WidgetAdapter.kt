@@ -1032,14 +1032,14 @@ class WidgetAdapter(
         private fun showColorPickerDialog() {
             val contentView = inflater.inflate(R.layout.color_picker_dialog, null)
             contentView.findViewById<ColorPickerView>(R.id.picker).apply {
-                boundItem?.state?.asHsv?.toColor(false)?.let { it -> setColor(it, true) }
+                boundItem?.state?.asHsv?.toColor(false)?.let { setColor(it, true) }
 
                 addOnColorChangedListener(this@ColorViewHolder)
                 addOnColorSelectedListener(this@ColorViewHolder)
             }
 
             slider = contentView.findViewById<Slider>(R.id.brightness_slider).apply {
-                boundItem?.state?.asBrightness?.let { it -> value = it.toFloat() }
+                boundItem?.state?.asBrightness?.let { value = it.toFloat() }
 
                 addOnChangeListener(this@ColorViewHolder)
                 setLabelFormatter(this@ColorViewHolder)
