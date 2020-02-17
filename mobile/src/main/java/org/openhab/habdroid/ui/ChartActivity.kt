@@ -156,7 +156,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
             density,
             period,
             showLegend
-        )
+        ) ?: return
 
         Log.d(TAG, "Load chart with url $chartUrl")
         chart.setImageUrl(connection, chartUrl, chart.width, forceLoad = true)

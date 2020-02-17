@@ -90,13 +90,15 @@ data class Widget(
         density: Int,
         forcedPeriod: String = period,
         forcedLegend: Boolean? = legend
-    ): String {
+    ): String? {
+        item ?: return null
+
         val actualDensity = density.toFloat() / prefs.getChartScalingFactor()
         val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
 
         val chartUrl = Uri.Builder()
             .path("chart")
-            .appendQueryParameter(if (item!!.type === Item.Type.Group) "groups" else "items", item!!.name)
+            .appendQueryParameter(if (item.type === Item.Type.Group) "groups" else "items", item.name)
             .appendQueryParameter("dpi", actualDensity.toInt() / resDivider)
             .appendQueryParameter("period", forcedPeriod)
             .appendQueryParameter("random", random.nextInt())

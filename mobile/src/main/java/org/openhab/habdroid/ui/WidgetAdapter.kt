@@ -72,9 +72,7 @@ import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
-import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.shouldRequestHighResChart
 import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
@@ -836,7 +834,8 @@ class WidgetAdapter(
 
             boundWidget = widget
 
-            val chartUrl = widget.toChartUrl(prefs, random, parent.width, chartTheme = chartTheme, density = density)
+            val chartUrl =
+                widget.toChartUrl(prefs, random, parent.width, chartTheme = chartTheme, density = density) ?: return
             Log.d(TAG, "Chart url = $chartUrl")
             chart.setImageUrl(connection, chartUrl, parent.width, forceLoad = true)
             refreshRate = widget.refresh
