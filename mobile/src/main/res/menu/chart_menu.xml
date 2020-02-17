@@ -15,7 +15,7 @@
         <menu>
             <item
                 android:id="@+id/period_h"
-                android:title="@string/chart_activity_period_hour" />
+                android:title="@string/chart_activity_period_1_hour" />
             <item
                 android:id="@+id/period_4h"
                 android:title="@string/chart_activity_period_4_hour" />
@@ -27,7 +27,7 @@
                 android:title="@string/chart_activity_period_12_hour" />
             <item
                 android:id="@+id/period_d"
-                android:title="@string/chart_activity_period_day" />
+                android:title="@string/chart_activity_period_1_day" />
             <item
                 android:id="@+id/period_2d"
                 android:title="@string/chart_activity_period_2_day" />
@@ -36,13 +36,13 @@
                 android:title="@string/chart_activity_period_3_day" />
             <item
                 android:id="@+id/period_w"
-                android:title="@string/chart_activity_period_week" />
+                android:title="@string/chart_activity_period_1_week" />
             <item
                 android:id="@+id/period_2w"
                 android:title="@string/chart_activity_period_2_week" />
             <item
                 android:id="@+id/period_m"
-                android:title="@string/chart_activity_period_month" />
+                android:title="@string/chart_activity_period_1_month" />
             <item
                 android:id="@+id/period_2m"
                 android:title="@string/chart_activity_period_2_month" />
@@ -51,7 +51,7 @@
                 android:title="@string/chart_activity_period_4_month" />
             <item
                 android:id="@+id/period_y"
-                android:title="@string/chart_activity_period_year" />
+                android:title="@string/chart_activity_period_1_year" />
 
         </menu>
     </item>

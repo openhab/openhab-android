@@ -854,10 +854,10 @@ class WidgetAdapter(
         }
 
         override fun onClick(v: View?) {
-            v ?: return
-            val intent = Intent(v.context, ChartActivity::class.java)
+            val context = v?.context ?: return
+            val intent = Intent(context, ChartActivity::class.java)
             intent.putExtra(ChartActivity.WIDGET, boundWidget)
-            v.context.startActivity(intent)
+            context.startActivity(intent)
         }
     }
 

@@ -82,45 +82,46 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onOptionsItemSelected()")
-        return when (item.itemId) {
-            R.id.refresh -> {
+        return when {
+            item.itemId == R.id.refresh -> {
                 onRefresh()
                 true
             }
-            R.id.show_legend -> {
+            item.itemId == R.id.show_legend -> {
                 showLegend = !showLegend
                 updateHasLegendButtonState(item)
                 true
             }
-            android.R.id.home -> {
+            item.itemId == android.R.id.home -> {
                 finish()
                 super.onOptionsItemSelected(item)
             }
-            R.id.period -> true
-            else -> {
-                updatePeriod(item.itemId)
+            // The dropdown menu is opened
+            item.itemId == R.id.period -> true
+            periodForMenuItem(item.itemId) != null -> {
+                period = periodForMenuItem(item.itemId)!!
                 onRefresh()
                 true
             }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun updatePeriod(itemId: Int) {
-        period = when (itemId) {
-            R.id.period_h -> "h"
-            R.id.period_4h -> "4h"
-            R.id.period_8h -> "8h"
-            R.id.period_12h -> "12h"
-            R.id.period_2d -> "2D"
-            R.id.period_3d -> "3D"
-            R.id.period_w -> "W"
-            R.id.period_2w -> "2W"
-            R.id.period_m -> "M"
-            R.id.period_2m -> "2M"
-            R.id.period_4m -> "4M"
-            R.id.period_y -> "Y"
-            else -> "D"
-        }
+    private fun periodForMenuItem(itemId: Int) = when (itemId) {
+        R.id.period_h -> "h"
+        R.id.period_4h -> "4h"
+        R.id.period_8h -> "8h"
+        R.id.period_12h -> "12h"
+        R.id.period_d -> "D"
+        R.id.period_2d -> "2D"
+        R.id.period_3d -> "3D"
+        R.id.period_w -> "W"
+        R.id.period_2w -> "2W"
+        R.id.period_m -> "M"
+        R.id.period_2m -> "2M"
+        R.id.period_4m -> "4M"
+        R.id.period_y -> "Y"
+        else -> null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
