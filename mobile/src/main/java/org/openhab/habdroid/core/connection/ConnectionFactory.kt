@@ -328,6 +328,7 @@ class ConnectionFactory internal constructor(
                         type is ConnectionManagerHelper.ConnectionType.Vpn
                 }
             for (type in localCandidates) {
+                Log.d(TAG, "Checking local server availability via $type (network ${type.network})")
                 if (local is DefaultConnection) {
                     local.network = type.network
                 }

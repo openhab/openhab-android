@@ -125,6 +125,6 @@ abstract class AbstractConnection : Connection {
     }
 
     companion object {
-        private val TAG = AbstractConnection::class.java.simpleName
+        internal val TAG = AbstractConnection::class.java.simpleName
     }
 }

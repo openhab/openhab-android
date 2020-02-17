@@ -14,7 +14,9 @@
 package org.openhab.habdroid.core.connection
 
 import android.net.Network
+import android.util.Log
 import okhttp3.OkHttpClient
+import java.io.IOException
 import java.net.Socket
 
 open class DefaultConnection : AbstractConnection {
@@ -32,7 +34,11 @@ open class DefaultConnection : AbstractConnection {
         super(baseConnection, connectionType)
 
     override fun prepareSocket(socket: Socket): Socket {
-        network?.bindSocket(socket)
+        try {
+            network?.bindSocket(socket)
+        } catch (e: IOException) {
+            Log.w(TAG, "Failed binding socket to network $network, continuing without binding", e)
+        }
         return socket
     }
 }
