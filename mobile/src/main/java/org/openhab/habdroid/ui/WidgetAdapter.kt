@@ -61,6 +61,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -944,6 +945,7 @@ class WidgetAdapter(
         private var boundItem: Item? = null
         private val handler = Handler(this)
         private var slider: Slider? = null
+        private var lastUpdate: Job? = null
         override val dialogManager = DialogManager()
 
         init {
@@ -1001,7 +1003,7 @@ class WidgetAdapter(
             handleChange(delay = 0)
         }
 
-        private fun handleChange(newColor: Int = 0, delay: Long = 1000) {
+        private fun handleChange(newColor: Int = 0, delay: Long = 100) {
             Log.e(TAG, "handleChange($newColor, $delay)")
             var brightness = slider?.value?.toInt() ?: 0
 
@@ -1025,7 +1027,8 @@ class WidgetAdapter(
             hsv[2] = msg.arg2.toFloat()
             Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
             val newColorValue = String.format(Locale.US, "%f,%f,%f", hsv[0], hsv[1] * 100, hsv[2])
-            connection.httpClient.sendItemCommand(boundItem, newColorValue)
+            lastUpdate?.cancel()
+            lastUpdate = connection.httpClient.sendItemCommand(boundItem, newColorValue)
             return true
         }
 
@@ -1260,9 +1263,9 @@ fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
     }
 }
 
-fun HttpClient.sendItemCommand(item: Item?, command: String) {
-    val url = item?.link ?: return
-    GlobalScope.launch {
+fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
+    val url = item?.link ?: return null
+    return GlobalScope.launch {
         try {
             post(url, command, "text/plain;charset=UTF-8").close()
             Log.d(WidgetAdapter.TAG, "Command '$command' was sent successfully to $url")
