@@ -980,12 +980,12 @@ class WidgetAdapter(
         }
 
         override fun onColorSelected(selectedColor: Int) {
-            Log.e(TAG, "onColorSelected($selectedColor)")
+            Log.d(TAG, "onColorSelected($selectedColor)")
             handleChange(selectedColor, 0)
         }
 
         override fun onColorChanged(selectedColor: Int) {
-            Log.e(TAG, "onColorChanged($selectedColor)")
+            Log.d(TAG, "onColorChanged($selectedColor)")
             handleChange(selectedColor)
         }
 
@@ -1004,7 +1004,7 @@ class WidgetAdapter(
         }
 
         private fun handleChange(newColor: Int = 0, delay: Long = 100) {
-            Log.e(TAG, "handleChange($newColor, $delay)")
+            Log.d(TAG, "handleChange($newColor, $delay)")
             var brightness = slider?.value?.toInt() ?: 0
 
             // If the color is changed and the brightness 0
@@ -1018,7 +1018,7 @@ class WidgetAdapter(
 
         override fun handleMessage(msg: Message): Boolean {
             val hsv = FloatArray(3)
-            if(msg.arg1 == 0) {
+            if (msg.arg1 == 0) {
                 connection.httpClient.sendItemCommand(boundItem, msg.arg2.toString())
                 return true
             }
