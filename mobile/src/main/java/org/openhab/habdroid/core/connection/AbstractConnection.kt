@@ -13,17 +13,11 @@
 
 package org.openhab.habdroid.core.connection
 
-import android.util.Log
-
 import okhttp3.OkHttpClient
 import org.openhab.habdroid.util.HttpClient
 
-import java.io.IOException
 import java.net.InetAddress
-import java.net.InetSocketAddress
 import java.net.Socket
-import java.net.SocketTimeoutException
-import java.net.URL
 import javax.net.SocketFactory
 
 abstract class AbstractConnection : Connection {
@@ -32,7 +26,7 @@ abstract class AbstractConnection : Connection {
     final override val password: String?
     final override val httpClient: HttpClient
 
-    private val baseUrl: String
+    protected val baseUrl: String
     private val socketFactory = object : SocketFactory() {
         override fun createSocket(): Socket {
             return prepareSocket(Socket())
@@ -77,51 +71,8 @@ abstract class AbstractConnection : Connection {
         httpClient = base.httpClient
     }
 
-    override fun checkReachabilityInBackground(): Boolean {
-        Log.d(TAG, "Checking reachability of $baseUrl")
-        try {
-            val url = URL(baseUrl)
-            val checkPort = when {
-                url.protocol == "http" && url.port == -1 -> 80
-                url.protocol == "https" && url.port == -1 -> 443
-                else -> url.port
-            }
-            val s = createConnectedSocket(InetSocketAddress(url.host, checkPort)) ?: return false
-            s.close()
-            return true
-        } catch (e: Exception) {
-            Log.d(TAG, "Error checking reachability", e)
-            return false
-        }
-    }
-
     open fun prepareSocket(socket: Socket): Socket {
         return socket
-    }
-
-    private fun createConnectedSocket(socketAddress: InetSocketAddress): Socket? {
-        val s = socketFactory.createSocket()
-        var retries = 0
-        while (retries < 10) {
-            try {
-                s.connect(socketAddress, 1000)
-                Log.d(TAG, "Socket connected (attempt  $retries)")
-                return s
-            } catch (e: SocketTimeoutException) {
-                Log.d(TAG, "Socket timeout after $retries retries")
-                retries += 5
-            } catch (e: IOException) {
-                Log.d(TAG, "Socket creation failed (attempt  $retries)")
-                try {
-                    Thread.sleep(200)
-                } catch (ignored: InterruptedException) {
-                    // ignored
-                }
-            }
-
-            retries++
-        }
-        return null
     }
 
     companion object {

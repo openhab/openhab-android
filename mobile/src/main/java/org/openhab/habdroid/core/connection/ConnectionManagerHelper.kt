@@ -41,6 +41,10 @@ interface ConnectionManagerHelper {
         class Unknown(network: Network?) : ConnectionType(network)
         class Vpn(network: Network?) : ConnectionType(network)
         class Wifi(network: Network?) : ConnectionType(network)
+
+        override fun toString(): String {
+            return "ConnectionType(type = ${javaClass.simpleName}, network=$network)"
+        }
     }
 
     companion object {

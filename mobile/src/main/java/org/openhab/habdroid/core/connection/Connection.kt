@@ -35,11 +35,6 @@ interface Connection {
      */
     val connectionType: Int
 
-    /**
-     * @return Whether the this connection is currently reachable.
-     */
-    fun checkReachabilityInBackground(): Boolean
-
     companion object {
         /**
          * Represents a connection to a locally hosted openHAB server, which is most likely the instance
