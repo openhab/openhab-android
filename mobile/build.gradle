@@ -8,7 +8,7 @@ buildscript {
     ext.about_libraries_version = '7.1.0'
     ext.powermock_version = '2.0.5'
     ext.espresso_version = '3.2.0'
-    ext.androidx_media_version = '1.0.2'
+    ext.androidx_media_version = '1.0.3'
 
     repositories {
         maven {
