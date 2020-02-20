@@ -23,6 +23,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.net.Network
 import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
@@ -49,6 +50,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.net.ConnectException
 import java.net.MalformedURLException
+import java.net.Socket
 import java.net.SocketTimeoutException
 import java.net.URL
 import java.net.UnknownHostException
@@ -312,5 +314,13 @@ fun Activity.finishAndRemoveTaskIfPossible() {
         finishAndRemoveTask()
     } else {
         finish()
+    }
+}
+
+fun Socket.bindToNetworkIfPossible(network: Network?) {
+    try {
+        network?.bindSocket(this)
+    } catch (e: IOException) {
+        Log.d(Util.TAG, "Binding socket $this to network $network failed: $e")
     }
 }

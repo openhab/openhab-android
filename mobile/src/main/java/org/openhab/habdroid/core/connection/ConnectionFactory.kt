@@ -304,7 +304,7 @@ class ConnectionFactory internal constructor(
             secretPrefs.getString(passwordKey, null))
     }
 
-    private fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
+    private suspend fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
         val available = connectionHelper.currentConnections
             .sortedBy { type -> when (type) {
                 is ConnectionManagerHelper.ConnectionType.Vpn -> 1
@@ -328,12 +328,9 @@ class ConnectionFactory internal constructor(
                         type is ConnectionManagerHelper.ConnectionType.Vpn
                 }
             for (type in localCandidates) {
-                Log.d(TAG, "Checking local server availability via $type (network ${type.network})")
-                if (local is DefaultConnection) {
-                    local.network = type.network
-                }
-                if (local.checkReachabilityInBackground()) {
+                if (local is DefaultConnection && local.isReachableViaNetwork(type.network)) {
                     Log.d(TAG, "Connecting to local URL via $type")
+                    local.network = type.network
                     return local
                 }
             }
