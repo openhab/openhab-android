@@ -1,0 +1,2 @@
+## Fixed
+* Refactor server reachability check logic. (#1820)
