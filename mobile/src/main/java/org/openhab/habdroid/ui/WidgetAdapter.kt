@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
@@ -71,9 +72,7 @@ import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
-import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.shouldRequestHighResChart
 import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
@@ -806,21 +805,22 @@ class WidgetAdapter(
         private val parent: ViewGroup,
         private val chartTheme: CharSequence?,
         private val connection: Connection
-    ) : ViewHolder(inflater, parent, R.layout.widgetlist_chartitem) {
+    ) : ViewHolder(inflater, parent, R.layout.widgetlist_chartitem), View.OnClickListener {
         private val chart: WidgetImageView = itemView.findViewById(R.id.chart)
         private val random = Random()
         private val prefs: SharedPreferences
         private var refreshRate = 0
         private val density: Int
+        private var boundWidget: Widget? = null
 
         init {
             val context = itemView.context
             val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val metrics = DisplayMetrics()
             wm.defaultDisplay.getMetrics(metrics)
-
             density = metrics.densityDpi
             prefs = context.getPrefs()
+            chart.setOnClickListener(this)
         }
 
         override fun bind(widget: Widget) {
@@ -832,37 +832,12 @@ class WidgetAdapter(
                 return
             }
 
-            val actualDensity = density.toFloat() / prefs.getChartScalingFactor()
-            val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
+            boundWidget = widget
 
-            val chartUrl = StringBuilder("chart?")
-                .append(if (item.type === Item.Type.Group) "groups=" else "items=")
-                .append(item.name)
-                .append("&period=")
-                .append(widget.period)
-                .append("&random=")
-                .append(random.nextInt())
-                .append("&dpi=")
-                .append(actualDensity.toInt() / resDivider)
-            if (widget.service.isNotEmpty()) {
-                chartUrl.append("&service=").append(widget.service)
-            }
-            if (chartTheme != null) {
-                chartUrl.append("&theme=").append(chartTheme)
-            }
-            if (widget.legend != null) {
-                chartUrl.append("&legend=").append(widget.legend)
-            }
-
-            val parentWidth = parent.width
-            if (parentWidth > 0) {
-                chartUrl.append("&w=").append(parentWidth / resDivider)
-                chartUrl.append("&h=").append(parentWidth / 2 / resDivider)
-            }
-
+            val chartUrl =
+                widget.toChartUrl(prefs, random, parent.width, chartTheme = chartTheme, density = density) ?: return
             Log.d(TAG, "Chart url = $chartUrl")
-
-            chart.setImageUrl(connection, chartUrl.toString(), parentWidth, forceLoad = true)
+            chart.setImageUrl(connection, chartUrl, parent.width, forceLoad = true)
             refreshRate = widget.refresh
         }
 
@@ -876,6 +851,13 @@ class WidgetAdapter(
 
         override fun stop() {
             chart.cancelRefresh()
+        }
+
+        override fun onClick(v: View?) {
+            val context = v?.context ?: return
+            val intent = Intent(context, ChartActivity::class.java)
+            intent.putExtra(ChartActivity.WIDGET, boundWidget)
+            context.startActivity(intent)
         }
     }
 

@@ -13,16 +13,22 @@
 
 package org.openhab.habdroid.model
 
+import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
+import org.openhab.habdroid.util.shouldRequestHighResChart
 import org.w3c.dom.Node
 import java.util.ArrayList
+import java.util.Random
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -73,6 +79,45 @@ data class Widget(
         Video,
         Webview,
         Unknown
+    }
+
+    fun toChartUrl(
+        prefs: SharedPreferences,
+        random: Random,
+        width: Int,
+        height: Int = width / 2,
+        chartTheme: CharSequence?,
+        density: Int,
+        forcedPeriod: String = period,
+        forcedLegend: Boolean? = legend
+    ): String? {
+        item ?: return null
+
+        val actualDensity = density.toFloat() / prefs.getChartScalingFactor()
+        val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
+
+        val chartUrl = Uri.Builder()
+            .path("chart")
+            .appendQueryParameter(if (item.type === Item.Type.Group) "groups" else "items", item.name)
+            .appendQueryParameter("dpi", actualDensity.toInt() / resDivider)
+            .appendQueryParameter("period", forcedPeriod)
+            .appendQueryParameter("random", random.nextInt())
+
+        if (service.isNotEmpty()) {
+            chartUrl.appendQueryParameter("service", service)
+        }
+        if (chartTheme != null) {
+            chartUrl.appendQueryParameter("theme", chartTheme.toString())
+        }
+        if (forcedLegend != null) {
+            chartUrl.appendQueryParameter("legend", forcedLegend)
+        }
+        if (width > 0) {
+            chartUrl.appendQueryParameter("w", width / resDivider)
+            chartUrl.appendQueryParameter("h", height / resDivider)
+        }
+
+        return chartUrl.toString()
     }
 
     companion object {

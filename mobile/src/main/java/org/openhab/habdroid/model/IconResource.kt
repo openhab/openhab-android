@@ -22,6 +22,7 @@ import androidx.annotation.VisibleForTesting
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import java.util.Locale
@@ -51,7 +52,7 @@ class IconResource internal constructor(
             .path("icon/")
             .appendPath(icon)
             .appendQueryParameter("format", suffix)
-            .appendQueryParameter("anyFormat", "true")
+            .appendQueryParameter("anyFormat", true)
 
         if (!customState.isNullOrEmpty()) {
             builder.appendQueryParameter("state", customState)
