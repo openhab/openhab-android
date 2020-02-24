@@ -222,6 +222,21 @@
     <string name="theme_name_system">System folgen</string>
     <string name="theme_name_battery_saver">Dunkler Modus im Energiesparmodus</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Diagramm</string>
+    <string name="chart_activity_period">Zeitraum</string>
+    <string name="chart_activity_period_1_hour">1 Stunde</string>
+    <string name="chart_activity_period_4_hour">4 Stunden</string>
+    <string name="chart_activity_period_8_hour">8 Stunden</string>
+    <string name="chart_activity_period_12_hour">12 Stunden</string>
+    <string name="chart_activity_period_1_day">1 Tag</string>
+    <string name="chart_activity_period_2_day">2 Tage</string>
+    <string name="chart_activity_period_3_day">3 Tage</string>
+    <string name="chart_activity_period_1_week">1 Woche</string>
+    <string name="chart_activity_period_2_week">2 Wochen</string>
+    <string name="chart_activity_period_1_month">1 Monat</string>
+    <string name="chart_activity_period_2_month">2 Monate</string>
+    <string name="chart_activity_period_4_month">4 Monate</string>
+    <string name="chart_activity_period_1_year">1 Jahr</string>
     <!-- NFC -->
     <string name="nfc_action_on">An</string>
     <string name="nfc_action_up">Hoch</string>
