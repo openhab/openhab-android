@@ -204,6 +204,23 @@
     <string name="theme_name_system">Rendszertéma-követés</string>
     <string name="theme_name_battery_saver">Sötét mód energiatakarékos módban</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Grafikon</string>
+    <string name="chart_activity_hide_legend">Jelmagyarázat elrejtése</string>
+    <string name="chart_activity_show_legend">Jelmagyarázat mutatása</string>
+    <string name="chart_activity_period">Időszak</string>
+    <string name="chart_activity_period_1_hour">1 óra</string>
+    <string name="chart_activity_period_4_hour">4 óra</string>
+    <string name="chart_activity_period_8_hour">8 óra</string>
+    <string name="chart_activity_period_12_hour">12 óra</string>
+    <string name="chart_activity_period_1_day">1 day</string>
+    <string name="chart_activity_period_2_day">2 nap</string>
+    <string name="chart_activity_period_3_day">3 nap</string>
+    <string name="chart_activity_period_1_week">1 hét</string>
+    <string name="chart_activity_period_2_week">2 hét</string>
+    <string name="chart_activity_period_1_month">1 hónap</string>
+    <string name="chart_activity_period_2_month">2 hónap</string>
+    <string name="chart_activity_period_4_month">4 hónap</string>
+    <string name="chart_activity_period_1_year">1 year</string>
     <!-- NFC -->
     <string name="nfc_action_on">Be</string>
     <string name="nfc_action_up">Fel</string>
