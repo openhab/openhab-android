@@ -224,6 +224,23 @@
     <string name="theme_name_system">Наслідувати систему</string>
     <string name="theme_name_battery_saver">Темна тема в режимі економії заряду акумулятора</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Графік</string>
+    <string name="chart_activity_hide_legend">Приховати легенду</string>
+    <string name="chart_activity_show_legend">Показати легенду</string>
+    <string name="chart_activity_period">Період</string>
+    <string name="chart_activity_period_1_hour">1 година</string>
+    <string name="chart_activity_period_4_hour">4 години</string>
+    <string name="chart_activity_period_8_hour">8 годин</string>
+    <string name="chart_activity_period_12_hour">12 годин</string>
+    <string name="chart_activity_period_1_day">1 день</string>
+    <string name="chart_activity_period_2_day">2 дні</string>
+    <string name="chart_activity_period_3_day">3 дні</string>
+    <string name="chart_activity_period_1_week">1 тиждень</string>
+    <string name="chart_activity_period_2_week">2 тижні</string>
+    <string name="chart_activity_period_1_month">1 місяць</string>
+    <string name="chart_activity_period_2_month">2 місяці</string>
+    <string name="chart_activity_period_4_month">4 місяці</string>
+    <string name="chart_activity_period_1_year">1 рік</string>
     <!-- NFC -->
     <string name="nfc_action_on">Увімкнути</string>
     <string name="nfc_action_up">Підняти</string>
