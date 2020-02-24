@@ -181,6 +181,7 @@
     <string name="item_update_connection_error_label">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="error_sending_alarm_clock_item_empty">Kérlek add meg az Elem helyes nevét</string>
     <string name="retry">Újra</string>
+    <string name="ignore">Mellőzés</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
