@@ -36,6 +36,7 @@ interface ConnectionManagerHelper {
     fun shutdown()
 
     sealed class ConnectionType constructor(val network: Network?) {
+        class Bluetooth(network: Network?) : ConnectionType(network)
         class Ethernet(network: Network?) : ConnectionType(network)
         class Mobile(network: Network?) : ConnectionType(network)
         class Unknown(network: Network?) : ConnectionType(network)
@@ -163,6 +164,7 @@ interface ConnectionManagerHelper {
                     .map { info -> when (info.type) {
                         ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(null)
                         ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(null)
+                        ConnectivityManager.TYPE_BLUETOOTH -> ConnectionType.Bluetooth(null)
                         ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(null)
                         ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(null)
                         else -> ConnectionType.Unknown(null)
@@ -182,6 +184,7 @@ interface ConnectionManagerHelper {
                     .map { (network, info) -> when (info!!.type) {
                         ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(network)
                         ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(network)
+                        ConnectivityManager.TYPE_BLUETOOTH -> ConnectionType.Bluetooth(network)
                         ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(network)
                         ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(network)
                         else -> ConnectionType.Unknown(network)
@@ -213,6 +216,7 @@ interface ConnectionManagerHelper {
                     NetworkCapabilities.TRANSPORT_VPN -> ConnectionType.Vpn(network)
                     NetworkCapabilities.TRANSPORT_WIFI,
                     NetworkCapabilities.TRANSPORT_WIFI_AWARE -> ConnectionType.Wifi(network)
+                    NetworkCapabilities.TRANSPORT_BLUETOOTH -> ConnectionType.Bluetooth(network)
                     NetworkCapabilities.TRANSPORT_ETHERNET -> ConnectionType.Ethernet(network)
                     NetworkCapabilities.TRANSPORT_CELLULAR -> ConnectionType.Mobile(network)
                     else -> ConnectionType.Unknown(network)
