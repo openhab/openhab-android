@@ -310,8 +310,9 @@ class ConnectionFactory internal constructor(
                 is ConnectionManagerHelper.ConnectionType.Vpn -> 1
                 is ConnectionManagerHelper.ConnectionType.Ethernet -> 2
                 is ConnectionManagerHelper.ConnectionType.Wifi -> 3
-                is ConnectionManagerHelper.ConnectionType.Mobile -> 4
-                is ConnectionManagerHelper.ConnectionType.Unknown -> 5
+                is ConnectionManagerHelper.ConnectionType.Bluetooth -> 4
+                is ConnectionManagerHelper.ConnectionType.Mobile -> 5
+                is ConnectionManagerHelper.ConnectionType.Unknown -> 6
             } }
 
         Log.d(TAG, "checkAvailableConnection: found types $available")
@@ -324,6 +325,7 @@ class ConnectionFactory internal constructor(
             val localCandidates = available
                 .filter { type ->
                     type is ConnectionManagerHelper.ConnectionType.Wifi ||
+                        type is ConnectionManagerHelper.ConnectionType.Bluetooth ||
                         type is ConnectionManagerHelper.ConnectionType.Ethernet ||
                         type is ConnectionManagerHelper.ConnectionType.Vpn
                 }
