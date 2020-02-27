@@ -27,6 +27,7 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
 import com.mikepenz.aboutlibraries.LibsBuilder
+import com.mikepenz.aboutlibraries.ui.LibsSupportFragment
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
@@ -89,12 +90,11 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
     private fun updateTitle() {
         val fm = supportFragmentManager
-        val count = fm.backStackEntryCount
-        if (count > 0) {
-            setTitle(fm.getBackStackEntryAt(count - 1).breadCrumbTitleRes)
-        } else {
-            setTitle(R.string.about_title)
+        val titleResId = when (fm.findFragmentById(R.id.activity_content)) {
+            is LibsSupportFragment -> R.string.title_activity_libraries
+            else -> R.string.about_title
         }
+        setTitle(titleResId)
     }
 
     class AboutMainFragment : MaterialAboutFragment() {
@@ -153,11 +153,10 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         .withAboutVersionShown(false)
                         .withAboutVersionShownCode(false)
                         .supportFragment()
-                    fragmentManager?.commit {
+                    parentFragmentManager.commit {
                         setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                             R.anim.slide_in_left, R.anim.slide_out_right)
                         replace(R.id.activity_content, f)
-                        setBreadCrumbTitle(R.string.title_activity_libraries)
                         addToBackStack(null)
                     }
                 }
