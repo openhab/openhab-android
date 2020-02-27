@@ -20,13 +20,14 @@ import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
+import java.util.Locale
 
 object Util {
     val TAG: String = Util::class.java.simpleName
 
-    private val isFlavorStable get() = BuildConfig.FLAVOR.toLowerCase().contains("stable")
+    val isFlavorStable get() = BuildConfig.FLAVOR.toLowerCase(Locale.ROOT).contains("stable")
     val isFlavorBeta get() = !isFlavorStable
-    val isFlavorFull get() = BuildConfig.FLAVOR.toLowerCase().contains("full")
+    val isFlavorFull get() = BuildConfig.FLAVOR.toLowerCase(Locale.ROOT).contains("full")
     val isFlavorFoss get() = !isFlavorFull
 
     @StyleRes

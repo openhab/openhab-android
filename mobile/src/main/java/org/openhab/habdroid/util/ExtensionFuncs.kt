@@ -309,6 +309,14 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
     }
 }
 
+fun Context.openInAppStore(app: String) {
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW, "market://details?id=$app".toUri()))
+    } catch (appStoreNotFoundException: ActivityNotFoundException) {
+        "http://play.google.com/store/apps/details?id=$app".toUri().openInBrowser(this)
+    }
+}
+
 fun Activity.finishAndRemoveTaskIfPossible() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         finishAndRemoveTask()
