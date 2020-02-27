@@ -93,6 +93,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         error.text = getString(args.getInt(KEY_ERROR))
 
         if (savedInstanceState != null) {
+            webView?.restoreState(savedInstanceState)
             loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, urlToLoad))
         } else {
             loadWebsite()
@@ -118,10 +119,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val currentUrl = webView?.url
-        if (currentUrl != null) {
-            outState.putString(KEY_CURRENT_URL, currentUrl)
-        }
+        webView?.url?.let { outState.putString(KEY_CURRENT_URL, it) }
+        webView?.saveState(outState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
