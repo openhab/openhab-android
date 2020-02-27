@@ -42,7 +42,6 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
-import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.Constants
 import java.io.File
@@ -170,12 +169,12 @@ class ConnectionFactoryTest {
         ConnectionFactory.usableConnection
     }
 
-    @Test(expected = NetworkNotSupportedException::class)
-    @Throws(ConnectionException::class)
-    fun testGetAnyConnectionUnsupportedNetwork() {
+    @Test
+    fun testGetAnyConnectionUnknownNetwork() {
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(null))
         updateAndWaitForConnections()
-        ConnectionFactory.usableConnection
+        assertNull(ConnectionFactory.localConnection)
+        assertNotNull(ConnectionFactory.usableConnectionOrNull)
     }
 
     @Test
