@@ -500,12 +500,12 @@ class ConnectionFactory internal constructor(
         /**
          * Returns the configured local connection, or null if none is configured
          */
-        val localConnection get() = instance.localConnection
+        val localConnectionOrNull get() = instance.localConnection
 
         /**
          * Returns the configured remote connection, or null if none is configured
          */
-        val remoteConnection get() = instance.remoteConnection
+        val remoteConnectionOrNull get() = instance.remoteConnection
 
         /**
          * Returns the resolved cloud connection.

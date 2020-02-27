@@ -104,7 +104,7 @@ class ConnectionFactoryTest {
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         updateAndWaitForConnections()
 
-        val conn = ConnectionFactory.remoteConnection
+        val conn = ConnectionFactory.remoteConnectionOrNull
 
         assertNotNull("Should return a remote connection if remote url is set.", conn)
         assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
@@ -115,7 +115,7 @@ class ConnectionFactoryTest {
     fun testGetConnectionRemoteWithoutUrl() {
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn ""
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.remoteConnection
+        val conn = ConnectionFactory.remoteConnectionOrNull
 
         assertNull("Should not return a remote connection if remote url isn't set.", conn)
     }
@@ -124,7 +124,7 @@ class ConnectionFactoryTest {
     fun testGetConnectionLocalWithUrl() {
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn "https://openhab.local:8080"
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.localConnection
+        val conn = ConnectionFactory.localConnectionOrNull
 
         assertNotNull("Should return a local connection if local url is set.", conn)
         assertEquals("The connection type of a local connection should be TYPE_LOCAL.",
@@ -135,7 +135,7 @@ class ConnectionFactoryTest {
     fun testGetConnectionLocalWithoutUrl() {
         whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn ""
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.localConnection
+        val conn = ConnectionFactory.localConnectionOrNull
 
         assertNull("Should not return a local connection when local url isn't set.", conn)
     }
@@ -170,10 +170,10 @@ class ConnectionFactoryTest {
     }
 
     @Test
-    fun testGetAnyConnectionUnknownNetwork() {
+    fun testGetConnectionUnknownNetwork() {
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(null))
         updateAndWaitForConnections()
-        assertNull(ConnectionFactory.localConnection)
+        assertNull(ConnectionFactory.localConnectionOrNull)
         assertNotNull(ConnectionFactory.usableConnectionOrNull)
     }
 

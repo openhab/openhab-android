@@ -420,7 +420,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.localConnection == null) {
+                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.localConnectionOrNull == null) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(this,
                             getString(R.string.openhab_service_type), this)
@@ -477,7 +477,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             showDemoModeHintSnackbar()
         } else {
             val hasLocalAndRemote =
-                ConnectionFactory.localConnection != null && ConnectionFactory.remoteConnection != null
+                ConnectionFactory.localConnectionOrNull != null && ConnectionFactory.remoteConnectionOrNull != null
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(R.string.info_conn_url)

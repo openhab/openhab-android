@@ -73,7 +73,7 @@ object CloudMessagingHelper {
                             true
                         )
                     )
-                    ConnectionFactory.remoteConnection == null -> context.getString(R.string.info_openhab_gcm_no_remote)
+                    ConnectionFactory.remoteConnectionOrNull == null -> context.getString(R.string.info_openhab_gcm_no_remote)
                     else -> context.getString(R.string.info_openhab_gcm_unsupported)
                 }
             }
