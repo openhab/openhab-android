@@ -165,7 +165,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
             val showDialog: (DialogFragment) -> Unit = { fragment ->
                 fragment.setTargetFragment(this, 0)
-                fragmentManager?.let { fragment.show(it, "SettingsFragment.DIALOG:${preference.key}") }
+                fragment.show(parentFragmentManager, "SettingsFragment.DIALOG:${preference.key}")
             }
             when (preference) {
                 is UrlInputPreference -> showDialog(preference.createDialog())
@@ -277,8 +277,8 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             previousColor = prefs.getInt(accentColorPref.key, 0)
             accentColorPref.setOnPreferenceChangeListener { _, newValue ->
-                fragmentManager?.findFragmentByTag(accentColorPref.fragmentTag)?.let { dialog ->
-                    fragmentManager?.commit(allowStateLoss = true) {
+                parentFragmentManager.findFragmentByTag(accentColorPref.fragmentTag)?.let { dialog ->
+                    parentFragmentManager.commit(allowStateLoss = true) {
                         remove(dialog)
                     }
                 }
