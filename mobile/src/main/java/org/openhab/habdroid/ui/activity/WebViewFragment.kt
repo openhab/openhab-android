@@ -162,7 +162,11 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
     fun goBack(): Boolean {
         if (webView?.canGoBack() == true) {
+            val oldUrl = webView?.url
             webView?.goBack()
+            if (oldUrl == webView?.url) {
+                goBack()
+            }
             return true
         }
         return false
