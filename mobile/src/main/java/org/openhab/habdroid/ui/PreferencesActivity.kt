@@ -133,7 +133,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         protected val parentActivity get() = activity as PreferencesActivity
         protected val prefs get() = preferenceScreen.sharedPreferences!!
-        protected val secretPrefs get() = context!!.getSecretPrefs()
+        protected val secretPrefs get() = requireContext().getSecretPrefs()
 
         override fun onStart() {
             super.onStart()

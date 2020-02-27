@@ -251,7 +251,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         }
 
         override fun getTheme(): Int {
-            return Util.getActivityThemeId(context!!)
+            return Util.getActivityThemeId(requireContext())
         }
 
         companion object {
