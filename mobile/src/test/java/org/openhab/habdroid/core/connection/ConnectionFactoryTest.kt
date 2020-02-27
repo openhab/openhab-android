@@ -44,7 +44,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import java.io.File
 import java.io.IOException
 
@@ -102,7 +102,7 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
+        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), any())) doReturn server.url("/").toString()
         updateAndWaitForConnections()
 
         val conn = ConnectionFactory.remoteConnection
@@ -114,7 +114,7 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionRemoteWithoutUrl() {
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn ""
+        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), any())) doReturn ""
         updateAndWaitForConnections()
         val conn = ConnectionFactory.remoteConnection
 
@@ -123,7 +123,7 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionLocalWithUrl() {
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn "https://openhab.local:8080"
+        whenever(mockPrefs.getString(eq(PrefKeys.LOCAL_URL), any())) doReturn "https://openhab.local:8080"
         updateAndWaitForConnections()
         val conn = ConnectionFactory.localConnection
 
@@ -134,7 +134,7 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionLocalWithoutUrl() {
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn ""
+        whenever(mockPrefs.getString(eq(PrefKeys.LOCAL_URL), any())) doReturn ""
         updateAndWaitForConnections()
         val conn = ConnectionFactory.localConnection
 
@@ -148,7 +148,7 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"))
         server.start()
 
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
+        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), any())) doReturn server.url("/").toString()
         updateAndWaitForConnections()
         val conn = ConnectionFactory.cloudConnectionOrNull
 
@@ -185,7 +185,7 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
+        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), any())) doReturn server.url("/").toString()
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
 
@@ -205,8 +205,8 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
-        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn "https://myopenhab.org:443"
+        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), any())) doReturn server.url("/").toString()
+        whenever(mockPrefs.getString(eq(PrefKeys.LOCAL_URL), any())) doReturn "https://myopenhab.org:443"
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
 

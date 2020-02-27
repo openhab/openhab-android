@@ -53,7 +53,7 @@ import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.ui.preference.disableItemUpdatingPref
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNotificationTone
@@ -149,7 +149,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun hasClientCertificate(): Boolean {
-            return prefs.getString(Constants.PREFERENCE_SSL_CLIENT_CERT).isNotEmpty()
+            return prefs.getString(PrefKeys.SSL_CLIENT_CERT).isNotEmpty()
         }
 
         protected fun isConnectionSecure(url: String?, user: String?, password: String?): Boolean {
@@ -208,42 +208,42 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onStart() {
             super.onStart()
-            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
-                Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                Constants.PREFERENCE_LOCAL_PASSWORD)
-            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
-                Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                Constants.PREFERENCE_REMOTE_PASSWORD)
-            updateScreenLockStateAndSummary(prefs.getString(Constants.PREFERENCE_SCREEN_LOCK,
+            updateConnectionSummary(PrefKeys.SUBSCREEN_LOCAL_CONNECTION,
+                PrefKeys.LOCAL_URL, PrefKeys.LOCAL_USERNAME,
+                PrefKeys.LOCAL_PASSWORD)
+            updateConnectionSummary(PrefKeys.SUBSCREEN_REMOTE_CONNECTION,
+                PrefKeys.REMOTE_URL, PrefKeys.REMOTE_USERNAME,
+                PrefKeys.REMOTE_PASSWORD)
+            updateScreenLockStateAndSummary(prefs.getString(PrefKeys.SCREEN_LOCK,
                 getString(R.string.settings_screen_lock_off_value)))
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences)
 
-            val localConnPref = getPreference(Constants.SUBSCREEN_LOCAL_CONNECTION)
-            val remoteConnPref = getPreference(Constants.SUBSCREEN_REMOTE_CONNECTION)
-            val themePref = getPreference(Constants.PREFERENCE_THEME)
-            val accentColorPref = getPreference(Constants.PREFERENCE_ACCENT_COLOR) as ColorPreferenceCompat
-            val clearCachePref = getPreference(Constants.PREFERENCE_CLEAR_CACHE)
-            val clearDefaultSitemapPref = getPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP)
-            val showSitemapInDrawerPref = getPreference(Constants.PREFERENCE_SHOW_SITEMAPS_IN_DRAWER)
-            val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
-            val fullscreenPreference = getPreference(Constants.PREFERENCE_FULLSCREEN)
-            val sendDeviceInfoPrefixPref = getPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
-            val alarmClockPref = getPreference(Constants.PREFERENCE_ALARM_CLOCK) as ItemUpdatingPreference
-            val phoneStatePref = getPreference(Constants.PREFERENCE_PHONE_STATE) as ItemUpdatingPreference
-            val iconFormatPreference = getPreference(Constants.PREFERENCE_ICON_FORMAT)
-            val taskerPref = getPreference(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED)
-            val vibrationPref = getPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION)
-            val ringtoneVibrationPref = getPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION)
-            val viewLogPref = getPreference(Constants.PREFERENCE_LOG)
-            val screenLockPref = getPreference(Constants.PREFERENCE_SCREEN_LOCK)
-            val chartScalingPreference = getPreference(Constants.PREFERENCE_CHART_SCALING)
+            val localConnPref = getPreference(PrefKeys.SUBSCREEN_LOCAL_CONNECTION)
+            val remoteConnPref = getPreference(PrefKeys.SUBSCREEN_REMOTE_CONNECTION)
+            val themePref = getPreference(PrefKeys.THEME)
+            val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
+            val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
+            val clearDefaultSitemapPref = getPreference(PrefKeys.CLEAR_DEFAULT_SITEMAP)
+            val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
+            val ringtonePref = getPreference(PrefKeys.TONE)
+            val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
+            val sendDeviceInfoPrefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
+            val alarmClockPref = getPreference(PrefKeys.ALARM_CLOCK) as ItemUpdatingPreference
+            val phoneStatePref = getPreference(PrefKeys.PHONE_STATE) as ItemUpdatingPreference
+            val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
+            val taskerPref = getPreference(PrefKeys.TASKER_PLUGIN_ENABLED)
+            val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
+            val ringtoneVibrationPref = getPreference(PrefKeys.NOTIFICATION_TONE_VIBRATION)
+            val viewLogPref = getPreference(PrefKeys.LOG)
+            val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
+            val chartScalingPreference = getPreference(PrefKeys.CHART_SCALING)
             val prefs = preferenceScreen.sharedPreferences
 
-            val currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME)
-            val currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL)
+            val currentDefaultSitemap = prefs.getString(PrefKeys.SITEMAP_NAME)
+            val currentDefaultSitemapLabel = prefs.getString(PrefKeys.SITEMAP_LABEL)
             if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPref)
             } else {
@@ -253,7 +253,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             updateRingtonePreferenceSummary(ringtonePref, prefs.getNotificationTone())
             updateVibrationPreferenceIcon(vibrationPref,
-                prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION))
+                prefs.getString(PrefKeys.NOTIFICATION_VIBRATION))
 
             localConnPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(LocalConnectionSettingsFragment())
@@ -369,7 +369,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            updatePrefixSummary(sendDeviceInfoPrefixPref, prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX))
+            updatePrefixSummary(sendDeviceInfoPrefixPref, prefs.getString(PrefKeys.SEND_DEVICE_INFO_PREFIX))
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
                 updatePrefixSummary(sendDeviceInfoPrefixPref, prefix)
@@ -384,7 +384,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
-                ?: preferenceScreen.sharedPreferences.getInt(Constants.PREV_SERVER_FLAGS, 0)
+                ?: preferenceScreen.sharedPreferences.getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
 
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0 ||
                 flags and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
@@ -407,7 +407,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         context?.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
-                        disableItemUpdatingPref(prefs, Constants.PREFERENCE_PHONE_STATE)
+                        disableItemUpdatingPref(prefs, PrefKeys.PHONE_STATE)
                         activity?.recreate()
                     }
                 }
@@ -428,10 +428,10 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             if (requestCode == REQUEST_CODE_RINGTONE && data != null) {
                 val ringtoneUri = data.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
-                val ringtonePref = getPreference(Constants.PREFERENCE_TONE)
+                val ringtonePref = getPreference(PrefKeys.TONE)
                 updateRingtonePreferenceSummary(ringtonePref, ringtoneUri)
                 prefs.edit {
-                    putString(Constants.PREFERENCE_TONE, ringtoneUri?.toString() ?: "")
+                    putString(PrefKeys.TONE, ringtoneUri?.toString() ?: "")
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data)
@@ -444,7 +444,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun updateScreenLockStateAndSummary(value: String?) {
-            val pref = findPreference<Preference>(Constants.PREFERENCE_SCREEN_LOCK) ?: return
+            val pref = findPreference<Preference>(PrefKeys.SCREEN_LOCK) ?: return
             val km = ContextCompat.getSystemService(pref.context, KeyguardManager::class.java)!!
             val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
             pref.isEnabled = locked
@@ -620,8 +620,8 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.local_connection_preferences)
-            initPreferences(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary)
+            initPreferences(PrefKeys.LOCAL_URL, PrefKeys.LOCAL_USERNAME,
+                PrefKeys.LOCAL_PASSWORD, R.string.settings_openhab_url_summary)
         }
     }
 
@@ -630,8 +630,8 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.remote_connection_preferences)
-            initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary)
+            initPreferences(PrefKeys.REMOTE_URL, PrefKeys.REMOTE_USERNAME,
+                PrefKeys.REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary)
         }
     }
 

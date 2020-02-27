@@ -30,8 +30,7 @@ import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Constants.PREFERENCE_COMPARABLE_VERSION
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
@@ -45,47 +44,47 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
         val prefs = context.getPrefs()
         prefs.edit {
-            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
+            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
                 Log.d(TAG, "Checking for putting local username/password to remote username/password.")
-                if (prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null) == null) {
-                    putString(Constants.PREFERENCE_REMOTE_USERNAME,
-                        prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null))
+                if (prefs.getString(PrefKeys.REMOTE_USERNAME, null) == null) {
+                    putString(PrefKeys.REMOTE_USERNAME,
+                        prefs.getString(PrefKeys.LOCAL_USERNAME, null))
                 }
-                if (prefs.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null) == null) {
-                    putString(Constants.PREFERENCE_REMOTE_PASSWORD,
-                        prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null))
+                if (prefs.getString(PrefKeys.REMOTE_PASSWORD, null) == null) {
+                    putString(PrefKeys.REMOTE_PASSWORD,
+                        prefs.getString(PrefKeys.LOCAL_PASSWORD, null))
                 }
             }
-            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= SECURE_CREDENTIALS) {
+            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= SECURE_CREDENTIALS) {
                 Log.d(TAG, "Put username/password to encrypted prefs.")
                 context.getSecretPrefs().edit {
-                    putString(Constants.PREFERENCE_LOCAL_USERNAME,
-                        prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null))
-                    putString(Constants.PREFERENCE_LOCAL_PASSWORD,
-                        prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null))
-                    putString(Constants.PREFERENCE_REMOTE_USERNAME,
-                        prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null))
-                    putString(Constants.PREFERENCE_REMOTE_PASSWORD,
-                        prefs.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null))
+                    putString(PrefKeys.LOCAL_USERNAME,
+                        prefs.getString(PrefKeys.LOCAL_USERNAME, null))
+                    putString(PrefKeys.LOCAL_PASSWORD,
+                        prefs.getString(PrefKeys.LOCAL_PASSWORD, null))
+                    putString(PrefKeys.REMOTE_USERNAME,
+                        prefs.getString(PrefKeys.REMOTE_USERNAME, null))
+                    putString(PrefKeys.REMOTE_PASSWORD,
+                        prefs.getString(PrefKeys.REMOTE_PASSWORD, null))
                 }
                 // Clear from unencrypted prefs
-                remove(Constants.PREFERENCE_LOCAL_USERNAME)
-                remove(Constants.PREFERENCE_LOCAL_PASSWORD)
-                remove(Constants.PREFERENCE_REMOTE_USERNAME)
-                remove(Constants.PREFERENCE_REMOTE_PASSWORD)
+                remove(PrefKeys.LOCAL_USERNAME)
+                remove(PrefKeys.LOCAL_PASSWORD)
+                remove(PrefKeys.REMOTE_USERNAME)
+                remove(PrefKeys.REMOTE_PASSWORD)
             }
-            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= DARK_MODE) {
+            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= DARK_MODE) {
                 Log.d(TAG, "Migrate to day/night themes")
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    putString(Constants.PREFERENCE_THEME, context.getString(R.string.theme_value_system))
+                    putString(PrefKeys.THEME, context.getString(R.string.theme_value_system))
                 } else {
                     val newTheme = when (prefs.getString("default_openhab_theme")) {
                         "black", "basicuidark", "dark" -> context.getString(R.string.theme_value_dark)
                         else -> context.getString(R.string.theme_value_system)
                     }
 
-                    putString(Constants.PREFERENCE_THEME, newTheme)
+                    putString(PrefKeys.THEME, newTheme)
                 }
 
                 AppCompatDelegate.setDefaultNightMode(prefs.getDayNightMode(context))
@@ -96,9 +95,9 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     else -> ContextCompat.getColor(context, R.color.openhab_orange)
                 }
 
-                putInt(Constants.PREFERENCE_ACCENT_COLOR, accentColor)
+                putInt(PrefKeys.ACCENT_COLOR, accentColor)
             }
-            if (prefs.getInt(PREFERENCE_COMPARABLE_VERSION, 0) <= WIDGET_ICON) {
+            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= WIDGET_ICON) {
                 Log.d(TAG, "Migrate widget icon prefs")
                 val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
                 AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
@@ -126,7 +125,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val WIDGET_ICON = 250
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
-            editor.putInt(PREFERENCE_COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
+            editor.putInt(PrefKeys.COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
         }
     }
 }

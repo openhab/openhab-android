@@ -16,15 +16,15 @@ package org.openhab.habdroid
 import android.content.Context
 import androidx.core.content.edit
 import androidx.test.core.app.ApplicationProvider
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 
 abstract class TestWithIntro : ProgressbarAwareTest() {
     override fun setup() {
         ApplicationProvider.getApplicationContext<Context>().getPrefs().edit {
-            putString(Constants.PREFERENCE_SITEMAP_NAME, "")
-            putBoolean(Constants.PREFERENCE_DEMO_MODE, true)
-            putBoolean(Constants.PREFERENCE_FIRST_START, true)
+            putString(PrefKeys.SITEMAP_NAME, "")
+            putBoolean(PrefKeys.DEMO_MODE, true)
+            putBoolean(PrefKeys.FIRST_START, true)
         }
 
         super.setup()

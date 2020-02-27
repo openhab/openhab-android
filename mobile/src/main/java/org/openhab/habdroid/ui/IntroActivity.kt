@@ -24,14 +24,14 @@ import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import org.openhab.habdroid.R
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 
 class IntroActivity : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (getPrefs().getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)) {
+        if (getPrefs().getBoolean(PrefKeys.RECENTLY_RESTORED, false)) {
             Log.d(TAG, "Show restore intro")
             addSlide(R.string.intro_welcome_back,
                 R.string.intro_app_restored,
@@ -80,8 +80,8 @@ class IntroActivity : AppIntro() {
     override fun finish() {
         Log.d(TAG, "finish()")
         getPrefs().edit {
-            putBoolean(Constants.PREFERENCE_FIRST_START, false)
-            putBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
+            putBoolean(PrefKeys.FIRST_START, false)
+            putBoolean(PrefKeys.RECENTLY_RESTORED, false)
         }
         super.finish()
     }

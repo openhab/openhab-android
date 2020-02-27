@@ -37,7 +37,7 @@ import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 
@@ -99,7 +99,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
     }
 
     fun updateSummaryAndIcon(
-        prefix: String = context.getPrefs().getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
+        prefix: String = context.getPrefs().getString(PrefKeys.SEND_DEVICE_INFO_PREFIX)
     ) {
         val value = value ?: return
         val summary = if (value.first) summaryOn else summaryOff

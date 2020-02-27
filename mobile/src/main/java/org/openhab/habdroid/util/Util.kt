@@ -32,7 +32,7 @@ object Util {
 
     @StyleRes
     fun getActivityThemeId(context: Context): Int {
-        return when (context.getPrefs().getInt(Constants.PREFERENCE_ACCENT_COLOR, 0)) {
+        return when (context.getPrefs().getInt(PrefKeys.ACCENT_COLOR, 0)) {
             ContextCompat.getColor(context, R.color.indigo_500) -> R.style.openHAB_DayNight_basicui
             ContextCompat.getColor(context, R.color.blue_grey_700) -> R.style.openHAB_DayNight_grey
             else -> R.style.openHAB_DayNight_orange

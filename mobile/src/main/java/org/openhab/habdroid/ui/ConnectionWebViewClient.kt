@@ -34,7 +34,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.R
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDemoModeEnabled
 
@@ -79,7 +79,7 @@ open class ConnectionWebViewClient(
             return
         }
 
-        val alias = prefs.getString(Constants.PREFERENCE_SSL_CLIENT_CERT, null)
+        val alias = prefs.getString(PrefKeys.SSL_CLIENT_CERT, null)
         Log.d(TAG, "Using alias $alias")
         if (alias == null) {
             request.cancel()

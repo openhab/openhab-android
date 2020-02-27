@@ -36,40 +36,40 @@ enum class ScreenLockMode {
 }
 
 fun SharedPreferences.getLocalUrl(): String {
-    return getString(Constants.PREFERENCE_LOCAL_URL)
+    return getString(PrefKeys.LOCAL_URL)
 }
 
 fun SharedPreferences.getRemoteUrl(): String {
-    return getString(Constants.PREFERENCE_REMOTE_URL)
+    return getString(PrefKeys.REMOTE_URL)
 }
 
 fun SharedPreferences.getDefaultSitemap(connection: Connection?): String {
     return if (connection is DemoConnection) {
         "default"
     } else {
-        getString(Constants.PREFERENCE_SITEMAP_NAME)
+        getString(PrefKeys.SITEMAP_NAME)
     }
 }
 
 fun SharedPreferences.getIconFormat(): IconFormat {
-    val serverProps = getInt(Constants.PREV_SERVER_FLAGS, 0)
+    val serverProps = getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
     if (serverProps and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
         return IconFormat.Svg
     }
-    val formatString = getString(Constants.PREFERENCE_ICON_FORMAT, "PNG")
+    val formatString = getString(PrefKeys.ICON_FORMAT, "PNG")
     return if (formatString == "SVG") IconFormat.Svg else IconFormat.Png
 }
 
 fun SharedPreferences.isDemoModeEnabled(): Boolean {
-    return getBoolean(Constants.PREFERENCE_DEMO_MODE, false)
+    return getBoolean(PrefKeys.DEMO_MODE, false)
 }
 
 fun SharedPreferences.isDebugModeEnabled(): Boolean {
-    return getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
+    return getBoolean(PrefKeys.DEBUG_MESSAGES, false)
 }
 
 fun SharedPreferences.getNotificationTone(): Uri? {
-    val tone = getString(Constants.PREFERENCE_TONE, null)
+    val tone = getString(PrefKeys.TONE, null)
     return when {
         tone == null -> Settings.System.DEFAULT_NOTIFICATION_URI
         tone.isEmpty() -> null
@@ -78,27 +78,27 @@ fun SharedPreferences.getNotificationTone(): Uri? {
 }
 
 fun SharedPreferences.isScreenTimerDisabled(): Boolean {
-    return getBoolean(Constants.PREFERENCE_SCREEN_TIMER_OFF, false)
+    return getBoolean(PrefKeys.SCREEN_TIMER_OFF, false)
 }
 
 fun SharedPreferences.getChartScalingFactor(): Float {
-    return getFloat(Constants.PREFERENCE_CHART_SCALING, 1.0F)
+    return getFloat(PrefKeys.CHART_SCALING, 1.0F)
 }
 
 fun SharedPreferences.shouldRequestHighResChart(): Boolean {
-    return getBoolean(Constants.PREFERENCE_CHART_HQ, true)
+    return getBoolean(PrefKeys.CHART_HQ, true)
 }
 
 fun SharedPreferences.isTaskerPluginEnabled(): Boolean {
-    return getBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, false)
+    return getBoolean(PrefKeys.TASKER_PLUGIN_ENABLED, false)
 }
 
 fun SharedPreferences.wasNfcInfoHintShown(): Boolean {
-    return getBoolean(Constants.PREFERENCE_NFC_INFO_HINT_SHOWN, false)
+    return getBoolean(PrefKeys.NFC_INFO_HINT_SHOWN, false)
 }
 
 fun SharedPreferences.getDayNightMode(context: Context): Int {
-    return when (getString(Constants.PREFERENCE_THEME)) {
+    return when (getString(PrefKeys.THEME)) {
         context.getString(R.string.theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
         context.getString(R.string.theme_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
         else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -110,7 +110,7 @@ fun SharedPreferences.getDayNightMode(context: Context): Int {
 }
 
 fun SharedPreferences.areSitemapsShownInDrawer(): Boolean {
-    return getBoolean(Constants.PREFERENCE_SHOW_SITEMAPS_IN_DRAWER, false)
+    return getBoolean(PrefKeys.SHOW_SITEMAPS_IN_DRAWER, false)
 }
 
 fun SharedPreferences.getString(key: String): String {
@@ -118,7 +118,7 @@ fun SharedPreferences.getString(key: String): String {
 }
 
 fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
-    val settingValue = getString(Constants.PREFERENCE_SCREEN_LOCK,
+    val settingValue = getString(PrefKeys.SCREEN_LOCK,
         context.getString(R.string.settings_screen_lock_off_value))
     return when (settingValue) {
         context.getString(R.string.settings_screen_lock_kiosk_value) -> ScreenLockMode.KioskMode
@@ -132,7 +132,7 @@ fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
  * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]
  */
 fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArray {
-    return when (getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION)) {
+    return when (getString(PrefKeys.NOTIFICATION_VIBRATION)) {
         context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
         context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
         context.getString(R.string.settings_notification_vibration_value_twice) -> {
@@ -147,11 +147,11 @@ fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?, connection:
         return
     }
     if (sitemap == null) {
-        remove(Constants.PREFERENCE_SITEMAP_NAME)
-        remove(Constants.PREFERENCE_SITEMAP_LABEL)
+        remove(PrefKeys.SITEMAP_NAME)
+        remove(PrefKeys.SITEMAP_LABEL)
     } else {
-        putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name)
-        putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label)
+        putString(PrefKeys.SITEMAP_NAME, sitemap.name)
+        putString(PrefKeys.SITEMAP_LABEL, sitemap.label)
     }
 }
 

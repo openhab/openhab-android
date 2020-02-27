@@ -36,7 +36,7 @@ import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.getPrefs
@@ -53,11 +53,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
         when (intent.action) {
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> {
                 Log.d(TAG, "Alarm clock changed")
-                scheduleWorker(context, Constants.PREFERENCE_ALARM_CLOCK)
+                scheduleWorker(context, PrefKeys.ALARM_CLOCK)
             }
             TelephonyManager.ACTION_PHONE_STATE_CHANGED -> {
                 Log.d(TAG, "Phone state changed")
-                scheduleWorker(context, Constants.PREFERENCE_PHONE_STATE)
+                scheduleWorker(context, PrefKeys.PHONE_STATE)
             }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
@@ -139,7 +139,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         SharedPreferences.OnSharedPreferenceChangeListener {
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
             when {
-                key == Constants.PREFERENCE_DEMO_MODE && prefs.isDemoModeEnabled() -> {
+                key == PrefKeys.DEMO_MODE && prefs.isDemoModeEnabled() -> {
                     // Demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
                     with(WorkManager.getInstance(context)) {
@@ -148,9 +148,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     }
                 }
                 // Demo mode was disabled -> reschedule uploads
-                (key == Constants.PREFERENCE_DEMO_MODE && !prefs.isDemoModeEnabled()) ||
+                (key == PrefKeys.DEMO_MODE && !prefs.isDemoModeEnabled()) ||
                     // Prefix has been changed -> reschedule uploads
-                    key == Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX -> {
+                    key == PrefKeys.SEND_DEVICE_INFO_PREFIX -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
                 }
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
@@ -171,8 +171,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
 
         internal val KNOWN_KEYS = listOf(
-            Constants.PREFERENCE_ALARM_CLOCK,
-            Constants.PREFERENCE_PHONE_STATE
+            PrefKeys.ALARM_CLOCK,
+            PrefKeys.PHONE_STATE
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
@@ -242,7 +242,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             val value = VALUE_GETTER_MAP[key]?.invoke(context) ?: return
-            val prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
+            val prefix = prefs.getString(PrefKeys.SEND_DEVICE_INFO_PREFIX)
 
             enqueueItemUpload(
                 context,
@@ -286,7 +286,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         init {
-            VALUE_GETTER_MAP[Constants.PREFERENCE_ALARM_CLOCK] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.ALARM_CLOCK] = { context ->
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val info = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
@@ -299,17 +299,17 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
                 val prefs = context.getPrefs()
 
-                if (time == "UNDEF" && prefs.getBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, false)) {
+                if (time == "UNDEF" && prefs.getBoolean(PrefKeys.ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, false)) {
                     time = null
                 }
 
                 prefs.edit {
-                    putBoolean(Constants.PREFERENCE_ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, time == "UNDEF" || time == null)
+                    putBoolean(PrefKeys.ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, time == "UNDEF" || time == null)
                 }
 
                 time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
             }
-            VALUE_GETTER_MAP[Constants.PREFERENCE_PHONE_STATE] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.PHONE_STATE] = { context ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val state = when (manager.callState) {
                     TelephonyManager.CALL_STATE_IDLE -> "IDLE"

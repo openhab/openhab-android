@@ -18,7 +18,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.edit
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.wasNfcInfoHintShown
 
@@ -36,7 +36,7 @@ class NfcItemPickerActivity(
         retryButton.setOnClickListener {
             if (needToShowHint) {
                 getPrefs().edit {
-                    putBoolean(Constants.PREFERENCE_NFC_INFO_HINT_SHOWN, true)
+                    putBoolean(PrefKeys.NFC_INFO_HINT_SHOWN, true)
                 }
                 needToShowHint = false
             }

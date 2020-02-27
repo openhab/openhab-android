@@ -49,7 +49,7 @@ import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
@@ -586,7 +586,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                     // If we attempted resolving, secondary button enables demo mode
                     context?.apply {
                         getPrefs().edit {
-                            putBoolean(Constants.PREFERENCE_DEMO_MODE, true)
+                            putBoolean(PrefKeys.DEMO_MODE, true)
                         }
                     }
                 }
