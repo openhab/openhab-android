@@ -1,0 +1,9 @@
+## Added
+* Add 'rate app' to about menu (#1834)
+
+## Fixed
+* Restore webview state after rotation (#1832)
+* Preserve authentication information over HTTP redirects. (#1830)
+
+## Changed
+* Bump dependencies
