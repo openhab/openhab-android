@@ -223,7 +223,6 @@
     <string name="settings_debug_messages_title">Laat informatie zien voor het oplossen van problemen</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL kon niet worden vastgesteld</string>
     <string name="unknown">Onbekend</string>
-    <string name="error_network_type_unsupported">Netwerktype wordt niet ondersteund</string>
     <string name="set">Stel in</string>
     <string name="cancel">Annuleer</string>
     <string name="close">Sluiten</string>
