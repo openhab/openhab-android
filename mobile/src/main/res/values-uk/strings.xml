@@ -286,7 +286,6 @@
     <string name="settings_debug_messages_title">Показати інформацію, щодо виправлення неполадок</string>
     <string name="error_couldnt_determine_openhab_url">Не вдалося визначити адресу openHAB</string>
     <string name="unknown">Невідомо</string>
-    <string name="error_network_type_unsupported">Тип мережі не підтримується</string>
     <string name="set">Встановити</string>
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
