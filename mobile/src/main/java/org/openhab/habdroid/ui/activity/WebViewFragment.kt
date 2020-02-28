@@ -163,10 +163,10 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     fun goBack(): Boolean {
         if (webView?.canGoBack() == true) {
             val oldUrl = webView?.url
-            webView?.goBack()
-            if (oldUrl == webView?.url) {
-                goBack()
-            }
+            do {
+                webView?.goBack()
+                // Skip redundant history entries while going back
+            } while (webView?.url == oldUrl && webView?.canGoBack() == true)
             return true
         }
         return false
