@@ -39,6 +39,7 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.openInBrowser
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -113,6 +114,14 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 .desc(context.getString(R.string.about_copyright, year))
                 .icon(R.mipmap.icon)
                 .build())
+            if (Util.isFlavorStable) {
+                appCard.addItem(MaterialAboutActionItem.Builder()
+                    .text(R.string.about_rate_this_app)
+                    .icon(R.drawable.ic_star_border_grey_24dp)
+                    .setOnClickAction { context.openInAppStore(context.packageName) }
+                    .build()
+                )
+            }
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.version)
                 .subText(context.getString(R.string.about_version_string,

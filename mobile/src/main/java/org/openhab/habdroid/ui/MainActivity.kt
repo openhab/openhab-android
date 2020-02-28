@@ -58,7 +58,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.net.toUri
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
@@ -109,7 +108,7 @@ import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
-import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.updateDefaultSitemap
 import java.nio.charset.Charset
 import java.util.concurrent.CancellationException
@@ -912,14 +911,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             startActivity(speechIntent)
         } catch (speechRecognizerNotFoundException: ActivityNotFoundException) {
             showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install) {
-                try {
-                    startActivity(Intent(Intent.ACTION_VIEW,
-                        "market://details?id=com.google.android.googlequicksearchbox".toUri()))
-                } catch (appStoreNotFoundException: ActivityNotFoundException) {
-                    "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox"
-                        .toUri()
-                        .openInBrowser(this)
-                }
+                openInAppStore("com.google.android.googlequicksearchbox")
             }
         }
     }
