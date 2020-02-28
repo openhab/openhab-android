@@ -267,7 +267,6 @@
     <string name="settings_debug_messages_title">Mutassa a hibaelhárítási információkat</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
     <string name="unknown">Ismeretlen</string>
-    <string name="error_network_type_unsupported">Hálózat típusa nem támogatott</string>
     <string name="set">Beállít</string>
     <string name="cancel">Mégse</string>
     <string name="close">Bezár</string>
