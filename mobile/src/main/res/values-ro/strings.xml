@@ -222,7 +222,6 @@
     <string name="settings_debug_messages_title">Arată informaţii pentru depanare</string>
     <string name="error_couldnt_determine_openhab_url">Nu a putut fi determinată adresa URL pentru openHAB</string>
     <string name="unknown">Necunoscut</string>
-    <string name="error_network_type_unsupported">Tipul de reţea nu este acceptat</string>
     <string name="set">Setează</string>
     <string name="cancel">Anulează</string>
     <string name="close">Închide</string>
