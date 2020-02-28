@@ -227,7 +227,6 @@
     <string name="settings_debug_messages_title">Weis Informatiounen zur Léisung vun Problemer</string>
     <string name="error_couldnt_determine_openhab_url">Konnt d\'openHAB URL net eraus fannen</string>
     <string name="unknown">Onbekannt</string>
-    <string name="error_network_type_unsupported">Den Netzwierk Typ ass net ënnerstëtzt</string>
     <string name="set">Setzen</string>
     <string name="cancel">Ofbriechen</string>
     <string name="close">Zoumaachen</string>
