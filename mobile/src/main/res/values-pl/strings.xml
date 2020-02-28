@@ -268,7 +268,6 @@
     <string name="settings_debug_messages_title">Wyświetl informacje pomagające rozwiązać problemy</string>
     <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
     <string name="unknown">Nieznane</string>
-    <string name="error_network_type_unsupported">Typ sieci nie jest wspierany</string>
     <string name="set">Wybierz</string>
     <string name="cancel">Anuluj</string>
     <string name="close">Zamknij</string>
