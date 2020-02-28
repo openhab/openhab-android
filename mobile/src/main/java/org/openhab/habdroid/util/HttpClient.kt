@@ -40,11 +40,26 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
+class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
+    private val client: OkHttpClient
     private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
     @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
         Credentials.basic(username, password, StandardCharsets.UTF_8) else null
 
+    init {
+        val clientBuilder = client.newBuilder()
+        if (authHeader != null) {
+            // Forcibly put authorization info into request, as redirect/retry interceptor might have removed it
+            clientBuilder.addNetworkInterceptor { chain ->
+                val request = chain.request()
+                    .newBuilder()
+                    .addHeader("Authorization", authHeader)
+                    .build()
+                chain.proceed(request)
+            }
+        }
+        this.client = clientBuilder.build()
+    }
     enum class CachingMode {
         DEFAULT,
         AVOID_CACHE,
@@ -52,8 +67,9 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
     }
 
     fun makeSse(url: HttpUrl, listener: EventSourceListener): EventSource {
-        val request = makeAuthenticatedRequestBuilder()
+        val request = Request.Builder()
             .url(url)
+            .addHeader("User-Agent", "openHAB client for Android")
             .build()
         val client = this.client.newBuilder()
             .readTimeout(0, TimeUnit.SECONDS)
@@ -115,8 +131,9 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
         timeoutMillis: Long,
         caching: CachingMode
     ) = suspendCancellableCoroutine<HttpResult> { cont ->
-        val requestBuilder = makeAuthenticatedRequestBuilder()
+        val requestBuilder = Request.Builder()
             .url(buildUrl(url))
+            .addHeader("User-Agent", "openHAB client for Android")
         if (headers != null) {
             for ((key, value) in headers) {
                 requestBuilder.addHeader(key, value)
@@ -167,15 +184,6 @@ class HttpClient constructor(private val client: OkHttpClient, baseUrl: String?,
                 }
             }
         })
-    }
-
-    private fun makeAuthenticatedRequestBuilder(): Request.Builder {
-        val builder = Request.Builder()
-            .addHeader("User-Agent", "openHAB client for Android")
-        if (authHeader != null) {
-            builder.addHeader("Authorization", authHeader)
-        }
-        return builder
     }
 
     class HttpResult internal constructor(
