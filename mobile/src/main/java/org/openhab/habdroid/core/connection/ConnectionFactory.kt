@@ -34,7 +34,6 @@ import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
-import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
@@ -339,8 +338,7 @@ class ConnectionFactory internal constructor(
         }
 
         if (available[0] is ConnectionManagerHelper.ConnectionType.Unknown) {
-            Log.e(TAG, "Network type ${available[0]} is unsupported")
-            throw NetworkNotSupportedException()
+            Log.d(TAG, "Network type ${available[0]} is unknown")
         }
 
         if (remote != null) {
@@ -502,12 +500,12 @@ class ConnectionFactory internal constructor(
         /**
          * Returns the configured local connection, or null if none is configured
          */
-        val localConnection get() = instance.localConnection
+        val localConnectionOrNull get() = instance.localConnection
 
         /**
          * Returns the configured remote connection, or null if none is configured
          */
-        val remoteConnection get() = instance.remoteConnection
+        val remoteConnectionOrNull get() = instance.remoteConnection
 
         /**
          * Returns the resolved cloud connection.

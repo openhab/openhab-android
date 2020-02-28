@@ -85,7 +85,6 @@ import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
-import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerProperties
@@ -420,7 +419,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.localConnection == null) {
+                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.localConnectionOrNull == null) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(this,
                             getString(R.string.openhab_service_type), this)
@@ -436,12 +435,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     controller.indicateMissingConfiguration(false)
                 }
             }
-            failureReason is NetworkNotSupportedException -> {
-                controller.indicateNoNetwork(getString(R.string.error_network_type_unsupported), false)
-            }
             failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
-                controller.indicateNoNetwork(
-                    getString(R.string.error_wifi_not_available), true)
+                controller.indicateNoNetwork(getString(R.string.error_wifi_not_available), true)
             }
             failureReason is ConnectionNotInitializedException -> {
                 controller.updateConnection(null, null, 0)
@@ -481,7 +476,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             showDemoModeHintSnackbar()
         } else {
             val hasLocalAndRemote =
-                ConnectionFactory.localConnection != null && ConnectionFactory.remoteConnection != null
+                ConnectionFactory.localConnectionOrNull != null && ConnectionFactory.remoteConnectionOrNull != null
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(R.string.info_conn_url)
