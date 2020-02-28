@@ -170,21 +170,15 @@ class ConnectionFactoryTest {
     }
 
     @Test
-    fun testGetNoLocalConnectionUnknownNetwork() {
+    fun testGetConnectionUnknownNetwork() {
         whenever(mockPrefs.getString(any(), any())) doReturn "https://openhab.local:8080"
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(null))
         updateAndWaitForConnections()
-        assertNull("Local connections must not use unknown transport types",
-            ConnectionFactory.localConnectionOrNull)
-    }
-
-    @Test
-    fun testGetRemoteConnectionUnknownNetwork() {
-        whenever(mockPrefs.getString(any(), any())) doReturn "https://openhab.local:8080"
-        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(null))
-        updateAndWaitForConnections()
-        assertNotNull("Remote connections should use unknown transport types",
-            ConnectionFactory.usableConnectionOrNull)
+        assertEquals(
+            "Unknown transport types should be used for remote connections",
+            ConnectionFactory.usableConnection.connectionType,
+            Connection.TYPE_REMOTE
+        )
     }
 
     @Test
