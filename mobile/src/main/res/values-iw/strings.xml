@@ -268,7 +268,6 @@
     <string name="settings_debug_messages_title">הצג מידע לפתרון בעיות</string>
     <string name="error_couldnt_determine_openhab_url">לא מצליח לאתר את הכתובת של openHAB</string>
     <string name="unknown">לא ידוע</string>
-    <string name="error_network_type_unsupported">אין תמיכה בסוג הרשת</string>
     <string name="set">קבע</string>
     <string name="cancel">ביטול</string>
     <string name="close">סגור</string>
