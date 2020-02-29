@@ -88,6 +88,7 @@
     <string name="app_shortcut_disabled_habpanel">HABPanel אינו מותקן בשרת</string>
     <string name="app_shortcut_disabled_notifications">השרת המרוחק אינו זמין</string>
     <string name="app_shortcut_disabled_voice_recognition">היישום דיבור-לטקסט אינו מותקן במכשיר שלך</string>
+    <string name="no_position_set">לא נקבע מיקום</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
@@ -223,6 +224,23 @@
     <string name="theme_name_system">בהתאם למערכת</string>
     <string name="theme_name_battery_saver">ערכת נושא כהה במצב חיסכון בסוללה</string>
     <!-- Chart -->
+    <string name="chart_activity_title">תרשים</string>
+    <string name="chart_activity_hide_legend">הסתר מקרא</string>
+    <string name="chart_activity_show_legend">הצג מקרא</string>
+    <string name="chart_activity_period">פרק זמן</string>
+    <string name="chart_activity_period_1_hour">שעה אחת</string>
+    <string name="chart_activity_period_4_hour">4 שעות</string>
+    <string name="chart_activity_period_8_hour">8 שעות</string>
+    <string name="chart_activity_period_12_hour">12 שעות</string>
+    <string name="chart_activity_period_1_day">יום אחד</string>
+    <string name="chart_activity_period_2_day">יומיים</string>
+    <string name="chart_activity_period_3_day">3 ימים</string>
+    <string name="chart_activity_period_1_week">שבוע אחד</string>
+    <string name="chart_activity_period_2_week">שבועיים</string>
+    <string name="chart_activity_period_1_month">חודש אחד</string>
+    <string name="chart_activity_period_2_month">חודשיים</string>
+    <string name="chart_activity_period_4_month">4 חודשים</string>
+    <string name="chart_activity_period_1_year">שנה</string>
     <!-- NFC -->
     <string name="nfc_action_on">הפעל</string>
     <string name="nfc_action_up">העלה</string>
@@ -265,6 +283,7 @@
     <string name="about_server">שרת openHAB</string>
     <string name="about_translation">עזור לנו לתרגם את openHAB</string>
     <string name="about_privacy_policy">מדיניות פרטיות</string>
+    <string name="about_rate_this_app">דרג את היישום הזה</string>
     <string name="settings_debug_messages_title">הצג מידע לפתרון בעיות</string>
     <string name="error_couldnt_determine_openhab_url">לא מצליח לאתר את הכתובת של openHAB</string>
     <string name="unknown">לא ידוע</string>
