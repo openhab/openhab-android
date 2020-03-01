@@ -61,7 +61,8 @@ data class Item internal constructor(
             isOfTypeOrGroupType(Type.Contact) ||
             isOfTypeOrGroupType(Type.Dimmer) ||
             isOfTypeOrGroupType(Type.Rollershutter) ||
-            isOfTypeOrGroupType(Type.Switch)
+            isOfTypeOrGroupType(Type.Switch) ||
+            isOfTypeOrGroupType(Type.Player)
     }
 
     companion object {

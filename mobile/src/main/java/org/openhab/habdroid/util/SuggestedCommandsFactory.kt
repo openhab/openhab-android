@@ -104,6 +104,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         item.isOfTypeOrGroupType(Item.Type.Player) -> {
             add(suggestedCommands, "PLAY", R.string.nfc_action_play)
             add(suggestedCommands, "PAUSE", R.string.nfc_action_pause)
+            add(suggestedCommands, "TOGGLE", R.string.nfc_action_toggle)
             add(suggestedCommands, "NEXT", R.string.nfc_action_next)
             add(suggestedCommands, "PREVIOUS", R.string.nfc_action_previous)
             add(suggestedCommands, "REWIND", R.string.nfc_action_rewind)
