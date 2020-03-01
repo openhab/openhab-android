@@ -1,0 +1,2 @@
+## Changed
+* Try remote connection on unknown transport (#1835)
