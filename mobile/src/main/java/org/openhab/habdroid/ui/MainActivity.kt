@@ -27,8 +27,6 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.wifi.WifiManager
@@ -48,7 +46,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.ProgressBar
-import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -305,10 +302,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         RemoteLog.d(TAG, "onPrepareOptionsMenu()")
-        val voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition)
-        @ColorInt val iconColor = ContextCompat.getColor(this, R.color.light)
-        voiceRecognitionItem.isVisible = connection != null
-        voiceRecognitionItem.icon.colorFilter = PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+        menu.findItem(R.id.mainmenu_voice_recognition).isVisible = connection != null
         return true
     }
 
