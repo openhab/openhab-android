@@ -73,6 +73,11 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         onRefresh()
     }
 
+    override fun onPause() {
+        super.onPause()
+        chart.cancelRefresh()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "onCreateOptionsMenu()")
         menuInflater.inflate(R.menu.chart_menu, menu)
@@ -161,6 +166,9 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         Log.d(TAG, "Load chart with url $chartUrl")
         chart.setImageUrl(connection, chartUrl, chart.width, forceLoad = true)
+        if (widget.refresh > 0) {
+            chart.startRefreshing(widget.refresh)
+        }
         swipeLayout.isRefreshing = false
     }
 
