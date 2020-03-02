@@ -133,7 +133,6 @@ class UtilTest {
 
         assertEquals("https://127.0.0.1:81/abc/", "https://127.0.0.1:81/abc".toNormalizedUrl())
 
-
         assertEquals("http://localhost/", " http://localhost/".toNormalizedUrl())
         assertEquals("http://localhost/", "http://localhost/ ".toNormalizedUrl())
         assertEquals("http://localhost/", "http:// localhost/".toNormalizedUrl())
