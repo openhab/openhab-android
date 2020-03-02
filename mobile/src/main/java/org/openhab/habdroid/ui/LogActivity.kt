@@ -23,13 +23,13 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
@@ -208,7 +208,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {
-        val host = url?.toUri()?.host
+        val host = url?.toHttpUrlOrNull()?.host
         return if (!host.isNullOrEmpty()) text.replace(host, replacement) else text
     }
 

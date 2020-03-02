@@ -210,7 +210,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
         init {
             if (callback.serverProperties?.hasSseSupport() == true) {
-                val segments = url.toUri().pathSegments
+                val segments = url.toHttpUrlOrNull()?.pathSegments ?: emptyList()
                 if (segments.size > 2) {
                     val sitemap = segments[segments.size - 2]
                     val pageId = segments[segments.size - 1]

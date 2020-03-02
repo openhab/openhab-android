@@ -38,6 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.json.JSONArray
@@ -278,7 +279,7 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
     } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
         getString(
             if (short) R.string.error_short_certificate_wrong_host else R.string.error_certificate_wrong_host,
-            url.toUri().host
+            url.toHttpUrlOrNull()?.host
         )
     } else if (error.hasCause(CertPathValidatorException::class.java)) {
         getString(if (short) R.string.error_short_certificate_not_trusted else R.string.error_certificate_not_trusted)

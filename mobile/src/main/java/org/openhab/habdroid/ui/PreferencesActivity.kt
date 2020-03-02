@@ -35,7 +35,6 @@ import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
 import androidx.preference.Preference
@@ -45,6 +44,7 @@ import androidx.preference.PreferenceGroup
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -523,7 +523,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             private const val REQUEST_CODE_RINGTONE = 1000
 
             @VisibleForTesting fun beautifyUrl(url: String): String {
-                val host = url.toUri().host ?: url
+                val host = url.toHttpUrlOrNull()?.host ?: url
                 return if (host.matches("^(home.)?myopenhab.org$".toRegex())) "myopenHAB" else host
             }
         }
