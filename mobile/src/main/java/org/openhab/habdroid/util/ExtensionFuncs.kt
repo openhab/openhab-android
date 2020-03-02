@@ -37,6 +37,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.json.JSONArray
@@ -49,10 +50,8 @@ import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
 import java.net.ConnectException
-import java.net.MalformedURLException
 import java.net.Socket
 import java.net.SocketTimeoutException
-import java.net.URL
 import java.net.UnknownHostException
 import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
@@ -85,16 +84,17 @@ fun String.obfuscate(clearTextCharCount: Int = 3): String {
     return substring(0, clearTextCharCount) + "*".repeat(length - clearTextCharCount)
 }
 
-fun String?.toNormalizedUrl(): String {
+fun String?.toNormalizedUrl(): String? {
     return try {
-        val url = URL(orEmpty())
-            .toString()
+        val url = toString()
             .replace("\n", "")
             .replace(" ", "")
+            .toHttpUrl()
+            .toString()
         if (url.endsWith("/")) url else "$url/"
-    } catch (e: MalformedURLException) {
+    } catch (e: IllegalArgumentException) {
         Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
-        ""
+        null
     }
 }
 

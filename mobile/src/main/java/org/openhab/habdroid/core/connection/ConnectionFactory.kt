@@ -295,7 +295,7 @@ class ConnectionFactory internal constructor(
         passwordKey: String
     ): AbstractConnection? {
         val url = prefs.getString(urlKey).toNormalizedUrl()
-        if (url.isEmpty()) {
+        if (url.isNullOrEmpty()) {
             return null
         }
         return DefaultConnection(httpClient, type, url,

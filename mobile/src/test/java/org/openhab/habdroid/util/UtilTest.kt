@@ -132,6 +132,19 @@ class UtilTest {
         assertEquals("https://127.0.0.1/abc/", "https://127.0.0.1/abc".toNormalizedUrl())
 
         assertEquals("https://127.0.0.1:81/abc/", "https://127.0.0.1:81/abc".toNormalizedUrl())
+
+
+        assertEquals("http://localhost/", " http://localhost/".toNormalizedUrl())
+        assertEquals("http://localhost/", "http://localhost/ ".toNormalizedUrl())
+        assertEquals("http://localhost/", "http:// localhost/".toNormalizedUrl())
+        assertEquals("http://localhost/", "http://local\nhost/".toNormalizedUrl())
+
+        assertEquals("Empty string should return null", null, "".toNormalizedUrl())
+        assertEquals("Null should return null", null, null.toNormalizedUrl())
+        assertEquals("Url with one slash after the protocol should be fixed",
+            "http://localhost/", "http:/localhost/".toNormalizedUrl())
+        assertEquals("Url with invalid protocol should return null",
+            null, "http//localhost/".toNormalizedUrl())
     }
 
     @Test
