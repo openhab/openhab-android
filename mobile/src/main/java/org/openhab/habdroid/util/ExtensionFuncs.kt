@@ -86,8 +86,9 @@ fun String.obfuscate(clearTextCharCount: Int = 3): String {
 }
 
 fun String?.toNormalizedUrl(): String? {
+    this ?: return null
     return try {
-        val url = toString()
+        val url = this
             .replace("\n", "")
             .replace(" ", "")
             .toHttpUrl()
