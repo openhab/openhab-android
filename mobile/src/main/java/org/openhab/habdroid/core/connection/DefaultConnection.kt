@@ -40,13 +40,8 @@ open class DefaultConnection : AbstractConnection {
 
     suspend fun isReachableViaNetwork(network: Network?): Boolean {
         Log.d(TAG, "Checking reachability of $baseUrl (via $network)")
-        val uri = baseUrl.toHttpUrl()
-        val checkPort = when {
-            uri.scheme == "http" && uri.port == -1 -> 80
-            uri.scheme == "https" && uri.port == -1 -> 443
-            else -> uri.port
-        }
-        val s = createConnectedSocket(InetSocketAddress(uri.host, checkPort), network)
+        val url = baseUrl.toHttpUrl()
+        val s = createConnectedSocket(InetSocketAddress(url.host, url.port), network)
         s?.close()
         return s != null
     }

@@ -98,15 +98,15 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                     try {
                         val url = value.toHttpUrl()
                         urlIsValid = true
-                        when (url.scheme) {
-                            "https" -> portSeemsInvalid = url.port == 80 || url.port == 8080
-                            "http" -> if (isHttpEnabled) {
-                                portSeemsInvalid = url.port == 443 || url.port == 8443
-                            } else {
+                        portSeemsInvalid = when {
+                            url.isHttps -> url.port == 80 || url.port == 8080
+                            !isHttpEnabled -> {
                                 urlIsValid = false
+                                false
                             }
+                            else -> url.port == 443 || url.port == 8443
                         }
-                    } catch (e: MalformedURLException) {
+                    } catch (e: IllegalArgumentException) {
                         urlIsValid = false
                     }
                 }
