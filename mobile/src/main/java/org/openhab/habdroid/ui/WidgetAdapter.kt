@@ -319,7 +319,7 @@ class WidgetAdapter(
             labelView.text = splitString.firstOrNull()
             labelView.applyWidgetColor(widget.labelColor, colorMapper)
             if (valueView != null) {
-                valueView.text = splitString.elementAtOrNull(1)
+                valueView.text = splitString.elementAtOrNull(1)?.replace("\n"," ")
                 valueView.isVisible = splitString.size > 1
                 valueView.applyWidgetColor(widget.valueColor, colorMapper)
             }

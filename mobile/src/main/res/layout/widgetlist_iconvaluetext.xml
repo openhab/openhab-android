@@ -11,6 +11,8 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:textDirection="anyRtl"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </merge>
