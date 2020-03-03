@@ -631,7 +631,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     internal abstract class StatusFragment : Fragment(), View.OnClickListener {
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            val arguments = arguments!!
+            val arguments = requireArguments()
             val view = inflater.inflate(R.layout.fragment_status, container, false)
 
             val descriptionText = view.findViewById<TextView>(R.id.description)

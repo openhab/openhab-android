@@ -58,7 +58,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var shortcutInfo: ShortcutInfoCompat? = null
 
     val titleResId: Int
-        @StringRes get() = arguments!!.getInt(KEY_PAGE_TITLE)
+        @StringRes get() = requireArguments().getInt(KEY_PAGE_TITLE)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_webview, container, false)
@@ -70,7 +70,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val args = arguments!!
+        val args = requireArguments()
         webView = view.findViewById(R.id.webview)
         urlToLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String

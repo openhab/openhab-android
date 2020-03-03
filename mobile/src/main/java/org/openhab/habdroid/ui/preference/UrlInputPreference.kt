@@ -87,7 +87,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
 
         override fun afterTextChanged(editable: Editable) {
             var portSeemsInvalid = false
-            val isHttpEnabled = arguments!!.getBoolean(IS_HTTP_ENABLED, false)
+            val isHttpEnabled = requireArguments().getBoolean(IS_HTTP_ENABLED, false)
             if (editable.isEmpty()) {
                 urlIsValid = true
             } else {
