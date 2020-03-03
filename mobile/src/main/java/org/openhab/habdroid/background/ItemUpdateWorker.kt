@@ -139,6 +139,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             if (item.state?.asNumber?.value == 0F) "100" else "0"
         } else if (item.isOfTypeOrGroupType(Item.Type.Contact)) {
             if (item.state?.asString == "OPEN") "CLOSED" else "OPEN"
+        } else if (item.isOfTypeOrGroupType(Item.Type.Player)) {
+            if (item.state?.asString == "PAUSE") "PLAY" else "PAUSE"
         } else if (item.state?.asBoolean == true) {
             "OFF"
         } else {
