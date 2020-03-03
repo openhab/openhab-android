@@ -17,21 +17,21 @@ import android.content.Context
 import androidx.core.content.edit
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Before
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 
 abstract class TestWithoutIntro : ProgressbarAwareTest() {
     @Before
     override fun setup() {
         ApplicationProvider.getApplicationContext<Context>().getPrefs().edit {
-            putString(Constants.PREFERENCE_SITEMAP_NAME, "")
+            putString(PrefKeys.SITEMAP_NAME, "")
             if (preselectSitemap()) {
-                putString(Constants.PREFERENCE_SITEMAP_NAME, "demo")
-                putString(Constants.PREFERENCE_SITEMAP_LABEL, "Main Menu")
+                putString(PrefKeys.SITEMAP_NAME, "demo")
+                putString(PrefKeys.SITEMAP_LABEL, "Main Menu")
             }
 
-            putBoolean(Constants.PREFERENCE_DEMO_MODE, true)
-            putBoolean(Constants.PREFERENCE_FIRST_START, false).commit()
+            putBoolean(PrefKeys.DEMO_MODE, true)
+            putBoolean(PrefKeys.FIRST_START, false).commit()
         }
 
         super.setup()

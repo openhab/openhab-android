@@ -24,7 +24,7 @@ class CustomBackupAgent : BackupAgentHelper() {
         super.onRestoreFinished()
         Log.d(TAG, "Restore finished")
         getPrefs().edit {
-            putBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, true)
+            putBoolean(PrefKeys.RECENTLY_RESTORED, true)
         }
     }
 

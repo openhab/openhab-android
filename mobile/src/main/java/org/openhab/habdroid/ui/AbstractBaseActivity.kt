@@ -32,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
 import org.openhab.habdroid.R
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
@@ -46,7 +46,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     private var authPrompt: AuthPrompt? = null
 
     protected val isFullscreenEnabled: Boolean
-        get() = getPrefs().getBoolean(Constants.PREFERENCE_FULLSCREEN, false)
+        get() = getPrefs().getBoolean(PrefKeys.FULLSCREEN, false)
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

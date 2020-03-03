@@ -23,7 +23,7 @@ import androidx.core.os.bundleOf
 import com.google.android.material.button.MaterialButton
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.getPrefs
@@ -47,7 +47,7 @@ class TaskerItemPickerActivity(
         retryButton.setOnClickListener {
             if (needToShowHint) {
                 getPrefs().edit {
-                    putBoolean(Constants.PREFERENCE_TASKER_PLUGIN_ENABLED, true)
+                    putBoolean(PrefKeys.TASKER_PLUGIN_ENABLED, true)
                 }
                 needToShowHint = false
             }

@@ -36,7 +36,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedEx
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getString
@@ -144,7 +144,7 @@ class ConnectionFactory internal constructor(
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == Constants.PREFERENCE_DEBUG_MESSAGES) {
+        if (key == PrefKeys.DEBUG_MESSAGES) {
             updateHttpLoggerSettings()
         }
         if (key in CLIENT_CERT_UPDATE_TRIGGERING_KEYS) {
@@ -168,11 +168,11 @@ class ConnectionFactory internal constructor(
                 cloudInitialized = true, cloud = null, cloudFailureReason = null)
         } else {
             localConnection = makeConnection(Connection.TYPE_LOCAL,
-                Constants.PREFERENCE_LOCAL_URL,
-                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD)
+                PrefKeys.LOCAL_URL,
+                PrefKeys.LOCAL_USERNAME, PrefKeys.LOCAL_PASSWORD)
             remoteConnection = makeConnection(Connection.TYPE_REMOTE,
-                Constants.PREFERENCE_REMOTE_URL,
-                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
+                PrefKeys.REMOTE_URL,
+                PrefKeys.REMOTE_USERNAME, PrefKeys.REMOTE_PASSWORD)
 
             updateState(false, null, null, false, null, null)
             triggerConnectionUpdateIfNeeded()
@@ -193,7 +193,7 @@ class ConnectionFactory internal constructor(
 
     private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
         val clientCertAlias = if (prefs.isDemoModeEnabled()) // No client cert in demo mode
-            null else prefs.getString(Constants.PREFERENCE_SSL_CLIENT_CERT, null)
+            null else prefs.getString(PrefKeys.SSL_CLIENT_CERT, null)
         val keyManagers = if (clientCertAlias != null)
             arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
 
@@ -411,13 +411,13 @@ class ConnectionFactory internal constructor(
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
         private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
-            Constants.PREFERENCE_DEMO_MODE, Constants.PREFERENCE_SSL_CLIENT_CERT
+            PrefKeys.DEMO_MODE, PrefKeys.SSL_CLIENT_CERT
         )
         private val UPDATE_TRIGGERING_KEYS = listOf(
-            Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
-            Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
-            Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
-            Constants.PREFERENCE_SSL_CLIENT_CERT, Constants.PREFERENCE_DEMO_MODE
+            PrefKeys.LOCAL_URL, PrefKeys.REMOTE_URL,
+            PrefKeys.LOCAL_USERNAME, PrefKeys.LOCAL_PASSWORD,
+            PrefKeys.REMOTE_USERNAME, PrefKeys.REMOTE_PASSWORD,
+            PrefKeys.SSL_CLIENT_CERT, PrefKeys.DEMO_MODE
         )
 
         @VisibleForTesting lateinit var instance: ConnectionFactory

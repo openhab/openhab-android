@@ -93,7 +93,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
-import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
@@ -205,8 +205,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         processIntent(intent)
 
-        if (prefs.getBoolean(Constants.PREFERENCE_FIRST_START, true) ||
-            prefs.getBoolean(Constants.PREFERENCE_RECENTLY_RESTORED, false)
+        if (prefs.getBoolean(PrefKeys.FIRST_START, true) ||
+            prefs.getBoolean(PrefKeys.RECENTLY_RESTORED, false)
         ) {
             Log.d(TAG, "Start intro")
             val intent = Intent(this, IntroActivity::class.java)
@@ -520,7 +520,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             if (connection !is DemoConnection) {
                 prefs.edit {
-                    putInt(Constants.PREV_SERVER_FLAGS, props.flags)
+                    putInt(PrefKeys.PREV_SERVER_FLAGS, props.flags)
                 }
             }
             handlePendingAction()
@@ -545,7 +545,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             Log.d(TAG, "Service resolved: $address port: $port")
 
             prefs.edit {
-                putString(Constants.PREFERENCE_LOCAL_URL, "https://$address:$port")
+                putString(PrefKeys.LOCAL_URL, "https://$address:$port")
             }
         } else {
             Log.d(TAG, "onServiceResolveFailed()")
@@ -906,13 +906,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     fun showRefreshHintSnackbarIfNeeded() {
-        if (prefs.getBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, false)) {
+        if (prefs.getBoolean(PrefKeys.SWIPE_REFRESH_EXPLAINED, false)) {
             return
         }
 
         showSnackbar(R.string.swipe_to_refresh_description, R.string.got_it) {
             prefs.edit {
-                putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                putBoolean(PrefKeys.SWIPE_REFRESH_EXPLAINED, true)
             }
         }
     }
@@ -920,7 +920,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun showDemoModeHintSnackbar() {
         showSnackbar(R.string.info_demo_mode_short, R.string.turn_off) {
             prefs.edit {
-                putBoolean(Constants.PREFERENCE_DEMO_MODE, false)
+                putBoolean(PrefKeys.DEMO_MODE, false)
             }
         }
     }
@@ -987,7 +987,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {
-        if (prefs.getString(Constants.PREFERENCE_PHONE_STATE, null)?.toItemUpdatePrefValue()?.first == true &&
+        if (prefs.getString(PrefKeys.PHONE_STATE, null)?.toItemUpdatePrefValue()?.first == true &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !=
             PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "READ_PHONE_STATE permission has been denied")
