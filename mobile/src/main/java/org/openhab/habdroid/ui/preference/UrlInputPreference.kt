@@ -26,9 +26,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import com.google.android.material.textfield.TextInputLayout
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.openhab.habdroid.R
 import java.net.MalformedURLException
-import java.net.URL
 
 class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
@@ -96,17 +96,17 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                     urlIsValid = false
                 } else {
                     try {
-                        val url = URL(value)
+                        val url = value.toHttpUrl()
                         urlIsValid = true
-                        when (url.protocol) {
-                            "https" -> portSeemsInvalid = url.port == 80 || url.port == 8080
-                            "http" -> if (isHttpEnabled) {
-                                portSeemsInvalid = url.port == 443 || url.port == 8443
-                            } else {
+                        portSeemsInvalid = when {
+                            url.isHttps -> url.port == 80 || url.port == 8080
+                            !isHttpEnabled -> {
                                 urlIsValid = false
+                                false
                             }
+                            else -> url.port == 443 || url.port == 8443
                         }
-                    } catch (e: MalformedURLException) {
+                    } catch (e: IllegalArgumentException) {
                         urlIsValid = false
                     }
                 }

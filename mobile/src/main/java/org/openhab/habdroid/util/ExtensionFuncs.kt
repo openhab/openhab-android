@@ -37,6 +37,8 @@ import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.json.JSONArray
@@ -49,10 +51,8 @@ import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
 import java.net.ConnectException
-import java.net.MalformedURLException
 import java.net.Socket
 import java.net.SocketTimeoutException
-import java.net.URL
 import java.net.UnknownHostException
 import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
@@ -85,16 +85,18 @@ fun String.obfuscate(clearTextCharCount: Int = 3): String {
     return substring(0, clearTextCharCount) + "*".repeat(length - clearTextCharCount)
 }
 
-fun String?.toNormalizedUrl(): String {
+fun String?.toNormalizedUrl(): String? {
+    this ?: return null
     return try {
-        val url = URL(orEmpty())
-            .toString()
+        val url = this
             .replace("\n", "")
             .replace(" ", "")
+            .toHttpUrl()
+            .toString()
         if (url.endsWith("/")) url else "$url/"
-    } catch (e: MalformedURLException) {
+    } catch (e: IllegalArgumentException) {
         Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
-        ""
+        null
     }
 }
 
@@ -278,7 +280,7 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
     } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
         getString(
             if (short) R.string.error_short_certificate_wrong_host else R.string.error_certificate_wrong_host,
-            url.toUri().host
+            url.toHttpUrlOrNull()?.host
         )
     } else if (error.hasCause(CertPathValidatorException::class.java)) {
         getString(if (short) R.string.error_short_certificate_not_trusted else R.string.error_certificate_not_trusted)

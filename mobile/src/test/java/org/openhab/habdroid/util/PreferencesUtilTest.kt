@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.ui
+package org.openhab.habdroid.util
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -20,7 +20,7 @@ import org.junit.Test
 import org.openhab.habdroid.ui.PreferencesActivity.AbstractSettingsFragment.Companion.isWeakPassword
 import org.openhab.habdroid.ui.PreferencesActivity.MainSettingsFragment.Companion.beautifyUrl
 
-class PreferencesActivityTest {
+class PreferencesUtilTest {
     @Test
     fun testIsWeakPassword() {
         assertTrue(isWeakPassword(""))
@@ -43,6 +43,6 @@ class PreferencesActivityTest {
             beautifyUrl("https://home.myopenhab.org"))
         assertEquals("not.myopenhab.org", beautifyUrl("https://not.myopenhab.org"))
         assertEquals("notmyopenhab.org", beautifyUrl("https://notmyopenhab.org"))
-        assertEquals("myopenhab.WRONG_TLD", beautifyUrl("https://myopenhab.WRONG_TLD"))
+        assertEquals("myopenhab.wrong_tld", beautifyUrl("https://myopenhab.WRONG_TLD"))
     }
 }
