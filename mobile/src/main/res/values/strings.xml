@@ -201,6 +201,10 @@
     <string name="settings_phone_state_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#call-state</string>
     <string name="settings_phone_state_summary_on">Sends call state to item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Don\'t send call state to server</string>
+    <string name="settings_battery_level">Send battery level to openHAB</string>
+    <string name="settings_battery_level_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#battery-level</string>
+    <string name="settings_battery_level_summary_on">Sends battery level to item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Don\'t send battery level to server</string>
     <string name="settings_phone_state_permission_denied">Sending call state has been disabled due to missing permissions</string>
     <string name="settings_phone_state_permission_allow">Allow</string>
     <string name="settings_item_pref_item_name">Item name</string>

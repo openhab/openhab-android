@@ -43,6 +43,7 @@ object PrefKeys {
     const val SEND_DEVICE_INFO_PREFIX = "sendDeviceInfoPrefix"
     const val ALARM_CLOCK = "alarmClock"
     const val PHONE_STATE = "phoneState"
+    const val BATTERY_PERCENTAGE = "batteryPercentage"
 
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"

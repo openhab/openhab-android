@@ -17,8 +17,10 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.BATTERY_SERVICE
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.BatteryManager
 import android.os.Parcelable
 import android.telephony.TelephonyManager
 import android.util.Log
@@ -28,6 +30,7 @@ import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
@@ -59,6 +62,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 Log.d(TAG, "Phone state changed")
                 scheduleWorker(context, PrefKeys.PHONE_STATE)
             }
+            Intent.ACTION_POWER_CONNECTED, Intent.ACTION_POWER_DISCONNECTED,
+            Intent.ACTION_BATTERY_LOW, Intent.ACTION_BATTERY_OKAY -> {
+                Log.d(TAG, "Battery state changed: ${intent.action}")
+                scheduleWorker(context, PrefKeys.BATTERY_PERCENTAGE)
+            }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
                 NotificationUpdateObserver.createNotificationChannels(context)
@@ -78,9 +86,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     )
                 }
             }
-            ACTION_CLEAR_UPLOAD -> {
-                WorkManager.getInstance(context).pruneWork()
-            }
+            ACTION_CLEAR_UPLOAD -> WorkManager.getInstance(context).pruneWork()
             TaskerIntent.ACTION_QUERY_CONDITION, TaskerIntent.ACTION_FIRE_SETTING -> {
                 if (!context.getPrefs().isTaskerPluginEnabled()) {
                     Log.d(TAG, "Tasker plugin is disabled")
@@ -144,6 +150,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     // to clear out notifications
                     with(WorkManager.getInstance(context)) {
                         cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
+                        cancelAllWorkByTag(WORKER_TAG_PERIODIC_TRIGGER)
                         pruneWork()
                     }
                 }
@@ -166,13 +173,20 @@ class BackgroundTasksManager : BroadcastReceiver() {
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
+        private const val WORKER_TAG_PERIODIC_TRIGGER = "periodicTrigger"
+        private const val WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING = "periodicTriggerNotCharging"
+        private const val WORKER_TAG_PERIODIC_TRIGGER_CHARGING = "periodicTriggerCharging"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
         const val WORKER_TAG_PREFIX_TASKER = "tasker-"
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
 
         internal val KNOWN_KEYS = listOf(
             PrefKeys.ALARM_CLOCK,
-            PrefKeys.PHONE_STATE
+            PrefKeys.PHONE_STATE,
+            PrefKeys.BATTERY_PERCENTAGE
+        )
+        private val KNOWN_PERIODIC_KEYS = listOf(
+            PrefKeys.BATTERY_PERCENTAGE
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
@@ -225,12 +239,85 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
         }
 
+        fun triggerPeriodicWork(context: Context) {
+            Log.d(TAG, "triggerPeriodicWork()")
+            KNOWN_PERIODIC_KEYS.forEach { key -> scheduleWorker(context, key) }
+        }
+
+        private fun managePeriodicTrigger(context: Context) {
+            val workManager = WorkManager.getInstance(context)
+
+            var periodicWorkIsNeeded = false
+            val prefs = context.getPrefs()
+            for (key in KNOWN_PERIODIC_KEYS) {
+                if (prefs.getString(key, null).toItemUpdatePrefValue().first) {
+                    periodicWorkIsNeeded = true
+                    break
+                }
+            }
+
+            if (!periodicWorkIsNeeded) {
+                Log.d(TAG, "Periodic workers are not needed, canceling...")
+                workManager.cancelAllWorkByTag(WORKER_TAG_PERIODIC_TRIGGER)
+                return
+            }
+
+            val isChargingWorkerRunning = workManager
+                .getWorkInfosByTagLiveData(WORKER_TAG_PERIODIC_TRIGGER_CHARGING)
+                .value
+                ?.filter { workInfo -> !workInfo.state.isFinished }
+                ?.size == 1
+            val isNotChargingWorkerRunning = workManager
+                .getWorkInfosByTagLiveData(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
+                .value
+                ?.filter { workInfo -> !workInfo.state.isFinished }
+                ?.size == 1
+
+            if (isChargingWorkerRunning && isNotChargingWorkerRunning) {
+                return
+            }
+
+            Log.d(TAG, "Scheduling periodic worker. Currently running:" +
+                " notCharging $isNotChargingWorkerRunning, charging $isChargingWorkerRunning")
+
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+            val workRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
+                    6, TimeUnit.HOURS, 4, TimeUnit.HOURS)
+                .setConstraints(constraints)
+                .addTag(WORKER_TAG_PERIODIC_TRIGGER)
+                .addTag(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
+                .build()
+
+            val chargingConstraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
+                .setRequiresCharging(true)
+                .build()
+            val chargingWorkRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
+                    PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
+                    PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS, TimeUnit.MILLISECONDS)
+                .setConstraints(chargingConstraints)
+                .addTag(WORKER_TAG_PERIODIC_TRIGGER)
+                .addTag(WORKER_TAG_PERIODIC_TRIGGER_CHARGING)
+                .build()
+
+            workManager.cancelAllWorkByTag(WORKER_TAG_PERIODIC_TRIGGER)
+            workManager.enqueue(workRequest)
+            workManager.enqueue(chargingWorkRequest)
+        }
+
         private fun scheduleWorker(context: Context, key: String) {
             val prefs = context.getPrefs()
             val setting = if (prefs.isDemoModeEnabled()) {
                 Pair(false, "") // Don't attempt any uploads in demo mode
             } else {
                 prefs.getString(key, null).toItemUpdatePrefValue()
+            }
+
+            if (key in KNOWN_PERIODIC_KEYS) {
+                managePeriodicTrigger(context)
             }
 
             if (!setting.first) {
@@ -308,6 +395,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
 
                 time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
+            }
+            VALUE_GETTER_MAP[PrefKeys.BATTERY_PERCENTAGE] = { context ->
+                val bm = context.getSystemService(BATTERY_SERVICE) as BatteryManager
+                val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+                ItemUpdateWorker.ValueWithInfo(batLevel.toString())
             }
             VALUE_GETTER_MAP[PrefKeys.PHONE_STATE] = { context ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager

@@ -118,6 +118,17 @@
             android:dependency="default_openhab_demomode"
             app:iconEnabled="@drawable/ic_phone_outline_grey_24dp"
             app:iconDisabled="@drawable/ic_phone_off_outline_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|BatteryLevel"
+            android:key="batteryPercentage"
+            app:helpHint="@string/settings_item_update_pref_howto_summary"
+            app:helpUrl="@string/settings_battery_level_howto_url"
+            app:summaryEnabled="@string/settings_battery_level_summary_on"
+            app:summaryDisabled="@string/settings_battery_level_summary_off"
+            android:title="@string/settings_battery_level"
+            android:dependency="default_openhab_demomode"
+            app:iconEnabled="@drawable/ic_battery_outline_grey_24dp"
+            app:iconDisabled="@drawable/ic_battery_off_outline_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
         <ListPreference
