@@ -20,15 +20,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
   <img alt="Get it on F-Droid" src="images/get-it-on-fdroid.png" width="240px">
 </a>
 
-## Features
-
-* Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
-* Receive notifications through an openHAB Cloud connection, [read more](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions)
-* Change items via NFC tags
-* Send voice commands to openHAB
-* [Send alarm clock time to openHAB](#alarm-clock)
-* [Supports wall mounted tablets](#permanent-deployment)
-* [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
+[[toc]]
 
 <div class="row">
   <img src="images/main-menu.png" alt="Demo Overview" width=200px> <img src="images/widget-overview.png" alt="Widget Overview" width=200px> <img src="images/maps.png" alt="Google Maps Widget" width=200px>
@@ -54,11 +46,23 @@ If your openHAB instance is reachable via a public address/domain from outside y
 Make sure to secure this connection against unauthorized access.
 There are a number of strategies available to provide [secure remote access]({{base}}/installation/security.html) to your openHAB server.
 
-## Permanent Deployment
+## Features
+
+* Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
+* Receive notifications through an openHAB Cloud connection, [read more](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions)
+* Change items via NFC tags
+* Send voice commands to openHAB
+* [Send device information to openHAB](#send-device-information-to-openhab), like next alarm clock time or call state
+* [Supports wall mounted tablets](#permanent-deployment)
+* [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
+
+### Permanent Deployment
 
 If you want to use openHAB Android on a wall mounted tablet, go to settings and select `Disable display timer` and `Fullscreen`.
 
-## Alarm Clock
+### Send device information to openHAB
+
+#### Alarm Clock
 
 The openHAB app will send the next wake-up time from your alarm clock app to the server.
 The time is sent as a number containing the number of milliseconds since the epoch.
@@ -104,7 +108,7 @@ then
 end
 ```
 
-## Call State
+#### Call State
 
 The openHAB app will send the current call state to the server.
 
@@ -130,7 +134,7 @@ then
 end
 ```
 
-## Tasker Action Plugin
+### Tasker Action Plugin
 
 The Tasker Action Plugin can be used to send Item commands to the server.
 
