@@ -25,6 +25,7 @@ import android.view.WindowManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.ScreenLockMode
@@ -49,11 +50,13 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         widget = intent.getParcelableExtra(WIDGET)!!
         period = widget.period
-        showLegend = widget.legend ?: true
+        // If Widget#legend is null, show legend only for groups
+        showLegend = widget.legend ?: widget.item?.type === Item.Type.Group
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.chart_activity_title))
+        val labelWithoutState = widget.label.split("[", "]")[0]
+        supportActionBar?.title = labelWithoutState.orDefaultIfEmpty(getString(R.string.chart_activity_title))
 
         chart = findViewById(R.id.chart)
         swipeLayout = findViewById(R.id.activity_content)
