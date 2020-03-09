@@ -246,15 +246,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private fun managePeriodicTrigger(context: Context) {
             val workManager = WorkManager.getInstance(context)
-
-            var periodicWorkIsNeeded = false
             val prefs = context.getPrefs()
-            for (key in KNOWN_PERIODIC_KEYS) {
-                if (prefs.getString(key, null).toItemUpdatePrefValue().first) {
-                    periodicWorkIsNeeded = true
-                    break
-                }
-            }
+            val periodicWorkIsNeeded = KNOWN_PERIODIC_KEYS
+                .map { key -> prefs.getString(key, null).toItemUpdatePrefValue() }
+                .any { value -> value.first }
 
             if (!periodicWorkIsNeeded) {
                 Log.d(TAG, "Periodic workers are not needed, canceling...")
@@ -262,16 +257,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 return
             }
 
-            val isChargingWorkerRunning = workManager
-                .getWorkInfosByTagLiveData(WORKER_TAG_PERIODIC_TRIGGER_CHARGING)
+            fun isWorkerRunning(tag: String): Boolean = workManager
+                .getWorkInfosByTagLiveData(tag)
                 .value
                 ?.filter { workInfo -> !workInfo.state.isFinished }
                 ?.size == 1
-            val isNotChargingWorkerRunning = workManager
-                .getWorkInfosByTagLiveData(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
-                .value
-                ?.filter { workInfo -> !workInfo.state.isFinished }
-                ?.size == 1
+
+            val isChargingWorkerRunning = isWorkerRunning(WORKER_TAG_PERIODIC_TRIGGER_CHARGING)
+            val isNotChargingWorkerRunning = isWorkerRunning(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
 
             if (isChargingWorkerRunning && isNotChargingWorkerRunning) {
                 return
