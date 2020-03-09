@@ -196,29 +196,18 @@ interface ConnectionManagerHelper {
     private class NetworkTypeHelperApi26 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         val currentConnections: List<ConnectionType> get() {
-            val knownTransportsByPrio = listOf(
-                NetworkCapabilities.TRANSPORT_VPN,
-                NetworkCapabilities.TRANSPORT_WIFI,
-                NetworkCapabilities.TRANSPORT_WIFI_AWARE,
-                NetworkCapabilities.TRANSPORT_ETHERNET,
-                NetworkCapabilities.TRANSPORT_CELLULAR
-            )
-            fun findMostRelevantTransport(caps: NetworkCapabilities?): Int? =
-                knownTransportsByPrio.firstOrNull { transport -> caps?.hasTransport(transport) == true }
-
             return connectivityManager.allNetworks
                 .map { network -> network to connectivityManager.getNetworkCapabilities(network) }
                 .filter { (_, caps) -> caps?.isUsable() == true }
-                .map { (network, caps) -> network to findMostRelevantTransport(caps) }
-                // filter out irrelevant networks
-                .filter { (_, transport) -> transport != null }
-                .map { (network, transport) -> when (transport) {
-                    NetworkCapabilities.TRANSPORT_VPN -> ConnectionType.Vpn(network)
-                    NetworkCapabilities.TRANSPORT_WIFI,
-                    NetworkCapabilities.TRANSPORT_WIFI_AWARE -> ConnectionType.Wifi(network)
-                    NetworkCapabilities.TRANSPORT_BLUETOOTH -> ConnectionType.Bluetooth(network)
-                    NetworkCapabilities.TRANSPORT_ETHERNET -> ConnectionType.Ethernet(network)
-                    NetworkCapabilities.TRANSPORT_CELLULAR -> ConnectionType.Mobile(network)
+                // nullable cast is safe, since null caps are filtered out above
+                .map { (network, caps) -> network to caps!! }
+                .map { (network, caps) -> when {
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> ConnectionType.Vpn(network)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI_AWARE) -> ConnectionType.Wifi(network)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> ConnectionType.Bluetooth(network)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> ConnectionType.Ethernet(network)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> ConnectionType.Mobile(network)
                     else -> ConnectionType.Unknown(network)
                 } }
         }
