@@ -94,9 +94,11 @@
     <string name="error_network_not_available">网络不可用</string>
     <string name="error_wifi_not_available">Wi-Fi 被关闭</string>
     <string name="error_invalid_url">请以 \'http(s)://主机(:端口)/\' 格式输入有效网址</string>
+    <string name="error_invalid_https_url">请输入类如 “http(s)://主机(:端口)/” 格式的网址</string>
     <string name="error_port_seems_invalid">您输入的端口不适用所选协议</string>
     <string name="error_connection_failed">连接至主机失败</string>
     <string name="error_unable_to_resolve_hostname">无法解析主机名</string>
+    <string name="error_unknown">发生未知错误: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL 握手失败</string>
     <string name="error_certificate_not_trusted">SSL 证书不受信任。请导入根证书或在 SSL 握手时接受证书。</string>
     <string name="error_certificate_expired">SSL 证书已过期。请获取新证书或在 SSL 握手时接受证书。</string>
@@ -106,7 +108,13 @@
     <string name="error_certificate_wrong_host">%s 的 SSL 证书无效</string>
     <string name="error_http_to_https_port">数据流意外终止。您是否正尝试通过 HTTP 连接 HTTPS 端口？</string>
     <string name="webview_ssl">此应用程序当前不支持对 Webview 小挂件使用自签名 SSL 证书。</string>
+    <string name="error_http_code_401">认证失败，请检查用户名和密码及提供的 SSL 客户端证书 (HTTP %d)。</string>
+    <string name="error_http_code_414">URL 过长，请使用 IP 地址或更为简短的 URL 访问 (HTTP %d)。</string>
+    <string name="error_http_code_426">服务器强制使用 HTTPS，请修改 URL (HTTP %d)。</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">认证失败，请检查提供的 SSL 客户端证书 (HTTP %d)。</string>
+    <string name="error_http_code_496">需要 SSL 证书 (HTTP %d)</string>
+    <string name="error_http_code_502">您的反向代理从 openHAB 服务器处收到了无效应答 (HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">获取 openHAB 服务器信息时出错</string>
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
