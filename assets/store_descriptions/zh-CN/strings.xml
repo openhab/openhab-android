@@ -5,7 +5,7 @@
     <rules>在统一抽象层上，所有连接设备均可通过自动规则引擎与不同的用户界面管理。</rules>
     <supported>支持产品</supported>
     <bindings>超过 200 个支持品牌、设备、技术及通讯协议的附加组件。 例如 Z-Wave、Philips Hue、Amazon Echo、Chromecast 及 Sonos。 请在前往此网址探索所有可用的附加组件及支持的设备/功能：https://www.openhab.org/addons/</bindings>
-    <automation_apps>此应用程序自带任务及本地化插件。</automation_apps>
+    <automation_apps/>
 
     <oss_community>开源社区</oss_community>
     <forum>openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 13000 位注册用户，是您寻求帮助与灵感的好地方。 在 https://community.openhab.org 处加入 openHAB 社区论坛</forum>
