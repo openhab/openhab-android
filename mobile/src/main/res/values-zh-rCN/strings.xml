@@ -15,6 +15,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">连接</string>
     <string name="settings_display_title">显示</string>
+    <string name="settings_sitemap_title">网站地图</string>
     <string name="settings_misc_title">其他</string>
     <string name="settings_openhab_url">本地服务器 URL</string>
     <string name="settings_openhab_url_summary">openHAB 仪表板的 URL (基于主机名或 IP)。如果已配置, 自动发现将被禁用。当前设置: %s</string>
@@ -26,11 +27,14 @@
     <string name="settings_openhab_password_summary_strong">强密码</string>
     <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
     <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
+    <string name="settings_openhab_sslclientcert_not_supported">您的设备不支持 SSL 客户端证书</string>
     <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
     <string name="settings_openhab_screentimeroff_summary">在 openHAB 运行时禁用显示屏关闭定时器</string>
     <string name="settings_openhab_demomode">演示模式</string>
     <string name="settings_openhab_demomode_summary">若您没有 openHAB 服务器，请启用演示模式来一览 openHAB 的功能。</string>
     <string name="settings_openhab_theme">主题</string>
+    <string name="settings_accent_color">强调色</string>
+    <string name="settings_select_a_color">选择颜色</string>
     <string name="settings_openhab_fullscreen">全屏</string>
     <string name="settings_openhab_icon_format">图标格式</string>
     <string name="settings_openhab_icon_format_png">位图</string>
@@ -45,6 +49,7 @@
     <string name="settings_openhab_chart_hq_summary">生成图表可能会对服务器造成压力。若您的图表载入时间过长或服务器性能不强，请禁用此选项以加速载入。</string>
     <string name="settings_ringtone">通知铃声</string>
     <string name="settings_ringtone_none">无</string>
+    <string name="settings_ringtone_on_external">外部存储中的未知铃声</string>
     <string name="settings_clear_default_sitemap">清除默认站点地图</string>
     <string name="settings_no_default_sitemap">未选择默认站点地图</string>
     <string name="settings_current_default_sitemap">当前默认站点地图: %1$s</string>
@@ -59,6 +64,17 @@
     <string name="settings_connection_summary">已连接至 %s</string>
     <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
     <string name="beta">测试版</string>
+    <string name="settings_screen_lock">屏幕锁定</string>
+    <string name="settings_screen_lock_nolock_summary">您需要先启用设备上的屏幕锁定功能以开启此功能。</string>
+    <string name="settings_screen_lock_off_summary">未锁定此应用程序</string>
+    <string name="settings_screen_lock_kiosk_summary">已使用 Android 屏幕锁或指纹锁定程序设置</string>
+    <string name="settings_screen_lock_on_summary">已使用 Android 屏幕锁或指纹锁定程序设置\n注意：您仍可使用小部件</string>
+    <string name="screen_lock_unlock_screen_description">解锁以使用 openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">解锁以更改设置</string>
+    <string name="settings_screen_lock_off">关闭</string>
+    <string name="settings_screen_lock_kiosk">展示模式</string>
+    <string name="settings_screen_lock_on">开启</string>
+    <string name="settings_show_sitemaps_in_drawer">在侧边栏显示站点地图</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">语音命令</string>
     <string name="title_voice_widget_icon">语音命令和应用程序快捷方式</string>
@@ -69,6 +85,9 @@
     <string name="turn_off">关闭</string>
     <string name="info_conn_url">正在连接到本地 URL</string>
     <string name="info_conn_rem_url">正在连接到远程 URL</string>
+    <string name="app_shortcut_disabled_habpanel">您的服务器未安装 HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">您的远程服务器不可用</string>
+    <string name="app_shortcut_disabled_voice_recognition">您的设备未安装语音识别程序</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
     <string name="error_sitemap_generic_load_error">无法载入站点地图。发生错误：%1$s</string>
