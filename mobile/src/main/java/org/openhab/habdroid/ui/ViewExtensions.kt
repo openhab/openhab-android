@@ -30,6 +30,7 @@ import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.HttpUrl
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.openInBrowser
 
 /**
@@ -77,7 +78,7 @@ fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
 
 fun ImageView.setupHelpIcon(url: String, contentDescription: String) {
     val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-    if (intent.resolveActivity(context.packageManager) != null) {
+    if (intent.isResolvable(context)) {
         setOnClickListener { context.startActivity(intent) }
         this.contentDescription = contentDescription
         TooltipCompat.setTooltipText(this, contentDescription)
