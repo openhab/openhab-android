@@ -20,7 +20,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -41,7 +40,6 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var scrollView: ScrollView
-    private lateinit var emptyView: LinearLayout
     private lateinit var swipeLayout: SwipeRefreshLayout
     private var showErrorsOnly: Boolean = false
 
@@ -56,7 +54,6 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         fab = findViewById(R.id.shareFab)
         logTextView = findViewById(R.id.log)
         scrollView = findViewById(R.id.scrollview)
-        emptyView = findViewById(android.R.id.empty)
         swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
@@ -70,7 +67,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             startActivity(sendIntent)
         }
 
-        setUiState(isLoading = true, isEmpty = false)
+        setUiState(true)
     }
 
     override fun onResume() {
@@ -99,7 +96,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         Log.d(TAG, "onOptionsItemSelected()")
         return when (item.itemId) {
             R.id.delete_log -> {
-                setUiState(isLoading = false, isEmpty = false)
+                setUiState(false)
                 fetchLog(true)
                 true
             }
@@ -132,25 +129,19 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     override fun onRefresh() {
-        setUiState(isLoading = true, isEmpty = false)
+        setUiState(true)
         fetchLog(false)
     }
 
-    private fun setUiState(isLoading: Boolean, isEmpty: Boolean) {
+    private fun setUiState(isLoading: Boolean) {
         swipeLayout.isRefreshing = isLoading
-        logTextView.isVisible = !isLoading && !isEmpty
-        emptyView.isVisible = isEmpty
-        if (isLoading || isEmpty) {
-            fab.hide()
-        } else {
-            fab.show()
-        }
+        logTextView.isVisible = !isLoading
+        if (isLoading) fab.hide() else fab.show()
     }
 
     private fun fetchLog(clear: Boolean) = launch {
-        val log = collectLog(clear)
-        logTextView.text = log
-        setUiState(false, log.isEmpty())
+        logTextView.text = collectLog(clear)
+        setUiState(false)
         scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
     }
 
@@ -168,14 +159,15 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             return@withContext Log.getStackTraceString(e)
         }
 
-        if (clear) {
-            return@withContext ""
-        }
-
         logBuilder.append("-----------------------\n")
         logBuilder.append("Device information\n")
         logBuilder.append(getDeviceInfo())
         logBuilder.append("-----------------------\n\n")
+
+        if (clear) {
+            logBuilder.append(getString(R.string.empty_log))
+            return@withContext logBuilder.toString()
+        }
 
         try {
             InputStreamReader(process.inputStream).use { reader ->
@@ -198,8 +190,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     private fun getDeviceInfo(): String {
-        return "Fingerprint: ${Build.FINGERPRINT}\n" +
-            "Model: ${Build.MODEL}\n" +
+        return "Model: ${Build.MODEL}\n" +
             "Manufacturer: ${Build.MANUFACTURER}\n" +
             "Brand: ${Build.BRAND}\n" +
             "Device: ${Build.DEVICE}\n" +
