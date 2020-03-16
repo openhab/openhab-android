@@ -120,7 +120,7 @@
             app:iconDisabled="@drawable/ic_phone_off_outline_grey_24dp" />
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|BatteryLevel"
-            android:key="batteryPercentage"
+            android:key="battery_level"
             app:helpHint="@string/settings_item_update_pref_howto_summary"
             app:helpUrl="@string/settings_battery_level_howto_url"
             app:summaryEnabled="@string/settings_battery_level_summary_on"

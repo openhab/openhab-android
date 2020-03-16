@@ -65,7 +65,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             Intent.ACTION_POWER_CONNECTED, Intent.ACTION_POWER_DISCONNECTED,
             Intent.ACTION_BATTERY_LOW, Intent.ACTION_BATTERY_OKAY -> {
                 Log.d(TAG, "Battery state changed: ${intent.action}")
-                scheduleWorker(context, PrefKeys.BATTERY_PERCENTAGE)
+                scheduleWorker(context, PrefKeys.BATTERY_LEVEL)
             }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
@@ -183,10 +183,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
         internal val KNOWN_KEYS = listOf(
             PrefKeys.ALARM_CLOCK,
             PrefKeys.PHONE_STATE,
-            PrefKeys.BATTERY_PERCENTAGE
+            PrefKeys.BATTERY_LEVEL
         )
         private val KNOWN_PERIODIC_KEYS = listOf(
-            PrefKeys.BATTERY_PERCENTAGE
+            PrefKeys.BATTERY_LEVEL
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
@@ -389,7 +389,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
                 time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
             }
-            VALUE_GETTER_MAP[PrefKeys.BATTERY_PERCENTAGE] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.BATTERY_LEVEL] = { context ->
                 val bm = context.getSystemService(BATTERY_SERVICE) as BatteryManager
                 val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
                 ItemUpdateWorker.ValueWithInfo(batLevel.toString())
