@@ -26,6 +26,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
+import java.security.InvalidKeyException
 
 @Suppress("UNUSED")
 class OpenHabApplication : MultiDexApplication() {
@@ -33,7 +34,8 @@ class OpenHabApplication : MultiDexApplication() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 getEncryptedSharedPrefs()
-            } catch (e: Exception) {
+            } catch (e: InvalidKeyException) {
+                // See https://github.com/openhab/openhab-android/issues/1807
                 Log.e(TAG, "Error getting encrypted shared prefs, try again.", e)
                 getEncryptedSharedPrefs()
             }
