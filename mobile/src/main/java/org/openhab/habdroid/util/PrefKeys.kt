@@ -44,6 +44,7 @@ object PrefKeys {
     const val ALARM_CLOCK = "alarmClock"
     const val PHONE_STATE = "phoneState"
     const val BATTERY_LEVEL = "battery_level"
+    const val CHARGING_STATE = "charging_state"
 
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"

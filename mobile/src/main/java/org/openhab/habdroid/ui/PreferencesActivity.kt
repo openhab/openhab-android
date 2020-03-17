@@ -234,6 +234,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val alarmClockPref = getPreference(PrefKeys.ALARM_CLOCK) as ItemUpdatingPreference
             val phoneStatePref = getPreference(PrefKeys.PHONE_STATE) as ItemUpdatingPreference
             val batteryLevelPref = getPreference(PrefKeys.BATTERY_LEVEL) as ItemUpdatingPreference
+            val chargingStatePref = getPreference(PrefKeys.CHARGING_STATE) as ItemUpdatingPreference
             val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
             val taskerPref = getPreference(PrefKeys.TASKER_PLUGIN_ENABLED)
             val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
@@ -377,6 +378,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 alarmClockPref.updateSummaryAndIcon(prefix)
                 phoneStatePref.updateSummaryAndIcon(prefix)
                 batteryLevelPref.updateSummaryAndIcon(prefix)
+                chargingStatePref.updateSummaryAndIcon(prefix)
                 true
             }
 
