@@ -222,6 +222,23 @@
     <string name="theme_name_system">Seuraa järjestelmää</string>
     <string name="theme_name_battery_saver">Tumma teema virransäästön aikana</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Kuvaaja</string>
+    <string name="chart_activity_hide_legend">Piilota selite</string>
+    <string name="chart_activity_show_legend">Näytä selite</string>
+    <string name="chart_activity_period">Jakso</string>
+    <string name="chart_activity_period_1_hour">1 tunti</string>
+    <string name="chart_activity_period_4_hour">4 tuntia</string>
+    <string name="chart_activity_period_8_hour">8 tuntia</string>
+    <string name="chart_activity_period_12_hour">12 tuntia</string>
+    <string name="chart_activity_period_1_day">1 päivä</string>
+    <string name="chart_activity_period_2_day">2 päivää</string>
+    <string name="chart_activity_period_3_day">3 päivää</string>
+    <string name="chart_activity_period_1_week">1 viikko</string>
+    <string name="chart_activity_period_2_week">2 viikkoa</string>
+    <string name="chart_activity_period_1_month">1 kuukausi</string>
+    <string name="chart_activity_period_2_month">2 kuukautta</string>
+    <string name="chart_activity_period_4_month">4 kuukautta</string>
+    <string name="chart_activity_period_1_year">1 vuosi</string>
     <!-- NFC -->
     <string name="nfc_action_on">On</string>
     <string name="nfc_action_up">Ylös</string>
@@ -264,6 +281,7 @@
     <string name="about_server">openHAB palvelin</string>
     <string name="about_translation">Auta meitä kääntämään openHAB</string>
     <string name="about_privacy_policy">Tietosuojakäytäntö</string>
+    <string name="about_rate_this_app">Arvostele tämä sovellus</string>
     <string name="settings_debug_messages_title">Näytä tietoja vianmääritykseen</string>
     <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
     <string name="unknown">Tuntematon</string>

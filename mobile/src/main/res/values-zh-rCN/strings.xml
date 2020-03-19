@@ -15,6 +15,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">连接</string>
     <string name="settings_display_title">显示</string>
+    <string name="settings_sitemap_title">网站地图</string>
     <string name="settings_misc_title">其他</string>
     <string name="settings_openhab_url">本地服务器 URL</string>
     <string name="settings_openhab_url_summary">openHAB 仪表板的 URL (基于主机名或 IP)。如果已配置, 自动发现将被禁用。当前设置: %s</string>
@@ -26,11 +27,14 @@
     <string name="settings_openhab_password_summary_strong">强密码</string>
     <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
     <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
+    <string name="settings_openhab_sslclientcert_not_supported">您的设备不支持 SSL 客户端证书</string>
     <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
     <string name="settings_openhab_screentimeroff_summary">在 openHAB 运行时禁用显示屏关闭定时器</string>
     <string name="settings_openhab_demomode">演示模式</string>
     <string name="settings_openhab_demomode_summary">若您没有 openHAB 服务器，请启用演示模式来一览 openHAB 的功能。</string>
     <string name="settings_openhab_theme">主题</string>
+    <string name="settings_accent_color">强调色</string>
+    <string name="settings_select_a_color">选择颜色</string>
     <string name="settings_openhab_fullscreen">全屏</string>
     <string name="settings_openhab_icon_format">图标格式</string>
     <string name="settings_openhab_icon_format_png">位图</string>
@@ -45,6 +49,7 @@
     <string name="settings_openhab_chart_hq_summary">生成图表可能会对服务器造成压力。若您的图表载入时间过长或服务器性能不强，请禁用此选项以加速载入。</string>
     <string name="settings_ringtone">通知铃声</string>
     <string name="settings_ringtone_none">无</string>
+    <string name="settings_ringtone_on_external">外部存储中的未知铃声</string>
     <string name="settings_clear_default_sitemap">清除默认站点地图</string>
     <string name="settings_no_default_sitemap">未选择默认站点地图</string>
     <string name="settings_current_default_sitemap">当前默认站点地图: %1$s</string>
@@ -59,6 +64,17 @@
     <string name="settings_connection_summary">已连接至 %s</string>
     <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
     <string name="beta">测试版</string>
+    <string name="settings_screen_lock">屏幕锁定</string>
+    <string name="settings_screen_lock_nolock_summary">您需要先启用设备上的屏幕锁定功能以开启此功能。</string>
+    <string name="settings_screen_lock_off_summary">未锁定此应用程序</string>
+    <string name="settings_screen_lock_kiosk_summary">已使用 Android 屏幕锁或指纹锁定程序设置</string>
+    <string name="settings_screen_lock_on_summary">已使用 Android 屏幕锁或指纹锁定程序设置\n注意：您仍可使用小部件</string>
+    <string name="screen_lock_unlock_screen_description">解锁以使用 openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">解锁以更改设置</string>
+    <string name="settings_screen_lock_off">关闭</string>
+    <string name="settings_screen_lock_kiosk">展示模式</string>
+    <string name="settings_screen_lock_on">开启</string>
+    <string name="settings_show_sitemaps_in_drawer">在侧边栏显示站点地图</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">语音命令</string>
     <string name="title_voice_widget_icon">语音命令和应用程序快捷方式</string>
@@ -69,15 +85,20 @@
     <string name="turn_off">关闭</string>
     <string name="info_conn_url">正在连接到本地 URL</string>
     <string name="info_conn_rem_url">正在连接到远程 URL</string>
+    <string name="app_shortcut_disabled_habpanel">您的服务器未安装 HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">您的远程服务器不可用</string>
+    <string name="app_shortcut_disabled_voice_recognition">您的设备未安装语音识别程序</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
     <string name="error_sitemap_generic_load_error">无法载入站点地图。发生错误：%1$s</string>
     <string name="error_network_not_available">网络不可用</string>
     <string name="error_wifi_not_available">Wi-Fi 被关闭</string>
     <string name="error_invalid_url">请以 \'http(s)://主机(:端口)/\' 格式输入有效网址</string>
+    <string name="error_invalid_https_url">请输入类如 “http(s)://主机(:端口)/” 格式的网址</string>
     <string name="error_port_seems_invalid">您输入的端口不适用所选协议</string>
     <string name="error_connection_failed">连接至主机失败</string>
     <string name="error_unable_to_resolve_hostname">无法解析主机名</string>
+    <string name="error_unknown">发生未知错误: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL 握手失败</string>
     <string name="error_certificate_not_trusted">SSL 证书不受信任。请导入根证书或在 SSL 握手时接受证书。</string>
     <string name="error_certificate_expired">SSL 证书已过期。请获取新证书或在 SSL 握手时接受证书。</string>
@@ -87,10 +108,33 @@
     <string name="error_certificate_wrong_host">%s 的 SSL 证书无效</string>
     <string name="error_http_to_https_port">数据流意外终止。您是否正尝试通过 HTTP 连接 HTTPS 端口？</string>
     <string name="webview_ssl">此应用程序当前不支持对 Webview 小挂件使用自签名 SSL 证书。</string>
+    <string name="error_http_code_401">认证失败，请检查用户名和密码及提供的 SSL 客户端证书 (HTTP %d)。</string>
+    <string name="error_http_code_414">URL 过长，请使用 IP 地址或更为简短的 URL 访问 (HTTP %d)。</string>
+    <string name="error_http_code_426">服务器强制使用 HTTPS，请修改 URL (HTTP %d)。</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">认证失败，请检查提供的 SSL 客户端证书 (HTTP %d)。</string>
+    <string name="error_http_code_496">需要 SSL 证书 (HTTP %d)</string>
+    <string name="error_http_code_502">您的反向代理从 openHAB 服务器处收到了无效应答 (HTTP %d)</string>
+    <string name="error_http_code_503">openHAB 服务器暂不可用 (HTTP %d)</string>
+    <string name="error_http_code_504">网关超时，您的反向代理似乎正在运行但无法从 openHAB 服务器得到响应 (HTTP %d)。</string>
+    <string name="error_http_code_507">openHAB 服务器空间不足 (HTTP %d)</string>
+    <string name="error_http_code_511">需要网络认证 (HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB 处于离线状态</string>
+    <string name="error_short_http_connection_failed">HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">解析主机名时出错</string>
+    <string name="error_short_unknown">未知错误：%s</string>
+    <string name="error_short_certificate_not_trusted">未信任证书</string>
+    <string name="error_short_certificate_expired">证书未过期</string>
+    <string name="error_short_certificate_not_valid_yet">证书尚不可用</string>
+    <string name="error_short_certificate_revoked">证书已吊销</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL 失败</string>
+    <string name="error_short_connection_failed">连接失败</string>
     <string name="error_about_no_conn">获取 openHAB 服务器信息时出错</string>
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
+    <string name="error_no_browser_found">未在您的设备上找到浏览器</string>
+    <string name="error_no_speech_to_text_app_found">未找到语音识别程序</string>
+    <string name="install">安装</string>
     <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
     <string name="title_activity_libraries">使用的库</string>
     <string name="info_write_tag">触摸标签并保持贴近直到出现确认信息为止</string>
@@ -98,6 +142,7 @@
     <string name="info_write_tag_finished">已成功完成</string>
     <string name="info_write_failed">标签写入错误</string>
     <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
+    <string name="info_write_tag_disabled">NFC 已禁用</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API 版本</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">推送通知状态</string>
@@ -219,6 +264,10 @@
     <!-- Item picker -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_tasker_variable">Tasker 变量 “%s”</string>
+    <string name="settings_tasker_plugin">Tasker 集成</string>
+    <string name="settings_tasker_plugin_summary">启用 Tasker 插件以使用 Tasker 或其他相兼容的应用程序更新项目</string>
+    <string name="tasker_plugin_disabled">Tasker 插件已禁用</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
 </resources>
