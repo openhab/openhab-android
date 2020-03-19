@@ -315,12 +315,11 @@ class WidgetAdapter(
         private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
 
         override fun bind(widget: Widget) {
-            val splitString = widget.label.split("[", "]")
-            labelView.text = splitString.firstOrNull()
+            labelView.text = widget.labelWithoutState
             labelView.applyWidgetColor(widget.labelColor, colorMapper)
             if (valueView != null) {
-                valueView.text = splitString.elementAtOrNull(1)?.replace("\n", " ")
-                valueView.isVisible = splitString.size > 1
+                valueView.text = widget.stateFromLabel?.replace("\n", " ")
+                valueView.isVisible = !widget.stateFromLabel.isNullOrEmpty()
                 valueView.applyWidgetColor(widget.valueColor, colorMapper)
             }
             iconView.loadWidgetIcon(connection, widget, colorMapper)

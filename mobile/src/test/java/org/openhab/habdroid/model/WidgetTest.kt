@@ -136,6 +136,20 @@ class WidgetTest {
     }
 
     @Test
+    fun testGetLabelWithoutState() {
+        assertEquals("Group1", sut1[0].labelWithoutState)
+        assertEquals("Group1", sut2[0].labelWithoutState)
+        assertEquals("Dimmer ", sut3[1].labelWithoutState)
+    }
+
+    @Test
+    fun testGetStateFromLabel() {
+        assertNull(sut1[0].stateFromLabel)
+        assertNull(sut2[0].stateFromLabel)
+        assertEquals("81 %", sut3[1].stateFromLabel)
+    }
+
+    @Test
     @Throws(Exception::class)
     fun testGetMappings() {
         assertEquals("ON", sut1[0].mappings[0].value)
