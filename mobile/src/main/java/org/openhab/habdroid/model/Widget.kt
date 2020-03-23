@@ -124,8 +124,8 @@ data class Widget(
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject): Widget {
             val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
-            val icon = eventPayload.optStringOrFallback("icon", source.icon?.icon)
-                .toOH2WidgetIconResource(item, source.type, source.mappings.isNotEmpty())
+            val iconName = eventPayload.optStringOrFallback("icon", source.icon?.icon)
+            val icon = iconName.toOH2WidgetIconResource(item, source.type, source.mappings.isNotEmpty())
             return Widget(source.id, source.parentId,
                 eventPayload.optString("label", source.label),
                 icon,
