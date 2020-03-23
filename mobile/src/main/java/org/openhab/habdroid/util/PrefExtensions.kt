@@ -45,7 +45,7 @@ fun SharedPreferences.getRemoteUrl(): String {
 
 fun SharedPreferences.getDefaultSitemap(connection: Connection?): String {
     return if (connection is DemoConnection) {
-        "default"
+        "demo"
     } else {
         getString(PrefKeys.SITEMAP_NAME)
     }
