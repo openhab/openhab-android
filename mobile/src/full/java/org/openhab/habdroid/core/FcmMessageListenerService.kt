@@ -28,6 +28,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.toOH2IconResource
@@ -59,18 +60,27 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 // timestamp, so use the (undocumented) google.sent_time as a time reference
                 // in that case. If that also isn't present, don't show time at all.
                 val timestamp = data["timestamp"]?.toLong() ?: message.sentTime
-                val channelId = if (severity.isNullOrEmpty()) CHANNEL_ID_DEFAULT else "severity-$severity"
+                val channelId = if (severity.isNullOrEmpty())
+                    NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT else "severity-$severity"
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val name = if (severity.isNullOrEmpty())
-                        getString(R.string.notification_channel_default)
-                    else
-                        getString(R.string.notification_channel_severity_value, severity)
-
-                    with(NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)) {
-                        setShowBadge(true)
-                        enableVibration(true)
-                        nm.createNotificationChannel(this)
+                    NotificationUpdateObserver.createNotificationChannels(applicationContext)
+                    if (!severity.isNullOrEmpty()) {
+                        with(NotificationChannel(
+                                channelId,
+                                getString(R.string.notification_channel_severity_value, severity),
+                                NotificationManager.IMPORTANCE_DEFAULT
+                            )
+                        ) {
+                            setShowBadge(true)
+                            enableVibration(true)
+                            enableLights(true)
+                            lightColor = ContextCompat.getColor(applicationContext, R.color.openhab_orange)
+                            group = NotificationUpdateObserver.CHANNEL_GROUP_MESSAGES
+                            description =
+                                applicationContext.getString(R.string.notification_channel_severity_value_description)
+                            nm.createNotificationChannel(this)
+                        }
                     }
                 }
 
@@ -164,12 +174,12 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         val text = resources.getQuantityString(R.plurals.summary_notification_text,
                 subNotificationCount, subNotificationCount)
         val clickIntent = makeNotificationClickIntent(null, SUMMARY_NOTIFICATION_ID)
-        val publicVersion = makeNotificationBuilder(CHANNEL_ID_DEFAULT, timestamp)
+        val publicVersion = makeNotificationBuilder(NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT, timestamp)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentText(text)
                 .setContentIntent(clickIntent)
                 .build()
-        return makeNotificationBuilder(CHANNEL_ID_DEFAULT, timestamp)
+        return makeNotificationBuilder(NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT, timestamp)
                 .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN)
                 .setGroupSummary(true)
                 .setGroup("gcm")
@@ -203,7 +213,6 @@ class FcmMessageListenerService : FirebaseMessagingService() {
     companion object {
         internal const val EXTRA_NOTIFICATION_ID = "notificationId"
 
-        private const val CHANNEL_ID_DEFAULT = "default"
         private const val SUMMARY_NOTIFICATION_ID = 0
 
         // Notification grouping is only available on N or higher, as mentioned in
