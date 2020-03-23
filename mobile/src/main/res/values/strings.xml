@@ -215,10 +215,10 @@
     <string name="settings_item_pref_item_name">Item name</string>
     <string name="waiting_for_item_upload">Waiting for network to send Item updates</string>
     <string name="item_upload_in_progress">Items are currently being updated</string>
-    <string name="notification_channel_background">Background</string>
-    <string name="notification_channel_background_description">Used to display pending background tasks</string>
+    <string name="notification_channel_background">Background tasks</string>
+    <string name="notification_channel_background_description">Used to notify about pending background tasks, e.g. waiting for network to send battery level</string>
     <string name="notification_channel_background_error">Error in background tasks</string>
-    <string name="notification_channel_background_error_description">Used to notify about errors in background tasks</string>
+    <string name="notification_channel_background_error_description">Used to notify about errors in background tasks, e.g. got no network to send battery level</string>
     <string name="notification_channel_messages_default_severity">Default</string>
     <string name="notification_channel_messages_default_severity_description">Notifications sent by the server with no defined severity</string>
     <string name="notification_channel_group_messages">Messages</string>
