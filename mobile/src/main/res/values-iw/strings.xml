@@ -154,7 +154,6 @@
     <string name="title_activity_libraries">ספריות בשימוש</string>
     <string name="info_write_tag">הצמד תגית והשאר אותה קרובה עד להופעת הודעת אישור</string>
     <string name="info_write_tag_progress">כותב לתגית</string>
-    <string name="info_write_tag_finished">הכתיבה הסתימה בהצלחה</string>
     <string name="info_write_failed">הכתיבה לתגית נכשלה</string>
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
     <string name="info_write_tag_disabled">NFC מושבת</string>
