@@ -153,7 +153,6 @@
     <string name="title_activity_libraries">Użyte biblioteki</string>
     <string name="info_write_tag">Kliknij na tag i przytrzymaj dopóki wiadomość informacyjna się nie pokaże</string>
     <string name="info_write_tag_progress">Pisanie tagu</string>
-    <string name="info_write_tag_finished">Zakończono pomyślnie</string>
     <string name="info_write_failed">Błąd pisania tag\'u</string>
     <string name="info_write_tag_unsupported">To urządzenie nie wspiera technologii NFC</string>
     <string name="info_write_tag_disabled">Komunikacja NFC jest wyłączona</string>
