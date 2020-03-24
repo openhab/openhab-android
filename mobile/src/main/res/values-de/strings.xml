@@ -154,7 +154,6 @@
     <string name="title_activity_libraries">Verwendete Bibliotheken</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
     <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
-    <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
     <string name="info_write_failed">Fehler beim Beschreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
