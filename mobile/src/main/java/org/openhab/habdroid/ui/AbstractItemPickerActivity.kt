@@ -246,6 +246,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 }
                 Log.d(TAG, "Item request success, got ${items.size} items")
                 itemPickerAdapter.setItems(items)
+                if (searchView.query.isNotEmpty()) {
+                    itemPickerAdapter.filter(searchView.query.toString())
+                }
                 handleInitialHighlight()
                 updateViewVisibility(loading = false, loadError = false, showHint = false)
             } catch (e: JSONException) {
