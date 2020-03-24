@@ -106,7 +106,6 @@
     <string name="title_activity_libraries">Librairies utilisées</string>
     <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse</string>
     <string name="info_write_tag_progress">Écriture du tag en cours</string>
-    <string name="info_write_tag_finished">Écriture du tag terminée</string>
     <string name="info_write_failed">Erreur d\'écriture du tag</string>
     <string name="info_write_tag_unsupported">Ce téléphone n\'est pas compatible NFC</string>
     <string name="info_openhab_apiversion_label">Version API Rest openHAB</string>
