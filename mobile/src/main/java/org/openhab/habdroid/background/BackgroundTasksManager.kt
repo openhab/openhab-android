@@ -71,6 +71,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 Log.d(TAG, "Locale changed, recreate notification channels")
                 NotificationUpdateObserver.createNotificationChannels(context)
             }
+            Intent.ACTION_BOOT_COMPLETED -> {
+                Log.d(TAG, "Boot completed")
+                KNOWN_KEYS.forEach { key -> scheduleWorker(context, key) }
+            }
             ACTION_RETRY_UPLOAD -> {
                 intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
                     enqueueItemUpload(
