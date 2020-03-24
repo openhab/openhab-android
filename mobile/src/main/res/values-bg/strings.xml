@@ -70,7 +70,6 @@
     <string name="title_activity_libraries">Използвани библиотеки</string>
     <string name="info_write_tag">Докосни етикета и задръжте докато съобщението за потвърждение се появи</string>
     <string name="info_write_tag_progress">Записване на етикета</string>
-    <string name="info_write_tag_finished">Успешен край</string>
     <string name="info_write_failed">Грешка на писане на етикет</string>
     <string name="info_write_tag_unsupported">Устройството не поддържа NFC</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API версия</string>
