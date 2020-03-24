@@ -154,7 +154,6 @@
     <string name="title_activity_libraries">Käytetyt kirjastot</string>
     <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>
     <string name="info_write_tag_progress">Kirjoittaa tagia</string>
-    <string name="info_write_tag_finished">Onnistui</string>
     <string name="info_write_failed">Virhe kirjoitettessa tagia</string>
     <string name="info_write_tag_unsupported">Tämä laite ei tue NFCtä</string>
     <string name="info_write_tag_disabled">NFC on poistettu käytöstä</string>
