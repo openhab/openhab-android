@@ -95,7 +95,6 @@
     <string name="title_activity_libraries">Kullanılan kütüphaneler</string>
     <string name="info_write_tag">Doğrulama mesajı gözükene kadar etikete dokunun ve kapalı halde tutunuz</string>
     <string name="info_write_tag_progress">Etkiket yazılıyor</string>
-    <string name="info_write_tag_finished">Başarılı bir şekilde bitirildi</string>
     <string name="info_write_failed">Etiket yazma hatası</string>
     <string name="info_write_tag_unsupported">Bu cihazın NFC desteği yoktur</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versiyon</string>
