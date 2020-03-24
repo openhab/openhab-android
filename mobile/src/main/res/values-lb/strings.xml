@@ -118,7 +118,6 @@
     <string name="title_activity_libraries">Benotzten Librairien</string>
     <string name="info_write_tag">Beréier den Tag an hal en no bäi bis de Bestätegung s Message kennt</string>
     <string name="info_write_tag_progress">Tag gëtt geschriwwen</string>
-    <string name="info_write_tag_finished">Erfollegräich ofgeschloss</string>
     <string name="info_write_failed">Feeler beim schreiwen vum Tag</string>
     <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
     <string name="info_write_tag_disabled">NFC ass ausgeschalt</string>
