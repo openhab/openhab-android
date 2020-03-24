@@ -154,7 +154,6 @@
     <string name="title_activity_libraries">Použité knihovny</string>
     <string name="info_write_tag">Dotkněte se tagu a počkejte na potvrzovací zprávu</string>
     <string name="info_write_tag_progress">Zapisování do tagu</string>
-    <string name="info_write_tag_finished">Úspěšně dokončeno</string>
     <string name="info_write_failed">Chyba při zápisu do tagu</string>
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
