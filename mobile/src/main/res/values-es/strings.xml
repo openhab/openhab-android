@@ -119,6 +119,7 @@
     <string name="title_activity_libraries">Librerías usadas</string>
     <string name="info_write_tag">Aproximar el teléfono y mantener presionada la etiqueta hasta que aparezca un mensaje de confirmación</string>
     <string name="info_write_tag_progress">Escribiendo la etiqueta</string>
+    <string name="info_write_tag_finished">Etiqueta escrita correctamente</string>
     <string name="info_write_failed">Error al escribir la etiqueta</string>
     <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC</string>
     <string name="info_write_tag_disabled">NFC está deshabilitado</string>
