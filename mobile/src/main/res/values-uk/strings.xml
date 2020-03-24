@@ -154,7 +154,6 @@
     <string name="title_activity_libraries">Використані бібліотеки</string>
     <string name="info_write_tag">Доторкніться до NFС мітки і притримайте доки не з’явиться підтвердження</string>
     <string name="info_write_tag_progress">Записування мітки</string>
-    <string name="info_write_tag_finished">Записування успішно завершено</string>
     <string name="info_write_failed">Помилка запису мітки</string>
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
     <string name="info_write_tag_disabled">NFC вимкнено</string>
