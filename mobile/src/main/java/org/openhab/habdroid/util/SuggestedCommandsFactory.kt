@@ -137,15 +137,11 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         else -> {}
     }
 
-    private fun add(suggestedCommands: SuggestedCommands, commandAndLabel: String) {
-        add(suggestedCommands, commandAndLabel, commandAndLabel)
-    }
-
     private fun add(suggestedCommands: SuggestedCommands, command: String, @StringRes label: Int) {
         add(suggestedCommands, command, context.getString(label))
     }
 
-    private fun add(suggestedCommands: SuggestedCommands, command: String, label: String) {
+    private fun add(suggestedCommands: SuggestedCommands, command: String, label: String = command) {
         if (command !in suggestedCommands.commands) {
             suggestedCommands.commands.add(command)
             suggestedCommands.labels.add(label)
