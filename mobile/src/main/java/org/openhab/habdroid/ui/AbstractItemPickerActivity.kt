@@ -258,11 +258,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String, mappedState: String)
-
-    private fun finish(item: Item, state: String) {
-        finish(item, state, state)
-    }
+    protected abstract fun finish(item: Item, state: String, mappedState: String = state)
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName

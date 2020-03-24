@@ -232,8 +232,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         label: String,
         value: String,
         mappedValue: String
-    ): String {
-        return when (value) {
+    ): String = when (value) {
             "ON" -> context.getString(R.string.item_update_success_message_on, label)
             "OFF" -> context.getString(R.string.item_update_success_message_off, label)
             "UP" -> context.getString(R.string.item_update_success_message_up, label)
@@ -251,7 +250,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             "REWIND" -> context.getString(R.string.item_update_success_message_rewind, label)
             "FASTFORWARD" -> context.getString(R.string.item_update_success_message_fastforward, label)
             else -> context.getString(R.string.item_update_success_message_generic, label, mappedValue)
-        }
     }
 
     companion object {
