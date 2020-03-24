@@ -134,6 +134,30 @@ then
 end
 ```
 
+#### Battery level
+
+The openHAB app will send the current battery level to the server if you enable it in the settings.
+While charging the battery level is sent every 10 to 15 minutes, otherwise every 2 to 6 hours.
+In addition devices running Android 7 or lower send the level whenever the charger is plugged in or out or when the level changes between low and ok.
+
+Example item definition:
+```java
+String BatteryLevel
+```
+
+Example rule:
+```java
+rule "Battery level changed"
+when
+    Item BatteryLevel changed
+then
+    if (BatteryLevel.state < 25) {
+        // Battery level is low
+    }
+
+end
+```
+
 ### Tasker Action Plugin
 
 The Tasker Action Plugin can be used to send Item commands to the server.
