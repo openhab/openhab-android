@@ -114,7 +114,6 @@
     <string name="title_activity_libraries">使用したライブラリー</string>
     <string name="info_write_tag">タグをタッチして、確認メッセージが表示されるまで近づけたままにしてください</string>
     <string name="info_write_tag_progress">タグを書き込んでいます</string>
-    <string name="info_write_tag_finished">正常に完了しました</string>
     <string name="info_write_failed">タグの書き込みエラー</string>
     <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
     <string name="info_write_tag_disabled">NFC は無効です</string>
