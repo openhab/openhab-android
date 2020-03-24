@@ -24,7 +24,7 @@
             android:padding="16dp"
             app:tint="@color/empty_list_text_color"
             app:tintMode="src_in"
-            android:src="@drawable/ic_nfc_black_180dp" />
+            android:src="@drawable/ic_nfc_search_black_180dp" />
 
         <TextView
             android:id="@+id/write_tag_message"

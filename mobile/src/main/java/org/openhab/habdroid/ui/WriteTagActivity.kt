@@ -39,22 +39,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
+import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.showToast
 import java.io.IOException
 
 class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
@@ -140,12 +139,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
             val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
             if (tag != null && writeTag(tag)) {
-                val progressBar = findViewById<ProgressBar>(R.id.nfc_wait_progress)
-                progressBar.isInvisible = true
-
-                val watermark = findViewById<ImageView>(R.id.nfc_watermark)
-                watermark.setImageDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_nfc_black_180dp))
-                delay(2000)
+                showToast(R.string.info_write_tag_finished, ToastType.SUCCESS)
                 finish()
             } else {
                 writeTagMessage.setText(R.string.info_write_failed)
@@ -158,8 +152,8 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         Log.d(TAG, "Writing URL $longUri to tag")
 
         var success = false
-        val longMessage = toNdefMessage(longUri)
-        val shortMessage = toNdefMessage(shortUri)
+        val longMessage = longUri.toNdefMessage()
+        val shortMessage = shortUri.toNdefMessage()
         val ndefFormatable = NdefFormatable.get(tag)
 
         if (ndefFormatable != null) {
@@ -221,13 +215,6 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             }
         }
         success
-    }
-
-    private fun toNdefMessage(uri: Uri?): NdefMessage? {
-        if (uri == null) {
-            return null
-        }
-        return NdefMessage(arrayOf(NdefRecord.createUri(uri)))
     }
 
     abstract class AbstractNfcFragment : Fragment() {
@@ -358,4 +345,11 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             }
         }
     }
+}
+
+private fun Uri?.toNdefMessage(): NdefMessage? {
+    if (this == null) {
+        return null
+    }
+    return NdefMessage(arrayOf(NdefRecord.createUri(this)))
 }
