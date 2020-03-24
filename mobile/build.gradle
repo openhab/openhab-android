@@ -156,7 +156,7 @@ dependencies {
     implementation "com.larswerkman:HoloColorPicker:1.5"
     implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
-    implementation("com.github.paolorotolo:appintro:v5.1.0") {
+    implementation("com.github.appintro:appintro:5.1.0") {
         transitive false
         exclude group: "com.intellij", module: "annotations"
     }
