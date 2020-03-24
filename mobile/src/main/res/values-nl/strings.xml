@@ -116,7 +116,6 @@
     <string name="title_activity_libraries">Gebruikte bibliotheken</string>
     <string name="info_write_tag">Raak de tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
     <string name="info_write_tag_progress">De tag wordt weggeschreven</string>
-    <string name="info_write_tag_finished">Gelukt</string>
     <string name="info_write_failed">Tag schrijffout</string>
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
     <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
