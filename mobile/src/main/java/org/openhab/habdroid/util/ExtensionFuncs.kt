@@ -14,7 +14,6 @@
 package org.openhab.habdroid.util
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -107,9 +106,9 @@ fun Uri?.openInBrowser(context: Context) {
         return
     }
     val intent = Intent(Intent.ACTION_VIEW, this)
-    try {
+    if (intent.isResolvable(context)) {
         context.startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
+    } else {
         Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show()
     }
 }
@@ -312,9 +311,10 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
 }
 
 fun Context.openInAppStore(app: String) {
-    try {
-        startActivity(Intent(Intent.ACTION_VIEW, "market://details?id=$app".toUri()))
-    } catch (appStoreNotFoundException: ActivityNotFoundException) {
+    val intent = Intent(Intent.ACTION_VIEW, "market://details?id=$app".toUri())
+    if (intent.isResolvable(this)) {
+        startActivity(intent)
+    } else {
         "http://play.google.com/store/apps/details?id=$app".toUri().openInBrowser(this)
     }
 }
@@ -341,4 +341,8 @@ fun Uri.Builder.appendQueryParameter(key: String, value: Int): Uri.Builder {
 
 fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
     return appendQueryParameter(key, value.toString())
+}
+
+fun Intent.isResolvable(context: Context): Boolean {
+    return context.packageManager.queryIntentActivities(this, 0).isNotEmpty()
 }

@@ -17,7 +17,6 @@ import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -93,8 +92,8 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
-import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
@@ -103,6 +102,7 @@ import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -896,9 +896,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent)
         }
 
-        try {
+        if (speechIntent.isResolvable(this)) {
             startActivity(speechIntent)
-        } catch (speechRecognizerNotFoundException: ActivityNotFoundException) {
+        } else {
             showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install) {
                 openInAppStore("com.google.android.googlequicksearchbox")
             }
