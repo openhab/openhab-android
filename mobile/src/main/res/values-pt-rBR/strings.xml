@@ -154,7 +154,6 @@
     <string name="title_activity_libraries">Bibliotecas usadas</string>
     <string name="info_write_tag">Toque na tag e a mantenha perto até aparecer a mensagem de confirmação</string>
     <string name="info_write_tag_progress">Escrevendo a etiqueta</string>
-    <string name="info_write_tag_finished">Concluído com sucesso</string>
     <string name="info_write_failed">Erro de escrita da tag</string>
     <string name="info_write_tag_unsupported">Este dispositivo não tem suporte NFC</string>
     <string name="info_write_tag_disabled">O NFC está desativado</string>
