@@ -15,33 +15,43 @@ package org.openhab.habdroid.core
 
 import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
+import java.security.InvalidKeyException
 
 @Suppress("UNUSED")
 class OpenHabApplication : MultiDexApplication() {
     val secretPrefs: SharedPreferences by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-            EncryptedSharedPreferences.create(
-                "secret_shared_prefs_encrypted",
-                masterKeyAlias,
-                this,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
+            try {
+                getEncryptedSharedPrefs()
+            } catch (e: InvalidKeyException) {
+                // See https://github.com/openhab/openhab-android/issues/1807
+                Log.e(TAG, "Error getting encrypted shared prefs, try again.", e)
+                getEncryptedSharedPrefs()
+            }
         } else {
             getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun getEncryptedSharedPrefs() = EncryptedSharedPreferences.create(
+        "secret_shared_prefs_encrypted",
+        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+        this,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     override fun onCreate() {
         super.onCreate()
@@ -54,5 +64,9 @@ class OpenHabApplication : MultiDexApplication() {
     override fun onTerminate() {
         super.onTerminate()
         ConnectionFactory.shutdown()
+    }
+
+    companion object {
+        private val TAG = OpenHabApplication::class.java.simpleName
     }
 }
