@@ -79,7 +79,6 @@
     <string name="title_activity_libraries">Bibliotek som används</string>
     <string name="info_write_tag">Nudda taggen och håll den nära tills bekräftelsemeddelandet visas</string>
     <string name="info_write_tag_progress">Skriver taggen</string>
-    <string name="info_write_tag_finished">Färdig</string>
     <string name="info_write_failed">Fel vid skrivning till tagg</string>
     <string name="info_write_tag_unsupported">Denna enhet har inte stöd för NFC</string>
     <string name="info_openhab_apiversion_label">Version på openHABs REST-API</string>
