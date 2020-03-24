@@ -186,7 +186,7 @@ then
     } else if (ChargingState.state == "AC") {
         // Device is charging over AC adapter
     } else if (ChargingState.state == "WIRELESS") {
-        // Device is charging wireless
+        // Device is charging wirelessly
     } else if (ChargingState.state == "UNKNOWN_CHARGER") {
         // Device is charging in an unknown way (None of the three above).
         // If you see this state, please report that.
