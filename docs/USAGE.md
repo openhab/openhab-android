@@ -62,11 +62,27 @@ If you want to use openHAB Android on a wall mounted tablet, go to settings and 
 
 ### Send device information to openHAB
 
+You have to enable every information you want to send in the settings.
+Every settings has a default item name which is also used for example item definitions and rules below.
+
+If you have more than one device, it's recommended to fill out the prefix settings.
+This prefixes every item name, e.g. with the Prefix `John` the item `AlarmClock` becomes `JohnAlarmClock`.
+This way you don't have to change every item name.
+
+There are two different types of information that can be send to the openHAB server:
+* Event based (Alarm clock and call state)
+* Schedule based (Everything else)
+
+Event based means, that the items are updated when the corresponding event happens, e.g. the phone starts ringing.
+Schedule based means, that the items are updated every 10 to 15 minutes while charging, otherwise every 2 to 6 hours.
+
+In addition devices running Android 7 or lower can also send schedule based items on specific events, e.g. a charger is plugged in.
+Beginning with Android 8 it isn't possible anymore to listen for these events.
+
 #### Alarm Clock
 
 The openHAB app will send the next wake-up time from your alarm clock app to the server.
 The time is sent as a number containing the number of milliseconds since the epoch.
-The Item name's default is `AlarmClock`, but you can change it in the settings.
 
 Example item definition:
 ```java
@@ -110,8 +126,6 @@ end
 
 #### Call State
 
-The openHAB app will send the current call state to the server.
-
 Example item definition:
 ```java
 String CallState
@@ -134,15 +148,11 @@ then
 end
 ```
 
-#### Battery level
-
-The openHAB app will send the current battery level to the server if you enable it in the settings.
-While charging the battery level is sent every 10 to 15 minutes, otherwise every 2 to 6 hours.
-In addition devices running Android 7 or lower send the level whenever the charger is plugged in or out or when the level changes between low and ok.
+#### Battery Level
 
 Example item definition:
 ```java
-String BatteryLevel
+Number BatteryLevel
 ```
 
 Example rule:
@@ -153,6 +163,35 @@ when
 then
     if (BatteryLevel.state < 25) {
         // Battery level is low
+    }
+
+end
+```
+
+#### Charging State
+
+Example item definition:
+```java
+String ChargingState
+```
+
+Example rule:
+```java
+rule "Charging state changed"
+when
+    Item ChargingState changed
+then
+    if (ChargingState.state == "USB") {
+        // Device is charging over USB
+    } else if (ChargingState.state == "AC") {
+        // Device is charging over AC adapter
+    } else if (ChargingState.state == "WIRELESS") {
+        // Device is charging wirelessly
+    } else if (ChargingState.state == "UNKNOWN_CHARGER") {
+        // Device is charging in an unknown way (None of the three above).
+        // If you see this state, please report that.
+    } else {
+        // Device isn't charging ("UNDEF" is send)
     }
 
 end

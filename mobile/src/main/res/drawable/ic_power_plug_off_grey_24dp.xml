@@ -1,0 +1,23 @@
+<!--
+    Copyright (c) 2014, Austin Andrews (http://materialdesignicons.com/),
+    with Reserved Font Name Material Design Icons.
+    Copyright (c) 2014, Google (http://www.google.com/design/)
+    uses the license at https://github.com/google/material-design-icons/blob/master/LICENSE
+
+    This Font Software is licensed under the SIL Open Font License, Version 1.1.
+    This license is copied below, and is also available with a FAQ at:
+    http://scripts.sil.org/OFL
+
+    Author: https://twitter.com/XT3000
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="#757575">
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M8,3V6.18C11.1,9.23 14.1,12.3 17.2,15.3C17.4,15 17.8,14.8 18,14.4V8.8C18,7.68 16.7,7.16 16,6.84V3H14V7H10V3H8M3.28,4C2.85,4.42 2.43,4.85 2,5.27L6,9.27V14.5C7.17,15.65 8.33,16.83 9.5,18V21H14.5V18C14.72,17.73 14.95,18.33 15.17,18.44C16.37,19.64 17.47,20.84 18.67,22.04C19.17,21.64 19.57,21.14 19.97,20.74C14.37,15.14 8.77,9.64 3.27,4.04L3.28,4Z"/>
+</vector>

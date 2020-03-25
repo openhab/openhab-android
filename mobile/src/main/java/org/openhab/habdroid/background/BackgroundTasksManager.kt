@@ -17,8 +17,8 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Context.BATTERY_SERVICE
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.BatteryManager
 import android.os.Parcelable
@@ -64,8 +64,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             Intent.ACTION_POWER_CONNECTED, Intent.ACTION_POWER_DISCONNECTED,
             Intent.ACTION_BATTERY_LOW, Intent.ACTION_BATTERY_OKAY -> {
-                Log.d(TAG, "Battery state changed: ${intent.action}")
+                Log.d(TAG, "Battery or charging state changed: ${intent.action}")
                 scheduleWorker(context, PrefKeys.BATTERY_LEVEL)
+                scheduleWorker(context, PrefKeys.CHARGING_STATE)
             }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
@@ -187,10 +188,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
         internal val KNOWN_KEYS = listOf(
             PrefKeys.ALARM_CLOCK,
             PrefKeys.PHONE_STATE,
-            PrefKeys.BATTERY_LEVEL
+            PrefKeys.BATTERY_LEVEL,
+            PrefKeys.CHARGING_STATE
         )
         private val KNOWN_PERIODIC_KEYS = listOf(
-            PrefKeys.BATTERY_LEVEL
+            PrefKeys.BATTERY_LEVEL,
+            PrefKeys.CHARGING_STATE
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
@@ -393,11 +396,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
                 time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
             }
-            VALUE_GETTER_MAP[PrefKeys.BATTERY_LEVEL] = { context ->
-                val bm = context.getSystemService(BATTERY_SERVICE) as BatteryManager
-                val batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-                ItemUpdateWorker.ValueWithInfo(batLevel.toString())
-            }
             VALUE_GETTER_MAP[PrefKeys.PHONE_STATE] = { context ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val state = when (manager.callState) {
@@ -405,6 +403,29 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     TelephonyManager.CALL_STATE_RINGING -> "RINGING"
                     TelephonyManager.CALL_STATE_OFFHOOK -> "OFFHOOK"
                     else -> "UNDEF"
+                }
+                ItemUpdateWorker.ValueWithInfo(state)
+            }
+            VALUE_GETTER_MAP[PrefKeys.BATTERY_LEVEL] = { context ->
+                val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+                val batteryLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+                ItemUpdateWorker.ValueWithInfo(batteryLevel.toString())
+            }
+            VALUE_GETTER_MAP[PrefKeys.CHARGING_STATE] = { context ->
+                val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
+                    context.registerReceiver(null, ifilter)
+                }
+                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+                val state = if (status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                    status == BatteryManager.BATTERY_STATUS_FULL) {
+                    when (batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
+                        BatteryManager.BATTERY_PLUGGED_USB -> "USB"
+                        BatteryManager.BATTERY_PLUGGED_AC -> "AC"
+                        BatteryManager.BATTERY_PLUGGED_WIRELESS -> "WIRELESS"
+                        else -> "UNKNOWN_CHARGER"
+                    }
+                } else {
+                    "UNDEF"
                 }
                 ItemUpdateWorker.ValueWithInfo(state)
             }
