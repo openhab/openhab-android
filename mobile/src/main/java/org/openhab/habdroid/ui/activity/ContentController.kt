@@ -49,8 +49,8 @@ import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
-import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
@@ -570,7 +570,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             fun newInstance(message: CharSequence): EnableWifiNetworkFragment {
                 val f = EnableWifiNetworkFragment()
                 f.arguments = buildArgs(message, R.string.enable_wifi_button,
-                    R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
+                    R.drawable.ic_wifi_strength_off_outline_grey_24dp, false)
                 return f
             }
         }
@@ -622,7 +622,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                         R.drawable.ic_network_strength_off_outline_black_24dp, false)
                     else -> buildArgs(context.getString(R.string.no_remote_server),
                         R.string.go_to_settings_button, R.string.enable_wifi_button,
-                        R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
+                        R.drawable.ic_wifi_strength_off_outline_grey_24dp, false)
                 }
                 args.putBoolean(KEY_RESOLVE_ATTEMPTED, resolveAttempted)
                 args.putBoolean(KEY_WIFI_ENABLED, hasWifiEnabled)

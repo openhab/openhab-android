@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="openhab">
     <words>
+      <w>SSID</w>
       <w>addr</w>
       <w>basicui</w>
       <w>basicuidark</w>
@@ -25,7 +26,7 @@
       <w>mjpeg</w>
       <w>mpeg</w>
       <w>multicast</w>
-      <w>myopen</w> <!-- From myopenHAB -->
+      <w>myopen</w>
       <w>myopenhab</w>
       <w>ndef</w>
       <w>pageid</w>

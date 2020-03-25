@@ -263,7 +263,7 @@ fun Context.showToast(@StringRes message: Int, type: ToastType = ToastType.NORMA
 }
 
 fun Context.hasPermission(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
+    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 }
 
 fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Throwable?, short: Boolean): CharSequence {

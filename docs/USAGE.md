@@ -197,6 +197,28 @@ then
 end
 ```
 
+#### Wi-Fi Name
+
+Example item definition:
+```java
+String WifiName
+```
+
+Example rule:
+```java
+rule "Wi-Fi name changed"
+when
+    Item WifiName changed
+then
+    if (WifiName.state == "UNDEF") {
+        // Device isn't connected to Wi-Fi
+    } else {
+        logInfo("WIFI", "Device is connected to Wi-Fi " + WifiName.state)
+    }
+
+end
+```
+
 ### Tasker Action Plugin
 
 The Tasker Action Plugin can be used to send Item commands to the server.
