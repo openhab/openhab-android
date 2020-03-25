@@ -96,7 +96,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         super.applyOverrideConfiguration(overrideConfiguration)
     }
 
-    @JvmOverloads
     fun checkFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
         var uiOptions = window.decorView.systemUiVisibility
         val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
