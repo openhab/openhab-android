@@ -218,6 +218,8 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
             HttpBitmapResult(request, bitmap)
         } catch (e: IOException) {
             throw HttpException(request, originalUrl, e)
+        } catch (e: OutOfMemoryError) {
+            throw HttpException(request, originalUrl, e)
         } finally {
             close()
         }
@@ -232,7 +234,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
         val originalUrl: String
         val statusCode: Int
 
-        constructor(request: Request, originalUrl: String, cause: IOException) : super(cause) {
+        constructor(request: Request, originalUrl: String, cause: Throwable) : super(cause) {
             this.request = request
             this.originalUrl = originalUrl
             statusCode = 500

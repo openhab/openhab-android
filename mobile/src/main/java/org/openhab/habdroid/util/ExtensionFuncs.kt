@@ -125,7 +125,7 @@ fun Resources.dpToPixel(dp: Float): Float {
     return dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 }
 
-@Throws(IOException::class)
+@Throws(IOException::class, OutOfMemoryError::class)
 fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
