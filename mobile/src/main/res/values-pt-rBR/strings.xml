@@ -154,6 +154,7 @@
     <string name="title_activity_libraries">Bibliotecas usadas</string>
     <string name="info_write_tag">Toque na tag e a mantenha perto até aparecer a mensagem de confirmação</string>
     <string name="info_write_tag_progress">Escrevendo a etiqueta</string>
+    <string name="info_write_tag_finished">Tag gravada com sucesso</string>
     <string name="info_write_failed">Erro de escrita da tag</string>
     <string name="info_write_tag_unsupported">Este dispositivo não tem suporte NFC</string>
     <string name="info_write_tag_disabled">O NFC está desativado</string>
@@ -176,6 +177,9 @@
     <string name="settings_phone_state">Enviar estado de chamada para openHAB</string>
     <string name="settings_phone_state_summary_on">Envia estado de chamada para o item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Não enviar o estado de chamada para o servidor</string>
+    <string name="settings_battery_level">Enviar nível de bateria ao openHAB</string>
+    <string name="settings_battery_level_summary_on">Enviar nível de bateria ao item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Não enviar nível da bateria ao servidor</string>
     <string name="settings_phone_state_permission_denied">O envio do estado de chamada foi desativado devido à falta de permissões</string>
     <string name="settings_phone_state_permission_allow">Permitir</string>
     <string name="settings_item_pref_item_name">Nome do item</string>
