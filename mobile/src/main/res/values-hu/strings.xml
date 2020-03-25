@@ -140,6 +140,7 @@
     <string name="title_activity_libraries">Használt könyvtárak</string>
     <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
     <string name="info_write_tag_progress">Címke írása</string>
+    <string name="info_write_tag_finished">Cimkeírás sikeres megtörtént</string>
     <string name="info_write_failed">Címke írása sikertelen</string>
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
