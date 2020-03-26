@@ -179,6 +179,9 @@
     <string name="settings_battery_level">Invia il livello della batteria a openHAB</string>
     <string name="settings_battery_level_summary_on">Invia il livello della batteria all\'elemento \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Non inviare il livello della batteria al server</string>
+    <string name="settings_charging_state">Stato di ricarica</string>
+    <string name="settings_charging_state_summary_on">Invia lo stato di ricarica all\'elemento \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Non inviare lo stato di ricarica al server</string>
     <string name="settings_phone_state_permission_denied">L\'invio dello stato è disabilitata a causa dei permessi mancanti</string>
     <string name="settings_phone_state_permission_allow">Consenti</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
