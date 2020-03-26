@@ -101,6 +101,11 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
          * Let parent know about a failure during the load of data.
          */
         fun onLoadFailure(error: HttpClient.HttpException)
+
+        /**
+         * Let parent know about a failure during the SSE subscription.
+         */
+        fun onSseFailure()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -430,9 +435,10 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        internal fun handleSseSubscriptionFailure(sseUnsupported: Boolean) {
+        private fun handleSseSubscriptionFailure(sseUnsupported: Boolean) {
             if (sseUnsupported) {
                 Log.w(TAG, "SSE unsupported for $url, using long polling")
+                callback.onSseFailure()
                 eventHelper = null
                 if (longPolling) {
                     load()

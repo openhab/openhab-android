@@ -925,7 +925,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    private fun showSnackbar(
+    internal fun showSnackbar(
         @StringRes messageResId: Int,
         @StringRes actionResId: Int = 0,
         tag: String? = null,
