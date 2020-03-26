@@ -52,11 +52,9 @@ import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.RemoteLog
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
-import org.openhab.habdroid.util.showToast
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.Stack
