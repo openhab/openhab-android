@@ -5,22 +5,25 @@
     android:title="@string/settings_openhab_alt_connection">
     <org.openhab.habdroid.ui.preference.UrlInputPreference
         android:defaultValue="@string/empty_string"
-        android:key="default_openhab_alturl"
+        android:key="url"
+        android:persistent="false"
         android:summary="@string/settings_openhab_alturl_summary"
         android:title="@string/settings_openhab_alturl"
         android:icon="@drawable/ic_earth_grey_24dp"
         app:isHttpEnabled="false" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
+        android:persistent="false"
         android:inputType="textNoSuggestions"
-        android:key="default_openhab_remote_username"
+        android:key="username"
         android:title="@string/settings_openhab_username"
         android:autofillHints="username,emailAddress"
         android:icon="@drawable/ic_person_outline_grey_24dp" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
+        android:persistent="false"
         android:inputType="textPassword"
-        android:key="default_openhab_remote_password"
+        android:key="password"
         android:title="@string/settings_openhab_password"
         android:autofillHints="password"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />

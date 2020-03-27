@@ -40,6 +40,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -53,6 +55,8 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -84,6 +88,8 @@ import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedEx
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.model.LinkedPage
+import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.sortedWithDefaultName
@@ -101,10 +107,15 @@ import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDefaultSitemap
+import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
+import org.openhab.habdroid.util.getNextAvailableServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDebugModeEnabled
@@ -120,6 +131,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var drawerMenu: Menu
+    private lateinit var drawerModeSelectorContainer: View
+    private lateinit var drawerModeToggle: ImageView
+    private lateinit var drawerServerNameView: TextView
     private var drawerIconTintList: ColorStateList? = null
     lateinit var viewPool: RecyclerView.RecycledViewPool
         private set
@@ -139,6 +153,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
     private val backgroundTasksManager = BackgroundTasksManager()
+    private var inServerSelectionMode = false
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -204,8 +219,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 showSitemapSelectionDialog()
             }
 
-            updateSitemapAndHabPanelDrawerItems()
-            updateNotificationDrawerItem()
+            updateSitemapDrawerEntries()
         }
 
         processIntent(intent)
@@ -250,8 +264,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         ConnectionFactory.addListener(this)
 
+        updateDrawerServerEntries()
         onAvailableConnectionChanged()
-        updateNotificationDrawerItem()
 
         if (connection != null && serverProperties == null) {
             controller.clearServerCommunicationFailure()
@@ -360,11 +374,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     return
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
-                    updateSitemapAndHabPanelDrawerItems()
+                    updateSitemapDrawerEntries()
                     executeOrStoreAction(PendingAction.ChooseSitemap())
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, false)) {
-                    updateSitemapAndHabPanelDrawerItems()
+                    updateSitemapDrawerEntries()
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                     recreate()
@@ -414,9 +428,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason = e
         }
 
-        updateNotificationDrawerItem()
+        if (ConnectionFactory.cloudConnectionOrNull != null) {
+            manageNotificationShortcut(true)
+        }
 
         if (newConnection != null && newConnection === connection) {
+            updateDrawerItemVisibility()
             return
         }
 
@@ -472,7 +489,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         viewPool.clear()
-        updateSitemapAndHabPanelDrawerItems()
+        updateSitemapDrawerEntries()
+        updateDrawerItemVisibility()
         invalidateOptionsMenu()
         updateTitle()
     }
@@ -488,7 +506,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onCloudConnectionChanged(connection: CloudConnection?) {
         RemoteLog.d(TAG, "onCloudConnectionChanged()")
-        updateNotificationDrawerItem()
+        updateDrawerItemVisibility()
         handlePendingAction()
     }
 
@@ -541,7 +559,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         retryJob?.cancel(CancellationException("queryServerProperties() was called"))
         val successCb: (ServerProperties) -> Unit = { props ->
             serverProperties = props
-            updateSitemapAndHabPanelDrawerItems()
+            updateSitemapDrawerEntries()
             if (props.sitemaps.isEmpty()) {
                 Log.e(TAG, "openHAB returned empty Sitemap list")
                 controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
@@ -578,9 +596,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val port = info.port.toString()
             Log.d(TAG, "Service resolved: $address port: $port")
 
-            prefs.edit {
-                putString(PrefKeys.LOCAL_URL, "https://$address:$port")
-            }
+            val config = ServerConfiguration(prefs.getNextAvailableServerId(), "openHAB",
+                ServerPath("https://$address:$port", null, null),
+                null, null
+            )
+            config.saveToPrefs(prefs, getSecretPrefs())
         } else {
             Log.d(TAG, "onServiceResolveFailed()")
             controller.indicateMissingConfiguration(true, false)
@@ -639,10 +659,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         serverProperties!!, connection!!,
                         { props ->
                             serverProperties = props
-                            updateSitemapAndHabPanelDrawerItems()
+                            updateSitemapDrawerEntries()
                         },
                         this@MainActivity::handlePropertyFetchFailure)
                 }
+            }
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+                updateDrawerMode(false)
             }
         })
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
@@ -700,73 +724,132 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     }
                 }
             }
-            if (item.groupId == GROUP_ID_SITEMAPS) {
+            if (item.groupId == R.id.sitemaps) {
                 val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name.hashCode() == item.itemId }
                 if (sitemap != null) {
                     controller.openSitemap(sitemap)
                     handled = true
                 }
             }
+            if (item.groupId == R.id.servers) {
+                prefs.edit {
+                    putInt(PrefKeys.ACTIVE_SERVER_ID, item.itemId)
+                }
+                updateServerNameInDrawer()
+                // Menu views aren't updated in a click handler, so defer the menu update
+                launch {
+                    updateDrawerMode(false)
+                }
+                handled = true
+            }
             handled
         }
+
+        drawerModeSelectorContainer = drawerView.inflateHeaderView(R.layout.drawer_header)
+        drawerModeToggle = drawerModeSelectorContainer.findViewById(R.id.drawer_mode_switcher)
+        drawerServerNameView = drawerModeSelectorContainer.findViewById(R.id.server_name)
+        drawerModeToggle.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
     }
 
-    private fun updateNotificationDrawerItem() {
-        val notificationsItem = drawerMenu.findItem(R.id.notifications)
-        val hasCloudConnection = ConnectionFactory.cloudConnectionOrNull != null
-        notificationsItem.isVisible = hasCloudConnection
-        if (hasCloudConnection) {
-            manageNotificationShortcut(true)
-        }
-    }
+    private fun updateDrawerServerEntries() {
+        // Remove existing items from server group
+        drawerMenu.getGroupItems(R.id.servers)
+            .forEach { item -> drawerMenu.removeItem(item.itemId) }
 
-    private fun updateSitemapAndHabPanelDrawerItems() {
-        val sitemapsItem = drawerMenu.findItem(R.id.sitemaps)
-        val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
-        val habPanelItem = drawerMenu.findItem(R.id.habpanel)
-        val nfcItem = drawerMenu.findItem(R.id.nfc)
-        val props = serverProperties
-        if (props == null) {
-            sitemapsItem.isVisible = false
-            defaultSitemapItem.isVisible = false
-            habPanelItem.isVisible = false
-            nfcItem.isVisible = false
+        // Add new items
+        val configs = prefs.getConfiguredServerIds()
+            .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
+        configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
+
+        if (configs.size > 1) {
+            drawerModeSelectorContainer.isVisible = true
         } else {
-            habPanelItem.isVisible = props.hasHabPanelInstalled()
-            nfcItem.isVisible = NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()
-            manageHabPanelShortcut(props.hasHabPanelInstalled())
-            val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap(connection))
+            drawerModeSelectorContainer.isGone = true
+            inServerSelectionMode = false
+        }
 
-            if (sitemaps.isEmpty()) {
-                sitemapsItem.isVisible = false
-                defaultSitemapItem.isVisible = false
-            } else if (prefs.areSitemapsShownInDrawer()) {
-                sitemapsItem.isVisible = true
-                defaultSitemapItem.isVisible = false
-                val menu = sitemapsItem.subMenu
-                menu.clear()
+        updateServerNameInDrawer()
+        updateDrawerItemVisibility()
+    }
 
-                sitemaps.forEachIndexed { index, sitemap ->
-                    val item = menu.add(GROUP_ID_SITEMAPS, sitemap.name.hashCode(), index, sitemap.label)
-                    loadSitemapIcon(sitemap, item)
-                }
+    private fun updateSitemapDrawerEntries() {
+        val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
+        val sitemaps = serverProperties?.sitemaps?.sortedWithDefaultName(prefs.getDefaultSitemap(connection))
+
+        drawerMenu.getGroupItems(R.id.sitemaps)
+            .filter { item -> item !== defaultSitemapItem }
+            .forEach { item -> drawerMenu.removeItem(item.itemId) }
+
+        if (sitemaps?.isNotEmpty() != true) {
+            return
+        }
+
+        if (prefs.areSitemapsShownInDrawer()) {
+            sitemaps.forEachIndexed { index, sitemap ->
+                val item = drawerMenu.add(R.id.sitemaps, sitemap.name.hashCode(), index, sitemap.label)
+                loadSitemapIcon(sitemap, item)
+            }
+        } else {
+            val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
+                s.name == prefs.getDefaultSitemap(connection)
+            }
+            if (sitemap != null) {
+                defaultSitemapItem.title = sitemap.label
+                loadSitemapIcon(sitemap, defaultSitemapItem)
             } else {
-                sitemapsItem.isVisible = false
-                defaultSitemapItem.isVisible = true
-
-                val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
-                    s.name == prefs.getDefaultSitemap(connection)
-                }
-                if (sitemap != null) {
-                    defaultSitemapItem.title = sitemap.label
-                    loadSitemapIcon(sitemap, defaultSitemapItem)
-                } else {
-                    defaultSitemapItem.title = getString(R.string.mainmenu_openhab_selectsitemap)
-                    defaultSitemapItem.icon =
-                        applyDrawerIconTint(ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp))
-                }
+                defaultSitemapItem.title = getString(R.string.mainmenu_openhab_selectsitemap)
+                defaultSitemapItem.icon =
+                    applyDrawerIconTint(ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp))
             }
         }
+
+        updateDrawerItemVisibility()
+    }
+
+    private fun updateServerNameInDrawer() {
+        val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
+        drawerServerNameView.text = activeConfig?.name
+    }
+
+    private fun updateDrawerItemVisibility() {
+        val serverItems = drawerMenu.getGroupItems(R.id.servers)
+        drawerMenu.setGroupVisible(R.id.servers, serverItems.size > 1 && inServerSelectionMode)
+
+        if (serverProperties?.sitemaps?.isNotEmpty() == true && !inServerSelectionMode) {
+            drawerMenu.setGroupVisible(R.id.sitemaps, true)
+
+            val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
+            defaultSitemapItem.isVisible = !prefs.areSitemapsShownInDrawer()
+        } else {
+            drawerMenu.setGroupVisible(R.id.sitemaps, false)
+        }
+
+        if (inServerSelectionMode) {
+            drawerMenu.setGroupVisible(R.id.options, false)
+        } else {
+            drawerMenu.setGroupVisible(R.id.options, true)
+
+            val notificationsItem = drawerMenu.findItem(R.id.notifications)
+            notificationsItem.isVisible = ConnectionFactory.cloudConnectionOrNull != null
+
+            val habPanelItem = drawerMenu.findItem(R.id.habpanel)
+            habPanelItem.isVisible = serverProperties?.hasHabPanelInstalled() == true
+
+            val nfcItem = drawerMenu.findItem(R.id.nfc)
+            nfcItem.isVisible = serverProperties != null &&
+                (NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator())
+        }
+    }
+
+    private fun updateDrawerMode(inServerMode: Boolean) {
+        if (inServerMode == inServerSelectionMode) {
+            return
+        }
+        inServerSelectionMode = inServerMode
+        drawerModeToggle.setImageResource(
+            if (inServerSelectionMode) R.drawable.ic_menu_up_24dp else R.drawable.ic_menu_down_24dp
+        )
+        updateDrawerItemVisibility()
     }
 
     private fun loadSitemapIcon(sitemap: Sitemap, item: MenuItem) {
@@ -860,7 +943,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 updateDefaultSitemap(result, connection)
             }
         }
-        updateSitemapAndHabPanelDrawerItems()
+        updateSitemapDrawerEntries()
 
         return result
     }
@@ -884,7 +967,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     updateDefaultSitemap(sitemap, connection)
                 }
                 controller.openSitemap(sitemap)
-                updateSitemapAndHabPanelDrawerItems()
+                updateSitemapDrawerEntries()
             }
             .show()
     }
@@ -1178,7 +1261,5 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         // Activities request codes
         private const val REQUEST_CODE_SETTINGS = 1001
         private const val REQUEST_CODE_PERMISSIONS = 1002
-        // Drawer item codes
-        private const val GROUP_ID_SITEMAPS = 1
     }
 }
