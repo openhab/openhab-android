@@ -35,14 +35,15 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
-import org.openhab.habdroid.util.toNormalizedUrl
 import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
@@ -147,16 +148,23 @@ class ConnectionFactory internal constructor(
         if (key == PrefKeys.DEBUG_MESSAGES) {
             updateHttpLoggerSettings()
         }
-        if (key in CLIENT_CERT_UPDATE_TRIGGERING_KEYS) {
+        val serverId = sharedPreferences.getActiveServerId()
+        if (key in UPDATE_TRIGGERING_KEYS ||
+            CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
+        ) {
             updateHttpClientForClientCert(false)
         }
-        if (key in UPDATE_TRIGGERING_KEYS) launch {
-            updateConnections()
+        if (key in UPDATE_TRIGGERING_KEYS ||
+            UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
+        ) launch {
+            // if the active server changed, we need to invalidate the old connection immediately,
+            // as we don't want the user to see old server data while we're validating the new one
+            updateConnections(key == PrefKeys.ACTIVE_SERVER_ID)
         }
     }
 
     @VisibleForTesting
-    fun updateConnections() {
+    fun updateConnections(callListenersImmediately: Boolean = false) {
         if (prefs.isDemoModeEnabled()) {
             if (localConnection is DemoConnection) {
                 // demo mode already was enabled
@@ -167,14 +175,13 @@ class ConnectionFactory internal constructor(
             updateState(true, available = localConnection, availableFailureReason = null,
                 cloudInitialized = true, cloud = null, cloudFailureReason = null)
         } else {
-            localConnection = makeConnection(Connection.TYPE_LOCAL,
-                PrefKeys.LOCAL_URL,
-                PrefKeys.LOCAL_USERNAME, PrefKeys.LOCAL_PASSWORD)
-            remoteConnection = makeConnection(Connection.TYPE_REMOTE,
-                PrefKeys.REMOTE_URL,
-                PrefKeys.REMOTE_USERNAME, PrefKeys.REMOTE_PASSWORD)
+            val config = ServerConfiguration.load(prefs, secretPrefs, prefs.getActiveServerId())
+            localConnection =
+                config?.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
+            remoteConnection =
+                config?.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
 
-            updateState(false, null, null, false, null, null)
+            updateState(callListenersImmediately, null, null, false, null, null)
             triggerConnectionUpdateIfNeeded()
         }
     }
@@ -192,8 +199,12 @@ class ConnectionFactory internal constructor(
     }
 
     private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
-        val clientCertAlias = if (prefs.isDemoModeEnabled()) // No client cert in demo mode
-            null else prefs.getStringOrNull(PrefKeys.SSL_CLIENT_CERT)
+        val clientCertAlias = if (prefs.isDemoModeEnabled()) {
+            // No client cert in demo mode
+            null
+        } else {
+            prefs.getStringOrNull(PrefKeys.buildServerKey(prefs.getActiveServerId(), PrefKeys.SSL_CLIENT_CERT_PREFIX))
+        }
         val keyManagers = if (clientCertAlias != null)
             arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
 
@@ -286,21 +297,6 @@ class ConnectionFactory internal constructor(
                 updateState(true, cloudInitialized = true, cloud = null, cloudFailureReason = e)
             }
         }
-    }
-
-    private fun makeConnection(
-        type: Int,
-        urlKey: String,
-        userNameKey: String,
-        passwordKey: String
-    ): AbstractConnection? {
-        val url = prefs.getStringOrNull(urlKey)?.toNormalizedUrl()
-        if (url.isNullOrEmpty()) {
-            return null
-        }
-        return DefaultConnection(httpClient, type, url,
-            secretPrefs.getStringOrNull(userNameKey),
-            secretPrefs.getStringOrNull(passwordKey))
     }
 
     private suspend fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
@@ -410,15 +406,16 @@ class ConnectionFactory internal constructor(
 
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
-        private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
-            PrefKeys.DEMO_MODE, PrefKeys.SSL_CLIENT_CERT
-        )
         private val UPDATE_TRIGGERING_KEYS = listOf(
-            PrefKeys.LOCAL_URL, PrefKeys.REMOTE_URL,
-            PrefKeys.LOCAL_USERNAME, PrefKeys.LOCAL_PASSWORD,
-            PrefKeys.REMOTE_USERNAME, PrefKeys.REMOTE_PASSWORD,
-            PrefKeys.SSL_CLIENT_CERT, PrefKeys.DEMO_MODE
+            PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID
         )
+        private val UPDATE_TRIGGERING_PREFIXES = listOf(
+            PrefKeys.LOCAL_URL_PREFIX, PrefKeys.REMOTE_URL_PREFIX,
+            PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX,
+            PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX,
+            PrefKeys.SSL_CLIENT_CERT_PREFIX
+        )
+        private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)
 
         @VisibleForTesting lateinit var instance: ConnectionFactory
 

@@ -36,12 +36,30 @@ enum class ScreenLockMode {
     Enabled
 }
 
+fun SharedPreferences.getActiveServerId(): Int {
+    return getInt(PrefKeys.ACTIVE_SERVER_ID, 0)
+}
+
+fun SharedPreferences.getNextAvailableServerId(): Int {
+    return getStringSet(PrefKeys.SERVER_IDS, null)
+        ?.lastOrNull()
+        .orDefaultIfEmpty("0")
+        .let { idString -> idString.toInt() + 1 }
+}
+
+fun SharedPreferences.getConfiguredServerIds(): MutableSet<Int> {
+    return getStringSet(PrefKeys.SERVER_IDS, null)
+        ?.map { id -> id.toInt() }
+        ?.toMutableSet()
+        ?: mutableSetOf()
+}
+
 fun SharedPreferences.getLocalUrl(): String {
-    return getStringOrEmpty(PrefKeys.LOCAL_URL)
+    return getStringOrNull(PrefKeys.buildServerKey(getActiveServerId(), PrefKeys.LOCAL_URL_PREFIX)).orEmpty()
 }
 
 fun SharedPreferences.getRemoteUrl(): String {
-    return getStringOrEmpty(PrefKeys.REMOTE_URL)
+    return getStringOrNull(PrefKeys.buildServerKey(getActiveServerId(), PrefKeys.REMOTE_URL_PREFIX)).orEmpty()
 }
 
 fun SharedPreferences.getDefaultSitemap(connection: Connection?): String {
@@ -169,6 +187,10 @@ fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArr
         }
         else -> longArrayOf(0)
     }
+}
+
+fun SharedPreferences.Editor.putConfiguredServerIds(ids: Set<Int>) {
+    putStringSet(PrefKeys.SERVER_IDS, ids.map { id -> id.toString() }.toSet())
 }
 
 fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?, connection: Connection?) {

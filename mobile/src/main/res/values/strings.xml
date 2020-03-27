@@ -90,6 +90,12 @@
     <string name="settings_screen_lock_kiosk_value" translatable="false">kiosk</string>
     <string name="settings_screen_lock_on_value" translatable="false">on</string>
     <string name="settings_show_sitemaps_in_drawer">Show all Sitemaps in side menu</string>
+    <string name="settings_server_name">Server name</string>
+    <string name="settings_add_server">Add server</string>
+    <string name="settings_edit_server">Edit server</string>
+    <string name="settings_menu_save_server">Save</string>
+    <string name="settings_menu_delete_server">Delete</string>
+    <string name="drawer_title_servers">Servers</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>

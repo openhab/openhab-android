@@ -14,6 +14,7 @@
 package org.openhab.habdroid.core.connection
 
 import okhttp3.OkHttpClient
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.HttpClient
 
 import java.net.InetAddress
@@ -48,17 +49,15 @@ abstract class AbstractConnection : Connection {
     internal constructor(
         httpClient: OkHttpClient,
         connectionType: Int,
-        baseUrl: String,
-        username: String?,
-        password: String?
+        path: ServerPath
     ) {
         val httpClientWithSocketFactory = httpClient.newBuilder()
             .socketFactory(socketFactory)
             .build()
 
-        this.username = username
-        this.password = password
-        this.baseUrl = baseUrl
+        this.username = path.userName
+        this.password = path.password
+        this.baseUrl = path.url
         this.connectionType = connectionType
         this.httpClient = HttpClient(httpClientWithSocketFactory, baseUrl, username, password)
     }

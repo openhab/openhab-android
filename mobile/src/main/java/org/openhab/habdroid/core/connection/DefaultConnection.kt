@@ -18,6 +18,7 @@ import android.util.Log
 import kotlinx.coroutines.delay
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.bindToNetworkIfPossible
 import java.io.IOException
 import java.net.InetSocketAddress
@@ -30,10 +31,8 @@ open class DefaultConnection : AbstractConnection {
     internal constructor(
         httpClient: OkHttpClient,
         connectionType: Int,
-        baseUrl: String,
-        username: String?,
-        password: String?
-    ) : super(httpClient, connectionType, baseUrl, username, password)
+        path: ServerPath
+    ) : super(httpClient, connectionType, path)
 
     internal constructor(baseConnection: AbstractConnection, connectionType: Int) :
         super(baseConnection, connectionType)

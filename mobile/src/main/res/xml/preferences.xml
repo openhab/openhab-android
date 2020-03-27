@@ -2,31 +2,21 @@
 <androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="@string/settings_connection_title">
+    <PreferenceCategory
+        android:title="@string/settings_connection_title"
+        android:key="connection">
         <SwitchPreference
             android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="default_openhab_demomode"
             android:summary="@string/settings_openhab_demomode_summary"
-            android:title="@string/settings_openhab_demomode" />
+            android:title="@string/settings_openhab_demomode"
+            android:order="0" />
         <Preference
-            android:key="default_openhab_local_connection"
-            android:persistent="false"
-            android:title="@string/settings_openhab_connection"
+            android:key="add_server"
+            android:title="@string/settings_add_server"
             android:dependency="default_openhab_demomode"
-            android:icon="@drawable/ic_home_outline_grey_24dp" />
-        <Preference
-            android:key="default_openhab_remote_connection"
-            android:persistent="false"
-            android:title="@string/settings_openhab_alt_connection"
-            android:dependency="default_openhab_demomode"
-            android:icon="@drawable/ic_tree_outline_grey_24dp" />
-        <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
-            android:defaultValue="@string/settings_openhab_none"
-            android:key="default_openhab_sslclientcert"
-            android:summary="@string/settings_openhab_none"
-            android:title="@string/settings_openhab_sslclientcert"
-            android:dependency="default_openhab_demomode" />
+            android:order="999" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_sitemap_title">
         <Preference

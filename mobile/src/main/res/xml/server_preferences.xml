@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2010-2020 Contributors to the openHAB project
+  ~
+  ~ See the NOTICE file(s) distributed with this work for additional
+  ~ information.
+  ~
+  ~ This program and the accompanying materials are made available under the
+  ~ terms of the Eclipse Public License 2.0 which is available at
+  ~ http://www.eclipse.org/legal/epl-2.0
+  ~
+  ~ SPDX-License-Identifier: EPL-2.0
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <EditTextPreference
+        android:key="name"
+        android:title="@string/settings_server_name"
+        android:persistent="false"
+        app:useSimpleSummaryProvider="true" />
+    <Preference
+        android:key="local"
+        android:persistent="false"
+        android:title="@string/settings_openhab_connection"
+        android:icon="@drawable/ic_home_outline_grey_24dp" />
+    <Preference
+        android:key="remote"
+        android:persistent="false"
+        android:title="@string/settings_openhab_alt_connection"
+        android:icon="@drawable/ic_tree_outline_grey_24dp" />
+    <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
+        android:defaultValue="@string/settings_openhab_none"
+        android:key="clientcert"
+        android:persistent="false"
+        android:summary="@string/settings_openhab_none"
+        android:title="@string/settings_openhab_sslclientcert" />
+</PreferenceScreen>

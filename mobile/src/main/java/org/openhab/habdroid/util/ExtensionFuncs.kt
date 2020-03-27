@@ -29,6 +29,8 @@ import android.util.Log
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import android.view.Menu
+import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -363,3 +365,9 @@ fun Intent.isResolvable(context: Context): Boolean {
  * Removes trailing `.0` from float
  */
 fun Float.beautify() = if (this == this.toInt().toFloat()) this.toInt().toString() else this.toString()
+
+fun Menu.getGroupItems(groupId: Int): List<MenuItem> {
+    return (0 until size())
+        .map { index -> getItem(index) }
+        .filter { item -> item.groupId == groupId }
+}
