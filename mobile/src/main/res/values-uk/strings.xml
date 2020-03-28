@@ -181,10 +181,7 @@
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
     <string name="item_upload_in_progress">Об\'єкти зараз оновлюються</string>
-    <string name="notification_channel_background">Фонові процеси</string>
-    <string name="notification_channel_background_description">Використовується для відображення очікуючих фонових процесів</string>
     <string name="notification_channel_background_error">Помилка у фонових процесах</string>
-    <string name="notification_channel_background_error_description">Використовуються для сповіщення про помилки у фонових завданнях</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Неможливо оновити %d об\'єкт</item>
         <item quantity="few">Неможливо оновити %d об\'єкти</item>
