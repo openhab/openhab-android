@@ -145,10 +145,7 @@
     <string name="settings_item_pref_item_name">Имя Item</string>
     <string name="waiting_for_item_upload">Ожидание сети для отправки обновленений элемента</string>
     <string name="item_upload_in_progress">Items обновляются...</string>
-    <string name="notification_channel_background">Фоновый</string>
-    <string name="notification_channel_background_description">Используется для отображения ожидающих фоновых задач</string>
     <string name="notification_channel_background_error">Ошибка в фоновых задачах</string>
-    <string name="notification_channel_background_error_description">Используется для уведомления об ошибках в фоновых задачах</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d элемент не может быть обновлен</item>
         <item quantity="few">%d элементы не могут быть обновлены</item>
