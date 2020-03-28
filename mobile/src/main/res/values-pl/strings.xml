@@ -180,10 +180,7 @@
     <string name="settings_item_pref_item_name">Nazwa Item\'u</string>
     <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
     <string name="item_upload_in_progress">Item\'y są obecnie aktualizowane</string>
-    <string name="notification_channel_background">Tło</string>
-    <string name="notification_channel_background_description">Służy do wyświetlania oczekujących zadań w tle</string>
     <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
-    <string name="notification_channel_background_error_description">Służy do powiadamiania o błędach w zadaniach w tle</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Element nie mogły zostać zaktualizowany</item>
         <item quantity="few">%d Elementy nie mogły zostać zaktualizowane</item>
