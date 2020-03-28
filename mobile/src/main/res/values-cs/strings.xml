@@ -181,10 +181,7 @@
     <string name="settings_item_pref_item_name">Jméno Item</string>
     <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
     <string name="item_upload_in_progress">Items se právě aktualizují</string>
-    <string name="notification_channel_background">Pozadí</string>
-    <string name="notification_channel_background_description">Slouží k zobrazení úkolů čekajících na pozadí</string>
     <string name="notification_channel_background_error">Chyba v úkolech na pozadí</string>
-    <string name="notification_channel_background_error_description">Slouží k upozornění na chyby úkolů na pozadí</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item nemohla být aktualizována</item>
         <item quantity="few">%d Items nemohly být aktualizovány</item>
