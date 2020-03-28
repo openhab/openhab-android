@@ -26,8 +26,8 @@ import kotlin.math.roundToInt
 
 @Parcelize
 data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
-    fun toColor(): Int {
-        return Color.HSVToColor(floatArrayOf(hue, saturation, value))
+    fun toColor(includeValue: Boolean = true): Int {
+        return Color.HSVToColor(floatArrayOf(hue, saturation, if (includeValue) value else 100F))
     }
 }
 

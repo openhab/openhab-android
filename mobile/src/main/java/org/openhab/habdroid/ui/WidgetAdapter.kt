@@ -53,11 +53,15 @@ import androidx.media2.common.UriMediaItem
 import androidx.media2.player.MediaPlayer
 import androidx.media2.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.OnColorChangedListener
+import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.larswerkman.holocolorpicker.ColorPicker
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -935,9 +939,13 @@ class WidgetAdapter(
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
-        View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
+        View.OnTouchListener, Handler.Callback, OnColorChangedListener, OnColorSelectedListener,
+        Slider.LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
+        private var boundWidget: Widget? = null
         private var boundItem: Item? = null
         private val handler = Handler(this)
+        private var slider: Slider? = null
+        private var lastUpdate: Job? = null
         override val dialogManager = DialogManager()
 
         init {
@@ -952,6 +960,7 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
+            boundWidget = widget
             boundItem = widget.item
         }
 
@@ -970,40 +979,86 @@ class WidgetAdapter(
             return false
         }
 
-        override fun handleMessage(msg: Message): Boolean {
-            val hsv = FloatArray(3)
-            Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
-            Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
-            val newColorValue = String.format(Locale.US, "%f,%f,%f",
-                hsv[0], hsv[1] * 100, hsv[2] * 100)
-            connection.httpClient.sendItemCommand(boundItem, newColorValue)
-            return true
+        override fun onColorSelected(selectedColor: Int) {
+            Log.d(TAG, "onColorSelected($selectedColor)")
+            handleChange(selectedColor, 0)
         }
 
-        override fun onColorChanged(color: Int) {
+        override fun onColorChanged(selectedColor: Int) {
+            Log.d(TAG, "onColorChanged($selectedColor)")
+            handleChange(selectedColor)
+        }
+
+        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+            if (fromUser) {
+                handleChange()
+            }
+        }
+
+        override fun onStartTrackingTouch(slider: Slider) {
+            // no-op
+        }
+
+        override fun onStopTrackingTouch(slider: Slider) {
+            handleChange(delay = 0)
+        }
+
+        private fun handleChange(newColor: Int = 0, delay: Long = 100) {
+            Log.d(TAG, "handleChange($newColor, $delay)")
+            var brightness = slider?.value?.toInt() ?: 0
+
+            // If the color is changed and the brightness 0
+            if (newColor != 0 && brightness == 0) {
+                brightness = 100
+                slider?.value = 100F
+            }
             handler.removeMessages(0)
-            handler.sendMessageDelayed(handler.obtainMessage(0, color, 0), 100)
+            handler.sendMessageDelayed(handler.obtainMessage(0, newColor, brightness), delay)
+        }
+
+        override fun handleMessage(msg: Message): Boolean {
+            val hsv = FloatArray(3)
+            if (msg.arg1 == 0) {
+                connection.httpClient.sendItemCommand(boundItem, msg.arg2.toString())
+                return true
+            }
+
+            Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
+            hsv[2] = msg.arg2.toFloat()
+            Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
+            val newColorValue = String.format(Locale.US, "%f,%f,%f", hsv[0], hsv[1] * 100, hsv[2])
+            lastUpdate?.cancel()
+            lastUpdate = connection.httpClient.sendItemCommand(boundItem, newColorValue)
+            return true
         }
 
         private fun showColorPickerDialog() {
             val contentView = inflater.inflate(R.layout.color_picker_dialog, null)
-            val picker = contentView.findViewById<ColorPicker>(R.id.picker).apply {
-                addSaturationBar(contentView.findViewById(R.id.saturation_bar))
-                addValueBar(contentView.findViewById(R.id.value_bar))
-                onColorChangedListener = this@ColorViewHolder
-                showOldCenterColor = false
+            contentView.findViewById<ColorPickerView>(R.id.picker).apply {
+                boundItem?.state?.asHsv?.toColor(false)?.let { setColor(it, true) }
+
+                addOnColorChangedListener(this@ColorViewHolder)
+                addOnColorSelectedListener(this@ColorViewHolder)
             }
 
-            val initialColor = boundItem?.state?.asHsv?.toColor()
-            if (initialColor != null) {
-                picker.color = initialColor
+            slider = contentView.findViewById<Slider>(R.id.brightness_slider).apply {
+                boundItem?.state?.asBrightness?.let { value = it.toFloat() }
+
+                addOnChangeListener(this@ColorViewHolder)
+                setLabelFormatter(this@ColorViewHolder)
+                addOnSliderTouchListener(this@ColorViewHolder)
             }
 
             dialogManager.manage(AlertDialog.Builder(contentView.context)
+                .setTitle(boundWidget?.label)
                 .setView(contentView)
                 .setNegativeButton(R.string.close, null)
                 .show()
             )
+        }
+
+        override fun getFormattedValue(value: Float): String {
+            return "${value.toInt()} %"
         }
     }
 
@@ -1208,9 +1263,9 @@ fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
     }
 }
 
-fun HttpClient.sendItemCommand(item: Item?, command: String) {
-    val url = item?.link ?: return
-    GlobalScope.launch {
+fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
+    val url = item?.link ?: return null
+    return GlobalScope.launch {
         try {
             post(url, command, "text/plain;charset=UTF-8").close()
             Log.d(WidgetAdapter.TAG, "Command '$command' was sent successfully to $url")
