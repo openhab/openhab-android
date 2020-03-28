@@ -448,6 +448,10 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
+    override fun onSseFailure() {
+        activity.showSnackbar(R.string.error_sse_failed)
+    }
+
     internal abstract fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean)
 
     private fun updateFragmentState(reason: FragmentUpdateReason) {
