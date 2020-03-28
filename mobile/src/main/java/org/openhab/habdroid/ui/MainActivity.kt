@@ -71,6 +71,7 @@ import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.VoiceService
@@ -208,6 +209,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (prefs.getBoolean(PrefKeys.FIRST_START, true) ||
             prefs.getBoolean(PrefKeys.RECENTLY_RESTORED, false)
         ) {
+            NotificationUpdateObserver.createNotificationChannels(this)
             Log.d(TAG, "Start intro")
             val intent = Intent(this, IntroActivity::class.java)
             startActivity(intent)

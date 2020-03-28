@@ -15,6 +15,7 @@ package org.openhab.habdroid.background
 
 import android.app.Notification
 import android.app.NotificationChannel
+import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -145,6 +146,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         private const val NOTIFICATION_ID_BACKGROUND_WORK = 1000
         private const val CHANNEL_ID_BACKGROUND = "background"
         const val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
+        const val CHANNEL_ID_MESSAGE_DEFAULT = "default"
+        const val CHANNEL_GROUP_MESSAGES = "messages"
+        private const val CHANNEL_GROUP_OTHER = "other"
 
         /**
          * Creates notification channels for background tasks.
@@ -158,23 +162,69 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
             val nm = context.getSystemService(NotificationManager::class.java)!!
 
-            val bgChannel = NotificationChannel(CHANNEL_ID_BACKGROUND,
-                context.getString(R.string.notification_channel_background),
-                NotificationManager.IMPORTANCE_MIN).apply {
-                description = context.getString(R.string.notification_channel_background_description)
-            }
-            nm.createNotificationChannel(bgChannel)
+            // Channel groups
+            nm.createNotificationChannelGroup(
+                    NotificationChannelGroup(
+                    CHANNEL_GROUP_MESSAGES,
+                    context.getString(R.string.notification_channel_group_messages)
+                )
+            )
 
-            val errorChannel = NotificationChannel(CHANNEL_ID_BACKGROUND_ERROR,
-                context.getString(R.string.notification_channel_background_error),
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = context.getString(R.string.notification_channel_background_error_description)
-                lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
+            nm.createNotificationChannelGroup(
+                    NotificationChannelGroup(
+                    CHANNEL_GROUP_OTHER,
+                    context.getString(R.string.notification_channel_group_other)
+                )
+            )
+
+            // Default notification channel
+            with(
+                NotificationChannel(
+                    CHANNEL_ID_MESSAGE_DEFAULT,
+                    context.getString(R.string.notification_channel_messages_default_severity),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+            ) {
+                setShowBadge(true)
                 enableVibration(true)
                 enableLights(true)
+                lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
+                group = CHANNEL_GROUP_MESSAGES
+                description = context.getString(R.string.notification_channel_messages_default_severity_description)
+                nm.createNotificationChannel(this)
             }
-            nm.createNotificationChannel(errorChannel)
+
+            // Background task channels
+            with(
+                NotificationChannel(
+                    CHANNEL_ID_BACKGROUND,
+                    context.getString(R.string.notification_channel_background),
+                    NotificationManager.IMPORTANCE_MIN
+                )
+            ) {
+                setShowBadge(false)
+                enableVibration(false)
+                enableLights(false)
+                group = CHANNEL_GROUP_OTHER
+                description = context.getString(R.string.notification_channel_background_description)
+                nm.createNotificationChannel(this)
+            }
+
+            with(
+                NotificationChannel(
+                    CHANNEL_ID_BACKGROUND_ERROR,
+                    context.getString(R.string.notification_channel_background_error),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+            ) {
+                setShowBadge(true)
+                enableVibration(true)
+                enableLights(true)
+                lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
+                group = CHANNEL_GROUP_OTHER
+                description = context.getString(R.string.notification_channel_background_error_description)
+                nm.createNotificationChannel(this)
+            }
         }
 
         private fun createProgressNotification(context: Context, @StringRes messageResId: Int): Notification {
