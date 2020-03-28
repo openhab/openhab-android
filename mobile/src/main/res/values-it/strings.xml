@@ -187,7 +187,10 @@
     <string name="settings_item_pref_item_name">Nome Item</string>
     <string name="waiting_for_item_upload">In attesa della rete per inviare aggiornamenti degli Item</string>
     <string name="item_upload_in_progress">Item in corso di aggiornamento</string>
+    <string name="notification_channel_background">Attività in background</string>
+    <string name="notification_channel_background_description">Utilizzato per notificare attività in sospeso in background, ad esempio in attesa della rete per l’invio del livello della batteria</string>
     <string name="notification_channel_background_error">Errore nei task in background</string>
+    <string name="notification_channel_background_error_description">Utilizzato per notificare errori nelle attività in background, ad esempio non hai una rete per inviare il livello della batteria</string>
     <plurals name="item_update_error_title">
         <item quantity="one">L’item %d non può essere aggiornato</item>
         <item quantity="other">Gli item %d non possono essere aggiornati</item>
@@ -391,4 +394,14 @@
     <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <string name="data_saver_title">Risparmio dati</string>
+    <string name="data_saver_on">Riduci utilizzo dati</string>
+    <string name="data_saver_off">Rispetto impostazione dispositivo</string>
+    <string name="data_saver_load">Carica comunque</string>
+    <string name="data_saver_hint">%s non è stato caricato per risparmiare dati</string>
+    <string name="widget_type_image">Immagine</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Mappa</string>
+    <string name="widget_type_chart">Grafico</string>
 </resources>
