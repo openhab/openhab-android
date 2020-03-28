@@ -145,10 +145,7 @@
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
     <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
-    <string name="notification_channel_background">Hannergrond</string>
-    <string name="notification_channel_background_description">Gëtt gebraucht fir onerleedegt Hannergrond Prozesser unzeweisen</string>
     <string name="notification_channel_background_error">Feeler an den Hannergrond Prozesser</string>
-    <string name="notification_channel_background_error_description">Gëtt gebraucht fir d\'Notifikatiounen zu Feeler an den Hannergrond Prozesser</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
