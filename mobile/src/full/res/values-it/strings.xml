@@ -7,7 +7,6 @@
     <string name="info_openhab_gcm_failed">Registrazione notifica push fallita</string>
     <string name="info_openhab_gcm_failed_play_services">Registrazione notifica push non riuscita a causa di un problema di Google Play Service: %s</string>
     <string name="info_openhab_gcm_connected">Dispositivo registrato con successo con Firebase Cloud Messaging</string>
-    <string name="notification_channel_default">Predefinito</string>
     <string name="notification_channel_severity_value">Gravità \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nuova notifica</item>
