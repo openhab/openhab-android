@@ -181,10 +181,7 @@
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
     <string name="item_upload_in_progress">הפריטים מתעדכנים כעת</string>
-    <string name="notification_channel_background">רקע</string>
-    <string name="notification_channel_background_description">משמש להצגת המשימות הממתינות ברקע</string>
     <string name="notification_channel_background_error">שגיאה במשימות ברקע</string>
-    <string name="notification_channel_background_error_description">משמש כדי להודיע על שגיאות במשימות שברקע</string>
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
         <item quantity="two">ל %d פריטים לא היתה אפשרות להתעדכן</item>
