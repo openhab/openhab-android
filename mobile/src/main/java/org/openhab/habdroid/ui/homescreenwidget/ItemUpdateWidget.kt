@@ -165,7 +165,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         appWidgetId: Int,
         appWidgetManager: AppWidgetManager
     ) = GlobalScope.launch {
-        val iconUrl = data.icon?.withCustomState(data.state)?.toUrl(context)
+        val iconUrl = data.icon?.withCustomState(data.state)?.toUrl(context, true)
 
         if (iconUrl != null) {
             val cm = CacheManager.getInstance(context)

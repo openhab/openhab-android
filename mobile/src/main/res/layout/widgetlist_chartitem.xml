@@ -10,7 +10,7 @@
     android:paddingEnd="@dimen/widgetlist_item_side_margin">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
-        android:id="@+id/chart"
+        android:id="@+id/widget_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -18,5 +18,7 @@
         android:layout_margin="4dip"
         app:emptyHeightToWidthRatio="50%"
         app:progressIndicator="@drawable/ic_image_loading_themed" />
+
+    <include layout="@layout/widgetlist_data_saver" />
 
 </FrameLayout>

@@ -101,6 +101,7 @@ import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.isScreenTimerDisabled
@@ -741,13 +742,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun loadSitemapIcon(sitemap: Sitemap, item: MenuItem) {
         val defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp)
         item.icon = applyDrawerIconTint(defaultIcon)
+        val conn = connection
 
-        if (sitemap.icon == null || connection == null) {
+        if (sitemap.icon == null || conn == null) {
             return
         }
         launch {
             try {
-                item.icon = connection!!.httpClient.get(sitemap.icon.toUrl(this@MainActivity))
+                item.icon = conn.httpClient.get(sitemap.icon.toUrl(this@MainActivity, !isDataSaverActive()))
                     .asBitmap(defaultIcon!!.intrinsicWidth, true)
                     .response
                     .toDrawable(resources)

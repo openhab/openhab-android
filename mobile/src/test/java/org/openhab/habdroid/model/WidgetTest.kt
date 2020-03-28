@@ -51,17 +51,26 @@ class WidgetTest {
 
     @Test
     fun getIconPath_iconExists_returnIconUrlFromImages() {
-        assertEquals("images/groupicon.png", sutXml[0].icon?.toUrl(IconFormat.Png))
+        assertEquals("images/groupicon.png", sutXml[0].icon?.toUrl(false, IconFormat.Png))
+        assertEquals("images/groupicon.png", sutXml[0].icon?.toUrl(true, IconFormat.Png))
     }
 
     @Test
     fun testGetIconPath() {
-        assertEquals("icon/groupicon?format=PNG&anyFormat=true&state=OFF", sut1[0].icon?.toUrl(IconFormat.Png))
-        assertEquals("icon/groupicon?format=SVG&anyFormat=true&state=ON", sut2[0].icon?.toUrl(IconFormat.Svg))
-        assertEquals("icon/slider?format=SVG&anyFormat=true&state=81", sut3[1].icon?.toUrl(IconFormat.Svg))
+        assertEquals("icon/groupicon?format=PNG&anyFormat=true&state=OFF",
+            sut1[0].icon?.toUrl(true, IconFormat.Png))
+        assertEquals("icon/groupicon?format=SVG&anyFormat=true&state=ON",
+            sut2[0].icon?.toUrl(true, IconFormat.Svg))
+        assertEquals("icon/slider?format=SVG&anyFormat=true&state=81",
+            sut3[1].icon?.toUrl(true, IconFormat.Svg))
         assertEquals("Rollersutter icon must always be 0 to 100, not ON/OFF",
-                "icon/rollershutter?format=SVG&anyFormat=true&state=0", sut3[2].icon?.toUrl(IconFormat.Svg))
-        assertEquals("icon/rollershutter?format=SVG&anyFormat=true&state=42", sut3[3].icon?.toUrl(IconFormat.Svg))
+            "icon/rollershutter?format=SVG&anyFormat=true&state=0",
+            sut3[2].icon?.toUrl(true, IconFormat.Svg))
+        assertEquals("icon/rollershutter?format=SVG&anyFormat=true&state=42",
+            sut3[3].icon?.toUrl(true, IconFormat.Svg))
+        assertEquals("If data saver is active, icon paths must not contain a state",
+            "icon/rollershutter?format=SVG&anyFormat=true",
+            sut3[3].icon?.toUrl(false, IconFormat.Svg))
     }
 
     @Test

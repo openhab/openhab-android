@@ -47,7 +47,7 @@ class AutoHeightVideoView constructor(context: Context, attrs: AttributeSet) : V
     }
 
     override fun setPlayer(player: SessionPlayer) {
-        currentPlayer?.let { p -> p.unregisterPlayerCallback(playerCallback) }
+        currentPlayer?.unregisterPlayerCallback(playerCallback)
         super.setPlayer(player)
         player.registerPlayerCallback(executor, playerCallback)
     }

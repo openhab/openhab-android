@@ -36,6 +36,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDataSaverActive
 
 class FcmMessageListenerService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
@@ -125,10 +126,10 @@ class FcmMessageListenerService : FirebaseMessagingService() {
 
         if (icon != null) {
             val connection = ConnectionFactory.cloudConnectionOrNull
-            if (connection != null) {
+            if (connection != null && !applicationContext.isDataSaverActive()) {
                 try {
                     iconBitmap = connection.httpClient
-                            .get(icon.toUrl(this), timeoutMillis = 1000)
+                            .get(icon.toUrl(this, true), timeoutMillis = 1000)
                             .asBitmap(resources.getDimensionPixelSize(R.dimen.svg_image_default_size), false)
                             .response
                 } catch (e: HttpClient.HttpException) {

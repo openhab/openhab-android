@@ -34,12 +34,14 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.NumberPicker
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -70,9 +72,12 @@ import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.WidgetImageView
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDataSaverActive
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
@@ -169,7 +174,7 @@ class WidgetAdapter(
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, colorMapper)
             TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection)
-            TYPE_VIDEO -> VideoViewHolder(inflater, parent)
+            TYPE_VIDEO -> VideoViewHolder(inflater, parent, connection)
             TYPE_WEB -> WebViewHolder(inflater, parent, connection)
             TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(inflater, parent, connection)
@@ -324,6 +329,75 @@ class WidgetAdapter(
             }
             iconView.loadWidgetIcon(connection, widget, colorMapper)
         }
+    }
+
+    abstract class HeavyDataViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        @LayoutRes layoutResId: Int,
+        protected val connection: Connection
+    ) : ViewHolder(inflater, parent, layoutResId) {
+        private var boundWidget: Widget? = null
+        protected val widgetContentView: View = itemView.findViewById(R.id.widget_content)
+        private val dataSaverView: View = itemView.findViewById(R.id.data_saver)
+        private val dataSaverButton: Button = itemView.findViewById(R.id.data_saver_button)
+        private val dataSaverHint: TextView = itemView.findViewById(R.id.data_saver_hint)
+
+        override fun bind(widget: Widget) {
+            boundWidget = widget
+
+            val overrideDataSaver = when {
+                // We do only cache images. Maps may be also cached, but we cannot check their cache.
+                widget.type != Widget.Type.Image -> false
+                // If image is cached, display it.
+                widget.url != null -> CacheManager.getInstance(itemView.context)
+                    .isBitmapCached(connection.httpClient.buildUrl(widget.url))
+                // The image item is either undefined or the image is included as state and already loaded.
+                else -> true
+            }
+
+            handleDataSaver(overrideDataSaver)
+        }
+
+        private fun handleDataSaver(overrideDataSaver: Boolean) {
+            val widget = boundWidget ?: return
+            val dataSaverActive = itemView.context.isDataSaverActive() && !overrideDataSaver
+
+            dataSaverView.isVisible = dataSaverActive
+            widgetContentView.isVisible = !dataSaverView.isVisible
+
+            if (dataSaverActive) {
+                dataSaverButton.setOnClickListener {
+                    loadWidget(widget)
+                    handleDataSaver(true)
+                }
+
+                @StringRes val typeResId = when (widget.type) {
+                    Widget.Type.Image -> R.string.widget_type_image
+                    Widget.Type.Webview -> R.string.widget_type_webview
+                    Widget.Type.Video -> R.string.widget_type_video
+                    Widget.Type.Chart -> R.string.widget_type_chart
+                    else -> 0
+                }
+
+                dataSaverHint.text = itemView.context.getString(R.string.data_saver_hint,
+                    widget.label.orDefaultIfEmpty(itemView.context.getString(typeResId)))
+            } else {
+                dataSaverButton.setOnClickListener(null)
+                loadWidget(widget)
+            }
+        }
+
+        fun handleDataSaverChange(turnedOn: Boolean) {
+            if (turnedOn && (this is ImageViewHolder || this is ChartViewHolder)) {
+                // For Images and Charts continue showing the old data, but stop the auto refresh
+                stop()
+            } else {
+                bind(boundWidget ?: return)
+            }
+        }
+
+        abstract fun loadWidget(widget: Widget)
     }
 
     class GenericViewHolder internal constructor(
@@ -514,12 +588,12 @@ class WidgetAdapter(
     class ImageViewHolder internal constructor(
         inflater: LayoutInflater,
         private val parent: ViewGroup,
-        private val connection: Connection
-    ) : ViewHolder(inflater, parent, R.layout.widgetlist_imageitem) {
-        private val imageView: WidgetImageView = itemView.findViewById(R.id.image)
+        connection: Connection
+    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection) {
+        private val imageView = widgetContentView as WidgetImageView
         private var refreshRate: Int = 0
 
-        override fun bind(widget: Widget) {
+        override fun loadWidget(widget: Widget) {
             val value = widget.state?.asString
 
             // Make sure images fit into the content frame by scaling
@@ -547,7 +621,7 @@ class WidgetAdapter(
         }
 
         override fun start() {
-            if (refreshRate > 0) {
+            if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
                 imageView.startRefreshing(refreshRate)
             } else {
                 imageView.cancelRefresh()
@@ -803,9 +877,9 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         private val parent: ViewGroup,
         private val chartTheme: CharSequence?,
-        private val connection: Connection
-    ) : ViewHolder(inflater, parent, R.layout.widgetlist_chartitem), View.OnClickListener {
-        private val chart: WidgetImageView = itemView.findViewById(R.id.chart)
+        connection: Connection
+    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_chartitem, connection), View.OnClickListener {
+        private val chart = widgetContentView as WidgetImageView
         private val random = Random()
         private val prefs: SharedPreferences
         private var refreshRate = 0
@@ -822,7 +896,7 @@ class WidgetAdapter(
             chart.setOnClickListener(this)
         }
 
-        override fun bind(widget: Widget) {
+        override fun loadWidget(widget: Widget) {
             val item = widget.item
             if (item == null) {
                 Log.e(TAG, "Chart item is null")
@@ -841,7 +915,7 @@ class WidgetAdapter(
         }
 
         override fun start() {
-            if (refreshRate > 0) {
+            if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
                 chart.startRefreshing(refreshRate)
             } else {
                 chart.cancelRefresh()
@@ -860,16 +934,16 @@ class WidgetAdapter(
         }
     }
 
-    class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup) :
-        ViewHolder(inflater, parent, R.layout.widgetlist_videoitem) {
-        private val videoView: VideoView = itemView.findViewById(R.id.video)
+    class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup, connection: Connection) :
+        HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videoitem, connection) {
+        private val videoView = widgetContentView as VideoView
         private val mediaPlayer = MediaPlayer(parent.context)
 
         init {
             videoView.setPlayer(mediaPlayer)
         }
 
-        override fun bind(widget: Widget) {
+        override fun loadWidget(widget: Widget) {
             val mediaItem = determineVideoUrlForWidget(widget)?.let { url ->
                 val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
                 UriMediaItem.Builder(url.toUri())
@@ -912,12 +986,12 @@ class WidgetAdapter(
     class WebViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        private val connection: Connection
-    ) : ViewHolder(inflater, parent, R.layout.widgetlist_webitem) {
-        private val webView: WebView = itemView.findViewById(R.id.webview)
+        connection: Connection
+    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_webitem, connection) {
+        private val webView = widgetContentView as WebView
 
         @SuppressLint("SetJavaScriptEnabled")
-        override fun bind(widget: Widget) {
+        override fun loadWidget(widget: Widget) {
             val url = connection.httpClient.buildUrl(widget.url!!)
             with(webView) {
                 adjustForWidgetHeight(widget, 0)
@@ -1010,12 +1084,12 @@ class WidgetAdapter(
     class MjpegVideoViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        private val connection: Connection
-    ) : ViewHolder(inflater, parent, R.layout.widgetlist_videomjpegitem) {
-        private val imageView: ImageView = itemView.findViewById(R.id.mjpeg_image)
+        connection: Connection
+    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videomjpegitem, connection) {
+        private val imageView = widgetContentView as ImageView
         private var streamer: MjpegStreamer? = null
 
-        override fun bind(widget: Widget) {
+        override fun loadWidget(widget: Widget) {
             streamer = if (widget.url != null) MjpegStreamer(imageView, connection, widget.url) else null
         }
 
@@ -1031,15 +1105,55 @@ class WidgetAdapter(
     abstract class AbstractMapViewHolder(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        connection: Connection,
+        protected val connection: Connection,
         colorMapper: ColorMapper
     ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
         R.layout.widgetlist_mapitem, connection, colorMapper) {
+        private var boundWidget: Widget? = null
         protected var boundItem: Item? = null
             private set
         private val hasPositions
             get() = boundItem?.state?.asLocation != null || boundItem?.members?.isNotEmpty() == true
+
+        protected val baseMapView: View = itemView.findViewById(R.id.mapview)
         private val emptyView: LinearLayout = itemView.findViewById(android.R.id.empty)
+        private val dataSaverView: View = itemView.findViewById(R.id.data_saver)
+        private val dataSaverButton: Button = itemView.findViewById(R.id.data_saver_button)
+        private val dataSaverHint: TextView = itemView.findViewById(R.id.data_saver_hint)
+
+        override fun bind(widget: Widget) {
+            super.bind(widget)
+            boundWidget = widget
+            boundItem = widget.item
+            baseMapView.adjustForWidgetHeight(widget, 5)
+            handleDataSaver(false)
+        }
+
+        private fun handleDataSaver(overrideDataSaver: Boolean) {
+            val widget = boundWidget ?: return
+            val dataSaverActive = itemView.context.isDataSaverActive() && !overrideDataSaver
+
+            dataSaverView.isVisible = dataSaverActive && hasPositions
+            baseMapView.isVisible = !dataSaverView.isVisible && hasPositions
+            emptyView.isVisible = !dataSaverView.isVisible && !hasPositions
+
+            if (dataSaverActive) {
+                dataSaverButton.setOnClickListener {
+                    loadWidget(widget)
+                    handleDataSaver(true)
+                }
+
+                dataSaverHint.text = itemView.context.getString(R.string.data_saver_hint,
+                    widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_mapview)))
+            } else {
+                dataSaverButton.setOnClickListener(null)
+                loadWidget(widget)
+            }
+        }
+
+        fun handleDataSaverChange() {
+            bind(boundWidget ?: return)
+        }
 
         override fun handleRowClick() {
             if (hasPositions) {
@@ -1047,17 +1161,8 @@ class WidgetAdapter(
             }
         }
 
-        override fun bind(widget: Widget) {
-            super.bind(widget)
-            boundItem = widget.item
-        }
-
+        protected abstract fun loadWidget(widget: Widget)
         protected abstract fun openPopup()
-
-        protected fun updateUiState(mapView: View) {
-            mapView.isVisible = hasPositions
-            emptyView.isVisible = !mapView.isVisible
-        }
     }
 
     class WidgetItemDecoration(context: Context) : DividerItemDecoration(context) {
@@ -1184,7 +1289,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
     setImageUrl(
         connection,
-        widget.icon.toUrl(context),
+        widget.icon.toUrl(context, !context.isDataSaverActive()),
         resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
     )
     val color = mapper.mapColor(widget.iconColor)

@@ -39,4 +39,6 @@
 
     <include layout="@layout/widgetlist_mapitem_no_position" />
 
+    <include layout="@layout/widgetlist_data_saver" />
+
 </LinearLayout>

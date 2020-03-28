@@ -16,12 +16,15 @@ package org.openhab.habdroid.ui
 import android.app.AlertDialog
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
@@ -34,6 +37,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -82,6 +86,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private var highlightedPageLink: String? = null
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(requireContext(), false)
+    }
+    private val dataSaverChangeListener: BroadcastReceiver? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        DataSaverStateChangeReceiver()
+    } else {
+        null
     }
 
     val displayPageUrl get() = arguments?.getString("displayPageUrl").orEmpty()
@@ -147,6 +156,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val activity = activity as MainActivity
         activity.triggerPageUpdate(displayPageUrl, false)
         startOrStopVisibleViewHolders(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context?.registerReceiver(
+                dataSaverChangeListener,
+                IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
+            )
+        }
     }
 
     override fun onPause() {
@@ -154,6 +169,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         Log.d(TAG, "onPause() $displayPageUrl")
         lastContextMenu?.close()
         startOrStopVisibleViewHolders(false)
+        dataSaverChangeListener?.let { it -> context?.unregisterReceiver(it) }
     }
 
     override fun onItemClicked(widget: Widget): Boolean {
@@ -448,7 +464,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val iconBitmap = if (linkedPage.icon != null) {
             try {
                 connection.httpClient
-                    .get(linkedPage.icon.toUrl(context))
+                    .get(linkedPage.icon.toUrl(context, true))
                     .asBitmap(foregroundSize, true)
                     .response
             } catch (e: HttpClient.HttpException) {
@@ -523,6 +539,29 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 "title" to pageTitle
             )
             return fragment
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    inner class DataSaverStateChangeReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent?.action != ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED) {
+                return
+            }
+
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val turnedOn = cm.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
+
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+            for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
+                val holder = recyclerView.findViewHolderForAdapterPosition(i)
+                if (holder is WidgetAdapter.HeavyDataViewHolder) {
+                    holder.handleDataSaverChange(turnedOn)
+                } else if (holder is WidgetAdapter.AbstractMapViewHolder) {
+                    holder.handleDataSaverChange()
+                }
+            }
         }
     }
 }

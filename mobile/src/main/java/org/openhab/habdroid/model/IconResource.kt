@@ -33,12 +33,12 @@ class IconResource internal constructor(
     internal val isOh2: Boolean,
     internal val customState: String?
 ) : Parcelable {
-    fun toUrl(context: Context): String {
-        return toUrl(context.getPrefs().getIconFormat())
+    fun toUrl(context: Context, includeState: Boolean): String {
+        return toUrl(includeState, context.getPrefs().getIconFormat())
     }
 
     @VisibleForTesting
-    fun toUrl(iconFormat: IconFormat): String {
+    fun toUrl(includeState: Boolean, iconFormat: IconFormat): String {
         if (!isOh2) {
             return "images/$icon.png"
         }
@@ -54,7 +54,7 @@ class IconResource internal constructor(
             .appendQueryParameter("format", suffix)
             .appendQueryParameter("anyFormat", true)
 
-        if (!customState.isNullOrEmpty()) {
+        if (!customState.isNullOrEmpty() && includeState) {
             builder.appendQueryParameter("state", customState)
         }
 
