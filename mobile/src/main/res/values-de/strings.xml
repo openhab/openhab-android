@@ -181,6 +181,7 @@
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
+    <string name="notification_channel_background">Hintergrundaufgaben</string>
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
