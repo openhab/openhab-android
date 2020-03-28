@@ -149,11 +149,13 @@
     <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
     <string name="error_no_speech_to_text_app_found">Nessuna app di riconoscimento vocale trovata</string>
+    <string name="error_sse_failed">Sottoscrizione all\'evento fallita, potrebbe essere pregiudicato l\'aggiornamento del widget</string>
     <string name="install">Installa</string>
     <string name="title_activity_openhabwritetag">Scrittura tag NFC</string>
     <string name="title_activity_libraries">Librerie usate</string>
     <string name="info_write_tag">Tocca il tag e tienilo premuto fino alla comparsa del messaggio di conferma</string>
     <string name="info_write_tag_progress">Salvando sul tag</string>
+    <string name="info_write_tag_finished">Tag scritto con successo</string>
     <string name="info_write_failed">Errore in scrittura sul tag</string>
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
     <string name="info_write_tag_disabled">NFC è disabilitato</string>
@@ -191,6 +193,10 @@
     <string name="notification_channel_background_description">Utilizzato per notificare attività in sospeso in background, ad esempio in attesa della rete per l’invio del livello della batteria</string>
     <string name="notification_channel_background_error">Errore nei task in background</string>
     <string name="notification_channel_background_error_description">Utilizzato per notificare errori nelle attività in background, ad esempio non hai una rete per inviare il livello della batteria</string>
+    <string name="notification_channel_messages_default_severity">Predefinito</string>
+    <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
+    <string name="notification_channel_group_messages">Messaggi</string>
+    <string name="notification_channel_group_other">Altro</string>
     <plurals name="item_update_error_title">
         <item quantity="one">L’item %d non può essere aggiornato</item>
         <item quantity="other">Gli item %d non possono essere aggiornati</item>
