@@ -188,10 +188,7 @@
     <string name="settings_item_pref_item_name">Nome do item</string>
     <string name="waiting_for_item_upload">Aguardando a rede enviar atualizações de Item</string>
     <string name="item_upload_in_progress">Itens estão sendo atualizados</string>
-    <string name="notification_channel_background">Fundo</string>
-    <string name="notification_channel_background_description">Usado para exibir as tarefas pendentes em segundo plano</string>
     <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
-    <string name="notification_channel_background_error_description">Usado para notificar sobre erros de tarefas em segundo plano</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item não pôde ser atualizado</item>
         <item quantity="other">%d Items não puderam ser atualizados</item>
