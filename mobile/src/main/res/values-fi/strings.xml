@@ -188,10 +188,7 @@
     <string name="settings_item_pref_item_name">Itemin nimi</string>
     <string name="waiting_for_item_upload">Itemien päivitykset odottaa verkkoa</string>
     <string name="item_upload_in_progress">Itemien päivitys meneillään</string>
-    <string name="notification_channel_background">Tausta</string>
-    <string name="notification_channel_background_description">Jonossa olevien taustatehtävien näyttämiseen</string>
     <string name="notification_channel_background_error">Virhe taustatehtävissä</string>
-    <string name="notification_channel_background_error_description">Taustatehtävien virheiden ilmoituksille</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
         <item quantity="other">Itemeitä %d ei voitu päivittää</item>
