@@ -4,7 +4,6 @@
     <string name="info_openhab_gcm_unsupported">Niet beschikbaar, externe server is geen openHAB cloud instance</string>
     <string name="info_openhab_gcm_in_progress">Apparaat-registratie is bezig</string>
     <string name="info_openhab_gcm_connected">Apparaat succesvol geregistreerd met Firebase Cloud Messaging</string>
-    <string name="notification_channel_default">Standaard</string>
     <string name="notification_channel_severity_value">Ernst \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nieuwe notificatie</item>
