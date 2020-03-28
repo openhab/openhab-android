@@ -173,6 +173,12 @@
             android:title="@string/settings_notification_ringtone_vibration"
             android:icon="@drawable/ic_bell_outline_grey_24dp" />
         <SwitchPreference
+            android:key="data_saver"
+            android:defaultValue="false"
+            android:title="@string/data_saver_title"
+            android:summaryOn="@string/data_saver_on"
+            android:summaryOff="@string/data_saver_off" />
+        <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"
             android:title="@string/settings_debug_messages_title" />

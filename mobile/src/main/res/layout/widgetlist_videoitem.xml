@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.openhab.habdroid.ui.widget.AutoHeightVideoView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/video"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dip"
-    android:paddingStart="@dimen/widgetlist_item_side_margin"
-    android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+    android:layout_width="match_parent">
+
+    <org.openhab.habdroid.ui.widget.AutoHeightVideoView
+        android:id="@+id/widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dip"
+        android:paddingStart="@dimen/widgetlist_item_side_margin"
+        android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+
+    <include layout="@layout/widgetlist_data_saver" />
+
+</FrameLayout>

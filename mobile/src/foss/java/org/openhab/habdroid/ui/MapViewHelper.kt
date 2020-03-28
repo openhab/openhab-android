@@ -60,11 +60,11 @@ object MapViewHelper {
     private class OsmViewHolder(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        private val connection: Connection,
+        connection: Connection,
         colorMapper: WidgetAdapter.ColorMapper
     ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper),
         Marker.OnMarkerDragListener {
-        private val mapView: MapView = itemView.findViewById(R.id.mapview)
+        private val mapView = baseMapView as MapView
         private val handler: Handler = Handler()
         private var started: Boolean = false
         override val dialogManager = WidgetAdapter.DialogManager()
@@ -90,11 +90,7 @@ object MapViewHelper {
             }
         }
 
-        override fun bind(widget: Widget) {
-            super.bind(widget)
-
-            mapView.adjustForWidgetHeight(widget, 5)
-            updateUiState(mapView)
+        override fun loadWidget(widget: Widget) {
             handler.post {
                 mapView.applyPositionAndLabel(boundItem, labelView.text, 15.0f,
                     allowDrag = false, allowScroll = false, markerDragListener = this)

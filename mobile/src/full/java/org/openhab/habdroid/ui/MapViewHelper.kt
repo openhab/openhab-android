@@ -47,11 +47,11 @@ object MapViewHelper {
     private class GoogleMapsViewHolder(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        private val connection: Connection,
+        connection: Connection,
         colorMapper: WidgetAdapter.ColorMapper
     ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper),
         GoogleMap.OnMarkerDragListener {
-        private val mapView: MapView = itemView.findViewById(R.id.mapview)
+        private val mapView = baseMapView as MapView
         private var map: GoogleMap? = null
         private var started: Boolean = false
         override val dialogManager = WidgetAdapter.DialogManager()
@@ -69,16 +69,11 @@ object MapViewHelper {
                     true
                 }
                 map.setOnMapClickListener { openPopup() }
-                map.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
             }
         }
 
-        override fun bind(widget: Widget) {
+        override fun loadWidget(widget: Widget) {
             super.bind(widget)
-
-            mapView.adjustForWidgetHeight(widget, 5)
-
-            updateUiState(mapView)
             map?.clear()
             map?.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
         }

@@ -58,7 +58,8 @@ class SitemapTest {
     @Test
     fun testGetIcon() {
         assertNull(demoSitemapWithLabel.icon)
-        assertEquals("icon/home?format=SVG&anyFormat=true", homeSitemapWithoutLabel.icon?.toUrl(IconFormat.Svg))
+        assertEquals("icon/home?format=SVG&anyFormat=true", homeSitemapWithoutLabel.icon?.toUrl(false, IconFormat.Svg))
+        assertEquals("icon/home?format=SVG&anyFormat=true", homeSitemapWithoutLabel.icon?.toUrl(true, IconFormat.Svg))
     }
 
     @Test

@@ -53,6 +53,10 @@ class CacheManager private constructor(appContext: Context) {
         bitmapCache.put(url, bitmap)
     }
 
+    fun isBitmapCached(url: HttpUrl): Boolean {
+        return getCachedBitmap(url) != null
+    }
+
     fun saveWidgetIcon(widgetId: Int, iconData: InputStream, format: IconFormat) {
         FileOutputStream(getWidgetIconFile(widgetId, format)).use {
             iconData.copyTo(it)

@@ -27,6 +27,9 @@ interface Connection {
      */
     val username: String?
 
+    /**
+     * @return The password used for this connection.
+     */
     val password: String?
 
     /**

@@ -24,6 +24,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.widget.WidgetImageView
+import org.openhab.habdroid.util.isDataSaverActive
 import java.util.ArrayList
 import java.util.Comparator
 import java.util.Locale
@@ -121,7 +122,12 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
                 val size = iconView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
-                iconView.setImageUrl(connection, icon.toUrl(itemView.context), size, 2000)
+                iconView.setImageUrl(
+                    connection,
+                    icon.toUrl(itemView.context, !itemView.context.isDataSaverActive()),
+                    size,
+                    2000
+                )
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
             }
