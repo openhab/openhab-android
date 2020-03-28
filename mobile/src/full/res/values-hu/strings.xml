@@ -7,7 +7,6 @@
     <string name="info_openhab_gcm_failed">Azonnali üzenetküldésre regisztráció sikertelen</string>
     <string name="info_openhab_gcm_failed_play_services">Sikertelen regisztráció a Google Play azonnali üzenetküldő szolgáltatáshoz, hiba:%s</string>
     <string name="info_openhab_gcm_connected">Eszköz sikeresen regisztrált a \"Firebase Cloud Messaging\"-be</string>
-    <string name="notification_channel_default">Alapértelmezett</string>
     <string name="notification_channel_severity_value">Súlyossága \"%1$s\"</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d új értesítés</item>
