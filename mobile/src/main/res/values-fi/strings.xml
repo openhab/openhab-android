@@ -188,7 +188,10 @@
     <string name="settings_item_pref_item_name">Itemin nimi</string>
     <string name="waiting_for_item_upload">Itemien päivitykset odottaa verkkoa</string>
     <string name="item_upload_in_progress">Itemien päivitys meneillään</string>
+    <string name="notification_channel_background">Taustatehtävät</string>
+    <string name="notification_channel_background_description">Ilmoitukset jonossa olevista taustatehtävistä, esim. odotetaan verkkoa akun tason ilmoitukseen</string>
     <string name="notification_channel_background_error">Virhe taustatehtävissä</string>
+    <string name="notification_channel_background_error_description">Ilmoitukset taustatehtävien virheistä, esim. ei verkkoa akun tason ilmoitukseen</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
         <item quantity="other">Itemeitä %d ei voitu päivittää</item>
@@ -392,4 +395,14 @@
     <string name="item_update_widget_auto_generate_widget_label">Luo automaattisesti widgetin nimi</string>
     <string name="item_update_widget_widget_label">Widgetin nimi</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <string name="data_saver_title">Datan säästäjä</string>
+    <string name="data_saver_on">Vähennä datan käyttöä</string>
+    <string name="data_saver_off">Laitteen asetukset ensisijaisia</string>
+    <string name="data_saver_load">Lataa silti</string>
+    <string name="data_saver_hint">%s ei ladattu datan säästön vuoksi</string>
+    <string name="widget_type_image">Kuva</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Kartta</string>
+    <string name="widget_type_chart">Kuvaaja</string>
 </resources>
