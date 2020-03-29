@@ -87,10 +87,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(requireContext(), false)
     }
-    private val dataSaverChangeListener: BroadcastReceiver? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    private val dataSaverChangeListener by lazy {
         DataSaverStateChangeReceiver()
-    } else {
-        null
     }
 
     val displayPageUrl get() = arguments?.getString("displayPageUrl").orEmpty()
@@ -156,12 +154,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val activity = activity as MainActivity
         activity.triggerPageUpdate(displayPageUrl, false)
         startOrStopVisibleViewHolders(true)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context?.registerReceiver(
-                dataSaverChangeListener,
-                IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
-            )
-        }
+        dataSaverChangeListener.register()
     }
 
     override fun onPause() {
@@ -169,7 +162,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         Log.d(TAG, "onPause() $displayPageUrl")
         lastContextMenu?.close()
         startOrStopVisibleViewHolders(false)
-        dataSaverChangeListener?.let { it -> context?.unregisterReceiver(it) }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() $displayPageUrl")
+        dataSaverChangeListener.unregister()
     }
 
     override fun onItemClicked(widget: Widget): Boolean {
@@ -542,8 +540,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     inner class DataSaverStateChangeReceiver : BroadcastReceiver() {
+        @RequiresApi(Build.VERSION_CODES.N)
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent?.action != ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED) {
                 return
@@ -562,6 +560,23 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     holder.handleDataSaverChange()
                 }
             }
+        }
+
+        fun register() {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                return
+            }
+            context?.registerReceiver(
+                this,
+                IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
+            )
+        }
+
+        fun unregister() {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                return
+            }
+            context?.unregisterReceiver(this)
         }
     }
 }
