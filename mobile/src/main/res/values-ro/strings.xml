@@ -137,7 +137,6 @@
     <string name="settings_phone_state_summary_on">Trimiteți starea de apel la item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Nu trimite starea de apel pe server</string>
     <string name="settings_phone_state_permission_denied">Trimiterea stării de apel a fost dezactivată din cauza permisiunilor care lipsesc</string>
-    <string name="settings_phone_state_permission_allow">Permite</string>
     <string name="settings_item_pref_item_name">Nume Item</string>
     <string name="waiting_for_item_upload">Se așteaptă ca rețeaua să actualizeze starea unui Item</string>
     <string name="item_upload_in_progress">În prezent, Items sunt actualizate</string>
