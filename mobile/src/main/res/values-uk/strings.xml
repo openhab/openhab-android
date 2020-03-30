@@ -177,7 +177,6 @@
     <string name="settings_phone_state_summary_on">Відправити стан дзвінка в об’єкт \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Не відправляти стан дзвінка на сервер</string>
     <string name="settings_phone_state_permission_denied">Відправка стану дзвінка відключена через брак дозволів</string>
-    <string name="settings_phone_state_permission_allow">Дозволити</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
     <string name="item_upload_in_progress">Об\'єкти зараз оновлюються</string>
