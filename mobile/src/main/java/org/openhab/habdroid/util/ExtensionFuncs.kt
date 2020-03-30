@@ -27,6 +27,7 @@ import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
 import android.net.Network
 import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.annotation.StringRes
@@ -321,6 +322,10 @@ fun Context.openInAppStore(app: String) {
     }
 }
 
+fun Context.isDataOrBatterySaverActive(): Boolean {
+    return isDataSaverActive() || isBatterySaverActive()
+}
+
 fun Context.isDataSaverActive(): Boolean {
     val dataSaverPref = getPrefs().getBoolean(PrefKeys.PREFERENCE_DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -328,6 +333,11 @@ fun Context.isDataSaverActive(): Boolean {
     }
     val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     return cm.restrictBackgroundStatus != RESTRICT_BACKGROUND_STATUS_DISABLED
+}
+
+fun Context.isBatterySaverActive(): Boolean {
+    val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+    return pm.isPowerSaveMode
 }
 
 fun Activity.finishAndRemoveTaskIfPossible() {

@@ -80,7 +80,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isDataSaverActive
+import org.openhab.habdroid.util.isDataOrBatterySaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import java.util.Calendar
 import java.util.HashMap
@@ -365,7 +365,7 @@ class WidgetAdapter(
 
         private fun handleDataSaver(overrideDataSaver: Boolean) {
             val widget = boundWidget ?: return
-            val dataSaverActive = itemView.context.isDataSaverActive() && !overrideDataSaver
+            val dataSaverActive = itemView.context.isDataOrBatterySaverActive() && !overrideDataSaver
 
             dataSaverView.isVisible = dataSaverActive
             widgetContentView.isVisible = !dataSaverView.isVisible
@@ -625,7 +625,7 @@ class WidgetAdapter(
         }
 
         override fun start() {
-            if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
+            if (refreshRate > 0 && !itemView.context.isDataOrBatterySaverActive()) {
                 imageView.startRefreshing(refreshRate)
             } else {
                 imageView.cancelRefresh()
@@ -919,7 +919,7 @@ class WidgetAdapter(
         }
 
         override fun start() {
-            if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
+            if (refreshRate > 0 && !itemView.context.isDataOrBatterySaverActive()) {
                 chart.startRefreshing(refreshRate)
             } else {
                 chart.cancelRefresh()
@@ -1186,7 +1186,7 @@ class WidgetAdapter(
 
         private fun handleDataSaver(overrideDataSaver: Boolean) {
             val widget = boundWidget ?: return
-            val dataSaverActive = itemView.context.isDataSaverActive() && !overrideDataSaver
+            val dataSaverActive = itemView.context.isDataOrBatterySaverActive() && !overrideDataSaver
 
             dataSaverView.isVisible = dataSaverActive && hasPositions
             baseMapView.isVisible = !dataSaverView.isVisible && hasPositions
@@ -1344,7 +1344,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
     setImageUrl(
         connection,
-        widget.icon.toUrl(context, !context.isDataSaverActive()),
+        widget.icon.toUrl(context, !context.isDataOrBatterySaverActive()),
         resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
     )
     val color = mapper.mapColor(widget.iconColor)

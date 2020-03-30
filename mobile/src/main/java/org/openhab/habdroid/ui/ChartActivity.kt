@@ -30,7 +30,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isDataSaverActive
+import org.openhab.habdroid.util.isDataOrBatterySaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import java.util.Random
 
@@ -169,7 +169,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         Log.d(TAG, "Load chart with url $chartUrl")
         chart.setImageUrl(connection, chartUrl, chart.width, forceLoad = true)
-        if (widget.refresh > 0 && !isDataSaverActive()) {
+        if (widget.refresh > 0 && !isDataOrBatterySaverActive()) {
             chart.startRefreshing(widget.refresh)
         }
         swipeLayout.isRefreshing = false

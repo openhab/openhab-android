@@ -28,6 +28,7 @@ import android.net.ConnectivityManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.util.Log
 import android.view.ContextMenu
 import android.view.LayoutInflater
@@ -37,7 +38,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -66,6 +66,8 @@ import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.isBatterySaverActive
+import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.showToast
 
@@ -87,11 +89,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(requireContext(), false)
     }
-    private val dataSaverChangeListener: BroadcastReceiver? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        DataSaverStateChangeReceiver()
-    } else {
-        null
-    }
+    private val dataSaverChangeListener = DataOrBatterySaverStateChangeReceiver()
 
     val displayPageUrl get() = arguments?.getString("displayPageUrl").orEmpty()
     val title get() = titleOverride ?: arguments?.getString("title")
@@ -156,12 +154,15 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val activity = activity as MainActivity
         activity.triggerPageUpdate(displayPageUrl, false)
         startOrStopVisibleViewHolders(true)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context?.registerReceiver(
-                dataSaverChangeListener,
-                IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
-            )
-        }
+        context?.registerReceiver(
+            dataSaverChangeListener,
+            IntentFilter().apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    addAction(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
+                }
+                addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+            }
+        )
     }
 
     override fun onPause() {
@@ -169,7 +170,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         Log.d(TAG, "onPause() $displayPageUrl")
         lastContextMenu?.close()
         startOrStopVisibleViewHolders(false)
-        dataSaverChangeListener?.let { it -> context?.unregisterReceiver(it) }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() $displayPageUrl")
+        context?.unregisterReceiver(dataSaverChangeListener)
     }
 
     override fun onItemClicked(widget: Widget): Boolean {
@@ -542,15 +548,33 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    inner class DataSaverStateChangeReceiver : BroadcastReceiver() {
+    inner class DataOrBatterySaverStateChangeReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            if (intent?.action != ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED) {
+            var dataSaverChanged = false
+            var batterySaverChanged = false
+
+            when (intent?.action) {
+                ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED -> dataSaverChanged = true
+                PowerManager.ACTION_POWER_SAVE_MODE_CHANGED -> batterySaverChanged = true
+                else -> return
+            }
+
+            val dataSaverOn = context.isDataSaverActive()
+            val batterySaverOn = context.isBatterySaverActive()
+
+            if (dataSaverOn && batterySaverOn) {
+                // If the second saver will be enabled, the measurements to save data and battery are already active.
                 return
             }
 
-            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val turnedOn = cm.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
+            val turnedOn = (dataSaverChanged && dataSaverOn) || (batterySaverChanged && batterySaverOn)
+
+            if (!turnedOn && (dataSaverOn || batterySaverOn)) {
+                // One saver has been turned off, but the other one is still active.
+                return
+            }
+
+            Log.d(TAG, "Changing data and battery saver measurements: turnedOn = $turnedOn")
 
             val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
             val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()

@@ -25,7 +25,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.WidgetImageView
-import org.openhab.habdroid.util.isDataSaverActive
+import org.openhab.habdroid.util.isDataOrBatterySaverActive
 import java.util.ArrayList
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
@@ -111,7 +111,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
             if (notification.icon != null && conn != null) {
                 iconView.setImageUrl(
                     conn,
-                    notification.icon.toUrl(itemView.context, !itemView.context.isDataSaverActive()),
+                    notification.icon.toUrl(itemView.context, !itemView.context.isDataOrBatterySaverActive()),
                     itemView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size),
                     2000
                 )
