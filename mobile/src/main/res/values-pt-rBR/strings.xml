@@ -177,14 +177,13 @@
     <string name="settings_phone_state">Enviar estado de chamada para openHAB</string>
     <string name="settings_phone_state_summary_on">Envia estado de chamada para o item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Não enviar o estado de chamada para o servidor</string>
+    <string name="settings_phone_state_permission_denied">O envio do estado de chamada foi desativado devido à falta de permissões</string>
     <string name="settings_battery_level">Enviar nível de bateria ao openHAB</string>
     <string name="settings_battery_level_summary_on">Enviar nível de bateria ao item \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Não enviar nível da bateria ao servidor</string>
     <string name="settings_charging_state">Estado do carregamento</string>
     <string name="settings_charging_state_summary_on">Envia o estado de carregamento para o item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Não enviar o estado de carregamento para o servidor</string>
-    <string name="settings_phone_state_permission_denied">O envio do estado de chamada foi desativado devido à falta de permissões</string>
-    <string name="settings_phone_state_permission_allow">Permitir</string>
     <string name="settings_item_pref_item_name">Nome do item</string>
     <string name="waiting_for_item_upload">Aguardando a rede enviar atualizações de Item</string>
     <string name="item_upload_in_progress">Itens estão sendo atualizados</string>
