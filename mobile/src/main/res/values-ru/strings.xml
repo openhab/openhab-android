@@ -141,7 +141,6 @@
     <string name="settings_phone_state_summary_on">Отправляет состояние звонка в item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Не отправлять состояние звонка на сервер</string>
     <string name="settings_phone_state_permission_denied">Отправка состояния звонка отключено из-за нехватки прав</string>
-    <string name="settings_phone_state_permission_allow">Разрешить</string>
     <string name="settings_item_pref_item_name">Имя Item</string>
     <string name="waiting_for_item_upload">Ожидание сети для отправки обновленений элемента</string>
     <string name="item_upload_in_progress">Items обновляются...</string>
