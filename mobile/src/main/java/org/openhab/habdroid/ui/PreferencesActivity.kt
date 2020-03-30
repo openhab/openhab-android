@@ -231,10 +231,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             val ringtonePref = getPreference(PrefKeys.TONE)
             val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
             val sendDeviceInfoPrefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
-            val alarmClockPref = getPreference(PrefKeys.ALARM_CLOCK) as ItemUpdatingPreference
-            val phoneStatePref = getPreference(PrefKeys.PHONE_STATE) as ItemUpdatingPreference
-            val batteryLevelPref = getPreference(PrefKeys.BATTERY_LEVEL) as ItemUpdatingPreference
-            val chargingStatePref = getPreference(PrefKeys.CHARGING_STATE) as ItemUpdatingPreference
+            val alarmClockPref = getPreference(PrefKeys.SEND_ALARM_CLOCK) as ItemUpdatingPreference
+            val phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
+            val batteryLevelPref = getPreference(PrefKeys.SEND_BATTERY_LEVEL) as ItemUpdatingPreference
+            val chargingStatePref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
+            val wifiSsidPref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
             val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
             val taskerPref = getPreference(PrefKeys.TASKER_PLUGIN_ENABLED)
             val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
@@ -362,10 +363,23 @@ class PreferencesActivity : AbstractBaseActivity() {
             phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
                 @Suppress("UNCHECKED_CAST")
                 val value = newValue as Pair<Boolean, String>
-                if (value.first && preference.context.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
+                if (value.first && !preference.context.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
                     Log.d(TAG, "Request READ_PHONE_STATE permission")
                     requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
                         PERMISSIONS_REQUEST_READ_PHONE_STATE)
+                }
+
+                true
+            }
+
+            wifiSsidPref.setOnPreferenceChangeListener { preference, newValue ->
+                @Suppress("UNCHECKED_CAST")
+                val value = newValue as Pair<Boolean, String>
+                if (value.first && !preference.context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    Log.d(TAG, "Request ACCESS_FINE_LOCATION permission")
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
                 }
 
                 true
@@ -379,6 +393,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 phoneStatePref.updateSummaryAndIcon(prefix)
                 batteryLevelPref.updateSummaryAndIcon(prefix)
                 chargingStatePref.updateSummaryAndIcon(prefix)
+                wifiSsidPref.updateSummaryAndIcon(prefix)
                 true
             }
 
@@ -411,7 +426,14 @@ class PreferencesActivity : AbstractBaseActivity() {
                 PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         context?.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
-                        disableItemUpdatingPref(prefs, PrefKeys.PHONE_STATE)
+                        disableItemUpdatingPref(prefs, PrefKeys.SEND_PHONE_STATE)
+                        activity?.recreate()
+                    }
+                }
+                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+                    if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                        context?.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
+                        disableItemUpdatingPref(prefs, PrefKeys.SEND_WIFI_SSID)
                         activity?.recreate()
                     }
                 }
@@ -652,6 +674,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val ITEM_UPDATE_WIDGET_ICON = "icon"
         private const val STATE_KEY_RESULT = "result"
         private const val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0
+        private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }

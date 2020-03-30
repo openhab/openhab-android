@@ -102,6 +102,7 @@ import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isResolvable
@@ -493,7 +494,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             @Suppress("DEPRECATION")
             wifiManager.isWifiEnabled = true
             controller.updateConnection(null, getString(R.string.waiting_for_wifi),
-                R.drawable.ic_wifi_strength_outline_black_24dp)
+                R.drawable.ic_wifi_strength_outline_grey_24dp)
         }
     }
 
@@ -991,14 +992,30 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {
-        if (prefs.getString(PrefKeys.PHONE_STATE, null)?.toItemUpdatePrefValue()?.first == true &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !=
-            PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "READ_PHONE_STATE permission has been denied")
-            showSnackbar(R.string.settings_phone_state_permission_denied,
-                R.string.settings_phone_state_permission_allow) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE),
-                    REQUEST_CODE_READ_PHONE_STATE)
+        val tasksWithPermissions = arrayListOf(PrefKeys.SEND_PHONE_STATE to Manifest.permission.READ_PHONE_STATE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            tasksWithPermissions.add(PrefKeys.SEND_WIFI_SSID to Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        val missingPermissions = arrayListOf<String>()
+
+        tasksWithPermissions.forEach { task ->
+            if (prefs.getString(task.first, null)?.toItemUpdatePrefValue()?.first == true &&
+                !hasPermission(task.second)) {
+                missingPermissions.add(task.second)
+            }
+        }
+
+        if (missingPermissions.isNotEmpty()) {
+            Log.d(TAG, "At least on permission for background tasks have been denied")
+            showSnackbar(
+                R.string.settings_background_tasks_permission_denied,
+                R.string.settings_background_tasks_permission_allow
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    missingPermissions.toTypedArray(),
+                    REQUEST_CODE_PERMISSIONS
+                )
             }
         }
     }
@@ -1082,7 +1099,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         // Activities request codes
         private const val REQUEST_CODE_SETTINGS = 1001
-        private const val REQUEST_CODE_READ_PHONE_STATE = 1002
+        private const val REQUEST_CODE_PERMISSIONS = 1002
         // Drawer item codes
         private const val GROUP_ID_SITEMAPS = 1
     }

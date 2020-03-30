@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Parcelable
 import android.telephony.TelephonyManager
@@ -56,17 +57,21 @@ class BackgroundTasksManager : BroadcastReceiver() {
         when (intent.action) {
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> {
                 Log.d(TAG, "Alarm clock changed")
-                scheduleWorker(context, PrefKeys.ALARM_CLOCK)
+                scheduleWorker(context, PrefKeys.SEND_ALARM_CLOCK)
             }
             TelephonyManager.ACTION_PHONE_STATE_CHANGED -> {
                 Log.d(TAG, "Phone state changed")
-                scheduleWorker(context, PrefKeys.PHONE_STATE)
+                scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
             }
             Intent.ACTION_POWER_CONNECTED, Intent.ACTION_POWER_DISCONNECTED,
             Intent.ACTION_BATTERY_LOW, Intent.ACTION_BATTERY_OKAY -> {
                 Log.d(TAG, "Battery or charging state changed: ${intent.action}")
-                scheduleWorker(context, PrefKeys.BATTERY_LEVEL)
-                scheduleWorker(context, PrefKeys.CHARGING_STATE)
+                scheduleWorker(context, PrefKeys.SEND_BATTERY_LEVEL)
+                scheduleWorker(context, PrefKeys.SEND_CHARGING_STATE)
+            }
+            WifiManager.NETWORK_STATE_CHANGED_ACTION -> {
+                Log.d(TAG, "Wifi state has changed")
+                scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
             }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
@@ -186,14 +191,16 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
 
         internal val KNOWN_KEYS = listOf(
-            PrefKeys.ALARM_CLOCK,
-            PrefKeys.PHONE_STATE,
-            PrefKeys.BATTERY_LEVEL,
-            PrefKeys.CHARGING_STATE
+            PrefKeys.SEND_ALARM_CLOCK,
+            PrefKeys.SEND_PHONE_STATE,
+            PrefKeys.SEND_BATTERY_LEVEL,
+            PrefKeys.SEND_CHARGING_STATE,
+            PrefKeys.SEND_WIFI_SSID
         )
         private val KNOWN_PERIODIC_KEYS = listOf(
-            PrefKeys.BATTERY_LEVEL,
-            PrefKeys.CHARGING_STATE
+            PrefKeys.SEND_BATTERY_LEVEL,
+            PrefKeys.SEND_CHARGING_STATE,
+            PrefKeys.SEND_WIFI_SSID
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
@@ -373,7 +380,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         init {
-            VALUE_GETTER_MAP[PrefKeys.ALARM_CLOCK] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_ALARM_CLOCK] = { context ->
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val info = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
@@ -396,7 +403,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
                 time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
             }
-            VALUE_GETTER_MAP[PrefKeys.PHONE_STATE] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_PHONE_STATE] = { context ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val state = when (manager.callState) {
                     TelephonyManager.CALL_STATE_IDLE -> "IDLE"
@@ -406,12 +413,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
                 ItemUpdateWorker.ValueWithInfo(state)
             }
-            VALUE_GETTER_MAP[PrefKeys.BATTERY_LEVEL] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_BATTERY_LEVEL] = { context ->
                 val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
                 val batteryLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
                 ItemUpdateWorker.ValueWithInfo(batteryLevel.toString())
             }
-            VALUE_GETTER_MAP[PrefKeys.CHARGING_STATE] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_CHARGING_STATE] = { context ->
                 val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
                     context.registerReceiver(null, ifilter)
                 }
@@ -428,6 +435,16 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     "UNDEF"
                 }
                 ItemUpdateWorker.ValueWithInfo(state)
+            }
+            VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context ->
+                val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val isConnected = wifiManager.connectionInfo.networkId != -1
+                var ssid = wifiManager.connectionInfo.ssid
+                // WifiInfo#getSSID() may surround the SSID with double quote marks
+                if (ssid.first() == '"' && ssid.last() == '"') {
+                    ssid = ssid.substring(1, ssid.length - 1)
+                }
+                ItemUpdateWorker.ValueWithInfo(if (isConnected) ssid else "UNDEF")
             }
         }
     }

@@ -41,10 +41,11 @@ object PrefKeys {
     const val FULLSCREEN = "default_openhab_fullscreen"
 
     const val SEND_DEVICE_INFO_PREFIX = "sendDeviceInfoPrefix"
-    const val ALARM_CLOCK = "alarmClock"
-    const val PHONE_STATE = "phoneState"
-    const val BATTERY_LEVEL = "battery_level"
-    const val CHARGING_STATE = "charging_state"
+    const val SEND_ALARM_CLOCK = "alarmClock"
+    const val SEND_PHONE_STATE = "phoneState"
+    const val SEND_BATTERY_LEVEL = "battery_level"
+    const val SEND_CHARGING_STATE = "charging_state"
+    const val SEND_WIFI_SSID = "send_wifi_ssid"
 
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
