@@ -177,7 +177,6 @@
     <string name="settings_phone_state_summary_on">Poslat stav hovoru telefonu do item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Neposílat stav hovoru na server</string>
     <string name="settings_phone_state_permission_denied">Odeslání stavu hovoru telefonu bylo deaktivováno kvůli chybějícím oprávněním</string>
-    <string name="settings_phone_state_permission_allow">Povolit</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
     <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
     <string name="item_upload_in_progress">Items se právě aktualizují</string>
