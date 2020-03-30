@@ -992,18 +992,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {
-        val tasksWithPermissions = arrayListOf(PrefKeys.SEND_PHONE_STATE to Manifest.permission.READ_PHONE_STATE)
+        val tasksWithPermissions = mutableMapOf(PrefKeys.SEND_PHONE_STATE to Manifest.permission.READ_PHONE_STATE)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            tasksWithPermissions.add(PrefKeys.SEND_WIFI_SSID to Manifest.permission.ACCESS_FINE_LOCATION)
+            tasksWithPermissions[PrefKeys.SEND_WIFI_SSID] = Manifest.permission.ACCESS_FINE_LOCATION
         }
-        val missingPermissions = arrayListOf<String>()
 
-        tasksWithPermissions.forEach { task ->
-            if (prefs.getString(task.first, null)?.toItemUpdatePrefValue()?.first == true &&
-                !hasPermission(task.second)) {
-                missingPermissions.add(task.second)
+        val missingPermissions = tasksWithPermissions
+            .filter { entry ->
+                prefs.getString(entry.key, null)?.toItemUpdatePrefValue()?.first == true && !hasPermission(entry.value)
             }
-        }
+            .map { entry -> entry.value }
 
         if (missingPermissions.isNotEmpty()) {
             Log.d(TAG, "At least on permission for background tasks have been denied")

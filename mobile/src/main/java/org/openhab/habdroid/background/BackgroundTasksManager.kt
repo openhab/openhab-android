@@ -438,13 +438,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context ->
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-                val isConnected = wifiManager.connectionInfo.networkId != -1
-                var ssid = wifiManager.connectionInfo.ssid
-                // WifiInfo#getSSID() may surround the SSID with double quote marks
-                if (ssid.first() == '"' && ssid.last() == '"') {
-                    ssid = ssid.substring(1, ssid.length - 1)
+                val ssidToSend = wifiManager.connectionInfo.let { info ->
+                    if (info.networkId == -1) {
+                        "UNDEF"
+                    } else {
+                        // WifiInfo#getSSID() may surround the SSID with double quote marks
+                        info.ssid.removeSurrounding("\"")
+                    }
                 }
-                ItemUpdateWorker.ValueWithInfo(if (isConnected) ssid else "UNDEF")
+                ItemUpdateWorker.ValueWithInfo(ssidToSend)
             }
         }
     }
