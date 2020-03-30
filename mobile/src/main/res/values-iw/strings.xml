@@ -177,7 +177,6 @@
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">אל תשלח מצב שיחה לשרת</string>
     <string name="settings_phone_state_permission_denied">שליחת מצב שיחה נוטרל בעקבות חוסר הרשאות</string>
-    <string name="settings_phone_state_permission_allow">אפשר</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
     <string name="item_upload_in_progress">הפריטים מתעדכנים כעת</string>
