@@ -349,31 +349,21 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             boundWidget = widget
-
-            val overrideDataSaver = when {
-                // We do only cache images. Maps may be also cached, but we cannot check their cache.
-                widget.type != Widget.Type.Image -> false
-                // If image is cached, display it.
-                widget.url != null -> CacheManager.getInstance(itemView.context)
-                    .isBitmapCached(connection.httpClient.buildUrl(widget.url))
-                // The image item is either undefined or the image is included as state and already loaded.
-                else -> true
+            if (!showDataSaverPlaceholderIfNeeded(widget, canBindWithoutDataTransfer(widget))) {
+                bindAfterDataSaverCheck(widget)
             }
-
-            handleDataSaver(overrideDataSaver)
         }
 
-        private fun handleDataSaver(overrideDataSaver: Boolean) {
-            val widget = boundWidget ?: return
-            val dataSaverActive = itemView.context.isDataSaverActive() && !overrideDataSaver
+        private fun showDataSaverPlaceholderIfNeeded(widget: Widget, canBindWithoutData: Boolean): Boolean {
+            val dataSaverActive = itemView.context.isDataSaverActive() && !canBindWithoutData
 
             dataSaverView.isVisible = dataSaverActive
             widgetContentView.isVisible = !dataSaverView.isVisible
 
             if (dataSaverActive) {
                 dataSaverButton.setOnClickListener {
-                    loadWidget(widget)
-                    handleDataSaver(true)
+                    showDataSaverPlaceholderIfNeeded(widget, true)
+                    bindAfterDataSaverCheck(widget)
                 }
 
                 @StringRes val typeResId = when (widget.type) {
@@ -388,20 +378,22 @@ class WidgetAdapter(
                     widget.label.orDefaultIfEmpty(itemView.context.getString(typeResId)))
             } else {
                 dataSaverButton.setOnClickListener(null)
-                loadWidget(widget)
             }
+
+            return dataSaverActive
         }
 
         fun handleDataSaverChange(turnedOn: Boolean) {
-            if (turnedOn && (this is ImageViewHolder || this is ChartViewHolder)) {
-                // For Images and Charts continue showing the old data, but stop the auto refresh
+            if (turnedOn) {
+                // Continue showing the old data, but stop any activity that might need more data transfer
                 stop()
             } else {
-                bind(boundWidget ?: return)
+                boundWidget?.let { bind(it) }
             }
         }
 
-        abstract fun loadWidget(widget: Widget)
+        internal abstract fun bindAfterDataSaverCheck(widget: Widget)
+        internal open fun canBindWithoutDataTransfer(widget: Widget): Boolean = false
     }
 
     class GenericViewHolder internal constructor(
@@ -597,7 +589,12 @@ class WidgetAdapter(
         private val imageView = widgetContentView as WidgetImageView
         private var refreshRate: Int = 0
 
-        override fun loadWidget(widget: Widget) {
+        override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
+            return widget.url == null ||
+                CacheManager.getInstance(itemView.context).isBitmapCached(connection.httpClient.buildUrl(widget.url))
+        }
+
+        override fun bindAfterDataSaverCheck(widget: Widget) {
             val value = widget.state?.asString
 
             // Make sure images fit into the content frame by scaling
@@ -900,7 +897,7 @@ class WidgetAdapter(
             chart.setOnClickListener(this)
         }
 
-        override fun loadWidget(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget) {
             val item = widget.item
             if (item == null) {
                 Log.e(TAG, "Chart item is null")
@@ -949,7 +946,7 @@ class WidgetAdapter(
             videoView.setPlayer(mediaPlayer)
         }
 
-        override fun loadWidget(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget) {
             val mediaItem = determineVideoUrlForWidget(widget)?.let { url ->
                 val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
                 UriMediaItem.Builder(url.toUri())
@@ -997,7 +994,7 @@ class WidgetAdapter(
         private val webView = widgetContentView as WebView
 
         @SuppressLint("SetJavaScriptEnabled")
-        override fun loadWidget(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget) {
             val url = connection.httpClient.buildUrl(widget.url!!)
             with(webView) {
                 adjustForWidgetHeight(widget, 0)
@@ -1146,8 +1143,8 @@ class WidgetAdapter(
         private val imageView = widgetContentView as ImageView
         private var streamer: MjpegStreamer? = null
 
-        override fun loadWidget(widget: Widget) {
-            streamer = if (widget.url != null) MjpegStreamer(imageView, connection, widget.url) else null
+        override fun bindAfterDataSaverCheck(widget: Widget) {
+            streamer = widget.url?.let { MjpegStreamer(imageView, connection, it) }
         }
 
         override fun start() {
@@ -1167,8 +1164,8 @@ class WidgetAdapter(
     ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
         R.layout.widgetlist_mapitem, connection, colorMapper) {
         private var boundWidget: Widget? = null
-        protected var boundItem: Item? = null
-            private set
+        protected val boundItem: Item?
+            get() = boundWidget?.item
         private val hasPositions
             get() = boundItem?.state?.asLocation != null || boundItem?.members?.isNotEmpty() == true
 
@@ -1181,7 +1178,6 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
             boundWidget = widget
-            boundItem = widget.item
             baseMapView.adjustForWidgetHeight(widget, 5)
             handleDataSaver(false)
         }
@@ -1196,7 +1192,6 @@ class WidgetAdapter(
 
             if (dataSaverActive) {
                 dataSaverButton.setOnClickListener {
-                    loadWidget(widget)
                     handleDataSaver(true)
                 }
 
@@ -1204,12 +1199,12 @@ class WidgetAdapter(
                     widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_mapview)))
             } else {
                 dataSaverButton.setOnClickListener(null)
-                loadWidget(widget)
+                bindAfterDataSaverCheck(widget)
             }
         }
 
         fun handleDataSaverChange() {
-            bind(boundWidget ?: return)
+            boundWidget?.let { bind(it) }
         }
 
         override fun handleRowClick() {
@@ -1218,7 +1213,7 @@ class WidgetAdapter(
             }
         }
 
-        protected abstract fun loadWidget(widget: Widget)
+        protected abstract fun bindAfterDataSaverCheck(widget: Widget)
         protected abstract fun openPopup()
     }
 
