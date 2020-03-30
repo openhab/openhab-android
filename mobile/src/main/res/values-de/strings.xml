@@ -177,7 +177,6 @@
     <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Anrufstatus nicht an den Server senden</string>
     <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
-    <string name="settings_phone_state_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
