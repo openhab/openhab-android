@@ -156,12 +156,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val activity = activity as MainActivity
         activity.triggerPageUpdate(displayPageUrl, false)
         startOrStopVisibleViewHolders(true)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context?.registerReceiver(
-                dataSaverChangeListener,
-                IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
-            )
+        dataSaverChangeListener?.let { listener ->
+            context?.registerReceiver(listener, IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED))
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dataSaverChangeListener?.let { listener -> context?.unregisterReceiver(listener) }
     }
 
     override fun onPause() {
@@ -169,7 +171,6 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         Log.d(TAG, "onPause() $displayPageUrl")
         lastContextMenu?.close()
         startOrStopVisibleViewHolders(false)
-        dataSaverChangeListener?.let { it -> context?.unregisterReceiver(it) }
     }
 
     override fun onItemClicked(widget: Widget): Boolean {
