@@ -171,6 +171,7 @@
     <string name="error_no_browser_found">No browser found on your device</string>
     <string name="error_no_speech_to_text_app_found">No voice recognition app found</string>
     <string name="error_sse_failed">Event subscription failed, widget refresh may be impaired</string>
+    <string name="error_video_player">%s couldn\'t be loaded</string>
     <string name="install">Install</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_libraries">Used libraries</string>

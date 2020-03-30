@@ -22,6 +22,7 @@ import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Base64
 import android.util.DisplayMetrics
@@ -86,6 +87,7 @@ import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
 import java.util.Random
+import java.util.concurrent.Executor
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -341,7 +343,8 @@ class WidgetAdapter(
         @LayoutRes layoutResId: Int,
         protected val connection: Connection
     ) : ViewHolder(inflater, parent, layoutResId) {
-        private var boundWidget: Widget? = null
+        protected var boundWidget: Widget? = null
+            private set
         protected val widgetContentView: View = itemView.findViewById(R.id.widget_content)
         private val dataSaverView: View = itemView.findViewById(R.id.data_saver)
         private val dataSaverButton: Button = itemView.findViewById(R.id.data_saver_button)
@@ -885,7 +888,6 @@ class WidgetAdapter(
         private val prefs: SharedPreferences
         private var refreshRate = 0
         private val density: Int
-        private var boundWidget: Widget? = null
 
         init {
             val context = itemView.context
@@ -905,8 +907,6 @@ class WidgetAdapter(
                 refreshRate = 0
                 return
             }
-
-            boundWidget = widget
 
             val chartUrl =
                 widget.toChartUrl(prefs, random, parent.width, chartTheme = chartTheme, density = density) ?: return
@@ -938,15 +938,22 @@ class WidgetAdapter(
     }
 
     class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup, connection: Connection) :
-        HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videoitem, connection) {
+        HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videoitem, connection), View.OnClickListener {
         private val videoView = widgetContentView as VideoView
+        private val loadingIndicator: View = itemView.findViewById(R.id.video_player_loading)
+        private val errorView: View = itemView.findViewById(R.id.video_player_error)
+        private val errorViewHint: TextView = itemView.findViewById(R.id.video_player_error_hint)
+        private val errorViewButton: Button = itemView.findViewById(R.id.video_player_error_button)
         private val mediaPlayer = MediaPlayer(parent.context)
 
         init {
             videoView.setPlayer(mediaPlayer)
+            errorViewButton.setOnClickListener(this)
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
+            errorView.isVisible = false
+            loadingIndicator.isVisible = true
             val mediaItem = determineVideoUrlForWidget(widget)?.let { url ->
                 val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
                 UriMediaItem.Builder(url.toUri())
@@ -958,7 +965,23 @@ class WidgetAdapter(
                 mediaPlayer.reset()
                 if (mediaItem != null) {
                     mediaPlayer.setMediaItem(mediaItem)
-                    mediaPlayer.prepare()
+                    val prepareFuture = mediaPlayer.prepare()
+                    prepareFuture.addListener(Runnable {
+                        val code = prepareFuture.get().resultCode
+                        Log.d(TAG, "Media player returned $code")
+                        loadingIndicator.isVisible = false
+                        if (code >= 0) {
+                            // No error code
+                            return@Runnable
+                        }
+
+                        val label =
+                            widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_video))
+                        errorViewHint.text = itemView.context.getString(R.string.error_video_player, label)
+                        errorView.isVisible = true
+                    }, Executor {
+                        Handler(Looper.getMainLooper()).post(it)
+                    })
                 }
             }
         }
@@ -983,6 +1006,10 @@ class WidgetAdapter(
                 }
             }
             return widget.url
+        }
+
+        override fun onClick(v: View?) {
+            boundWidget?.let { bindAfterDataSaverCheck(it) }
         }
     }
 

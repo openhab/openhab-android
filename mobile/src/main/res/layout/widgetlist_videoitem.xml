@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
+
+    <ProgressBar
+        android:id="@+id/video_player_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?attr/indeterminateProgressStyle"
+        android:padding="8dp"
+        android:layout_gravity="center" />
 
     <org.openhab.habdroid.ui.widget.AutoHeightVideoView
         android:id="@+id/widget_content"
@@ -14,4 +23,31 @@
 
     <include layout="@layout/widgetlist_data_saver" />
 
+    <LinearLayout
+        android:id="@+id/video_player_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/video_player_error_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@color/empty_list_text_color"
+            tools:text="@string/error_video_player" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/video_player_error_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/retry" />
+    </LinearLayout>
 </FrameLayout>
