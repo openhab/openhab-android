@@ -139,7 +139,6 @@
     <string name="settings_phone_state_summary_on">Verzend belstatus naar item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Belstatus niet naar server versturen</string>
     <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
-    <string name="settings_phone_state_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
     <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
