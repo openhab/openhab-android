@@ -141,7 +141,6 @@
     <string name="settings_phone_state_summary_on">Schéckt den Uruffstatus un den Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Uruffstatus net un de Server schécken</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
-    <string name="settings_phone_state_permission_allow">Erlaben</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
     <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
