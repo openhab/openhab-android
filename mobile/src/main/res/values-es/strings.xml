@@ -153,7 +153,10 @@
     <string name="settings_item_pref_item_name">Nombre del Item</string>
     <string name="waiting_for_item_upload">Esperando a que la red envíe actualizaciones del Item</string>
     <string name="item_upload_in_progress">Los Items están siendo actualizados ahora mismo</string>
+    <string name="notification_channel_background">Tareas en segundo plano</string>
+    <string name="notification_channel_background_description">Se utiliza para notificar tareas pendientes que se ejecutan en segundo plano, por ejemplo, esperar a que la red envíe el nivel de batería</string>
     <string name="notification_channel_background_error">Error en tareas en segundo plano</string>
+    <string name="notification_channel_background_error_description">Se utiliza para notificar errores de tareas que se ejecutan en segundo plano, por ejemplo, que no hay conexión a la red para enviar el nivel de batería</string>
     <plurals name="item_update_error_title">
         <item quantity="one">No se pudieron actualizar los Ítems %d</item>
         <item quantity="other">No se pudieron actualizar %d Items</item>
@@ -347,4 +350,14 @@
     <string name="create_home_screen_widget_title">Crear widget</string>
     <string name="create_home_screen_widget_not_supported">Tu dispositivo no soporta la creación de widgets desde dentro de una aplicación. Por favor, ve al menú del widget en tu pantalla de inicio y crea un widget desde ahí.</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <string name="data_saver_title">Economizador de datos</string>
+    <string name="data_saver_on">Reducir el consumo de datos</string>
+    <string name="data_saver_off">Respetar la configuración del dispositivo</string>
+    <string name="data_saver_load">Cargar de todos modos</string>
+    <string name="data_saver_hint">%s no fue cargado para economizar datos</string>
+    <string name="widget_type_image">Imagen</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Vídeo</string>
+    <string name="widget_type_mapview">Mapa</string>
+    <string name="widget_type_chart">Gráfica</string>
 </resources>
