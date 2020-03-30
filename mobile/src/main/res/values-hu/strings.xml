@@ -163,7 +163,6 @@
     <string name="settings_phone_state_summary_on">Hívás állapotának küldése a(z) \'%1$s\' elemnek</string>
     <string name="settings_phone_state_summary_off">Ne küldje el a hívás állapotát az openHAB-nak</string>
     <string name="settings_phone_state_permission_denied">Hívás állapotának küldése letiltva jogosultság hiánya matt</string>
-    <string name="settings_phone_state_permission_allow">Engedélyezés</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
     <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
     <string name="item_upload_in_progress">Az Elemek jelenleg frissülnek</string>
