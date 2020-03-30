@@ -178,14 +178,13 @@
     <string name="settings_phone_state">Lähetä puhelun tila openHAB palvelimelle</string>
     <string name="settings_phone_state_summary_on">Lähettää puhelun tilan Itemille \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Älä lähetä puhelun tilaa palvelimelle</string>
+    <string name="settings_phone_state_permission_denied">Puhelun tilan lähetys on poistettu käytöstä puuttuvien oikeuksien takia</string>
     <string name="settings_battery_level">Lähetä akun taso openHAB palvelimelle</string>
     <string name="settings_battery_level_summary_on">Lähettää akun tason Itemille \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Älä lähetä akun tasoa palvelimelle</string>
     <string name="settings_charging_state">Latauksen tila</string>
     <string name="settings_charging_state_summary_on">Lähettää latauksen tilan Itemille \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Älä lähetä latauksen tilaa palvelimelle</string>
-    <string name="settings_phone_state_permission_denied">Puhelun tilan lähetys on poistettu käytöstä puuttuvien oikeuksien takia</string>
-    <string name="settings_phone_state_permission_allow">Salli</string>
     <string name="settings_item_pref_item_name">Itemin nimi</string>
     <string name="waiting_for_item_upload">Itemien päivitykset odottaa verkkoa</string>
     <string name="item_upload_in_progress">Itemien päivitys meneillään</string>
