@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui.preference
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.text.Editable
@@ -28,7 +27,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
@@ -87,7 +85,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         return PrefDialogFragment.newInstance(key)
     }
 
-    private fun applyValue(checked: Boolean, value: String) {
+    fun setValue(checked: Boolean = this.value?.first ?: false, value: String = this.value?.second.orEmpty()) {
         val newValue = Pair(checked, value)
         if (callChangeListener(newValue)) {
             if (shouldPersist()) {
@@ -148,7 +146,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         override fun onDialogClosed(positiveResult: Boolean) {
             if (positiveResult) {
                 val pref = preference as ItemUpdatingPreference
-                pref.applyValue(switch.isChecked, editor.text.toString())
+                pref.setValue(switch.isChecked, editor.text.toString())
             }
         }
 
@@ -205,11 +203,4 @@ fun String?.toItemUpdatePrefValue(): Pair<Boolean, String> {
         return Pair(false, "")
     }
     return Pair(this!!.substring(0, pos).toBoolean(), substring(pos + 1))
-}
-
-fun disableItemUpdatingPref(prefs: SharedPreferences, key: String) {
-    val item = prefs.getString(key).toItemUpdatePrefValue().second
-    prefs.edit {
-        putString(key, "false|$item")
-    }
 }

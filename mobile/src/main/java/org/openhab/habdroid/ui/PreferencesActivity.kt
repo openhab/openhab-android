@@ -51,7 +51,6 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
-import org.openhab.habdroid.ui.preference.disableItemUpdatingPref
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
@@ -206,6 +205,9 @@ class PreferencesActivity : AbstractBaseActivity() {
         override val titleResId: Int @StringRes get() = R.string.action_settings
         @ColorInt var previousColor: Int = 0
 
+        lateinit var phoneStatePref: ItemUpdatingPreference
+        lateinit var wifiSsidPref: ItemUpdatingPreference
+
         override fun onStart() {
             super.onStart()
             updateConnectionSummary(PrefKeys.SUBSCREEN_LOCAL_CONNECTION,
@@ -232,10 +234,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
             val sendDeviceInfoPrefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
             val alarmClockPref = getPreference(PrefKeys.SEND_ALARM_CLOCK) as ItemUpdatingPreference
-            val phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
+            phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
             val batteryLevelPref = getPreference(PrefKeys.SEND_BATTERY_LEVEL) as ItemUpdatingPreference
             val chargingStatePref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
-            val wifiSsidPref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
+            wifiSsidPref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
             val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
             val taskerPref = getPreference(PrefKeys.TASKER_PLUGIN_ENABLED)
             val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
@@ -375,8 +377,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             wifiSsidPref.setOnPreferenceChangeListener { preference, newValue ->
                 @Suppress("UNCHECKED_CAST")
                 val value = newValue as Pair<Boolean, String>
-                if (value.first && !preference.context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (value.first &&
+                    !preference.context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                ) {
                     Log.d(TAG, "Request ACCESS_FINE_LOCATION permission")
                     requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                         PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
@@ -426,15 +430,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                 PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         context?.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
-                        disableItemUpdatingPref(prefs, PrefKeys.SEND_PHONE_STATE)
-                        activity?.recreate()
+                        phoneStatePref.setValue(checked = false)
                     }
                 }
                 PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         context?.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
-                        disableItemUpdatingPref(prefs, PrefKeys.SEND_WIFI_SSID)
-                        activity?.recreate()
+                        wifiSsidPref.setValue(checked = false)
                     }
                 }
             }
