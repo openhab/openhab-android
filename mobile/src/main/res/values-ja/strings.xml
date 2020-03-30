@@ -135,7 +135,6 @@
     <string name="settings_phone_state_summary_on">通話状態をアイテム \'%1$s\' に送信</string>
     <string name="settings_phone_state_summary_off">サーバーに通話状態を送信しない</string>
     <string name="settings_phone_state_permission_denied">アクセス許可がないため通話状態の送信は無効です</string>
-    <string name="settings_phone_state_permission_allow">許可する</string>
     <string name="settings_item_pref_item_name">アイテム名</string>
     <string name="waiting_for_item_upload">アイテムの更新を送信するため、ネットワークを待機しています</string>
     <string name="item_upload_in_progress">アイテムを現在更新しています</string>
