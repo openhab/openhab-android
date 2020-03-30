@@ -13,7 +13,12 @@
 
 package org.openhab.habdroid.core
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -30,6 +35,10 @@ import java.security.InvalidKeyException
 
 @Suppress("UNUSED")
 class OpenHabApplication : MultiDexApplication() {
+    interface OnDataSaverActiveStateChangedListener {
+        fun onDataSaverActiveStateChanged(active: Boolean)
+    }
+
     val secretPrefs: SharedPreferences by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
@@ -43,6 +52,17 @@ class OpenHabApplication : MultiDexApplication() {
             getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
         }
     }
+
+    var isDataSaverActive: Boolean = false
+        private set
+
+    private val dataSaverChangeListener = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        DataSaverStateChangeReceiver()
+    } else {
+        null
+    }
+
+    private val dataSaverListeners = mutableSetOf<OnDataSaverActiveStateChangedListener>()
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getEncryptedSharedPrefs() = EncryptedSharedPreferences.create(
@@ -59,11 +79,42 @@ class OpenHabApplication : MultiDexApplication() {
         ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
         RemoteLog.initialize(this)
+
+        dataSaverChangeListener?.let { listener ->
+            registerReceiver(listener, IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED))
+            isDataSaverActive = listener.isDataSaverEnabled(this)
+        }
     }
 
     override fun onTerminate() {
         super.onTerminate()
         ConnectionFactory.shutdown()
+    }
+
+    fun registerDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
+        dataSaverListeners.add(l)
+    }
+
+    fun unregisterDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
+        dataSaverListeners.remove(l)
+    }
+
+    inner class DataSaverStateChangeReceiver : BroadcastReceiver() {
+        fun isDataSaverEnabled(context: Context): Boolean {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                return false
+            }
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            return cm.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
+        }
+
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent?.action != ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED) {
+                return
+            }
+            isDataSaverActive = isDataSaverEnabled(context)
+            dataSaverListeners.forEach { l -> l.onDataSaverActiveStateChanged(isDataSaverActive) }
+        }
     }
 
     companion object {
