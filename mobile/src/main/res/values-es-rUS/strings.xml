@@ -149,6 +149,12 @@
     <string name="settings_charging_state">Estado de carga</string>
     <string name="settings_charging_state_summary_on">Envía estado de carga al item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">No envía estado de carga al servidor</string>
+    <string name="settings_wifi_ssid">Nombre de la wifi</string>
+    <string name="settings_wifi_ssid_summary_on">Envía el nombre de la wifi (SSID) al item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">No enviar el nombre de la wifi (SSID) al servidor</string>
+    <string name="settings_wifi_ssid_permission_denied">El envío del nombre de la wifi ha sido deshabilitado debido a que faltan permisos</string>
+    <string name="settings_background_tasks_permission_denied">Algunas tareas en segundo plano se han deshabilitado debido a que faltan permisos</string>
+    <string name="settings_background_tasks_permission_allow">Permitir</string>
     <string name="settings_item_pref_item_name">Nombre del Item</string>
     <string name="waiting_for_item_upload">Esperando a que la red envíe actualizaciones del Item</string>
     <string name="item_upload_in_progress">Los Items están siendo actualizados ahora mismo</string>
