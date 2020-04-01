@@ -25,7 +25,7 @@ install:
   - echo yes | sdkmanager "tools"
   - echo yes | sdkmanager "build-tools;29.0.2"
   - echo yes | sdkmanager "platforms;android-22"
-  - echo yes | sdkmanager "sys-img-armeabi-v7a-android-22"
+  - echo yes | sdkmanager "system-images;android-22;google_apis;armeabi-v7a"
   - ./gradlew --version
   - sdkmanager --list || true
 
