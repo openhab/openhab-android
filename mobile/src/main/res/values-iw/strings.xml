@@ -154,6 +154,7 @@
     <string name="title_activity_libraries">ספריות בשימוש</string>
     <string name="info_write_tag">הצמד תגית והשאר אותה קרובה עד להופעת הודעת אישור</string>
     <string name="info_write_tag_progress">כותב לתגית</string>
+    <string name="info_write_tag_finished">התג נכתב בהצלחה</string>
     <string name="info_write_failed">הכתיבה לתגית נכשלה</string>
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
     <string name="info_write_tag_disabled">NFC מושבת</string>
@@ -177,6 +178,16 @@
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">אל תשלח מצב שיחה לשרת</string>
     <string name="settings_phone_state_permission_denied">שליחת מצב שיחה נוטרל בעקבות חוסר הרשאות</string>
+    <string name="settings_battery_level">שלח מצב סוללה ל-openHAB</string>
+    <string name="settings_battery_level_summary_on">שלח מצב סוללה לפריט ׳%1$s׳</string>
+    <string name="settings_battery_level_summary_off">אל תשלח את מצב הסוללה אל השרת</string>
+    <string name="settings_charging_state">מצב טעינת הסוללה</string>
+    <string name="settings_charging_state_summary_on">שלח את מצב טעינת הסוללה אל פריט \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">אל תשלח את מצב טעינת הסוללה אל השרת</string>
+    <string name="settings_wifi_ssid">שם רשת אלחוטית</string>
+    <string name="settings_wifi_ssid_summary_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳</string>
+    <string name="settings_wifi_ssid_summary_off">אל תשלח את שם הרשת האלחוטית (SSID) אל השרת</string>
+    <string name="settings_wifi_ssid_permission_denied">שליחת שם הרשת האלחוטית איננה אפשרית בעקבות הרשאות חסרות</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
     <string name="item_upload_in_progress">הפריטים מתעדכנים כעת</string>
@@ -386,4 +397,12 @@
     <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
     <string name="item_update_widget_widget_label">תווית יישומון</string>
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
+    <string name="data_saver_title">חסכון בנתונים</string>
+    <string name="data_saver_on">הפחת שימוש בנתונים</string>
+    <string name="data_saver_off">התחשב בהגדרות המכשיר</string>
+    <string name="data_saver_load">טען בכל מקרה</string>
+    <string name="data_saver_hint">%s לא נטען על מנת לשמור על נפח המידע</string>
+    <string name="widget_type_image">תמונה</string>
+    <string name="widget_type_video">וידאו</string>
+    <string name="widget_type_chart">תרשים</string>
 </resources>
