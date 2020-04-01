@@ -31,3 +31,8 @@ jobs:
         run: ./gradlew :mobile:assembleFossStable
       - name: Unit Tests (foss, stable)
         run: ./gradlew :mobile:testFossStableReleaseUnitTest
+      - name: Emulator Tests (full, beta)
+        uses: ReactiveCircus/android-emulator-runner@v2.6.1
+        with:
+          api-level: 29
+          script: ./gradlew :mobile:connectedFullBetaDebugAndroidTest
