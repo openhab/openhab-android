@@ -35,7 +35,6 @@ install:
   - wget -q "${ANDROID_TOOLS_URL}" -O android-sdk-tools.zip
   - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
   - rm android-sdk-tools.zip
-  - mkdir ~/.android # avoid harmless sdkmanager warning
   - echo 'count=0' > ~/.android/repositories.cfg # avoid harmless sdkmanager warning
   - yes | sdkmanager --licenses >/dev/null # accept all sdkmanager warnings
   - echo y | sdkmanager --no_https "platform-tools" >/dev/null
