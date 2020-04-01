@@ -114,6 +114,7 @@
     <string name="error_openhab_offline">Su servidor openHAB está fuera de línea mientras se ejecuta la instancia de la nube</string>
     <string name="error_no_browser_found">No se encontró ningún navegador en su dispositivo</string>
     <string name="error_no_speech_to_text_app_found">No se encontró ninguna aplicación de reconocimiento de voz</string>
+    <string name="error_sse_failed">Error en la suscripción al evento, la actualización del widget puede verse afectada</string>
     <string name="install">Instalar</string>
     <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
     <string name="title_activity_libraries">Librerías usadas</string>
@@ -162,6 +163,10 @@
     <string name="notification_channel_background_description">Se utiliza para notificar tareas pendientes que se ejecutan en segundo plano, por ejemplo, esperar a que la red envíe el nivel de batería</string>
     <string name="notification_channel_background_error">Error en tareas en segundo plano</string>
     <string name="notification_channel_background_error_description">Se utiliza para notificar errores de tareas que se ejecutan en segundo plano, por ejemplo, que no hay conexión a la red para enviar el nivel de batería</string>
+    <string name="notification_channel_messages_default_severity">Por defecto</string>
+    <string name="notification_channel_messages_default_severity_description">Notificaciones enviadas por el servidor con severidad no definida</string>
+    <string name="notification_channel_group_messages">Mensajes</string>
+    <string name="notification_channel_group_other">Otro</string>
     <plurals name="item_update_error_title">
         <item quantity="one">No se pudieron actualizar los Ítems %d</item>
         <item quantity="other">No se pudieron actualizar %d Items</item>
