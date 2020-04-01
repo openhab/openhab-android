@@ -23,7 +23,7 @@ echo "Stop old emulator"
 time adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
 
 echo "Start new $device emulator"
-echo no | android create avd --force --name emulator --package 'system-images;android-22;google_apis;armeabi-v7a' --device "$device"
+echo no | android create avd --force --name emulator --package 'system-images;android-22;google_apis;armeabi-v7a'
 emulator -avd emulator -no-audio -no-window &
 android-wait-for-emulator
 adb shell input keyevent 82 &
