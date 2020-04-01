@@ -189,6 +189,7 @@
     <string name="settings_wifi_ssid_summary_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳</string>
     <string name="settings_wifi_ssid_summary_off">אל תשלח את שם הרשת האלחוטית (SSID) אל השרת</string>
     <string name="settings_wifi_ssid_permission_denied">שליחת שם הרשת האלחוטית איננה אפשרית בעקבות הרשאות חסרות</string>
+    <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_allow">אפשר</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
@@ -411,6 +412,7 @@
     <string name="data_saver_load">טען בכל מקרה</string>
     <string name="data_saver_hint">%s לא נטען על מנת לשמור על נפח המידע</string>
     <string name="widget_type_image">תמונה</string>
+    <string name="widget_type_webview">תצוגת אינטרנט</string>
     <string name="widget_type_video">וידאו</string>
     <string name="widget_type_chart">תרשים</string>
 </resources>
