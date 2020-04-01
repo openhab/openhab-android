@@ -19,15 +19,13 @@ cache:
 notifications:
   email: false
 
-android:
-  components:
-    - build-tools-29.0.2
-    - android-22
-    - sys-img-armeabi-v7a-android-22
-
 install:
   - echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
-  - echo yes | sdkmanager "platforms;android-27"
+  - echo yes | sdkmanager "platform-tools"
+  - echo yes | sdkmanager "tools"
+  - echo yes | sdkmanager "build-tools;29.0.2"
+  - echo yes | sdkmanager "platforms;android-22"
+  - echo yes | sdkmanager "sys-img-armeabi-v7a-android-22"
   - ./gradlew --version
   - sdkmanager --list || true
 
