@@ -1,10 +1,21 @@
-language: android
-dist: trusty
+sudo: true
+language: bash
+dist: bionic
 jdk: oraclejdk8
+
 env:
   global:
     - secure: fMBUkSsCBTw/U907w7Xm/yNzw4lq9yt7zFy0JyEZrA543LI7zQRIclIOtsDTUs0bwY+4KI08MNoYPLJ4TQhSJaH4wQ8b9C5TRsqXNfc0V718TcuYqSXqU6VPRVtX46/fCEWv/HAs0ksUKrHIlpWOwLPQpYDcKxwwlUndaakYKJ8=
+    - ABI=x86_64
     - ADB_INSTALL_TIMEOUT=8
+    - ANDROID_HOME=${HOME}/android-sdk
+    - ANDROID_TOOLS_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
+    - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
+    - JDK="1.8"
+    - TOOLS=${ANDROID_HOME}/tools
+    # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
+    - API=29 # For emulator
 
 before_cache:
   - find $HOME/.gradle/caches/ -name "*.lock" -exec rm -rfv {} \;
@@ -21,13 +32,39 @@ notifications:
 
 install:
   - echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
-  - echo yes | sdkmanager "platform-tools"
-  - echo yes | sdkmanager "tools"
-  - echo yes | sdkmanager "build-tools;29.0.2"
-  - echo yes | sdkmanager "platforms;android-22"
-  - echo yes | sdkmanager "system-images;android-22;google_apis;armeabi-v7a"
+  - wget -q "${ANDROID_TOOLS_URL}" -O android-sdk-tools.zip
+  - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+  - rm android-sdk-tools.zip
+  - mkdir ~/.android # avoid harmless sdkmanager warning
+  - echo 'count=0' > ~/.android/repositories.cfg # avoid harmless sdkmanager warning
+  - yes | sdkmanager --licenses >/dev/null # accept all sdkmanager warnings
+  - echo y | sdkmanager --no_https "platform-tools" >/dev/null
+  - echo y | sdkmanager --no_https "tools" >/dev/null # A second time per Travis docs, gets latest versions
+  - echo y | sdkmanager --no_https "build-tools;29.0.2" >/dev/null # Implicit gradle dependency - gradle drives changes
+  - echo y | sdkmanager --no_https "platforms;android-29" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
+  - echo y | sdkmanager --no_https "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
+  - echo y | sdkmanager --no_https "emulator" >/dev/null
+  - echo y | sdkmanager --no_https "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
   - ./gradlew --version
   - sdkmanager --list || true
+
+  # Set up KVM on linux for hardware acceleration. Manually here so it only happens for emulator tests, takes ~30s
+  - sudo -E apt-get -yq --no-install-suggests --no-install-recommends install bridge-utils libpulse0 libvirt-bin qemu-kvm virtinst ubuntu-vm-builder
+  - sudo adduser $USER libvirt
+  - sudo adduser $USER kvm
+
+  # Create an Android emulator
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
+  - |
+    EMU_PARAMS="-verbose -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048"
+    EMU_COMMAND="emulator"
+    # This double "sudo" monstrosity is used to have Travis execute the
+    # emulator with its new group permissions and help preserve the rule
+    # of least privilege.
+    sudo -E sudo -u $USER -E bash -c "${ANDROID_HOME}/emulator/${EMU_COMMAND} -avd test ${AUDIO} ${EMU_PARAMS} &"
+  # Wait for emulator to be ready
+  - ./travis/android-wait-for-emulator.sh
+  - adb shell input keyevent 82 &
 
 stages:
   - test
