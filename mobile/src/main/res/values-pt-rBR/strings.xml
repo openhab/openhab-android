@@ -197,6 +197,11 @@
     <string name="notification_channel_background">Tarefas de segundo plano</string>
     <string name="notification_channel_background_description">Usado para notificar sobre tarefas em segundo plano pendentes, ex.: aguardando a rede para enviar o nível de bateria</string>
     <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
+    <string name="notification_channel_background_error_description">Usado para notificar sobre erros em tarefas de segundo plano, ex: não tem conexão para enviar nível de bateria</string>
+    <string name="notification_channel_messages_default_severity">Padrão</string>
+    <string name="notification_channel_messages_default_severity_description">Notificações enviadas pelo servidor sem gravidade definida</string>
+    <string name="notification_channel_group_messages">Mensagens</string>
+    <string name="notification_channel_group_other">Outros</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item não pôde ser atualizado</item>
         <item quantity="other">%d Items não puderam ser atualizados</item>
@@ -400,4 +405,14 @@
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <string name="data_saver_title">Economia de dados</string>
+    <string name="data_saver_on">Reduzir uso de dados</string>
+    <string name="data_saver_off">Respeitar configuração do dispositivo</string>
+    <string name="data_saver_load">Carregar mesmo assim</string>
+    <string name="data_saver_hint">%s não foi carregado para salvar dados</string>
+    <string name="widget_type_image">Imagem</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Vídeo</string>
+    <string name="widget_type_mapview">Mapa</string>
+    <string name="widget_type_chart">Gráfico</string>
 </resources>
