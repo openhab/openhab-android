@@ -149,6 +149,7 @@
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
     <string name="error_no_speech_to_text_app_found">לא נמצא יישום לזיהוי קול</string>
+    <string name="error_sse_failed">הרישום לאירוע נכשל, רענון הווידג׳ט יכול להיפגע</string>
     <string name="install">התקנה</string>
     <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
     <string name="title_activity_libraries">ספריות בשימוש</string>
@@ -188,10 +189,17 @@
     <string name="settings_wifi_ssid_summary_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳</string>
     <string name="settings_wifi_ssid_summary_off">אל תשלח את שם הרשת האלחוטית (SSID) אל השרת</string>
     <string name="settings_wifi_ssid_permission_denied">שליחת שם הרשת האלחוטית איננה אפשרית בעקבות הרשאות חסרות</string>
+    <string name="settings_background_tasks_permission_allow">אפשר</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
     <string name="item_upload_in_progress">הפריטים מתעדכנים כעת</string>
+    <string name="notification_channel_background">משימות ברקע</string>
+    <string name="notification_channel_background_description">משמש כדי להתריע על משימות הממתינות ברקע, לדוגמה בקשות המחכות לרשת כדי לדווח על מצב הסוללה</string>
     <string name="notification_channel_background_error">שגיאה במשימות ברקע</string>
+    <string name="notification_channel_background_error_description">משמש כדי להתריע על שגיאות במשימות הממתינות ברקע, למשל רשת לא זמינה בכדי לשלוח את מצב הסוללה</string>
+    <string name="notification_channel_messages_default_severity">ברירת מחדל</string>
+    <string name="notification_channel_group_messages">הודעות</string>
+    <string name="notification_channel_group_other">אחר</string>
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
         <item quantity="two">ל %d פריטים לא היתה אפשרות להתעדכן</item>
