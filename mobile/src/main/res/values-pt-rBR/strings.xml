@@ -149,6 +149,7 @@
     <string name="error_openhab_offline">Seu servidor openHAB está offline enquanto está executando a instância de nuvem</string>
     <string name="error_no_browser_found">Nenhum navegador encontrado no seu dispositivo</string>
     <string name="error_no_speech_to_text_app_found">Nenhum aplicativo de reconhecimento de voz encontrado</string>
+    <string name="error_sse_failed">Falha na inscrição do evento, a atualização do widget pode ser prejudicada</string>
     <string name="install">Instalar</string>
     <string name="title_activity_openhabwritetag">Escrever na tag NFC</string>
     <string name="title_activity_libraries">Bibliotecas usadas</string>
@@ -184,9 +185,17 @@
     <string name="settings_charging_state">Estado do carregamento</string>
     <string name="settings_charging_state_summary_on">Envia o estado de carregamento para o item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Não enviar o estado de carregamento para o servidor</string>
+    <string name="settings_wifi_ssid">Nome do WiFi</string>
+    <string name="settings_wifi_ssid_summary_on">Envia o nome do Wi-Fi (SSID) para o item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">Não enviar nome do Wi-Fi (SSID) para o servidor</string>
+    <string name="settings_wifi_ssid_permission_denied">O envio de nome de Wi-Fi foi desativado devido à falta de permissões</string>
+    <string name="settings_background_tasks_permission_denied">Algumas tarefas de segundo plano foram desabilitadas devido à falta de permissões</string>
+    <string name="settings_background_tasks_permission_allow">Permitir</string>
     <string name="settings_item_pref_item_name">Nome do item</string>
     <string name="waiting_for_item_upload">Aguardando a rede enviar atualizações de Item</string>
     <string name="item_upload_in_progress">Itens estão sendo atualizados</string>
+    <string name="notification_channel_background">Tarefas de segundo plano</string>
+    <string name="notification_channel_background_description">Usado para notificar sobre tarefas em segundo plano pendentes, ex.: aguardando a rede para enviar o nível de bateria</string>
     <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item não pôde ser atualizado</item>
