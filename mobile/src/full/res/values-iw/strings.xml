@@ -8,6 +8,7 @@
     <string name="info_openhab_gcm_failed_play_services">רישום להתראות בדחיפה נכשל עקב בעיה בשירותי Google Play: %s</string>
     <string name="info_openhab_gcm_connected">המכשיר נרשם בהצלחה לשירות העברת הודעות בענן של גוגל (FCM)</string>
     <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d התראה חדשה</item>
         <item quantity="two">%d התראות חדשות</item>
