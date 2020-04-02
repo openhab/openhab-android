@@ -20,4 +20,4 @@ check_android_task:
     - adb wait-for-device
     - sleep 30
     - adb shell input keyevent 82
-  check_script: ./gradlew :mobile:connectedFossBetaDebugAndroidTest
+  check_script: ./gradlew :mobile:connectedFossStableDebugAndroidTest
