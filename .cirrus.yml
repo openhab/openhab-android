@@ -5,6 +5,9 @@ container:
   kvm: true
 
 check_android_task:
+  accel_check_script:
+    - sudo chown cirrus:cirrus /dev/kvm
+    - emulator -accel-check
   create_device_script:
     - sdkmanager "system-images;android-29;default;x86_64"
     - echo no | avdmanager create avd --force -n test -k "system-images;android-29;default;x86_64"
