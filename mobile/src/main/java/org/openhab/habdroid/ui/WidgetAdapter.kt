@@ -1126,7 +1126,7 @@ class WidgetAdapter(
             }
 
             dialogManager.manage(AlertDialog.Builder(contentView.context)
-                .setTitle(boundWidget?.label)
+                .setTitle(boundWidget?.labelWithoutState)
                 .setView(contentView)
                 .setNegativeButton(R.string.close, null)
                 .show()
