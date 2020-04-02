@@ -371,6 +371,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     override fun onBackPressed() {
         RemoteLog.d(TAG, "onBackPressed()")
         when {
+            drawerLayout.isDrawerOpen(findViewById<NavigationView>(R.id.left_drawer)) -> drawerLayout.closeDrawers()
             controller.canGoBack() -> controller.goBack()
             isFullscreenEnabled -> when {
                 lastSnackbar?.isShown != true ->
