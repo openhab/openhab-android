@@ -21,7 +21,7 @@ Describe us what should happen
 
 
 ### Can you reproduce the issue in demo mode?
-<!-- You dont need to fill all server related information, when you can reproduce the bug in demo mode -->
+<!-- You don't need to fill all server related information, when you can reproduce the bug in demo mode -->
 <!-- Only on a specific subpage? -->
 
 
