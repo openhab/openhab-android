@@ -93,6 +93,7 @@
             android:key="send_device_info"
             android:dependency="default_openhab_demomode"
             android:title="@string/send_device_info_to_server"
+            android:icon="@drawable/ic_cloud_upload_outline_grey_24dp"
             android:persistent="false" />
         <ListPreference
             android:key="screen_lock"
