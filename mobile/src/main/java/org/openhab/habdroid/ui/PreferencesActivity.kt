@@ -46,6 +46,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
@@ -610,10 +611,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             addPreferencesFromResource(R.xml.preferences_device_information)
 
             val sendDeviceInfoPrefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
-            val alarmClockPref = getPreference(PrefKeys.SEND_ALARM_CLOCK) as ItemUpdatingPreference
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
-            val batteryLevelPref = getPreference(PrefKeys.SEND_BATTERY_LEVEL) as ItemUpdatingPreference
-            val chargingStatePref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
 
             phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
@@ -647,11 +645,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
                 updatePrefixSummary(sendDeviceInfoPrefixPref, prefix)
-                alarmClockPref.updateSummaryAndIcon(prefix)
-                phoneStatePref.updateSummaryAndIcon(prefix)
-                batteryLevelPref.updateSummaryAndIcon(prefix)
-                chargingStatePref.updateSummaryAndIcon(prefix)
-                wifiSsidPref.updateSummaryAndIcon(prefix)
+
+                BackgroundTasksManager.KNOWN_KEYS.forEach {
+                    (getPreference(it) as ItemUpdatingPreference).updateSummaryAndIcon(prefix)
+                }
                 true
             }
         }
