@@ -76,4 +76,5 @@ object PrefKeys {
      */
     const val SUBSCREEN_LOCAL_CONNECTION = "default_openhab_local_connection"
     const val SUBSCREEN_REMOTE_CONNECTION = "default_openhab_remote_connection"
+    const val SUBSCREEN_SEND_DEVICE_INFO = "send_device_info"
 }
