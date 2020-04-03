@@ -610,7 +610,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences_device_information)
 
-            val sendDeviceInfoPrefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
+            val prefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
+            val schedulePref = getPreference(PrefKeys.SEND_DEVICE_INFO_SCHEDULE)
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
 
@@ -641,14 +642,19 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            updatePrefixSummary(sendDeviceInfoPrefixPref, prefs.getString(PrefKeys.SEND_DEVICE_INFO_PREFIX))
-            sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
+            updatePrefixSummary(prefixPref, prefs.getString(PrefKeys.SEND_DEVICE_INFO_PREFIX))
+            prefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
-                updatePrefixSummary(sendDeviceInfoPrefixPref, prefix)
+                updatePrefixSummary(prefixPref, prefix)
 
                 BackgroundTasksManager.KNOWN_KEYS.forEach {
                     (getPreference(it) as ItemUpdatingPreference).updateSummaryAndIcon(prefix)
                 }
+                true
+            }
+
+            schedulePref.setOnPreferenceChangeListener { preference, newValue ->
+                BackgroundTasksManager.managePeriodicTrigger(preference.context, (newValue as String).toInt())
                 true
             }
         }

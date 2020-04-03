@@ -246,6 +246,13 @@
     <string name="error_sending_alarm_clock_item_empty">Please enter a valid Item name</string>
     <string name="retry">Retry</string>
     <string name="ignore">Ignore</string>
+    <string name="send_device_info_schedule">Schedule</string>
+    <string name="send_device_info_schedule_summary">Send Item updates every %s.\nNote: Lower values impair battery life more than higher ones. Your device may decide to delay updates.</string>
+    <string name="send_device_info_schedule_15_minutes">15 minutes</string>
+    <string name="send_device_info_schedule_1_hour">1 hour</string>
+    <string name="send_device_info_schedule_3_hours">3 hours</string>
+    <string name="send_device_info_schedule_6_hours">6 hours</string>
+    <string name="send_device_info_schedule_12_hours">12 hours</string>
 
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>

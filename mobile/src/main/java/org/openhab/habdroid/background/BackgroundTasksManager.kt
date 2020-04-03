@@ -49,6 +49,7 @@ import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
+import kotlin.math.max
 
 class BackgroundTasksManager : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -258,7 +259,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             KNOWN_PERIODIC_KEYS.forEach { key -> scheduleWorker(context, key) }
         }
 
-        private fun managePeriodicTrigger(context: Context) {
+        fun managePeriodicTrigger(context: Context, interval: Int = 0) {
             val workManager = WorkManager.getInstance(context)
             val prefs = context.getPrefs()
             val periodicWorkIsNeeded = KNOWN_PERIODIC_KEYS
@@ -280,7 +281,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val isChargingWorkerRunning = isWorkerRunning(WORKER_TAG_PERIODIC_TRIGGER_CHARGING)
             val isNotChargingWorkerRunning = isWorkerRunning(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
 
-            if (isChargingWorkerRunning && isNotChargingWorkerRunning) {
+            if (isChargingWorkerRunning && isNotChargingWorkerRunning && interval == 0) {
                 return
             }
 
@@ -290,8 +291,20 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
+
+            // Value is stored in minutes, but we need millis to compare it
+            var repeatInterval = if (interval == 0) {
+                prefs.getString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE).toInt()
+            } else {
+                interval
+            } * 60 * 1000L
+            repeatInterval = max(repeatInterval, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS)
+            var flexInterval = (repeatInterval * 0.75).toLong()
+            flexInterval = max(flexInterval, PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS)
+
             val workRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
-                    6, TimeUnit.HOURS, 4, TimeUnit.HOURS)
+                repeatInterval, TimeUnit.MILLISECONDS,
+                flexInterval, TimeUnit.MILLISECONDS)
                 .setConstraints(constraints)
                 .addTag(WORKER_TAG_PERIODIC_TRIGGER)
                 .addTag(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)

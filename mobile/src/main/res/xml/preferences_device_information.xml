@@ -10,6 +10,13 @@
             android:inputType="textNoSuggestions"
             android:key="sendDeviceInfoPrefix"
             android:title="@string/send_device_info_item_prefix" />
+        <ListPreference
+            android:key="send_device_info_schedule"
+            android:title="@string/send_device_info_schedule"
+            android:summary="@string/send_device_info_schedule_summary"
+            android:defaultValue="360"
+            android:entries="@array/send_device_info_schedule"
+            android:entryValues="@array/send_device_info_schedule_values" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/send_device_info_category_device_info">
