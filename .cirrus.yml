@@ -4,7 +4,7 @@ container:
   memory: 10G
   kvm: true
 
-check_android_task:
+emulator_tests_task:
   accel_check_script:
     - sudo chown cirrus:cirrus /dev/kvm
     - emulator -accel-check
@@ -20,4 +20,5 @@ check_android_task:
     - adb wait-for-device
     - sleep 30
     - adb shell input keyevent 82
-  check_script: ./gradlew :mobile:connectedFossStableDebugAndroidTest
+  check_foss_beta_script: ./gradlew :mobile:connectedFossBetaDebugAndroidTest
+  check_full_stable_script: ./gradlew :mobile:connectedFullStableDebugAndroidTest
