@@ -602,7 +602,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     internal class SendDeviceInfoSettingsFragment : AbstractSettingsFragment() {
-        override val titleResId: Int @StringRes get() = R.string.send_device_info_to_server
+        override val titleResId: Int @StringRes get() = R.string.send_device_info_to_server_short
         private lateinit var phoneStatePref: ItemUpdatingPreference
         private lateinit var wifiSsidPref: ItemUpdatingPreference
 
