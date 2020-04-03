@@ -192,6 +192,8 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Send device information to server</string>
     <string name="send_device_info_to_server_short">Send device information</string>
+    <string name="send_device_info_category_device_info">Device information</string>
+    <string name="send_device_info_category_general">General</string>
     <string name="send_device_info_item_prefix">Item name prefix</string>
     <string name="send_device_info_item_prefix_summary">The Item names of the following features are prefixed with \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">No prefix is set for the Item names of the following features</string>

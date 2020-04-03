@@ -3,11 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/send_device_info_to_server">
+    <PreferenceCategory
+        android:title="@string/send_device_info_category_general">
         <org.openhab.habdroid.ui.preference.CustomInputTypePreference
             android:defaultValue="@string/empty_string"
             android:inputType="textNoSuggestions"
             android:key="sendDeviceInfoPrefix"
             android:title="@string/send_device_info_item_prefix" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/send_device_info_category_device_info">
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|AlarmClock"
             android:key="alarmClock"
@@ -53,4 +58,5 @@
             android:title="@string/settings_wifi_ssid"
             app:iconEnabled="@drawable/ic_wifi_strength_outline_grey_24dp"
             app:iconDisabled="@drawable/ic_wifi_strength_off_outline_grey_24dp" />
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
