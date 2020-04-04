@@ -199,6 +199,7 @@
     <string name="notification_channel_background_error">שגיאה במשימות ברקע</string>
     <string name="notification_channel_background_error_description">משמש כדי להתריע על שגיאות במשימות הממתינות ברקע, למשל רשת לא זמינה בכדי לשלוח את מצב הסוללה</string>
     <string name="notification_channel_messages_default_severity">ברירת מחדל</string>
+    <string name="notification_channel_messages_default_severity_description">התראות שנשלחו על ידי השרת ללא הגדרת תעדוף</string>
     <string name="notification_channel_group_messages">הודעות</string>
     <string name="notification_channel_group_other">אחר</string>
     <plurals name="item_update_error_title">
@@ -414,5 +415,6 @@
     <string name="widget_type_image">תמונה</string>
     <string name="widget_type_webview">תצוגת אינטרנט</string>
     <string name="widget_type_video">וידאו</string>
+    <string name="widget_type_mapview">מפה</string>
     <string name="widget_type_chart">תרשים</string>
 </resources>
