@@ -59,7 +59,6 @@ class OpenHabApplication : MultiDexApplication() {
         ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
         RemoteLog.initialize(this)
-        BackgroundTasksManager.triggerPeriodicWork(this)
     }
 
     override fun onTerminate() {
