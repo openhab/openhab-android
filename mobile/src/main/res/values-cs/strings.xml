@@ -408,8 +408,6 @@
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Spořič dat</string>
-    <string name="data_saver_on">Snížit využití dat</string>
-    <string name="data_saver_off">Respektovat nastavení zařízení</string>
     <string name="data_saver_load">I přesto načíst</string>
     <string name="data_saver_hint">%s nebyl načten pro snížení spotřeby dat</string>
     <string name="widget_type_image">Obrázek</string>
