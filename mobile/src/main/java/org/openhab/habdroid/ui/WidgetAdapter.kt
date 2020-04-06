@@ -371,7 +371,7 @@ class WidgetAdapter(
                     Widget.Type.Webview -> R.string.widget_type_webview
                     Widget.Type.Video -> R.string.widget_type_video
                     Widget.Type.Chart -> R.string.widget_type_chart
-                    else -> 0
+                    else -> throw IllegalArgumentException("Cannot show data saver hint for ${widget.type}")
                 }
 
                 dataSaverHint.text = itemView.context.getString(R.string.data_saver_hint,
