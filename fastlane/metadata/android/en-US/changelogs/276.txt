@@ -1,0 +1,2 @@
+## Fixed
+* Fix crash caused by data saver (#1906)
