@@ -28,7 +28,8 @@ fun ResponseBody.toBitmap(targetWidth: Int, targetHeight: Int, enforceSize: Bool
     if (!contentType().isSvg()) {
         BitmapFactory.Options().run {
             inJustDecodeBounds = true
-            BitmapFactory.decodeStream(byteStream(), null, this)
+            val byteArray = bytes()
+            BitmapFactory.decodeStream(byteArray.inputStream(), null, this)
 
             // Calculate inSampleSize
             inSampleSize = calculateInSampleSize(this, targetWidth, targetHeight)
@@ -36,7 +37,7 @@ fun ResponseBody.toBitmap(targetWidth: Int, targetHeight: Int, enforceSize: Bool
             // Decode bitmap with inSampleSize set
             inJustDecodeBounds = false
 
-            val bitmap = BitmapFactory.decodeStream(byteStream(), null, this)
+            val bitmap = BitmapFactory.decodeStream(byteArray.inputStream(), null, this)
                 ?: throw IOException("Bitmap decoding failed")
 
             return if (enforceSize) {
