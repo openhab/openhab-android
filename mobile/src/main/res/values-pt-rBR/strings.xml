@@ -406,8 +406,6 @@
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Economia de dados</string>
-    <string name="data_saver_on">Reduzir uso de dados</string>
-    <string name="data_saver_off">Respeitar configuração do dispositivo</string>
     <string name="data_saver_load">Carregar mesmo assim</string>
     <string name="data_saver_hint">%s não foi carregado para salvar dados</string>
     <string name="widget_type_image">Imagem</string>
