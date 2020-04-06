@@ -16,18 +16,18 @@ package org.openhab.habdroid.ui.preference
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
-import com.google.android.material.slider.Slider
+
 import org.openhab.habdroid.R
-import kotlin.math.max
 
 class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) :
-    Preference(context, attrs), Slider.OnChangeListener, Slider.LabelFormatter {
+    Preference(context, attrs), SeekBar.OnSeekBarChangeListener {
     private val entries: Array<String>
     private val values: Array<Float>
-    private lateinit var seekBar: Slider
+    private lateinit var seekBar: SeekBar
     private lateinit var label: TextView
     private var value: Float = 0F
 
@@ -47,11 +47,9 @@ class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) 
         }
 
         seekBar = holder.itemView.findViewById(R.id.seekbar)
-        seekBar.addOnChangeListener(this)
-        seekBar.setLabelFormatter(this)
-        seekBar.valueTo = (values.size - 1).toFloat()
-        seekBar.value = max(0, values.indexOfFirst { v -> v == value }).toFloat()
-        seekBar.stepSize = 1F
+        seekBar.setOnSeekBarChangeListener(this)
+        seekBar.max = values.size - 1
+        seekBar.progress = Math.max(0, values.indexOfFirst { v -> v == value })
 
         label = holder.itemView.findViewById(R.id.label)
         updateLabel()
@@ -66,11 +64,11 @@ class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) 
         value = getPersistedFloat(defaultFloat)
     }
 
-    override fun onValueChange(slider: Slider, progress: Float, fromUser: Boolean) {
-        if (!fromUser) {
+    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromTouch: Boolean) {
+        if (!fromTouch) {
             return
         }
-        val value = values[progress.toInt()]
+        val value = values[progress]
         if (callChangeListener(value)) {
             this.value = value
             updateLabel()
@@ -80,11 +78,15 @@ class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun updateLabel() {
-        label.text = entries[seekBar.value.toInt()]
+    override fun onStartTrackingTouch(seekBar: SeekBar) {
+        // no-op
     }
 
-    override fun getFormattedValue(value: Float): String {
-        return entries[value.toInt()]
+    override fun onStopTrackingTouch(seekBar: SeekBar) {
+        // no-op
+    }
+
+    private fun updateLabel() {
+        label.text = entries[seekBar.progress]
     }
 }
