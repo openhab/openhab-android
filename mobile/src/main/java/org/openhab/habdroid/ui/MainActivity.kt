@@ -427,7 +427,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         }
                         controller.updateConnection(null,
                             getString(R.string.resolving_openhab),
-                            R.drawable.ic_openhab_appicon_340dp /*FIXME?*/)
+                            R.drawable.ic_home_search_outline_grey_340dp)
                     }
                 } else {
                     controller.indicateMissingConfiguration(false)
