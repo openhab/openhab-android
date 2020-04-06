@@ -320,7 +320,7 @@ fun Context.openInAppStore(app: String) {
 }
 
 fun Context.isDataSaverActive(): Boolean {
-    val dataSaverPref = getPrefs().getBoolean(PrefKeys.PREFERENCE_DATA_SAVER, false)
+    val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
         return dataSaverPref
     }

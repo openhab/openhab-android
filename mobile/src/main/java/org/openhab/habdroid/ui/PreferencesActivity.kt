@@ -249,7 +249,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val prefs = preferenceScreen.sharedPreferences
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                val dataSaverPref = getPreference(PrefKeys.PREFERENCE_DATA_SAVER) as SwitchPreference
+                val dataSaverPref = getPreference(PrefKeys.DATA_SAVER) as SwitchPreference
                 dataSaverPref.setSwitchTextOff(R.string.data_saver_off_pre_n)
             }
 
