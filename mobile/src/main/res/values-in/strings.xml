@@ -42,7 +42,6 @@
     <string name="title_activity_openhabwritetag">Tulis tag NFC</string>
     <string name="info_write_tag">Sentuh tag dan tetap tutup sampai pesan konfirmasi muncul</string>
     <string name="info_write_tag_progress">Menulis tag</string>
-    <string name="info_write_tag_finished">Berhasil selesai</string>
     <string name="info_write_failed">Kesalahan penulisan tag</string>
     <string name="info_write_tag_unsupported">Perangkat ini tidak memiliki dukungan NFC</string>
     <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>

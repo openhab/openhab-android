@@ -116,7 +116,6 @@
     <string name="title_activity_libraries">Gebruikte bibliotheken</string>
     <string name="info_write_tag">Raak de tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
     <string name="info_write_tag_progress">De tag wordt weggeschreven</string>
-    <string name="info_write_tag_finished">Gelukt</string>
     <string name="info_write_failed">Tag schrijffout</string>
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
     <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
@@ -140,14 +139,10 @@
     <string name="settings_phone_state_summary_on">Verzend belstatus naar item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Belstatus niet naar server versturen</string>
     <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
-    <string name="settings_phone_state_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
     <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
-    <string name="notification_channel_background">Achtergrond</string>
-    <string name="notification_channel_background_description">Gebruikt om wachtende achtergrondtaken weer te geven</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
-    <string name="notification_channel_background_error_description">Gebruikt om te informeren over fouten in achtergrondtaken</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
         <item quantity="other">%d Items konden niet worden bijgewerkt</item>

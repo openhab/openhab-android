@@ -97,7 +97,6 @@
     <string name="title_activity_libraries">Brukte biblioteker</string>
     <string name="info_write_tag">Berør tagen og hold den nær til bekreftelsesmeldingen vises</string>
     <string name="info_write_tag_progress">Skriver tagen</string>
-    <string name="info_write_tag_finished">Fullført</string>
     <string name="info_write_failed">Tag skrivefeil</string>
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versjon</string>

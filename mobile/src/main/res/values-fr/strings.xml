@@ -106,7 +106,6 @@
     <string name="title_activity_libraries">Librairies utilisées</string>
     <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse</string>
     <string name="info_write_tag_progress">Écriture du tag en cours</string>
-    <string name="info_write_tag_finished">Écriture du tag terminée</string>
     <string name="info_write_failed">Erreur d\'écriture du tag</string>
     <string name="info_write_tag_unsupported">Ce téléphone n\'est pas compatible NFC</string>
     <string name="info_openhab_apiversion_label">Version API Rest openHAB</string>
@@ -124,10 +123,7 @@
     <string name="settings_item_pref_item_name">Nom d\'Item</string>
     <string name="waiting_for_item_upload">En attente de réseau pour mettre à jour les Items</string>
     <string name="item_upload_in_progress">Mise à jour des Items en cours</string>
-    <string name="notification_channel_background">Arrière-plan</string>
-    <string name="notification_channel_background_description">Permet d’afficher les tâches de fond en attente</string>
     <string name="notification_channel_background_error">Erreur dans les tâches en arrière-plan</string>
-    <string name="notification_channel_background_error_description">Permet d’informer sur les erreurs en tâches de fond</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Impossible de mettre à jour %d Item</item>
         <item quantity="other">Impossible de mettre à jour %d Items</item>

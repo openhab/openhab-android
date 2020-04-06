@@ -118,7 +118,6 @@
     <string name="title_activity_libraries">Benotzten Librairien</string>
     <string name="info_write_tag">Beréier den Tag an hal en no bäi bis de Bestätegung s Message kennt</string>
     <string name="info_write_tag_progress">Tag gëtt geschriwwen</string>
-    <string name="info_write_tag_finished">Erfollegräich ofgeschloss</string>
     <string name="info_write_failed">Feeler beim schreiwen vum Tag</string>
     <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
     <string name="info_write_tag_disabled">NFC ass ausgeschalt</string>
@@ -142,14 +141,10 @@
     <string name="settings_phone_state_summary_on">Schéckt den Uruffstatus un den Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Uruffstatus net un de Server schécken</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
-    <string name="settings_phone_state_permission_allow">Erlaben</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
     <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
-    <string name="notification_channel_background">Hannergrond</string>
-    <string name="notification_channel_background_description">Gëtt gebraucht fir onerleedegt Hannergrond Prozesser unzeweisen</string>
     <string name="notification_channel_background_error">Feeler an den Hannergrond Prozesser</string>
-    <string name="notification_channel_background_error_description">Gëtt gebraucht fir d\'Notifikatiounen zu Feeler an den Hannergrond Prozesser</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>

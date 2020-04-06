@@ -140,7 +140,7 @@
     <string name="title_activity_libraries">Használt könyvtárak</string>
     <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
     <string name="info_write_tag_progress">Címke írása</string>
-    <string name="info_write_tag_finished">Sikeresen befejezve</string>
+    <string name="info_write_tag_finished">Cimkeírás sikeres megtörtént</string>
     <string name="info_write_failed">Címke írása sikertelen</string>
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
@@ -163,14 +163,10 @@
     <string name="settings_phone_state_summary_on">Hívás állapotának küldése a(z) \'%1$s\' elemnek</string>
     <string name="settings_phone_state_summary_off">Ne küldje el a hívás állapotát az openHAB-nak</string>
     <string name="settings_phone_state_permission_denied">Hívás állapotának küldése letiltva jogosultság hiánya matt</string>
-    <string name="settings_phone_state_permission_allow">Engedélyezés</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
     <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
     <string name="item_upload_in_progress">Az Elemek jelenleg frissülnek</string>
-    <string name="notification_channel_background">Háttér</string>
-    <string name="notification_channel_background_description">Használatban, hogy megjelenítse a háttérműveleteket</string>
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
-    <string name="notification_channel_background_error_description">Használatban, hogy értesítse a hibákról a hátterműveletekben</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>

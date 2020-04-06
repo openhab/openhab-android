@@ -153,7 +153,6 @@
     <string name="title_activity_libraries">Użyte biblioteki</string>
     <string name="info_write_tag">Kliknij na tag i przytrzymaj dopóki wiadomość informacyjna się nie pokaże</string>
     <string name="info_write_tag_progress">Pisanie tagu</string>
-    <string name="info_write_tag_finished">Zakończono pomyślnie</string>
     <string name="info_write_failed">Błąd pisania tag\'u</string>
     <string name="info_write_tag_unsupported">To urządzenie nie wspiera technologii NFC</string>
     <string name="info_write_tag_disabled">Komunikacja NFC jest wyłączona</string>
@@ -177,14 +176,10 @@
     <string name="settings_phone_state_summary_on">Wyślij stan rozmowy do itemu \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Nie wysyłaj stanu rozmowy do serwera</string>
     <string name="settings_phone_state_permission_denied">Wysyłanie stanu rozmowy do zostało wyłączone z powodu braku pozwolenia</string>
-    <string name="settings_phone_state_permission_allow">Zezwól</string>
     <string name="settings_item_pref_item_name">Nazwa Item\'u</string>
     <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
     <string name="item_upload_in_progress">Item\'y są obecnie aktualizowane</string>
-    <string name="notification_channel_background">Tło</string>
-    <string name="notification_channel_background_description">Służy do wyświetlania oczekujących zadań w tle</string>
     <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
-    <string name="notification_channel_background_error_description">Służy do powiadamiania o błędach w zadaniach w tle</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Element nie mogły zostać zaktualizowany</item>
         <item quantity="few">%d Elementy nie mogły zostać zaktualizowane</item>

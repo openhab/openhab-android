@@ -82,7 +82,6 @@
     <string name="title_activity_libraries">المكتبات المستخدمة</string>
     <string name="info_write_tag">إلمس العلامة واجعله قريبا حتى تظهر رسالة التأكيد</string>
     <string name="info_write_tag_progress">كتابة الوسم</string>
-    <string name="info_write_tag_finished">أنهاء بنجاح</string>
     <string name="info_write_failed">خطأ كتابة الوسم</string>
     <string name="info_write_tag_unsupported">هذا الجهاز لا بدعم NFC</string>
     <string name="info_openhab_apiversion_label">إصدار Rest API openHAB</string>

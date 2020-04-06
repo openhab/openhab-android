@@ -79,7 +79,6 @@
     <string name="title_activity_libraries">Χρησιμοποιημένες βιβλιοθήκες</string>
     <string name="info_write_tag">Αγγίξτε την ετικέτα NFC και κρατήστε την κοντά μέχρι να εμφανιστεί το μήνυμα επιβεβαίωσης</string>
     <string name="info_write_tag_progress">Εγγραφή ετικέτας NFC</string>
-    <string name="info_write_tag_finished">Ολοκληρώθηκε με επιτυχία</string>
     <string name="info_write_failed">Σφάλμα στην εγγραφή της ετικέτας NFC</string>
     <string name="info_write_tag_unsupported">Αυτή η συσκευή δεν υποστηρίζει NFC</string>
     <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>

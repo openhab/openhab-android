@@ -154,7 +154,6 @@
     <string name="title_activity_libraries">Verwendete Bibliotheken</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
     <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
-    <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
     <string name="info_write_failed">Fehler beim Beschreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
@@ -178,14 +177,11 @@
     <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Anrufstatus nicht an den Server senden</string>
     <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
-    <string name="settings_phone_state_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
-    <string name="notification_channel_background">Hintergrund</string>
-    <string name="notification_channel_background_description">Wird verwendet, um ausstehende Hintergrundaufgaben anzuzeigen</string>
+    <string name="notification_channel_background">Hintergrundaufgaben</string>
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
-    <string name="notification_channel_background_error_description">Wird verwendet, um Fehler bei Hintergrundaufgaben anzuzeigen</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
