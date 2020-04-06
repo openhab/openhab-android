@@ -148,12 +148,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         val activity = activity as MainActivity
         activity.triggerPageUpdate(displayPageUrl, false)
         startOrStopVisibleViewHolders(true)
-        (activity.applicationContext as OpenHabApplication).registerDataSaverStateChangedListener(this)
+        (activity.applicationContext as OpenHabApplication).registerSystemDataSaverStateChangedListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        (requireContext().applicationContext as OpenHabApplication).unregisterDataSaverStateChangedListener(this)
+        (requireContext().applicationContext as OpenHabApplication).unregisterSystemDataSaverStateChangedListener(this)
     }
 
     override fun onPause() {
@@ -163,7 +163,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         startOrStopVisibleViewHolders(false)
     }
 
-    override fun onDataSaverActiveStateChanged(active: Boolean) {
+    override fun onSystemDataSaverActiveStateChanged(active: Boolean) {
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {

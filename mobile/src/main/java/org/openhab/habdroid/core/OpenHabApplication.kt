@@ -36,7 +36,7 @@ import java.security.InvalidKeyException
 @Suppress("UNUSED")
 class OpenHabApplication : MultiDexApplication() {
     interface OnDataSaverActiveStateChangedListener {
-        fun onDataSaverActiveStateChanged(active: Boolean)
+        fun onSystemDataSaverActiveStateChanged(active: Boolean)
     }
 
     val secretPrefs: SharedPreferences by lazy {
@@ -53,7 +53,7 @@ class OpenHabApplication : MultiDexApplication() {
         }
     }
 
-    var isDataSaverActive: Boolean = false
+    var isSystemDataSaverActive: Boolean = false
         private set
 
     private val dataSaverChangeListener = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -82,7 +82,7 @@ class OpenHabApplication : MultiDexApplication() {
 
         dataSaverChangeListener?.let { listener ->
             registerReceiver(listener, IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED))
-            isDataSaverActive = listener.isDataSaverEnabled(this)
+            isSystemDataSaverActive = listener.isSystemDataSaverEnabled(this)
         }
     }
 
@@ -91,16 +91,16 @@ class OpenHabApplication : MultiDexApplication() {
         ConnectionFactory.shutdown()
     }
 
-    fun registerDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
+    fun registerSystemDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
         dataSaverListeners.add(l)
     }
 
-    fun unregisterDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
+    fun unregisterSystemDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
         dataSaverListeners.remove(l)
     }
 
     inner class DataSaverStateChangeReceiver : BroadcastReceiver() {
-        fun isDataSaverEnabled(context: Context): Boolean {
+        fun isSystemDataSaverEnabled(context: Context): Boolean {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 return false
             }
@@ -112,8 +112,8 @@ class OpenHabApplication : MultiDexApplication() {
             if (intent?.action != ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED) {
                 return
             }
-            isDataSaverActive = isDataSaverEnabled(context)
-            dataSaverListeners.forEach { l -> l.onDataSaverActiveStateChanged(isDataSaverActive) }
+            isSystemDataSaverActive = isSystemDataSaverEnabled(context)
+            dataSaverListeners.forEach { l -> l.onSystemDataSaverActiveStateChanged(isSystemDataSaverActive) }
         }
     }
 

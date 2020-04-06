@@ -324,7 +324,7 @@ fun Context.isDataSaverActive(): Boolean {
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
         return dataSaverPref
     }
-    return (applicationContext as OpenHabApplication).isDataSaverActive
+    return (applicationContext as OpenHabApplication).isSystemDataSaverActive
 }
 
 fun Activity.finishAndRemoveTaskIfPossible() {
