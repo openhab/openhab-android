@@ -400,8 +400,6 @@
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Risparmio dati</string>
-    <string name="data_saver_on">Riduci utilizzo dati</string>
-    <string name="data_saver_off">Rispetto impostazione dispositivo</string>
     <string name="data_saver_load">Carica comunque</string>
     <string name="data_saver_hint">%s non è stato caricato per risparmiare dati</string>
     <string name="widget_type_image">Immagine</string>
