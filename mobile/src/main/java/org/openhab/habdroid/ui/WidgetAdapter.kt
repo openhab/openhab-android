@@ -82,7 +82,6 @@ import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
-import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
 import java.util.concurrent.CancellationException
@@ -543,10 +542,6 @@ class WidgetAdapter(
         init {
             seekBar.addOnSliderTouchListener(this)
             seekBar.setLabelFormatter(this)
-            val now = Calendar.getInstance()
-            if (now.get(Calendar.DAY_OF_MONTH) == 31 && now.get(Calendar.MONTH) == Calendar.OCTOBER) {
-                // seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp) // TODO
-            }
         }
 
         override fun bind(widget: Widget) {
