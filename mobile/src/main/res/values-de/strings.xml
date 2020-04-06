@@ -177,11 +177,15 @@
     <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Anrufstatus nicht an den Server senden</string>
     <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_background_tasks_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
     <string name="notification_channel_background">Hintergrundaufgaben</string>
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
+    <string name="notification_channel_messages_default_severity">Standard</string>
+    <string name="notification_channel_group_messages">Nachrichten</string>
+    <string name="notification_channel_group_other">Sonstiges</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
@@ -385,4 +389,9 @@
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
+    <string name="data_saver_title">Datensparmodus</string>
+    <string name="widget_type_image">Bild</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Karte</string>
+    <string name="widget_type_chart">Diagramm</string>
 </resources>
