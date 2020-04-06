@@ -616,7 +616,7 @@ class WidgetAdapter(
                 imageView.setImageBitmap(bitmap)
                 refreshRate = 0
             } else if (widget.url != null) {
-                imageView.setImageUrl(connection, widget.url, parent.width)
+                imageView.setImageUrl(connection, widget.url, parent.width, parent.height)
                 refreshRate = widget.refresh
             } else {
                 imageView.setImageDrawable(null)
@@ -914,7 +914,7 @@ class WidgetAdapter(
             val chartUrl =
                 widget.toChartUrl(prefs, random, parent.width, chartTheme = chartTheme, density = density) ?: return
             Log.d(TAG, "Chart url = $chartUrl")
-            chart.setImageUrl(connection, chartUrl, parent.width, forceLoad = true)
+            chart.setImageUrl(connection, chartUrl, parent.width, parent.height, forceLoad = true)
             refreshRate = widget.refresh
         }
 
@@ -1344,10 +1344,12 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
         setImageDrawable(null)
         return
     }
+    val iconSize = resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
     setImageUrl(
         connection,
         widget.icon.toUrl(context, !context.isDataSaverActive()),
-        resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
+        iconSize,
+        iconSize
     )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {

@@ -168,7 +168,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         ) ?: return
 
         Log.d(TAG, "Load chart with url $chartUrl")
-        chart.setImageUrl(connection, chartUrl, chart.width, forceLoad = true)
+        chart.setImageUrl(connection, chartUrl, chart.width, chart.height, forceLoad = true)
         if (widget.refresh > 0 && !isDataSaverActive()) {
             chart.startRefreshing(widget.refresh)
         }

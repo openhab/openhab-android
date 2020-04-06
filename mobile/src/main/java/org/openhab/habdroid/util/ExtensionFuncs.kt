@@ -19,9 +19,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
 import android.net.Network
@@ -33,7 +30,6 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
-import com.caverock.androidsvg.SVG
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -41,7 +37,6 @@ import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType
-import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
 import org.openhab.habdroid.R
@@ -50,7 +45,6 @@ import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.io.EOFException
 import java.io.IOException
-import java.io.InputStream
 import java.net.ConnectException
 import java.net.Socket
 import java.net.SocketTimeoutException
@@ -127,76 +121,8 @@ fun Resources.dpToPixel(dp: Float): Float {
     return dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 }
 
-@Throws(IOException::class)
-fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
-    if (!contentType().isSvg()) {
-        val bitmap = BitmapFactory.decodeStream(byteStream())
-            ?: throw IOException("Bitmap decoding failed")
-        return if (!enforceSize) {
-            bitmap
-        } else {
-            Bitmap.createScaledBitmap(bitmap, targetSize, targetSize, false)
-        }
-    }
-
-    return byteStream().svgToBitmap(targetSize)
-}
-
 fun MediaType?.isSvg(): Boolean {
     return this != null && this.type == "image" && this.subtype.contains("svg")
-}
-
-@Throws(IOException::class)
-fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
-    return try {
-        val svg = SVG.getFromInputStream(this)
-        val displayMetrics = Resources.getSystem().displayMetrics
-        svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
-        var density: Float? = displayMetrics.density
-        svg.setDocumentHeight("100%")
-        svg.setDocumentWidth("100%")
-        var docWidth = (svg.documentWidth * displayMetrics.density).toInt()
-        var docHeight = (svg.documentHeight * displayMetrics.density).toInt()
-
-        if (docWidth < 0 || docHeight < 0) {
-            val aspectRatio = svg.documentAspectRatio
-            if (aspectRatio > 0) {
-                val heightForAspect = targetSize.toFloat() / aspectRatio
-                val widthForAspect = targetSize.toFloat() * aspectRatio
-                if (widthForAspect < heightForAspect) {
-                    docWidth = Math.round(widthForAspect)
-                    docHeight = targetSize
-                } else {
-                    docWidth = targetSize
-                    docHeight = Math.round(heightForAspect)
-                }
-            } else {
-                docWidth = targetSize
-                docHeight = targetSize
-            }
-
-            // we didn't take density into account anymore when calculating docWidth
-            // and docHeight, so don't scale with it and just let the renderer
-            // figure out the scaling
-            density = null
-        }
-
-        if (docWidth != targetSize || docHeight != targetSize) {
-            val scaleWidth = targetSize.toFloat() / docWidth
-            val scaleHeight = targetSize.toFloat() / docHeight
-            density = (scaleWidth + scaleHeight) / 2
-        }
-
-        val bitmap = Bitmap.createBitmap(targetSize, targetSize, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        if (density != null) {
-            canvas.scale(density, density)
-        }
-        svg.renderToCanvas(canvas)
-        bitmap
-    } catch (e: Exception) {
-        throw IOException("SVG decoding failed", e)
-    }
 }
 
 fun NodeList.forEach(action: (Node) -> Unit) =

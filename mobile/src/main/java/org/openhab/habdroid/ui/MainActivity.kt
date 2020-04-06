@@ -753,7 +753,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         launch {
             try {
                 item.icon = conn.httpClient.get(sitemap.icon.toUrl(this@MainActivity, !isDataSaverActive()))
-                    .asBitmap(defaultIcon!!.intrinsicWidth, true)
+                    .asBitmap(defaultIcon!!.intrinsicWidth, defaultIcon.intrinsicHeight, true)
                     .response
                     .toDrawable(resources)
             } catch (e: HttpClient.HttpException) {

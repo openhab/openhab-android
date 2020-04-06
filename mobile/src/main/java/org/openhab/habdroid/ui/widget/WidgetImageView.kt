@@ -62,11 +62,13 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     fun setImageUrl(
         connection: Connection,
         url: String,
-        size: Int?,
+        width: Int?,
+        height: Int?,
         timeoutMillis: Long = HttpClient.DEFAULT_TIMEOUT_MS,
         forceLoad: Boolean = false
     ) {
-        val actualSize = size ?: defaultSvgSize
+        val actualWidth = width ?: defaultSvgSize
+        val actualHeight = height ?: defaultSvgSize
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
 
@@ -78,7 +80,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         cancelCurrentLoad()
 
         val cached = CacheManager.getInstance(context).getCachedBitmap(actualUrl)
-        val request = HttpImageRequest(client, actualUrl, actualSize, timeoutMillis)
+        val request = HttpImageRequest(client, actualUrl, actualWidth, actualHeight, timeoutMillis)
 
         if (cached != null) {
             setBitmapInternal(cached)
@@ -221,7 +223,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private inner class HttpImageRequest(
         private val client: HttpClient,
         private val url: HttpUrl,
-        private val size: Int,
+        private val widthInPixels: Int,
+        private val heightInPixels: Int,
         private val timeoutMillis: Long
     ) {
         private var job: Job? = null
@@ -237,7 +240,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                 try {
                     val bitmap = client.get(url.toString(),
                         timeoutMillis = timeoutMillis, caching = cachingMode)
-                        .asBitmap(size)
+                        .asBitmap(widthInPixels, heightInPixels, false)
                         .response
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)

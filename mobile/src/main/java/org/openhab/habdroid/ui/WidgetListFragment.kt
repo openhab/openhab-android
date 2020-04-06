@@ -465,7 +465,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             try {
                 connection.httpClient
                     .get(linkedPage.icon.toUrl(context, true))
-                    .asBitmap(foregroundSize, true)
+                    .asBitmap(foregroundSize, foregroundSize, true)
                     .response
             } catch (e: HttpClient.HttpException) {
                 null
