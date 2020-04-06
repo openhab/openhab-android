@@ -22,8 +22,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.net.ConnectivityManager
-import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
 import android.net.Network
 import android.net.Uri
 import android.os.Build
@@ -322,12 +320,11 @@ fun Context.openInAppStore(app: String) {
 }
 
 fun Context.isDataSaverActive(): Boolean {
-    val dataSaverPref = getPrefs().getBoolean(PrefKeys.PREFERENCE_DATA_SAVER, false)
+    val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
         return dataSaverPref
     }
-    val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    return cm.restrictBackgroundStatus != RESTRICT_BACKGROUND_STATUS_DISABLED
+    return (applicationContext as OpenHabApplication).isSystemDataSaverActive
 }
 
 fun Activity.finishAndRemoveTaskIfPossible() {

@@ -90,7 +90,7 @@ object MapViewHelper {
             }
         }
 
-        override fun loadWidget(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget) {
             handler.post {
                 mapView.applyPositionAndLabel(boundItem, labelView.text, 15.0f,
                     allowDrag = false, allowScroll = false, markerDragListener = this)

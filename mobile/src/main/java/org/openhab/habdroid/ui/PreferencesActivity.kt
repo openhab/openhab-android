@@ -41,6 +41,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
+import androidx.preference.SwitchPreference
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -246,6 +247,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
             val chartScalingPreference = getPreference(PrefKeys.CHART_SCALING)
             val prefs = preferenceScreen.sharedPreferences
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                val dataSaverPref = getPreference(PrefKeys.DATA_SAVER) as SwitchPreference
+                dataSaverPref.setSwitchTextOff(R.string.data_saver_off_pre_n)
+            }
 
             val currentDefaultSitemap = prefs.getString(PrefKeys.SITEMAP_NAME)
             val currentDefaultSitemapLabel = prefs.getString(PrefKeys.SITEMAP_LABEL)

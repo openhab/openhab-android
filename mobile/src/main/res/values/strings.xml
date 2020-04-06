@@ -455,8 +455,9 @@
     <string name="item_update_widget_widget_label">Widget label</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Data saver</string>
-    <string name="data_saver_on">Reduce data usage</string>
-    <string name="data_saver_off">Respect device setting</string>
+    <string name="data_saver_on">Sitemap elements that may require larger data transfers are not loaded</string>
+    <string name="data_saver_off">The system wide data saver setting is followed when loading data-using sitemap elements</string>
+    <string name="data_saver_off_pre_n">All sitemap elements are loaded, disregarding their data usage</string>
     <string name="data_saver_load">Load anyway</string>
     <string name="data_saver_hint">%s was not loaded to save data</string>
     <string name="widget_type_image">Image</string>

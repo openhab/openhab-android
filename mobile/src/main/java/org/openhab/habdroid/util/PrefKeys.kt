@@ -52,7 +52,7 @@ object PrefKeys {
     const val TONE = "default_openhab_alertringtone"
     const val NOTIFICATION_VIBRATION = "default_openhab_notification_vibration"
     const val NOTIFICATION_TONE_VIBRATION = "default_openhab_alertringtone_vibration"
-    const val PREFERENCE_DATA_SAVER = "data_saver"
+    const val DATA_SAVER = "data_saver"
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
     const val LOG = "default_openhab_log"
 
