@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Nutika kodu automatiseerimise avatud lähtekoodiga tehnoloogia pakkuja
