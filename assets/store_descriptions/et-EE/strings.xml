@@ -17,7 +17,7 @@
     <important_note>Juhime tähelepanu</important_note>
     <oh_server>Selle rakenduse jaoks vajate openHAB-serverit.</oh_server>
     <short_description>Nutika kodu automatiseerimise avatud lähtekoodiga tehnoloogia pakkuja</short_description>
-    <fdroid>F-Droid-versioonides on FCM- ja krahhiaruanded eemaldatud ning OpenHAB Cloudist ei saa push-teatisi vastu võtta.</fdroid>
+    <fdroid>F-Droid-versioonides on FCM- ja krahhiaruanded eemaldatud ning openHAB Cloudist ei saa push-teatisi vastu võtta.</fdroid>
     <fdroid_beta><![CDATA[Võite installida beta versiooni paralleelselt <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiilse versiooniga</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Privaatsuseeskirjad: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Proovige uusi funktsioone ja andke tagasisidet!</beta>
