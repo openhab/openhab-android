@@ -400,7 +400,7 @@
     <string name="create_home_screen_widget_not_supported">Votre appareil ne supporte pas la création de widgets à partir d\'une application. Veuillez aller dans le menu widget sur votre écran d\'accueil et créer un widget à partir de là.</string>
     <string name="item_update_widget_auto_generate_widget_label">Génération automatique du libellé du widget</string>
     <string name="item_update_widget_widget_label">Libellé du widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Nom d'Item>: <Action>]]></string>
+    <string name="item_update_widget_default_label"><![CDATA[<Nom d\'Item>: <Action>]]></string>
     <string name="data_saver_title">Économiseur de données</string>
     <string name="data_saver_on">Dés éléments Sitemap pouvant nécessiter des transferts de données plus importants ne sont pas chargés</string>
     <string name="data_saver_off">Le paramètre d\'économiseur de données de l\'ensemble du système est suivi lors du chargement d\'éléments Sitemap utilisant des données</string>
