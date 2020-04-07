@@ -102,7 +102,7 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
-    <string name="error_openhab_offline">المخدم Openhab غير متصل بينما الخدمة السحابية تعمل</string>
+    <string name="error_openhab_offline">المخدم openHAB غير متصل بينما الخدمة السحابية تعمل</string>
     <string name="error_no_browser_found">لايوجد مستعرض في جهازك</string>
     <string name="error_no_speech_to_text_app_found">لم يتم العثور على تطبيق التعرف على الصوت</string>
     <string name="install">تثبيت</string>
