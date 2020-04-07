@@ -217,10 +217,10 @@
     <string name="about_issues">Bir hata bildir</string>
     <string name="about_docs">Dökümantasyon</string>
     <string name="about_community_forum">Topluluk Forumu</string>
-    <string name="about_foundation">openHab Vakfı</string>
-    <string name="about_community">openHab Topluluğu</string>
+    <string name="about_foundation">openHAB Vakfı</string>
+    <string name="about_community">openHAB Topluluğu</string>
     <string name="about_server">openHAB sunucusu</string>
-    <string name="about_translation">openHab\'ı çevirmemizde yardım et</string>
+    <string name="about_translation">openHAB\'ı çevirmemizde yardım et</string>
     <string name="about_privacy_policy">Gizlilik politikası</string>
     <string name="settings_debug_messages_title">Sorun giderme kılavuzunu göster</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
