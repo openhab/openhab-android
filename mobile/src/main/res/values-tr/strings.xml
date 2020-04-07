@@ -232,7 +232,7 @@
     <string name="enable_wifi_button">WiFi\'yi aç</string>
     <string name="go_to_settings_button">Ayarlara git</string>
     <string name="enable_demo_mode_button">Demo modunda çalıştır</string>
-    <string name="configuration_missing">Ağınızda bir openHAB sunucu bulamadık. Bir sunucunuz zaten varsa, lütfen önce sunucunuzun IP adresi veya ana bilgisayar adını sunucu ayarlarından yapılandırın. Henüz bir sunucunuz yoksa, OpenHAB\' ın yeteneklerini keşfetmek için demo modunu etkinleştirebilirsiniz.</string>
+    <string name="configuration_missing">Ağınızda bir openHAB sunucu bulamadık. Bir sunucunuz zaten varsa, lütfen önce sunucunuzun IP adresi veya ana bilgisayar adını sunucu ayarlarından yapılandırın. Henüz bir sunucunuz yoksa, openHAB\' ın yeteneklerini keşfetmek için demo modunu etkinleştirebilirsiniz.</string>
     <string name="no_remote_server">Yerel sunucuya bağlantı başarısız oldu ve yapılandırılmış bir uzak sunucunuz yok</string>
     <string name="resolving_openhab">openHAB serveri bulma deneniyor\u2026</string>
     <string name="waiting_for_wifi">Wi-Fi için bağlantısının kurulması bekleniyor\u2026</string>
