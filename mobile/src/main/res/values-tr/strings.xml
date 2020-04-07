@@ -69,7 +69,7 @@
     <string name="settings_screen_lock_off_summary">Uygulamaya erişim kilitli değil</string>
     <string name="settings_screen_lock_kiosk_summary">Uygulama ayarlarına erişim Android ekran kilidi veya parmak izi ile kilitlendi</string>
     <string name="settings_screen_lock_on_summary">Uygulamaya erişim Android ekran kilidi veya parmak izi ile kilitlendi \ n Not: Widget\'lar yine de kullanılabilir</string>
-    <string name="screen_lock_unlock_screen_description">OpenHAB\'a erişim kilidini aç</string>
+    <string name="screen_lock_unlock_screen_description">openHAB\'a erişim kilidini aç</string>
     <string name="screen_lock_unlock_preferences_description">Ayarlara erişmek için kilidi aç</string>
     <string name="settings_screen_lock_off">Kapalı</string>
     <string name="settings_screen_lock_kiosk">Kiosk modu</string>
@@ -146,7 +146,7 @@
     <string name="settings_alarm_clock">Çalar saati openHAB\'a gönder</string>
     <string name="settings_alarm_clock_summary_on">Çalar saat zamanını \'%1$s \' öğesine gönderir</string>
     <string name="settings_alarm_clock_summary_off">Çalar saat zamanını sunucuya gönderme</string>
-    <string name="settings_phone_state">OpenHAB’a çağrı durumu gönder</string>
+    <string name="settings_phone_state">openHAB’a çağrı durumu gönder</string>
     <string name="settings_phone_state_summary_on">Arama durumunu \'%1$s\' öğesine gönderir</string>
     <string name="settings_phone_state_summary_off">Çağrı durumunu sunucuya göndermeyin</string>
     <string name="settings_phone_state_permission_denied">Eksik izinler nedeniyle çağrı durumu gönderme devre dışı bırakıldı</string>
