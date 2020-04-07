@@ -31,7 +31,7 @@
     <string name="settings_openhab_screentimeroff">Inaktivera visningstimer</string>
     <string name="settings_openhab_screentimeroff_summary">Inaktivera automatiskt avstängning av skärmen när openHAB är igång</string>
     <string name="settings_openhab_demomode">Demoläge</string>
-    <string name="settings_openhab_demomode_summary">Om du inte har en OpenHAB-server, aktivera demoläget för att få en bild av vad OpanHAB kan göra.</string>
+    <string name="settings_openhab_demomode_summary">Om du inte har en openHAB-server, aktivera demoläget för att få en bild av vad OpanHAB kan göra.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Accentfärg</string>
     <string name="settings_select_a_color">Välj en färg</string>
@@ -117,9 +117,9 @@
     <string name="error_http_code_495">Autentisering misslyckades. Kontrollera tillhandahållet SSL-klientcertifikat (HTTP-kod %d).</string>
     <string name="error_http_code_496">SSL-klientcertifikat krävs (HTTP-kod %d)</string>
     <string name="error_http_code_502">Din omvända proxy fick ett ogiltigt svar från openHAB-servern (HTTP-kod %d)</string>
-    <string name="error_http_code_503">OpenHAB-servern är tillfälligt otillgänglig (HTTP-kod %d)</string>
+    <string name="error_http_code_503">openHAB-servern är tillfälligt otillgänglig (HTTP-kod %d)</string>
     <string name="error_http_code_504">Gateway time-out. Det verkar som din omvända proxy körs, men den får inget svar från openHAB-servern (HTTP-kod %d).</string>
-    <string name="error_http_code_507">OpenHAB-servern har inte tillräckligt med ledigt diskutrymme (HTTP-kod %d)</string>
+    <string name="error_http_code_507">openHAB-servern har inte tillräckligt med ledigt diskutrymme (HTTP-kod %d)</string>
     <string name="error_http_code_511">Nätverksautentisering krävs (HTTP-kod %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB är offline</string>
