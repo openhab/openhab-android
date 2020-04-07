@@ -134,7 +134,7 @@
     <string name="mtm_trust_anchor">Sertifikat server tidak ditanda tangani oleh Otoritas Sertifikasi yang dikenali</string>
     <string name="mtm_cert_expired">Sertifikasi server telah kadaluwarsa</string>
     <string name="mtm_accept_servername">Terima Nama Server yang Tidak Sama?</string>
-    <string name="mtm_hostname_mismatch">Server tidak dapat mengotentifikasi sebagai \&quoy;%s\&quot;. Sertifikat hanya valid untuk:</string>
+    <string name="mtm_hostname_mismatch">Server tidak dapat mengotentifikasi sebagai \&quot;%s\&quot;. Sertifikat hanya valid untuk:</string>
     <string name="mtm_connect_anyway">Apakah Anda tetap ingin terhubung?</string>
     <string name="mtm_cert_details">Detail sertifikat:</string>
     <string name="mtm_decision_always">Terima</string>
