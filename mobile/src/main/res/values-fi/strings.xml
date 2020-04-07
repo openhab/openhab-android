@@ -189,6 +189,8 @@
     <string name="settings_wifi_ssid_summary_on">Lähetä langattoman yhteyden nimi (SSID) Itemiin \'%1$s\'</string>
     <string name="settings_wifi_ssid_summary_off">Älä lähetä langattoman yhteyden nimeä (SSID) palvelimelle</string>
     <string name="settings_wifi_ssid_permission_denied">Langattoman yhteyden nimen lähettäminen on estetty puuttuvien oikeuksien takia</string>
+    <string name="settings_background_tasks_permission_denied">Joitankin taustatehtäviä on lopetettu puuttuvien oikeuksien takia</string>
+    <string name="settings_background_tasks_permission_allow">Salli</string>
     <string name="settings_item_pref_item_name">Itemin nimi</string>
     <string name="waiting_for_item_upload">Itemien päivitykset odottaa verkkoa</string>
     <string name="item_upload_in_progress">Itemien päivitys meneillään</string>
