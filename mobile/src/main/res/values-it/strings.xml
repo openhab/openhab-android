@@ -185,6 +185,12 @@
     <string name="settings_charging_state">Stato di ricarica</string>
     <string name="settings_charging_state_summary_on">Invia lo stato di ricarica all\'elemento \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Non inviare lo stato di ricarica al server</string>
+    <string name="settings_wifi_ssid">Nome Wi-Fi</string>
+    <string name="settings_wifi_ssid_summary_on">Invia il nome Wi-Fi (SSID) all\'item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">Non inviare il nome Wi-Fi (SSID) al server</string>
+    <string name="settings_wifi_ssid_permission_denied">L\'invio del nome del Wi-Fi è stato disabilitato a causa di permessi mancanti</string>
+    <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
+    <string name="settings_background_tasks_permission_allow">Consenti</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
     <string name="waiting_for_item_upload">In attesa della rete per inviare aggiornamenti degli Item</string>
     <string name="item_upload_in_progress">Item in corso di aggiornamento</string>
@@ -400,8 +406,9 @@
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Risparmio dati</string>
-    <string name="data_saver_on">Riduci utilizzo dati</string>
-    <string name="data_saver_off">Rispetto impostazione dispositivo</string>
+    <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
+    <string name="data_saver_off">L\'impostazione di sistema di risparmio dati viene seguita durante il caricamento dei dati che usano elementi sitemap</string>
+    <string name="data_saver_off_pre_n">Tutti gli elementi della Sitemap sono stati caricati, ignorando la quantità dei dati</string>
     <string name="data_saver_load">Carica comunque</string>
     <string name="data_saver_hint">%s non è stato caricato per risparmiare dati</string>
     <string name="widget_type_image">Immagine</string>

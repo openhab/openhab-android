@@ -2,4 +2,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="info_openhab_gcm_no_remote">No disponible, no s\'ha configurat el servidor remot</string>
     <string name="info_openhab_gcm_unsupported">No disponible, el servidor remot no és una instància openHAB</string>
+    <string name="info_openhab_gcm_in_progress">S\'està processant el registre del dispositiu</string>
+    <string name="info_openhab_gcm_connected">Dispositiu registrat correctament amb Firebase Cloud Messaging</string>
+    <string name="notification_channel_severity_value">Gravetat «%1$s»</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d notificació nova</item>
+        <item quantity="other">%d notificacions noves</item>
+    </plurals>
+    <string name="open_in_maps">Obre a Google Maps</string>
 </resources>

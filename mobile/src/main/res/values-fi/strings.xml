@@ -185,6 +185,12 @@
     <string name="settings_charging_state">Latauksen tila</string>
     <string name="settings_charging_state_summary_on">Lähettää latauksen tilan Itemille \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Älä lähetä latauksen tilaa palvelimelle</string>
+    <string name="settings_wifi_ssid">Langattoman yhteyden nimi</string>
+    <string name="settings_wifi_ssid_summary_on">Lähetä langattoman yhteyden nimi (SSID) Itemiin \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">Älä lähetä langattoman yhteyden nimeä (SSID) palvelimelle</string>
+    <string name="settings_wifi_ssid_permission_denied">Langattoman yhteyden nimen lähettäminen on estetty puuttuvien oikeuksien takia</string>
+    <string name="settings_background_tasks_permission_denied">Joitankin taustatehtäviä on lopetettu puuttuvien oikeuksien takia</string>
+    <string name="settings_background_tasks_permission_allow">Salli</string>
     <string name="settings_item_pref_item_name">Itemin nimi</string>
     <string name="waiting_for_item_upload">Itemien päivitykset odottaa verkkoa</string>
     <string name="item_upload_in_progress">Itemien päivitys meneillään</string>
@@ -400,8 +406,9 @@
     <string name="item_update_widget_widget_label">Widgetin nimi</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Datan säästäjä</string>
-    <string name="data_saver_on">Vähennä datan käyttöä</string>
-    <string name="data_saver_off">Laitteen asetukset ensisijaisia</string>
+    <string name="data_saver_on">Sivukartan elementtejä, jotka mahdollisesti vaativaat isomman datamäärän, ei ladata</string>
+    <string name="data_saver_off">Järjestelmän datasäästäjän asetuksia noudatetaan ladattaessa sivukartan elementtejä</string>
+    <string name="data_saver_off_pre_n">Kaikki sivukartan elementit ladataan huolimatta niiden datan käytöstä</string>
     <string name="data_saver_load">Lataa silti</string>
     <string name="data_saver_hint">%s ei ladattu datan säästön vuoksi</string>
     <string name="widget_type_image">Kuva</string>

@@ -380,7 +380,7 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecione um Item</string>
-    <string name="item_update_success_message_generic">%1$s foi definido para %2$s</string>
+    <string name="item_update_success_message_generic">%1$s foi alterado para %2$s</string>
     <string name="item_update_success_message_on">%s foi ligado</string>
     <string name="item_update_success_message_off">%s foi desligado</string>
     <string name="item_update_success_message_up">%s movendo para cima</string>
@@ -390,7 +390,7 @@
     <string name="item_update_success_message_increase">%s foi aumentado</string>
     <string name="item_update_success_message_decrease">%s foi diminuído</string>
     <string name="item_update_success_message_undefined">%s foi alterado para indefinido</string>
-    <string name="item_update_success_message_empty_string">%s foi definido para uma string vazia</string>
+    <string name="item_update_success_message_empty_string">%s foi alterado para uma string vazia</string>
     <string name="item_update_success_message_play">%s está tocando</string>
     <string name="item_update_success_message_pause">%s foi pausado</string>
     <string name="item_update_success_message_next">%s está mostrando o próximo título</string>
@@ -406,8 +406,9 @@
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Economia de dados</string>
-    <string name="data_saver_on">Reduzir uso de dados</string>
-    <string name="data_saver_off">Respeitar configuração do dispositivo</string>
+    <string name="data_saver_on">Elementos do Sitemap que podem exigir transferência de dados maiores não são carregados</string>
+    <string name="data_saver_off">A configuração da ampla economia de dados do sistema é seguida ao carregar elementos do sitemap usando dados</string>
+    <string name="data_saver_off_pre_n">Todos os elementos do sitemap são carregados, ignorando seu uso de dados</string>
     <string name="data_saver_load">Carregar mesmo assim</string>
     <string name="data_saver_hint">%s não foi carregado para salvar dados</string>
     <string name="widget_type_image">Imagem</string>

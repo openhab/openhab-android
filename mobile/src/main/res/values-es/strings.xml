@@ -361,8 +361,6 @@
     <string name="create_home_screen_widget_not_supported">Tu dispositivo no soporta la creación de widgets desde dentro de una aplicación. Por favor, ve al menú del widget en tu pantalla de inicio y crea un widget desde ahí.</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Economizador de datos</string>
-    <string name="data_saver_on">Reducir el consumo de datos</string>
-    <string name="data_saver_off">Respetar la configuración del dispositivo</string>
     <string name="data_saver_load">Cargar de todos modos</string>
     <string name="data_saver_hint">%s no fue cargado para economizar datos</string>
     <string name="widget_type_image">Imagen</string>

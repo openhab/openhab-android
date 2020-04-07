@@ -154,6 +154,7 @@
     <string name="title_activity_libraries">Verwendete Bibliotheken</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
     <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
+    <string name="info_write_tag_finished">Tag erfolgreich geschrieben</string>
     <string name="info_write_failed">Fehler beim Beschreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
@@ -177,11 +178,19 @@
     <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Anrufstatus nicht an den Server senden</string>
     <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_battery_level_summary_on">Sendet Akkustand an Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Akkustand nicht zum Server senden</string>
+    <string name="settings_charging_state">Akkustand</string>
+    <string name="settings_wifi_ssid">WLAN-Name</string>
+    <string name="settings_background_tasks_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
     <string name="notification_channel_background">Hintergrundaufgaben</string>
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
+    <string name="notification_channel_messages_default_severity">Standard</string>
+    <string name="notification_channel_group_messages">Nachrichten</string>
+    <string name="notification_channel_group_other">Sonstiges</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
@@ -288,7 +297,7 @@
     <string name="enable_wifi_button">WLAN aktivieren</string>
     <string name="go_to_settings_button">Einstellungen öffnen</string>
     <string name="enable_demo_mode_button">Demomodus aktivieren</string>
-    <string name="configuration_missing">Wir konnten keinen openHAB-Server in Ihrem Netzwerk finden. Wenn sie bereits einen Server zur Verfügung haben, konfigurieren Sie ihn in den Einstellungen. Anderenfalls können Sie den Demomodus aktivieren, um eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
+    <string name="configuration_missing">Wir konnten keinen openHAB-Server in Ihrem Netzwerk finden. Wenn sie bereits einen Server haben, konfigurieren Sie ihn in den Einstellungen. Andernfalls können Sie den Demomodus aktivieren, um eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
     <string name="no_remote_server">Verbindung zu lokalem Server fehlgeschlagen und Sie haben keinen Server für den Fernzugriff konfiguriert</string>
     <string name="resolving_openhab">Versuche openHAB-Server-Instanz zu finden\u2026</string>
     <string name="waiting_for_wifi">Warte auf WLAN-Verbindung\u2026</string>
@@ -385,4 +394,10 @@
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
+    <string name="data_saver_title">Datensparmodus</string>
+    <string name="widget_type_image">Bild</string>
+    <string name="widget_type_webview">Webview</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Karte</string>
+    <string name="widget_type_chart">Diagramm</string>
 </resources>

@@ -5,4 +5,13 @@
     <string name="info_openhab_gcm_in_progress">جاري تسجيل الجهاز</string>
     <string name="info_openhab_gcm_connected">تم تسجيل الجهاز بنجاح مع Firebase Cloud Messaging</string>
     <string name="notification_channel_severity_value">خطورة \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="zero">%d إشعار جديد</item>
+        <item quantity="one">%d إشعار جديد</item>
+        <item quantity="two">%d إشعاران جديدان</item>
+        <item quantity="few">%d إشعارات جديدة</item>
+        <item quantity="many">%d إشعارات جديدة</item>
+        <item quantity="other">%d إشعارات جديدة</item>
+    </plurals>
+    <string name="open_in_maps">افتح في خرائط جوجل</string>
 </resources>
