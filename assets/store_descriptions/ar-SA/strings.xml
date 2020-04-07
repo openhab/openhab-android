@@ -17,12 +17,12 @@ https://www.openhab.org/addons/</bindings>
     <foundation>مؤسسة openHAB</foundation>
     <about_foundation>مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org</about_foundation>
     <important_note>ملاحظة هامة</important_note>
-    <oh_server/>
+    <oh_server>أنت بحاجة إلى خادم openHAB لهذا التطبيق.</oh_server>
     <short_description>تكنولوجيا أتمتة المنزل المفتوحة المصدر والغير مرتبطة بتقنية أو مصنع محدد</short_description>
-    <fdroid/>
+    <fdroid>إصدارات F-Droid تدعم عرض الخريطة،وقد حذفت FCM وتقارير الإنهيار ومن غير الممكن إستقبال الإشعارات المبعثة من سحابة openHAB.</fdroid>
     <fdroid_beta><![CDATA[يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>سياسة الخصوصية: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>جرب الميزات الجديدة واعطنا ملاحظاتك!</beta>
     <play_beta>يمكنك تثبيت الإصدار التجريبي بجانب الإصدار المستقر.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>إصلاح الأخطاء وتحسينات. يرجى زيارة https://github.com/openhab/openhab-android/releases للحصول على سجل تفصيلي.</changelog_play_beta>
 </strings>
