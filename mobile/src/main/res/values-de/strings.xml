@@ -154,6 +154,7 @@
     <string name="title_activity_libraries">Verwendete Bibliotheken</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
     <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
+    <string name="info_write_tag_finished">Tag erfolgreich geschrieben</string>
     <string name="info_write_failed">Fehler beim Beschreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
@@ -177,6 +178,10 @@
     <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Anrufstatus nicht an den Server senden</string>
     <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_battery_level_summary_on">Sendet Akkustand an Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Akkustand nicht zum Server senden</string>
+    <string name="settings_charging_state">Akkustand</string>
+    <string name="settings_wifi_ssid">WLAN-Name</string>
     <string name="settings_background_tasks_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
@@ -391,6 +396,7 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
     <string name="data_saver_title">Datensparmodus</string>
     <string name="widget_type_image">Bild</string>
+    <string name="widget_type_webview">Webview</string>
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Karte</string>
     <string name="widget_type_chart">Diagramm</string>
