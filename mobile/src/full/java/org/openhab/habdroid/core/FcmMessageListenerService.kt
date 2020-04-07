@@ -138,9 +138,10 @@ class FcmMessageListenerService : FirebaseMessagingService() {
             val connection = ConnectionFactory.cloudConnectionOrNull
             if (connection != null && !applicationContext.isDataSaverActive()) {
                 try {
+                    val size = resources.getDimensionPixelSize(R.dimen.svg_image_default_size)
                     iconBitmap = connection.httpClient
                             .get(icon.toUrl(this, true), timeoutMillis = 1000)
-                            .asBitmap(resources.getDimensionPixelSize(R.dimen.svg_image_default_size), false)
+                            .asBitmap(size, size, false)
                             .response
                 } catch (e: HttpClient.HttpException) {
                     // ignored, keep bitmap null
