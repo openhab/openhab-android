@@ -24,8 +24,10 @@ import android.os.SystemClock
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,20 +56,52 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         checkFullscreen()
 
-        val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+        val colorPrimary = TypedValue()
+        theme.resolveAttribute(R.attr.colorPrimary, colorPrimary, true)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             setTaskDescription(ActivityManager.TaskDescription(
                 getString(R.string.app_name),
                 R.mipmap.icon,
-                typedValue.data))
+                colorPrimary.data))
         } else {
             @Suppress("DEPRECATION")
             setTaskDescription(ActivityManager.TaskDescription(
                 getString(R.string.app_name),
                 BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                typedValue.data))
+                colorPrimary.data))
         }
+
+        var uiOptions = window.decorView.systemUiVisibility
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        } else {
+            0
+        }
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+            uiOptions = uiOptions and flags.inv()
+
+            val bgColor = TypedValue()
+            theme.resolveAttribute(android.R.attr.windowBackground, bgColor, true)
+            if (bgColor.type >= TypedValue.TYPE_FIRST_COLOR_INT && bgColor.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+                bgColor.data
+            } else {
+                ContextCompat.getColor(this, R.color.black)
+            }
+        } else {
+            uiOptions = uiOptions or flags
+
+            val bgColor = TypedValue()
+            theme.resolveAttribute(android.R.attr.windowBackground, bgColor, true)
+            if (bgColor.type >= TypedValue.TYPE_FIRST_COLOR_INT && bgColor.type <= TypedValue.TYPE_LAST_COLOR_INT &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                bgColor.data
+            } else {
+                ContextCompat.getColor(this, R.color.black)
+            }
+        }
+        window.navigationBarColor = windowColor
+        window.decorView.systemUiVisibility = uiOptions
 
         super.onCreate(savedInstanceState)
     }
