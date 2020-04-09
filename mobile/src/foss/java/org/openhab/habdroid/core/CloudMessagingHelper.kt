@@ -15,16 +15,11 @@ package org.openhab.habdroid.core
 
 import android.content.Context
 import android.content.Intent
-import androidx.annotation.DrawableRes
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 
 @Suppress("UNUSED_PARAMETER")
 object CloudMessagingHelper {
-
-    val pushNotificationIconResId: Int
-        @DrawableRes get() = R.drawable.ic_bell_off_outline_grey_24dp
 
     val isSupported: Boolean
         get() = false
@@ -33,7 +28,10 @@ object CloudMessagingHelper {
 
     fun onNotificationSelected(context: Context, intent: Intent) {}
 
-    fun getPushNotificationStatus(context: Context): String {
-        return context.getString(R.string.info_openhab_notification_status_unavailable)
+    fun getPushNotificationStatus(context: Context): Pair<String, Int> {
+        return Pair(
+            context.getString(R.string.info_openhab_notification_status_unavailable),
+            R.drawable.ic_bell_off_outline_grey_24dp
+        )
     }
 }

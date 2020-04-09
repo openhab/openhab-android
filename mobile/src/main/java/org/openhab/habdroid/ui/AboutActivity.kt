@@ -17,6 +17,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -34,6 +35,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.HttpClient
@@ -98,7 +100,19 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         setTitle(titleResId)
     }
 
-    class AboutMainFragment : MaterialAboutFragment() {
+    class AboutMainFragment : MaterialAboutFragment(), ConnectionFactory.UpdateListener {
+        private lateinit var pushStatusCard: MaterialAboutActionItem
+
+        override fun onStart() {
+            super.onStart()
+            ConnectionFactory.addListener(this)
+        }
+
+        override fun onStop() {
+            super.onStop()
+            ConnectionFactory.removeListener(this)
+        }
+
         override fun getMaterialAboutList(context: Context): MaterialAboutList {
             val props: ServerProperties? = arguments?.getParcelable("serverProperties")
             val connection = ConnectionFactory.usableConnectionOrNull
@@ -177,7 +191,8 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 .build())
 
             val ohServerCard = MaterialAboutCard.Builder()
-            ohServerCard.title(R.string.about_server)
+                .title(R.string.about_server)
+
             if (connection == null || props == null) {
                 ohServerCard.addItem(MaterialAboutActionItem.Builder()
                     .text(R.string.error_about_no_conn)
@@ -186,7 +201,6 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             } else {
                 val scope = activity as AboutActivity
                 val httpClient = connection.httpClient
-
                 val apiVersionItem = MaterialAboutActionItem.Builder()
                     .text(R.string.info_openhab_apiversion_label)
                     .subText(R.string.list_loading_message)
@@ -223,14 +237,16 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 }
             }
 
-            ohServerCard.addItem(MaterialAboutActionItem.Builder()
+            pushStatusCard = MaterialAboutActionItem.Builder()
                 .text(R.string.info_openhab_push_notification_label)
-                .subText(CloudMessagingHelper.getPushNotificationStatus(context))
-                .icon(CloudMessagingHelper.pushNotificationIconResId)
-                .build())
+                .subText(R.string.list_loading_message)
+                .icon(R.drawable.ic_bell_outline_grey_24dp)
+                .build()
+            ohServerCard.addItem(pushStatusCard)
+            updatePushStatusCard()
 
             val ohCommunityCard = MaterialAboutCard.Builder()
-            ohCommunityCard.title(R.string.about_community)
+                .title(R.string.about_community)
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_docs)
                 .icon(R.drawable.ic_file_document_box_multiple_outline_grey_24dp)
@@ -261,6 +277,25 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
         override fun getTheme(): Int {
             return Util.getActivityThemeId(requireContext())
+        }
+
+        private fun updatePushStatusCard() {
+            val scope = activity as AboutActivity
+            scope.launch {
+                Log.d(TAG, "Updating push notification status card")
+                val data = CloudMessagingHelper.getPushNotificationStatus(requireContext())
+                pushStatusCard.subText = data.first
+                pushStatusCard.icon = ContextCompat.getDrawable(requireContext(), data.second)
+                refreshMaterialAboutList()
+            }
+        }
+
+        override fun onAvailableConnectionChanged() {
+            updatePushStatusCard()
+        }
+
+        override fun onCloudConnectionChanged(connection: CloudConnection?) {
+            updatePushStatusCard()
         }
 
         companion object {
