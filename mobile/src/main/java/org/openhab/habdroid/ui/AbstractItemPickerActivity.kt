@@ -246,11 +246,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 }
                 Log.d(TAG, "Item request success, got ${items.size} items")
                 itemPickerAdapter.setItems(items)
+                handleInitialHighlight()
+                updateViewVisibility(loading = false, loadError = false, showHint = false)
                 if (searchView.query.isNotEmpty()) {
                     itemPickerAdapter.filter(searchView.query.toString())
                 }
-                handleInitialHighlight()
-                updateViewVisibility(loading = false, loadError = false, showHint = false)
             } catch (e: JSONException) {
                 Log.d(TAG, "Item response could not be parsed", e)
                 updateViewVisibility(loading = false, loadError = true, showHint = false)
