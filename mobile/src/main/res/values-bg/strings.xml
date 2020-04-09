@@ -65,7 +65,6 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
-    <string name="error_invalid_url">Моля, въведете валиден URL адрес в \"http(s)://host(:port) /\" формата</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешно</string>
     <string name="error_unable_to_resolve_hostname">Не може да се свържи с домейна</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake е неуспешно</string>
