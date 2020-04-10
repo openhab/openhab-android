@@ -189,6 +189,7 @@
     <string name="notification_channel_background">Hintergrundaufgaben</string>
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
+    <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
     <string name="notification_channel_group_other">Sonstiges</string>
     <plurals name="item_update_error_title">
@@ -395,6 +396,7 @@
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
     <string name="data_saver_title">Datensparmodus</string>
+    <string name="data_saver_load">Trotzdem laden</string>
     <string name="widget_type_image">Bild</string>
     <string name="widget_type_webview">Webview</string>
     <string name="widget_type_video">Video</string>
