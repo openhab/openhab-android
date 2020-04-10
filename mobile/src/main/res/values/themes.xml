@@ -20,18 +20,21 @@
         <item name="colorPrimary">@color/openhab_orange</item>
         <item name="colorSecondary">@color/openhab_orange</item>
         <item name="colorPrimaryDark">@color/openhab_orange_dark</item>
+        <item name="selectedWidgetBackgroundColor">#88ff5722</item>
     </style>
 
     <style name="openHAB.DayNight.basicui" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/indigo_500</item>
         <item name="colorSecondary">@color/pink_a200</item>
         <item name="colorPrimaryDark">@color/indigo_800</item>
+        <item name="selectedWidgetBackgroundColor">#883f51b5</item>
     </style>
 
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
         <item name="colorPrimary">@color/blue_grey_700</item>
         <item name="colorSecondary">@color/secondary_color_grey_theme</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
+        <item name="selectedWidgetBackgroundColor">#88455A64</item>
     </style>
 
     <style name="Theme.MaterialComponents.TranslucentBase">
