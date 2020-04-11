@@ -39,7 +39,6 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.util.Base64
 import android.util.Log
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -593,10 +592,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
-        // ProgressBar layout params inside the toolbar have to be done programmatically
-        // because it doesn't work through layout file :-(
         progressBar = toolbar.findViewById(R.id.toolbar_progress_bar)
-        progressBar.layoutParams = Toolbar.LayoutParams(Gravity.END or Gravity.CENTER_VERTICAL)
         setProgressIndicatorVisible(false)
     }
 
