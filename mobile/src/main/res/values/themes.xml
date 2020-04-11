@@ -37,6 +37,29 @@
         <item name="selectedWidgetBackgroundColor">#5c455A64</item>
     </style>
 
+    <style name="openHAB.Amoled" parent="openHAB.DayNight">
+        <item name="chartTheme">black</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
+    <style name="openHAB.Amoled.orange" parent="openHAB.Amoled">
+        <item name="colorPrimary">@color/openhab_orange</item>
+        <item name="colorSecondary">@color/openhab_orange</item>
+        <item name="colorPrimaryDark">@color/openhab_orange_dark</item>
+    </style>
+
+    <style name="openHAB.Amoled.basicui" parent="openHAB.Amoled">
+        <item name="colorPrimary">@color/indigo_500</item>
+        <item name="colorSecondary">@color/pink_a200</item>
+        <item name="colorPrimaryDark">@color/indigo_800</item>
+    </style>
+
+    <style name="openHAB.Amoled.grey" parent="openHAB.Amoled">
+        <item name="colorPrimary">@color/blue_grey_700</item>
+        <item name="colorSecondary">@color/secondary_color_grey_theme</item>
+        <item name="colorPrimaryDark">@color/blue_grey_900</item>
+    </style>
+
     <style name="Theme.MaterialComponents.TranslucentBase">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
