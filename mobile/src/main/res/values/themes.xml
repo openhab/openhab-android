@@ -27,7 +27,7 @@
         <item name="colorPrimary">@color/indigo_500</item>
         <item name="colorSecondary">@color/pink_a200</item>
         <item name="colorPrimaryDark">@color/indigo_800</item>
-        <item name="selectedWidgetBackgroundColor">#883f51b5</item>
+        <item name="selectedWidgetBackgroundColor">#88ff4081</item>
     </style>
 
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
