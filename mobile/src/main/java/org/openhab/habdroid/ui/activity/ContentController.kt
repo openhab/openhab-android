@@ -616,7 +616,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 val args = when {
                     resolveAttempted -> buildArgs(context.getString(R.string.configuration_missing),
                         R.string.go_to_settings_button, R.string.enable_demo_mode_button,
-                        R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
+                        R.drawable.ic_home_search_outline_grey_340dp, false)
                     hasWifiEnabled -> buildArgs(context.getString(R.string.no_remote_server),
                         R.string.go_to_settings_button, R.string.try_again_button,
                         R.drawable.ic_network_strength_off_outline_black_24dp, false)
