@@ -150,6 +150,7 @@
     <string name="error_no_browser_found">Laitteeltasi ei löytynyt selainta</string>
     <string name="error_no_speech_to_text_app_found">Puheentunnistussovellusta ei löytynyt</string>
     <string name="error_sse_failed">Tapahtuman tilaus epäonnistui, widgetin päivitys voi olla heikentynyt</string>
+    <string name="error_video_player">%s ei voitu ladata</string>
     <string name="install">Asenna</string>
     <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tunniste</string>
     <string name="title_activity_libraries">Käytetyt kirjastot</string>
