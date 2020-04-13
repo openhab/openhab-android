@@ -150,6 +150,7 @@
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
     <string name="error_no_speech_to_text_app_found">Keine Spracherkennungs-App gefunden</string>
     <string name="error_sse_failed">Ereignisabonnement fehlgeschlagen, Aktualisierung der Widgets kann beeinträchtigt sein</string>
+    <string name="error_video_player">%s konnte nicht geladen werden</string>
     <string name="install">Installieren</string>
     <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
     <string name="title_activity_libraries">Verwendete Bibliotheken</string>
