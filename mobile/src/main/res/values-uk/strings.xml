@@ -150,6 +150,7 @@
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
     <string name="error_no_speech_to_text_app_found">Не знайдено застосунок розпізнавання мови</string>
     <string name="error_sse_failed">Операція не вдалася, оновлення віджета може погіршитися</string>
+    <string name="error_video_player">%s неможливо завантажити</string>
     <string name="install">Встановити</string>
     <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
     <string name="title_activity_libraries">Використані бібліотеки</string>
