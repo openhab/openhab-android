@@ -115,6 +115,7 @@
     <string name="error_no_browser_found">No se encontró ningún navegador en su dispositivo</string>
     <string name="error_no_speech_to_text_app_found">No se encontró ninguna aplicación de reconocimiento de voz</string>
     <string name="error_sse_failed">Error en la suscripción al evento, la actualización del widget puede verse afectada</string>
+    <string name="error_video_player">No se pudo cargar %s</string>
     <string name="install">Instalar</string>
     <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
     <string name="title_activity_libraries">Librerías usadas</string>
