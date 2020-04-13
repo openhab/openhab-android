@@ -409,6 +409,9 @@
     <string name="item_update_widget_widget_label">Мітка віджета</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Заощадження трафіку</string>
+    <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
+    <string name="data_saver_off">При завантаженні об’ємних сторінок інтерфейсу, використовуються системні налаштування економії трафіку</string>
+    <string name="data_saver_off_pre_n">Усі елементи сторінок інтерфейсу завантажуються, ігноруючи споживання трафіку</string>
     <string name="data_saver_load">Все одно завантажити</string>
     <string name="data_saver_hint">%s не завантажено, щоб заощадити трафік</string>
     <string name="widget_type_image">Зображення</string>
