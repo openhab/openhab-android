@@ -115,6 +115,7 @@
     <string name="error_no_browser_found">No se encontró ningún navegador en su dispositivo</string>
     <string name="error_no_speech_to_text_app_found">No se encontró ninguna aplicación de reconocimiento de voz</string>
     <string name="error_sse_failed">Error en la suscripción al evento, la actualización del widget puede verse afectada</string>
+    <string name="error_video_player">No se pudo cargar %s</string>
     <string name="install">Instalar</string>
     <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
     <string name="title_activity_libraries">Librerías usadas</string>
@@ -361,6 +362,9 @@
     <string name="create_home_screen_widget_not_supported">Tu dispositivo no soporta la creación de widgets desde dentro de una aplicación. Por favor, ve al menú del widget en tu pantalla de inicio y crea un widget desde ahí.</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Economizador de datos</string>
+    <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
+    <string name="data_saver_off">Se aplica el ajuste de ahorro de datos del sistema a la hora de cargar elementos del Sitemap</string>
+    <string name="data_saver_off_pre_n">Todos los elementos del Sitemap se han cargado, sin tener en cuenta el consumo de datos</string>
     <string name="data_saver_load">Cargar de todos modos</string>
     <string name="data_saver_hint">%s no fue cargado para economizar datos</string>
     <string name="widget_type_image">Imagen</string>

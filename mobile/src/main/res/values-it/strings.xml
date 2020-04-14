@@ -150,6 +150,7 @@
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
     <string name="error_no_speech_to_text_app_found">Nessuna app di riconoscimento vocale trovata</string>
     <string name="error_sse_failed">Sottoscrizione all\'evento fallita, potrebbe essere pregiudicato l\'aggiornamento del widget</string>
+    <string name="error_video_player">%s non può essere caricato</string>
     <string name="install">Installa</string>
     <string name="title_activity_openhabwritetag">Scrittura tag NFC</string>
     <string name="title_activity_libraries">Librerie usate</string>
