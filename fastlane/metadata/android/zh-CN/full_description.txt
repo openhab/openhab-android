@@ -10,7 +10,7 @@ openHAB 是一款基于 Java 的开源家居自动化平台，整合多种智能
 <b>支持产品</b>
 
 超过 200 个支持品牌、设备、技术及通讯协议的附加组件。 例如 Z-Wave、Philips Hue、Amazon Echo、Chromecast 及 Sonos。 请在前往此网址探索所有可用的附加组件及支持的设备/功能：https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+此应用程序自带 Tasker 及本地化插件。
 
 <b>开源社区</b>
 
