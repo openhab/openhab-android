@@ -11,4 +11,23 @@
     <style name="WhiteText">
         <item name="android:textColor">#ffffff</item>
     </style>
+
+    <style name="openHAB.Dialog.Base" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="dialogCornerRadius">16dp</item>
+    </style>
+
+    <style name="openHAB.Dialog.orange" parent="@style/openHAB.Dialog.Base">
+        <item name="colorPrimary">@color/openhab_orange</item>
+        <item name="colorSecondary">@color/openhab_orange</item>
+    </style>
+
+    <style name="openHAB.Dialog.basicui" parent="@style/openHAB.Dialog.Base">
+        <item name="colorPrimary">@color/pink_a200</item>
+        <item name="colorSecondary">@color/pink_a200</item>
+    </style>
+
+    <style name="openHAB.Dialog.grey" parent="@style/openHAB.Dialog.Base">
+        <item name="colorPrimary">@color/secondary_color_grey_theme</item>
+        <item name="colorSecondary">@color/secondary_color_grey_theme</item>
+    </style>
 </resources>

@@ -21,6 +21,7 @@
         <item name="colorSecondary">@color/openhab_orange</item>
         <item name="colorPrimaryDark">@color/openhab_orange_dark</item>
         <item name="selectedWidgetBackgroundColor">#5cff5722</item>
+        <item name="alertDialogTheme">@style/openHAB.Dialog.orange</item>
     </style>
 
     <style name="openHAB.DayNight.basicui" parent="openHAB.DayNight">
@@ -28,6 +29,7 @@
         <item name="colorSecondary">@color/pink_a200</item>
         <item name="colorPrimaryDark">@color/indigo_800</item>
         <item name="selectedWidgetBackgroundColor">#5cff4081</item>
+        <item name="alertDialogTheme">@style/openHAB.Dialog.basicui</item>
     </style>
 
     <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
@@ -35,6 +37,7 @@
         <item name="colorSecondary">@color/secondary_color_grey_theme</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
         <item name="selectedWidgetBackgroundColor">#5c455A64</item>
+        <item name="alertDialogTheme">@style/openHAB.Dialog.grey</item>
     </style>
 
     <style name="openHAB.Black.orange" parent="openHAB.DayNight.orange">
