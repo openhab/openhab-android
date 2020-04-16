@@ -49,7 +49,7 @@ object PrefKeys {
 
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
-    const val TONE = "default_openhab_alertringtone"
+    const val NOTIFICATION_TONE = "default_openhab_alertringtone"
     const val NOTIFICATION_VIBRATION = "default_openhab_notification_vibration"
     const val NOTIFICATION_TONE_VIBRATION = "default_openhab_alertringtone_vibration"
     const val DATA_SAVER = "data_saver"

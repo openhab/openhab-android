@@ -69,7 +69,7 @@ fun SharedPreferences.isDebugModeEnabled(): Boolean {
 }
 
 fun SharedPreferences.getNotificationTone(): Uri? {
-    val tone = getString(PrefKeys.TONE, null)
+    val tone = getString(PrefKeys.NOTIFICATION_TONE, null)
     return when {
         tone == null -> Settings.System.DEFAULT_NOTIFICATION_URI
         tone.isEmpty() -> null
