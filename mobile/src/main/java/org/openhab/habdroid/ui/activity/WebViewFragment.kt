@@ -15,7 +15,6 @@ package org.openhab.habdroid.ui.activity
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +29,6 @@ import android.webkit.WebView
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -191,7 +189,6 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 updateViewVisibility(error = false, loading = false)
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 val errorUrl = request.url.toString()
                 Log.e(TAG, "onReceivedError() on URL: $errorUrl")

@@ -26,7 +26,6 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.finishAndRemoveTaskIfPossible
 
 class ItemUpdateWidgetItemPickerActivity(
     override var hintMessageId: Int = 0,
@@ -101,7 +100,7 @@ class ItemUpdateWidgetItemPickerActivity(
 
         val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(RESULT_OK, resultValue)
-        finishAndRemoveTaskIfPossible()
+        finishAndRemoveTask()
     }
 
     override fun onClick(v: View?) {
