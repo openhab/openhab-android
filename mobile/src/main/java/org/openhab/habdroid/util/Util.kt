@@ -33,14 +33,13 @@ object Util {
     @StyleRes
     fun getActivityThemeId(context: Context): Int {
         val prefs = context.getPrefs()
-        @Suppress("SpellCheckingInspection")
-        val isAmoled = prefs.getString(PrefKeys.THEME) == context.getString(R.string.theme_value_amoled)
+        val isBlackTheme = prefs.getString(PrefKeys.THEME) == context.getString(R.string.theme_value_black)
         return when (prefs.getInt(PrefKeys.ACCENT_COLOR, 0)) {
             ContextCompat.getColor(context, R.color.indigo_500) ->
-                if (isAmoled) R.style.openHAB_Amoled_basicui else R.style.openHAB_DayNight_basicui
+                if (isBlackTheme) R.style.openHAB_Black_basicui else R.style.openHAB_DayNight_basicui
             ContextCompat.getColor(context, R.color.blue_grey_700) ->
-                if (isAmoled) R.style.openHAB_Amoled_grey else R.style.openHAB_DayNight_grey
-            else -> if (isAmoled) R.style.openHAB_Amoled_orange else R.style.openHAB_DayNight_orange
+                if (isBlackTheme) R.style.openHAB_Black_grey else R.style.openHAB_DayNight_grey
+            else -> if (isBlackTheme) R.style.openHAB_Black_orange else R.style.openHAB_DayNight_orange
         }
     }
 

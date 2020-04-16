@@ -11,14 +11,14 @@
         <item>@string/theme_name_light</item>
         <item>@string/theme_name_dark</item>
         <item>@string/theme_name_battery_saver</item>
-        <item>@string/theme_name_amoled</item>
+        <item>@string/theme_name_black</item>
     </string-array>
 
     <string-array name="themeValues">
         <item>@string/theme_value_light</item>
         <item>@string/theme_value_dark</item>
         <item>@string/theme_value_system</item>
-        <item>@string/theme_value_amoled</item>
+        <item>@string/theme_value_black</item>
     </string-array>
 
     <string-array name="iconTypeNames">

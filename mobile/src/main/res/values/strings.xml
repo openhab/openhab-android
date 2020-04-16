@@ -269,12 +269,12 @@
     <string name="theme_value_light" translatable="false">light</string>
     <string name="theme_value_dark" translatable="false">dark</string>
     <string name="theme_value_system" translatable="false">system</string>
-    <string name="theme_value_amoled" translatable="false">amoled</string>
+    <string name="theme_value_black" translatable="false">black</string>
     <string name="theme_name_light">Light</string>
     <string name="theme_name_dark">Dark</string>
     <string name="theme_name_system">Follow system</string>
     <string name="theme_name_battery_saver">Dark mode in battery saver</string>
-    <string name="theme_name_amoled">Black</string>
+    <string name="theme_name_black">Black</string>
 
     <!-- Chart -->
     <string name="chart_activity_title">Chart</string>
