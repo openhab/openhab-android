@@ -242,7 +242,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                             widget.item?.name ?: return@populateStatesMenu,
                             state,
                             mappedState,
-                            widget.labelWithoutState)
+                            widget.label)
                         )
                     }
                 }
@@ -291,7 +291,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                         widget.item?.name ?: return@populateStatesMenu,
                         state,
                         mappedState,
-                        widget.labelWithoutState)
+                        widget.label)
                     )
                 }
 

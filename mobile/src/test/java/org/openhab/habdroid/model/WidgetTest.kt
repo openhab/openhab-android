@@ -141,14 +141,7 @@ class WidgetTest {
     fun testGetLabel() {
         assertEquals("Group1", sut1[0].label)
         assertEquals("Group1", sut2[0].label)
-        assertEquals("Dimmer [81 %]", sut3[1].label)
-    }
-
-    @Test
-    fun testGetLabelWithoutState() {
-        assertEquals("Group1", sut1[0].labelWithoutState)
-        assertEquals("Group1", sut2[0].labelWithoutState)
-        assertEquals("Dimmer ", sut3[1].labelWithoutState)
+        assertEquals("Dimmer ", sut3[1].label)
     }
 
     @Test

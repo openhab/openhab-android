@@ -36,7 +36,7 @@ import kotlin.math.max
 data class Widget(
     val id: String,
     val parentId: String?,
-    val label: String,
+    private val rawLabel: String,
     val icon: IconResource?,
     val state: ParsedState?,
     val type: Type,
@@ -59,8 +59,8 @@ data class Widget(
     val height: Int,
     val visibility: Boolean
 ) : Parcelable {
-    val labelWithoutState get() = label.split("[", "]")[0]
-    val stateFromLabel: String? get() = label.split("[", "]").getOrNull(1)
+    val label get() = rawLabel.split("[", "]")[0]
+    val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)
 
     val mappingsOrItemOptions get() =
         if (mappings.isEmpty() && item?.options != null) item.options else mappings

@@ -56,7 +56,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = widget.labelWithoutState.orDefaultIfEmpty(getString(R.string.chart_activity_title))
+        supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.chart_activity_title))
 
         chart = findViewById(R.id.chart)
         swipeLayout = findViewById(R.id.activity_content)

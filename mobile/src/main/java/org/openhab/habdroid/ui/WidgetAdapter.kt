@@ -326,7 +326,7 @@ class WidgetAdapter(
         private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
 
         override fun bind(widget: Widget) {
-            labelView.text = widget.labelWithoutState
+            labelView.text = widget.label
             labelView.applyWidgetColor(widget.labelColor, colorMapper)
             if (valueView != null) {
                 valueView.text = widget.stateFromLabel?.replace("\n", " ")
@@ -1150,7 +1150,7 @@ class WidgetAdapter(
             }
 
             dialogManager.manage(AlertDialog.Builder(contentView.context)
-                .setTitle(boundWidget?.labelWithoutState)
+                .setTitle(boundWidget?.label)
                 .setView(contentView)
                 .setNegativeButton(R.string.close, null)
                 .show()
