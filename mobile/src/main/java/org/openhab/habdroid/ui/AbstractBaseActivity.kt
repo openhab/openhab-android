@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.annotation.TargetApi
 import android.app.ActivityManager
 import android.app.KeyguardManager
 import android.content.res.Configuration
@@ -143,7 +142,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         window.decorView.systemUiVisibility = uiOptions
     }
 
-    @TargetApi(21)
     private fun promptForDevicePassword() {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
         val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure

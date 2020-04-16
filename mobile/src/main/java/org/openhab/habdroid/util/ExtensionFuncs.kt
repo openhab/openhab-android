@@ -327,14 +327,6 @@ fun Context.isDataSaverActive(): Boolean {
     return (applicationContext as OpenHabApplication).isSystemDataSaverActive
 }
 
-fun Activity.finishAndRemoveTaskIfPossible() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        finishAndRemoveTask()
-    } else {
-        finish()
-    }
-}
-
 fun Socket.bindToNetworkIfPossible(network: Network?) {
     try {
         network?.bindSocket(this)
