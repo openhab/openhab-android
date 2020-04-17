@@ -26,4 +26,8 @@
         <item name="colorPrimary">@color/secondary_color_grey_theme</item>
         <item name="colorSecondary">@color/secondary_color_grey_theme</item>
     </style>
+
+    <style name="openHAB.Slider" parent="@style/Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.SecondaryAsPrimary</item>
+    </style>
 </resources>
