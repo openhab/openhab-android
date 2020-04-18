@@ -150,6 +150,7 @@
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
     <string name="error_no_speech_to_text_app_found">לא נמצא יישום לזיהוי קול</string>
     <string name="error_sse_failed">הרישום לאירוע נכשל, רענון הווידג׳ט יכול להיפגע</string>
+    <string name="error_video_player">%s לא הצליח להיטען</string>
     <string name="install">התקנה</string>
     <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
     <string name="title_activity_libraries">ספריות בשימוש</string>
