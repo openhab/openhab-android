@@ -113,7 +113,7 @@ then
         } else {
             logInfo("alarm", "New Alarm")
             timerAlarm = createTimer(epoch,
-                [ k |
+                [ |
                     // Turn on stuff, e.g. radio or light
                     Light.sendCommand(ON)
                     logInfo("alarm", "alarm is expired")
