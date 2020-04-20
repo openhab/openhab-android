@@ -409,6 +409,8 @@
     <string name="item_update_widget_widget_label">תווית יישומון</string>
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
     <string name="data_saver_title">חסכון בנתונים</string>
+    <string name="data_saver_off">הגדרת חיסכון בנתונים במערכת תופעל על טעינת נתונים של רכיבי תצורת מערכת</string>
+    <string name="data_saver_off_pre_n">כל רכיבי תצורת המערכת יטענו תוך התעלמות מנפח הנתונים שלהם</string>
     <string name="data_saver_load">טען בכל מקרה</string>
     <string name="data_saver_hint">%s לא נטען על מנת לשמור על נפח המידע</string>
     <string name="widget_type_image">תמונה</string>
