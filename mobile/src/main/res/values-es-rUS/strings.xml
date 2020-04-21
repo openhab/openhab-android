@@ -200,6 +200,7 @@
     <string name="theme_name_dark">Oscuro</string>
     <string name="theme_name_system">Igual que el sistema</string>
     <string name="theme_name_battery_saver">Modo oscuro en modo de ahorro de batería</string>
+    <string name="theme_name_black">Oscuro</string>
     <!-- Chart -->
     <string name="chart_activity_title">Gráfica</string>
     <string name="chart_activity_hide_legend">Ocultar leyenda</string>
