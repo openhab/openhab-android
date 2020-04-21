@@ -238,6 +238,7 @@
     <string name="theme_name_dark">Scuro</string>
     <string name="theme_name_system">Come da Sistema</string>
     <string name="theme_name_battery_saver">Modalità scura in risparmio batteria</string>
+    <string name="theme_name_black">Nero</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafico</string>
     <string name="chart_activity_hide_legend">Nascondi legenda</string>
