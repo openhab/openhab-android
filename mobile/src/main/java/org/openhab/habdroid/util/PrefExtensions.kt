@@ -100,7 +100,8 @@ fun SharedPreferences.wasNfcInfoHintShown(): Boolean {
 fun SharedPreferences.getDayNightMode(context: Context): Int {
     return when (getString(PrefKeys.THEME)) {
         context.getString(R.string.theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
-        context.getString(R.string.theme_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
+        context.getString(R.string.theme_value_dark), context.getString(R.string.theme_value_black) ->
+            AppCompatDelegate.MODE_NIGHT_YES
         else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         } else {

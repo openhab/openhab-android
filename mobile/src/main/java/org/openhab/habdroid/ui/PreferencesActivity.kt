@@ -282,6 +282,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 parentActivity.launch(Dispatchers.Main) {
                     val mode = parentActivity.getPrefs().getDayNightMode(parentActivity)
                     AppCompatDelegate.setDefaultNightMode(mode)
+                    parentActivity.handleThemeChange()
                 }
                 true
             }
