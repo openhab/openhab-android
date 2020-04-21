@@ -40,7 +40,6 @@ import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreference
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.coroutines.Dispatchers
@@ -231,7 +230,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
             val clearDefaultSitemapPref = getPreference(PrefKeys.CLEAR_DEFAULT_SITEMAP)
             val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
-            val ringtonePref = getPreference(PrefKeys.TONE)
             val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
             val sendDeviceInfoPrefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
             val alarmClockPref = getPreference(PrefKeys.SEND_ALARM_CLOCK) as ItemUpdatingPreference
@@ -240,12 +238,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             val chargingStatePref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
             val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
-            val taskerPref = getPreference(PrefKeys.TASKER_PLUGIN_ENABLED)
+            val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
             val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
             val ringtoneVibrationPref = getPreference(PrefKeys.NOTIFICATION_TONE_VIBRATION)
             val viewLogPref = getPreference(PrefKeys.LOG)
             val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
-            val chartScalingPreference = getPreference(PrefKeys.CHART_SCALING)
             val prefs = preferenceScreen.sharedPreferences
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -318,7 +315,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             if (!prefs.isTaskerPluginEnabled() && !isAutomationAppInstalled()) {
-                preferenceScreen.removePreferenceFromHierarchy(taskerPref)
+                preferenceScreen.removePreferenceRecursively(PrefKeys.TASKER_PLUGIN_ENABLED)
             }
 
             viewLogPref.setOnPreferenceClickListener { preference ->
@@ -334,8 +331,8 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d(TAG, "Removing notification prefs for < 25")
-                preferenceScreen.removePreferenceFromHierarchy(ringtonePref)
-                preferenceScreen.removePreferenceFromHierarchy(vibrationPref)
+                preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_TONE)
+                preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_VIBRATION)
 
                 ringtoneVibrationPref.setOnPreferenceClickListener { pref ->
                     val i = Intent(Settings.ACTION_SETTINGS).apply {
@@ -347,7 +344,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
             } else {
                 Log.d(TAG, "Removing notification prefs for >= 25")
-                preferenceScreen.removePreferenceFromHierarchy(ringtoneVibrationPref)
+                preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_TONE_VIBRATION)
 
                 ringtonePref.setOnPreferenceClickListener { pref ->
                     val currentTone = prefs.getNotificationTone()
@@ -418,7 +415,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0 ||
                 flags and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
-                preferenceScreen.removePreferenceFromHierarchy(iconFormatPreference)
+                preferenceScreen.removePreferenceRecursively(PrefKeys.ICON_FORMAT)
             } else {
                 iconFormatPreference.setOnPreferenceChangeListener { pref, _ ->
                     val context = pref.context
@@ -428,7 +425,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
             }
             if (flags and ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT == 0) {
-                preferenceScreen.removePreferenceFromHierarchy(chartScalingPreference)
+                preferenceScreen.removePreferenceRecursively(PrefKeys.CHART_SCALING)
             }
         }
 
@@ -463,10 +460,10 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             if (requestCode == REQUEST_CODE_RINGTONE && data != null) {
                 val ringtoneUri = data.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
-                val ringtonePref = getPreference(PrefKeys.TONE)
+                val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
                 updateRingtonePreferenceSummary(ringtonePref, ringtoneUri)
                 prefs.edit {
-                    putString(PrefKeys.TONE, ringtoneUri?.toString() ?: "")
+                    putString(PrefKeys.NOTIFICATION_TONE, ringtoneUri?.toString() ?: "")
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data)
@@ -698,34 +695,6 @@ fun Preference?.getPrefValue(defaultValue: String? = null): String? {
         return it.getString(key, defaultValue)
     }
     return sharedPreferences.getString(key, defaultValue)
-}
-
-fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {
-    if (pref == null) {
-        return
-    }
-
-    /**
-     * @author https://stackoverflow.com/a/17633389
-     */
-    fun getParent(pref: Preference, root: PreferenceGroup): PreferenceGroup? {
-        for (i in 0 until root.preferenceCount) {
-            val p = root.getPreference(i)
-            if (p === pref) {
-                return root
-            }
-            if (p is PreferenceGroup) {
-                val parent = getParent(pref, p)
-                if (parent != null) {
-                    return parent
-                }
-            }
-        }
-        return null
-    }
-
-    val parent = getParent(pref, this)
-    parent?.removePreference(pref)
 }
 
 class SharedPrefsDataStore constructor(val prefs: SharedPreferences) : PreferenceDataStore() {
