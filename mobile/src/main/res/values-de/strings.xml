@@ -238,6 +238,7 @@
     <string name="theme_name_dark">Dunkel</string>
     <string name="theme_name_system">System folgen</string>
     <string name="theme_name_battery_saver">Dunkler Modus im Energiesparmodus</string>
+    <string name="theme_name_black">Schwarz</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagramm</string>
     <string name="chart_activity_hide_legend">Legende ausblenden</string>
