@@ -71,14 +71,14 @@ class FcmRegistrationService : JobIntentService() {
                     CloudMessagingHelper.registrationFailureReason = e
                     CloudMessagingHelper.registrationDone = true
                     runBlocking {
-                        showToast(getPushNotificationStatus(this@FcmRegistrationService).first, ToastType.ERROR)
+                        showToast(getPushNotificationStatus(this@FcmRegistrationService).message, ToastType.ERROR)
                     }
                     Log.e(TAG, "FCM registration failed", e)
                 } catch (e: IOException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     CloudMessagingHelper.registrationDone = true
                     runBlocking {
-                        showToast(getPushNotificationStatus(this@FcmRegistrationService).first, ToastType.ERROR)
+                        showToast(getPushNotificationStatus(this@FcmRegistrationService).message, ToastType.ERROR)
                     }
                     Log.e(TAG, "FCM registration failed", e)
                 }

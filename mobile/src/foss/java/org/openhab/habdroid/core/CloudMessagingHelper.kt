@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.Intent
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
+import org.openhab.habdroid.ui.PushNotificationStatus
 
 @Suppress("UNUSED_PARAMETER")
 object CloudMessagingHelper {
@@ -28,8 +29,8 @@ object CloudMessagingHelper {
 
     fun onNotificationSelected(context: Context, intent: Intent) {}
 
-    fun getPushNotificationStatus(context: Context): Pair<String, Int> {
-        return Pair(
+    fun getPushNotificationStatus(context: Context): PushNotificationStatus {
+        return PushNotificationStatus(
             context.getString(R.string.info_openhab_notification_status_unavailable),
             R.drawable.ic_bell_off_outline_grey_24dp
         )

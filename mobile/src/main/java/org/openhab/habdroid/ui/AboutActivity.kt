@@ -17,6 +17,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
@@ -284,8 +285,8 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             scope.launch {
                 Log.d(TAG, "Updating push notification status card")
                 val data = CloudMessagingHelper.getPushNotificationStatus(requireContext())
-                pushStatusCard.subText = data.first
-                pushStatusCard.icon = ContextCompat.getDrawable(requireContext(), data.second)
+                pushStatusCard.subText = data.message
+                pushStatusCard.icon = ContextCompat.getDrawable(requireContext(), data.icon)
                 refreshMaterialAboutList()
             }
         }
@@ -304,3 +305,5 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         }
     }
 }
+
+data class PushNotificationStatus(val message: String, @DrawableRes val icon: Int)
