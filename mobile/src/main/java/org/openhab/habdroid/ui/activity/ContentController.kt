@@ -582,9 +582,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 view.id == R.id.button1 -> {
                     // Primary button always goes to settings
                     val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
-                    TaskStackBuilder.create(view.context)
-                        .addNextIntentWithParentStack(preferencesIntent)
-                        .startActivities()
+                    startActivity(preferencesIntent)
                 }
                 arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
                     // If we attempted resolving, secondary button enables demo mode
