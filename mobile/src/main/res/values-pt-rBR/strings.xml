@@ -238,6 +238,7 @@
     <string name="theme_name_dark">Escuro</string>
     <string name="theme_name_system">Seguir o sistema</string>
     <string name="theme_name_battery_saver">Modo escuro na economia de bateria</string>
+    <string name="theme_name_black">Preto</string>
     <!-- Chart -->
     <string name="chart_activity_title">Gráfico</string>
     <string name="chart_activity_hide_legend">Ocultar legenda</string>
