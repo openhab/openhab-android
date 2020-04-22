@@ -536,12 +536,12 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
         Slider.OnSliderTouchListener, Slider.LabelFormatter {
-        private val seekBar: Slider = itemView.findViewById(R.id.seekbar)
+        private val slider: Slider = itemView.findViewById(R.id.seekbar)
         private var boundWidget: Widget? = null
 
         init {
-            seekBar.addOnSliderTouchListener(this)
-            seekBar.setLabelFormatter(this)
+            slider.addOnSliderTouchListener(this)
+            slider.setLabelFormatter(this)
         }
 
         override fun bind(widget: Widget) {
@@ -549,9 +549,9 @@ class WidgetAdapter(
             boundWidget = widget
 
             // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
-            seekBar.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
-            seekBar.valueFrom = widget.minValue
-            seekBar.stepSize = if (widget.step == 1F) 0F else widget.step
+            slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
+            slider.valueFrom = widget.minValue
+            slider.stepSize = if (widget.step == 1F) 0F else widget.step
 
             val item = widget.item
             val state = item?.state ?: return
@@ -559,14 +559,14 @@ class WidgetAdapter(
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 val brightness = state.asBrightness
                 if (brightness != null) {
-                    seekBar.valueFrom = 0F
-                    seekBar.valueTo = 100F
-                    seekBar.value = brightness.toFloat()
+                    slider.valueFrom = 0F
+                    slider.valueTo = 100F
+                    slider.value = brightness.toFloat()
                 }
             } else {
                 val number = state.asNumber
                 if (number != null) {
-                    seekBar.value = number.value.coerceIn(seekBar.valueFrom, seekBar.valueTo)
+                    slider.value = number.value.coerceIn(slider.valueFrom, slider.valueTo)
                 }
             }
         }
@@ -575,7 +575,7 @@ class WidgetAdapter(
             val widget = boundWidget ?: return
             if (widget.switchSupport) {
                 connection.httpClient.sendItemCommand(widget.item,
-                    if (seekBar.value <= widget.minValue) "ON" else "OFF")
+                    if (slider.value <= widget.minValue) "ON" else "OFF")
             }
         }
 
