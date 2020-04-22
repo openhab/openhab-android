@@ -653,8 +653,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            schedulePref.setOnPreferenceChangeListener { preference, newValue ->
-                BackgroundTasksManager.managePeriodicTrigger(preference.context, (newValue as String).toInt())
+            schedulePref.setOnPreferenceChangeListener { preference, _ ->
+                parentActivity.launch(Dispatchers.Main) {
+                    BackgroundTasksManager.schedulePeriodicTrigger(preference.context, true)
+                }
                 true
             }
         }

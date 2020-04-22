@@ -193,7 +193,7 @@
     <string name="send_device_info_to_server">Send device information to server</string>
     <string name="send_device_info_to_server_short">Send device information</string>
     <string name="send_device_info_category_event_based_title">Event based</string>
-    <string name="send_device_info_category_event_based_explanation">These Items are update on corresponding events, e.g. the phone starts ringing</string>
+    <string name="send_device_info_category_event_based_explanation">These Items are updated on corresponding events, e.g. an incoming phone call</string>
     <string name="send_device_info_category_schedule_based_title">Schedule based</string>
     <string name="send_device_info_category_general">General</string>
     <string name="send_device_info_item_prefix">Item name prefix</string>

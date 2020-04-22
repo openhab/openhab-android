@@ -259,7 +259,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             KNOWN_PERIODIC_KEYS.forEach { key -> scheduleWorker(context, key) }
         }
 
-        fun managePeriodicTrigger(context: Context, interval: Int = 0) {
+        fun schedulePeriodicTrigger(context: Context, force: Boolean = false) {
             val workManager = WorkManager.getInstance(context)
             val prefs = context.getPrefs()
             val periodicWorkIsNeeded = KNOWN_PERIODIC_KEYS
@@ -281,7 +281,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val isChargingWorkerRunning = isWorkerRunning(WORKER_TAG_PERIODIC_TRIGGER_CHARGING)
             val isNotChargingWorkerRunning = isWorkerRunning(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
 
-            if (isChargingWorkerRunning && isNotChargingWorkerRunning && interval == 0) {
+            if (isChargingWorkerRunning && isNotChargingWorkerRunning && !force) {
                 return
             }
 
@@ -293,14 +293,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .build()
 
             // Value is stored in minutes, but we need millis to compare it
-            var repeatInterval = if (interval == 0) {
-                prefs.getString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE).toInt()
-            } else {
-                interval
-            } * 60 * 1000L
-            repeatInterval = max(repeatInterval, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS)
-            var flexInterval = (repeatInterval * 0.75).toLong()
-            flexInterval = max(flexInterval, PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS)
+            val repeatInterval = max(
+                prefs.getString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE).toInt() * 60 * 1000L,
+                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
+            )
+            val flexInterval = max(
+                (repeatInterval * 0.75).toLong(),
+                PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
+            )
 
             val workRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
                 repeatInterval, TimeUnit.MILLISECONDS,
@@ -337,7 +337,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             if (key in KNOWN_PERIODIC_KEYS) {
-                managePeriodicTrigger(context)
+                schedulePeriodicTrigger(context)
             }
 
             if (!setting.first) {
