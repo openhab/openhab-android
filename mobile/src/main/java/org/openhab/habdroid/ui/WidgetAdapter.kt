@@ -79,6 +79,7 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
+import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
@@ -584,20 +585,20 @@ class WidgetAdapter(
         }
 
         override fun onStopTrackingTouch(slider: Slider) {
-            val value = slider.value
+            val value = slider.value.beautify()
             Log.d(TAG, "onValueChange value = $value")
             val item = boundWidget?.item ?: return
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                connection.httpClient.sendItemCommand(item, value.toString())
+                connection.httpClient.sendItemCommand(item, value)
             } else {
-                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value))
+                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value.toFloat()))
             }
         }
 
         override fun getFormattedValue(value: Float): String {
             val item = boundWidget?.item ?: return ""
             return if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                value.toString()
+                "${value.beautify()} %"
             } else {
                 item.state?.asNumber.withValue(value).toString()
             }

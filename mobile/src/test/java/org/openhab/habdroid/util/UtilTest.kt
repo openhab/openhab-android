@@ -302,4 +302,12 @@ class UtilTest {
         assertEquals("a**", "abc".obfuscate(1))
         assertEquals("***", "abc".obfuscate(0))
     }
+
+    @Test
+    fun testBeautifyFloat() {
+        assertEquals("0", 0F.beautify())
+        assertEquals("0", 0.0F.beautify())
+        assertEquals("42", 42F.beautify())
+        assertEquals("3.14159", 3.14159F.beautify())
+    }
 }
