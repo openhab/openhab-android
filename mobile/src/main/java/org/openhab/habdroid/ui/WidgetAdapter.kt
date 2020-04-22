@@ -585,7 +585,7 @@ class WidgetAdapter(
 
         override fun onStopTrackingTouch(slider: Slider) {
             val value = slider.value
-            Log.e(TAG, "onValueChange value = $value")
+            Log.d(TAG, "onValueChange value = $value")
             val item = boundWidget?.item ?: return
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 connection.httpClient.sendItemCommand(item, value.toString())
