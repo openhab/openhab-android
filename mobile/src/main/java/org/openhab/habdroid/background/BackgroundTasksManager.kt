@@ -388,7 +388,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 var time: String? = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
                     "UNDEF"
                 } else {
-                    (info?.triggerTime ?: 0).toString()
+                    (info?.triggerTime ?: "UNDEF").toString()
                 }
 
                 val prefs = context.getPrefs()
