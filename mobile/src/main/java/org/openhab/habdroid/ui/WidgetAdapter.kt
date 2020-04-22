@@ -551,7 +551,7 @@ class WidgetAdapter(
             // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
             slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
             slider.valueFrom = widget.minValue
-            slider.stepSize = if (widget.step == 1F) 0F else widget.step
+            slider.stepSize = widget.step
 
             val item = widget.item
             val state = item?.state ?: return
@@ -596,11 +596,10 @@ class WidgetAdapter(
 
         override fun getFormattedValue(value: Float): String {
             val item = boundWidget?.item ?: return ""
-            val realValue = if (boundWidget?.step == 1F) value.toInt().toFloat() else value
             return if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                realValue.toString()
+                value.toString()
             } else {
-                item.state?.asNumber.withValue(realValue).toString()
+                item.state?.asNumber.withValue(value).toString()
             }
         }
     }
