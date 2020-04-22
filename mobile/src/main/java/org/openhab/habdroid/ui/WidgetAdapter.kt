@@ -87,8 +87,6 @@ import java.util.Locale
 import java.util.concurrent.CancellationException
 import java.util.concurrent.Executor
 import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
@@ -568,10 +566,7 @@ class WidgetAdapter(
             } else {
                 val number = state.asNumber
                 if (number != null) {
-                    var progress = number.value
-                    progress = min(progress, seekBar.valueTo)
-                    progress = max(progress, seekBar.valueFrom)
-                    seekBar.value = progress
+                    seekBar.value = number.value.coerceIn(seekBar.valueFrom, seekBar.valueTo)
                 }
             }
         }
