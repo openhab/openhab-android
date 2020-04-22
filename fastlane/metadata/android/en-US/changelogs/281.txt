@@ -1,0 +1,6 @@
+## Added
+* Run periodic work on application start (#1919)
+
+## Fixed
+* Fix updating label or value colors from SSE events. (#1966)
+* Fix infinite loop when binding Google Maps view. (#1967)
