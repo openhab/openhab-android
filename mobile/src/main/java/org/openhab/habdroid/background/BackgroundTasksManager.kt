@@ -29,6 +29,8 @@ import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
@@ -288,7 +290,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             Log.d(TAG, "Scheduling periodic worker. Currently running:" +
                 " notCharging $isNotChargingWorkerRunning, charging $isChargingWorkerRunning")
 
-            val constraints = Constraints.Builder()
+            val notChargingConstraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
@@ -302,10 +304,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
             )
 
-            val workRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
+            val notChargingWorkRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
                 repeatInterval, TimeUnit.MILLISECONDS,
                 flexInterval, TimeUnit.MILLISECONDS)
-                .setConstraints(constraints)
+                .setConstraints(notChargingConstraints)
                 .addTag(WORKER_TAG_PERIODIC_TRIGGER)
                 .addTag(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
                 .build()
@@ -323,9 +325,16 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .addTag(WORKER_TAG_PERIODIC_TRIGGER_CHARGING)
                 .build()
 
-            workManager.cancelAllWorkByTag(WORKER_TAG_PERIODIC_TRIGGER)
-            workManager.enqueue(workRequest)
-            workManager.enqueue(chargingWorkRequest)
+            workManager.enqueueUniquePeriodicWork(
+                WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                notChargingWorkRequest
+            )
+            workManager.enqueueUniquePeriodicWork(
+                WORKER_TAG_PERIODIC_TRIGGER_CHARGING,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                chargingWorkRequest
+            )
         }
 
         private fun scheduleWorker(context: Context, key: String) {
@@ -388,8 +397,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
             val workManager = WorkManager.getInstance(context)
             Log.d(TAG, "Scheduling work for tag $tag")
-            workManager.cancelAllWorkByTag(tag)
-            workManager.enqueue(workRequest)
+            workManager.enqueueUniqueWork(tag, ExistingWorkPolicy.REPLACE, workRequest)
         }
 
         init {
