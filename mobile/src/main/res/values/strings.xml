@@ -195,6 +195,7 @@
     <string name="send_device_info_category_event_based_title">Event based</string>
     <string name="send_device_info_category_event_based_explanation">These Items are updated on corresponding events, e.g. an incoming phone call</string>
     <string name="send_device_info_category_schedule_based_title">Schedule based</string>
+    <string name="send_device_info_category_schedule_based_explanation">Note: Lower values impair battery life more than higher ones and your device may decide to delay updates.</string>
     <string name="send_device_info_category_general">General</string>
     <string name="send_device_info_item_prefix">Item name prefix</string>
     <string name="send_device_info_item_prefix_summary">The Item names of the following features are prefixed with \'%s\'</string>
@@ -249,7 +250,7 @@
     <string name="retry">Retry</string>
     <string name="ignore">Ignore</string>
     <string name="send_device_info_schedule">Schedule</string>
-    <string name="send_device_info_schedule_summary">These Items are updated every 15 minutes while charging, every %s otherwise.\nNote: Lower values impair battery life more than higher ones. Your device may decide to delay updates.</string>
+    <string name="send_device_info_schedule_summary">These Items are updated every 15 minutes while charging, every %s otherwise.</string>
     <string name="send_device_info_schedule_15_minutes">15 minutes</string>
     <string name="send_device_info_schedule_1_hour">1 hour</string>
     <string name="send_device_info_schedule_3_hours">3 hours</string>
