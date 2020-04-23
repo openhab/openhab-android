@@ -1,0 +1,4 @@
+## Fixed
+* Improve text readability in dialogs (#1950)
+* Fix push status in About (#1941)
+* Alarm clock: Send UNDEF if no alarm is set (#1970)
