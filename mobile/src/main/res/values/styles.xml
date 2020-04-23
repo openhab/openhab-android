@@ -13,7 +13,7 @@
     </style>
 
     <style name="openHAB.Dialog.Base" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="dialogCornerRadius">16dp</item>
+        <item name="dialogCornerRadius">8dp</item>
     </style>
 
     <style name="openHAB.Dialog.orange" parent="@style/openHAB.Dialog.Base">
