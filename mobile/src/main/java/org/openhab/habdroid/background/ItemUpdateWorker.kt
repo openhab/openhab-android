@@ -14,10 +14,14 @@
 package org.openhab.habdroid.background
 
 import android.content.Context
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
 import android.os.Parcelable
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.work.Data
+import androidx.work.ForegroundInfo
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import kotlinx.android.parcel.Parcelize
@@ -25,6 +29,7 @@ import kotlinx.coroutines.runBlocking
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.NotificationUpdateObserver.Companion.NOTIFICATION_ID_BACKGROUND_WORK_RUNNING
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
@@ -47,6 +52,7 @@ import javax.xml.parsers.ParserConfigurationException
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
+        setForegroundAsync(createForegroundInfo())
         runBlocking {
             ConnectionFactory.waitForInitialization()
         }
@@ -211,6 +217,24 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 null
             }
         }
+    }
+
+    private fun createForegroundInfo(): ForegroundInfo {
+        val context = applicationContext
+        val title = context.getString(R.string.item_upload_in_progress)
+
+        val notification = NotificationCompat.Builder(context, NotificationUpdateObserver.CHANNEL_ID_BACKGROUND)
+            .setProgress(0, 0, true)
+            .setContentTitle(title)
+            .setTicker(title)
+            .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
+            .setOngoing(true)
+            .setWhen(System.currentTimeMillis())
+            .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .build()
+
+        return ForegroundInfo(NOTIFICATION_ID_BACKGROUND_WORK_RUNNING, notification, FOREGROUND_SERVICE_TYPE_DATA_SYNC)
     }
 
     private fun buildOutputData(hasConnection: Boolean, httpStatus: Int): Data {
