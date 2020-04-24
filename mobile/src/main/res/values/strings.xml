@@ -492,4 +492,14 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Map</string>
     <string name="widget_type_chart">Chart</string>
+
+    <string name="notification_channel_severity_value">Severity \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notifications sent by the server with severity \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Unavailable, remote server isn\'t configured</string>
+    <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
 </resources>

@@ -16,10 +16,15 @@ package org.openhab.habdroid.background
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.runBlocking
+import org.openhab.habdroid.core.MessageListenerService
 
 class PeriodicItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
         BackgroundTasksManager.triggerPeriodicWork(applicationContext)
+        runBlocking {
+            MessageListenerService.checkForMessages(applicationContext)
+        }
         return Result.success()
     }
 }

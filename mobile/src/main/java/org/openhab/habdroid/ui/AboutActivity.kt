@@ -118,10 +118,6 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             val connection = ConnectionFactory.usableConnectionOrNull
             val year = SimpleDateFormat("yyyy", Locale.US).format(Calendar.getInstance().time)
 
-            val makeClickRedirect: (url: String) -> MaterialAboutItemOnClickAction = {
-                MaterialAboutItemOnClickAction { it.toUri().openInBrowser(context) }
-            }
-
             val appCard = MaterialAboutCard.Builder()
             appCard.addItem(MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
@@ -144,23 +140,23 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_changelog)
                 .icon(R.drawable.ic_track_changes_grey_24dp)
-                .setOnClickAction(makeClickRedirect("$URL_TO_GITHUB/releases"))
+                .setOnClickAction(makeClickRedirect(context, "$URL_TO_GITHUB/releases"))
                 .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_source_code)
                 .icon(R.drawable.ic_github_grey_24dp)
-                .setOnClickAction(makeClickRedirect(URL_TO_GITHUB))
+                .setOnClickAction(makeClickRedirect(context, URL_TO_GITHUB))
                 .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_issues)
                 .icon(R.drawable.ic_bug_outline_grey_24dp)
-                .setOnClickAction(makeClickRedirect("$URL_TO_GITHUB/issues"))
+                .setOnClickAction(makeClickRedirect(context, "$URL_TO_GITHUB/issues"))
                 .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_license_title)
                 .subText(R.string.about_license)
                 .icon(R.drawable.ic_account_balance_grey_24dp)
-                .setOnClickAction(makeClickRedirect("$URL_TO_GITHUB/blob/master/LICENSE"))
+                .setOnClickAction(makeClickRedirect(context, "$URL_TO_GITHUB/blob/master/LICENSE"))
                 .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.title_activity_libraries)
@@ -185,7 +181,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_privacy_policy)
                 .icon(R.drawable.ic_security_grey_24dp)
-                .setOnClickAction(makeClickRedirect("https://www.openhabfoundation.org/privacy.html"))
+                .setOnClickAction(makeClickRedirect(context, "https://www.openhabfoundation.org/privacy.html"))
                 .build())
 
             val ohServerCard = MaterialAboutCard.Builder()
@@ -248,22 +244,22 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_docs)
                 .icon(R.drawable.ic_file_document_box_multiple_outline_grey_24dp)
-                .setOnClickAction(makeClickRedirect("https://www.openhab.org/docs/"))
+                .setOnClickAction(makeClickRedirect(context, "https://www.openhab.org/docs/"))
                 .build())
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_community_forum)
                 .icon(R.drawable.ic_forum_outline_grey_24dp)
-                .setOnClickAction(makeClickRedirect("https://community.openhab.org/"))
+                .setOnClickAction(makeClickRedirect(context, "https://community.openhab.org/"))
                 .build())
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_translation)
                 .icon(R.drawable.ic_translate_grey_24dp)
-                .setOnClickAction(makeClickRedirect("https://crowdin.com/profile/openhab-bot"))
+                .setOnClickAction(makeClickRedirect(context, "https://crowdin.com/profile/openhab-bot"))
                 .build())
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_foundation)
                 .icon(R.drawable.ic_people_outline_grey_24dp)
-                .setOnClickAction(makeClickRedirect("https://www.openhabfoundation.org/"))
+                .setOnClickAction(makeClickRedirect(context, "https://www.openhabfoundation.org/"))
                 .build())
 
             return MaterialAboutList.Builder()
@@ -282,8 +278,12 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             scope.launch {
                 Log.d(TAG, "Updating push notification status card")
                 val data = CloudMessagingHelper.getPushNotificationStatus(requireContext())
-                pushStatusCard.subText = data.message
-                pushStatusCard.icon = ContextCompat.getDrawable(requireContext(), data.icon)
+                pushStatusCard.apply {
+                    subText = data.message
+                    icon = ContextCompat.getDrawable(requireContext(), data.icon)
+                    onClickAction = data.onClickAction
+                }
+
                 refreshMaterialAboutList()
             }
         }
@@ -299,8 +299,16 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         companion object {
             private val TAG = AboutMainFragment::class.java.simpleName
             private const val URL_TO_GITHUB = "https://github.com/openhab/openhab-android"
+
+            fun makeClickRedirect(context: Context, url: String) = MaterialAboutItemOnClickAction {
+                url.toUri().openInBrowser(context)
+            }
         }
     }
 }
 
-data class PushNotificationStatus(val message: String, @DrawableRes val icon: Int)
+data class PushNotificationStatus(
+    val message: String,
+    @DrawableRes val icon: Int,
+    val onClickAction: MaterialAboutItemOnClickAction? = null
+)

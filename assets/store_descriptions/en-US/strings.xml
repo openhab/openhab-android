@@ -17,7 +17,7 @@
     <important_note>Important note</important_note>
     <oh_server>You need an openHAB server for this app.</oh_server>
     <short_description>Vendor and technology agnostic open source home automation</short_description>
-    <fdroid>The builds on F-Droid have FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.</fdroid>
+    <fdroid>The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud in real time, but delayed.</fdroid>
     <fdroid_beta><![CDATA[You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Privacy policy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Try out new features and give early feedback!</beta>

@@ -23,6 +23,7 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.NotificationUtils
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
@@ -33,8 +34,6 @@ object CloudMessagingHelper {
     internal var registrationFailureReason: Throwable? = null
     private val TAG = CloudMessagingHelper::class.java.simpleName
 
-    val isSupported get() = true
-
     fun onConnectionUpdated(context: Context, connection: CloudConnection?) {
         registrationDone = false
         if (connection != null) {
@@ -44,7 +43,7 @@ object CloudMessagingHelper {
 
     fun onNotificationSelected(context: Context, intent: Intent) {
         val notificationId = intent.getIntExtra(
-                FcmMessageListenerService.EXTRA_NOTIFICATION_ID, -1)
+                NotificationUtils.EXTRA_NOTIFICATION_ID, -1)
         if (notificationId >= 0) {
             FcmRegistrationService.scheduleHideNotification(context, notificationId)
         }
@@ -63,12 +62,12 @@ object CloudMessagingHelper {
             // No remote server is configured
             context.getPrefs().getStringOrEmpty(PrefKeys.REMOTE_URL).isEmpty() ->
                 PushNotificationStatus(
-                    context.getString(R.string.info_openhab_gcm_no_remote),
+                    context.getString(R.string.push_notification_status_no_remote_configured),
                     R.drawable.ic_bell_off_outline_grey_24dp
                 )
             // Cloud connection failed
             ConnectionFactory.cloudConnectionOrNull == null && cloudFailure != null -> {
-                val message = context.getString(R.string.info_openhab_gcm_http_error,
+                val message = context.getString(R.string.push_notification_status_http_error,
                     context.getHumanReadableErrorMessage(
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.statusCode else 0,
@@ -81,7 +80,7 @@ object CloudMessagingHelper {
             // Remote server is configured, but it's not a cloud instance
             ConnectionFactory.cloudConnectionOrNull == null && ConnectionFactory.remoteConnectionOrNull != null ->
                 PushNotificationStatus(
-                    context.getString(R.string.info_openhab_gcm_unsupported),
+                    context.getString(R.string.push_notification_status_remote_no_cloud),
                     R.drawable.ic_bell_off_outline_grey_24dp
                 )
             // Registration isn't done yet

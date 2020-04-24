@@ -11,7 +11,7 @@
         </receiver>
 
         <service
-            android:name="org.openhab.habdroid.core.FcmMessageListenerService">
+            android:name="org.openhab.habdroid.core.MessageListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
