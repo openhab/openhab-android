@@ -275,8 +275,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             fun isWorkerRunning(tag: String): Boolean = workManager
-                .getWorkInfosByTagLiveData(tag)
-                .value
+                .getWorkInfosForUniqueWork(tag)
+                .get()
                 ?.filter { workInfo -> !workInfo.state.isFinished }
                 ?.size == 1
 
@@ -284,10 +284,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val isNotChargingWorkerRunning = isWorkerRunning(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
 
             if (isChargingWorkerRunning && isNotChargingWorkerRunning && !force) {
+                Log.d(TAG, "Both periodic workers are running")
                 return
             }
 
-            Log.d(TAG, "Scheduling periodic worker. Currently running:" +
+            Log.d(TAG, "Scheduling periodic workers. Currently running:" +
                 " notCharging $isNotChargingWorkerRunning, charging $isChargingWorkerRunning")
 
             val notChargingConstraints = Constraints.Builder()
