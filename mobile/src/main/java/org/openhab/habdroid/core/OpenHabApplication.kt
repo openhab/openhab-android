@@ -33,7 +33,6 @@ import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import java.security.InvalidKeyException
 
-@Suppress("UNUSED")
 class OpenHabApplication : MultiDexApplication() {
     interface OnDataSaverActiveStateChangedListener {
         fun onSystemDataSaverActiveStateChanged(active: Boolean)

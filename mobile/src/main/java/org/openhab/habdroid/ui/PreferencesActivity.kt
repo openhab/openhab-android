@@ -544,6 +544,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val pm = activity?.packageManager ?: return false
             return listOf("net.dinglisch.android.taskerm", "com.twofortyfouram.locale").any { pkg ->
                 try {
+                    // Some devices return `null` for getApplicationInfo()
                     @Suppress("UNNECESSARY_SAFE_CALL")
                     pm.getApplicationInfo(pkg, 0)?.enabled == true
                 } catch (e: PackageManager.NameNotFoundException) {
