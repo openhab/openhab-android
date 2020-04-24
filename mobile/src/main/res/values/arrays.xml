@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-
-    <string-array name="nfcActionValues">
-        <item>@string/nfc_action_on</item>
-        <item>@string/nfc_action_off</item>
-        <item>@string/nfc_action_toggle</item>
-    </string-array>
-
     <string-array name="themeArray">
         <item>@string/theme_name_light</item>
         <item>@string/theme_name_dark</item>
