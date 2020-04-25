@@ -151,4 +151,112 @@
         <item>@string/send_device_info_schedule_6_hours</item>
         <item>@string/send_device_info_schedule_12_hours</item>
     </string-array>
+
+    <!-- Icons grouped by https://www.openhab.org/docs/configuration/iconsets/classic/ -->
+    <string-array name="tile_icons">
+        <item>@string/tile_icon_openhab</item>
+        <!-- Places -->
+        <!-- Missing: attic, cellar, corridor, firstfloor, groundfloor, kitchen, office, terrace -->
+        <item>@string/tile_icon_bed</item>
+        <item>@string/tile_icon_bath</item>
+        <item>@string/tile_icon_house</item>
+        <item>@string/tile_icon_tree</item>
+
+        <!-- Things -->
+        <!-- Missing: door, frontdoor, lawnmower, poweroutlet, projector, receiver, siren, whitegood -->
+        <item>@string/tile_icon_light_switch</item>
+        <item>@string/tile_icon_bulb</item>
+        <item>@string/tile_icon_garage</item>
+        <item>@string/tile_icon_roller_shutter</item>
+        <item>@string/tile_icon_battery</item>
+        <item>@string/tile_icon_lock</item>
+        <item>@string/tile_icon_camera</item>
+        <item>@string/tile_icon_tv</item>
+        <item>@string/tile_icon_wifi</item>
+        <item>@string/tile_icon_phone</item>
+        <item>@string/tile_icon_cloud_upload</item>
+        <item>@string/tile_icon_microphone</item>
+        <item>@string/tile_icon_power_plug</item>
+
+        <!-- Channels: Widgets -->
+        <!-- Missing: text -->
+        <item>@string/tile_icon_color_palette</item>
+        <item>@string/tile_icon_switch</item>
+
+        <!-- Channels: Weather -->
+        <!-- Missing: humidity, moon, rain, snow, sun, sun_cloud, temperature, wind -->
+        <item>@string/tile_icon_earth</item>
+        <item>@string/tile_icon_star</item>
+
+        <!-- Channels: Properties -->
+        <!-- Missing: carbondioxide, energy, fire, flow, gas, motion, oil, pressure, price, qualityofservice, smoke,
+                      soundvolume, temperature, water -->
+        <item>@string/tile_icon_clock</item>
+        <item>@string/tile_icon_alarm_clock</item>
+
+        <!-- Channels: Control -->
+        <!-- Missing: heating, mediacontrol, movecontrol -->
+        <item>@string/tile_icon_magnifier</item>
+
+        <!-- Channels: Purpose -->
+        <!-- Missing: alarm, party, vacation -->
+
+        <!-- Other icons -->
+        <!-- Missing: bluetooth, calendar, chart, cinema, cinemascreen, cistern, climate, contact, dryer, error, fan,
+                      fan_box, fan_ceiling, faucet, flowpipe, greenhouse, incline, keyring, line, niveau, outdoorlight,
+                      pantry, pie, piggybank, player, poweroutlet_au, poweroutlet_eu, poweroutlet_uk, poweroutlet_us,
+                      pump, radiator, returnpipe, sewerage, smiley, sofa, softener, solarplant, soundvolume_mute,
+                      status, suitcase, sunrise, sunset, temperature_cold, temperature_hot, video, wardrobe,
+                      washingmachine, washingmachine_2 -->
+        <item>@string/tile_icon_baby</item>
+        <item>@string/tile_icon_child</item>
+        <item>@string/tile_icon_man</item>
+        <item>@string/tile_icon_woman</item>
+        <item>@string/tile_icon_person</item>
+        <item>@string/tile_icon_people</item>
+        <item>@string/tile_icon_chat</item>
+        <item>@string/tile_icon_settings</item>
+        <item>@string/tile_icon_shield</item>
+        <item>@string/tile_icon_bell</item>
+        <item>@string/tile_icon_dashboard</item>
+    </string-array>
+
+    <string-array name="tile_icons_values">
+        <item>@string/tile_icon_openhab_value</item>
+        <item>@string/tile_icon_bed_value</item>
+        <item>@string/tile_icon_bath_value</item>
+        <item>@string/tile_icon_house_value</item>
+        <item>@string/tile_icon_tree_value</item>
+        <item>@string/tile_icon_light_switch_value</item>
+        <item>@string/tile_icon_bulb_value</item>
+        <item>@string/tile_icon_garage_value</item>
+        <item>@string/tile_icon_roller_shutter_value</item>
+        <item>@string/tile_icon_battery_value</item>
+        <item>@string/tile_icon_lock_value</item>
+        <item>@string/tile_icon_camera_value</item>
+        <item>@string/tile_icon_tv_value</item>
+        <item>@string/tile_icon_wifi_value</item>
+        <item>@string/tile_icon_phone_value</item>
+        <item>@string/tile_icon_cloud_upload_value</item>
+        <item>@string/tile_icon_microphone_value</item>
+        <item>@string/tile_icon_power_plug_value</item>
+        <item>@string/tile_icon_color_palette_value</item>
+        <item>@string/tile_icon_switch_value</item>
+        <item>@string/tile_icon_earth_value</item>
+        <item>@string/tile_icon_star_value</item>
+        <item>@string/tile_icon_clock_value</item>
+        <item>@string/tile_icon_alarm_clock_value</item>
+        <item>@string/tile_icon_magnifier_value</item>
+        <item>@string/tile_icon_baby_value</item>
+        <item>@string/tile_icon_child_value</item>
+        <item>@string/tile_icon_man_value</item>
+        <item>@string/tile_icon_woman_value</item>
+        <item>@string/tile_icon_person_value</item>
+        <item>@string/tile_icon_people_value</item>
+        <item>@string/tile_icon_chat_value</item>
+        <item>@string/tile_icon_settings_value</item>
+        <item>@string/tile_icon_shield_value</item>
+        <item>@string/tile_icon_bell_value</item>
+        <item>@string/tile_icon_dashboard_value</item>
+    </string-array>
 </resources>

@@ -129,6 +129,10 @@
             android:title="@string/send_device_info_to_server"
             android:icon="@drawable/ic_cloud_upload_outline_grey_24dp"
             android:persistent="false" />
+        <Preference
+            android:key="tiles"
+            android:persistent="false"
+            android:title="@string/tiles_for_quick_settings" />
         <ListPreference
             android:key="screen_lock"
             android:title="@string/settings_screen_lock"

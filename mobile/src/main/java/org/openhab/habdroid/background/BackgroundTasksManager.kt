@@ -44,6 +44,8 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.tiles.AbstractTileService
+import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
@@ -98,6 +100,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
             Intent.ACTION_BOOT_COMPLETED -> {
                 Log.d(TAG, "Boot completed")
                 KNOWN_KEYS.forEach { key -> scheduleWorker(context, key) }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    for (tileId in 1..AbstractTileService.TILE_COUNT) {
+                        AbstractTileService.updateTile(context, tileId)
+                    }
+                }
             }
             ACTION_RETRY_UPLOAD -> {
                 intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
@@ -210,6 +217,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
         const val WORKER_TAG_PREFIX_TASKER = "tasker-"
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
+        const val WORKER_TAG_PREFIX_TILE = "tile-"
 
         internal val KNOWN_KEYS = listOf(
             PrefKeys.SEND_ALARM_CLOCK,
@@ -297,6 +305,19 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     asCommand = true
                 )
             }
+        }
+
+        fun enqueueTileUpdate(context: Context, data: TileData) {
+            enqueueItemUpload(
+                context,
+                WORKER_TAG_PREFIX_TILE + data.item,
+                data.item,
+                data.label,
+                ItemUpdateWorker.ValueWithInfo(data.state, data.mappedState),
+                isImportant = true,
+                showToast = true,
+                asCommand = true
+            )
         }
 
         fun triggerPeriodicWork(context: Context) {

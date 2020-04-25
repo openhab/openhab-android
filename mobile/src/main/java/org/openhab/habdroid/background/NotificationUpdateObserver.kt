@@ -46,7 +46,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 if (tag in BackgroundTasksManager.KNOWN_KEYS ||
                     tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC) ||
                     tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TASKER) ||
-                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_WIDGET)
+                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_WIDGET) ||
+                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE)
                 ) {
                     val state = info.state
                     if (state == WorkInfo.State.ENQUEUED || state == WorkInfo.State.RUNNING) {

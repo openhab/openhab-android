@@ -46,6 +46,9 @@
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.AboutActivity"
@@ -99,6 +102,11 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.TileItemPickerActivity"
+            android:launchMode="singleTask"
+            android:label="@string/tile_item_picker_title">
         </activity>
         <activity
             android:name=".ui.NfcItemPickerActivity"
@@ -206,6 +214,56 @@
             android:exported="false"
             android:foregroundServiceType="dataSync"
             tools:targetApi="n" />
+
+        <!-- Tiles -->
+        <service android:name=".background.tiles.TileService1" android:label="@string/tile_label_1" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="true">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService2" android:label="@string/tile_label_2" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService3" android:label="@string/tile_label_3" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService4" android:label="@string/tile_label_4" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService5" android:label="@string/tile_label_5" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService6" android:label="@string/tile_label_6" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService7" android:label="@string/tile_label_7" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService8" android:label="@string/tile_label_8" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService9" android:label="@string/tile_label_9" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService10" android:label="@string/tile_label_10" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService11" android:label="@string/tile_label_11" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService12" android:label="@string/tile_label_12" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
     </application>
 
 </manifest>
