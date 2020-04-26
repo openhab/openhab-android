@@ -31,7 +31,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
@@ -101,15 +100,21 @@ class PreferencesActivity : AbstractBaseActivity() {
             return true
         }
         return when (item.itemId) {
-            android.R.id.home -> with(supportFragmentManager) {
-                if (backStackEntryCount > 0) {
-                    popBackStack()
-                } else {
-                    NavUtils.navigateUpFromSameTask(this@PreferencesActivity)
-                }
+            android.R.id.home -> {
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onBackPressed() {
+        with(supportFragmentManager) {
+            if (backStackEntryCount > 0) {
+                popBackStack()
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 
