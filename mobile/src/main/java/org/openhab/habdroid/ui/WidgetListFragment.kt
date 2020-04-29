@@ -356,7 +356,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                         return true
                     }
                     id < suggestedCommands.commands.size -> {
-                        callback(suggestedCommands.commands[id], suggestedCommands.labels[id], suggestedCommands.types[id])
+                        callback(
+                            suggestedCommands.commands[id],
+                            suggestedCommands.labels[id],
+                            suggestedCommands.types[id]
+                        )
                         return true
                     }
                     else -> return false
