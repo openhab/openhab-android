@@ -142,4 +142,20 @@
         <item>@color/indigo_500</item>
         <item>@color/blue_grey_700</item>
     </array>
+
+    <string-array name="send_device_info_schedule_values">
+        <item>15</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>720</item>
+    </string-array>
+
+    <string-array name="send_device_info_schedule">
+        <item>@string/send_device_info_schedule_15_minutes</item>
+        <item>@string/send_device_info_schedule_1_hour</item>
+        <item>@string/send_device_info_schedule_3_hours</item>
+        <item>@string/send_device_info_schedule_6_hours</item>
+        <item>@string/send_device_info_schedule_12_hours</item>
+    </string-array>
 </resources>

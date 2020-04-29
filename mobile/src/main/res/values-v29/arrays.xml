@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string-array name="themeArray">
         <item>@string/theme_name_light</item>
         <item>@string/theme_name_dark</item>

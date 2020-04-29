@@ -41,6 +41,7 @@ object PrefKeys {
     const val FULLSCREEN = "default_openhab_fullscreen"
 
     const val SEND_DEVICE_INFO_PREFIX = "sendDeviceInfoPrefix"
+    const val SEND_DEVICE_INFO_SCHEDULE = "send_device_info_schedule"
     const val SEND_ALARM_CLOCK = "alarmClock"
     const val SEND_PHONE_STATE = "phoneState"
     const val SEND_BATTERY_LEVEL = "battery_level"
@@ -76,4 +77,5 @@ object PrefKeys {
      */
     const val SUBSCREEN_LOCAL_CONNECTION = "default_openhab_local_connection"
     const val SUBSCREEN_REMOTE_CONNECTION = "default_openhab_remote_connection"
+    const val SUBSCREEN_SEND_DEVICE_INFO = "send_device_info"
 }
