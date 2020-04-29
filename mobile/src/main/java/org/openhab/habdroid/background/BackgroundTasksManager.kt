@@ -52,6 +52,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
+import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
@@ -179,7 +180,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 // Demo mode was disabled -> reschedule uploads
                 (key == PrefKeys.DEMO_MODE && !prefs.isDemoModeEnabled()) ||
                     // Prefix has been changed -> reschedule uploads
-                    key == PrefKeys.SEND_DEVICE_INFO_PREFIX -> {
+                    key == PrefKeys.DEV_ID || key == PrefKeys.DEV_ID_PREFIX_BG_TASKS -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
                 }
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
@@ -239,12 +240,18 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         fun enqueueNfcUpdateIfNeeded(context: Context, tag: NfcTag?) {
             if (tag != null && tag.sitemap == null && tag.item != null && tag.state != null) {
+                val value = if (tag.deviceId) {
+                    val deviceId = context.getPrefs().getString(PrefKeys.DEV_ID)
+                    ItemUpdateWorker.ValueWithInfo(deviceId, deviceId)
+                } else {
+                    ItemUpdateWorker.ValueWithInfo(tag.state, tag.mappedState)
+                }
                 enqueueItemUpload(
                     context,
                     WORKER_TAG_PREFIX_NFC + tag.item,
                     tag.item,
                     tag.label,
-                    ItemUpdateWorker.ValueWithInfo(tag.state, tag.mappedState),
+                    value,
                     BackoffPolicy.LINEAR,
                     showToast = true,
                     asCommand = true
@@ -369,7 +376,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             val value = VALUE_GETTER_MAP[key]?.invoke(context) ?: return
-            val prefix = prefs.getStringOrEmpty(PrefKeys.SEND_DEVICE_INFO_PREFIX)
+            val prefix = prefs.getPrefixForBgTasks()
 
             enqueueItemUpload(
                 context,

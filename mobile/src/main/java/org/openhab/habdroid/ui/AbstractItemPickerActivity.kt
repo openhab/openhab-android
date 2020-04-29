@@ -43,6 +43,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
+import org.openhab.habdroid.util.CommandType
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.map
@@ -162,7 +163,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         val suggestedCommands = suggestedCommandsFactory.fill(item, !forItemCommandOnly)
         val labels = suggestedCommands.labels
         val commands = suggestedCommands.commands
-        addAdditionalCommands(labels, commands)
+        val types = suggestedCommands.types
+        addAdditionalCommands(labels, commands, types)
 
         if (suggestedCommands.shouldShowCustom) {
             labels.add(getString(R.string.item_picker_custom))
@@ -181,7 +183,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                     val customDialog = AlertDialog.Builder(this)
                         .setTitle(getString(R.string.item_picker_custom))
                         .setView(input)
-                        .setPositiveButton(android.R.string.ok) { _, _ -> finish(item, input.text.toString()) }
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            finish(item, input.text.toString(), type = CommandType.CUSTOM) }
                         .setNegativeButton(android.R.string.cancel, null)
                         .show()
                     input.setOnFocusChangeListener { _, hasFocus ->
@@ -192,13 +195,17 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                         customDialog.window?.setSoftInputMode(mode)
                     }
                 } else {
-                    finish(item, commands[which], labels[which])
+                    finish(item, commands[which], labels[which], types[which])
                 }
             }
             .show()
     }
 
-    protected open fun addAdditionalCommands(labels: MutableList<String>, commands: MutableList<String>) {
+    protected open fun addAdditionalCommands(
+        labels: MutableList<String>,
+        commands: MutableList<String>,
+        types: MutableList<CommandType>
+    ) {
         // no-op
     }
 
@@ -261,7 +268,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String, mappedState: String = state)
+    protected abstract fun finish(item: Item, state: String, mappedState: String = state, type: CommandType)
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName

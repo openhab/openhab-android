@@ -54,6 +54,6 @@ object Util {
             (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
             "google_sdk" == Build.PRODUCT
         Log.d(TAG, "Device is emulator: $isEmulator")
-        return isEmulator
+        return true
     }
 }

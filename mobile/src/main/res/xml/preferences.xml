@@ -89,6 +89,10 @@
             android:title="@string/settings_openhab_fullscreen" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
+        <org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
+            android:defaultValue="@string/empty_string"
+            android:key="sendDeviceInfoPrefix"
+            android:title="@string/device_identifier_title" />
         <Preference
             android:key="send_device_info"
             android:dependency="default_openhab_demomode"

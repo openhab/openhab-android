@@ -40,7 +40,6 @@ object PrefKeys {
     const val SCREEN_TIMER_OFF = "default_openhab_screentimeroff"
     const val FULLSCREEN = "default_openhab_fullscreen"
 
-    const val SEND_DEVICE_INFO_PREFIX = "sendDeviceInfoPrefix"
     const val SEND_DEVICE_INFO_SCHEDULE = "send_device_info_schedule"
     const val SEND_ALARM_CLOCK = "alarmClock"
     const val SEND_PHONE_STATE = "phoneState"
@@ -49,6 +48,9 @@ object PrefKeys {
     const val SEND_WIFI_SSID = "send_wifi_ssid"
     const val SEND_DND_MODE = "send_dnd_mode"
 
+    const val DEV_ID = "sendDeviceInfoPrefix"
+    const val DEV_ID_PREFIX_VOICE = "device_identifier_prefix_voice"
+    const val DEV_ID_PREFIX_BG_TASKS = "device_identifier_prefix_background_tasks"
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
     const val NOTIFICATION_TONE = "default_openhab_alertringtone"

@@ -58,11 +58,15 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.CommandType
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.showToast
 
@@ -236,13 +240,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                     val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
                         R.string.nfc_action_write_command_tag)
                     nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                    populateStatesMenu(nfcMenu, context, suggestedCommands) { state, mappedState ->
+                    populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, type ->
                         startActivity(WriteTagActivity.createItemUpdateIntent(
                             context,
                             widget.item?.name ?: return@populateStatesMenu,
                             state,
                             mappedState,
-                            widget.label)
+                            widget.label,
+                            type == CommandType.DEVICE_ID)
                         )
                     }
                 }
@@ -252,7 +257,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 val widgetMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET, Menu.NONE,
                     R.string.create_home_screen_widget_title)
                 widgetMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                populateStatesMenu(widgetMenu, context, suggestedCommands) { state, mappedState ->
+                populateStatesMenu(widgetMenu, context, suggestedCommands, false) { state, mappedState, _ ->
                     requestPinAppWidget(context, widget, state, mappedState)
                 }
             }
@@ -285,25 +290,26 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
                     R.string.nfc_action_write_command_tag)
                 nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                populateStatesMenu(nfcMenu, context, suggestedCommands) { state, mappedState ->
+                populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, type ->
                     startActivity(WriteTagActivity.createItemUpdateIntent(
                         context,
                         widget.item?.name ?: return@populateStatesMenu,
                         state,
                         mappedState,
-                        widget.label)
+                        widget.label,
+                        type == CommandType.DEVICE_ID)
                     )
                 }
 
                 val widgetMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET, Menu.NONE,
                     R.string.create_home_screen_widget_title)
                 widgetMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                populateStatesMenu(widgetMenu, context, suggestedCommands) { state, mappedState ->
+                populateStatesMenu(widgetMenu, context, suggestedCommands, false) { state, mappedState, _ ->
                     requestPinAppWidget(context, widget, state, mappedState)
                 }
             } else {
                 menu.setHeaderTitle(R.string.create_home_screen_widget_title)
-                populateStatesMenu(menu, context, suggestedCommands) { state, mappedState ->
+                populateStatesMenu(menu, context, suggestedCommands, false) { state, mappedState, _ ->
                     requestPinAppWidget(context, widget, state, mappedState)
                 }
             }
@@ -314,41 +320,61 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         menu: Menu,
         context: Context,
         suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
-        callback: (state: String, mappedState: String) -> Unit
+        showDeviceId: Boolean,
+        callback: (state: String, mappedState: String, type: CommandType) -> Unit
     ) {
         val listener = object : MenuItem.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 val id = item?.itemId ?: return false
-                if (id == CONTEXT_MENU_ID_WRITE_CUSTOM_TAG) {
-                    val input = EditText(context)
-                    input.inputType = suggestedCommands.inputTypeFlags
-                    val customDialog = AlertDialog.Builder(context)
-                        .setTitle(getString(R.string.item_picker_custom))
-                        .setView(input)
-                        .setPositiveButton(android.R.string.ok) { _, _ ->
-                            callback(input.text.toString(), input.text.toString())
+                when {
+                    id == CONTEXT_MENU_ID_WRITE_CUSTOM_TAG -> {
+                        val input = EditText(context)
+                        input.inputType = suggestedCommands.inputTypeFlags
+                        val customDialog = AlertDialog.Builder(context)
+                            .setTitle(getString(R.string.item_picker_custom))
+                            .setView(input)
+                            .setPositiveButton(android.R.string.ok) { _, _ ->
+                                callback(input.text.toString(), input.text.toString(), CommandType.CUSTOM)
+                            }
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .show()
+                        input.setOnFocusChangeListener { _, hasFocus ->
+                            val mode = if (hasFocus)
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                            else
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                            customDialog.window?.setSoftInputMode(mode)
                         }
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show()
-                    input.setOnFocusChangeListener { _, hasFocus ->
-                        val mode = if (hasFocus)
-                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
-                        else
-                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                        customDialog.window?.setSoftInputMode(mode)
+                        return true
                     }
-                    return true
-                } else if (id < suggestedCommands.commands.size) {
-                    callback(suggestedCommands.commands[id], suggestedCommands.labels[id])
-                    return true
+                    id == CONTEXT_MENU_ID_WRITE_DEVICE_ID -> {
+                        callback(
+                            context.getPrefs().getString(PrefKeys.DEV_ID),
+                            "",
+                            CommandType.DEVICE_ID
+                        )
+                        return true
+                    }
+                    id < suggestedCommands.commands.size -> {
+                        callback(suggestedCommands.commands[id], suggestedCommands.labels[id], suggestedCommands.types[id])
+                        return true
+                    }
+                    else -> return false
                 }
-                return false
             }
         }
 
         suggestedCommands.labels.forEachIndexed { index, label ->
             menu.add(Menu.NONE, index, Menu.NONE, label).setOnMenuItemClickListener(listener)
         }
+
+        val deviceId = context.getPrefs().getString(PrefKeys.DEV_ID)
+        if (showDeviceId && deviceId.isNotEmpty()) {
+            menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_DEVICE_ID, Menu.NONE,
+                getString(R.string.device_identifier_suggested_command_nfc_tag, deviceId)
+            ).setOnMenuItemClickListener(listener)
+        }
+
         if (suggestedCommands.shouldShowCustom) {
             menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_CUSTOM_TAG, Menu.NONE, R.string.item_picker_custom)
                 .setOnMenuItemClickListener(listener)
@@ -535,6 +561,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         private const val CONTEXT_MENU_ID_PIN_HOME_BLACK = 1005
         private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1006
         private const val CONTEXT_MENU_ID_WRITE_CUSTOM_TAG = 10000
+        private const val CONTEXT_MENU_ID_WRITE_DEVICE_ID = 10001
 
         fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {
             val fragment = WidgetListFragment()

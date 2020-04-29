@@ -145,6 +145,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         if (command !in suggestedCommands.commands) {
             suggestedCommands.commands.add(command)
             suggestedCommands.labels.add(label)
+            suggestedCommands.types.add(CommandType.DEFAULT)
         }
     }
 
@@ -174,6 +175,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
     inner class SuggestedCommands {
         var commands: MutableList<String> = ArrayList()
         var labels: MutableList<String> = ArrayList()
+        var types: MutableList<CommandType> = ArrayList()
         var shouldShowCustom = false
         var inputTypeFlags = InputType.TYPE_CLASS_TEXT
     }
@@ -184,4 +186,10 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         private const val INPUT_TYPE_SINGED_DECIMAL_NUMBER =
             INPUT_TYPE_DECIMAL_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
     }
+}
+
+enum class CommandType {
+    DEFAULT,
+    DEVICE_ID,
+    CUSTOM
 }

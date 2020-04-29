@@ -23,6 +23,8 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.getPrefixForVoice
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.showToast
 import java.util.Locale
 
@@ -31,11 +33,17 @@ import java.util.Locale
  */
 class VoiceService : IntentService("VoiceService") {
     override fun onHandleIntent(intent: Intent?) {
-        val voiceCommand = intent?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
+        var voiceCommand = intent?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
             ?: return
 
         Log.i(TAG, "Recognized text: $voiceCommand")
         showToast(getString(R.string.info_voice_recognized_text, voiceCommand))
+
+        val prefix = getPrefs().getPrefixForVoice()
+        if (prefix != null) {
+            voiceCommand = "$prefix|$voiceCommand"
+            Log.d(TAG, "Prefix voice command: $voiceCommand")
+        }
 
         runBlocking {
             ConnectionFactory.waitForInitialization()

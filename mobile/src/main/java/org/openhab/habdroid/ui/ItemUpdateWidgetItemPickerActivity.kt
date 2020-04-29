@@ -26,6 +26,7 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.CommandType
 
 class ItemUpdateWidgetItemPickerActivity(
     override var hintMessageId: Int = 0,
@@ -68,7 +69,7 @@ class ItemUpdateWidgetItemPickerActivity(
         }
     }
 
-    override fun finish(item: Item, state: String, mappedState: String) {
+    override fun finish(item: Item, state: String, mappedState: String, type: CommandType) {
         val widgetLabel = if (autoGenSwitch.isChecked) {
             null
         } else {

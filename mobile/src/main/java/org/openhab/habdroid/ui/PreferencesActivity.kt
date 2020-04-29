@@ -49,6 +49,7 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
+import org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.util.CacheManager
@@ -57,6 +58,7 @@ import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
+import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
@@ -178,6 +180,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 is UrlInputPreference -> showDialog(preference.createDialog())
                 is ItemUpdatingPreference -> showDialog(preference.createDialog())
                 is CustomInputTypePreference -> showDialog(preference.createDialog())
+                is DeviceIdentifierPreference -> showDialog(preference.createDialog())
                 else -> super.onDisplayPreferenceDialog(preference)
             }
         }
@@ -618,7 +621,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences_device_information)
 
-            val prefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
+            val prefixHint = getPreference(PrefKeys.DEV_ID_PREFIX_BG_TASKS)
             val schedulePref = getPreference(PrefKeys.SEND_DEVICE_INFO_SCHEDULE)
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_WIFI_SSID) as ItemUpdatingPreference
@@ -657,16 +660,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.SEND_DND_MODE)
             }
 
-            updatePrefixSummary(prefixPref, prefs.getStringOrNull(PrefKeys.SEND_DEVICE_INFO_PREFIX))
-            prefixPref.setOnPreferenceChangeListener { _, newValue ->
-                val prefix = newValue as String
-                updatePrefixSummary(prefixPref, prefix)
-
-                BackgroundTasksManager.KNOWN_KEYS.forEach {
-                    val pref = findPreference(it) as ItemUpdatingPreference?
-                    pref?.updateSummaryAndIcon(prefix)
-                }
-                true
+            val prefix = prefs.getPrefixForBgTasks()
+            prefixHint.summary = if (prefix.isEmpty()) {
+                prefixHint.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
+            } else {
+                prefixHint.context.getString(R.string.send_device_info_item_prefix_summary, prefix)
             }
 
             schedulePref.setOnPreferenceChangeListener { preference, _ ->
