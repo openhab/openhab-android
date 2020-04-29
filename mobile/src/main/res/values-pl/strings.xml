@@ -169,12 +169,8 @@
     <string name="send_device_info_item_prefix_summary">Nazwy itemów z następującymi właściwościami mają przedrostek \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nie ustawiono przedrostka dla nazw itemów z następującymi właściwościami</string>
     <string name="settings_item_update_pref_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
-    <string name="settings_alarm_clock">Wyślij budzik do openHAB</string>
     <string name="settings_alarm_clock_summary_on">Wysyła czas budzika do Item\'u \'%1$s\'</string>
-    <string name="settings_alarm_clock_summary_off">Nie wysyłaj czasu budzika do serwera</string>
-    <string name="settings_phone_state">Wyślij stan rozmowy do openHABa</string>
     <string name="settings_phone_state_summary_on">Wyślij stan rozmowy do itemu \'%1$s\'</string>
-    <string name="settings_phone_state_summary_off">Nie wysyłaj stanu rozmowy do serwera</string>
     <string name="settings_phone_state_permission_denied">Wysyłanie stanu rozmowy do zostało wyłączone z powodu braku pozwolenia</string>
     <string name="settings_item_pref_item_name">Nazwa Item\'u</string>
     <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
