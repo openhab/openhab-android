@@ -110,11 +110,8 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Envia la informació del dispositiu al servidor</string>
     <string name="send_device_info_item_prefix">Prefix de l\'element</string>
-    <string name="settings_alarm_clock_summary_off">No enviïs l\'alarma al servidor</string>
-    <string name="settings_phone_state">Envia l\'estat de trucada a openHAB</string>
     <string name="settings_wifi_ssid">Nom del Wi-Fi</string>
     <string name="settings_wifi_ssid_summary_on">Envia el nom del Wi-Fi (SSID) a l\'element \'%1$s\'</string>
-    <string name="settings_wifi_ssid_summary_off">No enviis el nom del Wi-Fi (SSID) al servidor</string>
     <string name="settings_background_tasks_permission_allow">Permet</string>
     <string name="settings_item_pref_item_name">Nom d\'element</string>
     <string name="notification_channel_background_error">Error en tasques secundàries</string>
