@@ -132,12 +132,8 @@
     <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben als voorvoegsel \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Er is geen voorvoegsel ingesteld voor de Item namen van de volgende functies</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
-    <string name="settings_alarm_clock">Wekker verzenden naar openHAB</string>
     <string name="settings_alarm_clock_summary_on">Stuurt wekkertijd naar item \'%1$s \'</string>
-    <string name="settings_alarm_clock_summary_off">Stuur geen wekkertijd naar de server</string>
-    <string name="settings_phone_state">Verzend belstatus naar openHAB</string>
     <string name="settings_phone_state_summary_on">Verzend belstatus naar item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_off">Belstatus niet naar server versturen</string>
     <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
