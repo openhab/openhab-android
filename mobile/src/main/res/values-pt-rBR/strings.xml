@@ -169,18 +169,32 @@
     <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Enviar informações do dispositivo para o servidor</string>
+    <string name="send_device_info_to_server_short">Enviar informações do dispositivo</string>
+    <string name="send_device_info_category_event_based_title">Baseado em evento</string>
+    <string name="send_device_info_category_event_based_explanation">Estes Items são atualizados nos eventos correspondentes, ex: Recebendo uma ligação</string>
+    <string name="send_device_info_category_schedule_based_title">Baseado em agendamento</string>
+    <string name="send_device_info_category_schedule_based_explanation">Estes Items são atualizados em um agendamento\nNota: Valores menores prejudicam mais a vida da bateria e seu dispositivo pode decidir atrasar as atualizações.</string>
+    <string name="send_device_info_category_general">Geral</string>
     <string name="send_device_info_item_prefix">Prefixo do nome do Item</string>
     <string name="send_device_info_item_prefix_summary">Os nomes de Item dos seguintes recursos tem este prefixo\'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nenhum prefixo foi definido para os nomes do Item dos seguintes recursos</string>
     <string name="settings_item_update_pref_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
+    <string name="settings_alarm_clock">Alarme</string>
     <string name="settings_alarm_clock_summary_on">Envia a hora do alarme para item \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">Não enviar a hora do alarme</string>
+    <string name="settings_phone_state">Estado da chamada</string>
     <string name="settings_phone_state_summary_on">Envia estado de chamada para o item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Não enviar estado da chamada</string>
     <string name="settings_phone_state_permission_denied">O envio do estado de chamada foi desativado devido à falta de permissões</string>
+    <string name="settings_battery_level">Nível da bateria</string>
     <string name="settings_battery_level_summary_on">Enviar nível de bateria ao item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Não enviar nível da bateria</string>
     <string name="settings_charging_state">Estado do carregamento</string>
     <string name="settings_charging_state_summary_on">Envia o estado de carregamento para o item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Não enviar estado do carregamento</string>
     <string name="settings_wifi_ssid">Nome do WiFi</string>
     <string name="settings_wifi_ssid_summary_on">Envia o nome do Wi-Fi (SSID) para o item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">Não enviar o nome do Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">O envio de nome de Wi-Fi foi desativado devido à falta de permissões</string>
     <string name="settings_background_tasks_permission_denied">Algumas tarefas de segundo plano foram desabilitadas devido à falta de permissões</string>
     <string name="settings_background_tasks_permission_allow">Permitir</string>
@@ -208,6 +222,13 @@
     <string name="error_sending_alarm_clock_item_empty">Por favor, insira um nome de Item válido</string>
     <string name="retry">Tente novamente</string>
     <string name="ignore">Ignorar</string>
+    <string name="send_device_info_schedule">Agendamento</string>
+    <string name="send_device_info_schedule_summary">A cada 15 minutos enquanto carrega, cada %s caso contrário</string>
+    <string name="send_device_info_schedule_15_minutes">15 minutos</string>
+    <string name="send_device_info_schedule_1_hour">1 hora</string>
+    <string name="send_device_info_schedule_3_hours">3 horas</string>
+    <string name="send_device_info_schedule_6_hours">6 horas</string>
+    <string name="send_device_info_schedule_12_hours">12 horas</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
