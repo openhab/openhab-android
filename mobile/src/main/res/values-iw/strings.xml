@@ -150,6 +150,7 @@
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
     <string name="error_no_speech_to_text_app_found">לא נמצא יישום לזיהוי קול</string>
     <string name="error_sse_failed">הרישום לאירוע נכשל, רענון הווידג׳ט יכול להיפגע</string>
+    <string name="error_video_player">%s לא הצליח להיטען</string>
     <string name="install">התקנה</string>
     <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
     <string name="title_activity_libraries">ספריות בשימוש</string>
@@ -172,22 +173,14 @@
     <string name="send_device_info_item_prefix_summary">לשמות הפריטים עם התכונות הבאות יש קידומת זו \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">אין קידומת לשמות הפריטים עם התכונות הבאות</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
-    <string name="settings_alarm_clock">שלח את השעון המעורר ל- openHAB</string>
     <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
-    <string name="settings_alarm_clock_summary_off">לא לשלוח את שעת השעון המעורר אל השרת</string>
-    <string name="settings_phone_state">שלח מצב שיחה ל-openHAB</string>
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
-    <string name="settings_phone_state_summary_off">אל תשלח מצב שיחה לשרת</string>
     <string name="settings_phone_state_permission_denied">שליחת מצב שיחה נוטרל בעקבות חוסר הרשאות</string>
-    <string name="settings_battery_level">שלח מצב סוללה ל-openHAB</string>
     <string name="settings_battery_level_summary_on">שלח מצב סוללה לפריט ׳%1$s׳</string>
-    <string name="settings_battery_level_summary_off">אל תשלח את מצב הסוללה אל השרת</string>
     <string name="settings_charging_state">מצב טעינת הסוללה</string>
     <string name="settings_charging_state_summary_on">שלח את מצב טעינת הסוללה אל פריט \'%1$s\'</string>
-    <string name="settings_charging_state_summary_off">אל תשלח את מצב טעינת הסוללה אל השרת</string>
     <string name="settings_wifi_ssid">שם רשת אלחוטית</string>
     <string name="settings_wifi_ssid_summary_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳</string>
-    <string name="settings_wifi_ssid_summary_off">אל תשלח את שם הרשת האלחוטית (SSID) אל השרת</string>
     <string name="settings_wifi_ssid_permission_denied">שליחת שם הרשת האלחוטית איננה אפשרית בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_allow">אפשר</string>
@@ -239,6 +232,7 @@
     <string name="theme_name_dark">כהה</string>
     <string name="theme_name_system">בהתאם למערכת</string>
     <string name="theme_name_battery_saver">ערכת נושא כהה במצב חיסכון בסוללה</string>
+    <string name="theme_name_black">שחור</string>
     <!-- Chart -->
     <string name="chart_activity_title">תרשים</string>
     <string name="chart_activity_hide_legend">הסתר מקרא</string>
@@ -408,6 +402,9 @@
     <string name="item_update_widget_widget_label">תווית יישומון</string>
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
     <string name="data_saver_title">חסכון בנתונים</string>
+    <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
+    <string name="data_saver_off">הגדרת חיסכון בנתונים במערכת תופעל על טעינת נתונים של רכיבי תצורת מערכת</string>
+    <string name="data_saver_off_pre_n">כל רכיבי תצורת המערכת יטענו תוך התעלמות מנפח הנתונים שלהם</string>
     <string name="data_saver_load">טען בכל מקרה</string>
     <string name="data_saver_hint">%s לא נטען על מנת לשמור על נפח המידע</string>
     <string name="widget_type_image">תמונה</string>

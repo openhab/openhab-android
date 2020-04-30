@@ -173,22 +173,14 @@
     <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben dieses Präfix \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen der folgenden Funktionen ist kein Präfix gesetzt</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
-    <string name="settings_alarm_clock">Weckzeit an openHAB senden</string>
     <string name="settings_alarm_clock_summary_on">Sendet Weckzeit an Item \'%1$s\'</string>
-    <string name="settings_alarm_clock_summary_off">Weckzeit nicht an den Server senden</string>
-    <string name="settings_phone_state">Anrufstatus an openHAB senden</string>
     <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_off">Anrufstatus nicht an den Server senden</string>
     <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
-    <string name="settings_battery_level">Akkustand an openHAB senden</string>
     <string name="settings_battery_level_summary_on">Sendet Akkustand an Item \'%1$s\'</string>
-    <string name="settings_battery_level_summary_off">Akkustand nicht zum Server senden</string>
     <string name="settings_charging_state">Ladezustand</string>
     <string name="settings_charging_state_summary_on">Sendet Ladezustand zum Item \'%1$s\'</string>
-    <string name="settings_charging_state_summary_off">Ladezustand nicht an Server senden</string>
     <string name="settings_wifi_ssid">WLAN-Name</string>
     <string name="settings_wifi_ssid_summary_on">Sendet WLAN-Name (SSID) an Item \'%1$s\'</string>
-    <string name="settings_wifi_ssid_summary_off">WLAN-Name (SSID) nicht an den Server senden</string>
     <string name="settings_wifi_ssid_permission_denied">Das Senden des WLAN-Namens wurde aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_background_tasks_permission_denied">Einige Hintergrundaufgaben wurden aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_background_tasks_permission_allow">Erlauben</string>
@@ -238,6 +230,7 @@
     <string name="theme_name_dark">Dunkel</string>
     <string name="theme_name_system">System folgen</string>
     <string name="theme_name_battery_saver">Dunkler Modus im Energiesparmodus</string>
+    <string name="theme_name_black">Schwarz</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagramm</string>
     <string name="chart_activity_hide_legend">Legende ausblenden</string>

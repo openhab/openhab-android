@@ -173,22 +173,14 @@
     <string name="send_device_info_item_prefix_summary">Seuraavien toimintojen Itemien nimillä on etuliite \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Seuraavien toimintojen Itemien nimillä ei ole etuliitettä asetettuna</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
-    <string name="settings_alarm_clock">Lähetä herätyskello openHABiin</string>
     <string name="settings_alarm_clock_summary_on">Lähetä herätyskellon aika Itemille \'%1$s\'</string>
-    <string name="settings_alarm_clock_summary_off">Älä lähetä herätyskellon aikaa palvelimelle</string>
-    <string name="settings_phone_state">Lähetä puhelun tila openHAB palvelimelle</string>
     <string name="settings_phone_state_summary_on">Lähettää puhelun tilan Itemille \'%1$s\'</string>
-    <string name="settings_phone_state_summary_off">Älä lähetä puhelun tilaa palvelimelle</string>
     <string name="settings_phone_state_permission_denied">Puhelun tilan lähetys on poistettu käytöstä puuttuvien oikeuksien takia</string>
-    <string name="settings_battery_level">Lähetä akun taso openHAB palvelimelle</string>
     <string name="settings_battery_level_summary_on">Lähettää akun tason Itemille \'%1$s\'</string>
-    <string name="settings_battery_level_summary_off">Älä lähetä akun tasoa palvelimelle</string>
     <string name="settings_charging_state">Latauksen tila</string>
     <string name="settings_charging_state_summary_on">Lähettää latauksen tilan Itemille \'%1$s\'</string>
-    <string name="settings_charging_state_summary_off">Älä lähetä latauksen tilaa palvelimelle</string>
     <string name="settings_wifi_ssid">Langattoman yhteyden nimi</string>
     <string name="settings_wifi_ssid_summary_on">Lähetä langattoman yhteyden nimi (SSID) Itemiin \'%1$s\'</string>
-    <string name="settings_wifi_ssid_summary_off">Älä lähetä langattoman yhteyden nimeä (SSID) palvelimelle</string>
     <string name="settings_wifi_ssid_permission_denied">Langattoman yhteyden nimen lähettäminen on estetty puuttuvien oikeuksien takia</string>
     <string name="settings_background_tasks_permission_denied">Joitankin taustatehtäviä on lopetettu puuttuvien oikeuksien takia</string>
     <string name="settings_background_tasks_permission_allow">Salli</string>
@@ -238,6 +230,7 @@
     <string name="theme_name_dark">Tumma</string>
     <string name="theme_name_system">Seuraa järjestelmää</string>
     <string name="theme_name_battery_saver">Tumma teema virransäästön aikana</string>
+    <string name="theme_name_black">Musta</string>
     <!-- Chart -->
     <string name="chart_activity_title">Kuvaaja</string>
     <string name="chart_activity_hide_legend">Piilota selite</string>

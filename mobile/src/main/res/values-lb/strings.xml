@@ -134,12 +134,8 @@
     <string name="send_device_info_item_prefix_summary">D‘ Item Nimm vu folgende Features hunn dëse Prefix \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Fir Item Nimm vun de folgenden Funktiounen ass keen Prefix gesat</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
-    <string name="settings_alarm_clock">Erwächzäit un openHAB schécken</string>
     <string name="settings_alarm_clock_summary_on">Erwächzäit un den Item \'%1$s\' schécken</string>
-    <string name="settings_alarm_clock_summary_off">Erwächzäit net un de Server schécken</string>
-    <string name="settings_phone_state">Uruffstatus un openHAB schécken</string>
     <string name="settings_phone_state_summary_on">Schéckt den Uruffstatus un den Item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_off">Uruffstatus net un de Server schécken</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>

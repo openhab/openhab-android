@@ -169,26 +169,32 @@
     <string name="empty_page">Questa pagina non contiene tutti i widget impostati per essere visibili</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Invia informazioni del dispositivo al server</string>
+    <string name="send_device_info_to_server_short">Invia informazioni sul dispositivo</string>
+    <string name="send_device_info_category_event_based_title">Basato sull’evento</string>
+    <string name="send_device_info_category_event_based_explanation">Questi items sono aggiornati dagli eventi corrispondenti, ad esempio una telefonata in arrivo</string>
+    <string name="send_device_info_category_schedule_based_title">Basato sul tempo</string>
+    <string name="send_device_info_category_schedule_based_explanation">Questi items vengono aggiornati regolarmente\nNota: Valori più bassi compromettono la durata della batteria più di quelli più alti e il tuo dispositivo potrebbe decidere di ritardare gli aggiornamenti.</string>
+    <string name="send_device_info_category_general">Generale</string>
     <string name="send_device_info_item_prefix">Prefisso nome Item</string>
     <string name="send_device_info_item_prefix_summary">I nomi degli Item delle seguenti feature hanno il prefisso \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nessun prefisso è stato impostato per i nomi degli Item delle seguenti Feature</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
-    <string name="settings_alarm_clock">Invia allarme sveglia a openHAB</string>
+    <string name="settings_alarm_clock">Sveglia</string>
     <string name="settings_alarm_clock_summary_on">Invia ora dell’allarme sveglia all’Item ‘%1$s’</string>
-    <string name="settings_alarm_clock_summary_off">Non inviare l’ora della sveglia al server</string>
-    <string name="settings_phone_state">Invia lo stato ad openHAB</string>
+    <string name="settings_alarm_clock_summary_off">Non inviare l\'orario della sveglia</string>
+    <string name="settings_phone_state">Stato chiamata</string>
     <string name="settings_phone_state_summary_on">Invia lo stato dell’item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_off">Non inviare lo stato al server</string>
+    <string name="settings_phone_state_summary_off">Non inviare lo stato della chiamata</string>
     <string name="settings_phone_state_permission_denied">L\'invio dello stato è disabilitata a causa dei permessi mancanti</string>
-    <string name="settings_battery_level">Invia il livello della batteria a openHAB</string>
+    <string name="settings_battery_level">Livello batteria</string>
     <string name="settings_battery_level_summary_on">Invia il livello della batteria all\'elemento \'%1$s\'</string>
-    <string name="settings_battery_level_summary_off">Non inviare il livello della batteria al server</string>
+    <string name="settings_battery_level_summary_off">Non inviare il livello della batteria</string>
     <string name="settings_charging_state">Stato di ricarica</string>
     <string name="settings_charging_state_summary_on">Invia lo stato di ricarica all\'elemento \'%1$s\'</string>
-    <string name="settings_charging_state_summary_off">Non inviare lo stato di ricarica al server</string>
+    <string name="settings_charging_state_summary_off">Non inviare lo stato della carica</string>
     <string name="settings_wifi_ssid">Nome Wi-Fi</string>
     <string name="settings_wifi_ssid_summary_on">Invia il nome Wi-Fi (SSID) all\'item \'%1$s\'</string>
-    <string name="settings_wifi_ssid_summary_off">Non inviare il nome Wi-Fi (SSID) al server</string>
+    <string name="settings_wifi_ssid_summary_off">Non inviare il nome Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">L\'invio del nome del Wi-Fi è stato disabilitato a causa di permessi mancanti</string>
     <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
     <string name="settings_background_tasks_permission_allow">Consenti</string>
@@ -216,6 +222,13 @@
     <string name="error_sending_alarm_clock_item_empty">Inserire un nome valido per l’item</string>
     <string name="retry">Riprova</string>
     <string name="ignore">Ignora</string>
+    <string name="send_device_info_schedule">Pianificazione</string>
+    <string name="send_device_info_schedule_summary">Ogni 15 minuti durante la ricarica, ogni %s altrimenti</string>
+    <string name="send_device_info_schedule_15_minutes">15 minuti</string>
+    <string name="send_device_info_schedule_1_hour">1 ora</string>
+    <string name="send_device_info_schedule_3_hours">3 ore</string>
+    <string name="send_device_info_schedule_6_hours">6 ore</string>
+    <string name="send_device_info_schedule_12_hours">12 ore</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nessuna notifica spedita finora</string>
     <string name="notification_list_error">È successo un errore durante il caricamento delle notifiche</string>
@@ -238,6 +251,7 @@
     <string name="theme_name_dark">Scuro</string>
     <string name="theme_name_system">Come da Sistema</string>
     <string name="theme_name_battery_saver">Modalità scura in risparmio batteria</string>
+    <string name="theme_name_black">Nero</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafico</string>
     <string name="chart_activity_hide_legend">Nascondi legenda</string>
