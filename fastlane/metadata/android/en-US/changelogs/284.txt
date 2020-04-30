@@ -1,0 +1,2 @@
+## Changed
+* Move device information prefs to subpage (#1927)
