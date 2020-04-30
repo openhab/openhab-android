@@ -114,6 +114,15 @@ fun SharedPreferences.areSitemapsShownInDrawer(): Boolean {
     return getBoolean(PrefKeys.SHOW_SITEMAPS_IN_DRAWER, false)
 }
 
+fun SharedPreferences.getBackgroundTaskScheduleInMillis(): Long {
+    var value = getString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE)
+    if (value.isEmpty()) {
+        value = "360"
+    }
+    // Value is stored in minutes, but we need millis to compare it
+    return value.toInt() * 60 * 1000L
+}
+
 fun SharedPreferences.getString(key: String): String {
     return getString(key, "").orEmpty()
 }

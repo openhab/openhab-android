@@ -45,6 +45,7 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getString
 import org.openhab.habdroid.util.isDemoModeEnabled
@@ -295,9 +296,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            // Value is stored in minutes, but we need millis to compare it
             val repeatInterval = max(
-                prefs.getString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE).toInt() * 60 * 1000L,
+                prefs.getBackgroundTaskScheduleInMillis(),
                 PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
             )
             val flexInterval = max(
