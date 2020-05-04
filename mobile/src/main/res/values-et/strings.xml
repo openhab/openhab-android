@@ -55,11 +55,13 @@
     <!-- Error messages -->
     <string name="error_network_not_available">Võrk ei ole saadaval</string>
     <string name="error_wifi_not_available">Wi-Fi on välja lülitatud</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_unknown">Tundmatu viga: %s</string>
     <string name="error_short_connection_sslhandshake_failed">SSL ebaõnnestus</string>
     <string name="error_short_connection_failed">Ühendus katkes</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="install">Installi</string>
     <string name="title_activity_openhabwritetag">Kirjutage NFC-kiibile</string>
     <string name="title_activity_libraries">Kasutatud teegid</string>
@@ -81,7 +83,6 @@
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_cert_details">Sertifikaadi andmed:</string>
     <string name="mtm_decision_always">Nõustu</string>
-    <string name="mtm_decision_once">Üks kord</string>
     <string name="mtm_decision_abort">Katkesta</string>
     <string name="settings_openhab_none">Mitte ükski</string>
     <!-- Themes -->
