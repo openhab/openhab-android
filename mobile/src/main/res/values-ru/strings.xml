@@ -110,9 +110,11 @@
     <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
     <string name="error_http_to_https_port">Непредвиденный конец потока. Вы пытаетесь подключиться к порту HTTPS через HTTP?</string>
     <string name="webview_ssl">В настоящее время это приложение не поддерживает самоподписанные SSL-сертификаты для виджетов Webview</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
-    <string name="error_short_http_code_404">Не найдено (HTTP-код %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не найдено (HTTP-код %d)</string>
     <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
     <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
     <string name="error_no_browser_found">На вашем устройстве не найден браузер</string>
@@ -127,7 +129,6 @@
     <string name="info_write_tag_unsupported">Это устройство не поддерживает NFC</string>
     <string name="info_write_tag_disabled">NFC отключен</string>
     <string name="info_openhab_apiversion_label">Rest API версия openHAB</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
     <string name="action_settings">Настройки</string>
     <string name="nfc_info_hint">Обновления Item можно записать на NFC метку. Выберите Item тут или на Sitemap долгим нажатием на виджет.</string>
@@ -173,7 +174,6 @@
     <string name="mtm_connect_anyway">Все равно подключиться?</string>
     <string name="mtm_cert_details">Данные сертификата:</string>
     <string name="mtm_decision_always">Принять</string>
-    <string name="mtm_decision_once">Один раз</string>
     <string name="mtm_decision_abort">Отмена</string>
     <string name="mtm_notification">Проверка сертификата</string>
     <string name="settings_openhab_none">Нет</string>
