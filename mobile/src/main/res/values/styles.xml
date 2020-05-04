@@ -8,10 +8,6 @@
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="WhiteText">
-        <item name="android:textColor">#ffffff</item>
-    </style>
-
     <style name="openHAB.Dialog.Base" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="dialogCornerRadius">8dp</item>
     </style>

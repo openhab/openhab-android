@@ -127,19 +127,20 @@
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_to_https_port">Unexpected end of stream. Are you trying to connect to an HTTPS port via HTTP?</string>
     <string name="webview_ssl">Currently this app doesn\'t support self-signed SSL certificates for Webview widgets</string>
-    <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP code %d).</string>
-    <string name="error_http_code_403" translatable="false">@string/error_http_code_401</string>
-    <string name="error_http_code_407" translatable="false">@string/error_http_code_401</string>
-    <string name="error_http_code_414">URL is too long. Please use the IP address or a shorter URL (HTTP code %d).</string>
-    <string name="error_http_code_426">HTTPS is required. Please change the URL (HTTP code %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP code %d).</string>
+    <string name="error_http_code_403" translatable="false" tools:keep="@string/error_http_code_403">@string/error_http_code_401</string>
+    <string name="error_http_code_407" translatable="false" tools:keep="@string/error_http_code_407">@string/error_http_code_401</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL is too long. Please use the IP address or a shorter URL (HTTP code %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS is required. Please change the URL (HTTP code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP code %d).</string>
-    <string name="error_http_code_496">SSL client certificate is required (HTTP code %d)</string>
-    <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP code %d)</string>
-    <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP code %d)</string>
-    <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP code %d).</string>
-    <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP code %d)</string>
-    <string name="error_http_code_511">Network authentication is required (HTTP code %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP code %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL client certificate is required (HTTP code %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP code %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">The openHAB server is temporarily unavailable (HTTP code %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP code %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">The openHAB server hasn\'t enough free space (HTTP code %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Network authentication is required (HTTP code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB is offline</string>
     <string name="error_short_http_connection_failed">HTTP code %d</string>
@@ -153,19 +154,20 @@
     <string name="error_short_connection_failed">Connection failed</string>
     <string name="error_short_http_to_https_port">Connecting to HTTPS port via HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certificate not valid for %s</string>
-    <string name="error_short_http_code_401">Authentication failed (HTTP code %d)</string>
-    <string name="error_short_http_code_403" translatable="false">@string/error_short_http_code_401</string>
-    <string name="error_short_http_code_404">Not found (HTTP code %d)</string>
-    <string name="error_short_http_code_407" translatable="false">@string/error_short_http_code_401</string>
-    <string name="error_short_http_code_414">URL too long (HTTP code %d)</string>
-    <string name="error_short_http_code_426">HTTPS required (HTTP code %d)</string>
-    <string name="error_short_http_code_495">Authentication failed (HTTP code %d)</string>
-    <string name="error_short_http_code_496">SSL client certificate required (HTTP code %d)</string>
-    <string name="error_short_http_code_502">Reverse proxy got invalid answer from openHAB (HTTP code %d)</string>
-    <string name="error_short_http_code_503">openHAB temporarily unavailable (HTTP code %d)</string>
-    <string name="error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
-    <string name="error_short_http_code_507">Not enough free space on server (HTTP code %d)</string>
-    <string name="error_short_http_code_511">Network authentication required (HTTP code %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Authentication failed (HTTP code %d)</string>
+    <string name="error_short_http_code_403" translatable="false" tools:keep="@string/error_short_http_code_403">@string/error_short_http_code_401</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Not found (HTTP code %d)</string>
+    <string name="error_short_http_code_407" translatable="false" tools:keep="@string/error_short_http_code_407">@string/error_short_http_code_401</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL too long (HTTP code %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS required (HTTP code %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Authentication failed (HTTP code %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL client certificate required (HTTP code %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Reverse proxy got invalid answer from openHAB (HTTP code %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB temporarily unavailable (HTTP code %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Not enough free space on server (HTTP code %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Network authentication required (HTTP code %d)</string>
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="error_openhab_offline">Your openHAB server is offline while the cloud instance is running</string>
     <string name="error_no_browser_found">No browser found on your device</string>
@@ -182,7 +184,6 @@
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API version</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push notification status</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long click a widget on the Sitemap.</string>
@@ -273,7 +274,6 @@
     <string name="mtm_cert_details">Certificate details:</string>
 
     <string name="mtm_decision_always">Accept</string>
-    <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
     <string name="mtm_notification">Certificate verification</string>
     <string name="settings_openhab_none">None</string>
