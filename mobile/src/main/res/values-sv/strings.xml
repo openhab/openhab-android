@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">SSL-certifikatet är inte giltigt för %s</string>
     <string name="error_http_to_https_port">Oväntat slut på överföringen. Försöker du ansluta till en HTTPS-port via HTTP?</string>
     <string name="webview_ssl">Denna app saknar för närvarande stöd för självsignerade SSL-certifikat för Webview-widgets</string>
-    <string name="error_http_code_401">Autentisering misslyckades. Kontrollera det konfigurerade användarnamnet och lösenordet respektive i förhållande till det tillhandahållna SSL-klientcertifikatet (HTTP-kod %d).</string>
-    <string name="error_http_code_414">Angiven URL är för lång. Använd IP-adressen eller en kortare URL (HTTP-kod %d).</string>
-    <string name="error_http_code_426">HTTPS krävs. Vänligen ändra URL (HTTP-kod %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autentisering misslyckades. Kontrollera det konfigurerade användarnamnet och lösenordet respektive i förhållande till det tillhandahållna SSL-klientcertifikatet (HTTP-kod %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Angiven URL är för lång. Använd IP-adressen eller en kortare URL (HTTP-kod %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS krävs. Vänligen ändra URL (HTTP-kod %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autentisering misslyckades. Kontrollera tillhandahållet SSL-klientcertifikat (HTTP-kod %d).</string>
-    <string name="error_http_code_496">SSL-klientcertifikat krävs (HTTP-kod %d)</string>
-    <string name="error_http_code_502">Din omvända proxy fick ett ogiltigt svar från openHAB-servern (HTTP-kod %d)</string>
-    <string name="error_http_code_503">openHAB-servern är tillfälligt otillgänglig (HTTP-kod %d)</string>
-    <string name="error_http_code_504">Gateway time-out. Det verkar som din omvända proxy körs, men den får inget svar från openHAB-servern (HTTP-kod %d).</string>
-    <string name="error_http_code_507">openHAB-servern har inte tillräckligt med ledigt diskutrymme (HTTP-kod %d)</string>
-    <string name="error_http_code_511">Nätverksautentisering krävs (HTTP-kod %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Autentisering misslyckades. Kontrollera tillhandahållet SSL-klientcertifikat (HTTP-kod %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL-klientcertifikat krävs (HTTP-kod %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Din omvända proxy fick ett ogiltigt svar från openHAB-servern (HTTP-kod %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB-servern är tillfälligt otillgänglig (HTTP-kod %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway time-out. Det verkar som din omvända proxy körs, men den får inget svar från openHAB-servern (HTTP-kod %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB-servern har inte tillräckligt med ledigt diskutrymme (HTTP-kod %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Nätverksautentisering krävs (HTTP-kod %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB är offline</string>
     <string name="error_short_http_connection_failed">HTTP-kod %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">Anslutningen misslyckades</string>
     <string name="error_short_http_to_https_port">Ansluter du till HTTPS-port via HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certifikatet är inte giltigt för %s</string>
-    <string name="error_short_http_code_401">Autentisering misslyckades (HTTP-kod %d)</string>
-    <string name="error_short_http_code_404">Hittades inte (HTTP-kod %d)</string>
-    <string name="error_short_http_code_414">URL för lång (HTTP-kod %d)</string>
-    <string name="error_short_http_code_426">HTTPS krävs (HTTP-kod %d)</string>
-    <string name="error_short_http_code_495">Autentisering misslyckades (HTTP-kod %d)</string>
-    <string name="error_short_http_code_496">SSL-klientcertifikat krävs (HTTP-kod %d)</string>
-    <string name="error_short_http_code_502">Omvänd proxy fick ogiltigt svar från openHAB (HTTP-kod %d)</string>
-    <string name="error_short_http_code_503">openHAB tillfälligt otillgänglig (HTTP-kod %d)</string>
-    <string name="error_short_http_code_504">Gateway time-out (HTTP-kod %d).</string>
-    <string name="error_short_http_code_507">Inte tillräckligt med ledigt utrymme på servern (HTTP-kod %d)</string>
-    <string name="error_short_http_code_511">Nätverksautentisering krävs (HTTP-kod %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Autentisering misslyckades (HTTP-kod %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Hittades inte (HTTP-kod %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL för lång (HTTP-kod %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS krävs (HTTP-kod %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Autentisering misslyckades (HTTP-kod %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-klientcertifikat krävs (HTTP-kod %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Omvänd proxy fick ogiltigt svar från openHAB (HTTP-kod %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB tillfälligt otillgänglig (HTTP-kod %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP-kod %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Inte tillräckligt med ledigt utrymme på servern (HTTP-kod %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Nätverksautentisering krävs (HTTP-kod %d)</string>
     <string name="error_about_no_conn">Fel vid hämtning av information ifrån openHAB-servern</string>
     <string name="error_openhab_offline">Molninstansen är igång, men din openHAB-server är offline</string>
     <string name="error_no_browser_found">Ingen webbläsare hittades på din enhet</string>
@@ -160,7 +162,6 @@
     <string name="info_write_tag_unsupported">Denna enhet har inte stöd för NFC</string>
     <string name="info_write_tag_disabled">NFC är inaktiverat</string>
     <string name="info_openhab_apiversion_label">Version på openHABs REST-API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status på push-aviseringar</string>
     <string name="action_settings">Inställningar</string>
     <string name="nfc_info_hint">Objektuppdateringar kan skrivas till NFC-taggar. Du kan välja ett objekt här eller så kan du långklicka på en widget på Sitemap.</string>
@@ -220,7 +221,6 @@
     <string name="mtm_connect_anyway">Vill du ansluta ändå?</string>
     <string name="mtm_cert_details">Certifikatsdetaljer:</string>
     <string name="mtm_decision_always">Acceptera</string>
-    <string name="mtm_decision_once">En gång</string>
     <string name="mtm_decision_abort">Avbryt</string>
     <string name="mtm_notification">Validering av certifikat</string>
     <string name="settings_openhab_none">Inget</string>
