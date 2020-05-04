@@ -108,17 +108,18 @@
     <string name="error_certificate_wrong_host">%s 的 SSL 证书无效</string>
     <string name="error_http_to_https_port">数据流意外终止。您是否正尝试通过 HTTP 连接 HTTPS 端口？</string>
     <string name="webview_ssl">此应用程序当前不支持对 Webview 小挂件使用自签名 SSL 证书。</string>
-    <string name="error_http_code_401">认证失败，请检查用户名和密码及提供的 SSL 客户端证书 (HTTP %d)。</string>
-    <string name="error_http_code_414">URL 过长，请使用 IP 地址或更为简短的 URL 访问 (HTTP %d)。</string>
-    <string name="error_http_code_426">服务器强制使用 HTTPS，请修改 URL (HTTP %d)。</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">认证失败，请检查用户名和密码及提供的 SSL 客户端证书 (HTTP %d)。</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL 过长，请使用 IP 地址或更为简短的 URL 访问 (HTTP %d)。</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">服务器强制使用 HTTPS，请修改 URL (HTTP %d)。</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">认证失败，请检查提供的 SSL 客户端证书 (HTTP %d)。</string>
-    <string name="error_http_code_496">需要 SSL 证书 (HTTP %d)</string>
-    <string name="error_http_code_502">您的反向代理从 openHAB 服务器处收到了无效应答 (HTTP %d)</string>
-    <string name="error_http_code_503">openHAB 服务器暂不可用 (HTTP %d)</string>
-    <string name="error_http_code_504">网关超时，您的反向代理似乎正在运行但无法从 openHAB 服务器得到响应 (HTTP %d)。</string>
-    <string name="error_http_code_507">openHAB 服务器空间不足 (HTTP %d)</string>
-    <string name="error_http_code_511">需要网络认证 (HTTP %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">认证失败，请检查提供的 SSL 客户端证书 (HTTP %d)。</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">需要 SSL 证书 (HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">您的反向代理从 openHAB 服务器处收到了无效应答 (HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB 服务器暂不可用 (HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">网关超时，您的反向代理似乎正在运行但无法从 openHAB 服务器得到响应 (HTTP %d)。</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB 服务器空间不足 (HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">需要网络认证 (HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB 处于离线状态</string>
     <string name="error_short_http_connection_failed">HTTP %d</string>
@@ -130,6 +131,7 @@
     <string name="error_short_certificate_revoked">证书已吊销</string>
     <string name="error_short_connection_sslhandshake_failed">SSL 失败</string>
     <string name="error_short_connection_failed">连接失败</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">获取 openHAB 服务器信息时出错</string>
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
     <string name="error_no_browser_found">未在您的设备上找到浏览器</string>
@@ -143,7 +145,6 @@
     <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
     <string name="info_write_tag_disabled">NFC 已禁用</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API 版本</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">推送通知状态</string>
     <string name="action_settings">设置</string>
     <string name="info_not_set">未设置</string>
@@ -177,7 +178,6 @@
     <string name="mtm_connect_anyway">您是否仍想连接？</string>
     <string name="mtm_cert_details">证书信息:</string>
     <string name="mtm_decision_always">接受</string>
-    <string name="mtm_decision_once">仅一次</string>
     <string name="mtm_decision_abort">取消</string>
     <string name="mtm_notification">证书验证</string>
     <string name="settings_openhab_none">无</string>
