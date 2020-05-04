@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
     <string name="error_http_to_https_port">Odottamaton yhteyden katkaisu. Yritätkö yhdistää HTTPS porttiin käyttäen HTTP?</string>
     <string name="webview_ssl">Sovellus ei tällä hetkellä tue itse allekirjoitettuja SSL sertifikaatteja Webview widgeteissä</string>
-    <string name="error_http_code_401">Kirjautuminen epäonnistui. Tarkista asiakkaan SSL sertifikaatin käyttäjänimi ja salasana (HTTP vastaus %d).</string>
-    <string name="error_http_code_414">Liian pitkä URL osoite. Ole hyvä ja käytä IP osoitetta tai lyhyempää URL osoitetta (HTTP vastaus %d).</string>
-    <string name="error_http_code_426">HTTPS on pakollinen. Ole hyvä ja vaihda URL osoite (HTTP vastaus %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Kirjautuminen epäonnistui. Tarkista asiakkaan SSL sertifikaatin käyttäjänimi ja salasana (HTTP vastaus %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Liian pitkä URL osoite. Ole hyvä ja käytä IP osoitetta tai lyhyempää URL osoitetta (HTTP vastaus %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS on pakollinen. Ole hyvä ja vaihda URL osoite (HTTP vastaus %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Kirjautuminen epäonnistui. Ole hyvä ja tarkista annettu asiakkaan SSL sertifikaatti (HTTP vastaus %d).</string>
-    <string name="error_http_code_496">Asiakkaan SSL sertifikaatti on pakollinen (HTTP vastaus %d)</string>
-    <string name="error_http_code_502">Sinun käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus %d)</string>
-    <string name="error_http_code_503">openHAB palvelin on väliaikaisesti pois käytöstä (HTTP vastaus %d)</string>
-    <string name="error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus %d).</string>
-    <string name="error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus %d)</string>
-    <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Kirjautuminen epäonnistui. Ole hyvä ja tarkista annettu asiakkaan SSL sertifikaatti (HTTP vastaus %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Asiakkaan SSL sertifikaatti on pakollinen (HTTP vastaus %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Sinun käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB palvelin on väliaikaisesti pois käytöstä (HTTP vastaus %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB ei ole verkossa</string>
     <string name="error_short_http_connection_failed">HTTP koodi %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">Yhteys epäonnistui</string>
     <string name="error_short_http_to_https_port">Yritätkö yhdistää HTTPS porttiin käyttäen HTTP?</string>
     <string name="error_short_certificate_wrong_host">Sertifikaatti ei pätevä osoitteelle %s</string>
-    <string name="error_short_http_code_401">Kirjautuminen epäonnistui (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_404">Ei löytynyt (HTTP koodi %d)</string>
-    <string name="error_short_http_code_414">URL liian pitkä (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_426">HTTPS vaaditaan (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_495">Kirjautuminen epäonnistui (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_496">Asiakkaan SSL sertifikaatti vaadittu (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_502">Käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_503">openHAB palvelin väliaikaisesti saavuttamattomissa (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_504">Välityspalvelimen aikakatkaisu (HTTP vastus %d).</string>
-    <string name="error_short_http_code_507">Palvelimella liian vähän vapaata tilaa (HTTP vastaus %d)</string>
-    <string name="error_short_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Kirjautuminen epäonnistui (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Ei löytynyt (HTTP koodi %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL liian pitkä (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS vaaditaan (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Kirjautuminen epäonnistui (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Asiakkaan SSL sertifikaatti vaadittu (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB palvelin väliaikaisesti saavuttamattomissa (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Välityspalvelimen aikakatkaisu (HTTP vastus %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Palvelimella liian vähän vapaata tilaa (HTTP vastaus %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus %d)</string>
     <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
     <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
     <string name="error_no_browser_found">Laitteeltasi ei löytynyt selainta</string>
@@ -161,7 +163,6 @@
     <string name="info_write_tag_unsupported">Tämä laite ei tue NFC:tä</string>
     <string name="info_write_tag_disabled">NFC on poistettu käytöstä</string>
     <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push ilmoitusten tila</string>
     <string name="action_settings">Asetukset</string>
     <string name="nfc_info_hint">Item päivitykset voi kirjoittaa NFC tunnisteeseen. Voit valita Itemin täällä tai pitkään painamalla Sitemapissa.</string>
@@ -221,7 +222,6 @@
     <string name="mtm_connect_anyway">Haluatko silti yhdistää?</string>
     <string name="mtm_cert_details">Ssl sertifikaatin tiedot:</string>
     <string name="mtm_decision_always">Hyväksy</string>
-    <string name="mtm_decision_once">Kerran</string>
     <string name="mtm_decision_abort">Peruuta</string>
     <string name="mtm_notification">Sertifikaatin todennus</string>
     <string name="settings_openhab_none">Tyhjä</string>
