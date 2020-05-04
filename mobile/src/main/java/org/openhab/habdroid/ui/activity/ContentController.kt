@@ -30,7 +30,6 @@ import android.widget.TextView
 import androidx.annotation.AnimRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
@@ -582,9 +581,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 view.id == R.id.button1 -> {
                     // Primary button always goes to settings
                     val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
-                    TaskStackBuilder.create(view.context)
-                        .addNextIntentWithParentStack(preferencesIntent)
-                        .startActivities()
+                    startActivity(preferencesIntent)
                 }
                 arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
                     // If we attempted resolving, secondary button enables demo mode
