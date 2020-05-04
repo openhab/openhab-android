@@ -67,8 +67,8 @@
             app:summaryEnabled="@string/settings_charging_state_summary_on"
             app:summaryDisabled="@string/settings_charging_state_summary_off"
             android:title="@string/settings_charging_state"
-            app:iconEnabled="@drawable/ic_power_plug_grey_24dp"
-            app:iconDisabled="@drawable/ic_power_plug_off_grey_24dp" />
+            app:iconEnabled="@drawable/ic_power_plug_outline_grey_24dp"
+            app:iconDisabled="@drawable/ic_power_plug_off_outline_grey_24dp" />
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|WifiName"
             android:key="send_wifi_ssid"
