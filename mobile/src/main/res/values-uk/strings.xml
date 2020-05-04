@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">Сертифікат SSL не дійсний для %s</string>
     <string name="error_http_to_https_port">Неочікуване завершення потоку. Ви намагаєтесь під\'єднатися до HTTPS порту через HTTP?</string>
     <string name="webview_ssl">Наразі цей застосунок не підтримує SSL сертифікати з власним підписом для віджетів</string>
-    <string name="error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштовані імʼя користувача та пароль відповідно до SSL-сертифіката клієнта (код HTTP %d).</string>
-    <string name="error_http_code_414">Посилання надто довге. Будь ласка, використовуйте IP-адресу або коротше посилання (код HTTP %d).</string>
-    <string name="error_http_code_426">Вимагається HTTPS. Змініть посилання (код HTTP %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштовані імʼя користувача та пароль відповідно до SSL-сертифіката клієнта (код HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Посилання надто довге. Будь ласка, використовуйте IP-адресу або коротше посилання (код HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Вимагається HTTPS. Змініть посилання (код HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Не вдалося виконати аутентифікацію. Будь ласка, перевірте наданий SSL-сертифікат клієнта (код HTTP %d).</string>
-    <string name="error_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
-    <string name="error_http_code_502">Ваш зворотний проксі отримав неприпустиму відповідь від сервера openHAB (код HTTP %d)</string>
-    <string name="error_http_code_503">Сервер openHAB тимчасово недоступний (код HTTP %d)</string>
-    <string name="error_http_code_504">Тайм-аут шлюзу. Здається, що Ваш проксі-сервер працює, але не зміг отримати відповідь від сервера openHAB (код HTTP %d).</string>
-    <string name="error_http_code_507">На сервері openHAB не достатньо вільного місця (код HTTP %d)</string>
-    <string name="error_http_code_511">Потрібна аутентифікація мережі (код HTTP %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Не вдалося виконати аутентифікацію. Будь ласка, перевірте наданий SSL-сертифікат клієнта (код HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Ваш зворотний проксі отримав неприпустиму відповідь від сервера openHAB (код HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Сервер openHAB тимчасово недоступний (код HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Тайм-аут шлюзу. Здається, що Ваш проксі-сервер працює, але не зміг отримати відповідь від сервера openHAB (код HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">На сервері openHAB не достатньо вільного місця (код HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Потрібна аутентифікація мережі (код HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB не в мережі</string>
     <string name="error_short_http_connection_failed">Код HTTP %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">Помилка зʼєднання</string>
     <string name="error_short_http_to_https_port">Підключення до HTTPS-порту через HTTP?</string>
     <string name="error_short_certificate_wrong_host">Сертифікат не дійсний для %s</string>
-    <string name="error_short_http_code_401">Помилка аутентифікації (код HTTP %d)</string>
-    <string name="error_short_http_code_404">Не знайдено (код HTTP %d)</string>
-    <string name="error_short_http_code_414">Надто довге посилання (код HTTP %d)</string>
-    <string name="error_short_http_code_426">Вимагається HTTPS (код HTTP %d)</string>
-    <string name="error_short_http_code_495">Помилка аутентифікації (код HTTP %d)</string>
-    <string name="error_short_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
-    <string name="error_short_http_code_502">Зворотний проксі отримав неприпустиму відповідь від openHAB (код HTTP %d)</string>
-    <string name="error_short_http_code_503">openHAB тимчасово недоступний (код HTTP %d)</string>
-    <string name="error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
-    <string name="error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
-    <string name="error_short_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не знайдено (код HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">Надто довге посилання (код HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">Вимагається HTTPS (код HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Зворотний проксі отримав неприпустиму відповідь від openHAB (код HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB тимчасово недоступний (код HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
     <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
@@ -161,7 +163,6 @@
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
     <string name="info_write_tag_disabled">NFC вимкнено</string>
     <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
     <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисненням віджету на сторінці інтерфейсу.</string>
@@ -223,7 +224,6 @@
     <string name="mtm_connect_anyway">Все одно підключитися?</string>
     <string name="mtm_cert_details">Подробиці сертифіката:</string>
     <string name="mtm_decision_always">Прийняти</string>
-    <string name="mtm_decision_once">Один раз</string>
     <string name="mtm_decision_abort">Відмінити</string>
     <string name="mtm_notification">Перевірка сертифіката</string>
     <string name="settings_openhab_none">Немає</string>
