@@ -23,7 +23,6 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.NotificationUtils
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
@@ -43,10 +42,16 @@ object CloudMessagingHelper {
 
     fun onNotificationSelected(context: Context, intent: Intent) {
         val notificationId = intent.getIntExtra(
-                NotificationUtils.EXTRA_NOTIFICATION_ID, -1)
+                NotificationHelper.EXTRA_NOTIFICATION_ID, -1)
         if (notificationId >= 0) {
             FcmRegistrationService.scheduleHideNotification(context, notificationId)
         }
+    }
+
+    fun needsPollingForNotifications() = false
+
+    suspend fun pollForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) {
+        // Used in foss flavor
     }
 
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {

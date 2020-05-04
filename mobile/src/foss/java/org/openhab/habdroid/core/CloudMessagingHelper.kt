@@ -39,6 +39,12 @@ object CloudMessagingHelper {
     @Suppress("UNUSED_PARAMETER")
     fun onNotificationSelected(context: Context, intent: Intent) {}
 
+    fun needsPollingForNotifications() = ConnectionFactory.cloudConnectionOrNull != null
+
+    suspend fun pollForNotifications(context: Context) {
+        NotificationPoller.checkForNewNotifications(context)
+    }
+
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
         ConnectionFactory.waitForInitialization()
         val cloudFailure = try {
