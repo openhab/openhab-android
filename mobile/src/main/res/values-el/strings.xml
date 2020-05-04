@@ -71,8 +71,10 @@
     <string name="error_certificate_not_valid_yet">Το πιστοποιητικό SSL δεν είναι έγκυρο ακόμα. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή αποδεχτείτε το πιστοποιητικό κατά την διαδικασία εγκαθίδρυσης SSL. Επίσης, ελέγξτε ότι το ρολόι στην συσκευή σας είναι ρυθμισμένο σωστά.</string>
     <string name="error_certificate_revoked">Το πιστοποιητικό SSL έχει ανακληθεί. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή αποδεχτείτε το πιστοποιητικό κατά την διαδικασία εγκαθίδρυσης SSL.</string>
     <string name="error_certificate_wrong_host">Το πιστοποιητικό SSL δεν είναι έγκυρο για %s</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Σφάλμα κατά τη λήψη των πληροφοριών διακομιστή openHAB</string>
     <string name="error_openhab_offline">Ο openHAB διακομιστής σας βρίσκεται εκτός σύνδεσης ενώ εκτελείται η παρουσία στο cloud</string>
     <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
@@ -82,7 +84,6 @@
     <string name="info_write_failed">Σφάλμα στην εγγραφή της ετικέτας NFC</string>
     <string name="info_write_tag_unsupported">Αυτή η συσκευή δεν υποστηρίζει NFC</string>
     <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Κατάσταση ειδοποιήσεων</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
@@ -102,7 +103,6 @@
     <string name="mtm_connect_anyway">Θέλετε να συνδεθείτε οπωσδήποτε;</string>
     <string name="mtm_cert_details">Λεπτομέρειες πιστοποιητικού:</string>
     <string name="mtm_decision_always">Αποδοχή</string>
-    <string name="mtm_decision_once">Μία φορά</string>
     <string name="mtm_decision_abort">Διακοπή</string>
     <string name="mtm_notification">Επιβεβαίωση πιστοποιητικού</string>
     <string name="settings_openhab_none">Κανένα</string>
