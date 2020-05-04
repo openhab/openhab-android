@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">Il certificato SSL non e\' valido per %s</string>
     <string name="error_http_to_https_port">Fine imprevista dello stream. Stai cercando di connetterti ad una porta HTTPS tramite HTTP?</string>
     <string name="webview_ssl">Attualmente questa app non supporta certificati SSL autofirmati per i widget Webview</string>
-    <string name="error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice HTTP %d).</string>
-    <string name="error_http_code_414">L\'URL è troppo lungo. Utilizzare l\'indirizzo IP o un URL più corto (codice HTTP %d).</string>
-    <string name="error_http_code_426">Richiesto HTTPS. Si prega di cambiare l\'URL (codice HTTP %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">L\'URL è troppo lungo. Utilizzare l\'indirizzo IP o un URL più corto (codice HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Richiesto HTTPS. Si prega di cambiare l\'URL (codice HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autenticazione non riuscita. Si prega di controllare il certificato SSL client fornito (codice HTTP %d).</string>
-    <string name="error_http_code_496">È richiesto un certificato SSL client (codice HTTP %d)</string>
-    <string name="error_http_code_502">Il tuo reverse proxy ha ricevuto una risposta non valida dal server openHAB (codice HTTP %d)</string>
-    <string name="error_http_code_503">Il server openHAB non è temporaneamente disponibile (codice HTTP %d)</string>
-    <string name="error_http_code_504">Gateway timeout. Sembra che il tuo reverse proxy sia in esecuzione, ma non è stato possibile ottenere una risposta dal server openHAB (codice HTTP %d).</string>
-    <string name="error_http_code_507">Il server openHAB non ha abbastanza spazio libero (codice HTTP %d)</string>
-    <string name="error_http_code_511">È richiesta l\'autenticazione di rete (codice HTTP %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Autenticazione non riuscita. Si prega di controllare il certificato SSL client fornito (codice HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">È richiesto un certificato SSL client (codice HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Il tuo reverse proxy ha ricevuto una risposta non valida dal server openHAB (codice HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Il server openHAB non è temporaneamente disponibile (codice HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway timeout. Sembra che il tuo reverse proxy sia in esecuzione, ma non è stato possibile ottenere una risposta dal server openHAB (codice HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Il server openHAB non ha abbastanza spazio libero (codice HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">È richiesta l\'autenticazione di rete (codice HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB è offline</string>
     <string name="error_short_http_connection_failed">Codice HTTP %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">Connessione non riuscita</string>
     <string name="error_short_http_to_https_port">Connessione alla porta HTTPS tramite HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certificato non valido per %s</string>
-    <string name="error_short_http_code_401">Autenticazione non riuscita (codice HTTP %d)</string>
-    <string name="error_short_http_code_404">Non trovato (Codice HTTP %d)</string>
-    <string name="error_short_http_code_414">URL troppo lungo (codice HTTP %d)</string>
-    <string name="error_short_http_code_426">HTTPS richiesto (codice HTTP %d)</string>
-    <string name="error_short_http_code_495">Autenticazione non riuscita (codice HTTP %d)</string>
-    <string name="error_short_http_code_496">Certificato SSL client richiesto (codice HTTP %d)</string>
-    <string name="error_short_http_code_502">Il reverse proxy ha ricevuto una risposta non valida da openHAB (codice HTTP %d)</string>
-    <string name="error_short_http_code_503">openHAB temporaneamente non disponibile (codice HTTP %d)</string>
-    <string name="error_short_http_code_504">Timeout del gateway (codice HTTP %d).</string>
-    <string name="error_short_http_code_507">Non c\'è abbastanza spazio sul server (codice HTTP %d)</string>
-    <string name="error_short_http_code_511">Necessaria autenticazione di rete (codice HTTP %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Autenticazione non riuscita (codice HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Non trovato (Codice HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL troppo lungo (codice HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS richiesto (codice HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Autenticazione non riuscita (codice HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Certificato SSL client richiesto (codice HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Il reverse proxy ha ricevuto una risposta non valida da openHAB (codice HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB temporaneamente non disponibile (codice HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Timeout del gateway (codice HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Non c\'è abbastanza spazio sul server (codice HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Necessaria autenticazione di rete (codice HTTP %d)</string>
     <string name="error_about_no_conn">Errore nel recupero delle informazioni dal server openHAB</string>
     <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
@@ -161,7 +163,6 @@
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
     <string name="info_write_tag_disabled">NFC è disabilitato</string>
     <string name="info_openhab_apiversion_label">versione delle Rest API di openHAB</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
     <string name="action_settings">Impostazioni</string>
     <string name="nfc_info_hint">Gli aggiornamenti degli Item possono essere scritti sui tag NFC. Puoi selezionare un Item qui o puoi cliccare a lungo su un widget della Sitemap.</string>
@@ -242,7 +243,6 @@
     <string name="mtm_connect_anyway">Vuoi collegarti comunque?</string>
     <string name="mtm_cert_details">Dettagli certificato:</string>
     <string name="mtm_decision_always">Accetta</string>
-    <string name="mtm_decision_once">Una volta</string>
     <string name="mtm_decision_abort">Annulla</string>
     <string name="mtm_notification">Verifica del certificato</string>
     <string name="settings_openhab_none">Nessuno</string>
