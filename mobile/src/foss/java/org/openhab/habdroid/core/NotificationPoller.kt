@@ -27,6 +27,7 @@ import org.openhab.habdroid.util.map
 
 object NotificationPoller {
     private val TAG = NotificationPoller::class.java.simpleName
+    private const val LAST_SEEN_MESSAGE_KEY = "foss_last_seen_message"
 
     suspend fun checkForNewNotifications(context: Context) {
         ConnectionFactory.waitForInitialization()
@@ -50,33 +51,24 @@ object NotificationPoller {
 
         val prefs = context.getPrefs()
 
-        val lastShownMessage = prefs.getString(PrefKeys.FOSS_LAST_SHOWN_MESSAGE, "-1")!!.toBigInteger(16)
-        if (lastShownMessage == (-1).toBigInteger()) {
-            Log.d(TAG, "First message check")
-            prefs.edit {
-                putString(PrefKeys.FOSS_LAST_SHOWN_MESSAGE, messages.firstOrNull()?.id ?: "0")
-            }
-            return
-        }
-
-        messages = messages.filter {
-            it.id.toBigInteger(16) > lastShownMessage
-        }
-        if (messages.isEmpty()) {
-            Log.d(TAG, "No new messages")
-            return
-        }
-
+        val lastSeenMessageId = prefs.getString(LAST_SEEN_MESSAGE_KEY, null)
         prefs.edit {
-            putString(PrefKeys.FOSS_LAST_SHOWN_MESSAGE, messages.first().id)
+            val newestSeenId = messages.firstOrNull()?.id ?: lastSeenMessageId
+            putString(LAST_SEEN_MESSAGE_KEY, newestSeenId)
+        }
+        if (lastSeenMessageId == null) {
+            // Never checked for notifications before
+            Log.d(TAG, "First message check")
+            return
         }
 
+        val lastSeenIndex = messages.map { msg -> msg.id }.indexOf(lastSeenMessageId)
+        val newMessages = if (lastSeenIndex >= 0) messages.subList(0, lastSeenIndex) else messages
         val notifHelper = NotificationHelper(context)
-        messages.forEach { message ->
-            // The notification id can only be int, while the message id is way larger
-            val notificationId = message.id.substring(message.id.length - 5).toInt(16)
+
+        newMessages.forEach { message ->
             notifHelper.showNotification(
-                notificationId,
+                message.id.hashCode(),
                 message,
                 null,
                 null
