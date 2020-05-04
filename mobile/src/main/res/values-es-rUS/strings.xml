@@ -108,8 +108,10 @@
     <string name="error_certificate_wrong_host">El certificado no es válido para %s</string>
     <string name="error_http_to_https_port">Final inesperado de secuencia. ¿Está Ud. tratando de conectar a un puerto HTTPS por HTTP?</string>
     <string name="webview_ssl">Esta aplicación no soporta actualmente certificados SSL auto-firmados para widgets de Webview</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Error al obtener información del servidor openHAB</string>
     <string name="error_openhab_offline">Su servidor openHAB está fuera de línea mientras se ejecuta la instancia de la nube</string>
     <string name="error_no_browser_found">No se encontró ningún navegador en su dispositivo</string>
@@ -126,7 +128,6 @@
     <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC</string>
     <string name="info_write_tag_disabled">NFC está deshabilitado</string>
     <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Estado de notificaciones Push</string>
     <string name="action_settings">Configuración</string>
     <string name="nfc_info_hint">Las actualizaciones del Item pueden ser escritas en etiquetas NFC. Puede seleccionar un elemento aquí o puede hacer clic largo sobre un widget en el Sitemap.</string>
@@ -134,18 +135,32 @@
     <string name="empty_page">Esta página no contiene ningún widget que pueda ser visible</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Enviar información del dispositivo al servidor</string>
+    <string name="send_device_info_to_server_short">Enviar información del dispositivo</string>
+    <string name="send_device_info_category_event_based_title">Basado en evento</string>
+    <string name="send_device_info_category_event_based_explanation">Estos Items se actualizan ante ciertos eventos, por ejemplo, una llamada entrante</string>
+    <string name="send_device_info_category_schedule_based_title">Basado en temporizador</string>
+    <string name="send_device_info_category_schedule_based_explanation">Estos Items se actualizan mediante temporizador\nNota: Los valores bajos consumen más batería que los altos, y su dispositivo podría decidir retrasar las actualizaciones para ahorrar batería.</string>
+    <string name="send_device_info_category_general">General</string>
     <string name="send_device_info_item_prefix">Prefijo del nombre del Item</string>
     <string name="send_device_info_item_prefix_summary">Los nombres de Item de las siguientes características llevan el prefijo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">No se ha especificado ningún prefijo para los nombres de Item de las siguientes características</string>
     <string name="settings_item_update_pref_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
+    <string name="settings_alarm_clock">Despertador</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de la alarma al elemento \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">No enviar la hora del despertador</string>
+    <string name="settings_phone_state">Estado de llamada</string>
     <string name="settings_phone_state_summary_on">Envía el estado de llamada al Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">No enviar estado de llamada</string>
     <string name="settings_phone_state_permission_denied">El envío del estado de la llamada ha sido deshabilitado debido a la falta permisos</string>
+    <string name="settings_battery_level">Nivel de batería</string>
     <string name="settings_battery_level_summary_on">Envía el nivel de batería al item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">No enviar el nivel de la batería</string>
     <string name="settings_charging_state">Estado de carga</string>
     <string name="settings_charging_state_summary_on">Envía estado de carga al item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">No enviar estado de carga</string>
     <string name="settings_wifi_ssid">Nombre de la wifi</string>
     <string name="settings_wifi_ssid_summary_on">Envía el nombre de la wifi (SSID) al item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">No enviar nombre de Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">El envío del nombre de la wifi ha sido deshabilitado debido a que faltan permisos</string>
     <string name="settings_background_tasks_permission_denied">Algunas tareas en segundo plano se han deshabilitado debido a que faltan permisos</string>
     <string name="settings_background_tasks_permission_allow">Permitir</string>
@@ -170,6 +185,13 @@
     <string name="item_update_connection_error_label">Falló la actualización de %1$s (sin conexión)</string>
     <string name="error_sending_alarm_clock_item_empty">Por favor, introduzca un nombre de Item válido</string>
     <string name="retry">Reintentar</string>
+    <string name="send_device_info_schedule">Temporizador</string>
+    <string name="send_device_info_schedule_summary">Cada 15 minutos mientras se carga, cada %s si no</string>
+    <string name="send_device_info_schedule_15_minutes">15 minutos</string>
+    <string name="send_device_info_schedule_1_hour">1 hora</string>
+    <string name="send_device_info_schedule_3_hours">3 horas</string>
+    <string name="send_device_info_schedule_6_hours">6 horas</string>
+    <string name="send_device_info_schedule_12_hours">12 horas</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">No se enviaron notificaciones hasta el momento</string>
     <string name="notification_list_error">Ocurrió un error al cargar las notificaciones</string>
@@ -183,7 +205,6 @@
     <string name="mtm_connect_anyway">¿Desea conectarse de todos modos?</string>
     <string name="mtm_cert_details">Detalles del certificado:</string>
     <string name="mtm_decision_always">Aceptar</string>
-    <string name="mtm_decision_once">Una vez</string>
     <string name="mtm_decision_abort">Cancelar</string>
     <string name="mtm_notification">Validación del certificado</string>
     <string name="settings_openhab_none">Ninguno</string>
