@@ -107,6 +107,7 @@
     <string name="error_certificate_wrong_host">SSL sertifikası %s için geçerli değildir</string>
     <string name="error_http_to_https_port">Beklenmeyen akış sonu. Bir HTTPS bağlantı noktasına HTTP üzerinden bağlanmaya mı çalışıyorsunuz?</string>
     <string name="webview_ssl">Şu anda bu uygulama için Webview widget otomatik olarak imzalanan SSL sertifikalarını desteklemiyor</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB Çevrimdışı</string>
@@ -118,6 +119,7 @@
     <string name="error_short_connection_failed">Bağlantı başarısız oldu</string>
     <string name="error_short_http_to_https_port">HTTP üzerinden HTTPS bağlantı noktasına mı bağlanıyorsunuz?</string>
     <string name="error_short_certificate_wrong_host">%s için sertifika geçerli değil</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">openHAB\'tan sunucu bilgileri alınırken bir hata oluştu</string>
     <string name="error_openhab_offline">Bulut örneğinin çalıştığı sırada, openHAB sunucu çevrimdışı</string>
     <string name="error_no_browser_found">Cihazınızda hiç tarayıcı bulunamadı</string>
@@ -131,7 +133,6 @@
     <string name="info_write_tag_unsupported">Bu cihazın NFC desteği yoktur</string>
     <string name="info_write_tag_disabled">NFC devre dışı</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versiyon</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push bildirimleri</string>
     <string name="action_settings">Ayarlar</string>
     <string name="nfc_info_hint">Item güncellemeleri NFC etiketlerine yazılabilir, buradan bir Öğe seçebilir veya Sitemap Haritasındaki bir widget\'ı uzun süre tıklayabilirsiniz.</string>
@@ -169,7 +170,6 @@
     <string name="mtm_connect_anyway">Yine de bağlanmak istiyor musunuz?</string>
     <string name="mtm_cert_details">Sertifika detayları:</string>
     <string name="mtm_decision_always">Kabul Et</string>
-    <string name="mtm_decision_once">Bir kez</string>
     <string name="mtm_decision_abort">Çık</string>
     <string name="mtm_notification">Sertifika doğrulama</string>
     <string name="settings_openhab_none">Hiçbiri</string>
