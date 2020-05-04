@@ -58,7 +58,6 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.CommandType
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
@@ -227,7 +226,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         val context = context ?: return
         val suggestedCommands = suggestedCommandsFactory.fill(widget)
         val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || Util.isEmulator()
-        val hasCommandOptions = suggestedCommands.commands.isNotEmpty() || suggestedCommands.shouldShowCustom
+        val hasCommandOptions = suggestedCommands.entries.isNotEmpty() || suggestedCommands.shouldShowCustom
 
         // Offer opening website if only one position is set
         if (widget.type == Widget.Type.Mapview && widget.item?.state?.asLocation != null) {
@@ -240,14 +239,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                     val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
                         R.string.nfc_action_write_command_tag)
                     nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                    populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, type ->
+                    populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, itemId ->
                         startActivity(WriteTagActivity.createItemUpdateIntent(
                             context,
                             widget.item?.name ?: return@populateStatesMenu,
                             state,
                             mappedState,
                             widget.label,
-                            type == CommandType.DEVICE_ID)
+                            itemId == CONTEXT_MENU_ID_WRITE_DEVICE_ID)
                         )
                     }
                 }
@@ -290,14 +289,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
                     R.string.nfc_action_write_command_tag)
                 nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, type ->
+                populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, itemId ->
                     startActivity(WriteTagActivity.createItemUpdateIntent(
                         context,
                         widget.item?.name ?: return@populateStatesMenu,
                         state,
                         mappedState,
                         widget.label,
-                        type == CommandType.DEVICE_ID)
+                        itemId == CONTEXT_MENU_ID_WRITE_DEVICE_ID)
                     )
                 }
 
@@ -321,7 +320,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         context: Context,
         suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
         showDeviceId: Boolean,
-        callback: (state: String, mappedState: String, type: CommandType) -> Unit
+        callback: (state: String, mappedState: String, itemId: Int) -> Unit
     ) {
         val listener = object : MenuItem.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -334,7 +333,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                             .setTitle(getString(R.string.item_picker_custom))
                             .setView(input)
                             .setPositiveButton(android.R.string.ok) { _, _ ->
-                                callback(input.text.toString(), input.text.toString(), CommandType.CUSTOM)
+                                callback(input.text.toString(), input.text.toString(), id)
                             }
                             .setNegativeButton(android.R.string.cancel, null)
                             .show()
@@ -348,19 +347,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                         return true
                     }
                     id == CONTEXT_MENU_ID_WRITE_DEVICE_ID -> {
-                        callback(
-                            context.getPrefs().getString(PrefKeys.DEV_ID),
-                            "",
-                            CommandType.DEVICE_ID
-                        )
+                        callback(context.getPrefs().getString(PrefKeys.DEV_ID), "", id)
                         return true
                     }
-                    id < suggestedCommands.commands.size -> {
-                        callback(
-                            suggestedCommands.commands[id],
-                            suggestedCommands.labels[id],
-                            suggestedCommands.types[id]
-                        )
+                    id < suggestedCommands.entries.size -> {
+                        val entry = suggestedCommands.entries[id]
+                        callback(entry.command, entry.label, id)
                         return true
                     }
                     else -> return false
@@ -368,8 +360,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
             }
         }
 
-        suggestedCommands.labels.forEachIndexed { index, label ->
-            menu.add(Menu.NONE, index, Menu.NONE, label).setOnMenuItemClickListener(listener)
+        suggestedCommands.entries.forEachIndexed { index, entry ->
+            menu.add(Menu.NONE, index, Menu.NONE, entry.label).setOnMenuItemClickListener(listener)
         }
 
         val deviceId = context.getPrefs().getString(PrefKeys.DEV_ID)

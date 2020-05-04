@@ -23,7 +23,6 @@ import androidx.core.os.bundleOf
 import com.google.android.material.button.MaterialButton
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.util.CommandType
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
@@ -79,18 +78,13 @@ class TaskerItemPickerActivity(
         }
     }
 
-    override fun addAdditionalCommands(
-        labels: MutableList<String>,
-        commands: MutableList<String>,
-        types: MutableList<CommandType>
-    ) {
+    override fun addAdditionalCommands(entries: MutableList<CommandEntry>) {
         relevantVars?.forEach {
-            labels.add(getString(R.string.item_picker_tasker_variable, it))
-            commands.add(it)
+            entries.add(CommandEntry(it, getString(R.string.item_picker_tasker_variable, it)))
         }
     }
 
-    override fun finish(item: Item, state: String, mappedState: String, type: CommandType) {
+    override fun finish(item: Item, state: String, mappedState: String, tag: Any?) {
         var asCommand = commandButton.isChecked
 
         if (asCommand && item.type == Item.Type.Contact) {
