@@ -133,7 +133,7 @@ String CallState
 
 Example rule:
 ```java
-rule "Call State Trigger"
+rule "Call State"
 when
     Item CallState changed
 then
@@ -144,7 +144,6 @@ then
     } else if (CallState.state == "OFFHOOK") {
         // At least one call exists that is dialing, active, or on hold, and no calls are ringing or waiting.
     }
-
 end
 ```
 
@@ -157,14 +156,13 @@ Number BatteryLevel
 
 Example rule:
 ```java
-rule "Battery level changed"
+rule "Battery level"
 when
     Item BatteryLevel changed
 then
     if (BatteryLevel.state < 25) {
         // Battery level is low
     }
-
 end
 ```
 
@@ -177,7 +175,7 @@ String ChargingState
 
 Example rule:
 ```java
-rule "Charging state changed"
+rule "Charging state"
 when
     Item ChargingState changed
 then
@@ -193,11 +191,10 @@ then
     } else {
         // Device isn't charging ("UNDEF" is send)
     }
-
 end
 ```
 
-#### Wi-Fi Name
+#### Wi-Fi Name (SSID)
 
 Example item definition:
 ```java
@@ -206,7 +203,7 @@ String WifiName
 
 Example rule:
 ```java
-rule "Wi-Fi name changed"
+rule "Wi-Fi name"
 when
     Item WifiName changed
 then
@@ -219,7 +216,33 @@ then
     } else {
         logInfo("WIFI", "Device is connected to Wi-Fi " + WifiName.state)
     }
+end
+```
 
+#### DND Mode
+
+Example item definition:
+```java
+String DndMode
+```
+
+Example rule:
+```java
+rule "DND mode"
+when
+    Item DndMode changed
+then
+    if (DndMode.state == "TOTAL_SILENCE") {
+        // All notifications are suppressed
+    } else if (DndMode.state == "PRIORITY") {
+        // All notifications are suppressed except those that match the priority criteria
+    } else if (DndMode.state == "ALARMS") {
+        // All notifications are suppressed except alarms
+    } else if (DndMode.state == "OFF") {
+        // No notifications are suppressed
+    } else {
+        // DND mode is unknown
+    }
 end
 ```
 

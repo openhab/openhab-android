@@ -16,8 +16,10 @@ package org.openhab.habdroid.background
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlarmManager
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
@@ -204,12 +206,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
             PrefKeys.SEND_PHONE_STATE,
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
-            PrefKeys.SEND_WIFI_SSID
+            PrefKeys.SEND_WIFI_SSID,
+            PrefKeys.SEND_DND_MODE
         )
         private val KNOWN_PERIODIC_KEYS = listOf(
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
-            PrefKeys.SEND_WIFI_SSID
+            PrefKeys.SEND_WIFI_SSID,
+            PrefKeys.SEND_DND_MODE
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
@@ -484,6 +488,17 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     }
                 }
                 ItemUpdateWorker.ValueWithInfo(ssidToSend)
+            }
+            VALUE_GETTER_MAP[PrefKeys.SEND_DND_MODE] = { context ->
+                val nm = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                val mode = when (nm.currentInterruptionFilter) {
+                    NotificationManager.INTERRUPTION_FILTER_NONE -> "TOTAL_SILENCE"
+                    NotificationManager.INTERRUPTION_FILTER_PRIORITY -> "PRIORITY"
+                    NotificationManager.INTERRUPTION_FILTER_ALARMS -> "ALARMS"
+                    NotificationManager.INTERRUPTION_FILTER_ALL -> "OFF"
+                    else -> "UNDEF"
+                }
+                ItemUpdateWorker.ValueWithInfo(mode)
             }
         }
     }

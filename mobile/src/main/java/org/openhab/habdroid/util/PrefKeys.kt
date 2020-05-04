@@ -47,6 +47,7 @@ object PrefKeys {
     const val SEND_BATTERY_LEVEL = "battery_level"
     const val SEND_CHARGING_STATE = "charging_state"
     const val SEND_WIFI_SSID = "send_wifi_ssid"
+    const val SEND_DND_MODE = "send_dnd_mode"
 
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
