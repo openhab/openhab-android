@@ -107,8 +107,10 @@
     <string name="error_certificate_wrong_host">D‘ SSL Zertifikat ass net valid fir %s</string>
     <string name="error_http_to_https_port">Onerwaarten Enn vum Stream. Probéiers du dech op en HTTPS Port via HTTP ze verbannen?</string>
     <string name="webview_ssl">Momentan ënnerstëtzt des App keng selwer-signéiert SSL Zertifikater fir Webview Widgets</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Feeler beim lueden vun openHAB Server Informatiounen</string>
     <string name="error_openhab_offline">Däin openHAB Server ass Offline, mä d‘ Cloud Instanz leeft</string>
     <string name="error_no_browser_found">Es ass kee Browser op dengem Gerät fonnt ginn</string>
@@ -122,7 +124,6 @@
     <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
     <string name="info_write_tag_disabled">NFC ass ausgeschalt</string>
     <string name="info_openhab_apiversion_label">Versioun vun der openHAB Rest API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status vun den Push Notifikatiounen</string>
     <string name="action_settings">Astellungen</string>
     <string name="nfc_info_hint">Item Updates kennen op NFC Tags geschriwwe ginn. Du kanns en Item hei auswielen oder duerch laang-Klicken op der Sitemap.</string>
@@ -164,7 +165,6 @@
     <string name="mtm_connect_anyway">Wëllt Dir Iech awer verbannen?</string>
     <string name="mtm_cert_details">Detailer vum Zertifikat:</string>
     <string name="mtm_decision_always">Acceptéieren</string>
-    <string name="mtm_decision_once">Eng Kéier</string>
     <string name="mtm_decision_abort">Ofbriechen</string>
     <string name="mtm_notification">Kontroll vum Zertifikat</string>
     <string name="settings_openhab_none">Keen</string>
