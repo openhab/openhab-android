@@ -34,7 +34,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrNull
 
 class UpdateBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -46,26 +46,26 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         prefs.edit {
             if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
                 Log.d(TAG, "Checking for putting local username/password to remote username/password.")
-                if (prefs.getString(PrefKeys.REMOTE_USERNAME, null) == null) {
+                if (prefs.getStringOrNull(PrefKeys.REMOTE_USERNAME) == null) {
                     putString(PrefKeys.REMOTE_USERNAME,
-                        prefs.getString(PrefKeys.LOCAL_USERNAME, null))
+                        prefs.getStringOrNull(PrefKeys.LOCAL_USERNAME))
                 }
-                if (prefs.getString(PrefKeys.REMOTE_PASSWORD, null) == null) {
+                if (prefs.getStringOrNull(PrefKeys.REMOTE_PASSWORD) == null) {
                     putString(PrefKeys.REMOTE_PASSWORD,
-                        prefs.getString(PrefKeys.LOCAL_PASSWORD, null))
+                        prefs.getStringOrNull(PrefKeys.LOCAL_PASSWORD))
                 }
             }
             if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= SECURE_CREDENTIALS) {
                 Log.d(TAG, "Put username/password to encrypted prefs.")
                 context.getSecretPrefs().edit {
                     putString(PrefKeys.LOCAL_USERNAME,
-                        prefs.getString(PrefKeys.LOCAL_USERNAME, null))
+                        prefs.getStringOrNull(PrefKeys.LOCAL_USERNAME))
                     putString(PrefKeys.LOCAL_PASSWORD,
-                        prefs.getString(PrefKeys.LOCAL_PASSWORD, null))
+                        prefs.getStringOrNull(PrefKeys.LOCAL_PASSWORD))
                     putString(PrefKeys.REMOTE_USERNAME,
-                        prefs.getString(PrefKeys.REMOTE_USERNAME, null))
+                        prefs.getStringOrNull(PrefKeys.REMOTE_USERNAME))
                     putString(PrefKeys.REMOTE_PASSWORD,
-                        prefs.getString(PrefKeys.REMOTE_PASSWORD, null))
+                        prefs.getStringOrNull(PrefKeys.REMOTE_PASSWORD))
                 }
                 // Clear from unencrypted prefs
                 remove(PrefKeys.LOCAL_USERNAME)
@@ -79,7 +79,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     putString(PrefKeys.THEME, context.getString(R.string.theme_value_system))
                 } else {
-                    val newTheme = when (prefs.getString("default_openhab_theme")) {
+                    val newTheme = when (prefs.getStringOrNull("default_openhab_theme")) {
                         "black", "basicuidark", "dark" -> context.getString(R.string.theme_value_dark)
                         else -> context.getString(R.string.theme_value_system)
                     }
@@ -89,7 +89,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
                 AppCompatDelegate.setDefaultNightMode(prefs.getDayNightMode(context))
 
-                val accentColor = when (prefs.getString("default_openhab_theme")) {
+                val accentColor = when (prefs.getStringOrNull("default_openhab_theme")) {
                     "basicui", "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
                     "black", "dark" -> ContextCompat.getColor(context, R.color.blue_grey_700)
                     else -> ContextCompat.getColor(context, R.color.openhab_orange)
@@ -102,7 +102,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
                 AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
                     val widgetPrefs = ItemUpdateWidget.getPrefsForWidget(context, id)
-                    val icon = widgetPrefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
+                    val icon = widgetPrefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
                     widgetPrefs.edit {
                         putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, icon.toOH2IconResource())
                     }

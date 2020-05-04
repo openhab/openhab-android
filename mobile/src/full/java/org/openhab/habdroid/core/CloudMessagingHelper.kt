@@ -26,7 +26,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrEmpty
 
 object CloudMessagingHelper {
     internal var registrationDone: Boolean = false
@@ -61,7 +61,7 @@ object CloudMessagingHelper {
         }
         return when {
             // No remote server is configured
-            context.getPrefs().getString(PrefKeys.REMOTE_URL).isEmpty() ->
+            context.getPrefs().getStringOrEmpty(PrefKeys.REMOTE_URL).isEmpty() ->
                 PushNotificationStatus(
                     context.getString(R.string.info_openhab_gcm_no_remote),
                     R.drawable.ic_bell_off_outline_grey_24dp

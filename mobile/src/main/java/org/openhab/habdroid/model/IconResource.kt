@@ -25,6 +25,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getStringOrNull
 import java.util.Locale
 
 @Parcelize
@@ -67,7 +68,7 @@ class IconResource internal constructor(
 }
 
 fun SharedPreferences.getIconResource(key: String): IconResource? {
-    val iconString = getString(key, null) ?: return null
+    val iconString = getStringOrNull(key) ?: return null
     return try {
         val obj = JSONObject(iconString)
         val icon = obj.getString("icon")

@@ -100,6 +100,7 @@ import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.isDebugModeEnabled
@@ -996,7 +997,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         val missingPermissions = tasksWithPermissions
             .filter { entry ->
-                prefs.getString(entry.key, null)?.toItemUpdatePrefValue()?.first == true && !hasPermission(entry.value)
+                prefs.getStringOrNull(entry.key)?.toItemUpdatePrefValue()?.first == true && !hasPermission(entry.value)
             }
             .map { entry -> entry.value }
 

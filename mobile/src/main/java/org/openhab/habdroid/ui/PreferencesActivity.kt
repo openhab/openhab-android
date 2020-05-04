@@ -59,7 +59,9 @@ import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrEmpty
+import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.showToast
@@ -154,7 +156,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun hasClientCertificate(): Boolean {
-            return prefs.getString(PrefKeys.SSL_CLIENT_CERT).isNotEmpty()
+            return prefs.getStringOrEmpty(PrefKeys.SSL_CLIENT_CERT).isNotEmpty()
         }
 
         protected fun isConnectionSecure(url: String?, user: String?, password: String?): Boolean {
@@ -219,7 +221,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateConnectionSummary(PrefKeys.SUBSCREEN_REMOTE_CONNECTION,
                 PrefKeys.REMOTE_URL, PrefKeys.REMOTE_USERNAME,
                 PrefKeys.REMOTE_PASSWORD)
-            updateScreenLockStateAndSummary(prefs.getString(PrefKeys.SCREEN_LOCK,
+            updateScreenLockStateAndSummary(prefs.getStringOrFallbackIfEmpty(PrefKeys.SCREEN_LOCK,
                 getString(R.string.settings_screen_lock_off_value)))
         }
 
@@ -248,9 +250,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 dataSaverPref.setSwitchTextOff(R.string.data_saver_off_pre_n)
             }
 
-            val currentDefaultSitemap = prefs.getString(PrefKeys.SITEMAP_NAME)
-            val currentDefaultSitemapLabel = prefs.getString(PrefKeys.SITEMAP_LABEL)
-            if (currentDefaultSitemap.isEmpty()) {
+            val currentDefaultSitemap = prefs.getStringOrNull(PrefKeys.SITEMAP_NAME)
+            val currentDefaultSitemapLabel = prefs.getStringOrEmpty(PrefKeys.SITEMAP_LABEL)
+            if (currentDefaultSitemap.isNullOrEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPref)
             } else {
                 clearDefaultSitemapPref.summary = getString(
@@ -259,7 +261,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             updateRingtonePreferenceSummary(ringtonePref, prefs.getNotificationTone())
             updateVibrationPreferenceIcon(vibrationPref,
-                prefs.getString(PrefKeys.NOTIFICATION_VIBRATION))
+                prefs.getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION))
 
             localConnPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(LocalConnectionSettingsFragment())
@@ -466,10 +468,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             passwordPrefKey: String
         ) {
             val pref = getPreference(subscreenPrefKey)
-            val url = prefs.getString(urlPrefKey)
+            val url = prefs.getStringOrEmpty(urlPrefKey)
             val beautyUrl = beautifyUrl(url)
-            val userName = secretPrefs.getString(userPrefKey, null)
-            val password = secretPrefs.getString(passwordPrefKey, null)
+            val userName = secretPrefs.getStringOrNull(userPrefKey)
+            val password = secretPrefs.getStringOrNull(passwordPrefKey)
             val summary = when {
                 url.isEmpty() -> getString(R.string.info_not_set)
                 isConnectionSecure(url, userName, password) ->
@@ -551,7 +553,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 pref.summary = summaryGenerator(newValue as String)
                 true
             }
-            preference.summary = summaryGenerator(prefsForValue.getString(key))
+            preference.summary = summaryGenerator(prefsForValue.getStringOrEmpty(key))
             return preference
         }
 
@@ -648,7 +650,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            updatePrefixSummary(prefixPref, prefs.getString(PrefKeys.SEND_DEVICE_INFO_PREFIX))
+            updatePrefixSummary(prefixPref, prefs.getStringOrNull(PrefKeys.SEND_DEVICE_INFO_PREFIX))
             prefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
                 updatePrefixSummary(prefixPref, prefix)
