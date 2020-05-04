@@ -210,6 +210,9 @@
     <string name="error_sending_alarm_clock_item_empty">אנא הכנס שם פריט תקף</string>
     <string name="retry">נסה שנית</string>
     <string name="ignore">התעלם</string>
+    <string name="send_device_info_schedule_3_hours">3 שעות</string>
+    <string name="send_device_info_schedule_6_hours">6 שעות</string>
+    <string name="send_device_info_schedule_12_hours">12 שעות</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
