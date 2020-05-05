@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.core
 
-import android.content.Context
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking

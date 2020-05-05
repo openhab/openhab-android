@@ -21,7 +21,6 @@ import org.json.JSONException
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.map
 
