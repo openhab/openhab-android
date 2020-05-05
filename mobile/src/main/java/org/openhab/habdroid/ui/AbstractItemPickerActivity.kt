@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
@@ -28,6 +27,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible

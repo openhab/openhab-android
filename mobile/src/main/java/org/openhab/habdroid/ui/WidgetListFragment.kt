@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.app.AlertDialog
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -35,6 +34,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
