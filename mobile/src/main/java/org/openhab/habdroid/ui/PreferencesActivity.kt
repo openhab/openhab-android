@@ -621,31 +621,31 @@ class PreferencesActivity : AbstractBaseActivity() {
             val prefixPref = getPreference(PrefKeys.SEND_DEVICE_INFO_PREFIX)
             val schedulePref = getPreference(PrefKeys.SEND_DEVICE_INFO_SCHEDULE)
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
-            wifiSsidPref = getPreference(PrefKeys.SEND_CHARGING_STATE) as ItemUpdatingPreference
+            wifiSsidPref = getPreference(PrefKeys.SEND_WIFI_SSID) as ItemUpdatingPreference
 
             phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
-                @Suppress("UNCHECKED_CAST")
-                val value = newValue as Pair<Boolean, String>
-                if (value.first && !preference.context.hasPermission(Manifest.permission.READ_PHONE_STATE)) {
-                    Log.d(TAG, "Request READ_PHONE_STATE permission")
-                    requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE),
-                        PERMISSIONS_REQUEST_READ_PHONE_STATE)
-                }
-
+                requestPermissionIfRequired(
+                    preference.context,
+                    newValue,
+                    Manifest.permission.READ_PHONE_STATE,
+                    PERMISSIONS_REQUEST_FOR_CALL_STATE
+                )
                 true
             }
 
             wifiSsidPref.setOnPreferenceChangeListener { preference, newValue ->
-                @Suppress("UNCHECKED_CAST")
-                val value = newValue as Pair<Boolean, String>
-                if (value.first &&
-                    !preference.context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-                ) {
-                    Log.d(TAG, "Request ACCESS_FINE_LOCATION permission")
-                    requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                        PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+                val requiredPermission = when {
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.ACCESS_FINE_LOCATION
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> Manifest.permission.ACCESS_COARSE_LOCATION
+                    else -> return@setOnPreferenceChangeListener true
                 }
+
+                requestPermissionIfRequired(
+                    preference.context,
+                    newValue,
+                    requiredPermission,
+                    PERMISSIONS_REQUEST_FOR_WIFI_NAME
+                )
 
                 true
             }
@@ -669,6 +669,20 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        private fun requestPermissionIfRequired(
+            context: Context,
+            newValue: Any?,
+            permission: String,
+            requestCode: Int
+        ) {
+            @Suppress("UNCHECKED_CAST")
+            val value = newValue as Pair<Boolean, String>
+            if (value.first && !context.hasPermission(permission)) {
+                Log.d(TAG, "Request $permission permission")
+                requestPermissions(arrayOf(permission), requestCode)
+            }
+        }
+
         private fun updatePrefixSummary(pref: Preference, newValue: String?) {
             pref.summary = if (newValue.isNullOrEmpty()) {
                 pref.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
@@ -679,13 +693,13 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
             when (requestCode) {
-                PERMISSIONS_REQUEST_READ_PHONE_STATE -> {
+                PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         context?.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
                         phoneStatePref.setValue(checked = false)
                     }
                 }
-                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+                PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
                     if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         context?.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
                         wifiSsidPref.setValue(checked = false)
@@ -707,8 +721,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
         const val ITEM_UPDATE_WIDGET_ICON = "icon"
         private const val STATE_KEY_RESULT = "result"
-        private const val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0
-        private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+        private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
+        private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }
