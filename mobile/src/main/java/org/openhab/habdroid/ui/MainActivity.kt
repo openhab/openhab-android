@@ -14,8 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.Manifest
-import android.app.AlertDialog
-import android.app.Dialog
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
@@ -47,6 +45,7 @@ import android.widget.ProgressBar
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -122,7 +121,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     lateinit var viewPool: RecyclerView.RecycledViewPool
         private set
     private lateinit var progressBar: ProgressBar
-    private var sitemapSelectionDialog: Dialog? = null
+    private var sitemapSelectionDialog: AlertDialog? = null
     private var lastSnackbar: Snackbar? = null
     var connection: Connection? = null
         private set
