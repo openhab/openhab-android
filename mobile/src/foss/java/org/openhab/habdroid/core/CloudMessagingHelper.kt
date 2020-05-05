@@ -33,7 +33,7 @@ object CloudMessagingHelper {
 
     // FIXME: This isn't called if remote user name is change to invalid an username
     fun onConnectionUpdated(context: Context, @Suppress("UNUSED_PARAMETER") connection: CloudConnection?) {
-        BackgroundTasksManager.managePeriodicTrigger(context)
+        BackgroundTasksManager.schedulePeriodicTrigger(context)
     }
 
     @Suppress("UNUSED_PARAMETER")
