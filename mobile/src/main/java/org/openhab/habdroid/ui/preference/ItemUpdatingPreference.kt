@@ -93,7 +93,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         }
     }
 
-    fun updateSummaryAndIcon(
+    private fun updateSummaryAndIcon(
         prefix: String = context.getPrefs().getPrefixForBgTasks()
     ) {
         val value = value ?: return

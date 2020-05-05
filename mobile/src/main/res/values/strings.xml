@@ -261,6 +261,14 @@
     <string name="send_device_info_schedule_6_hours">6 hours</string>
     <string name="send_device_info_schedule_12_hours">12 hours</string>
 
+    <!-- Device identifier -->
+    <string name="device_identifier_title">Device identifier</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Prefix voice commands with \'<Device identifier>|\']]></string>
+    <string name="device_identifier_bg_tasks">Prefix the Item names of \"Send device information to server\" with this identifier</string>
+    <string name="device_identifier_hint">This device identifier can be any string and should be unique for all devices accessing your openHAB server. Besides the two use cases above, you can also use it as state on NFC tags, so you know which device read the tag.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Device identifier of scanning device (\"%s\" for this device)</string>
+    <string name="device_identifier_summary_not_set">Data sent to the server and voice commands aren\'t prefixed with a device identifier</string>
+
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>
     <string name="notification_list_error">An error occurred while loading notifications</string>
@@ -484,9 +492,4 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Map</string>
     <string name="widget_type_chart">Chart</string>
-    <string name="device_identifier_title">Device identifier</string>
-    <string name="device_identifier_prefix_voice"><![CDATA[Prefix voice commands with \'<Device identifier>|\']]></string>
-    <string name="device_identifier_bg_tasks">Prefix the Item names of \"Send device information to server\" with this identifier</string>
-    <string name="device_identifier_hint">This device identifier can be any string and should be unique for all devices accessing your openHAB server. Besides the two use cases above, you can also use it as state on NFC tags, so you know which device read the tag.</string>
-    <string name="device_identifier_suggested_command_nfc_tag">Device identifier of scanning device (\"%s\" for this device)</string>
 </resources>

@@ -32,7 +32,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.getString
 
 class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs) {
     private var value: Any? = null
@@ -45,11 +44,29 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
 
     override fun onSetInitialValue(defaultValue: Any?) {
         value = defaultValue
-        super.onSetInitialValue(defaultValue)
+        updateSummary()
     }
 
     override fun getDialogLayoutResource(): Int {
         return R.layout.pref_dialog_device_identifier
+    }
+
+    fun updateSummary() {
+        summary = if ((value as String?).isNullOrEmpty()) {
+            context.getString(R.string.device_identifier_summary_not_set)
+        } else {
+            value as String
+        }
+    }
+
+    fun setValue(value: String = (this.value as String?).orEmpty()) {
+        if (callChangeListener(value)) {
+            if (shouldPersist()) {
+                persistString(value)
+            }
+            this.value = value
+            updateSummary()
+        }
     }
 
     fun createDialog(): DialogFragment {
@@ -81,7 +98,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
             }
 
             val prefs = preference.sharedPreferences
-            editor.setText(prefs.getString(PrefKeys.DEV_ID))
+            editor.setText(((preference as DeviceIdentifierPreference).value as String?))
             editor.setSelection(editor.text.length)
             voiceButton.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, false)
             backgroundTasksButton.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, true)
@@ -93,7 +110,8 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
             if (positiveResult) {
                 val prefs = preference.sharedPreferences
                 prefs.edit {
-                    putString(PrefKeys.DEV_ID, editor.text.toString())
+                    val pref = preference as DeviceIdentifierPreference
+                    pref.setValue(editor.text.toString())
                     putBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, voiceButton.isChecked)
                     putBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, backgroundTasksButton.isChecked)
                 }

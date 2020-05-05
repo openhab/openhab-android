@@ -92,6 +92,7 @@
         <org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
             android:defaultValue="@string/empty_string"
             android:key="sendDeviceInfoPrefix"
+            android:icon="@drawable/ic_tag_text_outline_grey_24dp"
             android:title="@string/device_identifier_title" />
         <Preference
             android:key="send_device_info"
