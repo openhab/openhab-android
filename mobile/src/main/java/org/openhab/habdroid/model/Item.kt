@@ -74,7 +74,7 @@ data class Item internal constructor(
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
             val link = item?.link ?: parsedItem.link
-            return Item(parsedItem.name, parsedItem.label, parsedItem.category, parsedItem.type,
+            return Item(parsedItem.name, parsedItem.label?.trim(), parsedItem.category, parsedItem.type,
                 parsedItem.groupType, link, parsedItem.readOnly, parsedItem.members,
                 parsedItem.options, parsedItem.state)
         }
@@ -102,7 +102,7 @@ fun Node.toItem(): Item? {
         state = null
     }
 
-    return Item(finalName, finalName, null, type, groupType, link, false,
+    return Item(finalName, finalName.trim(), null, type, groupType, link, false,
         emptyList(), null, state.toParsedState())
 }
 
@@ -131,7 +131,7 @@ fun JSONObject.toItem(): Item {
 
     val numberPattern = stateDescription?.optString("pattern")
     return Item(name,
-        optString("label", name),
+        optString("label", name).trim(),
         optStringOrNull("category"),
         getString("type").toItemType(),
         optString("groupType").toItemType(),

@@ -141,7 +141,7 @@ class WidgetTest {
     fun testGetLabel() {
         assertEquals("Group1", sut1[0].label)
         assertEquals("Group1", sut2[0].label)
-        assertEquals("Dimmer ", sut3[1].label)
+        assertEquals("Dimmer", sut3[1].label)
     }
 
     @Test
