@@ -196,7 +196,7 @@
     <string name="send_device_info_category_event_based_title">Event based</string>
     <string name="send_device_info_category_event_based_explanation">These Items are updated on corresponding events, e.g. an incoming phone call</string>
     <string name="send_device_info_category_schedule_based_title">Schedule based</string>
-    <string name="send_device_info_category_schedule_based_explanation">These Items are updated on a regular schedule\nNote: Shorter intervals impair battery life more than higher ones and your device may decide to delay updates.</string>
+    <string name="send_device_info_category_schedule_based_explanation">The shorter the chosen interval is, the larger is the potential impact on the battery life of your device. Additionally, your device might not follow the chosen interval exactly, but delay the updates to reduce power consumption across apps.</string>
     <string name="send_device_info_category_general">General</string>
     <string name="send_device_info_item_prefix">Item name prefix</string>
     <string name="send_device_info_item_prefix_summary">The Item names of the following features are prefixed with \'%s\'</string>
