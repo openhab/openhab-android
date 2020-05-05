@@ -170,18 +170,31 @@
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Geräteinformationen an Server senden</string>
+    <string name="send_device_info_to_server_short">Geräteinformationen senden</string>
+    <string name="send_device_info_category_event_based_title">Ereignisbasiert</string>
+    <string name="send_device_info_category_event_based_explanation">Diese Items werden bei entsprechenden Ereignissen aktualisiert, z.B. bei einem eingehenden Anruf</string>
+    <string name="send_device_info_category_schedule_based_explanation">Diese Items werden regelmäßig aktualisiert\nHinweis: Niedrigere Werte beeinträchtigen die Batterielebensdauer mehr als höher und Ihr Gerät kann entscheiden, Updates zu verzögern.</string>
+    <string name="send_device_info_category_general">Allgemein</string>
     <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
     <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben dieses Präfix \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen der folgenden Funktionen ist kein Präfix gesetzt</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
+    <string name="settings_alarm_clock">Weckzeit</string>
     <string name="settings_alarm_clock_summary_on">Sendet Weckzeit an Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Weckzeit nicht senden</string>
+    <string name="settings_phone_state">Anrufstatus</string>
     <string name="settings_phone_state_summary_on">Sendet Anrufstatus zu Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Anrufstatus nicht senden</string>
     <string name="settings_phone_state_permission_denied">Senden des Anrufstatus wurde wegen fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_battery_level">Akkustand</string>
     <string name="settings_battery_level_summary_on">Sendet Akkustand an Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Akkustand nicht senden</string>
     <string name="settings_charging_state">Ladezustand</string>
     <string name="settings_charging_state_summary_on">Sendet Ladezustand zum Item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Ladezustand nicht senden</string>
     <string name="settings_wifi_ssid">WLAN-Name</string>
     <string name="settings_wifi_ssid_summary_on">Sendet WLAN-Name (SSID) an Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">WLAN-Name (SSID) nicht senden</string>
     <string name="settings_wifi_ssid_permission_denied">Das Senden des WLAN-Namens wurde aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_background_tasks_permission_denied">Einige Hintergrundaufgaben wurden aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_background_tasks_permission_allow">Erlauben</string>
@@ -209,6 +222,13 @@
     <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
     <string name="retry">Erneut versuchen</string>
     <string name="ignore">Ignorieren</string>
+    <string name="send_device_info_schedule">Zeitplan</string>
+    <string name="send_device_info_schedule_summary">Alle 15 Minuten beim Aufladen, alle %s andernfalls</string>
+    <string name="send_device_info_schedule_15_minutes">15 Minuten</string>
+    <string name="send_device_info_schedule_1_hour">1 Stunde</string>
+    <string name="send_device_info_schedule_3_hours">3 Stunden</string>
+    <string name="send_device_info_schedule_6_hours">6 Stunden</string>
+    <string name="send_device_info_schedule_12_hours">12 Stunden</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
