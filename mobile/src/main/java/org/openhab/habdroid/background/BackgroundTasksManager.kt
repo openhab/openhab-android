@@ -308,7 +308,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .map { key -> prefs.getStringOrNull(key).toItemUpdatePrefValue() }
                 .any { value -> value.first }
 
-            if (!periodicWorkIsNeeded && !CloudMessagingHelper.needsPollingForNotifications()) {
+            if (!periodicWorkIsNeeded && !CloudMessagingHelper.needsPollingForNotifications(context)) {
                 Log.d(TAG, "Periodic workers are not needed, canceling...")
                 workManager.cancelAllWorkByTag(WORKER_TAG_PERIODIC_TRIGGER)
                 return

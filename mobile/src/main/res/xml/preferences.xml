@@ -21,6 +21,10 @@
             android:title="@string/settings_openhab_alt_connection"
             android:dependency="default_openhab_demomode"
             android:icon="@drawable/ic_tree_outline_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.NotificationPollingPreference
+            android:defaultValue="false"
+            android:key="foss_notifications_enabled"
+            android:title="@string/push_notification_title" />
         <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
             android:defaultValue="@string/settings_openhab_none"
             android:key="default_openhab_sslclientcert"

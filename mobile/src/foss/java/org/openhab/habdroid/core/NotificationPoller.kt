@@ -21,12 +21,12 @@ import org.json.JSONException
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.map
 
 object NotificationPoller {
     private val TAG = NotificationPoller::class.java.simpleName
-    private const val LAST_SEEN_MESSAGE_KEY = "foss_last_seen_message"
 
     suspend fun checkForNewNotifications(context: Context) {
         ConnectionFactory.waitForInitialization()
@@ -36,7 +36,7 @@ object NotificationPoller {
             return
         }
         val url = "api/v1/notifications?limit=20"
-        var messages = try {
+        val messages = try {
             val response = connection.httpClient.get(url).asText().response
             Log.d(TAG, "Notifications request success")
             JSONArray(response).map { obj -> obj.toCloudNotification() }
@@ -50,10 +50,10 @@ object NotificationPoller {
 
         val prefs = context.getPrefs()
 
-        val lastSeenMessageId = prefs.getString(LAST_SEEN_MESSAGE_KEY, null)
+        val lastSeenMessageId = prefs.getString(PrefKeys.FOSS_LAST_SEEN_MESSAGE, null)
         prefs.edit {
             val newestSeenId = messages.firstOrNull()?.id ?: lastSeenMessageId
-            putString(LAST_SEEN_MESSAGE_KEY, newestSeenId)
+            putString(PrefKeys.FOSS_LAST_SEEN_MESSAGE, newestSeenId)
         }
         if (lastSeenMessageId == null) {
             // Never checked for notifications before

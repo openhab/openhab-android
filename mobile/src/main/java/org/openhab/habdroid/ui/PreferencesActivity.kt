@@ -46,15 +46,19 @@ import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.core.connection.CloudConnection
+import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+import org.openhab.habdroid.ui.preference.NotificationPollingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
@@ -179,6 +183,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (preference) {
                 is UrlInputPreference -> showDialog(preference.createDialog())
                 is ItemUpdatingPreference -> showDialog(preference.createDialog())
+                is NotificationPollingPreference -> showDialog(preference.createDialog())
                 is CustomInputTypePreference -> showDialog(preference.createDialog())
                 is DeviceIdentifierPreference -> showDialog(preference.createDialog())
                 else -> super.onDisplayPreferenceDialog(preference)
@@ -212,9 +217,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
-    class MainSettingsFragment : AbstractSettingsFragment() {
+    class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.UpdateListener {
         override val titleResId: Int @StringRes get() = R.string.action_settings
         @ColorInt var previousColor: Int = 0
+
+        private var notificationPollingPref: NotificationPollingPreference? = null
 
         override fun onStart() {
             super.onStart()
@@ -226,6 +233,12 @@ class PreferencesActivity : AbstractBaseActivity() {
                 PrefKeys.REMOTE_PASSWORD)
             updateScreenLockStateAndSummary(prefs.getStringOrFallbackIfEmpty(PrefKeys.SCREEN_LOCK,
                 getString(R.string.settings_screen_lock_off_value)))
+            ConnectionFactory.addListener(this)
+        }
+
+        override fun onStop() {
+            super.onStop()
+            ConnectionFactory.removeListener(this)
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -234,6 +247,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val localConnPref = getPreference(PrefKeys.SUBSCREEN_LOCAL_CONNECTION)
             val remoteConnPref = getPreference(PrefKeys.SUBSCREEN_REMOTE_CONNECTION)
             val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
+            notificationPollingPref = getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
@@ -279,6 +293,17 @@ class PreferencesActivity : AbstractBaseActivity() {
             sendDeviceInfoPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(SendDeviceInfoSettingsFragment())
                 false
+            }
+
+            if (!Util.isFlavorFoss) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.FOSS_NOTIFICATIONS_ENABLED)
+            }
+            updateNotificationPollSummary()
+            notificationPollingPref?.setOnPreferenceClickListener {
+                parentActivity.launch(Dispatchers.Main) {
+                    updateNotificationPollSummary()
+                }
+                true
             }
 
             themePref.setOnPreferenceChangeListener { _, _ ->
@@ -427,6 +452,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             pref.setSummary(R.string.settings_no_default_sitemap)
         }
 
+        private fun updateNotificationPollSummary() {
+            parentActivity.launch {
+                notificationPollingPref?.updateSummary()
+            }
+        }
+
         private fun updateScreenLockStateAndSummary(value: String?) {
             val pref = findPreference<Preference>(PrefKeys.SCREEN_LOCK) ?: return
             val km = ContextCompat.getSystemService(pref.context, KeyguardManager::class.java)!!
@@ -495,6 +526,14 @@ class PreferencesActivity : AbstractBaseActivity() {
                     false
                 }
             }
+        }
+
+        override fun onAvailableConnectionChanged() {
+            updateNotificationPollSummary()
+        }
+
+        override fun onCloudConnectionChanged(connection: CloudConnection?) {
+            updateNotificationPollSummary()
         }
 
         companion object {

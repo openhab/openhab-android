@@ -17,7 +17,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.AboutActivity
@@ -31,15 +30,13 @@ import org.openhab.habdroid.util.getString
 object CloudMessagingHelper {
     private val TAG = CloudMessagingHelper::class.java.simpleName
 
-    // FIXME: This isn't called if remote user name is change to invalid an username
-    fun onConnectionUpdated(context: Context, @Suppress("UNUSED_PARAMETER") connection: CloudConnection?) {
-        BackgroundTasksManager.schedulePeriodicTrigger(context)
-    }
+    @Suppress("UNUSED_PARAMETER")
+    fun onConnectionUpdated(context: Context, connection: CloudConnection?) {}
 
     @Suppress("UNUSED_PARAMETER")
     fun onNotificationSelected(context: Context, intent: Intent) {}
 
-    fun needsPollingForNotifications() = ConnectionFactory.cloudConnectionOrNull != null
+    fun needsPollingForNotifications(context: Context) = context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false)
 
     suspend fun pollForNotifications(context: Context) {
         NotificationPoller.checkForNewNotifications(context)
@@ -56,6 +53,10 @@ object CloudMessagingHelper {
         }
 
         return when {
+            !context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false) -> PushNotificationStatus(
+                context.getString(R.string.push_notification_status_disabled),
+                R.drawable.ic_bell_off_outline_grey_24dp
+            )
             context.getPrefs().getString(PrefKeys.REMOTE_URL).isEmpty() -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_no_remote_configured),
                 R.drawable.ic_bell_off_outline_grey_24dp

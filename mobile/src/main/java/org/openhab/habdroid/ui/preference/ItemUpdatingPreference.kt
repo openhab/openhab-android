@@ -129,10 +129,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
             editor.addTextChangedListener(this)
             editorWrapper = v.findViewById(R.id.itemNameWrapper)
             helpIcon = v.findViewById(R.id.help_icon)
-            helpIcon.setupHelpIcon(
-                pref.howtoUrl.orEmpty(),
-                v.context.getString(R.string.settings_item_update_pref_howto_summary)
-            )
+            helpIcon.setupHelpIcon(pref.howtoUrl.orEmpty(), R.string.settings_item_update_pref_howto_summary)
 
             val label = v.findViewById<TextView>(R.id.enabledLabel)
             label.text = pref.title

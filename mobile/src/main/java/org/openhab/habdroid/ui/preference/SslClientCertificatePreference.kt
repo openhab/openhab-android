@@ -48,7 +48,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         if (holder != null) {
             helpIcon = holder.itemView.findViewById(R.id.help_icon)
             helpIcon?.setupHelpIcon(context.getString(R.string.settings_openhab_sslclientcert_howto_url),
-                    context.getString(R.string.settings_openhab_sslclientcert_howto_summary))
+                R.string.settings_openhab_sslclientcert_howto_summary)
             helpIcon?.updateHelpIconAlpha(isEnabled)
         }
     }

@@ -81,4 +81,10 @@ object PrefKeys {
     const val SUBSCREEN_LOCAL_CONNECTION = "default_openhab_local_connection"
     const val SUBSCREEN_REMOTE_CONNECTION = "default_openhab_remote_connection"
     const val SUBSCREEN_SEND_DEVICE_INFO = "send_device_info"
+
+    /**
+     * FOSS only
+     */
+    const val FOSS_LAST_SEEN_MESSAGE = "foss_last_seen_message"
+    const val FOSS_NOTIFICATIONS_ENABLED = "foss_notifications_enabled"
 }
