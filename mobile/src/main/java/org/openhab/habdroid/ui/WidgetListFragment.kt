@@ -65,7 +65,7 @@ import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.showToast
 
@@ -347,7 +347,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                         return true
                     }
                     id == CONTEXT_MENU_ID_WRITE_DEVICE_ID -> {
-                        callback(context.getPrefs().getString(PrefKeys.DEV_ID), "", id)
+                        callback(context.getPrefs().getStringOrEmpty(PrefKeys.DEV_ID), "", id)
                         return true
                     }
                     id < suggestedCommands.entries.size -> {
@@ -364,7 +364,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
             menu.add(Menu.NONE, index, Menu.NONE, entry.label).setOnMenuItemClickListener(listener)
         }
 
-        val deviceId = context.getPrefs().getString(PrefKeys.DEV_ID)
+        val deviceId = context.getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
         if (showDeviceId && deviceId.isNotEmpty()) {
             menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_DEVICE_ID, Menu.NONE,
                 getString(R.string.device_identifier_suggested_command_nfc_tag, deviceId)

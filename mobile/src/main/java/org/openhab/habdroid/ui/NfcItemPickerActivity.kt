@@ -20,7 +20,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.wasNfcInfoHintShown
 
 class NfcItemPickerActivity(
@@ -51,7 +51,7 @@ class NfcItemPickerActivity(
     }
 
     override fun addAdditionalCommands(entries: MutableList<CommandEntry>) {
-        val deviceId = getPrefs().getString(PrefKeys.DEV_ID)
+        val deviceId = getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
         if (deviceId.isNotEmpty()) {
             entries.add(CommandEntry(
                 deviceId,
