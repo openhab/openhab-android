@@ -25,18 +25,19 @@ import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import de.duenndns.ssl.MemorizingTrustManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.isDemoModeEnabled
 import java.io.ByteArrayInputStream
 import java.security.cert.Certificate
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.R
-import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isDemoModeEnabled
 
 open class ConnectionWebViewClient(
     private val connection: Connection
@@ -79,7 +80,7 @@ open class ConnectionWebViewClient(
             return
         }
 
-        val alias = prefs.getString(PrefKeys.SSL_CLIENT_CERT, null)
+        val alias = prefs.getStringOrNull(PrefKeys.SSL_CLIENT_CERT)
         Log.d(TAG, "Using alias $alias")
         if (alias == null) {
             request.cancel()

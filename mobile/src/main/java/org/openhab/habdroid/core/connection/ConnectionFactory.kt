@@ -39,7 +39,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.toNormalizedUrl
@@ -193,7 +193,7 @@ class ConnectionFactory internal constructor(
 
     private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
         val clientCertAlias = if (prefs.isDemoModeEnabled()) // No client cert in demo mode
-            null else prefs.getString(PrefKeys.SSL_CLIENT_CERT, null)
+            null else prefs.getStringOrNull(PrefKeys.SSL_CLIENT_CERT)
         val keyManagers = if (clientCertAlias != null)
             arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
 
@@ -294,13 +294,13 @@ class ConnectionFactory internal constructor(
         userNameKey: String,
         passwordKey: String
     ): AbstractConnection? {
-        val url = prefs.getString(urlKey).toNormalizedUrl()
+        val url = prefs.getStringOrNull(urlKey)?.toNormalizedUrl()
         if (url.isNullOrEmpty()) {
             return null
         }
         return DefaultConnection(httpClient, type, url,
-            secretPrefs.getString(userNameKey, null),
-            secretPrefs.getString(passwordKey, null))
+            secretPrefs.getStringOrNull(userNameKey),
+            secretPrefs.getStringOrNull(passwordKey))
     }
 
     private suspend fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {

@@ -36,18 +36,18 @@ enum class ScreenLockMode {
 }
 
 fun SharedPreferences.getLocalUrl(): String {
-    return getString(PrefKeys.LOCAL_URL)
+    return getStringOrEmpty(PrefKeys.LOCAL_URL)
 }
 
 fun SharedPreferences.getRemoteUrl(): String {
-    return getString(PrefKeys.REMOTE_URL)
+    return getStringOrEmpty(PrefKeys.REMOTE_URL)
 }
 
 fun SharedPreferences.getDefaultSitemap(connection: Connection?): String {
     return if (connection is DemoConnection) {
         "demo"
     } else {
-        getString(PrefKeys.SITEMAP_NAME)
+        getStringOrEmpty(PrefKeys.SITEMAP_NAME)
     }
 }
 
@@ -56,7 +56,7 @@ fun SharedPreferences.getIconFormat(): IconFormat {
     if (serverProps and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
         return IconFormat.Svg
     }
-    val formatString = getString(PrefKeys.ICON_FORMAT, "PNG")
+    val formatString = getStringOrFallbackIfEmpty(PrefKeys.ICON_FORMAT, "PNG")
     return if (formatString == "SVG") IconFormat.Svg else IconFormat.Png
 }
 
@@ -69,7 +69,7 @@ fun SharedPreferences.isDebugModeEnabled(): Boolean {
 }
 
 fun SharedPreferences.getNotificationTone(): Uri? {
-    val tone = getString(PrefKeys.NOTIFICATION_TONE, null)
+    val tone = getStringOrNull(PrefKeys.NOTIFICATION_TONE)
     return when {
         tone == null -> Settings.System.DEFAULT_NOTIFICATION_URI
         tone.isEmpty() -> null
@@ -98,7 +98,7 @@ fun SharedPreferences.wasNfcInfoHintShown(): Boolean {
 }
 
 fun SharedPreferences.getDayNightMode(context: Context): Int {
-    return when (getString(PrefKeys.THEME)) {
+    return when (getStringOrNull(PrefKeys.THEME)) {
         context.getString(R.string.theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
         context.getString(R.string.theme_value_dark), context.getString(R.string.theme_value_black) ->
             AppCompatDelegate.MODE_NIGHT_YES
@@ -114,14 +114,27 @@ fun SharedPreferences.areSitemapsShownInDrawer(): Boolean {
     return getBoolean(PrefKeys.SHOW_SITEMAPS_IN_DRAWER, false)
 }
 
-fun SharedPreferences.getString(key: String): String {
+fun SharedPreferences.getBackgroundTaskScheduleInMillis(): Long {
+    val value = getStringOrFallbackIfEmpty(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, "360")
+    // Value is stored in minutes, but we need millis to compare it
+    return value.toInt() * 60 * 1000L
+}
+
+fun SharedPreferences.getStringOrNull(key: String): String? {
+    return getString(key, null)
+}
+
+fun SharedPreferences.getStringOrEmpty(key: String): String {
     return getString(key, "").orEmpty()
 }
 
+fun SharedPreferences.getStringOrFallbackIfEmpty(key: String, fallback: String): String {
+    val value = getStringOrNull(key)
+    return if (value.isNullOrEmpty()) fallback else value
+}
+
 fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
-    val settingValue = getString(PrefKeys.SCREEN_LOCK,
-        context.getString(R.string.settings_screen_lock_off_value))
-    return when (settingValue) {
+    return when (getStringOrNull(PrefKeys.SCREEN_LOCK)) {
         context.getString(R.string.settings_screen_lock_kiosk_value) -> ScreenLockMode.KioskMode
         context.getString(R.string.settings_screen_lock_on_value) -> ScreenLockMode.Enabled
         else -> ScreenLockMode.Disabled
@@ -133,7 +146,7 @@ fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
  * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]
  */
 fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArray {
-    return when (getString(PrefKeys.NOTIFICATION_VIBRATION)) {
+    return when (getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION)) {
         context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
         context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
         context.getString(R.string.settings_notification_vibration_value_twice) -> {

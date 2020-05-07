@@ -46,7 +46,8 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrEmpty
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
@@ -235,11 +236,11 @@ open class ItemUpdateWidget : AppWidgetProvider() {
 
         fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData {
             val prefs = getPrefsForWidget(context, id)
-            val item = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
-            val state = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
-            val label = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
-            val widgetLabel = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, null)
-            val mappedState = prefs.getString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
+            val item = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
+            val state = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
+            val label = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
+            val widgetLabel = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
+            val mappedState = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
             return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon)
         }

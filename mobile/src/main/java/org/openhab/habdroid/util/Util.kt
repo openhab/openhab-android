@@ -33,7 +33,7 @@ object Util {
     @StyleRes
     fun getActivityThemeId(context: Context): Int {
         val prefs = context.getPrefs()
-        val isBlackTheme = prefs.getString(PrefKeys.THEME) == context.getString(R.string.theme_value_black)
+        val isBlackTheme = prefs.getStringOrNull(PrefKeys.THEME) == context.getString(R.string.theme_value_black)
         return when (prefs.getInt(PrefKeys.ACCENT_COLOR, 0)) {
             ContextCompat.getColor(context, R.color.indigo_500) ->
                 if (isBlackTheme) R.style.openHAB_Black_basicui else R.style.openHAB_DayNight_basicui

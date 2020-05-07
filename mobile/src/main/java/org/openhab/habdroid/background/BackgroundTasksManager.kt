@@ -45,8 +45,10 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrEmpty
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import java.util.HashMap
@@ -265,7 +267,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val workManager = WorkManager.getInstance(context)
             val prefs = context.getPrefs()
             val periodicWorkIsNeeded = KNOWN_PERIODIC_KEYS
-                .map { key -> prefs.getString(key, null).toItemUpdatePrefValue() }
+                .map { key -> prefs.getStringOrNull(key).toItemUpdatePrefValue() }
                 .any { value -> value.first }
 
             if (!periodicWorkIsNeeded) {
@@ -295,9 +297,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            // Value is stored in minutes, but we need millis to compare it
             val repeatInterval = max(
-                prefs.getString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE).toInt() * 60 * 1000L,
+                prefs.getBackgroundTaskScheduleInMillis(),
                 PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
             )
             val flexInterval = max(
@@ -343,7 +344,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val setting = if (prefs.isDemoModeEnabled()) {
                 Pair(false, "") // Don't attempt any uploads in demo mode
             } else {
-                prefs.getString(key, null).toItemUpdatePrefValue()
+                prefs.getStringOrNull(key).toItemUpdatePrefValue()
             }
 
             if (key in KNOWN_PERIODIC_KEYS) {
@@ -359,7 +360,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             val value = VALUE_GETTER_MAP[key]?.invoke(context) ?: return
-            val prefix = prefs.getString(PrefKeys.SEND_DEVICE_INFO_PREFIX)
+            val prefix = prefs.getStringOrEmpty(PrefKeys.SEND_DEVICE_INFO_PREFIX)
 
             enqueueItemUpload(
                 context,
