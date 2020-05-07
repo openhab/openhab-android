@@ -189,6 +189,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
                 }
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
+                key == PrefKeys.SEND_DEVICE_INFO_SCHEDULE -> schedulePeriodicTrigger(context, true)
+                key == PrefKeys.FOSS_NOTIFICATIONS_ENABLED -> schedulePeriodicTrigger(context, false)
             }
         }
     }
@@ -328,9 +330,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 return
             }
 
-            Log.d(TAG, "Scheduling periodic workers. Currently running:" +
-                " notCharging $isNotChargingWorkerRunning, charging $isChargingWorkerRunning")
-
             val notChargingConstraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
@@ -343,6 +342,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 (repeatInterval * 0.75).toLong(),
                 PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
             )
+
+            Log.d(TAG, "Scheduling periodic workers with $repeatInterval repeat interval. Currently running:" +
+                " notCharging $isNotChargingWorkerRunning, charging $isChargingWorkerRunning")
 
             val notChargingWorkRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
                 repeatInterval, TimeUnit.MILLISECONDS,

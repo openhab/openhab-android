@@ -37,7 +37,7 @@ import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 
 class NotificationPollingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs) {
     private var value: Boolean? = null
@@ -113,7 +113,7 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
             spinnerValues = requireContext().resources.getStringArray(R.array.send_device_info_schedule_values)
             prefs = requireContext().getPrefs()
 
-            val spinnerValue = prefs.getString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE)
+            val spinnerValue = prefs.getStringOrFallbackIfEmpty(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, "360")
             spinner.setSelection(spinnerValues.indexOf(spinnerValue), false)
 
             onCheckedChanged(switch, switch.isChecked)
@@ -125,8 +125,6 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
             if (positiveResult) {
                 val pref = preference as NotificationPollingPreference
                 pref.setValue(switch.isChecked)
-                BackgroundTasksManager.schedulePeriodicTrigger(requireContext())
-
                 prefs.edit {
                     putString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, spinnerValues[spinner.selectedItemPosition])
                 }

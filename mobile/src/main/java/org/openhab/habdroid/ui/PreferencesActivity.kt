@@ -705,13 +705,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             } else {
                 prefixHint.context.getString(R.string.send_device_info_item_prefix_summary, prefix)
             }
-
-            schedulePref.setOnPreferenceChangeListener { preference, _ ->
-                parentActivity.launch(Dispatchers.Main) {
-                    BackgroundTasksManager.schedulePeriodicTrigger(preference.context, true)
-                }
-                true
-            }
         }
 
         private fun requestPermissionIfRequired(

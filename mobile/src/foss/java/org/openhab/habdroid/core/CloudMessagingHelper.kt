@@ -25,7 +25,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.getStringOrEmpty
 
 object CloudMessagingHelper {
     private val TAG = CloudMessagingHelper::class.java.simpleName
@@ -57,7 +57,7 @@ object CloudMessagingHelper {
                 context.getString(R.string.push_notification_status_disabled),
                 R.drawable.ic_bell_off_outline_grey_24dp
             )
-            context.getPrefs().getString(PrefKeys.REMOTE_URL).isEmpty() -> PushNotificationStatus(
+            context.getPrefs().getStringOrEmpty(PrefKeys.REMOTE_URL).isEmpty() -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_no_remote_configured),
                 R.drawable.ic_bell_off_outline_grey_24dp
             )
