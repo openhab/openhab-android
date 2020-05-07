@@ -23,6 +23,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.service.notification.StatusBarNotification
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import org.openhab.habdroid.R
@@ -129,7 +130,7 @@ class NotificationHelper constructor(private val context: Context) {
                         .asBitmap(context.resources.getDimensionPixelSize(R.dimen.svg_image_default_size), false)
                         .response
                 } catch (e: HttpClient.HttpException) {
-                    // ignored, keep bitmap null
+                    Log.d(TAG, "Error getting icon", e)
                 }
             }
         }
@@ -151,6 +152,7 @@ class NotificationHelper constructor(private val context: Context) {
             .setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
             .setSound(context.getPrefs().getNotificationTone())
             .setContentText(message.message)
+            .setSubText(message.severity)
             .setContentIntent(contentIntent)
             .setDeleteIntent(deleteIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
@@ -223,6 +225,7 @@ class NotificationHelper constructor(private val context: Context) {
     }
 
     companion object {
+        private val TAG = NotificationHelper::class.java.simpleName
         private fun getChannelId(severity: String?) = if (severity.isNullOrEmpty())
             NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT else "severity-$severity"
 
