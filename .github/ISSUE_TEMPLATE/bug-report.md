@@ -29,7 +29,7 @@ Describe us what should happen
 #### Client
 * Android version: 
 * Device model: 
-* App version <!-- Can be found under "About". The build date is not needed -->: 
+* App version <!-- Can be found under "About" -->: 
 * Build flavor <!-- Play Store and GitHub = "Full", F-Droid = "Foss". If self-built and you haven't changed the flavor, it's Foss -->: 
 * Device language: 
 
