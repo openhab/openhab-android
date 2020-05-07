@@ -633,6 +633,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                wifiSsidPref.setSummaryOn(getString(R.string.settings_wifi_ssid_summary_on_location_on))
+            }
             wifiSsidPref.setOnPreferenceChangeListener { preference, newValue ->
                 val requiredPermission = when {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.ACCESS_FINE_LOCATION

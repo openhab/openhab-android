@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.background
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
@@ -20,8 +21,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.location.LocationManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
+import android.os.Build
 import android.os.Parcelable
 import android.telephony.TelephonyManager
 import android.util.Log
@@ -49,6 +52,7 @@ import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.hasPermission
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import java.util.HashMap
@@ -461,12 +465,22 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context ->
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val locationManager =
+                    context.applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val ssidToSend = wifiManager.connectionInfo.let { info ->
-                    if (info.networkId == -1) {
-                        "UNDEF"
-                    } else {
-                        // WifiInfo#getSSID() may surround the SSID with double quote marks
-                        info.ssid.removeSurrounding("\"")
+                    when {
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !locationManager.isLocationEnabled -> {
+                            "LOCATION_OFF"
+                        }
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                            !context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) -> "NO_PERMISSION"
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                            !context.hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION) -> "NO_PERMISSION"
+                        info.networkId == -1 -> "UNDEF"
+                        else -> {
+                            // WifiInfo#getSSID() may surround the SSID with double quote marks
+                            info.ssid.removeSurrounding("\"")
+                        }
                     }
                 }
                 ItemUpdateWorker.ValueWithInfo(ssidToSend)
