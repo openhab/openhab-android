@@ -173,6 +173,7 @@
     <string name="send_device_info_to_server_short">Geräteinformationen senden</string>
     <string name="send_device_info_category_event_based_title">Ereignisbasiert</string>
     <string name="send_device_info_category_event_based_explanation">Diese Items werden bei entsprechenden Ereignissen aktualisiert, z.B. bei einem eingehenden Anruf</string>
+    <string name="send_device_info_category_schedule_based_title">Basierend auf einem Zeitplan</string>
     <string name="send_device_info_category_schedule_based_explanation">Diese Items werden regelmäßig aktualisiert\nHinweis: Niedrigere Werte beeinträchtigen die Batterielebensdauer mehr als höher und Ihr Gerät kann entscheiden, Updates zu verzögern.</string>
     <string name="send_device_info_category_general">Allgemein</string>
     <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
