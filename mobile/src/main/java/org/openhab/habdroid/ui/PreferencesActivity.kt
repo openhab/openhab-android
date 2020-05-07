@@ -247,7 +247,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             val localConnPref = getPreference(PrefKeys.SUBSCREEN_LOCAL_CONNECTION)
             val remoteConnPref = getPreference(PrefKeys.SUBSCREEN_REMOTE_CONNECTION)
             val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
-            notificationPollingPref = getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
+            notificationPollingPref =
+                getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)

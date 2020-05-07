@@ -48,9 +48,9 @@ object CloudMessagingHelper {
         }
     }
 
-    fun needsPollingForNotifications() = false
+    fun needsPollingForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) = false
 
-    suspend fun pollForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) {
+    fun pollForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) {
         // Used in foss flavor
     }
 

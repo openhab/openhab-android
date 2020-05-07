@@ -36,7 +36,8 @@ object CloudMessagingHelper {
     @Suppress("UNUSED_PARAMETER")
     fun onNotificationSelected(context: Context, intent: Intent) {}
 
-    fun needsPollingForNotifications(context: Context) = context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false)
+    fun needsPollingForNotifications(context: Context) =
+        context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false)
 
     suspend fun pollForNotifications(context: Context) {
         NotificationPoller.checkForNewNotifications(context)
