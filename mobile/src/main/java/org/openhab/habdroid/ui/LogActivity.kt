@@ -30,9 +30,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
+import org.openhab.habdroid.util.showToast
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -64,7 +66,12 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, logTextView.text)
             }
-            startActivity(sendIntent)
+            try {
+                startActivity(sendIntent)
+            } catch (e: RuntimeException) {
+                Log.d(TAG, "Log too large to share", e)
+                showToast(R.string.log_too_large_to_share, ToastType.ERROR)
+            }
         }
 
         setUiState(true)
