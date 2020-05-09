@@ -172,6 +172,7 @@
     <string name="send_device_info_to_server">שלח מידע על ההתקן לשרת</string>
     <string name="send_device_info_to_server_short">שלח מידע אודות המכשיר</string>
     <string name="send_device_info_category_event_based_title">מבוסס אירוע</string>
+    <string name="send_device_info_category_event_based_explanation">עידכון פריטים אלו מבוסס על אירועים מתאימים, לדוגמה שיחה נכנסת</string>
     <string name="send_device_info_category_schedule_based_title">מבוסס תיזמון</string>
     <string name="send_device_info_category_schedule_based_explanation">עידכון פריטים אלו מבוסס על תיזמון קבוע\nלתשומת לבך: ערכים נמוכים יפגעו בזמן הסוללה לעומת ערכים גבוהים ולכן יכול להיות מצב בו המכשיר יחליט לדחות את העידכונים.</string>
     <string name="send_device_info_category_general">כללי</string>
