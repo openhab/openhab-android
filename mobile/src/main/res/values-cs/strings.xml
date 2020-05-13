@@ -152,6 +152,7 @@
     <string name="error_no_browser_found">Na Vašem zařízení nebyl nalezen žádný prohlížeč</string>
     <string name="error_no_speech_to_text_app_found">Aplikace k převodu řeči na text nenalezena</string>
     <string name="error_sse_failed">Nastal problém s aktualizacemi widgetu</string>
+    <string name="error_video_player">%s nelze načíst</string>
     <string name="install">Nainstalovat</string>
     <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
     <string name="title_activity_libraries">Použité knihovny</string>
@@ -169,18 +170,32 @@
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Odeslat informace o zařízení na server</string>
+    <string name="send_device_info_to_server_short">Odeslat informace o zařízení</string>
+    <string name="send_device_info_category_event_based_title">Na základě události</string>
+    <string name="send_device_info_category_event_based_explanation">Tyto položky jsou aktualizovány na základě odpovídajících událostí, např. příchozí telefonní hovor</string>
+    <string name="send_device_info_category_schedule_based_title">Naplánované</string>
+    <string name="send_device_info_category_schedule_based_explanation">Tyto položky jsou aktualizovány podle pravidelného rozvrhu\nPoznámka: Nižší hodnoty (častější aktualizace) zvyšují spotřebu baterie více než vyšší a vaše zařízení může rozhodnout o zpoždění aktualizací.</string>
+    <string name="send_device_info_category_general">Obecné</string>
     <string name="send_device_info_item_prefix">Prefix názvu Item</string>
     <string name="send_device_info_item_prefix_summary">Jména Item následujících funkcí jsou s předponou \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Pro jména Item s následujícími funkcemi není nastavena žádná předpona</string>
     <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
+    <string name="settings_alarm_clock">Budík</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku</string>
+    <string name="settings_phone_state">Stav hovoru</string>
     <string name="settings_phone_state_summary_on">Poslat stav hovoru telefonu do item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Neodesílat stav hovoru</string>
     <string name="settings_phone_state_permission_denied">Odeslání stavu hovoru telefonu bylo deaktivováno kvůli chybějícím oprávněním</string>
+    <string name="settings_battery_level">Stav baterie</string>
     <string name="settings_battery_level_summary_on">Odešle úroveň baterie do Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Neposílat úroveň nabití baterie</string>
     <string name="settings_charging_state">Stav nabíjení</string>
     <string name="settings_charging_state_summary_on">Odešle stav nabíjení do Item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Neodesílat stav nabíjení</string>
     <string name="settings_wifi_ssid">Název Wi-Fi</string>
     <string name="settings_wifi_ssid_summary_on">Odešle název Wi-Fi (SSID) do Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">Neodesílat název sítě Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Odesílání názvu Wi-Fi bylo zakázáno kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_denied">Některé úlohy na pozadí byly zakázány kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_allow">Povolit</string>
@@ -210,6 +225,13 @@
     <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
     <string name="retry">Opakovat</string>
     <string name="ignore">Ignorovat</string>
+    <string name="send_device_info_schedule">Rozvrh</string>
+    <string name="send_device_info_schedule_summary">Každých 15 minut při nabíjení, jinak v intervalu %s</string>
+    <string name="send_device_info_schedule_15_minutes">15 minut</string>
+    <string name="send_device_info_schedule_1_hour">1 hodina</string>
+    <string name="send_device_info_schedule_3_hours">3 hodiny</string>
+    <string name="send_device_info_schedule_6_hours">6 hodin</string>
+    <string name="send_device_info_schedule_12_hours">12 hodin</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
@@ -231,6 +253,7 @@
     <string name="theme_name_dark">Tmavý</string>
     <string name="theme_name_system">Podle systému</string>
     <string name="theme_name_battery_saver">Při šetření baterie tmavý režim</string>
+    <string name="theme_name_black">Černé</string>
     <!-- Chart -->
     <string name="chart_activity_title">Graf</string>
     <string name="chart_activity_hide_legend">Skrýt legendu</string>
@@ -400,6 +423,9 @@
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Spořič dat</string>
+    <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
+    <string name="data_saver_off">Nastavení spořiče dat pro celý systém je použito při načítání datových prvků Sitemap</string>
+    <string name="data_saver_off_pre_n">Všechny prvky Sitemap jsou načteny, bez ohledu na množství dat</string>
     <string name="data_saver_load">I přesto načíst</string>
     <string name="data_saver_hint">%s nebyl načten pro snížení spotřeby dat</string>
     <string name="widget_type_image">Obrázek</string>
