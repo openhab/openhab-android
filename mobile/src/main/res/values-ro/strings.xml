@@ -131,8 +131,6 @@
     <string name="send_device_info_to_server">Trimiteți informațiile dispozitivului pe server</string>
     <string name="send_device_info_item_prefix">Prefix nume Item</string>
     <string name="settings_item_update_pref_howto_summary">Atingeți aici pentru a obține indicații despre cum puteți configura această caracteristică pe server</string>
-    <string name="settings_alarm_clock_summary_on">Trimite timpul ceasului de alarmă la item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_on">Trimiteți starea de apel la item \'%1$s\'</string>
     <string name="settings_phone_state_permission_denied">Trimiterea stării de apel a fost dezactivată din cauza permisiunilor care lipsesc</string>
     <string name="settings_item_pref_item_name">Nume Item</string>
     <string name="waiting_for_item_upload">Se așteaptă ca rețeaua să actualizeze starea unui Item</string>
