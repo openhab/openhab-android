@@ -381,6 +381,7 @@
     <string name="log_activity_action_reload">Reload</string>
     <string name="log_activity_content_description_share">Share log</string>
     <string name="empty_log">Log is empty</string>
+    <string name="log_too_large_to_share">The log is too large to share. Please clear the log, reproduce the bug and share the log then.</string>
 
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Pin to home</string>
