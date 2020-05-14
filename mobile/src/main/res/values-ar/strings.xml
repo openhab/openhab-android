@@ -124,9 +124,7 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">إرسال معلومات الجهاز إلى الخادم</string>
     <string name="send_device_info_item_prefix">بادئة اسم العنصر</string>
-    <string name="settings_battery_level_summary_on">يرسل مستوى شحن البطارية إلى العنصر \'%1$s\'</string>
     <string name="settings_wifi_ssid">اسم الشبكة اللاسلكية</string>
-    <string name="settings_wifi_ssid_summary_on">إرسال اسم الشبكة اللاسلكية إلى العنصر \'%1$s\'</string>
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
     <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
     <string name="settings_background_tasks_permission_allow">السماح</string>
