@@ -173,12 +173,8 @@
     <string name="send_device_info_item_prefix_summary">Les noms des Items des fonctionnalités suivantes ont le préfixe \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Aucun préfixe défini pour les noms d\'Item des fonctionnalités suivantes</string>
     <string name="settings_item_update_pref_howto_summary">Cliquez ici pour obtenir des conseils sur la façon de configurer cette fonctionnalité côté serveur</string>
-    <string name="settings_alarm_clock_summary_on">Envoie des heures du réveil à l\'Item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_on">Envoie l\'état du téléphone à l\'Item \'%1$s\'</string>
     <string name="settings_phone_state_permission_denied">L\'envoi de l\'état du téléphone a été désactivé en raison de permissions manquantes</string>
-    <string name="settings_battery_level_summary_on">Envoie le niveau de la batterie à l\'item \'%1$s\'</string>
     <string name="settings_wifi_ssid">Nom du réseau Wifi</string>
-    <string name="settings_wifi_ssid_summary_on">Envoie le nom du Wi-Fi (SSID) à l\'élément \'%1$s\'</string>
     <string name="settings_wifi_ssid_permission_denied">L\'envoi du nom du Wi-Fi a été désactivé en raison de permissions manquantes</string>
     <string name="settings_background_tasks_permission_denied">Certaines tâches en arrière-plan ont été désactivées en raison de permissions manquantes</string>
     <string name="settings_background_tasks_permission_allow">Autoriser</string>
