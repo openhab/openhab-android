@@ -196,31 +196,31 @@
     <string name="send_device_info_category_event_based_title">Event based</string>
     <string name="send_device_info_category_event_based_explanation">These Items are updated on corresponding events, e.g. an incoming phone call</string>
     <string name="send_device_info_category_schedule_based_title">Schedule based</string>
-    <string name="send_device_info_category_schedule_based_explanation">These Items are updated on a regular schedule\nNote: Lower values impair battery life more than higher ones and your device may decide to delay updates.</string>
+    <string name="send_device_info_category_schedule_based_explanation">The shorter the chosen interval is, the larger is the potential impact on the battery life of your device. Additionally, your device might not follow the chosen interval exactly, but delay the updates to reduce power consumption across apps.</string>
     <string name="send_device_info_category_general">General</string>
     <string name="send_device_info_item_prefix">Item name prefix</string>
     <string name="send_device_info_item_prefix_summary">The Item names of the following features are prefixed with \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">No prefix is set for the Item names of the following features</string>
     <string name="settings_item_update_pref_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
-    <string name="settings_alarm_clock">Alarm clock</string>
-    <string name="settings_alarm_clock_summary_on">Sends alarm clock time to item \'%1$s\'</string>
-    <string name="settings_alarm_clock_summary_off">Don\'t send alarm clock time</string>
+    <string name="settings_alarm_clock">Alarm time</string>
+    <string name="settings_alarm_clock_summary_on">Sends alarm time to Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Don\'t send alarm time</string>
     <string name="settings_alarm_clock_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#alarm-clock</string>
     <string name="settings_phone_state">Call state</string>
-    <string name="settings_phone_state_summary_on">Sends call state to item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_on">Sends call state to Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Don\'t send call state</string>
     <string name="settings_phone_state_permission_denied">Sending call state has been disabled due to missing permissions</string>
     <string name="settings_phone_state_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#call-state</string>
     <string name="settings_battery_level">Battery level</string>
-    <string name="settings_battery_level_summary_on">Sends battery level to item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_on">Sends battery level to Item \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Don\'t send battery level</string>
     <string name="settings_battery_level_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#battery-level</string>
     <string name="settings_charging_state">Charging state</string>
-    <string name="settings_charging_state_summary_on">Sends charging state to item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_on">Sends charging state to Item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Don\'t send charging state</string>
     <string name="settings_charging_state_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#charging-state</string>
     <string name="settings_wifi_ssid">Wi-Fi name</string>
-    <string name="settings_wifi_ssid_summary_on">Sends Wi-Fi name (SSID) to item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on">Sends Wi-Fi name (SSID) to Item \'%1$s\'</string>
     <string name="settings_wifi_ssid_summary_off">Don\'t send Wi-Fi name (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Sending Wi-Fi name has been disabled due to missing permissions</string>
     <string name="settings_wifi_ssid_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#wifi-name</string>
