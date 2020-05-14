@@ -174,19 +174,27 @@
     <string name="send_device_info_category_event_based_title">Basato sull’evento</string>
     <string name="send_device_info_category_event_based_explanation">Questi items sono aggiornati dagli eventi corrispondenti, ad esempio una telefonata in arrivo</string>
     <string name="send_device_info_category_schedule_based_title">Basato sul tempo</string>
+    <string name="send_device_info_category_schedule_based_explanation">Più breve è l\'intervallo scelto, maggiore è l\'impatto potenziale sulla durata della batteria del tuo dispositivo. Inoltre, il tuo dispositivo potrebbe non seguire esattamente l\'intervallo scelto, ma ritardare gli aggiornamenti per ridurre il consumo energetico delle app.</string>
     <string name="send_device_info_category_general">Generale</string>
     <string name="send_device_info_item_prefix">Prefisso nome Item</string>
     <string name="send_device_info_item_prefix_summary">I nomi degli Item delle seguenti feature hanno il prefisso \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nessun prefisso è stato impostato per i nomi degli Item delle seguenti Feature</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
+    <string name="settings_alarm_clock">Ora sveglia</string>
+    <string name="settings_alarm_clock_summary_on">Invia la sveglia all\'item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Non inviare la sveglia</string>
     <string name="settings_phone_state">Stato chiamata</string>
+    <string name="settings_phone_state_summary_on">Invia lo stato della chiamata all\'item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Non inviare lo stato della chiamata</string>
     <string name="settings_phone_state_permission_denied">L\'invio dello stato è disabilitata a causa dei permessi mancanti</string>
     <string name="settings_battery_level">Livello batteria</string>
+    <string name="settings_battery_level_summary_on">Invia il livello della batteria all\'item \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Non inviare il livello della batteria</string>
     <string name="settings_charging_state">Stato di ricarica</string>
+    <string name="settings_charging_state_summary_on">Invia lo stato di ricarica all\'item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Non inviare lo stato della carica</string>
     <string name="settings_wifi_ssid">Nome Wi-Fi</string>
+    <string name="settings_wifi_ssid_summary_on">Invia il nome Wi-Fi (SSID) all\'item \'%1$s\'</string>
     <string name="settings_wifi_ssid_summary_off">Non inviare il nome Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">L\'invio del nome del Wi-Fi è stato disabilitato a causa di permessi mancanti</string>
     <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
@@ -328,6 +336,7 @@
     <string name="log_activity_action_reload">Aggiorna</string>
     <string name="log_activity_content_description_share">Condividi Log</string>
     <string name="empty_log">Log è vuoto</string>
+    <string name="log_too_large_to_share">Il log è troppo grande per essere condiviso. Per favore pulisci il log, riproduci il bug e poi condividi il log.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Fissa nella home</string>
     <string name="home_shortcut_error_pinning">Errore fissando nella home</string>
