@@ -140,8 +140,6 @@
     <string name="send_device_info_item_prefix_summary">Имена Item следующих функций имеют этот префикс \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Префикс не установлен для имен Item для следующих функций</string>
     <string name="settings_item_update_pref_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
-    <string name="settings_alarm_clock_summary_on">Посылать время будильника Item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_on">Отправляет состояние звонка в item \'%1$s\'</string>
     <string name="settings_phone_state_permission_denied">Отправка состояния звонка отключено из-за нехватки прав</string>
     <string name="settings_charging_state">Состояние зарядки</string>
     <string name="settings_item_pref_item_name">Имя Item</string>
