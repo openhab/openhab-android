@@ -1,0 +1,9 @@
+## Added
+* Send DND mode to server (#1991)
+
+## Fixed
+* Ask for permission when enabling 'Send wifi name' (#1995)
+* Avoid flashing progress indicator in action bar (#2003)
+* Fix crash when log is too large to share (#1998)
+* Video widget: Data saver improvements (#1994)
+* Improve device info strings (#1990)
