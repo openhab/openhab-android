@@ -152,7 +152,6 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">发送设备信息至服务器</string>
     <string name="send_device_info_item_prefix">项目名前缀</string>
-    <string name="settings_alarm_clock_summary_on">发送闹钟至项 \"%1$s\"</string>
     <string name="settings_item_pref_item_name">项目名</string>
     <string name="waiting_for_item_upload">等待网络以发送项目更新</string>
     <string name="item_upload_in_progress">项目正被更新</string>
