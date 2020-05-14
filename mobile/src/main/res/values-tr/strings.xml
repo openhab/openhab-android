@@ -144,8 +144,6 @@
     <string name="send_device_info_item_prefix_summary">Aşağıdaki özelliklerin Öğe adları \'% s\' ile eklenmiştir</string>
     <string name="send_device_info_item_prefix_summary_not_set">Aşağıdaki özelliklerin Item adları için önek ayarlanmadı</string>
     <string name="settings_item_update_pref_howto_summary">Bu özelliğin sunucu tarafında nasıl ayarlanacağına ilişkin ipuçları almak için buraya dokunun</string>
-    <string name="settings_alarm_clock_summary_on">Çalar saat zamanını \'%1$s \' öğesine gönderir</string>
-    <string name="settings_phone_state_summary_on">Arama durumunu \'%1$s\' öğesine gönderir</string>
     <string name="settings_phone_state_permission_denied">Eksik izinler nedeniyle çağrı durumu gönderme devre dışı bırakıldı</string>
     <string name="settings_item_pref_item_name">Item adı</string>
     <string name="waiting_for_item_upload">Item güncellemeleri için ağ bekleniyor</string>
