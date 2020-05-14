@@ -195,8 +195,12 @@
     <string name="settings_charging_state_summary_off">Non inviare lo stato della carica</string>
     <string name="settings_wifi_ssid">Nome Wi-Fi</string>
     <string name="settings_wifi_ssid_summary_on">Invia il nome Wi-Fi (SSID) all\'item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Invia il nome Wi-Fi (SSID) all\'item \'%1$s\'. \"Localizzazione\" deve essere attivato, altrimenti openHAB non è autorizzato ad ottenere il nome Wi-Fi.</string>
     <string name="settings_wifi_ssid_summary_off">Non inviare il nome Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">L\'invio del nome del Wi-Fi è stato disabilitato a causa di permessi mancanti</string>
+    <string name="settings_dnd_mode">Modo DND</string>
+    <string name="settings_dnd_mode_summary_on">Invia modo DND all\'item \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Non inviare modo DND</string>
     <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
     <string name="settings_background_tasks_permission_allow">Consenti</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
