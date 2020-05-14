@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         style="?attr/indeterminateProgressStyle"
         android:padding="8dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <org.openhab.habdroid.ui.widget.AutoHeightVideoView
         android:id="@+id/widget_content"

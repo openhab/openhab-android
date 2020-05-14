@@ -984,6 +984,8 @@ class WidgetAdapter(
                     })
                 }
             }
+
+            start()
         }
 
         override fun start() {

@@ -98,7 +98,6 @@ object MapViewHelper {
         }
 
         override fun start() {
-            super.start()
             if (!started) {
                 mapView.onResume()
                 started = true
@@ -106,7 +105,6 @@ object MapViewHelper {
         }
 
         override fun stop() {
-            super.stop()
             if (started) {
                 mapView.onPause()
                 started = false
