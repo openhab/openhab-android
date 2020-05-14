@@ -174,14 +174,9 @@
     <string name="send_device_info_item_prefix_summary">Назви обʼєктів наступних функцій мають префікс „%s“</string>
     <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс назв об’єктів наступних функцій</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
-    <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>
-    <string name="settings_phone_state_summary_on">Відправляє стан дзвінка в об’єкт \'%1$s\'</string>
     <string name="settings_phone_state_permission_denied">Відправка стану дзвінка відключена через брак дозволів</string>
-    <string name="settings_battery_level_summary_on">Надіслати рівень заряду елемента в \'%1$s\'</string>
     <string name="settings_charging_state">Стан зарядки</string>
-    <string name="settings_charging_state_summary_on">Відправити стан зарядки в об’єкт \'%1$s\'</string>
     <string name="settings_wifi_ssid">Ім’я Wi-Fi</string>
-    <string name="settings_wifi_ssid_summary_on">Відправляє назву Wi-Fi (SSID) елементу \'%1$s\'</string>
     <string name="settings_wifi_ssid_permission_denied">Відправка назви Wi-Fi відключена через брак дозволів</string>
     <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
