@@ -41,7 +41,7 @@ import org.openhab.habdroid.util.getStringOrEmpty
 
 class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs) {
     private val howtoUrl: String?
-    private val summaryOn: String?
+    private var summaryOn: String?
     private val summaryOff: String?
     private val iconOn: Drawable?
     private val iconOff: Drawable?
@@ -106,6 +106,11 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         if (icon != null) {
             setIcon(icon)
         }
+    }
+
+    fun setSummaryOn(summary: String) {
+        summaryOn = summary
+        updateSummaryAndIcon()
     }
 
     class PrefDialogFragment : PreferenceDialogFragmentCompat(), CompoundButton.OnCheckedChangeListener, TextWatcher {

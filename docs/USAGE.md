@@ -212,6 +212,10 @@ when
 then
     if (WifiName.state == "UNDEF") {
         // Device isn't connected to Wi-Fi
+    } else if (WifiName.state == "LOCATION_OFF") {
+        // On Android 8 and higher "Location" must be turned on, otherwise apps don't have access to the Wi-Fi SSID
+    } else if (WifiName.state == "NO_PERMISSION") {
+        // The location permission has been revoked by the user
     } else {
         logInfo("WIFI", "Device is connected to Wi-Fi " + WifiName.state)
     }

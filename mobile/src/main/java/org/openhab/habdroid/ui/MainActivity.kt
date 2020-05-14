@@ -996,6 +996,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val tasksWithPermissions = mutableMapOf(PrefKeys.SEND_PHONE_STATE to Manifest.permission.READ_PHONE_STATE)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             tasksWithPermissions[PrefKeys.SEND_WIFI_SSID] = Manifest.permission.ACCESS_FINE_LOCATION
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tasksWithPermissions[PrefKeys.SEND_WIFI_SSID] = Manifest.permission.ACCESS_COARSE_LOCATION
         }
 
         val missingPermissions = tasksWithPermissions

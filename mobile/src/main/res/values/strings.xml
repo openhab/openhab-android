@@ -221,6 +221,7 @@
     <string name="settings_charging_state_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#charging-state</string>
     <string name="settings_wifi_ssid">Wi-Fi name</string>
     <string name="settings_wifi_ssid_summary_on">Sends Wi-Fi name (SSID) to Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Sends Wi-Fi name (SSID) to Item \'%1$s\'. \"Location\" must be turned on, otherwise openHAB isn\'t allowed to get the Wi-Fi name.</string>
     <string name="settings_wifi_ssid_summary_off">Don\'t send Wi-Fi name (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Sending Wi-Fi name has been disabled due to missing permissions</string>
     <string name="settings_wifi_ssid_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#wifi-name</string>
