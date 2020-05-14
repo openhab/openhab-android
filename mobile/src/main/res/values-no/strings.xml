@@ -136,8 +136,6 @@
     <string name="send_device_info_item_prefix_summary">Elementnavn med følgende funksjoner har dette prefikset \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Ingen prefix er satt for elementer med følgende funksjoner</string>
     <string name="settings_item_update_pref_howto_summary">Tapp her for å få tips om hvordan du setter opp denne funksjonen på serversiden</string>
-    <string name="settings_alarm_clock_summary_on">Sender Alarmklokke-tider til elementet \'%1$s \'</string>
-    <string name="settings_phone_state_summary_on">Sender ringestatus til enhet\'%1$s\'</string>
     <string name="settings_phone_state_permission_denied">Sending av ringestatus er avslått grunnet manglende rettigheter</string>
     <string name="settings_item_pref_item_name">Elementnavn</string>
     <string name="waiting_for_item_upload">Venter på at nettverket skal sende element-oppdateringer</string>
