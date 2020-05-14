@@ -111,7 +111,6 @@
     <string name="info_not_set">Tidak diatur</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Kirim informasi perangkat ke server</string>
-    <string name="settings_alarm_clock_summary_on">Kirim waktu jam alarm ke item \'%1$s\'</string>
     <string name="settings_item_pref_item_name">Nama item</string>
     <string name="waiting_for_item_upload">Menunggu jaringan mengirimkan pemutakhiran Item</string>
     <string name="item_upload_in_progress">Saat ini Item sedang dimutakhirkan</string>
