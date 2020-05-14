@@ -44,7 +44,6 @@ import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.openInBrowser
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -139,9 +138,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             }
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.version)
-                .subText(context.getString(R.string.about_version_string,
-                    BuildConfig.VERSION_NAME,
-                    DateFormat.getDateTimeInstance().format(BuildConfig.buildTime)))
+                .subText(BuildConfig.VERSION_NAME)
                 .icon(R.drawable.ic_update_grey_24dp)
                 .build())
             appCard.addItem(MaterialAboutActionItem.Builder()

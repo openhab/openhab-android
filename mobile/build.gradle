@@ -50,17 +50,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        def IS_DEVELOPER = "IS_DEVELOPER"
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            buildConfigField "boolean", IS_DEVELOPER, "false"
-            buildConfigField "java.util.Date", "buildTime", "new java.util.Date(" + System.currentTimeMillis() + "L)"
         }
         debug {
             minifyEnabled false
-            buildConfigField "boolean", IS_DEVELOPER, "true"
-            buildConfigField "java.util.Date", "buildTime", "new java.util.Date(" + System.currentTimeMillis() + "L)"
             pseudoLocalesEnabled true
         }
     }
