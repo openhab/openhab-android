@@ -41,7 +41,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.ProgressBar
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -55,7 +54,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
-import androidx.core.view.isInvisible
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
@@ -121,7 +120,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var drawerIconTintList: ColorStateList? = null
     lateinit var viewPool: RecyclerView.RecycledViewPool
         private set
-    private lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ContentLoadingProgressBar
     private var sitemapSelectionDialog: AlertDialog? = null
     private var lastSnackbar: Snackbar? = null
     var connection: Connection? = null
@@ -884,7 +883,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {
-        progressBar.isInvisible = !visible
+        if (visible) {
+            progressBar.show()
+        } else {
+            progressBar.hide()
+        }
     }
 
     private fun launchVoiceRecognition() {

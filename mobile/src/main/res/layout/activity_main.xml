@@ -14,8 +14,9 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <ProgressBar
+        <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/toolbar_progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
