@@ -653,6 +653,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.SEND_DND_MODE)
+            }
+
             updatePrefixSummary(prefixPref, prefs.getStringOrNull(PrefKeys.SEND_DEVICE_INFO_PREFIX))
             prefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val prefix = newValue as String
