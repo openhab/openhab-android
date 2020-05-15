@@ -170,13 +170,26 @@
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
+    <string name="send_device_info_category_schedule_based_title">За розкладом</string>
+    <string name="send_device_info_category_schedule_based_explanation">Чим коротший обраний інтервал, тим більший потенційний вплив на розряджання акумулятора Вашого пристрою. Ваш пристрій може не дотримуватись обраного інтервалу, відтерміновувати оновлення, щоб зменшити енергоспоживання через додатки.</string>
+    <string name="send_device_info_category_general">Загальне</string>
     <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
     <string name="send_device_info_item_prefix_summary">Назви обʼєктів наступних функцій мають префікс „%s“</string>
     <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс назв об’єктів наступних функцій</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
+    <string name="settings_alarm_clock">Час сигналу</string>
+    <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Не надсилати будильник</string>
+    <string name="settings_phone_state">Стан дзвінка</string>
+    <string name="settings_phone_state_summary_on">Відправити стан дзвінка до об\'єкту \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Не надсилати стан дзвінка</string>
     <string name="settings_phone_state_permission_denied">Відправка стану дзвінка відключена через брак дозволів</string>
+    <string name="settings_battery_level">Рівень заряду акумулятора</string>
+    <string name="settings_battery_level_summary_on">Надсилає рівень заряду об\'єкту \'%1$s</string>
     <string name="settings_charging_state">Стан зарядки</string>
+    <string name="settings_charging_state_summary_on">Надсилає стан зарядки об\'єкту \'%1$s</string>
     <string name="settings_wifi_ssid">Ім’я Wi-Fi</string>
+    <string name="settings_wifi_ssid_summary_on">Відправляє ім\'я Wi-Fi (SSID) об\'єкту \'%1$s</string>
     <string name="settings_wifi_ssid_permission_denied">Відправка назви Wi-Fi відключена через брак дозволів</string>
     <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
@@ -312,6 +325,7 @@
     <string name="log_activity_action_reload">Оновити</string>
     <string name="log_activity_content_description_share">Надіслати журнал</string>
     <string name="empty_log">Журнал порожній</string>
+    <string name="log_too_large_to_share">Цей журнал завеликий для відправки. Будь ласка, очистіть журнал, відтворіть помилки, і тоді поділіться ним.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Прикріпити на домашню сторінку</string>
     <string name="home_shortcut_error_pinning">Неможливо прикріпити на домашню сторінку</string>
