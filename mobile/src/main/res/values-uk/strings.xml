@@ -170,6 +170,9 @@
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
+    <string name="send_device_info_to_server_short">Надіслати інформацію про пристрій</string>
+    <string name="send_device_info_category_event_based_title">На основі подій</string>
+    <string name="send_device_info_category_event_based_explanation">Ці об\'єкти оновлюються при відповідних подіях, наприклад, при вхідних телефонних дзвінках</string>
     <string name="send_device_info_category_schedule_based_title">За розкладом</string>
     <string name="send_device_info_category_schedule_based_explanation">Чим коротший обраний інтервал, тим більший потенційний вплив на розряджання акумулятора Вашого пристрою. Ваш пристрій може не дотримуватись обраного інтервалу, відтерміновувати оновлення, щоб зменшити енергоспоживання через додатки.</string>
     <string name="send_device_info_category_general">Загальне</string>
@@ -186,11 +189,18 @@
     <string name="settings_phone_state_permission_denied">Відправка стану дзвінка відключена через брак дозволів</string>
     <string name="settings_battery_level">Рівень заряду акумулятора</string>
     <string name="settings_battery_level_summary_on">Надсилає рівень заряду об\'єкту \'%1$s</string>
+    <string name="settings_battery_level_summary_off">Не надсилати рівень заряду акумулятора</string>
     <string name="settings_charging_state">Стан зарядки</string>
     <string name="settings_charging_state_summary_on">Надсилає стан зарядки об\'єкту \'%1$s</string>
+    <string name="settings_charging_state_summary_off">Не надсилати стан зарядки</string>
     <string name="settings_wifi_ssid">Ім’я Wi-Fi</string>
     <string name="settings_wifi_ssid_summary_on">Відправляє ім\'я Wi-Fi (SSID) об\'єкту \'%1$s</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Відправляє назву Wi-Fi (SSID) до об\'єкта%1$s. \"Місцезнаходження\" має бути увімкнено, інакше openHAB не дозволено отримувати назву Wi-Fi.</string>
+    <string name="settings_wifi_ssid_summary_off">Не надсилати ім\'я Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Відправка назви Wi-Fi відключена через брак дозволів</string>
+    <string name="settings_dnd_mode">Режим Не турбувати</string>
+    <string name="settings_dnd_mode_summary_on">Надсилає режим Не турбувати до об\'єкту \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Не надсилати режим Не турбувати</string>
     <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
@@ -219,6 +229,13 @@
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
     <string name="retry">Повторити</string>
     <string name="ignore">Нехтувати</string>
+    <string name="send_device_info_schedule">Розклад</string>
+    <string name="send_device_info_schedule_summary">Кожні 15 хвилин під час зарядки, інакше кожні %s</string>
+    <string name="send_device_info_schedule_15_minutes">15 хвилин</string>
+    <string name="send_device_info_schedule_1_hour">1 година</string>
+    <string name="send_device_info_schedule_3_hours">за 3 години</string>
+    <string name="send_device_info_schedule_6_hours">6 годин</string>
+    <string name="send_device_info_schedule_12_hours">12 годин</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
     <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
