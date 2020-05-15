@@ -170,13 +170,33 @@
     <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Lähetä laitteen tiedot palvelimelle</string>
+    <string name="send_device_info_to_server_short">Lähetä laitteen tietoja</string>
+    <string name="send_device_info_category_event_based_title">Tapahtumaperustainen</string>
+    <string name="send_device_info_category_event_based_explanation">Nämä Itemit päivitetään perustuen tapahtumiin, esim. saapuva puhelu</string>
+    <string name="send_device_info_category_schedule_based_title">Ajastuspohjainen</string>
+    <string name="send_device_info_category_schedule_based_explanation">Lyhyemmällä aikavälillä on mahdollisesti suurempi vaikutus akun kestoon. Huomaa myös että laitteesi ei välttämättä tarkasti noudata valittua aikaväliä, vaan saattaa pidentää sitä vähentääkseen virran kulutusta.</string>
+    <string name="send_device_info_category_general">Yleiset</string>
     <string name="send_device_info_item_prefix">Itemin nimen etuliite</string>
     <string name="send_device_info_item_prefix_summary">Seuraavien toimintojen Itemien nimillä on etuliite \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Seuraavien toimintojen Itemien nimillä ei ole etuliitettä asetettuna</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
+    <string name="settings_alarm_clock">Hälytysaika</string>
+    <string name="settings_alarm_clock_summary_on">Lähetä hälytyksen aika Itemille \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Älä lähetä hälytyksen aikaa</string>
+    <string name="settings_phone_state">Puhelun tila</string>
+    <string name="settings_phone_state_summary_on">Lähettää puhelun tilan Itemille \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Älä lähetä puhelun tilaa</string>
     <string name="settings_phone_state_permission_denied">Puhelun tilan lähetys on poistettu käytöstä puuttuvien oikeuksien takia</string>
+    <string name="settings_battery_level">Akun taso</string>
+    <string name="settings_battery_level_summary_on">Lähettää akun tason Itemille \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Älä lähetä akun tasoa</string>
     <string name="settings_charging_state">Latauksen tila</string>
+    <string name="settings_charging_state_summary_on">Lähettää latauksen tilan Itemille \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Älä lähetä latauksen tilaa</string>
     <string name="settings_wifi_ssid">Langattoman yhteyden nimi</string>
+    <string name="settings_wifi_ssid_summary_on">Lähettää langattoman yhteyden nimen (SSID) Itemiin \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Lähettää langattoman yhteyden nimen (SSID) Itemiin \'%1$s\'. Paikannus pitää olla aktiivisena, muuten openHAB ei saa langattoman yhteyden nimeä.</string>
+    <string name="settings_wifi_ssid_summary_off">Älä lähetä langattoman yhteyden nimeä (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Langattoman yhteyden nimen lähettäminen on estetty puuttuvien oikeuksien takia</string>
     <string name="settings_dnd_mode">DND moodi</string>
     <string name="settings_dnd_mode_summary_on">Lähettää DND moodin tilan Itemille \'%1$s\'</string>
@@ -207,6 +227,13 @@
     <string name="error_sending_alarm_clock_item_empty">Syötä kelvollinen Itemin nimi</string>
     <string name="retry">Yritä uudelleen</string>
     <string name="ignore">Ohita</string>
+    <string name="send_device_info_schedule">Ajastus</string>
+    <string name="send_device_info_schedule_summary">Latauksen aikana 15 minutin välein, muuten %s välein</string>
+    <string name="send_device_info_schedule_15_minutes">15 minuuttia</string>
+    <string name="send_device_info_schedule_1_hour">1 tunti</string>
+    <string name="send_device_info_schedule_3_hours">3 tuntia</string>
+    <string name="send_device_info_schedule_6_hours">6 tuntia</string>
+    <string name="send_device_info_schedule_12_hours">12 tuntia</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
@@ -313,6 +340,7 @@
     <string name="log_activity_action_reload">Lataa uudelleen</string>
     <string name="log_activity_content_description_share">Jaa loki</string>
     <string name="empty_log">Loki on tyhjä</string>
+    <string name="log_too_large_to_share">Loki on liian suuri jaettavaksi. Ole hyvä ja tyhjennä loki, tuota bugi uudestaan ja jaa loki sen jälkeen.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Kiinnitä kotinäyttöön</string>
     <string name="home_shortcut_error_pinning">Virhe kiinnitettäessä kotinäyttöön</string>
