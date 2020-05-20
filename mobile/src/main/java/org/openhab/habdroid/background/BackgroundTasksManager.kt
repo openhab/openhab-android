@@ -82,8 +82,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 scheduleWorker(context, PrefKeys.SEND_CHARGING_STATE)
             }
             WifiManager.NETWORK_STATE_CHANGED_ACTION -> {
-                Log.d(TAG, "Wifi state has changed")
+                Log.d(TAG, "Wifi state changed")
                 scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
+            }
+            NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED -> {
+                Log.d(TAG, "DND mode changed")
+                scheduleWorker(context, PrefKeys.SEND_DND_MODE)
             }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
@@ -235,6 +239,23 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
             prefsListener = PrefsListener(context.applicationContext)
             context.getPrefs().registerOnSharedPreferenceChangeListener(prefsListener)
+        }
+
+        fun getIntentFilterForForeground(): IntentFilter {
+            return IntentFilter().apply {
+                // These broadcasts are already defined in the manifest, so we only need them on Android 8+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    addAction(Intent.ACTION_POWER_CONNECTED)
+                    addAction(Intent.ACTION_POWER_DISCONNECTED)
+                    addAction(Intent.ACTION_BATTERY_LOW)
+                    addAction(Intent.ACTION_BATTERY_OKAY)
+                    addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+                }
+                // This broadcast is only send to registered receivers, so we need that in any case
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
+                }
+            }
         }
 
         fun enqueueNfcUpdateIfNeeded(context: Context, tag: NfcTag?) {

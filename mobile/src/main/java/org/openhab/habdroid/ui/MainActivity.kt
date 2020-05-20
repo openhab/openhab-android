@@ -135,6 +135,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     var isStarted: Boolean = false
         private set
     private var shortcutManager: ShortcutManager? = null
+    private val backgroundTasksManager = BackgroundTasksManager()
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -281,18 +282,23 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         updateTitle()
         showMissingPermissionsWarningIfNeeded()
+
+        registerReceiver(backgroundTasksManager, BackgroundTasksManager.getIntentFilterForForeground())
     }
 
     override fun onPause() {
         RemoteLog.d(TAG, "onPause()")
         super.onPause()
         retryJob?.cancel(CancellationException("onPause() was called"))
+
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         try {
             nfcAdapter?.disableForegroundDispatch(this)
         } catch (e: IllegalStateException) {
             // See #1776
         }
+
+        unregisterReceiver(backgroundTasksManager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
