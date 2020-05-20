@@ -65,7 +65,7 @@ If you want to use openHAB Android on a wall mounted tablet, go to settings and 
 You have to enable every information you want to send in the settings.
 Every settings has a default item name which is also used for example item definitions and rules below.
 
-If you have more than one device, it's recommended to fill out the prefix settings.
+If you have more than one device, it's recommended to fill out the [device identifier](#device-identifier) on the main settings page.
 This prefixes every item name, e.g. with the Prefix `John` the item `AlarmClock` becomes `JohnAlarmClock`.
 This way you don't have to change every item name.
 
@@ -247,6 +247,14 @@ then
     }
 end
 ```
+
+### Device identifier
+
+The device identifier can be any string and should be unique for all devices accessing your openHAB server.
+You can use it to distinguish between multiple clients:
+* Prefix the voice command with `<Device identifier>|`
+* Prefix the item names of [Send device information to openHAB](#send-device-information-to-openhab)
+* Use it as state on NFC tags
 
 ### Tasker Action Plugin
 
