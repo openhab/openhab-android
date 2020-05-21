@@ -1047,6 +1047,7 @@ class WidgetAdapter(
         private var boundItem: Item? = null
         private val handler = Handler(this)
         private var slider: Slider? = null
+        private var colorPicker: ColorPickerView? = null
         private var lastUpdate: Job? = null
         override val dialogManager = DialogManager()
 
@@ -1083,17 +1084,18 @@ class WidgetAdapter(
 
         override fun onColorSelected(selectedColor: Int) {
             Log.d(TAG, "onColorSelected($selectedColor)")
-            handleChange(selectedColor, 0)
+            handleChange(true, 0)
         }
 
         override fun onColorChanged(selectedColor: Int) {
             Log.d(TAG, "onColorChanged($selectedColor)")
-            handleChange(selectedColor)
+            handleChange(true)
         }
 
+        // Brightness slider
         override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
             if (fromUser) {
-                handleChange()
+                handleChange(false)
             }
         }
 
@@ -1102,15 +1104,14 @@ class WidgetAdapter(
         }
 
         override fun onStopTrackingTouch(slider: Slider) {
-            handleChange(delay = 0)
+            handleChange(false, 0)
         }
 
-        private fun handleChange(newColor: Int = 0, delay: Long = 100) {
-            Log.d(TAG, "handleChange($newColor, $delay)")
+        private fun handleChange(colorChanged: Boolean, delay: Long = 100) {
+            val newColor = colorPicker?.selectedColor ?: return
             var brightness = slider?.value?.toInt() ?: 0
-
-            // If the color is changed and the brightness 0
-            if (newColor != 0 && brightness == 0) {
+            Log.d(TAG, "handleChange(newColor = $newColor, brightness = $brightness, delay = $delay)")
+            if (colorChanged && brightness == 0) {
                 brightness = 100
                 slider?.value = 100F
             }
@@ -1120,11 +1121,6 @@ class WidgetAdapter(
 
         override fun handleMessage(msg: Message): Boolean {
             val hsv = FloatArray(3)
-            if (msg.arg1 == 0) {
-                connection.httpClient.sendItemCommand(boundItem, msg.arg2.toString())
-                return true
-            }
-
             Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
             hsv[2] = msg.arg2.toFloat()
             Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
@@ -1136,7 +1132,7 @@ class WidgetAdapter(
 
         private fun showColorPickerDialog() {
             val contentView = inflater.inflate(R.layout.color_picker_dialog, null)
-            contentView.findViewById<ColorPickerView>(R.id.picker).apply {
+            colorPicker = contentView.findViewById<ColorPickerView>(R.id.picker).apply {
                 boundItem?.state?.asHsv?.toColor(false)?.let { setColor(it, true) }
 
                 addOnColorChangedListener(this@ColorViewHolder)
