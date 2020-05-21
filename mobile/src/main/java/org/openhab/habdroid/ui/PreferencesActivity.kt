@@ -689,14 +689,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
-        private fun updatePrefixSummary(pref: Preference, newValue: String?) {
-            pref.summary = if (newValue.isNullOrEmpty()) {
-                pref.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
-            } else {
-                pref.context.getString(R.string.send_device_info_item_prefix_summary, newValue)
-            }
-        }
-
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
             when (requestCode) {
                 PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
