@@ -87,6 +87,7 @@ import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
 import java.util.Random
+import java.util.concurrent.CancellationException
 import java.util.concurrent.Executor
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -967,7 +968,11 @@ class WidgetAdapter(
                     mediaPlayer.setMediaItem(mediaItem)
                     val prepareFuture = mediaPlayer.prepare()
                     prepareFuture.addListener(Runnable {
-                        val code = prepareFuture.get().resultCode
+                        val code = try {
+                            prepareFuture.get().resultCode
+                        } catch (e: CancellationException) {
+                            Log.d(TAG, "Task was canceled")
+                        }
                         Log.d(TAG, "Media player returned $code")
                         loadingIndicator.isVisible = false
                         if (code >= 0) {
