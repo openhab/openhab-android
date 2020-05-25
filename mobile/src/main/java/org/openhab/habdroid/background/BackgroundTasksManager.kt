@@ -31,6 +31,7 @@ import android.os.Parcelable
 import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.core.content.edit
+import androidx.core.location.LocationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -469,11 +470,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context ->
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-                val locationManager =
-                    context.applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val ssidToSend = wifiManager.connectionInfo.let { info ->
                     when {
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !locationManager.isLocationEnabled -> {
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                            !LocationManagerCompat.isLocationEnabled(locationManager) -> {
                             "LOCATION_OFF"
                         }
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
