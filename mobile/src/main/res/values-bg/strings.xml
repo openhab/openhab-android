@@ -154,7 +154,6 @@
     <string name="cancel">Отменяне</string>
     <string name="close">Затворен</string>
     <string name="try_again_button">Повтори отново</string>
-    <string name="enable_wifi_button">Изключване на Wi-Fi</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
