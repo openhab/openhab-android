@@ -174,6 +174,7 @@
     <string name="send_device_info_category_event_based_title">מבוסס אירוע</string>
     <string name="send_device_info_category_event_based_explanation">עידכון פריטים אלו מבוסס על אירועים מתאימים, לדוגמה שיחה נכנסת</string>
     <string name="send_device_info_category_schedule_based_title">מבוסס תיזמון</string>
+    <string name="send_device_info_category_schedule_based_explanation">ככל שהמרווח הנבחר קצר יותר, כך ההשפעה רבה יותר על זמן חיי הסוללה של המכשיר שלך. בנוסף, ייתכן והמכשיר שלך לא ישתמש בדיוק במרווח הנבחר אלא יעכב את העדכונים כדי להפחית בצריכת החשמל של יישומים.</string>
     <string name="send_device_info_category_general">כללי</string>
     <string name="send_device_info_item_prefix">קידומת שם פריט</string>
     <string name="send_device_info_item_prefix_summary">לשמות הפריטים עם התכונות הבאות יש קידומת זו \'%s\'</string>
