@@ -179,14 +179,21 @@
     <string name="send_device_info_item_prefix_summary">לשמות הפריטים עם התכונות הבאות יש קידומת זו \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">אין קידומת לשמות הפריטים עם התכונות הבאות</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
+    <string name="settings_alarm_clock">שעת התראה</string>
+    <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">אל תשלח את שעת השעון המעורר</string>
     <string name="settings_phone_state">מצב השיחה</string>
+    <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">אל תשלח את מצב השיחה</string>
     <string name="settings_phone_state_permission_denied">שליחת מצב שיחה נוטרל בעקבות חוסר הרשאות</string>
     <string name="settings_battery_level">מצב הסוללה</string>
+    <string name="settings_battery_level_summary_on">שלח מצב סוללה לפריט ׳%1$s׳</string>
     <string name="settings_battery_level_summary_off">אל תשלח את מצב הסוללה</string>
     <string name="settings_charging_state">מצב טעינת הסוללה</string>
+    <string name="settings_charging_state_summary_on">שלח את מצב טעינת הסוללה אל פריט \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">אל תשלח את מצב טעינת הסוללה</string>
     <string name="settings_wifi_ssid">שם רשת אלחוטית</string>
+    <string name="settings_wifi_ssid_summary_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳</string>
     <string name="settings_wifi_ssid_summary_off">אל תשלח את שם הרשת האלחוטית (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">שליחת שם הרשת האלחוטית איננה אפשרית בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
@@ -330,6 +337,7 @@
     <string name="log_activity_action_reload">רענן</string>
     <string name="log_activity_content_description_share">שתף יומן</string>
     <string name="empty_log">יומן הרישום ריק</string>
+    <string name="log_too_large_to_share">יומן הרישום גדול מידי בכדי לשתף. אנא נקה את יומן הרישום, שחזר את התקלה ולאחר מכן שתף את יומן הרישום.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">נעץ למסך הבית</string>
     <string name="home_shortcut_error_pinning">שגיאה בנעיצה למסך הבית</string>
