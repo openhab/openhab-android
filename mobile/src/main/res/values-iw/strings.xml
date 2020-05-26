@@ -180,7 +180,7 @@
     <string name="send_device_info_item_prefix_summary_not_set">אין קידומת לשמות הפריטים עם התכונות הבאות</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
     <string name="settings_alarm_clock">שעת התראה</string>
-    <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_on">שלח את שעת השעון המעורר לפריט \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">אל תשלח את שעת השעון המעורר</string>
     <string name="settings_phone_state">מצב השיחה</string>
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
@@ -194,8 +194,12 @@
     <string name="settings_charging_state_summary_off">אל תשלח את מצב טעינת הסוללה</string>
     <string name="settings_wifi_ssid">שם רשת אלחוטית</string>
     <string name="settings_wifi_ssid_summary_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳. שירות \"איתור מיקום\" חייב להיות מאופשר אחרת openHAB לא יקבל את שם הרשת האלחוטית.</string>
     <string name="settings_wifi_ssid_summary_off">אל תשלח את שם הרשת האלחוטית (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">שליחת שם הרשת האלחוטית איננה אפשרית בעקבות הרשאות חסרות</string>
+    <string name="settings_dnd_mode">מצב \'נא לא להפריע\'</string>
+    <string name="settings_dnd_mode_summary_on">שלח מצב \'נא לא להפריע\' לפריט \'%1$s \'</string>
+    <string name="settings_dnd_mode_summary_off">אל תשלח מצב \'נא לא להפריע\'</string>
     <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_allow">אפשר</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
