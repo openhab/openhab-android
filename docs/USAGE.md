@@ -221,6 +221,8 @@ end
 
 #### DND Mode
 
+Sending the DND mode requires Android 6 or higher.
+
 Example item definition:
 ```java
 String DndMode
