@@ -89,11 +89,13 @@
     <string name="error_unable_to_resolve_hostname">No és possible resoldre el nom d\'amfitrió</string>
     <string name="error_connection_sslhandshake_failed">L\'intercanvi de SSL ha fallat</string>
     <string name="error_certificate_wrong_host">El certificat de %s no és vàlid</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_http_connection_failed">codi HTTP %d</string>
     <string name="error_short_unknown">Error desconegut: %s</string>
     <string name="error_short_certificate_not_trusted">El certificat no és de confiança</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Error al carregar la informació del servidor openHAB</string>
     <string name="error_no_browser_found">No s\'ha trobat navegador en el teu dispositiu</string>
     <string name="install">Instal·la</string>
@@ -103,7 +105,6 @@
     <string name="info_write_tag_progress">Escrivint l\'etiqueta</string>
     <string name="info_write_failed">Error al escriure l\'etiqueta</string>
     <string name="info_write_tag_disabled">L\'NFC està desactivada</string>
-    <string name="info_openhab_uuid_label">UUID openHAB</string>
     <string name="info_openhab_push_notification_label">Estat de notificacions emergents</string>
     <string name="action_settings">Configuració</string>
     <string name="info_not_set">No establert</string>
@@ -111,7 +112,6 @@
     <string name="send_device_info_to_server">Envia la informació del dispositiu al servidor</string>
     <string name="send_device_info_item_prefix">Prefix de l\'element</string>
     <string name="settings_wifi_ssid">Nom del Wi-Fi</string>
-    <string name="settings_wifi_ssid_summary_on">Envia el nom del Wi-Fi (SSID) a l\'element \'%1$s\'</string>
     <string name="settings_background_tasks_permission_allow">Permet</string>
     <string name="settings_item_pref_item_name">Nom d\'element</string>
     <string name="notification_channel_background_error">Error en tasques secundàries</string>
@@ -124,7 +124,6 @@
     <string name="mtm_accept_cert">Voleu acceptar el certificat desconegut?</string>
     <string name="mtm_cert_details">Detalls del certificat:</string>
     <string name="mtm_decision_always">D\'acord</string>
-    <string name="mtm_decision_once">Un cop</string>
     <string name="mtm_decision_abort">Anul·la</string>
     <string name="mtm_notification">Verificació del certificat</string>
     <string name="settings_openhab_none">Cap</string>

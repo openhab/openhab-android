@@ -73,8 +73,10 @@
     <string name="error_certificate_not_valid_yet">SSL сертификат не е валиден все още. Моля получете правилния сертификат или приемете сертификат по време на SSL ръкостискане. Също така проверете дали часовникът на вашето устройство е настроен правилно.</string>
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Грешка при извличане на информация от openHAB сървъра</string>
     <string name="title_activity_openhabwritetag">Запиши NFC етикет</string>
     <string name="title_activity_libraries">Използвани библиотеки</string>
@@ -83,7 +85,6 @@
     <string name="info_write_failed">Грешка на писане на етикет</string>
     <string name="info_write_tag_unsupported">Устройството не поддържа NFC</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API версия</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Статус на известия</string>
     <string name="action_settings">Настройки</string>
     <string name="info_not_set">Не е зададено</string>
@@ -102,7 +103,6 @@
     <string name="mtm_connect_anyway">Все пак искате ли да продължите?</string>
     <string name="mtm_cert_details">Данни за сертификата:</string>
     <string name="mtm_decision_always">Приемам</string>
-    <string name="mtm_decision_once">Един път</string>
     <string name="mtm_decision_abort">Прекъсване</string>
     <string name="mtm_notification">Проверка на сертификата</string>
     <string name="settings_openhab_none">Няма</string>
@@ -154,7 +154,6 @@
     <string name="cancel">Отменяне</string>
     <string name="close">Затворен</string>
     <string name="try_again_button">Повтори отново</string>
-    <string name="enable_wifi_button">Изключване на Wi-Fi</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>

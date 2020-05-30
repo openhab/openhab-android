@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">Il certificato SSL non e\' valido per %s</string>
     <string name="error_http_to_https_port">Fine imprevista dello stream. Stai cercando di connetterti ad una porta HTTPS tramite HTTP?</string>
     <string name="webview_ssl">Attualmente questa app non supporta certificati SSL autofirmati per i widget Webview</string>
-    <string name="error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice HTTP %d).</string>
-    <string name="error_http_code_414">L\'URL è troppo lungo. Utilizzare l\'indirizzo IP o un URL più corto (codice HTTP %d).</string>
-    <string name="error_http_code_426">Richiesto HTTPS. Si prega di cambiare l\'URL (codice HTTP %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">L\'URL è troppo lungo. Utilizzare l\'indirizzo IP o un URL più corto (codice HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Richiesto HTTPS. Si prega di cambiare l\'URL (codice HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Autenticazione non riuscita. Si prega di controllare il certificato SSL client fornito (codice HTTP %d).</string>
-    <string name="error_http_code_496">È richiesto un certificato SSL client (codice HTTP %d)</string>
-    <string name="error_http_code_502">Il tuo reverse proxy ha ricevuto una risposta non valida dal server openHAB (codice HTTP %d)</string>
-    <string name="error_http_code_503">Il server openHAB non è temporaneamente disponibile (codice HTTP %d)</string>
-    <string name="error_http_code_504">Gateway timeout. Sembra che il tuo reverse proxy sia in esecuzione, ma non è stato possibile ottenere una risposta dal server openHAB (codice HTTP %d).</string>
-    <string name="error_http_code_507">Il server openHAB non ha abbastanza spazio libero (codice HTTP %d)</string>
-    <string name="error_http_code_511">È richiesta l\'autenticazione di rete (codice HTTP %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Autenticazione non riuscita. Si prega di controllare il certificato SSL client fornito (codice HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">È richiesto un certificato SSL client (codice HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Il tuo reverse proxy ha ricevuto una risposta non valida dal server openHAB (codice HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Il server openHAB non è temporaneamente disponibile (codice HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway timeout. Sembra che il tuo reverse proxy sia in esecuzione, ma non è stato possibile ottenere una risposta dal server openHAB (codice HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Il server openHAB non ha abbastanza spazio libero (codice HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">È richiesta l\'autenticazione di rete (codice HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB è offline</string>
     <string name="error_short_http_connection_failed">Codice HTTP %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">Connessione non riuscita</string>
     <string name="error_short_http_to_https_port">Connessione alla porta HTTPS tramite HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certificato non valido per %s</string>
-    <string name="error_short_http_code_401">Autenticazione non riuscita (codice HTTP %d)</string>
-    <string name="error_short_http_code_404">Non trovato (Codice HTTP %d)</string>
-    <string name="error_short_http_code_414">URL troppo lungo (codice HTTP %d)</string>
-    <string name="error_short_http_code_426">HTTPS richiesto (codice HTTP %d)</string>
-    <string name="error_short_http_code_495">Autenticazione non riuscita (codice HTTP %d)</string>
-    <string name="error_short_http_code_496">Certificato SSL client richiesto (codice HTTP %d)</string>
-    <string name="error_short_http_code_502">Il reverse proxy ha ricevuto una risposta non valida da openHAB (codice HTTP %d)</string>
-    <string name="error_short_http_code_503">openHAB temporaneamente non disponibile (codice HTTP %d)</string>
-    <string name="error_short_http_code_504">Timeout del gateway (codice HTTP %d).</string>
-    <string name="error_short_http_code_507">Non c\'è abbastanza spazio sul server (codice HTTP %d)</string>
-    <string name="error_short_http_code_511">Necessaria autenticazione di rete (codice HTTP %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Autenticazione non riuscita (codice HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Non trovato (Codice HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL troppo lungo (codice HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS richiesto (codice HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Autenticazione non riuscita (codice HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Certificato SSL client richiesto (codice HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Il reverse proxy ha ricevuto una risposta non valida da openHAB (codice HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB temporaneamente non disponibile (codice HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Timeout del gateway (codice HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Non c\'è abbastanza spazio sul server (codice HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Necessaria autenticazione di rete (codice HTTP %d)</string>
     <string name="error_about_no_conn">Errore nel recupero delle informazioni dal server openHAB</string>
     <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
@@ -161,7 +163,6 @@
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
     <string name="info_write_tag_disabled">NFC è disabilitato</string>
     <string name="info_openhab_apiversion_label">versione delle Rest API di openHAB</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
     <string name="action_settings">Impostazioni</string>
     <string name="nfc_info_hint">Gli aggiornamenti degli Item possono essere scritti sui tag NFC. Puoi selezionare un Item qui o puoi cliccare a lungo su un widget della Sitemap.</string>
@@ -173,29 +174,33 @@
     <string name="send_device_info_category_event_based_title">Basato sull’evento</string>
     <string name="send_device_info_category_event_based_explanation">Questi items sono aggiornati dagli eventi corrispondenti, ad esempio una telefonata in arrivo</string>
     <string name="send_device_info_category_schedule_based_title">Basato sul tempo</string>
-    <string name="send_device_info_category_schedule_based_explanation">Questi items vengono aggiornati regolarmente\nNota: Valori più bassi compromettono la durata della batteria più di quelli più alti e il tuo dispositivo potrebbe decidere di ritardare gli aggiornamenti.</string>
+    <string name="send_device_info_category_schedule_based_explanation">Più breve è l\'intervallo scelto, maggiore è l\'impatto potenziale sulla durata della batteria del tuo dispositivo. Inoltre, il tuo dispositivo potrebbe non seguire esattamente l\'intervallo scelto, ma ritardare gli aggiornamenti per ridurre il consumo energetico delle app.</string>
     <string name="send_device_info_category_general">Generale</string>
     <string name="send_device_info_item_prefix">Prefisso nome Item</string>
     <string name="send_device_info_item_prefix_summary">I nomi degli Item delle seguenti feature hanno il prefisso \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nessun prefisso è stato impostato per i nomi degli Item delle seguenti Feature</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
-    <string name="settings_alarm_clock">Sveglia</string>
-    <string name="settings_alarm_clock_summary_on">Invia ora dell’allarme sveglia all’Item ‘%1$s’</string>
-    <string name="settings_alarm_clock_summary_off">Non inviare l\'orario della sveglia</string>
+    <string name="settings_alarm_clock">Ora sveglia</string>
+    <string name="settings_alarm_clock_summary_on">Invia la sveglia all\'item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Non inviare la sveglia</string>
     <string name="settings_phone_state">Stato chiamata</string>
-    <string name="settings_phone_state_summary_on">Invia lo stato dell’item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_on">Invia lo stato della chiamata all\'item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Non inviare lo stato della chiamata</string>
     <string name="settings_phone_state_permission_denied">L\'invio dello stato è disabilitata a causa dei permessi mancanti</string>
     <string name="settings_battery_level">Livello batteria</string>
-    <string name="settings_battery_level_summary_on">Invia il livello della batteria all\'elemento \'%1$s\'</string>
+    <string name="settings_battery_level_summary_on">Invia il livello della batteria all\'item \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Non inviare il livello della batteria</string>
     <string name="settings_charging_state">Stato di ricarica</string>
-    <string name="settings_charging_state_summary_on">Invia lo stato di ricarica all\'elemento \'%1$s\'</string>
+    <string name="settings_charging_state_summary_on">Invia lo stato di ricarica all\'item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Non inviare lo stato della carica</string>
     <string name="settings_wifi_ssid">Nome Wi-Fi</string>
     <string name="settings_wifi_ssid_summary_on">Invia il nome Wi-Fi (SSID) all\'item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Invia il nome Wi-Fi (SSID) all\'item \'%1$s\'. \"Localizzazione\" deve essere attivato, altrimenti openHAB non è autorizzato ad ottenere il nome Wi-Fi.</string>
     <string name="settings_wifi_ssid_summary_off">Non inviare il nome Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">L\'invio del nome del Wi-Fi è stato disabilitato a causa di permessi mancanti</string>
+    <string name="settings_dnd_mode">Modo DND</string>
+    <string name="settings_dnd_mode_summary_on">Invia modo DND all\'item \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Non inviare modo DND</string>
     <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
     <string name="settings_background_tasks_permission_allow">Consenti</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
@@ -242,7 +247,6 @@
     <string name="mtm_connect_anyway">Vuoi collegarti comunque?</string>
     <string name="mtm_cert_details">Dettagli certificato:</string>
     <string name="mtm_decision_always">Accetta</string>
-    <string name="mtm_decision_once">Una volta</string>
     <string name="mtm_decision_abort">Annulla</string>
     <string name="mtm_notification">Verifica del certificato</string>
     <string name="settings_openhab_none">Nessuno</string>
@@ -336,6 +340,7 @@
     <string name="log_activity_action_reload">Aggiorna</string>
     <string name="log_activity_content_description_share">Condividi Log</string>
     <string name="empty_log">Log è vuoto</string>
+    <string name="log_too_large_to_share">Il log è troppo grande per essere condiviso. Per favore pulisci il log, riproduci il bug e poi condividi il log.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Fissa nella home</string>
     <string name="home_shortcut_error_pinning">Errore fissando nella home</string>

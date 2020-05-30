@@ -105,8 +105,10 @@
     <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
     <string name="error_http_to_https_port">Onverwachte beëindiging van een stream. Probeert u verbinding te maken met een HTTPS poort via HTTP?</string>
     <string name="webview_ssl">Momenteel ondersteunt deze app geen zelf ondertekende SSL-certificaten voor Webview widgets</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
     <string name="error_no_browser_found">Geen browser gevonden op dit apparaat</string>
@@ -120,7 +122,6 @@
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
     <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versie</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Push meldingen status</string>
     <string name="action_settings">Instellingen</string>
     <string name="nfc_info_hint">Item updates kunnen naar NFC-tags worden geschreven. Kies hier een Item of houd een Sitemap widget enige tijd ingedrukt.</string>
@@ -132,8 +133,6 @@
     <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben als voorvoegsel \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Er is geen voorvoegsel ingesteld voor de Item namen van de volgende functies</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
-    <string name="settings_alarm_clock_summary_on">Stuurt wekkertijd naar item \'%1$s \'</string>
-    <string name="settings_phone_state_summary_on">Verzend belstatus naar item \'%1$s\'</string>
     <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
@@ -162,7 +161,6 @@
     <string name="mtm_connect_anyway">Wilt u toch verbinding maken?</string>
     <string name="mtm_cert_details">Certificaatdetails:</string>
     <string name="mtm_decision_always">Accepteren</string>
-    <string name="mtm_decision_once">Eenmalig</string>
     <string name="mtm_decision_abort">Afbreken</string>
     <string name="mtm_notification">Certificaatverificatie</string>
     <string name="settings_openhab_none">Geen</string>

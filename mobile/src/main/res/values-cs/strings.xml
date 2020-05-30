@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
     <string name="error_http_to_https_port">Neočekávaný konec datového proudu. Snažíte se připojit k HTTPS portu pomocí HTTP?</string>
     <string name="webview_ssl">V současné době tato aplikace nepodporuje vlastnoručně podepsané SSL certifikáty pro Webview widgety</string>
-    <string name="error_http_code_401">Ověření se nezdařilo. Zkontrolujte prosím uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP %d).</string>
-    <string name="error_http_code_414">URL je příliš dlouhá. Použijte prosím IP adresu nebo kratší URL (kód HTTP %d).</string>
-    <string name="error_http_code_426">Je vyžadován protokol HTTPS. Změňte prosím URL (kód HTTP %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Ověření se nezdařilo. Zkontrolujte prosím uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL je příliš dlouhá. Použijte prosím IP adresu nebo kratší URL (kód HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Je vyžadován protokol HTTPS. Změňte prosím URL (kód HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Ověření se nezdařilo. Zkontrolujte klientský certifikát SSL (kód HTTP %d).</string>
-    <string name="error_http_code_496">Je vyžadován klientský certifikát SSL (kód HTTP %d)</string>
-    <string name="error_http_code_502">Vaše reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP %d)</string>
-    <string name="error_http_code_503">Server openHAB je dočasně nedostupný (HTTP kód %d)</string>
-    <string name="error_http_code_504">Gateway time-out. Zdá se, že Vaše reverse proxy běží, ale nemůže získat odpověď od serveru openHAB (kód odpovědi HTTP %d).</string>
-    <string name="error_http_code_507">Server openHAB nemá dostatek volného místa (kód HTTP %d)</string>
-    <string name="error_http_code_511">Vyžaduje se síťové ověření (kód HTTP %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Ověření se nezdařilo. Zkontrolujte klientský certifikát SSL (kód HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Je vyžadován klientský certifikát SSL (kód HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Vaše reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Server openHAB je dočasně nedostupný (HTTP kód %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway time-out. Zdá se, že Vaše reverse proxy běží, ale nemůže získat odpověď od serveru openHAB (kód odpovědi HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Server openHAB nemá dostatek volného místa (kód HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Vyžaduje se síťové ověření (kód HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB je offline</string>
     <string name="error_short_http_connection_failed">HTTP kód %d</string>
@@ -134,22 +135,24 @@
     <string name="error_short_connection_failed">Připojení se nezdařilo</string>
     <string name="error_short_http_to_https_port">Připojuji se k HTTPS portu přes HTTP?</string>
     <string name="error_short_certificate_wrong_host">Certifikát není platný pro %s</string>
-    <string name="error_short_http_code_401">Ověření selhalo (kód HTTP %d)</string>
-    <string name="error_short_http_code_404">Nenalezeno (HTTP kód %d)</string>
-    <string name="error_short_http_code_414">URL je příliš dlouhá (HTTP kód %d)</string>
-    <string name="error_short_http_code_426">Vyžaduje HTTPS (kód HTTP %d)</string>
-    <string name="error_short_http_code_495">Ověření selhalo (kód HTTP %d)</string>
-    <string name="error_short_http_code_496">Je vyžadován klientský certifikát SSL (kód HTTP %d)</string>
-    <string name="error_short_http_code_502">Reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP %d)</string>
-    <string name="error_short_http_code_503">openHAB je dočasně nedostupný (HTTP kód %d)</string>
-    <string name="error_short_http_code_504">Gateway time-out (kód HTTP %d).</string>
-    <string name="error_short_http_code_507">Nedostatek volného místa na serveru (kód HTTP %d)</string>
-    <string name="error_short_http_code_511">Vyžaduje se síťové ověření (kód HTTP %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Ověření selhalo (kód HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Nenalezeno (HTTP kód %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL je příliš dlouhá (HTTP kód %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">Vyžaduje HTTPS (kód HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Ověření selhalo (kód HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Je vyžadován klientský certifikát SSL (kód HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB je dočasně nedostupný (HTTP kód %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (kód HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Nedostatek volného místa na serveru (kód HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Vyžaduje se síťové ověření (kód HTTP %d)</string>
     <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
     <string name="error_no_browser_found">Na Vašem zařízení nebyl nalezen žádný prohlížeč</string>
     <string name="error_no_speech_to_text_app_found">Aplikace k převodu řeči na text nenalezena</string>
     <string name="error_sse_failed">Nastal problém s aktualizacemi widgetu</string>
+    <string name="error_video_player">%s nelze načíst</string>
     <string name="install">Nainstalovat</string>
     <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
     <string name="title_activity_libraries">Použité knihovny</string>
@@ -160,7 +163,6 @@
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
     <string name="info_openhab_apiversion_label">Verze openHAB Rest API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Stav push notifikací</string>
     <string name="action_settings">Nastavení</string>
     <string name="nfc_info_hint">Aktualizace Item lze zapsat na NFC tagy. Item můžete vybrat zde, nebo můžete dlouze kliknout na widget na Sitemap.</string>
@@ -168,18 +170,24 @@
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Odeslat informace o zařízení na server</string>
+    <string name="send_device_info_to_server_short">Odeslat informace o zařízení</string>
+    <string name="send_device_info_category_event_based_title">Na základě události</string>
+    <string name="send_device_info_category_event_based_explanation">Tyto položky jsou aktualizovány na základě odpovídajících událostí, např. příchozí telefonní hovor</string>
+    <string name="send_device_info_category_schedule_based_title">Naplánované</string>
+    <string name="send_device_info_category_general">Obecné</string>
     <string name="send_device_info_item_prefix">Prefix názvu Item</string>
     <string name="send_device_info_item_prefix_summary">Jména Item následujících funkcí jsou s předponou \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Pro jména Item s následujícími funkcemi není nastavena žádná předpona</string>
     <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
-    <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_on">Poslat stav hovoru telefonu do item \'%1$s\'</string>
+    <string name="settings_phone_state">Stav hovoru</string>
+    <string name="settings_phone_state_summary_off">Neodesílat stav hovoru</string>
     <string name="settings_phone_state_permission_denied">Odeslání stavu hovoru telefonu bylo deaktivováno kvůli chybějícím oprávněním</string>
-    <string name="settings_battery_level_summary_on">Odešle úroveň baterie do Item \'%1$s\'</string>
+    <string name="settings_battery_level">Stav baterie</string>
+    <string name="settings_battery_level_summary_off">Neposílat úroveň nabití baterie</string>
     <string name="settings_charging_state">Stav nabíjení</string>
-    <string name="settings_charging_state_summary_on">Odešle stav nabíjení do Item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Neodesílat stav nabíjení</string>
     <string name="settings_wifi_ssid">Název Wi-Fi</string>
-    <string name="settings_wifi_ssid_summary_on">Odešle název Wi-Fi (SSID) do Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_off">Neodesílat název sítě Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Odesílání názvu Wi-Fi bylo zakázáno kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_denied">Některé úlohy na pozadí byly zakázány kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_allow">Povolit</string>
@@ -209,6 +217,13 @@
     <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
     <string name="retry">Opakovat</string>
     <string name="ignore">Ignorovat</string>
+    <string name="send_device_info_schedule">Rozvrh</string>
+    <string name="send_device_info_schedule_summary">Každých 15 minut při nabíjení, jinak v intervalu %s</string>
+    <string name="send_device_info_schedule_15_minutes">15 minut</string>
+    <string name="send_device_info_schedule_1_hour">1 hodina</string>
+    <string name="send_device_info_schedule_3_hours">3 hodiny</string>
+    <string name="send_device_info_schedule_6_hours">6 hodin</string>
+    <string name="send_device_info_schedule_12_hours">12 hodin</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
@@ -222,7 +237,6 @@
     <string name="mtm_connect_anyway">Chcete se i přesto připojit?</string>
     <string name="mtm_cert_details">Detaily certifikátu:</string>
     <string name="mtm_decision_always">Přijmout</string>
-    <string name="mtm_decision_once">Jednou</string>
     <string name="mtm_decision_abort">Zrušit</string>
     <string name="mtm_notification">Ověření certifikátu</string>
     <string name="settings_openhab_none">Žádný</string>
@@ -231,6 +245,7 @@
     <string name="theme_name_dark">Tmavý</string>
     <string name="theme_name_system">Podle systému</string>
     <string name="theme_name_battery_saver">Při šetření baterie tmavý režim</string>
+    <string name="theme_name_black">Černé</string>
     <!-- Chart -->
     <string name="chart_activity_title">Graf</string>
     <string name="chart_activity_hide_legend">Skrýt legendu</string>
@@ -400,6 +415,9 @@
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <string name="data_saver_title">Spořič dat</string>
+    <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
+    <string name="data_saver_off">Nastavení spořiče dat pro celý systém je použito při načítání datových prvků Sitemap</string>
+    <string name="data_saver_off_pre_n">Všechny prvky Sitemap jsou načteny, bez ohledu na množství dat</string>
     <string name="data_saver_load">I přesto načíst</string>
     <string name="data_saver_hint">%s nebyl načten pro snížení spotřeby dat</string>
     <string name="widget_type_image">Obrázek</string>

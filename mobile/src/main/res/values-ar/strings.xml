@@ -99,8 +99,10 @@
     <string name="error_certificate_wrong_host">شهادة SSL غير صالح ل %s</string>
     <string name="error_http_to_https_port">نهاية غير متوقعة للبث. هل تحاول الإتصال على منفذ HTTPS بواسطة HTTP ؟</string>
     <string name="webview_ssl">حاليا لا يدعم هذا التطبيق شهادات SSL الموقعة ذاتيا لنوافذ Webview</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
     <string name="error_openhab_offline">المخدم openHAB غير متصل بينما الخدمة السحابية تعمل</string>
     <string name="error_no_browser_found">لايوجد مستعرض في جهازك</string>
@@ -115,7 +117,6 @@
     <string name="info_write_tag_unsupported">هذا الجهاز لا بدعم NFC</string>
     <string name="info_write_tag_disabled">تم إيقاف الاتصال القريب المدى</string>
     <string name="info_openhab_apiversion_label">إصدار Rest API openHAB</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">حالة التنبيهات الصادرة</string>
     <string name="action_settings">إعدادات</string>
     <string name="info_not_set">لم يُعين</string>
@@ -123,9 +124,7 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">إرسال معلومات الجهاز إلى الخادم</string>
     <string name="send_device_info_item_prefix">بادئة اسم العنصر</string>
-    <string name="settings_battery_level_summary_on">يرسل مستوى شحن البطارية إلى العنصر \'%1$s\'</string>
     <string name="settings_wifi_ssid">اسم الشبكة اللاسلكية</string>
-    <string name="settings_wifi_ssid_summary_on">إرسال اسم الشبكة اللاسلكية إلى العنصر \'%1$s\'</string>
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
     <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
     <string name="settings_background_tasks_permission_allow">السماح</string>
@@ -145,7 +144,6 @@
     <string name="mtm_connect_anyway">هل تريد الاتصال على أية حال؟</string>
     <string name="mtm_cert_details">تفاصيل الشهادة:</string>
     <string name="mtm_decision_always">قبول</string>
-    <string name="mtm_decision_once">مرة</string>
     <string name="mtm_decision_abort">انهاء</string>
     <string name="mtm_notification">التحقق من الشهادة</string>
     <string name="settings_openhab_none">لا يوجد</string>

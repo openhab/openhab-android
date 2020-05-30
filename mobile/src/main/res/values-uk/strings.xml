@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">Сертифікат SSL не дійсний для %s</string>
     <string name="error_http_to_https_port">Неочікуване завершення потоку. Ви намагаєтесь під\'єднатися до HTTPS порту через HTTP?</string>
     <string name="webview_ssl">Наразі цей застосунок не підтримує SSL сертифікати з власним підписом для віджетів</string>
-    <string name="error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштовані імʼя користувача та пароль відповідно до SSL-сертифіката клієнта (код HTTP %d).</string>
-    <string name="error_http_code_414">Посилання надто довге. Будь ласка, використовуйте IP-адресу або коротше посилання (код HTTP %d).</string>
-    <string name="error_http_code_426">Вимагається HTTPS. Змініть посилання (код HTTP %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштовані імʼя користувача та пароль відповідно до SSL-сертифіката клієнта (код HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Посилання надто довге. Будь ласка, використовуйте IP-адресу або коротше посилання (код HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Вимагається HTTPS. Змініть посилання (код HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Не вдалося виконати аутентифікацію. Будь ласка, перевірте наданий SSL-сертифікат клієнта (код HTTP %d).</string>
-    <string name="error_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
-    <string name="error_http_code_502">Ваш зворотний проксі отримав неприпустиму відповідь від сервера openHAB (код HTTP %d)</string>
-    <string name="error_http_code_503">Сервер openHAB тимчасово недоступний (код HTTP %d)</string>
-    <string name="error_http_code_504">Тайм-аут шлюзу. Здається, що Ваш проксі-сервер працює, але не зміг отримати відповідь від сервера openHAB (код HTTP %d).</string>
-    <string name="error_http_code_507">На сервері openHAB не достатньо вільного місця (код HTTP %d)</string>
-    <string name="error_http_code_511">Потрібна аутентифікація мережі (код HTTP %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Не вдалося виконати аутентифікацію. Будь ласка, перевірте наданий SSL-сертифікат клієнта (код HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Ваш зворотний проксі отримав неприпустиму відповідь від сервера openHAB (код HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Сервер openHAB тимчасово недоступний (код HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Тайм-аут шлюзу. Здається, що Ваш проксі-сервер працює, але не зміг отримати відповідь від сервера openHAB (код HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">На сервері openHAB не достатньо вільного місця (код HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Потрібна аутентифікація мережі (код HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB не в мережі</string>
     <string name="error_short_http_connection_failed">Код HTTP %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">Помилка зʼєднання</string>
     <string name="error_short_http_to_https_port">Підключення до HTTPS-порту через HTTP?</string>
     <string name="error_short_certificate_wrong_host">Сертифікат не дійсний для %s</string>
-    <string name="error_short_http_code_401">Помилка аутентифікації (код HTTP %d)</string>
-    <string name="error_short_http_code_404">Не знайдено (код HTTP %d)</string>
-    <string name="error_short_http_code_414">Надто довге посилання (код HTTP %d)</string>
-    <string name="error_short_http_code_426">Вимагається HTTPS (код HTTP %d)</string>
-    <string name="error_short_http_code_495">Помилка аутентифікації (код HTTP %d)</string>
-    <string name="error_short_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
-    <string name="error_short_http_code_502">Зворотний проксі отримав неприпустиму відповідь від openHAB (код HTTP %d)</string>
-    <string name="error_short_http_code_503">openHAB тимчасово недоступний (код HTTP %d)</string>
-    <string name="error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
-    <string name="error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
-    <string name="error_short_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не знайдено (код HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">Надто довге посилання (код HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">Вимагається HTTPS (код HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Зворотний проксі отримав неприпустиму відповідь від openHAB (код HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB тимчасово недоступний (код HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
     <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
@@ -161,7 +163,6 @@
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
     <string name="info_write_tag_disabled">NFC вимкнено</string>
     <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
     <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисненням віджету на сторінці інтерфейсу.</string>
@@ -169,19 +170,37 @@
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
+    <string name="send_device_info_to_server_short">Надіслати інформацію про пристрій</string>
+    <string name="send_device_info_category_event_based_title">На основі подій</string>
+    <string name="send_device_info_category_event_based_explanation">Ці об\'єкти оновлюються при відповідних подіях, наприклад, при вхідних телефонних дзвінках</string>
+    <string name="send_device_info_category_schedule_based_title">За розкладом</string>
+    <string name="send_device_info_category_schedule_based_explanation">Чим коротший обраний інтервал, тим більший потенційний вплив на розряджання акумулятора Вашого пристрою. Ваш пристрій може не дотримуватись обраного інтервалу, відтерміновувати оновлення, щоб зменшити енергоспоживання через додатки.</string>
+    <string name="send_device_info_category_general">Загальне</string>
     <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
     <string name="send_device_info_item_prefix_summary">Назви обʼєктів наступних функцій мають префікс „%s“</string>
     <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс назв об’єктів наступних функцій</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
-    <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>
-    <string name="settings_phone_state_summary_on">Відправляє стан дзвінка в об’єкт \'%1$s\'</string>
+    <string name="settings_alarm_clock">Час сигналу</string>
+    <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Не надсилати будильник</string>
+    <string name="settings_phone_state">Стан дзвінка</string>
+    <string name="settings_phone_state_summary_on">Відправити стан дзвінка до об\'єкту \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Не надсилати стан дзвінка</string>
     <string name="settings_phone_state_permission_denied">Відправка стану дзвінка відключена через брак дозволів</string>
-    <string name="settings_battery_level_summary_on">Надіслати рівень заряду елемента в \'%1$s\'</string>
+    <string name="settings_battery_level">Рівень заряду акумулятора</string>
+    <string name="settings_battery_level_summary_on">Надсилає рівень заряду об\'єкту \'%1$s</string>
+    <string name="settings_battery_level_summary_off">Не надсилати рівень заряду акумулятора</string>
     <string name="settings_charging_state">Стан зарядки</string>
-    <string name="settings_charging_state_summary_on">Відправити стан зарядки в об’єкт \'%1$s\'</string>
+    <string name="settings_charging_state_summary_on">Надсилає стан зарядки об\'єкту \'%1$s</string>
+    <string name="settings_charging_state_summary_off">Не надсилати стан зарядки</string>
     <string name="settings_wifi_ssid">Ім’я Wi-Fi</string>
-    <string name="settings_wifi_ssid_summary_on">Відправляє назву Wi-Fi (SSID) елементу \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on">Відправляє ім\'я Wi-Fi (SSID) об\'єкту \'%1$s</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Відправляє назву Wi-Fi (SSID) до об\'єкта%1$s. \"Місцезнаходження\" має бути увімкнено, інакше openHAB не дозволено отримувати назву Wi-Fi.</string>
+    <string name="settings_wifi_ssid_summary_off">Не надсилати ім\'я Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Відправка назви Wi-Fi відключена через брак дозволів</string>
+    <string name="settings_dnd_mode">Режим Не турбувати</string>
+    <string name="settings_dnd_mode_summary_on">Надсилає режим Не турбувати до об\'єкту \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Не надсилати режим Не турбувати</string>
     <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
@@ -210,6 +229,13 @@
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
     <string name="retry">Повторити</string>
     <string name="ignore">Нехтувати</string>
+    <string name="send_device_info_schedule">Розклад</string>
+    <string name="send_device_info_schedule_summary">Кожні 15 хвилин під час зарядки, інакше кожні %s</string>
+    <string name="send_device_info_schedule_15_minutes">15 хвилин</string>
+    <string name="send_device_info_schedule_1_hour">1 година</string>
+    <string name="send_device_info_schedule_3_hours">за 3 години</string>
+    <string name="send_device_info_schedule_6_hours">6 годин</string>
+    <string name="send_device_info_schedule_12_hours">12 годин</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
     <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
@@ -223,7 +249,6 @@
     <string name="mtm_connect_anyway">Все одно підключитися?</string>
     <string name="mtm_cert_details">Подробиці сертифіката:</string>
     <string name="mtm_decision_always">Прийняти</string>
-    <string name="mtm_decision_once">Один раз</string>
     <string name="mtm_decision_abort">Відмінити</string>
     <string name="mtm_notification">Перевірка сертифіката</string>
     <string name="settings_openhab_none">Немає</string>
@@ -317,6 +342,7 @@
     <string name="log_activity_action_reload">Оновити</string>
     <string name="log_activity_content_description_share">Надіслати журнал</string>
     <string name="empty_log">Журнал порожній</string>
+    <string name="log_too_large_to_share">Цей журнал завеликий для відправки. Будь ласка, очистіть журнал, відтворіть помилки, і тоді поділіться ним.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Прикріпити на домашню сторінку</string>
     <string name="home_shortcut_error_pinning">Неможливо прикріпити на домашню сторінку</string>

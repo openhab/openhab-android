@@ -105,8 +105,10 @@
     <string name="error_certificate_wrong_host">Certificatul SSL nu este valid pentru %s</string>
     <string name="error_http_to_https_port">Terminare neașteptată a conexiunii. Încercați să vă conectați la un port HTTPS prin HTTP?</string>
     <string name="webview_ssl">În prezent, această aplicație nu acceptă certificate SSL auto-semnate pentru widget-urile Webview</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Eroare la obținerea informațiilor despre serverul openHAB</string>
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
     <string name="error_no_browser_found">Nu a fost găsit nici un browser pe dispozitivul tău</string>
@@ -120,7 +122,6 @@
     <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
     <string name="info_write_tag_disabled">Serviciul NFC este dezactivat</string>
     <string name="info_openhab_apiversion_label">versiune openHAB Rest API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Starea notificărilor Push</string>
     <string name="action_settings">Setări</string>
     <string name="nfc_info_hint">Comanda unui Item pot fi scrise pe etichete NFC. Puteți selecta un Item aici sau puteți să faceți clic lung pe un widget din Sitemap.</string>
@@ -130,8 +131,6 @@
     <string name="send_device_info_to_server">Trimiteți informațiile dispozitivului pe server</string>
     <string name="send_device_info_item_prefix">Prefix nume Item</string>
     <string name="settings_item_update_pref_howto_summary">Atingeți aici pentru a obține indicații despre cum puteți configura această caracteristică pe server</string>
-    <string name="settings_alarm_clock_summary_on">Trimite timpul ceasului de alarmă la item \'%1$s\'</string>
-    <string name="settings_phone_state_summary_on">Trimiteți starea de apel la item \'%1$s\'</string>
     <string name="settings_phone_state_permission_denied">Trimiterea stării de apel a fost dezactivată din cauza permisiunilor care lipsesc</string>
     <string name="settings_item_pref_item_name">Nume Item</string>
     <string name="waiting_for_item_upload">Se așteaptă ca rețeaua să actualizeze starea unui Item</string>
@@ -161,7 +160,6 @@
     <string name="mtm_connect_anyway">Vreți să vă conectați oricum?</string>
     <string name="mtm_cert_details">Detalii certificat:</string>
     <string name="mtm_decision_always">Acceptare</string>
-    <string name="mtm_decision_once">O singură dată</string>
     <string name="mtm_decision_abort">Renunță</string>
     <string name="mtm_notification">Verificare certificat</string>
     <string name="settings_openhab_none">Niciunul</string>

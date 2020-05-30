@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">%s の SSL 証明書が無効です</string>
     <string name="error_http_to_https_port">予期しないストリームの終わり。HTTP 経由で HTTPS ポートに接続しようとしていませんか?</string>
     <string name="webview_ssl">現在このアプリは、Webview ウィジェットにおいて自己署名証明書をサポートしていません</string>
-    <string name="error_http_code_401">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP コード %d).</string>
-    <string name="error_http_code_414">URL が長すぎます。IP アドレスまたは短縮 URL を使用してください (HTTP コード %d).</string>
-    <string name="error_http_code_426">HTTPS が必要です。URL を変更してください (HTTP コード %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP コード %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL が長すぎます。IP アドレスまたは短縮 URL を使用してください (HTTP コード %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS が必要です。URL を変更してください (HTTP コード %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">認証に失敗しました。提供された SSL クライアント証明書を確認してください (HTTP コード %d).</string>
-    <string name="error_http_code_496">SSL クライアント証明書が必要 (HTTP コード %d)</string>
-    <string name="error_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP コード %d)</string>
-    <string name="error_http_code_503">openHAB は一時的に利用できません (HTTP コード %d)</string>
-    <string name="error_http_code_504">ゲートウェイ タイムアウト。リバースプロキシが実行中ですが、openHAB サーバーから回答を受け取ることができなかったようです (HTTP コード %d).</string>
-    <string name="error_http_code_507">openHAB に十分な空き容量がありません (HTTP コード %d)</string>
-    <string name="error_http_code_511">ネットワーク認証が必要です (HTTP コード %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">認証に失敗しました。提供された SSL クライアント証明書を確認してください (HTTP コード %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL クライアント証明書が必要 (HTTP コード %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP コード %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB は一時的に利用できません (HTTP コード %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">ゲートウェイ タイムアウト。リバースプロキシが実行中ですが、openHAB サーバーから回答を受け取ることができなかったようです (HTTP コード %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB に十分な空き容量がありません (HTTP コード %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">ネットワーク認証が必要です (HTTP コード %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB はオフラインです</string>
     <string name="error_short_http_connection_failed">HTTP コード %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">接続に失敗しました</string>
     <string name="error_short_http_to_https_port">HTTP 経由で HTTPS ポートに接続しますか?</string>
     <string name="error_short_certificate_wrong_host">%s の証明書が有効ではありません</string>
-    <string name="error_short_http_code_401">認証に失敗しました (HTTP コード %d)</string>
-    <string name="error_short_http_code_404">見つかりません (HTTP コード %d)</string>
-    <string name="error_short_http_code_414">URL が長すぎます (HTTP コード %d)</string>
-    <string name="error_short_http_code_426">HTTPS が必要です (HTTP コード %d)</string>
-    <string name="error_short_http_code_495">認証に失敗しました (HTTP コード %d)</string>
-    <string name="error_short_http_code_496">SSL クライアント証明書が必要 (HTTP コード %d)</string>
-    <string name="error_short_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP コード %d)</string>
-    <string name="error_short_http_code_503">openHAB は一時的に利用できません (HTTP コード %d)</string>
-    <string name="error_short_http_code_504">ゲートウェイタイムアウト (HTTP コード %d)</string>
-    <string name="error_short_http_code_507">サーバーに十分な空き容量がありません (HTTP コード %d)</string>
-    <string name="error_short_http_code_511">ネットワーク認証が必要です (HTTP コード %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">認証に失敗しました (HTTP コード %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">見つかりません (HTTP コード %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL が長すぎます (HTTP コード %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS が必要です (HTTP コード %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">認証に失敗しました (HTTP コード %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL クライアント証明書が必要 (HTTP コード %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP コード %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB は一時的に利用できません (HTTP コード %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">ゲートウェイタイムアウト (HTTP コード %d)</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">サーバーに十分な空き容量がありません (HTTP コード %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">ネットワーク認証が必要です (HTTP コード %d)</string>
     <string name="error_about_no_conn">openHAB サーバー情報の取得時にエラーが発生しました</string>
     <string name="error_openhab_offline">クラウドインスタンス実行中、お使いの openHAB サーバーがオフラインです</string>
     <string name="error_no_browser_found">お使いのデバイス上にブラウザーが見つかりません</string>
@@ -160,7 +162,6 @@
     <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
     <string name="info_write_tag_disabled">NFC は無効です</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">プッシュ通知ステータス</string>
     <string name="action_settings">設定</string>
     <string name="nfc_info_hint">アイテムの更新をNFCタグに書き込むことができます。 ここでアイテムを選択するか、サイトマップでウィジェットを長押しします。</string>
@@ -172,12 +173,8 @@
     <string name="send_device_info_item_prefix_summary">次の機能のアイテム名は \'%s\' が頭につきます</string>
     <string name="send_device_info_item_prefix_summary_not_set">次の機能のアイテム名に接頭語は設定されていません</string>
     <string name="settings_item_update_pref_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
-    <string name="settings_alarm_clock_summary_on">アイテム \'%1$s\' にアラーム時刻を送信</string>
-    <string name="settings_phone_state_summary_on">通話状態をアイテム \'%1$s\' に送信</string>
     <string name="settings_phone_state_permission_denied">アクセス許可がないため通話状態の送信は無効です</string>
-    <string name="settings_battery_level_summary_on">バッテリー残量をアイテム \'%1$s\' に送信します</string>
     <string name="settings_charging_state">充電状態</string>
-    <string name="settings_charging_state_summary_on">充電状態をアイテム \'%1$s\' に送信します</string>
     <string name="settings_item_pref_item_name">アイテム名</string>
     <string name="waiting_for_item_upload">アイテムの更新を送信するため、ネットワークを待機しています</string>
     <string name="item_upload_in_progress">アイテムを現在更新しています</string>
@@ -214,7 +211,6 @@
     <string name="mtm_connect_anyway">このまま接続してもよろしいですか？</string>
     <string name="mtm_cert_details">証明書の詳細:</string>
     <string name="mtm_decision_always">承認</string>
-    <string name="mtm_decision_once">一度だけ</string>
     <string name="mtm_decision_abort">中断</string>
     <string name="mtm_notification">証明書の検証</string>
     <string name="settings_openhab_none">なし</string>

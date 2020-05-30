@@ -90,8 +90,10 @@
     <string name="error_certificate_wrong_host">Sertifikat SSL ini tidak berlaku untuk %s</string>
     <string name="error_http_to_https_port">Akhir stream yang tidak diharapkan. Apakah Anda mencoba terkonek ke port HTTPS melalui HTTP?</string>
     <string name="webview_ssl">Saat ini aplikasi tidak mendukung pengesahan sendiri sertifikat SSL untuk widget Webview</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_about_no_conn">Terjadi kesalahan saat menarik informasi server openHAB</string>
     <string name="error_openhab_offline">Server openHAB Anda sedang tidak terhubung saat cloud instance sedang berjalan</string>
     <string name="error_no_browser_found">Tidak ditemukan perambah pada perangkat Anda</string>
@@ -104,13 +106,11 @@
     <string name="info_write_failed">Kesalahan penulisan tag</string>
     <string name="info_write_tag_unsupported">Perangkat ini tidak memiliki dukungan NFC</string>
     <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>
-    <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_push_notification_label">Status pemberitahuan</string>
     <string name="action_settings">Pengaturan</string>
     <string name="info_not_set">Tidak diatur</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Kirim informasi perangkat ke server</string>
-    <string name="settings_alarm_clock_summary_on">Kirim waktu jam alarm ke item \'%1$s\'</string>
     <string name="settings_item_pref_item_name">Nama item</string>
     <string name="waiting_for_item_upload">Menunggu jaringan mengirimkan pemutakhiran Item</string>
     <string name="item_upload_in_progress">Saat ini Item sedang dimutakhirkan</string>
@@ -136,7 +136,6 @@
     <string name="mtm_connect_anyway">Apakah Anda tetap ingin terhubung?</string>
     <string name="mtm_cert_details">Detail sertifikat:</string>
     <string name="mtm_decision_always">Terima</string>
-    <string name="mtm_decision_once">Sekali</string>
     <string name="mtm_decision_abort">Menggugurkan</string>
     <string name="mtm_notification">Verifikasi sertifikat</string>
     <string name="settings_openhab_none">Tidak ada</string>

@@ -110,17 +110,18 @@
     <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
     <string name="error_http_to_https_port">החיבור הסתיים באופן בלתי-צפוי. האם אתה מנסה להתחבר לפִּתְחָה HTTPS דרך HTTP?</string>
     <string name="webview_ssl">כרגע יישום זה אינו תומך בחתימת SSL עצמית עבור יישומוני Web</string>
-    <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP %d).</string>
-    <string name="error_http_code_414">שורת הכתובת ארוכה מדי. נא השתמש בכתובת IP או בכתובת קצרה יותר (קוד תגובה HTTP %d).</string>
-    <string name="error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP %d).</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">שורת הכתובת ארוכה מדי. נא השתמש בכתובת IP או בכתובת קצרה יותר (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">האימות נכשל. בדוק את תעודת אישור לקוח SSL (קוד תגובה HTTP %d).</string>
-    <string name="error_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP %d)</string>
-    <string name="error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP %d)</string>
-    <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP %d)</string>
-    <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP %d).</string>
-    <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP %d)</string>
-    <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">האימות נכשל. בדוק את תעודת אישור לקוח SSL (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB איננו מחובר</string>
     <string name="error_short_http_connection_failed">קוד תגובה HTTP %d</string>
@@ -134,17 +135,18 @@
     <string name="error_short_connection_failed">החיבור נכשל</string>
     <string name="error_short_http_to_https_port">חיבור לפורט HTTPS דרך HTTP?</string>
     <string name="error_short_certificate_wrong_host">האישור אינו תקף עבור %s</string>
-    <string name="error_short_http_code_401">האימות נכשל (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_404">לא נמצא (קוד שגיאת HTTP %d)</string>
-    <string name="error_short_http_code_414">כתובת אתר ארוכה מדי (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_426">נדרש HTTPS (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_495">האימות נכשל (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_504">תם הזמן המוקצב ל-Gateway (קוד תגובה HTTP %d).</string>
-    <string name="error_short_http_code_507">אין מספיק מקום פנוי בשרת (קוד תגובה HTTP %d)</string>
-    <string name="error_short_http_code_511">נדרש אימות רשת (קוד תגובה HTTP %d)</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">האימות נכשל (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">לא נמצא (קוד שגיאת HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">כתובת אתר ארוכה מדי (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">נדרש HTTPS (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">האימות נכשל (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">תם הזמן המוקצב ל-Gateway (קוד תגובה HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">אין מספיק מקום פנוי בשרת (קוד תגובה HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">נדרש אימות רשת (קוד תגובה HTTP %d)</string>
     <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
@@ -161,7 +163,6 @@
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
     <string name="info_write_tag_disabled">NFC מושבת</string>
     <string name="info_openhab_apiversion_label">גרסת ממשק תכנות יישומי REST של openHAB</string>
-    <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
     <string name="info_openhab_push_notification_label">מצב התראות בדחיפה</string>
     <string name="action_settings">הגדרות</string>
     <string name="nfc_info_hint">עדכוני פריטים יכולים להיכתב לתגי NFC. באפשרותך לבחור פריט כאן או ע״י לחיצה ארוכה על הפריט בתצוגת Sitemap.</string>
@@ -169,19 +170,37 @@
     <string name="empty_page">דף זה אינו מכיל יישומונים המוגדרים כגלויים</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">שלח מידע על ההתקן לשרת</string>
+    <string name="send_device_info_to_server_short">שלח מידע אודות המכשיר</string>
+    <string name="send_device_info_category_event_based_title">מבוסס אירוע</string>
+    <string name="send_device_info_category_event_based_explanation">עידכון פריטים אלו מבוסס על אירועים מתאימים, לדוגמה שיחה נכנסת</string>
+    <string name="send_device_info_category_schedule_based_title">מבוסס תיזמון</string>
+    <string name="send_device_info_category_schedule_based_explanation">ככל שהמרווח הנבחר קצר יותר, כך ההשפעה רבה יותר על זמן חיי הסוללה של המכשיר שלך. בנוסף, ייתכן והמכשיר שלך לא ישתמש בדיוק במרווח הנבחר אלא יעכב את העדכונים כדי להפחית בצריכת החשמל של יישומים.</string>
+    <string name="send_device_info_category_general">כללי</string>
     <string name="send_device_info_item_prefix">קידומת שם פריט</string>
     <string name="send_device_info_item_prefix_summary">לשמות הפריטים עם התכונות הבאות יש קידומת זו \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">אין קידומת לשמות הפריטים עם התכונות הבאות</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
-    <string name="settings_alarm_clock_summary_on">שולח את שעת השעון המעורר לפריט \'%1$s \'</string>
+    <string name="settings_alarm_clock">שעת התראה</string>
+    <string name="settings_alarm_clock_summary_on">שלח את שעת השעון המעורר לפריט \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">אל תשלח את שעת השעון המעורר</string>
+    <string name="settings_phone_state">מצב השיחה</string>
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">אל תשלח את מצב השיחה</string>
     <string name="settings_phone_state_permission_denied">שליחת מצב שיחה נוטרל בעקבות חוסר הרשאות</string>
+    <string name="settings_battery_level">מצב הסוללה</string>
     <string name="settings_battery_level_summary_on">שלח מצב סוללה לפריט ׳%1$s׳</string>
+    <string name="settings_battery_level_summary_off">אל תשלח את מצב הסוללה</string>
     <string name="settings_charging_state">מצב טעינת הסוללה</string>
     <string name="settings_charging_state_summary_on">שלח את מצב טעינת הסוללה אל פריט \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">אל תשלח את מצב טעינת הסוללה</string>
     <string name="settings_wifi_ssid">שם רשת אלחוטית</string>
     <string name="settings_wifi_ssid_summary_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">שלח את שם הרשת האלחוטית (SSID) לפריט ׳%1$s׳. שירות \"איתור מיקום\" חייב להיות מאופשר אחרת openHAB לא יקבל את שם הרשת האלחוטית.</string>
+    <string name="settings_wifi_ssid_summary_off">אל תשלח את שם הרשת האלחוטית (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">שליחת שם הרשת האלחוטית איננה אפשרית בעקבות הרשאות חסרות</string>
+    <string name="settings_dnd_mode">מצב \'נא לא להפריע\'</string>
+    <string name="settings_dnd_mode_summary_on">שלח מצב \'נא לא להפריע\' לפריט \'%1$s \'</string>
+    <string name="settings_dnd_mode_summary_off">אל תשלח מצב \'נא לא להפריע\'</string>
     <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_allow">אפשר</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
@@ -210,6 +229,13 @@
     <string name="error_sending_alarm_clock_item_empty">אנא הכנס שם פריט תקף</string>
     <string name="retry">נסה שנית</string>
     <string name="ignore">התעלם</string>
+    <string name="send_device_info_schedule">תיזמון</string>
+    <string name="send_device_info_schedule_summary">כל 15 דקות בעת טעינה, אחרת כל %s דקות</string>
+    <string name="send_device_info_schedule_15_minutes">15 דקות</string>
+    <string name="send_device_info_schedule_1_hour">שעה אחת</string>
+    <string name="send_device_info_schedule_3_hours">3 שעות</string>
+    <string name="send_device_info_schedule_6_hours">6 שעות</string>
+    <string name="send_device_info_schedule_12_hours">12 שעות</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
@@ -223,7 +249,6 @@
     <string name="mtm_connect_anyway">האם ברצונך להמשיך בהתחברות בכל מקרה?</string>
     <string name="mtm_cert_details">פרטי התעודה:</string>
     <string name="mtm_decision_always">קבל\י</string>
-    <string name="mtm_decision_once">חד פעמי</string>
     <string name="mtm_decision_abort">בטל</string>
     <string name="mtm_notification">אימות תעודה</string>
     <string name="settings_openhab_none">ללא/כלום</string>
@@ -317,6 +342,7 @@
     <string name="log_activity_action_reload">רענן</string>
     <string name="log_activity_content_description_share">שתף יומן</string>
     <string name="empty_log">יומן הרישום ריק</string>
+    <string name="log_too_large_to_share">יומן הרישום גדול מידי בכדי לשתף. אנא נקה את יומן הרישום, שחזר את התקלה ולאחר מכן שתף את יומן הרישום.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">נעץ למסך הבית</string>
     <string name="home_shortcut_error_pinning">שגיאה בנעיצה למסך הבית</string>
