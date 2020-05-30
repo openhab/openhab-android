@@ -663,7 +663,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                 updatePrefixSummary(prefixPref, prefix)
 
                 BackgroundTasksManager.KNOWN_KEYS.forEach {
-                    (getPreference(it) as ItemUpdatingPreference).updateSummaryAndIcon(prefix)
+                    val pref = findPreference(it) as ItemUpdatingPreference?
+                    pref?.updateSummaryAndIcon(prefix)
                 }
                 true
             }
