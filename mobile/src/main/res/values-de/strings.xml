@@ -174,6 +174,7 @@
     <string name="send_device_info_category_event_based_title">Ereignisbasiert</string>
     <string name="send_device_info_category_event_based_explanation">Diese Items werden bei entsprechenden Ereignissen aktualisiert, z.B. bei einem eingehenden Anruf</string>
     <string name="send_device_info_category_schedule_based_title">Basierend auf einem Zeitplan</string>
+    <string name="send_device_info_category_schedule_based_explanation">Je kürzer das gewählte Intervall ist, desto größer ist die mögliche Auswirkung auf die Batterielebensdauer Ihres Geräts. Zusätzlich kann es sein, dass Ihr Gerät dem gewählten Intervall nicht genau folgt, sondern die Aktualisierungen verzögert, um den Energieverbrauch der Apps zu reduzieren.</string>
     <string name="send_device_info_category_general">Allgemein</string>
     <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
     <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben das Präfix \'%s\'</string>
