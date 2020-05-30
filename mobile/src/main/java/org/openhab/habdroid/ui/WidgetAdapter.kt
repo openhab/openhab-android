@@ -51,6 +51,7 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.media2.common.BaseResult
 import androidx.media2.common.MediaMetadata
 import androidx.media2.common.UriMediaItem
 import androidx.media2.player.MediaPlayer
@@ -972,6 +973,7 @@ class WidgetAdapter(
                             prepareFuture.get().resultCode
                         } catch (e: CancellationException) {
                             Log.d(TAG, "Task was canceled")
+                            BaseResult.RESULT_ERROR_UNKNOWN
                         }
                         Log.d(TAG, "Media player returned $code")
                         loadingIndicator.isVisible = false
