@@ -51,6 +51,7 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.media2.common.BaseResult
 import androidx.media2.common.MediaMetadata
 import androidx.media2.common.UriMediaItem
 import androidx.media2.player.MediaPlayer
@@ -87,6 +88,7 @@ import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
 import java.util.Random
+import java.util.concurrent.CancellationException
 import java.util.concurrent.Executor
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -967,7 +969,12 @@ class WidgetAdapter(
                     mediaPlayer.setMediaItem(mediaItem)
                     val prepareFuture = mediaPlayer.prepare()
                     prepareFuture.addListener(Runnable {
-                        val code = prepareFuture.get().resultCode
+                        val code = try {
+                            prepareFuture.get().resultCode
+                        } catch (e: CancellationException) {
+                            Log.d(TAG, "Task was canceled")
+                            BaseResult.RESULT_ERROR_UNKNOWN
+                        }
                         Log.d(TAG, "Media player returned $code")
                         loadingIndicator.isVisible = false
                         if (code >= 0) {
