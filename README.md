@@ -48,10 +48,10 @@ Thanks for your consideration and contribution!
 
 ## Setting up development environment
 
-If you want to contribute to Android application we are here to help you to set up development environment. openHAB client for Android is developed using Android Studio and also can be build with maven.
+If you want to contribute to Android application we are here to help you to set up development environment. openHAB client for Android is developed using Android Studio.
 
-- Download and install [Android Studio](https://developer.android.com/sdk/installing/studio.html) Android -> SDK Manager
-- Check out the latest code from Github via Android Studio
+- Download and install [Android Studio](https://developer.android.com/studio)
+- Check out the latest code from GitHub via Android Studio
 - Install SDKs and Gradle if you get asked
 - Click on "Build Variants" on the left side and change the build variant of the module "mobile" to "fullStableDebug".
 
