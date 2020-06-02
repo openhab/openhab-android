@@ -46,6 +46,7 @@ import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
@@ -222,6 +223,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         @ColorInt var previousColor: Int = 0
 
         private var notificationPollingPref: NotificationPollingPreference? = null
+        private var notificationStatusHint: Preference? = null
 
         override fun onStart() {
             super.onStart()
@@ -249,6 +251,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
             notificationPollingPref =
                 getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
+            notificationStatusHint = getPreference(PrefKeys.NOTIFICATION_STATUS_HINT)
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
@@ -296,13 +299,15 @@ class PreferencesActivity : AbstractBaseActivity() {
                 false
             }
 
-            if (!Util.isFlavorFoss) {
+            if (Util.isFlavorFoss) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_STATUS_HINT)
+            } else {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.FOSS_NOTIFICATIONS_ENABLED)
             }
-            updateNotificationPollSummary()
-            notificationPollingPref?.setOnPreferenceClickListener {
+            updateNotificationStatusSummaries()
+            notificationPollingPref?.setOnPreferenceChangeListener { _, _ ->
                 parentActivity.launch(Dispatchers.Main) {
-                    updateNotificationPollSummary()
+                    updateNotificationStatusSummaries()
                 }
                 true
             }
@@ -453,9 +458,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             pref.setSummary(R.string.settings_no_default_sitemap)
         }
 
-        private fun updateNotificationPollSummary() {
+        private fun updateNotificationStatusSummaries() {
             parentActivity.launch {
                 notificationPollingPref?.updateSummary()
+                notificationStatusHint?.apply {
+                    summary = CloudMessagingHelper.getPushNotificationStatus(this.context).message
+                }
             }
         }
 
@@ -530,11 +538,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onAvailableConnectionChanged() {
-            updateNotificationPollSummary()
+            updateNotificationStatusSummaries()
         }
 
         override fun onCloudConnectionChanged(connection: CloudConnection?) {
-            updateNotificationPollSummary()
+            updateNotificationStatusSummaries()
         }
 
         companion object {

@@ -88,6 +88,35 @@
             android:key="default_openhab_fullscreen"
             android:title="@string/settings_openhab_fullscreen" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/app_notifications">
+        <Preference
+            android:enabled="false"
+            android:selectable="false"
+            android:key="notification_status"
+            android:icon="@drawable/ic_info_outline_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.NotificationPollingPreference
+            android:defaultValue="false"
+            android:key="foss_notifications_enabled"
+            android:title="@string/push_notification_status" />
+        <Preference
+            android:key="default_openhab_alertringtone"
+            android:persistent="false"
+            android:title="@string/settings_ringtone"
+            android:icon="@drawable/ic_bell_ring_outline_grey_24dp" />
+        <ListPreference
+            android:key="default_openhab_notification_vibration"
+            android:title="@string/settings_notification_vibration"
+            android:summary="%s"
+            android:defaultValue="@string/settings_notification_vibration_value_off"
+            android:entries="@array/notificationVibration"
+            android:entryValues="@array/notificationVibrationValues"
+            android:icon="@drawable/ic_vibration_grey_24dp" />
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_alertringtone_vibration"
+            android:title="@string/settings_notification_ringtone_vibration"
+            android:icon="@drawable/ic_bell_outline_grey_24dp" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
         <org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
             android:defaultValue="@string/empty_string"
@@ -112,28 +141,6 @@
             android:key="taskerPlugin"
             android:title="@string/settings_tasker_plugin"
             android:summary="@string/settings_tasker_plugin_summary" />
-        <org.openhab.habdroid.ui.preference.NotificationPollingPreference
-            android:defaultValue="false"
-            android:key="foss_notifications_enabled"
-            android:title="@string/push_notification_title" />
-        <Preference
-            android:key="default_openhab_alertringtone"
-            android:persistent="false"
-            android:title="@string/settings_ringtone"
-            android:icon="@drawable/ic_bell_ring_outline_grey_24dp" />
-        <ListPreference
-            android:key="default_openhab_notification_vibration"
-            android:title="@string/settings_notification_vibration"
-            android:summary="%s"
-            android:defaultValue="@string/settings_notification_vibration_value_off"
-            android:entries="@array/notificationVibration"
-            android:entryValues="@array/notificationVibrationValues"
-            android:icon="@drawable/ic_vibration_grey_24dp" />
-        <Preference
-            android:clickable="true"
-            android:key="default_openhab_alertringtone_vibration"
-            android:title="@string/settings_notification_ringtone_vibration"
-            android:icon="@drawable/ic_bell_outline_grey_24dp" />
         <SwitchPreference
             android:key="data_saver"
             android:defaultValue="false"

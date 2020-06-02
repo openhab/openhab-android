@@ -103,7 +103,7 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
             }
 
             val label = v.findViewById<TextView>(R.id.enabledLabel)
-            label.text = pref.title
+            label.text = getString(R.string.app_notifications)
 
             val value = pref.value
             if (value != null) {

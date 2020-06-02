@@ -55,15 +55,15 @@
     <string name="settings_chart_scaling_value_l">Large</string>
     <string name="settings_openhab_chart_hq">High resolution charts</string>
     <string name="settings_openhab_chart_hq_summary">Generating charts can be taxing to the server. If you experience slow chart loading times and your server isn\'t powerful, disable this option to improve loading times.</string>
-    <string name="settings_ringtone">Notification ringtone</string>
-    <string name="settings_ringtone_none">None</string>
-    <string name="settings_ringtone_on_external">Unknown ringtone on external storage</string>
     <string name="settings_clear_default_sitemap">Clear default Sitemap</string>
     <string name="settings_no_default_sitemap">No default Sitemap selected</string>
     <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Local</string>
-    <string name="settings_notification_vibration">Notification vibration</string>
+    <string name="settings_ringtone">Ringtone</string>
+    <string name="settings_ringtone_none">None</string>
+    <string name="settings_ringtone_on_external">Unknown ringtone on external storage</string>
+    <string name="settings_notification_vibration">Vibration</string>
     <string name="settings_notification_vibration_off">Off</string>
     <string name="settings_notification_vibration_short">Short</string>
     <string name="settings_notification_vibration_long">Long</string>
@@ -72,7 +72,7 @@
     <string name="settings_notification_vibration_value_short" translatable="false">short</string>
     <string name="settings_notification_vibration_value_long" translatable="false">long</string>
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
-    <string name="settings_notification_ringtone_vibration">Notification settings</string>
+    <string name="settings_notification_ringtone_vibration">Ringtone &amp; Vibration</string>
     <string name="settings_connection_summary">Connected to %s</string>
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
     <string name="beta">Beta</string>
@@ -502,7 +502,7 @@
     <string name="push_notification_status_no_remote_configured">Unavailable, remote server isn\'t configured</string>
     <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
     <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
-    <string name="push_notification_title">Notifications</string>
+    <string name="push_notification_status">Status</string>
     <string name="push_notification_help_icon_description">Click here for help</string>
     <string name="push_notification_hint">The notifications are polled on a regular schedule, which is the same than for \"Send device information to server\"</string>
 </resources>
