@@ -427,7 +427,7 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
     <string name="data_saver_title">Datensparmodus</string>
     <string name="data_saver_on">Sitemap-Elemente, die größere Datenübertragungen erfordern, werden nicht geladen</string>
-    <string name="data_saver_off">Der systemweiten Datenspar-Einstellung wird beim Laden von datennutzenden Sitemap-Elementen folgt</string>
+    <string name="data_saver_off">Für das Laden von datennutzenden Sitemap-Elementen wird die systemweite Datenspar-Einstellung verwendet</string>
     <string name="data_saver_off_pre_n">Alle Sitemap-Elemente werden geladen, unabhängig ihrer Datennutzung</string>
     <string name="data_saver_load">Trotzdem laden</string>
     <string name="data_saver_hint">%s wurde nicht geladen um Daten einzusparen</string>
