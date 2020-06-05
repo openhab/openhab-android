@@ -72,7 +72,10 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
     override fun onResume() {
         super.onResume()
-        onRefresh()
+        loadChartImage(false)
+        if (widget.refresh > 0 && !isDataSaverActive()) {
+            chart.startRefreshing(widget.refresh)
+        }
     }
 
     override fun onPause() {
@@ -144,6 +147,11 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     override fun onRefresh() {
+        loadChartImage(true)
+        swipeLayout.isRefreshing = false
+    }
+
+    private fun loadChartImage(force: Boolean) {
         val connection = ConnectionFactory.usableConnectionOrNull
         if (connection == null) {
             finish()
@@ -166,11 +174,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         ) ?: return
 
         Log.d(TAG, "Load chart with url $chartUrl")
-        chart.setImageUrl(connection, chartUrl, chart.width, forceLoad = true)
-        if (widget.refresh > 0 && !isDataSaverActive()) {
-            chart.startRefreshing(widget.refresh)
-        }
-        swipeLayout.isRefreshing = false
+        chart.setImageUrl(connection, chartUrl, chart.width, forceLoad = force)
     }
 
     private fun updateHasLegendButtonState(item: MenuItem) {

@@ -73,9 +73,13 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
 
-        if (lastRequest?.isActiveForUrl(actualUrl) == true) {
-            // We're already in the process of loading this image, thus there's nothing to do
-            return
+        if (actualUrl == lastRequest?.url) {
+            if (lastRequest?.isActive() == true) {
+                // We're already in the process of loading this image, thus there's nothing to do
+                return
+            }
+        } else {
+            lastRefreshTimestamp = 0
         }
 
         cancelCurrentLoad()
@@ -140,8 +144,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         scope = CoroutineScope(Dispatchers.Main + Job())
-        val request = lastRequest
-        if (request != null) {
+        lastRequest?.let { request ->
             if (!request.hasCompleted()) {
                 request.execute(false)
             } else {
@@ -157,12 +160,10 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     }
 
     fun startRefreshing(refreshDelayInMs: Int) {
-        cancelRefresh()
+        refreshJob?.cancel()
+        refreshJob = null
         refreshInterval = refreshDelayInMs.toLong()
-
-        refreshJob = scope?.launch {
-            lastRefreshTimestamp = SystemClock.uptimeMillis()
-            lastRequest?.execute(true)
+        if (lastRequest?.isActive() != true) {
             scheduleNextRefresh()
         }
     }
@@ -171,6 +172,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         refreshJob?.cancel()
         refreshJob = null
         refreshInterval = 0
+        lastRefreshTimestamp = 0
     }
 
     private fun setBitmapInternal(bitmap: Bitmap) {
@@ -189,7 +191,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val timeToNextRefresh = refreshInterval + lastRefreshTimestamp - SystemClock.uptimeMillis()
         refreshJob = scope?.launch {
             delay(timeToNextRefresh)
-            lastRefreshTimestamp = SystemClock.uptimeMillis()
             lastRequest?.execute(true)
         }
     }
@@ -223,7 +224,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     private inner class HttpImageRequest(
         private val client: HttpClient,
-        private val url: HttpUrl,
+        val url: HttpUrl,
         private val size: Int,
         private val timeoutMillis: Long
     ) {
@@ -231,6 +232,11 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         private var lastRandomness = Random.Default.nextInt()
 
         fun execute(avoidCache: Boolean) {
+            if (job?.isActive == true) {
+                // Nothing to do, we're still in the process of downloading
+                return
+            }
+
             Log.i(TAG, "Refreshing image at $url, avoidCache $avoidCache")
             val cachingMode = if (avoidCache)
                 HttpClient.CachingMode.AVOID_CACHE
@@ -254,6 +260,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                         .response
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
+                    lastRefreshTimestamp = System.currentTimeMillis()
                     scheduleNextRefresh()
                 } catch (e: HttpClient.HttpException) {
                     removeProgressDrawable()
@@ -270,8 +277,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             return job?.isCompleted == true
         }
 
-        fun isActiveForUrl(url: HttpUrl): Boolean {
-            return job?.isActive == true && this.url == url
+        fun isActive(): Boolean {
+            return job?.isActive == true
         }
     }
 
