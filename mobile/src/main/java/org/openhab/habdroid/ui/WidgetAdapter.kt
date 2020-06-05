@@ -886,7 +886,6 @@ class WidgetAdapter(
         connection: Connection
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_chartitem, connection), View.OnClickListener {
         private val chart = widgetContentView as WidgetImageView
-        private val random = Random()
         private val prefs: SharedPreferences
         private var refreshRate = 0
         private val density: Int
@@ -911,7 +910,7 @@ class WidgetAdapter(
             }
 
             val chartUrl =
-                widget.toChartUrl(prefs, random, parent.width, chartTheme = chartTheme, density = density) ?: return
+                widget.toChartUrl(prefs, parent.width, chartTheme = chartTheme, density = density) ?: return
             Log.d(TAG, "Chart url = $chartUrl")
             chart.setImageUrl(connection, chartUrl, parent.width, forceLoad = true)
             refreshRate = widget.refresh

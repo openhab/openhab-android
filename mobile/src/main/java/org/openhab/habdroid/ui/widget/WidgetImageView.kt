@@ -31,6 +31,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import kotlin.random.Random
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
@@ -41,6 +42,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var originalScaleType: ScaleType? = null
     private var originalAdjustViewBounds: Boolean = false
     private val emptyHeightToWidthRatio: Float
+    private val addRandomnessToUrl: Boolean
     private var internalLoad: Boolean = false
     private var lastRequest: HttpImageRequest? = null
 
@@ -53,6 +55,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             fallback = getDrawable(R.styleable.WidgetImageView_fallback)
             progressDrawable = getDrawable(R.styleable.WidgetImageView_progressIndicator)
             emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f)
+            addRandomnessToUrl = getBoolean(R.styleable.WidgetImageView_addRandomnessToUrl, false)
             recycle()
         }
 
@@ -225,6 +228,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         private val timeoutMillis: Long
     ) {
         private var job: Job? = null
+        private var lastRandomness = Random.Default.nextInt()
 
         fun execute(avoidCache: Boolean) {
             Log.i(TAG, "Refreshing image at $url, avoidCache $avoidCache")
@@ -233,9 +237,18 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             else
                 HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE
 
+            val actualUrl = if (addRandomnessToUrl) {
+                if (avoidCache) {
+                    lastRandomness = Random.Default.nextInt()
+                }
+                url.newBuilder().setQueryParameter("random", lastRandomness.toString()).build()
+            } else {
+                url
+            }
+
             job = scope?.launch(Dispatchers.Main) {
                 try {
-                    val bitmap = client.get(url.toString(),
+                    val bitmap = client.get(actualUrl.toString(),
                         timeoutMillis = timeoutMillis, caching = cachingMode)
                         .asBitmap(size)
                         .response

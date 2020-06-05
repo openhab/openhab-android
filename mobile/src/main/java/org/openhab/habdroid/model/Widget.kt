@@ -86,7 +86,6 @@ data class Widget(
 
     fun toChartUrl(
         prefs: SharedPreferences,
-        random: Random,
         width: Int,
         height: Int = width / 2,
         chartTheme: CharSequence?,
@@ -104,7 +103,6 @@ data class Widget(
             .appendQueryParameter(if (item.type === Item.Type.Group) "groups" else "items", item.name)
             .appendQueryParameter("dpi", actualDensity.toInt() / resDivider)
             .appendQueryParameter("period", forcedPeriod)
-            .appendQueryParameter("random", random.nextInt())
 
         if (service.isNotEmpty()) {
             chartUrl.appendQueryParameter("service", service)

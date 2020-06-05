@@ -41,7 +41,6 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     private lateinit var widget: Widget
     private lateinit var chartTheme: CharSequence
     private var density: Int = 0
-    private val random = Random()
     private var showLegend: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -158,7 +157,6 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         val chartUrl = widget.toChartUrl(
             getPrefs(),
-            random,
             chart.width,
             chart.height,
             chartTheme,
