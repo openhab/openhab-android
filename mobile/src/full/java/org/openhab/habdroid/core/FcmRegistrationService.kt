@@ -67,6 +67,8 @@ class FcmRegistrationService : JobIntentService() {
             ACTION_REGISTER -> {
                 try {
                     runBlocking { registerFcm(connection) }
+                    CloudMessagingHelper.registrationFailureReason = null
+                    CloudMessagingHelper.registrationDone = true
                 } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     CloudMessagingHelper.registrationDone = true
@@ -82,8 +84,6 @@ class FcmRegistrationService : JobIntentService() {
                     }
                     Log.e(TAG, "FCM registration failed", e)
                 }
-
-                CloudMessagingHelper.registrationDone = true
             }
             ACTION_HIDE_NOTIFICATION -> {
                 val id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1)
