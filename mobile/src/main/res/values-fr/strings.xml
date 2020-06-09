@@ -169,9 +169,6 @@
     <string name="empty_page">Cette page ne contient aucun widget qui soit défini pour être visible</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Envoyer les infos de l\'appareil au serveur</string>
-    <string name="send_device_info_item_prefix">Préfixe du nom de l\'Item</string>
-    <string name="send_device_info_item_prefix_summary">Les noms des Items des fonctionnalités suivantes ont le préfixe \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Aucun préfixe défini pour les noms d\'Item des fonctionnalités suivantes</string>
     <string name="settings_item_update_pref_howto_summary">Cliquez ici pour obtenir des conseils sur la façon de configurer cette fonctionnalité côté serveur</string>
     <string name="settings_phone_state_permission_denied">L\'envoi de l\'état du téléphone a été désactivé en raison de permissions manquantes</string>
     <string name="settings_wifi_ssid">Nom du réseau Wifi</string>
@@ -199,9 +196,9 @@
     <string name="item_update_http_error_label">Échec de la mise à jour de %1$s : %2$s</string>
     <string name="item_update_connection_error">La mise à jour de l\'Item \'%1$s\' a échoué (Aucune connexion)</string>
     <string name="item_update_connection_error_label">Échec de la mise à jour %1$s (Aucune connexion)</string>
-    <string name="error_sending_alarm_clock_item_empty">Veuillez entrer un nom d\'Item valide</string>
     <string name="retry">Réessayer</string>
     <string name="ignore">Ignorer</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Aucune notification n\'a été envoyée jusqu\'à maintenant</string>
     <string name="notification_list_error">Une erreur s’est produite lors de la récupération des notifications</string>
