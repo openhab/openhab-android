@@ -289,6 +289,15 @@ All notifications are sent as "high priority" messages, which means that the dev
 However vendors/third parties can implement custom "cleanup", "optimization" and "battery saver" apps, which might lead to delayed notifications.
 Please have a look at [dontkillmyapp.com](https://dontkillmyapp.com/) how to make an exception for openHAB in these apps.
 
+### Notifications in FOSS version
+
+The version on Play Store uses [FCM](https://en.wikipedia.org/wiki/Firebase_Cloud_Messaging) to receive push notifications in real time.
+In the FOSS version this library has to be removed and has been replaced by a polling mechanism.
+This has a few disadvantages:
+* Notifications are only fetched every 6 hours by default. It uses the same schedule than [Send device information to openHAB](#Send device information to openHAB).
+* Read status aren't synced between devices.
+* The maximum number of messages that can be received during one fetch is limited to 20.
+
 ### My voice command rule isn't run
 
 Please make sure `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/paperui/index.html#/configuration/system) and `Rule Voice Interpreter` => `Configure` => Select correct item (http://openhab:8080/paperui/index.html#/configuration/services?tab=voice).

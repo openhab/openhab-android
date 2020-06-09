@@ -48,14 +48,16 @@ object PrefKeys {
     const val SEND_WIFI_SSID = "send_wifi_ssid"
     const val SEND_DND_MODE = "send_dnd_mode"
 
+    const val NOTIFICATION_STATUS_HINT = "notification_status"
+    const val NOTIFICATION_TONE = "default_openhab_alertringtone"
+    const val NOTIFICATION_VIBRATION = "default_openhab_notification_vibration"
+    const val NOTIFICATION_TONE_VIBRATION = "default_openhab_alertringtone_vibration"
+
     const val DEV_ID = "sendDeviceInfoPrefix"
     const val DEV_ID_PREFIX_VOICE = "device_identifier_prefix_voice"
     const val DEV_ID_PREFIX_BG_TASKS = "device_identifier_prefix_background_tasks"
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
-    const val NOTIFICATION_TONE = "default_openhab_alertringtone"
-    const val NOTIFICATION_VIBRATION = "default_openhab_notification_vibration"
-    const val NOTIFICATION_TONE_VIBRATION = "default_openhab_alertringtone_vibration"
     const val DATA_SAVER = "data_saver"
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
     const val LOG = "default_openhab_log"
@@ -81,4 +83,10 @@ object PrefKeys {
     const val SUBSCREEN_LOCAL_CONNECTION = "default_openhab_local_connection"
     const val SUBSCREEN_REMOTE_CONNECTION = "default_openhab_remote_connection"
     const val SUBSCREEN_SEND_DEVICE_INFO = "send_device_info"
+
+    /**
+     * FOSS only
+     */
+    const val FOSS_LAST_SEEN_MESSAGE = "foss_last_seen_message"
+    const val FOSS_NOTIFICATIONS_ENABLED = "foss_notifications_enabled"
 }

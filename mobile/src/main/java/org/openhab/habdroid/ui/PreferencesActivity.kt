@@ -45,16 +45,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.core.connection.CloudConnection
+import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+import org.openhab.habdroid.ui.preference.NotificationPollingPreference
 import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
@@ -179,6 +183,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (preference) {
                 is UrlInputPreference -> showDialog(preference.createDialog())
                 is ItemUpdatingPreference -> showDialog(preference.createDialog())
+                is NotificationPollingPreference -> showDialog(preference.createDialog())
                 is CustomInputTypePreference -> showDialog(preference.createDialog())
                 is DeviceIdentifierPreference -> showDialog(preference.createDialog())
                 else -> super.onDisplayPreferenceDialog(preference)
@@ -212,9 +217,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
-    class MainSettingsFragment : AbstractSettingsFragment() {
+    class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.UpdateListener {
         override val titleResId: Int @StringRes get() = R.string.action_settings
         @ColorInt var previousColor: Int = 0
+
+        private var notificationPollingPref: NotificationPollingPreference? = null
+        private var notificationStatusHint: Preference? = null
 
         override fun onStart() {
             super.onStart()
@@ -226,6 +234,12 @@ class PreferencesActivity : AbstractBaseActivity() {
                 PrefKeys.REMOTE_PASSWORD)
             updateScreenLockStateAndSummary(prefs.getStringOrFallbackIfEmpty(PrefKeys.SCREEN_LOCK,
                 getString(R.string.settings_screen_lock_off_value)))
+            ConnectionFactory.addListener(this)
+        }
+
+        override fun onStop() {
+            super.onStop()
+            ConnectionFactory.removeListener(this)
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -234,6 +248,9 @@ class PreferencesActivity : AbstractBaseActivity() {
             val localConnPref = getPreference(PrefKeys.SUBSCREEN_LOCAL_CONNECTION)
             val remoteConnPref = getPreference(PrefKeys.SUBSCREEN_REMOTE_CONNECTION)
             val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
+            notificationPollingPref =
+                getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
+            notificationStatusHint = getPreference(PrefKeys.NOTIFICATION_STATUS_HINT)
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
@@ -279,6 +296,19 @@ class PreferencesActivity : AbstractBaseActivity() {
             sendDeviceInfoPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(SendDeviceInfoSettingsFragment())
                 false
+            }
+
+            if (Util.isFlavorFoss) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_STATUS_HINT)
+            } else {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.FOSS_NOTIFICATIONS_ENABLED)
+            }
+            updateNotificationStatusSummaries()
+            notificationPollingPref?.setOnPreferenceChangeListener { _, _ ->
+                parentActivity.launch(Dispatchers.Main) {
+                    updateNotificationStatusSummaries()
+                }
+                true
             }
 
             themePref.setOnPreferenceChangeListener { _, _ ->
@@ -427,6 +457,15 @@ class PreferencesActivity : AbstractBaseActivity() {
             pref.setSummary(R.string.settings_no_default_sitemap)
         }
 
+        private fun updateNotificationStatusSummaries() {
+            parentActivity.launch {
+                notificationPollingPref?.updateSummary()
+                notificationStatusHint?.apply {
+                    summary = CloudMessagingHelper.getPushNotificationStatus(this.context).message
+                }
+            }
+        }
+
         private fun updateScreenLockStateAndSummary(value: String?) {
             val pref = findPreference<Preference>(PrefKeys.SCREEN_LOCK) ?: return
             val km = ContextCompat.getSystemService(pref.context, KeyguardManager::class.java)!!
@@ -495,6 +534,14 @@ class PreferencesActivity : AbstractBaseActivity() {
                     false
                 }
             }
+        }
+
+        override fun onAvailableConnectionChanged() {
+            updateNotificationStatusSummaries()
+        }
+
+        override fun onCloudConnectionChanged(connection: CloudConnection?) {
+            updateNotificationStatusSummaries()
         }
 
         companion object {
@@ -622,7 +669,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             addPreferencesFromResource(R.xml.preferences_device_information)
 
             val prefixHint = getPreference(PrefKeys.DEV_ID_PREFIX_BG_TASKS)
-            val schedulePref = getPreference(PrefKeys.SEND_DEVICE_INFO_SCHEDULE)
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_WIFI_SSID) as ItemUpdatingPreference
 
@@ -665,13 +711,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 prefixHint.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
             } else {
                 prefixHint.context.getString(R.string.send_device_info_item_prefix_summary, prefix)
-            }
-
-            schedulePref.setOnPreferenceChangeListener { preference, _ ->
-                parentActivity.launch(Dispatchers.Main) {
-                    BackgroundTasksManager.schedulePeriodicTrigger(preference.context, true)
-                }
-                true
             }
         }
 

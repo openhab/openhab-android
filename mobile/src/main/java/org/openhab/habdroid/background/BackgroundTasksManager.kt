@@ -44,6 +44,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -189,6 +190,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
                 }
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
+                key == PrefKeys.SEND_DEVICE_INFO_SCHEDULE -> schedulePeriodicTrigger(context, true)
+                key == PrefKeys.FOSS_NOTIFICATIONS_ENABLED -> schedulePeriodicTrigger(context, false)
             }
         }
     }
@@ -308,7 +311,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .map { key -> prefs.getStringOrNull(key).toItemUpdatePrefValue() }
                 .any { value -> value.first }
 
-            if (!periodicWorkIsNeeded) {
+            if (!periodicWorkIsNeeded && !CloudMessagingHelper.needsPollingForNotifications(context)) {
                 Log.d(TAG, "Periodic workers are not needed, canceling...")
                 workManager.cancelAllWorkByTag(WORKER_TAG_PERIODIC_TRIGGER)
                 return
@@ -328,9 +331,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 return
             }
 
-            Log.d(TAG, "Scheduling periodic workers. Currently running:" +
-                " notCharging $isNotChargingWorkerRunning, charging $isChargingWorkerRunning")
-
             val notChargingConstraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
@@ -343,6 +343,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 (repeatInterval * 0.75).toLong(),
                 PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
             )
+
+            Log.d(TAG, "Scheduling periodic workers with $repeatInterval repeat interval. Currently running:" +
+                " notCharging $isNotChargingWorkerRunning, charging $isChargingWorkerRunning")
 
             val notChargingWorkRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
                 repeatInterval, TimeUnit.MILLISECONDS,

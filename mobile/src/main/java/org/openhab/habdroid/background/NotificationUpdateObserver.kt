@@ -149,9 +149,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         const val NOTIFICATION_ID_BACKGROUND_WORK_RUNNING = 1001
         const val CHANNEL_ID_BACKGROUND = "background"
         const val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
-        @Suppress("MemberVisibilityCanBePrivate") // Used in full flavor
         const val CHANNEL_ID_MESSAGE_DEFAULT = "default"
-        @Suppress("MemberVisibilityCanBePrivate") // Used in full flavor
         const val CHANNEL_GROUP_MESSAGES = "messages"
         private const val CHANNEL_GROUP_OTHER = "other"
 

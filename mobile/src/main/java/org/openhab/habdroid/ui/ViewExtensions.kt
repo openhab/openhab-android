@@ -76,8 +76,9 @@ fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
     }
 }
 
-fun ImageView.setupHelpIcon(url: String, contentDescription: String) {
+fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {
     val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+    val contentDescription = context.getString(contentDescriptionRes)
     if (intent.isResolvable(context)) {
         setOnClickListener { context.startActivity(intent) }
         this.contentDescription = contentDescription
