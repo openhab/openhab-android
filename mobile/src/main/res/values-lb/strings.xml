@@ -131,9 +131,6 @@
     <string name="empty_page">Des Säit huet keng visibel Widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
-    <string name="send_device_info_item_prefix">Prefix vum Item Numm</string>
-    <string name="send_device_info_item_prefix_summary">D‘ Item Nimm vu folgende Features hunn dëse Prefix \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Fir Item Nimm vun de folgenden Funktiounen ass keen Prefix gesat</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
@@ -148,8 +145,8 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Den Item \'%1$s\' konnt net geupdate ginn (Keng Verbindung)</string>
     <string name="item_update_connection_error_label">%1$s Update huet net funktionéiert (keng Verbindung)</string>
-    <string name="error_sending_alarm_clock_item_empty">Gitt w.e.g. en valabelen Item Numm un</string>
     <string name="retry">Nach emol probéieren</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Bis elo goufe keng Notifikatiounen verschéckt</string>
     <string name="notification_list_error">Wärend dem Lueden vun den Notifikatiounen ass e Feeler geschitt</string>
