@@ -123,7 +123,6 @@
     <string name="empty_page">هذه الصفحة لا تحتوي على أي من القطع التي تم تعيينها لتكون مرئية</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">إرسال معلومات الجهاز إلى الخادم</string>
-    <string name="send_device_info_item_prefix">بادئة اسم العنصر</string>
     <string name="settings_wifi_ssid">اسم الشبكة اللاسلكية</string>
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
     <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
@@ -131,6 +130,7 @@
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">اعد المحاولة</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">لم يتم إرسال أي إشعارات حتى الآن</string>
     <string name="notification_list_error">حدث خطأ أثناء تحميل الإشعارات</string>
