@@ -169,9 +169,6 @@
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">デバイス情報をサーバーに送信</string>
-    <string name="send_device_info_item_prefix">アイテム名の接頭辞</string>
-    <string name="send_device_info_item_prefix_summary">次の機能のアイテム名は \'%s\' が頭につきます</string>
-    <string name="send_device_info_item_prefix_summary_not_set">次の機能のアイテム名に接頭語は設定されていません</string>
     <string name="settings_item_update_pref_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
     <string name="settings_phone_state_permission_denied">アクセス許可がないため通話状態の送信は無効です</string>
     <string name="settings_charging_state">充電状態</string>
@@ -195,9 +192,9 @@
     <string name="item_update_http_error_label">%1$s の更新に失敗しました: %2$s</string>
     <string name="item_update_connection_error">アイテム \'%1$s\' を更新できませんでした (接続がありません)</string>
     <string name="item_update_connection_error_label">%1$s を更新できませんでした (接続がありません)</string>
-    <string name="error_sending_alarm_clock_item_empty">正しいアイテム名を入力してください</string>
     <string name="retry">リトライ</string>
     <string name="ignore">無視</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">まだ通知は送信されていません</string>
     <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
