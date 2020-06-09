@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Sitemap predefinito attuale: %1$s</string>
     <string name="settings_openhab_alt_connection">Remoto</string>
     <string name="settings_openhab_connection">Locale</string>
+    <string name="settings_ringtone">Suoneria</string>
     <string name="settings_ringtone_none">Nessuno</string>
     <string name="settings_ringtone_on_external">Suoneria sconosciuta sulla memoria esterna</string>
+    <string name="settings_notification_vibration">Vibrazione</string>
     <string name="settings_notification_vibration_off">Off</string>
     <string name="settings_notification_vibration_short">Breve</string>
     <string name="settings_notification_vibration_long">Lungo</string>
     <string name="settings_notification_vibration_twice">Due volte</string>
+    <string name="settings_notification_ringtone_vibration">Suoneria &amp; Vibrazione</string>
     <string name="settings_connection_summary">Connesso a %s</string>
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <string name="beta">Beta</string>
@@ -438,4 +441,16 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Mappa</string>
     <string name="widget_type_chart">Grafico</string>
+    <string name="notification_channel_severity_value">Gravità \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notifiche inviate dal server con gravità \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nuova notifica</item>
+        <item quantity="other">%d nuove notifiche</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Non disponibile, server remoto non configurato</string>
+    <string name="push_notification_status_http_error">Non disponibile, errore di connessione al server remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Non disponibile, il server remoto non è un\'istanza cloud openHAB</string>
+    <string name="push_notification_status">Stato</string>
+    <string name="push_notification_help_icon_description">Clicca qui per l\'aiuto</string>
+    <string name="push_notification_hint">Le notifiche sono controllate ad intervalli regolari, che sono gli stessi per \"Invia informazioni sul dispositivo al server\"</string>
 </resources>
