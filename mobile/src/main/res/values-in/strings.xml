@@ -121,8 +121,8 @@
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Item \'%1$s\' gagal memutakhirkan (Tidak ada koneksi)</string>
-    <string name="error_sending_alarm_clock_item_empty">Mohon masukkan nama Item yang valid</string>
     <string name="retry">Coba lagi</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Tidak ada notifikasi terkirim selama ini</string>
     <string name="notification_list_error">Terjadi sebuah kesalahan saat memuat notifikasi</string>
