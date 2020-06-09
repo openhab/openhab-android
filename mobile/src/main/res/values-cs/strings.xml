@@ -174,10 +174,6 @@
     <string name="send_device_info_category_event_based_title">Na základě události</string>
     <string name="send_device_info_category_event_based_explanation">Tyto položky jsou aktualizovány na základě odpovídajících událostí, např. příchozí telefonní hovor</string>
     <string name="send_device_info_category_schedule_based_title">Naplánované</string>
-    <string name="send_device_info_category_general">Obecné</string>
-    <string name="send_device_info_item_prefix">Prefix názvu Item</string>
-    <string name="send_device_info_item_prefix_summary">Jména Item následujících funkcí jsou s předponou \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Pro jména Item s následujícími funkcemi není nastavena žádná předpona</string>
     <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
     <string name="settings_phone_state">Stav hovoru</string>
     <string name="settings_phone_state_summary_off">Neodesílat stav hovoru</string>
@@ -214,7 +210,6 @@
     <string name="item_update_http_error_label">%1$s aktualizace selhala: %2$s</string>
     <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
     <string name="item_update_connection_error_label">Chyba aktualizace %1$s (žádné připojení)</string>
-    <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
     <string name="retry">Opakovat</string>
     <string name="ignore">Ignorovat</string>
     <string name="send_device_info_schedule">Rozvrh</string>
@@ -224,6 +219,7 @@
     <string name="send_device_info_schedule_3_hours">3 hodiny</string>
     <string name="send_device_info_schedule_6_hours">6 hodin</string>
     <string name="send_device_info_schedule_12_hours">12 hodin</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
