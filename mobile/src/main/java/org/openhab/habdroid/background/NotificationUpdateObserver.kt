@@ -234,7 +234,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
         private fun createProgressNotification(context: Context, @StringRes messageResId: Int): Notification {
             return createBaseBuilder(context, CHANNEL_ID_BACKGROUND)
-                .setContentText(context.getString(messageResId))
+                .setContentTitle(context.getString(messageResId))
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
@@ -250,7 +250,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 errors.size, errors.size)
             val prefs = context.getPrefs()
             val nb = createBaseBuilder(context, CHANNEL_ID_BACKGROUND_ERROR)
-                .setContentText(text)
+                .setContentTitle(text)
                 .setCategory(NotificationCompat.CATEGORY_ERROR)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
@@ -297,7 +297,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
             return NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
-                .setContentTitle(context.getString(R.string.app_name))
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
                 .setContentIntent(contentIntent)
