@@ -330,9 +330,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         // Handle menu items
         return when (item.itemId) {
             R.id.mainmenu_voice_recognition -> {
-                launch {
-                    CloudMessagingHelper.pollForNotifications(this@MainActivity)
-                }
                 launchVoiceRecognition()
                 true
             }

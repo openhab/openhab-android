@@ -45,7 +45,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -670,7 +669,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             addPreferencesFromResource(R.xml.preferences_device_information)
 
             val prefixHint = getPreference(PrefKeys.DEV_ID_PREFIX_BG_TASKS)
-            val schedulePref = getPreference(PrefKeys.SEND_DEVICE_INFO_SCHEDULE)
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_WIFI_SSID) as ItemUpdatingPreference
 
