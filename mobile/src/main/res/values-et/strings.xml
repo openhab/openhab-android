@@ -74,9 +74,9 @@
     <string name="item_upload_in_progress">üksusi hetkel uuendatakse</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
-    <string name="error_sending_alarm_clock_item_empty">Sisesta korrektne elemendi nimi</string>
     <string name="retry">Uuesti</string>
     <string name="ignore">Eira</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_error">Teatiste laadimisel ilmnes viga</string>
     <string name="list_loading_message">Laadimine\u2026</string>
