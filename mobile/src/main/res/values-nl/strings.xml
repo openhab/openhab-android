@@ -129,9 +129,6 @@
     <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
-    <string name="send_device_info_item_prefix">Voorvoegsel Itemnaam</string>
-    <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben als voorvoegsel \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Er is geen voorvoegsel ingesteld voor de Item namen van de volgende functies</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
     <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
@@ -146,8 +143,8 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
     <string name="item_update_connection_error_label">%1$s update mislukt (Geen verbinding)</string>
-    <string name="error_sending_alarm_clock_item_empty">Voer een geldige Itemnaam in</string>
     <string name="retry">Opnieuw</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Tot nu toe zijn er geen notificaties verzonden</string>
     <string name="notification_list_error">Er is een fout opgetreden tijdens het laden van notificaties</string>
