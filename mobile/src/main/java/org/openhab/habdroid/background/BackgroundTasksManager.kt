@@ -106,7 +106,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         info.itemName,
                         info.label,
                         info.value,
-                        BackoffPolicy.EXPONENTIAL,
+                        info.isImportant,
                         info.showToast,
                         info.taskerIntent,
                         info.asCommand
@@ -145,10 +145,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     itemName,
                     label,
                     ItemUpdateWorker.ValueWithInfo(state, mappedState),
-                    BackoffPolicy.EXPONENTIAL,
-                    false,
-                    intent.getStringExtra(TaskerPlugin.Setting.EXTRA_PLUGIN_COMPLETION_INTENT),
-                    asCommand
+                    isImportant = false,
+                    showToast = false,
+                    taskerIntent = intent.getStringExtra(TaskerPlugin.Setting.EXTRA_PLUGIN_COMPLETION_INTENT),
+                    asCommand = asCommand
                 )
                 if (isOrderedBroadcast) {
                     resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
@@ -163,6 +163,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val itemName: String,
         val label: String?,
         val value: ItemUpdateWorker.ValueWithInfo,
+        val isImportant: Boolean,
         val showToast: Boolean,
         val taskerIntent: String?,
         val asCommand: Boolean
@@ -273,7 +274,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     tag.item,
                     tag.label,
                     value,
-                    BackoffPolicy.LINEAR,
+                    isImportant = true,
                     showToast = true,
                     asCommand = true
                 )
@@ -288,7 +289,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     data.item,
                     data.label,
                     ItemUpdateWorker.ValueWithInfo(data.state, data.mappedState),
-                    BackoffPolicy.LINEAR,
+                    isImportant = true,
                     showToast = true,
                     asCommand = true
                 )
@@ -405,7 +406,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 prefix + setting.second,
                 null,
                 value,
-                BackoffPolicy.EXPONENTIAL,
+                isImportant = false,
                 showToast = false,
                 asCommand = true
             )
@@ -417,7 +418,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             itemName: String,
             label: String?,
             value: ItemUpdateWorker.ValueWithInfo,
-            backoffPolicy: BackoffPolicy,
+            isImportant: Boolean,
             showToast: Boolean,
             taskerIntent: String? = null,
             asCommand: Boolean
@@ -425,10 +426,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-            val inputData = ItemUpdateWorker.buildData(itemName, label, value, showToast, taskerIntent, asCommand)
+            val inputData =
+                ItemUpdateWorker.buildData(itemName, label, value, showToast, taskerIntent, asCommand, isImportant)
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
                 .setConstraints(constraints)
-                .setBackoffCriteria(backoffPolicy, WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+                .setBackoffCriteria(if (isImportant) BackoffPolicy.LINEAR else BackoffPolicy.EXPONENTIAL,
+                    WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
                 .setInputData(inputData)

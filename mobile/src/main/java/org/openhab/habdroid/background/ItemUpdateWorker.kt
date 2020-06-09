@@ -14,10 +14,14 @@
 package org.openhab.habdroid.background
 
 import android.content.Context
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
 import android.os.Parcelable
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.work.Data
+import androidx.work.ForegroundInfo
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import kotlinx.android.parcel.Parcelize
@@ -25,6 +29,7 @@ import kotlinx.coroutines.runBlocking
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.NotificationUpdateObserver.Companion.NOTIFICATION_ID_BACKGROUND_WORK_RUNNING
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
@@ -47,6 +52,9 @@ import javax.xml.parsers.ParserConfigurationException
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
+        if (inputData.getBoolean(INPUT_DATA_IS_IMPORTANT, false)) {
+            setForegroundAsync(createForegroundInfo())
+        }
         runBlocking {
             ConnectionFactory.waitForInitialization()
         }
@@ -213,6 +221,24 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         }
     }
 
+    private fun createForegroundInfo(): ForegroundInfo {
+        val context = applicationContext
+        val title = context.getString(R.string.item_upload_in_progress)
+
+        val notification = NotificationCompat.Builder(context, NotificationUpdateObserver.CHANNEL_ID_BACKGROUND)
+            .setProgress(0, 0, true)
+            .setContentTitle(title)
+            .setTicker(title)
+            .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
+            .setOngoing(true)
+            .setWhen(System.currentTimeMillis())
+            .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .build()
+
+        return ForegroundInfo(NOTIFICATION_ID_BACKGROUND_WORK_RUNNING, notification, FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+    }
+
     private fun buildOutputData(hasConnection: Boolean, httpStatus: Int): Data {
         return Data.Builder()
             .putBoolean(OUTPUT_DATA_HAS_CONNECTION, hasConnection)
@@ -223,6 +249,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             .putBoolean(OUTPUT_DATA_SHOW_TOAST, inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false))
             .putString(OUTPUT_DATA_TASKER_INTENT, inputData.getString(INPUT_DATA_TASKER_INTENT))
             .putString(OUTPUT_DATA_AS_COMMAND, inputData.getString(INPUT_DATA_AS_COMMAND))
+            .putString(OUTPUT_DATA_IS_IMPORTANT, inputData.getString(INPUT_DATA_IS_IMPORTANT))
             .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
             .build()
     }
@@ -262,6 +289,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         private const val INPUT_DATA_SHOW_TOAST = "showToast"
         private const val INPUT_DATA_TASKER_INTENT = "taskerIntent"
         private const val INPUT_DATA_AS_COMMAND = "command"
+        private const val INPUT_DATA_IS_IMPORTANT = "is_important"
 
         const val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
         const val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
@@ -271,6 +299,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         const val OUTPUT_DATA_SHOW_TOAST = "showToast"
         const val OUTPUT_DATA_TASKER_INTENT = "taskerIntent"
         const val OUTPUT_DATA_AS_COMMAND = "command"
+        const val OUTPUT_DATA_IS_IMPORTANT = "is_important"
         const val OUTPUT_DATA_TIMESTAMP = "timestamp"
 
         fun buildData(
@@ -279,7 +308,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             value: ValueWithInfo,
             showToast: Boolean,
             taskerIntent: String?,
-            asCommand: Boolean
+            asCommand: Boolean,
+            isImportant: Boolean
         ): Data {
             return Data.Builder()
                 .putString(INPUT_DATA_ITEM_NAME, itemName)
@@ -288,6 +318,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 .putBoolean(INPUT_DATA_SHOW_TOAST, showToast)
                 .putString(INPUT_DATA_TASKER_INTENT, taskerIntent)
                 .putBoolean(INPUT_DATA_AS_COMMAND, asCommand)
+                .putBoolean(INPUT_DATA_IS_IMPORTANT, isImportant)
                 .build()
         }
     }

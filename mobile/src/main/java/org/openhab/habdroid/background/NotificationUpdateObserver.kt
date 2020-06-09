@@ -91,6 +91,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM_NAME)
                 val label = data.getString(ItemUpdateWorker.OUTPUT_DATA_LABEL)
                 val value = data.getValueWithInfo(ItemUpdateWorker.OUTPUT_DATA_VALUE)
+                val isImportant = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_IS_IMPORTANT, false)
                 val showToast = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_SHOW_TOAST, false)
                 val taskerIntent = data.getString(ItemUpdateWorker.OUTPUT_DATA_TASKER_INTENT)
                 val asCommand = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_AS_COMMAND, false)
@@ -104,6 +105,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             itemName,
                             label,
                             value,
+                            isImportant,
                             showToast,
                             taskerIntent,
                             asCommand
@@ -144,7 +146,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
     companion object {
         private const val NOTIFICATION_ID_BACKGROUND_WORK = 1000
-        private const val CHANNEL_ID_BACKGROUND = "background"
+        const val NOTIFICATION_ID_BACKGROUND_WORK_RUNNING = 1001
+        const val CHANNEL_ID_BACKGROUND = "background"
         const val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
         @Suppress("MemberVisibilityCanBePrivate") // Used in full flavor
         const val CHANNEL_ID_MESSAGE_DEFAULT = "default"
