@@ -132,9 +132,6 @@
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Sende enhetsinformasjon til server</string>
-    <string name="send_device_info_item_prefix">Element navneprefiks</string>
-    <string name="send_device_info_item_prefix_summary">Elementnavn med følgende funksjoner har dette prefikset \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Ingen prefix er satt for elementer med følgende funksjoner</string>
     <string name="settings_item_update_pref_howto_summary">Tapp her for å få tips om hvordan du setter opp denne funksjonen på serversiden</string>
     <string name="settings_phone_state_permission_denied">Sending av ringestatus er avslått grunnet manglende rettigheter</string>
     <string name="settings_item_pref_item_name">Elementnavn</string>
@@ -149,8 +146,8 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">\'%1$s\' elementoppdatering mislyktes (ingen oppkobling)</string>
     <string name="item_update_connection_error_label">\'%1$s\' oppdatering mislyktes (ingen oppkobling)</string>
-    <string name="error_sending_alarm_clock_item_empty">Skriv inn et gyldig elementnavn</string>
     <string name="retry">Prøv på nytt</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
     <string name="notification_list_error">Det oppstod en feil under lasting av meldinger</string>
