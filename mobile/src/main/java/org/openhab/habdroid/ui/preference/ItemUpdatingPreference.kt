@@ -177,7 +177,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         override fun afterTextChanged(s: Editable) {
             val value = s.toString()
             if (value.trim().isEmpty() || value.contains(" ") || value.contains("\n")) {
-                editorWrapper.error = context?.getString(R.string.error_sending_alarm_clock_item_empty)
+                editorWrapper.error = context?.getString(R.string.error_no_valid_item_name)
             } else {
                 editorWrapper.error = null
             }

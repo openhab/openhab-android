@@ -39,8 +39,7 @@ class VoiceService : IntentService("VoiceService") {
         Log.i(TAG, "Recognized text: $voiceCommand")
         showToast(getString(R.string.info_voice_recognized_text, voiceCommand))
 
-        val prefix = getPrefs().getPrefixForVoice()
-        if (prefix != null) {
+        getPrefs().getPrefixForVoice()?.let { prefix ->
             voiceCommand = "$prefix|$voiceCommand"
             Log.d(TAG, "Prefix voice command: $voiceCommand")
         }

@@ -51,7 +51,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
         return R.layout.pref_dialog_device_identifier
     }
 
-    fun updateSummary() {
+    private fun updateSummary() {
         summary = if ((value as String?).isNullOrEmpty()) {
             context.getString(R.string.device_identifier_summary_not_set)
         } else {
@@ -134,7 +134,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
         override fun afterTextChanged(s: Editable) {
             val value = s.toString()
             if (value.contains(" ") || value.contains("\n")) {
-                editorWrapper.error = context?.getString(R.string.error_sending_alarm_clock_item_empty)
+                editorWrapper.error = context?.getString(R.string.error_no_valid_item_name)
             } else {
                 editorWrapper.error = null
             }
