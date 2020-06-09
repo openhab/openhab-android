@@ -110,7 +110,6 @@
     <string name="info_not_set">No establert</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Envia la informació del dispositiu al servidor</string>
-    <string name="send_device_info_item_prefix">Prefix de l\'element</string>
     <string name="settings_wifi_ssid">Nom del Wi-Fi</string>
     <string name="settings_background_tasks_permission_allow">Permet</string>
     <string name="settings_item_pref_item_name">Nom d\'element</string>
@@ -118,6 +117,7 @@
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">Reintenta</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="list_loading_message">S\'està carregant...</string>
     <!-- Strings for MemorizingTrustManager activity -->
