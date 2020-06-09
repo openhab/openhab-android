@@ -17,7 +17,7 @@
     <important_note>重要提示</important_note>
     <oh_server>您需要一台 openHAB 服务器以使用此应用程序.</oh_server>
     <short_description>开源家居自动化供应商与技术</short_description>
-    <fdroid>F-Droid 上的构建版本支持 FCM 并移除了崩溃反馈，但无法从 openHAB 云接收推送通知。</fdroid>
+    <fdroid> </fdroid>
     <fdroid_beta><![CDATA[<a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>可与测试版共存。]]></fdroid_beta>
     <fdroid_privacy_policy>隐私政策：https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>尝试新功能并提供早期反馈！</beta>
