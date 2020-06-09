@@ -59,8 +59,8 @@ data class Widget(
     val height: Int,
     val visibility: Boolean
 ) : Parcelable {
-    val label get() = rawLabel.split("[", "]")[0]
-    val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)
+    val label get() = rawLabel.split("[", "]")[0].trim()
+    val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
 
     val mappingsOrItemOptions get() =
         if (mappings.isEmpty() && item?.options != null) item.options else mappings
