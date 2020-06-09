@@ -1,0 +1,9 @@
+## Added
+* Notifications for foss flavor (#1975)
+* Replace item prefix with device identifier (#1983)
+* WorkManager: Use foreground service for item updates (#1973)
+* Listen for schedule based item events when in foreground (#2015)
+
+## Fixed
+* Correctly reset FCM registration failure. (#2038)
+* Trim Item and Widget labels (#1992)
