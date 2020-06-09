@@ -176,6 +176,7 @@
     <string name="send_device_info_category_schedule_based_title">За розкладом</string>
     <string name="send_device_info_category_schedule_based_explanation">Чим коротший обраний інтервал, тим більший потенційний вплив на розряджання акумулятора Вашого пристрою. Ваш пристрій може не дотримуватись обраного інтервалу, відтерміновувати оновлення, щоб зменшити енергоспоживання через додатки.</string>
     <string name="send_device_info_item_prefix_summary">Назви об’єктів на цій сторінці префіксуються з ідентифікатором пристрою \'%s</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс для імен об’єктів на цій сторінці. Ви можете додати їх префікс за допомогою ідентифікатора пристрою, який може бути встановлений на сторінці основних налаштувань.</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
     <string name="settings_alarm_clock">Час сигналу</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
@@ -223,6 +224,7 @@
     <string name="item_update_http_error_label">Не вдалося оновити %1$s: %2$s</string>
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
     <string name="item_update_connection_error_label">Не вдалось оновити „%1$s“ (немає підключення)</string>
+    <string name="error_no_valid_item_name">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
     <string name="retry">Повторити</string>
     <string name="ignore">Нехтувати</string>
     <string name="send_device_info_schedule">Розклад</string>
@@ -233,6 +235,12 @@
     <string name="send_device_info_schedule_6_hours">6 годин</string>
     <string name="send_device_info_schedule_12_hours">12 годин</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Ідентифікатор пристрою</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Префікс голосових команд \'<Device identifier>|\']]></string>
+    <string name="device_identifier_bg_tasks">Префіксувати імена об’єктів \"Відправити інформацію про пристрій на сервер\" з цим ідентифікатором</string>
+    <string name="device_identifier_hint">Цей ідентифікатор пристрою може бути будь-яким рядком і має бути унікальним для всіх пристроїв, що мають доступ до вашого сервера openHAB. Окрім двох випадків вище, ви можете використовувати його як стан за NFC мітками, щоб знати, який пристрій зчитав мітку.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Ідентифікатор пристрою сканування (\"%s\" для цього пристрою)</string>
+    <string name="device_identifier_summary_not_set">Дані надіслані на сервер і голосові команди не префіксуються ідентифікатором пристрою</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
     <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
