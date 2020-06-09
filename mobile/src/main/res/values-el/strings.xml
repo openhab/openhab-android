@@ -90,6 +90,7 @@
     <!-- Background tasks -->
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Καμία ειδοποίηση δεν έχει σταλεί ως τώρα</string>
     <string name="notification_list_error">Παρουσιάστηκε σφάλμα κατά την φόρτωση των ειδοποιήσεων</string>
