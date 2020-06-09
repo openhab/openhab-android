@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_notification_status_unavailable">Недоступно в версії FOSS</string>
     <string name="open_in_maps">Відкрити в OpenStreetMap</string>
 </resources>
