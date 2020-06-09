@@ -38,14 +38,12 @@
     <string name="settings_chart_scaling_value_s">Μικρό</string>
     <string name="settings_chart_scaling_value_m">Προεπιλογή</string>
     <string name="settings_chart_scaling_value_l">Μεγάλο</string>
-    <string name="settings_ringtone">Ήχος κλήσης ειδοποίησης</string>
-    <string name="settings_ringtone_none">Κανένα</string>
     <string name="settings_clear_default_sitemap">Καθαρισμός προεπιλεγμένου Sitemap</string>
     <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
     <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Απομακρυσμένo</string>
     <string name="settings_openhab_connection">Τοπικό</string>
-    <string name="settings_notification_vibration">Δόνηση ειδοποιήσεων</string>
+    <string name="settings_ringtone_none">Κανένα</string>
     <string name="settings_notification_vibration_off">Σβηστό</string>
     <string name="settings_notification_vibration_short">Σύντομη</string>
     <string name="settings_notification_vibration_long">Παρατεταμένη</string>
