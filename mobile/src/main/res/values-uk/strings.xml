@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Типова поточна сторінка за замовчуванням: %1$s</string>
     <string name="settings_openhab_alt_connection">Віддалений сервер</string>
     <string name="settings_openhab_connection">Локальний сервер</string>
+    <string name="settings_ringtone">Дзвінок</string>
     <string name="settings_ringtone_none">Жодного</string>
     <string name="settings_ringtone_on_external">Невідомий сигнал дзвінка на зовнішньому накопичувачі</string>
+    <string name="settings_notification_vibration">Вібрація</string>
     <string name="settings_notification_vibration_off">Вимкнено</string>
     <string name="settings_notification_vibration_short">Коротко</string>
     <string name="settings_notification_vibration_long">Довго</string>
     <string name="settings_notification_vibration_twice">Двічі</string>
+    <string name="settings_notification_ringtone_vibration">Дзвінок &amp; Вібрація</string>
     <string name="settings_connection_summary">З\'єднано з %s</string>
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <string name="beta">Бета</string>
@@ -431,4 +434,5 @@
     <string name="widget_type_video">Відео</string>
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Діаграма</string>
+    <string name="notification_channel_severity_value">Важливість \'%1$s</string>
 </resources>
