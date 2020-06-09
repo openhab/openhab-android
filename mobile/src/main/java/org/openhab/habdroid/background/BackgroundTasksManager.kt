@@ -251,7 +251,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     addAction(Intent.ACTION_BATTERY_OKAY)
                     addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
                 }
-                // This broadcast is only send to registered receivers, so we need that in any case
+                // This broadcast is only sent to registered receivers, so we need that in any case
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
                 }
