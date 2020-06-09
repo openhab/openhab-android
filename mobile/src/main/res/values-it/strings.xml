@@ -175,10 +175,6 @@
     <string name="send_device_info_category_event_based_explanation">Questi items sono aggiornati dagli eventi corrispondenti, ad esempio una telefonata in arrivo</string>
     <string name="send_device_info_category_schedule_based_title">Basato sul tempo</string>
     <string name="send_device_info_category_schedule_based_explanation">Più breve è l\'intervallo scelto, maggiore è l\'impatto potenziale sulla durata della batteria del tuo dispositivo. Inoltre, il tuo dispositivo potrebbe non seguire esattamente l\'intervallo scelto, ma ritardare gli aggiornamenti per ridurre il consumo energetico delle app.</string>
-    <string name="send_device_info_category_general">Generale</string>
-    <string name="send_device_info_item_prefix">Prefisso nome Item</string>
-    <string name="send_device_info_item_prefix_summary">I nomi degli Item delle seguenti feature hanno il prefisso \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Nessun prefisso è stato impostato per i nomi degli Item delle seguenti Feature</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
     <string name="settings_alarm_clock">Ora sveglia</string>
     <string name="settings_alarm_clock_summary_on">Invia la sveglia all\'item \'%1$s\'</string>
@@ -224,7 +220,6 @@
     <string name="item_update_http_error_label">Aggiornamento %1$s fallito: %2$s</string>
     <string name="item_update_connection_error">L’aggiornamento dell’item \'%1$s\' è fallito (Manca connessione)</string>
     <string name="item_update_connection_error_label">%1$s aggiornamento fallito (Nessuna connessione)</string>
-    <string name="error_sending_alarm_clock_item_empty">Inserire un nome valido per l’item</string>
     <string name="retry">Riprova</string>
     <string name="ignore">Ignora</string>
     <string name="send_device_info_schedule">Pianificazione</string>
@@ -234,6 +229,7 @@
     <string name="send_device_info_schedule_3_hours">3 ore</string>
     <string name="send_device_info_schedule_6_hours">6 ore</string>
     <string name="send_device_info_schedule_12_hours">12 ore</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nessuna notifica spedita finora</string>
     <string name="notification_list_error">È successo un errore durante il caricamento delle notifiche</string>
