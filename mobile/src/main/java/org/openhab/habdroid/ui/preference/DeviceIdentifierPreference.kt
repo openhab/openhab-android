@@ -34,7 +34,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.util.PrefKeys
 
 class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs) {
-    private var value: Any? = null
+    private var value: String? = null
 
     init {
         dialogTitle = null
@@ -43,7 +43,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
     }
 
     override fun onSetInitialValue(defaultValue: Any?) {
-        value = defaultValue
+        value = defaultValue as String?
         updateSummary()
     }
 
@@ -52,14 +52,14 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
     }
 
     private fun updateSummary() {
-        summary = if ((value as String?).isNullOrEmpty()) {
+        summary = if (value.isNullOrEmpty()) {
             context.getString(R.string.device_identifier_summary_not_set)
         } else {
             value as String
         }
     }
 
-    fun setValue(value: String = (this.value as String?).orEmpty()) {
+    fun setValue(value: String = this.value.orEmpty()) {
         if (callChangeListener(value)) {
             if (shouldPersist()) {
                 persistString(value)
@@ -98,7 +98,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
             }
 
             val prefs = preference.sharedPreferences
-            editor.setText(((preference as DeviceIdentifierPreference).value as String?))
+            editor.setText((preference as DeviceIdentifierPreference).value)
             editor.setSelection(editor.text.length)
             voiceButton.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, false)
             backgroundTasksButton.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, true)
