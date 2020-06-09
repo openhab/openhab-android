@@ -36,14 +36,12 @@
     <string name="settings_chart_scaling_value_s">Nhỏ</string>
     <string name="settings_chart_scaling_value_m">Mặc định</string>
     <string name="settings_chart_scaling_value_l">Lớn</string>
-    <string name="settings_ringtone">Chuông báo</string>
-    <string name="settings_ringtone_none">Không có</string>
     <string name="settings_clear_default_sitemap">Chọn mặc định sơ đồ trang web</string>
     <string name="settings_no_default_sitemap">Không có sitemap mặc định được chọn</string>
     <string name="settings_current_default_sitemap">Sitemap mặc định hiện tại: %1$s</string>
     <string name="settings_openhab_alt_connection">Từ xa</string>
     <string name="settings_openhab_connection">Nội bộ</string>
-    <string name="settings_notification_vibration">Rung báo</string>
+    <string name="settings_ringtone_none">Không có</string>
     <string name="settings_notification_vibration_off">Tắt</string>
     <string name="settings_notification_vibration_short">Ngắn</string>
     <string name="settings_notification_vibration_long">Dài</string>
