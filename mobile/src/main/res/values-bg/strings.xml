@@ -41,14 +41,12 @@
     <string name="settings_chart_scaling_value_s">Малък</string>
     <string name="settings_chart_scaling_value_m">По подразбиране</string>
     <string name="settings_chart_scaling_value_l">Голям</string>
-    <string name="settings_ringtone">Уведомителна мелодия</string>
-    <string name="settings_ringtone_none">Няма</string>
     <string name="settings_clear_default_sitemap">Изчисти сайтмара по подразбиране</string>
     <string name="settings_no_default_sitemap">Няма селектиран сайтмап по подразбиране</string>
     <string name="settings_current_default_sitemap">Текущия сайтмап по подразбиране: %1$s</string>
     <string name="settings_openhab_alt_connection">Дистанционно</string>
     <string name="settings_openhab_connection">Локално</string>
-    <string name="settings_notification_vibration">Уведомителна вибрация</string>
+    <string name="settings_ringtone_none">Няма</string>
     <string name="settings_notification_vibration_off">Изключено</string>
     <string name="settings_notification_vibration_short">Кратка</string>
     <string name="settings_notification_vibration_long">Продължителна</string>
