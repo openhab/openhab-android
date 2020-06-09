@@ -166,9 +166,6 @@
     <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Wyślij informacje o urządzeniu do serwera</string>
-    <string name="send_device_info_item_prefix">Prefiks Item\'u</string>
-    <string name="send_device_info_item_prefix_summary">Nazwy itemów z następującymi właściwościami mają przedrostek \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Nie ustawiono przedrostka dla nazw itemów z następującymi właściwościami</string>
     <string name="settings_item_update_pref_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
     <string name="settings_phone_state_permission_denied">Wysyłanie stanu rozmowy do zostało wyłączone z powodu braku pozwolenia</string>
     <string name="settings_item_pref_item_name">Nazwa Item\'u</string>
@@ -187,9 +184,9 @@
     <string name="item_update_http_error_label">Aktualizacja %1$s nie powiodła się: %2$s</string>
     <string name="item_update_connection_error">Nie udało się zaktualizować Itemu \'%1$s\' (Brak połączenia)</string>
     <string name="item_update_connection_error_label">Nie udało się zaktualizować %1$s (Brak połączenia)</string>
-    <string name="error_sending_alarm_clock_item_empty">Wprowadź poprawną nazwę Item\'u</string>
     <string name="retry">Ponów</string>
     <string name="ignore">Ignoruj</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
     <string name="notification_list_error">Wystąpił błąd podczas ładowania powiadomień</string>
