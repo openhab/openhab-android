@@ -38,14 +38,12 @@
     <string name="settings_chart_scaling_summary">Nota: Menor escalonamento de fontes e largura de linha, então há mais espaço para o gráfico, mas a legibilidade de fonte pode sofrer.</string>
     <string name="settings_openhab_chart_hq">Gráficos de alta resolução</string>
     <string name="settings_openhab_chart_hq_summary">Gerar gráficos pode ser pesado para o servidor. Se o tempo de carregamento de gráfico estiver lento e o seu servidor não é poderoso, desative esta opção para melhorar os tempos de carregamento.</string>
-    <string name="settings_ringtone">Definir toque de notificação</string>
-    <string name="settings_ringtone_none">Nenhum</string>
     <string name="settings_clear_default_sitemap">Limpar o mapa do site padrão</string>
     <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
     <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remoto</string>
     <string name="settings_openhab_connection">Local</string>
-    <string name="settings_notification_vibration">Definir a vibração de notificação</string>
+    <string name="settings_ringtone_none">Nenhum</string>
     <string name="settings_notification_vibration_off">Desligar</string>
     <string name="settings_notification_vibration_short">Curto</string>
     <string name="settings_notification_vibration_long">Longo</string>
