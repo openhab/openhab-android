@@ -175,6 +175,7 @@
     <string name="send_device_info_category_event_based_explanation">Ці об\'єкти оновлюються при відповідних подіях, наприклад, при вхідних телефонних дзвінках</string>
     <string name="send_device_info_category_schedule_based_title">За розкладом</string>
     <string name="send_device_info_category_schedule_based_explanation">Чим коротший обраний інтервал, тим більший потенційний вплив на розряджання акумулятора Вашого пристрою. Ваш пристрій може не дотримуватись обраного інтервалу, відтерміновувати оновлення, щоб зменшити енергоспоживання через додатки.</string>
+    <string name="send_device_info_item_prefix_summary">Назви об’єктів на цій сторінці префіксуються з ідентифікатором пристрою \'%s</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
     <string name="settings_alarm_clock">Час сигналу</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
@@ -435,4 +436,17 @@
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Діаграма</string>
     <string name="notification_channel_severity_value">Важливість \'%1$s</string>
+    <string name="notification_channel_severity_value_description">Сповіщення, надіслані сервером з важливістю \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d нове сповіщення</item>
+        <item quantity="few">%d нових сповіщення</item>
+        <item quantity="many">%d нових сповіщень</item>
+        <item quantity="other">%d нових сповіщень</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Недоступно, віддалений сервер не налаштовано</string>
+    <string name="push_notification_status_http_error">Недоступно, помилка підключення до віддаленого сервера: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Недоступно, віддалений сервер не є екземпляром openHAB cloud</string>
+    <string name="push_notification_status">Стан</string>
+    <string name="push_notification_help_icon_description">Натисніть тут для довідки</string>
+    <string name="push_notification_hint">Сповіщення відтворюються за звичайним розкладом, таким самим як \"Відправити інформацію про пристрій на сервер\"</string>
 </resources>
