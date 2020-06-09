@@ -140,10 +140,6 @@
     <string name="send_device_info_category_event_based_explanation">Estos Items se actualizan ante ciertos eventos, por ejemplo, una llamada entrante</string>
     <string name="send_device_info_category_schedule_based_title">Basado en temporizador</string>
     <string name="send_device_info_category_schedule_based_explanation">Cuanto más corto sea el intervalo elegido, mayor será el impacto potencial en la duración de la batería de su dispositivo. No obstante, el dispositivo puede que no atienda exactamente al intervalo elegido, y es posible que éste retrase las actualizaciones para reducir el consumo de energía de las aplicaciones.</string>
-    <string name="send_device_info_category_general">General</string>
-    <string name="send_device_info_item_prefix">Prefijo del nombre del Item</string>
-    <string name="send_device_info_item_prefix_summary">Los nombres de Item de las siguientes características llevan el prefijo \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">No se ha especificado ningún prefijo para los nombres de Item de las siguientes características</string>
     <string name="settings_item_update_pref_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
     <string name="settings_alarm_clock">Hora de la alarma</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de alarma al Item \'%1$s\'</string>
@@ -187,7 +183,6 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Fallo en la actualización del Item \'%1$s\' (sin conexión)</string>
     <string name="item_update_connection_error_label">Falló la actualización de %1$s (sin conexión)</string>
-    <string name="error_sending_alarm_clock_item_empty">Por favor, introduzca un nombre de Item válido</string>
     <string name="retry">Reintentar</string>
     <string name="send_device_info_schedule">Temporizador</string>
     <string name="send_device_info_schedule_summary">Cada 15 minutos mientras se carga, cada %s si no</string>
@@ -196,6 +191,7 @@
     <string name="send_device_info_schedule_3_hours">3 horas</string>
     <string name="send_device_info_schedule_6_hours">6 horas</string>
     <string name="send_device_info_schedule_12_hours">12 horas</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">No se enviaron notificaciones hasta el momento</string>
     <string name="notification_list_error">Ocurrió un error al cargar las notificaciones</string>
