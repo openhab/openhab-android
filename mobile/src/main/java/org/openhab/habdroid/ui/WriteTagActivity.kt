@@ -53,6 +53,7 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.showToast
 import java.io.IOException
 
@@ -296,22 +297,29 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             itemName: String,
             state: String,
             mappedState: String,
-            label: String?
+            label: String?,
+            deviceId: Boolean
         ): Intent {
             require(itemName.isNotEmpty()) { "Item name is empty" }
             val labelOrItemName = if (label.isNullOrEmpty()) itemName else label
+            val stateOrUnsupported = if (deviceId) "UNSUPPORTED" else state
 
             val uriBuilder = Uri.Builder()
                 .scheme(NfcTag.SCHEME)
                 .authority("")
                 .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, itemName)
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, state)
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, stateOrUnsupported)
+            if (deviceId) {
+                uriBuilder.appendQueryParameter(NfcTag.QUERY_PARAMETER_DEVICE_ID, deviceId)
+            }
 
             val shortUri = uriBuilder.build()
-            val longUri = uriBuilder
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mappedState)
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, labelOrItemName)
-                .build()
+
+            uriBuilder.appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, labelOrItemName)
+            if (!deviceId) {
+                uriBuilder.appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mappedState)
+            }
+            val longUri = uriBuilder.build()
 
             return Intent(context, WriteTagActivity::class.java).apply {
                 putExtra(EXTRA_SHORT_URI, shortUri)

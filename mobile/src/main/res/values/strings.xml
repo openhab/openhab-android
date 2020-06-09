@@ -197,10 +197,8 @@
     <string name="send_device_info_category_event_based_explanation">These Items are updated on corresponding events, e.g. an incoming phone call</string>
     <string name="send_device_info_category_schedule_based_title">Schedule based</string>
     <string name="send_device_info_category_schedule_based_explanation">The shorter the chosen interval is, the larger is the potential impact on the battery life of your device. Additionally, your device might not follow the chosen interval exactly, but delay the updates to reduce power consumption across apps.</string>
-    <string name="send_device_info_category_general">General</string>
-    <string name="send_device_info_item_prefix">Item name prefix</string>
-    <string name="send_device_info_item_prefix_summary">The Item names of the following features are prefixed with \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">No prefix is set for the Item names of the following features</string>
+    <string name="send_device_info_item_prefix_summary">The Item names on this page are prefixed with the device identifier \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">No prefix is set for the Item names on this page. You can prefix them with the device identifier, which can be set on the main settings page.</string>
     <string name="settings_item_update_pref_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
     <string name="settings_alarm_clock">Alarm time</string>
     <string name="settings_alarm_clock_summary_on">Sends alarm time to Item \'%1$s\'</string>
@@ -252,7 +250,7 @@
     <string name="item_update_http_error_label">%1$s update failed: %2$s</string>
     <string name="item_update_connection_error">Item \'%1$s\' update failed (No connection)</string>
     <string name="item_update_connection_error_label">%1$s update failed (No connection)</string>
-    <string name="error_sending_alarm_clock_item_empty">Please enter a valid Item name</string>
+    <string name="error_no_valid_item_name">Please enter a valid Item name</string>
     <string name="retry">Retry</string>
     <string name="ignore">Ignore</string>
     <string name="send_device_info_schedule">Schedule</string>
@@ -262,6 +260,14 @@
     <string name="send_device_info_schedule_3_hours">3 hours</string>
     <string name="send_device_info_schedule_6_hours">6 hours</string>
     <string name="send_device_info_schedule_12_hours">12 hours</string>
+
+    <!-- Device identifier -->
+    <string name="device_identifier_title">Device identifier</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Prefix voice commands with \'<Device identifier>|\']]></string>
+    <string name="device_identifier_bg_tasks">Prefix the Item names of \"Send device information to server\" with this identifier</string>
+    <string name="device_identifier_hint">This device identifier can be any string and should be unique for all devices accessing your openHAB server. Besides the two use cases above, you can also use it as state on NFC tags, so you know which device read the tag.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Device identifier of scanning device (\"%s\" for this device)</string>
+    <string name="device_identifier_summary_not_set">Data sent to the server and voice commands aren\'t prefixed with a device identifier</string>
 
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>

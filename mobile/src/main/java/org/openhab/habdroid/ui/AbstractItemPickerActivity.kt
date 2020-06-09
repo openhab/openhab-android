@@ -160,19 +160,21 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
     override fun onItemClicked(item: Item) {
         val suggestedCommands = suggestedCommandsFactory.fill(item, !forItemCommandOnly)
-        val labels = suggestedCommands.labels
-        val commands = suggestedCommands.commands
-        addAdditionalCommands(labels, commands)
+        val entries = suggestedCommands.entries
+            .map { entry -> CommandEntry(entry.command, entry.label) }
+            .toMutableList()
 
+        addAdditionalCommands(entries)
+
+        val labels = entries.map { entry -> entry.label }.toMutableList()
         if (suggestedCommands.shouldShowCustom) {
             labels.add(getString(R.string.item_picker_custom))
         }
 
-        val labelArray = labels.toTypedArray()
         AlertDialog.Builder(this)
             .setTitle(R.string.item_picker_dialog_title)
-            .setItems(labelArray) { _, which ->
-                if (which == labelArray.size - 1 && suggestedCommands.shouldShowCustom) {
+            .setItems(labels.toTypedArray()) { _, which ->
+                if (which == labels.size - 1 && suggestedCommands.shouldShowCustom) {
                     val input = EditText(this)
                     input.inputType = suggestedCommands.inputTypeFlags
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -192,13 +194,14 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                         customDialog.window?.setSoftInputMode(mode)
                     }
                 } else {
-                    finish(item, commands[which], labels[which])
+                    val entry = entries[which]
+                    finish(item, entry.command, entry.label, entry.tag)
                 }
             }
             .show()
     }
 
-    protected open fun addAdditionalCommands(labels: MutableList<String>, commands: MutableList<String>) {
+    protected open fun addAdditionalCommands(entries: MutableList<CommandEntry>) {
         // no-op
     }
 
@@ -261,7 +264,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String, mappedState: String = state)
+    protected abstract fun finish(item: Item, state: String, mappedState: String = state, tag: Any? = null)
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName
@@ -293,6 +296,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         retryButton.setText(if (showHint) hintButtonMessageId else R.string.try_again_button)
         retryButton.isVisible = loadError || showHint
     }
+
+    data class CommandEntry(val command: String, val label: String, val tag: Any? = null)
 
     companion object {
         private val TAG = AbstractItemPickerActivity::class.java.simpleName

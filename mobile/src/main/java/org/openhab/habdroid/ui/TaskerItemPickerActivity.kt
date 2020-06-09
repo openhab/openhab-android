@@ -78,14 +78,13 @@ class TaskerItemPickerActivity(
         }
     }
 
-    override fun addAdditionalCommands(labels: MutableList<String>, commands: MutableList<String>) {
+    override fun addAdditionalCommands(entries: MutableList<CommandEntry>) {
         relevantVars?.forEach {
-            labels.add(getString(R.string.item_picker_tasker_variable, it))
-            commands.add(it)
+            entries.add(CommandEntry(it, getString(R.string.item_picker_tasker_variable, it)))
         }
     }
 
-    override fun finish(item: Item, state: String, mappedState: String) {
+    override fun finish(item: Item, state: String, mappedState: String, tag: Any?) {
         var asCommand = commandButton.isChecked
 
         if (asCommand && item.type == Item.Type.Contact) {

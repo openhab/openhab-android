@@ -120,6 +120,16 @@ fun SharedPreferences.getBackgroundTaskScheduleInMillis(): Long {
     return value.toInt() * 60 * 1000L
 }
 
+fun SharedPreferences.getPrefixForVoice(): String? {
+    val enabled = getBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, false)
+    return if (enabled) getStringOrEmpty(PrefKeys.DEV_ID) else null
+}
+
+fun SharedPreferences.getPrefixForBgTasks(): String {
+    val enabled = getBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, true)
+    return if (enabled) getStringOrEmpty(PrefKeys.DEV_ID) else ""
+}
+
 fun SharedPreferences.getStringOrNull(key: String): String? {
     return getString(key, null)
 }

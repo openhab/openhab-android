@@ -35,9 +35,8 @@ import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
-import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getStringOrEmpty
 
 class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs) {
     private val howtoUrl: String?
@@ -94,8 +93,8 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         }
     }
 
-    fun updateSummaryAndIcon(
-        prefix: String = context.getPrefs().getStringOrEmpty(PrefKeys.SEND_DEVICE_INFO_PREFIX)
+    private fun updateSummaryAndIcon(
+        prefix: String = context.getPrefs().getPrefixForBgTasks()
     ) {
         val value = value ?: return
         val summary = if (value.first) summaryOn else summaryOff
@@ -178,7 +177,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         override fun afterTextChanged(s: Editable) {
             val value = s.toString()
             if (value.trim().isEmpty() || value.contains(" ") || value.contains("\n")) {
-                editorWrapper.error = context?.getString(R.string.error_sending_alarm_clock_item_empty)
+                editorWrapper.error = context?.getString(R.string.error_no_valid_item_name)
             } else {
                 editorWrapper.error = null
             }

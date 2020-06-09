@@ -68,7 +68,7 @@ class ItemUpdateWidgetItemPickerActivity(
         }
     }
 
-    override fun finish(item: Item, state: String, mappedState: String) {
+    override fun finish(item: Item, state: String, mappedState: String, tag: Any?) {
         val widgetLabel = if (autoGenSwitch.isChecked) {
             null
         } else {

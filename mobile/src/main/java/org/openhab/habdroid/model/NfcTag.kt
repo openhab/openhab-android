@@ -20,7 +20,8 @@ data class NfcTag(
     val item: String?,
     val label: String?,
     val state: String?,
-    val mappedState: String?
+    val mappedState: String?,
+    val deviceId: Boolean
 ) {
     companion object {
         const val SCHEME = "openhab"
@@ -30,6 +31,7 @@ data class NfcTag(
         const val DEPRECATED_QUERY_PARAMETER_STATE = "command"
         const val QUERY_PARAMETER_MAPPED_STATE = "m"
         const val QUERY_PARAMETER_ITEM_LABEL = "l"
+        const val QUERY_PARAMETER_DEVICE_ID = "d"
     }
 }
 
@@ -51,6 +53,7 @@ fun Uri.toTagData(): NfcTag? {
     val mappedState = getQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE)
     val sitemapPath = path
     val sitemap = if (sitemapPath?.isNotEmpty() == true) sitemapPath else null
+    val deviceId = getBooleanQueryParameter(NfcTag.QUERY_PARAMETER_DEVICE_ID, false)
 
-    return NfcTag(sitemap, item, label, state, mappedState)
+    return NfcTag(sitemap, item, label, state, mappedState, deviceId)
 }

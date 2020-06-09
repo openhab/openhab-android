@@ -3,14 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/send_device_info_to_server">
-    <PreferenceCategory
-        android:title="@string/send_device_info_category_general">
-        <org.openhab.habdroid.ui.preference.CustomInputTypePreference
-            android:defaultValue="@string/empty_string"
-            android:inputType="textNoSuggestions"
-            android:key="sendDeviceInfoPrefix"
-            android:title="@string/send_device_info_item_prefix" />
-    </PreferenceCategory>
+    <Preference
+        android:key="device_identifier_prefix_background_tasks"
+        android:enabled="false"
+        android:selectable="false"
+        android:icon="@drawable/ic_info_outline_grey_24dp" />
     <PreferenceCategory
         android:title="@string/send_device_info_category_event_based_title">
         <Preference

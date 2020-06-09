@@ -20,7 +20,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
-import java.util.ArrayList
 
 class SuggestedCommandsFactory(private val context: Context, private val showUndef: Boolean) {
     fun fill(widget: Widget?, forItemUpdate: Boolean = false): SuggestedCommands {
@@ -87,7 +86,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         item.isOfTypeOrGroupType(Item.Type.Number) -> {
             // Don't suggest numbers that might be totally out of context if there's already
             // at least one command
-            if (suggestedCommands.commands.isEmpty()) {
+            if (suggestedCommands.entries.isEmpty()) {
                 addCommonNumberCommands(suggestedCommands)
             }
             item.state?.asString?.let { value -> add(suggestedCommands, value) }
@@ -142,9 +141,8 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
     }
 
     private fun add(suggestedCommands: SuggestedCommands, command: String, label: String = command) {
-        if (command !in suggestedCommands.commands) {
-            suggestedCommands.commands.add(command)
-            suggestedCommands.labels.add(label)
+        if (command !in suggestedCommands.entries.map { entry -> entry.command }) {
+            suggestedCommands.entries.add(SuggestedCommand(command, label))
         }
     }
 
@@ -171,9 +169,10 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         add(suggestedCommands, "DECREASE", R.string.nfc_action_decrease)
     }
 
+    data class SuggestedCommand(val command: String, val label: String)
+
     inner class SuggestedCommands {
-        var commands: MutableList<String> = ArrayList()
-        var labels: MutableList<String> = ArrayList()
+        var entries: MutableList<SuggestedCommand> = mutableListOf()
         var shouldShowCustom = false
         var inputTypeFlags = InputType.TYPE_CLASS_TEXT
     }
@@ -185,3 +184,4 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             INPUT_TYPE_DECIMAL_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
     }
 }
+
