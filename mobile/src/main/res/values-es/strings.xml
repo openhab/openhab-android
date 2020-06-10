@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remota</string>
     <string name="settings_openhab_connection">Local</string>
+    <string name="settings_ringtone">Tono de llamada</string>
     <string name="settings_ringtone_none">Ninguno</string>
     <string name="settings_ringtone_on_external">Tono de llamada desconocido en almacenamiento externo</string>
+    <string name="settings_notification_vibration">Vibración</string>
     <string name="settings_notification_vibration_off">Apagado</string>
     <string name="settings_notification_vibration_short">Corta</string>
     <string name="settings_notification_vibration_long">Larga</string>
     <string name="settings_notification_vibration_twice">Dos veces</string>
+    <string name="settings_notification_ringtone_vibration">Tono de llamada &amp; Vibración</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
     <string name="beta">Beta</string>
@@ -393,4 +396,16 @@
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfica</string>
+    <string name="notification_channel_severity_value">Importancia \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notificaciones enviadas por el servidor con importancia \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nueva notificación</item>
+        <item quantity="other">%d nuevas notificaciones</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">No disponible, el servidor remoto no está configurado</string>
+    <string name="push_notification_status_http_error">No disponible, error al conectarse al servidor remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">No disponible, el servidor remoto no es una instancia de openHAB cloud</string>
+    <string name="push_notification_status">Estado</string>
+    <string name="push_notification_help_icon_description">Haz clic aquí para obtener ayuda</string>
+    <string name="push_notification_hint">Las notificaciones son comprobadas a intervalos regulares, los mismos intervalos que para \"Enviar información del dispositivo al servidor\"</string>
 </resources>
