@@ -145,7 +145,7 @@ dependencies {
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
     implementation "androidx.media2:media2-widget:$androidx_media_version"
     implementation "androidx.media2:media2-player:$androidx_media_version"
-    implementation "androidx.security:security-crypto:1.0.0-rc01"
+    implementation "androidx.security:security-crypto:1.1.0-alpha01"
     implementation "org.jmdns:jmdns:3.5.5"
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
