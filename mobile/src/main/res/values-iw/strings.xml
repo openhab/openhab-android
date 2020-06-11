@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
     <string name="settings_openhab_alt_connection">מרוחק</string>
     <string name="settings_openhab_connection">מקומי</string>
+    <string name="settings_ringtone">צלצול</string>
     <string name="settings_ringtone_none">ללא</string>
     <string name="settings_ringtone_on_external">נעימון לא ידוע באחסון חיצוני</string>
+    <string name="settings_notification_vibration">רטט</string>
     <string name="settings_notification_vibration_off">כבוי</string>
     <string name="settings_notification_vibration_short">קצר</string>
     <string name="settings_notification_vibration_long">ארוך</string>
     <string name="settings_notification_vibration_twice">כפול</string>
+    <string name="settings_notification_ringtone_vibration">צלצול &amp; רטט</string>
     <string name="settings_connection_summary">מחובר ל- %s</string>
     <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
     <string name="beta">בטא</string>
@@ -172,6 +175,8 @@
     <string name="send_device_info_category_event_based_explanation">עידכון פריטים אלו מבוסס על אירועים מתאימים, לדוגמה שיחה נכנסת</string>
     <string name="send_device_info_category_schedule_based_title">מבוסס תיזמון</string>
     <string name="send_device_info_category_schedule_based_explanation">ככל שהמרווח הנבחר קצר יותר, כך ההשפעה רבה יותר על זמן חיי הסוללה של המכשיר שלך. בנוסף, ייתכן והמכשיר שלך לא ישתמש בדיוק במרווח הנבחר אלא יעכב את העדכונים כדי להפחית בצריכת החשמל של יישומים.</string>
+    <string name="send_device_info_item_prefix_summary">שמות הפריטים בעמוד זה הם עם קידומת של זיהוי המכשיר \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">לא נקבעה קידומת עבור שמות הפריטים בעמוד זה. אפשר להגדיר עבורם קידומת זיהוי המכשיר הניתנת להגדרה בתפריט הראשי.</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
     <string name="settings_alarm_clock">שעת התראה</string>
     <string name="settings_alarm_clock_summary_on">שלח את שעת השעון המעורר לפריט \'%1$s \'</string>
@@ -219,6 +224,7 @@
     <string name="item_update_http_error_label">עדכון %1$s נכשל: %2$s</string>
     <string name="item_update_connection_error">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="item_update_connection_error_label">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
+    <string name="error_no_valid_item_name">אנא הכנס שם פריט חוקי</string>
     <string name="retry">נסה שנית</string>
     <string name="ignore">התעלם</string>
     <string name="send_device_info_schedule">תיזמון</string>
@@ -229,6 +235,7 @@
     <string name="send_device_info_schedule_6_hours">6 שעות</string>
     <string name="send_device_info_schedule_12_hours">12 שעות</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">מזהה התקן</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
@@ -431,4 +438,17 @@
     <string name="widget_type_video">וידאו</string>
     <string name="widget_type_mapview">מפה</string>
     <string name="widget_type_chart">תרשים</string>
+    <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d התראה חדשה</item>
+        <item quantity="two">%d התראות חדשות</item>
+        <item quantity="many">%d התראות חדשות</item>
+        <item quantity="other">%d התראות חדשות</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">לא זמין, לא הוגדר שרת מרוחק</string>
+    <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
+    <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
+    <string name="push_notification_status">מצב</string>
+    <string name="push_notification_help_icon_description">לחץ לעזרה</string>
 </resources>
