@@ -239,6 +239,8 @@
     <string name="device_identifier_prefix_voice"><![CDATA[מילת הפתיחה לפקודות קוליות היא \'<Device identifier>|\']]></string>
     <string name="device_identifier_bg_tasks">זו מילת הפתיחה לשמות הפריטים בפעולת ״שלח מידע על המכשיר לשרת״</string>
     <string name="device_identifier_hint">מזהה מכשיר זה יכול להיות כל מחרוזת והוא אמור להיות ייחודי עבור כל המכשירים הניגשים לשרת ה openHAB שלך. מלבד שני המקרים לעיל, ניתן להשתמש בו גם כהגדרת מצב בתג NFC, כך שתוכל לזהות איזה מכשיר קרא את התג.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">מזהה המכשיר של המכשיר הסורק (\"%s\" עבור מכשיר זה)</string>
+    <string name="device_identifier_summary_not_set">הנתונים הנשלחים לשרת ובפקודות קוליות אינם מוגדרים עם מילת מפתח של מזהה המכשיר</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
@@ -454,4 +456,5 @@
     <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
     <string name="push_notification_status">מצב</string>
     <string name="push_notification_help_icon_description">לחץ לעזרה</string>
+    <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
 </resources>
