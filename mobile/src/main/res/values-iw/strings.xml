@@ -236,6 +236,7 @@
     <string name="send_device_info_schedule_12_hours">12 שעות</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">מזהה התקן</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[מילת הפתיחה לפקודות קוליות היא \'<Device identifier>|\']]></string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
