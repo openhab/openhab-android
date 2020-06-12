@@ -237,6 +237,8 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">מזהה התקן</string>
     <string name="device_identifier_prefix_voice"><![CDATA[מילת הפתיחה לפקודות קוליות היא \'<Device identifier>|\']]></string>
+    <string name="device_identifier_bg_tasks">זו מילת הפתיחה לשמות הפריטים בפעולת ״שלח מידע על המכשיר לשרת״</string>
+    <string name="device_identifier_hint">מזהה מכשיר זה יכול להיות כל מחרוזת והוא אמור להיות ייחודי עבור כל המכשירים הניגשים לשרת ה openHAB שלך. מלבד שני המקרים לעיל, ניתן להשתמש בו גם כהגדרת מצב בתג NFC, כך שתוכל לזהות איזה מכשיר קרא את התג.</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
