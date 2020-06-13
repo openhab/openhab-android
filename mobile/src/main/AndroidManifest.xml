@@ -198,6 +198,14 @@
                 <data android:scheme="openhab" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:directBootAware="false"
+            android:enabled="@bool/enable_system_foreground_service_default"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            tools:targetApi="n" />
     </application>
 
 </manifest>
