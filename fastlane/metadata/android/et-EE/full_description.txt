@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - nutitkodudele mõeldud automatiseerimistarkvara, mis on tootjatest ja tehnoloogiatest sõltumatu
 
-F-Droid-versioonides on FCM- ja krahhiaruanded eemaldatud ning openHAB Cloudist ei saa push-teatisi vastu võtta.
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 Proovige uusi funktsioone ja andke tagasisidet!
 Võite installida beta versiooni paralleelselt <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiilse versiooniga</a>.
 

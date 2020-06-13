@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - نظام التحكم المنزلي المفتوح المصدر والغير مرتبط بتقنية أو مصنع محدد
 
-إصدارات F-Droid تدعم عرض الخريطة،وقد حذفت FCM وتقارير الإنهيار ومن غير الممكن إستقبال الإشعارات المبعثة من سحابة openHAB.
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 جرب الميزات الجديدة واعطنا ملاحظاتك!
 يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.
 

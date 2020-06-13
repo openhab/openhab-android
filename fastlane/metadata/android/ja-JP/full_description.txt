@@ -1,6 +1,6 @@
 openHAB - "スマートホームに力を与える" - ベンダーや技術に依存しないオープンソースのホームオートメーション
 
-F-Droid のビルドは FCM とクラッシュレポートが削除されていて openHAB クラウドからプッシュ通知を受信することはできません。
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 新しい機能をお試しの上、フィードバックしてください!
 <a href="https://f-droid.org/packages/org.openhab.habdroid/">安定版</a> の他、ベータ版をインストールすることができます。
 
