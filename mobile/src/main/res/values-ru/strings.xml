@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Большой</string>
     <string name="settings_openhab_chart_hq">Графики в высоком разрешении</string>
     <string name="settings_openhab_chart_hq_summary">Создание графиков может выполняться сервером. Если ваш сервер не достаточно мощный и вы испытываете проблемы со скоростью их загрузки, отключите этот параметр.</string>
-    <string name="settings_ringtone">Звук уведомления</string>
-    <string name="settings_ringtone_none">Без рингтона</string>
-    <string name="settings_ringtone_on_external">Неизвестный рингтон на внешнем накопителе</string>
     <string name="settings_clear_default_sitemap">Очистить Sitemap по умолчанию</string>
     <string name="settings_no_default_sitemap">Не выбран Sitemap по умолчанию</string>
     <string name="settings_current_default_sitemap">Текущий Sitemap по умолчанию: %1$s</string>
     <string name="settings_openhab_alt_connection">Удаленный сервер</string>
     <string name="settings_openhab_connection">Локальный сервер</string>
-    <string name="settings_notification_vibration">Вибрация при уведомлениях</string>
+    <string name="settings_ringtone_none">Без рингтона</string>
+    <string name="settings_ringtone_on_external">Неизвестный рингтон на внешнем накопителе</string>
     <string name="settings_notification_vibration_off">Выкл</string>
     <string name="settings_notification_vibration_short">Коротко</string>
     <string name="settings_notification_vibration_long">Длинно</string>
     <string name="settings_notification_vibration_twice">Дважды</string>
-    <string name="settings_notification_ringtone_vibration">Настройка уведомлений</string>
     <string name="settings_connection_summary">Подключен к %s</string>
     <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
     <string name="beta">Бета</string>
@@ -136,9 +133,6 @@
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Отправить информацию устройства на сервер</string>
-    <string name="send_device_info_item_prefix">Префикс Item</string>
-    <string name="send_device_info_item_prefix_summary">Имена Item следующих функций имеют этот префикс \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Префикс не установлен для имен Item для следующих функций</string>
     <string name="settings_item_update_pref_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
     <string name="settings_phone_state_permission_denied">Отправка состояния звонка отключено из-за нехватки прав</string>
     <string name="settings_charging_state">Состояние зарядки</string>
@@ -156,9 +150,9 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Не удалось обновить Item \'%1$s\' (нет соединения)</string>
     <string name="item_update_connection_error_label">%1$s обновление не удалось (нет соединения)</string>
-    <string name="error_sending_alarm_clock_item_empty">Пожалуйста, введите правильное название Item</string>
     <string name="retry">Повтор</string>
     <string name="ignore">Игнорировать</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Нет недавно отправленных уведомлений</string>
     <string name="notification_list_error">Ошибка при загрузке уведомлений</string>

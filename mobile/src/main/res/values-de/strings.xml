@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Groß</string>
     <string name="settings_openhab_chart_hq">Hochauflösende Diagramme</string>
     <string name="settings_openhab_chart_hq_summary">Diagramme zu erstellen kann aufwändig für den Server sein. Falls Sie merken, dass die Diagramme lange laden und Ihr Server nicht leistungsfähig ist, können Sie diese Option deaktivieren, um die Ladezeiten zu verkürzen.</string>
-    <string name="settings_ringtone">Benachrichtigungston</string>
-    <string name="settings_ringtone_none">Keiner</string>
-    <string name="settings_ringtone_on_external">Unbekannter Klingelton auf externem Speicher</string>
     <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
     <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
     <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Fernzugriff</string>
     <string name="settings_openhab_connection">Lokal</string>
-    <string name="settings_notification_vibration">Benachrichtigungsvibration</string>
+    <string name="settings_ringtone_none">Keiner</string>
+    <string name="settings_ringtone_on_external">Unbekannter Klingelton auf externem Speicher</string>
     <string name="settings_notification_vibration_off">Aus</string>
     <string name="settings_notification_vibration_short">Kurz</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Zweimal</string>
-    <string name="settings_notification_ringtone_vibration">Benachrichtigungseinstellungen</string>
     <string name="settings_connection_summary">Verbunden mit %s</string>
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
@@ -175,10 +172,6 @@
     <string name="send_device_info_category_event_based_explanation">Diese Items werden bei entsprechenden Ereignissen aktualisiert, z.B. bei einem eingehenden Anruf</string>
     <string name="send_device_info_category_schedule_based_title">Basierend auf einem Zeitplan</string>
     <string name="send_device_info_category_schedule_based_explanation">Je kürzer das gewählte Intervall ist, desto größer ist die mögliche Auswirkung auf die Batterielebensdauer Ihres Geräts. Zusätzlich kann es sein, dass Ihr Gerät dem gewählten Intervall nicht genau folgt, sondern die Aktualisierungen verzögert, um den Energieverbrauch der Apps zu reduzieren.</string>
-    <string name="send_device_info_category_general">Allgemein</string>
-    <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
-    <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben das Präfix \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen der folgenden Funktionen ist kein Präfix gesetzt</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="settings_alarm_clock">Weckzeit</string>
     <string name="settings_alarm_clock_summary_on">Weckzeit wird an Item \'%1$s\' gesendet</string>
@@ -224,7 +217,6 @@
     <string name="item_update_http_error_label">Update von %1$s fehlgeschlagen: %2$s</string>
     <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
     <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
-    <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
     <string name="retry">Erneut versuchen</string>
     <string name="ignore">Ignorieren</string>
     <string name="send_device_info_schedule">Zeitplan</string>
@@ -234,6 +226,7 @@
     <string name="send_device_info_schedule_3_hours">3 Stunden</string>
     <string name="send_device_info_schedule_6_hours">6 Stunden</string>
     <string name="send_device_info_schedule_12_hours">12 Stunden</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>

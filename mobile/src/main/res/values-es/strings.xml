@@ -47,20 +47,20 @@
     <string name="settings_chart_scaling_value_l">Grande</string>
     <string name="settings_openhab_chart_hq">Gráficos en alta resolución</string>
     <string name="settings_openhab_chart_hq_summary">La generación de gráficos puede generar gran carga para el servidor. Si experimenta tiempos de carga de gráficos lentos y su servidor no es potente, desactive esta opción para mejorar los tiempos de carga.</string>
-    <string name="settings_ringtone">Tono de notificación</string>
-    <string name="settings_ringtone_none">Ninguno</string>
-    <string name="settings_ringtone_on_external">Tono de llamada desconocido en almacenamiento externo</string>
     <string name="settings_clear_default_sitemap">Quitar el Sitemap por defecto</string>
     <string name="settings_no_default_sitemap">No se ha seleccionado ningún Sitemap por defecto</string>
     <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remota</string>
     <string name="settings_openhab_connection">Local</string>
-    <string name="settings_notification_vibration">Notificaciones mediante vibración</string>
+    <string name="settings_ringtone">Tono de llamada</string>
+    <string name="settings_ringtone_none">Ninguno</string>
+    <string name="settings_ringtone_on_external">Tono de llamada desconocido en almacenamiento externo</string>
+    <string name="settings_notification_vibration">Vibración</string>
     <string name="settings_notification_vibration_off">Apagado</string>
     <string name="settings_notification_vibration_short">Corta</string>
     <string name="settings_notification_vibration_long">Larga</string>
     <string name="settings_notification_vibration_twice">Dos veces</string>
-    <string name="settings_notification_ringtone_vibration">Configuración de las notificaciones</string>
+    <string name="settings_notification_ringtone_vibration">Tono de llamada &amp; Vibración</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
     <string name="beta">Beta</string>
@@ -140,10 +140,8 @@
     <string name="send_device_info_category_event_based_explanation">Estos Items se actualizan ante ciertos eventos, por ejemplo, una llamada entrante</string>
     <string name="send_device_info_category_schedule_based_title">Basado en temporizador</string>
     <string name="send_device_info_category_schedule_based_explanation">Cuanto más corto sea el intervalo elegido, mayor será el impacto potencial en la duración de la batería de su dispositivo. No obstante, el dispositivo puede que no atienda exactamente al intervalo elegido, y es posible que éste retrase las actualizaciones para reducir el consumo de energía de las aplicaciones.</string>
-    <string name="send_device_info_category_general">General</string>
-    <string name="send_device_info_item_prefix">Prefijo del nombre del Item</string>
-    <string name="send_device_info_item_prefix_summary">Los nombres de Item de las siguientes características llevan el prefijo \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">No se ha especificado ningún prefijo para los nombres de Item de las siguientes características</string>
+    <string name="send_device_info_item_prefix_summary">Los nombres de Item en esta página tienen como prefijo el identificador de dispositivo \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">No se ha establecido ningún prefijo para los nombres de Item en esta página. Se puede añadir un prefijo con el identificador del dispositivo, el cual puede ser establecido en la página de configuración principal.</string>
     <string name="settings_item_update_pref_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
     <string name="settings_alarm_clock">Hora de la alarma</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de alarma al Item \'%1$s\'</string>
@@ -187,7 +185,7 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Fallo en la actualización del Item \'%1$s\' (sin conexión)</string>
     <string name="item_update_connection_error_label">Falló la actualización de %1$s (sin conexión)</string>
-    <string name="error_sending_alarm_clock_item_empty">Por favor, introduzca un nombre de Item válido</string>
+    <string name="error_no_valid_item_name">Por favor, introduzca un nombre de Item válido</string>
     <string name="retry">Reintentar</string>
     <string name="send_device_info_schedule">Temporizador</string>
     <string name="send_device_info_schedule_summary">Cada 15 minutos mientras se carga, cada %s si no</string>
@@ -196,6 +194,13 @@
     <string name="send_device_info_schedule_3_hours">3 horas</string>
     <string name="send_device_info_schedule_6_hours">6 horas</string>
     <string name="send_device_info_schedule_12_hours">12 horas</string>
+    <!-- Device identifier -->
+    <string name="device_identifier_title">Identificador del dispositivo</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Prefijo de comandos de voz con \'<Device identifier>|\']]></string>
+    <string name="device_identifier_bg_tasks">Establecer prefijo de los nombres de Item del tipo \"Enviar información del dispositivo al servidor\" con este identificador</string>
+    <string name="device_identifier_hint">Este identificador de dispositivo puede ser cualquier cadena y debe ser único para todos los dispositivos que accedan a su servidor openHAB. Además de los dos casos de uso de arriba, también se puede utilizar como estado en las etiquetas NFC, para que se sepa qué dispositivo lee la etiqueta.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Identificador del dispositivo de escaneo (\"%s\" para este dispositivo)</string>
+    <string name="device_identifier_summary_not_set">Los datos enviados al servidor y los comandos de voz no tienen prefijo con el identificador de dispositivo</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">No se enviaron notificaciones hasta el momento</string>
     <string name="notification_list_error">Ocurrió un error al cargar las notificaciones</string>
@@ -391,4 +396,16 @@
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfica</string>
+    <string name="notification_channel_severity_value">Importancia \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notificaciones enviadas por el servidor con importancia \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nueva notificación</item>
+        <item quantity="other">%d nuevas notificaciones</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">No disponible, el servidor remoto no está configurado</string>
+    <string name="push_notification_status_http_error">No disponible, error al conectarse al servidor remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">No disponible, el servidor remoto no es una instancia de openHAB cloud</string>
+    <string name="push_notification_status">Estado</string>
+    <string name="push_notification_help_icon_description">Haz clic aquí para obtener ayuda</string>
+    <string name="push_notification_hint">Las notificaciones son comprobadas a intervalos regulares, los mismos intervalos que para \"Enviar información del dispositivo al servidor\"</string>
 </resources>

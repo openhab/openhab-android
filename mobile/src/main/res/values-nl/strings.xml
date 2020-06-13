@@ -46,20 +46,17 @@
     <string name="settings_chart_scaling_value_l">Groot</string>
     <string name="settings_openhab_chart_hq">Hoge resolutie grafieken</string>
     <string name="settings_openhab_chart_hq_summary">Het genereren van grafieken kan belastend zijn voor de server. Zet deze optie uit als grafieken langzaam laden en je server niet krachtig is.</string>
-    <string name="settings_ringtone">Notficatiegeluid</string>
-    <string name="settings_ringtone_none">Geen</string>
-    <string name="settings_ringtone_on_external">Onbekende beltoon op externe opslag</string>
     <string name="settings_clear_default_sitemap">Verwijder standaard Sitemap</string>
     <string name="settings_no_default_sitemap">Geen standaard Sitemap geselecteerd</string>
     <string name="settings_current_default_sitemap">Standaard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Extern</string>
     <string name="settings_openhab_connection">Lokaal</string>
-    <string name="settings_notification_vibration">Trillen bij notificatie</string>
+    <string name="settings_ringtone_none">Geen</string>
+    <string name="settings_ringtone_on_external">Onbekende beltoon op externe opslag</string>
     <string name="settings_notification_vibration_off">Uit</string>
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Twee keer</string>
-    <string name="settings_notification_ringtone_vibration">Notificatieinstellingen</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <string name="beta">Beta</string>
@@ -129,9 +126,6 @@
     <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
-    <string name="send_device_info_item_prefix">Voorvoegsel Itemnaam</string>
-    <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben als voorvoegsel \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Er is geen voorvoegsel ingesteld voor de Item namen van de volgende functies</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
     <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
@@ -146,8 +140,8 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
     <string name="item_update_connection_error_label">%1$s update mislukt (Geen verbinding)</string>
-    <string name="error_sending_alarm_clock_item_empty">Voer een geldige Itemnaam in</string>
     <string name="retry">Opnieuw</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Tot nu toe zijn er geen notificaties verzonden</string>
     <string name="notification_list_error">Er is een fout opgetreden tijdens het laden van notificaties</string>

@@ -31,15 +31,12 @@
     <string name="settings_chart_scaling_value_s">Väike</string>
     <string name="settings_chart_scaling_value_m">Vaikimisi</string>
     <string name="settings_chart_scaling_value_l">Suur</string>
-    <string name="settings_ringtone">Teadete helin</string>
-    <string name="settings_ringtone_none">Mitte ükski</string>
     <string name="settings_openhab_alt_connection">Kaugjuhtimine</string>
     <string name="settings_openhab_connection">Kohalik</string>
-    <string name="settings_notification_vibration">Teadete vibratsioon</string>
+    <string name="settings_ringtone_none">Mitte ükski</string>
     <string name="settings_notification_vibration_off">Väljas</string>
     <string name="settings_notification_vibration_short">Lühike</string>
     <string name="settings_notification_vibration_long">Pikk</string>
-    <string name="settings_notification_ringtone_vibration">Teadete seaded</string>
     <string name="settings_connection_summary">Ühendatud võrguga %s</string>
     <string name="beta">Beeta</string>
     <string name="settings_screen_lock">Ekraanilukk</string>
@@ -74,9 +71,9 @@
     <string name="item_upload_in_progress">üksusi hetkel uuendatakse</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
-    <string name="error_sending_alarm_clock_item_empty">Sisesta korrektne elemendi nimi</string>
     <string name="retry">Uuesti</string>
     <string name="ignore">Eira</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_error">Teatiste laadimisel ilmnes viga</string>
     <string name="list_loading_message">Laadimine\u2026</string>

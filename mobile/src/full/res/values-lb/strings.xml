@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_no_remote">Net verfügbar well keen Server agestallt ass</string>
-    <string name="info_openhab_gcm_unsupported">Net verfügbar well den agestallte Server keng openHAB Cloud Instanz ass</string>
     <string name="info_openhab_gcm_in_progress">Registréierung vum Gerät ass am gaangen</string>
     <string name="info_openhab_gcm_connected">Gerät ass bei Firebase Cloud Messaging ugemellt ginn</string>
-    <string name="notification_channel_severity_value">Eescht \'%1$s\'</string>
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d nei Notifikatioun</item>
-        <item quantity="other">%d nei Notifikatiounen</item>
-    </plurals>
     <string name="open_in_maps">An Google Maps op maachen</string>
 </resources>

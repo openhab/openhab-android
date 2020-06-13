@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Suuri</string>
     <string name="settings_openhab_chart_hq">Korkean resoluution kuvaajat</string>
     <string name="settings_openhab_chart_hq_summary">Kuvaajien generointi voi olla raskasta palvelimelle. Jos havaitset hitautta kuvaajien latauksessa ja palvelimesi on tehoton, aseta tämä pois päältä parantaaksesi latausaikoja.</string>
-    <string name="settings_ringtone">Ilmoituksen merkkiääni</string>
-    <string name="settings_ringtone_none">Ei mikään</string>
-    <string name="settings_ringtone_on_external">Tuntematon soittoääni ulkoisessa tallennusvälineessä</string>
     <string name="settings_clear_default_sitemap">Poista oletus Sitemap</string>
     <string name="settings_no_default_sitemap">Ei Sitemappia oletuksena</string>
     <string name="settings_current_default_sitemap">Nykyinen oletus Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Etäkäyttö</string>
     <string name="settings_openhab_connection">Paikalliskäyttö</string>
-    <string name="settings_notification_vibration">Ilmoituksen värinä</string>
+    <string name="settings_ringtone_none">Ei mikään</string>
+    <string name="settings_ringtone_on_external">Tuntematon soittoääni ulkoisessa tallennusvälineessä</string>
     <string name="settings_notification_vibration_off">Pois päältä</string>
     <string name="settings_notification_vibration_short">Lyhyt</string>
     <string name="settings_notification_vibration_long">Pitkä</string>
     <string name="settings_notification_vibration_twice">Kaksi kertaa</string>
-    <string name="settings_notification_ringtone_vibration">Ilmoitusasetukset</string>
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <string name="beta">Beta</string>
@@ -175,10 +172,6 @@
     <string name="send_device_info_category_event_based_explanation">Nämä Itemit päivitetään perustuen tapahtumiin, esim. saapuva puhelu</string>
     <string name="send_device_info_category_schedule_based_title">Ajastuspohjainen</string>
     <string name="send_device_info_category_schedule_based_explanation">Lyhyemmällä aikavälillä on mahdollisesti suurempi vaikutus akun kestoon. Huomaa myös että laitteesi ei välttämättä tarkasti noudata valittua aikaväliä, vaan saattaa pidentää sitä vähentääkseen virran kulutusta.</string>
-    <string name="send_device_info_category_general">Yleiset</string>
-    <string name="send_device_info_item_prefix">Itemin nimen etuliite</string>
-    <string name="send_device_info_item_prefix_summary">Seuraavien toimintojen Itemien nimillä on etuliite \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Seuraavien toimintojen Itemien nimillä ei ole etuliitettä asetettuna</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
     <string name="settings_alarm_clock">Hälytysaika</string>
     <string name="settings_alarm_clock_summary_on">Lähetä hälytyksen aika Itemille \'%1$s\'</string>
@@ -224,7 +217,6 @@
     <string name="item_update_http_error_label">%1$s päivitys epäonnistui: %2$s</string>
     <string name="item_update_connection_error">Itemin \'%1$s\' päivitys epäonnistui (Ei yhteyttä)</string>
     <string name="item_update_connection_error_label">%1$s päivitys epäonnistui (Ei yhteyttä)</string>
-    <string name="error_sending_alarm_clock_item_empty">Syötä kelvollinen Itemin nimi</string>
     <string name="retry">Yritä uudelleen</string>
     <string name="ignore">Ohita</string>
     <string name="send_device_info_schedule">Ajastus</string>
@@ -234,6 +226,7 @@
     <string name="send_device_info_schedule_3_hours">3 tuntia</string>
     <string name="send_device_info_schedule_6_hours">6 tuntia</string>
     <string name="send_device_info_schedule_12_hours">12 tuntia</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>

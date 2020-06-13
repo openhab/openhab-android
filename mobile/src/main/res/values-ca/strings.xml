@@ -46,19 +46,16 @@
     <string name="settings_chart_scaling_value_l">Gran</string>
     <string name="settings_openhab_chart_hq">Diagrames en alta resolució</string>
     <string name="settings_openhab_chart_hq_summary">La generació dels diagrames pot penalitzar el rendiment del servidor. Si experimenteu temps de càrrega de diagrames molt lents i el servidor no és gaire potent, desactiveu aquesta opció per a millorar el temps de càrrega.</string>
-    <string name="settings_ringtone">To de notificació</string>
-    <string name="settings_ringtone_none">Cap</string>
     <string name="settings_clear_default_sitemap">Buida el mapa del lloc predeterminat</string>
     <string name="settings_no_default_sitemap">No hi ha cap mapa del lloc predeterminat seleccionat</string>
     <string name="settings_current_default_sitemap">Mapa del lloc predeterminat actuall: %1$s</string>
     <string name="settings_openhab_alt_connection">Remot</string>
     <string name="settings_openhab_connection">Local</string>
-    <string name="settings_notification_vibration">Vibració de notificació</string>
+    <string name="settings_ringtone_none">Cap</string>
     <string name="settings_notification_vibration_off">Desactivada</string>
     <string name="settings_notification_vibration_short">Curta</string>
     <string name="settings_notification_vibration_long">Llarga</string>
     <string name="settings_notification_vibration_twice">Doble</string>
-    <string name="settings_notification_ringtone_vibration">Configuració de notificacions</string>
     <string name="settings_connection_summary">Connectat a %s</string>
     <string name="settings_insecure_connection_summary">Connectat de manera insegura a %s</string>
     <string name="beta">Beta</string>
@@ -110,7 +107,6 @@
     <string name="info_not_set">No establert</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Envia la informació del dispositiu al servidor</string>
-    <string name="send_device_info_item_prefix">Prefix de l\'element</string>
     <string name="settings_wifi_ssid">Nom del Wi-Fi</string>
     <string name="settings_background_tasks_permission_allow">Permet</string>
     <string name="settings_item_pref_item_name">Nom d\'element</string>
@@ -118,6 +114,7 @@
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">Reintenta</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="list_loading_message">S\'està carregant...</string>
     <!-- Strings for MemorizingTrustManager activity -->

@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Nagy</string>
     <string name="settings_openhab_chart_hq">Magas felbontású grafikonok</string>
     <string name="settings_openhab_chart_hq_summary">Grafikonok generálása leterhelheti a szervert. Ha úgy érzékeli hogy lassan töltődnek, és a szervere nem túl erős, ennek a beállítás tiltásával javíthat a töltési sebességen.</string>
-    <string name="settings_ringtone">Értesítési csengőhang</string>
-    <string name="settings_ringtone_none">Nincs</string>
-    <string name="settings_ringtone_on_external">Ismeretlen csengőhang a külső meghajtón</string>
     <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
     <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
     <string name="settings_current_default_sitemap">Jelenlegi alapértelmezett felületet: %1$s</string>
     <string name="settings_openhab_alt_connection">Távoli</string>
     <string name="settings_openhab_connection">Helyi</string>
-    <string name="settings_notification_vibration">Rezgés értesítéskor</string>
+    <string name="settings_ringtone_none">Nincs</string>
+    <string name="settings_ringtone_on_external">Ismeretlen csengőhang a külső meghajtón</string>
     <string name="settings_notification_vibration_off">Ki</string>
     <string name="settings_notification_vibration_short">Rövid</string>
     <string name="settings_notification_vibration_long">Hosszú</string>
     <string name="settings_notification_vibration_twice">Kétszer</string>
-    <string name="settings_notification_ringtone_vibration">Értesítési beállítások</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <string name="beta">Béta</string>
@@ -154,8 +151,6 @@
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Eszközadatok küldése a kiszolgálónak</string>
-    <string name="send_device_info_item_prefix">Elem név előtagja</string>
-    <string name="send_device_info_item_prefix_summary">A következő funkciók elemnevei ezt az előtagot tartalmazzák\'%s\'</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
     <string name="settings_phone_state_permission_denied">Hívás állapotának küldése letiltva jogosultság hiánya matt</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
@@ -170,9 +165,9 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="item_update_connection_error_label">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
-    <string name="error_sending_alarm_clock_item_empty">Kérlek add meg az Elem helyes nevét</string>
     <string name="retry">Újra</string>
     <string name="ignore">Mellőzés</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>

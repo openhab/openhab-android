@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Stor</string>
     <string name="settings_openhab_chart_hq">Högupplöst diagram</string>
     <string name="settings_openhab_chart_hq_summary">Att generera diagram kan vara betungande för servern. Om du upplever långsam laddning av diagram, inaktivera detta alternativ för att förbättra laddningstiderna.</string>
-    <string name="settings_ringtone">Aviseringsljud</string>
-    <string name="settings_ringtone_none">Inget</string>
-    <string name="settings_ringtone_on_external">Okänd ringsignal på externt lagringsutrymme</string>
     <string name="settings_clear_default_sitemap">Rensa standard-Sitemap</string>
     <string name="settings_no_default_sitemap">Ingen Sitemap vald som standard</string>
     <string name="settings_current_default_sitemap">Nuvarande standard-Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Fjärr</string>
     <string name="settings_openhab_connection">Lokal</string>
-    <string name="settings_notification_vibration">Vibrera vid avisering</string>
+    <string name="settings_ringtone_none">Inget</string>
+    <string name="settings_ringtone_on_external">Okänd ringsignal på externt lagringsutrymme</string>
     <string name="settings_notification_vibration_off">Av</string>
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lång</string>
     <string name="settings_notification_vibration_twice">Två gånger</string>
-    <string name="settings_notification_ringtone_vibration">Notifieringsinställningar</string>
     <string name="settings_connection_summary">Ansluten till %s</string>
     <string name="settings_insecure_connection_summary">Osäkert ansluten till %s</string>
     <string name="beta">Beta</string>
@@ -169,9 +166,6 @@
     <string name="empty_page">Denna sida innehåller inte några synliga widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Skicka enhetsinformation till servern</string>
-    <string name="send_device_info_item_prefix">Prefix för Item-namn</string>
-    <string name="send_device_info_item_prefix_summary">Item-namnet på följande funktioner är prefixade med \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Inget prefix är satt för objektnamnen på följande funktioner</string>
     <string name="settings_item_update_pref_howto_summary">Tryck här för att få tips om hur du ställer in den här funktionens serversida</string>
     <string name="settings_phone_state_permission_denied">Att skicka samtalsstatus har inaktiverats på grund av saknade behörigheter</string>
     <string name="settings_charging_state">Laddningstillstånd</string>
@@ -200,9 +194,9 @@
     <string name="item_update_http_error_label">%1$s misslyckades med uppdatering: %2$s</string>
     <string name="item_update_connection_error">Uppdatering av Item \'%1$s\' misslyckades (ingen anslutning)</string>
     <string name="item_update_connection_error_label">%1$s uppdateringen misslyckades (ingen anslutning)</string>
-    <string name="error_sending_alarm_clock_item_empty">Var vänlig ange ett giltigt Item-namn</string>
     <string name="retry">Försök igen</string>
     <string name="ignore">Ignorera</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Inga aviseringar har hittills skickats</string>
     <string name="notification_list_error">Ett fel uppstod när aviseringar laddades</string>

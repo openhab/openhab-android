@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">大</string>
     <string name="settings_openhab_chart_hq">高清图表</string>
     <string name="settings_openhab_chart_hq_summary">生成图表可能会对服务器造成压力。若您的图表载入时间过长或服务器性能不强，请禁用此选项以加速载入。</string>
-    <string name="settings_ringtone">通知铃声</string>
-    <string name="settings_ringtone_none">无</string>
-    <string name="settings_ringtone_on_external">外部存储中的未知铃声</string>
     <string name="settings_clear_default_sitemap">清除默认站点地图</string>
     <string name="settings_no_default_sitemap">未选择默认站点地图</string>
     <string name="settings_current_default_sitemap">当前默认站点地图: %1$s</string>
     <string name="settings_openhab_alt_connection">远程</string>
     <string name="settings_openhab_connection">本地</string>
-    <string name="settings_notification_vibration">通知振动</string>
+    <string name="settings_ringtone_none">无</string>
+    <string name="settings_ringtone_on_external">外部存储中的未知铃声</string>
     <string name="settings_notification_vibration_off">关</string>
     <string name="settings_notification_vibration_short">短</string>
     <string name="settings_notification_vibration_long">长</string>
     <string name="settings_notification_vibration_twice">两次</string>
-    <string name="settings_notification_ringtone_vibration">通知设置</string>
     <string name="settings_connection_summary">已连接至 %s</string>
     <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
     <string name="beta">测试版</string>
@@ -151,7 +148,6 @@
     <string name="empty_page">此页不含有可见的小挂件</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">发送设备信息至服务器</string>
-    <string name="send_device_info_item_prefix">项目名前缀</string>
     <string name="settings_item_pref_item_name">项目名</string>
     <string name="waiting_for_item_upload">等待网络以发送项目更新</string>
     <string name="item_upload_in_progress">项目正被更新</string>
@@ -162,8 +158,8 @@
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">项目 \'%1$s\'\' 更新失败（无连接）</string>
-    <string name="error_sending_alarm_clock_item_empty">请输入有效的项目名称</string>
     <string name="retry">重试</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">尚未发送通知</string>
     <string name="notification_list_error">加载通知时出错</string>

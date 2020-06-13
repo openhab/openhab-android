@@ -46,20 +46,17 @@
     <string name="settings_chart_scaling_value_l">Mare</string>
     <string name="settings_openhab_chart_hq">Diagrame de înaltă rezoluţie</string>
     <string name="settings_openhab_chart_hq_summary">Generarea de diagrame poate fi dificilă pentru server. Dacă vă confruntaţi cu diagrame încărcate lent şi serverul nu este puternic, dezactivaţi această opţiune pentru a îmbunătăţi timpii de încărcare.</string>
-    <string name="settings_ringtone">Sonerie de notificare</string>
-    <string name="settings_ringtone_none">Nici unul</string>
-    <string name="settings_ringtone_on_external">Ton de apel necunoscut pe stocarea externă</string>
     <string name="settings_clear_default_sitemap">Sterge fisierul Sitemap implicit</string>
     <string name="settings_no_default_sitemap">Niciun Sitemap implicit nu este selectat</string>
     <string name="settings_current_default_sitemap">Predefiniție actuală Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Control de la distanţă</string>
     <string name="settings_openhab_connection">Local</string>
-    <string name="settings_notification_vibration">Vibratie la notificare</string>
+    <string name="settings_ringtone_none">Nici unul</string>
+    <string name="settings_ringtone_on_external">Ton de apel necunoscut pe stocarea externă</string>
     <string name="settings_notification_vibration_off">Oprit</string>
     <string name="settings_notification_vibration_short">Scurt</string>
     <string name="settings_notification_vibration_long">Lung</string>
     <string name="settings_notification_vibration_twice">De doua ori</string>
-    <string name="settings_notification_ringtone_vibration">Setări pentru notificări</string>
     <string name="settings_connection_summary">Conectat la %s</string>
     <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
     <string name="beta">Beta</string>
@@ -129,7 +126,6 @@
     <string name="empty_page">Această pagină nu conţine widget-uri setate ca vizibile</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Trimiteți informațiile dispozitivului pe server</string>
-    <string name="send_device_info_item_prefix">Prefix nume Item</string>
     <string name="settings_item_update_pref_howto_summary">Atingeți aici pentru a obține indicații despre cum puteți configura această caracteristică pe server</string>
     <string name="settings_phone_state_permission_denied">Trimiterea stării de apel a fost dezactivată din cauza permisiunilor care lipsesc</string>
     <string name="settings_item_pref_item_name">Nume Item</string>
@@ -145,8 +141,8 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Item \'%1$s\' actualizare eșuată (fără conexiune)</string>
     <string name="item_update_connection_error_label">%1$s actualizare eșuată (fără conexiune)</string>
-    <string name="error_sending_alarm_clock_item_empty">Vă rugăm să introduceți numele unui Item valid</string>
     <string name="retry">Reîncearcă</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nicio notificare nu a fost trimisă până acum</string>
     <string name="notification_list_error">A apărut o eroare în timpul încărcării notificărilor</string>

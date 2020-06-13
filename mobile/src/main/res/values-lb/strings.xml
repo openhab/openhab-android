@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Grouss</string>
     <string name="settings_openhab_chart_hq">Héich opléisend Diagrammen</string>
     <string name="settings_openhab_chart_hq_summary">Diagrammer generéieren ass opwänneg fir de Server. Wann s de keen staarke Server hues an d‘ Diagrammer lues lueden, schalt des Optioun aus fir d‘ Luedzäiten ze verbesseren.</string>
-    <string name="settings_ringtone">Notifikatioun s Toun</string>
-    <string name="settings_ringtone_none">Keen</string>
-    <string name="settings_ringtone_on_external">Onbekannte Ringtone op externem Spächer</string>
     <string name="settings_clear_default_sitemap">Standard Sitemap ophiewen</string>
     <string name="settings_no_default_sitemap">Keng Standard Sitemap gewielt</string>
     <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Lokal</string>
-    <string name="settings_notification_vibration">Notifikatioun s Vibratioun</string>
+    <string name="settings_ringtone_none">Keen</string>
+    <string name="settings_ringtone_on_external">Onbekannte Ringtone op externem Spächer</string>
     <string name="settings_notification_vibration_off">Aus</string>
     <string name="settings_notification_vibration_short">Kuerz</string>
     <string name="settings_notification_vibration_long">Laang</string>
     <string name="settings_notification_vibration_twice">Zwee mol</string>
-    <string name="settings_notification_ringtone_vibration">Notifikatiounsastellungen</string>
     <string name="settings_connection_summary">Mat %s verbonne</string>
     <string name="settings_insecure_connection_summary">Ongeséchert mat %s verbonnen</string>
     <string name="beta">Beta</string>
@@ -131,9 +128,6 @@
     <string name="empty_page">Des Säit huet keng visibel Widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
-    <string name="send_device_info_item_prefix">Prefix vum Item Numm</string>
-    <string name="send_device_info_item_prefix_summary">D‘ Item Nimm vu folgende Features hunn dëse Prefix \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Fir Item Nimm vun de folgenden Funktiounen ass keen Prefix gesat</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
@@ -148,8 +142,8 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Den Item \'%1$s\' konnt net geupdate ginn (Keng Verbindung)</string>
     <string name="item_update_connection_error_label">%1$s Update huet net funktionéiert (keng Verbindung)</string>
-    <string name="error_sending_alarm_clock_item_empty">Gitt w.e.g. en valabelen Item Numm un</string>
     <string name="retry">Nach emol probéieren</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Bis elo goufe keng Notifikatiounen verschéckt</string>
     <string name="notification_list_error">Wärend dem Lueden vun den Notifikatiounen ass e Feeler geschitt</string>

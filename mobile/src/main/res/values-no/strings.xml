@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Stor</string>
     <string name="settings_openhab_chart_hq">Høy-oppløste diagrammer</string>
     <string name="settings_openhab_chart_hq_summary">Generering av diagrammer kan være tungt for serveren. Hvis du opplever treg diagram-innlasting og serveren ikke er kraftig, kan du deaktivere dette alternativet for å forbedre lastingen.</string>
-    <string name="settings_ringtone">Meldingstone</string>
-    <string name="settings_ringtone_none">Ingen</string>
-    <string name="settings_ringtone_on_external">Ukjent ringetone fra ekstern lagring</string>
     <string name="settings_clear_default_sitemap">Tøm standard lokasjonskart</string>
     <string name="settings_no_default_sitemap">Ingen standard lokasjonskart valgt</string>
     <string name="settings_current_default_sitemap">Nåværende standard lokasjonskart: %1$s</string>
     <string name="settings_openhab_alt_connection">Ekstern</string>
     <string name="settings_openhab_connection">Lokal</string>
-    <string name="settings_notification_vibration">Meldingsvibrering</string>
+    <string name="settings_ringtone_none">Ingen</string>
+    <string name="settings_ringtone_on_external">Ukjent ringetone fra ekstern lagring</string>
     <string name="settings_notification_vibration_off">Av</string>
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Dobbel</string>
-    <string name="settings_notification_ringtone_vibration">Varslingsinnstillinger</string>
     <string name="settings_connection_summary">Koblet til %s</string>
     <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
     <string name="beta">Beta</string>
@@ -132,9 +129,6 @@
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Sende enhetsinformasjon til server</string>
-    <string name="send_device_info_item_prefix">Element navneprefiks</string>
-    <string name="send_device_info_item_prefix_summary">Elementnavn med følgende funksjoner har dette prefikset \'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Ingen prefix er satt for elementer med følgende funksjoner</string>
     <string name="settings_item_update_pref_howto_summary">Tapp her for å få tips om hvordan du setter opp denne funksjonen på serversiden</string>
     <string name="settings_phone_state_permission_denied">Sending av ringestatus er avslått grunnet manglende rettigheter</string>
     <string name="settings_item_pref_item_name">Elementnavn</string>
@@ -149,8 +143,8 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">\'%1$s\' elementoppdatering mislyktes (ingen oppkobling)</string>
     <string name="item_update_connection_error_label">\'%1$s\' oppdatering mislyktes (ingen oppkobling)</string>
-    <string name="error_sending_alarm_clock_item_empty">Skriv inn et gyldig elementnavn</string>
     <string name="retry">Prøv på nytt</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
     <string name="notification_list_error">Det oppstod en feil under lasting av meldinger</string>

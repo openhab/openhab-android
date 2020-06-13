@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">Grande</string>
     <string name="settings_openhab_chart_hq">Gráficos de alta resolução</string>
     <string name="settings_openhab_chart_hq_summary">Gerar gráficos pode pesar servidor. Se você se deparar com carregamento lento do gráfico e seu servidor não é poderoso, desabilite essa opção para melhorar o tempo de carregamento.</string>
-    <string name="settings_ringtone">Toque de notificação</string>
-    <string name="settings_ringtone_none">Nenhum</string>
-    <string name="settings_ringtone_on_external">Toque desconhecido no armazenamento externo</string>
     <string name="settings_clear_default_sitemap">Limpar o sitemap padrão</string>
     <string name="settings_no_default_sitemap">Nenhum Sitemap selecionado</string>
     <string name="settings_current_default_sitemap">Atual Sitemap padrão: %1$s</string>
     <string name="settings_openhab_alt_connection">Remoto</string>
     <string name="settings_openhab_connection">Local</string>
-    <string name="settings_notification_vibration">Vibração de notificação</string>
+    <string name="settings_ringtone_none">Nenhum</string>
+    <string name="settings_ringtone_on_external">Toque desconhecido no armazenamento externo</string>
     <string name="settings_notification_vibration_off">Desligado</string>
     <string name="settings_notification_vibration_short">Curta</string>
     <string name="settings_notification_vibration_long">Longa</string>
     <string name="settings_notification_vibration_twice">Dupla</string>
-    <string name="settings_notification_ringtone_vibration">Configurações de notificação</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
     <string name="beta">Beta</string>
@@ -175,10 +172,6 @@
     <string name="send_device_info_category_event_based_explanation">Estes Items são atualizados nos eventos correspondentes, ex: Recebendo uma ligação</string>
     <string name="send_device_info_category_schedule_based_title">Baseado em agendamento</string>
     <string name="send_device_info_category_schedule_based_explanation">Quanto menor o intervalo escolhido, maior é o consumo da bateria do seu dispositivo. Além disso, seu dispositivo pode não seguir o intervalo escolhido exatamente, mas atrasar as atualizações para reduzir o consumo de bateria dos apps.</string>
-    <string name="send_device_info_category_general">Geral</string>
-    <string name="send_device_info_item_prefix">Prefixo do nome do Item</string>
-    <string name="send_device_info_item_prefix_summary">Os nomes de Item dos seguintes recursos tem este prefixo\'%s\'</string>
-    <string name="send_device_info_item_prefix_summary_not_set">Nenhum prefixo foi definido para os nomes do Item dos seguintes recursos</string>
     <string name="settings_item_update_pref_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
     <string name="settings_alarm_clock">Hora do alarme</string>
     <string name="settings_alarm_clock_summary_on">Envia a hora do alarme para Item \'%1$s \'</string>
@@ -224,7 +217,6 @@
     <string name="item_update_http_error_label">%1$s falhou ao atualizar: %2$s</string>
     <string name="item_update_connection_error">Falha na atualização do Item \'%1$s\' (Sem conexão)</string>
     <string name="item_update_connection_error_label">%1$s a atualização falhou (sem conexão)</string>
-    <string name="error_sending_alarm_clock_item_empty">Por favor, insira um nome de Item válido</string>
     <string name="retry">Tente novamente</string>
     <string name="ignore">Ignorar</string>
     <string name="send_device_info_schedule">Agendamento</string>
@@ -234,6 +226,7 @@
     <string name="send_device_info_schedule_3_hours">3 horas</string>
     <string name="send_device_info_schedule_6_hours">6 horas</string>
     <string name="send_device_info_schedule_12_hours">12 horas</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>

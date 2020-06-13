@@ -47,20 +47,17 @@
     <string name="settings_chart_scaling_value_l">大</string>
     <string name="settings_openhab_chart_hq">高解像度グラフ</string>
     <string name="settings_openhab_chart_hq_summary">グラフの生成をサーバーに負担させることができます。グラフの読み込みに時間がかかって、お使いのサーバーが強力ではない場合は、このオプションを無効にすると読み込み時間が改善します。</string>
-    <string name="settings_ringtone">通知の着信音</string>
-    <string name="settings_ringtone_none">なし</string>
-    <string name="settings_ringtone_on_external">外部ストレージの不明な着信音</string>
     <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
     <string name="settings_no_default_sitemap">デフォルトのサイトマップが選択されていません</string>
     <string name="settings_current_default_sitemap">現在のデフォルトサイトマップ: %1$s</string>
     <string name="settings_openhab_alt_connection">リモートサーバーの設定</string>
     <string name="settings_openhab_connection">ローカルサーバーの設定</string>
-    <string name="settings_notification_vibration">通知の振動</string>
+    <string name="settings_ringtone_none">なし</string>
+    <string name="settings_ringtone_on_external">外部ストレージの不明な着信音</string>
     <string name="settings_notification_vibration_off">オフ</string>
     <string name="settings_notification_vibration_short">短め</string>
     <string name="settings_notification_vibration_long">長め</string>
     <string name="settings_notification_vibration_twice">2 回</string>
-    <string name="settings_notification_ringtone_vibration">通知設定</string>
     <string name="settings_connection_summary">%s に接続しました</string>
     <string name="settings_insecure_connection_summary">%s に安全ではない接続をしました</string>
     <string name="beta">ベータ版</string>
@@ -169,9 +166,6 @@
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">デバイス情報をサーバーに送信</string>
-    <string name="send_device_info_item_prefix">アイテム名の接頭辞</string>
-    <string name="send_device_info_item_prefix_summary">次の機能のアイテム名は \'%s\' が頭につきます</string>
-    <string name="send_device_info_item_prefix_summary_not_set">次の機能のアイテム名に接頭語は設定されていません</string>
     <string name="settings_item_update_pref_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
     <string name="settings_phone_state_permission_denied">アクセス許可がないため通話状態の送信は無効です</string>
     <string name="settings_charging_state">充電状態</string>
@@ -195,9 +189,9 @@
     <string name="item_update_http_error_label">%1$s の更新に失敗しました: %2$s</string>
     <string name="item_update_connection_error">アイテム \'%1$s\' を更新できませんでした (接続がありません)</string>
     <string name="item_update_connection_error_label">%1$s を更新できませんでした (接続がありません)</string>
-    <string name="error_sending_alarm_clock_item_empty">正しいアイテム名を入力してください</string>
     <string name="retry">リトライ</string>
     <string name="ignore">無視</string>
+    <!-- Device identifier -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">まだ通知は送信されていません</string>
     <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
