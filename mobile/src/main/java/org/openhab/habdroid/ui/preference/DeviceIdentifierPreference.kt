@@ -43,7 +43,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
     }
 
     override fun onSetInitialValue(defaultValue: Any?) {
-        value = defaultValue as String?
+        value = getPersistedString(null) ?: defaultValue as String?
         updateSummary()
     }
 
