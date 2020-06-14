@@ -31,6 +31,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import kotlin.random.Random
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
@@ -41,6 +42,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var originalScaleType: ScaleType? = null
     private var originalAdjustViewBounds: Boolean = false
     private val emptyHeightToWidthRatio: Float
+    private val addRandomnessToUrl: Boolean
     private var internalLoad: Boolean = false
     private var lastRequest: HttpImageRequest? = null
 
@@ -53,6 +55,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             fallback = getDrawable(R.styleable.WidgetImageView_fallback)
             progressDrawable = getDrawable(R.styleable.WidgetImageView_progressIndicator)
             emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f)
+            addRandomnessToUrl = getBoolean(R.styleable.WidgetImageView_addRandomnessToUrl, false)
             recycle()
         }
 
@@ -70,9 +73,13 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
 
-        if (lastRequest?.isActiveForUrl(actualUrl) == true) {
-            // We're already in the process of loading this image, thus there's nothing to do
-            return
+        if (actualUrl == lastRequest?.url) {
+            if (lastRequest?.isActive() == true) {
+                // We're already in the process of loading this image, thus there's nothing to do
+                return
+            }
+        } else {
+            lastRefreshTimestamp = 0
         }
 
         cancelCurrentLoad()
@@ -137,8 +144,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         scope = CoroutineScope(Dispatchers.Main + Job())
-        val request = lastRequest
-        if (request != null) {
+        lastRequest?.let { request ->
             if (!request.hasCompleted()) {
                 request.execute(false)
             } else {
@@ -154,12 +160,10 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     }
 
     fun startRefreshing(refreshDelayInMs: Int) {
-        cancelRefresh()
+        refreshJob?.cancel()
+        refreshJob = null
         refreshInterval = refreshDelayInMs.toLong()
-
-        refreshJob = scope?.launch {
-            lastRefreshTimestamp = SystemClock.uptimeMillis()
-            lastRequest?.execute(true)
+        if (lastRequest?.isActive() != true) {
             scheduleNextRefresh()
         }
     }
@@ -168,6 +172,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         refreshJob?.cancel()
         refreshJob = null
         refreshInterval = 0
+        lastRefreshTimestamp = 0
     }
 
     private fun setBitmapInternal(bitmap: Bitmap) {
@@ -186,7 +191,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val timeToNextRefresh = refreshInterval + lastRefreshTimestamp - SystemClock.uptimeMillis()
         refreshJob = scope?.launch {
             delay(timeToNextRefresh)
-            lastRefreshTimestamp = SystemClock.uptimeMillis()
             lastRequest?.execute(true)
         }
     }
@@ -220,27 +224,43 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     private inner class HttpImageRequest(
         private val client: HttpClient,
-        private val url: HttpUrl,
+        val url: HttpUrl,
         private val size: Int,
         private val timeoutMillis: Long
     ) {
         private var job: Job? = null
+        private var lastRandomness = Random.Default.nextInt()
 
         fun execute(avoidCache: Boolean) {
+            if (job?.isActive == true) {
+                // Nothing to do, we're still in the process of downloading
+                return
+            }
+
             Log.i(TAG, "Refreshing image at $url, avoidCache $avoidCache")
             val cachingMode = if (avoidCache)
                 HttpClient.CachingMode.AVOID_CACHE
             else
                 HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE
 
+            val actualUrl = if (addRandomnessToUrl) {
+                if (avoidCache) {
+                    lastRandomness = Random.Default.nextInt()
+                }
+                url.newBuilder().setQueryParameter("random", lastRandomness.toString()).build()
+            } else {
+                url
+            }
+
             job = scope?.launch(Dispatchers.Main) {
                 try {
-                    val bitmap = client.get(url.toString(),
+                    val bitmap = client.get(actualUrl.toString(),
                         timeoutMillis = timeoutMillis, caching = cachingMode)
                         .asBitmap(size)
                         .response
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
+                    lastRefreshTimestamp = System.currentTimeMillis()
                     scheduleNextRefresh()
                 } catch (e: HttpClient.HttpException) {
                     removeProgressDrawable()
@@ -257,8 +277,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             return job?.isCompleted == true
         }
 
-        fun isActiveForUrl(url: HttpUrl): Boolean {
-            return job?.isActive == true && this.url == url
+        fun isActive(): Boolean {
+            return job?.isActive == true
         }
     }
 

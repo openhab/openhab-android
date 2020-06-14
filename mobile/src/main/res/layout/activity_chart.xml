@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            app:progressIndicator="@drawable/ic_image_loading_themed" />
+            app:progressIndicator="@drawable/ic_image_loading_themed"
+            app:addRandomnessToUrl="true" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
