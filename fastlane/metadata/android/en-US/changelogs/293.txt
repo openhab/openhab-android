@@ -1,0 +1,2 @@
+## Fixed
+* Fix device id preference (#2049) 
