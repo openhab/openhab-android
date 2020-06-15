@@ -86,7 +86,7 @@ The time is sent as a number containing the number of milliseconds since the epo
 
 Example item definition:
 ```java
-Number AlarmClock
+DateTime AlarmClock
 ```
 
 Example rule:
@@ -97,29 +97,26 @@ rule "Alarm Clock"
 when
     Item AlarmClock changed
 then
-    if (AlarmClock.state as Number == 0) {
+    if (newState instanceof DateTimeType) {
+        val epoch = newState.toLocaleZone.zonedDateTime.toInstant.toEpochMilli
+        logInfo("alarm", "Scheduling alarm for {} ({})", newState.toLocaleZone, epoch)
+        if (timerAlarm !== null) {
+            logInfo("alarm", "Reschedule alarm")
+            timerAlarm.reschedule(new DateTime(epoch))
+        } else {
+            logInfo("alarm", "New alarm")
+            timerAlarm = createTimer(new DateTime(epoch), [ |
+				// Turn on stuff, e.g. radio or light
+                logInfo("alarm", "Alarm expired")
+                timerAlarm = null
+            ])
+        }
+    } else {
         if (timerAlarm !== null) {
             timerAlarm.cancel
             timerAlarm = null
         }
-        logInfo("alarm", "All alarms are cancelled")
-    } else {
-        var epoch = new DateTime((AlarmClock.state as Number).longValue)
-        logInfo("alarm", "Scheduling alarm for " +  epoch.toString)
-
-        if (timerAlarm !== null) {
-            logInfo("alarm", "Reschedule alarm")
-            timerAlarm.reschedule(epoch)
-        } else {
-            logInfo("alarm", "New Alarm")
-            timerAlarm = createTimer(epoch,
-                [ |
-                    // Turn on stuff, e.g. radio or light
-                    Light.sendCommand(ON)
-                    logInfo("alarm", "alarm is expired")
-                ]
-            )
-        }
+        logInfo("alarm", "Alarm canceled")
     }
 end
 ```
