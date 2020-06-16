@@ -25,9 +25,10 @@ import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import androidx.preference.PreferenceDataStore
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.CustomDialogPreference
 
 open class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
-    EditTextPreference(context, attrs) {
+    EditTextPreference(context, attrs), CustomDialogPreference {
     private val inputType: Int
     private var autofillHints: Array<String>? = null
     private var defValue: Any? = null
@@ -62,7 +63,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
         return null
     }
 
-    open fun createDialog(): DialogFragment {
+    override fun createDialog(): DialogFragment {
         return PrefFragment.newInstance(key, title, inputType, autofillHints)
     }
 

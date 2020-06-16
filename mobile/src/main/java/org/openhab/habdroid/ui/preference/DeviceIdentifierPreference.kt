@@ -31,9 +31,11 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.CustomDialogPreference
 import org.openhab.habdroid.util.PrefKeys
 
-class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs) {
+class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs),
+    CustomDialogPreference {
     private var value: String? = null
 
     init {
@@ -69,7 +71,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun createDialog(): DialogFragment {
+    override fun createDialog(): DialogFragment {
         return PrefFragment.newInstance(key, title)
     }
 

@@ -50,11 +50,8 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
-import org.openhab.habdroid.ui.preference.CustomInputTypePreference
-import org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.NotificationPollingPreference
-import org.openhab.habdroid.ui.preference.UrlInputPreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
@@ -180,13 +177,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 fragment.setTargetFragment(this, 0)
                 fragment.show(parentFragmentManager, "SettingsFragment.DIALOG:${preference.key}")
             }
-            when (preference) {
-                is UrlInputPreference -> showDialog(preference.createDialog())
-                is ItemUpdatingPreference -> showDialog(preference.createDialog())
-                is NotificationPollingPreference -> showDialog(preference.createDialog())
-                is CustomInputTypePreference -> showDialog(preference.createDialog())
-                is DeviceIdentifierPreference -> showDialog(preference.createDialog())
-                else -> super.onDisplayPreferenceDialog(preference)
+            if (preference is CustomDialogPreference) {
+                showDialog(preference.createDialog())
+            } else {
+                super.onDisplayPreferenceDialog(preference)
             }
         }
 
@@ -823,4 +817,8 @@ class SharedPrefsDataStore constructor(val prefs: SharedPreferences) : Preferenc
     override fun putStringSet(key: String?, values: MutableSet<String>?) {
         prefs.edit { putStringSet(key, values) }
     }
+}
+
+interface CustomDialogPreference {
+    fun createDialog(): DialogFragment
 }
