@@ -36,7 +36,7 @@ data class NfcTag(
 }
 
 fun Uri.toTagData(): NfcTag? {
-    if (scheme != NfcTag.SCHEME) {
+    if (isOpaque || scheme != NfcTag.SCHEME) {
         return null
     }
     val item = if (NfcTag.DEPRECATED_QUERY_PARAMETER_ITEM_NAME in queryParameterNames)
