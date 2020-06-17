@@ -59,7 +59,7 @@ import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
-import org.openhab.habdroid.util.hasPermission
+import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import java.util.HashMap
@@ -269,6 +269,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
                 }
             }
+        }
+
+        fun getRequiredPermissionsForTask(task: String): Array<String>? = when {
+            task == PrefKeys.SEND_PHONE_STATE -> arrayOf(Manifest.permission.READ_PHONE_STATE)
+            task == PrefKeys.SEND_WIFI_SSID && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ->
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            task == PrefKeys.SEND_WIFI_SSID && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+            else -> null
         }
 
         fun enqueueNfcUpdateIfNeeded(context: Context, tag: NfcTag?) {
@@ -526,16 +535,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
             VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context ->
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
                 val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID)
                 val ssidToSend = wifiManager.connectionInfo.let { info ->
                     when {
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
                             !LocationManagerCompat.isLocationEnabled(locationManager) -> {
                             "LOCATION_OFF"
                         }
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-                            !context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) -> "NO_PERMISSION"
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                            !context.hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION) -> "NO_PERMISSION"
+                        requiredPermissions != null && !context.hasPermissions(requiredPermissions) -> "NO_PERMISSION"
                         info.networkId == -1 -> "UNDEF"
                         else -> {
                             // WifiInfo#getSSID() may surround the SSID with double quote marks

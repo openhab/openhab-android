@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.util
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -260,9 +259,9 @@ fun Context.showToast(@StringRes message: Int, type: ToastType = ToastType.NORMA
     showToast(getString(message), type)
 }
 
-fun Context.hasPermission(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-}
+fun Context.hasPermissions(permissions: Array<String>) = permissions.firstOrNull {
+    ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+} == null
 
 fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Throwable?, short: Boolean): CharSequence {
     return if (error.hasCause(UnknownHostException::class.java)) {
