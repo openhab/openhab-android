@@ -120,7 +120,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var drawerIconTintList: ColorStateList? = null
     lateinit var viewPool: RecyclerView.RecycledViewPool
         private set
-    private lateinit var progressBar: ContentLoadingProgressBar
+    private var progressBar: ContentLoadingProgressBar? = null
     private var sitemapSelectionDialog: AlertDialog? = null
     private var lastSnackbar: Snackbar? = null
     var connection: Connection? = null
@@ -890,9 +890,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     fun setProgressIndicatorVisible(visible: Boolean) {
         if (visible) {
-            progressBar.show()
+            progressBar?.show()
         } else {
-            progressBar.hide()
+            progressBar?.hide()
         }
     }
 
