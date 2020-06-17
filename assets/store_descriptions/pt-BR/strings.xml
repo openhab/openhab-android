@@ -17,7 +17,7 @@
     <important_note>Nota importante</important_note>
     <oh_server>Você precisa de um servidor openHAB para este app.</oh_server>
     <short_description>Fornecedor e tecnologia agnóstica de código aberto de automação residencial</short_description>
-    <fdroid> </fdroid>
+    <fdroid>As compilações em F-Droid têm FCM e o relatório de falha removidos e não serão capazes de receber notificações push do openHAB Cloud. Em vez disso, as notificações são consultadas regularmente nestas compilações.</fdroid>
     <fdroid_beta><![CDATA[Você pode instalar a versão beta junto da <a href="https://f-droid.org/packages/org.openhab.habdroid/">versão estável</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Política de privacidade: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Experimente novos recursos e dê feedback antecipado!</beta>
