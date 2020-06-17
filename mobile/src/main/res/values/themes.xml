@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="openHAB.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="android:windowBackground">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
@@ -14,6 +15,11 @@
 
         <item name="chartTheme">white</item>
         <item name="valueColors">@array/valueColorsBrightBackground</item>
+    </style>
+
+    <style name="openHAB.Launch" parent="openHAB.Base">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="colorPrimaryDark">@android:color/background_light</item>
     </style>
 
     <style name="openHAB.DayNight.orange" parent="openHAB.DayNight">

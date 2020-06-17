@@ -8,4 +8,8 @@
         <item name="chartTheme">dark</item>
         <item name="valueColors">@array/valueColorsDarkBackground</item>
     </style>
+
+    <style name="openHAB.Launch" parent="openHAB.Base">
+        <item name="colorPrimaryDark">@android:color/background_dark</item>
+    </style>
 </resources>

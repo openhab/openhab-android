@@ -38,7 +38,7 @@
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
         android:supportsRtl="true"
-        android:theme="@style/openHAB.DayNight.orange">
+        android:theme="@style/openHAB.Launch">
         <activity
             android:name=".ui.PreferencesActivity"
             android:label="@string/app_preferences_name">
