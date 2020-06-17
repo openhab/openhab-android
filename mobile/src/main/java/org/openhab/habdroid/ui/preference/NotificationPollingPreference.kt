@@ -32,6 +32,7 @@ import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.ui.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.PrefKeys
@@ -39,7 +40,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 
 class NotificationPollingPreference constructor(context: Context, attrs: AttributeSet?) :
-    DialogPreference(context, attrs) {
+    DialogPreference(context, attrs), CustomDialogPreference {
     private var value: Boolean? = null
 
     init {
@@ -56,7 +57,7 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
         return a.getBoolean(index, false)
     }
 
-    fun createDialog(): DialogFragment {
+    override fun createDialog(): DialogFragment {
         return PrefDialogFragment.newInstance(key)
     }
 

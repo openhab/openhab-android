@@ -33,12 +33,14 @@ import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 
-class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs) {
+class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs),
+    CustomDialogPreference {
     private val howtoUrl: String?
     private var summaryOn: String?
     private val summaryOff: String?
@@ -78,7 +80,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         return a.getString(index).toItemUpdatePrefValue()
     }
 
-    fun createDialog(): DialogFragment {
+    override fun createDialog(): DialogFragment {
         return PrefDialogFragment.newInstance(key)
     }
 
