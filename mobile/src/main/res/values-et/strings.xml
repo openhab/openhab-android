@@ -191,9 +191,13 @@
     <string name="item_update_success_message_pause">%s on peatatud</string>
     <string name="item_update_error_no_connection">Ühendust ei ole</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Andmesäästja</string>
     <string name="widget_type_image">Pilt</string>
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Kaart</string>
     <string name="widget_type_chart">Skeem</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
