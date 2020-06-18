@@ -239,7 +239,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                     val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
                         R.string.nfc_action_write_command_tag)
                     nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                    populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, itemId ->
+                    populateStatesMenu(nfcMenu, context, suggestedCommands, suggestedCommands.shouldShowCustom) {
+                            state, mappedState, itemId ->
                         startActivity(WriteTagActivity.createItemUpdateIntent(
                             context,
                             widget.item?.name ?: return@populateStatesMenu,
@@ -289,7 +290,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 val nfcMenu = menu.addSubMenu(Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG, Menu.NONE,
                     R.string.nfc_action_write_command_tag)
                 nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-                populateStatesMenu(nfcMenu, context, suggestedCommands, true) { state, mappedState, itemId ->
+                populateStatesMenu(nfcMenu, context, suggestedCommands, suggestedCommands.shouldShowCustom) {
+                        state, mappedState, itemId ->
                     startActivity(WriteTagActivity.createItemUpdateIntent(
                         context,
                         widget.item?.name ?: return@populateStatesMenu,

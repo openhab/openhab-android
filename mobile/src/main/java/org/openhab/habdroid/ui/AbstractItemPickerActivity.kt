@@ -164,7 +164,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             .map { entry -> CommandEntry(entry.command, entry.label) }
             .toMutableList()
 
-        addAdditionalCommands(entries)
+        addAdditionalCommands(suggestedCommands, entries)
 
         val labels = entries.map { entry -> entry.label }.toMutableList()
         if (suggestedCommands.shouldShowCustom) {
@@ -201,7 +201,10 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             .show()
     }
 
-    protected open fun addAdditionalCommands(entries: MutableList<CommandEntry>) {
+    protected open fun addAdditionalCommands(
+        suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
+        entries: MutableList<CommandEntry>
+    ) {
         // no-op
     }
 

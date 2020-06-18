@@ -19,6 +19,7 @@ import androidx.core.content.edit
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.wasNfcInfoHintShown
@@ -50,19 +51,22 @@ class NfcItemPickerActivity(
         }
     }
 
-    override fun addAdditionalCommands(entries: MutableList<CommandEntry>) {
+    override fun addAdditionalCommands(
+        suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
+        entries: MutableList<CommandEntry>
+    ) {
         val deviceId = getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
-        if (deviceId.isNotEmpty()) {
+        if (deviceId.isNotEmpty() && suggestedCommands.shouldShowCustom) {
             entries.add(CommandEntry(
                 deviceId,
                 getString(R.string.device_identifier_suggested_command_nfc_tag, deviceId),
-                "IsDeviceId"
+                "isDeviceId"
             ))
         }
     }
 
     override fun finish(item: Item, state: String, mappedState: String, tag: Any?) {
-        val deviceId = tag == "IsDeviceId"
+        val deviceId = tag == "isDeviceId"
         startActivity(WriteTagActivity.createItemUpdateIntent(
             this, item.name, state, mappedState, item.label, deviceId))
     }

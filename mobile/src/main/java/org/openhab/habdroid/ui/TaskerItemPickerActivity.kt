@@ -24,6 +24,7 @@ import com.google.android.material.button.MaterialButton
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.getPrefs
@@ -78,7 +79,10 @@ class TaskerItemPickerActivity(
         }
     }
 
-    override fun addAdditionalCommands(entries: MutableList<CommandEntry>) {
+    override fun addAdditionalCommands(
+        suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
+        entries: MutableList<CommandEntry>
+    ) {
         relevantVars?.forEach {
             entries.add(CommandEntry(it, getString(R.string.item_picker_tasker_variable, it)))
         }
