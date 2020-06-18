@@ -407,6 +407,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Automaticky generovat popisek widgetu</string>
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Spořič dat</string>
     <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
     <string name="data_saver_off">Nastavení spořiče dat pro celý systém je použito při načítání datových prvků Sitemap</string>
@@ -418,4 +419,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Graf</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
