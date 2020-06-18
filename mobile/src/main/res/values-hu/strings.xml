@@ -354,4 +354,8 @@
     <string name="item_update_widget_auto_generate_widget_label">Widget automatikus címkéje</string>
     <string name="item_update_widget_widget_label">Widget címke</string>
     <string name="item_update_widget_default_label"><![CDATA[< Elem címke>: <Művelet>]]></string>
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
