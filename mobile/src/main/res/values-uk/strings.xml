@@ -212,6 +212,20 @@
     <string name="notification_channel_messages_default_severity_description">Сповіщення, надіслані сервером без вказаної важливості</string>
     <string name="notification_channel_group_messages">Повідомлення</string>
     <string name="notification_channel_group_other">Інше</string>
+    <string name="notification_channel_severity_value">Важливість \'%1$s</string>
+    <string name="notification_channel_severity_value_description">Сповіщення, надіслані сервером з важливістю \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d нове сповіщення</item>
+        <item quantity="few">%d нових сповіщення</item>
+        <item quantity="many">%d нових сповіщень</item>
+        <item quantity="other">%d нових сповіщень</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Недоступно, віддалений сервер не налаштовано</string>
+    <string name="push_notification_status_http_error">Недоступно, помилка підключення до віддаленого сервера: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Недоступно, віддалений сервер не є екземпляром openHAB cloud</string>
+    <string name="push_notification_status">Стан</string>
+    <string name="push_notification_help_icon_description">Натисніть тут для довідки</string>
+    <string name="push_notification_hint">Сповіщення відтворюються за звичайним розкладом, таким самим як \"Відправити інформацію про пристрій на сервер\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Неможливо оновити %d об\'єкт</item>
         <item quantity="few">Неможливо оновити %d об\'єкти</item>
@@ -432,6 +446,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
     <string name="item_update_widget_widget_label">Мітка віджета</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Заощадження трафіку</string>
     <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
     <string name="data_saver_off">При завантаженні об’ємних сторінок інтерфейсу, використовуються системні налаштування економії трафіку</string>
@@ -443,18 +458,7 @@
     <string name="widget_type_video">Відео</string>
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Діаграма</string>
-    <string name="notification_channel_severity_value">Важливість \'%1$s</string>
-    <string name="notification_channel_severity_value_description">Сповіщення, надіслані сервером з важливістю \'%1$s\'</string>
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d нове сповіщення</item>
-        <item quantity="few">%d нових сповіщення</item>
-        <item quantity="many">%d нових сповіщень</item>
-        <item quantity="other">%d нових сповіщень</item>
-    </plurals>
-    <string name="push_notification_status_no_remote_configured">Недоступно, віддалений сервер не налаштовано</string>
-    <string name="push_notification_status_http_error">Недоступно, помилка підключення до віддаленого сервера: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Недоступно, віддалений сервер не є екземпляром openHAB cloud</string>
-    <string name="push_notification_status">Стан</string>
-    <string name="push_notification_help_icon_description">Натисніть тут для довідки</string>
-    <string name="push_notification_hint">Сповіщення відтворюються за звичайним розкладом, таким самим як \"Відправити інформацію про пристрій на сервер\"</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
