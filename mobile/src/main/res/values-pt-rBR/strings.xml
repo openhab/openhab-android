@@ -418,6 +418,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Economia de dados</string>
     <string name="data_saver_on">Elementos do Sitemap que podem exigir transferência de dados maiores não são carregados</string>
     <string name="data_saver_off">A configuração da ampla economia de dados do sistema é seguida ao carregar elementos do sitemap usando dados</string>
@@ -429,4 +430,7 @@
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfico</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
