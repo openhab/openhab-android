@@ -177,6 +177,18 @@
     <string name="notification_channel_messages_default_severity_description">Notificaciones enviadas por el servidor con severidad no definida</string>
     <string name="notification_channel_group_messages">Mensajes</string>
     <string name="notification_channel_group_other">Otro</string>
+    <string name="notification_channel_severity_value">Importancia \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notificaciones enviadas por el servidor con importancia \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nueva notificación</item>
+        <item quantity="other">%d nuevas notificaciones</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">No disponible, el servidor remoto no está configurado</string>
+    <string name="push_notification_status_http_error">No disponible, error al conectarse al servidor remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">No disponible, el servidor remoto no es una instancia de openHAB cloud</string>
+    <string name="push_notification_status">Estado</string>
+    <string name="push_notification_help_icon_description">Haz clic aquí para obtener ayuda</string>
+    <string name="push_notification_hint">Las notificaciones son comprobadas a intervalos regulares, los mismos intervalos que para \"Enviar información del dispositivo al servidor\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">No se pudieron actualizar los Ítems %d</item>
         <item quantity="other">No se pudieron actualizar %d Items</item>
@@ -385,6 +397,7 @@
     <string name="create_home_screen_widget_title">Crear widget</string>
     <string name="create_home_screen_widget_not_supported">Tu dispositivo no soporta la creación de widgets desde dentro de una aplicación. Por favor, ve al menú del widget en tu pantalla de inicio y crea un widget desde ahí.</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
     <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
     <string name="data_saver_off">Se aplica el ajuste de ahorro de datos del sistema a la hora de cargar elementos del Sitemap</string>
@@ -396,16 +409,7 @@
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfica</string>
-    <string name="notification_channel_severity_value">Importancia \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Notificaciones enviadas por el servidor con importancia \'%1$s\'</string>
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d nueva notificación</item>
-        <item quantity="other">%d nuevas notificaciones</item>
-    </plurals>
-    <string name="push_notification_status_no_remote_configured">No disponible, el servidor remoto no está configurado</string>
-    <string name="push_notification_status_http_error">No disponible, error al conectarse al servidor remoto: %s</string>
-    <string name="push_notification_status_remote_no_cloud">No disponible, el servidor remoto no es una instancia de openHAB cloud</string>
-    <string name="push_notification_status">Estado</string>
-    <string name="push_notification_help_icon_description">Haz clic aquí para obtener ayuda</string>
-    <string name="push_notification_hint">Las notificaciones son comprobadas a intervalos regulares, los mismos intervalos que para \"Enviar información del dispositivo al servidor\"</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
