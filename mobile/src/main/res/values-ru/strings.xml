@@ -336,7 +336,11 @@
     <string name="item_update_widget_auto_generate_widget_label">Автоматически генерировать метку виджета</string>
     <string name="item_update_widget_widget_label">Метка виджета</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_on">Элементы Sitemap которым необходим большой объем данным не загружены</string>
     <string name="data_saver_off">Использовать системную настройку уменьшения объема данных для загрузки sitemap элементов с данными</string>
     <string name="data_saver_off_pre_n">Все элементы sitemap загружены без учета объема используемых данных</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
