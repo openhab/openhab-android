@@ -1,0 +1,6 @@
+## Added
+* Add custom quick setting tiles (#1978)
+
+## Changed
+* Don't use app name as notification title (#2042)
+* Docs: Send Alarm clock to DateTime item (#2050)
