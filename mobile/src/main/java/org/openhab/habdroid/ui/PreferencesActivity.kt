@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.Manifest
+import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
@@ -24,34 +25,49 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.service.quicksettings.TileService
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
+import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceDataStore
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
+import androidx.preference.SwitchPreferenceCompat
+import androidx.preference.forEachIndexed
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.tiles.AbstractTileService
+import org.openhab.habdroid.background.tiles.TileData
+import org.openhab.habdroid.background.tiles.getTileData
+import org.openhab.habdroid.background.tiles.putTileData
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
+import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.NotificationPollingPreference
+import org.openhab.habdroid.ui.preference.TileItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
@@ -87,8 +103,14 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         if (savedInstanceState == null) {
             resultIntent = Intent()
+            val fragment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                intent.action == TileService.ACTION_QS_TILE_PREFERENCES) {
+                TileOverviewFragment()
+            } else {
+                MainSettingsFragment()
+            }
             supportFragmentManager.commit {
-                add(R.id.activity_content, MainSettingsFragment())
+                add(R.id.activity_content, fragment)
             }
         } else {
             resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT) ?: Intent()
@@ -229,6 +251,9 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateScreenLockStateAndSummary(prefs.getStringOrFallbackIfEmpty(PrefKeys.SCREEN_LOCK,
                 getString(R.string.settings_screen_lock_off_value)))
             ConnectionFactory.addListener(this)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                updateTileSummary()
+            }
         }
 
         override fun onStop() {
@@ -257,6 +282,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val ringtoneVibrationPref = getPreference(PrefKeys.NOTIFICATION_TONE_VIBRATION)
             val viewLogPref = getPreference(PrefKeys.LOG)
             val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
+            val tilePref = getPreference(PrefKeys.SUBSCREEN_TILE)
             val prefs = preferenceScreen.sharedPreferences
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -403,6 +429,16 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                tilePref.setOnPreferenceClickListener {
+                    parentActivity.openSubScreen(TileOverviewFragment())
+                    false
+                }
+                updateTileSummary()
+            } else {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.SUBSCREEN_TILE)
+            }
+
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
                 ?: preferenceScreen.sharedPreferences.getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
 
@@ -515,6 +551,15 @@ class PreferencesActivity : AbstractBaseActivity() {
                 else -> getString(R.string.settings_insecure_connection_summary, beautyUrl)
             }
             pref.summary = summary
+        }
+
+        @RequiresApi(Build.VERSION_CODES.N)
+        private fun updateTileSummary() {
+            val activeTileCount = (1..AbstractTileService.TILE_COUNT)
+                .mapNotNull { id -> prefs.getTileData(id) }
+                .size
+            val pref = getPreference(PrefKeys.SUBSCREEN_TILE)
+            pref.summary = resources.getQuantityString(R.plurals.tile_active_number, activeTileCount, activeTileCount)
         }
 
         private fun isAutomationAppInstalled(): Boolean {
@@ -740,6 +785,224 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    internal class TileOverviewFragment : AbstractSettingsFragment() {
+        override val titleResId: Int @StringRes get() = R.string.tiles_for_quick_settings
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            addPreferencesFromResource(R.xml.preferences_tile_overview)
+            for (tileId in 1..AbstractTileService.TILE_COUNT) {
+                val tilePref = Preference(context).apply {
+                    key = "tile_$tileId"
+                    title = getString(R.string.tile_number, tileId)
+                    isPersistent = false
+                }
+                tilePref.setOnPreferenceClickListener {
+                    parentActivity.openSubScreen(TileSettingsFragment.newInstance(tileId))
+                    false
+                }
+                preferenceScreen.addPreference(tilePref)
+            }
+        }
+
+        override fun onResume() {
+            super.onResume()
+            preferenceScreen.forEachIndexed { index, preference ->
+                // Index 0 is the hint
+                if (index != 0) {
+                    val data = prefs.getTileData(index)
+                    val context = preference.context
+                    preference.summary = data?.tileLabel ?: getString(R.string.tile_disabled)
+                    preference.icon = if (data == null) {
+                        null
+                    } else {
+                        ContextCompat.getDrawable(context, AbstractTileService.getIconRes(context, data.icon))?.apply {
+                            mutate()
+                            setTint(context.getColor(R.color.pref_icon_grey))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    internal class TileSettingsFragment : AbstractSettingsFragment() {
+        override val titleResId: Int @StringRes get() = R.string.tile
+        private var tileId = 0
+
+        private lateinit var enabledPref: SwitchPreferenceCompat
+        private lateinit var itemAndStatePref: TileItemAndStatePreference
+        private lateinit var namePref: CustomInputTypePreference
+        private lateinit var iconPref: ListPreference
+        private lateinit var requireUnlockPref: SwitchPreferenceCompat
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            tileId = arguments?.getInt("id") ?: throw AssertionError("No tile id specified")
+            setHasOptionsMenu(true)
+
+            val data = prefs.getTileData(tileId)
+            enabledPref.isChecked = data != null
+            if (data != null) {
+                itemAndStatePref.item = data.item
+                itemAndStatePref.label = data.label
+                itemAndStatePref.state = data.state
+                itemAndStatePref.mappedState = data.mappedState
+                namePref.text = data.tileLabel
+                iconPref.value = data.icon
+                requireUnlockPref.isChecked = data.requireUnlock
+            }
+            iconPref.setOnPreferenceChangeListener { _, newValue ->
+                updateIconPrefIcon(newValue as String)
+                true
+            }
+            updateIconPrefIcon()
+            updateItemAndStatePrefSummary()
+        }
+
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            super.onCreateOptionsMenu(menu, inflater)
+            inflater.inflate(R.menu.tile_prefs, menu)
+        }
+
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val context = preferenceManager.context
+            when (item.itemId) {
+                R.id.save -> {
+                    Log.d(TAG, "Save tile $tileId")
+                    val data: TileData? = if (enabledPref.isChecked) {
+                        val itemName = itemAndStatePref.item
+                        val label = itemAndStatePref.label
+                        val state = itemAndStatePref.state
+                        val mappedState = itemAndStatePref.mappedState
+                        val tileLabel = namePref.text
+                        val icon = iconPref.value
+                        val requireUnlock = requireUnlockPref.isChecked
+                        if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
+                            tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()) {
+                            context.showToast(R.string.tile_error_saving, ToastType.ERROR)
+                            return true
+                        }
+                        TileData(itemName, state, label, tileLabel, mappedState, icon, requireUnlock)
+                    } else {
+                        null
+                    }
+
+                    prefs.edit {
+                        putTileData(tileId, data)
+                    }
+                    AbstractTileService.updateTile(context, tileId)
+                    parentActivity.invalidateOptionsMenu()
+                    parentFragmentManager.popBackStack() // close ourself
+                    return true
+                }
+                else -> return super.onOptionsItemSelected(item)
+            }
+        }
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            addPreferencesFromResource(R.xml.preferences_tile)
+            enabledPref = findPreference("tile_show")!!
+            itemAndStatePref = findPreference("tile_item_and_action")!!
+            namePref = findPreference("tile_name")!!
+            iconPref = findPreference("tile_icon")!!
+            requireUnlockPref = findPreference("tile_require_unlock")!!
+
+            namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
+            itemAndStatePref.setOnPreferenceClickListener {
+                val intent = Intent(it.context, TileItemPickerActivity::class.java)
+                intent.putExtra("item", itemAndStatePref.item)
+                startActivityForResult(intent, RESULT_TILE_ITEM_PICKER)
+                true
+            }
+        }
+
+        private fun updateItemAndStatePrefSummary() {
+            itemAndStatePref.summary = if (itemAndStatePref.label == null) {
+                itemAndStatePref.context.getString(R.string.info_not_set)
+            } else {
+                "${itemAndStatePref.label} (${itemAndStatePref.item}): ${itemAndStatePref.mappedState}"
+            }
+        }
+
+        private fun updateIconPrefIcon(newIcon: String = iconPref.value) {
+            val context = iconPref.context
+            iconPref.icon =
+                ContextCompat.getDrawable(context, AbstractTileService.getIconRes(context, newIcon))?.apply {
+                    mutate()
+                    setTint(context.getColor(R.color.pref_icon_grey))
+                }
+        }
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
+            if (requestCode == RESULT_TILE_ITEM_PICKER && resultCode == Activity.RESULT_OK && data != null) {
+                Log.d(TAG, "Setting itemAndStatePref data")
+                itemAndStatePref.item = data.getStringExtra("item")
+                itemAndStatePref.label = data.getStringExtra("label")
+                itemAndStatePref.state = data.getStringExtra("state")
+                itemAndStatePref.mappedState = data.getStringExtra("mappedState")
+                updateItemAndStatePrefSummary()
+
+                if (namePref.text.isNullOrEmpty()) {
+                    namePref.text = itemAndStatePref.label
+                }
+                if (iconPref.value == null || iconPref.value == getString(R.string.tile_icon_openhab_value)) {
+                    val selectedIcon = data.getStringExtra("icon") ?: "openhab_icon"
+                    val preSelectIcon = if (selectedIcon.startsWith("parents")) {
+                        R.string.tile_icon_people_value
+                    } else if (selectedIcon.startsWith("boy") || selectedIcon.startsWith("girl")) {
+                        R.string.tile_icon_child_value
+                    } else if (selectedIcon.startsWith("baby")) {
+                        R.string.tile_icon_baby_value
+                    } else if (selectedIcon.startsWith("man")) {
+                        R.string.tile_icon_man_value
+                    } else if (selectedIcon.startsWith("women")) {
+                        R.string.tile_icon_woman_value
+                    } else {
+                        when (selectedIcon) {
+                            "screen" -> R.string.tile_icon_tv_value
+                            "lightbulb", "light", "slider" -> R.string.tile_icon_bulb_value
+                            "lock" -> R.string.tile_icon_lock_value
+                            "time" -> R.string.tile_icon_clock_value
+                            "house", "presence", "group" -> R.string.tile_icon_house_value
+                            "microphone", "recorder" -> R.string.tile_icon_microphone_value
+                            "colorpicker", "colorlight", "colorwheel", "rbg" -> R.string.tile_icon_color_palette_value
+                            "battery", "batterylevel", "lowbattery" -> R.string.tile_icon_battery_value
+                            "zoom" -> R.string.tile_icon_magnifier_value
+                            "garden" -> R.string.tile_icon_tree_value
+                            "network" -> R.string.tile_icon_wifi_value
+                            "shield" -> R.string.tile_icon_shield_value
+                            "bedroom", "bedroom_blue", "bedroom_orange", "bedroom_red" -> R.string.tile_icon_bed_value
+                            "settings" -> R.string.tile_icon_settings_value
+                            "bath", "toilet" -> R.string.tile_icon_bath_value
+                            "blinds", "rollershutter" -> R.string.tile_icon_roller_shutter_value
+                            "camera" -> R.string.tile_icon_camera_value
+                            "wallswitch" -> R.string.tile_icon_light_switch_value
+                            "garage", "garagedoor", "garage_detached", "garage_detached_selected" ->
+                                R.string.tile_icon_garage_value
+                            "switch" -> R.string.tile_icon_switch_value
+                            else -> R.string.tile_icon_openhab_value
+                        }
+                    }
+                    iconPref.value = getString(preSelectIcon)
+                    updateIconPrefIcon()
+                }
+            }
+        }
+
+        companion object {
+            fun newInstance(id: Int): TileSettingsFragment {
+                val f = TileSettingsFragment()
+                val args = bundleOf("id" to id)
+                f.arguments = args
+                return f
+            }
+        }
+    }
+
     companion object {
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
@@ -754,6 +1017,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         private const val STATE_KEY_RESULT = "result"
         private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
         private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
+        private const val RESULT_TILE_ITEM_PICKER = 0
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }

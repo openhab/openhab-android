@@ -240,6 +240,18 @@
     <string name="notification_channel_messages_default_severity_description">Notifications sent by the server with no defined severity</string>
     <string name="notification_channel_group_messages">Messages</string>
     <string name="notification_channel_group_other">Other</string>
+    <string name="notification_channel_severity_value">Severity \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notifications sent by the server with severity \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Unavailable, remote server isn\'t configured</string>
+    <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
+    <string name="push_notification_status">Status</string>
+    <string name="push_notification_help_icon_description">Click here for help</string>
+    <string name="push_notification_hint">The notifications are polled on a regular schedule, which is the same than for \"Send device information to server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item could not be updated</item>
         <item quantity="other">%d Items could not be updated</item>
@@ -481,6 +493,8 @@
     <string name="item_update_widget_auto_generate_widget_label">Auto generate widget label</string>
     <string name="item_update_widget_widget_label">Widget label</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+
+    <!-- Data saver -->
     <string name="data_saver_title">Data saver</string>
     <string name="data_saver_on">Sitemap elements that may require larger data transfers are not loaded</string>
     <string name="data_saver_off">The system wide data saver setting is followed when loading data-using sitemap elements</string>
@@ -493,16 +507,114 @@
     <string name="widget_type_mapview">Map</string>
     <string name="widget_type_chart">Chart</string>
 
-    <string name="notification_channel_severity_value">Severity \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Notifications sent by the server with severity \'%1$s\'</string>
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d new notification</item>
-        <item quantity="other">%d new notifications</item>
+    <!-- Tiles -->
+    <string name="tile">Tile</string>
+    <string name="tiles_for_quick_settings">Tiles for quick settings</string>
+    <string name="tile_empty">Empty tile</string>
+    <string name="tile_item_picker_title">Select an Item</string>
+    <string name="tile_configure_in_settings">This tile can be configured in the openHAB app settings</string>
+    <string name="save">Save</string>
+    <string name="tile_error_saving">Please fill out every setting</string>
+    <string name="tile_disabled">Turned off</string>
+    <string name="tile_enable">Turn on</string>
+    <string name="item_item_and_action">Item and action</string>
+    <string name="tile_name">Name</string>
+    <string name="tile_icon">Icon</string>
+    <string name="tile_require_unlock">Require screen to be unlocked</string>
+    <string name="tile_require_unlock_summary_on">Prompt for unlocking the device before allowing Item updates</string>
+    <string name="tile_require_unlock_summary_off">Allow updating Items even if the device is locked</string>
+    <string name="tile_overview_hint">The state of the tile doesn\'t reflect the state of the Item.\nIf you have issues with tiles not being updated after changing them here, click on the tile or edit the quick tiles section of your device.</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d active tile</item>
+        <item quantity="other">%d active tiles</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Unavailable, remote server isn\'t configured</string>
-    <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
-    <string name="push_notification_status">Status</string>
-    <string name="push_notification_help_icon_description">Click here for help</string>
-    <string name="push_notification_hint">The notifications are polled on a regular schedule, which is the same than for \"Send device information to server\"</string>
+    <string name="tile_number">Tile %d</string>
+    <string name="tile_label_1">Tile 1</string>
+    <string name="tile_label_2">Tile 2</string>
+    <string name="tile_label_3">Tile 3</string>
+    <string name="tile_label_4">Tile 4</string>
+    <string name="tile_label_5">Tile 5</string>
+    <string name="tile_label_6">Tile 6</string>
+    <string name="tile_label_7">Tile 7</string>
+    <string name="tile_label_8">Tile 8</string>
+    <string name="tile_label_9">Tile 9</string>
+    <string name="tile_label_10">Tile 10</string>
+    <string name="tile_label_11">Tile 11</string>
+    <string name="tile_label_12">Tile 12</string>
+
+    <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB icon</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_bulb">Bulb</string>
+    <string name="tile_icon_clock">Clock</string>
+    <string name="tile_icon_alarm_clock">Alarm clock</string>
+    <string name="tile_icon_bell">Bell</string>
+    <string name="tile_icon_cloud_upload">Cloud upload</string>
+    <string name="tile_icon_earth">Earth</string>
+    <string name="tile_icon_chat">Speech bubbles</string>
+    <string name="tile_icon_house">House</string>
+    <string name="tile_icon_lock">Lock</string>
+    <string name="tile_icon_microphone">Microphone</string>
+    <string name="tile_icon_color_palette">Color palette</string>
+    <string name="tile_icon_people">People</string>
+    <string name="tile_icon_person">Person</string>
+    <string name="tile_icon_phone">Phone</string>
+    <string name="tile_icon_power_plug">Power plug</string>
+    <string name="tile_icon_battery">Battery</string>
+    <string name="tile_icon_magnifier">Magnifier</string>
+    <string name="tile_icon_star">Star</string>
+    <string name="tile_icon_tree">Tree</string>
+    <string name="tile_icon_dashboard">Dashboard</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Shield</string>
+    <string name="tile_icon_man">Man</string>
+    <string name="tile_icon_bed">Bed</string>
+    <string name="tile_icon_child">Child</string>
+    <string name="tile_icon_baby">Baby</string>
+    <string name="tile_icon_settings">Gear</string>
+    <string name="tile_icon_bath">Bath</string>
+    <string name="tile_icon_woman">Woman</string>
+    <string name="tile_icon_roller_shutter">Roller shutter</string>
+    <string name="tile_icon_camera">Camera</string>
+    <string name="tile_icon_light_switch">Light switch</string>
+    <string name="tile_icon_garage">Garage</string>
+    <string name="tile_icon_switch">Switch</string>
+
+    <!-- Tile icon values -->
+    <string name="tile_icon_openhab_value" translatable="false">openhab_icon</string>
+    <string name="tile_icon_tv_value" translatable="false">tv</string>
+    <string name="tile_icon_bulb_value" translatable="false">bulb</string>
+    <string name="tile_icon_people_value" translatable="false">people</string>
+    <string name="tile_icon_child_value" translatable="false">child</string>
+    <string name="tile_icon_baby_value" translatable="false">baby</string>
+    <string name="tile_icon_man_value" translatable="false">man</string>
+    <string name="tile_icon_woman_value" translatable="false">woman</string>
+    <string name="tile_icon_person_value" translatable="false">person</string>
+    <string name="tile_icon_lock_value" translatable="false">lock</string>
+    <string name="tile_icon_clock_value" translatable="false">clock</string>
+    <string name="tile_icon_house_value" translatable="false">house</string>
+    <string name="tile_icon_microphone_value" translatable="false">microphone</string>
+    <string name="tile_icon_color_palette_value" translatable="false">color_palette</string>
+    <string name="tile_icon_battery_value" translatable="false">battery</string>
+    <string name="tile_icon_magnifier_value" translatable="false">magnifier</string>
+    <string name="tile_icon_tree_value" translatable="false">tree</string>
+    <string name="tile_icon_wifi_value" translatable="false">wifi</string>
+    <string name="tile_icon_shield_value" translatable="false">shield</string>
+    <string name="tile_icon_bed_value" translatable="false">bed</string>
+    <string name="tile_icon_phone_value" translatable="false">phone</string>
+    <string name="tile_icon_cloud_upload_value" translatable="false">upload</string>
+    <string name="tile_icon_power_plug_value" translatable="false">power_plug</string>
+    <string name="tile_icon_earth_value" translatable="false">earth</string>
+    <string name="tile_icon_star_value" translatable="false">star</string>
+    <string name="tile_icon_alarm_clock_value" translatable="false">alarm_clock</string>
+    <string name="tile_icon_chat_value" translatable="false">chat</string>
+    <string name="tile_icon_bell_value" translatable="false">bell</string>
+    <string name="tile_icon_dashboard_value" translatable="false">dashboard</string>
+    <string name="tile_icon_settings_value" translatable="false">settings</string>
+    <string name="tile_icon_bath_value" translatable="false">bath</string>
+    <string name="tile_icon_roller_shutter_value" translatable="false">rollershutter</string>
+    <string name="tile_icon_camera_value" translatable="false">camera</string>
+    <string name="tile_icon_light_switch_value" translatable="false">light_switch</string>
+    <string name="tile_icon_garage_value" translatable="false">garage</string>
+    <string name="tile_icon_switch_value" translatable="false">switch</string>
 </resources>
