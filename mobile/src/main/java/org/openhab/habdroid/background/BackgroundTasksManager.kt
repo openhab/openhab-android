@@ -410,7 +410,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             )
         }
 
-        private fun scheduleWorker(context: Context, key: String) {
+        fun scheduleWorker(context: Context, key: String) {
             val prefs = context.getPrefs()
             val setting = if (prefs.isDemoModeEnabled()) {
                 Pair(false, "") // Don't attempt any uploads in demo mode

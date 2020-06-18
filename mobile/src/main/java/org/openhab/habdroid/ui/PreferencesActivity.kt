@@ -763,17 +763,23 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+            val context = phoneStatePref.context
+
             when (requestCode) {
                 PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        context?.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
+                        context.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
                         phoneStatePref.setValue(checked = false)
+                    } else {
+                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
                     }
                 }
                 PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        context?.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
+                        context.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
                         wifiSsidPref.setValue(checked = false)
+                    } else {
+                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
                     }
                 }
             }
