@@ -292,4 +292,8 @@
     <string name="item_update_success_message_previous">%s toont de vorige titel</string>
     <string name="item_update_success_message_rewind">%s spoelt terug</string>
     <string name="item_update_success_message_fastforward">%s spoelt vooruit</string>
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
