@@ -291,7 +291,7 @@ Please have a look at [dontkillmyapp.com](https://dontkillmyapp.com/) how to mak
 The version on Play Store uses [FCM](https://en.wikipedia.org/wiki/Firebase_Cloud_Messaging) to receive push notifications in real time.
 In the FOSS version this library has to be removed and has been replaced by a polling mechanism.
 This has a few disadvantages:
-* Notifications are only fetched every 6 hours by default. It uses the same schedule than [Send device information to openHAB](#Send device information to openHAB).
+* Notifications are only fetched every 6 hours by default. It uses the same schedule than [Send device information to openHAB](#send-device-information-to-openhab).
 * Read status aren't synced between devices.
 * The maximum number of messages that can be received during one fetch is limited to 20.
 
