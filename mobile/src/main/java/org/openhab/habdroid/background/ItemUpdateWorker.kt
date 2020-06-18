@@ -120,7 +120,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 if (showToast) {
                     val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
                     applicationContext.showToast(
-                        getItemUpdateSuccessMessage(applicationContext, label, value.value, actualMappedValue),
+                        getItemUpdateSuccessMessage(applicationContext, label, valueToBeSent, actualMappedValue),
                         ToastType.SUCCESS
                     )
                 }
