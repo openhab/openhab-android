@@ -212,6 +212,20 @@
     <string name="notification_channel_messages_default_severity_description">התראות שנשלחו על ידי השרת ללא הגדרת תעדוף</string>
     <string name="notification_channel_group_messages">הודעות</string>
     <string name="notification_channel_group_other">אחר</string>
+    <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d התראה חדשה</item>
+        <item quantity="two">%d התראות חדשות</item>
+        <item quantity="many">%d התראות חדשות</item>
+        <item quantity="other">%d התראות חדשות</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">לא זמין, לא הוגדר שרת מרוחק</string>
+    <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
+    <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
+    <string name="push_notification_status">מצב</string>
+    <string name="push_notification_help_icon_description">לחץ לעזרה</string>
+    <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
         <item quantity="two">ל %d פריטים לא היתה אפשרות להתעדכן</item>
@@ -432,6 +446,7 @@
     <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
     <string name="item_update_widget_widget_label">תווית יישומון</string>
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
     <string name="data_saver_off">הגדרת חיסכון בנתונים במערכת תופעל על טעינת נתונים של רכיבי תצורת מערכת</string>
@@ -443,18 +458,7 @@
     <string name="widget_type_video">וידאו</string>
     <string name="widget_type_mapview">מפה</string>
     <string name="widget_type_chart">תרשים</string>
-    <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d התראה חדשה</item>
-        <item quantity="two">%d התראות חדשות</item>
-        <item quantity="many">%d התראות חדשות</item>
-        <item quantity="other">%d התראות חדשות</item>
-    </plurals>
-    <string name="push_notification_status_no_remote_configured">לא זמין, לא הוגדר שרת מרוחק</string>
-    <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
-    <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
-    <string name="push_notification_status">מצב</string>
-    <string name="push_notification_help_icon_description">לחץ לעזרה</string>
-    <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
