@@ -309,4 +309,8 @@
     <string name="create_home_screen_widget_not_supported">Däi Gerät ënnerstëtzt d\' Erstellen net vun Widgets an der App. Gei w.e.g. an den Widget Menü op dengem Startbildschirm an erstell do e Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
     <string name="item_update_widget_widget_label">Widget Label</string>
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
