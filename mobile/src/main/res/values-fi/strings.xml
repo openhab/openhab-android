@@ -418,6 +418,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Luo automaattisesti widgetin nimi</string>
     <string name="item_update_widget_widget_label">Widgetin nimi</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Datan säästäjä</string>
     <string name="data_saver_on">Sivukartan elementtejä, jotka mahdollisesti vaativaat isomman datamäärän, ei ladata</string>
     <string name="data_saver_off">Järjestelmän datasäästäjän asetuksia noudatetaan ladattaessa sivukartan elementtejä</string>
@@ -429,4 +430,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Kartta</string>
     <string name="widget_type_chart">Kuvaaja</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
