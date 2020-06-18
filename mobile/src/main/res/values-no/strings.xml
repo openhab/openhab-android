@@ -329,4 +329,8 @@
     <string name="create_home_screen_widget_not_supported">Din enhet støtter ikke \"Lag widget\" I appen. Gå til widget - menyen på hjemme-skjermen og lag widgeten der.</string>
     <string name="item_update_widget_auto_generate_widget_label">Autogenerer widget-merking</string>
     <string name="item_update_widget_widget_label">Widget-merke</string>
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
