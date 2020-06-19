@@ -459,16 +459,32 @@
     <string name="widget_type_mapview">מפה</string>
     <string name="widget_type_chart">תרשים</string>
     <!-- Tiles -->
+    <string name="tile">אריח</string>
     <string name="save">שמור</string>
     <string name="tile_name">שם</string>
     <string name="tile_icon">צלמית</string>
+    <string name="tile_number">אריח %d</string>
+    <string name="tile_label_1">אריח 1</string>
+    <string name="tile_label_2">אריח 2</string>
+    <string name="tile_label_3">אריח 3</string>
+    <string name="tile_label_4">אריח 4</string>
+    <string name="tile_label_5">אריח 5</string>
+    <string name="tile_label_6">אריח 6</string>
+    <string name="tile_label_7">אריח 7</string>
+    <string name="tile_label_8">אריח 8</string>
+    <string name="tile_label_9">אריח 9</string>
+    <string name="tile_label_10">אריח 10</string>
+    <string name="tile_label_11">אריח 11</string>
+    <string name="tile_label_12">אריח 12</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">צלמית openHAB</string>
     <string name="tile_icon_tv">טלוויזיה</string>
     <string name="tile_icon_bulb">נורה</string>
     <string name="tile_icon_clock">שעון</string>
+    <string name="tile_icon_alarm_clock">שעון מעורר</string>
     <string name="tile_icon_bell">פעמון</string>
     <string name="tile_icon_cloud_upload">העלאה לענן</string>
+    <string name="tile_icon_chat">בועיות שיחה</string>
     <string name="tile_icon_house">בית</string>
     <string name="tile_icon_lock">מנעול</string>
     <string name="tile_icon_microphone">מיקרופון</string>
