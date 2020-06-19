@@ -459,6 +459,33 @@
     <string name="widget_type_mapview">מפה</string>
     <string name="widget_type_chart">תרשים</string>
     <!-- Tiles -->
+    <string name="save">שמור</string>
+    <string name="tile_name">שם</string>
+    <string name="tile_icon">צלמית</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">צלמית openHAB</string>
+    <string name="tile_icon_tv">טלוויזיה</string>
+    <string name="tile_icon_bulb">נורה</string>
+    <string name="tile_icon_clock">שעון</string>
+    <string name="tile_icon_bell">פעמון</string>
+    <string name="tile_icon_cloud_upload">העלאה לענן</string>
+    <string name="tile_icon_house">בית</string>
+    <string name="tile_icon_lock">מנעול</string>
+    <string name="tile_icon_microphone">מיקרופון</string>
+    <string name="tile_icon_color_palette">לוח צבעים</string>
+    <string name="tile_icon_people">אנשים</string>
+    <string name="tile_icon_person">בן אדם</string>
+    <string name="tile_icon_phone">טלפון</string>
+    <string name="tile_icon_battery">סוללה</string>
+    <string name="tile_icon_magnifier">זכוכית מגדלת</string>
+    <string name="tile_icon_tree">עץ</string>
+    <string name="tile_icon_man">גבר</string>
+    <string name="tile_icon_bed">מיטה</string>
+    <string name="tile_icon_child">ילד</string>
+    <string name="tile_icon_baby">תינוק</string>
+    <string name="tile_icon_bath">אמבטיה</string>
+    <string name="tile_icon_woman">אישה</string>
+    <string name="tile_icon_roller_shutter">תריס גלילה</string>
+    <string name="tile_icon_camera">מצלמה</string>
     <!-- Tile icon values -->
 </resources>
