@@ -219,6 +219,10 @@
         <item quantity="other">%d uutta ilmoitusta</item>
     </plurals>
     <string name="push_notification_status_no_remote_configured">Ei saatavilla, etäpalvelinta ei ole määritetty</string>
+    <string name="push_notification_status_http_error">Ei saatavilla, virhe yhdistettäessä etäpalvelimelle: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Ei saatavilla, etäpalvelin ei vastaa openHAB pilveä</string>
+    <string name="push_notification_status">Tila</string>
+    <string name="push_notification_help_icon_description">Klikkaa tästä saadaksesi apua</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
         <item quantity="other">Itemeitä %d ei voitu päivittää</item>
@@ -229,6 +233,7 @@
     <string name="item_update_http_error_label">%1$s päivitys epäonnistui: %2$s</string>
     <string name="item_update_connection_error">Itemin \'%1$s\' päivitys epäonnistui (Ei yhteyttä)</string>
     <string name="item_update_connection_error_label">%1$s päivitys epäonnistui (Ei yhteyttä)</string>
+    <string name="error_no_valid_item_name">Syötä kelvollinen Itemin nimi</string>
     <string name="retry">Yritä uudelleen</string>
     <string name="ignore">Ohita</string>
     <string name="send_device_info_schedule">Ajastus</string>
@@ -239,6 +244,7 @@
     <string name="send_device_info_schedule_6_hours">6 tuntia</string>
     <string name="send_device_info_schedule_12_hours">12 tuntia</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Laitteen tunnus</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
@@ -443,6 +449,73 @@
     <string name="widget_type_mapview">Kartta</string>
     <string name="widget_type_chart">Kuvaaja</string>
     <!-- Tiles -->
+    <string name="tile">Laatta</string>
+    <string name="tiles_for_quick_settings">Laatta pika-asetuksille</string>
+    <string name="tile_empty">Tyhjä laatta</string>
+    <string name="tile_item_picker_title">Valitse Item</string>
+    <string name="save">Tallenna</string>
+    <string name="tile_error_saving">Ole hyvä ja täytä kaikki asetukset</string>
+    <string name="tile_disabled">Poistettu käytöstä</string>
+    <string name="tile_enable">Ota käyttöön</string>
+    <string name="item_item_and_action">Item ja toiminta</string>
+    <string name="tile_name">Nimi</string>
+    <string name="tile_icon">Kuvake</string>
+    <string name="tile_require_unlock">Näytön lukitus oltava avattu</string>
+    <string name="tile_require_unlock_summary_on">Kysy laitteen lukituksen poistamisesta ennen kuin Itemien päivitys sallitaan</string>
+    <string name="tile_require_unlock_summary_off">Salli Itemien päivitykset vaikka laite on lukittu</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktiivinen laatta</item>
+        <item quantity="other">%d aktiivista laattaa</item>
+    </plurals>
+    <string name="tile_number">Laatta %d</string>
+    <string name="tile_label_1">Laatta 1</string>
+    <string name="tile_label_2">Laatta 2</string>
+    <string name="tile_label_3">Laatta 3</string>
+    <string name="tile_label_4">Laatta 4</string>
+    <string name="tile_label_5">Laatta 5</string>
+    <string name="tile_label_6">Laatta 6</string>
+    <string name="tile_label_7">Laatta 7</string>
+    <string name="tile_label_8">Laatta 8</string>
+    <string name="tile_label_9">Laatta 9</string>
+    <string name="tile_label_10">Laatta 10</string>
+    <string name="tile_label_11">Laatta 11</string>
+    <string name="tile_label_12">Laatta 12</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB kuvake</string>
+    <string name="tile_icon_tv">Televisio</string>
+    <string name="tile_icon_bulb">Polttimo</string>
+    <string name="tile_icon_clock">Kello</string>
+    <string name="tile_icon_alarm_clock">Herätyskello</string>
+    <string name="tile_icon_bell">Soittokello</string>
+    <string name="tile_icon_cloud_upload">Pilveen vienti</string>
+    <string name="tile_icon_earth">Maapallo</string>
+    <string name="tile_icon_chat">Puhekuplat</string>
+    <string name="tile_icon_house">Talo</string>
+    <string name="tile_icon_lock">Lukko</string>
+    <string name="tile_icon_microphone">Mikrofoni</string>
+    <string name="tile_icon_color_palette">Väripaletti</string>
+    <string name="tile_icon_people">Ihmiset</string>
+    <string name="tile_icon_person">Henkilö</string>
+    <string name="tile_icon_phone">Puhelin</string>
+    <string name="tile_icon_power_plug">Sähköpistoke</string>
+    <string name="tile_icon_battery">Akku</string>
+    <string name="tile_icon_magnifier">Suurentaja</string>
+    <string name="tile_icon_star">Tähti</string>
+    <string name="tile_icon_tree">Puu</string>
+    <string name="tile_icon_dashboard">Näkymä</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Suoja</string>
+    <string name="tile_icon_man">Mies</string>
+    <string name="tile_icon_bed">Sänky</string>
+    <string name="tile_icon_child">Lapsi</string>
+    <string name="tile_icon_baby">Vauva</string>
+    <string name="tile_icon_settings">Ratas</string>
+    <string name="tile_icon_bath">Kylpy</string>
+    <string name="tile_icon_woman">Nainen</string>
+    <string name="tile_icon_roller_shutter">Rullaverho</string>
+    <string name="tile_icon_camera">Kamera</string>
+    <string name="tile_icon_light_switch">Valokatkaisija</string>
+    <string name="tile_icon_garage">Autotalli</string>
+    <string name="tile_icon_switch">Katkaisija</string>
     <!-- Tile icon values -->
 </resources>
