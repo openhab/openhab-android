@@ -245,6 +245,9 @@
     <string name="send_device_info_schedule_12_hours">12 tuntia</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Laitteen tunnus</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Lisää äänikomentoihin etuliite \'<Device identifier>|\']]></string>
+    <string name="device_identifier_suggested_command_nfc_tag">Skannaavan laitteen tunnus (\"%s\" for this device)</string>
+    <string name="device_identifier_summary_not_set">Palvelimelle lähetetty data tai äänikomennot eivät sisällä laitteen tunnusta etuliiteenä</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
@@ -453,6 +456,7 @@
     <string name="tiles_for_quick_settings">Laatta pika-asetuksille</string>
     <string name="tile_empty">Tyhjä laatta</string>
     <string name="tile_item_picker_title">Valitse Item</string>
+    <string name="tile_configure_in_settings">Tämän tiilen voi konfiguroida openHAB aplikaation asetuksissa</string>
     <string name="save">Tallenna</string>
     <string name="tile_error_saving">Ole hyvä ja täytä kaikki asetukset</string>
     <string name="tile_disabled">Poistettu käytöstä</string>
