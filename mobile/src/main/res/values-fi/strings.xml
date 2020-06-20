@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Nykyinen oletus Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Etäkäyttö</string>
     <string name="settings_openhab_connection">Paikalliskäyttö</string>
+    <string name="settings_ringtone">Soittoääni</string>
     <string name="settings_ringtone_none">Ei mikään</string>
     <string name="settings_ringtone_on_external">Tuntematon soittoääni ulkoisessa tallennusvälineessä</string>
+    <string name="settings_notification_vibration">Värinä</string>
     <string name="settings_notification_vibration_off">Pois päältä</string>
     <string name="settings_notification_vibration_short">Lyhyt</string>
     <string name="settings_notification_vibration_long">Pitkä</string>
     <string name="settings_notification_vibration_twice">Kaksi kertaa</string>
+    <string name="settings_notification_ringtone_vibration">Soittoääni &amp; Värinä</string>
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <string name="beta">Beta</string>
@@ -172,6 +175,8 @@
     <string name="send_device_info_category_event_based_explanation">Nämä Itemit päivitetään perustuen tapahtumiin, esim. saapuva puhelu</string>
     <string name="send_device_info_category_schedule_based_title">Ajastuspohjainen</string>
     <string name="send_device_info_category_schedule_based_explanation">Lyhyemmällä aikavälillä on mahdollisesti suurempi vaikutus akun kestoon. Huomaa myös että laitteesi ei välttämättä tarkasti noudata valittua aikaväliä, vaan saattaa pidentää sitä vähentääkseen virran kulutusta.</string>
+    <string name="send_device_info_item_prefix_summary">Tämän sivun Itemeillä on etuliitteenä laitteen tunnus \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Tämän sovin Itemeillä ei ole asetettu etuliitettä. Etuliitteeksi voit käyttää laitteen tunnusta, jonka voit asettaa asetusten pääsivulta.</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
     <string name="settings_alarm_clock">Hälytysaika</string>
     <string name="settings_alarm_clock_summary_on">Lähetä hälytyksen aika Itemille \'%1$s\'</string>
@@ -207,6 +212,13 @@
     <string name="notification_channel_messages_default_severity_description">Palvelimen lähettämät ilmoitukset ilman vakavuusarvoa</string>
     <string name="notification_channel_group_messages">Viestit</string>
     <string name="notification_channel_group_other">Muut</string>
+    <string name="notification_channel_severity_value">Vakavuus \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Palvelimen lähettämät viestit vakavuudella \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d uusi ilmoitus</item>
+        <item quantity="other">%d uutta ilmoitusta</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Ei saatavilla, etäpalvelinta ei ole määritetty</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
         <item quantity="other">Itemeitä %d ei voitu päivittää</item>
