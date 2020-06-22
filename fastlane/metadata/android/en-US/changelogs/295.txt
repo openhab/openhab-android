@@ -1,0 +1,10 @@
+## Changed
+* Improve quick settings tile hint (#2070)
+* Reduce snackbar duration for snackbars with info purpose (#2069)
+
+## Fixed
+* Request background location access for sending SSID (#2059)
+* Fix crash when reading invalid NFC tag (#2055)
+* Fix UninitializedPropertyAccessException in MainActivity (#2060)
+* Improve success toast for toggle on switches (#2062)
+* Hide dev id as state option if it would produce errors (#2063)
