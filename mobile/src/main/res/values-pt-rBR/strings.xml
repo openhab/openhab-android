@@ -227,6 +227,7 @@
     <string name="send_device_info_schedule_6_hours">6 horas</string>
     <string name="send_device_info_schedule_12_hours">12 horas</string>
     <!-- Device identifier -->
+    <string name="device_identifier_summary_not_set">Dados enviados ao servidor e comandos de voz não são prefixados com um identificador de dispositivo</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
@@ -431,6 +432,45 @@
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfico</string>
     <!-- Tiles -->
+    <string name="tile">Bloco</string>
+    <string name="tiles_for_quick_settings">Blocos para configurações rápidas</string>
+    <string name="tile_empty">Bloco vazio</string>
+    <string name="tile_item_picker_title">Selecione um Item</string>
+    <string name="tile_configure_in_settings">Este bloco pode ser configurado nas configurações do aplicativo openHAB</string>
+    <string name="save">Salvar</string>
+    <string name="tile_error_saving">Preencha todas as configurações</string>
+    <string name="tile_disabled">Desligado</string>
+    <string name="tile_enable">Ligar</string>
+    <string name="item_item_and_action">Item e ação</string>
+    <string name="tile_name">Nome</string>
+    <string name="tile_icon">Ícone</string>
+    <string name="tile_require_unlock">Exigir desbloqueio de tela</string>
+    <string name="tile_require_unlock_summary_on">Solicitar desbloqueio antes de permitir atualizações de Item</string>
+    <string name="tile_require_unlock_summary_off">Permitir atualizar Items, mesmo que o dispositivo esteja bloqueado</string>
+    <string name="tile_overview_hint">O estado do bloco não reflete o estado do item.\nSe você tiver problemas com os blocos não sendo atualizados depois de alterá-los aqui, clique no bloco ou edite as configurações rápidas do seu dispositivo (o lugar que mantém os botões, por ex: Wi-Fi e Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d bloco ativado</item>
+        <item quantity="other">%d blocos ativados</item>
+    </plurals>
+    <string name="tile_number">Bloco %d</string>
+    <string name="tile_label_1">Bloco 1</string>
+    <string name="tile_label_2">Bloco 2</string>
+    <string name="tile_label_3">Bloco 3</string>
+    <string name="tile_label_4">Bloco 4</string>
+    <string name="tile_label_5">Bloco 5</string>
+    <string name="tile_label_6">Bloco 6</string>
+    <string name="tile_label_7">Bloco 7</string>
+    <string name="tile_label_8">Bloco 8</string>
+    <string name="tile_label_9">Bloco 9</string>
+    <string name="tile_label_10">Bloco 10</string>
+    <string name="tile_label_11">Bloco 11</string>
+    <string name="tile_label_12">Bloco 12</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">Ícone openHAB</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_bulb">Lâmpada</string>
+    <string name="tile_icon_clock">Relógio</string>
+    <string name="tile_icon_alarm_clock">Despertador</string>
+    <string name="tile_icon_bell">Sino</string>
     <!-- Tile icon values -->
 </resources>
