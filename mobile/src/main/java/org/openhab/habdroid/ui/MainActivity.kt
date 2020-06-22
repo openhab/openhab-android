@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.Manifest
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
@@ -101,7 +100,7 @@ import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
-import org.openhab.habdroid.util.hasPermission
+import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isResolvable
@@ -997,28 +996,26 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {
-        val tasksWithPermissions = mutableMapOf(PrefKeys.SEND_PHONE_STATE to Manifest.permission.READ_PHONE_STATE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            tasksWithPermissions[PrefKeys.SEND_WIFI_SSID] = Manifest.permission.ACCESS_FINE_LOCATION
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            tasksWithPermissions[PrefKeys.SEND_WIFI_SSID] = Manifest.permission.ACCESS_COARSE_LOCATION
-        }
-
-        val missingPermissions = tasksWithPermissions
+        val missingPermissions = BackgroundTasksManager.KNOWN_KEYS
             .filter { entry ->
-                prefs.getStringOrNull(entry.key)?.toItemUpdatePrefValue()?.first == true && !hasPermission(entry.value)
+                val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(entry)
+                prefs.getStringOrNull(entry)?.toItemUpdatePrefValue()?.first == true &&
+                    requiredPermissions != null && !hasPermissions(requiredPermissions)
             }
-            .map { entry -> entry.value }
+            .mapNotNull { entry -> BackgroundTasksManager.getRequiredPermissionsForTask(entry)?.toList() }
+            .flatten()
+            .toSet()
+            .toTypedArray()
 
         if (missingPermissions.isNotEmpty()) {
-            Log.d(TAG, "At least on permission for background tasks have been denied")
+            Log.d(TAG, "At least one permission for background tasks have been denied")
             showSnackbar(
                 R.string.settings_background_tasks_permission_denied,
                 R.string.settings_background_tasks_permission_allow
             ) {
                 ActivityCompat.requestPermissions(
                     this,
-                    missingPermissions.toTypedArray(),
+                    missingPermissions,
                     REQUEST_CODE_PERMISSIONS
                 )
             }

@@ -59,6 +59,7 @@ import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.background.tiles.getTileData
 import org.openhab.habdroid.background.tiles.putTileData
+import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -81,7 +82,7 @@ import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
-import org.openhab.habdroid.util.hasPermission
+import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -715,7 +716,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 requestPermissionIfRequired(
                     preference.context,
                     newValue,
-                    Manifest.permission.READ_PHONE_STATE,
+                    BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_PHONE_STATE),
                     PERMISSIONS_REQUEST_FOR_CALL_STATE
                 )
                 true
@@ -725,16 +726,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 wifiSsidPref.setSummaryOn(getString(R.string.settings_wifi_ssid_summary_on_location_on))
             }
             wifiSsidPref.setOnPreferenceChangeListener { preference, newValue ->
-                val requiredPermission = when {
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.ACCESS_FINE_LOCATION
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> Manifest.permission.ACCESS_COARSE_LOCATION
-                    else -> return@setOnPreferenceChangeListener true
-                }
-
                 requestPermissionIfRequired(
                     preference.context,
                     newValue,
-                    requiredPermission,
+                    BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID),
                     PERMISSIONS_REQUEST_FOR_WIFI_NAME
                 )
 
@@ -756,29 +751,35 @@ class PreferencesActivity : AbstractBaseActivity() {
         private fun requestPermissionIfRequired(
             context: Context,
             newValue: Any?,
-            permission: String,
+            permissions: Array<String>?,
             requestCode: Int
         ) {
             @Suppress("UNCHECKED_CAST")
             val value = newValue as Pair<Boolean, String>
-            if (value.first && !context.hasPermission(permission)) {
-                Log.d(TAG, "Request $permission permission")
-                requestPermissions(arrayOf(permission), requestCode)
+            if (value.first && permissions != null && !context.hasPermissions(permissions)) {
+                Log.d(TAG, "Request $permissions permission")
+                requestPermissions(permissions, requestCode)
             }
         }
 
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+            val context = phoneStatePref.context
+
             when (requestCode) {
                 PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
-                    if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        context?.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
+                    if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
+                        context.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
                         phoneStatePref.setValue(checked = false)
+                    } else {
+                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
                     }
                 }
                 PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
-                    if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        context?.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
+                    if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
+                        context.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
                         wifiSsidPref.setValue(checked = false)
+                    } else {
+                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
                     }
                 }
             }
