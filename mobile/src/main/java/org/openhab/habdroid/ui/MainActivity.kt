@@ -58,6 +58,7 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -476,15 +477,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun handleConnectionChange() {
         if (connection is DemoConnection) {
-            showDemoModeHintSnackbar()
+            showSnackbar(R.string.info_demo_mode_short, R.string.turn_off) {
+                prefs.edit {
+                    putBoolean(PrefKeys.DEMO_MODE, false)
+                }
+            }
         } else {
             val hasLocalAndRemote =
                 ConnectionFactory.localConnectionOrNull != null && ConnectionFactory.remoteConnectionOrNull != null
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
-                showSnackbar(R.string.info_conn_url)
+                showSnackbar(R.string.info_conn_url, duration = Snackbar.LENGTH_SHORT)
             } else if (hasLocalAndRemote && type == Connection.TYPE_REMOTE) {
-                showSnackbar(R.string.info_conn_rem_url)
+                showSnackbar(R.string.info_conn_rem_url, duration = Snackbar.LENGTH_SHORT)
             }
         }
         queryServerProperties()
@@ -929,22 +934,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    private fun showDemoModeHintSnackbar() {
-        showSnackbar(R.string.info_demo_mode_short, R.string.turn_off) {
-            prefs.edit {
-                putBoolean(PrefKeys.DEMO_MODE, false)
-            }
-        }
-    }
-
     internal fun showSnackbar(
         @StringRes messageResId: Int,
         @StringRes actionResId: Int = 0,
         tag: String? = null,
+        @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
         onClickListener: (() -> Unit)? = null
     ) {
         hideSnackbar()
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }
