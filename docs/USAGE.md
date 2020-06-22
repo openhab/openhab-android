@@ -86,7 +86,7 @@ The time is sent as a number containing the number of milliseconds since the epo
 
 Example item definition:
 ```java
-DateTime AlarmClock
+DateTime AlarmClock "Alarm Clock [%s]" <time>
 ```
 
 Example rule:
@@ -125,7 +125,7 @@ end
 
 Example item definition:
 ```java
-String CallState
+String CallState "Call State [%s]" <soundvolume>
 ```
 
 Example rule:
@@ -148,7 +148,7 @@ end
 
 Example item definition:
 ```java
-Number BatteryLevel
+Number BatteryLevel "Battery Level [%d %%]" <batterylevel>
 ```
 
 Example rule:
@@ -167,7 +167,7 @@ end
 
 Example item definition:
 ```java
-String ChargingState
+String ChargingState "Charging State [%s]" <poweroutlet_eu>
 ```
 
 Example rule:
@@ -195,7 +195,7 @@ end
 
 Example item definition:
 ```java
-String WifiName
+String WifiName "Wi-Fi Name [%s]" <network>
 ```
 
 Example rule:
@@ -222,7 +222,7 @@ Sending the DND mode requires Android 6 or higher.
 
 Example item definition:
 ```java
-String DndMode
+String DndMode "DND Mode [%s]" <soundvolume_mute>
 ```
 
 Example rule:
