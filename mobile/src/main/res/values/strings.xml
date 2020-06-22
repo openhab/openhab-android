@@ -523,7 +523,7 @@
     <string name="tile_require_unlock">Require screen to be unlocked</string>
     <string name="tile_require_unlock_summary_on">Prompt for unlocking the device before allowing Item updates</string>
     <string name="tile_require_unlock_summary_off">Allow updating Items even if the device is locked</string>
-    <string name="tile_overview_hint">The state of the tile doesn\'t reflect the state of the Item.\nIf you have issues with tiles not being updated after changing them here, click on the tile or edit the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth)</string>
+    <string name="tile_overview_hint">The state of the tile doesn\'t reflect the state of the Item.\nIf you have issues with tiles not being updated after changing them here, click on the tile or edit the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d active tile</item>
         <item quantity="other">%d active tiles</item>
