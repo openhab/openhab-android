@@ -474,7 +474,6 @@
     <string name="tile_require_unlock">Потрібно розблокувати екран</string>
     <string name="tile_require_unlock_summary_on">Запитувати розблокування пристрою перед дозволом оновлення об\'єктів</string>
     <string name="tile_require_unlock_summary_off">Дозволити оновлення об\'єктів, навіть якщо пристрій заблоковано</string>
-    <string name="tile_overview_hint">Стан плитки не відображає стан об\'єкта.\nЯкщо у вас плитки не оновлюються після їх зміни тут, натисніть на плитку або відредагуйте секцію плиток вашого пристрою.</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d активна плитка</item>
         <item quantity="few">%d активні плитки</item>
