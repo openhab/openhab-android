@@ -272,7 +272,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         fun enqueueNfcUpdateIfNeeded(context: Context, tag: NfcTag?) {
-            if (tag != null && tag.sitemap == null && tag.item != null && tag.state != null) {
+            if (tag?.item != null && tag.state != null && tag.sitemap == null) {
                 val value = if (tag.deviceId) {
                     val deviceId = context.getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
                     ItemUpdateWorker.ValueWithInfo(deviceId, deviceId)
