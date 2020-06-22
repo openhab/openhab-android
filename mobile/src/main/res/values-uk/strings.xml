@@ -459,6 +459,35 @@
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Діаграма</string>
     <!-- Tiles -->
+    <string name="tile">Плитка</string>
+    <string name="tiles_for_quick_settings">Плитки для швидких налаштувань</string>
+    <string name="tile_empty">Порожня плитка</string>
+    <string name="tile_item_picker_title">Оберіть об\'єкт</string>
+    <string name="tile_configure_in_settings">Цю плитку можна конфігурувати в налаштуваннях програми openHAB</string>
+    <string name="save">Зберегти</string>
+    <string name="tile_error_saving">Будь ласка, заповніть всі налаштування</string>
+    <string name="tile_disabled">Вимкнено</string>
+    <string name="tile_enable">Увімкнути</string>
+    <string name="item_item_and_action">Об\'єкт і дія</string>
+    <string name="tile_name">Ім\'я</string>
+    <string name="tile_icon">Іконка</string>
+    <string name="tile_require_unlock">Потрібно розблокувати екран</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_tree">Дерево</string>
+    <string name="tile_icon_dashboard">Панель</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Щит</string>
+    <string name="tile_icon_man">Чоловік</string>
+    <string name="tile_icon_bed">Ліжко</string>
+    <string name="tile_icon_child">Дитина</string>
+    <string name="tile_icon_baby">Немовля</string>
+    <string name="tile_icon_settings">Шестерня</string>
+    <string name="tile_icon_bath">Ванна</string>
+    <string name="tile_icon_woman">Жінка</string>
+    <string name="tile_icon_roller_shutter">Жалюзі</string>
+    <string name="tile_icon_camera">Камера</string>
+    <string name="tile_icon_light_switch">Вимикач світла</string>
+    <string name="tile_icon_garage">Гараж</string>
+    <string name="tile_icon_switch">Перемикач</string>
     <!-- Tile icon values -->
 </resources>
