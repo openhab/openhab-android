@@ -425,7 +425,6 @@
     <string name="tile_require_unlock">Requiere que la pantalla esté desbloqueada</string>
     <string name="tile_require_unlock_summary_on">Requerir desbloqueo del dispositivo antes de permitir actualizar un Item</string>
     <string name="tile_require_unlock_summary_off">Permitir la actualización de Items aunque el dispositivo está bloqueado</string>
-    <string name="tile_overview_hint">El estado de la baldosa no refleja el estado del Item.\nSi tiene problemas con baldosas que no se actualizan después de cambiarlas aquí, haga clic en la baldosa o edite la sección de baldosas de ajustes rápidos de su dispositivo.</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d baldosa activa</item>
         <item quantity="other">%d baldosas activas</item>
