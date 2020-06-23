@@ -66,7 +66,6 @@ object MapViewHelper {
         Marker.OnMarkerDragListener {
         private val mapView = baseMapView as MapView
         private val handler: Handler = Handler()
-        private var started: Boolean = false
         override val dialogManager = WidgetAdapter.DialogManager()
 
         init {
@@ -97,18 +96,12 @@ object MapViewHelper {
             }
         }
 
-        override fun start() {
-            if (!started) {
-                mapView.onResume()
-                started = true
-            }
+        override fun onStart() {
+            mapView.onResume()
         }
 
-        override fun stop() {
-            if (started) {
-                mapView.onPause()
-                started = false
-            }
+        override fun onStop() {
+            mapView.onPause()
         }
 
         override fun onMarkerDragStart(marker: Marker) {

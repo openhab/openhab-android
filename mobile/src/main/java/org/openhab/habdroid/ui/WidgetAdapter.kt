@@ -87,7 +87,6 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
-import java.util.Random
 import java.util.concurrent.CancellationException
 import java.util.concurrent.Executor
 import kotlin.math.abs
@@ -197,7 +196,7 @@ class WidgetAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.stop()
+        val wasStarted = holder.stop()
         holder.bind(items[position])
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == 0)
@@ -207,6 +206,9 @@ class WidgetAdapter(
             isLongClickable = true
             isActivated = selectedPosition == position
             setOnClickListener(this@WidgetAdapter)
+        }
+        if (wasStarted) {
+            holder.start()
         }
     }
 
@@ -310,9 +312,26 @@ class WidgetAdapter(
         @LayoutRes layoutResId: Int
     ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
         open val dialogManager: DialogManager? = null
+        var started = false
+            private set
+
         abstract fun bind(widget: Widget)
-        open fun start() {}
-        open fun stop() {}
+        fun start() {
+            if (!started) {
+                onStart()
+                started = true
+            }
+        }
+        fun stop(): Boolean {
+            if (!started) {
+                return false
+            }
+            onStop()
+            started = false
+            return true
+        }
+        open fun onStart() {}
+        open fun onStop() {}
         open fun handleRowClick() {}
     }
 
@@ -626,7 +645,7 @@ class WidgetAdapter(
             }
         }
 
-        override fun start() {
+        override fun onStart() {
             if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
                 imageView.startRefreshing(refreshRate)
             } else {
@@ -634,7 +653,7 @@ class WidgetAdapter(
             }
         }
 
-        override fun stop() {
+        override fun onStop() {
             imageView.cancelRefresh()
         }
     }
@@ -916,7 +935,7 @@ class WidgetAdapter(
             refreshRate = widget.refresh
         }
 
-        override fun start() {
+        override fun onStart() {
             if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
                 chart.startRefreshing(refreshRate)
             } else {
@@ -924,7 +943,7 @@ class WidgetAdapter(
             }
         }
 
-        override fun stop() {
+        override fun onStop() {
             chart.cancelRefresh()
         }
 
@@ -962,45 +981,51 @@ class WidgetAdapter(
                     .build()
             }
 
-            if (mediaItem != mediaPlayer.currentMediaItem) {
-                mediaPlayer.reset()
-                if (mediaItem != null) {
-                    mediaPlayer.setMediaItem(mediaItem)
-                    val prepareFuture = mediaPlayer.prepare()
-                    prepareFuture.addListener(Runnable {
-                        val code = try {
-                            prepareFuture.get().resultCode
-                        } catch (e: CancellationException) {
-                            Log.d(TAG, "Task was canceled")
-                            BaseResult.RESULT_ERROR_UNKNOWN
-                        }
-                        Log.d(TAG, "Media player returned $code")
-                        loadingIndicator.isVisible = false
-                        if (code >= 0) {
-                            // No error code
-                            return@Runnable
-                        }
-
-                        val label =
-                            widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_video))
-                        errorViewHint.text = itemView.context.getString(R.string.error_video_player, label)
-                        errorView.isVisible = true
-                    }, Executor {
-                        Handler(Looper.getMainLooper()).post(it)
-                    })
-                }
+            val currentUri = (mediaPlayer.currentMediaItem as? UriMediaItem)?.uri
+            if (currentUri == mediaItem?.uri) {
+                return
             }
 
-            start()
+            mediaPlayer.reset()
+            if (mediaItem == null) {
+                return
+            }
+
+            mediaPlayer.setMediaItem(mediaItem)
+            val prepareFuture = mediaPlayer.prepare()
+            prepareFuture.addListener(Runnable {
+                val code = try {
+                    prepareFuture.get().resultCode
+                } catch (e: CancellationException) {
+                    Log.d(TAG, "Task was canceled")
+                    BaseResult.RESULT_ERROR_UNKNOWN
+                }
+                Log.d(TAG, "Media player returned $code")
+                loadingIndicator.isVisible = false
+                if (code >= 0) {
+                    // No error code
+                    if (started) {
+                        mediaPlayer.play()
+                    }
+                    return@Runnable
+                }
+
+                val label =
+                    widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_video))
+                errorViewHint.text = itemView.context.getString(R.string.error_video_player, label)
+                errorView.isVisible = true
+            }, Executor {
+                Handler(Looper.getMainLooper()).post(it)
+            })
         }
 
-        override fun start() {
+        override fun onStart() {
             if (mediaPlayer.currentMediaItem != null) {
                 mediaPlayer.play()
             }
         }
 
-        override fun stop() {
+        override fun onStop() {
             if (mediaPlayer.currentMediaItem != null) {
                 mediaPlayer.pause()
             }
@@ -1178,11 +1203,11 @@ class WidgetAdapter(
             streamer = widget.url?.let { MjpegStreamer(imageView, connection, it) }
         }
 
-        override fun start() {
+        override fun onStart() {
             streamer?.start()
         }
 
-        override fun stop() {
+        override fun onStop() {
             streamer?.stop()
         }
     }
