@@ -189,6 +189,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             return
         }
         val timeToNextRefresh = refreshInterval + lastRefreshTimestamp - SystemClock.uptimeMillis()
+        Log.d(TAG, "Scheduling next refresh for ${lastRequest?.url} in $timeToNextRefresh ms")
         refreshJob = scope?.launch {
             delay(timeToNextRefresh)
             lastRequest?.execute(true)
@@ -260,7 +261,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                         .response
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
-                    lastRefreshTimestamp = System.currentTimeMillis()
+                    lastRefreshTimestamp = SystemClock.uptimeMillis()
                     scheduleNextRefresh()
                 } catch (e: HttpClient.HttpException) {
                     removeProgressDrawable()
