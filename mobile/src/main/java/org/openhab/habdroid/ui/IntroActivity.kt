@@ -13,8 +13,10 @@
 
 package org.openhab.habdroid.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -95,17 +97,20 @@ class IntroActivity : AppIntro() {
      * @param imageDrawable
      */
     private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        @ColorInt val greyColor = ContextCompat.getColor(this, R.color.grey_300)
-        @ColorInt val blackColor = ContextCompat.getColor(this, R.color.black)
+        val colorText = TypedValue()
+        theme.resolveAttribute(R.attr.colorOnBackground, colorText, true)
+
+        val colorBackground = TypedValue()
+        theme.resolveAttribute(android.R.attr.windowBackground, colorBackground, true)
 
         addSlide(AppIntroFragment.newInstance(getString(title),
             null, // Title font: null => default
             getString(description),
             null, // Description font: null => default
             imageDrawable,
-            greyColor, // Background color
-            blackColor, // Title color
-            ContextCompat.getColor(this, R.color.black))) // Description color
+            colorBackground.data, // Background color
+            colorText.data, // Title color
+            colorText.data)) // Description color
     }
 
     companion object {
