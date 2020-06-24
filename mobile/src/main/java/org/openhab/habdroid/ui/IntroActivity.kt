@@ -13,11 +13,9 @@
 
 package org.openhab.habdroid.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
