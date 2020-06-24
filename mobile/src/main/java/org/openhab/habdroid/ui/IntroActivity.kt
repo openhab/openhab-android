@@ -25,10 +25,12 @@ import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 
 class IntroActivity : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Util.getActivityThemeId(this))
         super.onCreate(savedInstanceState)
 
         if (getPrefs().getBoolean(PrefKeys.RECENTLY_RESTORED, false)) {
