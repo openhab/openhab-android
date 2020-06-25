@@ -20,7 +20,12 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.model.toOH2IconResource
 
 class FcmMessageListenerService : FirebaseMessagingService() {
-    private val notifHelper = NotificationHelper(this)
+    private lateinit var notifHelper: NotificationHelper
+
+    override fun onCreate() {
+        super.onCreate()
+        notifHelper = NotificationHelper(this)
+    }
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
