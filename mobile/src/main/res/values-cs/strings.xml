@@ -420,6 +420,7 @@
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Graf</string>
     <!-- Tiles -->
+    <string name="tile_overview_hint">Stav dlaždice neodráží stav Item.\nPokud máte problémy s tím, že dlaždice nejsou aktualizovány po jejich změně zde, klikněte na dlaždici nebo upravte rychlé nastavení zařízení (místo, kde jsou přepínače např. pro Wi-Fi a Bluetooth).</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
