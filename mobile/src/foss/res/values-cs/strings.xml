@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Notifikace mají ve verzi FOSS omezené funkce. Pro více informací klepněte na obrazovku.</string>
+    <string name="push_notification_status_disabled">Oznámení jsou vypnuta</string>
     <string name="open_in_maps">Otevřít v OpenStreetMap</string>
 </resources>
