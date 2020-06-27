@@ -463,6 +463,8 @@
     <string name="save">שמור</string>
     <string name="tile_name">שם</string>
     <string name="tile_icon">צלמית</string>
+    <string name="tile_require_unlock_summary_on">בקש ביטול נעילת מכשיר לפני אפשור עדכון פריטים</string>
+    <string name="tile_require_unlock_summary_off">אפשר עדכון פריטים גם כאשר המכשיר נעול</string>
     <string name="tile_number">אריח %d</string>
     <string name="tile_label_1">אריח 1</string>
     <string name="tile_label_2">אריח 2</string>
@@ -492,9 +494,11 @@
     <string name="tile_icon_people">אנשים</string>
     <string name="tile_icon_person">בן אדם</string>
     <string name="tile_icon_phone">טלפון</string>
+    <string name="tile_icon_power_plug">תקע חשמל</string>
     <string name="tile_icon_battery">סוללה</string>
     <string name="tile_icon_magnifier">זכוכית מגדלת</string>
     <string name="tile_icon_tree">עץ</string>
+    <string name="tile_icon_wifi">רשת אלחוטית</string>
     <string name="tile_icon_man">גבר</string>
     <string name="tile_icon_bed">מיטה</string>
     <string name="tile_icon_child">ילד</string>
@@ -503,5 +507,6 @@
     <string name="tile_icon_woman">אישה</string>
     <string name="tile_icon_roller_shutter">תריס גלילה</string>
     <string name="tile_icon_camera">מצלמה</string>
+    <string name="tile_icon_light_switch">מפסק תאורה</string>
     <!-- Tile icon values -->
 </resources>
