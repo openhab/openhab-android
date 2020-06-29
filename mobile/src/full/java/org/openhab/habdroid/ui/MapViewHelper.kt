@@ -53,7 +53,6 @@ object MapViewHelper {
         GoogleMap.OnMarkerDragListener {
         private val mapView = baseMapView as MapView
         private var map: GoogleMap? = null
-        private var started: Boolean = false
         override val dialogManager = WidgetAdapter.DialogManager()
 
         init {
@@ -77,22 +76,16 @@ object MapViewHelper {
             map?.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
         }
 
-        override fun start() {
-            super.start()
-            if (!started) {
-                mapView.onStart()
-                mapView.onResume()
-                started = true
-            }
+        override fun onStart() {
+            super.onStart()
+            mapView.onStart()
+            mapView.onResume()
         }
 
-        override fun stop() {
-            super.stop()
-            if (started) {
-                mapView.onPause()
-                mapView.onStop()
-                started = false
-            }
+        override fun onStop() {
+            super.onStop()
+            mapView.onPause()
+            mapView.onStop()
         }
 
         override fun onMarkerDragStart(marker: Marker) {
