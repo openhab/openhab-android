@@ -343,4 +343,8 @@
     <string name="item_update_widget_auto_generate_widget_label">Skapa widgetetikett automatiskt</string>
     <string name="item_update_widget_widget_label">Widgetetikett</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>

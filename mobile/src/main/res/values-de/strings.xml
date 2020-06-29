@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Fernzugriff</string>
     <string name="settings_openhab_connection">Lokal</string>
+    <string name="settings_ringtone">Klingelton</string>
     <string name="settings_ringtone_none">Keiner</string>
     <string name="settings_ringtone_on_external">Unbekannter Klingelton auf externem Speicher</string>
+    <string name="settings_notification_vibration">Vibration</string>
     <string name="settings_notification_vibration_off">Aus</string>
     <string name="settings_notification_vibration_short">Kurz</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Zweimal</string>
+    <string name="settings_notification_ringtone_vibration">Klingelton &amp; Vibration</string>
     <string name="settings_connection_summary">Verbunden mit %s</string>
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
@@ -207,6 +210,16 @@
     <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
     <string name="notification_channel_group_other">Sonstiges</string>
+    <string name="notification_channel_severity_value">Dringlichkeit \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Vom Server gesendete Benachrichtigungen mit Wichtigkeit \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d neue Benachrichtigung</item>
+        <item quantity="other">%d neue Benachrichtigungen</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Nicht verfügbar, da kein Remote-Server konfiguriert ist</string>
+    <string name="push_notification_status_http_error">Nicht verfügbar, Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Nicht verfügbar, da der Remote-Server keine openHAB-Cloud-Instanz ist</string>
+    <string name="push_notification_status">Status</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
@@ -217,6 +230,7 @@
     <string name="item_update_http_error_label">Update von %1$s fehlgeschlagen: %2$s</string>
     <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
     <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
+    <string name="error_no_valid_item_name">Bitte geben Sie einen gültigen Item-Namen an</string>
     <string name="retry">Erneut versuchen</string>
     <string name="ignore">Ignorieren</string>
     <string name="send_device_info_schedule">Zeitplan</string>
@@ -418,6 +432,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Datensparmodus</string>
     <string name="data_saver_on">Sitemap-Elemente, die größere Datenübertragungen erfordern, werden nicht geladen</string>
     <string name="data_saver_off">Für das Laden von datennutzenden Sitemap-Elementen wird die systemweite Datenspar-Einstellung verwendet</string>
@@ -429,4 +444,66 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Karte</string>
     <string name="widget_type_chart">Diagramm</string>
+    <!-- Tiles -->
+    <string name="tile">Kachel</string>
+    <string name="tile_empty">Leere Kachel</string>
+    <string name="tile_item_picker_title">Wählen Sie ein Item</string>
+    <string name="tile_configure_in_settings">Diese Kachel kann in den openHAB App-Einstellungen konfiguriert werden</string>
+    <string name="save">Speichern</string>
+    <string name="tile_name">Name</string>
+    <string name="tile_icon">Icon</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktive Kachel</item>
+        <item quantity="other">%d aktive Kacheln</item>
+    </plurals>
+    <string name="tile_number">Kachel %d</string>
+    <string name="tile_label_1">Kachel 1</string>
+    <string name="tile_label_2">Kachel 2</string>
+    <string name="tile_label_3">Kachel 3</string>
+    <string name="tile_label_4">Kachel 4</string>
+    <string name="tile_label_5">Kachel 5</string>
+    <string name="tile_label_6">Kachel 6</string>
+    <string name="tile_label_7">Kachel 7</string>
+    <string name="tile_label_8">Kachel 8</string>
+    <string name="tile_label_9">Kachel 9</string>
+    <string name="tile_label_10">Kachel 10</string>
+    <string name="tile_label_11">Kachel 11</string>
+    <string name="tile_label_12">Kachel 12</string>
+    <!-- Tile icon names -->
+    <string name="tile_icon_tv">Fernseher</string>
+    <string name="tile_icon_bulb">Glühbirne</string>
+    <string name="tile_icon_clock">Uhr</string>
+    <string name="tile_icon_alarm_clock">Wecker</string>
+    <string name="tile_icon_bell">Glocke</string>
+    <string name="tile_icon_cloud_upload">Cloud-Upload</string>
+    <string name="tile_icon_earth">Erde</string>
+    <string name="tile_icon_chat">Sprechblasen</string>
+    <string name="tile_icon_house">Haus</string>
+    <string name="tile_icon_lock">Schloss</string>
+    <string name="tile_icon_microphone">Mikrofon</string>
+    <string name="tile_icon_color_palette">Farbpalette</string>
+    <string name="tile_icon_people">Personen</string>
+    <string name="tile_icon_person">Person</string>
+    <string name="tile_icon_phone">Telefon</string>
+    <string name="tile_icon_power_plug">Netzstecker</string>
+    <string name="tile_icon_battery">Batterie</string>
+    <string name="tile_icon_magnifier">Lupe</string>
+    <string name="tile_icon_star">Stern</string>
+    <string name="tile_icon_tree">Baum</string>
+    <string name="tile_icon_dashboard">Dashboard</string>
+    <string name="tile_icon_wifi">WLAN</string>
+    <string name="tile_icon_shield">Schild</string>
+    <string name="tile_icon_man">Mann</string>
+    <string name="tile_icon_bed">Bett</string>
+    <string name="tile_icon_child">Kind</string>
+    <string name="tile_icon_baby">Baby</string>
+    <string name="tile_icon_settings">Zahnrad</string>
+    <string name="tile_icon_bath">Bad</string>
+    <string name="tile_icon_woman">Frau</string>
+    <string name="tile_icon_roller_shutter">Rollladen</string>
+    <string name="tile_icon_camera">Kamera</string>
+    <string name="tile_icon_light_switch">Lichtschalter</string>
+    <string name="tile_icon_garage">Garage</string>
+    <string name="tile_icon_switch">Schalter</string>
+    <!-- Tile icon values -->
 </resources>

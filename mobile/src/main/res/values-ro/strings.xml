@@ -293,4 +293,8 @@
     <string name="item_update_success_message_previous">%s arată titlul anterior</string>
     <string name="item_update_success_message_rewind">%s se derulează înapoi</string>
     <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>

@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Aktuální výchozí Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Vzdálený</string>
     <string name="settings_openhab_connection">Lokální</string>
+    <string name="settings_ringtone">Vyzváněcí tón</string>
     <string name="settings_ringtone_none">Žádné</string>
     <string name="settings_ringtone_on_external">Neznámé vyzvánění na externím úložišti</string>
+    <string name="settings_notification_vibration">Vibrace</string>
     <string name="settings_notification_vibration_off">Vypnuto</string>
     <string name="settings_notification_vibration_short">Krátce</string>
     <string name="settings_notification_vibration_long">Dlouze</string>
     <string name="settings_notification_vibration_twice">Dvakrát</string>
+    <string name="settings_notification_ringtone_vibration">Vyzvánění &amp; vibrace</string>
     <string name="settings_connection_summary">Připojen k %s</string>
     <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
     <string name="beta">Zkušební verze</string>
@@ -171,17 +174,31 @@
     <string name="send_device_info_category_event_based_title">Na základě události</string>
     <string name="send_device_info_category_event_based_explanation">Tyto položky jsou aktualizovány na základě odpovídajících událostí, např. příchozí telefonní hovor</string>
     <string name="send_device_info_category_schedule_based_title">Naplánované</string>
+    <string name="send_device_info_category_schedule_based_explanation">Čím kratší zvolený interval je, tím větší je potenciální dopad na životnost baterie vašeho zařízení. Vaše zařízení navíc nemusí přesně sledovat zvolený interval, ale může zpozdit aktualizace pro snížení spotřeby energie napříč aplikacemi.</string>
+    <string name="send_device_info_item_prefix_summary">Názvy položek na této stránce mají předponu identifikátoru zařízení \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Není nastavena žádná předpona pro názvy položek na této stránce. Můžete je před ně vložit identifikátor zařízení, který lze nastavit na stránce hlavního nastavení.</string>
     <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
+    <string name="settings_alarm_clock">Čas budíku</string>
+    <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku</string>
     <string name="settings_phone_state">Stav hovoru</string>
+    <string name="settings_phone_state_summary_on">Poslat stav hovoru telefonu do Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Neodesílat stav hovoru</string>
     <string name="settings_phone_state_permission_denied">Odeslání stavu hovoru telefonu bylo deaktivováno kvůli chybějícím oprávněním</string>
     <string name="settings_battery_level">Stav baterie</string>
+    <string name="settings_battery_level_summary_on">Odeslat úroveň baterie do Item \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Neposílat úroveň nabití baterie</string>
     <string name="settings_charging_state">Stav nabíjení</string>
+    <string name="settings_charging_state_summary_on">Odeslat stav nabíjení do Item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Neodesílat stav nabíjení</string>
     <string name="settings_wifi_ssid">Název Wi-Fi</string>
+    <string name="settings_wifi_ssid_summary_on">Odeslat název Wi-Fi (SSID) do Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Odeslat název Wi-Fi (SSID) do položky \'%1$s\'. \"Zjišťování polohy\" musí být zapnuto, jinak openHAB nemůže získat název Wi-Fi.</string>
     <string name="settings_wifi_ssid_summary_off">Neodesílat název sítě Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Odesílání názvu Wi-Fi bylo zakázáno kvůli chybějícím oprávněním</string>
+    <string name="settings_dnd_mode">Režim Nerušit</string>
+    <string name="settings_dnd_mode_summary_on">Odeslat stav režimu Nerušit do Item \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Neposílat stav režimu Nerušit</string>
     <string name="settings_background_tasks_permission_denied">Některé úlohy na pozadí byly zakázány kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_allow">Povolit</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
@@ -195,6 +212,20 @@
     <string name="notification_channel_messages_default_severity_description">Oznámení odeslaná serverem se standardní důležitostí</string>
     <string name="notification_channel_group_messages">Zprávy</string>
     <string name="notification_channel_group_other">Ostatní</string>
+    <string name="notification_channel_severity_value">Priorita \"%1$s\"</string>
+    <string name="notification_channel_severity_value_description">Oznámení zasílaná serverem s prioritou \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nové oznámení</item>
+        <item quantity="few">%d nová oznámení</item>
+        <item quantity="many">%d nových oznámení</item>
+        <item quantity="other">%d nová oznámení</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Nedostupné, vzdálený server není nakonfigurován</string>
+    <string name="push_notification_status_http_error">Nedostupné, chyba při připojování ke vzdálenému serveru: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Nedostupné, vzdálený server není openHAB cloud</string>
+    <string name="push_notification_status">Stav</string>
+    <string name="push_notification_help_icon_description">Klikni pro nápovědu</string>
+    <string name="push_notification_hint">Oznámení jsou stahována v pravidelném intervalu, který je stejný jako pro \"Odeslat informace o zařízení na server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item nemohla být aktualizována</item>
         <item quantity="few">%d Items nemohly být aktualizovány</item>
@@ -207,6 +238,7 @@
     <string name="item_update_http_error_label">%1$s aktualizace selhala: %2$s</string>
     <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
     <string name="item_update_connection_error_label">Chyba aktualizace %1$s (žádné připojení)</string>
+    <string name="error_no_valid_item_name">Vyplňte prosím platný název Item</string>
     <string name="retry">Opakovat</string>
     <string name="ignore">Ignorovat</string>
     <string name="send_device_info_schedule">Rozvrh</string>
@@ -217,6 +249,12 @@
     <string name="send_device_info_schedule_6_hours">6 hodin</string>
     <string name="send_device_info_schedule_12_hours">12 hodin</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Identifikátor zařízení</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Použít pro hlasové příkazy předponu \'<Device identifier>|\']]></string>
+    <string name="device_identifier_bg_tasks">Použít předponu u názvu položek \"Odeslat informace o zařízení na server\" s tímto identifikátorem</string>
+    <string name="device_identifier_hint">Tento identifikátor zařízení může být libovolný textový řetězec a měl by být jedinečný pro všechna zařízení, která přistupují na váš openHAB server. Kromě dvou výše uvedených případů jej můžete použít i jako stav na NFC tagu, abyste věděli, které zařízení čte tag.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Identifikátor skenovacího zařízení (\"%s\" pro toto zařízení)</string>
+    <string name="device_identifier_summary_not_set">Data odeslaná na server a hlasové příkazy nemají předponu s identifikátorem zařízení</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
@@ -323,6 +361,7 @@
     <string name="log_activity_action_reload">Obnovit</string>
     <string name="log_activity_content_description_share">Sdílet log</string>
     <string name="empty_log">Log je prázný</string>
+    <string name="log_too_large_to_share">Log je příliš velký ke sdílení. Prosím vymažte log, zopakujte chybu a poté log sdílejte.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Připnout na domovskou obrazovku</string>
     <string name="home_shortcut_error_pinning">Nepodařilo se připnout</string>
@@ -407,6 +446,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Automaticky generovat popisek widgetu</string>
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Spořič dat</string>
     <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
     <string name="data_saver_off">Nastavení spořiče dat pro celý systém je použito při načítání datových prvků Sitemap</string>
@@ -418,4 +458,78 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Graf</string>
+    <!-- Tiles -->
+    <string name="tile">Dlaždice</string>
+    <string name="tiles_for_quick_settings">Dlaždice pro rychlé nastavení</string>
+    <string name="tile_empty">Prázdná dlaždice</string>
+    <string name="tile_item_picker_title">Vyberte Item</string>
+    <string name="tile_configure_in_settings">Tuto dlaždici lze nastavit v nastavení aplikace openHAB</string>
+    <string name="save">Uložit</string>
+    <string name="tile_error_saving">Vyplňte prosím každou možnost nastavení</string>
+    <string name="tile_disabled">Vypnuto</string>
+    <string name="tile_enable">Zapnout</string>
+    <string name="item_item_and_action">Item a akce</string>
+    <string name="tile_name">Název</string>
+    <string name="tile_icon">Ikona</string>
+    <string name="tile_require_unlock">Vyžadovat odemknutí obrazovky</string>
+    <string name="tile_require_unlock_summary_on">Vyzvat k odemknutí zařízení před povolením aktualizace Item</string>
+    <string name="tile_require_unlock_summary_off">Povolit aktualizaci Item i v případě, že je zařízení uzamčeno</string>
+    <string name="tile_overview_hint">Stav dlaždice neodráží stav Item.\nPokud máte problémy s tím, že dlaždice nejsou aktualizovány po jejich změně zde, klikněte na dlaždici nebo upravte rychlé nastavení zařízení (místo, kde jsou přepínače např. pro Wi-Fi a Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktivní dlaždice</item>
+        <item quantity="few">%d aktivní dlaždice</item>
+        <item quantity="many">%d aktivních dlaždic</item>
+        <item quantity="other">%d aktivních dlaždic</item>
+    </plurals>
+    <string name="tile_number">Dlaždice %d</string>
+    <string name="tile_label_1">Dlaždice 1</string>
+    <string name="tile_label_2">Dlaždice 2</string>
+    <string name="tile_label_3">Dlaždice 3</string>
+    <string name="tile_label_4">Dlaždice 4</string>
+    <string name="tile_label_5">Dlaždice 5</string>
+    <string name="tile_label_6">Dlaždice 6</string>
+    <string name="tile_label_7">Dlaždice 7</string>
+    <string name="tile_label_8">Dlaždice 8</string>
+    <string name="tile_label_9">Dlaždice 9</string>
+    <string name="tile_label_10">Dlaždice 10</string>
+    <string name="tile_label_11">Dlaždice 11</string>
+    <string name="tile_label_12">Dlaždice 12</string>
+    <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB ikona</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_bulb">Žárovka</string>
+    <string name="tile_icon_clock">Hodiny</string>
+    <string name="tile_icon_alarm_clock">Budík</string>
+    <string name="tile_icon_bell">Zvonek</string>
+    <string name="tile_icon_cloud_upload">Nahrávání do cloudu</string>
+    <string name="tile_icon_earth">Země</string>
+    <string name="tile_icon_chat">Náznak řeči (bubliny)</string>
+    <string name="tile_icon_house">Dům</string>
+    <string name="tile_icon_lock">Zámek</string>
+    <string name="tile_icon_microphone">Mikrofon</string>
+    <string name="tile_icon_color_palette">Paleta barev</string>
+    <string name="tile_icon_people">Lidé</string>
+    <string name="tile_icon_person">Osoba</string>
+    <string name="tile_icon_phone">Telefon</string>
+    <string name="tile_icon_power_plug">Zásuvka</string>
+    <string name="tile_icon_battery">Baterie</string>
+    <string name="tile_icon_magnifier">Lupa</string>
+    <string name="tile_icon_star">Hvězda</string>
+    <string name="tile_icon_tree">Strom</string>
+    <string name="tile_icon_dashboard">Dashboard</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Štít</string>
+    <string name="tile_icon_man">Muž</string>
+    <string name="tile_icon_bed">Postel</string>
+    <string name="tile_icon_child">Dítě</string>
+    <string name="tile_icon_baby">Nemluvně</string>
+    <string name="tile_icon_settings">Ozubené kolo</string>
+    <string name="tile_icon_bath">Koupel</string>
+    <string name="tile_icon_woman">Žena</string>
+    <string name="tile_icon_roller_shutter">Roleta</string>
+    <string name="tile_icon_camera">Fotoaparát</string>
+    <string name="tile_icon_light_switch">Přepínač světla</string>
+    <string name="tile_icon_garage">Garáž</string>
+    <string name="tile_icon_switch">Přepínač</string>
+    <!-- Tile icon values -->
 </resources>

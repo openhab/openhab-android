@@ -384,6 +384,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Génération automatique du libellé du widget</string>
     <string name="item_update_widget_widget_label">Libellé du widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Nom d\'Item>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Économiseur de données</string>
     <string name="data_saver_on">Dés éléments Sitemap pouvant nécessiter des transferts de données plus importants ne sont pas chargés</string>
     <string name="data_saver_off">Le paramètre d\'économiseur de données de l\'ensemble du système est suivi lors du chargement d\'éléments Sitemap utilisant des données</string>
@@ -395,4 +396,7 @@
     <string name="widget_type_video">Vidéo</string>
     <string name="widget_type_mapview">Carte</string>
     <string name="widget_type_chart">Graphique</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>

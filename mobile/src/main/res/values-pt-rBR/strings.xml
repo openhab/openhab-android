@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Atual Sitemap padrão: %1$s</string>
     <string name="settings_openhab_alt_connection">Remoto</string>
     <string name="settings_openhab_connection">Local</string>
+    <string name="settings_ringtone">Toque de chamada</string>
     <string name="settings_ringtone_none">Nenhum</string>
     <string name="settings_ringtone_on_external">Toque desconhecido no armazenamento externo</string>
+    <string name="settings_notification_vibration">Vibração</string>
     <string name="settings_notification_vibration_off">Desligado</string>
     <string name="settings_notification_vibration_short">Curta</string>
     <string name="settings_notification_vibration_long">Longa</string>
     <string name="settings_notification_vibration_twice">Dupla</string>
+    <string name="settings_notification_ringtone_vibration">Toque &amp; Vibração</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
     <string name="beta">Beta</string>
@@ -172,6 +175,8 @@
     <string name="send_device_info_category_event_based_explanation">Estes Items são atualizados nos eventos correspondentes, ex: Recebendo uma ligação</string>
     <string name="send_device_info_category_schedule_based_title">Baseado em agendamento</string>
     <string name="send_device_info_category_schedule_based_explanation">Quanto menor o intervalo escolhido, maior é o consumo da bateria do seu dispositivo. Além disso, seu dispositivo pode não seguir o intervalo escolhido exatamente, mas atrasar as atualizações para reduzir o consumo de bateria dos apps.</string>
+    <string name="send_device_info_item_prefix_summary">Os nomes dos itens nesta página têm o prefixo com o identificador de dispositivo \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Nenhum prefixo foi definido para os nomes do Item nesta página. Você pode prefixar com o identificador do dispositivo, que pode ser definido na página de configurações.</string>
     <string name="settings_item_update_pref_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
     <string name="settings_alarm_clock">Hora do alarme</string>
     <string name="settings_alarm_clock_summary_on">Envia a hora do alarme para Item \'%1$s \'</string>
@@ -207,6 +212,18 @@
     <string name="notification_channel_messages_default_severity_description">Notificações enviadas pelo servidor sem gravidade definida</string>
     <string name="notification_channel_group_messages">Mensagens</string>
     <string name="notification_channel_group_other">Outros</string>
+    <string name="notification_channel_severity_value">Gravidade \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notificações enviadas pelo servidor com gravidade \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nova notificação</item>
+        <item quantity="other">%d novas notificações</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Indisponível, o servidor remoto não está configurado</string>
+    <string name="push_notification_status_http_error">Indisponível, erro ao conectar ao servidor remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Indisponível, servidor remoto não é um openHAB</string>
+    <string name="push_notification_status">Status</string>
+    <string name="push_notification_help_icon_description">Clique aqui para ajuda</string>
+    <string name="push_notification_hint">As notificações são consultadas regularmente, que é o mesmo que \"Enviar informações do dispositivo para o servidor\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item não pôde ser atualizado</item>
         <item quantity="other">%d Items não puderam ser atualizados</item>
@@ -217,6 +234,7 @@
     <string name="item_update_http_error_label">%1$s falhou ao atualizar: %2$s</string>
     <string name="item_update_connection_error">Falha na atualização do Item \'%1$s\' (Sem conexão)</string>
     <string name="item_update_connection_error_label">%1$s a atualização falhou (sem conexão)</string>
+    <string name="error_no_valid_item_name">Por favor, insira um nome de Item válido</string>
     <string name="retry">Tente novamente</string>
     <string name="ignore">Ignorar</string>
     <string name="send_device_info_schedule">Agendamento</string>
@@ -227,6 +245,12 @@
     <string name="send_device_info_schedule_6_hours">6 horas</string>
     <string name="send_device_info_schedule_12_hours">12 horas</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Identificador de dispositivo</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Prefixo de comandos de voz com \'<Device identifier>\']]></string>
+    <string name="device_identifier_bg_tasks">Prefixar os nomes de Item \"Enviar informação do dispositivo para o servidor\" com este identificador</string>
+    <string name="device_identifier_hint">Este identificador de dispositivo pode ser qualquer palavra e deve ser único para todos os dispositivos que acessam o seu servidor openHAB. Além dos dois casos de uso acima, você também pode usá-lo como estado nas tags NFC, assim você sabe qual dispositivo leu a tag.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Identificador de dispositivo para escanear (\"%s\" para este dispositivo)</string>
+    <string name="device_identifier_summary_not_set">Dados enviados ao servidor e comandos de voz não são prefixados com um identificador de dispositivo</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
@@ -418,6 +442,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Economia de dados</string>
     <string name="data_saver_on">Elementos do Sitemap que podem exigir transferência de dados maiores não são carregados</string>
     <string name="data_saver_off">A configuração da ampla economia de dados do sistema é seguida ao carregar elementos do sitemap usando dados</string>
@@ -429,4 +454,76 @@
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfico</string>
+    <!-- Tiles -->
+    <string name="tile">Bloco</string>
+    <string name="tiles_for_quick_settings">Blocos para configurações rápidas</string>
+    <string name="tile_empty">Bloco vazio</string>
+    <string name="tile_item_picker_title">Selecione um Item</string>
+    <string name="tile_configure_in_settings">Este bloco pode ser configurado nas configurações do aplicativo openHAB</string>
+    <string name="save">Salvar</string>
+    <string name="tile_error_saving">Preencha todas as configurações</string>
+    <string name="tile_disabled">Desligado</string>
+    <string name="tile_enable">Ligar</string>
+    <string name="item_item_and_action">Item e ação</string>
+    <string name="tile_name">Nome</string>
+    <string name="tile_icon">Ícone</string>
+    <string name="tile_require_unlock">Exigir desbloqueio de tela</string>
+    <string name="tile_require_unlock_summary_on">Solicitar desbloqueio antes de permitir atualizações de Item</string>
+    <string name="tile_require_unlock_summary_off">Permitir atualizar Items, mesmo que o dispositivo esteja bloqueado</string>
+    <string name="tile_overview_hint">O estado do bloco não reflete o estado do item.\nSe você tiver problemas com os blocos não sendo atualizados depois de alterá-los aqui, clique no bloco ou edite as configurações rápidas do seu dispositivo (o lugar que mantém os botões, por ex: Wi-Fi e Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d bloco ativado</item>
+        <item quantity="other">%d blocos ativados</item>
+    </plurals>
+    <string name="tile_number">Bloco %d</string>
+    <string name="tile_label_1">Bloco 1</string>
+    <string name="tile_label_2">Bloco 2</string>
+    <string name="tile_label_3">Bloco 3</string>
+    <string name="tile_label_4">Bloco 4</string>
+    <string name="tile_label_5">Bloco 5</string>
+    <string name="tile_label_6">Bloco 6</string>
+    <string name="tile_label_7">Bloco 7</string>
+    <string name="tile_label_8">Bloco 8</string>
+    <string name="tile_label_9">Bloco 9</string>
+    <string name="tile_label_10">Bloco 10</string>
+    <string name="tile_label_11">Bloco 11</string>
+    <string name="tile_label_12">Bloco 12</string>
+    <!-- Tile icon names -->
+    <string name="tile_icon_openhab">Ícone openHAB</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_bulb">Lâmpada</string>
+    <string name="tile_icon_clock">Relógio</string>
+    <string name="tile_icon_alarm_clock">Despertador</string>
+    <string name="tile_icon_bell">Sino</string>
+    <string name="tile_icon_cloud_upload">Upload em nuvem</string>
+    <string name="tile_icon_earth">Terra</string>
+    <string name="tile_icon_chat">Bolhas de voz</string>
+    <string name="tile_icon_house">Casa</string>
+    <string name="tile_icon_lock">Cadeado</string>
+    <string name="tile_icon_microphone">Microfone</string>
+    <string name="tile_icon_color_palette">Palheta de cores</string>
+    <string name="tile_icon_people">Pessoas</string>
+    <string name="tile_icon_person">Pessoa</string>
+    <string name="tile_icon_phone">Telefone</string>
+    <string name="tile_icon_power_plug">Plugue</string>
+    <string name="tile_icon_battery">Bateria</string>
+    <string name="tile_icon_magnifier">Lupa</string>
+    <string name="tile_icon_star">Estrela</string>
+    <string name="tile_icon_tree">Árvore</string>
+    <string name="tile_icon_dashboard">Painel</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Escudo</string>
+    <string name="tile_icon_man">Homem</string>
+    <string name="tile_icon_bed">Cama</string>
+    <string name="tile_icon_child">Criança</string>
+    <string name="tile_icon_baby">Bebê</string>
+    <string name="tile_icon_settings">Engrenagem</string>
+    <string name="tile_icon_bath">Banheira</string>
+    <string name="tile_icon_woman">Mulher</string>
+    <string name="tile_icon_roller_shutter">Persiana</string>
+    <string name="tile_icon_camera">Câmera</string>
+    <string name="tile_icon_light_switch">Interruptor</string>
+    <string name="tile_icon_garage">Garagem</string>
+    <string name="tile_icon_switch">Interruptor</string>
+    <!-- Tile icon values -->
 </resources>

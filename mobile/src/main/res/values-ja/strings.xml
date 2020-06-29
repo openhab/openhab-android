@@ -381,6 +381,7 @@
     <string name="item_update_widget_auto_generate_widget_label">ウィジェットラベルの自動生成</string>
     <string name="item_update_widget_widget_label">ウィジェットラベル</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item ラベル>: <アクション>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">データセーバー</string>
     <string name="data_saver_load">とにかく読み込む</string>
     <string name="data_saver_hint">%s はデータを節約するために読み込みませんでした</string>
@@ -389,4 +390,7 @@
     <string name="widget_type_video">ビデオ</string>
     <string name="widget_type_mapview">マップ</string>
     <string name="widget_type_chart">チャート</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>

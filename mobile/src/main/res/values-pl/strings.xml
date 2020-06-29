@@ -355,4 +355,8 @@
     <string name="item_update_widget_auto_generate_widget_label">Automatycznie generuj etykietę widżetu</string>
     <string name="item_update_widget_widget_label">Etykieta widżetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>

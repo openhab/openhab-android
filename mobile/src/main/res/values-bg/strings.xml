@@ -177,4 +177,8 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>

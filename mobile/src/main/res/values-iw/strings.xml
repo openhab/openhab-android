@@ -212,6 +212,20 @@
     <string name="notification_channel_messages_default_severity_description">התראות שנשלחו על ידי השרת ללא הגדרת תעדוף</string>
     <string name="notification_channel_group_messages">הודעות</string>
     <string name="notification_channel_group_other">אחר</string>
+    <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d התראה חדשה</item>
+        <item quantity="two">%d התראות חדשות</item>
+        <item quantity="many">%d התראות חדשות</item>
+        <item quantity="other">%d התראות חדשות</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">לא זמין, לא הוגדר שרת מרוחק</string>
+    <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
+    <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
+    <string name="push_notification_status">מצב</string>
+    <string name="push_notification_help_icon_description">לחץ לעזרה</string>
+    <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
         <item quantity="two">ל %d פריטים לא היתה אפשרות להתעדכן</item>
@@ -432,6 +446,7 @@
     <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
     <string name="item_update_widget_widget_label">תווית יישומון</string>
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
     <string name="data_saver_off">הגדרת חיסכון בנתונים במערכת תופעל על טעינת נתונים של רכיבי תצורת מערכת</string>
@@ -443,18 +458,61 @@
     <string name="widget_type_video">וידאו</string>
     <string name="widget_type_mapview">מפה</string>
     <string name="widget_type_chart">תרשים</string>
-    <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d התראה חדשה</item>
-        <item quantity="two">%d התראות חדשות</item>
-        <item quantity="many">%d התראות חדשות</item>
-        <item quantity="other">%d התראות חדשות</item>
-    </plurals>
-    <string name="push_notification_status_no_remote_configured">לא זמין, לא הוגדר שרת מרוחק</string>
-    <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
-    <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
-    <string name="push_notification_status">מצב</string>
-    <string name="push_notification_help_icon_description">לחץ לעזרה</string>
-    <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
+    <!-- Tiles -->
+    <string name="tile">אריח</string>
+    <string name="tile_empty">אריח ריק</string>
+    <string name="tile_item_picker_title">בחר פריט</string>
+    <string name="tile_configure_in_settings">ניתן להגדיר אריח זה בהגדרות היישום של openHAB</string>
+    <string name="save">שמור</string>
+    <string name="tile_error_saving">נא להשלים את כל ההגדרות</string>
+    <string name="item_item_and_action">פריט ופעולה</string>
+    <string name="tile_name">שם</string>
+    <string name="tile_icon">צלמית</string>
+    <string name="tile_require_unlock">דרוש ביטול נעילת מסך</string>
+    <string name="tile_require_unlock_summary_on">בקש ביטול נעילת מכשיר לפני אפשור עדכון פריטים</string>
+    <string name="tile_require_unlock_summary_off">אפשר עדכון פריטים גם כאשר המכשיר נעול</string>
+    <string name="tile_number">אריח %d</string>
+    <string name="tile_label_1">אריח 1</string>
+    <string name="tile_label_2">אריח 2</string>
+    <string name="tile_label_3">אריח 3</string>
+    <string name="tile_label_4">אריח 4</string>
+    <string name="tile_label_5">אריח 5</string>
+    <string name="tile_label_6">אריח 6</string>
+    <string name="tile_label_7">אריח 7</string>
+    <string name="tile_label_8">אריח 8</string>
+    <string name="tile_label_9">אריח 9</string>
+    <string name="tile_label_10">אריח 10</string>
+    <string name="tile_label_11">אריח 11</string>
+    <string name="tile_label_12">אריח 12</string>
+    <!-- Tile icon names -->
+    <string name="tile_icon_openhab">צלמית openHAB</string>
+    <string name="tile_icon_tv">טלוויזיה</string>
+    <string name="tile_icon_bulb">נורה</string>
+    <string name="tile_icon_clock">שעון</string>
+    <string name="tile_icon_alarm_clock">שעון מעורר</string>
+    <string name="tile_icon_bell">פעמון</string>
+    <string name="tile_icon_cloud_upload">העלאה לענן</string>
+    <string name="tile_icon_chat">בועיות שיחה</string>
+    <string name="tile_icon_house">בית</string>
+    <string name="tile_icon_lock">מנעול</string>
+    <string name="tile_icon_microphone">מיקרופון</string>
+    <string name="tile_icon_color_palette">לוח צבעים</string>
+    <string name="tile_icon_people">אנשים</string>
+    <string name="tile_icon_person">בן אדם</string>
+    <string name="tile_icon_phone">טלפון</string>
+    <string name="tile_icon_power_plug">תקע חשמל</string>
+    <string name="tile_icon_battery">סוללה</string>
+    <string name="tile_icon_magnifier">זכוכית מגדלת</string>
+    <string name="tile_icon_tree">עץ</string>
+    <string name="tile_icon_wifi">רשת אלחוטית</string>
+    <string name="tile_icon_man">גבר</string>
+    <string name="tile_icon_bed">מיטה</string>
+    <string name="tile_icon_child">ילד</string>
+    <string name="tile_icon_baby">תינוק</string>
+    <string name="tile_icon_bath">אמבטיה</string>
+    <string name="tile_icon_woman">אישה</string>
+    <string name="tile_icon_roller_shutter">תריס גלילה</string>
+    <string name="tile_icon_camera">מצלמה</string>
+    <string name="tile_icon_light_switch">מפסק תאורה</string>
+    <!-- Tile icon values -->
 </resources>

@@ -212,6 +212,18 @@
     <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
     <string name="notification_channel_group_messages">Messaggi</string>
     <string name="notification_channel_group_other">Altro</string>
+    <string name="notification_channel_severity_value">Gravità \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notifiche inviate dal server con gravità \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nuova notifica</item>
+        <item quantity="other">%d nuove notifiche</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Non disponibile, server remoto non configurato</string>
+    <string name="push_notification_status_http_error">Non disponibile, errore di connessione al server remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Non disponibile, il server remoto non è un\'istanza cloud openHAB</string>
+    <string name="push_notification_status">Stato</string>
+    <string name="push_notification_help_icon_description">Clicca qui per l\'aiuto</string>
+    <string name="push_notification_hint">Le notifiche sono controllate ad intervalli regolari, che sono gli stessi per \"Invia informazioni sul dispositivo al server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">L’item %d non può essere aggiornato</item>
         <item quantity="other">Gli item %d non possono essere aggiornati</item>
@@ -430,6 +442,7 @@
     <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>
     <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
     <string name="data_saver_off">L\'impostazione di sistema di risparmio dati viene seguita durante il caricamento dei dati che usano elementi sitemap</string>
@@ -441,16 +454,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Mappa</string>
     <string name="widget_type_chart">Grafico</string>
-    <string name="notification_channel_severity_value">Gravità \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Notifiche inviate dal server con gravità \'%1$s\'</string>
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d nuova notifica</item>
-        <item quantity="other">%d nuove notifiche</item>
-    </plurals>
-    <string name="push_notification_status_no_remote_configured">Non disponibile, server remoto non configurato</string>
-    <string name="push_notification_status_http_error">Non disponibile, errore di connessione al server remoto: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Non disponibile, il server remoto non è un\'istanza cloud openHAB</string>
-    <string name="push_notification_status">Stato</string>
-    <string name="push_notification_help_icon_description">Clicca qui per l\'aiuto</string>
-    <string name="push_notification_hint">Le notifiche sono controllate ad intervalli regolari, che sono gli stessi per \"Invia informazioni sul dispositivo al server\"</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>

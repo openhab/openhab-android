@@ -233,4 +233,8 @@
     <string name="press_back_to_exit">Tekan kembali sekali lagi untuk keluar</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- Data saver -->
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
 </resources>
