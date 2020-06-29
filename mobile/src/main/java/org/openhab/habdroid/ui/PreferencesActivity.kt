@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.Manifest
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
@@ -55,11 +54,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.background.tiles.getTileData
 import org.openhab.habdroid.background.tiles.putTileData
-import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -985,6 +984,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                             "garage", "garagedoor", "garage_detached", "garage_detached_selected" ->
                                 R.string.tile_icon_garage_value
                             "switch" -> R.string.tile_icon_switch_value
+                            "sofa" -> R.string.tile_icon_sofa_value
                             else -> R.string.tile_icon_openhab_value
                         }
                     }

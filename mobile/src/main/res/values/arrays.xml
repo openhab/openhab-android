@@ -158,6 +158,7 @@
         <!-- Places -->
         <!-- Missing: attic, cellar, corridor, firstfloor, groundfloor, kitchen, office, terrace -->
         <item>@string/tile_icon_bed</item>
+        <item>@string/tile_icon_sofa</item>
         <item>@string/tile_icon_bath</item>
         <item>@string/tile_icon_house</item>
         <item>@string/tile_icon_tree</item>
@@ -166,6 +167,10 @@
         <!-- Missing: door, frontdoor, lawnmower, poweroutlet, projector, receiver, siren, whitegood -->
         <item>@string/tile_icon_light_switch</item>
         <item>@string/tile_icon_bulb</item>
+        <item>@string/tile_icon_lamp_ceiling</item>
+        <item>@string/tile_icon_lamp_floor</item>
+        <item>@string/tile_icon_lamp_bedside</item>
+        <item>@string/tile_icon_lamp_outdoor</item>
         <item>@string/tile_icon_garage</item>
         <item>@string/tile_icon_roller_shutter</item>
         <item>@string/tile_icon_battery</item>
@@ -205,7 +210,7 @@
         <!-- Missing: bluetooth, calendar, chart, cinema, cinemascreen, cistern, climate, contact, dryer, error, fan,
                       fan_box, fan_ceiling, faucet, flowpipe, greenhouse, incline, keyring, line, niveau, outdoorlight,
                       pantry, pie, piggybank, player, poweroutlet_au, poweroutlet_eu, poweroutlet_uk, poweroutlet_us,
-                      pump, radiator, returnpipe, sewerage, smiley, sofa, softener, solarplant, soundvolume_mute,
+                      pump, radiator, returnpipe, sewerage, smiley, softener, solarplant, soundvolume_mute,
                       status, suitcase, sunrise, sunset, temperature_cold, temperature_hot, video, wardrobe,
                       washingmachine, washingmachine_2 -->
         <item>@string/tile_icon_baby</item>
@@ -224,11 +229,16 @@
     <string-array name="tile_icons_values">
         <item>@string/tile_icon_openhab_value</item>
         <item>@string/tile_icon_bed_value</item>
+        <item>@string/tile_icon_sofa_value</item>
         <item>@string/tile_icon_bath_value</item>
         <item>@string/tile_icon_house_value</item>
         <item>@string/tile_icon_tree_value</item>
         <item>@string/tile_icon_light_switch_value</item>
         <item>@string/tile_icon_bulb_value</item>
+        <item>@string/tile_icon_lamp_ceiling_value</item>
+        <item>@string/tile_icon_lamp_floor_value</item>
+        <item>@string/tile_icon_lamp_bedside_value</item>
+        <item>@string/tile_icon_lamp_outdoor_value</item>
         <item>@string/tile_icon_garage_value</item>
         <item>@string/tile_icon_roller_shutter_value</item>
         <item>@string/tile_icon_battery_value</item>

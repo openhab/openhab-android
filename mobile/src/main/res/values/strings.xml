@@ -579,6 +579,11 @@
     <string name="tile_icon_light_switch">Light switch</string>
     <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Switch</string>
+    <string name="tile_icon_sofa">Sofa</string>
+    <string name="tile_icon_lamp_ceiling">Ceiling lamp</string>
+    <string name="tile_icon_lamp_floor">Floor lamp</string>
+    <string name="tile_icon_lamp_bedside">Bedside lamp</string>
+    <string name="tile_icon_lamp_outdoor">Outdoor lamp</string>
 
     <!-- Tile icon values -->
     <string name="tile_icon_openhab_value" translatable="false">openhab_icon</string>
@@ -617,4 +622,9 @@
     <string name="tile_icon_light_switch_value" translatable="false">light_switch</string>
     <string name="tile_icon_garage_value" translatable="false">garage</string>
     <string name="tile_icon_switch_value" translatable="false">switch</string>
+    <string name="tile_icon_sofa_value" translatable="false">sofa</string>
+    <string name="tile_icon_lamp_ceiling_value" translatable="false">lamp_ceiling</string>
+    <string name="tile_icon_lamp_floor_value" translatable="false">lamp_floor</string>
+    <string name="tile_icon_lamp_bedside_value" translatable="false">lamp_bedside</string>
+    <string name="tile_icon_lamp_outdoor_value" translatable="false">lamp_outdoor</string>
 </resources>
