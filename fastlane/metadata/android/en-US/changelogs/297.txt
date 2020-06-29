@@ -1,0 +1,2 @@
+## Fixed
+* Fix image refresh and image/video pause/resume behavior (#2071)

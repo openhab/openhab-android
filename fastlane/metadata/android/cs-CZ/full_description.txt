@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - open source program pro domácí automatizaci IoT zařízení od různých výrobců s různou technologií
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+Sestavení pro F-Droid má odebráno FCM a reporty o chybách a nemůže přijímat push notifikace z openHAB Cloud. Namísto toho jsou oznámení získávána v pravidelných intervalech.
 Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!
 Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.
 
