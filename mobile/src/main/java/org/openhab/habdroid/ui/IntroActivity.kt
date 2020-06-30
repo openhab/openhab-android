@@ -16,9 +16,9 @@ package org.openhab.habdroid.ui
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro
@@ -45,18 +45,18 @@ class IntroActivity : AppIntro() {
                 R.drawable.ic_openhab_appicon_340dp)
             addSlide(R.string.intro_themes,
                 R.string.intro_themes_description,
-                R.drawable.ic_palette_outline_orange_340dp)
+                R.drawable.ic_palette_outline_themed_340dp)
             addSlide(R.string.mainmenu_openhab_voice_recognition,
                 R.string.intro_voice_description,
-                R.drawable.ic_microphone_outline_orange_340dp)
+                R.drawable.ic_microphone_outline_themed_340dp)
             addSlide(R.string.intro_nfc,
                 R.string.intro_nfc_description,
-                R.drawable.ic_nfc_orange_340dp)
+                R.drawable.ic_nfc_themed_340dp)
         }
 
         // Change bar color
-        setBarColor(ContextCompat.getColor(this, R.color.openhab_orange))
-        setSeparatorColor(ContextCompat.getColor(this, R.color.openhab_orange_dark))
+        setBarColor(resolveThemeColor(R.attr.colorPrimary))
+        setSeparatorColor(resolveThemeColor(R.attr.colorPrimaryDark))
     }
 
     /**
@@ -95,20 +95,23 @@ class IntroActivity : AppIntro() {
      * @param imageDrawable
      */
     private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        val colorText = TypedValue()
-        theme.resolveAttribute(R.attr.colorOnBackground, colorText, true)
-
-        val colorBackground = TypedValue()
-        theme.resolveAttribute(android.R.attr.windowBackground, colorBackground, true)
+        val colorText = resolveThemeColor(R.attr.colorOnBackground)
+        val colorBackground = resolveThemeColor(android.R.attr.windowBackground)
 
         addSlide(AppIntroFragment.newInstance(getString(title),
             null, // Title font: null => default
             getString(description),
             null, // Description font: null => default
             imageDrawable,
-            colorBackground.data, // Background color
-            colorText.data, // Title color
-            colorText.data)) // Description color
+            colorBackground, // Background color
+            colorText, // Title color
+            colorText)) // Description color
+    }
+
+    private fun resolveThemeColor(@AttrRes colorAttr: Int): Int {
+        val tv = TypedValue()
+        theme.resolveAttribute(colorAttr, tv, true)
+        return tv.data
     }
 
     companion object {
