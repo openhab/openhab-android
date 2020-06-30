@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
     <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <whatis>openHAB este o platformă open-source bazată pe Java, care integrează şi combină o gamă largă de diferite sisteme inteligente şi tehnologii într-o singură soluţie.</whatis>
+    <rules>Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivele pentru motorul de automatizare bazat pe reguli și diferite interfețe de utilizator.</rules>
+    <supported>Produse suportate</supported>
     <bindings>  </bindings>
     <automation_apps/>
 
