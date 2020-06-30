@@ -112,7 +112,6 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 iconView.setImageUrl(
                     conn,
                     notification.icon.toUrl(itemView.context, !itemView.context.isDataSaverActive()),
-                    itemView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size),
                     timeoutMillis = 2000
                 )
             } else {

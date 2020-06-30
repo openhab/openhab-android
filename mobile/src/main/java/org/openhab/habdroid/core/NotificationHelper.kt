@@ -127,7 +127,7 @@ class NotificationHelper constructor(private val context: Context) {
                 try {
                     iconBitmap = connection.httpClient
                         .get(message.icon.toUrl(context, true), timeoutMillis = 1000)
-                        .asBitmap(context.resources.getDimensionPixelSize(R.dimen.svg_image_default_size), false)
+                        .asBitmap(context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size), false)
                         .response
                 } catch (e: HttpClient.HttpException) {
                     Log.d(TAG, "Error getting icon", e)

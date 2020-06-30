@@ -63,7 +63,6 @@ import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.round
 
 fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
@@ -184,9 +183,9 @@ fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
             density = null
         }
 
-        if (docWidth > targetSize || docHeight > targetSize) {
-            val widthScaler = min(1F, docWidth / targetSizeFloat)
-            val heightScaler = min(1F, docHeight / targetSizeFloat)
+        if (docWidth > targetSizeFloat || docHeight > targetSizeFloat) {
+            val widthScaler = max(1F, docWidth / targetSizeFloat)
+            val heightScaler = max(1F, docHeight / targetSizeFloat)
             val scaler = max(widthScaler, heightScaler)
             docWidth /= scaler
             docHeight /= scaler

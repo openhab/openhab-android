@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dip"
-        android:adjustViewBounds="true"
+        android:adjustViewBounds="false"
+        android:scaleType="center"
         app:progressIndicator="@drawable/ic_image_loading_themed" />
 
     <include layout="@layout/widgetlist_data_saver" />
