@@ -150,6 +150,7 @@
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
     <string name="error_no_speech_to_text_app_found">Hangfelismerő alkalmazás nem található</string>
+    <string name="error_video_player">%s nem tölthető be</string>
     <string name="install">Telepítés</string>
     <string name="title_activity_openhabwritetag">NFC-címke írása</string>
     <string name="title_activity_libraries">Használt könyvtárak</string>
@@ -200,6 +201,15 @@
     <string name="notification_channel_background">Háttér műveletek</string>
     <string name="notification_channel_background_description">A folyamatban lévő háttér műveletekről történő értesítésre használható (pl.: várakozás hálózatra)</string>
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
+    <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
+    <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
+    <string name="notification_channel_group_messages">Üzenetek</string>
+    <string name="notification_channel_group_other">Egyéb</string>
+    <string name="notification_channel_severity_value">Súlyossága \"%1$s\"</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d új értesítés</item>
+        <item quantity="other">%d új értesítések</item>
+    </plurals>
     <string name="push_notification_status">Állapot</string>
     <string name="push_notification_help_icon_description">Kattints ide a segítséghez</string>
     <plurals name="item_update_error_title">
@@ -303,6 +313,7 @@
     <string name="about_server">openHAB server</string>
     <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
     <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
+    <string name="about_rate_this_app">Alkalmazás értékelése</string>
     <string name="settings_debug_messages_title">Mutassa a hibaelhárítási információkat</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
     <string name="unknown">Ismeretlen</string>
@@ -409,14 +420,58 @@
     <string name="item_update_widget_widget_label">Widget címke</string>
     <string name="item_update_widget_default_label"><![CDATA[< Elem címke>: <Művelet>]]></string>
     <!-- Data saver -->
+    <string name="data_saver_title">Adatforgalom-csökkentő</string>
+    <string name="data_saver_load">Betölt mindenképp</string>
+    <string name="widget_type_image">Kép</string>
+    <string name="widget_type_webview">Böngészőben</string>
+    <string name="widget_type_video">Videó</string>
+    <string name="widget_type_mapview">Térkép</string>
+    <string name="widget_type_chart">Grafikon</string>
     <!-- Tiles -->
     <string name="tile_item_picker_title">Elem kiválasztása</string>
     <string name="save">Mentés</string>
+    <string name="tile_error_saving">Kérlek, tölts ki minden beállítást</string>
     <string name="tile_disabled">Kikapcsolás</string>
     <string name="tile_enable">Bekapcsolás</string>
     <string name="item_item_and_action">Elem és művelet</string>
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
+    <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB Ikon</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_bulb">Izzó</string>
+    <string name="tile_icon_clock">Óra</string>
+    <string name="tile_icon_alarm_clock">Ébresztőóra</string>
+    <string name="tile_icon_bell">Csengő</string>
+    <string name="tile_icon_cloud_upload">Felhő feltöltés</string>
+    <string name="tile_icon_earth">Föld</string>
+    <string name="tile_icon_house">Ház</string>
+    <string name="tile_icon_lock">Zár</string>
+    <string name="tile_icon_microphone">Mikrofon</string>
+    <string name="tile_icon_color_palette">Színpaletta</string>
+    <string name="tile_icon_people">Emberek</string>
+    <string name="tile_icon_person">Személy</string>
+    <string name="tile_icon_phone">Telefon</string>
+    <string name="tile_icon_power_plug">Tápkábel</string>
+    <string name="tile_icon_battery">Akkumulátor</string>
+    <string name="tile_icon_magnifier">Nagyítás</string>
+    <string name="tile_icon_star">Csillag</string>
+    <string name="tile_icon_tree">Fa</string>
+    <string name="tile_icon_dashboard">Vezérlőpult</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Pajzs</string>
+    <string name="tile_icon_man">Férfi</string>
+    <string name="tile_icon_bed">Ágy</string>
+    <string name="tile_icon_child">Gyermek</string>
+    <string name="tile_icon_baby">Gyermek</string>
+    <string name="tile_icon_settings">Fogaskerék</string>
+    <string name="tile_icon_bath">Fürdő</string>
+    <string name="tile_icon_woman">Nő</string>
+    <string name="tile_icon_roller_shutter">Redőny</string>
+    <string name="tile_icon_camera">Kamera</string>
+    <string name="tile_icon_light_switch">Villany kapcsoló</string>
+    <string name="tile_icon_garage">Garázs</string>
+    <string name="tile_icon_switch">Kapcsoló</string>
     <!-- Tile icon values -->
 </resources>
