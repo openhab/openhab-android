@@ -169,6 +169,7 @@
     <string name="send_device_info_to_server">Eszközadatok küldése a kiszolgálónak</string>
     <string name="send_device_info_to_server_short">Eszközinformáció küldése</string>
     <string name="send_device_info_category_event_based_title">Esemény alapú</string>
+    <string name="send_device_info_category_schedule_based_title">Ütemezés alapú</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
     <string name="settings_alarm_clock">Ébresztési idő</string>
     <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
@@ -181,8 +182,16 @@
     <string name="settings_battery_level_summary_on">Küldje el az akkumulátor szintjét ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_battery_level_summary_off">Ne küldje el az akkumulátor szintjét</string>
     <string name="settings_charging_state">Töltés állapota</string>
+    <string name="settings_charging_state_summary_on">Küldje el a töltés szintjét ennek a(z) \'%1$s\' elemnek</string>
+    <string name="settings_charging_state_summary_off">Ne küldje el a töltés szintjét</string>
     <string name="settings_wifi_ssid">Wi-Fi neve</string>
+    <string name="settings_wifi_ssid_summary_on">Küldje el a Wi-Fi nevét (SSID) ennek a(z) \'%1$s\' elemnek</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Küldje el a Wi-Fi nevét (SSID) ennek a(z) \'%1$s\' elemnek. \"Helymeghatározás\" be kell, hogy kapcsolva legyen, különben az openHAB nem fogja tudni elküldeni a Wi-Fi nevét.</string>
+    <string name="settings_wifi_ssid_summary_off">Ne küldje el a Wi-Fi nevét (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">A Wi-Fi név küldés kikapcsolva, hiányzó engedélyek miatt</string>
+    <string name="settings_dnd_mode">DND mód</string>
+    <string name="settings_dnd_mode_summary_on">Küldje el a DND állapotát ennek a(z) \'%1$s\' elemnek</string>
+    <string name="settings_dnd_mode_summary_off">Ne küldje el a DND állapotát</string>
     <string name="settings_background_tasks_permission_denied">Néhány háttér művelet kikapcsolva, hiányzó engedélyek miatt</string>
     <string name="settings_background_tasks_permission_allow">Engedélyez</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
@@ -191,6 +200,8 @@
     <string name="notification_channel_background">Háttér műveletek</string>
     <string name="notification_channel_background_description">A folyamatban lévő háttér műveletekről történő értesítésre használható (pl.: várakozás hálózatra)</string>
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
+    <string name="push_notification_status">Állapot</string>
+    <string name="push_notification_help_icon_description">Kattints ide a segítséghez</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>
@@ -199,9 +210,17 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="item_update_connection_error_label">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
+    <string name="error_no_valid_item_name">Kérlek add meg az Elem helyes nevét</string>
     <string name="retry">Újra</string>
     <string name="ignore">Mellőzés</string>
+    <string name="send_device_info_schedule">Ütemezés</string>
+    <string name="send_device_info_schedule_15_minutes">15 perc</string>
+    <string name="send_device_info_schedule_1_hour">1 óra</string>
+    <string name="send_device_info_schedule_3_hours">3 óra</string>
+    <string name="send_device_info_schedule_6_hours">6 óra</string>
+    <string name="send_device_info_schedule_12_hours">12 óra</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Eszköz azonosító</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
@@ -223,6 +242,7 @@
     <string name="theme_name_dark">Sötét</string>
     <string name="theme_name_system">Rendszertéma-követés</string>
     <string name="theme_name_battery_saver">Sötét mód energiatakarékos módban</string>
+    <string name="theme_name_black">Fekete</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafikon</string>
     <string name="chart_activity_hide_legend">Jelmagyarázat elrejtése</string>
@@ -390,6 +410,13 @@
     <string name="item_update_widget_default_label"><![CDATA[< Elem címke>: <Művelet>]]></string>
     <!-- Data saver -->
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Elem kiválasztása</string>
+    <string name="save">Mentés</string>
+    <string name="tile_disabled">Kikapcsolás</string>
+    <string name="tile_enable">Bekapcsolás</string>
+    <string name="item_item_and_action">Elem és művelet</string>
+    <string name="tile_name">Név</string>
+    <string name="tile_icon">Ikon</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
