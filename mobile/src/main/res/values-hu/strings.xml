@@ -52,8 +52,10 @@
     <string name="settings_current_default_sitemap">Jelenlegi alapértelmezett felületet: %1$s</string>
     <string name="settings_openhab_alt_connection">Távoli</string>
     <string name="settings_openhab_connection">Helyi</string>
+    <string name="settings_ringtone">Csengőhang</string>
     <string name="settings_ringtone_none">Nincs</string>
     <string name="settings_ringtone_on_external">Ismeretlen csengőhang a külső meghajtón</string>
+    <string name="settings_notification_vibration">Rezgés</string>
     <string name="settings_notification_vibration_off">Ki</string>
     <string name="settings_notification_vibration_short">Rövid</string>
     <string name="settings_notification_vibration_long">Hosszú</string>
@@ -85,6 +87,7 @@
     <string name="app_shortcut_disabled_habpanel">A szerveren nincs telepítve HABPanel</string>
     <string name="app_shortcut_disabled_notifications">A távoli szerver nem érhető el</string>
     <string name="app_shortcut_disabled_voice_recognition">Ez az eszköz nem rendelkezik hangfelismerő alkalmazással</string>
+    <string name="no_position_set">Nincs művelet beállítva</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_sitemap_generic_load_error">A felület nem tölthető be. Akövetkező hiba miatt: %1$s</string>
@@ -108,7 +111,14 @@
     <string name="webview_ssl">Jelenleg ez alkalmazás nem támogatja az önaláírt SSL-tanúsítványokat a \"WebView\" megjelenítőkhöz</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód: %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL túl hosszú. Kérjük, használja az IP-címet vagy egy rövidebb URL-t (HTTP-válaszkód %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Kötelező a HTTPS használata. Módosítsa az URL-t (HTTP válaszkód, %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">A hitelesítés sikertelen. Kérjük, ellenőrizze a megadott SSL ügyféltanúsítvány (HTTP-válaszkód %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL ügyfél-tanúsítvány szükséges (HTTP kód %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">A \"reverse proxy\" érvénytelen választ kapott az openHAB szervertől (HTTP válaszkód, %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Az openHAB szerver ideiglenesen nem érhető el (HTTP válasz-kód %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Átjáró időtúllépés. Úgy tűnik, hogy a \"reverse proxy\" fut, de nem kap választ az openHAB szervertől (HTTP-válaszkód %d).</string>
     <string name="error_http_code_507" tools:keep="@string/error_http_code_507">A openHAB kiszolgálón nincs elég szabad hely (HTTP kód %d)</string>
     <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Hálózati hitelesítésre van szükség (HTTP kód %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
@@ -126,10 +136,16 @@
     <string name="error_short_certificate_wrong_host">A tanúsítvány nem érvényes a %s -hoz</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Sikertelen azonosítás (HTTP kód %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Nem található (HTTP code %d)</string>
     <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL túl hosszú (HTTP kód%d)</string>
     <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS szükséges (HTTP kód%d)</string>
     <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Sikertelen azonosítás (HTTP kód %d)</string>
     <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL ügyfél-tanúsítvány szükség (HTTP kód %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">A \"reverse proxy\" érvénytelen választ kapott az openHAB szervertől (HTTP válaszkód, %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">Az openHAB ideiglenesen nem elérhető (HTTP válasz-kód %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Átjáró időtúllépés (HTTP kód %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Nincs elég szabad hely a szerveren (HTTP kód %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Hálózati hitelesítésre van szükség (HTTP kód %d)</string>
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
@@ -151,11 +167,29 @@
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Eszközadatok küldése a kiszolgálónak</string>
+    <string name="send_device_info_to_server_short">Eszközinformáció küldése</string>
+    <string name="send_device_info_category_event_based_title">Esemény alapú</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
+    <string name="settings_alarm_clock">Ébresztési idő</string>
+    <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
+    <string name="settings_alarm_clock_summary_off">Ne küldje el az ébresztőidőt</string>
+    <string name="settings_phone_state">Hívás állapota</string>
+    <string name="settings_phone_state_summary_on">Küldje el az hívás állapotát ennek a(z) \'%1$s\' elemnek</string>
+    <string name="settings_phone_state_summary_off">Ne küldje el a hívás állapotát</string>
     <string name="settings_phone_state_permission_denied">Hívás állapotának küldése letiltva jogosultság hiánya matt</string>
+    <string name="settings_battery_level">Akkumulátorszint</string>
+    <string name="settings_battery_level_summary_on">Küldje el az akkumulátor szintjét ennek a(z) \'%1$s\' elemnek</string>
+    <string name="settings_battery_level_summary_off">Ne küldje el az akkumulátor szintjét</string>
+    <string name="settings_charging_state">Töltés állapota</string>
+    <string name="settings_wifi_ssid">Wi-Fi neve</string>
+    <string name="settings_wifi_ssid_permission_denied">A Wi-Fi név küldés kikapcsolva, hiányzó engedélyek miatt</string>
+    <string name="settings_background_tasks_permission_denied">Néhány háttér művelet kikapcsolva, hiányzó engedélyek miatt</string>
+    <string name="settings_background_tasks_permission_allow">Engedélyez</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
     <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
     <string name="item_upload_in_progress">Az Elemek jelenleg frissülnek</string>
+    <string name="notification_channel_background">Háttér műveletek</string>
+    <string name="notification_channel_background_description">A folyamatban lévő háttér műveletekről történő értesítésre használható (pl.: várakozás hálózatra)</string>
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
