@@ -93,11 +93,16 @@ abstract class AbstractTileService : TileService() {
 
         @DrawableRes fun getIconRes(context: Context, icon: String?): Int = when (icon) {
             context.getString(R.string.tile_icon_bed_value) -> R.drawable.ic_bed_outline_black_24dp
+            context.getString(R.string.tile_icon_sofa_value) -> R.drawable.ic_sofa_black_24dp
             context.getString(R.string.tile_icon_bath_value) -> R.drawable.ic_paper_roll_outline_black_24dp
             context.getString(R.string.tile_icon_house_value) -> R.drawable.ic_home_outline_grey_24dp
             context.getString(R.string.tile_icon_tree_value) -> R.drawable.ic_tree_outline_grey_24dp
             context.getString(R.string.tile_icon_light_switch_value) -> R.drawable.ic_light_switch_black_24dp
             context.getString(R.string.tile_icon_bulb_value) -> R.drawable.ic_lightbulb_outline_black_24dp
+            context.getString(R.string.tile_icon_lamp_ceiling_value) -> R.drawable.ic_ceiling_light_black_24dp
+            context.getString(R.string.tile_icon_lamp_floor_value) -> R.drawable.ic_floor_lamp_black_24dp
+            context.getString(R.string.tile_icon_lamp_bedside_value) -> R.drawable.ic_lamp_black_24dp
+            context.getString(R.string.tile_icon_lamp_outdoor_value) -> R.drawable.ic_outdoor_lamp_black_24dp
             context.getString(R.string.tile_icon_garage_value) -> R.drawable.ic_garage_black_24dp
             context.getString(R.string.tile_icon_roller_shutter_value) -> R.drawable.ic_window_shutter_black_24dp
             context.getString(R.string.tile_icon_battery_value) -> R.drawable.ic_battery_outline_grey_24dp
