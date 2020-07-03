@@ -241,6 +241,7 @@
     <string name="send_device_info_schedule_6_hours">6 Stunden</string>
     <string name="send_device_info_schedule_12_hours">12 Stunden</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Gerätekennung</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
@@ -446,6 +447,7 @@
     <string name="widget_type_chart">Diagramm</string>
     <!-- Tiles -->
     <string name="tile">Kachel</string>
+    <string name="tiles_for_quick_settings">Kacheln für Schnelleinstellungen</string>
     <string name="tile_empty">Leere Kachel</string>
     <string name="tile_item_picker_title">Wählen Sie ein Item</string>
     <string name="tile_configure_in_settings">Diese Kachel kann in den openHAB App-Einstellungen konfiguriert werden</string>
@@ -470,6 +472,7 @@
     <string name="tile_label_11">Kachel 11</string>
     <string name="tile_label_12">Kachel 12</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB-Logo</string>
     <string name="tile_icon_tv">Fernseher</string>
     <string name="tile_icon_bulb">Glühbirne</string>
     <string name="tile_icon_clock">Uhr</string>
@@ -505,5 +508,10 @@
     <string name="tile_icon_light_switch">Lichtschalter</string>
     <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Schalter</string>
+    <string name="tile_icon_sofa">Sofa</string>
+    <string name="tile_icon_lamp_ceiling">Deckenlampe</string>
+    <string name="tile_icon_lamp_floor">Stehlampe</string>
+    <string name="tile_icon_lamp_bedside">Nachttischlampe</string>
+    <string name="tile_icon_lamp_outdoor">Außenlampe</string>
     <!-- Tile icon values -->
 </resources>
