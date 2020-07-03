@@ -531,5 +531,10 @@
     <string name="tile_icon_light_switch">Вимикач світла</string>
     <string name="tile_icon_garage">Гараж</string>
     <string name="tile_icon_switch">Перемикач</string>
+    <string name="tile_icon_sofa">Диван</string>
+    <string name="tile_icon_lamp_ceiling">Потолочна лампа</string>
+    <string name="tile_icon_lamp_floor">Підлогова лампа</string>
+    <string name="tile_icon_lamp_bedside">Приліжкова лампа</string>
+    <string name="tile_icon_lamp_outdoor">Зовнішня лампа</string>
     <!-- Tile icon values -->
 </resources>
