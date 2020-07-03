@@ -474,6 +474,7 @@
     <string name="tile_require_unlock">דרוש ביטול נעילת מסך</string>
     <string name="tile_require_unlock_summary_on">בקש ביטול נעילת מכשיר לפני אפשור עדכון פריטים</string>
     <string name="tile_require_unlock_summary_off">אפשר עדכון פריטים גם כאשר המכשיר נעול</string>
+    <string name="tile_overview_hint">מצב האריח אינו משקף את מצב הפריט.\nאם יש בעיות שאריחים לא מתעדכנים אחרי שינוי כאן, לחץ על האריח או ערוך את ההגדרות המהירות במכשיר שלך (התפריט העליון במכשיר המכיל שליטה מהירה על Wi-Fi ו- Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">אריח פעיל %d</item>
         <item quantity="two">%d אריחים פעילים</item>
