@@ -492,6 +492,7 @@
     <string name="tile_icon_alarm_clock">שעון מעורר</string>
     <string name="tile_icon_bell">פעמון</string>
     <string name="tile_icon_cloud_upload">העלאה לענן</string>
+    <string name="tile_icon_earth">אדמה</string>
     <string name="tile_icon_chat">בועיות שיחה</string>
     <string name="tile_icon_house">בית</string>
     <string name="tile_icon_lock">מנעול</string>
@@ -503,7 +504,9 @@
     <string name="tile_icon_power_plug">תקע חשמל</string>
     <string name="tile_icon_battery">סוללה</string>
     <string name="tile_icon_magnifier">זכוכית מגדלת</string>
+    <string name="tile_icon_star">כוכב</string>
     <string name="tile_icon_tree">עץ</string>
+    <string name="tile_icon_dashboard">מרכז שליטה</string>
     <string name="tile_icon_wifi">רשת אלחוטית</string>
     <string name="tile_icon_man">גבר</string>
     <string name="tile_icon_bed">מיטה</string>
@@ -514,5 +517,10 @@
     <string name="tile_icon_roller_shutter">תריס גלילה</string>
     <string name="tile_icon_camera">מצלמה</string>
     <string name="tile_icon_light_switch">מפסק תאורה</string>
+    <string name="tile_icon_sofa">ספה</string>
+    <string name="tile_icon_lamp_ceiling">תאורת תקרה</string>
+    <string name="tile_icon_lamp_floor">תאורת רצפה</string>
+    <string name="tile_icon_lamp_bedside">תאורת מיטה</string>
+    <string name="tile_icon_lamp_outdoor">תאורת חוץ</string>
     <!-- Tile icon values -->
 </resources>
