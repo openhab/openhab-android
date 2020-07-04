@@ -480,5 +480,10 @@
     <string name="tile_icon_light_switch">Interruptor de luz</string>
     <string name="tile_icon_garage">Garaje</string>
     <string name="tile_icon_switch">Interruptor</string>
+    <string name="tile_icon_sofa">Sofá</string>
+    <string name="tile_icon_lamp_ceiling">Lámpara de techo</string>
+    <string name="tile_icon_lamp_floor">Lámpara de pie</string>
+    <string name="tile_icon_lamp_bedside">Lámpara de noche</string>
+    <string name="tile_icon_lamp_outdoor">Lámpara exterior</string>
     <!-- Tile icon values -->
 </resources>
