@@ -273,6 +273,16 @@
     <string name="send_device_info_schedule_6_hours">6 hours</string>
     <string name="send_device_info_schedule_12_hours">12 hours</string>
 
+    <string name="send_device_info_foreground_service_running_summary_dnd">Listening for events associated to DND mode</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Listening for events associated to %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Listening for events associated to %1$s and %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Listening for events associated to %1$s, %2$s and more</string>
+    <string name="notification_channel_background_foreground_service" translatable="false">@string/send_device_info_foreground_service_title</string>
+    <string name="notification_channel_background_foreground_service_description">Listens for events to update Items accordingly. You can safely hide this category.</string>
+    <string name="send_device_info_foreground_service_title">Event listener</string>
+    <string name="send_device_info_foreground_service_summary">Listen for events associated with the following Items. This requires a persistent notification and may increase battery usage.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Listen for events associated with the following Items. This requires a persistent notification and may increase battery usage. This is only required for sending the DND mode.</string>
+
     <!-- Device identifier -->
     <string name="device_identifier_title">Device identifier</string>
     <string name="device_identifier_prefix_voice"><![CDATA[Prefix voice commands with \'<Device identifier>|\']]></string>

@@ -75,9 +75,11 @@ There are two different types of information that can be send to the openHAB ser
 
 Event based means, that the items are updated when the corresponding event happens, e.g. the phone starts ringing.
 Schedule based means, that the items are updated every 10 to 15 minutes while charging, otherwise every 2 to 6 hours.
+The latter interval can be changed in the settings.
 
 In addition devices running Android 7 or lower can also send schedule based items on specific events, e.g. a charger is plugged in.
-Beginning with Android 8 it isn't possible anymore to listen for these events.
+Beginning with Android 8 it isn't possible anymore to listen for these events unless you turn on the event listener.
+However this will show a persistent notification and may increase battery usage.
 
 #### Alarm Clock
 

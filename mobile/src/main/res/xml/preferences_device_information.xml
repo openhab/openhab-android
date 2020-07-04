@@ -48,6 +48,11 @@
             android:defaultValue="360"
             android:entries="@array/send_device_info_schedule"
             android:entryValues="@array/send_device_info_schedule_values" />
+        <SwitchPreferenceCompat
+            android:key="send_device_info_foreground_service"
+            android:title="@string/send_device_info_foreground_service_title"
+            android:summary="@string/send_device_info_foreground_service_summary"
+            android:defaultValue="false" />
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|BatteryLevel"
             android:key="battery_level"
