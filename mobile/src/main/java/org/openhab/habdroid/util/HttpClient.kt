@@ -104,7 +104,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
     suspend fun post(
         url: String,
         requestBody: String,
-        mediaType: String,
+        mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
     ): HttpResult {
         return method(url, "POST", headers, requestBody,
@@ -115,7 +115,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
     suspend fun put(
         url: String,
         requestBody: String,
-        mediaType: String,
+        mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
     ): HttpResult {
         return method(url, "PUT", headers, requestBody,

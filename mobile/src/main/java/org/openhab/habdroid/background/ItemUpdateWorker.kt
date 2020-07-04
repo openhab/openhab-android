@@ -113,11 +113,11 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
                 val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false) && valueToBeSent != "UNDEF") {
                     connection.httpClient
-                        .post("rest/items/$itemName", valueToBeSent, "text/plain;charset=UTF-8")
+                        .post("rest/items/$itemName", valueToBeSent)
                         .asStatus()
                 } else {
                     connection.httpClient
-                        .put("rest/items/$itemName/state", valueToBeSent, "text/plain;charset=UTF-8")
+                        .put("rest/items/$itemName/state", valueToBeSent)
                         .asStatus()
                 }
                 Log.d(TAG, "Item '$itemName' successfully updated to value $valueToBeSent")
@@ -230,7 +230,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val result = try {
             runBlocking {
                 connection.httpClient
-                    .post("rest/voice/interpreters", value.value, "text/plain;charset=UTF-8", headers)
+                    .post("rest/voice/interpreters", value.value, headers = headers)
                     .asStatus()
             }
         } catch (e: HttpClient.HttpException) {
@@ -238,7 +238,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
                 runBlocking {
                     connection.httpClient
-                        .post("rest/items/VoiceCommand", value.value, "text/plain;charset=UTF-8")
+                        .post("rest/items/VoiceCommand", value.value)
                         .asStatus()
                 }
             } else {
