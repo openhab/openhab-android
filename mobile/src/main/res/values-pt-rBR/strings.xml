@@ -525,5 +525,10 @@
     <string name="tile_icon_light_switch">Interruptor</string>
     <string name="tile_icon_garage">Garagem</string>
     <string name="tile_icon_switch">Interruptor</string>
+    <string name="tile_icon_sofa">Sofá</string>
+    <string name="tile_icon_lamp_ceiling">Luminária de teto</string>
+    <string name="tile_icon_lamp_floor">Luminária de piso</string>
+    <string name="tile_icon_lamp_bedside">Abajur</string>
+    <string name="tile_icon_lamp_outdoor">Luminária externa</string>
     <!-- Tile icon values -->
 </resources>
