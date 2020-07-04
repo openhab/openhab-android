@@ -71,7 +71,6 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
-import org.openhab.habdroid.core.VoiceService
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -901,8 +900,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun launchVoiceRecognition() {
-        val callbackIntent = Intent(this, VoiceService::class.java)
-        val openhabPendingIntent = PendingIntent.getService(this, 0, callbackIntent, 0)
+        val callbackIntent = Intent(this, BackgroundTasksManager::class.java).apply {
+            action = BackgroundTasksManager.ACTION_VOICE_RESULT
+        }
+        val openhabPendingIntent = PendingIntent.getBroadcast(this, 0, callbackIntent, 0)
 
         val speechIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             // Display an hint to the user about what he should say.

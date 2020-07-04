@@ -86,6 +86,10 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
         val value = inputData.getValueWithInfo(INPUT_DATA_VALUE)!!
 
+        if (value.type == ValueType.VoiceCommand) {
+            return handleVoiceCommand(connection, value)
+        }
+
         return runBlocking {
             try {
                 val item = loadItem(connection, itemName)
@@ -221,6 +225,33 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         }
     }
 
+    private fun handleVoiceCommand(connection: Connection, value: ValueWithInfo): Result {
+        val headers = mapOf("Accept-Language" to Locale.getDefault().language)
+        val result = try {
+            runBlocking {
+                connection.httpClient
+                    .post("rest/voice/interpreters", value.value, "text/plain;charset=UTF-8", headers)
+                    .asStatus()
+            }
+        } catch (e: HttpClient.HttpException) {
+            if (e.statusCode == 404) {
+                Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
+                runBlocking {
+                    connection.httpClient
+                        .post("rest/items/VoiceCommand", value.value, "text/plain;charset=UTF-8")
+                        .asStatus()
+                }
+            } else {
+                return Result.failure(buildOutputData(true, e.statusCode))
+            }
+        }
+        applicationContext.showToast(
+            applicationContext.getString(R.string.info_voice_recognized_text, value.value.split("|").last()),
+            ToastType.SUCCESS
+        )
+        return Result.success(buildOutputData(true, result.statusCode))
+    }
+
     private fun createForegroundInfo(): ForegroundInfo {
         val context = applicationContext
         val title = context.getString(R.string.item_upload_in_progress)
@@ -325,7 +356,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     enum class ValueType {
         Raw,
-        Timestamp
+        Timestamp,
+        VoiceCommand
     }
 
     @Parcelize

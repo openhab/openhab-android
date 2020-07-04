@@ -113,10 +113,6 @@
             android:name=".ui.NfcItemPickerActivity"
             android:label="@string/intro_nfc" />
 
-        <service
-            android:name=".core.VoiceService"
-            android:exported="false" />
-
         <receiver
             android:name=".ui.homescreenwidget.VoiceWidget"
             android:label="@string/title_voice_widget">
