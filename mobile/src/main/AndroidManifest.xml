@@ -210,7 +210,7 @@
         </activity>
 
         <service
-            android:name=".background.ForegroundBroadcastReceiver"
+            android:name=".background.BroadcastEventListenerService"
             android:enabled="true"
             android:exported="false" />
 

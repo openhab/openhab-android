@@ -25,19 +25,28 @@ import androidx.core.content.ContextCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 
-class ForegroundBroadcastReceiver : Service() {
-    private var isServiceStarted = false
+class BroadcastEventListenerService : Service() {
     private var backgroundTasksManager = BackgroundTasksManager()
     private var isRegistered = false
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "onStartCommand())")
-        when (intent?.action) {
-            ACTION_START -> startService()
-            ACTION_STOP -> stopService()
+
+        if (isRegistered) {
+            unregisterReceiver(backgroundTasksManager)
+            isRegistered = false
         }
+        val intentFilter = BackgroundTasksManager.getIntentFilterForForeground(this)
+        if (intentFilter.countActions() == 0) {
+            stopSelf(startId)
+        } else {
+            registerReceiver(backgroundTasksManager, intentFilter)
+            isRegistered = true
+        }
+
         return START_STICKY
     }
 
@@ -87,50 +96,28 @@ class ForegroundBroadcastReceiver : Service() {
         startForeground(NotificationUpdateObserver.NOTIFICATION_ID_BROADCAST_RECEIVER, notificationBuilder)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy()")
+
+        if (isRegistered) {
+            unregisterReceiver(backgroundTasksManager)
+            isRegistered = false
+        }
+    }
+
     override fun onBind(intent: Intent?): IBinder? = null
 
-    private fun startService() {
-        Log.d(TAG, "startService()")
-        isServiceStarted = true
-
-        // The service might have been restarted
-        if (isRegistered) {
-            unregisterReceiver(backgroundTasksManager)
-            isRegistered = false
-        }
-        val intentFilter = BackgroundTasksManager.getIntentFilterForForeground(this)
-        if (intentFilter.countActions() == 0) {
-            stopService()
-        } else {
-            registerReceiver(backgroundTasksManager, intentFilter)
-            isRegistered = true
-        }
-    }
-
-    private fun stopService() {
-        Log.d(TAG, "stopService()")
-        stopForeground(true)
-        stopSelf()
-        isServiceStarted = false
-        if (isRegistered) {
-            unregisterReceiver(backgroundTasksManager)
-            isRegistered = false
-        }
-    }
-
     companion object {
-        private val TAG = ForegroundBroadcastReceiver::class.java.simpleName
+        private val TAG = BroadcastEventListenerService::class.java.simpleName
 
-        private const val ACTION_START = "start"
-        private const val ACTION_STOP = "stop"
-
-        fun startOrStopService(
-            context: Context,
-            start: Boolean = context.getPrefs().getBoolean(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE, false)
-        ) {
-            val intent = Intent(context, ForegroundBroadcastReceiver::class.java)
-            intent.action = if (start) ACTION_START else ACTION_STOP
-            ContextCompat.startForegroundService(context, intent)
+        fun startOrStopService(context: Context, start: Boolean = context.getPrefs().isEventListenerEnabled()) {
+            val intent = Intent(context, BroadcastEventListenerService::class.java)
+            if (start) {
+                ContextCompat.startForegroundService(context, intent)
+            } else {
+                context.stopService(intent)
+            }
         }
 
         @VisibleForTesting fun getTitleResForDeviceInfo(key: String) = when (key) {

@@ -106,7 +106,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         AbstractTileService.updateTile(context, tileId)
                     }
                 }
-                ForegroundBroadcastReceiver.startOrStopService(context)
+                BroadcastEventListenerService.startOrStopService(context)
             }
             ACTION_RETRY_UPLOAD -> {
                 intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->

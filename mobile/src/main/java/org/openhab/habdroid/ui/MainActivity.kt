@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.background.ForegroundBroadcastReceiver
+import org.openhab.habdroid.background.BroadcastEventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
@@ -104,6 +104,7 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
@@ -225,7 +226,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
         }
 
-        ForegroundBroadcastReceiver.startOrStopService(this)
+        BroadcastEventListenerService.startOrStopService(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -287,8 +288,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         showMissingPermissionsWarningIfNeeded()
 
         val intentFilter = BackgroundTasksManager.getIntentFilterForForeground(this)
-        if (intentFilter.countActions() != 0 &&
-            !prefs.getBoolean(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE, false)) {
+        if (intentFilter.countActions() != 0 && !prefs.isEventListenerEnabled()) {
             registerReceiver(backgroundTasksManager, intentFilter)
         }
     }

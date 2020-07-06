@@ -154,6 +154,8 @@ fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
 
 fun SharedPreferences.isItemUpdatePrefEnabled(key: String) = getString(key, null).toItemUpdatePrefValue().first
 
+fun SharedPreferences.isEventListenerEnabled() = getBoolean(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE, false)
+
 /**
  * Returns vibration pattern for notifications that can be passed to
  * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]
