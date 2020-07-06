@@ -38,6 +38,7 @@ import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
+import org.openhab.habdroid.util.resolveThemedColor
 import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
@@ -55,19 +56,18 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
         checkFullscreen()
 
-        val colorPrimary = TypedValue()
-        theme.resolveAttribute(R.attr.colorPrimary, colorPrimary, true)
+        val colorPrimary = resolveThemedColor(R.attr.colorPrimary)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             setTaskDescription(ActivityManager.TaskDescription(
                 getString(R.string.app_name),
                 R.mipmap.icon,
-                colorPrimary.data))
+                colorPrimary))
         } else {
             @Suppress("DEPRECATION")
             setTaskDescription(ActivityManager.TaskDescription(
                 getString(R.string.app_name),
                 BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                colorPrimary.data))
+                colorPrimary))
         }
 
         var uiOptions = window.decorView.systemUiVisibility
@@ -77,26 +77,16 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             0
         }
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val black = ContextCompat.getColor(this, R.color.black)
         @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
             uiOptions = uiOptions and flags.inv()
-
-            val bgColor = TypedValue()
-            theme.resolveAttribute(android.R.attr.windowBackground, bgColor, true)
-            if (bgColor.type >= TypedValue.TYPE_FIRST_COLOR_INT && bgColor.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-                bgColor.data
-            } else {
-                ContextCompat.getColor(this, R.color.black)
-            }
+            resolveThemedColor(android.R.attr.windowBackground, black)
         } else {
             uiOptions = uiOptions or flags
-
-            val bgColor = TypedValue()
-            theme.resolveAttribute(android.R.attr.windowBackground, bgColor, true)
-            if (bgColor.type >= TypedValue.TYPE_FIRST_COLOR_INT && bgColor.type <= TypedValue.TYPE_LAST_COLOR_INT &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                bgColor.data
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                resolveThemedColor(android.R.attr.windowBackground, black)
             } else {
-                ContextCompat.getColor(this, R.color.black)
+                black
             }
         }
         window.navigationBarColor = windowColor

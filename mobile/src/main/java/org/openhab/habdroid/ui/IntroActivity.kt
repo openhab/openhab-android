@@ -27,6 +27,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.resolveThemedColor
 
 class IntroActivity : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,8 +56,8 @@ class IntroActivity : AppIntro() {
         }
 
         // Change bar color
-        setBarColor(resolveThemeColor(R.attr.colorPrimary))
-        setSeparatorColor(resolveThemeColor(R.attr.colorPrimaryDark))
+        setBarColor(resolveThemedColor(R.attr.colorPrimary))
+        setSeparatorColor(resolveThemedColor(R.attr.colorPrimaryDark))
     }
 
     /**
@@ -95,8 +96,8 @@ class IntroActivity : AppIntro() {
      * @param imageDrawable
      */
     private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        val colorText = resolveThemeColor(R.attr.colorOnBackground)
-        val colorBackground = resolveThemeColor(android.R.attr.windowBackground)
+        val colorText = resolveThemedColor(R.attr.colorOnBackground)
+        val colorBackground = resolveThemedColor(android.R.attr.colorBackground)
 
         addSlide(AppIntroFragment.newInstance(getString(title),
             null, // Title font: null => default
@@ -106,12 +107,6 @@ class IntroActivity : AppIntro() {
             colorBackground, // Background color
             colorText, // Title color
             colorText)) // Description color
-    }
-
-    private fun resolveThemeColor(@AttrRes colorAttr: Int): Int {
-        val tv = TypedValue()
-        theme.resolveAttribute(colorAttr, tv, true)
-        return tv.data
     }
 
     companion object {
