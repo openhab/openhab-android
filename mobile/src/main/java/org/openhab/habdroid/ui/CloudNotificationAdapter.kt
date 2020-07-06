@@ -113,7 +113,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                     conn,
                     notification.icon.toUrl(itemView.context, !itemView.context.isDataSaverActive()),
                     itemView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size),
-                    2000
+                    timeoutMillis = 2000
                 )
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)

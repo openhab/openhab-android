@@ -73,8 +73,8 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     override fun onResume() {
         super.onResume()
         loadChartImage(false)
-        if (widget.refresh > 0 && !isDataSaverActive()) {
-            chart.startRefreshing(widget.refresh)
+        if (!isDataSaverActive()) {
+            chart.startRefreshingIfNeeded()
         }
     }
 
@@ -174,7 +174,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         ) ?: return
 
         Log.d(TAG, "Load chart with url $chartUrl")
-        chart.setImageUrl(connection, chartUrl, chart.width, forceLoad = force)
+        chart.setImageUrl(connection, chartUrl, chart.width, refreshDelayInMs = widget.refresh, forceLoad = force)
     }
 
     private fun updateHasLegendButtonState(item: MenuItem) {
