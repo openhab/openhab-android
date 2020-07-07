@@ -129,7 +129,15 @@ fun JSONObject.toItem(): Item {
         emptyList()
     }
 
-    val numberPattern = stateDescription?.optString("pattern")
+    val numberPattern = stateDescription?.optString("pattern")?.let { pattern ->
+        // Remove transformation instructions (e.g. for 'MAP(foo.map):%s' keep only '%s')
+        val matchResult = """^[A-Z]+(\(.*\))?:(.*)$""".toRegex().find(pattern)
+        if (matchResult != null) {
+            matchResult.groupValues[2]
+        } else {
+            pattern
+        }
+    }
     return Item(name,
         optString("label", name).trim(),
         optStringOrNull("category"),
