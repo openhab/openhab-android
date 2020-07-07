@@ -61,6 +61,7 @@ import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDemoModeEnabled
+import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
@@ -105,6 +106,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         AbstractTileService.updateTile(context, tileId)
                     }
                 }
+                BroadcastEventListenerService.startOrStopService(context)
             }
             ACTION_RETRY_UPLOAD -> {
                 intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
@@ -227,7 +229,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             PrefKeys.SEND_WIFI_SSID,
             PrefKeys.SEND_DND_MODE
         )
-        private val KNOWN_PERIODIC_KEYS = listOf(
+        internal val KNOWN_PERIODIC_KEYS = listOf(
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
             PrefKeys.SEND_WIFI_SSID,
@@ -254,18 +256,25 @@ class BackgroundTasksManager : BroadcastReceiver() {
             context.getPrefs().registerOnSharedPreferenceChangeListener(prefsListener)
         }
 
-        fun getIntentFilterForForeground(): IntentFilter {
+        fun getIntentFilterForForeground(context: Context): IntentFilter {
+            val prefs = context.getPrefs()
             return IntentFilter().apply {
                 // These broadcasts are already defined in the manifest, so we only need them on Android 8+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    addAction(Intent.ACTION_POWER_CONNECTED)
-                    addAction(Intent.ACTION_POWER_DISCONNECTED)
-                    addAction(Intent.ACTION_BATTERY_LOW)
-                    addAction(Intent.ACTION_BATTERY_OKAY)
-                    addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+                    if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_BATTERY_LEVEL) ||
+                        prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_CHARGING_STATE)) {
+                        addAction(Intent.ACTION_POWER_CONNECTED)
+                        addAction(Intent.ACTION_POWER_DISCONNECTED)
+                        addAction(Intent.ACTION_BATTERY_LOW)
+                        addAction(Intent.ACTION_BATTERY_OKAY)
+                    }
+                    if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_WIFI_SSID)) {
+                        addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+                    }
                 }
                 // This broadcast is only sent to registered receivers, so we need that in any case
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                    prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_DND_MODE)) {
                     addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
                 }
             }

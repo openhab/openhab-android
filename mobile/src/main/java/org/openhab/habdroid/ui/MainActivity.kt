@@ -68,6 +68,7 @@ import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.background.BroadcastEventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
@@ -103,6 +104,7 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
@@ -223,6 +225,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java, isSpeechRecognizerAvailable)
             setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
         }
+
+        BroadcastEventListenerService.startOrStopService(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -283,7 +287,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         updateTitle()
         showMissingPermissionsWarningIfNeeded()
 
-        registerReceiver(backgroundTasksManager, BackgroundTasksManager.getIntentFilterForForeground())
+        val intentFilter = BackgroundTasksManager.getIntentFilterForForeground(this)
+        if (intentFilter.countActions() != 0 && !prefs.isEventListenerEnabled()) {
+            registerReceiver(backgroundTasksManager, intentFilter)
+        }
     }
 
     override fun onPause() {
@@ -298,7 +305,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             // See #1776
         }
 
-        unregisterReceiver(backgroundTasksManager)
+        try {
+            unregisterReceiver(backgroundTasksManager)
+        } catch (e: IllegalArgumentException) {
+            // Receiver isn't registered
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

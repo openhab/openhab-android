@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <uses-sdk tools:overrideLibrary="androidx.security"/>
@@ -207,6 +208,11 @@
                 <data android:scheme="openhab" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".background.BroadcastEventListenerService"
+            android:enabled="true"
+            android:exported="false" />
 
         <service
             android:name="androidx.work.impl.foreground.SystemForegroundService"

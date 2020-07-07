@@ -28,6 +28,7 @@ import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 
 enum class ScreenLockMode {
     Disabled,
@@ -150,6 +151,10 @@ fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
         else -> ScreenLockMode.Disabled
     }
 }
+
+fun SharedPreferences.isItemUpdatePrefEnabled(key: String) = getString(key, null).toItemUpdatePrefValue().first
+
+fun SharedPreferences.isEventListenerEnabled() = getBoolean(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE, false)
 
 /**
  * Returns vibration pattern for notifications that can be passed to
