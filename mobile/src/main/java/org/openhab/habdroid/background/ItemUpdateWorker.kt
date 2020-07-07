@@ -145,6 +145,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return if (item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
             // If shutter is (partially) closed, open it, else close it
             if (item.state?.asNumber?.value == 0F) "100" else "0"
+        } else if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+            if (item.state?.asBrightness == 0) "100" else "0"
         } else if (item.isOfTypeOrGroupType(Item.Type.Contact)) {
             if (item.state?.asString == "OPEN") "CLOSED" else "OPEN"
         } else if (item.isOfTypeOrGroupType(Item.Type.Player)) {
