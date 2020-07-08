@@ -15,8 +15,6 @@ package org.openhab.habdroid.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
-import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.edit
