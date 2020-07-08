@@ -26,6 +26,9 @@ import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -324,6 +327,16 @@ fun Context.isDataSaverActive(): Boolean {
         return dataSaverPref
     }
     return (applicationContext as OpenHabApplication).isSystemDataSaverActive
+}
+
+fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int {
+    val tv = TypedValue()
+    theme.resolveAttribute(colorAttr, tv, true)
+    return if (tv.type >= TypedValue.TYPE_FIRST_COLOR_INT && tv.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+        tv.data
+    } else {
+        fallbackColor
+    }
 }
 
 fun Socket.bindToNetworkIfPossible(network: Network?) {

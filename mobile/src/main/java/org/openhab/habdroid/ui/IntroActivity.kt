@@ -15,20 +15,21 @@ package org.openhab.habdroid.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.resolveThemedColor
 
 class IntroActivity : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Util.getActivityThemeId(this))
         super.onCreate(savedInstanceState)
 
         if (getPrefs().getBoolean(PrefKeys.RECENTLY_RESTORED, false)) {
@@ -43,18 +44,18 @@ class IntroActivity : AppIntro() {
                 R.drawable.ic_openhab_appicon_340dp)
             addSlide(R.string.intro_themes,
                 R.string.intro_themes_description,
-                R.drawable.ic_palette_outline_orange_340dp)
+                R.drawable.ic_palette_outline_themed_340dp)
             addSlide(R.string.mainmenu_openhab_voice_recognition,
                 R.string.intro_voice_description,
-                R.drawable.ic_microphone_outline_orange_340dp)
+                R.drawable.ic_microphone_outline_themed_340dp)
             addSlide(R.string.intro_nfc,
                 R.string.intro_nfc_description,
-                R.drawable.ic_nfc_orange_340dp)
+                R.drawable.ic_nfc_themed_340dp)
         }
 
         // Change bar color
-        setBarColor(ContextCompat.getColor(this, R.color.openhab_orange))
-        setSeparatorColor(ContextCompat.getColor(this, R.color.openhab_orange_dark))
+        setBarColor(resolveThemedColor(R.attr.colorPrimary))
+        setSeparatorColor(resolveThemedColor(R.attr.colorPrimaryDark))
     }
 
     /**
@@ -93,17 +94,17 @@ class IntroActivity : AppIntro() {
      * @param imageDrawable
      */
     private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        @ColorInt val greyColor = ContextCompat.getColor(this, R.color.grey_300)
-        @ColorInt val blackColor = ContextCompat.getColor(this, R.color.black)
+        val colorText = resolveThemedColor(R.attr.colorOnBackground)
+        val colorBackground = resolveThemedColor(android.R.attr.colorBackground)
 
         addSlide(AppIntroFragment.newInstance(getString(title),
             null, // Title font: null => default
             getString(description),
             null, // Description font: null => default
             imageDrawable,
-            greyColor, // Background color
-            blackColor, // Title color
-            ContextCompat.getColor(this, R.color.black))) // Description color
+            colorBackground, // Background color
+            colorText, // Title color
+            colorText)) // Description color
     }
 
     companion object {

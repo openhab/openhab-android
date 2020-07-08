@@ -32,6 +32,7 @@ import okhttp3.HttpUrl
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.resolveThemedColor
 
 /**
  * Sets [SwipeRefreshLayout] color scheme from
@@ -40,13 +41,7 @@ import org.openhab.habdroid.util.openInBrowser
  * @param colorAttrIds color attributes to create color scheme from
  */
 fun SwipeRefreshLayout.applyColors(@AttrRes vararg colorAttrIds: Int) {
-    val typedValue = TypedValue()
-    val colors = IntArray(colorAttrIds.size)
-
-    for (i in colorAttrIds.indices) {
-        context.theme.resolveAttribute(colorAttrIds[i], typedValue, true)
-        colors[i] = typedValue.data
-    }
+    val colors = colorAttrIds.map { attr -> context.resolveThemedColor(attr) }.toIntArray()
     setColorSchemeColors(*colors)
 }
 
