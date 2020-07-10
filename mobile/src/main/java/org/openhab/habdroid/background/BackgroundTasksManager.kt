@@ -57,7 +57,6 @@ import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefixForBgTasks
-import org.openhab.habdroid.util.getPrefixForVoice
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
@@ -165,20 +164,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
             }
             ACTION_VOICE_RESULT -> {
-                var voiceCommand = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
+                val voiceCommand = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
                     ?: return
-
                 Log.i(TAG, "Recognized text: $voiceCommand")
-                context.getPrefs().getPrefixForVoice()?.let { prefix ->
-                    voiceCommand = "$prefix|$voiceCommand"
-                    Log.d(TAG, "Prefix voice command: $voiceCommand")
-                }
 
                 enqueueItemUpload(
                     context,
                     WORKER_TAG_VOICE_COMMAND,
-                    "",
-                    "",
+                    "VoiceCommand",
+                    context.getString(R.string.voice_command),
                     ItemUpdateWorker.ValueWithInfo(voiceCommand, type = ItemUpdateWorker.ValueType.VoiceCommand),
                     isImportant = true,
                     showToast = true,

@@ -38,6 +38,8 @@ import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.getPrefixForVoice
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
@@ -87,7 +89,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val value = inputData.getValueWithInfo(INPUT_DATA_VALUE)!!
 
         if (value.type == ValueType.VoiceCommand) {
-            return handleVoiceCommand(connection, value)
+            return handleVoiceCommand(applicationContext, connection, value)
         }
 
         return runBlocking {
@@ -225,28 +227,37 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         }
     }
 
-    private fun handleVoiceCommand(connection: Connection, value: ValueWithInfo): Result {
+    private fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {
         val headers = mapOf("Accept-Language" to Locale.getDefault().language)
+        var voiceCommand = value.value
+        context.getPrefs().getPrefixForVoice()?.let { prefix ->
+            voiceCommand = "$prefix|$voiceCommand"
+            Log.d(TAG, "Prefix voice command: $voiceCommand")
+        }
         val result = try {
             runBlocking {
                 connection.httpClient
-                    .post("rest/voice/interpreters", value.value, headers = headers)
+                    .post("rest/voice/interpreters", voiceCommand, headers = headers)
                     .asStatus()
             }
         } catch (e: HttpClient.HttpException) {
             if (e.statusCode == 404) {
-                Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
-                runBlocking {
-                    connection.httpClient
-                        .post("rest/items/VoiceCommand", value.value)
-                        .asStatus()
+                try {
+                    Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
+                    runBlocking {
+                        connection.httpClient
+                            .post("rest/items/VoiceCommand", voiceCommand)
+                            .asStatus()
+                    }
+                } catch (e: HttpClient.HttpException) {
+                    return Result.failure(buildOutputData(true, e.statusCode))
                 }
             } else {
                 return Result.failure(buildOutputData(true, e.statusCode))
             }
         }
         applicationContext.showToast(
-            applicationContext.getString(R.string.info_voice_recognized_text, value.value.split("|").last()),
+            applicationContext.getString(R.string.info_voice_recognized_text, value.value),
             ToastType.SUCCESS
         )
         return Result.success(buildOutputData(true, result.statusCode))
