@@ -142,6 +142,7 @@
     <string name="send_device_info_category_schedule_based_explanation">Cuanto más corto sea el intervalo elegido, mayor será el impacto potencial en la duración de la batería de su dispositivo. No obstante, el dispositivo puede que no atienda exactamente al intervalo elegido, y es posible que éste retrase las actualizaciones para reducir el consumo de energía de las aplicaciones.</string>
     <string name="send_device_info_item_prefix_summary">Los nombres de Item en esta página tienen como prefijo el identificador de dispositivo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">No se ha establecido ningún prefijo para los nombres de Item en esta página. Se puede añadir un prefijo con el identificador del dispositivo, el cual puede ser establecido en la página de configuración principal.</string>
+    <string name="send_device_info_foreground_service_title">Supervisor de eventos</string>
     <string name="settings_item_update_pref_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
     <string name="settings_alarm_clock">Hora de la alarma</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de alarma al Item \'%1$s\'</string>
