@@ -143,8 +143,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         scope = CoroutineScope(Dispatchers.Main + Job())
         lastRequest?.let { request ->
             if (!request.hasCompleted()) {
-                // Make sure to have an up-to-date image if refresh is enabled (when avoiding cache in that case,
-                // we'll always load a stale image from cache until first refresh otherwise)
+                // Make sure to have an up-to-date image if refresh is enabled by avoiding cache in that case
+                // (when not doing so, we'd always load a stale image from cache until first refresh)
                 request.execute(refreshInterval != 0L)
             } else {
                 scheduleNextRefresh()

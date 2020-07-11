@@ -628,7 +628,6 @@ class WidgetAdapter(
                 imageView.maxHeight = Integer.MAX_VALUE
             }
 
-            @Suppress("LiftReturnOrAssignment")
             if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
                 val dataString = value.substring(value.indexOf(",") + 1)
                 val data = Base64.decode(dataString, Base64.DEFAULT)
