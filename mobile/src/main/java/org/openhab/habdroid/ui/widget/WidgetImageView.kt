@@ -31,6 +31,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ImageConversionPolicy
 import kotlin.random.Random
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
@@ -273,9 +274,14 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
             job = scope?.launch(Dispatchers.Main) {
                 try {
+                    val conversionPolicy = when (originalScaleType ?: scaleType) {
+                        ScaleType.FIT_CENTER, ScaleType.FIT_START,
+                        ScaleType.FIT_END, ScaleType.FIT_XY -> ImageConversionPolicy.PreferTargetSize
+                        else -> ImageConversionPolicy.PreferSourceSize
+                    }
                     val bitmap = client.get(actualUrl.toString(),
                         timeoutMillis = timeoutMillis, caching = cachingMode)
-                        .asBitmap(size)
+                        .asBitmap(size, conversionPolicy)
                         .response
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)

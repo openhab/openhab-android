@@ -129,19 +129,25 @@ fun Resources.dpToPixel(dp: Float): Float {
     return dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 }
 
+enum class ImageConversionPolicy {
+    PreferSourceSize,
+    PreferTargetSize,
+    ForceTargetSize
+}
+
 @Throws(IOException::class)
-fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
+fun ResponseBody.toBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
             ?: throw IOException("Bitmap decoding failed")
-        return if (!enforceSize) {
-            bitmap
-        } else {
+        return if (conversionPolicy == ImageConversionPolicy.ForceTargetSize) {
             Bitmap.createScaledBitmap(bitmap, targetSize, targetSize, false)
+        } else {
+            bitmap
         }
     }
 
-    return byteStream().svgToBitmap(targetSize)
+    return byteStream().svgToBitmap(targetSize, conversionPolicy)
 }
 
 fun MediaType?.isSvg(): Boolean {
@@ -149,12 +155,22 @@ fun MediaType?.isSvg(): Boolean {
 }
 
 @Throws(IOException::class)
-fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
+fun InputStream.svgToBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
     return try {
         val svg = SVG.getFromInputStream(this)
         val displayMetrics = Resources.getSystem().displayMetrics
         var density: Float? = displayMetrics.density
         val targetSizeFloat = targetSize.toFloat()
+
+        if (svg.documentViewBox == null && svg.documentWidth > 0 && svg.documentHeight > 0) {
+            svg.setDocumentViewBox(0F, 0F, svg.documentWidth, svg.documentHeight)
+        }
+        if (conversionPolicy == ImageConversionPolicy.ForceTargetSize ||
+            (conversionPolicy == ImageConversionPolicy.PreferTargetSize && svg.documentViewBox != null)
+        ) {
+            svg.setDocumentWidth("100%")
+            svg.setDocumentHeight("100%")
+        }
 
         svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
         var docWidth = svg.documentWidth * displayMetrics.density

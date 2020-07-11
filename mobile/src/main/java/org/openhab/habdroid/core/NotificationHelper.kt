@@ -32,6 +32,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
@@ -125,9 +126,10 @@ class NotificationHelper constructor(private val context: Context) {
             val connection = ConnectionFactory.cloudConnectionOrNull
             if (connection != null && !context.isDataSaverActive()) {
                 try {
+                    val targetSize = context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
                     iconBitmap = connection.httpClient
                         .get(message.icon.toUrl(context, true), timeoutMillis = 1000)
-                        .asBitmap(context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size), false)
+                        .asBitmap(targetSize, ImageConversionPolicy.PreferTargetSize)
                         .response
                 } catch (e: HttpClient.HttpException) {
                     Log.d(TAG, "Error getting icon", e)
