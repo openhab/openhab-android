@@ -38,6 +38,8 @@ import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.getPrefixForVoice
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
@@ -86,6 +88,10 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
         val value = inputData.getValueWithInfo(INPUT_DATA_VALUE)!!
 
+        if (value.type == ValueType.VoiceCommand) {
+            return handleVoiceCommand(applicationContext, connection, value)
+        }
+
         return runBlocking {
             try {
                 val item = loadItem(connection, itemName)
@@ -109,11 +115,11 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
                 val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false) && valueToBeSent != "UNDEF") {
                     connection.httpClient
-                        .post("rest/items/$itemName", valueToBeSent, "text/plain;charset=UTF-8")
+                        .post("rest/items/$itemName", valueToBeSent)
                         .asStatus()
                 } else {
                     connection.httpClient
-                        .put("rest/items/$itemName/state", valueToBeSent, "text/plain;charset=UTF-8")
+                        .put("rest/items/$itemName/state", valueToBeSent)
                         .asStatus()
                 }
                 Log.d(TAG, "Item '$itemName' successfully updated to value $valueToBeSent")
@@ -221,6 +227,42 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         }
     }
 
+    private fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {
+        val headers = mapOf("Accept-Language" to Locale.getDefault().language)
+        var voiceCommand = value.value
+        context.getPrefs().getPrefixForVoice()?.let { prefix ->
+            voiceCommand = "$prefix|$voiceCommand"
+            Log.d(TAG, "Prefix voice command: $voiceCommand")
+        }
+        val result = try {
+            runBlocking {
+                connection.httpClient
+                    .post("rest/voice/interpreters", voiceCommand, headers = headers)
+                    .asStatus()
+            }
+        } catch (e: HttpClient.HttpException) {
+            if (e.statusCode == 404) {
+                try {
+                    Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
+                    runBlocking {
+                        connection.httpClient
+                            .post("rest/items/VoiceCommand", voiceCommand)
+                            .asStatus()
+                    }
+                } catch (e: HttpClient.HttpException) {
+                    return Result.failure(buildOutputData(true, e.statusCode))
+                }
+            } else {
+                return Result.failure(buildOutputData(true, e.statusCode))
+            }
+        }
+        applicationContext.showToast(
+            applicationContext.getString(R.string.info_voice_recognized_text, value.value),
+            ToastType.SUCCESS
+        )
+        return Result.success(buildOutputData(true, result.statusCode))
+    }
+
     private fun createForegroundInfo(): ForegroundInfo {
         val context = applicationContext
         val title = context.getString(R.string.item_upload_in_progress)
@@ -325,7 +367,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     enum class ValueType {
         Raw,
-        Timestamp
+        Timestamp,
+        VoiceCommand
     }
 
     @Parcelize

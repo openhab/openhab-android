@@ -44,6 +44,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         for (info in workInfos) {
             for (tag in info.tags) {
                 if (tag in BackgroundTasksManager.KNOWN_KEYS ||
+                    tag == BackgroundTasksManager.WORKER_TAG_VOICE_COMMAND ||
                     tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC) ||
                     tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TASKER) ||
                     tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_WIDGET) ||

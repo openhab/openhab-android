@@ -22,9 +22,8 @@ import android.speech.RecognizerIntent
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
-
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.VoiceService
+import org.openhab.habdroid.background.BackgroundTasksManager
 
 /**
  * Implementation of App Widget functionality.
@@ -38,9 +37,11 @@ open class VoiceWidget : AppWidgetProvider() {
             // Construct the RemoteViews object
             val views = RemoteViews(context.packageName, layoutRes)
 
-            Log.d(TAG, "Voice recognizer available, build speech intent")
-            val callbackIntent = Intent(context, VoiceService::class.java)
-            val callbackPendingIntent = PendingIntent.getService(context, 9, callbackIntent, 0)
+            Log.d(TAG, "Build voice recognition intent")
+            val callbackIntent = Intent(context, BackgroundTasksManager::class.java).apply {
+                action = BackgroundTasksManager.ACTION_VOICE_RESULT
+            }
+            val callbackPendingIntent = PendingIntent.getBroadcast(context, 9, callbackIntent, 0)
 
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 // Display an hint to the user about what he should say.

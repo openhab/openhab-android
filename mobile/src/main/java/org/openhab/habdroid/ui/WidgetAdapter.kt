@@ -1425,7 +1425,7 @@ fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
     val url = item?.link ?: return null
     return GlobalScope.launch {
         try {
-            post(url, command, "text/plain;charset=UTF-8").close()
+            post(url, command).close()
             Log.d(WidgetAdapter.TAG, "Command '$command' was sent successfully to $url")
         } catch (e: HttpClient.HttpException) {
             Log.e(WidgetAdapter.TAG, "Sending command $command to $url failed: status ${e.statusCode}", e)

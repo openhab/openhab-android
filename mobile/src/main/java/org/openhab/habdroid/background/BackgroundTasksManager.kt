@@ -28,6 +28,7 @@ import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Parcelable
+import android.speech.RecognizerIntent
 import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.core.content.edit
@@ -164,6 +165,22 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
                 }
             }
+            ACTION_VOICE_RESULT -> {
+                val voiceCommand = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
+                    ?: return
+                Log.i(TAG, "Recognized text: $voiceCommand")
+
+                enqueueItemUpload(
+                    context,
+                    WORKER_TAG_VOICE_COMMAND,
+                    "VoiceCommand",
+                    context.getString(R.string.voice_command),
+                    ItemUpdateWorker.ValueWithInfo(voiceCommand, type = ItemUpdateWorker.ValueType.VoiceCommand),
+                    isImportant = true,
+                    showToast = true,
+                    asCommand = true
+                )
+            }
         }
     }
 
@@ -210,6 +227,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
         internal const val ACTION_CLEAR_UPLOAD = "org.openhab.habdroid.background.action.CLEAR_UPLOAD"
+        internal const val ACTION_VOICE_RESULT = "org.openhab.habdroid.background.action.VOICE_RESULT"
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
@@ -220,6 +238,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_TASKER = "tasker-"
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
         const val WORKER_TAG_PREFIX_TILE = "tile-"
+        const val WORKER_TAG_VOICE_COMMAND = "voiceCommand"
 
         internal val KNOWN_KEYS = listOf(
             PrefKeys.SEND_ALARM_CLOCK,
