@@ -76,6 +76,7 @@
     <string name="settings_show_sitemaps_in_drawer">Mutasson minden felületet a menüben</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
+    <string name="voice_command">Hangutasítás</string>
     <string name="title_voice_widget_icon">Hangutasítások és alkalmazás parancsikon</string>
     <string name="info_voice_input">openHAB, szolgálatodra!</string>
     <string name="info_voice_recognized_text">Felismert parancs: %1$s</string>
