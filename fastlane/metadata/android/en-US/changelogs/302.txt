@@ -1,0 +1,2 @@
+## Fixed
+* Always avoid cache when loading images that have refresh set. (#2084)
