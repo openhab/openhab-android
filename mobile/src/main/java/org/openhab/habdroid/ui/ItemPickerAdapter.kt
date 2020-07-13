@@ -126,7 +126,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
                     connection,
                     icon.toUrl(itemView.context, !itemView.context.isDataSaverActive()),
                     size,
-                    2000
+                    timeoutMillis = 2000
                 )
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)

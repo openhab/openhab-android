@@ -611,7 +611,6 @@ class WidgetAdapter(
         connection: Connection
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection) {
         private val imageView = widgetContentView as WidgetImageView
-        private var refreshRate: Int = 0
 
         override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
             return widget.url == null ||
@@ -629,25 +628,21 @@ class WidgetAdapter(
                 imageView.maxHeight = Integer.MAX_VALUE
             }
 
-            @Suppress("LiftReturnOrAssignment")
             if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
                 val dataString = value.substring(value.indexOf(",") + 1)
                 val data = Base64.decode(dataString, Base64.DEFAULT)
                 val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
                 imageView.setImageBitmap(bitmap)
-                refreshRate = 0
             } else if (widget.url != null) {
-                imageView.setImageUrl(connection, widget.url, parent.width)
-                refreshRate = widget.refresh
+                imageView.setImageUrl(connection, widget.url, parent.width, refreshDelayInMs = widget.refresh)
             } else {
                 imageView.setImageDrawable(null)
-                refreshRate = 0
             }
         }
 
         override fun onStart() {
-            if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
-                imageView.startRefreshing(refreshRate)
+            if (!itemView.context.isDataSaverActive()) {
+                imageView.startRefreshingIfNeeded()
             } else {
                 imageView.cancelRefresh()
             }
@@ -906,7 +901,6 @@ class WidgetAdapter(
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_chartitem, connection), View.OnClickListener {
         private val chart = widgetContentView as WidgetImageView
         private val prefs: SharedPreferences
-        private var refreshRate = 0
         private val density: Int
 
         init {
@@ -924,20 +918,18 @@ class WidgetAdapter(
             if (item == null) {
                 Log.e(TAG, "Chart item is null")
                 chart.setImageDrawable(null)
-                refreshRate = 0
                 return
             }
 
             val chartUrl =
                 widget.toChartUrl(prefs, parent.width, chartTheme = chartTheme, density = density) ?: return
             Log.d(TAG, "Chart url = $chartUrl")
-            chart.setImageUrl(connection, chartUrl, parent.width, forceLoad = true)
-            refreshRate = widget.refresh
+            chart.setImageUrl(connection, chartUrl, parent.width, refreshDelayInMs = widget.refresh, forceLoad = true)
         }
 
         override fun onStart() {
-            if (refreshRate > 0 && !itemView.context.isDataSaverActive()) {
-                chart.startRefreshing(refreshRate)
+            if (!itemView.context.isDataSaverActive()) {
+                chart.startRefreshingIfNeeded()
             } else {
                 chart.cancelRefresh()
             }

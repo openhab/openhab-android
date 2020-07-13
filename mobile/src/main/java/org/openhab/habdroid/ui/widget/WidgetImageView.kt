@@ -66,12 +66,15 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         connection: Connection,
         url: String,
         size: Int?,
+        refreshDelayInMs: Int = 0,
         timeoutMillis: Long = HttpClient.DEFAULT_TIMEOUT_MS,
         forceLoad: Boolean = false
     ) {
         val actualSize = size ?: defaultSvgSize
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
+
+        refreshInterval = refreshDelayInMs.toLong()
 
         if (actualUrl == lastRequest?.url) {
             if (lastRequest?.isActive() == true) {
@@ -100,25 +103,19 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     }
 
     override fun setImageResource(resId: Int) {
-        cancelCurrentLoad()
-        lastRequest = null
-        removeProgressDrawable()
+        prepareForNonHttpImage()
         super.setImageResource(resId)
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         if (!internalLoad) {
-            cancelCurrentLoad()
-            lastRequest = null
-            removeProgressDrawable()
+            prepareForNonHttpImage()
         }
         super.setImageDrawable(drawable)
     }
 
     override fun setImageBitmap(bm: Bitmap?) {
-        cancelCurrentLoad()
-        lastRequest = null
-        removeProgressDrawable()
+        prepareForNonHttpImage()
         super.setImageBitmap(bm)
     }
 
@@ -146,7 +143,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         scope = CoroutineScope(Dispatchers.Main + Job())
         lastRequest?.let { request ->
             if (!request.hasCompleted()) {
-                request.execute(false)
+                // Make sure to have an up-to-date image if refresh is enabled by avoiding cache in that case
+                // (when not doing so, we'd always load a stale image from cache until first refresh)
+                request.execute(refreshInterval != 0L)
             } else {
                 scheduleNextRefresh()
             }
@@ -159,10 +158,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         scope = null
     }
 
-    fun startRefreshing(refreshDelayInMs: Int) {
+    fun startRefreshingIfNeeded() {
         refreshJob?.cancel()
         refreshJob = null
-        refreshInterval = refreshDelayInMs.toLong()
         if (lastRequest?.isActive() != true) {
             scheduleNextRefresh()
         }
@@ -171,8 +169,15 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     fun cancelRefresh() {
         refreshJob?.cancel()
         refreshJob = null
-        refreshInterval = 0
         lastRefreshTimestamp = 0
+    }
+
+    private fun prepareForNonHttpImage() {
+        cancelCurrentLoad()
+        cancelRefresh()
+        lastRequest = null
+        refreshInterval = 0
+        removeProgressDrawable()
     }
 
     private fun setBitmapInternal(bitmap: Bitmap) {
