@@ -77,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">הצג את כל תצורות המערכת בתפריט צדדי</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
+    <string name="voice_command">פקודה קולית</string>
     <string name="title_voice_widget_icon">פקודות קוליות וקיצורי דרך ליישום</string>
     <string name="info_voice_input">openHAB, לפקודתך!</string>
     <string name="info_voice_recognized_text">הפקודה שזוהתה היא : %1$s</string>
@@ -177,6 +178,7 @@
     <string name="send_device_info_category_schedule_based_explanation">ככל שהמרווח הנבחר קצר יותר, כך ההשפעה רבה יותר על זמן חיי הסוללה של המכשיר שלך. בנוסף, ייתכן והמכשיר שלך לא ישתמש בדיוק במרווח הנבחר אלא יעכב את העדכונים כדי להפחית בצריכת החשמל של יישומים.</string>
     <string name="send_device_info_item_prefix_summary">שמות הפריטים בעמוד זה הם עם קידומת של זיהוי המכשיר \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">לא נקבעה קידומת עבור שמות הפריטים בעמוד זה. אפשר להגדיר עבורם קידומת זיהוי המכשיר הניתנת להגדרה בתפריט הראשי.</string>
+    <string name="send_device_info_foreground_service_title">האזנה לאירועים</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
     <string name="settings_alarm_clock">שעת התראה</string>
     <string name="settings_alarm_clock_summary_on">שלח את שעת השעון המעורר לפריט \'%1$s \'</string>
