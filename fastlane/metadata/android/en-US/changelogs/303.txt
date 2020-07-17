@@ -1,0 +1,5 @@
+## Changed
+* Improve sliders (#1784)
+
+## Fixed
+* Restore tile states and start event listener after update (#2090)
