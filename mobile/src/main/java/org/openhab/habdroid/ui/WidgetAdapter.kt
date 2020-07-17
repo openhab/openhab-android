@@ -60,6 +60,7 @@ import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.GlobalScope
@@ -536,7 +537,7 @@ class WidgetAdapter(
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
-        Slider.OnSliderTouchListener, Slider.LabelFormatter {
+        Slider.OnSliderTouchListener, LabelFormatter {
         private val slider: Slider = itemView.findViewById(R.id.seekbar)
         private var boundWidget: Widget? = null
 
@@ -1065,7 +1066,7 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
         View.OnTouchListener, Handler.Callback, OnColorChangedListener, OnColorSelectedListener,
-        Slider.LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
+        LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
         private var boundWidget: Widget? = null
         private var boundItem: Item? = null
         private val handler = Handler(this)
