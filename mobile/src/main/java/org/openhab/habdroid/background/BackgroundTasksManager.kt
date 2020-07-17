@@ -547,9 +547,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context.registerReceiver(null, ifilter)
                 }
                 val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+                val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+                Log.d(TAG, "EXTRA_STATUS is $status, EXTRA_PLUGGED is $plugged")
                 val state = if (status == BatteryManager.BATTERY_STATUS_CHARGING ||
                     status == BatteryManager.BATTERY_STATUS_FULL) {
-                    when (batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
+                    when (plugged) {
                         BatteryManager.BATTERY_PLUGGED_USB -> "USB"
                         BatteryManager.BATTERY_PLUGGED_AC -> "AC"
                         BatteryManager.BATTERY_PLUGGED_WIRELESS -> "WIRELESS"
