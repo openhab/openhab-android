@@ -167,12 +167,17 @@ end
 
 #### Charging State
 
+The charging state can be send to a `String` Item that contains the charger type or to a `Switch` Item, which is `ON` when charging, `OFF` otherwise.
+The app determines the Item type automatically, so it's not required to configure the Item type in the app.
+
 Example item definition:
 ```java
 String ChargingState "Charging State [%s]" <poweroutlet_eu>
+// or
+Switch ChargingState "Charging State [%s]" <poweroutlet_eu>
 ```
 
-Example rule:
+Example rule for the `String` Item:
 ```java
 rule "Charging state"
 when

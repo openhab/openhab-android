@@ -144,6 +144,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         value.value == "TOGGLE" && item.canBeToggled() -> determineOppositeState(item)
         value.type == ValueType.Timestamp && item.isOfTypeOrGroupType(Item.Type.DateTime) && value.value != "UNDEF" ->
             convertToTimestamp(value)
+        value.type == ValueType.MapUndefToOffForSwitchItems && item.isOfTypeOrGroupType(Item.Type.Switch) ->
+            if (value.value == "UNDEF") "OFF" else "ON"
         else -> value.value
     }
 
@@ -368,7 +370,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     enum class ValueType {
         Raw,
         Timestamp,
-        VoiceCommand
+        VoiceCommand,
+        MapUndefToOffForSwitchItems
     }
 
     @Parcelize
