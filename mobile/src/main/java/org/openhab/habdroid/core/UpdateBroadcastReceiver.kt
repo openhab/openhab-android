@@ -26,6 +26,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.BroadcastEventListenerService
+import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.PreferencesActivity
@@ -114,6 +116,13 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
             updateComparableVersion(this)
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            for (tileId in 1..AbstractTileService.TILE_COUNT) {
+                AbstractTileService.updateTile(context, tileId)
+            }
+        }
+        BroadcastEventListenerService.startOrStopService(context)
     }
 
     companion object {
