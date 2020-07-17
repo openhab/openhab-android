@@ -39,13 +39,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.NumberPicker
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.core.view.get
@@ -62,6 +60,7 @@ import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.GlobalScope
@@ -81,10 +80,10 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
+import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
-import java.util.Calendar
 import java.util.HashMap
 import java.util.Locale
 import java.util.concurrent.CancellationException
@@ -538,25 +537,23 @@ class WidgetAdapter(
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem, connection, colorMapper),
-        SeekBar.OnSeekBarChangeListener {
-        private val seekBar: SeekBar = itemView.findViewById(R.id.seekbar)
+        Slider.OnSliderTouchListener, LabelFormatter {
+        private val slider: Slider = itemView.findViewById(R.id.seekbar)
         private var boundWidget: Widget? = null
 
         init {
-            seekBar.setOnSeekBarChangeListener(this)
-            val now = Calendar.getInstance()
-            if (now.get(Calendar.DAY_OF_MONTH) == 31 && now.get(Calendar.MONTH) == Calendar.OCTOBER) {
-                seekBar.thumb = ContextCompat.getDrawable(itemView.context, R.drawable.ic_halloween_orange_24dp)
-            }
+            slider.addOnSliderTouchListener(this)
+            slider.setLabelFormatter(this)
         }
 
         override fun bind(widget: Widget) {
             super.bind(widget)
             boundWidget = widget
 
-            val stepCount = (widget.maxValue - widget.minValue) / widget.step
-            seekBar.max = Math.ceil(stepCount.toDouble()).toInt()
-            seekBar.progress = 0
+            // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
+            slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
+            slider.valueFrom = widget.minValue
+            slider.stepSize = widget.step
 
             val item = widget.item
             val state = item?.state ?: return
@@ -564,43 +561,47 @@ class WidgetAdapter(
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 val brightness = state.asBrightness
                 if (brightness != null) {
-                    seekBar.max = 100
-                    seekBar.progress = brightness
+                    slider.valueFrom = 0F
+                    slider.valueTo = 100F
+                    slider.value = brightness.toFloat()
                 }
             } else {
                 val number = state.asNumber
                 if (number != null) {
-                    val progress = (number.value - widget.minValue) / widget.step
-                    seekBar.progress = Math.round(progress)
+                    slider.value = number.value.coerceIn(slider.valueFrom, slider.valueTo)
                 }
             }
         }
 
         override fun handleRowClick() {
-            if (boundWidget?.switchSupport == true) {
-                connection.httpClient.sendItemCommand(boundWidget?.item,
-                    if (seekBar.progress == 0) "ON" else "OFF")
+            val widget = boundWidget ?: return
+            if (widget.switchSupport) {
+                connection.httpClient.sendItemCommand(widget.item,
+                    if (slider.value <= widget.minValue) "ON" else "OFF")
             }
         }
 
-        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+        override fun onStartTrackingTouch(slider: Slider) {
             // no-op
         }
 
-        override fun onStartTrackingTouch(seekBar: SeekBar) {
-            Log.d(TAG, "onStartTrackingTouch position = ${seekBar.progress}")
+        override fun onStopTrackingTouch(slider: Slider) {
+            val value = slider.value.beautify()
+            Log.d(TAG, "onValueChange value = $value")
+            val item = boundWidget?.item ?: return
+            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                connection.httpClient.sendItemCommand(item, value)
+            } else {
+                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value.toFloat()))
+            }
         }
 
-        override fun onStopTrackingTouch(seekBar: SeekBar) {
-            val progress = seekBar.progress
-            Log.d(TAG, "onStopTrackingTouch position = $progress")
-            val widget = boundWidget
-            val item = widget?.item ?: return
-            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                connection.httpClient.sendItemCommand(item, progress.toString())
+        override fun getFormattedValue(value: Float): String {
+            val item = boundWidget?.item ?: return ""
+            return if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                "${value.beautify()} %"
             } else {
-                val newValue = widget.minValue + widget.step * progress
-                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(newValue))
+                item.state?.asNumber.withValue(value).toString()
             }
         }
     }
@@ -1065,7 +1066,7 @@ class WidgetAdapter(
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
         View.OnTouchListener, Handler.Callback, OnColorChangedListener, OnColorSelectedListener,
-        Slider.LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
+        LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
         private var boundWidget: Widget? = null
         private var boundItem: Item? = null
         private val handler = Handler(this)

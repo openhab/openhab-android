@@ -358,3 +358,8 @@ fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
 fun Intent.isResolvable(context: Context): Boolean {
     return context.packageManager.queryIntentActivities(this, 0).isNotEmpty()
 }
+
+/**
+ * Removes trailing `.0` from float
+ */
+fun Float.beautify() = if (this == this.toInt().toFloat()) this.toInt().toString() else this.toString()

@@ -7,7 +7,7 @@
 
     <include layout="@layout/widgetlist_iconsmallvaluetext" />
 
-    <SeekBar
+    <com.google.android.material.slider.Slider
         android:id="@+id/seekbar"
         android:layout_width="@dimen/widgetlist_slider_width"
         android:layout_height="wrap_content"
