@@ -558,7 +558,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 } else {
                     "UNDEF"
                 }
-                ItemUpdateWorker.ValueWithInfo(state)
+                ItemUpdateWorker.ValueWithInfo(state, type = ItemUpdateWorker.ValueType.MapUndefToOffForSwitchItems)
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context ->
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
