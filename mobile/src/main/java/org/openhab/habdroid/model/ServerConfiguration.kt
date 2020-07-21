@@ -18,7 +18,7 @@ import android.os.Parcelable
 import androidx.core.content.edit
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.toNormalizedUrl
 
 @Parcelize
@@ -38,12 +38,12 @@ data class ServerPath(
             userNamePrefix: String,
             passwordPrefix: String
         ): ServerPath? {
-            val url = prefs.getString(PrefKeys.buildServerKey(serverId, urlKeyPrefix), null).toNormalizedUrl()
+            val url = prefs.getStringOrNull(PrefKeys.buildServerKey(serverId, urlKeyPrefix)).toNormalizedUrl()
                 ?: return null
             return ServerPath(
                 url,
-                secretPrefs.getString(PrefKeys.buildServerKey(serverId, userNamePrefix), null),
-                secretPrefs.getString(PrefKeys.buildServerKey(serverId, passwordPrefix), null)
+                secretPrefs.getStringOrNull(PrefKeys.buildServerKey(serverId, userNamePrefix)),
+                secretPrefs.getStringOrNull(PrefKeys.buildServerKey(serverId, passwordPrefix))
             )
         }
     }
@@ -55,7 +55,8 @@ data class ServerConfiguration(
     val name: String,
     val localPath: ServerPath?,
     val remotePath: ServerPath?,
-    val sslClientCert: String?
+    val sslClientCert: String?,
+    val defaultSitemap: DefaultSitemap?
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
         prefs.edit {
@@ -64,6 +65,7 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
         }
+        saveDefaultSitemap(prefs, id, defaultSitemap)
         secretPrefs.edit {
             putString(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_USERNAME_PREFIX), localPath?.userName)
             putString(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_PASSWORD_PREFIX), localPath?.password)
@@ -77,6 +79,8 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
         }
         secretPrefs.edit {
             remove(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_USERNAME_PREFIX))
@@ -92,12 +96,32 @@ data class ServerConfiguration(
                 PrefKeys.LOCAL_URL_PREFIX, PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX)
             val remotePath = ServerPath.load(prefs, secretPrefs, id,
                 PrefKeys.REMOTE_URL_PREFIX, PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX)
-            val serverName = prefs.getString(PrefKeys.buildServerKey(id, PrefKeys.SERVER_NAME_PREFIX), null)
+            val serverName = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SERVER_NAME_PREFIX))
             if ((localPath == null && remotePath == null) || serverName.isNullOrEmpty()) {
                 return null
             }
-            val clientCert = prefs.getString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), null)
-            return ServerConfiguration(id, serverName, localPath, remotePath, clientCert)
+            val clientCert = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
+            return ServerConfiguration(id, serverName, localPath, remotePath, clientCert, getDefaultSitemap(prefs, id))
+        }
+
+        fun saveDefaultSitemap(prefs: SharedPreferences, id: Int, defaultSitemap: DefaultSitemap?) {
+            prefs.edit {
+                putString(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX), defaultSitemap?.name)
+                putString(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX), defaultSitemap?.label)
+            }
+        }
+
+        fun getDefaultSitemap(prefs: SharedPreferences, id: Int): DefaultSitemap? {
+            val defaultSitemapName = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
+            val defaultSitemapLabel = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
+            return if (defaultSitemapName != null && defaultSitemapLabel != null) {
+                DefaultSitemap(defaultSitemapName, defaultSitemapLabel)
+            } else {
+                null
+            }
         }
     }
 }
+
+@Parcelize
+data class DefaultSitemap(val name: String, val label: String) : Parcelable

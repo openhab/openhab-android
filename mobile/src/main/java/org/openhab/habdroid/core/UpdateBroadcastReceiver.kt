@@ -28,6 +28,7 @@ import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.tiles.AbstractTileService
+import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.putIconResource
@@ -126,8 +127,15 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         secretPrefs.getStringOrNull("default_openhab_remote_username"),
                         secretPrefs.getStringOrNull("default_openhab_remote_password")
                     ) }
+                    val defaultSitemapName = prefs.getStringOrNull("default_openhab_sitemap")
+                    val defaultSitemapLabel = prefs.getStringOrNull("default_openhab_sitemap_label")
+                    val defaultSitemap = if (defaultSitemapName.isNullOrEmpty() || defaultSitemapLabel == null) {
+                        null
+                    } else {
+                        DefaultSitemap(defaultSitemapName, defaultSitemapLabel)
+                    }
                     val config = ServerConfiguration(1, "openHAB", localPath, remotePath,
-                        prefs.getStringOrNull("default_openhab_sslclientcert"))
+                        prefs.getStringOrNull("default_openhab_sslclientcert"), defaultSitemap)
                     config.saveToPrefs(prefs, secretPrefs)
                     prefs.edit {
                         putConfiguredServerIds(setOf(config.id))

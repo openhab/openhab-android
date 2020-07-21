@@ -596,9 +596,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val port = info.port.toString()
             Log.d(TAG, "Service resolved: $address port: $port")
 
-            val config = ServerConfiguration(prefs.getNextAvailableServerId(), "openHAB",
+            val config = ServerConfiguration(prefs.getNextAvailableServerId(), getString(R.string.openhab),
                 ServerPath("https://$address:$port", null, null),
-                null, null
+                null, null, null
             )
             config.saveToPrefs(prefs, getSecretPrefs())
         } else {
@@ -713,12 +713,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }
                 R.id.default_sitemap -> {
                     val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
-                        s.name == prefs.getDefaultSitemap(connection)
+                        s.name == prefs.getDefaultSitemap(connection)?.name
                     }
                     if (sitemap != null) {
                         controller.openSitemap(sitemap)
                         handled = true
-                    } else if (prefs.getDefaultSitemap(connection).isEmpty()) {
+                    } else if (prefs.getDefaultSitemap(connection) != null) {
                         executeOrStoreAction(PendingAction.ChooseSitemap())
                         handled = true
                     }
@@ -774,7 +774,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun updateSitemapDrawerEntries() {
         val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
-        val sitemaps = serverProperties?.sitemaps?.sortedWithDefaultName(prefs.getDefaultSitemap(connection))
+        val sitemaps = serverProperties?.sitemaps?.sortedWithDefaultName(prefs.getDefaultSitemap(connection)?.name.orEmpty())
 
         drawerMenu.getGroupItems(R.id.sitemaps)
             .filter { item -> item !== defaultSitemapItem }
@@ -791,7 +791,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
         } else {
             val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
-                s.name == prefs.getDefaultSitemap(connection)
+                s.name == prefs.getDefaultSitemap(connection)?.name.orEmpty()
             }
             if (sitemap != null) {
                 defaultSitemapItem.title = sitemap.label
@@ -921,7 +921,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
-        val configuredSitemap = prefs.getDefaultSitemap(connection)
+        val configuredSitemap = prefs.getDefaultSitemap(connection)?.name.orEmpty()
         val sitemaps = serverProperties?.sitemaps
         val result = when {
             sitemaps == null -> null
@@ -934,16 +934,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         Log.d(TAG, "Configured sitemap is '$configuredSitemap', selected $result")
-        prefs.edit {
-            if (result == null && configuredSitemap.isNotEmpty()) {
-                // clear old configuration
-                updateDefaultSitemap(null, connection)
-            } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
-                // update result
-                updateDefaultSitemap(result, connection)
-            }
+        if (result == null && configuredSitemap.isNotEmpty()) {
+            // clear old configuration
+            prefs.updateDefaultSitemap(connection, null)
+        } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
+            // update result
+            prefs.updateDefaultSitemap(connection, result)
+            updateSitemapDrawerEntries()
         }
-        updateSitemapDrawerEntries()
 
         return result
     }
@@ -963,9 +961,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .setItems(sitemapLabels) { _, which ->
                 val sitemap = sitemaps[which]
                 Log.d(TAG, "Selected sitemap $sitemap")
-                prefs.edit {
-                    updateDefaultSitemap(sitemap, connection)
-                }
+                prefs.updateDefaultSitemap(connection, sitemap)
                 controller.openSitemap(sitemap)
                 updateSitemapDrawerEntries()
             }

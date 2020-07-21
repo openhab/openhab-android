@@ -35,4 +35,8 @@
         android:persistent="false"
         android:summary="@string/settings_openhab_none"
         android:title="@string/settings_openhab_sslclientcert" />
+    <Preference
+        android:clickable="true"
+        android:key="clear_default_sitemap"
+        android:title="@string/settings_clear_default_sitemap" />
 </PreferenceScreen>
