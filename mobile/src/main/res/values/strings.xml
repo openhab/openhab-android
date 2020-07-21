@@ -4,6 +4,7 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
 
     <!-- General app strings -->
+    <string name="openhab" translatable="false">openHAB</string>
     <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
@@ -643,4 +644,7 @@
     <string name="tile_icon_lamp_floor_value" translatable="false">lamp_floor</string>
     <string name="tile_icon_lamp_bedside_value" translatable="false">lamp_bedside</string>
     <string name="tile_icon_lamp_outdoor_value" translatable="false">lamp_outdoor</string>
+    <string name="settings_server_at_least_name_and_connection">At least server name and one connection is required</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_confirm_deletion">Do you really want to remove this server?</string>
 </resources>

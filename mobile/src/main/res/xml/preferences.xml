@@ -12,17 +12,13 @@
             android:summary="@string/settings_openhab_demomode_summary"
             android:title="@string/settings_openhab_demomode"
             android:order="0" />
-        <Preference
+        <org.openhab.habdroid.ui.preference.BetaPreference
             android:key="add_server"
             android:title="@string/settings_add_server"
             android:dependency="default_openhab_demomode"
             android:order="999" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_sitemap_title">
-        <Preference
-            android:clickable="true"
-            android:key="default_openhab_clear_default_sitemap"
-            android:title="@string/settings_clear_default_sitemap" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="show_sitemaps"

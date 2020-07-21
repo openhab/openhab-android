@@ -33,6 +33,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -66,15 +67,16 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
+import org.openhab.habdroid.ui.preference.BetaPreference
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.NotificationPollingPreference
+import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
 import org.openhab.habdroid.ui.preference.TileItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNextAvailableServerId
@@ -83,7 +85,6 @@ import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
-import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
@@ -226,6 +227,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private var notificationPollingPref: NotificationPollingPreference? = null
         private var notificationStatusHint: Preference? = null
+        private var addServerPref: BetaPreference? = null
 
         override fun onStart() {
             super.onStart()
@@ -238,6 +240,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        override fun onResume() {
+            super.onResume()
+            addServerPref?.changeBetaTagVisibility(prefs.getConfiguredServerIds().isNotEmpty())
+        }
+
         override fun onStop() {
             super.onStop()
             ConnectionFactory.removeListener(this)
@@ -246,7 +253,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences)
 
-            val addServerPref = getPreference("add_server")
+            addServerPref = getPreference("add_server") as BetaPreference
             val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
             notificationPollingPref =
                 getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
@@ -254,7 +261,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
-            val clearDefaultSitemapPref = getPreference(PrefKeys.CLEAR_DEFAULT_SITEMAP)
             val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
             val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
             val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
@@ -271,22 +277,14 @@ class PreferencesActivity : AbstractBaseActivity() {
                 dataSaverPref.setSwitchTextOff(R.string.data_saver_off_pre_n)
             }
 
-            val currentDefaultSitemap = prefs.getStringOrNull(PrefKeys.SITEMAP_NAME)
-            val currentDefaultSitemapLabel = prefs.getStringOrEmpty(PrefKeys.SITEMAP_LABEL)
-            if (currentDefaultSitemap.isNullOrEmpty()) {
-                onNoDefaultSitemap(clearDefaultSitemapPref)
-            } else {
-                clearDefaultSitemapPref.summary = getString(
-                    R.string.settings_current_default_sitemap, currentDefaultSitemapLabel)
-            }
-
             updateRingtonePreferenceSummary(ringtonePref, prefs.getNotificationTone())
             updateVibrationPreferenceIcon(vibrationPref,
                 prefs.getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION))
 
-            addServerPref.setOnPreferenceClickListener {
+            addServerPref?.changeBetaTagVisibility(prefs.getConfiguredServerIds().isNotEmpty())
+            addServerPref?.setOnPreferenceClickListener {
                 val nextServerId = prefs.getNextAvailableServerId()
-                val f = ServerEditorFragment.newInstance(ServerConfiguration(nextServerId, "", null, null, null))
+                val f = ServerEditorFragment.newInstance(ServerConfiguration(nextServerId, "", null, null, null, null))
                 parentActivity.openSubScreen(f)
                 true
             }
@@ -340,13 +338,6 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             showSitemapInDrawerPref.setOnPreferenceChangeListener { _, _ ->
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, true)
-                true
-            }
-
-            clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
-                preference.sharedPreferences.edit { updateDefaultSitemap(null, null) }
-                onNoDefaultSitemap(preference)
-                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true
             }
 
@@ -447,8 +438,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 val config = ServerConfiguration.load(prefs, secretPrefs, serverId)
                 if (config != null) {
                     val pref = Preference(context)
-                    pref.title = "Server $serverId"
-                    pref.summary = config.name
+                    pref.title = pref.context.getString(R.string.server_with_name, config.name)
                     pref.key = "server_$serverId"
                     pref.order = 10 * serverId
                     pref.setOnPreferenceClickListener {
@@ -484,11 +474,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             } else {
                 super.onActivityResult(requestCode, resultCode, data)
             }
-        }
-
-        private fun onNoDefaultSitemap(pref: Preference) {
-            pref.isEnabled = false
-            pref.setSummary(R.string.settings_no_default_sitemap)
         }
 
         private fun updateNotificationStatusSummaries() {
@@ -586,44 +571,53 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
             super.onCreateOptionsMenu(menu, inflater)
             inflater.inflate(R.menu.server_editor, menu)
-            val saveItem = menu.findItem(R.id.save)
-            saveItem.isEnabled = config.name.isNotEmpty() && (config.localPath != null || config.remotePath != null)
             val deleteItem = menu.findItem(R.id.delete)
             deleteItem.isVisible = prefs.getConfiguredServerIds().contains(config.id)
         }
 
-        override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
-            R.id.save -> {
-                config.saveToPrefs(prefs, secretPrefs)
-                val serverIdSet = prefs.getConfiguredServerIds()
-                if (!serverIdSet.contains(config.id)) {
-                    serverIdSet.add(config.id)
-                    prefs.edit {
-                        putConfiguredServerIds(serverIdSet)
-                        if (serverIdSet.size == 1) {
-                            putInt(PrefKeys.ACTIVE_SERVER_ID, config.id)
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            return when(item.itemId) {
+                R.id.save -> {
+                    if (config.name.isEmpty() || (config.localPath == null && config.remotePath == null)) {
+                        context?.showToast(R.string.settings_server_at_least_name_and_connection)
+                        return true
+                    }
+                    config.saveToPrefs(prefs, secretPrefs)
+                    val serverIdSet = prefs.getConfiguredServerIds()
+                    if (!serverIdSet.contains(config.id)) {
+                        serverIdSet.add(config.id)
+                        prefs.edit {
+                            putConfiguredServerIds(serverIdSet)
+                            if (serverIdSet.size == 1) {
+                                putInt(PrefKeys.ACTIVE_SERVER_ID, config.id)
+                            }
                         }
                     }
+                    parentActivity.invalidateOptionsMenu()
+                    parentFragmentManager.popBackStack() // close ourself
+                    true
                 }
-                parentActivity.invalidateOptionsMenu()
-                parentFragmentManager.popBackStack() // close ourself
-                true
-            }
-            R.id.delete -> {
-                // TODO: confirmation prompt
-                config.removeFromPrefs(prefs, secretPrefs)
-                val serverIdSet = prefs.getConfiguredServerIds()
-                serverIdSet.remove(config.id)
-                prefs.edit {
-                    putConfiguredServerIds(serverIdSet)
-                    if (prefs.getInt(PrefKeys.ACTIVE_SERVER_ID, 0) == config.id) {
-                        putInt(PrefKeys.ACTIVE_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
-                    }
+                R.id.delete -> {
+                    AlertDialog.Builder(preferenceManager.context)
+                        .setMessage(R.string.settings_server_confirm_deletion)
+                        .setPositiveButton(R.string.settings_menu_delete_server) { _, _ ->
+                            config.removeFromPrefs(prefs, secretPrefs)
+                            val serverIdSet = prefs.getConfiguredServerIds()
+                            serverIdSet.remove(config.id)
+                            prefs.edit {
+                                putConfiguredServerIds(serverIdSet)
+                                if (prefs.getInt(PrefKeys.ACTIVE_SERVER_ID, 0) == config.id) {
+                                    putInt(PrefKeys.ACTIVE_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
+                                }
+                            }
+                            parentFragmentManager.popBackStack() // close ourself
+                        }
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+                    true
                 }
-                parentFragmentManager.popBackStack() // close ourself
-                true
+                else -> super.onOptionsItemSelected(item)
             }
-            else -> super.onOptionsItemSelected(item)
         }
 
         override fun onStart() {
@@ -639,7 +633,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             serverNamePref.text = config.name
             serverNamePref.setOnPreferenceChangeListener { _, newValue ->
                 config = ServerConfiguration(config.id, newValue as String,
-                    config.localPath, config.remotePath, config.sslClientCert)
+                    config.localPath, config.remotePath, config.sslClientCert, config.defaultSitemap)
                 parentActivity.invalidateOptionsMenu()
                 true
             }
@@ -673,16 +667,35 @@ class PreferencesActivity : AbstractBaseActivity() {
             val clientCertPref = getPreference("clientcert") as SslClientCertificatePreference
             clientCertPref.setOnPreferenceChangeListener { _, newValue ->
                 config = ServerConfiguration(config.id, config.name,
-                    config.localPath, config.remotePath, newValue as String?)
+                    config.localPath, config.remotePath, newValue as String?, config.defaultSitemap)
+                true
+            }
+
+            val clearDefaultSitemapPref = getPreference(PrefKeys.CLEAR_DEFAULT_SITEMAP)
+            if (config.defaultSitemap?.name.isNullOrEmpty()) {
+                handleNoDefaultSitemap(clearDefaultSitemapPref)
+            } else {
+                clearDefaultSitemapPref.summary = getString(
+                    R.string.settings_current_default_sitemap, config.defaultSitemap?.label.orEmpty())
+            }
+            clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
+                preference.sharedPreferences.updateDefaultSitemap(null, null, config.id)
+                handleNoDefaultSitemap(preference)
+                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true
             }
         }
 
+        private fun handleNoDefaultSitemap(pref: Preference) {
+            pref.isEnabled = false
+            pref.setSummary(R.string.settings_no_default_sitemap)
+        }
+
         fun onPathChanged(key: String, path: ServerPath) {
-            if (key == "local") {
-                config = ServerConfiguration(config.id, config.name, path, config.remotePath, config.sslClientCert)
+            config = if (key == "local") {
+                ServerConfiguration(config.id, config.name, path, config.remotePath, config.sslClientCert, config.defaultSitemap)
             } else {
-                config = ServerConfiguration(config.id, config.name, config.localPath, path, config.sslClientCert)
+                ServerConfiguration(config.id, config.name, config.localPath, path, config.sslClientCert, config.defaultSitemap)
             }
             parentActivity.invalidateOptionsMenu()
         }

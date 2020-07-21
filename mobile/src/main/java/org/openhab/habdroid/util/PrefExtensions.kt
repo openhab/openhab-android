@@ -25,7 +25,9 @@ import androidx.preference.PreferenceFragmentCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.DemoConnection
+import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.IconFormat
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
@@ -62,12 +64,11 @@ fun SharedPreferences.getRemoteUrl(): String {
     return getStringOrNull(PrefKeys.buildServerKey(getActiveServerId(), PrefKeys.REMOTE_URL_PREFIX)).orEmpty()
 }
 
-fun SharedPreferences.getDefaultSitemap(connection: Connection?): String {
-    return if (connection is DemoConnection) {
-        "demo"
-    } else {
-        getStringOrEmpty(PrefKeys.SITEMAP_NAME)
+fun SharedPreferences.getDefaultSitemap(connection: Connection?, id: Int = getActiveServerId()): DefaultSitemap? {
+    if (connection is DemoConnection) {
+        return DefaultSitemap("demo", "demo")
     }
+    return ServerConfiguration.getDefaultSitemap(this, id)
 }
 
 fun SharedPreferences.getIconFormat(): IconFormat {
@@ -193,17 +194,13 @@ fun SharedPreferences.Editor.putConfiguredServerIds(ids: Set<Int>) {
     putStringSet(PrefKeys.SERVER_IDS, ids.map { id -> id.toString() }.toSet())
 }
 
-fun SharedPreferences.Editor.updateDefaultSitemap(sitemap: Sitemap?, connection: Connection?) {
+fun SharedPreferences.updateDefaultSitemap(connection: Connection?, sitemap: Sitemap?, id: Int = getActiveServerId()) {
     if (connection is DemoConnection) {
         return
     }
-    if (sitemap == null) {
-        remove(PrefKeys.SITEMAP_NAME)
-        remove(PrefKeys.SITEMAP_LABEL)
-    } else {
-        putString(PrefKeys.SITEMAP_NAME, sitemap.name)
-        putString(PrefKeys.SITEMAP_LABEL, sitemap.label)
-    }
+    val defaultSitemap = sitemap?.let { DefaultSitemap(sitemap.name, sitemap.label) }
+    ServerConfiguration.saveDefaultSitemap(this, id, defaultSitemap)
+
 }
 
 fun PreferenceFragmentCompat.getPreference(key: String): Preference {
