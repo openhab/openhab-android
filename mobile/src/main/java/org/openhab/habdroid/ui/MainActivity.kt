@@ -125,6 +125,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var progressBar: ContentLoadingProgressBar? = null
     private var sitemapSelectionDialog: AlertDialog? = null
     private var lastSnackbar: Snackbar? = null
+    private var snackbarQueue = ArrayList<Snackbar>()
     var connection: Connection? = null
         private set
 
@@ -420,7 +421,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         retryJob?.cancel(CancellationException("onAvailableConnectionChanged() was called"))
 
         connection = newConnection
-        hideSnackbar()
+        hideSnackbar(TAG_SNACKBAR_CONNECTION_ESTABLISHED)
         serverProperties = null
         handlePendingAction()
 
@@ -487,7 +488,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun handleConnectionChange() {
         if (connection is DemoConnection) {
-            showSnackbar(R.string.info_demo_mode_short, R.string.turn_off) {
+            showSnackbar(R.string.info_demo_mode_short, R.string.turn_off, TAG_SNACKBAR_DEMO_MODE_ACTIVE) {
                 prefs.edit {
                     putBoolean(PrefKeys.DEMO_MODE, false)
                 }
@@ -497,9 +498,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 ConnectionFactory.localConnectionOrNull != null && ConnectionFactory.remoteConnectionOrNull != null
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
-                showSnackbar(R.string.info_conn_url, duration = Snackbar.LENGTH_SHORT)
+                showSnackbar(R.string.info_conn_url, tag = TAG_SNACKBAR_CONNECTION_ESTABLISHED,
+                    duration = Snackbar.LENGTH_SHORT)
             } else if (hasLocalAndRemote && type == Connection.TYPE_REMOTE) {
-                showSnackbar(R.string.info_conn_rem_url, duration = Snackbar.LENGTH_SHORT)
+                showSnackbar(R.string.info_conn_rem_url, tag = TAG_SNACKBAR_CONNECTION_ESTABLISHED,
+                    duration = Snackbar.LENGTH_SHORT)
             }
         }
         queryServerProperties()
@@ -928,7 +931,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (speechIntent.isResolvable(this)) {
             startActivity(speechIntent)
         } else {
-            showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install) {
+            showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install,
+                TAG_SNACKBAR_NO_VOICE_RECOGNITION_INSTALLED) {
                 openInAppStore("com.google.android.googlequicksearchbox")
             }
         }
@@ -939,7 +943,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             return
         }
 
-        showSnackbar(R.string.swipe_to_refresh_description, R.string.got_it) {
+        showSnackbar(R.string.swipe_to_refresh_description, R.string.got_it, TAG_SNACKBAR_NO_MANUAL_REFRESH_REQUIRED) {
             prefs.edit {
                 putBoolean(PrefKeys.SWIPE_REFRESH_EXPLAINED, true)
             }
@@ -949,23 +953,58 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     internal fun showSnackbar(
         @StringRes messageResId: Int,
         @StringRes actionResId: Int = 0,
-        tag: String? = null,
+        tag: String,
         @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
         onClickListener: (() -> Unit)? = null
     ) {
-        hideSnackbar()
         val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }
         snackbar.view.tag = tag
-        snackbar.show()
-        lastSnackbar = snackbar
+        snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+             override fun onShown(transientBottomBar: Snackbar?) {
+                super.onShown(transientBottomBar)
+                Log.d(TAG, "Show snackbar with tag $tag")
+            }
+
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                    showNextSnackbar()
+                }
+
+            }
+        })
+        hideSnackbar(tag)
+        Log.d(TAG, "Queue snackbar with tag $tag")
+        snackbarQueue.add(snackbar)
+        showNextSnackbar()
     }
 
-    private fun hideSnackbar() {
-        lastSnackbar?.dismiss()
-        lastSnackbar = null
+    private fun showNextSnackbar() {
+        if (lastSnackbar?.isShown == true || snackbarQueue.isEmpty()) {
+            Log.d(TAG, "No next snackbar to show")
+            return
+        }
+        val nextSnackbar = snackbarQueue[0]
+        snackbarQueue.removeAt(0)
+        nextSnackbar.show()
+        lastSnackbar = nextSnackbar
+    }
+
+    private fun hideSnackbar(tag: String) {
+        snackbarQueue.forEachIndexed { index, snackbar ->
+            if (snackbar.view.tag == tag) {
+                Log.d(TAG, "Remove snackbar with tag $tag from queue")
+                snackbarQueue.removeAt(index)
+            }
+        }
+        if (lastSnackbar?.view?.tag == tag) {
+            Log.d(TAG, "Hide snackbar with tag $tag")
+            lastSnackbar?.dismiss()
+            lastSnackbar = null
+        }
     }
 
     private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
@@ -1024,7 +1063,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             Log.d(TAG, "At least one permission for background tasks have been denied")
             showSnackbar(
                 R.string.settings_background_tasks_permission_denied,
-                R.string.settings_background_tasks_permission_allow
+                R.string.settings_background_tasks_permission_allow,
+                TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSIONS
             ) {
                 ActivityCompat.requestPermissions(
                     this,
@@ -1103,7 +1143,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
         const val EXTRA_SITEMAP_URL = "sitemapUrl"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
-        const val TAG_SNACKBAR_PRESS_AGAIN_EXIT = "pressAgainToExit"
+        private const val TAG_SNACKBAR_PRESS_AGAIN_EXIT = "pressAgainToExit"
+        private const val TAG_SNACKBAR_CONNECTION_ESTABLISHED = "connectionEstablished"
+        const val TAG_SNACKBAR_SSE_ERROR = "sseError"
+        private const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
+        private const val TAG_SNACKBAR_DEMO_MODE_ACTIVE = "demoModeActive"
+        private const val TAG_SNACKBAR_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
+        private const val TAG_SNACKBAR_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"
