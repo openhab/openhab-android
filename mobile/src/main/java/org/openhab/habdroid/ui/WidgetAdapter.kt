@@ -549,19 +549,18 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
             boundWidget = widget
-
-            // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
-            slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
-            slider.valueFrom = widget.minValue
-            slider.stepSize = widget.step
-
             val item = widget.item
 
             if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
-                slider.valueFrom = 0F
                 slider.valueTo = 100F
+                slider.valueFrom = 0F
+                slider.stepSize = 1F
                 slider.value = item.state?.asBrightness?.toFloat() ?: 0F
             } else {
+                // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
+                slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
+                slider.valueFrom = widget.minValue
+                slider.stepSize = widget.step
                 slider.value = item?.state?.asNumber?.value?.coerceIn(slider.valueFrom, slider.valueTo)
                     ?: slider.valueFrom
             }
