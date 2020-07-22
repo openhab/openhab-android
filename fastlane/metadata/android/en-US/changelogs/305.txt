@@ -1,0 +1,3 @@
+## Fixed
+* Fix up SVG rendering. (#2072)
+* Fix slider crash on UNDEF items (#2104)
