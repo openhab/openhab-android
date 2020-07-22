@@ -963,17 +963,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         snackbar.view.tag = tag
         snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-             override fun onShown(transientBottomBar: Snackbar?) {
+            override fun onShown(transientBottomBar: Snackbar?) {
                 super.onShown(transientBottomBar)
                 Log.d(TAG, "Show snackbar with tag $tag")
             }
 
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                 super.onDismissed(transientBottomBar, event)
-                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                    showNextSnackbar()
-                }
-
+                showNextSnackbar()
             }
         })
         hideSnackbar(tag)
