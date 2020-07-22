@@ -556,20 +556,14 @@ class WidgetAdapter(
             slider.stepSize = widget.step
 
             val item = widget.item
-            val state = item?.state ?: return
 
-            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                val brightness = state.asBrightness
-                if (brightness != null) {
-                    slider.valueFrom = 0F
-                    slider.valueTo = 100F
-                    slider.value = brightness.toFloat()
-                }
+            if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
+                slider.valueFrom = 0F
+                slider.valueTo = 100F
+                slider.value = item.state?.asBrightness?.toFloat() ?: 0F
             } else {
-                val number = state.asNumber
-                if (number != null) {
-                    slider.value = number.value.coerceIn(slider.valueFrom, slider.valueTo)
-                }
+                slider.value = item?.state?.asNumber?.value?.coerceIn(slider.valueFrom, slider.valueTo)
+                    ?: slider.valueFrom
             }
         }
 
