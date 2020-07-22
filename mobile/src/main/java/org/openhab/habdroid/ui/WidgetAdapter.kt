@@ -635,7 +635,7 @@ class WidgetAdapter(
                 val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
                 imageView.setImageBitmap(bitmap)
             } else if (widget.url != null) {
-                imageView.setImageUrl(connection, widget.url, parent.width, refreshDelayInMs = widget.refresh)
+                imageView.setImageUrl(connection, widget.url, refreshDelayInMs = widget.refresh)
             } else {
                 imageView.setImageDrawable(null)
             }
@@ -925,7 +925,7 @@ class WidgetAdapter(
             val chartUrl =
                 widget.toChartUrl(prefs, parent.width, chartTheme = chartTheme, density = density) ?: return
             Log.d(TAG, "Chart url = $chartUrl")
-            chart.setImageUrl(connection, chartUrl, parent.width, refreshDelayInMs = widget.refresh, forceLoad = true)
+            chart.setImageUrl(connection, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = true)
         }
 
         override fun onStart() {
@@ -1390,8 +1390,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
     setImageUrl(
         connection,
-        widget.icon.toUrl(context, !context.isDataSaverActive()),
-        resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
+        widget.icon.toUrl(context, !context.isDataSaverActive())
     )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {

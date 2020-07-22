@@ -62,6 +62,8 @@ import java.security.cert.CertificateRevokedException
 import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
+import kotlin.math.max
+import kotlin.math.round
 
 fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
     var error = this
@@ -127,19 +129,25 @@ fun Resources.dpToPixel(dp: Float): Float {
     return dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 }
 
+enum class ImageConversionPolicy {
+    PreferSourceSize,
+    PreferTargetSize,
+    ForceTargetSize
+}
+
 @Throws(IOException::class)
-fun ResponseBody.toBitmap(targetSize: Int, enforceSize: Boolean = false): Bitmap {
+fun ResponseBody.toBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
             ?: throw IOException("Bitmap decoding failed")
-        return if (!enforceSize) {
-            bitmap
-        } else {
+        return if (conversionPolicy == ImageConversionPolicy.ForceTargetSize) {
             Bitmap.createScaledBitmap(bitmap, targetSize, targetSize, false)
+        } else {
+            bitmap
         }
     }
 
-    return byteStream().svgToBitmap(targetSize)
+    return byteStream().svgToBitmap(targetSize, conversionPolicy)
 }
 
 fun MediaType?.isSvg(): Boolean {
@@ -147,32 +155,42 @@ fun MediaType?.isSvg(): Boolean {
 }
 
 @Throws(IOException::class)
-fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
+fun InputStream.svgToBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
     return try {
         val svg = SVG.getFromInputStream(this)
         val displayMetrics = Resources.getSystem().displayMetrics
-        svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
         var density: Float? = displayMetrics.density
-        svg.setDocumentHeight("100%")
-        svg.setDocumentWidth("100%")
-        var docWidth = (svg.documentWidth * displayMetrics.density).toInt()
-        var docHeight = (svg.documentHeight * displayMetrics.density).toInt()
+        val targetSizeFloat = targetSize.toFloat()
+
+        if (svg.documentViewBox == null && svg.documentWidth > 0 && svg.documentHeight > 0) {
+            svg.setDocumentViewBox(0F, 0F, svg.documentWidth, svg.documentHeight)
+        }
+        if (conversionPolicy == ImageConversionPolicy.ForceTargetSize ||
+            (conversionPolicy == ImageConversionPolicy.PreferTargetSize && svg.documentViewBox != null)
+        ) {
+            svg.setDocumentWidth("100%")
+            svg.setDocumentHeight("100%")
+        }
+
+        svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
+        var docWidth = svg.documentWidth * displayMetrics.density
+        var docHeight = svg.documentHeight * displayMetrics.density
 
         if (docWidth < 0 || docHeight < 0) {
             val aspectRatio = svg.documentAspectRatio
             if (aspectRatio > 0) {
-                val heightForAspect = targetSize.toFloat() / aspectRatio
-                val widthForAspect = targetSize.toFloat() * aspectRatio
+                val heightForAspect = targetSizeFloat / aspectRatio
+                val widthForAspect = targetSizeFloat * aspectRatio
                 if (widthForAspect < heightForAspect) {
-                    docWidth = Math.round(widthForAspect)
-                    docHeight = targetSize
+                    docWidth = widthForAspect
+                    docHeight = targetSizeFloat
                 } else {
-                    docWidth = targetSize
-                    docHeight = Math.round(heightForAspect)
+                    docWidth = targetSizeFloat
+                    docHeight = heightForAspect
                 }
             } else {
-                docWidth = targetSize
-                docHeight = targetSize
+                docWidth = targetSizeFloat
+                docHeight = targetSizeFloat
             }
 
             // we didn't take density into account anymore when calculating docWidth
@@ -181,13 +199,18 @@ fun InputStream.svgToBitmap(targetSize: Int): Bitmap {
             density = null
         }
 
-        if (docWidth != targetSize || docHeight != targetSize) {
-            val scaleWidth = targetSize.toFloat() / docWidth
-            val scaleHeight = targetSize.toFloat() / docHeight
-            density = (scaleWidth + scaleHeight) / 2
+        if (docWidth > targetSizeFloat || docHeight > targetSizeFloat) {
+            val widthScaler = max(1F, docWidth / targetSizeFloat)
+            val heightScaler = max(1F, docHeight / targetSizeFloat)
+            val scaler = max(widthScaler, heightScaler)
+            docWidth /= scaler
+            docHeight /= scaler
+            if (density != null) {
+                density /= scaler
+            }
         }
 
-        val bitmap = Bitmap.createBitmap(targetSize, targetSize, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(round(docWidth).toInt(), round(docHeight).toInt(), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         if (density != null) {
             canvas.scale(density, density)

@@ -31,11 +31,11 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ImageConversionPolicy
 import kotlin.random.Random
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
-    private val defaultSvgSize: Int
     private val fallback: Drawable?
     private val progressDrawable: Drawable?
 
@@ -49,6 +49,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var refreshInterval: Long = 0
     private var lastRefreshTimestamp: Long = 0
     private var refreshJob: Job? = null
+    private var pendingRequest: PendingRequest? = null
+    private var targetImageSize: Int = 0
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.WidgetImageView).apply {
@@ -58,19 +60,15 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             addRandomnessToUrl = getBoolean(R.styleable.WidgetImageView_addRandomnessToUrl, false)
             recycle()
         }
-
-        defaultSvgSize = context.resources.getDimensionPixelSize(R.dimen.svg_image_default_size)
     }
 
     fun setImageUrl(
         connection: Connection,
         url: String,
-        size: Int?,
         refreshDelayInMs: Int = 0,
         timeoutMillis: Long = HttpClient.DEFAULT_TIMEOUT_MS,
         forceLoad: Boolean = false
     ) {
-        val actualSize = size ?: defaultSvgSize
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
 
@@ -81,25 +79,22 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                 // We're already in the process of loading this image, thus there's nothing to do
                 return
             }
-        } else {
+        } else if (pendingRequest == null) {
             lastRefreshTimestamp = 0
         }
 
-        cancelCurrentLoad()
-
-        val cached = CacheManager.getInstance(context).getCachedBitmap(actualUrl)
-        val request = HttpImageRequest(client, actualUrl, actualSize, timeoutMillis)
-
-        if (cached != null) {
-            setBitmapInternal(cached)
+        if (targetImageSize == 0) {
+            pendingRequest = PendingRequest(client, actualUrl, timeoutMillis, forceLoad)
         } else {
-            applyProgressDrawable()
+            doLoad(client, actualUrl, timeoutMillis, forceLoad)
         }
+    }
 
-        if (cached == null || forceLoad) {
-            request.execute(forceLoad)
-        }
-        lastRequest = request
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        targetImageSize = right - left - paddingLeft - paddingRight
+        pendingRequest?.let { r -> doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad) }
+        pendingRequest = null
     }
 
     override fun setImageResource(resId: Int) {
@@ -180,6 +175,24 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         removeProgressDrawable()
     }
 
+    private fun doLoad(client: HttpClient, url: HttpUrl, timeoutMillis: Long, forceLoad: Boolean) {
+        cancelCurrentLoad()
+
+        val cached = CacheManager.getInstance(context).getCachedBitmap(url)
+        val request = HttpImageRequest(client, url, targetImageSize, timeoutMillis)
+
+        if (cached != null) {
+            setBitmapInternal(cached)
+        } else {
+            applyProgressDrawable()
+        }
+
+        if (cached == null || forceLoad) {
+            request.execute(forceLoad)
+        }
+        lastRequest = request
+    }
+
     private fun setBitmapInternal(bitmap: Bitmap) {
         removeProgressDrawable()
         // Mark this call as being triggered by ourselves, as setImageBitmap()
@@ -222,10 +235,11 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     private fun removeProgressDrawable() {
         if (originalScaleType != null) {
-            super.setScaleType(originalScaleType)
             super.setAdjustViewBounds(originalAdjustViewBounds)
+            super.setScaleType(originalScaleType)
             originalScaleType = null
         }
+        super.setImageDrawable(null)
     }
 
     private inner class HttpImageRequest(
@@ -260,9 +274,14 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
             job = scope?.launch(Dispatchers.Main) {
                 try {
+                    val conversionPolicy = when (originalScaleType ?: scaleType) {
+                        ScaleType.FIT_CENTER, ScaleType.FIT_START,
+                        ScaleType.FIT_END, ScaleType.FIT_XY -> ImageConversionPolicy.PreferTargetSize
+                        else -> ImageConversionPolicy.PreferSourceSize
+                    }
                     val bitmap = client.get(actualUrl.toString(),
                         timeoutMillis = timeoutMillis, caching = cachingMode)
-                        .asBitmap(size)
+                        .asBitmap(size, conversionPolicy)
                         .response
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
@@ -287,6 +306,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             return job?.isActive == true
         }
     }
+
+    data class PendingRequest(val client: HttpClient, val url: HttpUrl, val timeoutMillis: Long, val forceLoad: Boolean)
 
     companion object {
         private val TAG = WidgetImageView::class.java.simpleName

@@ -311,6 +311,10 @@ Please make sure `Default Human Language Interpreter` is set to `Rule-based Inte
 Generating charts can be taxing to the server.
 If you experience slow chart loading times and your server isn't powerful, open `Settings` and disable `High resolution charts` to improve loading times.
 
+### Icons look pixelated
+
+For good looking icons, the best approach is using SVG icons. Bitmap icons have a fixed size that doesn't scale with screen pixel density, so depending on the device, they may be scaled up by a large factor. When using SVG icons, ideally use icons that don't have a fixed size (in other words, they shouldn't have a 'width' and 'height' attribute on the root tag), as otherwise scaling might become necessary again: the app renders SVGs at their native size scaled by screen density, but scales them to a common size; when using icons without fixed size, the app can render them at precisely the needed size.
+
 ## Trademark Disclaimer
 
 Google Play and the Google Play logo are trademarks of Google Inc.

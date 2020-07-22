@@ -121,11 +121,9 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             val connection = ConnectionFactory.usableConnectionOrNull
             val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
-                val size = iconView.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
                 iconView.setImageUrl(
                     connection,
                     icon.toUrl(itemView.context, !itemView.context.isDataSaverActive()),
-                    size,
                     timeoutMillis = 2000
                 )
             } else {

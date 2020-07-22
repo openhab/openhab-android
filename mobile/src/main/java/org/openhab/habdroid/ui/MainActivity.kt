@@ -91,6 +91,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
@@ -770,7 +771,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         launch {
             try {
                 item.icon = conn.httpClient.get(sitemap.icon.toUrl(this@MainActivity, !isDataSaverActive()))
-                    .asBitmap(defaultIcon!!.intrinsicWidth, true)
+                    .asBitmap(defaultIcon!!.intrinsicWidth, ImageConversionPolicy.ForceTargetSize)
                     .response
                     .toDrawable(resources)
             } catch (e: HttpClient.HttpException) {

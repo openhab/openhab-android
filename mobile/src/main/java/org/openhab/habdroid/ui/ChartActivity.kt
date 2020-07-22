@@ -158,11 +158,6 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
             return
         }
 
-        if (chart.height == 0 || chart.width == 0) {
-            Log.d(TAG, "Height or width is 0")
-            return
-        }
-
         val chartUrl = widget.toChartUrl(
             getPrefs(),
             chart.width,
@@ -174,7 +169,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         ) ?: return
 
         Log.d(TAG, "Load chart with url $chartUrl")
-        chart.setImageUrl(connection, chartUrl, chart.width, refreshDelayInMs = widget.refresh, forceLoad = force)
+        chart.setImageUrl(connection, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = force)
     }
 
     private fun updateHasLegendButtonState(item: MenuItem) {
