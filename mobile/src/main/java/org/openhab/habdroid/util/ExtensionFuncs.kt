@@ -140,8 +140,15 @@ fun ResponseBody.toBitmap(targetSize: Int, conversionPolicy: ImageConversionPoli
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
             ?: throw IOException("Bitmap decoding failed")
-        return if (conversionPolicy == ImageConversionPolicy.ForceTargetSize) {
-            Bitmap.createScaledBitmap(bitmap, targetSize, targetSize, false)
+        // Avoid overly huge bitmaps, as we both do not want their memory consumption and drawing those bitmaps
+        // to a canvas will fail later anyway. The actual limitation threshold is more or less arbitrary; as of
+        // Android 10 the OS side limit is 100 MB.
+        return if (bitmap.byteCount > 20000000 && bitmap.width > targetSize) {
+            val scaler = bitmap.width.toFloat() / targetSize.toFloat()
+            val scaledHeight = bitmap.height.toFloat() / scaler
+            Bitmap.createScaledBitmap(bitmap, targetSize, scaledHeight.toInt(), true)
+        } else if (conversionPolicy == ImageConversionPolicy.ForceTargetSize) {
+            Bitmap.createScaledBitmap(bitmap, targetSize, targetSize, true)
         } else {
             bitmap
         }
