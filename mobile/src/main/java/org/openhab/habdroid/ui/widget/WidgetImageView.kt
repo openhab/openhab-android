@@ -43,6 +43,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var originalAdjustViewBounds: Boolean = false
     private val emptyHeightToWidthRatio: Float
     private val addRandomnessToUrl: Boolean
+    private val adjustViewBoundsForDownscalingOnly: Boolean
     private var internalLoad: Boolean = false
     private var lastRequest: HttpImageRequest? = null
 
@@ -58,6 +59,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             progressDrawable = getDrawable(R.styleable.WidgetImageView_progressIndicator)
             emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f)
             addRandomnessToUrl = getBoolean(R.styleable.WidgetImageView_addRandomnessToUrl, false)
+            adjustViewBoundsForDownscalingOnly =
+                getBoolean(R.styleable.WidgetImageView_adjustViewBoundsForDownscalingOnly, false)
             recycle()
         }
     }
@@ -283,6 +286,11 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                         timeoutMillis = timeoutMillis, caching = cachingMode)
                         .asBitmap(size, conversionPolicy)
                         .response
+                    if (adjustViewBoundsForDownscalingOnly) {
+                        // make sure that view only shrinks to accomodate bitmap size, but doesn't enlarge ... that is,
+                        // adjust view bounds only if width is larger than target size
+                        adjustViewBounds = bitmap.width > size
+                    }
                     setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
                     lastRefreshTimestamp = SystemClock.uptimeMillis()

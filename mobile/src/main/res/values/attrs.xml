@@ -11,6 +11,7 @@
         <attr name="progressIndicator" format="reference" />
         <attr name="emptyHeightToWidthRatio" format="fraction" />
         <attr name="addRandomnessToUrl" format="boolean" />
+        <attr name="adjustViewBoundsForDownscalingOnly" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ItemUpdatingPreference">
