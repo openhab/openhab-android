@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -42,6 +43,7 @@ import org.openhab.habdroid.model.getIconResource
 import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.duplicate
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -187,11 +189,35 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             }
 
             val setIcon = { iconData: InputStream, isSvg: Boolean ->
-                val iconBitmap = if (isSvg) convertSvgIcon(iconData) else BitmapFactory.decodeStream(iconData)
+                var iconBitmap = if (isSvg) convertSvgIcon(iconData) else BitmapFactory.decodeStream(iconData)
                 if (iconBitmap != null) {
-                    views.setImageViewBitmap(R.id.item_icon, iconBitmap)
-                    hideLoadingIndicator(views)
-                    appWidgetManager.updateAppWidget(appWidgetId, views)
+                    var e: Exception? = null
+                    // The view object keeps the previous bitmap when setting a new one, so its size would
+                    // only increase.
+                    var viewsWithIcon = views.duplicate()
+                    var retryCount = 0
+                    do {
+                        if (e != null) {
+                            retryCount++
+                            Log.d(TAG, "Reduce icon size, retry count: $retryCount")
+                            val newWidth = iconBitmap.width / 2
+                            val newHeight = iconBitmap.height / 2
+                            iconBitmap = Bitmap.createScaledBitmap(iconBitmap, newWidth, newHeight, true)
+                            viewsWithIcon = views.duplicate()
+                        }
+                        Log.d(TAG, "Bitmap size: ${iconBitmap.byteCount} bytes")
+                        viewsWithIcon.setImageViewBitmap(R.id.item_icon, iconBitmap)
+                        try {
+                            Log.d(TAG, "Try to set icon")
+                            appWidgetManager.updateAppWidget(appWidgetId, viewsWithIcon)
+                            break
+                        } catch (iae: IllegalArgumentException) {
+                            Log.w(TAG, "Failed to set icon", iae)
+                            e = iae
+                        }
+                    } while (retryCount < 5 && iconBitmap.width > 50 && iconBitmap.height > 50)
+
+                    hideLoadingIndicator(viewsWithIcon)
                 }
             }
 
