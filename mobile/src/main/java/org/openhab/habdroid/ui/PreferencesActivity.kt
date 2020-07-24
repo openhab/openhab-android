@@ -79,6 +79,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNextAvailableServerId
@@ -86,12 +87,14 @@ import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.putConfiguredServerIds
+import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 
@@ -446,6 +449,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                         parentActivity.openSubScreen(ServerEditorFragment.newInstance(config))
                         true
                     }
+                    pref.icon = if (serverId == prefs.getPrimaryServerId()) {
+                        ContextCompat.getDrawable(pref.context, R.drawable.ic_star_border_grey_24dp)
+                    } else {
+                        null
+                    }
                     connCategory.addPreference(pref)
                     // The pref needs to be attached for doing this
                     pref.dependency = PrefKeys.DEMO_MODE
@@ -607,8 +615,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                             serverIdSet.remove(config.id)
                             prefs.edit {
                                 putConfiguredServerIds(serverIdSet)
-                                if (prefs.getInt(PrefKeys.ACTIVE_SERVER_ID, 0) == config.id) {
+                                if (prefs.getActiveServerId() == config.id) {
                                     putInt(PrefKeys.ACTIVE_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
+                                }
+                                if (prefs.getPrimaryServerId() == config.id) {
+                                    putInt(PrefKeys.PRIMARY_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
                                 }
                             }
                             parentFragmentManager.popBackStack() // close ourself
@@ -684,6 +695,25 @@ class PreferencesActivity : AbstractBaseActivity() {
                 handleNoDefaultSitemap(preference)
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true
+            }
+
+            val primaryServerPref = getPreference(PrefKeys.PRIMARY_SERVER_PREF)
+            updatePrimaryServerPrefState(primaryServerPref, config.id == prefs.getPrimaryServerId())
+            primaryServerPref.setOnPreferenceClickListener {
+                prefs.edit {
+                    putPrimaryServerId(config.id)
+                }
+                updatePrimaryServerPrefState(primaryServerPref, true)
+                true
+            }
+        }
+
+        private fun updatePrimaryServerPrefState(pref: Preference, isPrimary: Boolean) {
+            pref.summary = if (isPrimary) {
+                getString(R.string.settings_server_primary_summary_is_primary)
+            } else {
+                val nameOfPrimary = ServerConfiguration.load(prefs, secretPrefs, prefs.getPrimaryServerId())?.name
+                getString(R.string.settings_server_primary_summary_is_not_primary, nameOfPrimary)
             }
         }
 

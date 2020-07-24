@@ -278,6 +278,26 @@ In case of an error the plugin returns an error code.
 | 11         | The app couldn't establish a connection                                                    |
 | 1000+      | A connection was established, but an error occured. The error code is 1000 + the HTTP code |
 
+## Multi server support
+
+Currently multi server support is still in development.
+
+Features, that support multiple servers:
+* Display Sitemaps and HABPanel
+* In-app voice commands
+* Show a list of recent notifications
+
+Features, that don't support multiple servers:
+* Sitemap shortcuts and Item widgets on the home screen
+* Shortcuts for HABPanel, notifications and voice command
+* Voice command widgets
+* Quick tiles
+* NFC tags
+* Push notifications
+* Send device information to openHAB
+* Tasker plugin
+* Setting the device identifier on a per server basis // Note: This is probably a "won't fix"
+
 ## Help and Technical Details
 
 Please refer to the [openhab-android project on GitHub](https://github.com/openhab/openhab-android) for more details.

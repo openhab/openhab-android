@@ -23,10 +23,10 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getStringOrEmpty
+import org.openhab.habdroid.util.getPrimaryServerId
+import org.openhab.habdroid.util.getRemoteUrl
 
 object CloudMessagingHelper {
     internal var registrationDone: Boolean = false
@@ -63,9 +63,10 @@ object CloudMessagingHelper {
             Log.d(TAG, "Got exception: $e")
             e
         }
+        val prefs = context.getPrefs()
         return when {
             // No remote server is configured
-            context.getPrefs().getStringOrEmpty(PrefKeys.REMOTE_URL).isEmpty() ->
+            prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() ->
                 PushNotificationStatus(
                     context.getString(R.string.push_notification_status_no_remote_configured),
                     R.drawable.ic_bell_off_outline_grey_24dp

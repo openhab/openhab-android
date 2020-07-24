@@ -39,4 +39,8 @@
         android:clickable="true"
         android:key="clear_default_sitemap"
         android:title="@string/settings_clear_default_sitemap" />
+    <org.openhab.habdroid.ui.preference.PrimaryServerPreference
+        android:key="primary_server_pref"
+        android:icon="@drawable/ic_star_border_grey_24dp"
+        android:title="@string/settings_server_primary_title" />
 </PreferenceScreen>

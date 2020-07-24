@@ -27,6 +27,8 @@ object PrefKeys {
     const val REMOTE_URL_PREFIX = "remote_url_"
     const val REMOTE_USERNAME_PREFIX = "remote_username_"
     const val REMOTE_PASSWORD_PREFIX = "remote_password_"
+    const val PRIMARY_SERVER_PREF = "primary_server_pref"
+    const val PRIMARY_SERVER_ID = "primary_server_id"
     const val SSL_CLIENT_CERT_PREFIX = "sslclientcert_"
     const val DEFAULT_SITEMAP_NAME_PREFIX = "default_sitemap_name_"
     const val DEFAULT_SITEMAP_LABEL_PREFIX = "default_sitemap_label_"

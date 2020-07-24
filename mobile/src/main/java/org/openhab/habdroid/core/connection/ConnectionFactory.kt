@@ -449,8 +449,8 @@ class ConnectionFactory internal constructor(
          * Wait for initialization of the factory.
          *
          * This method blocks until all asynchronous work (that is, determination of
-         * available and cloud connection) is ready, so that [.getConnection]
-         * and [.getUsableConnection] can safely be used.
+         * available and cloud connection) is ready, so that {@link connection}
+         * and {@link usableConnection} can safely be used.
          */
         suspend fun waitForInitialization() {
             instance.triggerConnectionUpdateIfNeededAndPending()

@@ -140,6 +140,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     prefs.edit {
                         putConfiguredServerIds(setOf(config.id))
                         putInt(PrefKeys.ACTIVE_SERVER_ID, config.id)
+                        putInt(PrefKeys.PRIMARY_SERVER_ID, config.id)
                         remove("default_openhab_url")
                         remove("default_openhab_alturl")
                         remove("default_openhab_sslclientcert")

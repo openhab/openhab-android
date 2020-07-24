@@ -25,6 +25,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
 
 object CloudMessagingHelper {
@@ -53,12 +54,13 @@ object CloudMessagingHelper {
             e
         }
 
+        val prefs = context.getPrefs()
         return when {
-            !context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false) -> PushNotificationStatus(
+            !prefs.getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false) -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_disabled),
                 R.drawable.ic_bell_off_outline_grey_24dp
             )
-            context.getPrefs().getRemoteUrl().isEmpty() -> PushNotificationStatus(
+            prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_no_remote_configured),
                 R.drawable.ic_bell_off_outline_grey_24dp
             )

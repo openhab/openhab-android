@@ -43,6 +43,10 @@ fun SharedPreferences.getActiveServerId(): Int {
     return getInt(PrefKeys.ACTIVE_SERVER_ID, 0)
 }
 
+fun SharedPreferences.getPrimaryServerId(): Int {
+    return getInt(PrefKeys.PRIMARY_SERVER_ID, 0)
+}
+
 fun SharedPreferences.getNextAvailableServerId(): Int {
     return getStringSet(PrefKeys.SERVER_IDS, null)
         ?.lastOrNull()
@@ -57,12 +61,12 @@ fun SharedPreferences.getConfiguredServerIds(): MutableSet<Int> {
         ?: mutableSetOf()
 }
 
-fun SharedPreferences.getLocalUrl(): String {
-    return getStringOrNull(PrefKeys.buildServerKey(getActiveServerId(), PrefKeys.LOCAL_URL_PREFIX)).orEmpty()
+fun SharedPreferences.getLocalUrl(id: Int = getActiveServerId()): String {
+    return getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX)).orEmpty()
 }
 
-fun SharedPreferences.getRemoteUrl(): String {
-    return getStringOrNull(PrefKeys.buildServerKey(getActiveServerId(), PrefKeys.REMOTE_URL_PREFIX)).orEmpty()
+fun SharedPreferences.getRemoteUrl(id: Int = getActiveServerId()): String {
+    return getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX)).orEmpty()
 }
 
 fun SharedPreferences.getDefaultSitemap(connection: Connection?, id: Int = getActiveServerId()): DefaultSitemap? {
@@ -201,6 +205,10 @@ fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArr
 
 fun SharedPreferences.Editor.putConfiguredServerIds(ids: Set<Int>) {
     putStringSet(PrefKeys.SERVER_IDS, ids.map { id -> id.toString() }.toSet())
+}
+
+fun SharedPreferences.Editor.putPrimaryServerId(id: Int) {
+    putInt(PrefKeys.PRIMARY_SERVER_ID, id)
 }
 
 fun SharedPreferences.updateDefaultSitemap(connection: Connection?, sitemap: Sitemap?, id: Int = getActiveServerId()) {
