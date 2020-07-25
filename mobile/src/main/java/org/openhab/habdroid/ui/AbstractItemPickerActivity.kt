@@ -30,21 +30,26 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.map
 
 abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
@@ -238,6 +243,22 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             if (connection == null) {
                 updateViewVisibility(loading = false, loadError = true, showHint = false)
                 return@launch
+            }
+
+            if (connection is DemoConnection) {
+                Log.d(TAG, "Demo mode is on => Show snackbar")
+                val snackbar = Snackbar.make(
+                    findViewById(R.id.activity_content),
+                    R.string.info_demo_mode_short,
+                    Snackbar.LENGTH_INDEFINITE
+                )
+                snackbar.setAction(R.string.turn_off) {
+                    applicationContext.getPrefs().edit {
+                        putBoolean(PrefKeys.DEMO_MODE, false)
+                        loadItems()
+                    }
+                }
+                snackbar.show()
             }
 
             try {
