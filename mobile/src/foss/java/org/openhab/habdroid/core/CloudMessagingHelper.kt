@@ -15,7 +15,6 @@ package org.openhab.habdroid.core
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -29,8 +28,6 @@ import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
 
 object CloudMessagingHelper {
-    private val TAG = CloudMessagingHelper::class.java.simpleName
-
     @Suppress("UNUSED_PARAMETER")
     fun onConnectionUpdated(context: Context, connection: CloudConnection?) {}
 
@@ -46,14 +43,7 @@ object CloudMessagingHelper {
 
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
         ConnectionFactory.waitForInitialization()
-        val cloudFailure = try {
-            ConnectionFactory.cloudConnection
-            null
-        } catch (e: Exception) {
-            Log.d(TAG, "Got exception: $e")
-            e
-        }
-
+        val cloudFailure = ConnectionFactory.primaryCloudConnection?.failureReason
         val prefs = context.getPrefs()
         return when {
             !prefs.getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false) -> PushNotificationStatus(
@@ -64,7 +54,7 @@ object CloudMessagingHelper {
                 context.getString(R.string.push_notification_status_no_remote_configured),
                 R.drawable.ic_bell_off_outline_grey_24dp
             )
-            ConnectionFactory.cloudConnectionOrNull != null -> PushNotificationStatus(
+            ConnectionFactory.primaryCloudConnection?.connection != null -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_impaired),
                 R.drawable.ic_bell_ring_outline_grey_24dp,
                 AboutActivity.AboutMainFragment.makeClickRedirect(

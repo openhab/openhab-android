@@ -30,7 +30,7 @@ object NotificationPoller {
 
     suspend fun checkForNewNotifications(context: Context) {
         ConnectionFactory.waitForInitialization()
-        val connection = ConnectionFactory.cloudConnectionOrNull
+        val connection = ConnectionFactory.primaryCloudConnection?.connection
         if (connection == null) {
             Log.d(TAG, "Got no connection")
             return
