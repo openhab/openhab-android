@@ -1,0 +1,7 @@
+## Added
+* Send dev info: Show last update in pref summary (#2114)
+* Item picker: Show snackbar if demo mode is on (#2115)
+
+## Fixed
+* Scale down image used in widgets (#2113)
+* Queue snackbars instead of hiding the previous one (#2105)
