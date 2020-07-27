@@ -191,20 +191,9 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val setIcon = { iconData: InputStream, isSvg: Boolean ->
                 var iconBitmap = if (isSvg) convertSvgIcon(iconData) else BitmapFactory.decodeStream(iconData)
                 if (iconBitmap != null) {
-                    var e: Exception? = null
-                    // The view object keeps the previous bitmap when setting a new one, so its size would
-                    // only increase.
                     var viewsWithIcon = views.duplicate()
                     var retryCount = 0
                     do {
-                        if (e != null) {
-                            retryCount++
-                            Log.d(TAG, "Reduce icon size, retry count: $retryCount")
-                            val newWidth = iconBitmap.width / 2
-                            val newHeight = iconBitmap.height / 2
-                            iconBitmap = Bitmap.createScaledBitmap(iconBitmap, newWidth, newHeight, true)
-                            viewsWithIcon = views.duplicate()
-                        }
                         Log.d(TAG, "Bitmap size: ${iconBitmap.byteCount} bytes")
                         viewsWithIcon.setImageViewBitmap(R.id.item_icon, iconBitmap)
                         try {
@@ -212,8 +201,14 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                             appWidgetManager.updateAppWidget(appWidgetId, viewsWithIcon)
                             break
                         } catch (iae: IllegalArgumentException) {
-                            Log.w(TAG, "Failed to set icon", iae)
-                            e = iae
+                            retryCount++
+                            Log.w(TAG, "Failed to set icon, attempt #$retryCount", iae)
+                            val newWidth = iconBitmap.width / 2
+                            val newHeight = iconBitmap.height / 2
+                            iconBitmap = Bitmap.createScaledBitmap(iconBitmap, newWidth, newHeight, true)
+                            // The view object keeps the previous bitmap when setting a new one, so we need to reset
+                            // it to its version without bitmap, as otherwise its size would never decrease.
+                            viewsWithIcon = views.duplicate()
                         }
                     } while (retryCount < 5 && iconBitmap.width > 50 && iconBitmap.height > 50)
 
