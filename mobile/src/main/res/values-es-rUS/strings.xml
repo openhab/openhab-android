@@ -77,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">Mostrar todos los Sitemaps en el menú lateral</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
+    <string name="voice_command">Comando de voz</string>
     <string name="title_voice_widget_icon">Comandos de voz y acceso directo a la aplicación</string>
     <string name="info_voice_input">openHAB, ¡a tus órdenes!</string>
     <string name="info_voice_recognized_text">Comando reconocido: %1$s</string>
