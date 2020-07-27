@@ -246,19 +246,19 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             }
 
             if (connection is DemoConnection) {
-                Log.d(TAG, "Demo mode is on => Show snackbar")
-                val snackbar = Snackbar.make(
+                Snackbar.make(
                     findViewById(R.id.activity_content),
                     R.string.info_demo_mode_short,
                     Snackbar.LENGTH_INDEFINITE
-                )
-                snackbar.setAction(R.string.turn_off) {
-                    applicationContext.getPrefs().edit {
-                        putBoolean(PrefKeys.DEMO_MODE, false)
+                ).apply {
+                    setAction(R.string.turn_off) {
+                        getPrefs().edit {
+                            putBoolean(PrefKeys.DEMO_MODE, false)
+                        }
                         loadItems()
                     }
+                    show()
                 }
-                snackbar.show()
             }
 
             try {
