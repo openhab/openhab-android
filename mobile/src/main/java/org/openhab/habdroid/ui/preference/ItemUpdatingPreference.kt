@@ -29,15 +29,20 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
+import androidx.work.WorkManager
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.ItemUpdateWorker
 import org.openhab.habdroid.ui.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
+import java.text.DateFormat
 
 class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs),
     CustomDialogPreference {
@@ -47,6 +52,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
     private val iconOn: Drawable?
     private val iconOff: Drawable?
     private var value: Pair<Boolean, String>? = null
+    private val workManager = WorkManager.getInstance(context)
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.ItemUpdatingPreference).apply {
@@ -61,6 +67,14 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         dialogTitle = null
         setPositiveButtonText(android.R.string.ok)
         setNegativeButtonText(android.R.string.cancel)
+    }
+
+    fun startObserving(lifecycleOwner: LifecycleOwner) {
+        val infoLiveData = workManager.getWorkInfosByTagLiveData(key)
+        infoLiveData.observe(lifecycleOwner, Observer {
+            updateSummaryAndIcon()
+        })
+        updateSummaryAndIcon()
     }
 
     override fun onSetInitialValue(defaultValue: Any?) {
@@ -95,18 +109,35 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         }
     }
 
-    fun updateSummaryAndIcon(
-        prefix: String = context.getPrefs().getPrefixForBgTasks()
-    ) {
+    private fun updateSummaryAndIcon() {
         val value = value ?: return
         val summary = if (value.first) summaryOn else summaryOff
-        if (summary != null) {
-            setSummary(String.format(summary, prefix + value.second))
+        val prefix = context.getPrefs().getPrefixForBgTasks()
+        val lastUpdateSummarySuffix = buildLastUpdateSummary().let { lastUpdate ->
+            if (lastUpdate != null) "\n$lastUpdate" else ""
         }
+        setSummary(summary.orEmpty().format(prefix + value.second) + lastUpdateSummarySuffix)
+
         val icon = if (value.first) iconOn else iconOff
         if (icon != null) {
             setIcon(icon)
         }
+    }
+
+    private fun buildLastUpdateSummary(): String? {
+        if (value?.first != true) {
+            return null
+        }
+        val lastWork = workManager.getWorkInfosByTag(key)
+            .get()
+            .lastOrNull { workInfo -> workInfo.state.isFinished }
+        if (lastWork == null) {
+            return null
+        }
+        val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+        val ts = lastWork.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
+        val value = lastWork.outputData.getString(ItemUpdateWorker.OUTPUT_DATA_SENT_VALUE)
+        return context.getString(R.string.item_update_summary_success, value, dateFormat.format(ts))
     }
 
     fun setSummaryOn(summary: String) {

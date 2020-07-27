@@ -230,7 +230,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         internal const val ACTION_VOICE_RESULT = "org.openhab.habdroid.background.action.VOICE_RESULT"
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
 
-        const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
+        private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         private const val WORKER_TAG_PERIODIC_TRIGGER = "periodicTrigger"
         private const val WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING = "periodicTriggerNotCharging"
         private const val WORKER_TAG_PERIODIC_TRIGGER_CHARGING = "periodicTriggerCharging"

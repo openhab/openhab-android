@@ -41,7 +41,6 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
-import androidx.lifecycle.Observer
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -50,7 +49,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.forEachIndexed
-import androidx.work.WorkManager
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,7 +56,6 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.BroadcastEventListenerService
-import org.openhab.habdroid.background.ItemUpdateWorker
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.background.tiles.getTileData
@@ -86,11 +83,9 @@ import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
-import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
-import java.text.DateFormat
 import java.util.BitSet
 
 /**
@@ -760,40 +755,15 @@ class PreferencesActivity : AbstractBaseActivity() {
                     true
                 }
             }
-
-            val workManager = WorkManager.getInstance(preferenceManager.context)
-            val infoLiveData = workManager.getWorkInfosByTagLiveData(BackgroundTasksManager.WORKER_TAG_ITEM_UPLOADS)
-            infoLiveData.observe(this, Observer {
-                updatePrefSummaries(workManager)
-            })
-            updatePrefSummaries(workManager)
+            BackgroundTasksManager.KNOWN_KEYS.forEach { key ->
+                findPreference<ItemUpdatingPreference>(key)?.startObserving(this)
+            }
 
             val prefix = prefs.getPrefixForBgTasks()
             prefixHint.summary = if (prefix.isEmpty()) {
                 prefixHint.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
             } else {
                 prefixHint.context.getString(R.string.send_device_info_item_prefix_summary, prefix)
-            }
-        }
-
-        private fun updatePrefSummaries(workManager: WorkManager) {
-            val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
-            BackgroundTasksManager.KNOWN_KEYS.forEach { key ->
-                val lastWork = workManager.getWorkInfosByTag(key)
-                    .get()
-                    .lastOrNull { workInfo -> workInfo.state.isFinished }
-                findPreference<ItemUpdatingPreference>(key)?.let { pref ->
-                    // Clear any previous log message
-                    pref.updateSummaryAndIcon()
-                    if (!prefs.isItemUpdatePrefEnabled(key) || lastWork == null) {
-                        // no-op
-                    } else {
-                        val ts = lastWork.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
-                        val value = lastWork.outputData.getString(ItemUpdateWorker.OUTPUT_DATA_SENT_VALUE)
-                        val lastSuccess = getString(R.string.item_update_summary_success, value, dateFormat.format(ts))
-                        pref.summary = "${pref.summary}\n$lastSuccess"
-                    }
-                }
             }
         }
 
