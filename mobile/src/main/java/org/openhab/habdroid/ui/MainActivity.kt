@@ -125,7 +125,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var progressBar: ContentLoadingProgressBar? = null
     private var sitemapSelectionDialog: AlertDialog? = null
     private var lastSnackbar: Snackbar? = null
-    private var snackbarQueue = ArrayList<Snackbar>()
+    private var snackbarQueue = mutableListOf<Snackbar>()
     var connection: Connection? = null
         private set
 
@@ -984,18 +984,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             Log.d(TAG, "No next snackbar to show")
             return
         }
-        val nextSnackbar = snackbarQueue[0]
-        snackbarQueue.removeAt(0)
+        val nextSnackbar = snackbarQueue.removeAt(0)
         nextSnackbar.show()
         lastSnackbar = nextSnackbar
     }
 
     private fun hideSnackbar(tag: String) {
-        snackbarQueue.forEachIndexed { index, snackbar ->
-            if (snackbar.view.tag == tag) {
-                Log.d(TAG, "Remove snackbar with tag $tag from queue")
-                snackbarQueue.removeAt(index)
-            }
+        snackbarQueue.firstOrNull { it.view.tag == tag }?.let { snackbar ->
+            Log.d(TAG, "Remove snackbar with tag $tag from queue")
+            snackbarQueue.remove(snackbar)
         }
         if (lastSnackbar?.view?.tag == tag) {
             Log.d(TAG, "Hide snackbar with tag $tag")
