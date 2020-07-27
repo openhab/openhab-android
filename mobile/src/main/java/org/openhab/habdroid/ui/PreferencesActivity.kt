@@ -79,7 +79,6 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNextAvailableServerId
@@ -93,7 +92,6 @@ import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
-import org.openhab.habdroid.util.putConfiguredServerIds
 import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -600,16 +598,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                         return true
                     }
                     config.saveToPrefs(prefs, secretPrefs)
-                    val serverIdSet = prefs.getConfiguredServerIds()
-                    if (!serverIdSet.contains(config.id)) {
-                        serverIdSet.add(config.id)
-                        prefs.edit {
-                            putConfiguredServerIds(serverIdSet)
-                            if (serverIdSet.size == 1) {
-                                putInt(PrefKeys.ACTIVE_SERVER_ID, config.id)
-                            }
-                        }
-                    }
                     parentActivity.invalidateOptionsMenu()
                     parentFragmentManager.popBackStack() // close ourself
                     true
@@ -619,17 +607,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                         .setMessage(R.string.settings_server_confirm_deletion)
                         .setPositiveButton(R.string.settings_menu_delete_server) { _, _ ->
                             config.removeFromPrefs(prefs, secretPrefs)
-                            val serverIdSet = prefs.getConfiguredServerIds()
-                            serverIdSet.remove(config.id)
-                            prefs.edit {
-                                putConfiguredServerIds(serverIdSet)
-                                if (prefs.getActiveServerId() == config.id) {
-                                    putInt(PrefKeys.ACTIVE_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
-                                }
-                                if (prefs.getPrimaryServerId() == config.id) {
-                                    putInt(PrefKeys.PRIMARY_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
-                                }
-                            }
                             parentFragmentManager.popBackStack() // close ourself
                         }
                         .setNegativeButton(android.R.string.cancel, null)

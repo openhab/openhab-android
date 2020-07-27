@@ -18,7 +18,11 @@ import android.os.Parcelable
 import androidx.core.content.edit
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.putConfiguredServerIds
 import org.openhab.habdroid.util.toNormalizedUrl
 
 @Parcelize
@@ -59,11 +63,21 @@ data class ServerConfiguration(
     val defaultSitemap: DefaultSitemap?
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
+        val serverIdSet = prefs.getConfiguredServerIds()
+
         prefs.edit {
             putString(PrefKeys.buildServerKey(id, PrefKeys.SERVER_NAME_PREFIX), name)
             putString(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX), localPath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
+            if (!serverIdSet.contains(id)) {
+                serverIdSet.add(id)
+                putConfiguredServerIds(serverIdSet)
+                if (serverIdSet.size == 1) {
+                    putInt(PrefKeys.ACTIVE_SERVER_ID, id)
+                    putInt(PrefKeys.PRIMARY_SERVER_ID, id)
+                }
+            }
         }
         saveDefaultSitemap(prefs, id, defaultSitemap)
         secretPrefs.edit {
@@ -74,6 +88,9 @@ data class ServerConfiguration(
         }
     }
     fun removeFromPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
+        val serverIdSet = prefs.getConfiguredServerIds()
+        serverIdSet.remove(id)
+
         prefs.edit {
             remove(PrefKeys.buildServerKey(id, PrefKeys.SERVER_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX))
@@ -81,6 +98,13 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
+            putConfiguredServerIds(serverIdSet)
+            if (prefs.getActiveServerId() == id) {
+                putInt(PrefKeys.ACTIVE_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
+            }
+            if (prefs.getPrimaryServerId() == id) {
+                putInt(PrefKeys.PRIMARY_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
+            }
         }
         secretPrefs.edit {
             remove(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_USERNAME_PREFIX))
