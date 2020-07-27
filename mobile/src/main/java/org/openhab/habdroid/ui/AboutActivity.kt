@@ -115,7 +115,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
         override fun getMaterialAboutList(context: Context): MaterialAboutList {
             val props: ServerProperties? = arguments?.getParcelable("serverProperties")
-            val connection = ConnectionFactory.usableConnectionOrNull
+            val connection = ConnectionFactory.activeUsableConnection?.connection
             val year = SimpleDateFormat("yyyy", Locale.US).format(Calendar.getInstance().time)
 
             val appCard = MaterialAboutCard.Builder()
@@ -288,11 +288,19 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             }
         }
 
-        override fun onAvailableConnectionChanged() {
+        override fun onActiveConnectionChanged() {
             updatePushStatusCard()
         }
 
-        override fun onCloudConnectionChanged(connection: CloudConnection?) {
+        override fun onPrimaryConnectionChanged() {
+            // no-op
+        }
+
+        override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+            // no-op
+        }
+
+        override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
             updatePushStatusCard()
         }
 

@@ -112,7 +112,11 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
     private fun loadNotifications(clearExisting: Boolean) {
         val activity = activity as AbstractBaseActivity? ?: return
-        val conn = ConnectionFactory.cloudConnectionOrNull
+        val conn = if (arguments?.getBoolean("primary") == true) {
+            ConnectionFactory.primaryCloudConnection?.connection
+        } else {
+            ConnectionFactory.activeCloudConnection?.connection
+        }
         if (conn == null) {
             updateViewVisibility(loading = false, loadError = true)
             return
@@ -176,9 +180,9 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
         private const val PAGE_SIZE = 20
 
-        fun newInstance(highlightedId: String?): CloudNotificationListFragment {
+        fun newInstance(highlightedId: String?, primaryServer: Boolean): CloudNotificationListFragment {
             val f = CloudNotificationListFragment()
-            f.arguments = bundleOf("highlightedId" to highlightedId)
+            f.arguments = bundleOf("highlightedId" to highlightedId, "primary" to primaryServer)
             return f
         }
     }

@@ -65,7 +65,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         }
 
         Log.d(TAG, "Trying to get connection")
-        val connection = ConnectionFactory.usableConnectionOrNull
+        val connection = ConnectionFactory.primaryUsableConnection?.connection
 
         val showToast = inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false)
         val taskerIntent = inputData.getString(INPUT_DATA_TASKER_INTENT)

@@ -61,7 +61,7 @@ class FcmRegistrationService : JobIntentService() {
         runBlocking {
             ConnectionFactory.waitForInitialization()
         }
-        val connection = ConnectionFactory.cloudConnectionOrNull ?: return
+        val connection = ConnectionFactory.primaryCloudConnection?.connection ?: return
 
         when (intent.action) {
             ACTION_REGISTER -> {

@@ -485,7 +485,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         linkedPage: LinkedPage,
         whiteBackground: Boolean
     ) = GlobalScope.launch {
-        val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
+        val connection = ConnectionFactory.activeUsableConnection?.connection ?: return@launch
         /**
          *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
          *  46dp instead of 72dp adds enough border to the icon.

@@ -225,7 +225,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 } else {
                     Log.d(TAG, "Download icon")
                     ConnectionFactory.waitForInitialization()
-                    val connection = ConnectionFactory.usableConnectionOrNull
+                    val connection = ConnectionFactory.primaryUsableConnection?.connection
                     if (connection == null) {
                         Log.d(TAG, "Got no connection")
                         return@launch

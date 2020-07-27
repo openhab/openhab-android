@@ -89,7 +89,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     val currentTitle get() = when {
         noConnectionFragment != null -> null
-        temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications)
+        temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications) // XXX: mark server type (active/primary) or index in title?
         temporaryPage is WebViewFragment -> activity.getString((temporaryPage as WebViewFragment).titleResId)
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
@@ -344,8 +344,8 @@ abstract class ContentController protected constructor(private val activity: Mai
      *
      * @param highlightedId ID of notification to be highlighted initially
      */
-    fun openNotifications(highlightedId: String?) {
-        showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId))
+    fun openNotifications(highlightedId: String?, primaryServer: Boolean) {
+        showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId, primaryServer))
     }
 
     /**

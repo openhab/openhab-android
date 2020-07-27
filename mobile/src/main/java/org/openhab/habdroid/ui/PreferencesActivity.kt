@@ -553,11 +553,19 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
-        override fun onAvailableConnectionChanged() {
+        override fun onActiveConnectionChanged() {
+            // no-op
+        }
+
+        override fun onPrimaryConnectionChanged() {
             updateNotificationStatusSummaries()
         }
 
-        override fun onCloudConnectionChanged(connection: CloudConnection?) {
+        override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+            // no-op
+        }
+
+        override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
             updateNotificationStatusSummaries()
         }
 

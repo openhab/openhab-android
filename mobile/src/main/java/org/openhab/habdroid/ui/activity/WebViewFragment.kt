@@ -150,11 +150,19 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
     }
 
-    override fun onAvailableConnectionChanged() {
+    override fun onActiveConnectionChanged() {
         loadWebsite()
     }
 
-    override fun onCloudConnectionChanged(connection: CloudConnection?) {
+    override fun onPrimaryConnectionChanged() {
+        // no-op
+    }
+
+    override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+        // no-op
+    }
+
+    override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
         // no-op
     }
 
@@ -171,7 +179,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
-        val conn = ConnectionFactory.usableConnectionOrNull
+        val conn = ConnectionFactory.activeUsableConnection?.connection
         if (conn == null) {
             updateViewVisibility(error = true, loading = false)
             return

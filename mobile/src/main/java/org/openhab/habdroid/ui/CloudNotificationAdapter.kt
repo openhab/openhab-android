@@ -107,7 +107,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0)
             messageView.text = notification.message
 
-            val conn = ConnectionFactory.cloudConnectionOrNull
+            val conn = ConnectionFactory.activeCloudConnection?.connection
             if (notification.icon != null && conn != null) {
                 iconView.setImageUrl(
                     conn,

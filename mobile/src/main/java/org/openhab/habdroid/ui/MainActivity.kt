@@ -83,7 +83,6 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
-import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
@@ -201,7 +200,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             serverProperties = savedInstanceState.getParcelable(STATE_KEY_SERVER_PROPERTIES)
             val lastConnectionHash = savedInstanceState.getInt(STATE_KEY_CONNECTION_HASH)
             if (lastConnectionHash != -1) {
-                val c = ConnectionFactory.usableConnectionOrNull
+                val c = ConnectionFactory.activeUsableConnection?.connection
                 if (c != null && c.hashCode() == lastConnectionHash) {
                     connection = c
                 }
@@ -265,7 +264,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         ConnectionFactory.addListener(this)
 
         updateDrawerServerEntries()
-        onAvailableConnectionChanged()
+        onActiveConnectionChanged()
 
         if (connection != null && serverProperties == null) {
             controller.clearServerCommunicationFailure()
@@ -415,20 +414,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    override fun onAvailableConnectionChanged() {
-        RemoteLog.d(TAG, "onAvailableConnectionChanged()")
-        var newConnection: Connection?
-        var failureReason: ConnectionException?
+    override fun onActiveConnectionChanged() {
+        RemoteLog.d(TAG, "onActiveConnectionChanged()")
+        val result = ConnectionFactory.activeUsableConnection
+        val newConnection = result?.connection
+        val failureReason = result?.failureReason
 
-        try {
-            newConnection = ConnectionFactory.usableConnection
-            failureReason = null
-        } catch (e: ConnectionException) {
-            newConnection = null
-            failureReason = e
-        }
-
-        if (ConnectionFactory.cloudConnectionOrNull != null) {
+        if (ConnectionFactory.activeCloudConnection?.connection != null) {
             manageNotificationShortcut(true)
         }
 
@@ -455,7 +447,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.localConnectionOrNull == null) {
+                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.activeLocalConnection == null) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(this,
                             getString(R.string.openhab_service_type), this)
@@ -504,11 +496,21 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    override fun onCloudConnectionChanged(connection: CloudConnection?) {
-        RemoteLog.d(TAG, "onCloudConnectionChanged()")
+    override fun onPrimaryConnectionChanged() {
+        // no-op
+    }
+
+    override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+        RemoteLog.d(TAG, "onActiveCloudConnectionChanged()")
         updateDrawerItemVisibility()
         handlePendingAction()
     }
+
+    override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
+        RemoteLog.d(TAG, "onPrimaryCloudConnectionChanged()")
+        handlePendingAction()
+    }
+
 
     private fun handleConnectionChange() {
         if (connection is DemoConnection) {
@@ -519,7 +521,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
         } else {
             val hasLocalAndRemote =
-                ConnectionFactory.localConnectionOrNull != null && ConnectionFactory.remoteConnectionOrNull != null
+                ConnectionFactory.activeLocalConnection != null && ConnectionFactory.activeRemoteConnection != null
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(R.string.info_conn_url, tag = TAG_SNACKBAR_CONNECTION_ESTABLISHED,
@@ -622,7 +624,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             ACTION_NOTIFICATION_SELECTED -> {
                 CloudMessagingHelper.onNotificationSelected(this, intent)
                 val id = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
-                executeActionIfPossible(PendingAction.OpenNotification(id))
+                executeActionIfPossible(PendingAction.OpenNotification(id, true))
             }
             ACTION_HABPANEL_SELECTED -> executeOrStoreAction(PendingAction.OpenHabPanel())
             ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
@@ -687,7 +689,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             var handled = false
             when (item.itemId) {
                 R.id.notifications -> {
-                    openNotifications(null)
+                    openNotifications(null, false)
                     handled = true
                 }
                 R.id.nfc -> {
@@ -830,7 +832,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             drawerMenu.setGroupVisible(R.id.options, true)
 
             val notificationsItem = drawerMenu.findItem(R.id.notifications)
-            notificationsItem.isVisible = ConnectionFactory.cloudConnectionOrNull != null
+            notificationsItem.isVisible = ConnectionFactory.activeCloudConnection?.connection != null
 
             val habPanelItem = drawerMenu.findItem(R.id.habpanel)
             habPanelItem.isVisible = serverProperties?.hasHabPanelInstalled() == true
@@ -913,9 +915,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             launchVoiceRecognition()
             true
         }
-        action is PendingAction.OpenNotification && isStarted && ConnectionFactory.cloudConnectionOrNull != null -> {
-            openNotifications(action.notificationId)
-            true
+        action is PendingAction.OpenNotification && isStarted -> {
+            val conn = if (action.primary) ConnectionFactory.primaryCloudConnection else ConnectionFactory.activeCloudConnection
+            if (conn?.connection != null) {
+                openNotifications(action.notificationId, action.primary)
+                true
+            } else {
+                false
+            }
         }
         else -> false
     }
@@ -968,8 +975,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .show()
     }
 
-    private fun openNotifications(highlightedId: String?) {
-        controller.openNotifications(highlightedId)
+    private fun openNotifications(highlightedId: String?, primaryServer: Boolean) {
+        controller.openNotifications(highlightedId, primaryServer)
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
@@ -1228,7 +1235,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         class OpenSitemapUrl constructor(val url: String) : PendingAction()
         class OpenHabPanel : PendingAction()
         class LaunchVoiceRecognition : PendingAction()
-        class OpenNotification constructor(val notificationId: String) : PendingAction()
+        class OpenNotification constructor(val notificationId: String, val primary: Boolean) : PendingAction()
     }
 
     companion object {
