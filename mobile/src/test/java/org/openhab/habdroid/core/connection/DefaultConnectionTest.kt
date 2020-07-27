@@ -23,6 +23,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.HttpClient
 
 class DefaultConnectionTest {
@@ -36,11 +37,11 @@ class DefaultConnectionTest {
     fun setup() {
         client = OkHttpClient.Builder().build()
         testConnection = DefaultConnection(client, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, null, null)
+            ServerPath(TEST_BASE_URL, null, null))
         testConnectionRemote = DefaultConnection(client, Connection.TYPE_REMOTE,
-                "", null, null)
-        testConnectionCloud = DefaultConnection(client,
-                Connection.TYPE_CLOUD, "", null, null)
+            ServerPath("", null, null))
+        testConnectionCloud = DefaultConnection(client, Connection.TYPE_CLOUD,
+            ServerPath("", null, null))
     }
 
     @Test
@@ -71,14 +72,14 @@ class DefaultConnectionTest {
     @Test
     fun testGetUsernameSet() {
         val connection = DefaultConnection(client, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, "Test-User", null)
+            ServerPath(TEST_BASE_URL, "Test-User", null))
         assertEquals("Test-User", connection.username)
     }
 
     @Test
     fun testGetPasswordSet() {
         val connection = DefaultConnection(client, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, null, "Test-Password")
+            ServerPath(TEST_BASE_URL, null, "Test-Password"))
         assertEquals("Test-Password", connection.password)
     }
 
@@ -100,7 +101,7 @@ class DefaultConnectionTest {
     @Test
     fun testHasUsernamePassword() {
         val connection = DefaultConnection(client, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, "Test-User", "Test-Password")
+            ServerPath(TEST_BASE_URL, "Test-User", "Test-Password"))
         val httpClient = connection.httpClient
 
         assertEquals(Credentials.basic("Test-User", "Test-Password"),

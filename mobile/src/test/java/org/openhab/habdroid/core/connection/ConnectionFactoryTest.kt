@@ -41,7 +41,6 @@ import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.PrefKeys
@@ -82,7 +81,10 @@ class ConnectionFactoryTest {
         val cacheFolder = tempFolder.newFolder("cache")
         val appDir = tempFolder.newFolder()
 
-        mockPrefs = mock()
+        mockPrefs = mock() {
+            on { getStringSet(eq(PrefKeys.SERVER_IDS), anyOrNull()) } doReturn setOf("1")
+            on { getInt(eq(PrefKeys.ACTIVE_SERVER_ID), any()) } doReturn 1
+        }
         mockContext = mock<Application> {
             on { cacheDir } doReturn cacheFolder
             on { getDir(any(), any()) } doAnswer { invocation ->
@@ -102,10 +104,10 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), anyOrNull())) doReturn server.url("/").toString()
+        fillInServers(remote = server.url("/").toString())
         updateAndWaitForConnections()
 
-        val conn = ConnectionFactory.remoteConnectionOrNull
+        val conn = ConnectionFactory.activeRemoteConnection
 
         assertNotNull("Should return a remote connection if remote url is set.", conn)
         assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
@@ -114,18 +116,19 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionRemoteWithoutUrl() {
-        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), any())) doReturn ""
+        fillInServers(remote = "")
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.remoteConnectionOrNull
+        val conn = ConnectionFactory.activeRemoteConnection
 
         assertNull("Should not return a remote connection if remote url isn't set.", conn)
     }
 
     @Test
     fun testGetConnectionLocalWithUrl() {
-        whenever(mockPrefs.getString(eq(PrefKeys.LOCAL_URL), anyOrNull())) doReturn "https://openhab.local:8080"
+        fillInServers(local = "https://openhab.local:8080")
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.localConnectionOrNull
+
+        val conn = ConnectionFactory.activeLocalConnection
 
         assertNotNull("Should return a local connection if local url is set.", conn)
         assertEquals("The connection type of a local connection should be TYPE_LOCAL.",
@@ -134,9 +137,9 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionLocalWithoutUrl() {
-        whenever(mockPrefs.getString(eq(PrefKeys.LOCAL_URL), any())) doReturn ""
+        fillInServers(local = "")
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.localConnectionOrNull
+        val conn = ConnectionFactory.activeLocalConnection
 
         assertNull("Should not return a local connection when local url isn't set.", conn)
     }
@@ -148,9 +151,11 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"))
         server.start()
 
-        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), anyOrNull())) doReturn server.url("/").toString()
+        fillInServers(remote = server.url("/").toString())
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.cloudConnectionOrNull
+        val foo = ConnectionFactory.activeCloudConnection
+        //val conn = ConnectionFactory.activeCloudConnection?.connection
+        val conn = foo?.connection
 
         assertNotNull("Should return a cloud connection if remote url is set.", conn)
         assertEquals(CloudConnection::class.java, conn!!.javaClass)
@@ -162,74 +167,69 @@ class ConnectionFactoryTest {
         server.shutdown()
     }
 
-    @Test(expected = NetworkNotAvailableException::class)
-    @Throws(ConnectionException::class)
+    @Test
     fun testGetAnyConnectionNoNetwork() {
         mockConnectionHelper.update(null)
         updateAndWaitForConnections()
-        ConnectionFactory.usableConnection
+        assertEquals(ConnectionFactory.activeUsableConnection?.failureReason?.javaClass, NetworkNotAvailableException::class.java)
     }
 
     @Test
     fun testGetConnectionUnknownNetwork() {
-        whenever(mockPrefs.getString(any(), anyOrNull())) doReturn "https://openhab.local:8080"
+        fillInServers("https://openhab.local:8080", "https://openhab.local:8080")
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(null))
         updateAndWaitForConnections()
         assertEquals(
             "Unknown transport types should be used for remote connections",
-            ConnectionFactory.usableConnection.connectionType,
+            ConnectionFactory.activeUsableConnection?.connection?.connectionType,
             Connection.TYPE_REMOTE
         )
     }
 
     @Test
-    @Throws(ConnectionException::class, IOException::class)
     fun testGetAnyConnectionWifiRemoteOnly() {
         val server = MockWebServer()
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), anyOrNull())) doReturn server.url("/").toString()
+        fillInServers(remote = server.url("/").toString())
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
 
-        val conn = ConnectionFactory.usableConnection
+        val conn = ConnectionFactory.activeUsableConnection?.connection
 
         assertNotNull("Should return a connection in WIFI when only remote url is set.", conn)
         assertEquals("The connection type of the connection should be TYPE_REMOTE.",
-            Connection.TYPE_REMOTE, conn.connectionType)
+            Connection.TYPE_REMOTE, conn?.connectionType)
 
         server.shutdown()
     }
 
     @Test
-    @Throws(ConnectionException::class, IOException::class)
     fun testGetAnyConnectionWifiLocalRemote() {
         val server = MockWebServer()
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        whenever(mockPrefs.getString(eq(PrefKeys.REMOTE_URL), anyOrNull())) doReturn server.url("/").toString()
-        whenever(mockPrefs.getString(eq(PrefKeys.LOCAL_URL), anyOrNull())) doReturn "https://myopenhab.org:443"
+        fillInServers(remote = server.url("/").toString(), local = "https://myopenhab.org:443")
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
 
-        val conn = ConnectionFactory.usableConnection
+        val conn = ConnectionFactory.activeUsableConnection?.connection
 
         assertNotNull("Should return a connection in WIFI when a local url is set.", conn)
         assertEquals("The connection type of the connection should be TYPE_LOCAL.",
-            Connection.TYPE_LOCAL, conn.connectionType)
+            Connection.TYPE_LOCAL, conn?.connectionType)
 
         server.shutdown()
     }
 
-    @Test(expected = NoUrlInformationException::class)
-    @Throws(ConnectionException::class)
+    @Test
     fun testGetAnyConnectionWifiNoLocalNoRemote() {
-        whenever(mockPrefs.getString(any(), any())) doReturn null
+        fillInServers(null, null)
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
-        ConnectionFactory.usableConnection
+        assertEquals(ConnectionFactory.activeUsableConnection?.failureReason?.javaClass, NoUrlInformationException::class.java)
     }
 
     private inner class MockConnectionHelper : ConnectionManagerHelper {
@@ -242,6 +242,12 @@ class ConnectionFactoryTest {
             changeCallback?.invoke()
         }
         override fun shutdown() {}
+    }
+
+    private fun fillInServers(local: String? = null, remote: String? = null) {
+        whenever(mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.LOCAL_URL_PREFIX)), anyOrNull())) doReturn local
+        whenever(mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.REMOTE_URL_PREFIX)), anyOrNull())) doReturn remote
+        whenever(mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.SERVER_NAME_PREFIX)), anyOrNull())) doReturn "Test Server"
     }
 
     private fun updateAndWaitForConnections() {

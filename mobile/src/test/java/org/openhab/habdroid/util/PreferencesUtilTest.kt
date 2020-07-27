@@ -18,7 +18,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.openhab.habdroid.ui.PreferencesActivity.AbstractSettingsFragment.Companion.isWeakPassword
-import org.openhab.habdroid.ui.PreferencesActivity.MainSettingsFragment.Companion.beautifyUrl
+import org.openhab.habdroid.ui.PreferencesActivity.ServerEditorFragment.Companion.beautifyUrl
 
 class PreferencesUtilTest {
     @Test
