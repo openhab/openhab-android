@@ -208,7 +208,7 @@
     <string name="send_device_info_foreground_service_running_summary_two">Listening for events associated to %1$s and %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Listening for events associated to %1$s, %2$s and more</string>
     <string name="settings_item_update_pref_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
-    <string name="item_update_summary_success">Last update was \"%s\" (%s)</string>
+    <string name="item_update_summary_success">Last update was \'%s\' (%s)</string>
     <string name="settings_alarm_clock">Alarm time</string>
     <string name="settings_alarm_clock_summary_on">Sends alarm time to Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Don\'t send alarm time</string>
