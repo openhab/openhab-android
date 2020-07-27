@@ -755,6 +755,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                     true
                 }
             }
+            BackgroundTasksManager.KNOWN_KEYS.forEach { key ->
+                findPreference<ItemUpdatingPreference>(key)?.startObserving(this)
+            }
 
             val prefix = prefs.getPrefixForBgTasks()
             prefixHint.summary = if (prefix.isEmpty()) {

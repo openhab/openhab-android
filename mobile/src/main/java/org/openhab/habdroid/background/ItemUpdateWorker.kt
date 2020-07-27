@@ -131,7 +131,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                     )
                 }
                 sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
-                Result.success(buildOutputData(true, result.statusCode))
+                Result.success(buildOutputData(true, result.statusCode, valueToBeSent))
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
                 sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
@@ -262,7 +262,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             applicationContext.getString(R.string.info_voice_recognized_text, value.value),
             ToastType.SUCCESS
         )
-        return Result.success(buildOutputData(true, result.statusCode))
+        return Result.success(buildOutputData(true, result.statusCode, voiceCommand))
     }
 
     private fun createForegroundInfo(): ForegroundInfo {
@@ -283,13 +283,14 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return ForegroundInfo(NOTIFICATION_ID_BACKGROUND_WORK_RUNNING, notification, FOREGROUND_SERVICE_TYPE_DATA_SYNC)
     }
 
-    private fun buildOutputData(hasConnection: Boolean, httpStatus: Int): Data {
+    private fun buildOutputData(hasConnection: Boolean, httpStatus: Int, sentValue: String? = null): Data {
         return Data.Builder()
             .putBoolean(OUTPUT_DATA_HAS_CONNECTION, hasConnection)
             .putInt(OUTPUT_DATA_HTTP_STATUS, httpStatus)
             .putString(OUTPUT_DATA_ITEM_NAME, inputData.getString(INPUT_DATA_ITEM_NAME))
             .putString(OUTPUT_DATA_LABEL, inputData.getString(INPUT_DATA_LABEL))
             .putValueWithInfo(OUTPUT_DATA_VALUE, inputData.getValueWithInfo(INPUT_DATA_VALUE))
+            .putString(OUTPUT_DATA_SENT_VALUE, sentValue)
             .putBoolean(OUTPUT_DATA_SHOW_TOAST, inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false))
             .putString(OUTPUT_DATA_TASKER_INTENT, inputData.getString(INPUT_DATA_TASKER_INTENT))
             .putString(OUTPUT_DATA_AS_COMMAND, inputData.getString(INPUT_DATA_AS_COMMAND))
@@ -340,6 +341,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         const val OUTPUT_DATA_ITEM_NAME = "item"
         const val OUTPUT_DATA_LABEL = "label"
         const val OUTPUT_DATA_VALUE = "value"
+        const val OUTPUT_DATA_SENT_VALUE = "sentValue"
         const val OUTPUT_DATA_SHOW_TOAST = "showToast"
         const val OUTPUT_DATA_TASKER_INTENT = "taskerIntent"
         const val OUTPUT_DATA_AS_COMMAND = "command"
