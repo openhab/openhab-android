@@ -178,6 +178,7 @@
     <string name="send_device_info_item_prefix_summary">Назви об’єктів на цій сторінці префіксуються з ідентифікатором пристрою \'%s</string>
     <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс для імен об’єктів на цій сторінці. Ви можете додати їх префікс за допомогою ідентифікатора пристрою, який може бути встановлений на сторінці основних налаштувань.</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
+    <string name="item_update_summary_success">Останнє оновлення було \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Час сигналу</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не надсилати будильник</string>
