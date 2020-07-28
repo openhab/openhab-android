@@ -534,6 +534,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
             .setShortLabel(name)
             .setIcon(icon)
             .setIntent(startIntent)
+            .setAlwaysBadged()
             .build()
 
         val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
