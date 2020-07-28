@@ -18,7 +18,6 @@ import android.content.Intent
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.ui.AboutActivity
 import org.openhab.habdroid.ui.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
@@ -56,11 +55,7 @@ object CloudMessagingHelper {
             )
             ConnectionFactory.primaryCloudConnection?.connection != null -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_impaired),
-                R.drawable.ic_bell_ring_outline_grey_24dp,
-                AboutActivity.AboutMainFragment.makeClickRedirect(
-                    context,
-                    "https://www.openhab.org/docs/apps/android.html#notifications-in-foss-version"
-                )
+                R.drawable.ic_bell_ring_outline_grey_24dp
             )
             cloudFailure != null -> {
                 val message = context.getString(

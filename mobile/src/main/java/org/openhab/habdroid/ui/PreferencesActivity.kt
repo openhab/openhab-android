@@ -485,9 +485,11 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private fun updateNotificationStatusSummaries() {
             parentActivity.launch {
-                notificationPollingPref?.updateSummary()
+                notificationPollingPref?.updateSummaryAndIcon()
                 notificationStatusHint?.apply {
-                    summary = CloudMessagingHelper.getPushNotificationStatus(this.context).message
+                    val data = CloudMessagingHelper.getPushNotificationStatus(this.context)
+                    summary = data.message
+                    setIcon(data.icon)
                 }
             }
         }

@@ -179,7 +179,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Not enough free space on server (HTTP code %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Network authentication required (HTTP code %d)</string>
-    <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="error_openhab_offline">Your openHAB server is offline while the cloud instance is running</string>
     <string name="error_no_browser_found">No browser found on your device</string>
     <string name="error_no_speech_to_text_app_found">No voice recognition app found</string>
@@ -194,8 +193,6 @@
     <string name="info_write_failed">Tag write error</string>
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API version</string>
-    <string name="info_openhab_push_notification_label">Push notification status</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long click a widget on the Sitemap.</string>
     <string name="info_not_set">Not set</string>
@@ -396,7 +393,6 @@
     <string name="about_community_forum">Community forum</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHAB community</string>
-    <string name="about_server">openHAB server</string>
     <string name="about_translation">Help us translating openHAB</string>
     <string name="about_privacy_policy">Privacy policy</string>
     <string name="about_rate_this_app">Rate this app</string>
@@ -404,7 +400,6 @@
     <string name="settings_debug_messages_title">Extended error messages</string>
     <string name="settings_troubleshooting_title">Troubleshooting</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
-    <string name="unknown">Unknown</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>

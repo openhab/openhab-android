@@ -112,6 +112,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             or SERVER_FLAG_CHART_SCALING_SUPPORT)
                         try {
                             val version = resultJson.getString("version").toInt()
+                            Log.i(TAG, "Server has rest api version $version")
                             // all versions that return a number here have full SSE support
                             flags = flags or SERVER_FLAG_SSE_SUPPORT
                             if (version >= 2) {
@@ -122,6 +123,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             }
                         } catch (nfe: NumberFormatException) {
                             // ignored: older versions without SSE support didn't return a number
+                            Log.i(TAG, "Server has rest api version < 1")
                         }
 
                         val linksJsonArray = resultJson.optJSONArray("links")

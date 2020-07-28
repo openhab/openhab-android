@@ -70,8 +70,10 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
         }
     }
 
-    suspend fun updateSummary() {
-        summary = CloudMessagingHelper.getPushNotificationStatus(context).message
+    suspend fun updateSummaryAndIcon() {
+        val status = CloudMessagingHelper.getPushNotificationStatus(context)
+        summary = status.message
+        setIcon(status.icon)
     }
 
     class PrefDialogFragment : PreferenceDialogFragmentCompat(), CompoundButton.OnCheckedChangeListener {
