@@ -191,7 +191,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val request = HttpImageRequest(client, url, targetImageSize, timeoutMillis)
 
         if (cached != null) {
-            setBitmapInternal(cached)
+            applyLoadedBitmap(cached)
         } else {
             applyProgressDrawable()
         }
@@ -200,15 +200,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             request.execute(forceLoad)
         }
         lastRequest = request
-    }
-
-    private fun setBitmapInternal(bitmap: Bitmap) {
-        removeProgressDrawable()
-        // Mark this call as being triggered by ourselves, as setImageBitmap()
-        // ultimately calls through to setImageDrawable().
-        internalLoad = true
-        super.setImageBitmap(bitmap)
-        internalLoad = false
     }
 
     private fun scheduleNextRefresh() {
@@ -229,6 +220,20 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         lastRequest?.cancel()
         pendingLoadJob?.cancel()
         pendingLoadJob = null
+    }
+
+    private fun applyLoadedBitmap(bitmap: Bitmap) {
+        removeProgressDrawable()
+        if (adjustViewBoundsForDownscalingOnly) {
+            // Make sure that view only shrinks to accomodate bitmap size, but doesn't enlarge ... that is,
+            // adjust view bounds only if width is larger than target size or height is larger than the maximum height
+            adjustViewBounds = bitmap.width > targetImageSize || maxHeight < bitmap.height
+        }
+        // Mark this call as being triggered by ourselves, as setImageBitmap()
+        // ultimately calls through to setImageDrawable().
+        internalLoad = true
+        super.setImageBitmap(bitmap)
+        internalLoad = false
     }
 
     private fun applyFallbackDrawable() {
@@ -294,13 +299,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                         timeoutMillis = timeoutMillis, caching = cachingMode)
                         .asBitmap(size, conversionPolicy)
                         .response
-                    if (adjustViewBoundsForDownscalingOnly) {
-                        // make sure that view only shrinks to accomodate bitmap size, but doesn't enlarge ... that is,
-                        // adjust view bounds only if width is larger than target size
-                        adjustViewBounds = bitmap.width > size
-                    }
-                    setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
+                    applyLoadedBitmap(bitmap)
                     lastRefreshTimestamp = SystemClock.uptimeMillis()
                     scheduleNextRefresh()
                 } catch (e: HttpClient.HttpException) {
