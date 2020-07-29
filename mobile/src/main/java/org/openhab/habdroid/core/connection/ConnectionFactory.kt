@@ -495,7 +495,7 @@ class ConnectionFactory internal constructor(
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
         private val UPDATE_TRIGGERING_KEYS = listOf(
-            PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID
+            PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID, PrefKeys.PRIMARY_SERVER_ID
         )
         private val UPDATE_TRIGGERING_PREFIXES = listOf(
             PrefKeys.LOCAL_URL_PREFIX, PrefKeys.REMOTE_URL_PREFIX,
