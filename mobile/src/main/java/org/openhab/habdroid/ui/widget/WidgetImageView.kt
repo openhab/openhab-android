@@ -225,7 +225,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private fun applyLoadedBitmap(bitmap: Bitmap) {
         removeProgressDrawable()
         if (adjustViewBoundsForDownscalingOnly) {
-            // Make sure that view only shrinks to accomodate bitmap size, but doesn't enlarge ... that is,
+            // Make sure that view only shrinks to accommodate bitmap size, but doesn't enlarge ... that is,
             // adjust view bounds only if width is larger than target size or height is larger than the maximum height
             adjustViewBounds = bitmap.width > targetImageSize || maxHeight < bitmap.height
         }
