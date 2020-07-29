@@ -51,6 +51,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var lastRefreshTimestamp: Long = 0
     private var refreshJob: Job? = null
     private var pendingRequest: PendingRequest? = null
+    private var pendingLoadJob: Job? = null
     private var targetImageSize: Int = 0
 
     init {
@@ -75,6 +76,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
 
+        pendingLoadJob?.cancel()
         refreshInterval = refreshDelayInMs.toLong()
 
         if (actualUrl == lastRequest?.url) {
@@ -96,7 +98,11 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         targetImageSize = right - left - paddingLeft - paddingRight
-        pendingRequest?.let { r -> doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad) }
+        pendingRequest?.let { r ->
+            pendingLoadJob = scope?.launch {
+                doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
+            }
+        }
         pendingRequest = null
     }
 
@@ -221,6 +227,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         refreshJob?.cancel()
         refreshJob = null
         lastRequest?.cancel()
+        pendingLoadJob?.cancel()
+        pendingLoadJob = null
     }
 
     private fun applyFallbackDrawable() {
