@@ -203,7 +203,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             "Device: ${Build.DEVICE}\n" +
             "Product: ${Build.PRODUCT}\n" +
             "OS: ${Build.VERSION.RELEASE}\n" +
-            "Display density: ${resources.displayMetrics.density}"
+            "Display density: ${resources.displayMetrics.density}\n"
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {

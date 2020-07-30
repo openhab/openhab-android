@@ -31,7 +31,6 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.SecondaryAsPrimary</item>
     </style>
 
-    <style name="openHAB.OutlineButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="strokeWidth">2dp</item>
-    </style>
+    <!-- This is overridden for some densities -->
+    <style name="openHAB.OutlineButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 </resources>
