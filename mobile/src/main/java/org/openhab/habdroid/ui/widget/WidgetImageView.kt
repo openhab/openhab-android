@@ -50,6 +50,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var refreshInterval: Long = 0
     private var lastRefreshTimestamp: Long = 0
     private var refreshJob: Job? = null
+    private var refreshActive = false
     private var pendingRequest: PendingRequest? = null
     private var pendingLoadJob: Job? = null
     private var targetImageSize: Int = 0
@@ -151,7 +152,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                 // (when not doing so, we'd always load a stale image from cache until first refresh)
                 request.execute(refreshInterval != 0L)
             } else {
-                scheduleNextRefresh()
+                scheduleNextRefreshIfNeeded()
             }
         }
     }
@@ -165,8 +166,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     fun startRefreshingIfNeeded() {
         refreshJob?.cancel()
         refreshJob = null
+        refreshActive = true
         if (lastRequest?.isActive() != true) {
-            scheduleNextRefresh()
+            scheduleNextRefreshIfNeeded()
         }
     }
 
@@ -174,6 +176,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         refreshJob?.cancel()
         refreshJob = null
         lastRefreshTimestamp = 0
+        refreshActive = false
     }
 
     private fun prepareForNonHttpImage() {
@@ -198,12 +201,14 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
         if (cached == null || forceLoad) {
             request.execute(forceLoad)
+        } else {
+            scheduleNextRefreshIfNeeded()
         }
         lastRequest = request
     }
 
-    private fun scheduleNextRefresh() {
-        if (refreshInterval == 0L) {
+    private fun scheduleNextRefreshIfNeeded() {
+        if (refreshInterval == 0L || !refreshActive) {
             return
         }
         val timeToNextRefresh = refreshInterval + lastRefreshTimestamp - SystemClock.uptimeMillis()
@@ -302,7 +307,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
                     applyLoadedBitmap(bitmap)
                     lastRefreshTimestamp = SystemClock.uptimeMillis()
-                    scheduleNextRefresh()
+                    scheduleNextRefreshIfNeeded()
                 } catch (e: HttpClient.HttpException) {
                     removeProgressDrawable()
                     applyFallbackDrawable()
