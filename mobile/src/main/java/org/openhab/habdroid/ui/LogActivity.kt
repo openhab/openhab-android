@@ -197,13 +197,15 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     private fun getDeviceInfo(): String {
+        val displayMetrics = resources.displayMetrics
         return "Model: ${Build.MODEL}\n" +
             "Manufacturer: ${Build.MANUFACTURER}\n" +
             "Brand: ${Build.BRAND}\n" +
             "Device: ${Build.DEVICE}\n" +
             "Product: ${Build.PRODUCT}\n" +
             "OS: ${Build.VERSION.RELEASE}\n" +
-            "Display density: ${resources.displayMetrics.density}\n"
+            "Display: ${displayMetrics.widthPixels}x${displayMetrics.heightPixels}, " +
+                "${displayMetrics.density} density\n"
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {
