@@ -50,7 +50,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var refreshInterval: Long = 0
     private var lastRefreshTimestamp: Long = 0
     private var refreshJob: Job? = null
+    private var refreshActive = false
     private var pendingRequest: PendingRequest? = null
+    private var pendingLoadJob: Job? = null
     private var targetImageSize: Int = 0
 
     init {
@@ -75,6 +77,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val client = connection.httpClient
         val actualUrl = client.buildUrl(url)
 
+        pendingLoadJob?.cancel()
         refreshInterval = refreshDelayInMs.toLong()
 
         if (actualUrl == lastRequest?.url) {
@@ -96,7 +99,11 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         targetImageSize = right - left - paddingLeft - paddingRight
-        pendingRequest?.let { r -> doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad) }
+        pendingRequest?.let { r ->
+            pendingLoadJob = scope?.launch {
+                doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
+            }
+        }
         pendingRequest = null
     }
 
@@ -145,7 +152,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                 // (when not doing so, we'd always load a stale image from cache until first refresh)
                 request.execute(refreshInterval != 0L)
             } else {
-                scheduleNextRefresh()
+                scheduleNextRefreshIfNeeded()
             }
         }
     }
@@ -159,8 +166,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     fun startRefreshingIfNeeded() {
         refreshJob?.cancel()
         refreshJob = null
+        refreshActive = true
         if (lastRequest?.isActive() != true) {
-            scheduleNextRefresh()
+            scheduleNextRefreshIfNeeded()
         }
     }
 
@@ -168,6 +176,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         refreshJob?.cancel()
         refreshJob = null
         lastRefreshTimestamp = 0
+        refreshActive = false
     }
 
     private fun prepareForNonHttpImage() {
@@ -185,28 +194,21 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val request = HttpImageRequest(client, url, targetImageSize, timeoutMillis)
 
         if (cached != null) {
-            setBitmapInternal(cached)
+            applyLoadedBitmap(cached)
         } else {
             applyProgressDrawable()
         }
 
         if (cached == null || forceLoad) {
             request.execute(forceLoad)
+        } else {
+            scheduleNextRefreshIfNeeded()
         }
         lastRequest = request
     }
 
-    private fun setBitmapInternal(bitmap: Bitmap) {
-        removeProgressDrawable()
-        // Mark this call as being triggered by ourselves, as setImageBitmap()
-        // ultimately calls through to setImageDrawable().
-        internalLoad = true
-        super.setImageBitmap(bitmap)
-        internalLoad = false
-    }
-
-    private fun scheduleNextRefresh() {
-        if (refreshInterval == 0L) {
+    private fun scheduleNextRefreshIfNeeded() {
+        if (refreshInterval == 0L || !refreshActive) {
             return
         }
         val timeToNextRefresh = refreshInterval + lastRefreshTimestamp - SystemClock.uptimeMillis()
@@ -221,6 +223,22 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         refreshJob?.cancel()
         refreshJob = null
         lastRequest?.cancel()
+        pendingLoadJob?.cancel()
+        pendingLoadJob = null
+    }
+
+    private fun applyLoadedBitmap(bitmap: Bitmap) {
+        removeProgressDrawable()
+        if (adjustViewBoundsForDownscalingOnly) {
+            // Make sure that view only shrinks to accommodate bitmap size, but doesn't enlarge ... that is,
+            // adjust view bounds only if width is larger than target size or height is larger than the maximum height
+            adjustViewBounds = bitmap.width > targetImageSize || maxHeight < bitmap.height
+        }
+        // Mark this call as being triggered by ourselves, as setImageBitmap()
+        // ultimately calls through to setImageDrawable().
+        internalLoad = true
+        super.setImageBitmap(bitmap)
+        internalLoad = false
     }
 
     private fun applyFallbackDrawable() {
@@ -286,15 +304,10 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                         timeoutMillis = timeoutMillis, caching = cachingMode)
                         .asBitmap(size, conversionPolicy)
                         .response
-                    if (adjustViewBoundsForDownscalingOnly) {
-                        // make sure that view only shrinks to accomodate bitmap size, but doesn't enlarge ... that is,
-                        // adjust view bounds only if width is larger than target size
-                        adjustViewBounds = bitmap.width > size
-                    }
-                    setBitmapInternal(bitmap)
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
+                    applyLoadedBitmap(bitmap)
                     lastRefreshTimestamp = SystemClock.uptimeMillis()
-                    scheduleNextRefresh()
+                    scheduleNextRefreshIfNeeded()
                 } catch (e: HttpClient.HttpException) {
                     removeProgressDrawable()
                     applyFallbackDrawable()
