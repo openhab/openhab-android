@@ -178,6 +178,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 holder.handleDataSaverChange()
             }
         }
+        (activity as MainActivity?)?.showDataSaverHintSnackbarIfNeeded()
     }
 
     override fun onItemClicked(widget: Widget): Boolean {

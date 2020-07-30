@@ -76,6 +76,7 @@ object PrefKeys {
      * "Tooltip shown" flags
      */
     const val SWIPE_REFRESH_EXPLAINED = "swipToRefreshExplained"
+    const val DATA_SAVER_EXPLAINED = "dataSaverExplained"
     const val NFC_INFO_HINT_SHOWN = "nfcInfoHintShown"
 
     /**
