@@ -30,4 +30,8 @@
     <style name="openHAB.Slider" parent="@style/Widget.MaterialComponents.Slider">
         <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.SecondaryAsPrimary</item>
     </style>
+
+    <style name="openHAB.OutlineButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeWidth">@dimen/outlineButtonStrokeWidth</item>
+    </style>
 </resources>

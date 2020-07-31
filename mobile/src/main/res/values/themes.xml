@@ -7,6 +7,7 @@
         <item name="android:windowBackground">?android:colorBackground</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="sliderStyle">@style/openHAB.Slider</item>
+        <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
     </style>
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
