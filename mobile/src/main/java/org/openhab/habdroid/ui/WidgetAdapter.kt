@@ -388,7 +388,8 @@ class WidgetAdapter(
         }
 
         private fun showDataSaverPlaceholderIfNeeded(widget: Widget, canBindWithoutData: Boolean): Boolean {
-            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers && !canBindWithoutData
+            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers &&
+                !canBindWithoutData
 
             dataSaverView.isVisible = dataSaverActive
             widgetContentView.isVisible = !dataSaverView.isVisible

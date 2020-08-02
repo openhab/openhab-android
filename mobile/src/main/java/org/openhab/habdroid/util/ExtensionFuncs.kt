@@ -370,7 +370,7 @@ fun Context.determineDataUsagePolicy(): DataUsagePolicy {
             DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref)
         }
     }
-    return when((applicationContext as OpenHabApplication).systemDataSaverStatus) {
+    return when ((applicationContext as OpenHabApplication).systemDataSaverStatus) {
         ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> DataUsagePolicy(
             canDoLargeTransfers = false,
             autoPlayVideos = false,
