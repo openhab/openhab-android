@@ -28,14 +28,16 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.util.DataUsagePolicy
 import org.openhab.habdroid.util.RemoteLog
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import java.security.InvalidKeyException
 
 class OpenHabApplication : MultiDexApplication() {
-    interface OnDataSaverActiveStateChangedListener {
-        fun onSystemDataSaverActiveStateChanged(active: Boolean)
+    interface OnDataUsagePolicyChangedListener {
+        fun onDataUsagePolicyChanged(newPolicy: DataUsagePolicy)
     }
 
     val secretPrefs: SharedPreferences by lazy {
@@ -52,16 +54,16 @@ class OpenHabApplication : MultiDexApplication() {
         }
     }
 
-    var isSystemDataSaverActive: Boolean = false
+    var systemDataSaverStatus: Int = ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
         private set
 
     private val dataSaverChangeListener = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        DataSaverStateChangeReceiver()
+        SystemDataSaverStateChangeReceiver()
     } else {
         null
     }
 
-    private val dataSaverListeners = mutableSetOf<OnDataSaverActiveStateChangedListener>()
+    private val dataUsagePolicyListeners = mutableSetOf<OnDataUsagePolicyChangedListener>()
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getEncryptedSharedPrefs() = EncryptedSharedPreferences.create(
@@ -81,7 +83,7 @@ class OpenHabApplication : MultiDexApplication() {
 
         dataSaverChangeListener?.let { listener ->
             registerReceiver(listener, IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED))
-            isSystemDataSaverActive = listener.isSystemDataSaverEnabled(this)
+            systemDataSaverStatus = listener.getSystemDataSaverStatus(this)
         }
     }
 
@@ -90,29 +92,33 @@ class OpenHabApplication : MultiDexApplication() {
         ConnectionFactory.shutdown()
     }
 
-    fun registerSystemDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
-        dataSaverListeners.add(l)
+    fun registerSystemDataSaverStateChangedListener(l: OnDataUsagePolicyChangedListener) {
+        dataUsagePolicyListeners.add(l)
     }
 
-    fun unregisterSystemDataSaverStateChangedListener(l: OnDataSaverActiveStateChangedListener) {
-        dataSaverListeners.remove(l)
+    fun unregisterSystemDataSaverStateChangedListener(l: OnDataUsagePolicyChangedListener) {
+        dataUsagePolicyListeners.remove(l)
     }
 
-    inner class DataSaverStateChangeReceiver : BroadcastReceiver() {
-        fun isSystemDataSaverEnabled(context: Context): Boolean {
+    inner class SystemDataSaverStateChangeReceiver : BroadcastReceiver() {
+        fun getSystemDataSaverStatus(context: Context): Int {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                return false
+                return ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
             }
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            return cm.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
+            return cm.restrictBackgroundStatus
         }
 
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent?.action != ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED) {
                 return
             }
-            isSystemDataSaverActive = isSystemDataSaverEnabled(context)
-            dataSaverListeners.forEach { l -> l.onSystemDataSaverActiveStateChanged(isSystemDataSaverActive) }
+            val oldPolicy = determineDataUsagePolicy()
+            systemDataSaverStatus = getSystemDataSaverStatus(context)
+            val newPolicy = determineDataUsagePolicy()
+            if (oldPolicy != newPolicy) {
+                dataUsagePolicyListeners.forEach { l -> l.onDataUsagePolicyChanged(newPolicy) }
+            }
         }
     }
 

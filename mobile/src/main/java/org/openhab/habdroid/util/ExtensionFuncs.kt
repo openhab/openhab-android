@@ -21,6 +21,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
 import android.os.Build
@@ -351,12 +352,30 @@ fun Context.openInAppStore(app: String) {
     }
 }
 
-fun Context.isDataSaverActive(): Boolean {
+data class DataUsagePolicy(val canDoLargeTransfers: Boolean, val autoPlayVideos: Boolean, val canDoRefreshes: Boolean)
+
+fun Context.determineDataUsagePolicy(): DataUsagePolicy {
     val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        return dataSaverPref
+        return DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref)
     }
-    return (applicationContext as OpenHabApplication).isSystemDataSaverActive
+    return when((applicationContext as OpenHabApplication).systemDataSaverStatus) {
+        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> DataUsagePolicy(
+            canDoLargeTransfers = false,
+            autoPlayVideos = false,
+            canDoRefreshes = false
+        )
+        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED ->  DataUsagePolicy(
+            canDoLargeTransfers = true,
+            autoPlayVideos = false,
+            canDoRefreshes = true
+        )
+        else ->  DataUsagePolicy(
+            canDoLargeTransfers = true,
+            autoPlayVideos = true,
+            canDoRefreshes = true
+        )
+    }
 }
 
 fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int {
