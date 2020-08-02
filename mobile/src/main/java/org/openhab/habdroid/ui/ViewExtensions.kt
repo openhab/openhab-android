@@ -45,7 +45,7 @@ fun SwipeRefreshLayout.applyColors(@AttrRes vararg colorAttrIds: Int) {
     setColorSchemeColors(*colors)
 }
 
-fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
+fun WebView.setUpForConnection(connection: Connection, url: HttpUrl, progressCallback: (progress: Int) -> Unit) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val webViewDatabase = WebViewDatabase.getInstance(context)
         webViewDatabase.setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
@@ -67,6 +67,10 @@ fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
             view.requestFocusNodeHref(href)
             href.data.getString("url")?.toUri().openInBrowser(view.context)
             return false
+        }
+
+        override fun onProgressChanged(view: WebView?, newProgress: Int) {
+            progressCallback(newProgress)
         }
     }
 }

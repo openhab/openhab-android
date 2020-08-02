@@ -48,6 +48,7 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.OnColorChangedListener
@@ -1070,6 +1071,7 @@ class WidgetAdapter(
         connection: Connection
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_webitem, connection) {
         private val webView = widgetContentView as WebView
+        private val progressBar: ContentLoadingProgressBar = itemView.findViewById(R.id.progress_bar)
 
         @SuppressLint("SetJavaScriptEnabled")
         override fun bindAfterDataSaverCheck(widget: Widget) {
@@ -1078,7 +1080,14 @@ class WidgetAdapter(
                 adjustForWidgetHeight(widget, 0)
                 loadUrl("about:blank")
 
-                setUpForConnection(connection, url)
+                setUpForConnection(connection, url) { progress ->
+                    if (progress == 100) {
+                        progressBar.hide()
+                    } else {
+                        progressBar.show()
+                    }
+                    progressBar.progress = progress
+                }
                 loadUrl(url.toString())
             }
         }
