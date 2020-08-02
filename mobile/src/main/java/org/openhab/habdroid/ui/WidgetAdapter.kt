@@ -988,7 +988,8 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (exoPlayer.playbackState != Player.STATE_IDLE) {
+            if (itemView.context.determineDataUsagePolicy().autoPlayVideos &&
+                exoPlayer.playbackState != Player.STATE_IDLE) {
                 exoPlayer.playWhenReady = true
             }
         }

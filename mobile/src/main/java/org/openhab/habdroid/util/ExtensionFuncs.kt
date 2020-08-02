@@ -355,9 +355,20 @@ fun Context.openInAppStore(app: String) {
 data class DataUsagePolicy(val canDoLargeTransfers: Boolean, val autoPlayVideos: Boolean, val canDoRefreshes: Boolean)
 
 fun Context.determineDataUsagePolicy(): DataUsagePolicy {
+    val isBatterySaverActive = (applicationContext as OpenHabApplication).batterySaverActive
+    fun getDataUsagePolicyForBatterySaver() = DataUsagePolicy(
+        canDoLargeTransfers = true,
+        autoPlayVideos = false,
+        canDoRefreshes = false
+    )
+
     val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        return DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref)
+        return if (isBatterySaverActive) {
+            getDataUsagePolicyForBatterySaver()
+        } else {
+            DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref)
+        }
     }
     return when((applicationContext as OpenHabApplication).systemDataSaverStatus) {
         ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> DataUsagePolicy(
@@ -365,16 +376,28 @@ fun Context.determineDataUsagePolicy(): DataUsagePolicy {
             autoPlayVideos = false,
             canDoRefreshes = false
         )
-        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED ->  DataUsagePolicy(
-            canDoLargeTransfers = true,
-            autoPlayVideos = false,
-            canDoRefreshes = true
-        )
-        else ->  DataUsagePolicy(
-            canDoLargeTransfers = true,
-            autoPlayVideos = true,
-            canDoRefreshes = true
-        )
+        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
+            if (isBatterySaverActive) {
+                getDataUsagePolicyForBatterySaver()
+            } else {
+                DataUsagePolicy(
+                    canDoLargeTransfers = true,
+                    autoPlayVideos = false,
+                    canDoRefreshes = true
+                )
+            }
+        }
+        else -> {
+            if (isBatterySaverActive) {
+                getDataUsagePolicyForBatterySaver()
+            } else {
+                DataUsagePolicy(
+                    canDoLargeTransfers = true,
+                    autoPlayVideos = true,
+                    canDoRefreshes = true
+                )
+            }
+        }
     }
 }
 

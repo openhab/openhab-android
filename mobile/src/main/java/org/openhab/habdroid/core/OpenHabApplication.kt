@@ -20,6 +20,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Build
+import android.os.PowerManager
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
@@ -56,13 +57,10 @@ class OpenHabApplication : MultiDexApplication() {
 
     var systemDataSaverStatus: Int = ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
         private set
+    var batterySaverActive: Boolean = false
+        private set
 
-    private val dataSaverChangeListener = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        SystemDataSaverStateChangeReceiver()
-    } else {
-        null
-    }
-
+    private val dataSaverChangeListener = SystemDataSaverStateChangeReceiver()
     private val dataUsagePolicyListeners = mutableSetOf<OnDataUsagePolicyChangedListener>()
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -81,9 +79,18 @@ class OpenHabApplication : MultiDexApplication() {
         ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
 
-        dataSaverChangeListener?.let { listener ->
-            registerReceiver(listener, IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED))
+        dataSaverChangeListener.let { listener ->
+            registerReceiver(
+                listener,
+                IntentFilter().apply {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        addAction(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
+                    }
+                    addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+                }
+            )
             systemDataSaverStatus = listener.getSystemDataSaverStatus(this)
+            batterySaverActive = listener.isBatterySaverActive(this)
         }
     }
 
@@ -109,12 +116,24 @@ class OpenHabApplication : MultiDexApplication() {
             return cm.restrictBackgroundStatus
         }
 
+        fun isBatterySaverActive(context: Context): Boolean {
+            val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+            return pm.isPowerSaveMode
+        }
+
         override fun onReceive(context: Context, intent: Intent?) {
-            if (intent?.action != ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED) {
-                return
-            }
             val oldPolicy = determineDataUsagePolicy()
-            systemDataSaverStatus = getSystemDataSaverStatus(context)
+            when (intent?.action) {
+                ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED -> {
+                    systemDataSaverStatus = getSystemDataSaverStatus(context)
+                    Log.d(TAG, "Data saver changed to $systemDataSaverStatus")
+                }
+                PowerManager.ACTION_POWER_SAVE_MODE_CHANGED -> {
+                    batterySaverActive = isBatterySaverActive(context)
+                    Log.d(TAG, "Battery saver changed to $batterySaverActive")
+                }
+                else -> return
+            }
             val newPolicy = determineDataUsagePolicy()
             if (oldPolicy != newPolicy) {
                 dataUsagePolicyListeners.forEach { l -> l.onDataUsagePolicyChanged(newPolicy) }
