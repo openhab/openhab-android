@@ -18,10 +18,9 @@ import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
-import androidx.media2.common.MediaItem
 import androidx.media2.common.SessionPlayer
+import androidx.media2.common.VideoSize
 import androidx.media2.player.MediaPlayer
-import androidx.media2.player.VideoSize
 import androidx.media2.widget.VideoView
 import java.util.concurrent.Executor
 
@@ -29,8 +28,8 @@ class AutoHeightVideoView constructor(context: Context, attrs: AttributeSet) : V
     private var currentPlayer: SessionPlayer? = null
     private var videoSize: VideoSize? = null
     private val playerCallback = object : MediaPlayer.PlayerCallback() {
-        override fun onVideoSizeChanged(mp: MediaPlayer, item: MediaItem, size: VideoSize) {
-            super.onVideoSizeChanged(mp, item, size)
+        override fun onVideoSizeChanged(player: SessionPlayer, size: VideoSize) {
+            super.onVideoSizeChanged(player, size)
             if (size != videoSize) {
                 videoSize = size
                 requestLayout()
