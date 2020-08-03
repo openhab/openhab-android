@@ -958,6 +958,22 @@ class WidgetAdapter(
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
+            loadVideo(widget, false)
+        }
+
+        override fun onStart() {
+            if (mediaPlayer.currentMediaItem != null) {
+                mediaPlayer.play()
+            }
+        }
+
+        override fun onStop() {
+            if (mediaPlayer.currentMediaItem != null) {
+                mediaPlayer.pause()
+            }
+        }
+
+        private fun loadVideo(widget: Widget, forceReload: Boolean) {
             errorView.isVisible = false
             loadingIndicator.isVisible = true
             val mediaItem = determineVideoUrlForWidget(widget)?.let { url ->
@@ -968,7 +984,7 @@ class WidgetAdapter(
             }
 
             val currentUri = (mediaPlayer.currentMediaItem as? UriMediaItem)?.uri
-            if (currentUri == mediaItem?.uri) {
+            if (currentUri == mediaItem?.uri && !forceReload) {
                 return
             }
 
@@ -1005,18 +1021,6 @@ class WidgetAdapter(
             })
         }
 
-        override fun onStart() {
-            if (mediaPlayer.currentMediaItem != null) {
-                mediaPlayer.play()
-            }
-        }
-
-        override fun onStop() {
-            if (mediaPlayer.currentMediaItem != null) {
-                mediaPlayer.pause()
-            }
-        }
-
         private fun determineVideoUrlForWidget(widget: Widget): String? {
             if (widget.encoding.equals("hls", ignoreCase = true)) {
                 val state = widget.item?.state?.asString
@@ -1028,7 +1032,7 @@ class WidgetAdapter(
         }
 
         override fun onClick(v: View?) {
-            boundWidget?.let { bindAfterDataSaverCheck(it) }
+            boundWidget?.let { loadVideo(it, true) }
         }
     }
 
