@@ -1,0 +1,4 @@
+## Fixed
+* Fix crash in event listener (#2127)
+* Display correct sitemap name in drawer (#2129)
+* Update Androidx Media2 to 1.1.0-alpha01 (#2126)
