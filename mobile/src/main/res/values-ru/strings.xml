@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Текущий Sitemap по умолчанию: %1$s</string>
     <string name="settings_openhab_alt_connection">Удаленный сервер</string>
     <string name="settings_openhab_connection">Локальный сервер</string>
+    <string name="settings_ringtone">Рингтон</string>
     <string name="settings_ringtone_none">Без рингтона</string>
     <string name="settings_ringtone_on_external">Неизвестный рингтон на внешнем накопителе</string>
+    <string name="settings_notification_vibration">Вибрация</string>
     <string name="settings_notification_vibration_off">Выкл</string>
     <string name="settings_notification_vibration_short">Коротко</string>
     <string name="settings_notification_vibration_long">Длинно</string>
     <string name="settings_notification_vibration_twice">Дважды</string>
+    <string name="settings_notification_ringtone_vibration">Рингтон &amp; вибрация</string>
     <string name="settings_connection_summary">Подключен к %s</string>
     <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
     <string name="beta">Бета</string>
@@ -74,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">Показать все Sitemap в боковом меню</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосовые команды</string>
+    <string name="voice_command">Голосовая команда</string>
     <string name="title_voice_widget_icon">Голосовые команды и ярлыки приложений</string>
     <string name="info_voice_input">openHAB, Ваша команда!</string>
     <string name="info_voice_recognized_text">Принятая команда: %1$s</string>
@@ -108,7 +112,16 @@
     <string name="error_http_to_https_port">Непредвиденный конец потока. Вы пытаетесь подключиться к порту HTTPS через HTTP?</string>
     <string name="webview_ssl">В настоящее время это приложение не поддерживает самоподписанные SSL-сертификаты для виджетов Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL-адрес слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Требуется HTTPS. Измените URL-адрес (код ответа HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Ваш прокси получил неверный ответ от openHAB сервера (код ответа HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">OpenHAB сервер временно недоступен (код ответа HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Тайм-аут шлюза. Возможно, что ваш прокси-сервер работает, но не может получить ответ от openHAB сервера (код ответа HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Недостаточно свободного места на openHAB сервере (код ответа HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не найдено (HTTP-код %d)</string>
