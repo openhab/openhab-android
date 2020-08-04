@@ -176,7 +176,10 @@
     <string name="send_device_info_category_event_based_explanation">Diese Items werden bei entsprechenden Ereignissen aktualisiert, z.B. bei einem eingehenden Anruf</string>
     <string name="send_device_info_category_schedule_based_title">Basierend auf einem Zeitplan</string>
     <string name="send_device_info_category_schedule_based_explanation">Je kürzer das gewählte Intervall ist, desto größer ist die mögliche Auswirkung auf die Batterielebensdauer Ihres Geräts. Zusätzlich kann es sein, dass Ihr Gerät dem gewählten Intervall nicht genau folgt, sondern die Aktualisierungen verzögert, um den Energieverbrauch der Apps zu reduzieren.</string>
+    <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben die Gerätekennung \'%s\' als Präfix</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen auf dieser Seite ist kein Präfix festgelegt. Sie können als Präfix die Gerätekennung verwenden, welche Sie auf der Haupteinstellungsseite setzen können.</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
+    <string name="item_update_summary_success">Letzte Aktualisierung war \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Weckzeit</string>
     <string name="settings_alarm_clock_summary_on">Weckzeit wird an Item \'%1$s\' gesendet</string>
     <string name="settings_alarm_clock_summary_off">Weckzeit nicht senden</string>
@@ -244,6 +247,9 @@
     <string name="send_device_info_schedule_12_hours">12 Stunden</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Gerätekennung</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Die Sprachbefehle haben '<Gerätekennung>|' als Präfix]]></string>
+    <string name="device_identifier_suggested_command_nfc_tag">Gerätekennung des scannenden Gerätes (\"%s\" für dieses Gerät)</string>
+    <string name="device_identifier_summary_not_set">Daten, die an den Server gesendet werden, und Sprachbefehle haben nicht die Gerätekennung als Präfix</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
@@ -454,6 +460,9 @@
     <string name="tile_item_picker_title">Wählen Sie ein Item</string>
     <string name="tile_configure_in_settings">Diese Kachel kann in den openHAB App-Einstellungen konfiguriert werden</string>
     <string name="save">Speichern</string>
+    <string name="tile_error_saving">Bitte füllen Sie alle Einstellungen aus</string>
+    <string name="tile_disabled">Ausgeschaltet</string>
+    <string name="tile_enable">Einschalten</string>
     <string name="item_item_and_action">Item und Aktion</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
