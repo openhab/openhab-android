@@ -225,6 +225,7 @@
     <string name="push_notification_status_remote_no_cloud">Nicht verfügbar, da der Remote-Server keine openHAB-Cloud-Instanz ist</string>
     <string name="push_notification_status">Status</string>
     <string name="push_notification_help_icon_description">Drücken Sie hier für Hilfe</string>
+    <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, der identisch ist wie für \"Geräteinformationen an Server senden\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
@@ -248,6 +249,8 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Gerätekennung</string>
     <string name="device_identifier_prefix_voice"><![CDATA[Die Sprachbefehle haben '<Gerätekennung>|' als Präfix]]></string>
+    <string name="device_identifier_bg_tasks">Nutze dies als Präfix für die Item-Namen von \"Geräteinformationen an Server senden\"</string>
+    <string name="device_identifier_hint">Die Gerätekennung kann jede beliebige Zeichenkette sein und sollte für alle Geräte, die auf Ihren openHAB Server zugreifen, einzigartig sein. Neben den beiden oben genannten Anwendungsfällen, können Sie es auch als Status bei NFC-Tags verwenden, sodass Sie wissen, welches Gerät den Tag liest.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Gerätekennung des scannenden Gerätes (\"%s\" für dieses Gerät)</string>
     <string name="device_identifier_summary_not_set">Daten, die an den Server gesendet werden, und Sprachbefehle haben nicht die Gerätekennung als Präfix</string>
     <!-- Notification list strings -->
@@ -466,6 +469,9 @@
     <string name="item_item_and_action">Item und Aktion</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
+    <string name="tile_require_unlock_summary_on">Forde zum Entsperren auf, bevor Items aktualisiert werden</string>
+    <string name="tile_require_unlock_summary_off">Aktualisiere Items auch wenn das Gerät gesperrt ist</string>
+    <string name="tile_overview_hint">Der Zustand der Kachel reflektiert nicht den Zustand des Item.\nWenn Sie Probleme mit Kacheln haben, die nach der Änderung hier nicht aktualisiert werden, klicken Sie auf die Kachel oder bearbeiten Sie die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. WLAN und Bluetooth sind).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktive Kachel</item>
         <item quantity="other">%d aktive Kacheln</item>
