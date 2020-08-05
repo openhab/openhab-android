@@ -248,7 +248,7 @@
     <string name="send_device_info_schedule_12_hours">12 Stunden</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Gerätekennung</string>
-    <string name="device_identifier_prefix_voice"><![CDATA[Die Sprachbefehle haben '<Gerätekennung>|' als Präfix]]></string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Die Sprachbefehle haben \'<Gerätekennung>|\' als Präfix]]></string>
     <string name="device_identifier_bg_tasks">Nutze dies als Präfix für die Item-Namen von \"Geräteinformationen an Server senden\"</string>
     <string name="device_identifier_hint">Die Gerätekennung kann jede beliebige Zeichenkette sein und sollte für alle Geräte, die auf Ihren openHAB Server zugreifen, einzigartig sein. Neben den beiden oben genannten Anwendungsfällen, können Sie es auch als Status bei NFC-Tags verwenden, sodass Sie wissen, welches Gerät den Tag liest.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Gerätekennung des scannenden Gerätes (\"%s\" für dieses Gerät)</string>
