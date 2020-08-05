@@ -138,6 +138,7 @@
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
     <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
+    <string name="notification_channel_group_other">Overig</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
         <item quantity="other">%d Items konden niet worden bijgewerkt</item>
