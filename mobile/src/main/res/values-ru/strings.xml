@@ -119,7 +119,7 @@
     <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP %d).</string>
     <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP %d)</string>
     <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Ваш прокси получил неверный ответ от openHAB сервера (код ответа HTTP %d)</string>
-    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">OpenHAB сервер временно недоступен (код ответа HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB сервер временно недоступен (код ответа HTTP %d)</string>
     <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Тайм-аут шлюза. Возможно, что ваш прокси-сервер работает, но не может получить ответ от openHAB сервера (код ответа HTTP %d).</string>
     <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Недостаточно свободного места на openHAB сервере (код ответа HTTP %d)</string>
     <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP %d)</string>
