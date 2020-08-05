@@ -176,7 +176,7 @@
     <string name="send_device_info_category_event_based_explanation">Diese Items werden bei entsprechenden Ereignissen aktualisiert, z.B. bei einem eingehenden Anruf</string>
     <string name="send_device_info_category_schedule_based_title">Basierend auf einem Zeitplan</string>
     <string name="send_device_info_category_schedule_based_explanation">Je kürzer das gewählte Intervall ist, desto größer ist die mögliche Auswirkung auf die Batterielebensdauer Ihres Geräts. Zusätzlich kann es sein, dass Ihr Gerät dem gewählten Intervall nicht genau folgt, sondern die Aktualisierungen verzögert, um den Energieverbrauch der Apps zu reduzieren.</string>
-    <string name="send_device_info_item_prefix_summary">Die Item-Namen der folgenden Funktionen haben die Gerätekennung \'%s\' als Präfix</string>
+    <string name="send_device_info_item_prefix_summary">Den Item-Namen der folgenden Funktionen wird die Gerätekennung \'%s\' vorangestellt</string>
     <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen auf dieser Seite ist kein Präfix festgelegt. Sie können als Präfix die Gerätekennung verwenden, welche Sie auf der Haupteinstellungsseite setzen können.</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="item_update_summary_success">Letzte Aktualisierung war \'%1$s\' (%2$s)</string>
@@ -224,8 +224,8 @@
     <string name="push_notification_status_http_error">Nicht verfügbar, Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
     <string name="push_notification_status_remote_no_cloud">Nicht verfügbar, da der Remote-Server keine openHAB-Cloud-Instanz ist</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_help_icon_description">Drücken Sie hier für Hilfe</string>
-    <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, der identisch ist wie für \"Geräteinformationen an Server senden\"</string>
+    <string name="push_notification_help_icon_description">Für Hilfe hier berühren</string>
+    <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, dessen Intervall mit dem für \"Geräteinformationen an Server senden\" eingestellten identisch ist</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
@@ -249,10 +249,10 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Gerätekennung</string>
     <string name="device_identifier_prefix_voice"><![CDATA[Sprachbefehlen das Präfix \'<Gerätekennung>|\' voranstellen]]></string>
-    <string name="device_identifier_bg_tasks">Nutze dies als Präfix für die Item-Namen von \"Geräteinformationen an Server senden\"</string>
+    <string name="device_identifier_bg_tasks">Als Präfix für die Item-Namen von \"Geräteinformationen an Server senden\" verwenden</string>
     <string name="device_identifier_hint">Die Gerätekennung kann jede beliebige Zeichenkette sein und sollte für alle Geräte, die auf Ihren openHAB Server zugreifen, einzigartig sein. Neben den beiden oben genannten Anwendungsfällen, kann die Gerätekennung auch als Status bei NFC-Tags verwendet werden, sodass Sie wissen, welches Gerät den Tag liest.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Gerätekennung des scannenden Gerätes (\"%s\" für dieses Gerät)</string>
-    <string name="device_identifier_summary_not_set">Daten, die an den Server gesendet werden, und Sprachbefehle haben nicht die Gerätekennung als Präfix</string>
+    <string name="device_identifier_summary_not_set">Für Daten, die an den Server gesendet werden, und Sprachbefehle wird kein gerätespezifischer Präfix verwendet</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
