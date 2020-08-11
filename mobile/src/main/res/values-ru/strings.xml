@@ -52,12 +52,15 @@
     <string name="settings_current_default_sitemap">Текущий Sitemap по умолчанию: %1$s</string>
     <string name="settings_openhab_alt_connection">Удаленный сервер</string>
     <string name="settings_openhab_connection">Локальный сервер</string>
+    <string name="settings_ringtone">Рингтон</string>
     <string name="settings_ringtone_none">Без рингтона</string>
     <string name="settings_ringtone_on_external">Неизвестный рингтон на внешнем накопителе</string>
+    <string name="settings_notification_vibration">Вибрация</string>
     <string name="settings_notification_vibration_off">Выкл</string>
     <string name="settings_notification_vibration_short">Коротко</string>
     <string name="settings_notification_vibration_long">Длинно</string>
     <string name="settings_notification_vibration_twice">Дважды</string>
+    <string name="settings_notification_ringtone_vibration">Рингтон &amp; вибрация</string>
     <string name="settings_connection_summary">Подключен к %s</string>
     <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
     <string name="beta">Бета</string>
@@ -74,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">Показать все Sitemap в боковом меню</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосовые команды</string>
+    <string name="voice_command">Голосовая команда</string>
     <string name="title_voice_widget_icon">Голосовые команды и ярлыки приложений</string>
     <string name="info_voice_input">openHAB, Ваша команда!</string>
     <string name="info_voice_recognized_text">Принятая команда: %1$s</string>
@@ -108,14 +112,48 @@
     <string name="error_http_to_https_port">Непредвиденный конец потока. Вы пытаетесь подключиться к порту HTTPS через HTTP?</string>
     <string name="webview_ssl">В настоящее время это приложение не поддерживает самоподписанные SSL-сертификаты для виджетов Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL-адрес слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Требуется HTTPS. Измените URL-адрес (код ответа HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Ваш прокси получил неверный ответ от openHAB сервера (код ответа HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB сервер временно недоступен (код ответа HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Тайм-аут шлюза. Возможно, что ваш прокси-сервер работает, но не может получить ответ от openHAB сервера (код ответа HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Недостаточно свободного места на openHAB сервере (код ответа HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB не в сети</string>
+    <string name="error_short_http_connection_failed">HTTP код %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Ошибка при разрешении имени хоста</string>
+    <string name="error_short_unknown">Неизвестная ошибка: %s</string>
+    <string name="error_short_certificate_not_trusted">Сертификат не является доверенным</string>
+    <string name="error_short_certificate_expired">Срок действия сертификата истек</string>
+    <string name="error_short_certificate_not_valid_yet">Сертификат недействителен еще</string>
+    <string name="error_short_certificate_revoked">Сертификат отозван</string>
+    <string name="error_short_connection_sslhandshake_failed">Ошибка SSL</string>
+    <string name="error_short_connection_failed">Не удалось подключиться</string>
+    <string name="error_short_http_to_https_port">Подключение к HTTPS порту по HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Сертификат недействителен для %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Ошибка аутентификации (HTTP-код %d)</string>
     <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не найдено (HTTP-код %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL слишком длинный (HTTP код %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">Требуется HTTPS (HTTP-код %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Ошибка аутентификации (HTTP-код %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Ваш обратный прокси получил неверный ответ от openHAB (код ответа HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB временно недоступен (код ответа HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Тайм-аут шлюза (HTTP-код %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Недостаточно свободного места на сервере (HTTP-код %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Требуется сетевая аутентификация (код ответа HTTP %d)</string>
     <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
     <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
     <string name="error_no_browser_found">На вашем устройстве не найден браузер</string>
     <string name="error_no_speech_to_text_app_found">Не найдено приложение распознавания голоса</string>
+    <string name="error_sse_failed">Сбой подписки на событие, обновление виджета может не работать</string>
+    <string name="error_video_player">%s не может быть загружен</string>
     <string name="install">Установить</string>
     <string name="title_activity_openhabwritetag">Запись NFC tag</string>
     <string name="title_activity_libraries">Используемые библиотеки</string>
@@ -133,26 +171,100 @@
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Отправить информацию устройства на сервер</string>
+    <string name="send_device_info_to_server_short">Отправлять информации об устройстве</string>
+    <string name="send_device_info_category_event_based_title">На основе событий</string>
+    <string name="send_device_info_category_event_based_explanation">Эти Items обновляются при соответствующих событиях, например при входящем телефонном звонке</string>
+    <string name="send_device_info_category_schedule_based_title">На основе расписания</string>
+    <string name="send_device_info_category_schedule_based_explanation">Чем короче выбранный интервал, тем больше потенциальное влияние на аккумулятор вашего устройства. Кроме того, ваше устройство может не точно следовать выбранному интервалу, но задерживать обновления для уменьшения энергопотребления между приложениями.</string>
+    <string name="send_device_info_item_prefix_summary">Имена Item на этой странице с префиксом идентификатора устройства \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Префикс для имен Item на этой странице не установлен. Вы можете добавить префикс с идентификатором устройства, который может быть установлен на главной странице настроек.</string>
+    <string name="send_device_info_foreground_service_title">Event listener</string>
+    <string name="send_device_info_foreground_service_summary">Прослушивание событий, связанных со следующими Items, требует постоянного уведомления и может увеличить расход заряда батареи.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Прослушивание событий, связанных со следующими Items, требует постоянного уведомления и может увеличить расход заряда батареи. Это требуется только для посылки DND режима.</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">Прослушивание событий, связанных с DND режимом</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Прослушивание событий, связанных с %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Прослушивание событий, связанных с %1$s и %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Прослушивание событий, связанных с %1$s, %2$s и более</string>
     <string name="settings_item_update_pref_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
+    <string name="item_update_summary_success">Последнее обновление было в \'%1$s\' (%2$s)</string>
+    <string name="settings_alarm_clock">Время будильника</string>
+    <string name="settings_alarm_clock_summary_on">Посылать время будильника в Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Не отправлять время будильника</string>
+    <string name="settings_phone_state">Состояние вызова</string>
+    <string name="settings_phone_state_summary_on">Отправляет состояние звонка в Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Не отправлять состояние вызова</string>
     <string name="settings_phone_state_permission_denied">Отправка состояния звонка отключено из-за нехватки прав</string>
+    <string name="settings_battery_level">Уровень заряда батареи</string>
+    <string name="settings_battery_level_summary_on">Отправляет уровень заряда в Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Не отправлять уровень заряда батареи</string>
     <string name="settings_charging_state">Состояние зарядки</string>
+    <string name="settings_charging_state_summary_on">Отправляет состояние зарядки в Item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Не отправлять состояние зарядки</string>
+    <string name="settings_wifi_ssid">Название точки доступа Wi-Fi</string>
+    <string name="settings_wifi_ssid_summary_on">Отправляет имя Wi-Fi (SSID) в Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Отправляет имя Wi-Fi (SSID) в Item \'%1$s\'. \"Местоположение\" должен быть включено, в противном случае openHAB не может получить имя Wi-Fi.</string>
+    <string name="settings_wifi_ssid_summary_off">Не отправлять название точки доступа Wi-Fi (SSID)</string>
+    <string name="settings_wifi_ssid_permission_denied">Отправка имени Wi-Fi была отключена из-за отсутствия необходимых разрешений</string>
+    <string name="settings_dnd_mode">DND режим</string>
+    <string name="settings_dnd_mode_summary_on">Отправляет DND режим в Item \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Не отправлять DND режим</string>
+    <string name="settings_background_tasks_permission_denied">Некоторые фоновые задачи были отключены из-за отсутствия необходимых разрешений</string>
+    <string name="settings_background_tasks_permission_allow">Разрешить</string>
     <string name="settings_item_pref_item_name">Имя Item</string>
     <string name="waiting_for_item_upload">Ожидание сети для отправки обновленений элемента</string>
     <string name="item_upload_in_progress">Items обновляются...</string>
+    <string name="notification_channel_background">Фоновые задачи</string>
+    <string name="notification_channel_background_description">Используется для уведомления об отложенных фоновых задачах, например, ожидание отправки уровня заряда батареи</string>
     <string name="notification_channel_background_error">Ошибка в фоновых задачах</string>
+    <string name="notification_channel_background_error_description">Используется для уведомления об ошибках в фоновых задачах, например, нет сети для отправки уровня заряда батареи</string>
+    <string name="notification_channel_background_foreground_service_description">Слушает события для обновления Items. Вы можете безопасно скрыть эту категорию.</string>
+    <string name="notification_channel_messages_default_severity">По умолчанию</string>
+    <string name="notification_channel_messages_default_severity_description">Уведомления, отправленные сервером без заданной важности</string>
+    <string name="notification_channel_group_messages">Сообщения</string>
+    <string name="notification_channel_group_other">Другое</string>
+    <string name="notification_channel_severity_value">Важность \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Уведомления, отправленные сервером с важностью \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d уведомление</item>
+        <item quantity="few">%d уведомлений</item>
+        <item quantity="many">%d уведомлений</item>
+        <item quantity="other">%d уведомления</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Недоступно. Удаленный сервер не настроен</string>
+    <string name="push_notification_status_http_error">Недоступно, ошибка подключения к удаленному серверу: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Недоступно. Удаленный сервер не облачный openHAB сервер</string>
+    <string name="push_notification_status">Статус</string>
+    <string name="push_notification_help_icon_description">Нажмите здесь для помощи</string>
+    <string name="push_notification_hint">Уведомления проверяются по регулярному расписанию, такому же как и в \"Посылать информацию об устройстве на сервер\"</string>
     <plurals name="item_update_error_title">
-        <item quantity="one">%d элемент не может быть обновлен</item>
-        <item quantity="few">%d элементы не могут быть обновлены</item>
-        <item quantity="many">%d элементы не могут быть обновлены</item>
+        <item quantity="one">%d Item не может быть обновлен</item>
+        <item quantity="few">%d Items не могут быть обновлены</item>
+        <item quantity="many">%d Items не могут быть обновлены</item>
         <item quantity="other">%d Items не могут быть обновлены</item>
     </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Item \'%1$s\' \'обновление не удалось: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s обновить не удалось: %2$s</string>
     <string name="item_update_connection_error">Не удалось обновить Item \'%1$s\' (нет соединения)</string>
     <string name="item_update_connection_error_label">%1$s обновление не удалось (нет соединения)</string>
+    <string name="error_no_valid_item_name">Пожалуйста, введите правильное название Item</string>
     <string name="retry">Повтор</string>
     <string name="ignore">Игнорировать</string>
+    <string name="send_device_info_schedule">Расписание</string>
+    <string name="send_device_info_schedule_summary">Каждые 15 минут во время зарядки, каждые %s иначе</string>
+    <string name="send_device_info_schedule_15_minutes">15 минут</string>
+    <string name="send_device_info_schedule_1_hour">1 час</string>
+    <string name="send_device_info_schedule_3_hours">3 часа</string>
+    <string name="send_device_info_schedule_6_hours">6 часов</string>
+    <string name="send_device_info_schedule_12_hours">12 часов</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Идентификатор устройства</string>
+    <string name="device_identifier_prefix_voice"><![CDATA[Префикс голосовых команд с \'<Device identifier>|\']]></string>
+    <string name="device_identifier_bg_tasks">Добавлять с этим идентификатором префикс к именам Item «Отправить информацию об устройстве на сервер»</string>
+    <string name="device_identifier_hint">Идентификатор устройства может быть любой строкой и должен быть уникальным для всех устройств, имеющих доступ к вашему серверу openHAB. Помимо двух вариантов выше, вы также можете использовать его как состояние в NFC тегах, так что вы поймете, какое устройство читает тег.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Идентификатор считывающего устройства (\"%s\" для этого устройства)</string>
+    <string name="device_identifier_summary_not_set">Данные, отправленные на сервер и голосовые команды, не имеют префикса с идентификатором устройства</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Нет недавно отправленных уведомлений</string>
     <string name="notification_list_error">Ошибка при загрузке уведомлений</string>
@@ -174,7 +286,11 @@
     <string name="theme_name_dark">Темная</string>
     <string name="theme_name_system">Как в настройках</string>
     <string name="theme_name_battery_saver">Темная тема в режиме экономии батареи</string>
+    <string name="theme_name_black">Черный</string>
     <!-- Chart -->
+    <string name="chart_activity_title">График</string>
+    <string name="chart_activity_hide_legend">Скрыть легенду</string>
+    <string name="chart_activity_show_legend">Показать легенду</string>
     <string name="chart_activity_period">Период</string>
     <string name="chart_activity_period_1_hour">1 час</string>
     <string name="chart_activity_period_4_hour">4 часа</string>
@@ -195,6 +311,7 @@
     <string name="nfc_action_off">Выкл</string>
     <string name="nfc_action_down">Вниз</string>
     <string name="nfc_action_toggle">Переключить</string>
+    <string name="nfc_action_toggled">Переключатель</string>
     <string name="nfc_action_undefined">Незадано</string>
     <string name="nfc_action_empty_string">Пустая строка</string>
     <string name="nfc_action_increase">Увеличить</string>
@@ -254,6 +371,7 @@
     <string name="log_activity_action_reload">Перезагрузить</string>
     <string name="log_activity_content_description_share">Отправить журнал</string>
     <string name="empty_log">Журнал пуст</string>
+    <string name="log_too_large_to_share">Журнал слишком большой для отсылки. Пожалуйста, очистите журнал, воспроизведите ошибку и перешлите его.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Закрепить на home</string>
     <string name="home_shortcut_error_pinning">Ошибка закрепления</string>
@@ -293,7 +411,9 @@
     <string name="item_picker_custom">Произвольно</string>
     <string name="item_picker_dialog_title">Выберите действие</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Отправить команду \"%3$s\" в \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Обновить \"%1$s\" (%2$s) до \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Переменная в Tasker \"%s\"</string>
     <string name="item_picker_item_update">Обновить</string>
     <string name="item_picker_item_command">Команда</string>
@@ -337,10 +457,94 @@
     <string name="item_update_widget_widget_label">Метка виджета</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="data_saver_title">Экономия трафика</string>
     <string name="data_saver_on">Элементы Sitemap которым необходим большой объем данным не загружены</string>
     <string name="data_saver_off">Использовать системную настройку уменьшения объема данных для загрузки sitemap элементов с данными</string>
     <string name="data_saver_off_pre_n">Все элементы sitemap загружены без учета объема используемых данных</string>
+    <string name="data_saver_load">Загружать все равно</string>
+    <string name="data_saver_hint">%s не был загружен для сохранения данных</string>
+    <string name="widget_type_image">Изображение</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Видео</string>
+    <string name="widget_type_mapview">Карта</string>
+    <string name="widget_type_chart">График</string>
     <!-- Tiles -->
+    <string name="tile">Плитка</string>
+    <string name="tiles_for_quick_settings">Плитки для быстрых настроек</string>
+    <string name="tile_empty">Пустая плитка</string>
+    <string name="tile_item_picker_title">Выберите Item</string>
+    <string name="tile_configure_in_settings">Эта плитка может быть настроена в настройках приложения openHAB</string>
+    <string name="save">Сохранить</string>
+    <string name="tile_error_saving">Пожалуйста, заполните все настройки</string>
+    <string name="tile_disabled">Выключен</string>
+    <string name="tile_enable">Включить</string>
+    <string name="item_item_and_action">Item и действия</string>
+    <string name="tile_name">Имя</string>
+    <string name="tile_icon">Иконка</string>
+    <string name="tile_require_unlock">Требует чтобы экран был разблокирован</string>
+    <string name="tile_require_unlock_summary_on">Запрос на разблокировку устройства перед обновлением Item</string>
+    <string name="tile_require_unlock_summary_off">Разрешить обновление Items, даже если устройство заблокировано</string>
+    <string name="tile_overview_hint">Состояние плитки не отражает состояние Item.\nЕсли у вас есть проблемы с плитками, которые не обновляются после изменения их здесь, нажмите на плитку или отредактируйте быстрые настройки вашего устройства (место, которое содержит переключатели как пример Wi-Fi и Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d активная плитка</item>
+        <item quantity="few">%d активных плиток</item>
+        <item quantity="many">%d активных плиток</item>
+        <item quantity="other">%d активная плитка</item>
+    </plurals>
+    <string name="tile_number">Tile %d</string>
+    <string name="tile_label_1">Tile 1</string>
+    <string name="tile_label_2">Tile 2</string>
+    <string name="tile_label_3">Tile 3</string>
+    <string name="tile_label_4">Tile 4</string>
+    <string name="tile_label_5">Tile 5</string>
+    <string name="tile_label_6">Tile 6</string>
+    <string name="tile_label_7">Tile 7</string>
+    <string name="tile_label_8">Tile 8</string>
+    <string name="tile_label_9">Tile 9</string>
+    <string name="tile_label_10">Tile 10</string>
+    <string name="tile_label_11">Tile 11</string>
+    <string name="tile_label_12">Tile 12</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">Иконка openHAB</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_bulb">Лампа</string>
+    <string name="tile_icon_clock">Часы</string>
+    <string name="tile_icon_alarm_clock">Будильник</string>
+    <string name="tile_icon_bell">Звонок</string>
+    <string name="tile_icon_cloud_upload">Загрузка в облако</string>
+    <string name="tile_icon_earth">Земля</string>
+    <string name="tile_icon_chat">Голосовой ввод</string>
+    <string name="tile_icon_house">Дом</string>
+    <string name="tile_icon_lock">Замок</string>
+    <string name="tile_icon_microphone">Микрофон</string>
+    <string name="tile_icon_color_palette">Цветовая палитра</string>
+    <string name="tile_icon_people">Люди</string>
+    <string name="tile_icon_person">Человек</string>
+    <string name="tile_icon_phone">Телефон</string>
+    <string name="tile_icon_power_plug">Розетка</string>
+    <string name="tile_icon_battery">Батарея</string>
+    <string name="tile_icon_magnifier">Лупа</string>
+    <string name="tile_icon_star">Звезда</string>
+    <string name="tile_icon_tree">Древо</string>
+    <string name="tile_icon_dashboard">Панель мониторинга</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Щит</string>
+    <string name="tile_icon_man">Человек</string>
+    <string name="tile_icon_bed">Кровать</string>
+    <string name="tile_icon_child">Ребенок</string>
+    <string name="tile_icon_baby">Малыш</string>
+    <string name="tile_icon_settings">Шестеренка</string>
+    <string name="tile_icon_bath">Ванна</string>
+    <string name="tile_icon_woman">Женщина</string>
+    <string name="tile_icon_roller_shutter">Рулонные жалюзи</string>
+    <string name="tile_icon_camera">Камера</string>
+    <string name="tile_icon_light_switch">Переключатель света</string>
+    <string name="tile_icon_garage">Гараж</string>
+    <string name="tile_icon_switch">Переключатель</string>
+    <string name="tile_icon_sofa">Диван</string>
+    <string name="tile_icon_lamp_ceiling">Люстра</string>
+    <string name="tile_icon_lamp_floor">Напольный светильник</string>
+    <string name="tile_icon_lamp_bedside">Ночник</string>
+    <string name="tile_icon_lamp_outdoor">Уличный фонарь</string>
     <!-- Tile icon values -->
 </resources>

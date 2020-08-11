@@ -178,6 +178,7 @@
     <string name="send_device_info_item_prefix_summary">I nomi degli Item in questa pagina hanno prefisso il tipo di dispositivo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">In questa pagina non ci sono prefissi configurati per gli Item. È possibile aggiungere un prefisso con il tipo di dispositivo, che può essere impostato nelle impostazioni principali.</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
+    <string name="item_update_summary_success">L\'ultimo aggiornamento è stato \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Ora sveglia</string>
     <string name="settings_alarm_clock_summary_on">Invia la sveglia all\'item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Non inviare la sveglia</string>

@@ -15,6 +15,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindingsinstellingen</string>
     <string name="settings_display_title">Weergave Instellingen</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Overige Instellingen</string>
     <string name="settings_openhab_url">Lokale server URL</string>
     <string name="settings_openhab_url_summary">De URL van het dashboard van de openHAB (gebaseerd op hostnaam of IP). Indien geconfigureerd, is automatische detectie uitgeschakeld. Huidige instelling: %s</string>
@@ -51,12 +52,15 @@
     <string name="settings_current_default_sitemap">Standaard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Extern</string>
     <string name="settings_openhab_connection">Lokaal</string>
+    <string name="settings_ringtone">Beltoon</string>
     <string name="settings_ringtone_none">Geen</string>
     <string name="settings_ringtone_on_external">Onbekende beltoon op externe opslag</string>
+    <string name="settings_notification_vibration">Trillen</string>
     <string name="settings_notification_vibration_off">Uit</string>
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Twee keer</string>
+    <string name="settings_notification_ringtone_vibration">Beltoon &amp; Trillen</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <string name="beta">Beta</string>
@@ -70,8 +74,10 @@
     <string name="settings_screen_lock_off">Uit</string>
     <string name="settings_screen_lock_kiosk">Kioskmodus</string>
     <string name="settings_screen_lock_on">Aan</string>
+    <string name="settings_show_sitemaps_in_drawer">Toon alle Sitemaps in zijmenu</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Spraakcommando\'s</string>
+    <string name="voice_command">Spraakcommando</string>
     <string name="title_voice_widget_icon">Spraakcommando\'s en app snelkoppeling</string>
     <string name="info_voice_input">openHAB, tot uw dienst!</string>
     <string name="info_voice_recognized_text">Herkend commando: %1$s</string>
@@ -132,6 +138,7 @@
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
     <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
+    <string name="notification_channel_group_other">Overig</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
         <item quantity="other">%d Items konden niet worden bijgewerkt</item>
