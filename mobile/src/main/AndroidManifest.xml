@@ -206,7 +206,7 @@
         </activity>
 
         <service
-            android:name=".background.BroadcastEventListenerService"
+            android:name=".background.EventListenerService"
             android:enabled="true"
             android:exported="false" />
 

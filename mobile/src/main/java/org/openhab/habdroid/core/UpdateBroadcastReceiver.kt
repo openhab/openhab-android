@@ -26,7 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.BroadcastEventListenerService
+import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.model.toOH2IconResource
@@ -122,7 +122,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 AbstractTileService.updateTile(context, tileId)
             }
         }
-        BroadcastEventListenerService.startOrStopService(context)
+        EventListenerService.startOrStopService(context)
     }
 
     companion object {

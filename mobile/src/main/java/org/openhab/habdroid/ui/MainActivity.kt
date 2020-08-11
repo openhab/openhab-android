@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
 import okhttp3.Request
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.background.BroadcastEventListenerService
+import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
@@ -227,7 +227,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
         }
 
-        BroadcastEventListenerService.startOrStopService(this)
+        EventListenerService.startOrStopService(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

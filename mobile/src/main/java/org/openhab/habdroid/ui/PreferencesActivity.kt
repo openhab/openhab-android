@@ -55,7 +55,7 @@ import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.background.BroadcastEventListenerService
+import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.background.tiles.getTileData
@@ -745,13 +745,13 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             foregroundServicePref.setOnPreferenceChangeListener { preference, newValue ->
-                BroadcastEventListenerService.startOrStopService(preference.context, newValue as Boolean)
+                EventListenerService.startOrStopService(preference.context, newValue as Boolean)
                 true
             }
 
             BackgroundTasksManager.KNOWN_PERIODIC_KEYS.forEach { key ->
                 findPreference<Preference>(key)?.setOnPreferenceChangeListener { preference, _ ->
-                    BroadcastEventListenerService.startOrStopService(preference.context)
+                    EventListenerService.startOrStopService(preference.context)
                     true
                 }
             }

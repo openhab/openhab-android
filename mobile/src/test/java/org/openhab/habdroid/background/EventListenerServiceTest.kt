@@ -16,11 +16,11 @@ package org.openhab.habdroid.background
 import org.junit.Assert
 import org.junit.Test
 
-class BroadcastEventListenerServiceTest {
+class EventListenerServiceTest {
     @Test
     fun checkTitle() {
         BackgroundTasksManager.KNOWN_PERIODIC_KEYS.forEach {
-            Assert.assertNotEquals(BroadcastEventListenerService.getTitleResForDeviceInfo(it), 0)
+            Assert.assertNotEquals(EventListenerService.getTitleResForDeviceInfo(it), 0)
         }
     }
 }
