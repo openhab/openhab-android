@@ -22,7 +22,6 @@ import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Handler
-import android.os.Looper
 import android.os.Message
 import android.util.Base64
 import android.util.DisplayMetrics
@@ -49,20 +48,27 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.media2.common.BaseResult
-import androidx.media2.common.MediaMetadata
-import androidx.media2.common.UriMediaItem
-import androidx.media2.player.MediaPlayer
-import androidx.media2.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
+import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.analytics.AnalyticsListener
+import com.google.android.exoplayer2.source.MediaSourceEventListener
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
+import de.duenndns.ssl.MemorizingTrustManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -73,6 +79,7 @@ import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
+import org.openhab.habdroid.ui.widget.AutoHeightPlayerView
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
@@ -84,10 +91,11 @@ import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import java.io.IOException
 import java.util.HashMap
 import java.util.Locale
-import java.util.concurrent.CancellationException
-import java.util.concurrent.Executor
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -945,15 +953,15 @@ class WidgetAdapter(
 
     class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup, connection: Connection) :
         HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videoitem, connection), View.OnClickListener {
-        private val videoView = widgetContentView as VideoView
+        private val playerView = widgetContentView as AutoHeightPlayerView
         private val loadingIndicator: View = itemView.findViewById(R.id.video_player_loading)
         private val errorView: View = itemView.findViewById(R.id.video_player_error)
         private val errorViewHint: TextView = itemView.findViewById(R.id.video_player_error_hint)
         private val errorViewButton: Button = itemView.findViewById(R.id.video_player_error_button)
-        private val mediaPlayer = MediaPlayer(parent.context)
+        private val exoPlayer = SimpleExoPlayer.Builder(parent.context).build()
 
         init {
-            videoView.setPlayer(mediaPlayer)
+            playerView.player = exoPlayer
             errorViewButton.setOnClickListener(this)
         }
 
@@ -962,73 +970,107 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (mediaPlayer.currentMediaItem != null) {
-                mediaPlayer.play()
+            if (exoPlayer.playbackState != Player.STATE_IDLE) {
+                exoPlayer.playWhenReady = true
             }
         }
 
         override fun onStop() {
-            if (mediaPlayer.currentMediaItem != null) {
-                mediaPlayer.pause()
+            if (exoPlayer.playbackState != Player.STATE_IDLE) {
+                exoPlayer.playWhenReady = false
             }
         }
 
         private fun loadVideo(widget: Widget, forceReload: Boolean) {
+            playerView.isVisible = true
             errorView.isVisible = false
             loadingIndicator.isVisible = true
-            val mediaItem = determineVideoUrlForWidget(widget)?.let { url ->
-                val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
-                UriMediaItem.Builder(url.toUri())
-                    .setMetadata(meta)
-                    .build()
-            }
 
-            val currentUri = (mediaPlayer.currentMediaItem as? UriMediaItem)?.uri
-            if (currentUri == mediaItem?.uri && !forceReload) {
-                return
-            }
-
-            mediaPlayer.reset()
-            if (mediaItem == null) {
-                return
-            }
-
-            mediaPlayer.setMediaItem(mediaItem)
-            val prepareFuture = mediaPlayer.prepare()
-            prepareFuture.addListener(Runnable {
-                val code = try {
-                    prepareFuture.get().resultCode
-                } catch (e: CancellationException) {
-                    Log.d(TAG, "Task was canceled")
-                    BaseResult.RESULT_ERROR_UNKNOWN
+            SSLContext.getInstance("TLS").apply {
+                init(null, MemorizingTrustManager.getInstanceList(itemView.context), null)
+                HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory)
+                HttpsURLConnection.setDefaultHostnameVerifier { _, _ ->
+                    // Certificates are already verified by MTM
+                    return@setDefaultHostnameVerifier true
                 }
-                Log.d(TAG, "Media player returned $code")
-                loadingIndicator.isVisible = false
-                if (code >= 0) {
-                    // No error code
-                    if (started) {
-                        mediaPlayer.play()
+            }
+
+            val url: String?
+            val factory = if (widget.encoding.equals("hls", ignoreCase = true)) {
+                val state = widget.item?.state?.asString
+                url = if (state != null && widget.item.type == Item.Type.StringItem) {
+                    state
+                } else {
+                    widget.url
+                }
+                playerView.useController = false
+                HlsMediaSource.Factory(getDataSource()).setTag(url)
+            } else {
+                url = widget.url
+                playerView.useController = true
+                ProgressiveMediaSource.Factory(getDataSource()).setTag(url)
+            }
+
+            val mediaSource = url?.let { factory.createMediaSource(it.toUri()) }
+
+            if (exoPlayer.currentTag == mediaSource?.tag && !forceReload) {
+                if (!exoPlayer.isPlaying) {
+                    exoPlayer.playWhenReady = true
+                }
+                return
+            }
+
+            exoPlayer.stop(true)
+            if (mediaSource == null) {
+                return
+            }
+
+            exoPlayer.prepare(mediaSource)
+            exoPlayer.addAnalyticsListener(
+                object : AnalyticsListener {
+                    override fun onLoadError(
+                        eventTime: AnalyticsListener.EventTime,
+                        loadEventInfo: MediaSourceEventListener.LoadEventInfo,
+                        mediaLoadData: MediaSourceEventListener.MediaLoadData,
+                        error: IOException,
+                        wasCanceled: Boolean
+                    ) {
+                        super.onLoadError(eventTime, loadEventInfo, mediaLoadData, error, wasCanceled)
+                        Log.e(TAG, "onLoadError()", error)
+                        handleError()
                     }
-                    return@Runnable
-                }
 
-                val label =
-                    widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_video))
-                errorViewHint.text = itemView.context.getString(R.string.error_video_player, label)
-                errorView.isVisible = true
-            }, Executor {
-                Handler(Looper.getMainLooper()).post(it)
-            })
+                    override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: ExoPlaybackException) {
+                        super.onPlayerError(eventTime, error)
+                        Log.e(TAG, "onPlayerError()", error)
+                        handleError()
+                    }
+                }
+            )
         }
 
-        private fun determineVideoUrlForWidget(widget: Widget): String? {
-            if (widget.encoding.equals("hls", ignoreCase = true)) {
-                val state = widget.item?.state?.asString
-                if (state != null && widget.item.type == Item.Type.StringItem) {
-                    return state
+        private fun handleError() {
+            loadingIndicator.isVisible = false
+            playerView.isVisible = false
+            val label = boundWidget?.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_video))
+            errorViewHint.text = itemView.context.getString(R.string.error_video_player, label)
+            errorView.isVisible = true
+        }
+
+        private fun getDataSource(): DataSource.Factory {
+            return DataSource.Factory {
+                val dataSource = DefaultHttpDataSource(
+                    "openHAB client for Android",
+                    DEFAULT_CONNECT_TIMEOUT_MILLIS,
+                    DEFAULT_READ_TIMEOUT_MILLIS,
+                    true,
+                    null
+                )
+                connection.httpClient.authHeader?.let {
+                    dataSource.setRequestProperty("Authorization", it)
                 }
+                dataSource
             }
-            return widget.url
         }
 
         override fun onClick(v: View?) {
