@@ -989,10 +989,9 @@ class WidgetAdapter(
             SSLContext.getInstance("TLS").apply {
                 init(null, MemorizingTrustManager.getInstanceList(itemView.context), null)
                 HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory)
-                HttpsURLConnection.setDefaultHostnameVerifier { _, _ ->
-                    // Certificates are already verified by MTM
-                    return@setDefaultHostnameVerifier true
-                }
+                val mtmHostnameVerifier = MemorizingTrustManager(itemView.context)
+                    .wrapHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier())
+                HttpsURLConnection.setDefaultHostnameVerifier(mtmHostnameVerifier)
             }
 
             val url: String?
