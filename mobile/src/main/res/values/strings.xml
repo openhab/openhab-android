@@ -260,6 +260,7 @@
     <string name="settings_background_tasks_permission_hint">You\'ll be asked for a required permissions after turning on this setting. Please do not deny the permissions.</string>
     <string name="settings_background_tasks_permission_hint_android_r">You\'ll be asked for a required permissions after turning on this setting. Please allow it for all the time.</string>
     <string name="settings_background_tasks_permission_denied">Some background tasks have been disabled due to missing permissions</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Some background tasks require location access to be set to \"%s\" in the Android settings</string>
     <string name="settings_background_tasks_permission_allow">Allow</string>
     <string name="settings_item_pref_item_name">Item name</string>
     <string name="waiting_for_item_upload">Waiting for network to send Item updates</string>

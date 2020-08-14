@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
@@ -72,6 +73,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.Request
+import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.EventListenerService
@@ -1086,6 +1088,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
         onClickListener: (() -> Unit)? = null
     ) {
+        showSnackbar(getString(messageResId), actionResId, tag, duration, onClickListener)
+    }
+
+    private fun showSnackbar(
+        messageResId: String,
+        @StringRes actionResId: Int = 0,
+        tag: String,
+        @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
+        onClickListener: (() -> Unit)? = null
+    ) {
         val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
@@ -1171,7 +1183,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {
-        val missingPermissions = BackgroundTasksManager.KNOWN_KEYS
+        var missingPermissions = BackgroundTasksManager.KNOWN_KEYS
             .filter { entry ->
                 val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(entry)
                 prefs.getStringOrNull(entry)?.toItemUpdatePrefValue()?.first == true &&
@@ -1180,7 +1192,31 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .mapNotNull { entry -> BackgroundTasksManager.getRequiredPermissionsForTask(entry)?.toList() }
             .flatten()
             .toSet()
+            .filter { !hasPermissions(arrayOf(it)) }
             .toTypedArray()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+            missingPermissions.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+            if (missingPermissions.size > 1) {
+                Log.d(TAG, "Remove background location from permissions to request")
+                missingPermissions = missingPermissions.toMutableList().apply {
+                    remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                }.toTypedArray()
+            } else {
+                showSnackbar(
+                    getString(R.string.settings_background_tasks_permission_denied_background_location,
+                        packageManager.backgroundPermissionOptionLabel),
+                    android.R.string.ok,
+                    TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION
+                ) {
+                    Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
+                        putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
+                        startActivity(this)
+                    }
+                }
+                return
+            }
+        }
 
         if (missingPermissions.isNotEmpty()) {
             Log.d(TAG, "At least one permission for background tasks have been denied")
@@ -1271,6 +1307,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private const val TAG_SNACKBAR_CONNECTION_ESTABLISHED = "connectionEstablished"
         const val TAG_SNACKBAR_SSE_ERROR = "sseError"
         private const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
+        private const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
         private const val TAG_SNACKBAR_DEMO_MODE_ACTIVE = "demoModeActive"
         private const val TAG_SNACKBAR_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
         private const val TAG_SNACKBAR_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"

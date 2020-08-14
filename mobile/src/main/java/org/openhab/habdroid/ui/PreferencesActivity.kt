@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.KeyguardManager
@@ -59,6 +60,7 @@ import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.BackgroundTasksManager.Companion.buildWorkerTagForServer
@@ -1057,7 +1059,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                     BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID),
                     PERMISSIONS_REQUEST_FOR_WIFI_NAME
                 )
-
                 true
             }
 
@@ -1099,9 +1100,38 @@ class PreferencesActivity : AbstractBaseActivity() {
         ) {
             @Suppress("UNCHECKED_CAST")
             val value = newValue as Pair<Boolean, String>
-            if (value.first && permissions != null && !context.hasPermissions(permissions)) {
-                Log.d(TAG, "Request $permissions permission")
-                requestPermissions(permissions, requestCode)
+            var permissionsToRequest = permissions
+                ?.filter { !context.hasPermissions(arrayOf(it)) }
+                ?.toTypedArray()
+            if (value.first && permissionsToRequest != null && !context.hasPermissions(permissionsToRequest)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                    permissionsToRequest.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                    if (permissionsToRequest.size > 1) {
+                        Log.d(TAG, "Remove background location from permissions to request")
+                        permissionsToRequest = permissionsToRequest.toMutableList().apply {
+                            remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                        }.toTypedArray()
+                    } else {
+                        val snackbar = Snackbar.make(
+                            parentActivity.findViewById<View>(android.R.id.content),
+                            getString(R.string.settings_background_tasks_permission_denied_background_location,
+                                parentActivity.packageManager.backgroundPermissionOptionLabel),
+                            Snackbar.LENGTH_LONG
+                        )
+                        snackbar.setAction(android.R.string.ok) {
+                            Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
+                                putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
+                                startActivity(this)
+                            }
+                        }
+                        snackbar.show()
+                        return
+                    }
+                }
+
+
+                Log.d(TAG, "Request $permissionsToRequest permission")
+                requestPermissions(permissionsToRequest, requestCode)
             }
         }
 
