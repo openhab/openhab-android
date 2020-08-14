@@ -192,6 +192,7 @@
     <string name="retry">リトライ</string>
     <string name="ignore">無視</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">まだ通知は送信されていません</string>
     <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
