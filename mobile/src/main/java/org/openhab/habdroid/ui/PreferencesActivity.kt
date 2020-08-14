@@ -29,6 +29,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
@@ -52,6 +53,7 @@ import androidx.preference.SwitchPreference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.forEachIndexed
 import androidx.work.WorkManager
+import com.google.android.material.snackbar.Snackbar
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
@@ -1109,7 +1111,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (requestCode) {
                 PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        context.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
+                        Snackbar.make(
+                            parentActivity.findViewById<View>(android.R.id.content),
+                            R.string.settings_phone_state_permission_denied,
+                            Snackbar.LENGTH_LONG
+                        ).show()
                         phoneStatePref.setValue(checked = false)
                     } else {
                         BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
@@ -1117,7 +1123,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
                 PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        context.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
+                        Snackbar.make(
+                            parentActivity.findViewById<View>(android.R.id.content),
+                            R.string.settings_wifi_ssid_permission_denied,
+                            Snackbar.LENGTH_LONG
+                        ).show()
                         wifiSsidPref.setValue(checked = false)
                     } else {
                         BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
