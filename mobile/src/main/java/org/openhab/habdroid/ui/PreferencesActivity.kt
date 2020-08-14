@@ -1129,7 +1129,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                     }
                 }
 
-
                 Log.d(TAG, "Request $permissionsToRequest permission")
                 requestPermissions(permissionsToRequest, requestCode)
             }

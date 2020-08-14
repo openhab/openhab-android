@@ -13,15 +13,12 @@
 
 package org.openhab.habdroid.ui
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -61,10 +58,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
 
-        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val metrics = DisplayMetrics()
-        wm.defaultDisplay.getMetrics(metrics)
-        density = metrics.densityDpi
+        density = resources.configuration.densityDpi
 
         updateChartTheme()
     }

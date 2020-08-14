@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui
 
 import android.location.Location
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -65,7 +66,7 @@ object MapViewHelper {
     ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper),
         Marker.OnMarkerDragListener {
         private val mapView = baseMapView as MapView
-        private val handler: Handler = Handler()
+        private val handler: Handler = Handler(Looper.getMainLooper())
         override val dialogManager = WidgetAdapter.DialogManager()
 
         init {

@@ -21,6 +21,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -52,8 +54,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Util.getActivityThemeId(this))
-
-        checkFullscreen()
 
         val colorPrimary = resolveThemedColor(R.attr.colorPrimary)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -111,16 +111,29 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     fun checkFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
-        var uiOptions = window.decorView.systemUiVisibility
-        val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            or View.SYSTEM_UI_FLAG_FULLSCREEN)
-        uiOptions = if (isEnabled && !forceNonFullscreen) {
-            uiOptions or flags
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val insetsController = window.insetsController ?: return
+            insetsController.systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            if (isEnabled && !forceNonFullscreen) {
+                insetsController.hide(WindowInsets.Type.systemBars())
+            } else {
+                insetsController.show(WindowInsets.Type.systemBars())
+            }
         } else {
-            uiOptions and flags.inv()
+            @Suppress("DEPRECATION")
+            var uiOptions = window.decorView.systemUiVisibility
+            @Suppress("DEPRECATION")
+            val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+            uiOptions = if (isEnabled && !forceNonFullscreen) {
+                uiOptions or flags
+            } else {
+                uiOptions and flags.inv()
+            }
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = uiOptions
         }
-        window.decorView.systemUiVisibility = uiOptions
     }
 
     private fun promptForDevicePassword() {
