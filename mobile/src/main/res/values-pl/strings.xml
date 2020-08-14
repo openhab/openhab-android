@@ -184,6 +184,7 @@
     <string name="retry">Ponów</string>
     <string name="ignore">Ignoruj</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
     <string name="notification_list_error">Wystąpił błąd podczas ładowania powiadomień</string>
