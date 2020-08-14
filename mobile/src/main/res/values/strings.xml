@@ -286,7 +286,8 @@
 
     <!-- Device identifier -->
     <string name="device_identifier_title">Device identifier</string>
-    <string name="device_identifier_prefix_voice">Prefix voice commands with the device identifier followed by a vertical bar</string>
+    <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Prefix voice commands with \'&lt;Device identifier&gt;|\'</string>
     <string name="device_identifier_bg_tasks">Prefix the Item names of \"Send device information to server\" with this identifier</string>
     <string name="device_identifier_hint">This device identifier can be any string and should be unique for all devices accessing your openHAB server. Besides the two use cases above, you can also use it as state on NFC tags, so you know which device read the tag.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Device identifier of scanning device (\"%s\" for this device)</string>
