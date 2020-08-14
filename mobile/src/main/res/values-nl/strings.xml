@@ -149,6 +149,7 @@
     <string name="item_update_connection_error_label">%1$s update mislukt (Geen verbinding)</string>
     <string name="retry">Opnieuw</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Tot nu toe zijn er geen notificaties verzonden</string>
     <string name="notification_list_error">Er is een fout opgetreden tijdens het laden van notificaties</string>
