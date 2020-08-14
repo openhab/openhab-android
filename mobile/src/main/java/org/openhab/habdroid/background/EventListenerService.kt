@@ -28,7 +28,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 
-class BroadcastEventListenerService : Service() {
+class EventListenerService : Service() {
     private var backgroundTasksManager = BackgroundTasksManager()
     private var isRegistered = false
 
@@ -79,7 +79,7 @@ class BroadcastEventListenerService : Service() {
             }
         }
         val title = getString(R.string.send_device_info_foreground_service_title)
-        val notificationBuilder = NotificationCompat.Builder(
+        val notification = NotificationCompat.Builder(
             this,
             NotificationUpdateObserver.CHANNEL_ID_BACKGROUND_FOREGROUND_SERVICE
         )
@@ -94,7 +94,7 @@ class BroadcastEventListenerService : Service() {
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .build()
 
-        startForeground(NotificationUpdateObserver.NOTIFICATION_ID_BROADCAST_RECEIVER, notificationBuilder)
+        startForeground(NotificationUpdateObserver.NOTIFICATION_ID_BROADCAST_RECEIVER, notification)
     }
 
     override fun onDestroy() {
@@ -110,10 +110,10 @@ class BroadcastEventListenerService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     companion object {
-        private val TAG = BroadcastEventListenerService::class.java.simpleName
+        private val TAG = EventListenerService::class.java.simpleName
 
         fun startOrStopService(context: Context, start: Boolean = context.getPrefs().isEventListenerEnabled()) {
-            val intent = Intent(context, BroadcastEventListenerService::class.java)
+            val intent = Intent(context, EventListenerService::class.java)
             if (start) {
                 ContextCompat.startForegroundService(context, intent)
             } else {
