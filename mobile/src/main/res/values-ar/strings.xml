@@ -128,6 +128,7 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">اعد المحاولة</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">لم يتم إرسال أي إشعارات حتى الآن</string>
     <string name="notification_list_error">حدث خطأ أثناء تحميل الإشعارات</string>
