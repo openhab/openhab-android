@@ -257,6 +257,8 @@
     <string name="settings_dnd_mode_summary_on">Sends DND mode to Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Don\'t send DND mode</string>
     <string name="settings_dnd_mode_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#dnd-mode</string>
+    <string name="settings_background_tasks_permission_hint">You\'ll be asked for a required permissions after turning on this setting. Please do not deny the permissions.</string>
+    <string name="settings_background_tasks_permission_hint_android_r">You\'ll be asked for a required permissions after turning on this setting. Please allow it for all the time.</string>
     <string name="settings_background_tasks_permission_denied">Some background tasks have been disabled due to missing permissions</string>
     <string name="settings_background_tasks_permission_allow">Allow</string>
     <string name="settings_item_pref_item_name">Item name</string>

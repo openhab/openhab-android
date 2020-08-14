@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -46,5 +47,15 @@
             android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/permission_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemNameWrapper"
+        android:layout_marginTop="16dp"
+        app:drawableStartCompat="@drawable/ic_info_outline_grey_24dp"
+        android:drawablePadding="4dp"
+        android:text="@string/settings_background_tasks_permission_hint" />
 
 </RelativeLayout>
