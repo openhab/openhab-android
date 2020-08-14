@@ -251,6 +251,7 @@
     <string name="send_device_info_schedule_12_hours">12 hodin</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Identifikátor zařízení</string>
+    <!-- Please translate "Device identifier" in this string -->
     <string name="device_identifier_bg_tasks">Použít předponu u názvu položek \"Odeslat informace o zařízení na server\" s tímto identifikátorem</string>
     <string name="device_identifier_hint">Tento identifikátor zařízení může být libovolný textový řetězec a měl by být jedinečný pro všechna zařízení, která přistupují na váš openHAB server. Kromě dvou výše uvedených případů jej můžete použít i jako stav na NFC tagu, abyste věděli, které zařízení čte tag.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Identifikátor skenovacího zařízení (\"%s\" pro toto zařízení)</string>
