@@ -247,6 +247,7 @@
     <string name="send_device_info_schedule_12_hours">12 ore</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Tipo dispositivo</string>
+    <!-- Please translate "Device identifier" in this string -->
     <string name="device_identifier_bg_tasks">Aggiungi ai nomi degli Item di \"Invia informazioni sul dispositivo al server\" con questo identificatore</string>
     <string name="device_identifier_hint">Questo tipo di dispositivo può essere qualsiasi stringa e dovrebbe essere univoco per tutti i dispositivi che accedono al server openHAB. Oltre ai due casi d\'uso di cui sopra, puoi anche usarlo come stato sui tag NFC, in modo da sapere quale dispositivo leggere il tag.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Tipo di dispositivo di scansione (\"%s\" per questo dispositivo)</string>
