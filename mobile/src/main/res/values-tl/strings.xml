@@ -61,6 +61,7 @@
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_decision_abort">Huwag ituloy</string>
