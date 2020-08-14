@@ -252,6 +252,7 @@
     <string name="send_device_info_schedule_12_hours">12 שעות</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">מזהה התקן</string>
+    <!-- Please translate "Device identifier" in this string -->
     <string name="device_identifier_bg_tasks">זו מילת הפתיחה לשמות הפריטים בפעולת ״שלח מידע על המכשיר לשרת״</string>
     <string name="device_identifier_hint">מזהה מכשיר זה יכול להיות כל מחרוזת והוא אמור להיות ייחודי עבור כל המכשירים הניגשים לשרת ה openHAB שלך. מלבד שני המקרים לעיל, ניתן להשתמש בו גם כהגדרת מצב בתג NFC, כך שתוכל לזהות איזה מכשיר קרא את התג.</string>
     <string name="device_identifier_suggested_command_nfc_tag">מזהה המכשיר של המכשיר הסורק (\"%s\" עבור מכשיר זה)</string>
