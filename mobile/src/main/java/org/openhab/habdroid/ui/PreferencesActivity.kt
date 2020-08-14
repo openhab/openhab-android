@@ -557,6 +557,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private fun isAutomationAppInstalled(): Boolean {
             val pm = activity?.packageManager ?: return false
+            // These package names must be added to the manifest as well
             return listOf("net.dinglisch.android.taskerm", "com.twofortyfouram.locale").any { pkg ->
                 try {
                     // Some devices return `null` for getApplicationInfo()

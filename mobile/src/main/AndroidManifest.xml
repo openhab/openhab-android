@@ -28,6 +28,11 @@
         android:name="android.hardware.nfc"
         android:required="false" />
 
+    <queries>
+        <package android:name="net.dinglisch.android.taskerm" />
+        <package android:name="com.twofortyfouram.locale" />
+    </queries>
+
     <application
         android:name=".core.OpenHabApplication"
         android:allowBackup="true"
