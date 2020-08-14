@@ -252,6 +252,7 @@
     <string name="send_device_info_schedule_12_hours">12 часов</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Идентификатор устройства</string>
+    <!-- Please translate "Device identifier" in this string -->
     <string name="device_identifier_bg_tasks">Добавлять с этим идентификатором префикс к именам Item «Отправить информацию об устройстве на сервер»</string>
     <string name="device_identifier_hint">Идентификатор устройства может быть любой строкой и должен быть уникальным для всех устройств, имеющих доступ к вашему серверу openHAB. Помимо двух вариантов выше, вы также можете использовать его как состояние в NFC тегах, так что вы поймете, какое устройство читает тег.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Идентификатор считывающего устройства (\"%s\" для этого устройства)</string>
