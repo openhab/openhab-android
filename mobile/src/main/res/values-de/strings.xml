@@ -178,6 +178,9 @@
     <string name="send_device_info_category_schedule_based_explanation">Je kürzer das gewählte Intervall ist, desto größer ist die mögliche Auswirkung auf die Batterielebensdauer Ihres Geräts. Zusätzlich kann es sein, dass Ihr Gerät dem gewählten Intervall nicht genau folgt, sondern die Aktualisierungen verzögert, um den Energieverbrauch der Apps zu reduzieren.</string>
     <string name="send_device_info_item_prefix_summary">Den Item-Namen der folgenden Funktionen wird die Gerätekennung \'%s\' vorangestellt</string>
     <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen auf dieser Seite ist kein Präfix festgelegt. Sie können als Präfix die Gerätekennung verwenden, welche Sie auf der Haupteinstellungsseite setzen können.</string>
+    <string name="send_device_info_foreground_service_title">Ereignisüberwachung</string>
+    <string name="send_device_info_foreground_service_summary">Überwache Ereignisse, die mit den folgenden Items verbunden sind. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Überwache Ereignisse, die mit den folgenden Items verbunden sind. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen. Dies ist nur für den Bitte-Nicht-Stören-Modus erforderlich.</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="item_update_summary_success">Letzte Aktualisierung war \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Weckzeit</string>
@@ -210,6 +213,7 @@
     <string name="notification_channel_background_description">Wird verwendet, um über ausstehende Hintergrundaufgaben zu benachrichtigen, z. B. warte auf Netzwerk um den Akkustand zu senden</string>
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
     <string name="notification_channel_background_error_description">Wird verwendet, um über Fehler in Hintergrundaufgaben zu benachrichtigen, z. B. kein Netzwerk zum Senden des Akkustands</string>
+    <string name="notification_channel_background_foreground_service_description">Überwache Ereignisse, um Items entsprechend zu aktualisieren. Sie können diese Kategorie ausblenden.</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
