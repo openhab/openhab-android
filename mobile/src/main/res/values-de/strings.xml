@@ -213,7 +213,7 @@
     <string name="notification_channel_background_description">Wird verwendet, um über ausstehende Hintergrundaufgaben zu benachrichtigen, z. B. warte auf Netzwerk um den Akkustand zu senden</string>
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
     <string name="notification_channel_background_error_description">Wird verwendet, um über Fehler in Hintergrundaufgaben zu benachrichtigen, z. B. kein Netzwerk zum Senden des Akkustands</string>
-    <string name="notification_channel_background_foreground_service_description">Überwache Ereignisse, um Items entsprechend zu aktualisieren. Sie können diese Kategorie ausblenden.</string>
+    <string name="notification_channel_background_foreground_service_description">Überwachung von Ereignissen, um Items entsprechend aktualisieren zu können. Sie können diese Kategorie ausblenden.</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
