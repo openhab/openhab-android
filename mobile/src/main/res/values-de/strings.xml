@@ -179,8 +179,8 @@
     <string name="send_device_info_item_prefix_summary">Den Item-Namen der folgenden Funktionen wird die Gerätekennung \'%s\' vorangestellt</string>
     <string name="send_device_info_item_prefix_summary_not_set">Für die Item-Namen auf dieser Seite ist kein Präfix festgelegt. Sie können als Präfix die Gerätekennung verwenden, welche Sie auf der Haupteinstellungsseite setzen können.</string>
     <string name="send_device_info_foreground_service_title">Ereignisüberwachung</string>
-    <string name="send_device_info_foreground_service_summary">Überwache Ereignisse, die mit den folgenden Items verbunden sind. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Überwache Ereignisse, die mit den folgenden Items verbunden sind. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen. Dies ist nur für den Bitte-Nicht-Stören-Modus erforderlich.</string>
+    <string name="send_device_info_foreground_service_summary">Ereignisse überwachen, die mit den folgenden Items verbunden sind. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Ereignisse überwachen, die mit den folgenden Items verbunden sind. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen. Dies ist nur für den Bitte-Nicht-Stören-Modus erforderlich.</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
     <string name="item_update_summary_success">Letzte Aktualisierung war \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Weckzeit</string>
