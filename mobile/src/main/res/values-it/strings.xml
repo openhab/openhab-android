@@ -482,6 +482,10 @@
     <string name="tile_require_unlock_summary_on">Avverte per sbloccare il dispositivo prima di consentire gli aggiornamenti degli Items</string>
     <string name="tile_require_unlock_summary_off">Consenti l\'aggiornamento degli Items anche se il dispositivo è bloccato</string>
     <string name="tile_overview_hint">Lo stato del Tile non riflette lo stato dell\'Item.\nSe hai problemi con i Tile non aggiornati dopo averli cambiati, fai clic sul Tile o modifica le impostazioni rapide del dispositivo (dove si trovano le abilitazioni, per esempio, di Wi-Fi e Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d Tile attivo</item>
+        <item quantity="other">%d Tile attivi</item>
+    </plurals>
     <string name="tile_number">Tile %d</string>
     <string name="tile_label_1">Tile 1</string>
     <string name="tile_label_2">Tile 2</string>
