@@ -57,8 +57,8 @@ import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.BackgroundTasksManager.Companion.buildWorkerTagForServer
+import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.background.tiles.getTileData
@@ -285,7 +285,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateVibrationPreferenceIcon(vibrationPref,
                 prefs.getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION))
 
-            addServerPref?.changeBetaTagVisibility(prefs.getConfiguredServerIds().isNotEmpty())
             addServerPref?.setOnPreferenceClickListener {
                 val nextServerId = prefs.getNextAvailableServerId()
                 val f = ServerEditorFragment.newInstance(ServerConfiguration(nextServerId, "", null, null, null, null))

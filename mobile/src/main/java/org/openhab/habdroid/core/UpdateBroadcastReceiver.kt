@@ -146,6 +146,8 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         remove("default_openhab_url")
                         remove("default_openhab_alturl")
                         remove("default_openhab_sslclientcert")
+                        remove("default_openhab_sitemap")
+                        remove("default_openhab_sitemap_label")
                     }
                     secretPrefs.edit {
                         remove("default_openhab_username")
