@@ -24,6 +24,7 @@ import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.putActiveServerId
 import org.openhab.habdroid.util.putConfiguredServerIds
+import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.toNormalizedUrl
 
 @Parcelize
@@ -76,7 +77,7 @@ data class ServerConfiguration(
                 putConfiguredServerIds(serverIdSet)
                 if (serverIdSet.size == 1) {
                     putActiveServerId(id)
-                    putInt(PrefKeys.PRIMARY_SERVER_ID, id)
+                    putPrimaryServerId(id)
                 }
             }
         }
@@ -104,7 +105,7 @@ data class ServerConfiguration(
                 putActiveServerId(if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
             }
             if (prefs.getPrimaryServerId() == id) {
-                putInt(PrefKeys.PRIMARY_SERVER_ID, if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
+                putPrimaryServerId(if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
             }
         }
         secretPrefs.edit {
