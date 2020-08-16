@@ -150,7 +150,9 @@ class PreferencesActivity : AbstractBaseActivity() {
     override fun onBackPressed() {
         with(supportFragmentManager) {
             if (backStackEntryCount > 0) {
-                popBackStack()
+                if ((fragments.last() as? AbstractSettingsFragment)?.onBackPressed() == false) {
+                    popBackStack()
+                }
             } else {
                 super.onBackPressed()
             }
@@ -197,6 +199,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                 super.onDisplayPreferenceDialog(preference)
             }
         }
+
+        open fun onBackPressed() = false
 
         companion object {
             /**
@@ -597,22 +601,13 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
             return when(item.itemId) {
                 R.id.save -> {
-                    if (config.name.isEmpty() || (config.localPath == null && config.remotePath == null)) {
-                        context?.showToast(R.string.settings_server_at_least_name_and_connection)
-                        return true
-                    }
-                    config.saveToPrefs(prefs, secretPrefs)
-                    if (markAsPrimary) {
-                        prefs.edit().putPrimaryServerId(config.id)
-                    }
-                    parentActivity.invalidateOptionsMenu()
-                    parentFragmentManager.popBackStack() // close ourself
+                    saveAndQuit()
                     true
                 }
                 R.id.delete -> {
                     AlertDialog.Builder(preferenceManager.context)
                         .setMessage(R.string.settings_server_confirm_deletion)
-                        .setPositiveButton(R.string.settings_menu_delete_server) { _, _ ->
+                        .setPositiveButton(R.string.delete) { _, _ ->
                             config.removeFromPrefs(prefs, secretPrefs)
                             WorkManager.getInstance(preferenceManager.context).apply {
                                 cancelAllWorkByTag(buildWorkerTagForServer(config.id))
@@ -626,6 +621,40 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
                 else -> super.onOptionsItemSelected(item)
             }
+        }
+
+        private fun saveAndQuit() {
+            if (config.name.isEmpty() || (config.localPath == null && config.remotePath == null)) {
+                context?.showToast(R.string.settings_server_at_least_name_and_connection)
+                return
+            }
+            config.saveToPrefs(prefs, secretPrefs)
+            if (markAsPrimary) {
+                prefs.edit {
+                    putPrimaryServerId(config.id)
+                }
+            }
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
+        }
+
+        override fun onBackPressed() : Boolean {
+            if (ServerConfiguration.load(prefs, secretPrefs, config.id) != config) {
+                AlertDialog.Builder(preferenceManager.context)
+                    .setTitle(R.string.settings_server_confirm_leave_title)
+                    .setMessage(R.string.settings_server_confirm_leave_message)
+                    .setPositiveButton(R.string.save) { _, _ ->
+                        saveAndQuit()
+                    }
+                    .setNegativeButton(R.string.discard) { _, _ ->
+                        parentActivity.invalidateOptionsMenu()
+                        parentFragmentManager.popBackStack() // close ourself
+                    }
+                    .setNeutralButton(android.R.string.cancel, null)
+                    .show()
+                return true
+            }
+            return false
         }
 
         override fun onStart() {

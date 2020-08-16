@@ -17,11 +17,11 @@
     <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete_outline_white_24dp"
-        android:title="@string/settings_menu_delete_server"
+        android:title="@string/delete"
         app:showAsAction="always" />
     <item
         android:id="@+id/save"
         android:icon="@drawable/ic_check_white_24dp"
-        android:title="@string/settings_menu_save_server"
+        android:title="@string/save"
         app:showAsAction="always" />
 </menu>

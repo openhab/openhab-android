@@ -9,6 +9,9 @@
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
     <string name="empty_string" translatable="false" />
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="delete">Delete</string>
 
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
@@ -98,8 +101,6 @@
     <string name="settings_server_name">Server name</string>
     <string name="settings_add_server">Add server</string>
     <string name="settings_edit_server">Edit server</string>
-    <string name="settings_menu_save_server">Save</string>
-    <string name="settings_menu_delete_server">Delete</string>
     <string name="drawer_title_servers">Servers</string>
 
     <!-- App messages strings -->
@@ -535,7 +536,6 @@
     <string name="tile_empty">Empty tile</string>
     <string name="tile_item_picker_title">Select an Item</string>
     <string name="tile_configure_in_settings">This tile can be configured in the openHAB app settings</string>
-    <string name="save">Save</string>
     <string name="tile_error_saving">Please fill out every setting</string>
     <string name="tile_disabled">Turned off</string>
     <string name="tile_enable">Turn on</string>
@@ -654,6 +654,8 @@
     <string name="settings_server_at_least_name_and_connection">At least server name and one connection is required</string>
     <string name="server_with_name">Server %s</string>
     <string name="settings_server_confirm_deletion">Do you really want to remove this server?</string>
+    <string name="settings_server_confirm_leave_title">Unsaved changes</string>
+    <string name="settings_server_confirm_leave_message">You made some changes. Do you want to save or discard them?</string>
     <string name="settings_server_primary_title">Primary server</string>
     <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
     <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Click to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
