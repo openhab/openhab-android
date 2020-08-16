@@ -14,6 +14,7 @@
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="habpanel_error">An error occurred while loading HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
@@ -428,6 +429,7 @@
     <string name="home_shortcut_pin_to_home">Pin to home</string>
     <string name="home_shortcut_error_pinning">Error pinning to home</string>
     <string name="home_shortcut_success_pinning">Pinned to home</string>
+    <string name="home_shortcut_server_has_been_deleted">The server for this shortcut has been deleted</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>
