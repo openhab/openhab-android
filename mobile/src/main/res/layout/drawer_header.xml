@@ -30,7 +30,7 @@
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         tools:text="server" />
 
