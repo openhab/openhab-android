@@ -664,7 +664,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            addPreferencesFromResource(R.xml.server_preferences)
+            addPreferencesFromResource(R.xml.preferences_server)
 
             val serverNamePref = getPreference("name") as EditTextPreference
             serverNamePref.text = config.name
@@ -687,7 +687,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     ConnectionSettingsFragment.newInstance(
                         localConnPref.key,
                         config.localPath,
-                        R.xml.local_connection_preferences,
+                        R.xml.preferences_local_connection,
                         R.string.settings_openhab_connection,
                         R.string.settings_openhab_url_summary,
                         this
@@ -702,7 +702,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     ConnectionSettingsFragment.newInstance(
                         remoteConnPref.key,
                         config.remotePath,
-                        R.xml.remote_connection_preferences,
+                        R.xml.preferences_remote_connection,
                         R.string.settings_openhab_alt_connection,
                         R.string.settings_openhab_alturl_summary,
                         this
