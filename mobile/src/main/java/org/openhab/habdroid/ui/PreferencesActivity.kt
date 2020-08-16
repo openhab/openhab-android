@@ -693,7 +693,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 updatePrimaryServerPrefState(primaryServerPref, config.id == prefs.getPrimaryServerId())
                 primaryServerPref.setOnPreferenceClickListener {
                     if (prefs.getConfiguredServerIds().contains(config.id)) {
-                        prefs.edit().putPrimaryServerId(config.id)
+                        prefs.edit {
+                            putPrimaryServerId(config.id)
+                        }
                     } else {
                         markAsPrimary = true
                     }
