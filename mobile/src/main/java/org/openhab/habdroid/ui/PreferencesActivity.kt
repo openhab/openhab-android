@@ -291,7 +291,14 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             addServerPref?.setOnPreferenceClickListener {
                 val nextServerId = prefs.getNextAvailableServerId()
-                val f = ServerEditorFragment.newInstance(ServerConfiguration(nextServerId, "", null, null, null, null))
+                val nextName = if (prefs.getConfiguredServerIds().isEmpty()) {
+                    getString(R.string.openhab)
+                } else {
+                    getString(R.string.settings_server_default_name, nextServerId)
+                }
+                val f = ServerEditorFragment.newInstance(
+                    ServerConfiguration(nextServerId, nextName, null, null, null, null)
+                )
                 parentActivity.openSubScreen(f)
                 true
             }
