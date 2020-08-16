@@ -557,6 +557,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB icon</string>
     <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Bulb</string>
     <string name="tile_icon_clock">Clock</string>
     <string name="tile_icon_alarm_clock">Alarm clock</string>
@@ -600,6 +601,7 @@
     <!-- Tile icon values -->
     <string name="tile_icon_openhab_value" translatable="false">openhab_icon</string>
     <string name="tile_icon_tv_value" translatable="false">tv</string>
+    <string name="tile_icon_radio_value" translatable="false">radio</string>
     <string name="tile_icon_bulb_value" translatable="false">bulb</string>
     <string name="tile_icon_people_value" translatable="false">people</string>
     <string name="tile_icon_child_value" translatable="false">child</string>
