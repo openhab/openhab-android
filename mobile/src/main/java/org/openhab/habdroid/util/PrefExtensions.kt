@@ -207,6 +207,10 @@ fun SharedPreferences.Editor.putConfiguredServerIds(ids: Set<Int>) {
     putStringSet(PrefKeys.SERVER_IDS, ids.map { id -> id.toString() }.toSet())
 }
 
+fun SharedPreferences.Editor.putActiveServerId(id: Int) {
+    putInt(PrefKeys.ACTIVE_SERVER_ID, id)
+}
+
 fun SharedPreferences.Editor.putPrimaryServerId(id: Int) {
     putInt(PrefKeys.PRIMARY_SERVER_ID, id)
 }
