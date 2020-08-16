@@ -212,7 +212,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 // Demo mode was disabled -> reschedule uploads
                 (key == PrefKeys.DEMO_MODE && !prefs.isDemoModeEnabled()) ||
                     // Prefix has been changed -> reschedule uploads
-                    key == PrefKeys.DEV_ID || key == PrefKeys.DEV_ID_PREFIX_BG_TASKS -> {
+                    key == PrefKeys.DEV_ID || key == PrefKeys.DEV_ID_PREFIX_BG_TASKS ||
+                    key == PrefKeys.PRIMARY_SERVER_ID -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
                 }
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
