@@ -55,9 +55,11 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
@@ -165,7 +167,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
                 }
             }
-            ACTION_VOICE_RESULT -> {
+            ACTION_VOICE_RESULT_APP, ACTION_VOICE_RESULT_WIDGET -> {
                 val voiceCommand = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
                     ?: return
                 Log.i(TAG, "Recognized text: $voiceCommand")
@@ -178,7 +180,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     ItemUpdateWorker.ValueWithInfo(voiceCommand, type = ItemUpdateWorker.ValueType.VoiceCommand),
                     isImportant = true,
                     showToast = true,
-                    asCommand = true
+                    asCommand = true,
+                    primaryServer = intent.action == ACTION_VOICE_RESULT_WIDGET
                 )
             }
         }
@@ -193,7 +196,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val isImportant: Boolean,
         val showToast: Boolean,
         val taskerIntent: String?,
-        val asCommand: Boolean
+        val asCommand: Boolean,
+        val primaryServer: Boolean
     ) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
@@ -228,7 +232,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
         internal const val ACTION_CLEAR_UPLOAD = "org.openhab.habdroid.background.action.CLEAR_UPLOAD"
-        internal const val ACTION_VOICE_RESULT = "org.openhab.habdroid.background.action.VOICE_RESULT"
+        internal const val ACTION_VOICE_RESULT_APP = "org.openhab.habdroid.background.action.VOICE_RESULT_APP"
+        internal const val ACTION_VOICE_RESULT_WIDGET = "org.openhab.habdroid.background.action.VOICE_RESULT_WIDGET"
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
@@ -240,6 +245,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
         const val WORKER_TAG_PREFIX_TILE = "tile-"
         const val WORKER_TAG_VOICE_COMMAND = "voiceCommand"
+        fun buildWorkerTagForServer(id: Int) = "server-id-$id"
 
         internal val KNOWN_KEYS = listOf(
             PrefKeys.SEND_ALARM_CLOCK,
@@ -483,19 +489,32 @@ class BackgroundTasksManager : BroadcastReceiver() {
             isImportant: Boolean,
             showToast: Boolean,
             taskerIntent: String? = null,
-            asCommand: Boolean
+            asCommand: Boolean,
+            primaryServer: Boolean = true
         ) {
+            val prefs = context.getPrefs()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-            val inputData =
-                ItemUpdateWorker.buildData(itemName, label, value, showToast, taskerIntent, asCommand, isImportant)
+            val inputData = ItemUpdateWorker.buildData(
+                itemName,
+                label,
+                value,
+                showToast,
+                taskerIntent,
+                asCommand,
+                isImportant,
+                primaryServer
+            )
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
                 .setConstraints(constraints)
                 .setBackoffCriteria(if (isImportant) BackoffPolicy.LINEAR else BackoffPolicy.EXPONENTIAL,
                     WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
+                .addTag(buildWorkerTagForServer(
+                    if (primaryServer) prefs.getPrimaryServerId() else prefs.getActiveServerId()
+                ))
                 .setInputData(inputData)
                 .build()
 

@@ -1011,7 +1011,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun launchVoiceRecognition() {
         val callbackIntent = Intent(this, BackgroundTasksManager::class.java).apply {
-            action = BackgroundTasksManager.ACTION_VOICE_RESULT
+            action = BackgroundTasksManager.ACTION_VOICE_RESULT_APP
         }
         val openhabPendingIntent = PendingIntent.getBroadcast(this, 0, callbackIntent, 0)
 

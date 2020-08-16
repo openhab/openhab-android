@@ -39,7 +39,7 @@ open class VoiceWidget : AppWidgetProvider() {
 
             Log.d(TAG, "Build voice recognition intent")
             val callbackIntent = Intent(context, BackgroundTasksManager::class.java).apply {
-                action = BackgroundTasksManager.ACTION_VOICE_RESULT
+                action = BackgroundTasksManager.ACTION_VOICE_RESULT_WIDGET
             }
             val callbackPendingIntent = PendingIntent.getBroadcast(context, 9, callbackIntent, 0)
 

@@ -284,13 +284,12 @@ Currently multi server support is still in development.
 
 Features, that support multiple servers:
 * Display Sitemaps and HABPanel
-* In-app voice commands
+* Voice commands launched from in-app and from widgets
 * Show a list of recent notifications
 
 Features, that don't support multiple servers:
 * Sitemap shortcuts and Item widgets on the home screen
 * Shortcuts for HABPanel, notifications and voice command
-* Voice command widgets
 * Quick tiles
 * NFC tags
 * Push notifications
