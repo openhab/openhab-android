@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -33,9 +34,14 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.map
 
 /**
@@ -173,6 +179,17 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         emptyWatermark.setImageResource(
             if (loadError) R.drawable.ic_connection_error else R.drawable.ic_no_notifications)
         retryButton.isVisible = loadError
+    }
+
+    fun getTitle(context: Context): String {
+        val prefs = context.getPrefs()
+        return if (prefs.getConfiguredServerIds().size <= 1) {
+            context.getString(R.string.app_notifications)
+        } else {
+            val activeServerId = prefs.getActiveServerId()
+            val activeServerName = ServerConfiguration.load(prefs, context.getSecretPrefs(), activeServerId)?.name
+            context.getString(R.string.app_notifications_on_server, activeServerName)
+        }
     }
 
     companion object {

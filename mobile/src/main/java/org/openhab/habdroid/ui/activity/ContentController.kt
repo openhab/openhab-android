@@ -93,7 +93,8 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     val currentTitle get() = when {
         noConnectionFragment != null -> null
-        temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications) // TODO: mark server type (active/primary) or index in title?
+        temporaryPage is CloudNotificationListFragment ->
+            (temporaryPage as CloudNotificationListFragment).getTitle(activity)
         temporaryPage is WebViewFragment -> (temporaryPage as WebViewFragment).title
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
