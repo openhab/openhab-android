@@ -93,7 +93,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     val currentTitle get() = when {
         noConnectionFragment != null -> null
-        temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications) // XXX: mark server type (active/primary) or index in title?
+        temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications) // TODO: mark server type (active/primary) or index in title?
         temporaryPage is WebViewFragment -> (temporaryPage as WebViewFragment).title
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
@@ -267,10 +267,18 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.getString(R.string.mainmenu_openhab_habpanel_on_server, activeServerName)
         }
 
-        showTemporaryPage(WebViewFragment.newInstance(title,
-            R.string.habpanel_error,
-            "/habpanel/index.html", "/rest/events",
-            MainActivity.ACTION_HABPANEL_SELECTED, activeServerId, title, R.mipmap.ic_shortcut_habpanel))
+        showTemporaryPage(
+            WebViewFragment.newInstance(
+                title,
+                R.string.habpanel_error,
+                "/habpanel/index.html",
+                "/rest/events",
+                MainActivity.ACTION_HABPANEL_SELECTED,
+                activeServerId,
+                title,
+                R.mipmap.ic_shortcut_habpanel
+            )
+        )
     }
 
     /**

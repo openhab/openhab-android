@@ -515,7 +515,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         handlePendingAction()
     }
 
-
     private fun handleConnectionChange() {
         if (connection is DemoConnection) {
             showSnackbar(R.string.info_demo_mode_short, R.string.turn_off, TAG_SNACKBAR_DEMO_MODE_ACTIVE) {
@@ -602,9 +601,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val port = info.port.toString()
             Log.d(TAG, "Service resolved: $address port: $port")
 
-            val config = ServerConfiguration(prefs.getNextAvailableServerId(), getString(R.string.openhab),
+            val config = ServerConfiguration(
+                prefs.getNextAvailableServerId(),
+                getString(R.string.openhab),
                 ServerPath("https://$address:$port", null, null),
-                null, null, null
+                null,
+                null,
+                null
             )
             config.saveToPrefs(prefs, getSecretPrefs())
         } else {
@@ -784,7 +787,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun updateSitemapDrawerEntries() {
         val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
-        val sitemaps = serverProperties?.sitemaps?.sortedWithDefaultName(prefs.getDefaultSitemap(connection)?.name.orEmpty())
+        val sitemaps = serverProperties?.sitemaps
+            ?.sortedWithDefaultName(prefs.getDefaultSitemap(connection)?.name.orEmpty())
 
         drawerMenu.getGroupItems(R.id.sitemaps)
             .filter { item -> item !== defaultSitemapItem }
@@ -981,7 +985,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             true
         }
         action is PendingAction.OpenNotification && isStarted -> {
-            val conn = if (action.primary) ConnectionFactory.primaryCloudConnection else ConnectionFactory.activeCloudConnection
+            val conn = if (action.primary) {
+                ConnectionFactory.primaryCloudConnection
+            } else {
+                ConnectionFactory.activeCloudConnection
+            }
             if (conn?.connection != null) {
                 openNotifications(action.notificationId, action.primary)
                 true

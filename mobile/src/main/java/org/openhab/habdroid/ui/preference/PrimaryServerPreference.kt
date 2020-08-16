@@ -33,8 +33,10 @@ class PrimaryServerPreference constructor(context: Context, attrs: AttributeSet)
         super.onBindViewHolder(holder)
         if (holder != null) {
             helpIcon = holder.itemView.findViewById(R.id.help_icon)
-            helpIcon?.setupHelpIcon(context.getString(R.string.settings_server_primary_url),
-                R.string.click_here_for_more_information)
+            helpIcon?.setupHelpIcon(
+                context.getString(R.string.settings_server_primary_url),
+                R.string.click_here_for_more_information
+            )
             helpIcon?.updateHelpIconAlpha(isEnabled)
         }
     }

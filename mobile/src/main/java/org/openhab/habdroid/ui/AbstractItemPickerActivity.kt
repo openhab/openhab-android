@@ -239,7 +239,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         requestJob = launch {
             ConnectionFactory.waitForInitialization()
 
-            val connection = ConnectionFactory.primaryUsableConnection?.connection // XXX: correct?
+            val connection = ConnectionFactory.primaryUsableConnection?.connection // TODO: correct?
             if (connection == null) {
                 updateViewVisibility(loading = false, loadError = true, showHint = false)
                 return@launch

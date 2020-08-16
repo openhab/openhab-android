@@ -102,6 +102,16 @@
     <string name="settings_add_server">Add server</string>
     <string name="settings_edit_server">Edit server</string>
     <string name="drawer_title_servers">Servers</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">At least server name and one connection is required</string>
+    <string name="settings_server_confirm_deletion">Do you really want to remove this server?</string>
+    <string name="settings_server_confirm_leave_title">Unsaved changes</string>
+    <string name="settings_server_confirm_leave_message">You made some changes. Do you want to save or discard them?</string>
+    <string name="settings_server_primary_title">Primary server</string>
+    <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
+    <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Click to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
+    <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html</string>
+    <string name="click_here_for_more_information">Click here for more information</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -651,14 +661,4 @@
     <string name="tile_icon_lamp_floor_value" translatable="false">lamp_floor</string>
     <string name="tile_icon_lamp_bedside_value" translatable="false">lamp_bedside</string>
     <string name="tile_icon_lamp_outdoor_value" translatable="false">lamp_outdoor</string>
-    <string name="settings_server_at_least_name_and_connection">At least server name and one connection is required</string>
-    <string name="server_with_name">Server %s</string>
-    <string name="settings_server_confirm_deletion">Do you really want to remove this server?</string>
-    <string name="settings_server_confirm_leave_title">Unsaved changes</string>
-    <string name="settings_server_confirm_leave_message">You made some changes. Do you want to save or discard them?</string>
-    <string name="settings_server_primary_title">Primary server</string>
-    <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
-    <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Click to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
-    <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html</string>
-    <string name="click_here_for_more_information">Click here for more information</string>
 </resources>

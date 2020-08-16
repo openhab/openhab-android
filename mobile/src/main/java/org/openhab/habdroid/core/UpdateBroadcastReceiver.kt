@@ -66,10 +66,14 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 context.getSecretPrefs().edit {
                     putString("default_openhab_username", prefs.getStringOrNull("default_openhab_username"))
                     putString("default_openhab_password", prefs.getStringOrNull("default_openhab_password"))
-                    putString("default_openhab_remote_username",
-                        prefs.getStringOrNull("default_openhab_remote_username"))
-                    putString("default_openhab_remote_password",
-                        prefs.getStringOrNull("default_openhab_remote_password"))
+                    putString(
+                        "default_openhab_remote_username",
+                        prefs.getStringOrNull("default_openhab_remote_username")
+                    )
+                    putString(
+                        "default_openhab_remote_password",
+                        prefs.getStringOrNull("default_openhab_remote_password")
+                    )
                 }
                 // Clear from unencrypted prefs
                 remove("default_openhab_username")
@@ -121,14 +125,20 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 val remoteUrl = prefs.getStringOrNull("default_openhab_alturl")
                 if (localUrl != null || remoteUrl != null) {
                     val secretPrefs = context.getSecretPrefs()
-                    val localPath = localUrl?.let { url -> ServerPath(url,
-                        secretPrefs.getStringOrNull("default_openhab_username"),
-                        secretPrefs.getStringOrNull("default_openhab_password")
-                    ) }
-                    val remotePath = remoteUrl?.let { url -> ServerPath(url,
-                        secretPrefs.getStringOrNull("default_openhab_remote_username"),
-                        secretPrefs.getStringOrNull("default_openhab_remote_password")
-                    ) }
+                    val localPath = localUrl?.let { url ->
+                        ServerPath(
+                            url,
+                            secretPrefs.getStringOrNull("default_openhab_username"),
+                            secretPrefs.getStringOrNull("default_openhab_password")
+                        )
+                    }
+                    val remotePath = remoteUrl?.let { url ->
+                        ServerPath(
+                            url,
+                            secretPrefs.getStringOrNull("default_openhab_remote_username"),
+                            secretPrefs.getStringOrNull("default_openhab_remote_password")
+                        )
+                    }
                     val defaultSitemapName = prefs.getStringOrNull("default_openhab_sitemap")
                     val defaultSitemapLabel = prefs.getStringOrNull("default_openhab_sitemap_label")
                     val defaultSitemap = if (defaultSitemapName.isNullOrEmpty() || defaultSitemapLabel == null) {
@@ -136,8 +146,14 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     } else {
                         DefaultSitemap(defaultSitemapName, defaultSitemapLabel)
                     }
-                    val config = ServerConfiguration(1, "openHAB", localPath, remotePath,
-                        prefs.getStringOrNull("default_openhab_sslclientcert"), defaultSitemap)
+                    val config = ServerConfiguration(
+                        1,
+                        "openHAB",
+                        localPath,
+                        remotePath,
+                        prefs.getStringOrNull("default_openhab_sslclientcert"),
+                        defaultSitemap
+                    )
                     config.saveToPrefs(prefs, secretPrefs)
                     prefs.edit {
                         putConfiguredServerIds(setOf(config.id))

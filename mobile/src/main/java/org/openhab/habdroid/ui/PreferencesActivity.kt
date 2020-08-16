@@ -599,7 +599,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            return when(item.itemId) {
+            return when (item.itemId) {
                 R.id.save -> {
                     saveAndQuit()
                     true
@@ -638,7 +638,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             parentFragmentManager.popBackStack() // close ourself
         }
 
-        override fun onBackPressed() : Boolean {
+        override fun onBackPressed(): Boolean {
             if (ServerConfiguration.load(prefs, secretPrefs, config.id) != config) {
                 AlertDialog.Builder(preferenceManager.context)
                     .setTitle(R.string.settings_server_confirm_leave_title)
@@ -669,42 +669,58 @@ class PreferencesActivity : AbstractBaseActivity() {
             val serverNamePref = getPreference("name") as EditTextPreference
             serverNamePref.text = config.name
             serverNamePref.setOnPreferenceChangeListener { _, newValue ->
-                config = ServerConfiguration(config.id, newValue as String,
-                    config.localPath, config.remotePath, config.sslClientCert, config.defaultSitemap)
+                config = ServerConfiguration(
+                    config.id,
+                    newValue as String,
+                    config.localPath,
+                    config.remotePath,
+                    config.sslClientCert,
+                    config.defaultSitemap
+                )
                 parentActivity.invalidateOptionsMenu()
                 true
             }
 
             val localConnPref = getPreference("local")
             localConnPref.setOnPreferenceClickListener {
-                parentActivity.openSubScreen(ConnectionSettingsFragment.newInstance(
-                    localConnPref.key,
-                    config.localPath,
-                    R.xml.local_connection_preferences,
-                    R.string.settings_openhab_connection,
-                    R.string.settings_openhab_url_summary,
-                    this
-                ))
+                parentActivity.openSubScreen(
+                    ConnectionSettingsFragment.newInstance(
+                        localConnPref.key,
+                        config.localPath,
+                        R.xml.local_connection_preferences,
+                        R.string.settings_openhab_connection,
+                        R.string.settings_openhab_url_summary,
+                        this
+                    )
+                )
                 false
             }
 
             val remoteConnPref = getPreference("remote")
             remoteConnPref.setOnPreferenceClickListener {
-                parentActivity.openSubScreen(ConnectionSettingsFragment.newInstance(
-                    remoteConnPref.key,
-                    config.remotePath,
-                    R.xml.remote_connection_preferences,
-                    R.string.settings_openhab_alt_connection,
-                    R.string.settings_openhab_alturl_summary,
-                    this
-                ))
+                parentActivity.openSubScreen(
+                    ConnectionSettingsFragment.newInstance(
+                        remoteConnPref.key,
+                        config.remotePath,
+                        R.xml.remote_connection_preferences,
+                        R.string.settings_openhab_alt_connection,
+                        R.string.settings_openhab_alturl_summary,
+                        this
+                    )
+                )
                 false
             }
 
             val clientCertPref = getPreference("clientcert") as SslClientCertificatePreference
             clientCertPref.setOnPreferenceChangeListener { _, newValue ->
-                config = ServerConfiguration(config.id, config.name,
-                    config.localPath, config.remotePath, newValue as String?, config.defaultSitemap)
+                config = ServerConfiguration(
+                    config.id,
+                    config.name,
+                    config.localPath,
+                    config.remotePath,
+                    newValue as String?,
+                    config.defaultSitemap
+                )
                 true
             }
 
@@ -713,7 +729,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                 handleNoDefaultSitemap(clearDefaultSitemapPref)
             } else {
                 clearDefaultSitemapPref.summary = getString(
-                    R.string.settings_current_default_sitemap, config.defaultSitemap?.label.orEmpty())
+                    R.string.settings_current_default_sitemap, config.defaultSitemap?.label.orEmpty()
+                )
             }
             clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
                 preference.sharedPreferences.updateDefaultSitemap(null, null, config.id)
@@ -757,9 +774,23 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         fun onPathChanged(key: String, path: ServerPath) {
             config = if (key == "local") {
-                ServerConfiguration(config.id, config.name, path, config.remotePath, config.sslClientCert, config.defaultSitemap)
+                ServerConfiguration(
+                    config.id,
+                    config.name,
+                    path,
+                    config.remotePath,
+                    config.sslClientCert,
+                    config.defaultSitemap
+                )
             } else {
-                ServerConfiguration(config.id, config.name, config.localPath, path, config.sslClientCert, config.defaultSitemap)
+                ServerConfiguration(
+                    config.id,
+                    config.name,
+                    config.localPath,
+                    path,
+                    config.sslClientCert,
+                    config.defaultSitemap
+                )
             }
             parentActivity.invalidateOptionsMenu()
         }
@@ -816,12 +847,18 @@ class PreferencesActivity : AbstractBaseActivity() {
                 getString(requireArguments().getInt("urlsummary"), actualValue)
             }
 
-            userNamePreference = initEditor("username", path.userName,
-                R.drawable.ic_person_outline_grey_24dp) { value ->
+            userNamePreference = initEditor(
+                "username",
+                path.userName,
+                R.drawable.ic_person_outline_grey_24dp
+            ) { value ->
                 if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
             }
-            passwordPreference = initEditor("password", path.password,
-                R.drawable.ic_shield_key_outline_grey_24dp) { value ->
+            passwordPreference = initEditor(
+                "password",
+                path.password,
+                R.drawable.ic_shield_key_outline_grey_24dp
+            ) { value ->
                 getString(when {
                     value.isNullOrEmpty() -> R.string.info_not_set
                     isWeakPassword(value) -> R.string.settings_openhab_password_summary_weak

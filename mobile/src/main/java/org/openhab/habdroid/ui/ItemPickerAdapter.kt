@@ -118,7 +118,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             itemLabelView.text = item.label
             itemTypeView.text = item.type.toString()
 
-            val connection = ConnectionFactory.primaryUsableConnection?.connection // XXX: correct?
+            val connection = ConnectionFactory.primaryUsableConnection?.connection // TODO: correct?
             val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
                 iconView.setImageUrl(

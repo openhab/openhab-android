@@ -221,7 +221,6 @@ fun SharedPreferences.updateDefaultSitemap(connection: Connection?, sitemap: Sit
     }
     val defaultSitemap = sitemap?.let { DefaultSitemap(sitemap.name, sitemap.label) }
     ServerConfiguration.saveDefaultSitemap(this, id, defaultSitemap)
-
 }
 
 fun PreferenceFragmentCompat.getPreference(key: String): Preference {

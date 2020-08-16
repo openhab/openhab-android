@@ -153,9 +153,7 @@ class ConnectionFactoryTest {
 
         fillInServers(remote = server.url("/").toString())
         updateAndWaitForConnections()
-        val foo = ConnectionFactory.activeCloudConnection
-        //val conn = ConnectionFactory.activeCloudConnection?.connection
-        val conn = foo?.connection
+        val conn = ConnectionFactory.activeCloudConnection?.connection
 
         assertNotNull("Should return a cloud connection if remote url is set.", conn)
         assertEquals(CloudConnection::class.java, conn!!.javaClass)
@@ -171,7 +169,10 @@ class ConnectionFactoryTest {
     fun testGetAnyConnectionNoNetwork() {
         mockConnectionHelper.update(null)
         updateAndWaitForConnections()
-        assertEquals(ConnectionFactory.activeUsableConnection?.failureReason?.javaClass, NetworkNotAvailableException::class.java)
+        assertEquals(
+            ConnectionFactory.activeUsableConnection?.failureReason?.javaClass,
+            NetworkNotAvailableException::class.java
+        )
     }
 
     @Test
@@ -199,8 +200,11 @@ class ConnectionFactoryTest {
         val conn = ConnectionFactory.activeUsableConnection?.connection
 
         assertNotNull("Should return a connection in WIFI when only remote url is set.", conn)
-        assertEquals("The connection type of the connection should be TYPE_REMOTE.",
-            Connection.TYPE_REMOTE, conn?.connectionType)
+        assertEquals(
+            "The connection type of the connection should be TYPE_REMOTE.",
+            Connection.TYPE_REMOTE,
+            conn?.connectionType
+        )
 
         server.shutdown()
     }
@@ -218,8 +222,11 @@ class ConnectionFactoryTest {
         val conn = ConnectionFactory.activeUsableConnection?.connection
 
         assertNotNull("Should return a connection in WIFI when a local url is set.", conn)
-        assertEquals("The connection type of the connection should be TYPE_LOCAL.",
-            Connection.TYPE_LOCAL, conn?.connectionType)
+        assertEquals(
+            "The connection type of the connection should be TYPE_LOCAL.",
+            Connection.TYPE_LOCAL,
+            conn?.connectionType
+        )
 
         server.shutdown()
     }
@@ -229,7 +236,10 @@ class ConnectionFactoryTest {
         fillInServers(null, null)
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
         updateAndWaitForConnections()
-        assertEquals(ConnectionFactory.activeUsableConnection?.failureReason?.javaClass, NoUrlInformationException::class.java)
+        assertEquals(
+            ConnectionFactory.activeUsableConnection?.failureReason?.javaClass,
+            NoUrlInformationException::class.java
+        )
     }
 
     private inner class MockConnectionHelper : ConnectionManagerHelper {
@@ -245,9 +255,18 @@ class ConnectionFactoryTest {
     }
 
     private fun fillInServers(local: String? = null, remote: String? = null) {
-        whenever(mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.LOCAL_URL_PREFIX)), anyOrNull())) doReturn local
-        whenever(mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.REMOTE_URL_PREFIX)), anyOrNull())) doReturn remote
-        whenever(mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.SERVER_NAME_PREFIX)), anyOrNull())) doReturn "Test Server"
+        whenever(
+            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.LOCAL_URL_PREFIX)),
+                anyOrNull())
+        ) doReturn local
+        whenever(
+            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.REMOTE_URL_PREFIX)),
+                anyOrNull())
+        ) doReturn remote
+        whenever(
+            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.SERVER_NAME_PREFIX)),
+                anyOrNull())
+        ) doReturn "Test Server"
     }
 
     private fun updateAndWaitForConnections() {

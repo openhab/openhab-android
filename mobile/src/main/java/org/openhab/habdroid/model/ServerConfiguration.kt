@@ -121,10 +121,22 @@ data class ServerConfiguration(
         const val SERVER_ID_CURRENT_ACTIVE = -1
 
         fun load(prefs: SharedPreferences, secretPrefs: SharedPreferences, id: Int): ServerConfiguration? {
-            val localPath = ServerPath.load(prefs, secretPrefs, id,
-                PrefKeys.LOCAL_URL_PREFIX, PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX)
-            val remotePath = ServerPath.load(prefs, secretPrefs, id,
-                PrefKeys.REMOTE_URL_PREFIX, PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX)
+            val localPath = ServerPath.load(
+                prefs,
+                secretPrefs,
+                id,
+                PrefKeys.LOCAL_URL_PREFIX,
+                PrefKeys.LOCAL_USERNAME_PREFIX,
+                PrefKeys.LOCAL_PASSWORD_PREFIX
+            )
+            val remotePath = ServerPath.load(
+                prefs,
+                secretPrefs,
+                id,
+                PrefKeys.REMOTE_URL_PREFIX,
+                PrefKeys.REMOTE_USERNAME_PREFIX,
+                PrefKeys.REMOTE_PASSWORD_PREFIX
+            )
             val serverName = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SERVER_NAME_PREFIX))
             if ((localPath == null && remotePath == null) || serverName.isNullOrEmpty()) {
                 return null
@@ -141,8 +153,10 @@ data class ServerConfiguration(
         }
 
         fun getDefaultSitemap(prefs: SharedPreferences, id: Int): DefaultSitemap? {
-            val defaultSitemapName = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
-            val defaultSitemapLabel = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
+            val defaultSitemapName =
+                prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
+            val defaultSitemapLabel =
+                prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
             return if (defaultSitemapName != null && defaultSitemapLabel != null) {
                 DefaultSitemap(defaultSitemapName, defaultSitemapLabel)
             } else {

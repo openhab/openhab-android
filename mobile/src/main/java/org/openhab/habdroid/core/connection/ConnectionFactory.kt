@@ -161,7 +161,8 @@ class ConnectionFactory internal constructor(
                 // changed since we went to background
                 val (_, active, _, _) = stateChannel.value
                 val local = active?.connection === activeConn?.local ||
-                    (active?.failureReason is NoUrlInformationException && active.failureReason.wouldHaveUsedLocalConnection())
+                    (active?.failureReason is NoUrlInformationException &&
+                        active.failureReason.wouldHaveUsedLocalConnection())
                 if (local) {
                     triggerConnectionUpdateIfNeeded()
                 }
@@ -285,10 +286,12 @@ class ConnectionFactory internal constructor(
         val newState = StateHolder(primary, active, primaryCloud, activeCloud)
         stateChannel.offer(newState)
         if (callListenersOnChange) launch {
-            if (newState.active?.failureReason != null || prevState.active?.connection !== newState.active?.connection) {
+            if (newState.active?.failureReason != null ||
+                prevState.active?.connection !== newState.active?.connection) {
                 listeners.forEach { l -> l.onActiveConnectionChanged() }
             }
-            if (newState.primary?.failureReason != null || prevState.primary?.connection !== newState.primary?.connection) {
+            if (newState.primary?.failureReason != null ||
+                prevState.primary?.connection !== newState.primary?.connection) {
                 listeners.forEach { l -> l.onPrimaryConnectionChanged() }
             }
             if (prevState.activeCloud !== newState.activeCloud) {

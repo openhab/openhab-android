@@ -512,9 +512,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
-                .addTag(buildWorkerTagForServer(
-                    if (primaryServer) prefs.getPrimaryServerId() else prefs.getActiveServerId()
-                ))
+                .addTag(
+                    buildWorkerTagForServer(
+                        if (primaryServer) prefs.getPrimaryServerId() else prefs.getActiveServerId()
+                    )
+                )
                 .setInputData(inputData)
                 .build()
 
