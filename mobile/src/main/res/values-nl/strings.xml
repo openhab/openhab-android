@@ -168,10 +168,17 @@
     <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
     <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
+    <string name="settings_wifi_ssid">Wi-Fi naam</string>
+    <string name="settings_background_tasks_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
     <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
+    <string name="notification_channel_background">Achtergrond taken</string>
+    <string name="notification_channel_background_description">Gebruikt om te informeren over lopende achtergrondtaken, bijv. wachten op netwerk om batterijniveau te verzenden</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
+    <string name="notification_channel_background_error_description">Gebruikt om te informeren over fouten in achtergrondtaken, b.v. geen netwerk om batterijniveau te verzenden</string>
+    <string name="notification_channel_messages_default_severity">Standaard</string>
+    <string name="notification_channel_group_messages">Berichten</string>
     <string name="notification_channel_group_other">Overig</string>
     <string name="notification_channel_severity_value">Ernst \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Meldingen verzonden door de server met ernst \'%1$s\'</string>
