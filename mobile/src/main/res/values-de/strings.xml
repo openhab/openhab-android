@@ -478,6 +478,7 @@
     <string name="item_item_and_action">Item und Aktion</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
+    <string name="tile_require_unlock">Benötige einen entsperrten Bildschrim</string>
     <string name="tile_require_unlock_summary_on">Vor der Aktualisierung von Items zum Entsperren auffordern</string>
     <string name="tile_require_unlock_summary_off">Aktualisierung von Items bei gesperrtem Gerät erlauben</string>
     <string name="tile_overview_hint">Der Zustand der Kachel reflektiert nicht den Zustand des Items.\nWenn Sie Probleme mit Kacheln haben, die nach der Änderung hier nicht aktualisiert werden, klicken Sie auf die Kachel oder bearbeiten Sie die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. WLAN und Bluetooth sind).</string>
