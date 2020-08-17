@@ -77,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">Показувати всі сторінки інтерфейсу в бічному меню</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
+    <string name="voice_command">Голосова команда</string>
     <string name="title_voice_widget_icon">Голосові команди та ярлик застосунку</string>
     <string name="info_voice_input">openHAB, очікує на команду!</string>
     <string name="info_voice_recognized_text">Отримано команду: %1$s</string>
@@ -252,6 +253,7 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Ідентифікатор пристрою</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Префіксувати голосові команди за допомогою \'&lt;Ідентифікатор пристрою&gt;|\'</string>
     <string name="device_identifier_bg_tasks">Префіксувати імена об’єктів \"Відправити інформацію про пристрій на сервер\" з цим ідентифікатором</string>
     <string name="device_identifier_hint">Цей ідентифікатор пристрою може бути будь-яким рядком і має бути унікальним для всіх пристроїв, що мають доступ до вашого сервера openHAB. Окрім двох випадків вище, ви можете використовувати його як стан за NFC мітками, щоб знати, який пристрій зчитав мітку.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Ідентифікатор пристрою сканування (\"%s\" для цього пристрою)</string>
