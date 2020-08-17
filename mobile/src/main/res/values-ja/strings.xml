@@ -522,5 +522,6 @@
     <string name="tile_icon_lamp_ceiling">天井灯</string>
     <string name="tile_icon_lamp_floor">フロアランプ</string>
     <string name="tile_icon_lamp_bedside">就寝灯</string>
+    <string name="tile_icon_lamp_outdoor">屋外灯</string>
     <!-- Tile icon values -->
 </resources>
