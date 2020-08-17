@@ -89,6 +89,7 @@
     <string name="app_shortcut_disabled_habpanel">Op de server is geen HABPanel geïnstalleerd</string>
     <string name="app_shortcut_disabled_notifications">Uw externe server is niet beschikbaar</string>
     <string name="app_shortcut_disabled_voice_recognition">Op dit apparaat is geen app voor spraakherkenning geïnstalleerd</string>
+    <string name="no_position_set">Geen positie ingesteld</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
     <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
@@ -109,13 +110,46 @@
     <string name="error_http_to_https_port">Onverwachte beëindiging van een stream. Probeert u verbinding te maken met een HTTPS poort via HTTP?</string>
     <string name="webview_ssl">Momenteel ondersteunt deze app geen zelf ondertekende SSL-certificaten voor Webview widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL is te lang. Gebruik het IP-adres of een korte URL (HTTP Code %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS is vereist. Wijzig de URL (HTTP Code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Authenticatie mislukt. Controleer het versterkte SSL certificaat (HTTP Code %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL certificaat vereist (HTTP Code %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Je reverse-proxy heeft een ongeldig antwoord ontvangen van de openHAB server (HTTP-code %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">De openHAB server is tijdelijk niet beschikbaar (HTTP code %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway time-out. Het lijkt erop dat uw reverse-proxy actief is, maar kon geen antwoord krijgen van de openHAB server (HTTP code %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">De openHAB-server heeft onvoldoende vrije ruimte (HTTP code %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Netwerkverificatie is vereist (HTTP code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB is offline</string>
+    <string name="error_short_http_connection_failed">HTTP code %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Fout bij het opzoeken van hostnaam</string>
+    <string name="error_short_unknown">Onbekende fout: %s</string>
+    <string name="error_short_certificate_not_trusted">Certificaat niet vertrouwd</string>
+    <string name="error_short_certificate_expired">Certificaat niet verlopen</string>
+    <string name="error_short_certificate_not_valid_yet">Certificaat is nog niet geldig</string>
+    <string name="error_short_certificate_revoked">Certificaat ingetrokken</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL mislukt</string>
+    <string name="error_short_connection_failed">Verbinding mislukt</string>
+    <string name="error_short_http_to_https_port">Verbinden met HTTPS poort via HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certificaat niet geldig voor %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Authenticatie mislukt (HTTP code %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Niet gevonden (HTTP code %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL is te lang (HTTP code %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS vereist (HTTP code %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Authenticatie mislukt (HTTP code %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-clientcertificaat vereist (HTTP code %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Reverse proxy heeft een ongeldig antwoord ontvangen van openHAB (HTTP code %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB tijdelijk niet beschikbaar (HTTP code %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Niet genoeg vrije ruimte op de server (HTTP code %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Netwerkverificatie vereist (HTTP code %d)</string>
     <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
     <string name="error_no_browser_found">Geen browser gevonden op dit apparaat</string>
     <string name="error_no_speech_to_text_app_found">Geen app voor spraakherkenning gevonden</string>
+    <string name="error_video_player">%s kon niet worden geladen</string>
     <string name="install">Installeren</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
     <string name="title_activity_libraries">Gebruikte bibliotheken</string>
@@ -139,6 +173,14 @@
     <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
     <string name="notification_channel_group_other">Overig</string>
+    <string name="notification_channel_severity_value">Ernst \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Meldingen verzonden door de server met ernst \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nieuwe melding</item>
+        <item quantity="other">%d nieuwe meldingen</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Niet beschikbaar, externe server is niet geconfigureerd</string>
+    <string name="push_notification_status_http_error">Niet beschikbaar, fout bij verbinding met externe server: %s</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
         <item quantity="other">%d Items konden niet worden bijgewerkt</item>
