@@ -1,8 +1,6 @@
 openHAB - ”empowering the smart home” - leverandør- og teknikkuavhengig hjemmeautomasjon med åpen kildekode
 
 The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
-Prøv ut nye funksjoner og gi tidlig tilbakemelding!
-Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.
 
 openHAB er en Java-basert hjemmeautomasjonsplattform med åpen kildekode som integrerer og kombinerer et stort utvalg av ulike systemer og teknikker for smarte hjem i en samlet løsning.
 Ovenpå det enhetlige abstraksjonslaget er alle tilsluttede enheter tilgjengelig for den overgripende regelmotoren og ulike brukergrensesnitt.

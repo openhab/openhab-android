@@ -1,0 +1,4 @@
+• Control Items from the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth)
+• Add a new setting: Device identifier. Please have a look at the setting itself, as it's quite self explanatory.
+• Add setting to make "schedule based" items "event based"
+• Support notifications in the FOSS flavor

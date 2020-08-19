@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - نظام التحكم المنزلي المفتوح المصدر والغير مرتبط بتقنية أو مصنع محدد
 
 The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
-جرب الميزات الجديدة واعطنا ملاحظاتك!
-يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.
 
 openHAB مبنية على الجافا ومفتوحة المصدر ، منصة أتمتة البيوت اللتي تتكامل وتدمج نطاق كبير من أنظمة وتكنلوجيا البيوت الذكبة في حل واحد.
 على قمة الطبقات المجردة الموحدة، جميع الأجهزة المتصلة قابلة لقاعدة محركات أتمتة شاملة و واجهات مستخدم متوعة.
