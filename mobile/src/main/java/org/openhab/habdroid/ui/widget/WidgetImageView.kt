@@ -20,6 +20,7 @@ import android.os.SystemClock
 import android.util.AttributeSet
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -46,6 +47,8 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private val adjustViewBoundsForDownscalingOnly: Boolean
     private var internalLoad: Boolean = false
     private var lastRequest: HttpImageRequest? = null
+    private var lastUrl: HttpUrl? = null
+    private var lastBitmap: Bitmap? = null
 
     private var refreshInterval: Long = 0
     private var lastRefreshTimestamp: Long = 0
@@ -196,7 +199,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         if (cached != null) {
             applyLoadedBitmap(cached)
         } else {
-            applyProgressDrawable()
+            applyProgressDrawable(url)
         }
 
         if (cached == null || forceLoad) {
@@ -238,6 +241,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         // ultimately calls through to setImageDrawable().
         internalLoad = true
         super.setImageBitmap(bitmap)
+        lastBitmap = bitmap
         internalLoad = false
     }
 
@@ -245,13 +249,21 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         super.setImageDrawable(fallback)
     }
 
-    private fun applyProgressDrawable() {
+    private fun applyProgressDrawable(url: HttpUrl) {
         if (originalScaleType == null) {
             originalScaleType = scaleType
             super.setScaleType(ScaleType.CENTER)
             super.setAdjustViewBounds(false)
         }
-        super.setImageDrawable(progressDrawable)
+        val drawableToShow = if (progressDrawable == null &&
+            url.newBuilder().removeAllQueryParameters("state").build() ==
+            lastUrl?.newBuilder()?.removeAllQueryParameters("state")?.build()
+        ) {
+            lastBitmap?.toDrawable(resources)
+        } else {
+            progressDrawable
+        }
+        super.setImageDrawable(drawableToShow)
     }
 
     private fun removeProgressDrawable() {
@@ -278,6 +290,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                 return
             }
 
+            lastUrl = url
             Log.i(TAG, "Refreshing image at $url, avoidCache $avoidCache")
             val cachingMode = if (avoidCache)
                 HttpClient.CachingMode.AVOID_CACHE
