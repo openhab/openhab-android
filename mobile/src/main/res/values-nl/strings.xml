@@ -241,6 +241,8 @@
     <string name="send_device_info_schedule_summary">Elke 15 minuten tijdens het opladen, elke %s anders</string>
     <string name="send_device_info_schedule_15_minutes">15 minuten</string>
     <string name="send_device_info_schedule_1_hour">1 uur</string>
+    <string name="send_device_info_schedule_3_hours">3 uren</string>
+    <string name="send_device_info_schedule_6_hours">6 uren</string>
     <string name="send_device_info_schedule_12_hours">12 uren</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Apparaat identificatie</string>
@@ -397,6 +399,7 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Verstuur commando \"%3$s\" to \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_item_update">Bewerken</string>
     <string name="search">Zoeken</string>
     <string name="settings_tasker_plugin">Tasker integratie</string>
     <string name="settings_tasker_plugin_summary">Activeer de Tasker action plugin voor het updaten van Items via Tasker en andere compatibele apps</string>
