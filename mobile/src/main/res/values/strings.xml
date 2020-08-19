@@ -391,7 +391,8 @@
     <string name="about_privacy_policy">Privacy policy</string>
     <string name="about_rate_this_app">Rate this app</string>
 
-    <string name="settings_debug_messages_title">Show information for troubleshooting</string>
+    <string name="settings_debug_messages_title">Extended error messages</string>
+    <string name="settings_troubleshooting_title">Troubleshooting</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="unknown">Unknown</string>
     <string name="set">Set</string>
