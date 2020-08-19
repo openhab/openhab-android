@@ -95,11 +95,13 @@
     <string name="error_sitemap_generic_load_error">No se pudo cargar el Sitemap. Ocurrió el siguiente error: %1$s</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
     <string name="error_wifi_not_available">Wi-Fi está desactivada</string>
+    <string name="error_http_connection_failed">La conexión no tuvo éxito. Se recibió una respuesta inesperada mientras intentaba conectarse al servidor openHAB configurado (código HTTP %d).</string>
     <string name="error_invalid_url">Por favor, introducir una URL válida con formato \'http(s)://host(:puerto)/\'</string>
     <string name="error_invalid_https_url">Por favor, introduzca una URL válida con el formato \'https://host(:puerto)/\'</string>
     <string name="error_port_seems_invalid">El puerto introducido no es válido para el protocolo seleccionado</string>
     <string name="error_connection_failed">Ha fallado la conexión con el host</string>
     <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
+    <string name="error_unknown">Se produjo un error desconocido: %s</string>
     <string name="error_connection_sslhandshake_failed">Falló el inicio del protocolo SSL (handshake)</string>
     <string name="error_certificate_not_trusted">El certificado SSL no es de confianza. Por favor, importa el certificado raíz o deshabilita la validación del certificado durante la negociación SSL.</string>
     <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o acepta el certificado durante la negociación SSL.</string>
@@ -110,9 +112,42 @@
     <string name="error_http_to_https_port">Final inesperado de secuencia. ¿Está Ud. tratando de conectar a un puerto HTTPS por HTTP?</string>
     <string name="webview_ssl">Esta aplicación no soporta actualmente certificados SSL auto-firmados para widgets de Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autenticación fallida. Por favor, compruebe el nombre de usuario y la contraseña configurados respectivamente al certificado de cliente SSL proporcionado (código HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">La URL es demasiado larga. Por favor, use la dirección IP o una URL más corta (código HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Se requiere HTTPS. Por favor, cambie la URL (código HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Autenticación fallida. Por favor, compruebe el certificado de cliente SSL proporcionado (código HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Se requiere certificado SSL (código HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Su proxy inverso recibió una respuesta no válida del servidor openHAB (código HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">El servidor openHAB no está disponible temporalmente (código HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Tiempo de espera de la puerta de enlace agotado. Parece que su proxy inverso se está ejecutando, pero no pudo obtener una respuesta del servidor openHAB (código HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">El servidor openHAB no tiene suficiente espacio (código HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Se requiere autenticación de red (código HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB está desconectado</string>
+    <string name="error_short_http_connection_failed">Código HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Error resolviendo el nombre de host</string>
+    <string name="error_short_unknown">Error desconocido: %s</string>
+    <string name="error_short_certificate_not_trusted">Certificado no confiable</string>
+    <string name="error_short_certificate_expired">Certificado no caducado</string>
+    <string name="error_short_certificate_not_valid_yet">El certificado no es válido aún</string>
+    <string name="error_short_certificate_revoked">Certificado revocado</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL fallido</string>
+    <string name="error_short_connection_failed">Conexión fallida</string>
+    <string name="error_short_http_to_https_port">¿Conectando al puerto HTTPS a través de HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certificado no válido para %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Error de autenticación (código HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">No encontrado (código HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL demasiado larga (código HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS requerido (código HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Error de autenticación (código HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Se requiere certificado SSL (código HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">El proxy inverso recibió una respuesta no válida de openHAB (código HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB temporalmente no disponible (código HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Tiempo de espera de la puerta de enlace agotado (código HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">No hay suficiente espacio libre en el servidor (código HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Se requiere autenticación de red (código HTTP %d)</string>
     <string name="error_about_no_conn">Error al obtener información del servidor openHAB</string>
     <string name="error_openhab_offline">Su servidor openHAB está fuera de línea mientras se ejecuta la instancia de la nube</string>
     <string name="error_no_browser_found">No se encontró ningún navegador en su dispositivo</string>
@@ -204,11 +239,14 @@
         <item quantity="other">No se pudieron actualizar %d Items</item>
     </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Item \"%1$s\" actualización fallida: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s actualización fallida: %2$s</string>
     <string name="item_update_connection_error">Fallo en la actualización del Item \'%1$s\' (sin conexión)</string>
     <string name="item_update_connection_error_label">Falló la actualización de %1$s (sin conexión)</string>
     <string name="error_no_valid_item_name">Por favor, introduzca un nombre de Item válido</string>
     <string name="retry">Reintentar</string>
+    <string name="ignore">Ignorar</string>
     <string name="send_device_info_schedule">Temporizador</string>
     <string name="send_device_info_schedule_summary">Cada 15 minutos mientras se carga, cada %s si no</string>
     <string name="send_device_info_schedule_15_minutes">15 minutos</string>
@@ -270,6 +308,7 @@
     <string name="nfc_action_off">Desactivado</string>
     <string name="nfc_action_down">Abajo</string>
     <string name="nfc_action_toggle">Cambiar</string>
+    <string name="nfc_action_toggled">Conmutado</string>
     <string name="nfc_action_undefined">Sin definir</string>
     <string name="nfc_action_empty_string">Cadena vacía</string>
     <string name="nfc_action_increase">Incrementar</string>
@@ -369,7 +408,9 @@
     <string name="item_picker_custom">Personalizado</string>
     <string name="item_picker_dialog_title">Seleccionar acción</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Enviar orden \"%3$s\" a \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Actualizar \"%1$s\" (%2$s) a \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Variable de Tasker \"%s\"</string>
     <string name="item_picker_item_update">Actualizar</string>
     <string name="item_picker_item_command">Comando</string>
@@ -383,6 +424,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Control del Item</string>
     <string name="item_update_widget_content_description">Widget para cambiar el estado del Item</string>
+    <string name="item_update_widget_content_description_edit">Editar widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_item_picker_title">Seleccione un Item</string>
     <string name="item_update_success_message_generic">%1$s se ha establecido a %2$s</string>
