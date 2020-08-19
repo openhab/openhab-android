@@ -68,7 +68,6 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
-import de.duenndns.ssl.MemorizingTrustManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -94,8 +93,6 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 import java.io.IOException
 import java.util.HashMap
 import java.util.Locale
-import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.SSLContext
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -985,14 +982,6 @@ class WidgetAdapter(
             playerView.isVisible = true
             errorView.isVisible = false
             loadingIndicator.isVisible = true
-
-            SSLContext.getInstance("TLS").apply {
-                init(null, MemorizingTrustManager.getInstanceList(itemView.context), null)
-                HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory)
-                val mtmHostnameVerifier = MemorizingTrustManager(itemView.context)
-                    .wrapHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier())
-                HttpsURLConnection.setDefaultHostnameVerifier(mtmHostnameVerifier)
-            }
 
             val url: String?
             val factory = if (widget.encoding.equals("hls", ignoreCase = true)) {
