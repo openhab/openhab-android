@@ -192,15 +192,18 @@
     <string name="settings_battery_level">Batterijniveau</string>
     <string name="settings_battery_level_summary_on">Verstuurt batterijniveau naar Item \'%1$s\'</string>
     <string name="settings_battery_level_summary_off">Geen batterijniveau verzenden</string>
+    <string name="settings_charging_state">Status van opladen</string>
     <string name="settings_charging_state_summary_on">Verstuurt oplaadstatus naar Item \'%1$s\'</string>
     <string name="settings_charging_state_summary_off">Geen oplaadstatus verzenden</string>
     <string name="settings_wifi_ssid">Wi-Fi naam</string>
     <string name="settings_wifi_ssid_summary_on">Verstuurt Wi-Fi naam (SSID) naar Item \'%1$s\'</string>
     <string name="settings_wifi_ssid_summary_on_location_on">Verstuurt Wi-Fi-naam (SSID) naar Item \'%1$s\'. \"Locatie\" moet ingeschakeld zijn, anders mag openHAB de Wi-Fi-naam niet ophalen.</string>
     <string name="settings_wifi_ssid_summary_off">Geen Wi-Fi-naam (SSID) verzenden</string>
+    <string name="settings_wifi_ssid_permission_denied">Het verzenden van Wi-Fi-naam is uitgeschakeld vanwege ontbrekende machtigingen</string>
     <string name="settings_dnd_mode">Niet storen modus</string>
     <string name="settings_dnd_mode_summary_on">Verstuurd niet storen modus naar Item \'%1$s\'s</string>
     <string name="settings_dnd_mode_summary_off">Niet storen modus niet verzenden</string>
+    <string name="settings_background_tasks_permission_denied">Sommige achtergrondtaken zijn uitgeschakeld vanwege ontbrekende machtigingen</string>
     <string name="settings_background_tasks_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
@@ -209,7 +212,9 @@
     <string name="notification_channel_background_description">Gebruikt om te informeren over lopende achtergrondtaken, bijv. wachten op netwerk om batterijniveau te verzenden</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
     <string name="notification_channel_background_error_description">Gebruikt om te informeren over fouten in achtergrondtaken, b.v. geen netwerk om batterijniveau te verzenden</string>
+    <string name="notification_channel_background_foreground_service_description">Monitor gebeurtenissen om Items bij te werken. Je kunt deze categorie veilig verbergen.</string>
     <string name="notification_channel_messages_default_severity">Standaard</string>
+    <string name="notification_channel_messages_default_severity_description">Meldingen verzonden door de server zonder gedefinieerde ernst</string>
     <string name="notification_channel_group_messages">Berichten</string>
     <string name="notification_channel_group_other">Overig</string>
     <string name="notification_channel_severity_value">Ernst \'%1$s\'</string>
@@ -247,6 +252,7 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Apparaat identificatie</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Gebruik \'&lt;Device identifier&gt;\' als voorvoegsel voor spraakcommando\'s</string>
     <string name="device_identifier_bg_tasks">Voorvoegsel voor de Item-namen van \"Apparaatinformatie naar server verzenden\" met deze identificatie</string>
     <string name="device_identifier_hint">Dit apparaat-id kan een string zijn en moet uniek zijn voor alle apparaten die toegang hebben tot uw openHAB-server. Naast de twee bovengenoemde gevallen kan je het ook als status op NFC-tags gebruiken, zodat je weet welk apparaat de tag leest.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Apparaat-Id van scanapparaat (\"%s\" voor dit apparaat)</string>
@@ -399,16 +405,22 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Verstuur commando \"%3$s\" to \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Wijzig \"%1$s\" (%2$s) naar \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Tasker variabele \"%s\"</string>
     <string name="item_picker_item_update">Bewerken</string>
+    <string name="item_picker_item_command">Commando</string>
     <string name="search">Zoeken</string>
     <string name="settings_tasker_plugin">Tasker integratie</string>
     <string name="settings_tasker_plugin_summary">Activeer de Tasker action plugin voor het updaten van Items via Tasker en andere compatibele apps</string>
+    <string name="tasker_plugin_disabled">Tasker plugin is uitgeschakeld</string>
     <string name="turn_on">Inschakelen</string>
     <string name="press_back_to_exit">Druk nogmaals op \'terug\' om te sluiten</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item controleren</string>
     <string name="item_update_widget_content_description">Widget voor aanpassen van Item status</string>
+    <string name="item_update_widget_content_description_edit">Widget bewerken</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecteer een Item</string>
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
     <string name="item_update_success_message_on">%s is ingeschakeld</string>
@@ -427,6 +439,13 @@
     <string name="item_update_success_message_previous">%s toont de vorige titel</string>
     <string name="item_update_success_message_rewind">%s spoelt terug</string>
     <string name="item_update_success_message_fastforward">%s spoelt vooruit</string>
+    <string name="item_update_error_no_connection_retry">Fout bij verzenden Item update, opnieuw proberen\u2026</string>
+    <string name="item_update_error_no_connection">Geen verbinding</string>
+    <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
+    <string name="create_home_screen_widget_title">Widget maken</string>
+    <string name="create_home_screen_widget_not_supported">Uw apparaat ondersteunt het maken van widgets vanuit een app niet. Ga naar het widget menu op uw startscherm en maak vanaf daar een widget aan.</string>
+    <string name="item_update_widget_auto_generate_widget_label">Automatisch widget label genereren</string>
+    <string name="item_update_widget_widget_label">Widget label</string>
     <!-- Data saver -->
     <!-- Tiles -->
     <string name="tile_number">Tegel %d</string>
