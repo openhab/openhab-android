@@ -197,6 +197,7 @@
     <string name="retry">Försök igen</string>
     <string name="ignore">Ignorera</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Inga aviseringar har hittills skickats</string>
     <string name="notification_list_error">Ett fel uppstod när aviseringar laddades</string>

@@ -115,6 +115,7 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">Reintenta</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="list_loading_message">S\'està carregant...</string>
     <!-- Strings for MemorizingTrustManager activity -->

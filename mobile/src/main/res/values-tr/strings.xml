@@ -149,6 +149,7 @@
     <string name="item_update_connection_error_label">\'%1$s\' Item\' i güncellenemedi (Bağlantı yok)</string>
     <string name="retry">Yeniden Dene</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Gönderilebilecek herhangi bir bildirim bulunamadı</string>
     <string name="notification_list_error">Bilgilendirme mesajları yüklenirken bir hata oluştu</string>

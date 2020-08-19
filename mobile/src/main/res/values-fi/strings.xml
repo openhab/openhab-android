@@ -245,7 +245,7 @@
     <string name="send_device_info_schedule_12_hours">12 tuntia</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Laitteen tunnus</string>
-    <string name="device_identifier_prefix_voice"><![CDATA[Lisää äänikomentoihin etuliite \'<Device identifier>|\']]></string>
+    <!-- Please translate "Device identifier" in this string -->
     <string name="device_identifier_suggested_command_nfc_tag">Skannaavan laitteen tunnus (\"%s\" for this device)</string>
     <string name="device_identifier_summary_not_set">Palvelimelle lähetetty data tai äänikomennot eivät sisällä laitteen tunnusta etuliiteenä</string>
     <!-- Notification list strings -->

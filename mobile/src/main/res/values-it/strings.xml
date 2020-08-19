@@ -77,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">Mostra tutte le Sitemaps nel menu laterale</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
+    <string name="voice_command">Comando vocale</string>
     <string name="title_voice_widget_icon">Comandi vocali e collegamento app</string>
     <string name="info_voice_input">openHAB, ai tuoi comandi!</string>
     <string name="info_voice_recognized_text">Comando riconosciuto: %1$s</string>
@@ -177,6 +178,13 @@
     <string name="send_device_info_category_schedule_based_explanation">Più breve è l\'intervallo scelto, maggiore è l\'impatto potenziale sulla durata della batteria del tuo dispositivo. Inoltre, il tuo dispositivo potrebbe non seguire esattamente l\'intervallo scelto, ma ritardare gli aggiornamenti per ridurre il consumo energetico delle app.</string>
     <string name="send_device_info_item_prefix_summary">I nomi degli Item in questa pagina hanno prefisso il tipo di dispositivo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">In questa pagina non ci sono prefissi configurati per gli Item. È possibile aggiungere un prefisso con il tipo di dispositivo, che può essere impostato nelle impostazioni principali.</string>
+    <string name="send_device_info_foreground_service_title">Monitor eventi</string>
+    <string name="send_device_info_foreground_service_summary">Monitora gli eventi associati ai seguenti Items. Ciò richiede una notifica persistente e può aumentare l\'utilizzo della batteria.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Monitora gli eventi associati ai seguenti Items. Ciò richiede una notifica persistente e può aumentare l\'utilizzo della batteria. Questo è richiesto solo per l’invio in modalità DND.</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">Monitora gli eventi associati alla modalità DND</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Monitora gli eventi associati a %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Monitora gli eventi associati a %1$s e %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Monitora gli eventi associati a %1$s, %2$s e altri</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
     <string name="item_update_summary_success">L\'ultimo aggiornamento è stato \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Ora sveglia</string>
@@ -209,6 +217,7 @@
     <string name="notification_channel_background_description">Utilizzato per notificare attività in sospeso in background, ad esempio in attesa della rete per l’invio del livello della batteria</string>
     <string name="notification_channel_background_error">Errore nei task in background</string>
     <string name="notification_channel_background_error_description">Utilizzato per notificare errori nelle attività in background, ad esempio non hai una rete per inviare il livello della batteria</string>
+    <string name="notification_channel_background_foreground_service_description">Monitora gli eventi per aggiornare gli Items. Puoi nascondere senza conseguenze questa categoria.</string>
     <string name="notification_channel_messages_default_severity">Predefinito</string>
     <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
     <string name="notification_channel_group_messages">Messaggi</string>
@@ -247,7 +256,8 @@
     <string name="send_device_info_schedule_12_hours">12 ore</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Tipo dispositivo</string>
-    <string name="device_identifier_prefix_voice"><![CDATA[Aggiungi al comando vocale con \'<Device identifier>|\']]></string>
+    <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Prefisso comandi vocali con \'&lt;Device identifier&gt;|\'</string>
     <string name="device_identifier_bg_tasks">Aggiungi ai nomi degli Item di \"Invia informazioni sul dispositivo al server\" con questo identificatore</string>
     <string name="device_identifier_hint">Questo tipo di dispositivo può essere qualsiasi stringa e dovrebbe essere univoco per tutti i dispositivi che accedono al server openHAB. Oltre ai due casi d\'uso di cui sopra, puoi anche usarlo come stato sui tag NFC, in modo da sapere quale dispositivo leggere il tag.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Tipo di dispositivo di scansione (\"%s\" per questo dispositivo)</string>
@@ -456,6 +466,80 @@
     <string name="widget_type_mapview">Mappa</string>
     <string name="widget_type_chart">Grafico</string>
     <!-- Tiles -->
+    <string name="tile">Tile</string>
+    <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
+    <string name="tile_empty">Tile vuota</string>
+    <string name="tile_item_picker_title">Seleziona un Item</string>
+    <string name="tile_configure_in_settings">Questa tile può essere configurata nelle impostazioni di openHAB</string>
+    <string name="save">Salva</string>
+    <string name="tile_error_saving">Per favore compilare tutte le impostazioni</string>
+    <string name="tile_disabled">Spento</string>
+    <string name="tile_enable">Accendi</string>
+    <string name="item_item_and_action">Item e azioni</string>
+    <string name="tile_name">Nome</string>
+    <string name="tile_icon">Icona</string>
+    <string name="tile_require_unlock">Richiede che lo schermo sia sbloccato</string>
+    <string name="tile_require_unlock_summary_on">Avverte per sbloccare il dispositivo prima di consentire gli aggiornamenti degli Items</string>
+    <string name="tile_require_unlock_summary_off">Consenti l\'aggiornamento degli Items anche se il dispositivo è bloccato</string>
+    <string name="tile_overview_hint">Lo stato del Tile non riflette lo stato dell\'Item.\nSe hai problemi con i Tile non aggiornati dopo averli cambiati, fai clic sul Tile o modifica le impostazioni rapide del dispositivo (dove si trovano le abilitazioni, per esempio, di Wi-Fi e Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d Tile attivo</item>
+        <item quantity="other">%d Tile attivi</item>
+    </plurals>
+    <string name="tile_number">Tile %d</string>
+    <string name="tile_label_1">Tile 1</string>
+    <string name="tile_label_2">Tile 2</string>
+    <string name="tile_label_3">Tile 3</string>
+    <string name="tile_label_4">Tile 4</string>
+    <string name="tile_label_5">Tile 5</string>
+    <string name="tile_label_6">Tile 6</string>
+    <string name="tile_label_7">Tile 7</string>
+    <string name="tile_label_8">Tile 8</string>
+    <string name="tile_label_9">Tile 9</string>
+    <string name="tile_label_10">Tile 10</string>
+    <string name="tile_label_11">Tile 11</string>
+    <string name="tile_label_12">Tile 12</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">icona openHAB</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_bulb">Lampadina</string>
+    <string name="tile_icon_clock">Orologio</string>
+    <string name="tile_icon_alarm_clock">Sveglia</string>
+    <string name="tile_icon_bell">Campanello</string>
+    <string name="tile_icon_cloud_upload">Caricamento cloud</string>
+    <string name="tile_icon_earth">Terra</string>
+    <string name="tile_icon_chat">Fumetto</string>
+    <string name="tile_icon_house">Casa</string>
+    <string name="tile_icon_lock">Lucchetto</string>
+    <string name="tile_icon_microphone">Microfono</string>
+    <string name="tile_icon_color_palette">Tavolozza colori</string>
+    <string name="tile_icon_people">Persone</string>
+    <string name="tile_icon_person">Persona</string>
+    <string name="tile_icon_phone">Telefono</string>
+    <string name="tile_icon_power_plug">Alimentazione</string>
+    <string name="tile_icon_battery">Batteria</string>
+    <string name="tile_icon_magnifier">Lente d\'ingrandimento</string>
+    <string name="tile_icon_star">Stella</string>
+    <string name="tile_icon_tree">Albero</string>
+    <string name="tile_icon_dashboard">Cruscotto</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Scudo</string>
+    <string name="tile_icon_man">Uomo</string>
+    <string name="tile_icon_bed">Letto</string>
+    <string name="tile_icon_child">Bambino</string>
+    <string name="tile_icon_baby">Bebè</string>
+    <string name="tile_icon_settings">Ingranaggio</string>
+    <string name="tile_icon_bath">Bagno</string>
+    <string name="tile_icon_woman">Donna</string>
+    <string name="tile_icon_roller_shutter">Tapparella</string>
+    <string name="tile_icon_camera">Fotocamera</string>
+    <string name="tile_icon_light_switch">Interruttore luce</string>
+    <string name="tile_icon_garage">Garage</string>
+    <string name="tile_icon_switch">Interruttore</string>
+    <string name="tile_icon_sofa">Divano</string>
+    <string name="tile_icon_lamp_ceiling">Lampadario</string>
+    <string name="tile_icon_lamp_floor">Lampada da terra</string>
+    <string name="tile_icon_lamp_bedside">Luce comodino</string>
+    <string name="tile_icon_lamp_outdoor">Luce esterna</string>
     <!-- Tile icon values -->
 </resources>

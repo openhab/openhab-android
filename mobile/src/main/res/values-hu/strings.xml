@@ -237,6 +237,7 @@
     <string name="send_device_info_schedule_12_hours">12 óra</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Eszköz azonosító</string>
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>

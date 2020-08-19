@@ -160,6 +160,7 @@
     <string name="item_update_connection_error">项目 \'%1$s\'\' 更新失败（无连接）</string>
     <string name="retry">重试</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">尚未发送通知</string>
     <string name="notification_list_error">加载通知时出错</string>

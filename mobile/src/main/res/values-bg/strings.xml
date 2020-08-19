@@ -90,6 +90,7 @@
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_error">Възникна грешка при зареждането на известията</string>
     <string name="list_loading_message">Зарежда се\u2026</string>

@@ -143,6 +143,7 @@
     <string name="item_update_connection_error_label">%1$s actualizare eșuată (fără conexiune)</string>
     <string name="retry">Reîncearcă</string>
     <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nicio notificare nu a fost trimisă până acum</string>
     <string name="notification_list_error">A apărut o eroare în timpul încărcării notificărilor</string>

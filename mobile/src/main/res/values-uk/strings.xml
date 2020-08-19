@@ -77,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">Показувати всі сторінки інтерфейсу в бічному меню</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
+    <string name="voice_command">Голосова команда</string>
     <string name="title_voice_widget_icon">Голосові команди та ярлик застосунку</string>
     <string name="info_voice_input">openHAB, очікує на команду!</string>
     <string name="info_voice_recognized_text">Отримано команду: %1$s</string>
@@ -177,6 +178,13 @@
     <string name="send_device_info_category_schedule_based_explanation">Чим коротший обраний інтервал, тим більший потенційний вплив на розряджання акумулятора Вашого пристрою. Ваш пристрій може не дотримуватись обраного інтервалу, відтерміновувати оновлення, щоб зменшити енергоспоживання через додатки.</string>
     <string name="send_device_info_item_prefix_summary">Назви об’єктів на цій сторінці префіксуються з ідентифікатором пристрою \'%s</string>
     <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс для імен об’єктів на цій сторінці. Ви можете додати їх префікс за допомогою ідентифікатора пристрою, який може бути встановлений на сторінці основних налаштувань.</string>
+    <string name="send_device_info_foreground_service_title">Монітор подій</string>
+    <string name="send_device_info_foreground_service_summary">Відстеження подій, пов’язаних з наступними Об’єктами. Це вимагає постійного сповіщення і може збільшити споживання заряду акумулятора.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Спостерігати за подіями, пов’язаними з наступними об’єктами. Це вимагає постійного сповіщення і може збільшити споживання заряду акумулятора. Необхідно для відправки режиму Не Турбувати.</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">Відслідковування подій пов’язаних з режимом Не Турбувати</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Відслідковування подій пов’язаних з %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Відслідковування подій пов’язаних з %1$s і %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Відслідковування подій пов’язаних з %1$s, %2$s та іншими</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
     <string name="item_update_summary_success">Останнє оновлення було \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Час сигналу</string>
@@ -209,6 +217,7 @@
     <string name="notification_channel_background_description">Використовується для сповіщення про очікуючі фонові завдання, наприклад, очікування мережі для відправки рівня заряду акумулятора</string>
     <string name="notification_channel_background_error">Помилка у фонових процесах</string>
     <string name="notification_channel_background_error_description">Використовується для сповіщення про помилки у фонових завданнях, наприклад, немає мережі для відправки рівня заряду акумулятора</string>
+    <string name="notification_channel_background_foreground_service_description">Моніторинг подій для оновлення відповідних елементів. Можна безпечно приховати цю категорію.</string>
     <string name="notification_channel_messages_default_severity">За замовчуванням</string>
     <string name="notification_channel_messages_default_severity_description">Сповіщення, надіслані сервером без вказаної важливості</string>
     <string name="notification_channel_group_messages">Повідомлення</string>
@@ -251,7 +260,8 @@
     <string name="send_device_info_schedule_12_hours">12 годин</string>
     <!-- Device identifier -->
     <string name="device_identifier_title">Ідентифікатор пристрою</string>
-    <string name="device_identifier_prefix_voice"><![CDATA[Префікс голосових команд \'<Device identifier>|\']]></string>
+    <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Префіксувати голосові команди за допомогою \'&lt;Ідентифікатор пристрою&gt;|\'</string>
     <string name="device_identifier_bg_tasks">Префіксувати імена об’єктів \"Відправити інформацію про пристрій на сервер\" з цим ідентифікатором</string>
     <string name="device_identifier_hint">Цей ідентифікатор пристрою може бути будь-яким рядком і має бути унікальним для всіх пристроїв, що мають доступ до вашого сервера openHAB. Окрім двох випадків вище, ви можете використовувати його як стан за NFC мітками, щоб знати, який пристрій зчитав мітку.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Ідентифікатор пристрою сканування (\"%s\" для цього пристрою)</string>
