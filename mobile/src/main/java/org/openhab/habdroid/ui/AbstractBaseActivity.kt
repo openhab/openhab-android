@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.WindowInsets
+import android.view.WindowInsetsController
 import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
@@ -69,27 +70,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 colorPrimary))
         }
 
-        var uiOptions = window.decorView.systemUiVisibility
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        } else {
-            0
-        }
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        val black = ContextCompat.getColor(this, R.color.black)
-        @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-            uiOptions = uiOptions and flags.inv()
-            resolveThemedColor(android.R.attr.windowBackground, black)
-        } else {
-            uiOptions = uiOptions or flags
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                resolveThemedColor(android.R.attr.windowBackground, black)
-            } else {
-                black
-            }
-        }
-        window.navigationBarColor = windowColor
-        window.decorView.systemUiVisibility = uiOptions
+        checkStatusBarColor()
 
         super.onCreate(savedInstanceState)
     }
@@ -111,6 +92,20 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     fun checkFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
+        @Suppress("DEPRECATION")
+        fun checkFullscreenPreR() {
+            var uiOptions = window.decorView.systemUiVisibility
+            val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+            uiOptions = if (isEnabled && !forceNonFullscreen) {
+                uiOptions or flags
+            } else {
+                uiOptions and flags.inv()
+            }
+            window.decorView.systemUiVisibility = uiOptions
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val insetsController = window.insetsController ?: return
             insetsController.systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -120,17 +115,38 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 insetsController.show(WindowInsets.Type.systemBars())
             }
         } else {
-            @Suppress("DEPRECATION")
-            var uiOptions = window.decorView.systemUiVisibility
-            @Suppress("DEPRECATION")
-            val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
-            uiOptions = if (isEnabled && !forceNonFullscreen) {
-                uiOptions or flags
+            checkFullscreenPreR()
+        }
+    }
+
+    private fun checkStatusBarColor() {
+        @Suppress("DEPRECATION") var uiOptions = window.decorView.systemUiVisibility
+        @Suppress("DEPRECATION") val flagsPreR = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        } else {
+            0
+        }
+        val flagsR: Int
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val black = ContextCompat.getColor(this, R.color.black)
+        @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+            uiOptions = uiOptions and flagsPreR.inv()
+            flagsR = 0
+            resolveThemedColor(android.R.attr.windowBackground, black)
+        } else {
+            uiOptions = uiOptions or flagsPreR
+            flagsR = WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                resolveThemedColor(android.R.attr.windowBackground, black)
             } else {
-                uiOptions and flags.inv()
+                black
             }
+        }
+        window.navigationBarColor = windowColor
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController
+                ?.setSystemBarsAppearance(flagsR, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
+        } else {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = uiOptions
         }

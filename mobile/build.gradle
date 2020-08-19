@@ -105,7 +105,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
-        //allWarningsAsErrors = true
+        allWarningsAsErrors = true
     }
 
     androidExtensions {
