@@ -17,8 +17,6 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.content.Intent
-import android.speech.RecognizerIntent
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
@@ -38,20 +36,7 @@ open class VoiceWidget : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, layoutRes)
 
             Log.d(TAG, "Build voice recognition intent")
-            val callbackIntent = Intent(context, BackgroundTasksManager::class.java).apply {
-                action = BackgroundTasksManager.ACTION_VOICE_RESULT_WIDGET
-            }
-            val callbackPendingIntent = PendingIntent.getBroadcast(context, 9, callbackIntent, 0)
-
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                // Display an hint to the user about what he should say.
-                putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input))
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
-                putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-
+            val intent = BackgroundTasksManager.buildVoiceRecognitionIntent(context, true)
             val pendingIntent = PendingIntent.getActivity(context, 6, intent, 0)
             views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
 

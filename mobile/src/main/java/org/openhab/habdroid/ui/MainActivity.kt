@@ -30,7 +30,6 @@ import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
@@ -1082,19 +1081,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun launchVoiceRecognition() {
-        val callbackIntent = Intent(this, BackgroundTasksManager::class.java).apply {
-            action = BackgroundTasksManager.ACTION_VOICE_RESULT_APP
-        }
-        val openhabPendingIntent = PendingIntent.getBroadcast(this, 0, callbackIntent, 0)
-
-        val speechIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            // Display an hint to the user about what he should say.
-            putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.info_voice_input))
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
-            putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent)
-        }
-
+        val speechIntent = BackgroundTasksManager.buildVoiceRecognitionIntent(this, false)
         if (speechIntent.isResolvable(this)) {
             startActivity(speechIntent)
         } else {

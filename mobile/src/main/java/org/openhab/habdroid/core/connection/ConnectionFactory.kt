@@ -287,11 +287,13 @@ class ConnectionFactory internal constructor(
         stateChannel.offer(newState)
         if (callListenersOnChange) launch {
             if (newState.active?.failureReason != null ||
-                prevState.active?.connection !== newState.active?.connection) {
+                prevState.active?.connection !== newState.active?.connection
+            ) {
                 listeners.forEach { l -> l.onActiveConnectionChanged() }
             }
             if (newState.primary?.failureReason != null ||
-                prevState.primary?.connection !== newState.primary?.connection) {
+                prevState.primary?.connection !== newState.primary?.connection
+            ) {
                 listeners.forEach { l -> l.onPrimaryConnectionChanged() }
             }
             if (prevState.activeCloud !== newState.activeCloud) {

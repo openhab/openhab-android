@@ -17,6 +17,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
@@ -167,7 +168,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
                 }
             }
-            ACTION_VOICE_RESULT_APP, ACTION_VOICE_RESULT_WIDGET -> {
+            ACTION_VOICE_RESULT -> {
                 val voiceCommand = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
                     ?: return
                 Log.i(TAG, "Recognized text: $voiceCommand")
@@ -181,7 +182,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     isImportant = true,
                     showToast = true,
                     asCommand = true,
-                    primaryServer = intent.action == ACTION_VOICE_RESULT_WIDGET
+                    primaryServer = intent.getBooleanExtra(EXTRA_FROM_BACKGROUND, false)
                 )
             }
         }
@@ -232,9 +233,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
         internal const val ACTION_CLEAR_UPLOAD = "org.openhab.habdroid.background.action.CLEAR_UPLOAD"
-        internal const val ACTION_VOICE_RESULT_APP = "org.openhab.habdroid.background.action.VOICE_RESULT_APP"
-        internal const val ACTION_VOICE_RESULT_WIDGET = "org.openhab.habdroid.background.action.VOICE_RESULT_WIDGET"
+        private const val ACTION_VOICE_RESULT = "org.openhab.habdroid.background.action.VOICE_RESULT"
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
+        private const val EXTRA_FROM_BACKGROUND = "fromBackground"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         private const val WORKER_TAG_PERIODIC_TRIGGER = "periodicTrigger"
@@ -362,6 +363,23 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 showToast = true,
                 asCommand = true
             )
+        }
+
+        fun buildVoiceRecognitionIntent(context: Context, fromBackground: Boolean): Intent {
+            val callbackIntent = Intent(context, BackgroundTasksManager::class.java).apply {
+                action = ACTION_VOICE_RESULT
+                putExtra(EXTRA_FROM_BACKGROUND, fromBackground)
+            }
+            val callbackPendingIntent = PendingIntent.getBroadcast(context,
+                if (fromBackground) 1 else 0, callbackIntent, 0)
+
+            return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                // Display an hint to the user about what he should say.
+                putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input))
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+                putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)
+            }
         }
 
         fun triggerPeriodicWork(context: Context) {
