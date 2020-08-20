@@ -109,6 +109,7 @@ abstract class AbstractTileService : TileService() {
             context.getString(R.string.tile_icon_lock_value) -> R.drawable.ic_lock_outline_grey_24dp
             context.getString(R.string.tile_icon_camera_value) -> R.drawable.ic_webcam_black_24dp
             context.getString(R.string.tile_icon_tv_value) -> R.drawable.ic_tv_black_24dp
+            context.getString(R.string.tile_icon_radio_value) -> R.drawable.ic_outline_radio_24dp
             context.getString(R.string.tile_icon_wifi_value) -> R.drawable.ic_wifi_strength_outline_grey_24dp
             context.getString(R.string.tile_icon_phone_value) -> R.drawable.ic_phone_outline_grey_24dp
             context.getString(R.string.tile_icon_cloud_upload_value) -> R.drawable.ic_cloud_upload_outline_grey_24dp

@@ -177,6 +177,7 @@
         <item>@string/tile_icon_lock</item>
         <item>@string/tile_icon_camera</item>
         <item>@string/tile_icon_tv</item>
+        <item>@string/tile_icon_radio</item>
         <item>@string/tile_icon_wifi</item>
         <item>@string/tile_icon_phone</item>
         <item>@string/tile_icon_cloud_upload</item>
@@ -245,6 +246,7 @@
         <item>@string/tile_icon_lock_value</item>
         <item>@string/tile_icon_camera_value</item>
         <item>@string/tile_icon_tv_value</item>
+        <item>@string/tile_icon_radio_value</item>
         <item>@string/tile_icon_wifi_value</item>
         <item>@string/tile_icon_phone_value</item>
         <item>@string/tile_icon_cloud_upload_value</item>
