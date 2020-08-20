@@ -211,7 +211,6 @@
     <string name="about_server">openHAB sunucusu</string>
     <string name="about_translation">openHAB\'ı çevirmemizde yardım et</string>
     <string name="about_privacy_policy">Gizlilik politikası</string>
-    <string name="settings_debug_messages_title">Sorun giderme kılavuzunu göster</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
     <string name="unknown">Bilinmeyen</string>
     <string name="set">Ayarla</string>
