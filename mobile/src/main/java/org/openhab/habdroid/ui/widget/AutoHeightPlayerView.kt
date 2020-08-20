@@ -21,25 +21,24 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.video.VideoListener
 
-class AutoHeightPlayerView constructor(context: Context, attrs: AttributeSet) : PlayerView(context, attrs) {
+class AutoHeightPlayerView constructor(context: Context, attrs: AttributeSet) : PlayerView(context, attrs),
+    VideoListener {
     private var currentPlayer: SimpleExoPlayer? = null
 
     override fun setPlayer(player: Player?) {
+        currentPlayer?.removeVideoListener(this)
         super.setPlayer(player)
         currentPlayer = player as SimpleExoPlayer?
-        currentPlayer?.addVideoListener(
-            object : VideoListener {
-                override fun onVideoSizeChanged(
-                    width: Int,
-                    height: Int,
-                    unappliedRotationDegrees: Int,
-                    pixelWidthHeightRatio: Float
-                ) {
-                    super.onVideoSizeChanged(width, height, unappliedRotationDegrees, pixelWidthHeightRatio)
-                    requestLayout()
-                }
-            }
-        )
+        currentPlayer?.addVideoListener(this)
+    }
+
+    override fun onVideoSizeChanged(
+        width: Int,
+        height: Int,
+        unappliedRotationDegrees: Int,
+        pixelWidthHeightRatio: Float
+    ) {
+        requestLayout()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

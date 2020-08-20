@@ -949,7 +949,8 @@ class WidgetAdapter(
     }
 
     class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup, connection: Connection) :
-        HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videoitem, connection), View.OnClickListener {
+        HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videoitem, connection),
+        AnalyticsListener, DataSource.Factory, View.OnClickListener {
         private val playerView = widgetContentView as AutoHeightPlayerView
         private val loadingIndicator: View = itemView.findViewById(R.id.video_player_loading)
         private val errorView: View = itemView.findViewById(R.id.video_player_error)
@@ -983,20 +984,23 @@ class WidgetAdapter(
             errorView.isVisible = false
             loadingIndicator.isVisible = true
 
-            val url: String?
-            val factory = if (widget.encoding.equals("hls", ignoreCase = true)) {
+            val isHls = widget.encoding.equals("hls", ignoreCase = true)
+            val url = if (isHls) {
                 val state = widget.item?.state?.asString
-                url = if (state != null && widget.item.type == Item.Type.StringItem) {
+                if (state != null && widget.item.type == Item.Type.StringItem) {
                     state
                 } else {
                     widget.url
                 }
+            }  else {
+                widget.url
+            }
+            val factory = if (isHls) {
                 playerView.useController = false
-                HlsMediaSource.Factory(getDataSource()).setTag(url)
+                HlsMediaSource.Factory(this).setTag(url)
             } else {
-                url = widget.url
                 playerView.useController = true
-                ProgressiveMediaSource.Factory(getDataSource()).setTag(url)
+                ProgressiveMediaSource.Factory(this).setTag(url)
             }
 
             val mediaSource = url?.let { factory.createMediaSource(it.toUri()) }
@@ -1014,27 +1018,23 @@ class WidgetAdapter(
             }
 
             exoPlayer.prepare(mediaSource)
-            exoPlayer.addAnalyticsListener(
-                object : AnalyticsListener {
-                    override fun onLoadError(
-                        eventTime: AnalyticsListener.EventTime,
-                        loadEventInfo: MediaSourceEventListener.LoadEventInfo,
-                        mediaLoadData: MediaSourceEventListener.MediaLoadData,
-                        error: IOException,
-                        wasCanceled: Boolean
-                    ) {
-                        super.onLoadError(eventTime, loadEventInfo, mediaLoadData, error, wasCanceled)
-                        Log.e(TAG, "onLoadError()", error)
-                        handleError()
-                    }
+            exoPlayer.addAnalyticsListener(this)
+        }
 
-                    override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: ExoPlaybackException) {
-                        super.onPlayerError(eventTime, error)
-                        Log.e(TAG, "onPlayerError()", error)
-                        handleError()
-                    }
-                }
-            )
+        override fun onLoadError(
+            eventTime: AnalyticsListener.EventTime,
+            loadEventInfo: MediaSourceEventListener.LoadEventInfo,
+            mediaLoadData: MediaSourceEventListener.MediaLoadData,
+            error: IOException,
+            wasCanceled: Boolean
+        ) {
+            Log.e(TAG, "onLoadError()", error)
+            handleError()
+        }
+
+        override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: ExoPlaybackException) {
+            Log.e(TAG, "onPlayerError()", error)
+            handleError()
         }
 
         private fun handleError() {
@@ -1045,20 +1045,16 @@ class WidgetAdapter(
             errorView.isVisible = true
         }
 
-        private fun getDataSource(): DataSource.Factory {
-            return DataSource.Factory {
-                val dataSource = DefaultHttpDataSource(
-                    "openHAB client for Android",
-                    DEFAULT_CONNECT_TIMEOUT_MILLIS,
-                    DEFAULT_READ_TIMEOUT_MILLIS,
-                    true,
-                    null
-                )
-                connection.httpClient.authHeader?.let {
-                    dataSource.setRequestProperty("Authorization", it)
-                }
-                dataSource
-            }
+        override fun createDataSource(): DataSource {
+            val dataSource = DefaultHttpDataSource(
+                "openHAB client for Android",
+                DEFAULT_CONNECT_TIMEOUT_MILLIS,
+                DEFAULT_READ_TIMEOUT_MILLIS,
+                true,
+                null
+            )
+            connection.httpClient.authHeader?.let { dataSource.setRequestProperty("Authorization", it) }
+            return dataSource
         }
 
         override fun onClick(v: View?) {
