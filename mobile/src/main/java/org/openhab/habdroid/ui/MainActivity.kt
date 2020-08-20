@@ -633,13 +633,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 executeActionIfPossible(PendingAction.OpenNotification(notificationId, true))
             }
             ACTION_HABPANEL_SELECTED -> {
-                val serverId = intent.getIntExtra(EXTRA_SERVER_ID, ServerConfiguration.SERVER_ID_PRIMARY)
+                val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
                 executeOrStoreAction(PendingAction.OpenHabPanel(serverId))
             }
             ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
             ACTION_SITEMAP_SELECTED -> {
                 val sitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL) ?: return
-                val serverId = intent.getIntExtra(EXTRA_SERVER_ID, 0)
+                val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
                 executeOrStoreAction(PendingAction.OpenSitemapUrl(sitemapUrl, serverId))
             }
         }
@@ -918,25 +918,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         action is PendingAction.OpenSitemapUrl && isStarted && serverProperties != null -> {
             when {
-                action.serverId == ServerConfiguration.SERVER_ID_PRIMARY &&
-                    prefs.getActiveServerId() != prefs.getPrimaryServerId() -> {
-                    prefs.edit {
-                        putActiveServerId(prefs.getPrimaryServerId())
-                    }
-                    updateDrawerServerEntries()
-                    false
-                }
-                action.serverId == ServerConfiguration.SERVER_ID_PRIMARY -> {
-                    buildUrlAndOpenSitemap(action.url)
-                    true
-                }
                 action.serverId !in prefs.getConfiguredServerIds() -> {
                     showToast(R.string.home_shortcut_server_has_been_deleted, ToastType.ERROR)
                     true
                 }
-                prefs.getActiveServerId() != action.serverId -> {
+                action.serverId != prefs.getActiveServerId() -> {
                     prefs.edit {
-                        putActiveServerId(action.serverId)
+                        putActiveServerId(prefs.getPrimaryServerId())
                     }
                     updateDrawerServerEntries()
                     false
@@ -949,24 +937,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         action is PendingAction.OpenHabPanel && isStarted && serverProperties?.hasHabPanelInstalled() == true -> {
             when {
-                action.serverId == ServerConfiguration.SERVER_ID_PRIMARY &&
-                    prefs.getActiveServerId() != prefs.getPrimaryServerId() -> {
-                    prefs.edit {
-                        putActiveServerId(prefs.getPrimaryServerId())
-                    }
-                    updateDrawerServerEntries()
-                    false
-                }
-                action.serverId == ServerConfiguration.SERVER_ID_PRIMARY ||
-                    action.serverId == ServerConfiguration.SERVER_ID_CURRENT_ACTIVE -> {
-                    openHabPanel()
-                    true
-                }
                 action.serverId !in prefs.getConfiguredServerIds() -> {
                     showToast(R.string.home_shortcut_server_has_been_deleted, ToastType.ERROR)
                     true
                 }
-                prefs.getActiveServerId() != action.serverId -> {
+                action.serverId != prefs.getActiveServerId() -> {
                     prefs.edit {
                         putActiveServerId(action.serverId)
                     }
@@ -1269,7 +1244,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         if (visible) {
             val intent = Intent(this, MainActivity::class.java)
-                .putExtra(EXTRA_SERVER_ID, ServerConfiguration.SERVER_ID_CURRENT_ACTIVE)
                 .setAction(action)
             val shortcut = ShortcutInfo.Builder(this, id)
                 .setShortLabel(getString(shortLabel))

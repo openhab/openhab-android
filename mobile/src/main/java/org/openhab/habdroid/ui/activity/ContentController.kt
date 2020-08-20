@@ -274,8 +274,8 @@ abstract class ContentController protected constructor(private val activity: Mai
                 R.string.habpanel_error,
                 "/habpanel/index.html",
                 "/rest/events",
-                MainActivity.ACTION_HABPANEL_SELECTED,
                 activeServerId,
+                MainActivity.ACTION_HABPANEL_SELECTED,
                 title,
                 R.mipmap.ic_shortcut_habpanel
             )

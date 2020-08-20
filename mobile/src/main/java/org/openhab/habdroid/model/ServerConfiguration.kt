@@ -117,9 +117,6 @@ data class ServerConfiguration(
     }
 
     companion object {
-        const val SERVER_ID_PRIMARY = 0
-        const val SERVER_ID_CURRENT_ACTIVE = -1
-
         fun load(prefs: SharedPreferences, secretPrefs: SharedPreferences, id: Int): ServerConfiguration? {
             val localPath = ServerPath.load(
                 prefs,

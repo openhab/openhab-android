@@ -74,7 +74,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         urlToLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String
         val action = args.getString(KEY_SHORTCUT_ACTION)
-        val extraServerId = args.getInt(KEY_SHORTCUT_EXTRA_SERVER_ID, ServerConfiguration.SERVER_ID_PRIMARY)
+        val extraServerId = args.getInt(KEY_SHORTCUT_EXTRA_SERVER_ID)
         val label = args.getString(KEY_SHORTCUT_LABEL)
         @DrawableRes val icon = args.getInt(KEY_SHORTCUT_ICON_RES)
         action?.let {
@@ -243,8 +243,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             @StringRes errorMessage: Int,
             urlToLoad: String,
             urlForError: String,
+            serverId: Int,
             shortcutAction: String? = null,
-            extraServerId: Int = ServerConfiguration.SERVER_ID_PRIMARY,
             shortcutLabel: String? = null,
             shortcutIconRes: Int = 0
         ): WebViewFragment {
@@ -255,7 +255,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 KEY_URL_LOAD to urlToLoad,
                 KEY_URL_ERROR to urlForError,
                 KEY_SHORTCUT_ACTION to shortcutAction,
-                KEY_SHORTCUT_EXTRA_SERVER_ID to extraServerId,
+                KEY_SHORTCUT_EXTRA_SERVER_ID to serverId,
                 KEY_SHORTCUT_LABEL to shortcutLabel,
                 KEY_SHORTCUT_ICON_RES to shortcutIconRes)
             return f
