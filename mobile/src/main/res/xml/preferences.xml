@@ -151,6 +151,8 @@
             android:title="@string/data_saver_title"
             android:summaryOn="@string/data_saver_on"
             android:summaryOff="@string/data_saver_off" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_troubleshooting_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"
