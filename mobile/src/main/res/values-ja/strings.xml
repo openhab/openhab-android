@@ -331,7 +331,6 @@
     <string name="about_translation">openHAB の翻訳にご協力ください</string>
     <string name="about_privacy_policy">プライバシーポリシー</string>
     <string name="about_rate_this_app">このアプリを評価する</string>
-    <string name="settings_debug_messages_title">トラブルシューティングの情報を表示</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL を特定できませんでした</string>
     <string name="unknown">不明</string>
     <string name="set">設定</string>
