@@ -41,6 +41,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.map
 
@@ -118,7 +119,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
     private fun loadNotifications(clearExisting: Boolean) {
         val activity = activity as AbstractBaseActivity? ?: return
-        val conn = if (arguments?.getBoolean("primary") == true) {
+        val conn = if (usePrimaryServer()) {
             ConnectionFactory.primaryCloudConnection?.connection
         } else {
             ConnectionFactory.activeCloudConnection?.connection
@@ -181,13 +182,15 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         retryButton.isVisible = loadError
     }
 
+    private fun usePrimaryServer() = arguments?.getBoolean("primary") == true
+
     fun getTitle(context: Context): String {
         val prefs = context.getPrefs()
         return if (prefs.getConfiguredServerIds().size <= 1) {
             context.getString(R.string.app_notifications)
         } else {
-            val activeServerId = prefs.getActiveServerId()
-            val activeServerName = ServerConfiguration.load(prefs, context.getSecretPrefs(), activeServerId)?.name
+            val serverId = if (usePrimaryServer()) prefs.getPrimaryServerId() else prefs.getActiveServerId()
+            val activeServerName = ServerConfiguration.load(prefs, context.getSecretPrefs(), serverId)?.name
             context.getString(R.string.app_notifications_on_server, activeServerName)
         }
     }
