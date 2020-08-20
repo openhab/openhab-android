@@ -1196,7 +1196,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .toTypedArray()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
-            missingPermissions.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+            missingPermissions.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        ) {
             if (missingPermissions.size > 1) {
                 Log.d(TAG, "Remove background location from permissions to request")
                 missingPermissions = missingPermissions.toMutableList().apply {
@@ -1204,8 +1205,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }.toTypedArray()
             } else {
                 showSnackbar(
-                    getString(R.string.settings_background_tasks_permission_denied_background_location,
-                        packageManager.backgroundPermissionOptionLabel),
+                    getString(
+                        R.string.settings_background_tasks_permission_denied_background_location,
+                        packageManager.backgroundPermissionOptionLabel
+                    ),
                     android.R.string.ok,
                     TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION
                 ) {

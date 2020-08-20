@@ -168,11 +168,13 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
             helpIcon = v.findViewById(R.id.help_icon)
             helpIcon.setupHelpIcon(pref.howtoUrl.orEmpty(), R.string.settings_item_update_pref_howto_summary)
             permissionHint = v.findViewById(R.id.permission_hint)
-            permissionHint.setText(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                R.string.settings_background_tasks_permission_hint_android_r
-            } else {
-                R.string.settings_background_tasks_permission_hint
-            })
+            permissionHint.setText(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    R.string.settings_background_tasks_permission_hint
+                } else {
+                    R.string.settings_background_tasks_permission_hint_pre_r
+                }
+            )
 
             val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(pref.key)
             permissionHint.isVisible =

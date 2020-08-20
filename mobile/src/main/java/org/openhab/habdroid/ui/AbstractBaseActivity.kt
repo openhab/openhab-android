@@ -70,7 +70,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 colorPrimary))
         }
 
-        checkStatusBarColor()
+        setStatusBarColor()
 
         super.onCreate(savedInstanceState)
     }
@@ -88,16 +88,18 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        checkFullscreen()
+        setFullscreen()
     }
 
-    fun checkFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
+    fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
         @Suppress("DEPRECATION")
         fun checkFullscreenPreR() {
             var uiOptions = window.decorView.systemUiVisibility
-            val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            val flags = (
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                )
             uiOptions = if (isEnabled && !forceNonFullscreen) {
                 uiOptions or flags
             } else {
@@ -119,7 +121,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    private fun checkStatusBarColor() {
+    private fun setStatusBarColor() {
         @Suppress("DEPRECATION") var uiOptions = window.decorView.systemUiVisibility
         @Suppress("DEPRECATION") val flagsPreR = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR

@@ -56,6 +56,6 @@
         android:layout_marginTop="16dp"
         app:drawableStartCompat="@drawable/ic_info_outline_grey_24dp"
         android:drawablePadding="4dp"
-        android:text="@string/settings_background_tasks_permission_hint" />
+        android:text="@string/settings_background_tasks_permission_hint_pre_r" />
 
 </RelativeLayout>
