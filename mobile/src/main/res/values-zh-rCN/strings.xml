@@ -206,7 +206,6 @@
     <string name="about_server">openHAB 服务端</string>
     <string name="about_translation">帮助我们翻译 openHAB</string>
     <string name="about_privacy_policy">隐私条款</string>
-    <string name="settings_debug_messages_title">显示疑难解答信息</string>
     <string name="error_couldnt_determine_openhab_url">无法确定 openHAB URL</string>
     <string name="unknown">未知</string>
     <string name="set">设置</string>
