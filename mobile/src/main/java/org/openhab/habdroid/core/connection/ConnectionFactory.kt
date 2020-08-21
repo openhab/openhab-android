@@ -109,6 +109,15 @@ class ConnectionFactory internal constructor(
             .build()
         updateHttpClientForClientCert(true)
 
+        // For video widgets
+        SSLContext.getInstance("TLS").apply {
+            init(null, MemorizingTrustManager.getInstanceList(context), null)
+            HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory)
+            val mtmHostnameVerifier = MemorizingTrustManager(context)
+                .wrapHostnameVerifier(OkHostnameVerifier)
+            HttpsURLConnection.setDefaultHostnameVerifier(mtmHostnameVerifier)
+        }
+
         // Relax per-host connection limit, as the default limit (max 5 connections per host) is
         // too low considering SSE connections count against that limit.
         httpClient.dispatcher.maxRequestsPerHost = httpClient.dispatcher.maxRequests
@@ -427,15 +436,6 @@ class ConnectionFactory internal constructor(
             instance = ConnectionFactory(ctx, ctx.getPrefs(), ctx.getSecretPrefs(), ConnectionManagerHelper.create(ctx))
             instance.launch {
                 instance.updateConnections()
-            }
-
-            // For video widgets
-            SSLContext.getInstance("TLS").apply {
-                init(null, MemorizingTrustManager.getInstanceList(ctx), null)
-                HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory)
-                val mtmHostnameVerifier = MemorizingTrustManager(ctx)
-                    .wrapHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier())
-                HttpsURLConnection.setDefaultHostnameVerifier(mtmHostnameVerifier)
             }
         }
 
