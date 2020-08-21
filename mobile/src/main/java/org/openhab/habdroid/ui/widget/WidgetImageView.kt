@@ -46,7 +46,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private val adjustViewBoundsForDownscalingOnly: Boolean
     private var internalLoad: Boolean = false
     private var lastRequest: HttpImageRequest? = null
-    private var lastBitmap: Bitmap? = null
 
     private var refreshInterval: Long = 0
     private var lastRefreshTimestamp: Long = 0
@@ -241,7 +240,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         // ultimately calls through to setImageDrawable().
         internalLoad = true
         super.setImageBitmap(bitmap)
-        lastBitmap = bitmap
         internalLoad = false
     }
 
