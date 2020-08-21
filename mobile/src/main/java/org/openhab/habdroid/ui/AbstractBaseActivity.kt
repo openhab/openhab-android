@@ -97,8 +97,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             var uiOptions = window.decorView.systemUiVisibility
             val flags = (
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN
                 )
             uiOptions = if (isEnabled && !forceNonFullscreen) {
                 uiOptions or flags

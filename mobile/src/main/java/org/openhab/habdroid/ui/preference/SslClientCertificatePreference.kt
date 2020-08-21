@@ -22,7 +22,6 @@ import android.security.KeyChainException
 import android.security.keystore.KeyProperties
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
-import android.view.View
 import android.widget.ImageView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
@@ -34,8 +33,6 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
-import org.openhab.habdroid.util.ToastType
-import org.openhab.habdroid.util.showToast
 
 class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var currentAlias: String? = null
