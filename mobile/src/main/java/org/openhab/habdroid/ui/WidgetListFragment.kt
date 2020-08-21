@@ -134,7 +134,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         refreshLayout.recyclerView = recyclerView
         refreshLayout.setOnRefreshListener {
             activity.showRefreshHintSnackbarIfNeeded()
-            CacheManager.getInstance(activity).clearCache()
+            CacheManager.getInstance(activity).clearCache(false)
             activity.triggerPageUpdate(displayPageUrl, true)
         }
 

@@ -465,7 +465,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             // Finish current activity
             activity?.finish()
-            CacheManager.getInstance(context).clearCache()
+            CacheManager.getInstance(context).clearCache(true)
             // Start launch activity
             startActivity(restartIntent)
         }
