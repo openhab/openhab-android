@@ -36,6 +36,7 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -46,8 +47,6 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
-import org.openhab.habdroid.util.ToastType
-import org.openhab.habdroid.util.showToast
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
@@ -146,9 +145,21 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         val success = ShortcutManagerCompat.requestPinShortcut(context, info, null)
         withContext(Dispatchers.Main) {
             if (success) {
-                context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
+                activity?.findViewById<View>(android.R.id.content)?.let {
+                    Snackbar.make(
+                        it,
+                        R.string.home_shortcut_success_pinning,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             } else {
-                context.showToast(R.string.home_shortcut_error_pinning, ToastType.ERROR)
+                activity?.findViewById<View>(android.R.id.content)?.let {
+                    Snackbar.make(
+                        it,
+                        R.string.home_shortcut_error_pinning,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }

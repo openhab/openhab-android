@@ -22,6 +22,7 @@ import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Base64
 import android.util.Log

@@ -15,6 +15,7 @@ package org.openhab.habdroid.background.tiles
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.drawable.Icon
@@ -32,8 +33,8 @@ import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.tiles.AbstractTileService.Companion.getPrefKeyForId
+import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.showToast
 
 @RequiresApi(Build.VERSION_CODES.N)
 abstract class AbstractTileService : TileService() {
@@ -67,7 +68,11 @@ abstract class AbstractTileService : TileService() {
                 BackgroundTasksManager.enqueueTileUpdate(this, data)
             }
         } else {
-            showToast(R.string.tile_configure_in_settings)
+            Intent(this, PreferencesActivity::class.java).apply {
+                action = ACTION_QS_TILE_PREFERENCES
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(this)
+            }
         }
     }
 

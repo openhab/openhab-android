@@ -85,7 +85,6 @@ import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
 import org.openhab.habdroid.ui.preference.TileItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
@@ -1265,7 +1264,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                         val requireUnlock = requireUnlockPref.isChecked
                         if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
                             tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()) {
-                            context.showToast(R.string.tile_error_saving, ToastType.ERROR)
+                            Snackbar.make(
+                                parentActivity.findViewById(android.R.id.content),
+                                R.string.tile_error_saving,
+                                Snackbar.LENGTH_LONG
+                            ).show()
                             return true
                         }
                         TileData(itemName, state, label, tileLabel, mappedState, icon, requireUnlock)

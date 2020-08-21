@@ -78,6 +78,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
+import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.connection.CloudConnection
