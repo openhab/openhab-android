@@ -950,7 +950,9 @@ class WidgetAdapter(
 
     class VideoViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup, connection: Connection) :
         HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_videoitem, connection),
-        AnalyticsListener, DataSource.Factory, View.OnClickListener {
+        AnalyticsListener,
+        DataSource.Factory,
+        View.OnClickListener {
         private val playerView = widgetContentView as AutoHeightPlayerView
         private val loadingIndicator: View = itemView.findViewById(R.id.video_player_loading)
         private val errorView: View = itemView.findViewById(R.id.video_player_error)
@@ -992,7 +994,7 @@ class WidgetAdapter(
                 } else {
                     widget.url
                 }
-            }  else {
+            } else {
                 widget.url
             }
             val factory = if (isHls) {
