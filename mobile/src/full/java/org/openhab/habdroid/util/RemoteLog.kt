@@ -16,11 +16,19 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.util.Log
 import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
+import org.openhab.habdroid.BuildConfig
 
 object RemoteLog {
+    private val TAG = RemoteLog::class.java.simpleName
+
     fun initialize(context: Context) {
-        Fabric.with(context, Crashlytics())
+        val outdatedBuildMillis = BuildConfig.TIMESTAMP + (6L * 30 * 24 * 60 * 60 * 1000) // 6 months after build
+        val isOutdated = outdatedBuildMillis < System.currentTimeMillis()
+        Log.d(TAG, "Crashlytics status: isDebug ${BuildConfig.DEBUG}, isOutdated $isOutdated")
+        val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG || isOutdated).build()
+        Fabric.with(context, Crashlytics.Builder().core(core).build())
     }
 
     fun d(tag: String, message: String, remoteOnly: Boolean = false) {
