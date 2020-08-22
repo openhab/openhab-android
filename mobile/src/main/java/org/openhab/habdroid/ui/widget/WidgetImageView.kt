@@ -195,7 +195,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
         if (cached != null) {
             applyLoadedBitmap(cached)
-        } else {
+        } else if (lastRequest?.statelessUrlEquals(url) != true) {
             applyProgressDrawable()
         }
 
@@ -325,6 +325,11 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
         fun isActive(): Boolean {
             return job?.isActive == true
+        }
+
+        fun statelessUrlEquals(url: HttpUrl): Boolean {
+            return this.url.newBuilder().removeAllQueryParameters("state").build() ==
+                url.newBuilder().removeAllQueryParameters("state").build()
         }
     }
 
