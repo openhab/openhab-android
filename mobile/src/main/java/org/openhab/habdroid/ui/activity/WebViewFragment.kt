@@ -181,14 +181,16 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         val webView = webView ?: return
         val url = conn.httpClient.buildUrl(urlToLoad)
 
-        webView.setUpForConnection(conn, url)
+        webView.setUpForConnection(conn, url) { progress ->
+            if (progress == 100) {
+                updateViewVisibility(error = false, loading = false)
+            } else {
+                updateViewVisibility(error = false, loading = true)
+            }
+        }
         webView.setBackgroundColor(Color.TRANSPARENT)
 
         webView.webViewClient = object : ConnectionWebViewClient(conn) {
-            override fun onPageFinished(view: WebView, url: String) {
-                updateViewVisibility(error = false, loading = false)
-            }
-
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 val errorUrl = request.url.toString()
                 Log.e(TAG, "onReceivedError() on URL: $errorUrl")
