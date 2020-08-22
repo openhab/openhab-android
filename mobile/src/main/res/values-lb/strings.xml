@@ -208,7 +208,6 @@
     <string name="about_server">openHAB Server</string>
     <string name="about_translation">Hëllef eis openHAB ze iwwersetzen</string>
     <string name="about_privacy_policy">Dateschutzerklärung</string>
-    <string name="settings_debug_messages_title">Weis Informatiounen zur Léisung vun Problemer</string>
     <string name="error_couldnt_determine_openhab_url">Konnt d\'openHAB URL net eraus fannen</string>
     <string name="unknown">Onbekannt</string>
     <string name="set">Setzen</string>

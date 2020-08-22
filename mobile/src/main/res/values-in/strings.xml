@@ -175,7 +175,6 @@
     <string name="about_server">server openHAB</string>
     <string name="about_translation">Bantu kami menerjemahkan openHAB</string>
     <string name="about_privacy_policy">Kebijakan privasi</string>
-    <string name="settings_debug_messages_title">Tunjukkan informasi untuk mencari solusi</string>
     <string name="error_couldnt_determine_openhab_url">Tidak dapat menentukan URL openHAB</string>
     <string name="unknown">Tidak diketahui</string>
     <string name="set">Atur</string>

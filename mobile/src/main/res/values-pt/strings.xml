@@ -153,7 +153,6 @@
     <string name="about_server">servidor openHAB</string>
     <string name="about_translation">Ajude-nos a traduzir!</string>
     <string name="about_privacy_policy">Política de Privacidade</string>
-    <string name="settings_debug_messages_title">Mostrar informações para solução de problemas</string>
     <string name="error_couldnt_determine_openhab_url">Não consegui determinar o URL openHAB</string>
     <string name="unknown">Desconhecido</string>
     <string name="set">Conjunto</string>

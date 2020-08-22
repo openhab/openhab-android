@@ -345,7 +345,6 @@
     <string name="about_translation">Help ons met het vertalen van openHAB</string>
     <string name="about_privacy_policy">Privacy beleid</string>
     <string name="about_rate_this_app">Deze app beoordelen</string>
-    <string name="settings_debug_messages_title">Laat informatie zien voor het oplossen van problemen</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL kon niet worden vastgesteld</string>
     <string name="unknown">Onbekend</string>
     <string name="set">Stel in</string>
@@ -502,6 +501,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB pictogram</string>
     <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_radio" comment="tile_icon_radio&#10;Textual representation of the following icon: https://materialdesignicons.com/icon/radio">Radio</string>
     <string name="tile_icon_bulb">Lamp</string>
     <string name="tile_icon_clock">Klok</string>
     <string name="tile_icon_alarm_clock">Wekker</string>
