@@ -48,6 +48,7 @@ import java.security.Principal
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
 import java.util.HashSet
+import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.KeyManager
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
@@ -107,6 +108,15 @@ class ConnectionFactory internal constructor(
             .hostnameVerifier(trustManager.wrapHostnameVerifier(OkHostnameVerifier))
             .build()
         updateHttpClientForClientCert(true)
+
+        // For video widgets
+        SSLContext.getInstance("TLS").apply {
+            init(null, MemorizingTrustManager.getInstanceList(context), null)
+            HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory)
+            val mtmHostnameVerifier = MemorizingTrustManager(context)
+                .wrapHostnameVerifier(OkHostnameVerifier)
+            HttpsURLConnection.setDefaultHostnameVerifier(mtmHostnameVerifier)
+        }
 
         // Relax per-host connection limit, as the default limit (max 5 connections per host) is
         // too low considering SSE connections count against that limit.
