@@ -806,8 +806,16 @@ class WidgetAdapter(
         }
 
         override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
-            if (motionEvent.actionMasked == MotionEvent.ACTION_UP) {
-                connection.httpClient.sendItemCommand(boundItem, v.tag as String)
+            when (motionEvent.actionMasked) {
+                MotionEvent.ACTION_UP -> {
+                    val pressedTime = motionEvent.eventTime - motionEvent.downTime
+                    if (pressedTime > 500 && v.tag != "STOP") {
+                        connection.httpClient.sendItemCommand(boundItem, "STOP")
+                    }
+                }
+                MotionEvent.ACTION_DOWN -> {
+                    connection.httpClient.sendItemCommand(boundItem, v.tag as String)
+                }
             }
             return false
         }
