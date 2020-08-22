@@ -26,13 +26,10 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.CloudMessagingHelper.getPushNotificationStatus
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.showToast
 import java.io.IOException
 import java.net.URLEncoder
 import java.util.Locale
@@ -72,16 +69,10 @@ class FcmRegistrationService : JobIntentService() {
                 } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     CloudMessagingHelper.registrationDone = true
-                    runBlocking {
-                        showToast(getPushNotificationStatus(this@FcmRegistrationService).message, ToastType.ERROR)
-                    }
                     Log.e(TAG, "FCM registration failed", e)
                 } catch (e: IOException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     CloudMessagingHelper.registrationDone = true
-                    runBlocking {
-                        showToast(getPushNotificationStatus(this@FcmRegistrationService).message, ToastType.ERROR)
-                    }
                     Log.e(TAG, "FCM registration failed", e)
                 }
             }
