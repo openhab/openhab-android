@@ -103,7 +103,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         ) {
             handle.job = handle.scope.launch {
                 try {
-                    val result = client.get("rest").asText()
+                    val result = client.get("rest/").asText()
                     try {
                         val resultJson = JSONObject(result.response)
                         // If this succeeded, we're talking to OH2
