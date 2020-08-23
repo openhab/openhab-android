@@ -778,7 +778,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         launch {
             try {
                 item.icon = conn.httpClient.get(sitemap.icon.toUrl(this@MainActivity,
-                    determineDataUsagePolicy().canDoLargeTransfers))
+                    determineDataUsagePolicy().loadIconsWithState))
                     .asBitmap(defaultIcon!!.intrinsicWidth, ImageConversionPolicy.ForceTargetSize)
                     .response
                     .toDrawable(resources)
@@ -956,7 +956,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     fun showDataSaverHintSnackbarIfNeeded() {
-        if (prefs.getBoolean(PrefKeys.DATA_SAVER_EXPLAINED, false) || !isDataSaverActive()) {
+        if (prefs.getBoolean(PrefKeys.DATA_SAVER_EXPLAINED, false) ||
+            determineDataUsagePolicy().loadIconsWithState) {
             return
         }
 

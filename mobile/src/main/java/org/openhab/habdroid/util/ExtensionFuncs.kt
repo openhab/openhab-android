@@ -352,12 +352,18 @@ fun Context.openInAppStore(app: String) {
     }
 }
 
-data class DataUsagePolicy(val canDoLargeTransfers: Boolean, val autoPlayVideos: Boolean, val canDoRefreshes: Boolean)
+data class DataUsagePolicy(
+    val canDoLargeTransfers: Boolean,
+    val loadIconsWithState: Boolean,
+    val autoPlayVideos: Boolean,
+    val canDoRefreshes: Boolean
+)
 
 fun Context.determineDataUsagePolicy(): DataUsagePolicy {
     val isBatterySaverActive = (applicationContext as OpenHabApplication).batterySaverActive
     fun getDataUsagePolicyForBatterySaver() = DataUsagePolicy(
         canDoLargeTransfers = true,
+        loadIconsWithState = true,
         autoPlayVideos = false,
         canDoRefreshes = false
     )
@@ -367,12 +373,13 @@ fun Context.determineDataUsagePolicy(): DataUsagePolicy {
         return if (isBatterySaverActive) {
             getDataUsagePolicyForBatterySaver()
         } else {
-            DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref)
+            DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref, !dataSaverPref)
         }
     }
     return when ((applicationContext as OpenHabApplication).systemDataSaverStatus) {
         ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> DataUsagePolicy(
             canDoLargeTransfers = false,
+            loadIconsWithState = false,
             autoPlayVideos = false,
             canDoRefreshes = false
         )
@@ -382,6 +389,7 @@ fun Context.determineDataUsagePolicy(): DataUsagePolicy {
             } else {
                 DataUsagePolicy(
                     canDoLargeTransfers = true,
+                    loadIconsWithState = true,
                     autoPlayVideos = false,
                     canDoRefreshes = true
                 )
@@ -393,6 +401,7 @@ fun Context.determineDataUsagePolicy(): DataUsagePolicy {
             } else {
                 DataUsagePolicy(
                     canDoLargeTransfers = true,
+                    loadIconsWithState = true,
                     autoPlayVideos = true,
                     canDoRefreshes = true
                 )

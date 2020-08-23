@@ -1450,7 +1450,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
     setImageUrl(
         connection,
-        widget.icon.toUrl(context, context.determineDataUsagePolicy().canDoLargeTransfers)
+        widget.icon.toUrl(context, context.determineDataUsagePolicy().loadIconsWithState)
     )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {

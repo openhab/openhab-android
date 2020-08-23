@@ -123,7 +123,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             if (icon != null && connection != null) {
                 iconView.setImageUrl(
                     connection,
-                    icon.toUrl(itemView.context, itemView.context.determineDataUsagePolicy().canDoLargeTransfers),
+                    icon.toUrl(itemView.context, itemView.context.determineDataUsagePolicy().loadIconsWithState),
                     timeoutMillis = 2000
                 )
             } else {
