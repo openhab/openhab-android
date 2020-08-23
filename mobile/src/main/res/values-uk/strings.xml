@@ -460,7 +460,6 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Заощадження трафіку</string>
-    <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
     <string name="data_saver_off">При завантаженні об’ємних сторінок інтерфейсу, використовуються системні налаштування економії трафіку</string>
     <string name="data_saver_off_pre_n">Усі елементи сторінок інтерфейсу завантажуються, ігноруючи споживання трафіку</string>
     <string name="data_saver_load">Все одно завантажити</string>
@@ -509,7 +508,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">значок openHAB</string>
     <string name="tile_icon_tv">ТБ</string>
-    <string name="tile_icon_radio" comment="tile_icon_radio&#10;Textual representation of the following icon: https://materialdesignicons.com/icon/radio">Радіо</string>
+    <string name="tile_icon_radio">Радіо</string>
     <string name="tile_icon_bulb">Лампочка</string>
     <string name="tile_icon_clock">Годинник</string>
     <string name="tile_icon_alarm_clock">Будильник</string>
