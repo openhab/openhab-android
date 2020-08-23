@@ -84,6 +84,7 @@ import org.openhab.habdroid.ui.widget.AutoHeightPlayerView
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
+import org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
@@ -1108,8 +1109,14 @@ class WidgetAdapter(
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
-        View.OnTouchListener, Handler.Callback, OnColorChangedListener, OnColorSelectedListener,
-        LabelFormatter, Slider.OnChangeListener, Slider.OnSliderTouchListener {
+        Handler.Callback,
+        OnColorChangedListener,
+        OnColorSelectedListener,
+        LabelFormatter,
+        Slider.OnChangeListener,
+        Slider.OnSliderTouchListener,
+        (View, String?) -> Unit,
+        View.OnClickListener {
         private var boundWidget: Widget? = null
         private var boundItem: Item? = null
         private val handler = Handler(this)
@@ -1119,13 +1126,20 @@ class WidgetAdapter(
         override val dialogManager = DialogManager()
 
         init {
-            val buttonCommandMap =
-                mapOf(R.id.up_button to "ON", R.id.down_button to "OFF", R.id.select_color_button to null)
-            for ((id, command) in buttonCommandMap) {
-                val button = itemView.findViewById<View>(id)
-                button.setOnTouchListener(this)
-                button.tag = command
+            val buttonCommandInfoList =
+                arrayOf(
+                    Triple(R.id.up_button, "ON", "INCREASE"),
+                    Triple(R.id.down_button, "OFF", "DECREASE")
+                )
+            for ((id, clickCommand, longClickHoldCommand) in buttonCommandInfoList) {
+                val button = itemView.findViewById<PeriodicSignalImageButton>(id)
+                button.clickCommand = clickCommand
+                button.longClickHoldCommand = longClickHoldCommand
+                button.callback = this
             }
+
+            val selectColorButton = itemView.findViewById<View>(R.id.select_color_button)
+            selectColorButton.setOnClickListener(this)
         }
 
         override fun bind(widget: Widget) {
@@ -1134,19 +1148,18 @@ class WidgetAdapter(
             boundItem = widget.item
         }
 
-        override fun handleRowClick() {
+        // Up and down buttons callback
+        override fun invoke(v: View, value: String?) {
+            value?.let { connection.httpClient.sendItemCommand(boundItem, value) }
+        }
+
+        // Select color button
+        override fun onClick(v: View?) {
             showColorPickerDialog()
         }
 
-        override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
-            if (motionEvent.actionMasked == MotionEvent.ACTION_UP) {
-                if (v.tag is String) {
-                    connection.httpClient.sendItemCommand(boundItem, v.tag as String)
-                } else {
-                    showColorPickerDialog()
-                }
-            }
-            return false
+        override fun handleRowClick() {
+            showColorPickerDialog()
         }
 
         override fun onColorSelected(selectedColor: Int) {
