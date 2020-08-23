@@ -456,7 +456,6 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Datensparmodus</string>
-    <string name="data_saver_on">Sitemap-Elemente, die größere Datenübertragungen erfordern, werden nicht geladen</string>
     <string name="data_saver_off">Für das Laden von datennutzenden Sitemap-Elementen wird die systemweite Datenspar-Einstellung verwendet</string>
     <string name="data_saver_off_pre_n">Alle Sitemap-Elemente werden geladen, unabhängig ihrer Datennutzung</string>
     <string name="data_saver_load">Trotzdem laden</string>
@@ -503,7 +502,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB-Logo</string>
     <string name="tile_icon_tv">Fernseher</string>
-    <string name="tile_icon_radio" comment="tile_icon_radio&#10;Textual representation of the following icon: https://materialdesignicons.com/icon/radio">Radio</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Glühbirne</string>
     <string name="tile_icon_clock">Uhr</string>
     <string name="tile_icon_alarm_clock">Wecker</string>
