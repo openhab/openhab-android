@@ -293,8 +293,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             .putString(OUTPUT_DATA_SENT_VALUE, sentValue)
             .putBoolean(OUTPUT_DATA_SHOW_TOAST, inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false))
             .putString(OUTPUT_DATA_TASKER_INTENT, inputData.getString(INPUT_DATA_TASKER_INTENT))
-            .putString(OUTPUT_DATA_AS_COMMAND, inputData.getString(INPUT_DATA_AS_COMMAND))
-            .putString(OUTPUT_DATA_IS_IMPORTANT, inputData.getString(INPUT_DATA_IS_IMPORTANT))
+            .putBoolean(OUTPUT_DATA_AS_COMMAND, inputData.getBoolean(INPUT_DATA_AS_COMMAND, false))
+            .putBoolean(OUTPUT_DATA_IS_IMPORTANT, inputData.getBoolean(INPUT_DATA_IS_IMPORTANT, false))
             .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
             .build()
     }
