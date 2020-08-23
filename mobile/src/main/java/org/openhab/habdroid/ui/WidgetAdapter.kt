@@ -30,6 +30,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebView
@@ -806,8 +807,16 @@ class WidgetAdapter(
         }
 
         override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
-            if (motionEvent.actionMasked == MotionEvent.ACTION_UP) {
-                connection.httpClient.sendItemCommand(boundItem, v.tag as String)
+            when (motionEvent.actionMasked) {
+                MotionEvent.ACTION_UP -> {
+                    val pressedTime = motionEvent.eventTime - motionEvent.downTime
+                    if (pressedTime > ViewConfiguration.getLongPressTimeout() && v.tag != "STOP") {
+                        connection.httpClient.sendItemCommand(boundItem, "STOP")
+                    }
+                }
+                MotionEvent.ACTION_DOWN -> {
+                    connection.httpClient.sendItemCommand(boundItem, v.tag as String)
+                }
             }
             return false
         }
