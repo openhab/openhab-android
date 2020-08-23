@@ -282,16 +282,16 @@ In case of an error the plugin returns an error code.
 
 When adding multiple servers to the app, there's always a primary and an active one.
 The active server is used for foreground operations, e.g. display the Sitemaps, and can be changed in the side menu.
-The primary server is used for all features that don't support multiple servers and can be changed in the settings.
+The primary server is used for all background operations and can be changed in the settings.
 
 Features, that support multiple servers:
 * Display Sitemaps and HABPanel
-* Voice commands launched from in-app (send to active server) and from widgets (send to primary server)
+* Voice commands launched from in-app (sent to active server) and from widgets (sent to primary server)
 * Show a list of recent notifications
 * Sitemap shortcuts on the home screen
 * Shortcuts for HABPanel, notifications and voice command
 
-Features, that don't support multiple servers:
+Features, that don't support multiple servers, i.e. use the primary server:
 * Item widgets on the home screen
 * Quick tiles
 * NFC tags
