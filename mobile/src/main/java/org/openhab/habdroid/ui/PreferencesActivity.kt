@@ -250,7 +250,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onResume() {
             super.onResume()
-            addServerPref?.changeBetaTagVisibility(prefs.getConfiguredServerIds().isNotEmpty())
+            addServerPref?.setBetaTagVisibility(prefs.getConfiguredServerIds().isNotEmpty())
         }
 
         override fun onStop() {

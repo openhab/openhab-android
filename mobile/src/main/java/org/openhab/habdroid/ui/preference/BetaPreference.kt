@@ -37,7 +37,7 @@ class BetaPreference constructor(context: Context, attrs: AttributeSet) : Prefer
         }
     }
 
-    fun changeBetaTagVisibility(show: Boolean) {
+    fun setBetaTagVisibility(show: Boolean) {
         showBetaTag = show
         betaTag?.isGone = !showBetaTag
     }
