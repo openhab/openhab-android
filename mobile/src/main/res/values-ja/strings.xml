@@ -440,6 +440,7 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item ラベル>: <アクション>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">データセーバー</string>
+    <string name="data_saver_on">大きなデータ転送が必要なサイトマップ要素は読み込まれていません</string>
     <string name="data_saver_off">データ通信を使用するサイトマップ要素を読み込む場合、システム全体のデータセーバー設定に従います</string>
     <string name="data_saver_off_pre_n">データ通信使用に関係なく、すべてのサイトマップ要素が読み込まれます</string>
     <string name="data_saver_load">とにかく読み込む</string>
