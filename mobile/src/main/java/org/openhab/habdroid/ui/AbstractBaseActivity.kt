@@ -122,22 +122,11 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun setStatusBarColor() {
-        @Suppress("DEPRECATION") var uiOptions = window.decorView.systemUiVisibility
-        @Suppress("DEPRECATION") val flagsPreR = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        } else {
-            0
-        }
-        val flagsR: Int
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        val black = ContextCompat.getColor(this, R.color.black)
+        @ColorInt val black = ContextCompat.getColor(this, R.color.black)
         @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-            uiOptions = uiOptions and flagsPreR.inv()
-            flagsR = 0
             resolveThemedColor(android.R.attr.windowBackground, black)
         } else {
-            uiOptions = uiOptions or flagsPreR
-            flagsR = WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 resolveThemedColor(android.R.attr.windowBackground, black)
             } else {
@@ -145,10 +134,27 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             }
         }
         window.navigationBarColor = windowColor
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val flags = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                0
+            } else {
+                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            }
             window.insetsController
-                ?.setSystemBarsAppearance(flagsR, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
+                ?.setSystemBarsAppearance(flags, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
         } else {
+            @Suppress("DEPRECATION") var uiOptions = window.decorView.systemUiVisibility
+            @Suppress("DEPRECATION") val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            } else {
+                0
+            }
+            uiOptions = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                uiOptions and flags.inv()
+            } else {
+                uiOptions or flags
+            }
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = uiOptions
         }
