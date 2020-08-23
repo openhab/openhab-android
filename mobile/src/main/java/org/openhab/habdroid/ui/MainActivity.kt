@@ -1194,7 +1194,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {
-        var missingPermissions = BackgroundTasksManager.KNOWN_KEYS
+        val missingPermissions = BackgroundTasksManager.KNOWN_KEYS
             .filter { entry ->
                 val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(entry)
                 prefs.getStringOrNull(entry)?.toItemUpdatePrefValue()?.first == true &&
@@ -1204,16 +1204,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .flatten()
             .toSet()
             .filter { !hasPermissions(arrayOf(it)) }
-            .toTypedArray()
+            .toMutableList()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
             missingPermissions.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
         ) {
             if (missingPermissions.size > 1) {
                 Log.d(TAG, "Remove background location from permissions to request")
-                missingPermissions = missingPermissions.toMutableList().apply {
-                    remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                }.toTypedArray()
+                missingPermissions.remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
             } else {
                 showSnackbar(
                     getString(
@@ -1241,7 +1239,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             ) {
                 ActivityCompat.requestPermissions(
                     this,
-                    missingPermissions,
+                    missingPermissions.toTypedArray(),
                     REQUEST_CODE_PERMISSIONS
                 )
             }
