@@ -445,7 +445,6 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Economia de dados</string>
-    <string name="data_saver_on">Elementos do Sitemap que podem exigir transferência de dados maiores não são carregados</string>
     <string name="data_saver_off">A configuração da ampla economia de dados do sistema é seguida ao carregar elementos do sitemap usando dados</string>
     <string name="data_saver_off_pre_n">Todos os elementos do sitemap são carregados, ignorando seu uso de dados</string>
     <string name="data_saver_load">Carregar mesmo assim</string>
