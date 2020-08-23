@@ -454,7 +454,6 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Bewerking>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Gegevensbesparing</string>
-    <string name="data_saver_on">Sitemap elementen die mogelijk grotere data transfers vereisen zijn niet geladen</string>
     <string name="data_saver_off">De systeeminstelling voor gegevensbesparing wordt gevolgd bij het laden van data met behulp van sitemap elementen</string>
     <string name="data_saver_off_pre_n">Alle sitemap elementen worden geladen, zonder gegevensgebruik</string>
     <string name="data_saver_load">Toch laden</string>
@@ -501,7 +500,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB pictogram</string>
     <string name="tile_icon_tv">TV</string>
-    <string name="tile_icon_radio" comment="tile_icon_radio&#10;Textual representation of the following icon: https://materialdesignicons.com/icon/radio">Radio</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Lamp</string>
     <string name="tile_icon_clock">Klok</string>
     <string name="tile_icon_alarm_clock">Wekker</string>
