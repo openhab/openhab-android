@@ -449,7 +449,6 @@
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
-    <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
     <string name="data_saver_off">הגדרת חיסכון בנתונים במערכת תופעל על טעינת נתונים של רכיבי תצורת מערכת</string>
     <string name="data_saver_off_pre_n">כל רכיבי תצורת המערכת יטענו תוך התעלמות מנפח הנתונים שלהם</string>
     <string name="data_saver_load">טען בכל מקרה</string>
