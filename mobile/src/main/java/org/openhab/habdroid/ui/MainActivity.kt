@@ -292,6 +292,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (intentFilter.countActions() != 0 && !prefs.isEventListenerEnabled()) {
             registerReceiver(backgroundTasksManager, intentFilter)
         }
+
+        showDataSaverHintSnackbarIfNeeded()
     }
 
     override fun onPause() {
@@ -950,6 +952,18 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
+    fun showDataSaverHintSnackbarIfNeeded() {
+        if (prefs.getBoolean(PrefKeys.DATA_SAVER_EXPLAINED, false) || !isDataSaverActive()) {
+            return
+        }
+
+        showSnackbar(R.string.data_saver_snackbar, R.string.got_it, TAG_SNACKBAR_DATA_SAVER_ON) {
+            prefs.edit {
+                putBoolean(PrefKeys.DATA_SAVER_EXPLAINED, true)
+            }
+        }
+    }
+
     internal fun showSnackbar(
         @StringRes messageResId: Int,
         @StringRes actionResId: Int = 0,
@@ -1144,6 +1158,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private const val TAG_SNACKBAR_DEMO_MODE_ACTIVE = "demoModeActive"
         private const val TAG_SNACKBAR_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
         private const val TAG_SNACKBAR_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
+        private const val TAG_SNACKBAR_DATA_SAVER_ON = "dataSaverOn"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"
