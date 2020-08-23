@@ -456,6 +456,7 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
+    <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
     <string name="data_saver_off">Se aplica el ajuste de ahorro de datos del sistema a la hora de cargar elementos del Sitemap</string>
     <string name="data_saver_off_pre_n">Todos los elementos del Sitemap se han cargado, sin tener en cuenta el consumo de datos</string>
     <string name="data_saver_load">Cargar de todos modos</string>
