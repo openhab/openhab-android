@@ -440,7 +440,6 @@
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Datan säästäjä</string>
-    <string name="data_saver_on">Sivukartan elementtejä, jotka mahdollisesti vaativaat isomman datamäärän, ei ladata</string>
     <string name="data_saver_off">Järjestelmän datasäästäjän asetuksia noudatetaan ladattaessa sivukartan elementtejä</string>
     <string name="data_saver_off_pre_n">Kaikki sivukartan elementit ladataan huolimatta niiden datan käytöstä</string>
     <string name="data_saver_load">Lataa silti</string>
