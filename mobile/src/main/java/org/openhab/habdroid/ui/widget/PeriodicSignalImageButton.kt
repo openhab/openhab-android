@@ -32,7 +32,6 @@ class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSe
     View.OnTouchListener {
     private var scope: CoroutineScope? = null
     private var periodicCallbackExecutor: Job? = null
-    private var isLongPressed = false
 
     var callback: ((v: View, value: String?) -> Unit)? = null
     var clickCommand: String? = null
@@ -45,7 +44,6 @@ class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSe
 
     @CallSuper
     override fun onLongClick(v: View?): Boolean {
-        isLongPressed = true
         scheduleNextSignal()
         return true
     }
@@ -53,12 +51,12 @@ class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSe
     @CallSuper
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.actionMasked == MotionEvent.ACTION_UP) {
-            if (!isLongPressed) {
-                isLongPressed = false
+            if (periodicCallbackExecutor == null) {
                 callback?.invoke(this@PeriodicSignalImageButton, clickCommand)
+            } else {
+                periodicCallbackExecutor?.cancel()
+                periodicCallbackExecutor = null
             }
-            periodicCallbackExecutor?.cancel()
-            periodicCallbackExecutor = null
         }
         return false
     }
