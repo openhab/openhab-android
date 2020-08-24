@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.work.Data
 import androidx.work.ForegroundInfo
+import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import kotlinx.android.parcel.Parcelize
@@ -268,6 +269,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     private fun createForegroundInfo(): ForegroundInfo {
         val context = applicationContext
         val title = context.getString(R.string.item_upload_in_progress)
+        val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
 
         val notification = NotificationCompat.Builder(context, NotificationUpdateObserver.CHANNEL_ID_BACKGROUND)
             .setProgress(0, 0, true)
@@ -278,6 +280,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             .setWhen(System.currentTimeMillis())
             .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
             .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .addAction(R.drawable.ic_clear_grey_24dp, context.getString(android.R.string.cancel), cancelIntent)
             .build()
 
         return ForegroundInfo(NOTIFICATION_ID_BACKGROUND_WORK_RUNNING, notification, FOREGROUND_SERVICE_TYPE_DATA_SYNC)
