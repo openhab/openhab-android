@@ -137,6 +137,8 @@
     <string name="app_shortcut_disabled_notifications">Your remote server isn\'t available</string>
     <string name="app_shortcut_disabled_voice_recognition">Your device doesn\'t have a voice recognition app installed</string>
     <string name="no_position_set">No position set</string>
+    <string name="show_and_copy_item_name">Show and copy Item name</string>
+    <string name="copied_item_name">Copied \"%s\"</string>
 
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>
