@@ -108,7 +108,7 @@ then
         } else {
             logInfo("alarm", "New alarm")
             timerAlarm = createTimer(new DateTime(epoch), [ |
-				// Turn on stuff, e.g. radio or light
+                // Turn on stuff, e.g. radio or light
                 logInfo("alarm", "Alarm expired")
                 timerAlarm = null
             ])
