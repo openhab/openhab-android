@@ -104,6 +104,7 @@ import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDebugModeEnabled
@@ -451,7 +452,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                             R.drawable.ic_home_search_outline_grey_340dp)
                     }
                 } else {
-                    controller.indicateMissingConfiguration(false)
+                    val officialServer = !failureReason.wouldHaveUsedLocalConnection() &&
+                        prefs.getRemoteUrl().matches("^(home.)?myopenhab.org$".toRegex())
+                    controller.indicateMissingConfiguration(false, officialServer)
                 }
             }
             failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
@@ -581,7 +584,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
         } else {
             Log.d(TAG, "onServiceResolveFailed()")
-            controller.indicateMissingConfiguration(true)
+            controller.indicateMissingConfiguration(true, false)
         }
     }
 
