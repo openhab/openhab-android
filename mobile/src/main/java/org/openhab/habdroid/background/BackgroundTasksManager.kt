@@ -370,8 +370,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 action = ACTION_VOICE_RESULT
                 putExtra(EXTRA_FROM_BACKGROUND, fromBackground)
             }
-            val callbackPendingIntent = PendingIntent.getBroadcast(context,
-                if (fromBackground) 1 else 0, callbackIntent, 0)
+            val callbackPendingIntent = PendingIntent.getBroadcast(
+                context,
+                if (fromBackground) 1 else 0,
+                callbackIntent,
+                0
+            )
 
             return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 // Display an hint to the user about what he should say.

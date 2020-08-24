@@ -256,16 +256,13 @@ class ConnectionFactoryTest {
 
     private fun fillInServers(local: String? = null, remote: String? = null) {
         whenever(
-            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.LOCAL_URL_PREFIX)),
-                anyOrNull())
+            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.LOCAL_URL_PREFIX)), anyOrNull())
         ) doReturn local
         whenever(
-            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.REMOTE_URL_PREFIX)),
-                anyOrNull())
+            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.REMOTE_URL_PREFIX)), anyOrNull())
         ) doReturn remote
         whenever(
-            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.SERVER_NAME_PREFIX)),
-                anyOrNull())
+            mockPrefs.getString(eq(PrefKeys.buildServerKey(1, PrefKeys.SERVER_NAME_PREFIX)), anyOrNull())
         ) doReturn "Test Server"
     }
 
