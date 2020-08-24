@@ -244,7 +244,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_docs)
                 .icon(R.drawable.ic_file_document_box_multiple_outline_grey_24dp)
-                .setOnClickAction(makeClickRedirect(context, "https://www.openhab.org/docs/"))
+                .setOnClickAction(makeClickRedirect(context, "https://www.openhab.org/docs/apps/android.html"))
                 .build())
             ohCommunityCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_community_forum)
