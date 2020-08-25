@@ -70,8 +70,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 colorPrimary))
         }
 
-        setStatusBarColor()
-
         super.onCreate(savedInstanceState)
     }
 
@@ -81,13 +79,16 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         promptForDevicePasswordIfRequired()
     }
 
+    @CallSuper
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
     }
 
+    @CallSuper
     override fun onResume() {
         super.onResume()
+        setStatusBarColor()
         setFullscreen()
     }
 
