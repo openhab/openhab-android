@@ -1,0 +1,3 @@
+## Added
+* Support long pressing the rollershutter buttons (#2160)
+* Show snackbar if datasaver is on (#2122) 
