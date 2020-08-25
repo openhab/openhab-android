@@ -465,6 +465,7 @@
     <string name="data_saver_off_pre_n">Усі елементи сторінок інтерфейсу завантажуються, ігноруючи споживання трафіку</string>
     <string name="data_saver_load">Все одно завантажити</string>
     <string name="data_saver_hint">%s не завантажено, щоб заощадити трафік</string>
+    <string name="data_saver_snackbar">Значки не базуються на станах об’єктів, оскільки ввімкнено заощадження даних</string>
     <string name="widget_type_image">Зображення</string>
     <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Відео</string>
