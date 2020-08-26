@@ -77,6 +77,7 @@
     <string name="settings_show_sitemaps_in_drawer">Näytä kaikki Sitemapit reunavalikossa</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Äänikomennot</string>
+    <string name="voice_command">Äänikomento</string>
     <string name="title_voice_widget_icon">Äänikomennot ja sovelluksen pikakuvake</string>
     <string name="info_voice_input">openHAB, komennossasi!</string>
     <string name="info_voice_recognized_text">Tunnistettu komento: %1$s</string>
@@ -177,6 +178,9 @@
     <string name="send_device_info_category_schedule_based_explanation">Lyhyemmällä aikavälillä on mahdollisesti suurempi vaikutus akun kestoon. Huomaa myös että laitteesi ei välttämättä tarkasti noudata valittua aikaväliä, vaan saattaa pidentää sitä vähentääkseen virran kulutusta.</string>
     <string name="send_device_info_item_prefix_summary">Tämän sivun Itemeillä on etuliitteenä laitteen tunnus \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Tämän sovin Itemeillä ei ole asetettu etuliitettä. Etuliitteeksi voit käyttää laitteen tunnusta, jonka voit asettaa asetusten pääsivulta.</string>
+    <string name="send_device_info_foreground_service_title">Tapahtumanäyttö</string>
+    <string name="send_device_info_foreground_service_summary">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja saattaa lisätä akun käyttöä.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja voi lisätä akun käyttöä. Tämä vaaditaan vain DND-tilan lähettämisessä.</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
     <string name="settings_alarm_clock">Hälytysaika</string>
     <string name="settings_alarm_clock_summary_on">Lähetä hälytyksen aika Itemille \'%1$s\'</string>
@@ -331,6 +335,8 @@
     <string name="about_translation">Auta meitä kääntämään openHAB</string>
     <string name="about_privacy_policy">Tietosuojakäytäntö</string>
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
+    <string name="settings_debug_messages_title">Laajennetut virheviestit</string>
+    <string name="settings_troubleshooting_title">Vianmääritys</string>
     <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
     <string name="unknown">Tuntematon</string>
     <string name="set">Aseta</string>
@@ -486,6 +492,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB kuvake</string>
     <string name="tile_icon_tv">Televisio</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Polttimo</string>
     <string name="tile_icon_clock">Kello</string>
     <string name="tile_icon_alarm_clock">Herätyskello</string>
@@ -520,5 +527,10 @@
     <string name="tile_icon_light_switch">Valokatkaisija</string>
     <string name="tile_icon_garage">Autotalli</string>
     <string name="tile_icon_switch">Katkaisija</string>
+    <string name="tile_icon_sofa">Sohva</string>
+    <string name="tile_icon_lamp_ceiling">Kattovalaisin</string>
+    <string name="tile_icon_lamp_floor">Lattiavalaisin</string>
+    <string name="tile_icon_lamp_bedside">Vuodevalaisin</string>
+    <string name="tile_icon_lamp_outdoor">Ulkovalaisin</string>
     <!-- Tile icon values -->
 </resources>
