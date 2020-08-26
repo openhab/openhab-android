@@ -181,7 +181,12 @@
     <string name="send_device_info_foreground_service_title">Tapahtumanäyttö</string>
     <string name="send_device_info_foreground_service_summary">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja saattaa lisätä akun käyttöä.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja voi lisätä akun käyttöä. Tämä vaaditaan vain DND-tilan lähettämisessä.</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">Tarkkaile DND-tilaan liittyviä tapahtumia</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Tarkkaile tapahtumia, jotka liittyvät %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Tarkkaile %1$s ja %2$s liittyviä tapahtumia</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Tarkkaile tapahtumia, jotka liittyvät %1$s, %2$s ja enemmän</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
+    <string name="item_update_summary_success">Viimeisin päivitys oli \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Hälytysaika</string>
     <string name="settings_alarm_clock_summary_on">Lähetä hälytyksen aika Itemille \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Älä lähetä hälytyksen aikaa</string>
@@ -212,6 +217,7 @@
     <string name="notification_channel_background_description">Ilmoitukset jonossa olevista taustatehtävistä, esim. odotetaan verkkoa akun tason ilmoitukseen</string>
     <string name="notification_channel_background_error">Virhe taustatehtävissä</string>
     <string name="notification_channel_background_error_description">Ilmoitukset taustatehtävien virheistä, esim. ei verkkoa akun tason ilmoitukseen</string>
+    <string name="notification_channel_background_foreground_service_description">Tarkkaile tapahtumia päivittääksesi Itemit vastaavasti. Voit turvallisesti piilottaa tämän luokan.</string>
     <string name="notification_channel_messages_default_severity">Oletus</string>
     <string name="notification_channel_messages_default_severity_description">Palvelimen lähettämät ilmoitukset ilman vakavuusarvoa</string>
     <string name="notification_channel_group_messages">Viestit</string>
@@ -227,6 +233,7 @@
     <string name="push_notification_status_remote_no_cloud">Ei saatavilla, etäpalvelin ei vastaa openHAB pilveä</string>
     <string name="push_notification_status">Tila</string>
     <string name="push_notification_help_icon_description">Klikkaa tästä saadaksesi apua</string>
+    <string name="push_notification_hint">Ilmoitukset kysellään säännöllisen aikataulun mukaan, samalla lailla kuin \"Lähetä laitteen tiedot palvelimelle\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
         <item quantity="other">Itemeitä %d ei voitu päivittää</item>
@@ -250,6 +257,9 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Laitteen tunnus</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Lisää äänikomentoihin etuliite \'&lt;Device identifier&gt;|\'</string>
+    <string name="device_identifier_bg_tasks">\"Lähetä laitteen tiedot palvelimelle\" Itemeihin etuliitetään tämä tunnistin</string>
+    <string name="device_identifier_hint">Tämä laitteen tunniste voi olla mikä tahansa merkkijono, ja sen pitäisi olla yksilöllinen kaikille laitteille, jotka käyttävät openHAB -palvelintasi. Edellä mainittujen kahden käyttötapauksen lisäksi voit käyttää sitä myös NFC-tageissa, joten tiedät, mikä laite on lukenut tagin.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Skannaavan laitteen tunnus (\"%s\" for this device)</string>
     <string name="device_identifier_summary_not_set">Palvelimelle lähetetty data tai äänikomennot eivät sisällä laitteen tunnusta etuliiteenä</string>
     <!-- Notification list strings -->
@@ -451,6 +461,7 @@
     <string name="data_saver_off_pre_n">Kaikki sivukartan elementit ladataan huolimatta niiden datan käytöstä</string>
     <string name="data_saver_load">Lataa silti</string>
     <string name="data_saver_hint">%s ei ladattu datan säästön vuoksi</string>
+    <string name="data_saver_snackbar">Kuvakkeet eivät perustu Itemin tilaan, koska datan säästäjä on otettu käyttöön</string>
     <string name="widget_type_image">Kuva</string>
     <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Video</string>
@@ -472,6 +483,7 @@
     <string name="tile_require_unlock">Näytön lukitus oltava avattu</string>
     <string name="tile_require_unlock_summary_on">Kysy laitteen lukituksen poistamisesta ennen kuin Itemien päivitys sallitaan</string>
     <string name="tile_require_unlock_summary_off">Salli Itemien päivitykset vaikka laite on lukittu</string>
+    <string name="tile_overview_hint">Laatan tila ei vastaa Itemin tilaa.\nJos sinulla on ongelmia laattojen päivittymisessä niiden muuttamisen jälkeen täällä, klikkaa laattaa tai muokkaa laitteesi pika-asetuksia (paikka, jossa on esimerkiksi napit Wi-Fi ja Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktiivinen laatta</item>
         <item quantity="other">%d aktiivista laattaa</item>
