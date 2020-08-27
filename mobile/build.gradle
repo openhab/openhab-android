@@ -11,16 +11,13 @@ buildscript {
     ext.exoplayer_version = '2.11.8'
 
     repositories {
-        maven {
-            url "https://maven.fabric.io/public"
-        }
         mavenCentral()
         google()
         jcenter()
     }
     dependencies {
         classpath "com.google.gms:google-services:4.3.3"
-        classpath "io.fabric.tools:gradle:1.31.2"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:2.2.0"
         classpath 'de.mobilej.unmock:UnMockPlugin:0.7.6'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$about_libraries_version"
     }
@@ -32,7 +29,8 @@ apply plugin: "kotlin-android-extensions"
 apply plugin: 'de.mobilej.unmock'
 apply plugin: "com.mikepenz.aboutlibraries.plugin"
 if (!isFoss) {
-    apply plugin: "io.fabric"
+    apply plugin: "com.google.gms.google-services"
+    apply plugin: "com.google.firebase.crashlytics"
 }
 
 android {
@@ -48,6 +46,7 @@ android {
         versionName "2.14.6-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
     }
     buildTypes {
         release {
@@ -164,6 +163,8 @@ dependencies {
 
     // FCM
     fullImplementation "com.google.firebase:firebase-messaging:20.2.4"
+    // Crash reporting
+    fullImplementation "com.google.firebase:firebase-crashlytics:17.2.1"
 
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"
@@ -171,12 +172,6 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
     implementation "com.github.GrenderG:Toasty:1.4.2"
-
-    // Crash reporting
-    fullImplementation("com.crashlytics.sdk.android:crashlytics:2.10.1@aar") {
-        transitive = true
-    }
-
     testImplementation "org.mockito:mockito-core:3.5.9"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "junit:junit:4.13"
@@ -199,8 +194,4 @@ dependencies {
         exclude group: "com.android.support", module: "support-annotations"
     }
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
-}
-
-if (!isFoss) {
-    apply plugin: "com.google.gms.google-services"
 }

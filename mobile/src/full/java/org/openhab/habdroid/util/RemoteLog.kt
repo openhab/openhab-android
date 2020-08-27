@@ -13,29 +13,31 @@
 
 package org.openhab.habdroid.util
 
-import android.content.Context
 import android.util.Log
-import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.Fabric
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import org.openhab.habdroid.BuildConfig
 
 object RemoteLog {
-    fun initialize(context: Context) {
-        Fabric.with(context, Crashlytics())
+    private val TAG = RemoteLog::class.java.simpleName
+
+    fun initialize() {
+        val outdatedBuildMillis = BuildConfig.TIMESTAMP + (6L * 30 * 24 * 60 * 60 * 1000) // 6 months after build
+        val isOutdated = outdatedBuildMillis < System.currentTimeMillis()
+        Log.d(TAG, "Crashlytics status: isDebug ${BuildConfig.DEBUG}, isOutdated $isOutdated")
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG && !isOutdated)
     }
 
     fun d(tag: String, message: String, remoteOnly: Boolean = false) {
-        if (remoteOnly) {
-            Crashlytics.log("[$tag] $message")
-        } else {
-            Crashlytics.log(Log.DEBUG, tag, message)
+        FirebaseCrashlytics.getInstance().log("D/$tag: $message")
+        if (!remoteOnly) {
+            Log.d(tag, message)
         }
     }
 
     fun e(tag: String, message: String, remoteOnly: Boolean = false) {
-        if (remoteOnly) {
-            Crashlytics.log("[$tag] $message")
-        } else {
-            Crashlytics.log(Log.ERROR, tag, message)
+        FirebaseCrashlytics.getInstance().log("E/$tag: $message")
+        if (!remoteOnly) {
+            Log.e(tag, message)
         }
     }
 }

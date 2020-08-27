@@ -13,12 +13,10 @@
 
 package org.openhab.habdroid.util
 
-import android.content.Context
 import android.util.Log
 
 object RemoteLog {
-    // context is used in full flavor
-    fun initialize(@Suppress("UNUSED_PARAMETER") context: Context) {
+    fun initialize() {
         // no-op
     }
 
