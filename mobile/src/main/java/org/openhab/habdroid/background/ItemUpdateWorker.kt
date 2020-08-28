@@ -40,12 +40,14 @@ import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getPrefixForVoice
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.hasCause
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.IOException
 import java.io.StringReader
+import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
@@ -134,8 +136,12 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 Result.success(buildOutputData(true, result.statusCode, valueToBeSent))
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
-                sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
-                Result.failure(buildOutputData(true, e.statusCode))
+                if (e.hasCause(SocketTimeoutException::class.java) || e.statusCode in RETRY_HTTP_ERROR_CODES) {
+                    Result.retry()
+                } else {
+                    sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
+                    Result.failure(buildOutputData(true, e.statusCode))
+                }
             }
         }
     }
@@ -327,6 +333,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     companion object {
         private val TAG = ItemUpdateWorker::class.java.simpleName
         private const val MAX_RETRIES = 10
+        private val RETRY_HTTP_ERROR_CODES = listOf(408, 425, 502, 503, 504)
 
         private const val INPUT_DATA_ITEM_NAME = "item"
         private const val INPUT_DATA_LABEL = "label"
