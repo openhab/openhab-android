@@ -1115,7 +1115,6 @@ class WidgetAdapter(
         LabelFormatter,
         Slider.OnChangeListener,
         Slider.OnSliderTouchListener,
-        (View, String?) -> Unit,
         View.OnClickListener {
         private var boundWidget: Widget? = null
         private var boundItem: Item? = null
@@ -1135,7 +1134,9 @@ class WidgetAdapter(
                 val button = itemView.findViewById<PeriodicSignalImageButton>(id)
                 button.clickCommand = clickCommand
                 button.longClickHoldCommand = longClickHoldCommand
-                button.callback = this
+                button.callback = fun (_: View, value: String?) {
+                    value?.let { connection.httpClient.sendItemCommand(boundItem, value) }
+                }
             }
 
             val selectColorButton = itemView.findViewById<View>(R.id.select_color_button)
@@ -1146,11 +1147,6 @@ class WidgetAdapter(
             super.bind(widget)
             boundWidget = widget
             boundItem = widget.item
-        }
-
-        // Up and down buttons callback
-        override fun invoke(v: View, value: String?) {
-            value?.let { connection.httpClient.sendItemCommand(boundItem, value) }
         }
 
         // Select color button
