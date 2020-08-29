@@ -36,38 +36,25 @@ class CacheManager private constructor(appContext: Context) {
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
         // int in its constructor.
         val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
-        // Use up to 1/8 of the available VM memory for the bitmap cache
-        iconBitmapCache = object : LruCache<HttpUrl, Bitmap>(maxMemory / 8) {
-            override fun sizeOf(key: HttpUrl, value: Bitmap): Int {
-                return value.byteCount / 1024
-            }
-        }
-        temporaryBitmapCache = object : LruCache<HttpUrl, Bitmap>(maxMemory / 8) {
-            override fun sizeOf(key: HttpUrl, value: Bitmap): Int {
-                return value.byteCount / 1024
-            }
-        }
+        // Use up to 2/8 of the available VM memory for the bitmap cache
+        iconBitmapCache = BitmapCache(maxMemory / 8)
+        temporaryBitmapCache = BitmapCache(maxMemory / 8)
     }
 
     fun getCachedBitmap(url: HttpUrl): Bitmap? {
-        return if (isIconUrl(url)) {
-            iconBitmapCache.get(url)
-        } else {
-            temporaryBitmapCache.get(url)
-        }
+        return targetCache(url).get(url)
     }
 
     fun cacheBitmap(url: HttpUrl, bitmap: Bitmap) {
-        if (isIconUrl(url)) {
-            iconBitmapCache.put(url, bitmap)
-        } else {
-            temporaryBitmapCache.put(url, bitmap)
-        }
+        targetCache(url).put(url, bitmap)
     }
 
-    private fun isIconUrl(url: HttpUrl): Boolean {
-        return url.pathSegments.firstOrNull() == "icon" &&
-            url.pathSegments[1].isNotEmpty()
+    private fun targetCache(url: HttpUrl): LruCache<HttpUrl, Bitmap> {
+        return if (url.pathSegments.firstOrNull() == "icon" && url.pathSegments[1].isNotEmpty()) {
+            iconBitmapCache
+        } else {
+            temporaryBitmapCache
+        }
     }
 
     fun isBitmapCached(url: HttpUrl): Boolean {
@@ -114,6 +101,12 @@ class CacheManager private constructor(appContext: Context) {
             IconFormat.Png -> ".png"
         }
         return File(widgetIconDirectory, widgetId.toString() + suffix)
+    }
+
+    class BitmapCache(maxSize: Int) : LruCache<HttpUrl, Bitmap>(maxSize) {
+        override fun sizeOf(key: HttpUrl, value: Bitmap): Int {
+            return value.byteCount / 1024
+        }
     }
 
     companion object {
