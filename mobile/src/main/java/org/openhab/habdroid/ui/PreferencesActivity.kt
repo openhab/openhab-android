@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.app.Activity
+import android.app.Dialog
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
@@ -40,6 +41,7 @@ import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -51,6 +53,7 @@ import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.forEachIndexed
 import androidx.work.WorkManager
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import java.lang.IllegalArgumentException
 import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -586,7 +589,66 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
-    class ServerEditorFragment : AbstractSettingsFragment() {
+    class ConfirmationDialogFragment : DialogFragment() {
+        interface Callback {
+            fun onConfirmed(tag: String?)
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val args = requireArguments()
+            return AlertDialog.Builder(requireContext())
+                .setMessage(args.getInt("message"))
+                .setPositiveButton(args.getInt("buttontext")) { _, _ ->
+                    val callback = parentFragment as Callback? ?: throw IllegalArgumentException()
+                    callback.onConfirmed(args.getString("tag"))
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+        }
+
+        companion object {
+            fun show(fm: FragmentManager, messageResId: Int, actionButtonTextResId: Int, tag: String) {
+                val f = ConfirmationDialogFragment()
+                f.arguments = bundleOf(
+                    "message" to messageResId,
+                    "buttontext" to actionButtonTextResId,
+                    "tag" to tag
+                )
+                f.show(fm, tag)
+            }
+        }
+    }
+
+    class ServerEditorConfirmLeaveDialogFragment : DialogFragment() {
+        interface Callback {
+            fun onLeaveAndSave()
+            fun onLeaveAndDiscard()
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return AlertDialog.Builder(requireContext())
+                .setTitle(R.string.settings_server_confirm_leave_title)
+                .setMessage(R.string.settings_server_confirm_leave_message)
+                .setPositiveButton(R.string.save) { _, _ -> handleDone(true) }
+                .setNegativeButton(R.string.discard) { _, _ -> handleDone(false) }
+                .setNeutralButton(android.R.string.cancel, null)
+                .create()
+        }
+
+        private fun handleDone(confirmed: Boolean) {
+            val callback = parentFragment as Callback? ?: throw IllegalArgumentException()
+            if (confirmed) {
+                callback.onLeaveAndSave()
+            } else {
+                callback.onLeaveAndDiscard()
+            }
+        }
+    }
+
+    class ServerEditorFragment :
+        AbstractSettingsFragment(),
+        ConfirmationDialogFragment.Callback,
+        ServerEditorConfirmLeaveDialogFragment.Callback {
         private lateinit var config: ServerConfiguration
         private var markAsPrimary = false
 
@@ -612,18 +674,12 @@ class PreferencesActivity : AbstractBaseActivity() {
                     true
                 }
                 R.id.delete -> {
-                    AlertDialog.Builder(preferenceManager.context)
-                        .setMessage(R.string.settings_server_confirm_deletion)
-                        .setPositiveButton(R.string.delete) { _, _ ->
-                            config.removeFromPrefs(prefs, secretPrefs)
-                            WorkManager.getInstance(preferenceManager.context).apply {
-                                cancelAllWorkByTag(buildWorkerTagForServer(config.id))
-                                pruneWork()
-                            }
-                            parentFragmentManager.popBackStack() // close ourself
-                        }
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show()
+                    ConfirmationDialogFragment.show(
+                        childFragmentManager,
+                        R.string.settings_server_confirm_deletion,
+                        R.string.delete,
+                        "delete_server_confirmation"
+                    )
                     true
                 }
                 else -> super.onOptionsItemSelected(item)
@@ -647,21 +703,31 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onBackPressed(): Boolean {
             if (ServerConfiguration.load(prefs, secretPrefs, config.id) != config) {
-                AlertDialog.Builder(preferenceManager.context)
-                    .setTitle(R.string.settings_server_confirm_leave_title)
-                    .setMessage(R.string.settings_server_confirm_leave_message)
-                    .setPositiveButton(R.string.save) { _, _ ->
-                        saveAndQuit()
-                    }
-                    .setNegativeButton(R.string.discard) { _, _ ->
-                        parentActivity.invalidateOptionsMenu()
-                        parentFragmentManager.popBackStack() // close ourself
-                    }
-                    .setNeutralButton(android.R.string.cancel, null)
-                    .show()
+                ServerEditorConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
                 return true
             }
             return false
+        }
+
+        override fun onConfirmed(tag: String?) = when (tag) {
+            "delete_server_confirmation" -> {
+                config.removeFromPrefs(prefs, secretPrefs)
+                WorkManager.getInstance(preferenceManager.context).apply {
+                    cancelAllWorkByTag(buildWorkerTagForServer(config.id))
+                    pruneWork()
+                }
+                parentFragmentManager.popBackStack() // close ourself
+            }
+            else -> {}
+        }
+
+        override fun onLeaveAndSave() {
+            saveAndQuit()
+        }
+
+        override fun onLeaveAndDiscard() {
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
         }
 
         override fun onStart() {
