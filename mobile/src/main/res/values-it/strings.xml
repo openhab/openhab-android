@@ -461,6 +461,7 @@
     <string name="data_saver_off_pre_n">Tutti gli elementi della Sitemap sono stati caricati, ignorando la quantità dei dati</string>
     <string name="data_saver_load">Carica comunque</string>
     <string name="data_saver_hint">%s non è stato caricato per risparmiare dati</string>
+    <string name="data_saver_snackbar">Le icone non sono aggiornate con gli stati dell\'Item, perché il risparmio dati è attivo</string>
     <string name="widget_type_image">Immagine</string>
     <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Video</string>
@@ -503,7 +504,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">icona openHAB</string>
     <string name="tile_icon_tv">TV</string>
-    <string name="tile_icon_radio" comment="tile_icon_radio&#10;Textual representation of the following icon: https://materialdesignicons.com/icon/radio">Radio</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Lampadina</string>
     <string name="tile_icon_clock">Orologio</string>
     <string name="tile_icon_alarm_clock">Sveglia</string>

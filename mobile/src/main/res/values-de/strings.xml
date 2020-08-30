@@ -503,7 +503,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB-Logo</string>
     <string name="tile_icon_tv">Fernseher</string>
-    <string name="tile_icon_radio" comment="tile_icon_radio&#10;Textual representation of the following icon: https://materialdesignicons.com/icon/radio">Radio</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Glühbirne</string>
     <string name="tile_icon_clock">Uhr</string>
     <string name="tile_icon_alarm_clock">Wecker</string>

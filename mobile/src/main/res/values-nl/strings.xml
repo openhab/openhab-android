@@ -501,7 +501,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB pictogram</string>
     <string name="tile_icon_tv">TV</string>
-    <string name="tile_icon_radio" comment="tile_icon_radio&#10;Textual representation of the following icon: https://materialdesignicons.com/icon/radio">Radio</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Lamp</string>
     <string name="tile_icon_clock">Klok</string>
     <string name="tile_icon_alarm_clock">Wekker</string>
