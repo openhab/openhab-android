@@ -73,6 +73,11 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        setNavigationBarColor()
+    }
+
     @CallSuper
     override fun onStart() {
         super.onStart()
@@ -88,13 +93,12 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @CallSuper
     override fun onResume() {
         super.onResume()
-        setStatusBarColor()
         setFullscreen()
     }
 
     fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
         @Suppress("DEPRECATION")
-        fun checkFullscreenPreR() {
+        fun setFullscreenPreR() {
             var uiOptions = window.decorView.systemUiVisibility
             val flags = (
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -118,11 +122,11 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 insetsController.show(WindowInsets.Type.systemBars())
             }
         } else {
-            checkFullscreenPreR()
+            setFullscreenPreR()
         }
     }
 
-    private fun setStatusBarColor() {
+    private fun setNavigationBarColor() {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         @ColorInt val black = ContextCompat.getColor(this, R.color.black)
         @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {

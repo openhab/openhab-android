@@ -39,7 +39,7 @@ if (!isFoss) {
 }
 
 android {
-    buildToolsVersion "30.0.0"
+    buildToolsVersion "30.0.1"
     compileSdkVersion 30
     useLibrary "org.apache.http.legacy"
 
