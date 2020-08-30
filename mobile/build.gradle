@@ -2,7 +2,7 @@ def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
 def isFoss = taskRequests.contains("Foss") || taskRequests.contains("foss")
 
 buildscript {
-    ext.kotlin_coroutines_version = '1.3.8'
+    ext.kotlin_coroutines_version = '1.3.9'
     ext.ok_http_version = '4.8.1'
     ext.work_manager_version = '2.4.0'
     ext.about_libraries_version = '8.3.0'
@@ -132,7 +132,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
     implementation "androidx.core:core-ktx:1.3.1"
     implementation "androidx.fragment:fragment-ktx:1.2.5"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.2.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
