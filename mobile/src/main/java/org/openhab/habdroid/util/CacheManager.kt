@@ -27,8 +27,8 @@ import java.io.InputStream
 
 class CacheManager private constructor(appContext: Context) {
     val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (10 * 1024 * 1024).toLong())
-    private val iconBitmapCache: LruCache<HttpUrl, Bitmap>
-    private val temporaryBitmapCache: LruCache<HttpUrl, Bitmap>
+    private val iconBitmapCache: BitmapCache
+    private val temporaryBitmapCache: BitmapCache
     private val widgetIconDirectory = appContext.getDir("widgeticons", Context.MODE_PRIVATE)
 
     init {
@@ -49,7 +49,7 @@ class CacheManager private constructor(appContext: Context) {
         targetCache(url).put(url, bitmap)
     }
 
-    private fun targetCache(url: HttpUrl): LruCache<HttpUrl, Bitmap> {
+    private fun targetCache(url: HttpUrl): BitmapCache {
         return if (url.pathSegments.firstOrNull() == "icon" && url.pathSegments[1].isNotEmpty()) {
             iconBitmapCache
         } else {
