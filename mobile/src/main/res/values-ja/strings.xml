@@ -177,6 +177,13 @@
     <string name="send_device_info_category_schedule_based_explanation">選択した間隔が短いほど、デバイスのバッテリー残量への影響が大きくなります。 さらに、お使いのデバイスが選択された間隔の通りにならず、アプリ全体の消費電力を削減するための更新を遅らせる可能性があります。</string>
     <string name="send_device_info_item_prefix_summary">このページのアイテム名にはデバイス識別子 \'%s\' が頭に付きます</string>
     <string name="send_device_info_item_prefix_summary_not_set">このページのアイテム名にプレフィックスが設定されていません。 デバイス識別子でプレフィックスを付けることができます。デバイス識別子はメイン設定ページで設定できます。</string>
+    <string name="send_device_info_foreground_service_title">イベントモニター</string>
+    <string name="send_device_info_foreground_service_summary">以下の項目に関連付けられたイベントをモニターします。これには永続的な通知が必要で、バッテリー使用量が増える可能性があります。</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">以下の項目に関連付けられたイベントをモニターします。 これには永続的な通知が必要で、バッテリー使用量が増加する可能性があります。これはDNDモードを送信するためにのみ必要です。</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">DNDモードに関連付けられたイベントをモニターします</string>
+    <string name="send_device_info_foreground_service_running_summary_one">%s に関連付けられたイベントをモニターします</string>
+    <string name="send_device_info_foreground_service_running_summary_two">%1$s と %2$s に関連付けられたイベントをモニターします</string>
+    <string name="send_device_info_foreground_service_running_summary_more">%1$s、 %2$s などに関連付けられたイベントをモニターします</string>
     <string name="settings_item_update_pref_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
     <string name="item_update_summary_success">最終更新は \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">アラーム時刻</string>
@@ -209,6 +216,7 @@
     <string name="notification_channel_background_description">保留中のバックグラウンドタスクについて通知するために使用されます。 例えば、ネットワークがバッテリー残量を送信するのを待機</string>
     <string name="notification_channel_background_error">バックグラウンド処理エラー</string>
     <string name="notification_channel_background_error_description">バックグラウンドタスクのエラーについて通知するために使用されます。 例えば、バッテリー残量を送信するネットワーク接続がない</string>
+    <string name="notification_channel_background_foreground_service_description">アイテムを更新するイベントをモニターします。このカテゴリは安全に非表示にできます。</string>
     <string name="notification_channel_messages_default_severity">デフォルト</string>
     <string name="notification_channel_messages_default_severity_description">重大度が定義されずにサーバーから送信された通知</string>
     <string name="notification_channel_group_messages">メッセージ</string>
@@ -233,6 +241,7 @@
     <string name="item_update_http_error_label">%1$s の更新に失敗しました: %2$s</string>
     <string name="item_update_connection_error">アイテム \'%1$s\' を更新できませんでした (接続がありません)</string>
     <string name="item_update_connection_error_label">%1$s を更新できませんでした (接続がありません)</string>
+    <string name="error_no_valid_item_name">正しいアイテム名を入力してください</string>
     <string name="retry">リトライ</string>
     <string name="ignore">無視</string>
     <string name="send_device_info_schedule">スケジュール</string>
@@ -245,6 +254,8 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">デバイス識別子</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">音声コマンドの先頭に \'&lt;デバイス識別子&gt;|\' をつける</string>
+    <string name="device_identifier_bg_tasks">「サーバーにデバイス情報を送信」の項目名の最初にこの識別子をつけます</string>
     <string name="device_identifier_hint">このデバイス識別子は任意の文字列にすることができ、openHAB サーバーにアクセスするすべてのデバイスで一意である必要があります。 上記の2つのユースケースに加えて、NFCタグの状態として使用することもでき、どのデバイスがタグを読み取るかわかります。</string>
     <string name="device_identifier_suggested_command_nfc_tag">スキャンするデバイスのデバイス識別子 (\"%s\" はこのデバイス)</string>
     <string name="device_identifier_summary_not_set">サーバーに送信されたデータと音声コマンドにはデバイス識別子が付いていません</string>
@@ -331,6 +342,8 @@
     <string name="about_translation">openHAB の翻訳にご協力ください</string>
     <string name="about_privacy_policy">プライバシーポリシー</string>
     <string name="about_rate_this_app">このアプリを評価する</string>
+    <string name="settings_debug_messages_title">拡張エラーメッセージ</string>
+    <string name="settings_troubleshooting_title">トラブルシューティング</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL を特定できませんでした</string>
     <string name="unknown">不明</string>
     <string name="set">設定</string>
@@ -445,6 +458,7 @@
     <string name="data_saver_off_pre_n">データ通信使用に関係なく、すべてのサイトマップ要素が読み込まれます</string>
     <string name="data_saver_load">とにかく読み込む</string>
     <string name="data_saver_hint">%s はデータを節約するために読み込みませんでした</string>
+    <string name="data_saver_snackbar">データセーバーがオンになっているため、アイコンはアイテムの状態に基づいていません</string>
     <string name="widget_type_image">画像</string>
     <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">ビデオ</string>
@@ -460,9 +474,12 @@
     <string name="tile_error_saving">すべての設定を入力してください</string>
     <string name="tile_disabled">オフになっています</string>
     <string name="tile_enable">オンにする</string>
+    <string name="item_item_and_action">アイテムとアクション</string>
     <string name="tile_name">名前</string>
     <string name="tile_icon">アイコン</string>
     <string name="tile_require_unlock">画面のロック解除が必要です</string>
+    <string name="tile_require_unlock_summary_on">アイテムの更新を許可する前にデバイスのロックを解除するように促します</string>
+    <string name="tile_require_unlock_summary_off">デバイスがロックされていてもアイテムの更新を許可します</string>
     <string name="tile_overview_hint">タイルの状態は、アイテムの状態を反映していません。\nここでタイルを変更した後に更新されない問題がある場合。 タイルをクリックするか、デバイスのクイック設定を編集してください。 (Wi-FiやBluetoothなど、切り替えを保持する場所)</string>
     <plurals name="tile_active_number">
         <item quantity="other">%d のアクティブなタイル</item>
@@ -483,6 +500,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB アイコン</string>
     <string name="tile_icon_tv">テレビ</string>
+    <string name="tile_icon_radio">ラジオ</string>
     <string name="tile_icon_bulb">電球</string>
     <string name="tile_icon_clock">時計</string>
     <string name="tile_icon_alarm_clock">目覚まし時計</string>
