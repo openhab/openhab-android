@@ -16,11 +16,9 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.LruCache
-
 import okhttp3.Cache
 import okhttp3.HttpUrl
 import org.openhab.habdroid.model.IconFormat
-
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -28,8 +26,9 @@ import java.io.IOException
 import java.io.InputStream
 
 class CacheManager private constructor(appContext: Context) {
-    val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (2 * 1024 * 1024).toLong())
-    private val bitmapCache: LruCache<HttpUrl, Bitmap>
+    val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (10 * 1024 * 1024).toLong())
+    private val iconBitmapCache: BitmapCache
+    private val temporaryBitmapCache: BitmapCache
     private val widgetIconDirectory = appContext.getDir("widgeticons", Context.MODE_PRIVATE)
 
     init {
@@ -37,20 +36,25 @@ class CacheManager private constructor(appContext: Context) {
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
         // int in its constructor.
         val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
-        // Use up to 1/8 of the available VM memory for the bitmap cache
-        bitmapCache = object : LruCache<HttpUrl, Bitmap>(maxMemory / 8) {
-            override fun sizeOf(key: HttpUrl, value: Bitmap): Int {
-                return value.byteCount / 1024
-            }
-        }
+        // Use up to 2/8 of the available VM memory for the bitmap cache
+        iconBitmapCache = BitmapCache(maxMemory / 8)
+        temporaryBitmapCache = BitmapCache(maxMemory / 8)
     }
 
     fun getCachedBitmap(url: HttpUrl): Bitmap? {
-        return bitmapCache.get(url)
+        return targetCache(url).get(url)
     }
 
     fun cacheBitmap(url: HttpUrl, bitmap: Bitmap) {
-        bitmapCache.put(url, bitmap)
+        targetCache(url).put(url, bitmap)
+    }
+
+    private fun targetCache(url: HttpUrl): BitmapCache {
+        return if (url.pathSegments.firstOrNull() == "icon" && url.pathSegments[1].isNotEmpty()) {
+            iconBitmapCache
+        } else {
+            temporaryBitmapCache
+        }
     }
 
     fun isBitmapCached(url: HttpUrl): Boolean {
@@ -69,8 +73,7 @@ class CacheManager private constructor(appContext: Context) {
 
     fun getWidgetIconFormat(widgetId: Int): IconFormat? {
         return IconFormat.values()
-            .filter { format -> getWidgetIconFile(widgetId, format).exists() }
-            .firstOrNull()
+            .firstOrNull { format -> getWidgetIconFile(widgetId, format).exists() }
     }
 
     fun getWidgetIconStream(widgetId: Int): InputStream? {
@@ -79,14 +82,17 @@ class CacheManager private constructor(appContext: Context) {
         }
     }
 
-    fun clearCache() {
-        bitmapCache.evictAll()
+    fun clearCache(alsoClearIcons: Boolean) {
+        temporaryBitmapCache.evictAll()
         try {
             httpCache.evictAll()
         } catch (ignored: IOException) {
             // ignored
         }
-        widgetIconDirectory?.listFiles()?.forEach { f -> f.delete() }
+        if (alsoClearIcons) {
+            widgetIconDirectory?.listFiles()?.forEach { f -> f.delete() }
+            iconBitmapCache.evictAll()
+        }
     }
 
     private fun getWidgetIconFile(widgetId: Int, format: IconFormat): File {
@@ -95,6 +101,12 @@ class CacheManager private constructor(appContext: Context) {
             IconFormat.Png -> ".png"
         }
         return File(widgetIconDirectory, widgetId.toString() + suffix)
+    }
+
+    class BitmapCache(maxSize: Int) : LruCache<HttpUrl, Bitmap>(maxSize) {
+        override fun sizeOf(key: HttpUrl, value: Bitmap): Int {
+            return value.byteCount / 1024
+        }
     }
 
     companion object {
