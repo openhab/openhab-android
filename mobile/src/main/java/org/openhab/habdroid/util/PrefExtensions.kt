@@ -29,6 +29,7 @@ import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.widget.WidgetImageView
 
 enum class ScreenLockMode {
     Disabled,
@@ -88,6 +89,14 @@ fun SharedPreferences.getChartScalingFactor(): Float {
 
 fun SharedPreferences.shouldRequestHighResChart(): Boolean {
     return getBoolean(PrefKeys.CHART_HQ, true)
+}
+
+fun SharedPreferences.getImageWidgetScalingType(): WidgetImageView.ImageScalingType {
+    return if (getBoolean(PrefKeys.IMAGE_WIDGET_SCALE_TO_FIT, true)) {
+        WidgetImageView.ImageScalingType.ScaleToFitWithViewAdjustment
+    } else {
+        WidgetImageView.ImageScalingType.ScaleToFitWithViewAdjustmentDownscaleOnly
+    }
 }
 
 fun SharedPreferences.isTaskerPluginEnabled(): Boolean {

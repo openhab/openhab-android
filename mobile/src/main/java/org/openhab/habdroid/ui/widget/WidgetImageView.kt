@@ -43,7 +43,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private var originalAdjustViewBounds: Boolean = false
     private val emptyHeightToWidthRatio: Float
     private val addRandomnessToUrl: Boolean
-    private val adjustViewBoundsForDownscalingOnly: Boolean
+    private var imageScalingType = ImageScalingType.NoScaling
     private var internalLoad: Boolean = false
     private var lastRequest: HttpImageRequest? = null
 
@@ -61,8 +61,10 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
             progressDrawable = getDrawable(R.styleable.WidgetImageView_progressIndicator)
             emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f)
             addRandomnessToUrl = getBoolean(R.styleable.WidgetImageView_addRandomnessToUrl, false)
-            adjustViewBoundsForDownscalingOnly =
-                getBoolean(R.styleable.WidgetImageView_adjustViewBoundsForDownscalingOnly, false)
+            val imageScalingType = getInt(R.styleable.WidgetImageView_imageScalingType, 0)
+            if (imageScalingType < ImageScalingType.values().size) {
+                setImageScalingType(ImageScalingType.values()[imageScalingType])
+            }
             recycle()
         }
     }
@@ -163,6 +165,28 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         scope = null
     }
 
+    fun setImageScalingType(type: ImageScalingType) {
+        if (imageScalingType == type) {
+            return
+        }
+        imageScalingType = type
+        when (type) {
+            ImageScalingType.NoScaling -> {
+                adjustViewBounds = false
+                scaleType = ScaleType.CENTER_INSIDE
+            }
+            ImageScalingType.ScaleToFit -> {
+                adjustViewBounds = false
+                scaleType = ScaleType.FIT_CENTER
+            }
+            ImageScalingType.ScaleToFitWithViewAdjustment,
+            ImageScalingType.ScaleToFitWithViewAdjustmentDownscaleOnly -> {
+                adjustViewBounds = true
+                scaleType = ScaleType.FIT_CENTER
+            }
+        }
+    }
+
     fun startRefreshingIfNeeded() {
         refreshJob?.cancel()
         refreshJob = null
@@ -229,7 +253,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     private fun applyLoadedBitmap(bitmap: Bitmap) {
         removeProgressDrawable()
-        if (adjustViewBoundsForDownscalingOnly) {
+        if (imageScalingType == ImageScalingType.ScaleToFitWithViewAdjustmentDownscaleOnly) {
             // Make sure that view only shrinks to accommodate bitmap size, but doesn't enlarge ... that is,
             // adjust view bounds only if width is larger than target size or height is larger than the maximum height
             adjustViewBounds = bitmap.width > targetImageSize || maxHeight < bitmap.height
@@ -334,6 +358,13 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     }
 
     data class PendingRequest(val client: HttpClient, val url: HttpUrl, val timeoutMillis: Long, val forceLoad: Boolean)
+
+    enum class ImageScalingType {
+        NoScaling,
+        ScaleToFit,
+        ScaleToFitWithViewAdjustment,
+        ScaleToFitWithViewAdjustmentDownscaleOnly
+    }
 
     companion object {
         private val TAG = WidgetImageView::class.java.simpleName

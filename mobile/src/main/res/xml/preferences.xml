@@ -49,6 +49,12 @@
             android:clickable="true"
             android:key="default_openhab_cleacache"
             android:title="@string/mainmenu_openhab_clearcache" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="imageWidgetScaleToFit"
+            android:title="@string/settings_image_widget_scaling"
+            android:summaryOff="@string/settings_image_widget_scaling_summary_off"
+            android:summaryOn="@string/settings_image_widget_scaling_summary_on" />
         <org.openhab.habdroid.ui.preference.ChartScalingPreference
             android:title="@string/settings_chart_scaling"
             android:summary="@string/settings_chart_scaling_summary"

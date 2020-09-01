@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:adjustViewBounds="true"
     android:background="?android:activatedBackgroundIndicator"
     android:paddingStart="@dimen/widgetlist_item_side_margin"
     android:paddingEnd="@dimen/widgetlist_item_side_margin">
@@ -13,9 +12,8 @@
         android:id="@+id/widget_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         android:layout_margin="4dip"
+        app:imageScalingType="scaleToFitWithViewAdjustment"
         app:emptyHeightToWidthRatio="50%"
         app:progressIndicator="@drawable/ic_image_loading_themed"
         app:addRandomnessToUrl="true" />

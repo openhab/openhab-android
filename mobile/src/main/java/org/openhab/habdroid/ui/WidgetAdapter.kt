@@ -98,6 +98,7 @@ import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.getImageWidgetScalingType
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -613,6 +614,7 @@ class WidgetAdapter(
         connection: Connection
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection) {
         private val imageView = widgetContentView as WidgetImageView
+        private val prefs = imageView.context.getPrefs()
 
         override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
             return widget.url == null ||
@@ -629,6 +631,7 @@ class WidgetAdapter(
             } else {
                 imageView.maxHeight = Integer.MAX_VALUE
             }
+            imageView.setImageScalingType(prefs.getImageWidgetScalingType())
 
             if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
                 val dataString = value.substring(value.indexOf(",") + 1)
