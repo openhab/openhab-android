@@ -20,6 +20,7 @@ import android.os.SystemClock
 import android.util.AttributeSet
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
+import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,7 +33,8 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
-import kotlin.random.Random
+import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getPrefs
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
@@ -229,7 +231,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
     private fun applyLoadedBitmap(bitmap: Bitmap) {
         removeProgressDrawable()
-        if (adjustViewBoundsForDownscalingOnly) {
+        if (context.getPrefs().getBoolean(PrefKeys.IMAGE_UPSCALING, true)) {
+            adjustViewBounds = true
+        } else if (adjustViewBoundsForDownscalingOnly) {
             // Make sure that view only shrinks to accommodate bitmap size, but doesn't enlarge ... that is,
             // adjust view bounds only if width is larger than target size or height is larger than the maximum height
             adjustViewBounds = bitmap.width > targetImageSize || maxHeight < bitmap.height

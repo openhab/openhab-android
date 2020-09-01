@@ -59,6 +59,11 @@
             android:key="default_openhab_chart_hq"
             android:summary="@string/settings_openhab_chart_hq_summary"
             android:title="@string/settings_openhab_chart_hq" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="image_scaling"
+            android:title="@string/settings_image_upscaling_title"
+            android:summary="@string/settings_image_upscaling_summary" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference

@@ -55,6 +55,8 @@
     <string name="settings_chart_scaling_value_l">Large</string>
     <string name="settings_openhab_chart_hq">High resolution charts</string>
     <string name="settings_openhab_chart_hq_summary">Generating charts can be taxing to the server. If you experience slow chart loading times and your server isn\'t powerful, disable this option to improve loading times.</string>
+    <string name="settings_image_upscaling_title">Image upscaling</string>
+    <string name="settings_image_upscaling_summary">Increase image size to fill up the available space</string>
     <string name="settings_clear_default_sitemap">Clear default Sitemap</string>
     <string name="settings_no_default_sitemap">No default Sitemap selected</string>
     <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>

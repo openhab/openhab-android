@@ -34,6 +34,7 @@ object PrefKeys {
     const val CLEAR_CACHE = "default_openhab_cleacache"
     const val CHART_SCALING = "chartScalingFactor"
     const val CHART_HQ = "default_openhab_chart_hq"
+    const val IMAGE_UPSCALING = "image_scaling"
 
     const val THEME = "theme"
     const val ACCENT_COLOR = "theme_color"
