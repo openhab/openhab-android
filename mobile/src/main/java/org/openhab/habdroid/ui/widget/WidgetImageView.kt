@@ -195,7 +195,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
 
         if (cached != null) {
             applyLoadedBitmap(cached)
-        } else if (lastRequest?.statelessUrlEquals(url) != true) {
+        } else if (progressDrawable != null || lastRequest?.statelessUrlEquals(url) != true) {
             applyProgressDrawable()
         }
 
