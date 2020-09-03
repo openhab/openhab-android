@@ -1331,13 +1331,12 @@ class WidgetAdapter(
 
             // hide dividers before and after frame widgets
             val adapter = parent.adapter
-            val noDividerTypes = intArrayOf(TYPE_FRAME, TYPE_INVISIBLE)
             if (adapter != null) {
-                if (adapter.getItemViewType(position) in noDividerTypes) {
+                if (adapter.getItemViewType(position) == TYPE_FRAME) {
                     return true
                 }
                 if (position < adapter.itemCount - 1) {
-                    if (adapter.getItemViewType(position + 1) in noDividerTypes) {
+                    if (adapter.getItemViewType(position + 1) in intArrayOf(TYPE_FRAME, TYPE_INVISIBLE)) {
                         return true
                     }
                 }
