@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -28,8 +29,7 @@ import kotlinx.coroutines.launch
 
 class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSet?) :
     AppCompatImageButton(context, attrs),
-    View.OnLongClickListener,
-    View.OnTouchListener {
+    View.OnLongClickListener {
     private var scope: CoroutineScope? = null
     private var periodicCallbackExecutor: Job? = null
 
@@ -39,7 +39,6 @@ class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSe
 
     init {
         setOnLongClickListener(this)
-        setOnTouchListener(this)
     }
 
     @CallSuper
@@ -48,9 +47,9 @@ class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSe
         return true
     }
 
-    @CallSuper
-    override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if (event.actionMasked == MotionEvent.ACTION_UP) {
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event?.actionMasked == MotionEvent.ACTION_UP) {
             if (periodicCallbackExecutor == null) {
                 callback?.invoke(this@PeriodicSignalImageButton, clickCommand)
             } else {
@@ -58,7 +57,7 @@ class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSe
                 periodicCallbackExecutor = null
             }
         }
-        return false
+        return super.onTouchEvent(event)
     }
 
     private fun scheduleNextSignal() {

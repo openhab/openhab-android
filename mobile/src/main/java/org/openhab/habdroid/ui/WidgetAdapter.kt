@@ -70,6 +70,11 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
+import java.io.IOException
+import java.util.HashMap
+import java.util.Locale
+import kotlin.math.abs
+import kotlin.math.roundToInt
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -93,11 +98,6 @@ import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
-import java.io.IOException
-import java.util.HashMap
-import java.util.Locale
-import kotlin.math.abs
-import kotlin.math.roundToInt
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -1134,7 +1134,7 @@ class WidgetAdapter(
                 val button = itemView.findViewById<PeriodicSignalImageButton>(id)
                 button.clickCommand = clickCommand
                 button.longClickHoldCommand = longClickHoldCommand
-                button.callback = fun (_: View, value: String?) {
+                button.callback = { _, value: String? ->
                     value?.let { connection.httpClient.sendItemCommand(boundItem, value) }
                 }
             }
