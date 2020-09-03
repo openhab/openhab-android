@@ -74,10 +74,10 @@ class OpenHabApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        RemoteLog.initialize()
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))
         ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
-        RemoteLog.initialize(this)
 
         dataSaverChangeListener?.let { listener ->
             registerReceiver(listener, IntentFilter(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED))
