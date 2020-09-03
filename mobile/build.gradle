@@ -17,7 +17,7 @@ buildscript {
     }
     dependencies {
         classpath "com.google.gms:google-services:4.3.3"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:2.2.0"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:2.2.1"
         classpath 'de.mobilej.unmock:UnMockPlugin:0.7.6'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$about_libraries_version"
     }
