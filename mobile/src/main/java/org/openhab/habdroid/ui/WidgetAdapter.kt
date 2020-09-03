@@ -1340,11 +1340,6 @@ class WidgetAdapter(
                         return true
                     }
                 }
-                if (adapter.getItemViewType(position) == TYPE_INVISIBLE &&
-                    adapter.getItemViewType(position + 1) == TYPE_INVISIBLE
-                ) {
-                    return true
-                }
             }
 
             return false
