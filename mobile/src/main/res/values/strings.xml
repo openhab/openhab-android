@@ -297,6 +297,10 @@
     <string name="item_update_http_error_label">%1$s update failed: %2$s</string>
     <string name="item_update_connection_error">Item \'%1$s\' update failed (No connection)</string>
     <string name="item_update_connection_error_label">%1$s update failed (No connection)</string>
+    <string name="item_update_short_status_waiting">Waiting…</string>
+    <string name="item_update_short_status_sending">Sending…</string>
+    <string name="item_update_short_status_failed">Failed</string>
+    <string name="item_update_short_status_succeeded">Succeeded</string>
     <string name="error_no_valid_item_name">Please enter a valid Item name</string>
     <string name="retry">Retry</string>
     <string name="ignore">Ignore</string>
