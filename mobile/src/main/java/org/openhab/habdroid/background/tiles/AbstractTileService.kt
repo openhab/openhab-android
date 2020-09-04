@@ -116,7 +116,7 @@ abstract class AbstractTileService : TileService() {
             context.getString(R.string.tile_icon_microphone_value) -> R.drawable.ic_microphone_outline_white_24dp
             context.getString(R.string.tile_icon_power_plug_value) -> R.drawable.ic_power_plug_outline_grey_24dp
             context.getString(R.string.tile_icon_color_palette_value) -> R.drawable.ic_palette_outline_grey_24dp
-            context.getString(R.string.tile_icon_switch_value) -> R.drawable.ic_baseline_power_settings_new_black_24dp
+            context.getString(R.string.tile_icon_switch_value) -> R.drawable.ic_power_settings_black_24dp
             context.getString(R.string.tile_icon_earth_value) -> R.drawable.ic_earth_grey_24dp
             context.getString(R.string.tile_icon_star_value) -> R.drawable.ic_star_border_grey_24dp
             context.getString(R.string.tile_icon_clock_value) -> R.drawable.ic_access_time_white_24dp

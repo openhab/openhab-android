@@ -19,6 +19,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.mapString
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
@@ -33,7 +34,8 @@ data class Item internal constructor(
     val readOnly: Boolean,
     val members: List<Item>,
     val options: List<LabeledValue>?,
-    val state: ParsedState?
+    val state: ParsedState?,
+    val tags: Array<Tag>
 ) : Parcelable {
     enum class Type {
         None,
@@ -52,6 +54,19 @@ data class Item internal constructor(
         Switch
     }
 
+    enum class Tag {
+        Lighting,
+        Switchable,
+        ContactSensor,
+        CurrentTemperature,
+        CurrentHumidity,
+        Thermostat,
+        HeatingCoolingMode,
+        TargetTemperature,
+        Blind,
+        Unknown
+    }
+
     fun isOfTypeOrGroupType(type: Type): Boolean {
         return this.type == type || groupType == type
     }
@@ -65,6 +80,42 @@ data class Item internal constructor(
             isOfTypeOrGroupType(Type.Player)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Item
+
+        if (name != other.name) return false
+        if (label != other.label) return false
+        if (category != other.category) return false
+        if (type != other.type) return false
+        if (groupType != other.groupType) return false
+        if (link != other.link) return false
+        if (readOnly != other.readOnly) return false
+        if (members != other.members) return false
+        if (options != other.options) return false
+        if (state != other.state) return false
+        if (!tags.contentEquals(other.tags)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + (label?.hashCode() ?: 0)
+        result = 31 * result + (category?.hashCode() ?: 0)
+        result = 31 * result + type.hashCode()
+        result = 31 * result + (groupType?.hashCode() ?: 0)
+        result = 31 * result + (link?.hashCode() ?: 0)
+        result = 31 * result + readOnly.hashCode()
+        result = 31 * result + members.hashCode()
+        result = 31 * result + (options?.hashCode() ?: 0)
+        result = 31 * result + (state?.hashCode() ?: 0)
+        result = 31 * result + tags.contentHashCode()
+        return result
+    }
+
     companion object {
         @Throws(JSONException::class)
         fun updateFromEvent(item: Item?, jsonObject: JSONObject?): Item? {
@@ -74,9 +125,19 @@ data class Item internal constructor(
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
             val link = item?.link ?: parsedItem.link
-            return Item(parsedItem.name, parsedItem.label?.trim(), parsedItem.category, parsedItem.type,
-                parsedItem.groupType, link, parsedItem.readOnly, parsedItem.members,
-                parsedItem.options, parsedItem.state)
+            return Item(
+                parsedItem.name,
+                parsedItem.label?.trim(),
+                parsedItem.category,
+                parsedItem.type,
+                parsedItem.groupType,
+                link,
+                parsedItem.readOnly,
+                parsedItem.members,
+                parsedItem.options,
+                parsedItem.state,
+                parsedItem.tags
+            )
         }
     }
 }
@@ -102,8 +163,19 @@ fun Node.toItem(): Item? {
         state = null
     }
 
-    return Item(finalName, finalName.trim(), null, type, groupType, link, false,
-        emptyList(), null, state.toParsedState())
+    return Item(
+        finalName,
+        finalName.trim(),
+        null,
+        type,
+        groupType,
+        link,
+        false,
+        emptyList(),
+        null,
+        state.toParsedState(),
+        emptyArray()
+    )
 }
 
 @Throws(JSONException::class)
@@ -138,7 +210,17 @@ fun JSONObject.toItem(): Item {
             pattern
         }
     }
-    return Item(name,
+
+    val tags = if (has("tags")) {
+        getJSONArray("tags")
+            .mapString { it.toItemTag() }
+            .toTypedArray()
+    } else {
+        emptyArray()
+    }
+
+    return Item(
+        name,
         optString("label", name).trim(),
         optStringOrNull("category"),
         getString("type").toItemType(),
@@ -147,7 +229,9 @@ fun JSONObject.toItem(): Item {
         readOnly,
         members,
         options,
-        state.toParsedState(numberPattern))
+        state.toParsedState(numberPattern),
+        tags
+    )
 }
 
 fun String?.toItemType(): Item.Type {
@@ -173,5 +257,20 @@ fun String?.toItemType(): Item.Type {
         Item.Type.valueOf(type)
     } catch (e: IllegalArgumentException) {
         Item.Type.None
+    }
+}
+
+fun String?.toItemTag(): Item.Tag {
+    return when (this) {
+        "Lighting" -> Item.Tag.Lighting
+        "Switchable" -> Item.Tag.Switchable
+        "ContactSensor" -> Item.Tag.ContactSensor
+        "CurrentTemperature" -> Item.Tag.CurrentTemperature
+        "CurrentHumidity" -> Item.Tag.CurrentHumidity
+        "Thermostat" -> Item.Tag.Thermostat
+        "homekit:HeatingCoolingMode", "homekit:TargetHeatingCoolingMode" -> Item.Tag.HeatingCoolingMode
+        "homekit:TargetTemperature", "TargetTemperature" -> Item.Tag.TargetTemperature
+        "WindowCovering" -> Item.Tag.Blind
+        else -> Item.Tag.Unknown
     }
 }
