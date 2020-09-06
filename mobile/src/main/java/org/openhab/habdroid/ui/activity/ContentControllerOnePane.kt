@@ -24,6 +24,10 @@ class ContentControllerOnePane(activity: MainActivity) : ContentController(activ
     override val fragmentForTitle get() = if (pageStack.empty()) sitemapFragment else pageStack.peek().second
 
     override fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean) {
+        if (fm.isDestroyed) {
+            return
+        }
+
         val fragment = when {
             overridingFragment != null -> overridingFragment
             !pageStack.isEmpty() -> pageStack.peek().second
