@@ -53,7 +53,6 @@ import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.forEachIndexed
 import androidx.work.WorkManager
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-import java.lang.IllegalArgumentException
 import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -462,7 +461,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         parentActivity.openSubScreen(ServerEditorFragment.newInstance(config))
                         true
                     }
-                    pref.icon = if (serverId == prefs.getPrimaryServerId()) {
+                    pref.icon = if (serverId == prefs.getPrimaryServerId() && prefs.getConfiguredServerIds().size > 1) {
                         ContextCompat.getDrawable(pref.context, R.drawable.ic_star_border_grey_24dp)
                     } else {
                         null
