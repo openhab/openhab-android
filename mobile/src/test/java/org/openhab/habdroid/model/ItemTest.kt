@@ -15,12 +15,11 @@ package org.openhab.habdroid.model
 
 import org.json.JSONException
 import org.json.JSONObject
-import org.junit.Test
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
+import org.junit.Test
 
 class ItemTest {
     @Test
@@ -95,16 +94,49 @@ class ItemTest {
 
     @Test
     fun getMembers() {
-        val sut = JSONObject("""
+        val sut = itemAsJsonObject.toItem()
+        assertEquals(2, sut.members.size)
+        assertEquals(Item.Type.Location, sut.members[0].type)
+        assertEquals(Item.Type.Location, sut.members[1].type)
+        assertEquals("Location 1", sut.members[0].label)
+        assertEquals("Location 2", sut.members[1].label)
+    }
+
+    @Test
+    fun getTags() {
+        val sut = itemAsJsonObject.toItem()
+        assertEquals(2, sut.tags.size)
+        assertEquals(Item.Tag.Lighting, sut.tags[0])
+        assertEquals(Item.Tag.Switchable, sut.tags[1])
+    }
+
+    @Test
+    fun testEquals() {
+        val sut1 = itemAsJsonObject.toItem()
+        val sut2 = itemAsJsonObject.toItem()
+        assertEquals(sut1, sut2)
+        assertEquals(sut1, sut1)
+        assertEquals(sut1, null)
+    }
+
+    @Test
+    fun testHashCode() {
+        val sut1 = itemAsJsonObject.toItem()
+        val sut2 = itemAsJsonObject.toItem()
+        assertEquals(sut1.hashCode(), sut2.hashCode())
+    }
+
+    companion object {
+        private val itemAsJsonObject = JSONObject(
+            """
             { 'members': [
             { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
               'label': 'Location 1', 'groupNames': [ 'LocationGroup' ] },
             { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
               'label': 'Location 2', 'groupNames': [ 'LocationGroup' ] },
-            ], 'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group' }
-            """.trimIndent()).toItem()
-        assertEquals(2, sut.members.size)
-        assertEquals(Item.Type.Location, sut.members[0].type)
-        assertEquals("Location 2", sut.members[1].label)
+            ], 'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group',
+                'tags': [ "Lighting", "Switchable" ] }
+            """.trimIndent()
+        )
     }
 }
