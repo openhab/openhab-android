@@ -21,6 +21,16 @@ import android.security.KeyChainException
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import de.duenndns.ssl.MemorizingTrustManager
+import java.net.Socket
+import java.security.Principal
+import java.security.PrivateKey
+import java.security.cert.X509Certificate
+import java.util.HashSet
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.KeyManager
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509KeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -44,16 +54,6 @@ import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
-import java.net.Socket
-import java.security.Principal
-import java.security.PrivateKey
-import java.security.cert.X509Certificate
-import java.util.HashSet
-import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.KeyManager
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509KeyManager
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -161,8 +161,10 @@ class ConnectionFactory internal constructor(
                 // changed since we went to background
                 val (_, active, _, _) = stateChannel.value
                 val local = active?.connection === activeConn?.local ||
-                    (active?.failureReason is NoUrlInformationException &&
-                        active.failureReason.wouldHaveUsedLocalConnection())
+                    (
+                        active?.failureReason is NoUrlInformationException &&
+                            active.failureReason.wouldHaveUsedLocalConnection()
+                        )
                 if (local) {
                     triggerConnectionUpdateIfNeeded()
                 }
