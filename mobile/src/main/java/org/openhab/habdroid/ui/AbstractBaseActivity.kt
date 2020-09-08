@@ -173,20 +173,20 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     internal fun showSnackbar(
-        @StringRes messageResId: Int,
-        @StringRes actionResId: Int = 0,
         tag: String,
+        @StringRes messageResId: Int,
         @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
+        @StringRes actionResId: Int = 0,
         onClickListener: (() -> Unit)? = null
     ) {
-        showSnackbar(getString(messageResId), actionResId, tag, duration, onClickListener)
+        showSnackbar(tag, getString(messageResId), duration, actionResId, onClickListener)
     }
 
     protected fun showSnackbar(
-        messageResId: String,
-        @StringRes actionResId: Int = 0,
         tag: String,
+        message: String,
         @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
+        @StringRes actionResId: Int = 0,
         onClickListener: (() -> Unit)? = null
     ) {
         fun showNextSnackbar() {
@@ -203,7 +203,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             throw IllegalArgumentException("Tag is empty")
         }
 
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, duration)
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }

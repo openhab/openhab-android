@@ -73,7 +73,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                 startActivity(sendIntent)
             } catch (e: RuntimeException) {
                 Log.d(TAG, "Log too large to share", e)
-                showSnackbar(R.string.log_too_large_to_share, tag = TAG_SNACKBAR_LOG_TOO_LARGE)
+                showSnackbar(TAG_SNACKBAR_LOG_TOO_LARGE, R.string.log_too_large_to_share)
             }
         }
 

@@ -55,6 +55,7 @@ import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.ui.AbstractBaseActivity.Companion.TAG_SNACKBAR_SHORTCUT_INFO
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
@@ -478,9 +479,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         } else {
             activity?.findViewById<View>(android.R.id.content)?.let {
                 (activity as? AbstractBaseActivity)?.showSnackbar(
+                    TAG_SNACKBAR_SHORTCUT_INFO,
                     R.string.create_home_screen_widget_not_supported,
-                    tag = AbstractBaseActivity.TAG_SNACKBAR_SHORTCUT_INFO,
-                    duration = Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_LONG
                 )
             }
         }
@@ -550,15 +551,15 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         withContext(Dispatchers.Main) {
             if (success) {
                 (activity as? AbstractBaseActivity)?.showSnackbar(
+                    TAG_SNACKBAR_SHORTCUT_INFO,
                     R.string.home_shortcut_success_pinning,
-                    tag = AbstractBaseActivity.TAG_SNACKBAR_SHORTCUT_INFO,
-                    duration = Snackbar.LENGTH_SHORT
+                    Snackbar.LENGTH_SHORT
                 )
             } else {
                 (activity as? AbstractBaseActivity)?.showSnackbar(
+                    TAG_SNACKBAR_SHORTCUT_INFO,
                     R.string.home_shortcut_error_pinning,
-                    tag = AbstractBaseActivity.TAG_SNACKBAR_SHORTCUT_INFO,
-                    duration = Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_LONG
                 )
             }
         }

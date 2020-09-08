@@ -69,9 +69,9 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
             KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) }, keyTypes, null, null, -1, null)
         } catch (e: ActivityNotFoundException) {
             (getActivity() as AbstractBaseActivity).showSnackbar(
+                TAG_SNACKBAR_CLIENT_SSL_NOT_SUPPORTED,
                 R.string.settings_openhab_sslclientcert_not_supported,
-                tag = TAG_SNACKBAR_CLIENT_SSL_NOT_SUPPORTED,
-                duration = Snackbar.LENGTH_LONG
+                Snackbar.LENGTH_LONG
             )
         }
     }

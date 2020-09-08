@@ -247,10 +247,10 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
             if (connection is DemoConnection) {
                 showSnackbar(
-                    R.string.info_demo_mode_short,
-                    R.string.turn_off,
                     TAG_SNACKBAR_DEMO_MODE_ACTIVE,
-                    Snackbar.LENGTH_INDEFINITE
+                    R.string.info_demo_mode_short,
+                    Snackbar.LENGTH_INDEFINITE,
+                    R.string.turn_off
                 ) {
                     getPrefs().edit {
                         putBoolean(PrefKeys.DEMO_MODE, false)

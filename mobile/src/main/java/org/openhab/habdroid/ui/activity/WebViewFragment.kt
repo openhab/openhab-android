@@ -148,15 +148,15 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         withContext(Dispatchers.Main) {
             if (success) {
                 (activity as? AbstractBaseActivity)?.showSnackbar(
+                    TAG_SNACKBAR_SHORTCUT_INFO,
                     R.string.home_shortcut_success_pinning,
-                    tag = TAG_SNACKBAR_SHORTCUT_INFO,
-                    duration = Snackbar.LENGTH_SHORT
+                    Snackbar.LENGTH_SHORT
                 )
             } else {
                 (activity as? AbstractBaseActivity)?.showSnackbar(
+                    TAG_SNACKBAR_SHORTCUT_INFO,
                     R.string.home_shortcut_error_pinning,
-                    tag = TAG_SNACKBAR_SHORTCUT_INFO,
-                    duration = Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_LONG
                 )
             }
         }
