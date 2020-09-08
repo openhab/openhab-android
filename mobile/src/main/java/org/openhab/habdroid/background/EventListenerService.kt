@@ -64,8 +64,8 @@ class EventListenerService : Service() {
                 getPrefs().isItemUpdatePrefEnabled(PrefKeys.SEND_DND_MODE) -> {
                 getString(R.string.send_device_info_foreground_service_running_summary_dnd)
             }
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.O -> null
-            titlesOfItems.isEmpty() -> null
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.O -> ""
+            titlesOfItems.isEmpty() -> ""
             titlesOfItems.size == 1 -> {
                 getString(R.string.send_device_info_foreground_service_running_summary_one, titlesOfItems[0])
             }
