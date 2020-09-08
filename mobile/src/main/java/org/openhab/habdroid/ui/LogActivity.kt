@@ -25,7 +25,6 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlinx.coroutines.Dispatchers
@@ -74,8 +73,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                 startActivity(sendIntent)
             } catch (e: RuntimeException) {
                 Log.d(TAG, "Log too large to share", e)
-                Snackbar.make(findViewById(android.R.id.content), R.string.log_too_large_to_share, Snackbar.LENGTH_LONG)
-                    .show()
+                showSnackbar(R.string.log_too_large_to_share, tag = TAG_SNACKBAR_LOG_TOO_LARGE)
             }
         }
 

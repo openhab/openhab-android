@@ -44,6 +44,8 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.ui.AbstractBaseActivity
+import org.openhab.habdroid.ui.AbstractBaseActivity.Companion.TAG_SNACKBAR_SHORTCUT_INFO
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
@@ -145,21 +147,17 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         val success = ShortcutManagerCompat.requestPinShortcut(context, info, null)
         withContext(Dispatchers.Main) {
             if (success) {
-                activity?.findViewById<View>(android.R.id.content)?.let {
-                    Snackbar.make(
-                        it,
-                        R.string.home_shortcut_success_pinning,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+                (activity as? AbstractBaseActivity)?.showSnackbar(
+                    R.string.home_shortcut_success_pinning,
+                    tag = TAG_SNACKBAR_SHORTCUT_INFO,
+                    duration = Snackbar.LENGTH_SHORT
+                )
             } else {
-                activity?.findViewById<View>(android.R.id.content)?.let {
-                    Snackbar.make(
-                        it,
-                        R.string.home_shortcut_error_pinning,
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
+                (activity as? AbstractBaseActivity)?.showSnackbar(
+                    R.string.home_shortcut_error_pinning,
+                    tag = TAG_SNACKBAR_SHORTCUT_INFO,
+                    duration = Snackbar.LENGTH_LONG
+                )
             }
         }
     }

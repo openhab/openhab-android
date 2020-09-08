@@ -20,16 +20,21 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,13 +46,15 @@ import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
 import org.openhab.habdroid.util.resolveThemedColor
-import kotlin.coroutines.CoroutineContext
 
 abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     protected open val forceNonFullscreen = false
     private var authPrompt: AuthPrompt? = null
+    protected var lastSnackbar: Snackbar? = null
+        private set
+    private var snackbarQueue = mutableListOf<Snackbar>()
 
     protected val isFullscreenEnabled: Boolean
         get() = getPrefs().getBoolean(PrefKeys.FULLSCREEN, false)
@@ -165,6 +172,71 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    internal fun showSnackbar(
+        @StringRes messageResId: Int,
+        @StringRes actionResId: Int = 0,
+        tag: String,
+        @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
+        onClickListener: (() -> Unit)? = null
+    ) {
+        showSnackbar(getString(messageResId), actionResId, tag, duration, onClickListener)
+    }
+
+    protected fun showSnackbar(
+        messageResId: String,
+        @StringRes actionResId: Int = 0,
+        tag: String,
+        @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
+        onClickListener: (() -> Unit)? = null
+    ) {
+        fun showNextSnackbar() {
+            if (lastSnackbar?.isShown == true || snackbarQueue.isEmpty()) {
+                Log.d(TAG, "No next snackbar to show")
+                return
+            }
+            val nextSnackbar = snackbarQueue.removeAt(0)
+            nextSnackbar.show()
+            lastSnackbar = nextSnackbar
+        }
+
+        if (tag.isEmpty()) {
+            throw IllegalArgumentException("Tag is empty")
+        }
+
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, duration)
+        if (actionResId != 0 && onClickListener != null) {
+            snackbar.setAction(actionResId) { onClickListener() }
+        }
+        snackbar.view.tag = tag
+        snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            override fun onShown(transientBottomBar: Snackbar?) {
+                super.onShown(transientBottomBar)
+                Log.d(TAG, "Show snackbar with tag $tag")
+            }
+
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                showNextSnackbar()
+            }
+        })
+        hideSnackbar(tag)
+        Log.d(TAG, "Queue snackbar with tag $tag")
+        snackbarQueue.add(snackbar)
+        showNextSnackbar()
+    }
+
+    protected fun hideSnackbar(tag: String) {
+        snackbarQueue.firstOrNull { it.view.tag == tag }?.let { snackbar ->
+            Log.d(TAG, "Remove snackbar with tag $tag from queue")
+            snackbarQueue.remove(snackbar)
+        }
+        if (lastSnackbar?.view?.tag == tag) {
+            Log.d(TAG, "Hide snackbar with tag $tag")
+            lastSnackbar?.dismiss()
+            lastSnackbar = null
+        }
+    }
+
     private fun promptForDevicePassword() {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
         val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
@@ -230,7 +302,25 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     companion object {
+        private val TAG = AbstractBaseActivity::class.java.simpleName
         private const val AUTHENTICATION_VALIDITY_PERIOD = 2 * 60 * 1000L
+
+        const val TAG_SNACKBAR_SSE_ERROR = "sseError"
+        const val TAG_SNACKBAR_PRESS_AGAIN_EXIT = "pressAgainToExit"
+        const val TAG_SNACKBAR_CONNECTION_ESTABLISHED = "connectionEstablished"
+        const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
+        const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
+        const val TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"
+        const val TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_WIFI = "bgTasksPermissionDeclinedWifi"
+        const val TAG_SNACKBAR_DEMO_MODE_ACTIVE = "demoModeActive"
+        const val TAG_SNACKBAR_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
+        const val TAG_SNACKBAR_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
+        const val TAG_SNACKBAR_DATA_SAVER_ON = "dataSaverOn"
+        const val TAG_SNACKBAR_PUSH_NOTIFICATION_FAIL = "pushNotificationFail"
+        const val TAG_SNACKBAR_LOG_TOO_LARGE = "logTooLargeToShare"
+        const val TAG_SNACKBAR_SHORTCUT_INFO = "shortcutInfo"
+        const val TAG_SNACKBAR_ERROR_SAVING_TILE = "errorSavingTile"
+        const val TAG_SNACKBAR_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
 
         var lastAuthenticationTimestamp = 0L
     }

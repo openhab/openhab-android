@@ -61,7 +61,6 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import java.nio.charset.Charset
 import java.util.concurrent.CancellationException
@@ -143,8 +142,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private set
     private var progressBar: ContentLoadingProgressBar? = null
     private var sitemapSelectionDialog: AlertDialog? = null
-    private var lastSnackbar: Snackbar? = null
-    private var snackbarQueue = mutableListOf<Snackbar>()
     var connection: Connection? = null
         private set
 
@@ -1092,67 +1089,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    internal fun showSnackbar(
-        @StringRes messageResId: Int,
-        @StringRes actionResId: Int = 0,
-        tag: String,
-        @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
-        onClickListener: (() -> Unit)? = null
-    ) {
-        showSnackbar(getString(messageResId), actionResId, tag, duration, onClickListener)
-    }
-
-    private fun showSnackbar(
-        messageResId: String,
-        @StringRes actionResId: Int = 0,
-        tag: String,
-        @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
-        onClickListener: (() -> Unit)? = null
-    ) {
-        fun showNextSnackbar() {
-            if (lastSnackbar?.isShown == true || snackbarQueue.isEmpty()) {
-                Log.d(TAG, "No next snackbar to show")
-                return
-            }
-            val nextSnackbar = snackbarQueue.removeAt(0)
-            nextSnackbar.show()
-            lastSnackbar = nextSnackbar
-        }
-
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, duration)
-        if (actionResId != 0 && onClickListener != null) {
-            snackbar.setAction(actionResId) { onClickListener() }
-        }
-        snackbar.view.tag = tag
-        snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-            override fun onShown(transientBottomBar: Snackbar?) {
-                super.onShown(transientBottomBar)
-                Log.d(TAG, "Show snackbar with tag $tag")
-            }
-
-            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                super.onDismissed(transientBottomBar, event)
-                showNextSnackbar()
-            }
-        })
-        hideSnackbar(tag)
-        Log.d(TAG, "Queue snackbar with tag $tag")
-        snackbarQueue.add(snackbar)
-        showNextSnackbar()
-    }
-
-    private fun hideSnackbar(tag: String) {
-        snackbarQueue.firstOrNull { it.view.tag == tag }?.let { snackbar ->
-            Log.d(TAG, "Remove snackbar with tag $tag from queue")
-            snackbarQueue.remove(snackbar)
-        }
-        if (lastSnackbar?.view?.tag == tag) {
-            Log.d(TAG, "Hide snackbar with tag $tag")
-            lastSnackbar?.dismiss()
-            lastSnackbar = null
-        }
-    }
-
     private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
         Log.e(TAG, "Error: $error", error)
         Log.e(TAG, "HTTP status code: $statusCode")
@@ -1315,16 +1251,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val EXTRA_SITEMAP_URL = "sitemapUrl"
         const val EXTRA_SERVER_ID = "serverId"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
-        private const val TAG_SNACKBAR_PRESS_AGAIN_EXIT = "pressAgainToExit"
-        private const val TAG_SNACKBAR_CONNECTION_ESTABLISHED = "connectionEstablished"
-        const val TAG_SNACKBAR_SSE_ERROR = "sseError"
-        private const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
-        private const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
-        private const val TAG_SNACKBAR_DEMO_MODE_ACTIVE = "demoModeActive"
-        private const val TAG_SNACKBAR_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
-        private const val TAG_SNACKBAR_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
-        private const val TAG_SNACKBAR_DATA_SAVER_ON = "dataSaverOn"
-        private const val TAG_SNACKBAR_PUSH_NOTIFICATION_FAIL = "pushNotificationFail"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"

@@ -30,7 +30,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
@@ -1112,21 +1111,20 @@ class PreferencesActivity : AbstractBaseActivity() {
                             remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                         }.toTypedArray()
                     } else {
-                        val snackbar = Snackbar.make(
-                            parentActivity.findViewById<View>(android.R.id.content),
+                        parentActivity.showSnackbar(
                             getString(
                                 R.string.settings_background_tasks_permission_denied_background_location,
                                 parentActivity.packageManager.backgroundPermissionOptionLabel
                             ),
+                            android.R.string.ok,
+                            TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION,
                             Snackbar.LENGTH_LONG
-                        )
-                        snackbar.setAction(android.R.string.ok) {
+                        ) {
                             Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
                                 putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
                                 startActivity(this)
                             }
                         }
-                        snackbar.show()
                         return
                     }
                 }
@@ -1142,11 +1140,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (requestCode) {
                 PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        Snackbar.make(
-                            parentActivity.findViewById<View>(android.R.id.content),
+                        parentActivity.showSnackbar(
                             R.string.settings_phone_state_permission_denied,
-                            Snackbar.LENGTH_LONG
-                        ).show()
+                            tag = TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_PHONE
+                        )
                         phoneStatePref.setValue(checked = false)
                     } else {
                         BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
@@ -1154,11 +1151,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
                 PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        Snackbar.make(
-                            parentActivity.findViewById<View>(android.R.id.content),
+                        parentActivity.showSnackbar(
                             R.string.settings_wifi_ssid_permission_denied,
-                            Snackbar.LENGTH_LONG
-                        ).show()
+                            tag = TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_WIFI
+                        )
                         wifiSsidPref.setValue(checked = false)
                     } else {
                         BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
@@ -1264,11 +1260,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                         val requireUnlock = requireUnlockPref.isChecked
                         if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
                             tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()) {
-                            Snackbar.make(
-                                parentActivity.findViewById(android.R.id.content),
+                            parentActivity.showSnackbar(
                                 R.string.tile_error_saving,
-                                Snackbar.LENGTH_LONG
-                            ).show()
+                                tag = TAG_SNACKBAR_ERROR_SAVING_TILE,
+                                duration = Snackbar.LENGTH_LONG
+                            )
                             return true
                         }
                         TileData(itemName, state, label, tileLabel, mappedState, icon, requireUnlock)

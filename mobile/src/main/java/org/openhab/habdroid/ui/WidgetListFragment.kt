@@ -477,11 +477,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
             )
         } else {
             activity?.findViewById<View>(android.R.id.content)?.let {
-                Snackbar.make(
-                    it,
+                (activity as? AbstractBaseActivity)?.showSnackbar(
                     R.string.create_home_screen_widget_not_supported,
-                    Snackbar.LENGTH_LONG
-                ).show()
+                    tag = AbstractBaseActivity.TAG_SNACKBAR_SHORTCUT_INFO,
+                    duration = Snackbar.LENGTH_LONG
+                )
             }
         }
     }
@@ -549,21 +549,17 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         withContext(Dispatchers.Main) {
             if (success) {
-                activity?.findViewById<View>(android.R.id.content)?.let {
-                    Snackbar.make(
-                        it,
-                        R.string.home_shortcut_success_pinning,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+                (activity as? AbstractBaseActivity)?.showSnackbar(
+                    R.string.home_shortcut_success_pinning,
+                    tag = AbstractBaseActivity.TAG_SNACKBAR_SHORTCUT_INFO,
+                    duration = Snackbar.LENGTH_SHORT
+                )
             } else {
-                activity?.findViewById<View>(android.R.id.content)?.let {
-                    Snackbar.make(
-                        it,
-                        R.string.home_shortcut_error_pinning,
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
+                (activity as? AbstractBaseActivity)?.showSnackbar(
+                    R.string.home_shortcut_error_pinning,
+                    tag = AbstractBaseActivity.TAG_SNACKBAR_SHORTCUT_INFO,
+                    duration = Snackbar.LENGTH_LONG
+                )
             }
         }
     }

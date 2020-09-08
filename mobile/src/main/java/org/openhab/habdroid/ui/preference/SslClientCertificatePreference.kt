@@ -31,6 +31,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.AbstractBaseActivity
+import org.openhab.habdroid.ui.AbstractBaseActivity.Companion.TAG_SNACKBAR_CLIENT_SSL_NOT_SUPPORTED
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 
@@ -66,11 +68,11 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         try {
             KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) }, keyTypes, null, null, -1, null)
         } catch (e: ActivityNotFoundException) {
-            Snackbar.make(
-                getActivity().findViewById(android.R.id.content),
+            (getActivity() as AbstractBaseActivity).showSnackbar(
                 R.string.settings_openhab_sslclientcert_not_supported,
-                Snackbar.LENGTH_LONG
-            ).show()
+                tag = TAG_SNACKBAR_CLIENT_SSL_NOT_SUPPORTED,
+                duration = Snackbar.LENGTH_LONG
+            )
         }
     }
 

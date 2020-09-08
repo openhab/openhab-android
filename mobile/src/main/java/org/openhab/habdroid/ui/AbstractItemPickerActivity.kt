@@ -246,18 +246,16 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             }
 
             if (connection is DemoConnection) {
-                Snackbar.make(
-                    findViewById(R.id.activity_content),
+                showSnackbar(
                     R.string.info_demo_mode_short,
+                    R.string.turn_off,
+                    TAG_SNACKBAR_DEMO_MODE_ACTIVE,
                     Snackbar.LENGTH_INDEFINITE
-                ).apply {
-                    setAction(R.string.turn_off) {
-                        getPrefs().edit {
-                            putBoolean(PrefKeys.DEMO_MODE, false)
-                        }
-                        loadItems()
+                ) {
+                    getPrefs().edit {
+                        putBoolean(PrefKeys.DEMO_MODE, false)
                     }
-                    show()
+                    loadItems()
                 }
             }
 

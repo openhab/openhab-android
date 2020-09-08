@@ -49,6 +49,7 @@ import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.ui.AbstractBaseActivity.Companion.TAG_SNACKBAR_SSE_ERROR
 import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.PreferencesActivity
@@ -476,7 +477,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     override fun onSseFailure() {
-        activity.showSnackbar(R.string.error_sse_failed, tag = MainActivity.TAG_SNACKBAR_SSE_ERROR)
+        activity.showSnackbar(R.string.error_sse_failed, tag = TAG_SNACKBAR_SSE_ERROR)
     }
 
     internal abstract fun executeStateUpdate(reason: FragmentUpdateReason)
