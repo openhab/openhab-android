@@ -1,0 +1,4 @@
+## Fixed
+* Fix crash "FragmentManager has been destroyed" (#2195)
+* Hide all connection related snackbars on connection change (#2196)
+* Show only successful work infos in item update pref summary (#2197)
