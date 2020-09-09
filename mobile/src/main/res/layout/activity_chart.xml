@@ -30,8 +30,7 @@
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            app:imageScalingType="scaleToFitWithViewAdjustment"
             app:progressIndicator="@drawable/ic_image_loading_themed"
             app:addRandomnessToUrl="true" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

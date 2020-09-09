@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/widgeticon"
         android:layout_width="@dimen/widgetlist_icon_size"
         android:layout_height="@dimen/widgetlist_icon_size"
         android:layout_gravity="center_vertical"
         android:padding="4dip"
-        android:scaleType="fitCenter" />
+        app:imageScalingType="scaleToFit" />
 
     <TextView
         android:id="@+id/widgetlabel"

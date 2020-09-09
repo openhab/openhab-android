@@ -17,7 +17,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_gravity="center_vertical"
-        android:scaleType="centerInside"
+        app:imageScalingType="noScaling"
         app:progressIndicator="@drawable/ic_openhab_appicon_24dp"
         app:fallback="@drawable/ic_openhab_appicon_24dp"
         tools:src="@drawable/ic_openhab_appicon_24dp" />

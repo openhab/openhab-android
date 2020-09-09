@@ -47,6 +47,9 @@
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
+    <string name="settings_image_widget_scaling">Scale images to fit screen</string>
+    <string name="settings_image_widget_scaling_summary_off">Keep \'Image\' widgets that are smaller than the screen width at their original size</string>
+    <string name="settings_image_widget_scaling_summary_on">Make sure \'Image\' widgets fit the screen width by scaling them up or down as appropriate</string>
     <string name="settings_chart_scaling">Chart scaling</string>
     <string name="settings_chart_scaling_summary">Note: Smaller scaling shrinks fonts and line widths, so there\'s more space for the graph, but font readability may suffer.</string>
     <string name="settings_chart_scaling_value_xs">Very small</string>

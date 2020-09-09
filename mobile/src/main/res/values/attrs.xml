@@ -11,7 +11,12 @@
         <attr name="progressIndicator" format="reference" />
         <attr name="emptyHeightToWidthRatio" format="fraction" />
         <attr name="addRandomnessToUrl" format="boolean" />
-        <attr name="adjustViewBoundsForDownscalingOnly" format="boolean" />
+        <attr name="imageScalingType" format="enum">
+            <enum name="noScaling" value="0" />
+            <enum name="scaleToFit" value="1" />
+            <enum name="scaleToFitWithViewAdjustment" value="2" />
+            <enum name="scaleToFitWithViewAdjustmentDownscaleOnly" value="3" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="ItemUpdatingPreference">
