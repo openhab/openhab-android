@@ -26,7 +26,6 @@ import android.service.quicksettings.TileService
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -51,22 +50,34 @@ import org.openhab.habdroid.util.getPrefs
 @RequiresApi(Build.VERSION_CODES.N)
 abstract class AbstractTileService : TileService() {
     @Suppress("PropertyName") @VisibleForTesting abstract val ID: Int
-    var subtitleUpdateJob: Job? = null
+    private var subtitleUpdateJob: Job? = null
+    private val lifeCycleOwner = object : LifecycleOwner {
+        private val lifecycleRegistry = LifecycleRegistry(this).apply {
+            handleLifecycleEvent(Lifecycle.Event.ON_START)
+        }
+
+        override fun getLifecycle(): Lifecycle {
+            return lifecycleRegistry
+        }
+
+        fun startListening() {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        }
+
+        fun stopListening() {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        }
+
+        fun destroy() {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        }
+    }
 
     override fun onStartListening() {
         Log.d(TAG, "onStartListening()")
         qsTile?.let { updateTile(it) }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val workManager = WorkManager.getInstance(applicationContext)
-            val lifeCycleOwner = object : LifecycleOwner {
-                private val lifecycleRegistry = LifecycleRegistry(this).apply {
-                    handleLifecycleEvent(Lifecycle.Event.ON_START)
-                }
-
-                override fun getLifecycle(): Lifecycle {
-                    return lifecycleRegistry
-                }
-            }
             val infoLiveData =
                 workManager.getWorkInfosByTagLiveData(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID + ID)
             infoLiveData.observe(lifeCycleOwner) {
@@ -88,10 +99,18 @@ abstract class AbstractTileService : TileService() {
         Log.d(TAG, "onTileRemoved()")
     }
 
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy()")
+        super.onDestroy()
+        lifeCycleOwner.stopListening()
+        lifeCycleOwner.destroy()
+    }
+
     override fun onClick() {
         Log.d(TAG, "onClick()")
         val data = getPrefs().getTileData(ID)
         if (data?.item?.isNotEmpty() == true && data.state.isNotEmpty()) {
+            lifeCycleOwner.startListening()
             if (data.requireUnlock && isLocked) {
                 unlockAndRun { BackgroundTasksManager.enqueueTileUpdate(this, data, ID) }
             } else {
@@ -129,19 +148,32 @@ abstract class AbstractTileService : TileService() {
         if (lastWorkInfoState?.isFinished == true && timestamp < System.currentTimeMillis() - 5 * 1000) {
             lastWorkInfoState = null
         }
-        @StringRes val statusRes = when (lastWorkInfoState) {
-            WorkInfo.State.ENQUEUED, WorkInfo.State.BLOCKED -> R.string.item_update_short_status_waiting
-            WorkInfo.State.RUNNING -> R.string.item_update_short_status_sending
-            WorkInfo.State.FAILED, WorkInfo.State.CANCELLED -> R.string.item_update_short_status_failed
-            WorkInfo.State.SUCCEEDED -> R.string.item_update_short_status_succeeded
-            null -> R.string.empty_string
+        var updateSubtitleLaterAgain = false
+        val statusRes = when (lastWorkInfoState) {
+            WorkInfo.State.ENQUEUED, WorkInfo.State.BLOCKED -> getString(R.string.item_update_short_status_waiting)
+            WorkInfo.State.RUNNING -> getString(R.string.item_update_short_status_sending)
+            WorkInfo.State.FAILED, WorkInfo.State.CANCELLED -> {
+                updateSubtitleLaterAgain = true
+                getString(R.string.item_update_short_status_failed)
+            }
+            WorkInfo.State.SUCCEEDED -> {
+                updateSubtitleLaterAgain = true
+                ItemUpdateWorker.getShortItemUpdateSuccessMessage(
+                    this,
+                    lastInfo?.outputData?.getString(ItemUpdateWorker.OUTPUT_DATA_SENT_VALUE).orEmpty()
+                )
+            }
+            null -> ""
         }
         qsTile?.apply {
-            subtitle = getString(statusRes)
+            subtitle = statusRes
             updateTile()
         }
+        if (statusRes.isEmpty()) {
+            lifeCycleOwner.stopListening()
+        }
         subtitleUpdateJob?.cancel()
-        if (statusRes != R.string.empty_string) {
+        if (updateSubtitleLaterAgain) {
             subtitleUpdateJob = GlobalScope.launch(Dispatchers.Main) {
                 delay(6 * 1000)
                 updateTileSubtitle()
