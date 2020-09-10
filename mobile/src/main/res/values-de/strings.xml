@@ -461,6 +461,7 @@
     <string name="data_saver_off_pre_n">Alle Sitemap-Elemente werden geladen, unabhängig ihrer Datennutzung</string>
     <string name="data_saver_load">Trotzdem laden</string>
     <string name="data_saver_hint">%s wurde nicht geladen um Daten einzusparen</string>
+    <string name="data_saver_snackbar">Icons basieren nicht auf Item-Zuständen, da der Datensparmodus aktiviert ist</string>
     <string name="widget_type_image">Bild</string>
     <string name="widget_type_webview">Webview</string>
     <string name="widget_type_video">Video</string>
