@@ -305,23 +305,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         private val TAG = AbstractBaseActivity::class.java.simpleName
         private const val AUTHENTICATION_VALIDITY_PERIOD = 2 * 60 * 1000L
 
-        const val TAG_SNACKBAR_SSE_ERROR = "sseError"
-        const val TAG_SNACKBAR_PRESS_AGAIN_EXIT = "pressAgainToExit"
-        const val TAG_SNACKBAR_CONNECTION_ESTABLISHED = "connectionEstablished"
-        const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
-        const val TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
-        const val TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"
-        const val TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_WIFI = "bgTasksPermissionDeclinedWifi"
-        const val TAG_SNACKBAR_DEMO_MODE_ACTIVE = "demoModeActive"
-        const val TAG_SNACKBAR_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
-        const val TAG_SNACKBAR_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
-        const val TAG_SNACKBAR_DATA_SAVER_ON = "dataSaverOn"
-        const val TAG_SNACKBAR_PUSH_NOTIFICATION_FAIL = "pushNotificationFail"
-        const val TAG_SNACKBAR_LOG_TOO_LARGE = "logTooLargeToShare"
-        const val TAG_SNACKBAR_SHORTCUT_INFO = "shortcutInfo"
-        const val TAG_SNACKBAR_ERROR_SAVING_TILE = "errorSavingTile"
-        const val TAG_SNACKBAR_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
-
         var lastAuthenticationTimestamp = 0L
     }
 }

@@ -1112,7 +1112,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         }.toTypedArray()
                     } else {
                         parentActivity.showSnackbar(
-                            TAG_SNACKBAR_BG_TASKS_MISSING_PERMISSION_LOCATION,
+                            SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION,
                             getString(
                                 R.string.settings_background_tasks_permission_denied_background_location,
                                 parentActivity.packageManager.backgroundPermissionOptionLabel
@@ -1141,7 +1141,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
                         parentActivity.showSnackbar(
-                            TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_PHONE,
+                            SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE,
                             R.string.settings_phone_state_permission_denied
                         )
                         phoneStatePref.setValue(checked = false)
@@ -1152,7 +1152,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
                         parentActivity.showSnackbar(
-                            TAG_SNACKBAR_BG_TASKS_PERMISSION_DECLINED_WIFI,
+                            SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI,
                             R.string.settings_wifi_ssid_permission_denied
                         )
                         wifiSsidPref.setValue(checked = false)
@@ -1261,7 +1261,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
                             tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()) {
                             parentActivity.showSnackbar(
-                                TAG_SNACKBAR_ERROR_SAVING_TILE,
+                                SNACKBAR_TAG_ERROR_SAVING_TILE,
                                 R.string.tile_error_saving,
                                 Snackbar.LENGTH_LONG
                             )
@@ -1408,6 +1408,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
         private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
         private const val RESULT_TILE_ITEM_PICKER = 0
+
+        internal const val SNACKBAR_TAG_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
+        internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"
+        internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI = "bgTasksPermissionDeclinedWifi"
+        internal const val SNACKBAR_TAG_ERROR_SAVING_TILE = "errorSavingTile"
+        internal const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }
