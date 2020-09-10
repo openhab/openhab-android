@@ -39,6 +39,9 @@
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
+    <string name="settings_image_widget_scaling">Escalar imágenes para que se ajusten al tamaño de la pantalla</string>
+    <string name="settings_image_widget_scaling_summary_off">Mantener el tamaño original de los widgets tipo \'Image\' que sean menores que el ancho de la pantalla</string>
+    <string name="settings_image_widget_scaling_summary_on">Asegurarse de que los widgets tipo \'Image\' se ajusten al ancho de pantalla, escalándolos si fuera necesario</string>
     <string name="settings_chart_scaling">Escala gráfica</string>
     <string name="settings_chart_scaling_summary">Nota: Una escala más pequeña reduce las fuentes y el ancho de línea, por lo que hay más espacio para el gráfico, pero la legibilidad de la fuente puede verse afectada.</string>
     <string name="settings_chart_scaling_value_xs">Muy pequeño</string>
