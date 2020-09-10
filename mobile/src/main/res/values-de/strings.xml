@@ -39,6 +39,9 @@
     <string name="settings_openhab_icon_format">Icon-Format</string>
     <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
     <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
+    <string name="settings_image_widget_scaling">Bilder skalieren um auf den Bildschirm zu passen</string>
+    <string name="settings_image_widget_scaling_summary_off">Behalte \'Image\' Widgets, die kleiner als die Breite des Bildschirms sind, in ihrer ursprünglichen Größe</string>
+    <string name="settings_image_widget_scaling_summary_on">Stelle sicher, dass \'Image\' Widgets auf den Bildschirms passen, indem Sie sie größer oder kleiner skaliert werden</string>
     <string name="settings_chart_scaling">Diagrammskalierung</string>
     <string name="settings_chart_scaling_summary">Hinweis: Kleinere Skalierungen verkleinern die Schrift- und Liniengröße, sodass mehr Platz für den Graphen entsteht. Allerdings könnte die Schrift schlechter lesbar sein.</string>
     <string name="settings_chart_scaling_value_xs">Sehr klein</string>
