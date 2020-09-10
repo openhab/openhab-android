@@ -104,22 +104,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
-        @Suppress("DEPRECATION")
-        fun setFullscreenPreR() {
-            var uiOptions = window.decorView.systemUiVisibility
-            val flags = (
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                )
-            uiOptions = if (isEnabled && !forceNonFullscreen) {
-                uiOptions or flags
-            } else {
-                uiOptions and flags.inv()
-            }
-            window.decorView.systemUiVisibility = uiOptions
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val insetsController = window.insetsController ?: return
             insetsController.systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -129,6 +113,22 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 insetsController.show(WindowInsets.Type.systemBars())
             }
         } else {
+            @Suppress("DEPRECATION")
+            fun setFullscreenPreR() {
+                var uiOptions = window.decorView.systemUiVisibility
+                val flags = (
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    )
+                uiOptions = if (isEnabled && !forceNonFullscreen) {
+                    uiOptions or flags
+                } else {
+                    uiOptions and flags.inv()
+                }
+                window.decorView.systemUiVisibility = uiOptions
+            }
+
             setFullscreenPreR()
         }
     }
@@ -156,19 +156,22 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             window.insetsController
                 ?.setSystemBarsAppearance(flags, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
         } else {
-            @Suppress("DEPRECATION") var uiOptions = window.decorView.systemUiVisibility
-            @Suppress("DEPRECATION") val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            } else {
-                0
-            }
-            uiOptions = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-                uiOptions and flags.inv()
-            } else {
-                uiOptions or flags
-            }
             @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = uiOptions
+            fun setNavBarColorPreR() {
+                val uiOptions = window.decorView.systemUiVisibility
+                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                } else {
+                    0
+                }
+                window.decorView.systemUiVisibility = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                    uiOptions and flags.inv()
+                } else {
+                    uiOptions or flags
+                }
+            }
+
+            setNavBarColorPreR()
         }
     }
 
