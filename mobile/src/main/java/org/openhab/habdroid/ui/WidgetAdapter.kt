@@ -97,9 +97,9 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
-import org.openhab.habdroid.util.getImageWidgetScalingType
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -990,7 +990,8 @@ class WidgetAdapter(
 
         override fun onStart() {
             if (itemView.context.determineDataUsagePolicy().autoPlayVideos &&
-                exoPlayer.playbackState != Player.STATE_IDLE) {
+                exoPlayer.playbackState != Player.STATE_IDLE
+            ) {
                 exoPlayer.playWhenReady = true
             }
         }

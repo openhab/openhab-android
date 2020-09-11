@@ -25,6 +25,8 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -37,8 +39,6 @@ import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.showToast
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var logTextView: TextView

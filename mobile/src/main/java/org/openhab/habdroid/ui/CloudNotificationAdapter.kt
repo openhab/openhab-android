@@ -21,12 +21,12 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import java.util.ArrayList
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.determineDataUsagePolicy
-import java.util.ArrayList
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -111,8 +111,10 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
             if (notification.icon != null && conn != null) {
                 iconView.setImageUrl(
                     conn,
-                    notification.icon.toUrl(itemView.context,
-                        itemView.context.determineDataUsagePolicy().loadIconsWithState),
+                    notification.icon.toUrl(
+                        itemView.context,
+                        itemView.context.determineDataUsagePolicy().loadIconsWithState
+                    ),
                     timeoutMillis = 2000
                 )
             } else {
