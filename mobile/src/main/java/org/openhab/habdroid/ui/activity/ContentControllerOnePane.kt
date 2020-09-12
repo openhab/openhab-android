@@ -23,14 +23,14 @@ import org.openhab.habdroid.ui.MainActivity
 class ContentControllerOnePane(activity: MainActivity) : ContentController(activity) {
     override val fragmentForTitle get() = if (pageStack.empty()) sitemapFragment else pageStack.peek().second
 
-    override fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean) {
+    override fun executeStateUpdate(reason: FragmentUpdateReason) {
         val fragment = when {
             overridingFragment != null -> overridingFragment
             !pageStack.isEmpty() -> pageStack.peek().second
             else -> sitemapFragment
         }
 
-        fm.commit(allowStateLoss) {
+        fm.commit(!fm.isStateSaved) {
             setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
             replace(R.id.content, fragment ?: defaultProgressFragment)
         }
