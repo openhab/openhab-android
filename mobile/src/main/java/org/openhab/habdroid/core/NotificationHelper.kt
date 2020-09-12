@@ -33,10 +33,10 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isDataSaverActive
 
 class NotificationHelper constructor(private val context: Context) {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -124,7 +124,7 @@ class NotificationHelper constructor(private val context: Context) {
 
         if (message.icon != null) {
             val connection = ConnectionFactory.cloudConnectionOrNull
-            if (connection != null && !context.isDataSaverActive()) {
+            if (connection != null && context.determineDataUsagePolicy().canDoLargeTransfers) {
                 try {
                     val targetSize = context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
                     iconBitmap = connection.httpClient

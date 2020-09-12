@@ -29,10 +29,9 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.ScreenLockMode
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
-import java.util.Random
 
 class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var swipeLayout: SwipeRefreshLayout
@@ -73,7 +72,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     override fun onResume() {
         super.onResume()
         loadChartImage(false)
-        if (!isDataSaverActive()) {
+        if (determineDataUsagePolicy().canDoRefreshes) {
             chart.startRefreshingIfNeeded()
         }
     }

@@ -100,12 +100,12 @@ import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
-import org.openhab.habdroid.util.isDataSaverActive
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isResolvable
@@ -777,7 +777,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         launch {
             try {
-                item.icon = conn.httpClient.get(sitemap.icon.toUrl(this@MainActivity, !isDataSaverActive()))
+                item.icon = conn.httpClient.get(
+                    sitemap.icon.toUrl(this@MainActivity, determineDataUsagePolicy().loadIconsWithState)
+                )
                     .asBitmap(defaultIcon!!.intrinsicWidth, ImageConversionPolicy.ForceTargetSize)
                     .response
                     .toDrawable(resources)
@@ -955,7 +957,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     fun showDataSaverHintSnackbarIfNeeded() {
-        if (prefs.getBoolean(PrefKeys.DATA_SAVER_EXPLAINED, false) || !isDataSaverActive()) {
+        if (prefs.getBoolean(PrefKeys.DATA_SAVER_EXPLAINED, false) ||
+            determineDataUsagePolicy().loadIconsWithState
+        ) {
             return
         }
 

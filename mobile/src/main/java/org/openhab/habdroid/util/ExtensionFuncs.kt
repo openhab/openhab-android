@@ -21,6 +21,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
 import android.os.Build
@@ -351,12 +352,62 @@ fun Context.openInAppStore(app: String) {
     }
 }
 
-fun Context.isDataSaverActive(): Boolean {
+data class DataUsagePolicy(
+    val canDoLargeTransfers: Boolean,
+    val loadIconsWithState: Boolean,
+    val autoPlayVideos: Boolean,
+    val canDoRefreshes: Boolean
+)
+
+fun Context.determineDataUsagePolicy(): DataUsagePolicy {
+    val isBatterySaverActive = (applicationContext as OpenHabApplication).batterySaverActive
+    fun getDataUsagePolicyForBatterySaver() = DataUsagePolicy(
+        canDoLargeTransfers = true,
+        loadIconsWithState = true,
+        autoPlayVideos = false,
+        canDoRefreshes = false
+    )
+
     val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        return dataSaverPref
+        return if (isBatterySaverActive) {
+            getDataUsagePolicyForBatterySaver()
+        } else {
+            DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref, !dataSaverPref)
+        }
     }
-    return (applicationContext as OpenHabApplication).isSystemDataSaverActive
+    return when ((applicationContext as OpenHabApplication).systemDataSaverStatus) {
+        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> DataUsagePolicy(
+            canDoLargeTransfers = false,
+            loadIconsWithState = false,
+            autoPlayVideos = false,
+            canDoRefreshes = false
+        )
+        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
+            if (isBatterySaverActive) {
+                getDataUsagePolicyForBatterySaver()
+            } else {
+                DataUsagePolicy(
+                    canDoLargeTransfers = true,
+                    loadIconsWithState = true,
+                    autoPlayVideos = false,
+                    canDoRefreshes = true
+                )
+            }
+        }
+        else -> {
+            if (isBatterySaverActive) {
+                getDataUsagePolicyForBatterySaver()
+            } else {
+                DataUsagePolicy(
+                    canDoLargeTransfers = true,
+                    loadIconsWithState = true,
+                    autoPlayVideos = true,
+                    canDoRefreshes = true
+                )
+            }
+        }
+    }
 }
 
 fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int {

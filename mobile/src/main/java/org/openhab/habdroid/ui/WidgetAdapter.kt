@@ -92,13 +92,14 @@ import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.DataUsagePolicy
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.beautify
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.isDataSaverActive
-import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getImageWidgetScalingType
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.orDefaultIfEmpty
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -387,7 +388,8 @@ class WidgetAdapter(
         }
 
         private fun showDataSaverPlaceholderIfNeeded(widget: Widget, canBindWithoutData: Boolean): Boolean {
-            val dataSaverActive = itemView.context.isDataSaverActive() && !canBindWithoutData
+            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers &&
+                !canBindWithoutData
 
             dataSaverView.isVisible = dataSaverActive
             widgetContentView.isVisible = !dataSaverView.isVisible
@@ -415,12 +417,15 @@ class WidgetAdapter(
             return dataSaverActive
         }
 
-        fun handleDataSaverChange(turnedOn: Boolean) {
-            if (turnedOn) {
+        fun handleDataUsagePolicyChange(dataUsagePolicy: DataUsagePolicy) {
+            if (!dataUsagePolicy.canDoLargeTransfers) {
                 // Continue showing the old data, but stop any activity that might need more data transfer
                 stop()
             } else {
-                boundWidget?.let { bind(it) }
+                boundWidget?.let {
+                    bind(it)
+                    start()
+                }
             }
         }
 
@@ -646,7 +651,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (!itemView.context.isDataSaverActive()) {
+            if (itemView.context.determineDataUsagePolicy().canDoRefreshes) {
                 imageView.startRefreshingIfNeeded()
             } else {
                 imageView.cancelRefresh()
@@ -941,7 +946,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (!itemView.context.isDataSaverActive()) {
+            if (itemView.context.determineDataUsagePolicy().canDoRefreshes) {
                 chart.startRefreshingIfNeeded()
             } else {
                 chart.cancelRefresh()
@@ -984,7 +989,9 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (exoPlayer.playbackState != Player.STATE_IDLE) {
+            if (itemView.context.determineDataUsagePolicy().autoPlayVideos &&
+                exoPlayer.playbackState != Player.STATE_IDLE
+            ) {
                 exoPlayer.playWhenReady = true
             }
         }
@@ -1288,7 +1295,7 @@ class WidgetAdapter(
 
         private fun handleDataSaver(overrideDataSaver: Boolean) {
             val widget = boundWidget ?: return
-            val dataSaverActive = itemView.context.isDataSaverActive() && !overrideDataSaver
+            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers && !overrideDataSaver
 
             dataSaverView.isVisible = dataSaverActive && hasPositions
             baseMapView.isVisible = !dataSaverView.isVisible && hasPositions
@@ -1307,7 +1314,7 @@ class WidgetAdapter(
             }
         }
 
-        fun handleDataSaverChange() {
+        fun handleDataUsagePolicyChange() {
             boundWidget?.let { bind(it) }
         }
 
@@ -1444,7 +1451,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
     setImageUrl(
         connection,
-        widget.icon.toUrl(context, !context.isDataSaverActive())
+        widget.icon.toUrl(context, context.determineDataUsagePolicy().loadIconsWithState)
     )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {

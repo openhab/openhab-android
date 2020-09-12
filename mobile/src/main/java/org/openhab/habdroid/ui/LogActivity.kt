@@ -25,18 +25,20 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.showToast
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var logTextView: TextView
@@ -205,7 +207,10 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             "Product: ${Build.PRODUCT}\n" +
             "OS: ${Build.VERSION.RELEASE}\n" +
             "Display: ${displayMetrics.widthPixels}x${displayMetrics.heightPixels}, " +
-                "${displayMetrics.density} density\n"
+                "${displayMetrics.density} density\n" +
+            "Data usage policy: ${determineDataUsagePolicy()}, " +
+                "data saver: ${(applicationContext as OpenHabApplication).systemDataSaverStatus}, " +
+                "battery saver: ${(applicationContext as OpenHabApplication).batterySaverActive}\n"
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {

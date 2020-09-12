@@ -58,6 +58,7 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.DataUsagePolicy
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
@@ -76,7 +77,7 @@ import org.openhab.habdroid.util.showToast
  */
 
 class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
-    OpenHabApplication.OnDataSaverActiveStateChangedListener {
+    OpenHabApplication.OnDataUsagePolicyChangedListener {
     @VisibleForTesting lateinit var recyclerView: RecyclerView
     private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
     private lateinit var emptyPageView: View
@@ -167,15 +168,15 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         startOrStopVisibleViewHolders(false)
     }
 
-    override fun onSystemDataSaverActiveStateChanged(active: Boolean) {
+    override fun onDataUsagePolicyChanged(newPolicy: DataUsagePolicy) {
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
             val holder = recyclerView.findViewHolderForAdapterPosition(i)
             if (holder is WidgetAdapter.HeavyDataViewHolder) {
-                holder.handleDataSaverChange(active)
+                holder.handleDataUsagePolicyChange(newPolicy)
             } else if (holder is WidgetAdapter.AbstractMapViewHolder) {
-                holder.handleDataSaverChange()
+                holder.handleDataUsagePolicyChange()
             }
         }
         (activity as MainActivity?)?.showDataSaverHintSnackbarIfNeeded()
