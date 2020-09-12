@@ -103,9 +103,12 @@ class OpenHabApplication : MultiDexApplication() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun registerDataAccessAudit() {
+        class DataAccessException(message: String) : Exception(message)
+
         val appOpsCallback = object : AppOpsManager.OnOpNotedCallback() {
             private fun logPrivateDataAccess(opCode: String, trace: String) {
                 Log.e("DataAudit", "Operation: $opCode\nStacktrace: $trace")
+                RemoteLog.nonFatal(DataAccessException("Operation: $opCode\nStacktrace: $trace"))
             }
 
             override fun onNoted(syncNotedAppOp: SyncNotedAppOp) {

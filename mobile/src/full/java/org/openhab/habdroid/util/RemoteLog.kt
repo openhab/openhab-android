@@ -40,4 +40,8 @@ object RemoteLog {
             Log.e(tag, message)
         }
     }
+
+    fun nonFatal(e: Throwable) {
+        FirebaseCrashlytics.getInstance().recordException(e)
+    }
 }
