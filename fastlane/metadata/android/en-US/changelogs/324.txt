@@ -1,0 +1,2 @@
+## Added
+* Support battery saver (#2128)

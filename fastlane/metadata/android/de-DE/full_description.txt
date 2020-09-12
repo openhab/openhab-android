@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause
 
 Die Builds auf F-Droid haben FCM und Absturzberichte entfernt und können daher keine Push-Benachrichtigungen von openHAB Cloud erhalten. Stattdessen werden Benachrichtigungen regelmäßig in diesen Builds abgefragt.
+Testen Sie neue Features und geben Sie früh Feedback!
+Sie können die Betaversion neben der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilen Version</a> installieren.
 
 openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.
 Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs- bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.
