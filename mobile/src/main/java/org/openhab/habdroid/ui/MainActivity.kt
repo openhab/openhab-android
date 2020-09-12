@@ -135,8 +135,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private set
     private var propsUpdateHandle: ServerProperties.Companion.UpdateHandle? = null
     private var retryJob: Job? = null
-    var isStarted: Boolean = false
-        private set
+    private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
     private val backgroundTasksManager = BackgroundTasksManager()
 

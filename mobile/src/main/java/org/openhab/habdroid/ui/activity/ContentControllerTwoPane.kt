@@ -37,7 +37,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         rightContentView.isVisible = fm.findFragmentById(R.id.content_right) != null
     }
 
-    override fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean) {
+    override fun executeStateUpdate(reason: FragmentUpdateReason) {
         var leftFragment = overridingFragment
         val rightFragment: WidgetListFragment?
         val rightPair: Pair<LinkedPage, WidgetListFragment>?
@@ -62,7 +62,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         val currentLeftFragment = fm.findFragmentById(R.id.content_left)
         val currentRightFragment = fm.findFragmentById(R.id.content_right)
 
-        fm.commitNow(allowStateLoss) {
+        fm.commitNow(!fm.isStateSaved) {
             if (currentLeftFragment != null && currentLeftFragment !== leftFragment) {
                 remove(currentLeftFragment)
             }
@@ -71,7 +71,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
             }
         }
 
-        fm.commit(allowStateLoss) {
+        fm.commit(!fm.isStateSaved) {
             setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
             if (leftFragment != null) {
                 setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))

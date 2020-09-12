@@ -451,15 +451,13 @@ abstract class ContentController protected constructor(private val activity: Mai
         activity.showSnackbar(R.string.error_sse_failed, tag = MainActivity.TAG_SNACKBAR_SSE_ERROR)
     }
 
-    internal abstract fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean)
+    internal abstract fun executeStateUpdate(reason: FragmentUpdateReason)
 
     private fun updateFragmentState(reason: FragmentUpdateReason) {
         if (fm.isDestroyed) {
             return
         }
-        // Allow state loss if activity is still started, as we'll get
-        // another onSaveInstanceState() callback on activity stop
-        executeStateUpdate(reason, activity.isStarted)
+        executeStateUpdate(reason)
         collectWidgetFragments().forEach { f -> f.closeAllDialogs() }
     }
 
