@@ -3,12 +3,7 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
-    <string name="app_preferences_name">Impostazioni</string>
-    <string name="app_notifications">Notifiche</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
-    <string name="mainmenu_openhab_preferences">Impostazioni</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
     <string name="mainmenu_openhab_clearcache">Pulisci cache immagini</string>
@@ -39,6 +34,9 @@
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
+    <string name="settings_image_widget_scaling">Scala le immagini per adattarle allo schermo</string>
+    <string name="settings_image_widget_scaling_summary_off">Mantieni i widget \'Immagine\' più piccoli della larghezza dello schermo alla loro dimensione originale</string>
+    <string name="settings_image_widget_scaling_summary_on">Assicurarsi che i widget \'Immagine\' si adattino alla larghezza dello schermo ingrandendo o riducendo come appropriato</string>
     <string name="settings_chart_scaling">Scala del grafico</string>
     <string name="settings_chart_scaling_summary">Nota: Con una scala piccola, c\'è più\' spazio per il grafico, ma la leggibilita\' dei caratteri e linee puo\' essere compromessa.</string>
     <string name="settings_chart_scaling_value_xs">Molto piccolo</string>
@@ -360,6 +358,7 @@
     <string name="no_remote_server">Connessione al server locale fallita e non hai configurato un server remoto</string>
     <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
     <string name="waiting_for_wifi">In attesa del WI-FI per stabilire la connessione\u2026</string>
+    <string name="visit_status_openhab_org">Visita status.openhab.org</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Mostra log</string>
