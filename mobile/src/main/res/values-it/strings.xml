@@ -3,7 +3,12 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">Impostazioni</string>
+    <string name="app_notifications">Notifiche</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
+    <string name="mainmenu_openhab_preferences">Impostazioni</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
     <string name="mainmenu_openhab_clearcache">Pulisci cache immagini</string>
