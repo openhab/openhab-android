@@ -32,6 +32,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -57,6 +58,7 @@ import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.openInBrowser
 
 /**
  * Controller class for the content area of [MainActivity]
@@ -281,12 +283,16 @@ abstract class ContentController protected constructor(private val activity: Mai
      *
      * @param resolveAttempted Indicate if discovery was attempted, but not successful
      */
-    fun indicateMissingConfiguration(resolveAttempted: Boolean) {
+    fun indicateMissingConfiguration(resolveAttempted: Boolean, wouldHaveUsedOfficialServer: Boolean) {
         RemoteLog.d(TAG, "Indicate missing configuration (resolveAttempted $resolveAttempted)")
         resetState()
         val wifiManager = activity.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        noConnectionFragment = MissingConfigurationFragment.newInstance(activity,
-            resolveAttempted, wifiManager.isWifiEnabled)
+        noConnectionFragment = MissingConfigurationFragment.newInstance(
+            activity,
+            resolveAttempted,
+            wifiManager.isWifiEnabled,
+            wouldHaveUsedOfficialServer
+        )
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
     }
@@ -578,12 +584,22 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     internal class MissingConfigurationFragment : StatusFragment() {
         override fun onClick(view: View) {
-            when {
-                view.id == R.id.button1 -> {
-                    // Primary button always goes to settings
+            if (view.id == R.id.button1) when {
+                arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
+                    // If we attempted resolving, primary button opens settings
                     val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
                     startActivity(preferencesIntent)
                 }
+                arguments?.getBoolean(KEY_WIFI_ENABLED) == true -> {
+                    // If Wifi is enabled, primary button suggests retrying
+                    ConnectionFactory.restartNetworkCheck()
+                    activity?.recreate()
+                }
+                else -> {
+                    // If Wifi is disabled, primary button suggests enabling Wifi
+                    (activity as MainActivity?)?.enableWifiAndIndicateStartup()
+                }
+            } else when {
                 arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
                     // If we attempted resolving, secondary button enables demo mode
                     context?.apply {
@@ -592,14 +608,9 @@ abstract class ContentController protected constructor(private val activity: Mai
                         }
                     }
                 }
-                arguments?.getBoolean(KEY_WIFI_ENABLED) == true -> {
-                    // If Wifi is enabled, secondary button suggests retrying
-                    ConnectionFactory.restartNetworkCheck()
-                    activity?.recreate()
-                }
                 else -> {
-                    // If Wifi is disabled, secondary button suggests enabling Wifi
-                    (activity as MainActivity?)?.enableWifiAndIndicateStartup()
+                    // If connection issue, secondary button suggests opening status.openhab.org
+                    "https://status.openhab.org".toUri().openInBrowser(requireContext())
                 }
             }
         }
@@ -608,7 +619,8 @@ abstract class ContentController protected constructor(private val activity: Mai
             fun newInstance(
                 context: Context,
                 resolveAttempted: Boolean,
-                hasWifiEnabled: Boolean
+                hasWifiEnabled: Boolean,
+                wouldHaveUsedOfficialServer: Boolean
             ): MissingConfigurationFragment {
                 val f = MissingConfigurationFragment()
                 val args = when {
@@ -616,10 +628,12 @@ abstract class ContentController protected constructor(private val activity: Mai
                         R.string.go_to_settings_button, R.string.enable_demo_mode_button,
                         R.drawable.ic_home_search_outline_grey_340dp, false)
                     hasWifiEnabled -> buildArgs(context.getString(R.string.no_remote_server),
-                        R.string.go_to_settings_button, R.string.try_again_button,
+                        R.string.try_again_button,
+                        if (wouldHaveUsedOfficialServer) R.string.visit_status_openhab_org else 0,
                         R.drawable.ic_network_strength_off_outline_black_24dp, false)
                     else -> buildArgs(context.getString(R.string.no_remote_server),
-                        R.string.go_to_settings_button, R.string.enable_wifi_button,
+                        R.string.enable_wifi_button,
+                        if (wouldHaveUsedOfficialServer) R.string.visit_status_openhab_org else 0,
                         R.drawable.ic_wifi_strength_off_outline_grey_24dp, false)
                 }
                 args.putBoolean(KEY_RESOLVE_ATTEMPTED, resolveAttempted)
