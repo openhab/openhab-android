@@ -1,0 +1,2 @@
+## Fixed
+* Fix Fragement Manager IllegalStateException (#2201)
