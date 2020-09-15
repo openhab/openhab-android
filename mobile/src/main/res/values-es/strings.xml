@@ -363,6 +363,7 @@
     <string name="no_remote_server">No se pudo conectar con el servidor local y no se ha configurado un servidor remoto</string>
     <string name="resolving_openhab">Intentando descubrir la instancia del servidor openHAB\u2026</string>
     <string name="waiting_for_wifi">A la espera de Wi-Fi para establecer una conexión</string>
+    <string name="visit_status_openhab_org">Visite status.openhab.org</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Ver log</string>
