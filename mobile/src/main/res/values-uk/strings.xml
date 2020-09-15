@@ -39,6 +39,9 @@
     <string name="settings_openhab_icon_format">Формат іконок</string>
     <string name="settings_openhab_icon_format_png">Растрові</string>
     <string name="settings_openhab_icon_format_svg">Векторні</string>
+    <string name="settings_image_widget_scaling">Масштабування зображень у відповідності до екрану</string>
+    <string name="settings_image_widget_scaling_summary_off">Залишити віджети зображення, які є меншими за ширину екрану у початковому розмірі</string>
+    <string name="settings_image_widget_scaling_summary_on">Переконатися, що віджети зображення відповідають ширині екрану шляхом їх збільшення або зменшення</string>
     <string name="settings_chart_scaling">Масштабування діаграми</string>
     <string name="settings_chart_scaling_summary">Примітка: Масштабування зменшує шрифти та товщини ліній, тобто більше місця для графіку, але читабельність шрифтів може постраждати.</string>
     <string name="settings_chart_scaling_value_xs">Дуже маленький</string>
@@ -364,6 +367,7 @@
     <string name="no_remote_server">Під’єднання до локального сервера не вдалось, а віддалений не налаштовано</string>
     <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
     <string name="waiting_for_wifi">Очікування встановлення з’єднання через Wi-Fi\u2026</string>
+    <string name="visit_status_openhab_org">Відвідати status.openhab.org</string>
     <!-- Log -->
     <string name="log">Журнал</string>
     <string name="view_log">Переглянути журнал</string>
