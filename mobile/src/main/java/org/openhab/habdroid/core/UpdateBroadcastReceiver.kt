@@ -192,7 +192,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val SECURE_CREDENTIALS = 190
         private const val DARK_MODE = 200
         private const val WIDGET_ICON = 250
-        private const val MULTI_SERVER_SUPPORT = 274
+        private const val MULTI_SERVER_SUPPORT = 330
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PrefKeys.COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
