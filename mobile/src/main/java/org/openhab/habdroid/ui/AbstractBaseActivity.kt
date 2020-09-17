@@ -22,9 +22,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
-import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
@@ -103,36 +100,23 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         setFullscreen()
     }
 
+    @Suppress("DEPRECATION")
     fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val insetsController = window.insetsController ?: return
-            insetsController.systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            if (isEnabled && !forceNonFullscreen) {
-                insetsController.hide(WindowInsets.Type.systemBars())
-            } else {
-                insetsController.show(WindowInsets.Type.systemBars())
-            }
+        var uiOptions = window.decorView.systemUiVisibility
+        val flags = (
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+            )
+        uiOptions = if (isEnabled && !forceNonFullscreen) {
+            uiOptions or flags
         } else {
-            @Suppress("DEPRECATION")
-            fun setFullscreenPreR() {
-                var uiOptions = window.decorView.systemUiVisibility
-                val flags = (
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    )
-                uiOptions = if (isEnabled && !forceNonFullscreen) {
-                    uiOptions or flags
-                } else {
-                    uiOptions and flags.inv()
-                }
-                window.decorView.systemUiVisibility = uiOptions
-            }
-
-            setFullscreenPreR()
+            uiOptions and flags.inv()
         }
+        window.decorView.systemUiVisibility = uiOptions
     }
 
+    @Suppress("DEPRECATION")
     private fun setNavigationBarColor() {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         @ColorInt val black = ContextCompat.getColor(this, R.color.black)
@@ -147,31 +131,16 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
         window.navigationBarColor = windowColor
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val flags = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-                0
-            } else {
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
-            }
-            window.insetsController
-                ?.setSystemBarsAppearance(flags, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
+        val uiOptions = window.decorView.systemUiVisibility
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         } else {
-            @Suppress("DEPRECATION")
-            fun setNavBarColorPreR() {
-                val uiOptions = window.decorView.systemUiVisibility
-                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-                } else {
-                    0
-                }
-                window.decorView.systemUiVisibility = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-                    uiOptions and flags.inv()
-                } else {
-                    uiOptions or flags
-                }
-            }
-
-            setNavBarColorPreR()
+            0
+        }
+        window.decorView.systemUiVisibility = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+            uiOptions and flags.inv()
+        } else {
+            uiOptions or flags
         }
     }
 
