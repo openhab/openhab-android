@@ -44,7 +44,6 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
@@ -55,10 +54,11 @@ import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.analytics.AnalyticsListener
-import com.google.android.exoplayer2.source.MediaSourceEventListener
+import com.google.android.exoplayer2.source.LoadEventInfo
+import com.google.android.exoplayer2.source.MediaLoadData
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
@@ -989,17 +989,13 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (itemView.context.determineDataUsagePolicy().autoPlayVideos &&
-                exoPlayer.playbackState != Player.STATE_IDLE
-            ) {
-                exoPlayer.playWhenReady = true
+            if (itemView.context.determineDataUsagePolicy().autoPlayVideos) {
+                exoPlayer.play()
             }
         }
 
         override fun onStop() {
-            if (exoPlayer.playbackState != Player.STATE_IDLE) {
-                exoPlayer.playWhenReady = false
-            }
+            exoPlayer.pause()
         }
 
         private fun loadVideo(widget: Widget, forceReload: Boolean) {
@@ -1020,18 +1016,17 @@ class WidgetAdapter(
             }
             val factory = if (isHls) {
                 playerView.useController = false
-                HlsMediaSource.Factory(this).setTag(url)
+                HlsMediaSource.Factory(this)
             } else {
                 playerView.useController = true
-                ProgressiveMediaSource.Factory(this).setTag(url)
+                ProgressiveMediaSource.Factory(this)
             }
 
-            val mediaSource = url?.let { factory.createMediaSource(it.toUri()) }
+            val mediaItem = url?.let { MediaItem.fromUri(it) }
+            val mediaSource = mediaItem?.let { factory.createMediaSource(it) }
 
-            if (exoPlayer.currentTag == mediaSource?.tag && !forceReload) {
-                if (!exoPlayer.isPlaying) {
-                    exoPlayer.playWhenReady = true
-                }
+            if (exoPlayer.currentMediaItem == mediaItem && !forceReload) {
+                exoPlayer.play()
                 return
             }
 
@@ -1040,17 +1035,19 @@ class WidgetAdapter(
                 return
             }
 
-            exoPlayer.prepare(mediaSource)
+            exoPlayer.setMediaSource(mediaSource)
+            exoPlayer.prepare()
             exoPlayer.addAnalyticsListener(this)
         }
 
         override fun onLoadError(
             eventTime: AnalyticsListener.EventTime,
-            loadEventInfo: MediaSourceEventListener.LoadEventInfo,
-            mediaLoadData: MediaSourceEventListener.MediaLoadData,
+            loadEventInfo: LoadEventInfo,
+            mediaLoadData: MediaLoadData,
             error: IOException,
             wasCanceled: Boolean
         ) {
+            super.onLoadError(eventTime, loadEventInfo, mediaLoadData, error, wasCanceled)
             Log.e(TAG, "onLoadError()", error)
             handleError()
         }
