@@ -95,7 +95,7 @@ class ItemTest {
 
     @Test
     fun getMembers() {
-        val sut = itemAsJsonObject.toItem()
+        val sut = itemAsJsonObjectWithMembers.toItem()
         assertEquals(2, sut.members.size)
         assertEquals(Item.Type.Location, sut.members[0].type)
         assertEquals(Item.Type.Location, sut.members[1].type)

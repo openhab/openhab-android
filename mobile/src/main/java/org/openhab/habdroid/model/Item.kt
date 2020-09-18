@@ -35,7 +35,7 @@ data class Item internal constructor(
     val members: List<Item>,
     val options: List<LabeledValue>?,
     val state: ParsedState?,
-    val tags: Array<Tag>
+    val tags: List<Tag>
 ) : Parcelable {
     enum class Type {
         None,
@@ -78,42 +78,6 @@ data class Item internal constructor(
             isOfTypeOrGroupType(Type.Rollershutter) ||
             isOfTypeOrGroupType(Type.Switch) ||
             isOfTypeOrGroupType(Type.Player)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Item
-
-        if (name != other.name) return false
-        if (label != other.label) return false
-        if (category != other.category) return false
-        if (type != other.type) return false
-        if (groupType != other.groupType) return false
-        if (link != other.link) return false
-        if (readOnly != other.readOnly) return false
-        if (members != other.members) return false
-        if (options != other.options) return false
-        if (state != other.state) return false
-        if (!tags.contentEquals(other.tags)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + (label?.hashCode() ?: 0)
-        result = 31 * result + (category?.hashCode() ?: 0)
-        result = 31 * result + type.hashCode()
-        result = 31 * result + (groupType?.hashCode() ?: 0)
-        result = 31 * result + (link?.hashCode() ?: 0)
-        result = 31 * result + readOnly.hashCode()
-        result = 31 * result + members.hashCode()
-        result = 31 * result + (options?.hashCode() ?: 0)
-        result = 31 * result + (state?.hashCode() ?: 0)
-        result = 31 * result + tags.contentHashCode()
-        return result
     }
 
     companion object {
@@ -174,7 +138,7 @@ fun Node.toItem(): Item? {
         emptyList(),
         null,
         state.toParsedState(),
-        emptyArray()
+        emptyList()
     )
 }
 
@@ -212,11 +176,9 @@ fun JSONObject.toItem(): Item {
     }
 
     val tags = if (has("tags")) {
-        getJSONArray("tags")
-            .mapString { it.toItemTag() }
-            .toTypedArray()
+        getJSONArray("tags").mapString { it.toItemTag() }
     } else {
-        emptyArray()
+        emptyList()
     }
 
     return Item(

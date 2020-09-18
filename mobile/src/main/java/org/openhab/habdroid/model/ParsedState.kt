@@ -40,6 +40,14 @@ data class ParsedState internal constructor(
     val asBrightness: Int?,
     val asLocation: Location?
 ) : Parcelable {
+    override fun equals(other: Any?): Boolean {
+        return other is ParsedState && asString == other.asString
+    }
+
+    override fun hashCode(): Int {
+        return asString.hashCode()
+    }
+
     companion object {
         internal fun parseAsBoolean(state: String): Boolean {
             // If state is ON for switches return True
