@@ -917,42 +917,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             true
         }
         action is PendingAction.OpenSitemapUrl && isStarted && serverProperties != null -> {
-            when {
-                action.serverId !in prefs.getConfiguredServerIds() -> {
-                    showToast(R.string.home_shortcut_server_has_been_deleted, ToastType.ERROR)
-                    true
-                }
-                action.serverId != prefs.getActiveServerId() -> {
-                    prefs.edit {
-                        putActiveServerId(prefs.getPrimaryServerId())
-                    }
-                    updateDrawerServerEntries()
-                    false
-                }
-                else -> {
-                    buildUrlAndOpenSitemap(action.url)
-                    true
-                }
-            }
+            executeActionForServer(action.serverId) { buildUrlAndOpenSitemap(action.url) }
         }
         action is PendingAction.OpenHabPanel && isStarted && serverProperties?.hasHabPanelInstalled() == true -> {
-            when {
-                action.serverId !in prefs.getConfiguredServerIds() -> {
-                    showToast(R.string.home_shortcut_server_has_been_deleted, ToastType.ERROR)
-                    true
-                }
-                action.serverId != prefs.getActiveServerId() -> {
-                    prefs.edit {
-                        putActiveServerId(action.serverId)
-                    }
-                    updateDrawerServerEntries()
-                    false
-                }
-                else -> {
-                    openHabPanel()
-                    true
-                }
-            }
+            executeActionForServer(action.serverId) { openHabPanel() }
         }
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
             launchVoiceRecognition()
@@ -972,6 +940,24 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
         }
         else -> false
+    }
+
+    private fun executeActionForServer(serverId: Int, action: () -> Unit): Boolean = when {
+        serverId !in prefs.getConfiguredServerIds() -> {
+            showToast(R.string.home_shortcut_server_has_been_deleted, ToastType.ERROR)
+            true
+        }
+        serverId != prefs.getActiveServerId() -> {
+            prefs.edit {
+                putActiveServerId(serverId)
+            }
+            updateDrawerServerEntries()
+            false
+        }
+        else -> {
+            action()
+            true
+        }
     }
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {

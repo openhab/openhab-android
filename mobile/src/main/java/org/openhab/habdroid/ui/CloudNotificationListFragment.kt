@@ -182,7 +182,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         retryButton.isVisible = loadError
     }
 
-    private fun usePrimaryServer() = arguments?.getBoolean("primary") == true
+    private fun usePrimaryServer() = requireArguments().getBoolean("primary")
 
     fun getTitle(context: Context): String {
         val prefs = context.getPrefs()
