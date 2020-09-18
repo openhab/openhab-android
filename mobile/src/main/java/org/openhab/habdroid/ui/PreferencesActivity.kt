@@ -152,7 +152,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     override fun onBackPressed() {
         with(supportFragmentManager) {
             if (backStackEntryCount > 0) {
-                if ((fragments.last() as? AbstractSettingsFragment)?.onBackPressed() == false) {
+                if ((fragments.last() as? AbstractSettingsFragment)?.onBackPressed() != true) {
                     popBackStack()
                 }
             } else {
@@ -202,6 +202,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        // Returns true if back key press was consumed
         open fun onBackPressed() = false
 
         companion object {
