@@ -41,6 +41,7 @@ class TileItemPickerActivity(
             putExtra("state", state)
             putExtra("mappedState", mappedState)
             putExtra("icon", item.category)
+            putExtra("tags", item.tags.toTypedArray())
         }
         setResult(RESULT_OK, resultIntent)
         finish()

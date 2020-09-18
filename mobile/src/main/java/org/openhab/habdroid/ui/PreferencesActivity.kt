@@ -50,6 +50,7 @@ import androidx.preference.SwitchPreference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.forEachIndexed
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -63,6 +64,7 @@ import org.openhab.habdroid.background.tiles.putTileData
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
@@ -86,7 +88,6 @@ import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
-import java.util.BitSet
 
 /**
  * This is a class to provide preferences activity for application.
@@ -964,6 +965,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 itemAndStatePref.label = data.getStringExtra("label")
                 itemAndStatePref.state = data.getStringExtra("state")
                 itemAndStatePref.mappedState = data.getStringExtra("mappedState")
+                val itemTags = data.extras?.get("tags") as Array<*>
                 updateItemAndStatePrefSummary()
 
                 if (namePref.text.isNullOrEmpty()) {
@@ -1005,7 +1007,12 @@ class PreferencesActivity : AbstractBaseActivity() {
                                 R.string.tile_icon_garage_value
                             "switch" -> R.string.tile_icon_switch_value
                             "sofa" -> R.string.tile_icon_sofa_value
-                            else -> R.string.tile_icon_openhab_value
+                            else -> when {
+                                Item.Tag.Lighting in itemTags -> R.string.tile_icon_bulb_value
+                                Item.Tag.Blind in itemTags -> R.string.tile_icon_roller_shutter_value
+                                Item.Tag.Switchable in itemTags -> R.string.tile_icon_switch_value
+                                else -> R.string.tile_icon_openhab_value
+                            }
                         }
                     }
                     iconPref.value = getString(preSelectIcon)

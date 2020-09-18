@@ -36,19 +36,6 @@ import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.HttpUrl.Companion.toHttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import okhttp3.MediaType
-import okhttp3.ResponseBody
-import org.json.JSONArray
-import org.json.JSONObject
-import org.openhab.habdroid.R
-import org.openhab.habdroid.core.OpenHabApplication
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
@@ -65,6 +52,19 @@ import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
 import kotlin.math.max
 import kotlin.math.round
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.MediaType
+import okhttp3.ResponseBody
+import org.json.JSONArray
+import org.json.JSONObject
+import org.openhab.habdroid.R
+import org.openhab.habdroid.core.OpenHabApplication
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 
 fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
     var error = this
@@ -238,6 +238,10 @@ fun JSONArray.forEach(action: (JSONObject) -> Unit) =
 
 inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
     return (0 until length()).map { index -> transform(getJSONObject(index)) }
+}
+
+inline fun <T> JSONArray.mapString(transform: (String) -> T): List<T> {
+    return (0 until length()).map { index -> transform(getString(index)) }
 }
 
 fun JSONObject.optStringOrNull(key: String): String? {

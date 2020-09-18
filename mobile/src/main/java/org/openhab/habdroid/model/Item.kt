@@ -19,6 +19,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.mapString
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
@@ -33,7 +34,8 @@ data class Item internal constructor(
     val readOnly: Boolean,
     val members: List<Item>,
     val options: List<LabeledValue>?,
-    val state: ParsedState?
+    val state: ParsedState?,
+    val tags: List<Tag>
 ) : Parcelable {
     enum class Type {
         None,
@@ -50,6 +52,19 @@ data class Item internal constructor(
         Rollershutter,
         StringItem,
         Switch
+    }
+
+    enum class Tag {
+        Lighting,
+        Switchable,
+        ContactSensor,
+        CurrentTemperature,
+        CurrentHumidity,
+        Thermostat,
+        HeatingCoolingMode,
+        TargetTemperature,
+        Blind,
+        Unknown
     }
 
     fun isOfTypeOrGroupType(type: Type): Boolean {
@@ -74,9 +89,19 @@ data class Item internal constructor(
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
             val link = item?.link ?: parsedItem.link
-            return Item(parsedItem.name, parsedItem.label?.trim(), parsedItem.category, parsedItem.type,
-                parsedItem.groupType, link, parsedItem.readOnly, parsedItem.members,
-                parsedItem.options, parsedItem.state)
+            return Item(
+                parsedItem.name,
+                parsedItem.label?.trim(),
+                parsedItem.category,
+                parsedItem.type,
+                parsedItem.groupType,
+                link,
+                parsedItem.readOnly,
+                parsedItem.members,
+                parsedItem.options,
+                parsedItem.state,
+                parsedItem.tags
+            )
         }
     }
 }
@@ -102,8 +127,19 @@ fun Node.toItem(): Item? {
         state = null
     }
 
-    return Item(finalName, finalName.trim(), null, type, groupType, link, false,
-        emptyList(), null, state.toParsedState())
+    return Item(
+        finalName,
+        finalName.trim(),
+        null,
+        type,
+        groupType,
+        link,
+        false,
+        emptyList(),
+        null,
+        state.toParsedState(),
+        emptyList()
+    )
 }
 
 @Throws(JSONException::class)
@@ -138,7 +174,15 @@ fun JSONObject.toItem(): Item {
             pattern
         }
     }
-    return Item(name,
+
+    val tags = if (has("tags")) {
+        getJSONArray("tags").mapString { it.toItemTag() }
+    } else {
+        emptyList()
+    }
+
+    return Item(
+        name,
         optString("label", name).trim(),
         optStringOrNull("category"),
         getString("type").toItemType(),
@@ -147,7 +191,9 @@ fun JSONObject.toItem(): Item {
         readOnly,
         members,
         options,
-        state.toParsedState(numberPattern))
+        state.toParsedState(numberPattern),
+        tags
+    )
 }
 
 fun String?.toItemType(): Item.Type {
@@ -173,5 +219,20 @@ fun String?.toItemType(): Item.Type {
         Item.Type.valueOf(type)
     } catch (e: IllegalArgumentException) {
         Item.Type.None
+    }
+}
+
+fun String?.toItemTag(): Item.Tag {
+    return when (this) {
+        "Lighting" -> Item.Tag.Lighting
+        "Switchable" -> Item.Tag.Switchable
+        "ContactSensor" -> Item.Tag.ContactSensor
+        "CurrentTemperature" -> Item.Tag.CurrentTemperature
+        "CurrentHumidity" -> Item.Tag.CurrentHumidity
+        "Thermostat" -> Item.Tag.Thermostat
+        "homekit:HeatingCoolingMode", "homekit:TargetHeatingCoolingMode" -> Item.Tag.HeatingCoolingMode
+        "homekit:TargetTemperature", "TargetTemperature" -> Item.Tag.TargetTemperature
+        "WindowCovering" -> Item.Tag.Blind
+        else -> Item.Tag.Unknown
     }
 }
