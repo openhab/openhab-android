@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Pengaturan</string>
-    <string name="app_notifications">Pemberitahuan</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Peta Situs</string>
     <string name="mainmenu_openhab_preferences">Pengaturan</string>
     <string name="mainmenu_openhab_habpanel">PanelHAB</string>
+    <string name="app_notifications">Pemberitahuan</string>
     <string name="habpanel_error">Terjadi kesalahan saat memuat PanelHAB</string>
     <string name="mainmenu_openhab_selectsitemap">Pilih peta situs default</string>
     <string name="mainmenu_openhab_clearcache">Hapus cache gambar</string>
@@ -91,7 +91,6 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">Terjadi kesalahan saat menarik informasi server openHAB</string>
     <string name="error_openhab_offline">Server openHAB Anda sedang tidak terhubung saat cloud instance sedang berjalan</string>
     <string name="error_no_browser_found">Tidak ditemukan perambah pada perangkat Anda</string>
     <string name="error_no_speech_to_text_app_found">Tidak ditemukan aplikasi pengenal suara</string>
@@ -102,8 +101,6 @@
     <string name="info_write_tag_progress">Menulis tag</string>
     <string name="info_write_failed">Kesalahan penulisan tag</string>
     <string name="info_write_tag_unsupported">Perangkat ini tidak memiliki dukungan NFC</string>
-    <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>
-    <string name="info_openhab_push_notification_label">Status pemberitahuan</string>
     <string name="action_settings">Pengaturan</string>
     <string name="info_not_set">Tidak diatur</string>
     <!-- Background tasks -->
@@ -172,11 +169,9 @@
     <string name="about_community_forum">Forum komunitas</string>
     <string name="about_foundation">Yayasan openHAB</string>
     <string name="about_community">komunitas openHAB</string>
-    <string name="about_server">server openHAB</string>
     <string name="about_translation">Bantu kami menerjemahkan openHAB</string>
     <string name="about_privacy_policy">Kebijakan privasi</string>
     <string name="error_couldnt_determine_openhab_url">Tidak dapat menentukan URL openHAB</string>
-    <string name="unknown">Tidak diketahui</string>
     <string name="set">Atur</string>
     <string name="cancel">Batalkan</string>
     <string name="close">Tutup</string>
