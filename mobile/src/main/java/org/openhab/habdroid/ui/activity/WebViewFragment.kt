@@ -55,8 +55,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private lateinit var urlForError: String
     private var shortcutInfo: ShortcutInfoCompat? = null
 
-    val titleResId: Int
-        @StringRes get() = requireArguments().getInt(KEY_PAGE_TITLE)
+    val title: String
+        get() = requireArguments().getString(KEY_PAGE_TITLE)!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_webview, container, false)
@@ -73,13 +73,16 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         urlToLoad = args.getString(KEY_URL_LOAD) as String
         urlForError = args.getString(KEY_URL_ERROR) as String
         val action = args.getString(KEY_SHORTCUT_ACTION)
-        @StringRes val label = args.getInt(KEY_SHORTCUT_LABEL)
+        val extraServerId = args.getInt(KEY_SHORTCUT_EXTRA_SERVER_ID)
+        val label = args.getString(KEY_SHORTCUT_LABEL)
         @DrawableRes val icon = args.getInt(KEY_SHORTCUT_ICON_RES)
         action?.let {
+            val context = view.context
             val intent = Intent(context, MainActivity::class.java)
+                .putExtra(MainActivity.EXTRA_SERVER_ID, extraServerId)
                 .setAction(action)
-            shortcutInfo = ShortcutInfoCompat.Builder(view.context, action)
-                .setShortLabel(view.context.getString(label))
+            shortcutInfo = ShortcutInfoCompat.Builder(context, action)
+                .setShortLabel(label!!)
                 .setIcon(IconCompat.createWithResource(context, icon))
                 .setIntent(intent)
                 .build()
@@ -150,11 +153,19 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
     }
 
-    override fun onAvailableConnectionChanged() {
+    override fun onActiveConnectionChanged() {
         loadWebsite()
     }
 
-    override fun onCloudConnectionChanged(connection: CloudConnection?) {
+    override fun onPrimaryConnectionChanged() {
+        // no-op
+    }
+
+    override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+        // no-op
+    }
+
+    override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
         // no-op
     }
 
@@ -171,7 +182,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
-        val conn = ConnectionFactory.usableConnectionOrNull
+        val conn = ConnectionFactory.activeUsableConnection?.connection
         if (conn == null) {
             updateViewVisibility(error = true, loading = false)
             return
@@ -222,16 +233,18 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         private const val KEY_URL_LOAD = "url_load"
         private const val KEY_URL_ERROR = "url_error"
         private const val KEY_SHORTCUT_ACTION = "shortcut_action"
+        private const val KEY_SHORTCUT_EXTRA_SERVER_ID = "shortcut_extra_server_id"
         private const val KEY_SHORTCUT_LABEL = "shortcut_label"
         private const val KEY_SHORTCUT_ICON_RES = "shortcut_icon_res"
 
         fun newInstance(
-            @StringRes pageTitle: Int,
+            pageTitle: String,
             @StringRes errorMessage: Int,
             urlToLoad: String,
             urlForError: String,
+            serverId: Int,
             shortcutAction: String? = null,
-            shortcutLabel: Int = 0,
+            shortcutLabel: String? = null,
             shortcutIconRes: Int = 0
         ): WebViewFragment {
             val f = WebViewFragment()
@@ -241,6 +254,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 KEY_URL_LOAD to urlToLoad,
                 KEY_URL_ERROR to urlForError,
                 KEY_SHORTCUT_ACTION to shortcutAction,
+                KEY_SHORTCUT_EXTRA_SERVER_ID to serverId,
                 KEY_SHORTCUT_LABEL to shortcutLabel,
                 KEY_SHORTCUT_ICON_RES to shortcutIconRes)
             return f

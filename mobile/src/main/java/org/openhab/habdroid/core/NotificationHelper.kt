@@ -123,7 +123,7 @@ class NotificationHelper constructor(private val context: Context) {
         var iconBitmap: Bitmap? = null
 
         if (message.icon != null) {
-            val connection = ConnectionFactory.cloudConnectionOrNull
+            val connection = ConnectionFactory.primaryCloudConnection?.connection
             if (connection != null && context.determineDataUsagePolicy().canDoLargeTransfers) {
                 try {
                     val targetSize = context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)

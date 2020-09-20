@@ -278,6 +278,27 @@ In case of an error the plugin returns an error code.
 | 11         | The app couldn't establish a connection                                                    |
 | 1000+      | A connection was established, but an error occured. The error code is 1000 + the HTTP code |
 
+## Multi server support
+
+When adding multiple servers to the app, there's always a primary and an active one.
+The active server is used for foreground operations, e.g. display the Sitemaps, and can be changed in the side menu.
+The primary server is used for all background operations and can be changed in the settings.
+
+Features that support multiple servers:
+* Display Sitemaps and HABPanel
+* Voice commands launched from in-app (sent to active server) and from widgets (sent to primary server)
+* Show a list of recent notifications
+* Sitemap shortcuts on the home screen
+* Shortcuts for HABPanel, notifications and voice command
+
+Features that don't support multiple servers, i.e. use the primary server:
+* Item widgets on the home screen
+* Quick tiles
+* NFC tags
+* Push notifications
+* Send device information to openHAB
+* Tasker plugin
+
 ## Help and Technical Details
 
 Please refer to the [openhab-android project on GitHub](https://github.com/openhab/openhab-android) for more details.

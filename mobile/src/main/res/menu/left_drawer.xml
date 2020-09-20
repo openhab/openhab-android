@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <item
+    <group
         android:id="@+id/sitemaps"
-        android:title="@string/mainmenu_openhab_sitemaps">
-        <menu />
-    </item>
-    <item
-        android:id="@+id/default_sitemap"
-        android:visible="false"
-        tools:visible="true"
-        android:icon="@drawable/ic_openhab_appicon_24dp"
-        android:title="@string/mainmenu_openhab_selectsitemap" />
-    <item
-        android:id="@+id/habpanel"
-        android:icon="@drawable/ic_view_dashboard_outline_black_24dp"
-        android:title="@string/mainmenu_openhab_habpanel" />
-    <item
-        android:id="@+id/notifications"
-        android:icon="@drawable/ic_bell_outline_grey_24dp"
-        android:title="@string/app_notifications" />
-    <item
-        android:id="@+id/nfc"
-        android:icon="@drawable/ic_nfc_black_24dp"
-        android:title="@string/intro_nfc" />
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings_outline_grey_24dp"
-        android:title="@string/mainmenu_openhab_preferences" />
-    <item
-        android:id="@+id/about"
-        android:icon="@drawable/ic_info_outline_grey_24dp"
-        android:title="@string/about_title" />
+        android:title="@string/mainmenu_openhab_sitemaps"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/default_sitemap"
+            android:visible="false"
+            tools:visible="true"
+            android:icon="@drawable/ic_openhab_appicon_24dp"
+            android:title="@string/mainmenu_openhab_selectsitemap"
+            android:menuCategory="system" />
+    </group>
+    <group
+        android:id="@+id/options"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/habpanel"
+            android:icon="@drawable/ic_view_dashboard_outline_black_24dp"
+            android:title="@string/mainmenu_openhab_habpanel"
+            android:menuCategory="system" />
+        <item
+            android:id="@+id/notifications"
+            android:icon="@drawable/ic_bell_outline_grey_24dp"
+            android:title="@string/app_notifications"
+            android:menuCategory="system" />
+        <item
+            android:id="@+id/nfc"
+            android:icon="@drawable/ic_nfc_black_24dp"
+            android:title="@string/intro_nfc"
+            android:menuCategory="system" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings_outline_grey_24dp"
+            android:title="@string/mainmenu_openhab_preferences"
+            android:menuCategory="system" />
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/ic_info_outline_grey_24dp"
+            android:title="@string/about_title"
+            android:menuCategory="system" />
+    </group>
+    <group
+        android:id="@+id/servers"
+        android:checkableBehavior="none" />
 </menu>

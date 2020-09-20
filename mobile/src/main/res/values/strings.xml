@@ -4,15 +4,21 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
 
     <!-- General app strings -->
+    <string name="openhab" translatable="false">openHAB</string>
     <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
-    <string name="app_notifications">Notifications</string>
     <string name="empty_string" translatable="false" />
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="delete">Delete</string>
 
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="app_notifications">Notifications</string>
+    <string name="app_notifications_on_server">Notifications (%s)</string>
     <string name="habpanel_error">An error occurred while loading HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
@@ -93,6 +99,21 @@
     <string name="settings_screen_lock_kiosk_value" translatable="false">kiosk</string>
     <string name="settings_screen_lock_on_value" translatable="false">on</string>
     <string name="settings_show_sitemaps_in_drawer">Show all Sitemaps in side menu</string>
+    <string name="settings_server_name">Server name</string>
+    <string name="settings_add_server">Add server</string>
+    <string name="settings_edit_server">Edit server</string>
+    <string name="drawer_title_servers">Servers</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">At least server name and one connection is required</string>
+    <string name="settings_server_confirm_deletion">Do you really want to remove this server?</string>
+    <string name="settings_server_confirm_leave_title">Unsaved changes</string>
+    <string name="settings_server_confirm_leave_message">You made some changes. Do you want to save or discard them?</string>
+    <string name="settings_server_primary_title">Primary server</string>
+    <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
+    <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Click to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
+    <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html#multi-server-support</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Click here for more information</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -172,7 +193,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Not enough free space on server (HTTP code %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Network authentication required (HTTP code %d)</string>
-    <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="error_openhab_offline">Your openHAB server is offline while the cloud instance is running</string>
     <string name="error_no_browser_found">No browser found on your device</string>
     <string name="error_no_speech_to_text_app_found">No voice recognition app found</string>
@@ -187,8 +207,6 @@
     <string name="info_write_failed">Tag write error</string>
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API version</string>
-    <string name="info_openhab_push_notification_label">Push notification status</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long click a widget on the Sitemap.</string>
     <string name="info_not_set">Not set</string>
@@ -389,7 +407,6 @@
     <string name="about_community_forum">Community forum</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHAB community</string>
-    <string name="about_server">openHAB server</string>
     <string name="about_translation">Help us translating openHAB</string>
     <string name="about_privacy_policy">Privacy policy</string>
     <string name="about_rate_this_app">Rate this app</string>
@@ -397,7 +414,6 @@
     <string name="settings_debug_messages_title">Extended error messages</string>
     <string name="settings_troubleshooting_title">Troubleshooting</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
-    <string name="unknown">Unknown</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
@@ -426,6 +442,7 @@
     <string name="home_shortcut_pin_to_home">Pin to home</string>
     <string name="home_shortcut_error_pinning">Error pinning to home</string>
     <string name="home_shortcut_success_pinning">Pinned to home</string>
+    <string name="home_shortcut_server_has_been_deleted">The server for this shortcut has been deleted</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>
@@ -531,7 +548,6 @@
     <string name="tile_empty">Empty tile</string>
     <string name="tile_item_picker_title">Select an Item</string>
     <string name="tile_configure_in_settings">This tile can be configured in the openHAB app settings</string>
-    <string name="save">Save</string>
     <string name="tile_error_saving">Please fill out every setting</string>
     <string name="tile_disabled">Turned off</string>
     <string name="tile_enable">Turn on</string>

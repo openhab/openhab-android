@@ -17,6 +17,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
@@ -55,9 +56,11 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
@@ -178,7 +181,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     ItemUpdateWorker.ValueWithInfo(voiceCommand, type = ItemUpdateWorker.ValueType.VoiceCommand),
                     isImportant = true,
                     showToast = true,
-                    asCommand = true
+                    asCommand = true,
+                    primaryServer = intent.getBooleanExtra(EXTRA_FROM_BACKGROUND, false)
                 )
             }
         }
@@ -193,7 +197,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val isImportant: Boolean,
         val showToast: Boolean,
         val taskerIntent: String?,
-        val asCommand: Boolean
+        val asCommand: Boolean,
+        val primaryServer: Boolean
     ) : Parcelable
 
     private class PrefsListener constructor(private val context: Context) :
@@ -212,7 +217,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 // Demo mode was disabled -> reschedule uploads
                 (key == PrefKeys.DEMO_MODE && !prefs.isDemoModeEnabled()) ||
                     // Prefix has been changed -> reschedule uploads
-                    key == PrefKeys.DEV_ID || key == PrefKeys.DEV_ID_PREFIX_BG_TASKS -> {
+                    key == PrefKeys.DEV_ID || key == PrefKeys.DEV_ID_PREFIX_BG_TASKS ||
+                    key == PrefKeys.PRIMARY_SERVER_ID -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
                 }
                 key in KNOWN_KEYS -> scheduleWorker(context, key)
@@ -227,8 +233,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
         internal const val ACTION_CLEAR_UPLOAD = "org.openhab.habdroid.background.action.CLEAR_UPLOAD"
-        internal const val ACTION_VOICE_RESULT = "org.openhab.habdroid.background.action.VOICE_RESULT"
+        private const val ACTION_VOICE_RESULT = "org.openhab.habdroid.background.action.VOICE_RESULT"
         internal const val EXTRA_RETRY_INFO_LIST = "retryInfoList"
+        private const val EXTRA_FROM_BACKGROUND = "fromBackground"
 
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         private const val WORKER_TAG_PERIODIC_TRIGGER = "periodicTrigger"
@@ -239,6 +246,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
         const val WORKER_TAG_PREFIX_TILE = "tile-"
         const val WORKER_TAG_VOICE_COMMAND = "voiceCommand"
+        fun buildWorkerTagForServer(id: Int) = "server-id-$id"
 
         internal val KNOWN_KEYS = listOf(
             PrefKeys.SEND_ALARM_CLOCK,
@@ -355,6 +363,27 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 showToast = true,
                 asCommand = true
             )
+        }
+
+        fun buildVoiceRecognitionIntent(context: Context, fromBackground: Boolean): Intent {
+            val callbackIntent = Intent(context, BackgroundTasksManager::class.java).apply {
+                action = ACTION_VOICE_RESULT
+                putExtra(EXTRA_FROM_BACKGROUND, fromBackground)
+            }
+            val callbackPendingIntent = PendingIntent.getBroadcast(
+                context,
+                if (fromBackground) 1 else 0,
+                callbackIntent,
+                0
+            )
+
+            return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                // Display an hint to the user about what he should say.
+                putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input))
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+                putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)
+            }
         }
 
         fun triggerPeriodicWork(context: Context) {
@@ -482,19 +511,34 @@ class BackgroundTasksManager : BroadcastReceiver() {
             isImportant: Boolean,
             showToast: Boolean,
             taskerIntent: String? = null,
-            asCommand: Boolean
+            asCommand: Boolean,
+            primaryServer: Boolean = true
         ) {
+            val prefs = context.getPrefs()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-            val inputData =
-                ItemUpdateWorker.buildData(itemName, label, value, showToast, taskerIntent, asCommand, isImportant)
+            val inputData = ItemUpdateWorker.buildData(
+                itemName,
+                label,
+                value,
+                showToast,
+                taskerIntent,
+                asCommand,
+                isImportant,
+                primaryServer
+            )
             val workRequest = OneTimeWorkRequest.Builder(ItemUpdateWorker::class.java)
                 .setConstraints(constraints)
                 .setBackoffCriteria(if (isImportant) BackoffPolicy.LINEAR else BackoffPolicy.EXPONENTIAL,
                     WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(tag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
+                .addTag(
+                    buildWorkerTagForServer(
+                        if (primaryServer) prefs.getPrimaryServerId() else prefs.getActiveServerId()
+                    )
+                )
                 .setInputData(inputData)
                 .build()
 

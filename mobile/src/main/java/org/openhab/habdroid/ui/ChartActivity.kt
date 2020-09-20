@@ -151,7 +151,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     private fun loadChartImage(force: Boolean) {
-        val connection = ConnectionFactory.usableConnectionOrNull
+        val connection = ConnectionFactory.activeUsableConnection?.connection
         if (connection == null) {
             finish()
             return

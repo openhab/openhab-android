@@ -46,6 +46,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.CloudNotificationListFragment
@@ -55,8 +56,11 @@ import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.RemoteLog
+import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
 
@@ -89,8 +93,9 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     val currentTitle get() = when {
         noConnectionFragment != null -> null
-        temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications)
-        temporaryPage is WebViewFragment -> activity.getString((temporaryPage as WebViewFragment).titleResId)
+        temporaryPage is CloudNotificationListFragment ->
+            (temporaryPage as CloudNotificationListFragment).getTitle(activity)
+        temporaryPage is WebViewFragment -> (temporaryPage as WebViewFragment).title
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
     }
@@ -254,10 +259,27 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     fun showHabPanel() {
-        showTemporaryPage(WebViewFragment.newInstance(R.string.mainmenu_openhab_habpanel,
-            R.string.habpanel_error,
-            "/habpanel/index.html", "/rest/events",
-            MainActivity.ACTION_HABPANEL_SELECTED, R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel))
+        val prefs = activity.getPrefs()
+        val activeServerId = prefs.getActiveServerId()
+        val title = if (prefs.getConfiguredServerIds().size <= 1) {
+            activity.getString(R.string.mainmenu_openhab_habpanel)
+        } else {
+            val activeServerName = ServerConfiguration.load(prefs, activity.getSecretPrefs(), activeServerId)?.name
+            activity.getString(R.string.mainmenu_openhab_habpanel_on_server, activeServerName)
+        }
+
+        showTemporaryPage(
+            WebViewFragment.newInstance(
+                title,
+                R.string.habpanel_error,
+                "/habpanel/index.html",
+                "/rest/events",
+                activeServerId,
+                MainActivity.ACTION_HABPANEL_SELECTED,
+                title,
+                R.mipmap.ic_shortcut_habpanel
+            )
+        )
     }
 
     /**
@@ -344,8 +366,8 @@ abstract class ContentController protected constructor(private val activity: Mai
      *
      * @param highlightedId ID of notification to be highlighted initially
      */
-    fun openNotifications(highlightedId: String?) {
-        showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId))
+    fun openNotifications(highlightedId: String?, primaryServer: Boolean) {
+        showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId, primaryServer))
     }
 
     /**

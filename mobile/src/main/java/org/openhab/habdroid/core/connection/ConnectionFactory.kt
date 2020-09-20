@@ -21,6 +21,16 @@ import android.security.KeyChainException
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import de.duenndns.ssl.MemorizingTrustManager
+import java.net.Socket
+import java.security.Principal
+import java.security.PrivateKey
+import java.security.cert.X509Certificate
+import java.util.HashSet
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.KeyManager
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509KeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,27 +42,18 @@ import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.exception.ConnectionException
-import org.openhab.habdroid.core.connection.exception.ConnectionNotInitializedException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
-import org.openhab.habdroid.util.toNormalizedUrl
-import java.net.Socket
-import java.security.Principal
-import java.security.PrivateKey
-import java.security.cert.X509Certificate
-import java.util.HashSet
-import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.KeyManager
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509KeyManager
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -71,27 +72,42 @@ class ConnectionFactory internal constructor(
     private var httpClient: OkHttpClient
     private var lastClientCertAlias: String? = null
 
-    private var localConnection: Connection? = null
-    private var remoteConnection: AbstractConnection? = null
+    private var primaryConn: ServerConnections? = null
+    private var activeConn: ServerConnections? = null
 
     private val listeners = HashSet<UpdateListener>()
     private var needsUpdate: Boolean = false
 
-    private var availableCheck: Job? = null
-    private var cloudCheck: Job? = null
+    private var activeCheck: Job? = null
+    private var primaryCheck: Job? = null
+    private var activeCloudCheck: Job? = null
+    private var primaryCloudCheck: Job? = null
 
-    private data class StateHolder constructor(
-        val available: Connection?,
-        val availableFailureReason: ConnectionException?,
-        val cloudInitialized: Boolean,
-        val cloud: CloudConnection?,
-        val cloudFailureReason: Exception?
+    private data class ServerConnections constructor(
+        val local: Connection?,
+        val remote: AbstractConnection?
     )
-    private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, false, null, null))
+    data class ConnectionResult constructor(
+        val connection: Connection?,
+        val failureReason: ConnectionException?
+    )
+    data class CloudConnectionResult constructor(
+        val connection: CloudConnection?,
+        val failureReason: Exception?
+    )
+    private data class StateHolder constructor(
+        val primary: ConnectionResult?,
+        val active: ConnectionResult?,
+        val primaryCloud: CloudConnectionResult?,
+        val activeCloud: CloudConnectionResult?
+    )
+    private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, null, null))
 
     interface UpdateListener {
-        fun onAvailableConnectionChanged()
-        fun onCloudConnectionChanged(connection: CloudConnection?)
+        fun onActiveConnectionChanged()
+        fun onPrimaryConnectionChanged()
+        fun onActiveCloudConnectionChanged(connection: CloudConnection?)
+        fun onPrimaryCloudConnectionChanged(connection: CloudConnection?)
     }
 
     init {
@@ -126,7 +142,7 @@ class ConnectionFactory internal constructor(
             if (listeners.isEmpty()) {
                 // We're running in background. Clear current state and postpone update for next
                 // listener registration.
-                updateState(false, available = null, availableFailureReason = null)
+                updateState(false, active = null, primary = null)
                 needsUpdate = true
             } else {
                 triggerConnectionUpdateIfNeeded()
@@ -139,13 +155,16 @@ class ConnectionFactory internal constructor(
             if (l is Activity) {
                 trustManager.bindDisplayActivity(l)
             }
-            if (!triggerConnectionUpdateIfNeededAndPending() && localConnection != null && listeners.size == 1) {
+            if (!triggerConnectionUpdateIfNeededAndPending() && activeConn?.local != null && listeners.size == 1) {
                 // When coming back from background, re-do connectivity check for
                 // local connections, as the reachability of the local server might have
                 // changed since we went to background
-                val (available, reason, _, _) = stateChannel.value
-                val local = available === localConnection ||
-                    (reason is NoUrlInformationException && reason.wouldHaveUsedLocalConnection())
+                val (_, active, _, _) = stateChannel.value
+                val local = active?.connection === activeConn?.local ||
+                    (
+                        active?.failureReason is NoUrlInformationException &&
+                            active.failureReason.wouldHaveUsedLocalConnection()
+                        )
                 if (local) {
                     triggerConnectionUpdateIfNeeded()
                 }
@@ -157,36 +176,59 @@ class ConnectionFactory internal constructor(
         if (key == PrefKeys.DEBUG_MESSAGES) {
             updateHttpLoggerSettings()
         }
-        if (key in CLIENT_CERT_UPDATE_TRIGGERING_KEYS) {
+        val serverId = sharedPreferences.getActiveServerId()
+        if (key in UPDATE_TRIGGERING_KEYS ||
+            CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
+        ) {
             updateHttpClientForClientCert(false)
         }
-        if (key in UPDATE_TRIGGERING_KEYS) launch {
-            updateConnections()
+        if (key in UPDATE_TRIGGERING_KEYS ||
+            UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
+        ) launch {
+            // if the active server changed, we need to invalidate the old connection immediately,
+            // as we don't want the user to see old server data while we're validating the new one
+            updateConnections(key == PrefKeys.ACTIVE_SERVER_ID)
         }
     }
 
     @VisibleForTesting
-    fun updateConnections() {
+    fun updateConnections(callListenersImmediately: Boolean = false) {
         if (prefs.isDemoModeEnabled()) {
-            if (localConnection is DemoConnection) {
+            if (activeConn?.local is DemoConnection) {
                 // demo mode already was enabled
                 return
             }
-            remoteConnection = DemoConnection(httpClient)
-            localConnection = remoteConnection
-            updateState(true, available = localConnection, availableFailureReason = null,
-                cloudInitialized = true, cloud = null, cloudFailureReason = null)
+            val conn = DemoConnection(httpClient)
+            activeConn = ServerConnections(conn, conn)
+            primaryConn = activeConn
+            val connResult = ConnectionResult(conn, null)
+            updateState(true, connResult, connResult, CloudConnectionResult(null, null))
         } else {
-            localConnection = makeConnection(Connection.TYPE_LOCAL,
-                PrefKeys.LOCAL_URL,
-                PrefKeys.LOCAL_USERNAME, PrefKeys.LOCAL_PASSWORD)
-            remoteConnection = makeConnection(Connection.TYPE_REMOTE,
-                PrefKeys.REMOTE_URL,
-                PrefKeys.REMOTE_USERNAME, PrefKeys.REMOTE_PASSWORD)
+            val activeServer = prefs.getActiveServerId()
+            activeConn = loadServerConnections(activeServer)
 
-            updateState(false, null, null, false, null, null)
+            val primaryServer = prefs.getPrimaryServerId()
+            if (primaryServer == activeServer) {
+                primaryConn = activeConn
+            } else {
+                primaryConn = loadServerConnections(primaryServer)
+            }
+
+            updateState(callListenersImmediately, null, null, null)
             triggerConnectionUpdateIfNeeded()
         }
+    }
+
+    private fun loadServerConnections(serverId: Int): ServerConnections? {
+        val config = ServerConfiguration.load(prefs, secretPrefs, serverId)
+        if (config == null) {
+            return null
+        }
+        val local =
+            config.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
+        val remote =
+            config.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
+        return ServerConnections(local, remote)
     }
 
     private fun updateHttpLoggerSettings() {
@@ -202,8 +244,12 @@ class ConnectionFactory internal constructor(
     }
 
     private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
-        val clientCertAlias = if (prefs.isDemoModeEnabled()) // No client cert in demo mode
-            null else prefs.getStringOrNull(PrefKeys.SSL_CLIENT_CERT)
+        val clientCertAlias = if (prefs.isDemoModeEnabled()) {
+            // No client cert in demo mode
+            null
+        } else {
+            prefs.getStringOrNull(PrefKeys.buildServerKey(prefs.getActiveServerId(), PrefKeys.SSL_CLIENT_CERT_PREFIX))
+        }
         val keyManagers = if (clientCertAlias != null)
             arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
 
@@ -233,22 +279,31 @@ class ConnectionFactory internal constructor(
 
     private fun updateState(
         callListenersOnChange: Boolean,
-        available: Connection? = stateChannel.value.available,
-        availableFailureReason: ConnectionException? = stateChannel.value.availableFailureReason,
-        cloudInitialized: Boolean = stateChannel.value.cloudInitialized,
-        cloud: CloudConnection? = stateChannel.value.cloud,
-        cloudFailureReason: Exception? = stateChannel.value.cloudFailureReason
+        primary: ConnectionResult? = stateChannel.value.primary,
+        active: ConnectionResult? = stateChannel.value.active,
+        primaryCloud: CloudConnectionResult? = stateChannel.value.primaryCloud,
+        activeCloud: CloudConnectionResult? = stateChannel.value.activeCloud
     ) {
         val prevState = stateChannel.value
-        val newState = StateHolder(available, availableFailureReason, cloudInitialized, cloud, cloudFailureReason)
+        val newState = StateHolder(primary, active, primaryCloud, activeCloud)
         stateChannel.offer(newState)
         if (callListenersOnChange) launch {
-            if (newState.availableFailureReason != null || prevState.available !== newState.available) {
-                listeners.forEach { l -> l.onAvailableConnectionChanged() }
+            if (newState.active?.failureReason != null ||
+                prevState.active?.connection !== newState.active?.connection
+            ) {
+                listeners.forEach { l -> l.onActiveConnectionChanged() }
             }
-            if (prevState.cloud !== newState.cloud) {
-                CloudMessagingHelper.onConnectionUpdated(context, newState.cloud)
-                listeners.forEach { l -> l.onCloudConnectionChanged(newState.cloud) }
+            if (newState.primary?.failureReason != null ||
+                prevState.primary?.connection !== newState.primary?.connection
+            ) {
+                listeners.forEach { l -> l.onPrimaryConnectionChanged() }
+            }
+            if (prevState.activeCloud !== newState.activeCloud) {
+                listeners.forEach { l -> l.onActiveCloudConnectionChanged(newState.activeCloud?.connection) }
+            }
+            if (prevState.primaryCloud !== newState.primaryCloud) {
+                CloudMessagingHelper.onConnectionUpdated(context, newState.primaryCloud?.connection)
+                listeners.forEach { l -> l.onPrimaryCloudConnectionChanged(newState.primaryCloud?.connection) }
             }
         }
     }
@@ -263,54 +318,80 @@ class ConnectionFactory internal constructor(
     }
 
     private fun triggerConnectionUpdateIfNeeded() {
-        availableCheck?.cancel()
-        cloudCheck?.cancel()
+        activeCheck?.cancel()
+        primaryCheck?.cancel()
+        activeCloudCheck?.cancel()
+        primaryCloudCheck?.cancel()
 
-        if (localConnection is DemoConnection) {
+        if (activeConn?.local is DemoConnection) {
             return
         }
 
-        availableCheck = launch {
-            try {
-                val result = withContext(Dispatchers.IO) {
-                    checkAvailableConnection(localConnection, remoteConnection)
-                }
-                // Check whether the passed connection matches a known one. If not, the
-                // connections were updated while the thread was processing and we'll get
-                // a new callback.
-                if (result != localConnection && result != remoteConnection) {
-                    return@launch
-                }
-                updateState(true, available = result, availableFailureReason = null)
-            } catch (e: ConnectionException) {
-                updateState(true, available = null, availableFailureReason = e)
-            }
-        }
-        cloudCheck = launch {
-            try {
-                val result = withContext(Dispatchers.IO) {
-                    remoteConnection?.toCloudConnection()
-                }
-                updateState(true, cloudInitialized = true, cloud = result, cloudFailureReason = null)
-            } catch (e: Exception) {
-                updateState(true, cloudInitialized = true, cloud = null, cloudFailureReason = e)
-            }
-        }
-    }
+        val active = activeConn
+        val primary = primaryConn
 
-    private fun makeConnection(
-        type: Int,
-        urlKey: String,
-        userNameKey: String,
-        passwordKey: String
-    ): AbstractConnection? {
-        val url = prefs.getStringOrNull(urlKey)?.toNormalizedUrl()
-        if (url.isNullOrEmpty()) {
-            return null
+        val updateActive = { result: ConnectionResult ->
+            if (active === primary) {
+                updateState(true, active = result, primary = result)
+            } else {
+                updateState(true, active = result)
+            }
         }
-        return DefaultConnection(httpClient, type, url,
-            secretPrefs.getStringOrNull(userNameKey),
-            secretPrefs.getStringOrNull(passwordKey))
+        val updateActiveCloud = { result: CloudConnectionResult ->
+            if (active === primary) {
+                updateState(true, activeCloud = result, primaryCloud = result)
+            } else {
+                updateState(true, activeCloud = result)
+            }
+        }
+
+        activeCheck = launch {
+            try {
+                val usable = withContext(Dispatchers.IO) {
+                    checkAvailableConnection(active?.local, active?.remote)
+                }
+                updateActive(ConnectionResult(usable, null))
+            } catch (e: ConnectionException) {
+                updateActive(ConnectionResult(null, e))
+            }
+        }
+
+        if (active !== primary) {
+            primaryCheck = launch {
+                try {
+                    val usable = withContext(Dispatchers.IO) {
+                        checkAvailableConnection(primary?.local, primary?.remote)
+                    }
+                    updateState(true, primary = ConnectionResult(usable, null))
+                } catch (e: ConnectionException) {
+                    updateState(true, primary = ConnectionResult(null, e))
+                }
+            }
+        }
+
+        activeCloudCheck = launch {
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    active?.remote?.toCloudConnection()
+                }
+                updateActiveCloud(CloudConnectionResult(result, null))
+            } catch (e: Exception) {
+                updateActiveCloud(CloudConnectionResult(null, e))
+            }
+        }
+
+        if (active !== primary) {
+            primaryCloudCheck = launch {
+                try {
+                    val result = withContext(Dispatchers.IO) {
+                        primary?.remote?.toCloudConnection()
+                    }
+                    updateState(true, primaryCloud = CloudConnectionResult(result, null))
+                } catch (e: Exception) {
+                    updateState(true, primaryCloud = CloudConnectionResult(null, e))
+                }
+            }
+        }
     }
 
     private suspend fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
@@ -420,15 +501,16 @@ class ConnectionFactory internal constructor(
 
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
-        private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
-            PrefKeys.DEMO_MODE, PrefKeys.SSL_CLIENT_CERT
-        )
         private val UPDATE_TRIGGERING_KEYS = listOf(
-            PrefKeys.LOCAL_URL, PrefKeys.REMOTE_URL,
-            PrefKeys.LOCAL_USERNAME, PrefKeys.LOCAL_PASSWORD,
-            PrefKeys.REMOTE_USERNAME, PrefKeys.REMOTE_PASSWORD,
-            PrefKeys.SSL_CLIENT_CERT, PrefKeys.DEMO_MODE
+            PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID, PrefKeys.PRIMARY_SERVER_ID
         )
+        private val UPDATE_TRIGGERING_PREFIXES = listOf(
+            PrefKeys.LOCAL_URL_PREFIX, PrefKeys.REMOTE_URL_PREFIX,
+            PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX,
+            PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX,
+            PrefKeys.SSL_CLIENT_CERT_PREFIX
+        )
+        private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)
 
         @VisibleForTesting lateinit var instance: ConnectionFactory
 
@@ -452,15 +534,15 @@ class ConnectionFactory internal constructor(
          * Wait for initialization of the factory.
          *
          * This method blocks until all asynchronous work (that is, determination of
-         * available and cloud connection) is ready, so that [.getConnection]
-         * and [.getUsableConnection] can safely be used.
+         * available and cloud connection) is ready, so that {@link connection}
+         * and {@link usableConnection} can safely be used.
          */
         suspend fun waitForInitialization() {
             instance.triggerConnectionUpdateIfNeededAndPending()
             val sub = instance.stateChannel.openSubscription()
             do {
-                val (available, reason, cloudInitialized, _) = sub.receive()
-            } while ((available == null && reason == null) || !cloudInitialized)
+                val (primary, active, primaryCloud, activeCloud) = sub.receive()
+            } while (primary == null || active == null || primaryCloud == null || activeCloud == null)
         }
 
         fun addListener(l: UpdateListener) {
@@ -478,69 +560,51 @@ class ConnectionFactory internal constructor(
         }
 
         /**
-         * Returns any openHAB connection that is most likely to work on the current network. The
-         * connections available will be tried in the following order:
-         * - TYPE_LOCAL
-         * - TYPE_REMOTE
-         * - TYPE_CLOUD
-         *
-         * If there's an issue in configuration or network connectivity, or the connection
-         * is not yet initialized, the respective exception is thrown.
+         * Returns any openHAB connection that is most likely to work for the active server on the current network.
+         * The returned object will contain either a working connection, or the initialization failure cause.
+         * If initialization did not finish yet, null is returned.
          */
-        val usableConnection: Connection
-            @Throws(ConnectionException::class)
-            get() {
-                instance.triggerConnectionUpdateIfNeededAndPending()
-                val (available, reason, _, _) = instance.stateChannel.value
-                if (reason != null) {
-                    throw reason
-                }
-                if (available == null) {
-                    throw ConnectionNotInitializedException()
-                }
-                return available
-            }
+        val activeUsableConnection get() = instance.stateChannel.value.active
 
         /**
-         * Like {@link usableConnection}, but returns null instead of throwing in case
-         * a connection could not be determined
+         * Returns the configured local connection for the active server, or null if none is configured
          */
-        val usableConnectionOrNull get() = instance.stateChannel.value.available
+        val activeLocalConnection get() = instance.activeConn?.local
 
         /**
-         * Returns the configured local connection, or null if none is configured
+         * Returns the configured remote connection for the active server, or null if none is configured
          */
-        val localConnectionOrNull get() = instance.localConnection
+        val activeRemoteConnection get() = instance.activeConn?.remote
 
         /**
-         * Returns the configured remote connection, or null if none is configured
+         * Like {@link activeUsableConnection}, but for the primary instead of active server.
          */
-        val remoteConnectionOrNull get() = instance.remoteConnection
+        val primaryUsableConnection get() = instance.stateChannel.value.primary
 
         /**
-         * Returns the resolved cloud connection.
-         * May throw an exception if no remote connection is configured
-         * or the remote connection is not usable as cloud connection.
+         * Returns the configured local connection for the primary server, or null if none is configured
          */
-        val cloudConnection: CloudConnection
-            @Throws(Exception::class)
-            get() {
-                instance.triggerConnectionUpdateIfNeededAndPending()
-                val (_, _, _, cloud, cloudFailureReason) = instance.stateChannel.value
-                if (cloudFailureReason != null) {
-                    throw cloudFailureReason
-                }
-                if (cloud == null) {
-                    throw ConnectionNotInitializedException()
-                }
-                return cloud
-            }
+        val primaryLocalConnection get() = instance.primaryConn?.local
 
         /**
-         * Returns the resolved cloud connection.
-         * May return null if no remote connection is configured
-         * or the remote connection is not usable as cloud connection.
+         * Returns the configured remote connection for the primary server, or null if none is configured
          */
-        val cloudConnectionOrNull get() = instance.stateChannel.value.cloud
+        val primaryRemoteConnection get() = instance.primaryConn?.remote
+
+        /**
+         * Returns the resolved cloud connection for the active server.
+         * The returned object will contain either
+         * - a working connection
+         * - the initialization failure cause or
+         * - null for both values
+         *   (in case no remote server is configured or the remote server is not an openHAB cloud instance)
+         * If initialization did not finish yet, null is returned.
+         */
+        val activeCloudConnection get() = instance.stateChannel.value.activeCloud
+
+        /**
+         * Like {@link activeCloudConnection}, but for the primary instead of active server.
+         */
+        val primaryCloudConnection get() = instance.stateChannel.value.primaryCloud
     }
 }

@@ -66,6 +66,7 @@ import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.openInBrowser
@@ -485,7 +486,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         linkedPage: LinkedPage,
         whiteBackground: Boolean
     ) = GlobalScope.launch {
-        val connection = ConnectionFactory.usableConnectionOrNull ?: return@launch
+        val connection = ConnectionFactory.activeUsableConnection?.connection ?: return@launch
         /**
          *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
          *  46dp instead of 72dp adds enough border to the icon.
@@ -528,6 +529,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         val startIntent = Intent(context, MainActivity::class.java).apply {
             action = MainActivity.ACTION_SITEMAP_SELECTED
             putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri)
+            putExtra(MainActivity.EXTRA_SERVER_ID, context.getPrefs().getActiveServerId())
         }
 
         val name = if (linkedPage.title.isEmpty()) context.getString(R.string.app_name) else linkedPage.title

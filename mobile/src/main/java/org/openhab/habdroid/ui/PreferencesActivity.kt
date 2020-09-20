@@ -14,10 +14,10 @@
 package org.openhab.habdroid.ui
 
 import android.app.Activity
+import android.app.Dialog
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
@@ -34,21 +34,24 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceDataStore
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.forEachIndexed
+import androidx.work.WorkManager
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
@@ -56,6 +59,7 @@ import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.background.BackgroundTasksManager.Companion.buildWorkerTagForServer
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
@@ -65,27 +69,34 @@ import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
+import org.openhab.habdroid.ui.preference.BetaPreference
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.NotificationPollingPreference
+import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
 import org.openhab.habdroid.ui.preference.TileItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
+import org.openhab.habdroid.util.getNextAvailableServerId
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
-import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 
@@ -141,7 +152,9 @@ class PreferencesActivity : AbstractBaseActivity() {
     override fun onBackPressed() {
         with(supportFragmentManager) {
             if (backStackEntryCount > 0) {
-                popBackStack()
+                if ((fragments.last() as? AbstractSettingsFragment)?.onBackPressed() != true) {
+                    popBackStack()
+                }
             } else {
                 super.onBackPressed()
             }
@@ -174,25 +187,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             parentActivity.supportActionBar?.setTitle(titleResId)
         }
 
-        protected fun isConnectionHttps(url: String?): Boolean {
-            return url != null && url.startsWith("https://")
-        }
-
-        private fun hasConnectionBasicAuthentication(user: String?, password: String?): Boolean {
-            return !user.isNullOrEmpty() && !password.isNullOrEmpty()
-        }
-
-        private fun hasClientCertificate(): Boolean {
-            return prefs.getStringOrEmpty(PrefKeys.SSL_CLIENT_CERT).isNotEmpty()
-        }
-
-        protected fun isConnectionSecure(url: String?, user: String?, password: String?): Boolean {
-            if (!isConnectionHttps(url)) {
-                return false
-            }
-            return hasConnectionBasicAuthentication(user, password) || hasClientCertificate()
-        }
-
         override fun onDisplayPreferenceDialog(preference: Preference?) {
             if (preference == null) {
                 return
@@ -207,6 +201,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 super.onDisplayPreferenceDialog(preference)
             }
         }
+
+        // Returns true if back key press was consumed
+        open fun onBackPressed() = false
 
         companion object {
             /**
@@ -241,21 +238,22 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private var notificationPollingPref: NotificationPollingPreference? = null
         private var notificationStatusHint: Preference? = null
+        private var addServerPref: BetaPreference? = null
 
         override fun onStart() {
             super.onStart()
-            updateConnectionSummary(PrefKeys.SUBSCREEN_LOCAL_CONNECTION,
-                PrefKeys.LOCAL_URL, PrefKeys.LOCAL_USERNAME,
-                PrefKeys.LOCAL_PASSWORD)
-            updateConnectionSummary(PrefKeys.SUBSCREEN_REMOTE_CONNECTION,
-                PrefKeys.REMOTE_URL, PrefKeys.REMOTE_USERNAME,
-                PrefKeys.REMOTE_PASSWORD)
             updateScreenLockStateAndSummary(prefs.getStringOrFallbackIfEmpty(PrefKeys.SCREEN_LOCK,
                 getString(R.string.settings_screen_lock_off_value)))
+            populateServerPrefs()
             ConnectionFactory.addListener(this)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 updateTileSummary()
             }
+        }
+
+        override fun onResume() {
+            super.onResume()
+            addServerPref?.setBetaTagVisibility(prefs.getConfiguredServerIds().isNotEmpty())
         }
 
         override fun onStop() {
@@ -266,8 +264,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences)
 
-            val localConnPref = getPreference(PrefKeys.SUBSCREEN_LOCAL_CONNECTION)
-            val remoteConnPref = getPreference(PrefKeys.SUBSCREEN_REMOTE_CONNECTION)
+            addServerPref = getPreference("add_server") as BetaPreference
             val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
             notificationPollingPref =
                 getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
@@ -275,7 +272,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
-            val clearDefaultSitemapPref = getPreference(PrefKeys.CLEAR_DEFAULT_SITEMAP)
             val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
             val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
             val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
@@ -292,27 +288,22 @@ class PreferencesActivity : AbstractBaseActivity() {
                 dataSaverPref.setSwitchTextOff(R.string.data_saver_off_pre_n)
             }
 
-            val currentDefaultSitemap = prefs.getStringOrNull(PrefKeys.SITEMAP_NAME)
-            val currentDefaultSitemapLabel = prefs.getStringOrEmpty(PrefKeys.SITEMAP_LABEL)
-            if (currentDefaultSitemap.isNullOrEmpty()) {
-                onNoDefaultSitemap(clearDefaultSitemapPref)
-            } else {
-                clearDefaultSitemapPref.summary = getString(
-                    R.string.settings_current_default_sitemap, currentDefaultSitemapLabel)
-            }
-
             updateRingtonePreferenceSummary(ringtonePref, prefs.getNotificationTone())
             updateVibrationPreferenceIcon(vibrationPref,
                 prefs.getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION))
 
-            localConnPref.setOnPreferenceClickListener {
-                parentActivity.openSubScreen(LocalConnectionSettingsFragment())
-                false
-            }
-
-            remoteConnPref.setOnPreferenceClickListener {
-                parentActivity.openSubScreen(RemoteConnectionSettingsFragment())
-                false
+            addServerPref?.setOnPreferenceClickListener {
+                val nextServerId = prefs.getNextAvailableServerId()
+                val nextName = if (prefs.getConfiguredServerIds().isEmpty()) {
+                    getString(R.string.openhab)
+                } else {
+                    getString(R.string.settings_server_default_name, nextServerId)
+                }
+                val f = ServerEditorFragment.newInstance(
+                    ServerConfiguration(nextServerId, nextName, null, null, null, null)
+                )
+                parentActivity.openSubScreen(f)
+                true
             }
 
             sendDeviceInfoPref.setOnPreferenceClickListener {
@@ -364,13 +355,6 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             showSitemapInDrawerPref.setOnPreferenceChangeListener { _, _ ->
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, true)
-                true
-            }
-
-            clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
-                preference.sharedPreferences.edit { updateDefaultSitemap(null, null) }
-                onNoDefaultSitemap(preference)
-                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true
             }
 
@@ -460,6 +444,36 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        private fun populateServerPrefs() {
+            val connCategory = getPreference("connection") as PreferenceCategory
+            (0 until connCategory.preferenceCount)
+                .map { index -> connCategory.getPreference(index) }
+                .filter { pref -> pref.key?.startsWith("server_") == true }
+                .forEach { pref -> connCategory.removePreference(pref) }
+
+            prefs.getConfiguredServerIds().forEach { serverId ->
+                val config = ServerConfiguration.load(prefs, secretPrefs, serverId)
+                if (config != null) {
+                    val pref = Preference(context)
+                    pref.title = pref.context.getString(R.string.server_with_name, config.name)
+                    pref.key = "server_$serverId"
+                    pref.order = 10 * serverId
+                    pref.setOnPreferenceClickListener {
+                        parentActivity.openSubScreen(ServerEditorFragment.newInstance(config))
+                        true
+                    }
+                    pref.icon = if (serverId == prefs.getPrimaryServerId() && prefs.getConfiguredServerIds().size > 1) {
+                        ContextCompat.getDrawable(pref.context, R.drawable.ic_star_border_grey_24dp)
+                    } else {
+                        null
+                    }
+                    connCategory.addPreference(pref)
+                    // The pref needs to be attached for doing this
+                    pref.dependency = PrefKeys.DEMO_MODE
+                }
+            }
+        }
+
         private fun clearImageCache(context: Context) {
             // Get launch intent for application
             val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
@@ -484,16 +498,13 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
-        private fun onNoDefaultSitemap(pref: Preference) {
-            pref.isEnabled = false
-            pref.setSummary(R.string.settings_no_default_sitemap)
-        }
-
         private fun updateNotificationStatusSummaries() {
             parentActivity.launch {
-                notificationPollingPref?.updateSummary()
+                notificationPollingPref?.updateSummaryAndIcon()
                 notificationStatusHint?.apply {
-                    summary = CloudMessagingHelper.getPushNotificationStatus(this.context).message
+                    val data = CloudMessagingHelper.getPushNotificationStatus(this.context)
+                    summary = data.message
+                    setIcon(data.icon)
                 }
             }
         }
@@ -535,26 +546,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 R.drawable.ic_vibration_grey_24dp)
         }
 
-        private fun updateConnectionSummary(
-            subscreenPrefKey: String,
-            urlPrefKey: String,
-            userPrefKey: String,
-            passwordPrefKey: String
-        ) {
-            val pref = getPreference(subscreenPrefKey)
-            val url = prefs.getStringOrEmpty(urlPrefKey)
-            val beautyUrl = beautifyUrl(url)
-            val userName = secretPrefs.getStringOrNull(userPrefKey)
-            val password = secretPrefs.getStringOrNull(passwordPrefKey)
-            val summary = when {
-                url.isEmpty() -> getString(R.string.info_not_set)
-                isConnectionSecure(url, userName, password) ->
-                    getString(R.string.settings_connection_summary, beautyUrl)
-                else -> getString(R.string.settings_insecure_connection_summary, beautyUrl)
-            }
-            pref.summary = summary
-        }
-
         @RequiresApi(Build.VERSION_CODES.N)
         private fun updateTileSummary() {
             val activeTileCount = (1..AbstractTileService.TILE_COUNT)
@@ -577,16 +568,325 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
-        override fun onAvailableConnectionChanged() {
+        override fun onActiveConnectionChanged() {
+            // no-op
+        }
+
+        override fun onPrimaryConnectionChanged() {
             updateNotificationStatusSummaries()
         }
 
-        override fun onCloudConnectionChanged(connection: CloudConnection?) {
+        override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+            // no-op
+        }
+
+        override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
             updateNotificationStatusSummaries()
         }
 
         companion object {
             private const val REQUEST_CODE_RINGTONE = 1000
+        }
+    }
+
+    class ConfirmationDialogFragment : DialogFragment() {
+        interface Callback {
+            fun onConfirmed(tag: String?)
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val args = requireArguments()
+            return AlertDialog.Builder(requireContext())
+                .setMessage(args.getInt("message"))
+                .setPositiveButton(args.getInt("buttontext")) { _, _ ->
+                    val callback = parentFragment as Callback? ?: throw IllegalArgumentException()
+                    callback.onConfirmed(args.getString("tag"))
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+        }
+
+        companion object {
+            fun show(fm: FragmentManager, messageResId: Int, actionButtonTextResId: Int, tag: String) {
+                val f = ConfirmationDialogFragment()
+                f.arguments = bundleOf(
+                    "message" to messageResId,
+                    "buttontext" to actionButtonTextResId,
+                    "tag" to tag
+                )
+                f.show(fm, tag)
+            }
+        }
+    }
+
+    class ServerEditorConfirmLeaveDialogFragment : DialogFragment() {
+        interface Callback {
+            fun onLeaveAndSave()
+            fun onLeaveAndDiscard()
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return AlertDialog.Builder(requireContext())
+                .setTitle(R.string.settings_server_confirm_leave_title)
+                .setMessage(R.string.settings_server_confirm_leave_message)
+                .setPositiveButton(R.string.save) { _, _ -> handleDone(true) }
+                .setNegativeButton(R.string.discard) { _, _ -> handleDone(false) }
+                .setNeutralButton(android.R.string.cancel, null)
+                .create()
+        }
+
+        private fun handleDone(confirmed: Boolean) {
+            val callback = parentFragment as Callback? ?: throw IllegalArgumentException()
+            if (confirmed) {
+                callback.onLeaveAndSave()
+            } else {
+                callback.onLeaveAndDiscard()
+            }
+        }
+    }
+
+    class ServerEditorFragment :
+        AbstractSettingsFragment(),
+        ConfirmationDialogFragment.Callback,
+        ServerEditorConfirmLeaveDialogFragment.Callback {
+        private lateinit var config: ServerConfiguration
+        private var markAsPrimary = false
+
+        override val titleResId: Int get() = R.string.settings_edit_server
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            config = requireArguments().getParcelable("config")!!
+            super.onCreate(savedInstanceState)
+            setHasOptionsMenu(true)
+        }
+
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            super.onCreateOptionsMenu(menu, inflater)
+            inflater.inflate(R.menu.server_editor, menu)
+            val deleteItem = menu.findItem(R.id.delete)
+            deleteItem.isVisible = prefs.getConfiguredServerIds().contains(config.id)
+        }
+
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.save -> {
+                    saveAndQuit()
+                    true
+                }
+                R.id.delete -> {
+                    ConfirmationDialogFragment.show(
+                        childFragmentManager,
+                        R.string.settings_server_confirm_deletion,
+                        R.string.delete,
+                        "delete_server_confirmation"
+                    )
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
+        }
+
+        private fun saveAndQuit() {
+            if (config.name.isEmpty() || (config.localPath == null && config.remotePath == null)) {
+                context?.showToast(R.string.settings_server_at_least_name_and_connection)
+                return
+            }
+            config.saveToPrefs(prefs, secretPrefs)
+            if (markAsPrimary) {
+                prefs.edit {
+                    putPrimaryServerId(config.id)
+                }
+            }
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
+        }
+
+        override fun onBackPressed(): Boolean {
+            if (ServerConfiguration.load(prefs, secretPrefs, config.id) != config) {
+                ServerEditorConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                return true
+            }
+            return false
+        }
+
+        override fun onConfirmed(tag: String?) = when (tag) {
+            "delete_server_confirmation" -> {
+                config.removeFromPrefs(prefs, secretPrefs)
+                WorkManager.getInstance(preferenceManager.context).apply {
+                    cancelAllWorkByTag(buildWorkerTagForServer(config.id))
+                    pruneWork()
+                }
+                parentFragmentManager.popBackStack() // close ourself
+            }
+            else -> {}
+        }
+
+        override fun onLeaveAndSave() {
+            saveAndQuit()
+        }
+
+        override fun onLeaveAndDiscard() {
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
+        }
+
+        override fun onStart() {
+            super.onStart()
+            updateConnectionSummary("local", config.localPath)
+            updateConnectionSummary("remote", config.remotePath)
+        }
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            addPreferencesFromResource(R.xml.preferences_server)
+
+            val serverNamePref = getPreference("name") as EditTextPreference
+            serverNamePref.text = config.name
+            serverNamePref.setOnPreferenceChangeListener { _, newValue ->
+                config = ServerConfiguration(
+                    config.id,
+                    newValue as String,
+                    config.localPath,
+                    config.remotePath,
+                    config.sslClientCert,
+                    config.defaultSitemap
+                )
+                parentActivity.invalidateOptionsMenu()
+                true
+            }
+
+            val localConnPref = getPreference("local")
+            localConnPref.setOnPreferenceClickListener {
+                parentActivity.openSubScreen(
+                    ConnectionSettingsFragment.newInstance(
+                        localConnPref.key,
+                        config.localPath,
+                        R.xml.preferences_local_connection,
+                        R.string.settings_openhab_connection,
+                        R.string.settings_openhab_url_summary,
+                        this
+                    )
+                )
+                false
+            }
+
+            val remoteConnPref = getPreference("remote")
+            remoteConnPref.setOnPreferenceClickListener {
+                parentActivity.openSubScreen(
+                    ConnectionSettingsFragment.newInstance(
+                        remoteConnPref.key,
+                        config.remotePath,
+                        R.xml.preferences_remote_connection,
+                        R.string.settings_openhab_alt_connection,
+                        R.string.settings_openhab_alturl_summary,
+                        this
+                    )
+                )
+                false
+            }
+
+            val clientCertPref = getPreference("clientcert") as SslClientCertificatePreference
+            clientCertPref.setOnPreferenceChangeListener { _, newValue ->
+                config = ServerConfiguration(
+                    config.id,
+                    config.name,
+                    config.localPath,
+                    config.remotePath,
+                    newValue as String?,
+                    config.defaultSitemap
+                )
+                true
+            }
+
+            val clearDefaultSitemapPref = getPreference(PrefKeys.CLEAR_DEFAULT_SITEMAP)
+            if (config.defaultSitemap?.name.isNullOrEmpty()) {
+                handleNoDefaultSitemap(clearDefaultSitemapPref)
+            } else {
+                clearDefaultSitemapPref.summary = getString(
+                    R.string.settings_current_default_sitemap, config.defaultSitemap?.label.orEmpty()
+                )
+            }
+            clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
+                preference.sharedPreferences.updateDefaultSitemap(null, null, config.id)
+                handleNoDefaultSitemap(preference)
+                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
+                true
+            }
+
+            if (prefs.getConfiguredServerIds().isEmpty()) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.PRIMARY_SERVER_PREF)
+            } else {
+                val primaryServerPref = getPreference(PrefKeys.PRIMARY_SERVER_PREF)
+                updatePrimaryServerPrefState(primaryServerPref, config.id == prefs.getPrimaryServerId())
+                primaryServerPref.setOnPreferenceClickListener {
+                    if (prefs.getConfiguredServerIds().contains(config.id)) {
+                        prefs.edit {
+                            putPrimaryServerId(config.id)
+                        }
+                    } else {
+                        markAsPrimary = true
+                    }
+                    updatePrimaryServerPrefState(primaryServerPref, true)
+                    true
+                }
+            }
+        }
+
+        private fun updatePrimaryServerPrefState(pref: Preference, isPrimary: Boolean) {
+            pref.summary = if (isPrimary) {
+                getString(R.string.settings_server_primary_summary_is_primary)
+            } else {
+                val nameOfPrimary = ServerConfiguration.load(prefs, secretPrefs, prefs.getPrimaryServerId())?.name
+                getString(R.string.settings_server_primary_summary_is_not_primary, nameOfPrimary)
+            }
+        }
+
+        private fun handleNoDefaultSitemap(pref: Preference) {
+            pref.isEnabled = false
+            pref.setSummary(R.string.settings_no_default_sitemap)
+        }
+
+        fun onPathChanged(key: String, path: ServerPath) {
+            config = if (key == "local") {
+                ServerConfiguration(
+                    config.id,
+                    config.name,
+                    path,
+                    config.remotePath,
+                    config.sslClientCert,
+                    config.defaultSitemap
+                )
+            } else {
+                ServerConfiguration(
+                    config.id,
+                    config.name,
+                    config.localPath,
+                    path,
+                    config.sslClientCert,
+                    config.defaultSitemap
+                )
+            }
+            parentActivity.invalidateOptionsMenu()
+        }
+
+        private fun updateConnectionSummary(key: String, path: ServerPath?) {
+            val pref = getPreference(key)
+            val beautyUrl = beautifyUrl(path?.url.orEmpty())
+            pref.summary = when {
+                path == null || path.url.isEmpty() ->
+                    getString(R.string.info_not_set)
+                path.url.startsWith("https://") && (path.hasAuthentication() || config.sslClientCert != null) ->
+                    getString(R.string.settings_connection_summary, beautyUrl)
+                else ->
+                    getString(R.string.settings_insecure_connection_summary, beautyUrl)
+            }
+        }
+
+        companion object {
+            fun newInstance(config: ServerConfiguration): ServerEditorFragment {
+                val f = ServerEditorFragment()
+                f.arguments = bundleOf("config" to config)
+                return f
+            }
 
             @VisibleForTesting fun beautifyUrl(url: String): String {
                 val host = url.toHttpUrlOrNull()?.host ?: url
@@ -595,28 +895,43 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
-    internal abstract class ConnectionSettingsFragment : AbstractSettingsFragment() {
-        private lateinit var urlPreference: Preference
-        private lateinit var userNamePreference: Preference
-        private lateinit var passwordPreference: Preference
 
-        protected fun initPreferences(
-            urlPrefKey: String,
-            userNamePrefKey: String,
-            passwordPrefKey: String,
-            @StringRes urlSummaryFormatResId: Int
-        ) {
-            urlPreference = initEditor(urlPrefKey, prefs, R.drawable.ic_earth_grey_24dp) { value ->
+    internal class ConnectionSettingsFragment : AbstractSettingsFragment() {
+        override val titleResId: Int @StringRes get() = requireArguments().getInt("title")
+
+        private lateinit var urlPreference: EditTextPreference
+        private lateinit var userNamePreference: EditTextPreference
+        private lateinit var passwordPreference: EditTextPreference
+        private lateinit var parent: ServerEditorFragment
+        private lateinit var path: ServerPath
+
+        override fun onAttach(context: Context) {
+            super.onAttach(context)
+            parent = parentFragmentManager.getFragment(requireArguments(), "parent") as ServerEditorFragment
+        }
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            addPreferencesFromResource(requireArguments().getInt("prefs"))
+
+            path = requireArguments().getParcelable("path") ?: ServerPath("", null, null)
+
+            urlPreference = initEditor("url", path.url, R.drawable.ic_earth_grey_24dp) { value ->
                 val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
-                getString(urlSummaryFormatResId, actualValue)
+                getString(requireArguments().getInt("urlsummary"), actualValue)
             }
 
-            userNamePreference = initEditor(userNamePrefKey, secretPrefs,
-                R.drawable.ic_person_outline_grey_24dp) { value ->
+            userNamePreference = initEditor(
+                "username",
+                path.userName,
+                R.drawable.ic_person_outline_grey_24dp
+            ) { value ->
                 if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
             }
-            passwordPreference = initEditor(passwordPrefKey, secretPrefs,
-                R.drawable.ic_shield_key_outline_grey_24dp) { value ->
+            passwordPreference = initEditor(
+                "password",
+                path.password,
+                R.drawable.ic_shield_key_outline_grey_24dp
+            ) { value ->
                 getString(when {
                     value.isNullOrEmpty() -> R.string.info_not_set
                     isWeakPassword(value) -> R.string.settings_openhab_password_summary_weak
@@ -624,37 +939,39 @@ class PreferencesActivity : AbstractBaseActivity() {
                 })
             }
 
-            updateIconColors(urlPreference.getPrefValue(),
-                userNamePreference.getPrefValue(), passwordPreference.getPrefValue())
+            updateIconColors(urlPreference.text, userNamePreference.text, passwordPreference.text)
         }
 
         private fun initEditor(
             key: String,
-            prefsForValue: SharedPreferences,
+            initialValue: String?,
             @DrawableRes iconResId: Int,
             summaryGenerator: (value: String?) -> CharSequence
-        ): Preference {
-            val preference: Preference = preferenceScreen.findPreference(key)!!
-            preference.preferenceDataStore = SharedPrefsDataStore(prefsForValue)
+        ): EditTextPreference {
+            val preference = preferenceScreen.findPreference<EditTextPreference>(key)!!
             preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(preference.context, iconResId)!!)
+            preference.text = initialValue
             preference.setOnPreferenceChangeListener { pref, newValue ->
-                updateIconColors(getActualValue(pref, newValue, urlPreference),
-                    getActualValue(pref, newValue, userNamePreference),
-                    getActualValue(pref, newValue, passwordPreference))
+                val url = if (pref === urlPreference) newValue as String else urlPreference.text
+                val userName = if (pref === userNamePreference) newValue as String else userNamePreference.text
+                val password = if (pref === passwordPreference) newValue as String else passwordPreference.text
+
+                updateIconColors(url, userName, password)
                 pref.summary = summaryGenerator(newValue as String)
+
+                if (!url.isNullOrEmpty()) {
+                    val path = ServerPath(url, userName, password)
+                    parent.onPathChanged(requireArguments().getString("key", ""), path)
+                }
                 true
             }
-            preference.summary = summaryGenerator(prefsForValue.getStringOrEmpty(key))
+            preference.summary = summaryGenerator(initialValue)
             return preference
-        }
-
-        private fun getActualValue(pref: Preference, newValue: Any, reference: Preference?): String? {
-            return if (pref === reference) newValue as String else reference.getPrefValue()
         }
 
         private fun updateIconColors(url: String?, userName: String?, password: String?) {
             updateIconColor(urlPreference) { when {
-                isConnectionHttps(url) -> R.color.pref_icon_green
+                url?.startsWith("https://") == true -> R.color.pref_icon_green
                 !url.isNullOrEmpty() -> R.color.pref_icon_red
                 else -> null
             } }
@@ -679,25 +996,28 @@ class PreferencesActivity : AbstractBaseActivity() {
                 DrawableCompat.setTintList(pref.icon, null)
             }
         }
-    }
 
-    internal class LocalConnectionSettingsFragment : ConnectionSettingsFragment() {
-        override val titleResId: Int @StringRes get() = R.string.settings_openhab_connection
-
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            addPreferencesFromResource(R.xml.local_connection_preferences)
-            initPreferences(PrefKeys.LOCAL_URL, PrefKeys.LOCAL_USERNAME,
-                PrefKeys.LOCAL_PASSWORD, R.string.settings_openhab_url_summary)
-        }
-    }
-
-    internal class RemoteConnectionSettingsFragment : ConnectionSettingsFragment() {
-        override val titleResId: Int @StringRes get() = R.string.settings_openhab_alt_connection
-
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            addPreferencesFromResource(R.xml.remote_connection_preferences)
-            initPreferences(PrefKeys.REMOTE_URL, PrefKeys.REMOTE_USERNAME,
-                PrefKeys.REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary)
+        companion object {
+            fun newInstance(
+                key: String,
+                serverPath: ServerPath?,
+                prefsResId: Int,
+                titleResId: Int,
+                urlSummaryResId: Int,
+                parent: ServerEditorFragment
+            ): ConnectionSettingsFragment {
+                val f = ConnectionSettingsFragment()
+                val args = bundleOf(
+                    "key" to key,
+                    "path" to serverPath,
+                    "prefs" to prefsResId,
+                    "title" to titleResId,
+                    "urlsummary" to urlSummaryResId
+                )
+                parent.parentFragmentManager.putFragment(args, "parent", parent)
+                f.arguments = args
+                return f
+            }
         }
     }
 
@@ -1048,66 +1368,6 @@ class PreferencesActivity : AbstractBaseActivity() {
         private const val RESULT_TILE_ITEM_PICKER = 0
 
         private val TAG = PreferencesActivity::class.java.simpleName
-    }
-}
-
-fun Preference?.getPrefValue(defaultValue: String? = null): String? {
-    if (this == null) {
-        return defaultValue
-    }
-    preferenceDataStore?.let {
-        return it.getString(key, defaultValue)
-    }
-    return sharedPreferences.getString(key, defaultValue)
-}
-
-class SharedPrefsDataStore constructor(val prefs: SharedPreferences) : PreferenceDataStore() {
-    override fun getBoolean(key: String?, defValue: Boolean): Boolean {
-        return prefs.getBoolean(key, defValue)
-    }
-
-    override fun getInt(key: String?, defValue: Int): Int {
-        return prefs.getInt(key, defValue)
-    }
-
-    override fun getLong(key: String?, defValue: Long): Long {
-        return prefs.getLong(key, defValue)
-    }
-
-    override fun getFloat(key: String?, defValue: Float): Float {
-        return prefs.getFloat(key, defValue)
-    }
-
-    override fun getString(key: String?, defValue: String?): String? {
-        return prefs.getString(key, defValue)
-    }
-
-    override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String> {
-        return prefs.getStringSet(key, defValues) ?: mutableSetOf()
-    }
-
-    override fun putBoolean(key: String?, value: Boolean) {
-        prefs.edit { putBoolean(key, value) }
-    }
-
-    override fun putInt(key: String?, value: Int) {
-        prefs.edit { putInt(key, value) }
-    }
-
-    override fun putLong(key: String?, value: Long) {
-        prefs.edit { putLong(key, value) }
-    }
-
-    override fun putFloat(key: String?, value: Float) {
-        prefs.edit { putFloat(key, value) }
-    }
-
-    override fun putString(key: String?, value: String?) {
-        prefs.edit { putString(key, value) }
-    }
-
-    override fun putStringSet(key: String?, values: MutableSet<String>?) {
-        prefs.edit { putStringSet(key, values) }
     }
 }
 
