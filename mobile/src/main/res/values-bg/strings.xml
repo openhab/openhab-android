@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Настройки</string>
-    <string name="app_notifications">Известия</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сайткарти</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Известия</string>
     <string name="habpanel_error">Възникна грешка, зареждайки HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Изберете сайта по подразбиране</string>
     <string name="mainmenu_openhab_clearcache">Изчисти кеша на изображенията</string>
@@ -75,15 +75,12 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">Грешка при извличане на информация от openHAB сървъра</string>
     <string name="title_activity_openhabwritetag">Запиши NFC етикет</string>
     <string name="title_activity_libraries">Използвани библиотеки</string>
     <string name="info_write_tag">Докосни етикета и задръжте докато съобщението за потвърждение се появи</string>
     <string name="info_write_tag_progress">Записване на етикета</string>
     <string name="info_write_failed">Грешка на писане на етикет</string>
     <string name="info_write_tag_unsupported">Устройството не поддържа NFC</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API версия</string>
-    <string name="info_openhab_push_notification_label">Статус на известия</string>
     <string name="action_settings">Настройки</string>
     <string name="info_not_set">Не е зададено</string>
     <!-- Background tasks -->
@@ -144,11 +141,9 @@
     <string name="about_community_forum">Форум на Общността</string>
     <string name="about_foundation">openHAB фондация</string>
     <string name="about_community">openHAB Общност</string>
-    <string name="about_server">openHAB сървър</string>
     <string name="about_translation">Помогнете ни в превеждането на openHAB</string>
     <string name="about_privacy_policy">Декларация за поверителност</string>
     <string name="error_couldnt_determine_openhab_url">Не можеше да определи openHAB URL адрес</string>
-    <string name="unknown">Неизвестен</string>
     <string name="set">Задай</string>
     <string name="cancel">Отменяне</string>
     <string name="close">Затворен</string>
