@@ -4,10 +4,10 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Nustatymai</string>
-    <string name="app_notifications">Pranešimai</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
     <string name="mainmenu_openhab_preferences">Nustatymai</string>
+    <string name="app_notifications">Pranešimai</string>
     <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
     <!-- App settings strings -->
     <string name="settings_openhab_url">openHAB URL</string>
@@ -46,7 +46,6 @@
     <string name="info_write_tag_progress">Rašoma žyma</string>
     <string name="info_write_failed">Žymos rašymo klaida</string>
     <string name="info_write_tag_unsupported">Jūsų įrenginys nepalaiko NFC</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API versija</string>
     <string name="action_settings">Nustatymai</string>
     <string name="info_not_set">Nenustatyta</string>
     <!-- Background tasks -->
@@ -77,7 +76,6 @@
     <string name="about_title">Apie</string>
     <string name="about_license_title">Licencija</string>
     <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
-    <string name="unknown">Nežinoma</string>
     <string name="set">Nustatyti</string>
     <string name="cancel">Atšaukti</string>
     <!-- Log -->
