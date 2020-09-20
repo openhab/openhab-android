@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Configurações</string>
-    <string name="app_notifications">Notificações</string>
+    <string name="save">Salvar</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configurações</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Notificações</string>
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
     <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
@@ -148,7 +149,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Tempo limite do gateway (código HTTP %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Não há espaço livre suficiente no servidor (código HTTP %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Autenticação de rede é necessária (código HTTP %d)</string>
-    <string name="error_about_no_conn">Erro ao buscar informações do servidor openHAB</string>
     <string name="error_openhab_offline">Seu servidor openHAB está offline enquanto está executando a instância de nuvem</string>
     <string name="error_no_browser_found">Nenhum navegador encontrado no seu dispositivo</string>
     <string name="error_no_speech_to_text_app_found">Nenhum aplicativo de reconhecimento de voz encontrado</string>
@@ -163,8 +163,6 @@
     <string name="info_write_failed">Erro de escrita da tag</string>
     <string name="info_write_tag_unsupported">Este dispositivo não tem suporte NFC</string>
     <string name="info_write_tag_disabled">O NFC está desativado</string>
-    <string name="info_openhab_apiversion_label">versão Rest API do openHAB</string>
-    <string name="info_openhab_push_notification_label">Status da notificação por push</string>
     <string name="action_settings">Configurações</string>
     <string name="nfc_info_hint">Atualizações de Item poderão ser escritas em tags NFC. Você pode selecionar um Item aqui ou por um widget no Sitemap.</string>
     <string name="info_not_set">Não definido</string>
@@ -332,12 +330,10 @@
     <string name="about_community_forum">Fórum da Comunidade</string>
     <string name="about_foundation">Fundação openHAB</string>
     <string name="about_community">comunidade openHAB</string>
-    <string name="about_server">servidor openHAB</string>
     <string name="about_translation">Nos ajude a traduzir o openHAB</string>
     <string name="about_privacy_policy">Política de privacidade</string>
     <string name="about_rate_this_app">Avalie este aplicativo</string>
     <string name="error_couldnt_determine_openhab_url">Não consegui determinar a URL do openHAB</string>
-    <string name="unknown">Desconhecido</string>
     <string name="set">Definir</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Fechar</string>
@@ -461,7 +457,6 @@
     <string name="tile_empty">Bloco vazio</string>
     <string name="tile_item_picker_title">Selecione um Item</string>
     <string name="tile_configure_in_settings">Este bloco pode ser configurado nas configurações do aplicativo openHAB</string>
-    <string name="save">Salvar</string>
     <string name="tile_error_saving">Preencha todas as configurações</string>
     <string name="tile_disabled">Desligado</string>
     <string name="tile_enable">Ligar</string>
