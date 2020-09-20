@@ -1,0 +1,2 @@
+## Added
+* Add support for configuring multiple OH targets (#1900)
