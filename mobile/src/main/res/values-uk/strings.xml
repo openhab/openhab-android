@@ -4,11 +4,16 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Налаштування</string>
-    <string name="app_notifications">Сповіщення</string>
+    <string name="save">Зберегти</string>
+    <string name="discard">Скасувати</string>
+    <string name="delete">Видалити</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="app_notifications">Сповіщення</string>
+    <string name="app_notifications_on_server">Сповіщення (%s)</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
     <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
@@ -39,6 +44,9 @@
     <string name="settings_openhab_icon_format">Формат іконок</string>
     <string name="settings_openhab_icon_format_png">Растрові</string>
     <string name="settings_openhab_icon_format_svg">Векторні</string>
+    <string name="settings_image_widget_scaling">Масштабування зображень у відповідності до екрану</string>
+    <string name="settings_image_widget_scaling_summary_off">Залишити віджети зображення, які є меншими за ширину екрану у початковому розмірі</string>
+    <string name="settings_image_widget_scaling_summary_on">Переконатися, що віджети зображення відповідають ширині екрану шляхом їх збільшення або зменшення</string>
     <string name="settings_chart_scaling">Масштабування діаграми</string>
     <string name="settings_chart_scaling_summary">Примітка: Масштабування зменшує шрифти та товщини ліній, тобто більше місця для графіку, але читабельність шрифтів може постраждати.</string>
     <string name="settings_chart_scaling_value_xs">Дуже маленький</string>
@@ -75,6 +83,20 @@
     <string name="settings_screen_lock_kiosk">Режим Kiosk</string>
     <string name="settings_screen_lock_on">Увімкнено</string>
     <string name="settings_show_sitemaps_in_drawer">Показувати всі сторінки інтерфейсу в бічному меню</string>
+    <string name="settings_server_name">Ім\'я сервера</string>
+    <string name="settings_add_server">Додати сервер</string>
+    <string name="settings_edit_server">Редагувати сервер</string>
+    <string name="drawer_title_servers">Сервери</string>
+    <string name="server_with_name">Сервер %s</string>
+    <string name="settings_server_at_least_name_and_connection">Необхідне хоча б ім\'я сервера і одне підключення</string>
+    <string name="settings_server_confirm_deletion">Ви дійсно хочете видалити цей сервер?</string>
+    <string name="settings_server_confirm_leave_title">Незбережені зміни</string>
+    <string name="settings_server_confirm_leave_message">Ви внесли деякі зміни. Ви хочете зберегти чи скасувати їх?</string>
+    <string name="settings_server_primary_title">Основний сервер</string>
+    <string name="settings_server_primary_summary_is_primary">Цей сервер є основним.\nНаразі лише основний сервер підтримується усіма функціями цього застосунку. Натисніть кнопку довідки, щоб отримати додаткову інформацію.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" є основним сервером. Натисніть, щоб зробити цей сервер основним.\nНаразі лише основний сервер підтримується усіма функціями цього застосунку. Натисніть на кнопку допомоги для отримання додаткової інформації.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="voice_command">Голосова команда</string>
@@ -148,7 +170,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
-    <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
     <string name="error_no_speech_to_text_app_found">Не знайдено застосунок розпізнавання мови</string>
@@ -163,8 +184,6 @@
     <string name="info_write_failed">Помилка запису мітки</string>
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
     <string name="info_write_tag_disabled">NFC вимкнено</string>
-    <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
-    <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
     <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисненням віджету на сторінці інтерфейсу.</string>
     <string name="info_not_set">Не вказано</string>
@@ -345,14 +364,12 @@
     <string name="about_community_forum">Форум спільноти</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">Спільнота openHAB</string>
-    <string name="about_server">Сервер openHAB</string>
     <string name="about_translation">Допоможіть нам перекласти openHAB</string>
     <string name="about_privacy_policy">Політика конфіденційності</string>
     <string name="about_rate_this_app">Оцінить цей додаток</string>
     <string name="settings_debug_messages_title">Розширені повідомлення про помилки</string>
     <string name="settings_troubleshooting_title">Виправлення несправностей</string>
     <string name="error_couldnt_determine_openhab_url">Не вдалося визначити адресу openHAB</string>
-    <string name="unknown">Невідомо</string>
     <string name="set">Встановити</string>
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
@@ -364,6 +381,7 @@
     <string name="no_remote_server">Під’єднання до локального сервера не вдалось, а віддалений не налаштовано</string>
     <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
     <string name="waiting_for_wifi">Очікування встановлення з’єднання через Wi-Fi\u2026</string>
+    <string name="visit_status_openhab_org">Відвідати status.openhab.org</string>
     <!-- Log -->
     <string name="log">Журнал</string>
     <string name="view_log">Переглянути журнал</string>
@@ -378,6 +396,7 @@
     <string name="home_shortcut_pin_to_home">Прикріпити на домашню сторінку</string>
     <string name="home_shortcut_error_pinning">Неможливо прикріпити на домашню сторінку</string>
     <string name="home_shortcut_success_pinning">Прикріплено на домашню сторінку</string>
+    <string name="home_shortcut_server_has_been_deleted">Сервер для цього ярлика був видалений</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Відкрити ролети</string>
     <string name="content_description_stop_roller_shutter">Зупинити ролети</string>
@@ -477,7 +496,6 @@
     <string name="tile_empty">Порожня плитка</string>
     <string name="tile_item_picker_title">Оберіть об\'єкт</string>
     <string name="tile_configure_in_settings">Цю плитку можна конфігурувати в налаштуваннях програми openHAB</string>
-    <string name="save">Зберегти</string>
     <string name="tile_error_saving">Будь ласка, заповніть всі налаштування</string>
     <string name="tile_disabled">Вимкнено</string>
     <string name="tile_enable">Увімкнути</string>

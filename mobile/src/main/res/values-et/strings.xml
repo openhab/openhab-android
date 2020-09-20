@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Seaded</string>
-    <string name="app_notifications">Teavitused</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sisukaardid</string>
     <string name="mainmenu_openhab_preferences">Seaded</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Teavitused</string>
     <string name="habpanel_error">HABPaneli laadimisel ilmnes viga</string>
     <string name="mainmenu_openhab_clearcache">Tühjendage piltide vahemälu</string>
     <!-- App settings strings -->
@@ -63,7 +63,6 @@
     <string name="title_activity_openhabwritetag">Kirjutage NFC-kiibile</string>
     <string name="title_activity_libraries">Kasutatud teegid</string>
     <string name="info_write_tag_disabled">NFC on keelatud</string>
-    <string name="info_openhab_push_notification_label">Push teadete olek</string>
     <string name="action_settings">Seaded</string>
     <string name="info_not_set">Määramata</string>
     <!-- Background tasks -->
@@ -136,10 +135,8 @@
     <string name="about_community_forum">Kogukonna foorum</string>
     <string name="about_foundation">openHAB sihtasutus</string>
     <string name="about_community">openHAB kogukond</string>
-    <string name="about_server">openHAB server</string>
     <string name="about_privacy_policy">Privaatsuseeskirjad</string>
     <string name="about_rate_this_app">Hinda seda rakendust</string>
-    <string name="unknown">Teadmata</string>
     <string name="set">Määra</string>
     <string name="cancel">Tühista</string>
     <string name="close">Sulge</string>

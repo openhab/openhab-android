@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">إعدادات</string>
-    <string name="app_notifications">إشعارات</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">إعدادات</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">إشعارات</string>
     <string name="habpanel_error">حدث خطأ أثناء تحميل HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">حدد Sitemap الافتراضي</string>
     <string name="mainmenu_openhab_clearcache">إزالة الصور المؤقته</string>
@@ -100,7 +100,6 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
     <string name="error_openhab_offline">المخدم openHAB غير متصل بينما الخدمة السحابية تعمل</string>
     <string name="error_no_browser_found">لايوجد مستعرض في جهازك</string>
     <string name="error_no_speech_to_text_app_found">لم يتم العثور على تطبيق التعرف على الصوت</string>
@@ -113,8 +112,6 @@
     <string name="info_write_failed">خطأ كتابة الوسم</string>
     <string name="info_write_tag_unsupported">هذا الجهاز لا بدعم NFC</string>
     <string name="info_write_tag_disabled">تم إيقاف الاتصال القريب المدى</string>
-    <string name="info_openhab_apiversion_label">إصدار Rest API openHAB</string>
-    <string name="info_openhab_push_notification_label">حالة التنبيهات الصادرة</string>
     <string name="action_settings">إعدادات</string>
     <string name="info_not_set">لم يُعين</string>
     <string name="empty_page">هذه الصفحة لا تحتوي على أي من القطع التي تم تعيينها لتكون مرئية</string>
@@ -172,11 +169,9 @@
     <string name="about_community_forum">منتدى المجتمع</string>
     <string name="about_foundation">مؤسسة openHAB</string>
     <string name="about_community">مجتمع openHAB</string>
-    <string name="about_server">خادم openHAB</string>
     <string name="about_translation">ساعدنا في ترجمة openHAB</string>
     <string name="about_privacy_policy">سياسة الخصوصية</string>
     <string name="error_couldnt_determine_openhab_url">لا يمكن تحديد عنوان openHAB</string>
-    <string name="unknown">غير معروف</string>
     <string name="set">تعيين</string>
     <string name="cancel">إلغاء</string>
     <string name="close">إغلاق</string>

@@ -4,10 +4,10 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Cài đặt</string>
-    <string name="app_notifications">Thông báo</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Bản đồ trang</string>
     <string name="mainmenu_openhab_preferences">Cài đặt</string>
+    <string name="app_notifications">Thông báo</string>
     <string name="mainmenu_openhab_selectsitemap">Chọn mặc định sơ đồ trang web</string>
     <string name="mainmenu_openhab_clearcache">Xóa ảnh lưu tạm</string>
     <!-- App settings strings -->

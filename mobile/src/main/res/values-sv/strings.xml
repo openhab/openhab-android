@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Inställningar</string>
-    <string name="app_notifications">Aviseringar</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Inställningar</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Aviseringar</string>
     <string name="habpanel_error">Ett fel inträffade vid inläsning av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Välj standard-Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Töm bildcache</string>
@@ -144,7 +144,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP-kod %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Inte tillräckligt med ledigt utrymme på servern (HTTP-kod %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Nätverksautentisering krävs (HTTP-kod %d)</string>
-    <string name="error_about_no_conn">Fel vid hämtning av information ifrån openHAB-servern</string>
     <string name="error_openhab_offline">Molninstansen är igång, men din openHAB-server är offline</string>
     <string name="error_no_browser_found">Ingen webbläsare hittades på din enhet</string>
     <string name="error_no_speech_to_text_app_found">Ingen röstigenkänningsapp hittades</string>
@@ -158,8 +157,6 @@
     <string name="info_write_failed">Fel vid skrivning till tagg</string>
     <string name="info_write_tag_unsupported">Denna enhet har inte stöd för NFC</string>
     <string name="info_write_tag_disabled">NFC är inaktiverat</string>
-    <string name="info_openhab_apiversion_label">Version på openHABs REST-API</string>
-    <string name="info_openhab_push_notification_label">Status på push-aviseringar</string>
     <string name="action_settings">Inställningar</string>
     <string name="nfc_info_hint">Objektuppdateringar kan skrivas till NFC-taggar. Du kan välja ett objekt här eller så kan du långklicka på en widget på Sitemap.</string>
     <string name="info_not_set">Ej angivet</string>
@@ -276,12 +273,10 @@
     <string name="about_community_forum">Forum</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHABs gemenskap</string>
-    <string name="about_server">openHAB-server</string>
     <string name="about_translation">Hjälp oss att översätta openHAB</string>
     <string name="about_privacy_policy">Integritetspolicy</string>
     <string name="about_rate_this_app">Betygsätt appen</string>
     <string name="error_couldnt_determine_openhab_url">Kunde inte avgöra URL för openHAB</string>
-    <string name="unknown">Okänd</string>
     <string name="set">Sätt</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>

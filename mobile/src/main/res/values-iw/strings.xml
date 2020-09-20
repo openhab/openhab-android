@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">הגדרות</string>
-    <string name="app_notifications">התראות</string>
+    <string name="save">שמור</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">התראות</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
     <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
@@ -148,7 +149,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">תם הזמן המוקצב ל-Gateway (קוד תגובה HTTP %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">אין מספיק מקום פנוי בשרת (קוד תגובה HTTP %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">נדרש אימות רשת (קוד תגובה HTTP %d)</string>
-    <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
     <string name="error_no_speech_to_text_app_found">לא נמצא יישום לזיהוי קול</string>
@@ -163,8 +163,6 @@
     <string name="info_write_failed">הכתיבה לתגית נכשלה</string>
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
     <string name="info_write_tag_disabled">NFC מושבת</string>
-    <string name="info_openhab_apiversion_label">גרסת ממשק תכנות יישומי REST של openHAB</string>
-    <string name="info_openhab_push_notification_label">מצב התראות בדחיפה</string>
     <string name="action_settings">הגדרות</string>
     <string name="nfc_info_hint">עדכוני פריטים יכולים להיכתב לתגי NFC. באפשרותך לבחור פריט כאן או ע״י לחיצה ארוכה על הפריט בתצוגת Sitemap.</string>
     <string name="info_not_set">לא מוגדר</string>
@@ -345,14 +343,12 @@
     <string name="about_community_forum">פורום הקהילה</string>
     <string name="about_foundation">קרן openHAB</string>
     <string name="about_community">קהילת openHAB</string>
-    <string name="about_server">שרת openHAB</string>
     <string name="about_translation">עזור לנו לתרגם את openHAB</string>
     <string name="about_privacy_policy">מדיניות פרטיות</string>
     <string name="about_rate_this_app">דרג את היישום הזה</string>
     <string name="settings_debug_messages_title">הודעות שגיאה מורחבות</string>
     <string name="settings_troubleshooting_title">פתרון בעיות</string>
     <string name="error_couldnt_determine_openhab_url">לא מצליח לאתר את הכתובת של openHAB</string>
-    <string name="unknown">לא ידוע</string>
     <string name="set">קבע</string>
     <string name="cancel">ביטול</string>
     <string name="close">סגור</string>
@@ -477,7 +473,6 @@
     <string name="tile_empty">אריח ריק</string>
     <string name="tile_item_picker_title">בחר פריט</string>
     <string name="tile_configure_in_settings">ניתן להגדיר אריח זה בהגדרות היישום של openHAB</string>
-    <string name="save">שמור</string>
     <string name="tile_error_saving">נא להשלים את כל ההגדרות</string>
     <string name="tile_disabled">כבוי</string>
     <string name="tile_enable">הפעל</string>

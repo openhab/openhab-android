@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Préférences</string>
-    <string name="app_notifications">Notifications</string>
+    <string name="save">Enregistrer</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Préférences</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Notifications</string>
     <string name="habpanel_error">Une erreur s’est produite lors du chargement de HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Sélectionner la Sitemap par défaut</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
@@ -148,7 +149,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Passerelle hors délai (code HTTP %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Espace libre insuffisant sur le serveur (code HTTP %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Authentification réseau requise (code HTTP %d)</string>
-    <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
     <string name="error_openhab_offline">Votre serveur openHAB est déconnecté alors que l\'instance dans le cloud est en cours d\'exécution</string>
     <string name="error_no_browser_found">Aucun navigateur trouvé sur votre appareil</string>
     <string name="error_no_speech_to_text_app_found">Aucune application de reconnaissance vocale trouvée</string>
@@ -163,8 +163,6 @@
     <string name="info_write_failed">Erreur d\'écriture du tag</string>
     <string name="info_write_tag_unsupported">Ce téléphone n\'est pas compatible NFC</string>
     <string name="info_write_tag_disabled">La technologie NFC est désactivée</string>
-    <string name="info_openhab_apiversion_label">Version API Rest openHAB</string>
-    <string name="info_openhab_push_notification_label">Statut des notifications push</string>
     <string name="action_settings">Paramétrage</string>
     <string name="nfc_info_hint">Les mises à jour d\'Item peuvent être écrites sur des labels NFC. Vous pouvez sélectionner un Item ici ou vous pouvez faire un appui long sur un widget du Sitemap.</string>
     <string name="info_not_set">Non paramétré</string>
@@ -332,12 +330,10 @@
     <string name="about_community_forum">Forum communautaire</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">Communauté openHAB</string>
-    <string name="about_server">Serveur openHAB</string>
     <string name="about_translation">Aidez-nous à traduire openHAB</string>
     <string name="about_privacy_policy">Politique de Confidentialité</string>
     <string name="about_rate_this_app">Notez cette application</string>
     <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
-    <string name="unknown">Inconnu</string>
     <string name="set">Définir</string>
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
@@ -461,7 +457,6 @@
     <string name="tile_empty">Tuile vide</string>
     <string name="tile_item_picker_title">Sélectionnez un Item</string>
     <string name="tile_configure_in_settings">Cette tuile peut être configurée dans les paramètres de l\'application openHAB</string>
-    <string name="save">Enregistrer</string>
     <string name="tile_error_saving">Veuillez remplir chaque paramètre</string>
     <string name="tile_disabled">Éteint</string>
     <string name="tile_enable">Allumé</string>

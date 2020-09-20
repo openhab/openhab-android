@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Astellungen</string>
-    <string name="app_notifications">Notifikatiounen</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Astellungen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Notifikatiounen</string>
     <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
     <string name="mainmenu_openhab_selectsitemap">Standard Sitemap auswielen</string>
     <string name="mainmenu_openhab_clearcache">Biller Cache eidel maachen</string>
@@ -108,7 +108,6 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">Feeler beim lueden vun openHAB Server Informatiounen</string>
     <string name="error_openhab_offline">Däin openHAB Server ass Offline, mä d‘ Cloud Instanz leeft</string>
     <string name="error_no_browser_found">Es ass kee Browser op dengem Gerät fonnt ginn</string>
     <string name="error_no_speech_to_text_app_found">Keng Sproocherkennungs App fonnt</string>
@@ -120,8 +119,6 @@
     <string name="info_write_failed">Feeler beim schreiwen vum Tag</string>
     <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
     <string name="info_write_tag_disabled">NFC ass ausgeschalt</string>
-    <string name="info_openhab_apiversion_label">Versioun vun der openHAB Rest API</string>
-    <string name="info_openhab_push_notification_label">Status vun den Push Notifikatiounen</string>
     <string name="action_settings">Astellungen</string>
     <string name="nfc_info_hint">Item Updates kennen op NFC Tags geschriwwe ginn. Du kanns en Item hei auswielen oder duerch laang-Klicken op der Sitemap.</string>
     <string name="info_not_set">Net gesat</string>
@@ -205,11 +202,9 @@
     <string name="about_community_forum">Community-Forum</string>
     <string name="about_foundation">openHAB Fondatioun</string>
     <string name="about_community">openHAB-Community</string>
-    <string name="about_server">openHAB Server</string>
     <string name="about_translation">Hëllef eis openHAB ze iwwersetzen</string>
     <string name="about_privacy_policy">Dateschutzerklärung</string>
     <string name="error_couldnt_determine_openhab_url">Konnt d\'openHAB URL net eraus fannen</string>
-    <string name="unknown">Onbekannt</string>
     <string name="set">Setzen</string>
     <string name="cancel">Ofbriechen</string>
     <string name="close">Zoumaachen</string>

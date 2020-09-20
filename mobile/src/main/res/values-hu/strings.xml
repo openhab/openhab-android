@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Beállítások</string>
-    <string name="app_notifications">Értesítések</string>
+    <string name="save">Mentés</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Értesítések</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
@@ -147,7 +148,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Átjáró időtúllépés (HTTP kód %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Nincs elég szabad hely a szerveren (HTTP kód %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Hálózati hitelesítésre van szükség (HTTP kód %d)</string>
-    <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
     <string name="error_no_speech_to_text_app_found">Hangfelismerő alkalmazás nem található</string>
@@ -161,8 +161,6 @@
     <string name="info_write_failed">Címke írása sikertelen</string>
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API verziója</string>
-    <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
     <string name="action_settings">Beállítások</string>
     <string name="nfc_info_hint">Elem frissítés kiírható NFC címkére. Kiválaszthatja az elemet, vagy hosszan koppintva a widget-en a kijelzőn.</string>
     <string name="info_not_set">Nincs beállítva</string>
@@ -317,14 +315,12 @@
     <string name="about_community_forum">Közösségi fórum</string>
     <string name="about_foundation">openHAB Alapítvány</string>
     <string name="about_community">openHAB közösség</string>
-    <string name="about_server">openHAB server</string>
     <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
     <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
     <string name="about_rate_this_app">Alkalmazás értékelése</string>
     <string name="settings_debug_messages_title">Hibaüzenetek bővebben</string>
     <string name="settings_troubleshooting_title">Hibaelhárítás</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
-    <string name="unknown">Ismeretlen</string>
     <string name="set">Beállít</string>
     <string name="cancel">Mégse</string>
     <string name="close">Bezár</string>
@@ -437,7 +433,6 @@
     <string name="widget_type_chart">Grafikon</string>
     <!-- Tiles -->
     <string name="tile_item_picker_title">Elem kiválasztása</string>
-    <string name="save">Mentés</string>
     <string name="tile_error_saving">Kérlek, tölts ki minden beállítást</string>
     <string name="tile_disabled">Kikapcsolás</string>
     <string name="tile_enable">Bekapcsolás</string>

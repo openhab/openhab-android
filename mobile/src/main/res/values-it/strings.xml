@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Impostazioni</string>
-    <string name="app_notifications">Notifiche</string>
+    <string name="save">Salva</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Impostazioni</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Notifiche</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
     <string name="mainmenu_openhab_clearcache">Pulisci cache immagini</string>
@@ -39,6 +40,9 @@
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
+    <string name="settings_image_widget_scaling">Scala le immagini per adattarle allo schermo</string>
+    <string name="settings_image_widget_scaling_summary_off">Mantieni i widget \'Immagine\' più piccoli della larghezza dello schermo alla loro dimensione originale</string>
+    <string name="settings_image_widget_scaling_summary_on">Assicurarsi che i widget \'Immagine\' si adattino alla larghezza dello schermo ingrandendo o riducendo come appropriato</string>
     <string name="settings_chart_scaling">Scala del grafico</string>
     <string name="settings_chart_scaling_summary">Nota: Con una scala piccola, c\'è più\' spazio per il grafico, ma la leggibilita\' dei caratteri e linee puo\' essere compromessa.</string>
     <string name="settings_chart_scaling_value_xs">Molto piccolo</string>
@@ -148,7 +152,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Timeout del gateway (codice HTTP %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Non c\'è abbastanza spazio sul server (codice HTTP %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Necessaria autenticazione di rete (codice HTTP %d)</string>
-    <string name="error_about_no_conn">Errore nel recupero delle informazioni dal server openHAB</string>
     <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
     <string name="error_no_speech_to_text_app_found">Nessuna app di riconoscimento vocale trovata</string>
@@ -163,8 +166,6 @@
     <string name="info_write_failed">Errore in scrittura sul tag</string>
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
     <string name="info_write_tag_disabled">NFC è disabilitato</string>
-    <string name="info_openhab_apiversion_label">versione delle Rest API di openHAB</string>
-    <string name="info_openhab_push_notification_label">Stato delle notifiche push</string>
     <string name="action_settings">Impostazioni</string>
     <string name="nfc_info_hint">Gli aggiornamenti degli Item possono essere scritti sui tag NFC. Puoi selezionare un Item qui o puoi cliccare a lungo su un widget della Sitemap.</string>
     <string name="info_not_set">Non impostato</string>
@@ -341,14 +342,12 @@
     <string name="about_community_forum">Forum della Comunità</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">comunità openHAB</string>
-    <string name="about_server">server openHAB</string>
     <string name="about_translation">Aiutaci a tradurre openHAB</string>
     <string name="about_privacy_policy">Informativa sulla privacy</string>
     <string name="about_rate_this_app">Valuta questa app</string>
     <string name="settings_debug_messages_title">Messaggi di errore estesi</string>
     <string name="settings_troubleshooting_title">Risoluzione Dei Problemi</string>
     <string name="error_couldnt_determine_openhab_url">Non trovo openHAB URL</string>
-    <string name="unknown">Sconosciuto</string>
     <string name="set">Set</string>
     <string name="cancel">Annulla</string>
     <string name="close">Chiudi</string>
@@ -360,6 +359,7 @@
     <string name="no_remote_server">Connessione al server locale fallita e non hai configurato un server remoto</string>
     <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
     <string name="waiting_for_wifi">In attesa del WI-FI per stabilire la connessione\u2026</string>
+    <string name="visit_status_openhab_org">Visita status.openhab.org</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Mostra log</string>
@@ -473,7 +473,6 @@
     <string name="tile_empty">Tile vuota</string>
     <string name="tile_item_picker_title">Seleziona un Item</string>
     <string name="tile_configure_in_settings">Questa tile può essere configurata nelle impostazioni di openHAB</string>
-    <string name="save">Salva</string>
     <string name="tile_error_saving">Per favore compilare tutte le impostazioni</string>
     <string name="tile_disabled">Spento</string>
     <string name="tile_enable">Accendi</string>

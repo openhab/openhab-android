@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Setări</string>
-    <string name="app_notifications">Notificări</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Harta site-ului</string>
     <string name="mainmenu_openhab_preferences">Setări</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Notificări</string>
     <string name="habpanel_error">O eroare a avut loc la încărcarea HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
     <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
@@ -106,7 +106,6 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">Eroare la obținerea informațiilor despre serverul openHAB</string>
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
     <string name="error_no_browser_found">Nu a fost găsit nici un browser pe dispozitivul tău</string>
     <string name="error_no_speech_to_text_app_found">Nu a fost găsită nicio aplicație de recunoaștere vocală</string>
@@ -118,8 +117,6 @@
     <string name="info_write_failed">Eroare la scrierea tag-ului NFC</string>
     <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
     <string name="info_write_tag_disabled">Serviciul NFC este dezactivat</string>
-    <string name="info_openhab_apiversion_label">versiune openHAB Rest API</string>
-    <string name="info_openhab_push_notification_label">Starea notificărilor Push</string>
     <string name="action_settings">Setări</string>
     <string name="nfc_info_hint">Comanda unui Item pot fi scrise pe etichete NFC. Puteți selecta un Item aici sau puteți să faceți clic lung pe un widget din Sitemap.</string>
     <string name="info_not_set">Nu este setat</string>
@@ -202,11 +199,9 @@
     <string name="about_community_forum">Forum-ul comunității</string>
     <string name="about_foundation">Fundația openHAB</string>
     <string name="about_community">Comunitatea openHAB</string>
-    <string name="about_server">Serverul openHAB</string>
     <string name="about_translation">Ajutați-ne să traducem openHAB</string>
     <string name="about_privacy_policy">Politica de confidențialitate</string>
     <string name="error_couldnt_determine_openhab_url">Nu a putut fi determinată adresa URL pentru openHAB</string>
-    <string name="unknown">Necunoscut</string>
     <string name="set">Setează</string>
     <string name="cancel">Anulează</string>
     <string name="close">Închide</string>
