@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Asetukset</string>
-    <string name="app_notifications">Ilmoitukset</string>
+    <string name="save">Tallenna</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Ilmoitukset</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
     <string name="mainmenu_openhab_selectsitemap">Valitse oletus Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
@@ -148,7 +149,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Välityspalvelimen aikakatkaisu (HTTP vastus %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Palvelimella liian vähän vapaata tilaa (HTTP vastaus %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus %d)</string>
-    <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
     <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
     <string name="error_no_browser_found">Laitteeltasi ei löytynyt selainta</string>
     <string name="error_no_speech_to_text_app_found">Puheentunnistussovellusta ei löytynyt</string>
@@ -163,8 +163,6 @@
     <string name="info_write_failed">Virhe kirjoitettessa tunnistetta</string>
     <string name="info_write_tag_unsupported">Tämä laite ei tue NFC:tä</string>
     <string name="info_write_tag_disabled">NFC on poistettu käytöstä</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
-    <string name="info_openhab_push_notification_label">Push ilmoitusten tila</string>
     <string name="action_settings">Asetukset</string>
     <string name="nfc_info_hint">Item päivitykset voi kirjoittaa NFC tunnisteeseen. Voit valita Itemin täällä tai pitkään painamalla Sitemapissa.</string>
     <string name="info_not_set">Ei määritetty</string>
@@ -341,14 +339,12 @@
     <string name="about_community_forum">Yhteisön foorumi</string>
     <string name="about_foundation">openHAB Säätiö</string>
     <string name="about_community">openHAB yhteisö</string>
-    <string name="about_server">openHAB palvelin</string>
     <string name="about_translation">Auta meitä kääntämään openHAB</string>
     <string name="about_privacy_policy">Tietosuojakäytäntö</string>
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
     <string name="settings_debug_messages_title">Laajennetut virheviestit</string>
     <string name="settings_troubleshooting_title">Vianmääritys</string>
     <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
-    <string name="unknown">Tuntematon</string>
     <string name="set">Aseta</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
@@ -473,7 +469,6 @@
     <string name="tile_empty">Tyhjä laatta</string>
     <string name="tile_item_picker_title">Valitse Item</string>
     <string name="tile_configure_in_settings">Tämän tiilen voi konfiguroida openHAB aplikaation asetuksissa</string>
-    <string name="save">Tallenna</string>
     <string name="tile_error_saving">Ole hyvä ja täytä kaikki asetukset</string>
     <string name="tile_disabled">Poistettu käytöstä</string>
     <string name="tile_enable">Ota käyttöön</string>
