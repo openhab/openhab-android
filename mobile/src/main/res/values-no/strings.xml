@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Innstillinger</string>
-    <string name="app_notifications">Varslinger</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Varslinger</string>
     <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
@@ -108,7 +108,6 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">Feil ved henting av informasjon fra openHAB-serveren</string>
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="error_no_browser_found">Ingen nettleser funnet på enheten</string>
     <string name="error_no_speech_to_text_app_found">Ingen tale gjenkjennelse app funnet</string>
@@ -121,8 +120,6 @@
     <string name="info_write_failed">Tag skrivefeil</string>
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_write_tag_disabled">NFC er slått av</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API versjon</string>
-    <string name="info_openhab_push_notification_label">Push melding status</string>
     <string name="action_settings">Innstillinger</string>
     <string name="nfc_info_hint">Enhetsoppdateringer kan skrives til NFC-brikker. Du kan velge en enhet her eller du kan trykke-og-holde en widget I Nettstedskartet.</string>
     <string name="info_not_set">Ikke angitt</string>
@@ -223,11 +220,9 @@
     <string name="about_community_forum">Brukerforum</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHABs fellesskap</string>
-    <string name="about_server">openHAB server</string>
     <string name="about_translation">Hjelp oss å oversette openHAB</string>
     <string name="about_privacy_policy">Personvernregler</string>
     <string name="error_couldnt_determine_openhab_url">Kunne ikke bestemme URL for openHAB</string>
-    <string name="unknown">Ukjent</string>
     <string name="set">Sett</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>
