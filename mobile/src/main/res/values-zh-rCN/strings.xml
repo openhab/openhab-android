@@ -4,11 +4,11 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">设置</string>
-    <string name="app_notifications">通知</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">系统布局</string>
     <string name="mainmenu_openhab_preferences">设置</string>
     <string name="mainmenu_openhab_habpanel">HAB 面板</string>
+    <string name="app_notifications">通知</string>
     <string name="habpanel_error">载入 HAB 面板时出错</string>
     <string name="mainmenu_openhab_selectsitemap">选择默认系统布局</string>
     <string name="mainmenu_openhab_clearcache">清除图像缓存</string>
@@ -129,7 +129,6 @@
     <string name="error_short_connection_sslhandshake_failed">SSL 失败</string>
     <string name="error_short_connection_failed">连接失败</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">获取 openHAB 服务器信息时出错</string>
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
     <string name="error_no_browser_found">未在您的设备上找到浏览器</string>
     <string name="error_no_speech_to_text_app_found">未找到语音识别程序</string>
@@ -141,8 +140,6 @@
     <string name="info_write_failed">标签写入错误</string>
     <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
     <string name="info_write_tag_disabled">NFC 已禁用</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API 版本</string>
-    <string name="info_openhab_push_notification_label">推送通知状态</string>
     <string name="action_settings">设置</string>
     <string name="info_not_set">未设置</string>
     <string name="empty_page">此页不含有可见的小挂件</string>
@@ -203,11 +200,9 @@
     <string name="about_community_forum">社区论坛</string>
     <string name="about_foundation">openHAB 基金会</string>
     <string name="about_community">openHAB 社区</string>
-    <string name="about_server">openHAB 服务端</string>
     <string name="about_translation">帮助我们翻译 openHAB</string>
     <string name="about_privacy_policy">隐私条款</string>
     <string name="error_couldnt_determine_openhab_url">无法确定 openHAB URL</string>
-    <string name="unknown">未知</string>
     <string name="set">设置</string>
     <string name="cancel">取消</string>
     <string name="close">关闭</string>
