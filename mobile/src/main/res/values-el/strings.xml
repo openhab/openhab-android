@@ -4,10 +4,10 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Ρυθμίσεις</string>
-    <string name="app_notifications">Ειδοποιήσεις</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Χάρτες Χώρου</string>
     <string name="mainmenu_openhab_preferences">Ρυθμίσεις</string>
+    <string name="app_notifications">Ειδοποιήσεις</string>
     <string name="mainmenu_openhab_selectsitemap">Επιλέξτε προεπιλεγμένο Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
     <!-- App settings strings -->
@@ -73,7 +73,6 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_about_no_conn">Σφάλμα κατά τη λήψη των πληροφοριών διακομιστή openHAB</string>
     <string name="error_openhab_offline">Ο openHAB διακομιστής σας βρίσκεται εκτός σύνδεσης ενώ εκτελείται η παρουσία στο cloud</string>
     <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
     <string name="title_activity_libraries">Χρησιμοποιημένες βιβλιοθήκες</string>
@@ -81,8 +80,6 @@
     <string name="info_write_tag_progress">Εγγραφή ετικέτας NFC</string>
     <string name="info_write_failed">Σφάλμα στην εγγραφή της ετικέτας NFC</string>
     <string name="info_write_tag_unsupported">Αυτή η συσκευή δεν υποστηρίζει NFC</string>
-    <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>
-    <string name="info_openhab_push_notification_label">Κατάσταση ειδοποιήσεων</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
     <!-- Background tasks -->
@@ -132,11 +129,9 @@
     <string name="about_community_forum">Φόρουμ κοινότητας</string>
     <string name="about_foundation">Ίδρυμα openHAB</string>
     <string name="about_community">Κοινότητα openHAB</string>
-    <string name="about_server">Διακομιστής openHAB</string>
     <string name="about_translation">Βοηθείστε μας να μεταφράσουμε το openHAB</string>
     <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
     <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
-    <string name="unknown">Άγνωστο</string>
     <string name="set">Ορισμός</string>
     <string name="cancel">Άκυρο</string>
     <string name="close">Κλείσιμο</string>
