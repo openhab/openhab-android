@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Налаштування</string>
-    <string name="app_notifications">Сповіщення</string>
+    <string name="save">Зберегти</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Сповіщення</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
     <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
@@ -151,7 +152,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
-    <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
     <string name="error_no_speech_to_text_app_found">Не знайдено застосунок розпізнавання мови</string>
@@ -166,8 +166,6 @@
     <string name="info_write_failed">Помилка запису мітки</string>
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
     <string name="info_write_tag_disabled">NFC вимкнено</string>
-    <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
-    <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
     <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисненням віджету на сторінці інтерфейсу.</string>
     <string name="info_not_set">Не вказано</string>
@@ -348,14 +346,12 @@
     <string name="about_community_forum">Форум спільноти</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">Спільнота openHAB</string>
-    <string name="about_server">Сервер openHAB</string>
     <string name="about_translation">Допоможіть нам перекласти openHAB</string>
     <string name="about_privacy_policy">Політика конфіденційності</string>
     <string name="about_rate_this_app">Оцінить цей додаток</string>
     <string name="settings_debug_messages_title">Розширені повідомлення про помилки</string>
     <string name="settings_troubleshooting_title">Виправлення несправностей</string>
     <string name="error_couldnt_determine_openhab_url">Не вдалося визначити адресу openHAB</string>
-    <string name="unknown">Невідомо</string>
     <string name="set">Встановити</string>
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
@@ -481,7 +477,6 @@
     <string name="tile_empty">Порожня плитка</string>
     <string name="tile_item_picker_title">Оберіть об\'єкт</string>
     <string name="tile_configure_in_settings">Цю плитку можна конфігурувати в налаштуваннях програми openHAB</string>
-    <string name="save">Зберегти</string>
     <string name="tile_error_saving">Будь ласка, заповніть всі налаштування</string>
     <string name="tile_disabled">Вимкнено</string>
     <string name="tile_enable">Увімкнути</string>
