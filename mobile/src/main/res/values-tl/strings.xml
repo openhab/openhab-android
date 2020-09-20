@@ -4,10 +4,10 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Mga setting</string>
-    <string name="app_notifications">Mga notipikasyon</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Mga Setting</string>
+    <string name="app_notifications">Mga notipikasyon</string>
     <string name="mainmenu_openhab_clearcache">Burahin ang mga imaheng naka-cache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Koneksyon</string>
@@ -54,7 +54,6 @@
     <string name="info_write_tag_progress">Sinusulat ang tag</string>
     <string name="info_write_failed">Tanda ng pagkakamali sa sulat</string>
     <string name="info_write_tag_unsupported">Ang aparato ay walang suporta ng NFC</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
     <string name="action_settings">Mga setting</string>
     <string name="info_not_set">Hindi nakatakda</string>
     <!-- Background tasks -->
@@ -86,7 +85,6 @@
     <string name="about_title">Impormasyon</string>
     <string name="about_license_title">Lisensya</string>
     <string name="error_couldnt_determine_openhab_url">Hindi malaman ang openHAB URL</string>
-    <string name="unknown">Hindi nakikilala</string>
     <string name="set">I-set</string>
     <string name="cancel">Kanselahin</string>
     <string name="try_again_button">Subukan muli</string>
