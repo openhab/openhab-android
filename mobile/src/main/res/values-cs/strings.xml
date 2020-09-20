@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Nastavení</string>
-    <string name="app_notifications">Oznámení</string>
+    <string name="save">Uložit</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Nastavení</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Oznámení</string>
     <string name="habpanel_error">Při načítání HABPanel došlo k chybě</string>
     <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
@@ -148,7 +149,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (kód HTTP %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Nedostatek volného místa na serveru (kód HTTP %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Vyžaduje se síťové ověření (kód HTTP %d)</string>
-    <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
     <string name="error_no_browser_found">Na Vašem zařízení nebyl nalezen žádný prohlížeč</string>
     <string name="error_no_speech_to_text_app_found">Aplikace k převodu řeči na text nenalezena</string>
@@ -163,8 +163,6 @@
     <string name="info_write_failed">Chyba při zápisu do tagu</string>
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
-    <string name="info_openhab_apiversion_label">Verze openHAB Rest API</string>
-    <string name="info_openhab_push_notification_label">Stav push notifikací</string>
     <string name="action_settings">Nastavení</string>
     <string name="nfc_info_hint">Aktualizace Item lze zapsat na NFC tagy. Item můžete vybrat zde, nebo můžete dlouze kliknout na widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
@@ -345,14 +343,12 @@
     <string name="about_community_forum">Komunitní fórum</string>
     <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">komunita openHAB</string>
-    <string name="about_server">openHAB server</string>
     <string name="about_translation">Pomozte nám přeložit openHAB</string>
     <string name="about_privacy_policy">Ochrana osobních údajů</string>
     <string name="about_rate_this_app">Ohodnotit aplikaci</string>
     <string name="settings_debug_messages_title">Rozšířené chybové zprávy</string>
     <string name="settings_troubleshooting_title">Řešení problémů</string>
     <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
-    <string name="unknown">Neznámý</string>
     <string name="set">Nastavit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
@@ -477,7 +473,6 @@
     <string name="tile_empty">Prázdná dlaždice</string>
     <string name="tile_item_picker_title">Vyberte Item</string>
     <string name="tile_configure_in_settings">Tuto dlaždici lze nastavit v nastavení aplikace openHAB</string>
-    <string name="save">Uložit</string>
     <string name="tile_error_saving">Vyplňte prosím každou možnost nastavení</string>
     <string name="tile_disabled">Vypnuto</string>
     <string name="tile_enable">Zapnout</string>
