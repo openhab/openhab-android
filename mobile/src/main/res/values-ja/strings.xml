@@ -4,11 +4,12 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">設定</string>
-    <string name="app_notifications">通知</string>
+    <string name="save">保存</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">サイトマップ</string>
     <string name="mainmenu_openhab_preferences">設定</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">通知</string>
     <string name="habpanel_error">HAPPanel の読み込み中にエラーが発生しました</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
     <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
@@ -147,7 +148,6 @@
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">ゲートウェイタイムアウト (HTTP コード %d)</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">サーバーに十分な空き容量がありません (HTTP コード %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">ネットワーク認証が必要です (HTTP コード %d)</string>
-    <string name="error_about_no_conn">openHAB サーバー情報の取得時にエラーが発生しました</string>
     <string name="error_openhab_offline">クラウドインスタンス実行中、お使いの openHAB サーバーがオフラインです</string>
     <string name="error_no_browser_found">お使いのデバイス上にブラウザーが見つかりません</string>
     <string name="error_no_speech_to_text_app_found">音声認識アプリが見つかりません</string>
@@ -162,8 +162,6 @@
     <string name="info_write_failed">タグの書き込みエラー</string>
     <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
     <string name="info_write_tag_disabled">NFC は無効です</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
-    <string name="info_openhab_push_notification_label">プッシュ通知ステータス</string>
     <string name="action_settings">設定</string>
     <string name="nfc_info_hint">アイテムの更新をNFCタグに書き込むことができます。 ここでアイテムを選択するか、サイトマップでウィジェットを長押しします。</string>
     <string name="info_not_set">未設定</string>
@@ -338,14 +336,12 @@
     <string name="about_community_forum">コミュニティフォーラム</string>
     <string name="about_foundation">openHAB 財団</string>
     <string name="about_community">openHAB コミュニティ</string>
-    <string name="about_server">openHAB サーバー</string>
     <string name="about_translation">openHAB の翻訳にご協力ください</string>
     <string name="about_privacy_policy">プライバシーポリシー</string>
     <string name="about_rate_this_app">このアプリを評価する</string>
     <string name="settings_debug_messages_title">拡張エラーメッセージ</string>
     <string name="settings_troubleshooting_title">トラブルシューティング</string>
     <string name="error_couldnt_determine_openhab_url">openHAB URL を特定できませんでした</string>
-    <string name="unknown">不明</string>
     <string name="set">設定</string>
     <string name="cancel">キャンセル</string>
     <string name="close">閉じる</string>
@@ -470,7 +466,6 @@
     <string name="tile_empty">空のタイル</string>
     <string name="tile_item_picker_title">アイテムを選択</string>
     <string name="tile_configure_in_settings">このタイルは openHAB アプリの設定で設定できます</string>
-    <string name="save">保存</string>
     <string name="tile_error_saving">すべての設定を入力してください</string>
     <string name="tile_disabled">オフになっています</string>
     <string name="tile_enable">オンにする</string>
