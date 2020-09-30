@@ -167,7 +167,7 @@ dependencies {
     fossImplementation "org.osmdroid:osmdroid-android:6.1.6"
 
     // FCM
-    fullImplementation "com.google.firebase:firebase-messaging:20.2.4"
+    fullImplementation "com.google.firebase:firebase-messaging:20.3.0"
     // Crash reporting
     fullImplementation "com.google.firebase:firebase-crashlytics:17.2.1"
 
