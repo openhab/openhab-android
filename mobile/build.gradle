@@ -164,7 +164,7 @@ dependencies {
     }
     // MapView support
     fullImplementation "com.google.android.gms:play-services-maps:17.0.0"
-    fossImplementation "org.osmdroid:osmdroid-android:6.1.6"
+    fossImplementation "org.osmdroid:osmdroid-android:6.1.8"
 
     // FCM
     fullImplementation "com.google.firebase:firebase-messaging:20.3.0"
