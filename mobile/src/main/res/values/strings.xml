@@ -465,8 +465,6 @@
     <string name="intro_welcome_back">Welcome back to openHAB</string>
     <string name="intro_app_restored">Most of your settings have been restored, except the server credentials</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
-    <string name="intro_themes">Themes</string>
-    <string name="intro_themes_description">Choose between several themes</string>
     <string name="intro_voice_description">Control your home with your voice</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the Item</string>

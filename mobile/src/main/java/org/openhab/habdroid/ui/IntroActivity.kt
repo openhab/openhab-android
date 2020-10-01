@@ -42,9 +42,6 @@ class IntroActivity : AppIntro() {
             addSlide(R.string.intro_welcome,
                 R.string.intro_whatis,
                 R.drawable.ic_openhab_appicon_340dp)
-            addSlide(R.string.intro_themes,
-                R.string.intro_themes_description,
-                R.drawable.ic_palette_outline_themed_340dp)
             addSlide(R.string.mainmenu_openhab_voice_recognition,
                 R.string.intro_voice_description,
                 R.drawable.ic_microphone_outline_themed_340dp)
