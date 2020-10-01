@@ -650,12 +650,14 @@ class PreferencesActivity : AbstractBaseActivity() {
         ConfirmationDialogFragment.Callback,
         ServerEditorConfirmLeaveDialogFragment.Callback {
         private lateinit var config: ServerConfiguration
+        private lateinit var initialConfig: ServerConfiguration
         private var markAsPrimary = false
 
         override val titleResId: Int get() = R.string.settings_edit_server
 
         override fun onCreate(savedInstanceState: Bundle?) {
             config = requireArguments().getParcelable("config")!!
+            initialConfig = config
             super.onCreate(savedInstanceState)
             setHasOptionsMenu(true)
         }
@@ -702,7 +704,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onBackPressed(): Boolean {
-            if (ServerConfiguration.load(prefs, secretPrefs, config.id) != config) {
+            if (initialConfig != config) {
                 ServerEditorConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
                 return true
             }
