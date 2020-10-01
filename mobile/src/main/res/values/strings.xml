@@ -468,6 +468,9 @@
     <string name="intro_voice_description">Control your home with your voice</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the Item</string>
+    <string name="intro_quick_tile_description">Control your home from the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth)</string>
+    <string name="intro_send_device_info">Send device information to your server</string>
+    <string name="intro_send_device_info_description">For example turn on your lights when the alarm clock rings</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
