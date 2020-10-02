@@ -622,7 +622,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
-    class ServerEditorConfirmLeaveDialogFragment : DialogFragment() {
+    class ConfirmLeaveDialogFragment : DialogFragment() {
         interface Callback {
             fun onLeaveAndSave()
             fun onLeaveAndDiscard()
@@ -651,7 +651,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     class ServerEditorFragment :
         AbstractSettingsFragment(),
         ConfirmationDialogFragment.Callback,
-        ServerEditorConfirmLeaveDialogFragment.Callback {
+        ConfirmLeaveDialogFragment.Callback {
         private lateinit var config: ServerConfiguration
         private lateinit var initialConfig: ServerConfiguration
         private var markAsPrimary = false
@@ -708,7 +708,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onBackPressed(): Boolean {
             if (initialConfig != config) {
-                ServerEditorConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
                 return true
             }
             return false
@@ -1208,7 +1208,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    internal class TileSettingsFragment : AbstractSettingsFragment() {
+    internal class TileSettingsFragment : AbstractSettingsFragment(), ConfirmLeaveDialogFragment.Callback {
         override val titleResId: Int @StringRes get() = R.string.tile
         private var tileId = 0
 
@@ -1248,41 +1248,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val context = preferenceManager.context
-            when (item.itemId) {
+            return when (item.itemId) {
                 R.id.save -> {
-                    Log.d(TAG, "Save tile $tileId")
-                    val data: TileData? = if (enabledPref.isChecked) {
-                        val itemName = itemAndStatePref.item
-                        val label = itemAndStatePref.label
-                        val state = itemAndStatePref.state
-                        val mappedState = itemAndStatePref.mappedState
-                        val tileLabel = namePref.text
-                        val icon = iconPref.value
-                        val requireUnlock = requireUnlockPref.isChecked
-                        if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
-                            tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()) {
-                            parentActivity.showSnackbar(
-                                SNACKBAR_TAG_ERROR_SAVING_TILE,
-                                R.string.tile_error_saving,
-                                Snackbar.LENGTH_LONG
-                            )
-                            return true
-                        }
-                        TileData(itemName, state, label, tileLabel, mappedState, icon, requireUnlock)
-                    } else {
-                        null
-                    }
-
-                    prefs.edit {
-                        putTileData(tileId, data)
-                    }
-                    AbstractTileService.updateTile(context, tileId)
-                    parentActivity.invalidateOptionsMenu()
-                    parentFragmentManager.popBackStack() // close ourself
-                    return true
+                    onLeaveAndSave()
+                    true
                 }
-                else -> return super.onOptionsItemSelected(item)
+                else -> super.onOptionsItemSelected(item)
             }
         }
 
@@ -1301,6 +1272,28 @@ class PreferencesActivity : AbstractBaseActivity() {
                 startActivityForResult(intent, RESULT_TILE_ITEM_PICKER)
                 true
             }
+        }
+
+        override fun onBackPressed(): Boolean {
+            val currentData: TileData? = if (enabledPref.isChecked) {
+                TileData(
+                    itemAndStatePref.item.orEmpty(),
+                    itemAndStatePref.state.orEmpty(),
+                    itemAndStatePref.label.orEmpty(),
+                    namePref.text.orEmpty(),
+                    itemAndStatePref.mappedState.orEmpty(),
+                    iconPref.value.orEmpty(),
+                    requireUnlockPref.isChecked
+                )
+            } else {
+                null
+            }
+
+            if (prefs.getTileData(tileId) != currentData) {
+                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                return true
+            }
+            return false
         }
 
         private fun updateItemAndStatePrefSummary() {
@@ -1383,6 +1376,45 @@ class PreferencesActivity : AbstractBaseActivity() {
                     updateIconPrefIcon()
                 }
             }
+        }
+
+        override fun onLeaveAndSave() {
+            Log.d(TAG, "Save tile $tileId")
+            val context = preferenceManager.context
+            val data: TileData? = if (enabledPref.isChecked) {
+                val itemName = itemAndStatePref.item
+                val label = itemAndStatePref.label
+                val state = itemAndStatePref.state
+                val mappedState = itemAndStatePref.mappedState
+                val tileLabel = namePref.text
+                val icon = iconPref.value
+                val requireUnlock = requireUnlockPref.isChecked
+                if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
+                    tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()
+                ) {
+                    parentActivity.showSnackbar(
+                        SNACKBAR_TAG_ERROR_SAVING_TILE,
+                        R.string.tile_error_saving,
+                        Snackbar.LENGTH_LONG
+                    )
+                    return
+                }
+                TileData(itemName, state, label, tileLabel, mappedState, icon, requireUnlock)
+            } else {
+                null
+            }
+
+            prefs.edit {
+                putTileData(tileId, data)
+            }
+            AbstractTileService.updateTile(context, tileId)
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
+        }
+
+        override fun onLeaveAndDiscard() {
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
         }
 
         companion object {
