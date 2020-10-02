@@ -301,7 +301,6 @@
     <string name="item_update_error_no_connection">Keng Connectioun</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ net fonnt</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
-    <string name="create_home_screen_widget_not_supported">Däi Gerät ënnerstëtzt d\' Erstellen net vun Widgets an der App. Gei w.e.g. an den Widget Menü op dengem Startbildschirm an erstell do e Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
     <string name="item_update_widget_widget_label">Widget Label</string>
     <!-- Data saver -->
