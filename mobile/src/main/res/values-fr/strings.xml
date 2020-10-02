@@ -435,7 +435,6 @@
     <string name="item_update_error_no_connection">Pas de connexion</string>
     <string name="item_update_error_couldnt_get_item_type">Impossible d\'obtenir le type d\'Item</string>
     <string name="create_home_screen_widget_title">Créer un widget</string>
-    <string name="create_home_screen_widget_not_supported">Votre appareil ne supporte pas la création de widgets à partir d\'une application. Veuillez aller dans le menu widget sur votre écran d\'accueil et créer un widget à partir de là.</string>
     <string name="item_update_widget_auto_generate_widget_label">Génération automatique du libellé du widget</string>
     <string name="item_update_widget_widget_label">Libellé du widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Nom d\'Item>: <Action>]]></string>
