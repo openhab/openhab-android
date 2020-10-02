@@ -469,7 +469,6 @@
     <string name="item_update_error_no_connection">Nessuna connessione</string>
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
     <string name="create_home_screen_widget_title">Crea widget</string>
-    <string name="create_home_screen_widget_not_supported">Il tuo dispositivo non supporta la creazione di widget all\'interno di un\'app. Vai al menu widget della schermata iniziale e crea un widget da lì.</string>
     <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
