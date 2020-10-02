@@ -443,7 +443,6 @@
     <string name="item_update_error_no_connection">接続されていません</string>
     <string name="item_update_error_couldnt_get_item_type">アイテムの種類を取得できませんでした</string>
     <string name="create_home_screen_widget_title">ウィジェットの作成</string>
-    <string name="create_home_screen_widget_not_supported">お使いのデバイスは、アプリ内からのウィジェットの作成をサポートしていません。 ホーム画面のウィジェットメニューに移動して、そこからウィジェットを作成してください。</string>
     <string name="item_update_widget_auto_generate_widget_label">ウィジェットラベルの自動生成</string>
     <string name="item_update_widget_widget_label">ウィジェットラベル</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item ラベル>: <アクション>]]></string>
