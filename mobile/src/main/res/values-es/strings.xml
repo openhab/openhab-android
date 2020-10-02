@@ -5,11 +5,15 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Configuración</string>
     <string name="save">Guardar</string>
+    <string name="discard">Descartar</string>
+    <string name="delete">Borrar</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configuración</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Notificaciones</string>
+    <string name="app_notifications_on_server">Notificaciones (%s)</string>
     <string name="habpanel_error">Error al cargar HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccionar el Sitemap por defecto</string>
     <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
@@ -79,6 +83,20 @@
     <string name="settings_screen_lock_kiosk">Modo Kiosko</string>
     <string name="settings_screen_lock_on">Activado</string>
     <string name="settings_show_sitemaps_in_drawer">Mostrar todos los Sitemaps en el menú lateral</string>
+    <string name="settings_server_name">Nombre del servidor</string>
+    <string name="settings_add_server">Añadir servidor</string>
+    <string name="settings_edit_server">Editar servidor</string>
+    <string name="drawer_title_servers">Servidores</string>
+    <string name="server_with_name">Servidor %s</string>
+    <string name="settings_server_at_least_name_and_connection">Se requiere al menos el nombre del servidor y una conexión</string>
+    <string name="settings_server_confirm_deletion">¿Realmente desea eliminar este servidor?</string>
+    <string name="settings_server_confirm_leave_title">Cambios sin guardar</string>
+    <string name="settings_server_confirm_leave_message">Ha hecho algunos cambios. ¿Desea guardarlos o descartarlos?</string>
+    <string name="settings_server_primary_title">Servidor primario</string>
+    <string name="settings_server_primary_summary_is_primary">Este servidor es el principal.\nActualmente sólo el servidor principal es soportado por todas las características de esta aplicación. Haga clic en el botón de ayuda para obtener más información.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" es el servidor principal. Haga clic para hacer de este servidor el servidor principal.\nActualmente sólo el servidor principal está soportado por todas las características de esta aplicación. Haga clic en el botón de ayuda para más información.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Haga clic aquí para más información</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="voice_command">Comando de voz</string>
@@ -374,6 +392,7 @@
     <string name="home_shortcut_pin_to_home">Crear atajo en pantalla de inicio</string>
     <string name="home_shortcut_error_pinning">Error al crear atajo en pantalla de inicio</string>
     <string name="home_shortcut_success_pinning">Atajo creado en pantalla de inicio</string>
+    <string name="home_shortcut_server_has_been_deleted">El servidor para este acceso directo ha sido eliminado</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir la persiana enrollable</string>
     <string name="content_description_stop_roller_shutter">Parar la persiana enrollable</string>
@@ -450,7 +469,6 @@
     <string name="item_update_error_no_connection">Sin conexión</string>
     <string name="item_update_error_couldnt_get_item_type">No se pudo obtener el tipo del Item</string>
     <string name="create_home_screen_widget_title">Crear widget</string>
-    <string name="create_home_screen_widget_not_supported">Tu dispositivo no soporta la creación de widgets desde dentro de una aplicación. Por favor, ve al menú del widget en tu pantalla de inicio y crea un widget desde ahí.</string>
     <string name="item_update_widget_auto_generate_widget_label">Autogenerar etiqueta de widget</string>
     <string name="item_update_widget_widget_label">Etiqueta del widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>

@@ -334,7 +334,6 @@
     <string name="item_update_error_no_connection">Ingen anslutning</string>
     <string name="item_update_error_couldnt_get_item_type">Kunde inte hämta Item-typ</string>
     <string name="create_home_screen_widget_title">Skapa widget</string>
-    <string name="create_home_screen_widget_not_supported">Din enhet stöder inte att skapa widgetar inifrån en app. Gå till widget-menyn på hemskärmen och skapa en widget därifrån.</string>
     <string name="item_update_widget_auto_generate_widget_label">Skapa widgetetikett automatiskt</string>
     <string name="item_update_widget_widget_label">Widgetetikett</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>

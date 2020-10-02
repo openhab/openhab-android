@@ -346,7 +346,6 @@
     <string name="item_update_error_no_connection">Brak połączenia</string>
     <string name="item_update_error_couldnt_get_item_type">Nie można odnaleźć typu tego Itemu</string>
     <string name="create_home_screen_widget_title">Utwórz widget</string>
-    <string name="create_home_screen_widget_not_supported">Twoje urządzenie nie obsługuje tworzenia widżetów w aplikacji. Przejdź do menu widżetu na ekranie głównym i utwórz z niego widżet.</string>
     <string name="item_update_widget_auto_generate_widget_label">Automatycznie generuj etykietę widżetu</string>
     <string name="item_update_widget_widget_label">Etykieta widżetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>

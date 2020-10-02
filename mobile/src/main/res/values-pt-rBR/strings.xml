@@ -5,11 +5,15 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Configurações</string>
     <string name="save">Salvar</string>
+    <string name="discard">Descartar</string>
+    <string name="delete">Excluir</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configurações</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Notificações</string>
+    <string name="app_notifications_on_server">Notificações (%s)</string>
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
     <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
@@ -40,6 +44,9 @@
     <string name="settings_openhab_icon_format">Formato de ícone</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vetor</string>
+    <string name="settings_image_widget_scaling">Ajuste as imagens na tela</string>
+    <string name="settings_image_widget_scaling_summary_off">Manter widgets de \'Imagem\' que são menores que a largura da tela em seu tamanho original</string>
+    <string name="settings_image_widget_scaling_summary_on">Verifique se os widgets de \'Imagem\' se ajustam à tela, redimensionando conforme o apropriado</string>
     <string name="settings_chart_scaling">Escala do gráfico</string>
     <string name="settings_chart_scaling_summary">Nota: O dimensionamento menor reduz as fontes e as larguras de linha, portanto, há mais espaço para o gráfico, mas a legibilidade da fonte pode ser prejudicada.</string>
     <string name="settings_chart_scaling_value_xs">Muito pequeno</string>
@@ -76,6 +83,20 @@
     <string name="settings_screen_lock_kiosk">Modo Kiosk</string>
     <string name="settings_screen_lock_on">Ligar</string>
     <string name="settings_show_sitemaps_in_drawer">Mostrar todos os Sitemaps no menu lateral</string>
+    <string name="settings_server_name">Nome do servidor</string>
+    <string name="settings_add_server">Adicionar Servidor</string>
+    <string name="settings_edit_server">Editar servidor</string>
+    <string name="drawer_title_servers">Servidores</string>
+    <string name="server_with_name">Servidor %s</string>
+    <string name="settings_server_at_least_name_and_connection">Pelo menos o nome do servidor e uma conexão são necessários</string>
+    <string name="settings_server_confirm_deletion">Você realmente quer apagar este servidor?</string>
+    <string name="settings_server_confirm_leave_title">Alterações não salvas</string>
+    <string name="settings_server_confirm_leave_message">Você fez algumas alterações. Você deseja salvar ou descartá-las?</string>
+    <string name="settings_server_primary_title">Servidor principal</string>
+    <string name="settings_server_primary_summary_is_primary">Este é o servidor primário.\nAtualmente, apenas o servidor principal é capaz de todos os recursos deste aplicativo. Clique no botão de ajuda para mais informações.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" é o servidor principal. Clique para esse servidor tornar o principal.\nAtualmente, apenas o servidor principal é capaz de todos os recursos deste aplicativo. Clique no botão de ajuda para mais informações.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Clique aqui para mais informações</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de Voz</string>
     <string name="voice_command">Comando de voz</string>
@@ -176,6 +197,13 @@
     <string name="send_device_info_category_schedule_based_explanation">Quanto menor o intervalo escolhido, maior é o consumo da bateria do seu dispositivo. Além disso, seu dispositivo pode não seguir o intervalo escolhido exatamente, mas atrasar as atualizações para reduzir o consumo de bateria dos apps.</string>
     <string name="send_device_info_item_prefix_summary">Os nomes dos itens nesta página têm o prefixo com o identificador de dispositivo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nenhum prefixo foi definido para os nomes do Item nesta página. Você pode prefixar com o identificador do dispositivo, que pode ser definido na página de configurações.</string>
+    <string name="send_device_info_foreground_service_title">Monitor de eventos</string>
+    <string name="send_device_info_foreground_service_summary">Monitorar eventos associados aos seguintes Items. Isso requer uma notificação persistente e pode aumentar o uso da bateria.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Monitorar eventos associados com os seguintes Items. Isto requer uma notificação persistente e pode aumentar o uso da bateria. Só é necessário para enviar no modo não perturbe.</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">Monitorar eventos associados ao modo não perturbe</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Monitorar eventos associados a %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Monitorar eventos associados a %1$s e %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Monitorar eventos associados a %1$s, %2$s e mais</string>
     <string name="settings_item_update_pref_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
     <string name="item_update_summary_success">Última atualização foi \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Hora do alarme</string>
@@ -208,6 +236,7 @@
     <string name="notification_channel_background_description">Usado para notificar sobre tarefas em segundo plano pendentes, ex.: aguardando a rede para enviar o nível de bateria</string>
     <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
     <string name="notification_channel_background_error_description">Usado para notificar sobre erros em tarefas de segundo plano, ex: não tem conexão para enviar nível de bateria</string>
+    <string name="notification_channel_background_foreground_service_description">Monitorar eventos para atualizar de acordo com os Items. Você pode ocultar esta categoria com segurança.</string>
     <string name="notification_channel_messages_default_severity">Padrão</string>
     <string name="notification_channel_messages_default_severity_description">Notificações enviadas pelo servidor sem gravidade definida</string>
     <string name="notification_channel_group_messages">Mensagens</string>
@@ -247,6 +276,7 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Identificador de dispositivo</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Prefixo de comandos de voz com \'&lt;Device identifier&gt;|\'</string>
     <string name="device_identifier_bg_tasks">Prefixar os nomes de Item \"Enviar informação do dispositivo para o servidor\" com este identificador</string>
     <string name="device_identifier_hint">Este identificador de dispositivo pode ser qualquer palavra e deve ser único para todos os dispositivos que acessam o seu servidor openHAB. Além dos dois casos de uso acima, você também pode usá-lo como estado nas tags NFC, assim você sabe qual dispositivo leu a tag.</string>
     <string name="device_identifier_suggested_command_nfc_tag">Identificador de dispositivo para escanear (\"%s\" para este dispositivo)</string>
@@ -333,6 +363,8 @@
     <string name="about_translation">Nos ajude a traduzir o openHAB</string>
     <string name="about_privacy_policy">Política de privacidade</string>
     <string name="about_rate_this_app">Avalie este aplicativo</string>
+    <string name="settings_debug_messages_title">Mensagens de erro estendidas</string>
+    <string name="settings_troubleshooting_title">Solução de problemas</string>
     <string name="error_couldnt_determine_openhab_url">Não consegui determinar a URL do openHAB</string>
     <string name="set">Definir</string>
     <string name="cancel">Cancelar</string>
@@ -345,6 +377,7 @@
     <string name="no_remote_server">Conexão com o servidor local falhou e você não tem um servidor remoto configurado</string>
     <string name="resolving_openhab">Tentando descobrir uma instância do servidor openHAB\u2026</string>
     <string name="waiting_for_wifi">Aguardando Wi-Fi para estabelecer a conexão\u2026</string>
+    <string name="visit_status_openhab_org">Visite status.openhab.org</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Ver Log</string>
@@ -359,6 +392,7 @@
     <string name="home_shortcut_pin_to_home">Fixar na tela principal</string>
     <string name="home_shortcut_error_pinning">Erro ao fixar na tela inicial</string>
     <string name="home_shortcut_success_pinning">Fixado na tela inicial</string>
+    <string name="home_shortcut_server_has_been_deleted">O servidor para este atalho foi excluído</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir cortina</string>
     <string name="content_description_stop_roller_shutter">Parar cortina</string>
@@ -435,7 +469,6 @@
     <string name="item_update_error_no_connection">Sem conexão</string>
     <string name="item_update_error_couldnt_get_item_type">Não foi possível obter o tipo do Item</string>
     <string name="create_home_screen_widget_title">Criar widget</string>
-    <string name="create_home_screen_widget_not_supported">Seu dispositivo não suporta a criação de widgets de dentro de um app. Por favor, vá ao menu widget em sua tela inicial e crie um widget a partir de lá.</string>
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
@@ -446,6 +479,7 @@
     <string name="data_saver_off_pre_n">Todos os elementos do sitemap são carregados, ignorando seu uso de dados</string>
     <string name="data_saver_load">Carregar mesmo assim</string>
     <string name="data_saver_hint">%s não foi carregado para salvar dados</string>
+    <string name="data_saver_snackbar">Ícones não são baseados no estado do Item, porque a economia de dados está ativada</string>
     <string name="widget_type_image">Imagem</string>
     <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Vídeo</string>
@@ -487,6 +521,7 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">Ícone openHAB</string>
     <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_radio">Rádio</string>
     <string name="tile_icon_bulb">Lâmpada</string>
     <string name="tile_icon_clock">Relógio</string>
     <string name="tile_icon_alarm_clock">Despertador</string>

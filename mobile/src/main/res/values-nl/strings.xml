@@ -444,7 +444,6 @@
     <string name="item_update_error_no_connection">Geen verbinding</string>
     <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
     <string name="create_home_screen_widget_title">Widget maken</string>
-    <string name="create_home_screen_widget_not_supported">Uw apparaat ondersteunt het maken van widgets vanuit een app niet. Ga naar het widget menu op uw startscherm en maak vanaf daar een widget aan.</string>
     <string name="item_update_widget_auto_generate_widget_label">Automatisch widget label genereren</string>
     <string name="item_update_widget_widget_label">Widget label</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Bewerking>]]></string>

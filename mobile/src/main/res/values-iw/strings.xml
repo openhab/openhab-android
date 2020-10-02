@@ -450,7 +450,6 @@
     <string name="item_update_error_no_connection">לא מחובר</string>
     <string name="item_update_error_couldnt_get_item_type">כשל בזיהוי סוג פריט</string>
     <string name="create_home_screen_widget_title">יצירת יישומון</string>
-    <string name="create_home_screen_widget_not_supported">המכשיר שלך אינו תומך ביצירת יישומונים מתוך אפליקציה. צור יישומון מתפריט היישומונים במסך הבית.</string>
     <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
     <string name="item_update_widget_widget_label">תווית יישומון</string>
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>

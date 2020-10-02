@@ -449,7 +449,6 @@
     <string name="item_update_error_no_connection">Keine Verbindung</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ konnte nicht abgerufen werden</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
-    <string name="create_home_screen_widget_not_supported">Ihr Gerät unterstützt das Erstellen von Widgets innerhalb einer App nicht. Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget.</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>

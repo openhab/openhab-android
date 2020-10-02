@@ -5,11 +5,15 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Impostazioni</string>
     <string name="save">Salva</string>
+    <string name="discard">Non salvare</string>
+    <string name="delete">Elimina</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Impostazioni</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Notifiche</string>
+    <string name="app_notifications_on_server">Notifiche (%s)</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
     <string name="mainmenu_openhab_clearcache">Pulisci cache immagini</string>
@@ -79,6 +83,20 @@
     <string name="settings_screen_lock_kiosk">Modalità Chiosco</string>
     <string name="settings_screen_lock_on">On</string>
     <string name="settings_show_sitemaps_in_drawer">Mostra tutte le Sitemaps nel menu laterale</string>
+    <string name="settings_server_name">Nome del server</string>
+    <string name="settings_add_server">Aggiungi server</string>
+    <string name="settings_edit_server">Modifica server</string>
+    <string name="drawer_title_servers">Server</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">È richiesto almeno il nome del server e una connessione</string>
+    <string name="settings_server_confirm_deletion">Vuoi davvero rimuovere questo server?</string>
+    <string name="settings_server_confirm_leave_title">Modifiche non salvate</string>
+    <string name="settings_server_confirm_leave_message">Hai apportato alcune modifiche. Vuoi salvarle o eliminarle?</string>
+    <string name="settings_server_primary_title">Server primario</string>
+    <string name="settings_server_primary_summary_is_primary">Questo server è quello primario.\nAttualmente solo il server primario è supportato da tutte le funzionalità di questa app. Fare clic sul pulsante di aiuto per ulteriori informazioni.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" è il server primario. Fare clic per rendere questo server quello primario.\nAttualmente solo il server primario è supportato da tutte le funzionalità di questa app. Clicca sul pulsante di aiuto per ulteriori informazioni.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Clicca qui per maggiori informazioni</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="voice_command">Comando vocale</string>
@@ -374,6 +392,7 @@
     <string name="home_shortcut_pin_to_home">Fissa nella home</string>
     <string name="home_shortcut_error_pinning">Errore fissando nella home</string>
     <string name="home_shortcut_success_pinning">Fissato nella home</string>
+    <string name="home_shortcut_server_has_been_deleted">Il server per questo collegamento è stato eliminato</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Apertura tapparella</string>
     <string name="content_description_stop_roller_shutter">Ferma tapparella</string>
@@ -450,7 +469,6 @@
     <string name="item_update_error_no_connection">Nessuna connessione</string>
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
     <string name="create_home_screen_widget_title">Crea widget</string>
-    <string name="create_home_screen_widget_not_supported">Il tuo dispositivo non supporta la creazione di widget all\'interno di un\'app. Vai al menu widget della schermata iniziale e crea un widget da lì.</string>
     <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
