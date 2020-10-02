@@ -321,7 +321,6 @@
     <string name="item_update_error_no_connection">Ingen tilkobling</string>
     <string name="item_update_error_couldnt_get_item_type">Kunne ikke hente objekt-type</string>
     <string name="create_home_screen_widget_title">Lag widget</string>
-    <string name="create_home_screen_widget_not_supported">Din enhet støtter ikke \"Lag widget\" I appen. Gå til widget - menyen på hjemme-skjermen og lag widgeten der.</string>
     <string name="item_update_widget_auto_generate_widget_label">Autogenerer widget-merking</string>
     <string name="item_update_widget_widget_label">Widget-merke</string>
     <!-- Data saver -->
