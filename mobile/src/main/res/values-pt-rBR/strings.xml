@@ -469,7 +469,6 @@
     <string name="item_update_error_no_connection">Sem conexão</string>
     <string name="item_update_error_couldnt_get_item_type">Não foi possível obter o tipo do Item</string>
     <string name="create_home_screen_widget_title">Criar widget</string>
-    <string name="create_home_screen_widget_not_supported">Seu dispositivo não suporta a criação de widgets de dentro de um app. Por favor, vá ao menu widget em sua tela inicial e crie um widget a partir de lá.</string>
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
