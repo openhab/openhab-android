@@ -473,7 +473,6 @@
     <string name="item_update_error_no_connection">Немає з\'єднання</string>
     <string name="item_update_error_couldnt_get_item_type">Не вдалося отримати тип елемента</string>
     <string name="create_home_screen_widget_title">Створити віджет</string>
-    <string name="create_home_screen_widget_not_supported">Ваш пристрій не підтримує створення віджетів безпосередньо з програми. Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти.</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
     <string name="item_update_widget_widget_label">Мітка віджета</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
