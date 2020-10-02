@@ -450,7 +450,6 @@
     <string name="item_update_error_no_connection">Žádné připojení</string>
     <string name="item_update_error_couldnt_get_item_type">Typ Item nelze zjistit</string>
     <string name="create_home_screen_widget_title">Vytvořit widget</string>
-    <string name="create_home_screen_widget_not_supported">Vaše zařízení nepodporuje vytváření widgetů uvnitř aplikace. Přejděte do nabídky widgetů na domovské obrazovce a vytvořte widget tam.</string>
     <string name="item_update_widget_auto_generate_widget_label">Automaticky generovat popisek widgetu</string>
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
