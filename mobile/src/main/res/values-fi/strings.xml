@@ -446,7 +446,6 @@
     <string name="item_update_error_no_connection">Ei yhteyttä</string>
     <string name="item_update_error_couldnt_get_item_type">Ei saatu Itemin tyyppiä</string>
     <string name="create_home_screen_widget_title">Luo widget</string>
-    <string name="create_home_screen_widget_not_supported">Laitteesi ei tuo widgetin luontia sovelluksen kautta. Ole hyvä ja mene aloitusnäyttöön ja luo widget sitä kautta.</string>
     <string name="item_update_widget_auto_generate_widget_label">Luo automaattisesti widgetin nimi</string>
     <string name="item_update_widget_widget_label">Widgetin nimi</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
