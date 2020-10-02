@@ -227,7 +227,10 @@
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Invia modo DND all\'item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Non inviare modo DND</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi.</string>
+    <string name="settings_background_tasks_permission_hint">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi. Assicurati di approvare l\'autorizzazione anche per l\'utilizzo in background, poiché gli aggiornamenti degli Item avviene anche quando l\'applicazione è in background.</string>
     <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Alcune attività in background richiedono l\'accesso alla localizzazione per cambiarlo in \"%s\" nelle impostazioni di Android</string>
     <string name="settings_background_tasks_permission_allow">Consenti</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
     <string name="waiting_for_item_upload">In attesa della rete per inviare aggiornamenti degli Item</string>
@@ -469,6 +472,7 @@
     <string name="item_update_error_no_connection">Nessuna connessione</string>
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
     <string name="create_home_screen_widget_title">Crea widget</string>
+    <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
     <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
