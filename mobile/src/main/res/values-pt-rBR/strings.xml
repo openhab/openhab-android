@@ -227,7 +227,10 @@
     <string name="settings_dnd_mode">Modo Não perturbe</string>
     <string name="settings_dnd_mode_summary_on">Envia o modo Não perturbe para o Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Não enviar modo Não Pertube</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Este recurso requer permissões adicionais para funcionar. Depois de habilitá-lo, você será solicitado para dar permissão.</string>
+    <string name="settings_background_tasks_permission_hint">Este recurso requer permissões adicionais para funcionar. Depois de habilitá-lo, você será solicitado para dar permissão. Certifique-se de aprovar a permissão também para uso em segundo plano, já que as atualizações de Item também acontecem quando o app está em segundo plano.</string>
     <string name="settings_background_tasks_permission_denied">Algumas tarefas de segundo plano foram desabilitadas devido à falta de permissões</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Algumas tarefas em segundo plano requerem que o acesso à localização seja definido como \"%s\" nas configurações do Android</string>
     <string name="settings_background_tasks_permission_allow">Permitir</string>
     <string name="settings_item_pref_item_name">Nome do item</string>
     <string name="waiting_for_item_upload">Aguardando a rede enviar atualizações de Item</string>
@@ -469,6 +472,7 @@
     <string name="item_update_error_no_connection">Sem conexão</string>
     <string name="item_update_error_couldnt_get_item_type">Não foi possível obter o tipo do Item</string>
     <string name="create_home_screen_widget_title">Criar widget</string>
+    <string name="create_home_screen_widget_not_supported">Por favor, vá ao menu de widgets na sua tela inicial e crie um widget a partir daí</string>
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
