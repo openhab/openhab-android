@@ -18,7 +18,6 @@ import android.content.Intent
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.ui.AboutActivity
 import org.openhab.habdroid.ui.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys

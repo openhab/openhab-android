@@ -114,8 +114,8 @@ import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getNextAvailableServerId
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getPrimaryServerId
+import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
