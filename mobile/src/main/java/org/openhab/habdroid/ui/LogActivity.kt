@@ -34,14 +34,12 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getSecretPrefs
-import org.openhab.habdroid.util.showToast
 
 class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var logTextView: TextView
@@ -75,7 +73,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                 startActivity(sendIntent)
             } catch (e: RuntimeException) {
                 Log.d(TAG, "Log too large to share", e)
-                showToast(R.string.log_too_large_to_share, ToastType.ERROR)
+                showSnackbar(SNACKBAR_TAG_LOG_TOO_LARGE, R.string.log_too_large_to_share)
             }
         }
 
@@ -226,6 +224,8 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
 
     companion object {
         private const val KEY_ERRORS_ONLY = "errorsOnly"
+
+        const val SNACKBAR_TAG_LOG_TOO_LARGE = "logTooLargeToShare"
 
         private val TAG = LogActivity::class.java.simpleName
     }

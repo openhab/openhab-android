@@ -22,9 +22,9 @@ import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Base64
-import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -32,7 +32,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -923,10 +922,7 @@ class WidgetAdapter(
 
         init {
             val context = itemView.context
-            val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val metrics = DisplayMetrics()
-            wm.defaultDisplay.getMetrics(metrics)
-            density = metrics.densityDpi
+            density = context.resources.configuration.densityDpi
             prefs = context.getPrefs()
             chart.setOnClickListener(this)
         }
@@ -1125,7 +1121,7 @@ class WidgetAdapter(
         View.OnClickListener {
         private var boundWidget: Widget? = null
         private var boundItem: Item? = null
-        private val handler = Handler(this)
+        private val handler = Handler(Looper.getMainLooper(), this)
         private var slider: Slider? = null
         private var colorPicker: ColorPickerView? = null
         private var lastUpdate: Job? = null

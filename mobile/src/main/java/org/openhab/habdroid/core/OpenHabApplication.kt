@@ -13,6 +13,9 @@
 
 package org.openhab.habdroid.core
 
+import android.app.AppOpsManager
+import android.app.AsyncNotedAppOp
+import android.app.SyncNotedAppOp
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -27,6 +30,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import java.security.InvalidKeyException
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.DataUsagePolicy
@@ -34,7 +38,6 @@ import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
-import java.security.InvalidKeyException
 
 class OpenHabApplication : MultiDexApplication() {
     interface OnDataUsagePolicyChangedListener {
@@ -92,6 +95,46 @@ class OpenHabApplication : MultiDexApplication() {
             systemDataSaverStatus = listener.getSystemDataSaverStatus(this)
             batterySaverActive = listener.isBatterySaverActive(this)
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            registerDataAccessAudit()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun registerDataAccessAudit() {
+        class DataAccessException(message: String) : Exception(message)
+
+        val appOpsCallback = object : AppOpsManager.OnOpNotedCallback() {
+            private fun logPrivateDataAccess(opCode: String, trace: String) {
+                Log.e("DataAudit", "Operation: $opCode\nStacktrace: $trace")
+                RemoteLog.nonFatal(DataAccessException("Operation: $opCode\nStacktrace: $trace"))
+            }
+
+            override fun onNoted(syncNotedAppOp: SyncNotedAppOp) {
+                logPrivateDataAccess(
+                    syncNotedAppOp.op,
+                    Throwable().stackTrace.toString()
+                )
+            }
+
+            override fun onSelfNoted(syncNotedAppOp: SyncNotedAppOp) {
+                logPrivateDataAccess(
+                    syncNotedAppOp.op,
+                    Throwable().stackTrace.toString()
+                )
+            }
+
+            override fun onAsyncNoted(asyncNotedAppOp: AsyncNotedAppOp) {
+                logPrivateDataAccess(
+                    asyncNotedAppOp.op,
+                    asyncNotedAppOp.message
+                )
+            }
+        }
+
+        val appOpsManager = getSystemService(AppOpsManager::class.java) as AppOpsManager
+        appOpsManager.setOnOpNotedCallback(mainExecutor, appOpsCallback)
     }
 
     override fun onTerminate() {

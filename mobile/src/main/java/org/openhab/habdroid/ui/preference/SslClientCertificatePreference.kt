@@ -25,15 +25,15 @@ import android.view.ContextThemeWrapper
 import android.widget.ImageView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
-import org.openhab.habdroid.util.ToastType
-import org.openhab.habdroid.util.showToast
 
 class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var currentAlias: String? = null
@@ -67,7 +67,11 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         try {
             KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) }, keyTypes, null, null, -1, null)
         } catch (e: ActivityNotFoundException) {
-            context.showToast(R.string.settings_openhab_sslclientcert_not_supported, ToastType.ERROR)
+            (getActivity() as PreferencesActivity).showSnackbar(
+                PreferencesActivity.SNACKBAR_TAG_CLIENT_SSL_NOT_SUPPORTED,
+                R.string.settings_openhab_sslclientcert_not_supported,
+                Snackbar.LENGTH_LONG
+            )
         }
     }
 

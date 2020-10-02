@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui.preference
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -28,6 +29,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.DialogPreference
@@ -37,12 +39,14 @@ import androidx.work.WorkManager
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.ItemUpdateWorker
 import org.openhab.habdroid.ui.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.hasPermissions
 
 class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs),
     CustomDialogPreference {
@@ -149,6 +153,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         private lateinit var switch: SwitchCompat
         private lateinit var editorWrapper: TextInputLayout
         private lateinit var editor: EditText
+        private lateinit var permissionHint: TextView
 
         override fun onCreateDialogView(context: Context?): View {
             val inflater = LayoutInflater.from(activity)
@@ -162,6 +167,18 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
             editorWrapper = v.findViewById(R.id.itemNameWrapper)
             helpIcon = v.findViewById(R.id.help_icon)
             helpIcon.setupHelpIcon(pref.howtoUrl.orEmpty(), R.string.settings_item_update_pref_howto_summary)
+            permissionHint = v.findViewById(R.id.permission_hint)
+            permissionHint.setText(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    R.string.settings_background_tasks_permission_hint
+                } else {
+                    R.string.settings_background_tasks_permission_hint_pre_r
+                }
+            )
+
+            val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(pref.key)
+            permissionHint.isVisible =
+                requiredPermissions != null && context?.hasPermissions(requiredPermissions) == false
 
             val label = v.findViewById<TextView>(R.id.enabledLabel)
             label.text = pref.title

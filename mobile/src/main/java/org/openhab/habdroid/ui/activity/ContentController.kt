@@ -476,7 +476,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     override fun onSseFailure() {
-        activity.showSnackbar(R.string.error_sse_failed, tag = MainActivity.TAG_SNACKBAR_SSE_ERROR)
+        activity.showSnackbar(MainActivity.SNACKBAR_TAG_SSE_ERROR, R.string.error_sse_failed)
     }
 
     internal abstract fun executeStateUpdate(reason: FragmentUpdateReason)

@@ -45,6 +45,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -63,14 +64,12 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.openInBrowser
-import org.openhab.habdroid.util.showToast
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -477,7 +476,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 successCallback
             )
         } else {
-            context.showToast(R.string.create_home_screen_widget_not_supported, ToastType.ERROR)
+            (activity as? MainActivity)?.showSnackbar(
+                MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                R.string.create_home_screen_widget_not_supported,
+                Snackbar.LENGTH_LONG
+            )
         }
     }
 
@@ -544,9 +547,17 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         withContext(Dispatchers.Main) {
             if (success) {
-                context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
+                (activity as? MainActivity)?.showSnackbar(
+                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                    R.string.home_shortcut_success_pinning,
+                    Snackbar.LENGTH_SHORT
+                )
             } else {
-                context.showToast(R.string.home_shortcut_error_pinning, ToastType.ERROR)
+                (activity as? MainActivity)?.showSnackbar(
+                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                    R.string.home_shortcut_error_pinning,
+                    Snackbar.LENGTH_LONG
+                )
             }
         }
     }

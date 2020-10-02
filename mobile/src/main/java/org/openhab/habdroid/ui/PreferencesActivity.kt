@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.KeyguardManager
@@ -52,11 +53,13 @@ import androidx.preference.SwitchPreference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.forEachIndexed
 import androidx.work.WorkManager
+import com.google.android.material.snackbar.Snackbar
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.BackgroundTasksManager.Companion.buildWorkerTagForServer
@@ -81,7 +84,6 @@ import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
 import org.openhab.habdroid.ui.preference.TileItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
@@ -369,7 +371,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             fullscreenPreference.setOnPreferenceChangeListener { _, newValue ->
-                (activity as AbstractBaseActivity).checkFullscreen(newValue as Boolean)
+                (activity as AbstractBaseActivity).setFullscreen(newValue as Boolean)
                 true
             }
 
@@ -557,6 +559,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private fun isAutomationAppInstalled(): Boolean {
             val pm = activity?.packageManager ?: return false
+            // These package names must be added to the manifest as well
             return listOf("net.dinglisch.android.taskerm", "com.twofortyfouram.locale").any { pkg ->
                 try {
                     // Some devices return `null` for getApplicationInfo()
@@ -1054,7 +1057,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                     BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID),
                     PERMISSIONS_REQUEST_FOR_WIFI_NAME
                 )
-
                 true
             }
 
@@ -1096,9 +1098,39 @@ class PreferencesActivity : AbstractBaseActivity() {
         ) {
             @Suppress("UNCHECKED_CAST")
             val value = newValue as Pair<Boolean, String>
-            if (value.first && permissions != null && !context.hasPermissions(permissions)) {
-                Log.d(TAG, "Request $permissions permission")
-                requestPermissions(permissions, requestCode)
+            var permissionsToRequest = permissions
+                ?.filter { !context.hasPermissions(arrayOf(it)) }
+                ?.toTypedArray()
+            if (value.first && permissionsToRequest != null && !context.hasPermissions(permissionsToRequest)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                    permissionsToRequest.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                ) {
+                    if (permissionsToRequest.size > 1) {
+                        Log.d(TAG, "Remove background location from permissions to request")
+                        permissionsToRequest = permissionsToRequest.toMutableList().apply {
+                            remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                        }.toTypedArray()
+                    } else {
+                        parentActivity.showSnackbar(
+                            SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION,
+                            getString(
+                                R.string.settings_background_tasks_permission_denied_background_location,
+                                parentActivity.packageManager.backgroundPermissionOptionLabel
+                            ),
+                            Snackbar.LENGTH_LONG,
+                            android.R.string.ok
+                        ) {
+                            Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
+                                putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
+                                startActivity(this)
+                            }
+                        }
+                        return
+                    }
+                }
+
+                Log.d(TAG, "Request $permissionsToRequest permission")
+                requestPermissions(permissionsToRequest, requestCode)
             }
         }
 
@@ -1108,7 +1140,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             when (requestCode) {
                 PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        context.showToast(R.string.settings_phone_state_permission_denied, ToastType.ERROR)
+                        parentActivity.showSnackbar(
+                            SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE,
+                            R.string.settings_phone_state_permission_denied
+                        )
                         phoneStatePref.setValue(checked = false)
                     } else {
                         BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
@@ -1116,7 +1151,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
                 PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
                     if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                        context.showToast(R.string.settings_wifi_ssid_permission_denied, ToastType.ERROR)
+                        parentActivity.showSnackbar(
+                            SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI,
+                            R.string.settings_wifi_ssid_permission_denied
+                        )
                         wifiSsidPref.setValue(checked = false)
                     } else {
                         BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
@@ -1222,7 +1260,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                         val requireUnlock = requireUnlockPref.isChecked
                         if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
                             tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()) {
-                            context.showToast(R.string.tile_error_saving, ToastType.ERROR)
+                            parentActivity.showSnackbar(
+                                SNACKBAR_TAG_ERROR_SAVING_TILE,
+                                R.string.tile_error_saving,
+                                Snackbar.LENGTH_LONG
+                            )
                             return true
                         }
                         TileData(itemName, state, label, tileLabel, mappedState, icon, requireUnlock)
@@ -1366,6 +1408,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
         private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
         private const val RESULT_TILE_ITEM_PICKER = 0
+
+        internal const val SNACKBAR_TAG_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
+        internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"
+        internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI = "bgTasksPermissionDeclinedWifi"
+        internal const val SNACKBAR_TAG_ERROR_SAVING_TILE = "errorSavingTile"
+        internal const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }

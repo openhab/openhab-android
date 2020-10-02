@@ -31,4 +31,8 @@ object RemoteLog {
             Log.e(tag, message)
         }
     }
+
+    fun nonFatal(@Suppress("UNUSED_PARAMETER") e: Throwable) {
+        // no-op
+    }
 }

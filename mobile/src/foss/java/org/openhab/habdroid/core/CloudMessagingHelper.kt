@@ -47,15 +47,18 @@ object CloudMessagingHelper {
         return when {
             !prefs.getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false) -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_disabled),
-                R.drawable.ic_bell_off_outline_grey_24dp
+                R.drawable.ic_bell_off_outline_grey_24dp,
+                false
             )
             prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_no_remote_configured),
-                R.drawable.ic_bell_off_outline_grey_24dp
+                R.drawable.ic_bell_off_outline_grey_24dp,
+                false
             )
             ConnectionFactory.primaryCloudConnection?.connection != null -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_impaired),
-                R.drawable.ic_bell_ring_outline_grey_24dp
+                R.drawable.ic_bell_ring_outline_grey_24dp,
+                false
             )
             cloudFailure != null -> {
                 val message = context.getString(
@@ -67,11 +70,12 @@ object CloudMessagingHelper {
                         true
                     )
                 )
-                PushNotificationStatus(message, R.drawable.ic_bell_off_outline_grey_24dp)
+                PushNotificationStatus(message, R.drawable.ic_bell_off_outline_grey_24dp, true)
             }
             else -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_remote_no_cloud),
-                R.drawable.ic_bell_off_outline_grey_24dp
+                R.drawable.ic_bell_off_outline_grey_24dp,
+                false
             )
         }
     }

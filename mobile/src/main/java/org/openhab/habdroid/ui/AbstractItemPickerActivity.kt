@@ -246,18 +246,16 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             }
 
             if (connection is DemoConnection) {
-                Snackbar.make(
-                    findViewById(R.id.activity_content),
+                showSnackbar(
+                    SNACKBAR_TAG_DEMO_MODE_ACTIVE,
                     R.string.info_demo_mode_short,
-                    Snackbar.LENGTH_INDEFINITE
-                ).apply {
-                    setAction(R.string.turn_off) {
-                        getPrefs().edit {
-                            putBoolean(PrefKeys.DEMO_MODE, false)
-                        }
-                        loadItems()
+                    Snackbar.LENGTH_INDEFINITE,
+                    R.string.turn_off
+                ) {
+                    getPrefs().edit {
+                        putBoolean(PrefKeys.DEMO_MODE, false)
                     }
-                    show()
+                    loadItems()
                 }
             }
 
@@ -324,6 +322,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     data class CommandEntry(val command: String, val label: String, val tag: Any? = null)
 
     companion object {
+        private const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"
+
         private val TAG = AbstractItemPickerActivity::class.java.simpleName
     }
 }

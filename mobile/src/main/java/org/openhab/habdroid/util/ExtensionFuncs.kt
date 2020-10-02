@@ -28,6 +28,7 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
+import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import android.view.Menu
@@ -277,18 +278,22 @@ fun Context.showToast(message: CharSequence, type: ToastType = ToastType.NORMAL)
         ToastType.ERROR -> R.color.pref_icon_red
         else -> R.color.openhab_orange
     }
-    val length = if (type == ToastType.ERROR) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT
+    val length = if (type == ToastType.ERROR) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
 
     GlobalScope.launch(Dispatchers.Main) {
-        Toasty.custom(
-            applicationContext,
-            message,
-            R.drawable.ic_openhab_appicon_24dp,
-            color,
-            length,
-            true,
-            true
-        ).show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Toast.makeText(this@showToast, message, length).show()
+        } else {
+            Toasty.custom(
+                applicationContext,
+                message,
+                R.drawable.ic_openhab_appicon_24dp,
+                color,
+                length,
+                true,
+                true
+            ).show()
+        }
     }
 }
 

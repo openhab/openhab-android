@@ -257,7 +257,10 @@
     <string name="settings_dnd_mode_summary_on">Sends DND mode to Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Don\'t send DND mode</string>
     <string name="settings_dnd_mode_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#dnd-mode</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">This feature requires additional permissions to work. After enabling it, you\'ll be asked for permission approval.</string>
+    <string name="settings_background_tasks_permission_hint">This feature requires additional permissions to work. After enabling it, you\'ll be asked for permission approval. Please make sure to approve the permission also for background usage, since the Item updates also happen when the app is in background.</string>
     <string name="settings_background_tasks_permission_denied">Some background tasks have been disabled due to missing permissions</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Some background tasks require location access to be set to \"%s\" in the Android settings</string>
     <string name="settings_background_tasks_permission_allow">Allow</string>
     <string name="settings_item_pref_item_name">Item name</string>
     <string name="waiting_for_item_upload">Waiting for network to send Item updates</string>
@@ -523,7 +526,7 @@
     <string name="item_update_error_no_connection">No connection</string>
     <string name="item_update_error_couldnt_get_item_type">Couldn\'t get Item type</string>
     <string name="create_home_screen_widget_title">Create widget</string>
-    <string name="create_home_screen_widget_not_supported">Your device doesn\'t support creating widgets from inside an app. Please go to the widget menu on your home screen and create a widget from there.</string>
+    <string name="create_home_screen_widget_not_supported">Please go to the widget menu on your home screen and create a widget from there</string>
     <string name="item_update_widget_auto_generate_widget_label">Auto generate widget label</string>
     <string name="item_update_widget_widget_label">Widget label</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
