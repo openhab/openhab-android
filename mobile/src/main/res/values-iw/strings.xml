@@ -5,11 +5,14 @@
     <!-- General app strings -->
     <string name="app_preferences_name">הגדרות</string>
     <string name="save">שמור</string>
+    <string name="delete">מחק</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">התראות</string>
+    <string name="app_notifications_on_server">התראות (%s)</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
     <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
@@ -40,6 +43,8 @@
     <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
     <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
     <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
+    <string name="settings_image_widget_scaling">התאם גודל תמונות למסך</string>
+    <string name="settings_image_widget_scaling_summary_off">השאר ווידג\'ט \'תמונה\' הקטן מרוחב המסך בגודלו המקורי</string>
     <string name="settings_chart_scaling">שינוי גודל התרשים</string>
     <string name="settings_chart_scaling_summary">הערה: בקנה מידה קטן עובי הקווים וגודל הטקסט קטנים כך שיש יותר מקום עבור התרשים אבל יכולת קריאת הטקסט עלולה להפגע.</string>
     <string name="settings_chart_scaling_value_xs">קטן מאוד</string>
@@ -76,6 +81,20 @@
     <string name="settings_screen_lock_kiosk">מצב קיוסק</string>
     <string name="settings_screen_lock_on">פעיל</string>
     <string name="settings_show_sitemaps_in_drawer">הצג את כל תצורות המערכת בתפריט צדדי</string>
+    <string name="settings_server_name">שם השרת</string>
+    <string name="settings_add_server">הוסף שרת</string>
+    <string name="settings_edit_server">ערוך פרטי שרת</string>
+    <string name="drawer_title_servers">שרתים</string>
+    <string name="server_with_name">שרת %s</string>
+    <string name="settings_server_at_least_name_and_connection">נדרשים לפחות שם שרת וחיבור אחד</string>
+    <string name="settings_server_confirm_deletion">האם להסיר שרת זה?</string>
+    <string name="settings_server_confirm_leave_title">שינויים שלא נשמרו</string>
+    <string name="settings_server_confirm_leave_message">קיימים שינויים שלא נשמרו. האם ברצונך לשמור או למחוק אותם?</string>
+    <string name="settings_server_primary_title">שרת ראשי</string>
+    <string name="settings_server_primary_summary_is_primary">שרת זה הוא הראשי.\n נכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="voice_command">פקודה קולית</string>
@@ -374,6 +393,7 @@
     <string name="home_shortcut_pin_to_home">נעץ למסך הבית</string>
     <string name="home_shortcut_error_pinning">שגיאה בנעיצה למסך הבית</string>
     <string name="home_shortcut_success_pinning">ננעץ למסך הבית</string>
+    <string name="home_shortcut_server_has_been_deleted">השרת לקיצור דרך זה נמחק</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
