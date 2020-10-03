@@ -5,6 +5,7 @@
     <!-- General app strings -->
     <string name="app_preferences_name">הגדרות</string>
     <string name="save">שמור</string>
+    <string name="discard">בטל</string>
     <string name="delete">מחק</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
@@ -45,6 +46,7 @@
     <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
     <string name="settings_image_widget_scaling">התאם גודל תמונות למסך</string>
     <string name="settings_image_widget_scaling_summary_off">השאר ווידג\'ט \'תמונה\' הקטן מרוחב המסך בגודלו המקורי</string>
+    <string name="settings_image_widget_scaling_summary_on">יש לוודא שווידג\'ט \'תמונה\' מתאים לרוחב המסך על ידי הגדלה או הקטנה בהתאם</string>
     <string name="settings_chart_scaling">שינוי גודל התרשים</string>
     <string name="settings_chart_scaling_summary">הערה: בקנה מידה קטן עובי הקווים וגודל הטקסט קטנים כך שיש יותר מקום עבור התרשים אבל יכולת קריאת הטקסט עלולה להפגע.</string>
     <string name="settings_chart_scaling_value_xs">קטן מאוד</string>
@@ -379,6 +381,7 @@
     <string name="no_remote_server">החיבור אל השרת המקומי נכשל ולא הוגדר שרת מרוחק</string>
     <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
     <string name="waiting_for_wifi">ממתין להתחברות האינטרנט האלחוטי \u2026</string>
+    <string name="visit_status_openhab_org">בקר ב-status.openhab.org</string>
     <!-- Log -->
     <string name="log">יומן רישום</string>
     <string name="view_log">הצג יומן רישום</string>
