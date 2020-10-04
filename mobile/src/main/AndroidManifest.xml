@@ -46,6 +46,9 @@
         android:supportsPictureInPicture="false"
         android:supportsRtl="true"
         android:theme="@style/openHAB.Launch">
+
+        <meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
+
         <activity
             android:name=".ui.PreferencesActivity"
             android:label="@string/app_preferences_name">
