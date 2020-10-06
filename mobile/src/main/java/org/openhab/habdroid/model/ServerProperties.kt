@@ -42,8 +42,8 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         return flags and SERVER_FLAG_SSE_SUPPORT != 0
     }
 
-    fun hasHabPanelInstalled(): Boolean {
-        return flags and SERVER_FLAG_HABPANEL_INSTALLED != 0
+    fun hasWebViewUiInstalled(ui: WebViewUi): Boolean {
+        return flags and ui.serverFlag != 0
     }
 
     fun hasInvisibleWidgetSupport(): Boolean {
@@ -60,6 +60,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_HABPANEL_INSTALLED = 1 shl 4
         const val SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS = 1 shl 5
         const val SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON = 1 shl 6
+        const val SERVER_FLAG_OH3_UI = 1 shl 7
 
         class UpdateHandle internal constructor(internal val scope: CoroutineScope) {
             internal var job: Job? = null
@@ -120,6 +121,9 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             }
                             if (version >= 3) {
                                 flags = flags or SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON
+                            }
+                            if (version >= 4) {
+                                flags = flags or SERVER_FLAG_OH3_UI
                             }
                         } catch (nfe: NumberFormatException) {
                             // ignored: older versions without SSE support didn't return a number

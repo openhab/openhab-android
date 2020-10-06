@@ -251,7 +251,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             urlForError: String,
             serverId: Int,
             shortcutAction: String? = null,
-            shortcutLabel: String? = null,
+            shortcutLabel: String,
             shortcutIconRes: Int = 0
         ): WebViewFragment {
             val f = WebViewFragment()
