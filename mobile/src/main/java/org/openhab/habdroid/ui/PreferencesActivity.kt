@@ -99,7 +99,6 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.putPrimaryServerId
-import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 /**
@@ -693,7 +692,10 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private fun saveAndQuit() {
             if (config.name.isEmpty() || (config.localPath == null && config.remotePath == null)) {
-                context?.showToast(R.string.settings_server_at_least_name_and_connection)
+                parentActivity.showSnackbar(
+                    SNACKBAR_TAG_MISSING_PREFS,
+                    R.string.settings_server_at_least_name_and_connection
+                )
                 return
             }
             config.saveToPrefs(prefs, secretPrefs)
@@ -1386,7 +1388,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val currentData = getCurrentPrefsAsTileData()
             if (currentData != null && !currentData.isValid()) {
                 parentActivity.showSnackbar(
-                    SNACKBAR_TAG_ERROR_SAVING_TILE,
+                    SNACKBAR_TAG_MISSING_PREFS,
                     R.string.tile_error_saving,
                     Snackbar.LENGTH_LONG
                 )
@@ -1435,8 +1437,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         internal const val SNACKBAR_TAG_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
         internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"
         internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI = "bgTasksPermissionDeclinedWifi"
-        internal const val SNACKBAR_TAG_ERROR_SAVING_TILE = "errorSavingTile"
         internal const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
+        internal const val SNACKBAR_TAG_MISSING_PREFS = "missingPrefs"
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }
