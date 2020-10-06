@@ -170,7 +170,16 @@ data class TileData(
     val mappedState: String,
     val icon: String,
     val requireUnlock: Boolean
-) : Parcelable
+) : Parcelable {
+    fun isValid(): Boolean {
+        return item.isNotEmpty() &&
+            state.isNotEmpty() &&
+            label.isNotEmpty() &&
+            tileLabel.isNotEmpty() &&
+            mappedState.isNotEmpty() &&
+            icon.isNotEmpty()
+    }
+}
 
 fun SharedPreferences.getTileData(id: Int): TileData? {
     val tileString = getString(getPrefKeyForId(id), null) ?: return null
