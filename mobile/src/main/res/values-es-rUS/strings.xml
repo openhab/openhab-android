@@ -86,7 +86,6 @@
     <string name="settings_server_name">Nombre del servidor</string>
     <string name="settings_add_server">Añadir servidor</string>
     <string name="settings_edit_server">Editar servidor</string>
-    <string name="drawer_title_servers">Servidores</string>
     <string name="server_with_name">Servidor %s</string>
     <string name="settings_server_at_least_name_and_connection">Se requiere al menos el nombre del servidor y una conexión</string>
     <string name="settings_server_confirm_deletion">¿Realmente desea eliminar este servidor?</string>
@@ -367,7 +366,6 @@
     <string name="about_rate_this_app">Valorar esta aplicación</string>
     <string name="settings_debug_messages_title">Mensajes de error extendidos</string>
     <string name="settings_troubleshooting_title">Solución de problemas</string>
-    <string name="error_couldnt_determine_openhab_url">No se pudo determinar la URL de openHAB</string>
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
@@ -491,9 +489,7 @@
     <!-- Tiles -->
     <string name="tile">Baldosa</string>
     <string name="tiles_for_quick_settings">Baldosas para ajustes rápidos</string>
-    <string name="tile_empty">Baldosa vacía</string>
     <string name="tile_item_picker_title">Seleccione un Item</string>
-    <string name="tile_configure_in_settings">Esta baldosa se puede configurar en los ajustes de la aplicación openHAB</string>
     <string name="tile_error_saving">Por favor, rellene todos los ajustes</string>
     <string name="tile_disabled">Desactivado</string>
     <string name="tile_enable">Activar</string>
