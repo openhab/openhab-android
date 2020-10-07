@@ -207,7 +207,6 @@
     <string name="about_community">openHAB Topluluğu</string>
     <string name="about_translation">openHAB\'ı çevirmemizde yardım et</string>
     <string name="about_privacy_policy">Gizlilik politikası</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
     <string name="set">Ayarla</string>
     <string name="cancel">İptal Et</string>
     <string name="close">Kapat</string>
