@@ -5,7 +5,6 @@
 
     <!-- General app strings -->
     <string name="openhab" translatable="false">openHAB</string>
-    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="empty_string" translatable="false" />
     <string name="save">Save</string>

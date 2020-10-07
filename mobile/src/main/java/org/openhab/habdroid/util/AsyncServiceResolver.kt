@@ -122,5 +122,6 @@ class AsyncServiceResolver(
         private val TAG = AsyncServiceResolver::class.java.simpleName
 
         private const val DEFAULT_DISCOVERY_TIMEOUT = 3000L
+        const val OPENHAB_SERVICE_TYPE = "_openhab-server-ssl._tcp.local."
     }
 }
