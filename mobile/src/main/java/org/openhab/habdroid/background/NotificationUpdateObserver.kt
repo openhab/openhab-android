@@ -26,14 +26,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
+import java.util.ArrayList
+import java.util.HashMap
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
-import java.util.ArrayList
-import java.util.HashMap
 
 internal class NotificationUpdateObserver(context: Context) : Observer<List<WorkInfo>> {
     private val context: Context = context.applicationContext
@@ -157,7 +157,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         const val CHANNEL_ID_BACKGROUND_FOREGROUND_SERVICE = "backgroundBroadcastReceiver"
         const val CHANNEL_ID_MESSAGE_DEFAULT = "default"
         const val CHANNEL_GROUP_MESSAGES = "messages"
-        private const val CHANNEL_GROUP_OTHER = "other"
 
         /**
          * Creates notification channels for background tasks.
@@ -176,13 +175,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     NotificationChannelGroup(
                     CHANNEL_GROUP_MESSAGES,
                     context.getString(R.string.notification_channel_group_messages)
-                )
-            )
-
-            nm.createNotificationChannelGroup(
-                    NotificationChannelGroup(
-                    CHANNEL_GROUP_OTHER,
-                    context.getString(R.string.notification_channel_group_other)
                 )
             )
 
@@ -214,7 +206,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 setShowBadge(false)
                 enableVibration(false)
                 enableLights(false)
-                group = CHANNEL_GROUP_OTHER
                 description = context.getString(R.string.notification_channel_background_description)
                 nm.createNotificationChannel(this)
             }
@@ -229,7 +220,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 setShowBadge(false)
                 enableVibration(false)
                 enableLights(false)
-                group = CHANNEL_GROUP_OTHER
                 description = context.getString(R.string.notification_channel_background_foreground_service_description)
                 nm.createNotificationChannel(this)
             }
@@ -245,7 +235,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 enableVibration(true)
                 enableLights(true)
                 lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
-                group = CHANNEL_GROUP_OTHER
                 description = context.getString(R.string.notification_channel_background_error_description)
                 nm.createNotificationChannel(this)
             }
