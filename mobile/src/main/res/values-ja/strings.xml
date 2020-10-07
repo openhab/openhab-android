@@ -218,7 +218,6 @@
     <string name="notification_channel_messages_default_severity">デフォルト</string>
     <string name="notification_channel_messages_default_severity_description">重大度が定義されずにサーバーから送信された通知</string>
     <string name="notification_channel_group_messages">メッセージ</string>
-    <string name="notification_channel_group_other">その他</string>
     <string name="notification_channel_severity_value">重要度 \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">重要度 \'%1$s\' でサーバーから送信された通知</string>
     <plurals name="summary_notification_text">
