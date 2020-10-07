@@ -180,7 +180,6 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Meddelanden som skickas av servern utan någon definierad allvarlighetsgrad</string>
     <string name="notification_channel_group_messages">Medelande</string>
-    <string name="notification_channel_group_other">Annat</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d kunde inte uppdateras</item>
         <item quantity="other">Items %d kunde inte uppdateras</item>
