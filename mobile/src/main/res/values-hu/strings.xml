@@ -319,7 +319,6 @@
     <string name="about_rate_this_app">Alkalmazás értékelése</string>
     <string name="settings_debug_messages_title">Hibaüzenetek bővebben</string>
     <string name="settings_troubleshooting_title">Hibaelhárítás</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
     <string name="set">Beállít</string>
     <string name="cancel">Mégse</string>
     <string name="close">Bezár</string>
