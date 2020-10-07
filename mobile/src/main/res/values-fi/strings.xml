@@ -219,7 +219,6 @@
     <string name="notification_channel_messages_default_severity">Oletus</string>
     <string name="notification_channel_messages_default_severity_description">Palvelimen lähettämät ilmoitukset ilman vakavuusarvoa</string>
     <string name="notification_channel_group_messages">Viestit</string>
-    <string name="notification_channel_group_other">Muut</string>
     <string name="notification_channel_severity_value">Vakavuus \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Palvelimen lähettämät viestit vakavuudella \'%1$s\'</string>
     <plurals name="summary_notification_text">
