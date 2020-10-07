@@ -86,7 +86,6 @@
     <string name="settings_server_name">Servername</string>
     <string name="settings_add_server">Server hinzufügen</string>
     <string name="settings_edit_server">Server bearbeiten</string>
-    <string name="drawer_title_servers">Server</string>
     <string name="server_with_name">Server %s</string>
     <string name="settings_server_primary_title">Primärer Server</string>
     <string name="settings_server_default_name">openHAB %d</string>
@@ -357,7 +356,6 @@
     <string name="about_rate_this_app">Bewerten Sie diese App</string>
     <string name="settings_debug_messages_title">Erweiterte Fehlermeldungen</string>
     <string name="settings_troubleshooting_title">Fehlerbehebung</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB-URL konnte nicht ermittelt werden</string>
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
@@ -480,9 +478,7 @@
     <!-- Tiles -->
     <string name="tile">Kachel</string>
     <string name="tiles_for_quick_settings">Kacheln für Schnelleinstellungen</string>
-    <string name="tile_empty">Leere Kachel</string>
     <string name="tile_item_picker_title">Wählen Sie ein Item</string>
-    <string name="tile_configure_in_settings">Diese Kachel kann in den openHAB App-Einstellungen konfiguriert werden</string>
     <string name="tile_error_saving">Bitte füllen Sie alle Einstellungen aus</string>
     <string name="tile_disabled">Ausgeschaltet</string>
     <string name="tile_enable">Einschalten</string>
