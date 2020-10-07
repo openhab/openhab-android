@@ -219,7 +219,6 @@
     <string name="notification_channel_messages_default_severity">Výchozí</string>
     <string name="notification_channel_messages_default_severity_description">Oznámení odeslaná serverem se standardní důležitostí</string>
     <string name="notification_channel_group_messages">Zprávy</string>
-    <string name="notification_channel_group_other">Ostatní</string>
     <string name="notification_channel_severity_value">Priorita \"%1$s\"</string>
     <string name="notification_channel_severity_value_description">Oznámení zasílaná serverem s prioritou \'%1$s\'</string>
     <plurals name="summary_notification_text">
