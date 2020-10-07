@@ -102,7 +102,6 @@
     <string name="settings_server_name">Server name</string>
     <string name="settings_add_server">Add server</string>
     <string name="settings_edit_server">Edit server</string>
-    <string name="drawer_title_servers">Servers</string>
     <string name="server_with_name">Server %s</string>
     <string name="settings_server_at_least_name_and_connection">At least server name and one connection is required</string>
     <string name="settings_server_confirm_deletion">Do you really want to remove this server?</string>
@@ -415,7 +414,6 @@
 
     <string name="settings_debug_messages_title">Extended error messages</string>
     <string name="settings_troubleshooting_title">Troubleshooting</string>
-    <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
@@ -547,9 +545,7 @@
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">Tiles for quick settings</string>
-    <string name="tile_empty">Empty tile</string>
     <string name="tile_item_picker_title">Select an Item</string>
-    <string name="tile_configure_in_settings">This tile can be configured in the openHAB app settings</string>
     <string name="tile_error_saving">Please fill out every setting</string>
     <string name="tile_disabled">Turned off</string>
     <string name="tile_enable">Turn on</string>
