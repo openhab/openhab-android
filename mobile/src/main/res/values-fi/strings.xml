@@ -343,7 +343,6 @@
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
     <string name="settings_debug_messages_title">Laajennetut virheviestit</string>
     <string name="settings_troubleshooting_title">Vianmääritys</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
     <string name="set">Aseta</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
@@ -464,9 +463,7 @@
     <!-- Tiles -->
     <string name="tile">Laatta</string>
     <string name="tiles_for_quick_settings">Laatta pika-asetuksille</string>
-    <string name="tile_empty">Tyhjä laatta</string>
     <string name="tile_item_picker_title">Valitse Item</string>
-    <string name="tile_configure_in_settings">Tämän tiilen voi konfiguroida openHAB aplikaation asetuksissa</string>
     <string name="tile_error_saving">Ole hyvä ja täytä kaikki asetukset</string>
     <string name="tile_disabled">Poistettu käytöstä</string>
     <string name="tile_enable">Ota käyttöön</string>
