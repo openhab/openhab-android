@@ -21,6 +21,7 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -190,6 +191,7 @@ class WidgetAdapter(
             TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, colorMapper)
             TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection)
             TYPE_VIDEO -> VideoViewHolder(inflater, parent, connection)
+            TYPE_VIDEO_RTSP -> RtspVideoViewHolder(inflater, parent, connection)
             TYPE_WEB -> WebViewHolder(inflater, parent, connection)
             TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(inflater, parent, connection)
@@ -330,6 +332,7 @@ class WidgetAdapter(
                 started = true
             }
         }
+
         fun stop(): Boolean {
             if (!started) {
                 return false
@@ -338,6 +341,7 @@ class WidgetAdapter(
             started = false
             return true
         }
+
         open fun onStart() {}
         open fun onStop() {}
         open fun handleRowClick() {}
@@ -407,8 +411,10 @@ class WidgetAdapter(
                     else -> throw IllegalArgumentException("Cannot show data saver hint for ${widget.type}")
                 }
 
-                dataSaverHint.text = itemView.context.getString(R.string.data_saver_hint,
-                    widget.label.orDefaultIfEmpty(itemView.context.getString(typeResId)))
+                dataSaverHint.text = itemView.context.getString(
+                    R.string.data_saver_hint,
+                    widget.label.orDefaultIfEmpty(itemView.context.getString(typeResId))
+                )
             } else {
                 dataSaverButton.setOnClickListener(null)
             }
@@ -582,8 +588,10 @@ class WidgetAdapter(
         override fun handleRowClick() {
             val widget = boundWidget ?: return
             if (widget.switchSupport) {
-                connection.httpClient.sendItemCommand(widget.item,
-                    if (slider.value <= widget.minValue) "ON" else "OFF")
+                connection.httpClient.sendItemCommand(
+                    widget.item,
+                    if (slider.value <= widget.minValue) "ON" else "OFF"
+                )
             }
         }
 
@@ -692,8 +700,10 @@ class WidgetAdapter(
                 spinnerSelectedIndex = spinnerArray.size - 1
             }
 
-            val spinnerAdapter = ArrayAdapter(itemView.context,
-                android.R.layout.simple_spinner_item, spinnerArray)
+            val spinnerAdapter = ArrayAdapter(
+                itemView.context,
+                android.R.layout.simple_spinner_item, spinnerArray
+            )
             spinnerAdapter.setDropDownViewResource(R.layout.select_dialog_singlechoice)
 
             spinner.prompt = labelView.text
@@ -1078,6 +1088,139 @@ class WidgetAdapter(
         }
     }
 
+    class RtspVideoViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        connection: Connection
+    ) :
+        HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_rtspvideoitem, connection) {
+        private val videoView: RtspCameraSurfaceView = itemView.findViewById(R.id.rtspvideo)
+
+        // private val mediaPlayer = MediaPlayer(parent.context)
+        private val mediaPlayer = RtspPlayer(videoView, parent.context)
+
+        init {
+            videoView.setPlayer(mediaPlayer)
+        }
+
+        override fun bindAfterDataSaverCheck(widget: Widget) {
+            loadVideo(widget)
+        }
+
+        private fun loadVideo(widget: Widget) {
+            val videoUrl = determineRtspVideoUrlForWidget(widget)
+            val newVideoUrl = replaceHost(videoUrl)
+            val audioUrl = getAudioUrl(videoUrl)
+
+            Log.d(TAG, "loadVideo: full video url = $videoUrl, video url = $newVideoUrl, audio url = $audioUrl")
+
+            videoView.setSource(
+                widget.id, Uri.parse(newVideoUrl).toString(), audioUrl, false,
+                0
+            )
+
+            // val mediaItem = determineRtspVideoUrlForWidget(widget)?.let { url ->
+            //     val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
+            //     UriMediaItem.Builder(url.toUri())
+            //         .setMetadata(meta)
+            //         .build()
+            // }
+            //
+            // // TODO media item
+            // if (mediaItem != videoView.currentMediaItem) {
+            //     stop()
+            //     // mediaPlayer.reset()
+            //     if (mediaItem != null) {
+            //         videoView.setMediaItem(mediaItem)
+            //         // TODO
+            //         // mediaPlayer.prepare()
+            //     }
+            // }
+        }
+
+        // TODO media item
+        override fun onStart() {
+
+            Log.d(TAG, "onStart")
+
+            // if (videoView.currentMediaItem != null) {
+            videoView.start(false)
+            // }
+        }
+
+        // TODO media item
+        override fun onStop() {
+
+            Log.d(TAG, "onStop")
+
+            // if (videoView.currentMediaItem != null) {
+            //     mediaPlayer.pause()
+            videoView.stopPlayback()
+            // }
+        }
+
+        private fun determineRtspVideoUrlForWidget(widget: Widget): String? {
+            if (widget.encoding.equals("rtsp", ignoreCase = true)) {
+                val state = widget.item?.state?.asString
+                if (state != null && widget.item.type == Item.Type.StringItem) {
+                    return state
+                }
+            }
+            return widget.url
+        }
+
+        private fun replaceHost(videoUrl: String?): String? {
+            var newVideoUrl = videoUrl
+            var rtspHost: String? = null
+            // try {
+            // val connection = ConnectionFactory.usableConnectionOrNull
+
+            // if (connection != null) {
+            // TODO rtsp host
+            rtspHost = connection.rtspHost
+
+            Log.d(TAG, "RtspVideoViewHolder:replaceHost: RTSP host=$rtspHost")
+
+//                Uri ohUri = Uri.parse(connection.getOpenHABUrl());
+
+//                rtspHost = ohUri.getHost();
+//                 }
+//             } catch (e: ConnectionException) {
+//                 Log.w(TAG, "RtspVideoViewHolder:replaceHost: Couldn't determine RTSP host", e)
+//                 return newVideoUrl
+//             }
+
+            if (rtspHost != null) {
+                val tempUri = Uri.parse(videoUrl)
+                val builder = Uri.parse("rtsp://$rtspHost").buildUpon()
+                builder.appendPath(Uri.parse(videoUrl).path)
+                for (key in tempUri.queryParameterNames) {
+
+                    // strip audio foo if it exists
+                    val tstr = tempUri.getQueryParameter(key)
+                    Log.v(TAG, "RtspVideoViewHolder:replaceHost: key=$key, tstr=$tstr")
+                    if (!key.contains("audio.cgi")) {
+                        builder.appendQueryParameter(key, tstr)
+                    }
+                }
+                val rtspUri = builder.build()
+                newVideoUrl = Uri.decode(rtspUri.toString())
+            }
+            Log.d(TAG, "RtspVideoViewHolder:replaceHost: newVideoUrl=$newVideoUrl")
+            return newVideoUrl
+        }
+
+        private fun getAudioUrl(url: String?): String? {
+            val tempUri = Uri.parse(url)
+            for (key in tempUri.queryParameterNames) {
+                if (key.contains("audio.cgi")) {
+                    return key
+                }
+            }
+            return null
+        }
+    }
+
     class WebViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
@@ -1226,11 +1369,12 @@ class WidgetAdapter(
                 addOnSliderTouchListener(this@ColorViewHolder)
             }
 
-            dialogManager.manage(AlertDialog.Builder(contentView.context)
-                .setTitle(boundWidget?.label)
-                .setView(contentView)
-                .setNegativeButton(R.string.close, null)
-                .show()
+            dialogManager.manage(
+                AlertDialog.Builder(contentView.context)
+                    .setTitle(boundWidget?.label)
+                    .setView(contentView)
+                    .setNegativeButton(R.string.close, null)
+                    .show()
             )
         }
 
@@ -1265,8 +1409,10 @@ class WidgetAdapter(
         parent: ViewGroup,
         protected val connection: Connection,
         colorMapper: ColorMapper
-    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
-        R.layout.widgetlist_mapitem, connection, colorMapper) {
+    ) : WidgetAdapter.LabeledItemBaseViewHolder(
+        inflater, parent,
+        R.layout.widgetlist_mapitem, connection, colorMapper
+    ) {
         private var boundWidget: Widget? = null
         protected val boundItem: Item?
             get() = boundWidget?.item
@@ -1299,8 +1445,10 @@ class WidgetAdapter(
                     handleDataSaver(true)
                 }
 
-                dataSaverHint.text = itemView.context.getString(R.string.data_saver_hint,
-                    widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_mapview)))
+                dataSaverHint.text = itemView.context.getString(
+                    R.string.data_saver_hint,
+                    widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_mapview))
+                )
             } else {
                 dataSaverButton.setOnClickListener(null)
                 bindAfterDataSaverCheck(widget)
@@ -1406,6 +1554,7 @@ class WidgetAdapter(
         private const val TYPE_VIDEO_MJPEG = 15
         private const val TYPE_LOCATION = 16
         private const val TYPE_INVISIBLE = 17
+        private const val TYPE_VIDEO_RTSP = 18
     }
 }
 

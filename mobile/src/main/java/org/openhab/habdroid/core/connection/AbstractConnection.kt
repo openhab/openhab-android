@@ -26,6 +26,7 @@ abstract class AbstractConnection : Connection {
     final override val username: String?
     final override val password: String?
     final override val httpClient: HttpClient
+    final override val rtspHost: String?
 
     protected val baseUrl: String
     private val socketFactory = object : SocketFactory() {
@@ -60,6 +61,7 @@ abstract class AbstractConnection : Connection {
         this.baseUrl = path.url
         this.connectionType = connectionType
         this.httpClient = HttpClient(httpClientWithSocketFactory, baseUrl, username, password)
+        this.rtspHost = "fixme"
     }
 
     internal constructor(base: AbstractConnection, connectionType: Int) {
@@ -68,6 +70,7 @@ abstract class AbstractConnection : Connection {
         baseUrl = base.baseUrl
         this.connectionType = connectionType
         httpClient = base.httpClient
+        rtspHost = base.rtspHost
     }
 
     open fun prepareSocket(socket: Socket): Socket {

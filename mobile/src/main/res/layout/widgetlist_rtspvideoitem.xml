@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.openhab.habdroid.ui.RtspCameraSurfaceView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rtspvideo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dip"
+    android:paddingStart="@dimen/widgetlist_item_side_margin"
+    android:paddingEnd="@dimen/widgetlist_item_side_margin" />

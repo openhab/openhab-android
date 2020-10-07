@@ -38,6 +38,8 @@ interface Connection {
      */
     val connectionType: Int
 
+    val rtspHost: String?
+
     companion object {
         /**
          * Represents a connection to a locally hosted openHAB server, which is most likely the instance
