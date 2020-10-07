@@ -203,7 +203,6 @@
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
-    <string name="notification_channel_group_other">Egyéb</string>
     <string name="notification_channel_severity_value">Súlyossága \"%1$s\"</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d új értesítés</item>
@@ -320,7 +319,6 @@
     <string name="about_rate_this_app">Alkalmazás értékelése</string>
     <string name="settings_debug_messages_title">Hibaüzenetek bővebben</string>
     <string name="settings_troubleshooting_title">Hibaelhárítás</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
     <string name="set">Beállít</string>
     <string name="cancel">Mégse</string>
     <string name="close">Bezár</string>

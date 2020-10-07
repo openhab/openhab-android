@@ -201,7 +201,6 @@
     <string name="about_community">Comunitatea openHAB</string>
     <string name="about_translation">Ajutați-ne să traducem openHAB</string>
     <string name="about_privacy_policy">Politica de confidențialitate</string>
-    <string name="error_couldnt_determine_openhab_url">Nu a putut fi determinată adresa URL pentru openHAB</string>
     <string name="set">Setează</string>
     <string name="cancel">Anulează</string>
     <string name="close">Închide</string>

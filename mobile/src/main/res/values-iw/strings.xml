@@ -5,11 +5,15 @@
     <!-- General app strings -->
     <string name="app_preferences_name">הגדרות</string>
     <string name="save">שמור</string>
+    <string name="discard">בטל</string>
+    <string name="delete">מחק</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">התראות</string>
+    <string name="app_notifications_on_server">התראות (%s)</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
     <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
@@ -40,6 +44,9 @@
     <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
     <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
     <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
+    <string name="settings_image_widget_scaling">התאם גודל תמונות למסך</string>
+    <string name="settings_image_widget_scaling_summary_off">השאר ווידג\'ט \'תמונה\' הקטן מרוחב המסך בגודלו המקורי</string>
+    <string name="settings_image_widget_scaling_summary_on">יש לוודא שווידג\'ט \'תמונה\' מתאים לרוחב המסך על ידי הגדלה או הקטנה בהתאם</string>
     <string name="settings_chart_scaling">שינוי גודל התרשים</string>
     <string name="settings_chart_scaling_summary">הערה: בקנה מידה קטן עובי הקווים וגודל הטקסט קטנים כך שיש יותר מקום עבור התרשים אבל יכולת קריאת הטקסט עלולה להפגע.</string>
     <string name="settings_chart_scaling_value_xs">קטן מאוד</string>
@@ -76,6 +83,19 @@
     <string name="settings_screen_lock_kiosk">מצב קיוסק</string>
     <string name="settings_screen_lock_on">פעיל</string>
     <string name="settings_show_sitemaps_in_drawer">הצג את כל תצורות המערכת בתפריט צדדי</string>
+    <string name="settings_server_name">שם השרת</string>
+    <string name="settings_add_server">הוסף שרת</string>
+    <string name="settings_edit_server">ערוך פרטי שרת</string>
+    <string name="server_with_name">שרת %s</string>
+    <string name="settings_server_at_least_name_and_connection">נדרשים לפחות שם שרת וחיבור אחד</string>
+    <string name="settings_server_confirm_deletion">האם להסיר שרת זה?</string>
+    <string name="settings_server_confirm_leave_title">שינויים שלא נשמרו</string>
+    <string name="settings_server_confirm_leave_message">קיימים שינויים שלא נשמרו. האם ברצונך לשמור או למחוק אותם?</string>
+    <string name="settings_server_primary_title">שרת ראשי</string>
+    <string name="settings_server_primary_summary_is_primary">שרת זה הוא הראשי.\n נכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="voice_command">פקודה קולית</string>
@@ -219,7 +239,6 @@
     <string name="notification_channel_messages_default_severity">ברירת מחדל</string>
     <string name="notification_channel_messages_default_severity_description">התראות שנשלחו על ידי השרת ללא הגדרת תעדוף</string>
     <string name="notification_channel_group_messages">הודעות</string>
-    <string name="notification_channel_group_other">אחר</string>
     <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
     <plurals name="summary_notification_text">
@@ -348,7 +367,6 @@
     <string name="about_rate_this_app">דרג את היישום הזה</string>
     <string name="settings_debug_messages_title">הודעות שגיאה מורחבות</string>
     <string name="settings_troubleshooting_title">פתרון בעיות</string>
-    <string name="error_couldnt_determine_openhab_url">לא מצליח לאתר את הכתובת של openHAB</string>
     <string name="set">קבע</string>
     <string name="cancel">ביטול</string>
     <string name="close">סגור</string>
@@ -360,6 +378,7 @@
     <string name="no_remote_server">החיבור אל השרת המקומי נכשל ולא הוגדר שרת מרוחק</string>
     <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
     <string name="waiting_for_wifi">ממתין להתחברות האינטרנט האלחוטי \u2026</string>
+    <string name="visit_status_openhab_org">בקר ב-status.openhab.org</string>
     <!-- Log -->
     <string name="log">יומן רישום</string>
     <string name="view_log">הצג יומן רישום</string>
@@ -374,6 +393,7 @@
     <string name="home_shortcut_pin_to_home">נעץ למסך הבית</string>
     <string name="home_shortcut_error_pinning">שגיאה בנעיצה למסך הבית</string>
     <string name="home_shortcut_success_pinning">ננעץ למסך הבית</string>
+    <string name="home_shortcut_server_has_been_deleted">השרת לקיצור דרך זה נמחק</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
@@ -469,9 +489,7 @@
     <!-- Tiles -->
     <string name="tile">אריח</string>
     <string name="tiles_for_quick_settings">אריחים להגדרות מהירות</string>
-    <string name="tile_empty">אריח ריק</string>
     <string name="tile_item_picker_title">בחר פריט</string>
-    <string name="tile_configure_in_settings">ניתן להגדיר אריח זה בהגדרות היישום של openHAB</string>
     <string name="tile_error_saving">נא להשלים את כל ההגדרות</string>
     <string name="tile_disabled">כבוי</string>
     <string name="tile_enable">הפעל</string>

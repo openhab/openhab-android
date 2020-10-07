@@ -75,7 +75,6 @@
     <!-- About -->
     <string name="about_title">Apie</string>
     <string name="about_license_title">Licencija</string>
-    <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
     <string name="set">Nustatyti</string>
     <string name="cancel">Atšaukti</string>
     <!-- Log -->

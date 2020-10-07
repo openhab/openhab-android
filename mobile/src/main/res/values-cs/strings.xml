@@ -219,7 +219,6 @@
     <string name="notification_channel_messages_default_severity">Výchozí</string>
     <string name="notification_channel_messages_default_severity_description">Oznámení odeslaná serverem se standardní důležitostí</string>
     <string name="notification_channel_group_messages">Zprávy</string>
-    <string name="notification_channel_group_other">Ostatní</string>
     <string name="notification_channel_severity_value">Priorita \"%1$s\"</string>
     <string name="notification_channel_severity_value_description">Oznámení zasílaná serverem s prioritou \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -348,7 +347,6 @@
     <string name="about_rate_this_app">Ohodnotit aplikaci</string>
     <string name="settings_debug_messages_title">Rozšířené chybové zprávy</string>
     <string name="settings_troubleshooting_title">Řešení problémů</string>
-    <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
     <string name="set">Nastavit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
@@ -469,9 +467,7 @@
     <!-- Tiles -->
     <string name="tile">Dlaždice</string>
     <string name="tiles_for_quick_settings">Dlaždice pro rychlé nastavení</string>
-    <string name="tile_empty">Prázdná dlaždice</string>
     <string name="tile_item_picker_title">Vyberte Item</string>
-    <string name="tile_configure_in_settings">Tuto dlaždici lze nastavit v nastavení aplikace openHAB</string>
     <string name="tile_error_saving">Vyplňte prosím každou možnost nastavení</string>
     <string name="tile_disabled">Vypnuto</string>
     <string name="tile_enable">Zapnout</string>
