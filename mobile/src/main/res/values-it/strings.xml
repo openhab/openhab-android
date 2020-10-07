@@ -86,7 +86,6 @@
     <string name="settings_server_name">Nome del server</string>
     <string name="settings_add_server">Aggiungi server</string>
     <string name="settings_edit_server">Modifica server</string>
-    <string name="drawer_title_servers">Server</string>
     <string name="server_with_name">Server %s</string>
     <string name="settings_server_at_least_name_and_connection">È richiesto almeno il nome del server e una connessione</string>
     <string name="settings_server_confirm_deletion">Vuoi davvero rimuovere questo server?</string>
@@ -367,7 +366,6 @@
     <string name="about_rate_this_app">Valuta questa app</string>
     <string name="settings_debug_messages_title">Messaggi di errore estesi</string>
     <string name="settings_troubleshooting_title">Risoluzione Dei Problemi</string>
-    <string name="error_couldnt_determine_openhab_url">Non trovo openHAB URL</string>
     <string name="set">Set</string>
     <string name="cancel">Annulla</string>
     <string name="close">Chiudi</string>
@@ -491,9 +489,7 @@
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
-    <string name="tile_empty">Tile vuota</string>
     <string name="tile_item_picker_title">Seleziona un Item</string>
-    <string name="tile_configure_in_settings">Questa tile può essere configurata nelle impostazioni di openHAB</string>
     <string name="tile_error_saving">Per favore compilare tutte le impostazioni</string>
     <string name="tile_disabled">Spento</string>
     <string name="tile_enable">Accendi</string>
