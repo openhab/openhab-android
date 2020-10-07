@@ -350,7 +350,6 @@
     <string name="about_rate_this_app">Оцените это приложение</string>
     <string name="settings_debug_messages_title">Расширенные сообщения об ошибках</string>
     <string name="settings_troubleshooting_title">Решение проблем</string>
-    <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
     <string name="set">Установить</string>
     <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
@@ -471,9 +470,7 @@
     <!-- Tiles -->
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для быстрых настроек</string>
-    <string name="tile_empty">Пустая плитка</string>
     <string name="tile_item_picker_title">Выберите Item</string>
-    <string name="tile_configure_in_settings">Эта плитка может быть настроена в настройках приложения openHAB</string>
     <string name="tile_error_saving">Пожалуйста, заполните все настройки</string>
     <string name="tile_disabled">Выключен</string>
     <string name="tile_enable">Включить</string>
