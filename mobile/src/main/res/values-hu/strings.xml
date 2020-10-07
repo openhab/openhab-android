@@ -203,7 +203,6 @@
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
-    <string name="notification_channel_group_other">Egyéb</string>
     <string name="notification_channel_severity_value">Súlyossága \"%1$s\"</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d új értesítés</item>
