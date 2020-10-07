@@ -17,6 +17,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.KeyguardManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -120,7 +121,13 @@ class PreferencesActivity : AbstractBaseActivity() {
             resultIntent = Intent()
             val fragment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
                 intent.action == TileService.ACTION_QS_TILE_PREFERENCES) {
-                TileOverviewFragment()
+                val tile = intent.getParcelableExtra<ComponentName>(Intent.EXTRA_COMPONENT_NAME)
+                val tileId: Int = tile?.className?.let { AbstractTileService.getIdFromClassName(it) } ?: 0
+                if (tileId > 0) {
+                    TileSettingsFragment.newInstance(tileId)
+                } else {
+                    TileOverviewFragment()
+                }
             } else {
                 MainSettingsFragment()
             }
