@@ -1,0 +1,5 @@
+## Added
+* Tiles: Display status in subtitle (#2192)
+
+## Fixed
+* Only show confirm leave dialog if the config was changed (#2232)
