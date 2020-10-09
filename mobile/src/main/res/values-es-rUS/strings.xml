@@ -86,7 +86,6 @@
     <string name="settings_server_name">Nombre del servidor</string>
     <string name="settings_add_server">Añadir servidor</string>
     <string name="settings_edit_server">Editar servidor</string>
-    <string name="drawer_title_servers">Servidores</string>
     <string name="server_with_name">Servidor %s</string>
     <string name="settings_server_at_least_name_and_connection">Se requiere al menos el nombre del servidor y una conexión</string>
     <string name="settings_server_confirm_deletion">¿Realmente desea eliminar este servidor?</string>
@@ -227,7 +226,10 @@
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Envía el modo DND al Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">No enviar modo DND</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Esta característica requiere permisos adicionales para funcionar. Tras activarla, se le pedirá que apruebe dichos permisos.</string>
+    <string name="settings_background_tasks_permission_hint">Esta característica requiere permisos adicionales para funcionar. Después de activarla, se le pedirá que apruebe dichos permisos. Por favor, asegúrese de aprobar los permisos también para el uso en segundo plano, ya que las actualizaciones de los Item también suceden cuando la aplicación funciona en segundo plano.</string>
     <string name="settings_background_tasks_permission_denied">Algunas tareas en segundo plano se han deshabilitado debido a que faltan permisos</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Algunas tareas en segundo plano requieren que el acceso a la ubicación se establezca a \"%s\" en la configuración de Android</string>
     <string name="settings_background_tasks_permission_allow">Permitir</string>
     <string name="settings_item_pref_item_name">Nombre del Item</string>
     <string name="waiting_for_item_upload">Esperando a que la red envíe actualizaciones del Item</string>
@@ -240,7 +242,6 @@
     <string name="notification_channel_messages_default_severity">Por defecto</string>
     <string name="notification_channel_messages_default_severity_description">Notificaciones enviadas por el servidor con severidad no definida</string>
     <string name="notification_channel_group_messages">Mensajes</string>
-    <string name="notification_channel_group_other">Otro</string>
     <string name="notification_channel_severity_value">Importancia \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Notificaciones enviadas por el servidor con importancia \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -365,7 +366,6 @@
     <string name="about_rate_this_app">Valorar esta aplicación</string>
     <string name="settings_debug_messages_title">Mensajes de error extendidos</string>
     <string name="settings_troubleshooting_title">Solución de problemas</string>
-    <string name="error_couldnt_determine_openhab_url">No se pudo determinar la URL de openHAB</string>
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
@@ -469,6 +469,7 @@
     <string name="item_update_error_no_connection">Sin conexión</string>
     <string name="item_update_error_couldnt_get_item_type">No se pudo obtener el tipo del Item</string>
     <string name="create_home_screen_widget_title">Crear widget</string>
+    <string name="create_home_screen_widget_not_supported">Por favor, vaya al menú de widgets en su pantalla de inicio y cree un widget desde allí</string>
     <string name="item_update_widget_auto_generate_widget_label">Autogenerar etiqueta de widget</string>
     <string name="item_update_widget_widget_label">Etiqueta del widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
@@ -488,9 +489,7 @@
     <!-- Tiles -->
     <string name="tile">Baldosa</string>
     <string name="tiles_for_quick_settings">Baldosas para ajustes rápidos</string>
-    <string name="tile_empty">Baldosa vacía</string>
     <string name="tile_item_picker_title">Seleccione un Item</string>
-    <string name="tile_configure_in_settings">Esta baldosa se puede configurar en los ajustes de la aplicación openHAB</string>
     <string name="tile_error_saving">Por favor, rellene todos los ajustes</string>
     <string name="tile_disabled">Desactivado</string>
     <string name="tile_enable">Activar</string>

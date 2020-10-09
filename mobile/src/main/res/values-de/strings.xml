@@ -5,11 +5,15 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Einstellungen</string>
     <string name="save">Speichern</string>
+    <string name="discard">Verwerfen</string>
+    <string name="delete">Löschen</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Benachrichtigungen</string>
+    <string name="app_notifications_on_server">Benachrichtigungen (%s)</string>
     <string name="habpanel_error">Beim Laden von HABPanel ist ein Fehler aufgetreten</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
@@ -79,6 +83,12 @@
     <string name="settings_screen_lock_kiosk">Kiosk-Modus</string>
     <string name="settings_screen_lock_on">An</string>
     <string name="settings_show_sitemaps_in_drawer">Alle Sitemaps im Seitenmenü anzeigen</string>
+    <string name="settings_server_name">Servername</string>
+    <string name="settings_add_server">Server hinzufügen</string>
+    <string name="settings_edit_server">Server bearbeiten</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_primary_title">Primärer Server</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
@@ -222,7 +232,6 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
-    <string name="notification_channel_group_other">Sonstiges</string>
     <string name="notification_channel_severity_value">Dringlichkeit \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Vom Server gesendete Benachrichtigungen mit Wichtigkeit \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -347,7 +356,6 @@
     <string name="about_rate_this_app">Bewerten Sie diese App</string>
     <string name="settings_debug_messages_title">Erweiterte Fehlermeldungen</string>
     <string name="settings_troubleshooting_title">Fehlerbehebung</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB-URL konnte nicht ermittelt werden</string>
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
@@ -359,6 +367,7 @@
     <string name="no_remote_server">Verbindung zu lokalem Server fehlgeschlagen und Sie haben keinen Server für den Fernzugriff konfiguriert</string>
     <string name="resolving_openhab">Versuche openHAB-Server-Instanz zu finden\u2026</string>
     <string name="waiting_for_wifi">Warte auf WLAN-Verbindung\u2026</string>
+    <string name="visit_status_openhab_org">Besuchen Sie status.openhab.org</string>
     <!-- Log -->
     <string name="log">Protokoll</string>
     <string name="view_log">Protokoll anzeigen</string>
@@ -373,6 +382,7 @@
     <string name="home_shortcut_pin_to_home">Anheften an Startbildschirm</string>
     <string name="home_shortcut_error_pinning">Anheften an Startbildschirm fehlgeschlagen</string>
     <string name="home_shortcut_success_pinning">Angeheftet an Startbildschirm</string>
+    <string name="home_shortcut_server_has_been_deleted">Der Server für diese Verknüpfung wurde gelöscht</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
     <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>
@@ -468,9 +478,7 @@
     <!-- Tiles -->
     <string name="tile">Kachel</string>
     <string name="tiles_for_quick_settings">Kacheln für Schnelleinstellungen</string>
-    <string name="tile_empty">Leere Kachel</string>
     <string name="tile_item_picker_title">Wählen Sie ein Item</string>
-    <string name="tile_configure_in_settings">Diese Kachel kann in den openHAB App-Einstellungen konfiguriert werden</string>
     <string name="tile_error_saving">Bitte füllen Sie alle Einstellungen aus</string>
     <string name="tile_disabled">Ausgeschaltet</string>
     <string name="tile_enable">Einschalten</string>

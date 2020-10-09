@@ -131,7 +131,6 @@
     <string name="about_community">Κοινότητα openHAB</string>
     <string name="about_translation">Βοηθείστε μας να μεταφράσουμε το openHAB</string>
     <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
-    <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
     <string name="set">Ορισμός</string>
     <string name="cancel">Άκυρο</string>
     <string name="close">Κλείσιμο</string>

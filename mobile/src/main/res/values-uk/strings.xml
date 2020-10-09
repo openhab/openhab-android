@@ -86,7 +86,6 @@
     <string name="settings_server_name">Ім\'я сервера</string>
     <string name="settings_add_server">Додати сервер</string>
     <string name="settings_edit_server">Редагувати сервер</string>
-    <string name="drawer_title_servers">Сервери</string>
     <string name="server_with_name">Сервер %s</string>
     <string name="settings_server_at_least_name_and_connection">Необхідне хоча б ім\'я сервера і одне підключення</string>
     <string name="settings_server_confirm_deletion">Ви дійсно хочете видалити цей сервер?</string>
@@ -227,7 +226,10 @@
     <string name="settings_dnd_mode">Режим Не турбувати</string>
     <string name="settings_dnd_mode_summary_on">Надсилає режим Не турбувати до об\'єкту \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Не надсилати режим Не турбувати</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл.</string>
+    <string name="settings_background_tasks_permission_hint">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл. Будь ласка, переконайтеся, що дали дозвіл на використання у фоні, так як оновлення відбувається також у фоновому режимі.</string>
     <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Деякі фонові задачі вимагають, щоб місцезнаходження було \"%s\" у налаштуваннях Android</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
@@ -240,7 +242,6 @@
     <string name="notification_channel_messages_default_severity">За замовчуванням</string>
     <string name="notification_channel_messages_default_severity_description">Сповіщення, надіслані сервером без вказаної важливості</string>
     <string name="notification_channel_group_messages">Повідомлення</string>
-    <string name="notification_channel_group_other">Інше</string>
     <string name="notification_channel_severity_value">Важливість \'%1$s</string>
     <string name="notification_channel_severity_value_description">Сповіщення, надіслані сервером з важливістю \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -369,7 +370,6 @@
     <string name="about_rate_this_app">Оцінить цей додаток</string>
     <string name="settings_debug_messages_title">Розширені повідомлення про помилки</string>
     <string name="settings_troubleshooting_title">Виправлення несправностей</string>
-    <string name="error_couldnt_determine_openhab_url">Не вдалося визначити адресу openHAB</string>
     <string name="set">Встановити</string>
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
@@ -473,6 +473,7 @@
     <string name="item_update_error_no_connection">Немає з\'єднання</string>
     <string name="item_update_error_couldnt_get_item_type">Не вдалося отримати тип елемента</string>
     <string name="create_home_screen_widget_title">Створити віджет</string>
+    <string name="create_home_screen_widget_not_supported">Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
     <string name="item_update_widget_widget_label">Мітка віджета</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
@@ -492,9 +493,7 @@
     <!-- Tiles -->
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для швидких налаштувань</string>
-    <string name="tile_empty">Порожня плитка</string>
     <string name="tile_item_picker_title">Оберіть об\'єкт</string>
-    <string name="tile_configure_in_settings">Цю плитку можна конфігурувати в налаштуваннях програми openHAB</string>
     <string name="tile_error_saving">Будь ласка, заповніть всі налаштування</string>
     <string name="tile_disabled">Вимкнено</string>
     <string name="tile_enable">Увімкнути</string>

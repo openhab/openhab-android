@@ -218,7 +218,6 @@
     <string name="notification_channel_messages_default_severity">デフォルト</string>
     <string name="notification_channel_messages_default_severity_description">重大度が定義されずにサーバーから送信された通知</string>
     <string name="notification_channel_group_messages">メッセージ</string>
-    <string name="notification_channel_group_other">その他</string>
     <string name="notification_channel_severity_value">重要度 \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">重要度 \'%1$s\' でサーバーから送信された通知</string>
     <plurals name="summary_notification_text">
@@ -341,7 +340,6 @@
     <string name="about_rate_this_app">このアプリを評価する</string>
     <string name="settings_debug_messages_title">拡張エラーメッセージ</string>
     <string name="settings_troubleshooting_title">トラブルシューティング</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB URL を特定できませんでした</string>
     <string name="set">設定</string>
     <string name="cancel">キャンセル</string>
     <string name="close">閉じる</string>
@@ -462,9 +460,7 @@
     <!-- Tiles -->
     <string name="tile">タイル</string>
     <string name="tiles_for_quick_settings">クイック設定のタイル</string>
-    <string name="tile_empty">空のタイル</string>
     <string name="tile_item_picker_title">アイテムを選択</string>
-    <string name="tile_configure_in_settings">このタイルは openHAB アプリの設定で設定できます</string>
     <string name="tile_error_saving">すべての設定を入力してください</string>
     <string name="tile_disabled">オフになっています</string>
     <string name="tile_enable">オンにする</string>

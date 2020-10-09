@@ -211,7 +211,6 @@
     <string name="notification_channel_messages_default_severity">Défaut</string>
     <string name="notification_channel_messages_default_severity_description">Notifications envoyées par le serveur sans définition de gravité</string>
     <string name="notification_channel_group_messages">Messages</string>
-    <string name="notification_channel_group_other">Autres</string>
     <string name="notification_channel_severity_value">Gravité «%1$s »</string>
     <string name="notification_channel_severity_value_description">Notifications envoyées par le serveur avec la gravité \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -333,7 +332,6 @@
     <string name="about_translation">Aidez-nous à traduire openHAB</string>
     <string name="about_privacy_policy">Politique de Confidentialité</string>
     <string name="about_rate_this_app">Notez cette application</string>
-    <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
     <string name="set">Définir</string>
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
@@ -453,9 +451,7 @@
     <!-- Tiles -->
     <string name="tile">Tuile</string>
     <string name="tiles_for_quick_settings">Tuiles pour les paramètres rapides</string>
-    <string name="tile_empty">Tuile vide</string>
     <string name="tile_item_picker_title">Sélectionnez un Item</string>
-    <string name="tile_configure_in_settings">Cette tuile peut être configurée dans les paramètres de l\'application openHAB</string>
     <string name="tile_error_saving">Veuillez remplir chaque paramètre</string>
     <string name="tile_disabled">Éteint</string>
     <string name="tile_enable">Allumé</string>

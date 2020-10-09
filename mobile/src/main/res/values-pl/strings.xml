@@ -245,7 +245,6 @@
     <string name="about_community">Społeczność openHAB</string>
     <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
     <string name="about_privacy_policy">Polityka prywatności</string>
-    <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
     <string name="set">Wybierz</string>
     <string name="cancel">Anuluj</string>
     <string name="close">Zamknij</string>

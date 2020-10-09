@@ -204,7 +204,6 @@
     <string name="about_community">openHAB-Community</string>
     <string name="about_translation">Hëllef eis openHAB ze iwwersetzen</string>
     <string name="about_privacy_policy">Dateschutzerklärung</string>
-    <string name="error_couldnt_determine_openhab_url">Konnt d\'openHAB URL net eraus fannen</string>
     <string name="set">Setzen</string>
     <string name="cancel">Ofbriechen</string>
     <string name="close">Zoumaachen</string>

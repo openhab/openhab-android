@@ -222,7 +222,6 @@
     <string name="about_community">openHABs fellesskap</string>
     <string name="about_translation">Hjelp oss å oversette openHAB</string>
     <string name="about_privacy_policy">Personvernregler</string>
-    <string name="error_couldnt_determine_openhab_url">Kunne ikke bestemme URL for openHAB</string>
     <string name="set">Sett</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>

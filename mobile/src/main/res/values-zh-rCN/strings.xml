@@ -202,7 +202,6 @@
     <string name="about_community">openHAB 社区</string>
     <string name="about_translation">帮助我们翻译 openHAB</string>
     <string name="about_privacy_policy">隐私条款</string>
-    <string name="error_couldnt_determine_openhab_url">无法确定 openHAB URL</string>
     <string name="set">设置</string>
     <string name="cancel">取消</string>
     <string name="close">关闭</string>

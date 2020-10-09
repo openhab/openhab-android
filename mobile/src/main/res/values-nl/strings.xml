@@ -219,7 +219,6 @@
     <string name="notification_channel_messages_default_severity">Standaard</string>
     <string name="notification_channel_messages_default_severity_description">Meldingen verzonden door de server zonder gedefinieerde ernst</string>
     <string name="notification_channel_group_messages">Berichten</string>
-    <string name="notification_channel_group_other">Overig</string>
     <string name="notification_channel_severity_value">Ernst \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Meldingen verzonden door de server met ernst \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -342,7 +341,6 @@
     <string name="about_translation">Help ons met het vertalen van openHAB</string>
     <string name="about_privacy_policy">Privacy beleid</string>
     <string name="about_rate_this_app">Deze app beoordelen</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB URL kon niet worden vastgesteld</string>
     <string name="set">Stel in</string>
     <string name="cancel">Annuleer</string>
     <string name="close">Sluiten</string>
@@ -462,9 +460,7 @@
     <!-- Tiles -->
     <string name="tile">Tegel</string>
     <string name="tiles_for_quick_settings">Tegels voor snelle instellingen</string>
-    <string name="tile_empty">Lege tegel</string>
     <string name="tile_item_picker_title">Selecteer een Item</string>
-    <string name="tile_configure_in_settings">Deze tegel kan worden geconfigureerd in de openHAB app instellingen</string>
     <string name="tile_error_saving">Vul alstublieft alle instellingen in</string>
     <string name="tile_disabled">Uitgeschakeld</string>
     <string name="tile_enable">Inschakelen</string>

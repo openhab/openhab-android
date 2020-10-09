@@ -86,7 +86,6 @@
     <string name="settings_server_name">Nome del server</string>
     <string name="settings_add_server">Aggiungi server</string>
     <string name="settings_edit_server">Modifica server</string>
-    <string name="drawer_title_servers">Server</string>
     <string name="server_with_name">Server %s</string>
     <string name="settings_server_at_least_name_and_connection">È richiesto almeno il nome del server e una connessione</string>
     <string name="settings_server_confirm_deletion">Vuoi davvero rimuovere questo server?</string>
@@ -227,7 +226,10 @@
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Invia modo DND all\'item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Non inviare modo DND</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi.</string>
+    <string name="settings_background_tasks_permission_hint">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi. Assicurati di approvare l\'autorizzazione anche per l\'utilizzo in background, poiché gli aggiornamenti degli Item avviene anche quando l\'applicazione è in background.</string>
     <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Alcune attività in background richiedono l\'accesso alla localizzazione per cambiarlo in \"%s\" nelle impostazioni di Android</string>
     <string name="settings_background_tasks_permission_allow">Consenti</string>
     <string name="settings_item_pref_item_name">Nome Item</string>
     <string name="waiting_for_item_upload">In attesa della rete per inviare aggiornamenti degli Item</string>
@@ -240,7 +242,6 @@
     <string name="notification_channel_messages_default_severity">Predefinito</string>
     <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
     <string name="notification_channel_group_messages">Messaggi</string>
-    <string name="notification_channel_group_other">Altro</string>
     <string name="notification_channel_severity_value">Gravità \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Notifiche inviate dal server con gravità \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -365,7 +366,6 @@
     <string name="about_rate_this_app">Valuta questa app</string>
     <string name="settings_debug_messages_title">Messaggi di errore estesi</string>
     <string name="settings_troubleshooting_title">Risoluzione Dei Problemi</string>
-    <string name="error_couldnt_determine_openhab_url">Non trovo openHAB URL</string>
     <string name="set">Set</string>
     <string name="cancel">Annulla</string>
     <string name="close">Chiudi</string>
@@ -469,6 +469,7 @@
     <string name="item_update_error_no_connection">Nessuna connessione</string>
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
     <string name="create_home_screen_widget_title">Crea widget</string>
+    <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
     <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
     <string name="item_update_widget_widget_label">Etichetta Widget</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
@@ -488,9 +489,7 @@
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
-    <string name="tile_empty">Tile vuota</string>
     <string name="tile_item_picker_title">Seleziona un Item</string>
-    <string name="tile_configure_in_settings">Questa tile può essere configurata nelle impostazioni di openHAB</string>
     <string name="tile_error_saving">Per favore compilare tutte le impostazioni</string>
     <string name="tile_disabled">Spento</string>
     <string name="tile_enable">Accendi</string>

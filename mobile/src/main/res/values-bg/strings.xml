@@ -143,7 +143,6 @@
     <string name="about_community">openHAB Общност</string>
     <string name="about_translation">Помогнете ни в превеждането на openHAB</string>
     <string name="about_privacy_policy">Декларация за поверителност</string>
-    <string name="error_couldnt_determine_openhab_url">Не можеше да определи openHAB URL адрес</string>
     <string name="set">Задай</string>
     <string name="cancel">Отменяне</string>
     <string name="close">Затворен</string>
