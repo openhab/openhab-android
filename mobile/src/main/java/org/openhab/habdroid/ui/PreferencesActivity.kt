@@ -907,6 +907,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         private lateinit var urlPreference: EditTextPreference
         private lateinit var userNamePreference: EditTextPreference
         private lateinit var passwordPreference: EditTextPreference
+        private lateinit var rtsphostPreference: EditTextPreference
         private lateinit var parent: ServerEditorFragment
         private lateinit var path: ServerPath
 
@@ -918,7 +919,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(requireArguments().getInt("prefs"))
 
-            path = requireArguments().getParcelable("path") ?: ServerPath("", null, null)
+            path = requireArguments().getParcelable("path") ?: ServerPath("", null, null, null)
 
             urlPreference = initEditor("url", path.url, R.drawable.ic_earth_grey_24dp) { value ->
                 val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
@@ -943,6 +944,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                     else -> R.string.settings_openhab_password_summary_strong
                 })
             }
+            rtsphostPreference = initEditor(
+                "rtsphost",
+                path.rtsphost,
+                R.drawable.ic_earth_grey_24dp
+            ) { value ->
+                if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
+            }
 
             updateIconColors(urlPreference.text, userNamePreference.text, passwordPreference.text)
         }
@@ -960,12 +968,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                 val url = if (pref === urlPreference) newValue as String else urlPreference.text
                 val userName = if (pref === userNamePreference) newValue as String else userNamePreference.text
                 val password = if (pref === passwordPreference) newValue as String else passwordPreference.text
+                val rtsphost = if (pref === rtsphostPreference) newValue as String else rtsphostPreference.text
 
                 updateIconColors(url, userName, password)
                 pref.summary = summaryGenerator(newValue as String)
 
                 if (!url.isNullOrEmpty()) {
-                    val path = ServerPath(url, userName, password)
+                    val path = ServerPath(url, userName, password, rtsphost)
                     parent.onPathChanged(requireArguments().getString("key", ""), path)
                 }
                 true

@@ -293,6 +293,7 @@ class WidgetAdapter(
             Widget.Type.Chart -> TYPE_CHART
             Widget.Type.Video -> when {
                 "mjpeg".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_MJPEG
+                "rtsp".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_RTSP
                 else -> TYPE_VIDEO
             }
             Widget.Type.Webview -> TYPE_WEB
@@ -1093,7 +1094,11 @@ class WidgetAdapter(
         parent: ViewGroup,
         connection: Connection
     ) :
-        HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_rtspvideoitem, connection) {
+        ViewHolder(inflater, parent, R.layout.widgetlist_rtspvideoitem) {
+
+        private val connection = connection
+
+        // HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_rtspvideoitem, connection) {
         private val videoView: RtspCameraSurfaceView = itemView.findViewById(R.id.rtspvideo)
 
         // private val mediaPlayer = MediaPlayer(parent.context)
@@ -1103,9 +1108,13 @@ class WidgetAdapter(
             videoView.setPlayer(mediaPlayer)
         }
 
-        override fun bindAfterDataSaverCheck(widget: Widget) {
+        override fun bind(widget: Widget) {
             loadVideo(widget)
         }
+
+        // override fun bindAfterDataSaverCheck(widget: Widget) {
+        //     loadVideo(widget)
+        // }
 
         private fun loadVideo(widget: Widget) {
             val videoUrl = determineRtspVideoUrlForWidget(widget)

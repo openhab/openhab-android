@@ -506,8 +506,8 @@ class ConnectionFactory internal constructor(
         )
         private val UPDATE_TRIGGERING_PREFIXES = listOf(
             PrefKeys.LOCAL_URL_PREFIX, PrefKeys.REMOTE_URL_PREFIX,
-            PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX,
-            PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX,
+            PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX, PrefKeys.LOCAL_RTSPHOST_PREFIX,
+            PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX, PrefKeys.REMOTE_RTSPHOST_PREFIX,
             PrefKeys.SSL_CLIENT_CERT_PREFIX
         )
         private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)

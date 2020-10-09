@@ -622,7 +622,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val config = ServerConfiguration(
                 prefs.getNextAvailableServerId(),
                 getString(R.string.openhab),
-                ServerPath("https://$address:$port", null, null),
+                ServerPath("https://$address:$port", null, null, null),
                 null,
                 null,
                 null

@@ -129,14 +129,16 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         ServerPath(
                             url,
                             secretPrefs.getStringOrNull("default_openhab_username"),
-                            secretPrefs.getStringOrNull("default_openhab_password")
+                            secretPrefs.getStringOrNull("default_openhab_password"),
+                            null
                         )
                     }
                     val remotePath = remoteUrl?.let { url ->
                         ServerPath(
                             url,
                             secretPrefs.getStringOrNull("default_openhab_remote_username"),
-                            secretPrefs.getStringOrNull("default_openhab_remote_password")
+                            secretPrefs.getStringOrNull("default_openhab_remote_password"),
+                            null
                         )
                     }
                     val defaultSitemapName = prefs.getStringOrNull("default_openhab_sitemap")

@@ -34,6 +34,7 @@
     <string name="settings_openhab_alturl_summary">The URL of the openHAB dashboard used when the local address is unavailable. Current setting: %s</string>
     <string name="settings_openhab_username">Username</string>
     <string name="settings_openhab_password">Password</string>
+    <string name="settings_openhab_rtsphost">RTSP Host</string>
     <string name="settings_openhab_password_summary_weak">Weak password set</string>
     <string name="settings_openhab_password_summary_strong">Strong password set</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>

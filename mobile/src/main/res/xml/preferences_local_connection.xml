@@ -27,4 +27,12 @@
         android:title="@string/settings_openhab_password"
         android:autofillHints="password"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />
+    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+        android:defaultValue="@string/empty_string"
+        android:persistent="false"
+        android:inputType="textNoSuggestions"
+        android:key="rtsphost"
+        android:title="@string/settings_openhab_rtsphost"
+        android:autofillHints="RTSP host"
+        android:icon="@drawable/ic_earth_grey_24dp" />
 </androidx.preference.PreferenceScreen>

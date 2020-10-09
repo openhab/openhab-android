@@ -61,7 +61,7 @@ abstract class AbstractConnection : Connection {
         this.baseUrl = path.url
         this.connectionType = connectionType
         this.httpClient = HttpClient(httpClientWithSocketFactory, baseUrl, username, password)
-        this.rtspHost = "fixme"
+        this.rtspHost = path.rtsphost
     }
 
     internal constructor(base: AbstractConnection, connectionType: Int) {
