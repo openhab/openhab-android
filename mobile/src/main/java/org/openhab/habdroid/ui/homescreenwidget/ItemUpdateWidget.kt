@@ -31,6 +31,10 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.Px
 import androidx.core.content.edit
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.io.InputStream
+import kotlin.math.min
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -54,10 +58,6 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
-import java.io.ByteArrayInputStream
-import java.io.IOException
-import java.io.InputStream
-import kotlin.math.min
 
 open class ItemUpdateWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {

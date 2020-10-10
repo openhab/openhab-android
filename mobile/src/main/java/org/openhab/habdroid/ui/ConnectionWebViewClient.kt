@@ -25,6 +25,10 @@ import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import de.duenndns.ssl.MemorizingTrustManager
+import java.io.ByteArrayInputStream
+import java.security.cert.Certificate
+import java.security.cert.CertificateException
+import java.security.cert.CertificateFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,10 +39,6 @@ import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDemoModeEnabled
-import java.io.ByteArrayInputStream
-import java.security.cert.Certificate
-import java.security.cert.CertificateException
-import java.security.cert.CertificateFactory
 
 open class ConnectionWebViewClient(
     private val connection: Connection
