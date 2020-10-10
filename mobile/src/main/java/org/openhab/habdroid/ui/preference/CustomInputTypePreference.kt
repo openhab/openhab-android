@@ -15,6 +15,8 @@ package org.openhab.habdroid.ui.preference
 
 import android.content.Context
 import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
@@ -67,12 +69,20 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
         return PrefFragment.newInstance(key, title, inputType, autofillHints)
     }
 
-    class PrefFragment : EditTextPreferenceDialogFragmentCompat() {
+    class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
+        private var wrapper: TextInputLayout? = null
+        private lateinit var editor: EditText
+
         override fun onBindDialogView(view: View?) {
-            val wrapper = view?.findViewById<TextInputLayout>(R.id.input_wrapper)
-            val editor = view?.findViewById<EditText>(android.R.id.edit)
+            super.onBindDialogView(view)
+            if (view == null) {
+                return
+            }
+            wrapper = view.findViewById(R.id.input_wrapper)
+            editor = view.findViewById(android.R.id.edit)
+            editor.addTextChangedListener(this)
             arguments?.getInt(KEY_INPUT_TYPE)?.let { type ->
-                editor?.inputType = type
+                editor.inputType = type
             }
             arguments?.getCharSequence(KEY_TITLE)?.let { title ->
                 wrapper?.hint = title
@@ -80,13 +90,34 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
                 if (hints == null) {
-                    editor?.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                    editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
                 } else {
-                    editor?.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
-                    editor?.setAutofillHints(*hints)
+                    editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+                    editor.setAutofillHints(*hints)
                 }
             }
-            super.onBindDialogView(view)
+        }
+
+        override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+            // no-op
+        }
+
+        override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+            // no-op
+        }
+
+        override fun afterTextChanged(editable: Editable) {
+            val value = editable.toString()
+
+            val isLastCharWhitespace = value.lastOrNull()?.isWhitespace() ?: false
+            val isFirstCharWhitespace = value.firstOrNull()?.isWhitespace() ?: false
+
+            val res = editor.resources
+            wrapper?.error = when {
+                isFirstCharWhitespace -> res.getString(R.string.error_first_char_is_whitespace)
+                isLastCharWhitespace -> res.getString(R.string.error_last_char_is_whitespace)
+                else -> null
+            }
         }
 
         companion object {
@@ -101,8 +132,12 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                 autofillHints: Array<String>?
             ): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title,
-                    KEY_INPUT_TYPE to inputType, KEY_AUTOFILL_HINTS to autofillHints)
+                f.arguments = bundleOf(
+                    ARG_KEY to key,
+                    KEY_TITLE to title,
+                    KEY_INPUT_TYPE to inputType,
+                    KEY_AUTOFILL_HINTS to autofillHints
+                )
                 return f
             }
         }
