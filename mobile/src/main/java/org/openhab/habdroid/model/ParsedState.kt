@@ -16,13 +16,11 @@ package org.openhab.habdroid.model
 import android.graphics.Color
 import android.location.Location
 import android.os.Parcelable
-
-import kotlinx.android.parcel.Parcelize
-
 import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.math.roundToInt
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {

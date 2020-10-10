@@ -15,6 +15,10 @@ package org.openhab.habdroid.model
 
 import android.os.Parcelable
 import android.util.Log
+import java.io.IOException
+import java.io.StringReader
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -27,10 +31,6 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.HttpClient
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
-import java.io.IOException
-import java.io.StringReader
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 
 @Parcelize
 data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parcelable {

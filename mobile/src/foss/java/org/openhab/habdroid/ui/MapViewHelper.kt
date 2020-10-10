@@ -23,6 +23,10 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import java.util.ArrayList
+import java.util.Locale
+import kotlin.math.max
+import kotlin.math.min
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
@@ -38,10 +42,6 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
-import java.util.ArrayList
-import java.util.Locale
-import kotlin.math.max
-import kotlin.math.min
 
 object MapViewHelper {
     internal val TAG = MapViewHelper::class.java.simpleName

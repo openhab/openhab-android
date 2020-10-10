@@ -19,15 +19,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.util.ArrayList
+import java.util.Comparator
+import java.util.Locale
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.determineDataUsagePolicy
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.Locale
 
 class ItemPickerAdapter(context: Context, private val itemClickListener: ItemClickListener?) :
     RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(), View.OnClickListener {

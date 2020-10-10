@@ -13,13 +13,13 @@
 
 package org.openhab.habdroid.util
 
+import java.net.UnknownHostException
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-
-import java.net.UnknownHostException
 
 class SyncHttpClientTest {
     private lateinit var client: OkHttpClient

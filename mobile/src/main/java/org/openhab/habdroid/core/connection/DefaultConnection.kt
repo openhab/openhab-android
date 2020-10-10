@@ -15,15 +15,15 @@ package org.openhab.habdroid.core.connection
 
 import android.net.Network
 import android.util.Log
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.net.SocketTimeoutException
 import kotlinx.coroutines.delay
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.bindToNetworkIfPossible
-import java.io.IOException
-import java.net.InetSocketAddress
-import java.net.Socket
-import java.net.SocketTimeoutException
 
 open class DefaultConnection : AbstractConnection {
     internal var network: Network? = null
