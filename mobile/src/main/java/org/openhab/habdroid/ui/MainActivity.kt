@@ -103,7 +103,6 @@ import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
@@ -125,7 +124,6 @@ import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.putActiveServerId
-import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
@@ -963,7 +961,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun executeActionForServer(serverId: Int, action: () -> Unit): Boolean = when {
         serverId !in prefs.getConfiguredServerIds() -> {
-            showToast(R.string.home_shortcut_server_has_been_deleted, ToastType.ERROR)
+            showSnackbar(
+                SNACKBAR_TAG_SERVER_MISSING,
+                R.string.home_shortcut_server_has_been_deleted
+            )
             true
         }
         serverId != prefs.getActiveServerId() -> {
@@ -1287,9 +1288,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val SNACKBAR_TAG_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
         const val SNACKBAR_TAG_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
         const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
+        const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
         const val SNACKBAR_TAG_SSE_ERROR = "sseError"
         const val SNACKBAR_TAG_SHORTCUT_INFO = "shortcutInfo"
-        const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
+        const val SNACKBAR_TAG_SERVER_MISSING = "serverMissing"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"
