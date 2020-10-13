@@ -414,8 +414,6 @@
     <string name="intro_welcome_back">ברוך שובך ל openHAB</string>
     <string name="intro_app_restored">רוב ההגדרות שלך שוחזרו למעט אישורי שרת</string>
     <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכנולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
-    <string name="intro_themes">ערכות עיצוב</string>
-    <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
     <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
     <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
     <string name="intro_nfc_description">השליטה בפריט יכולה להיות משוייכת לתגית NFC באמצעות לחיצה ממושכת על הפריט</string>
