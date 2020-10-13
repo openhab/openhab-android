@@ -416,8 +416,6 @@
     <string name="intro_welcome_back">Bem-vindo de volta ao openHAB</string>
     <string name="intro_app_restored">A maioria das suas configurações foram restauradas, exceto as credenciais do servidor</string>
     <string name="intro_whatis">Um software agnóstico e fornecedor de automatização de software aberto para a sua casa</string>
-    <string name="intro_themes">Temas</string>
-    <string name="intro_themes_description">Escolha entre vários temas</string>
     <string name="intro_voice_description">Controle sua casa com a sua voz</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">O controle de item pode ser vinculado a tags NFC pressionando por um longo tempo o item</string>
