@@ -266,8 +266,6 @@
     <string name="intro_welcome_back">Velkommen tilbake til openHAB</string>
     <string name="intro_app_restored">De fleste av innstillingene dine er gjenopprettet, bortsett fra server-legitimasjonen</string>
     <string name="intro_whatis">En leverandør og teknologiuavhengig - åpen kildekode - automatiseringsprogramvare for hjemmet ditt</string>
-    <string name="intro_themes">Temaer</string>
-    <string name="intro_themes_description">Velg mellom flere temaer</string>
     <string name="intro_voice_description">Styr hjemmet ditt med stemmen</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Element-kontrollen kan bindes til NFC koder ved å holde inne knappen til elementet</string>
