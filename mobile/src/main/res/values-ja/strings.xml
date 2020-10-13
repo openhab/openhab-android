@@ -385,8 +385,6 @@
     <string name="intro_welcome_back">openHAB へまたようこそ</string>
     <string name="intro_app_restored">サーバー資格情報を除き、ほとんどの設定が復元されました</string>
     <string name="intro_whatis">ホーム用、ベンダーや技術に依存しないオープンソースのオートメーションソフトウェア</string>
-    <string name="intro_themes">テーマ</string>
-    <string name="intro_themes_description">いくつかのテーマから選択してください</string>
     <string name="intro_voice_description">音声でホームをコントロール</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">アイテムを長押しすると、アイテムのコントロールを NFC タグに接続できます</string>
