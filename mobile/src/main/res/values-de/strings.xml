@@ -403,8 +403,6 @@
     <string name="intro_welcome_back">Willkommen zurück bei openHAB</string>
     <string name="intro_app_restored">Die meisten Einstellungen wurden wiederhergestellt, außer den Server-Zugangsdaten</string>
     <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
-    <string name="intro_themes">Designs</string>
-    <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
     <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Die Steuerung eines Items kann durch Gedrückthalten des Items an NFC-Tags gebunden werden</string>
