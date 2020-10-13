@@ -388,8 +388,6 @@
     <string name="intro_welcome_back">Tervetuloa takaisin openHABiin</string>
     <string name="intro_app_restored">Lähes kaikki asetuksesi on palautettu, paitsi palvelimen tunnukset</string>
     <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
-    <string name="intro_themes">Teemat</string>
-    <string name="intro_themes_description">Valitse useista teemoista</string>
     <string name="intro_voice_description">Hallitse kotia äänelläsi</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Itemin käyttö voidaan sitoa NFC tunnisteisiin painamalla Itemiä pitkään</string>
