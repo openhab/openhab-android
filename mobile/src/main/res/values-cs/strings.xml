@@ -392,8 +392,6 @@
     <string name="intro_welcome_back">Vítejte zpět v openHAB</string>
     <string name="intro_app_restored">Většina vašich nastavení byla obnovena, s výjimkou přihlašovacích údajů na server</string>
     <string name="intro_whatis">Open source program pro domácí automatizaci</string>
-    <string name="intro_themes">Motivy vzhledu</string>
-    <string name="intro_themes_description">Vyberte si mezi několika motivy</string>
     <string name="intro_voice_description">Ovládejte svůj domov hlasem</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Ovládání Item můžete přiřadit k NFC tagu dlouhým podržením Item</string>
