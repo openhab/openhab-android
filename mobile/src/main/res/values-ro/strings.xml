@@ -245,8 +245,6 @@
     <string name="intro_welcome_back">Bine ați revenit la openHAB</string>
     <string name="intro_app_restored">Majoritatea setărilor au fost restaurate, cu excepția datelor de acces la server</string>
     <string name="intro_whatis">Un software open source de automatizare pentru locuința dumneavoastră, independent de producători și tehnologii</string>
-    <string name="intro_themes">Teme</string>
-    <string name="intro_themes_description">Alege dintre câteva teme</string>
     <string name="intro_voice_description">Controlați-vă locuința cu vocea</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Controlul unui Item poate fi legat de NFC-tags apăsând lung pe Item</string>
