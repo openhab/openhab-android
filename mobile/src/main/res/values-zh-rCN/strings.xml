@@ -235,8 +235,6 @@
     <string name="app_intro">介绍</string>
     <string name="intro_welcome">欢迎来到 openHAB</string>
     <string name="intro_whatis">开源家居自动化供应商与技术</string>
-    <string name="intro_themes">主题</string>
-    <string name="intro_themes_description">在多个主题之间进行选择</string>
     <string name="intro_voice_description">使用声音控制您的家居</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">物品控制可通过长按物品写入 NFC 标签</string>
