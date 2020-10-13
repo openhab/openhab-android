@@ -249,6 +249,8 @@ abstract class AbstractTileService : TileService() {
         }
 
         @VisibleForTesting fun getClassNameForId(id: Int) = "org.openhab.habdroid.background.tiles.TileService$id"
+        fun getIdFromClassName(className: String) =
+            className.substringAfter("org.openhab.habdroid.background.tiles.TileService").toInt()
     }
 }
 
