@@ -84,8 +84,6 @@
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Sveiki atvykę į openHAB</string>
     <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
-    <string name="intro_themes">Temos</string>
-    <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
     <!-- Intro "SKIP" button -->
     <!-- Intro "DONE" button -->
     <!-- Item picker -->
