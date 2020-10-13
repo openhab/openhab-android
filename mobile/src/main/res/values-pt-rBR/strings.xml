@@ -419,6 +419,9 @@
     <string name="intro_voice_description">Controle sua casa com a sua voz</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">O controle de item pode ser vinculado a tags NFC pressionando por um longo tempo o item</string>
+    <string name="intro_quick_tile_description">Controle sua casa a partir das configurações rápidas do seu dispositivo (Onde contém por exemplo, Wi-Fi e Bluetooth)</string>
+    <string name="intro_send_device_info">Enviar informações do dispositivo para o servidor</string>
+    <string name="intro_send_device_info_description">Por exemplo, ligue suas lâmpadas quando o despertador tocar</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Pular</string>
     <!-- Intro "DONE" button -->
