@@ -34,23 +34,40 @@ class IntroActivity : AppIntro() {
 
         if (getPrefs().getBoolean(PrefKeys.RECENTLY_RESTORED, false)) {
             Log.d(TAG, "Show restore intro")
-            addSlide(R.string.intro_welcome_back,
+            addSlide(
+                R.string.intro_welcome_back,
                 R.string.intro_app_restored,
-                R.drawable.ic_openhab_appicon_340dp)
+                R.drawable.ic_openhab_appicon_340dp
+            )
         } else {
             Log.d(TAG, "Show regular intro")
-            addSlide(R.string.intro_welcome,
+            addSlide(
+                R.string.intro_welcome,
                 R.string.intro_whatis,
-                R.drawable.ic_openhab_appicon_340dp)
-            addSlide(R.string.intro_themes,
-                R.string.intro_themes_description,
-                R.drawable.ic_palette_outline_themed_340dp)
-            addSlide(R.string.mainmenu_openhab_voice_recognition,
+                R.drawable.ic_openhab_appicon_340dp
+            )
+            addSlide(
+                R.string.mainmenu_openhab_voice_recognition,
                 R.string.intro_voice_description,
-                R.drawable.ic_microphone_outline_themed_340dp)
-            addSlide(R.string.intro_nfc,
+                R.drawable.ic_twotone_keyboard_voice_themed_340dp
+            )
+            addSlide(
+                R.string.intro_nfc,
                 R.string.intro_nfc_description,
-                R.drawable.ic_nfc_themed_340dp)
+                R.drawable.ic_nfc_themed_340dp
+            )
+            addSlide(
+                R.string.tiles_for_quick_settings,
+                R.string.intro_quick_tile_description,
+                R.drawable.ic_twotone_library_books_themed_340dp
+
+            )
+            addSlide(
+                R.string.intro_send_device_info,
+                R.string.intro_send_device_info_description,
+                R.drawable.ic_twotone_access_alarm_themed_340dp
+
+            )
         }
 
         // Change bar color

@@ -468,11 +468,12 @@
     <string name="intro_welcome_back">Welcome back to openHAB</string>
     <string name="intro_app_restored">Most of your settings have been restored, except the server credentials</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
-    <string name="intro_themes">Themes</string>
-    <string name="intro_themes_description">Choose between several themes</string>
     <string name="intro_voice_description">Control your home with your voice</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the Item</string>
+    <string name="intro_quick_tile_description">Control your home from the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth)</string>
+    <string name="intro_send_device_info">Send device information to your server</string>
+    <string name="intro_send_device_info_description">For example turn on your lights when the alarm clock rings</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
