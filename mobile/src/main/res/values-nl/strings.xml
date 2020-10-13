@@ -386,8 +386,6 @@
     <string name="intro_welcome_back">Welkom terug bij openHAB</string>
     <string name="intro_app_restored">De meeste instellingen zijn hersteld, behalve de server inloggegevens</string>
     <string name="intro_whatis">Leverancier en technologie onafhankelijke open source domotica software voor jouw huis</string>
-    <string name="intro_themes">Thema\'s</string>
-    <string name="intro_themes_description">Kies tussen de verschillende thema\'s</string>
     <string name="intro_voice_description">Bestuur uw huis met uw stem</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item controle kan worden verbonden met NFC tags door lang op het Item te drukken</string>
