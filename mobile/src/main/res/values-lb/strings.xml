@@ -248,8 +248,6 @@
     <string name="intro_welcome_back">Wëllkomm zeréck bei openHAB</string>
     <string name="intro_app_restored">Bis op d‘ Server Login Informatiounen, sinn di meescht vun dengen Astellungen sinn erëm hiergestallt</string>
     <string name="intro_whatis">Eng Verkeefer an Technik agnostescht Open-Source Automatiséierungs Software fir Äert Haus</string>
-    <string name="intro_themes">Designs</string>
-    <string name="intro_themes_description">Wiel tëschen verschiddenen Themes aus</string>
     <string name="intro_voice_description">Kontrolléiert Äert Haus mat Ärer Stemm</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">D‘ Kontroll vum Item kann un en NFC Tag gebonne ginn an deem een laang op den Item dréckt</string>
