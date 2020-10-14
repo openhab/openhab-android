@@ -419,6 +419,9 @@
     <string name="intro_voice_description">Controla tu hogar con tu voz</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">El control de un Item puede asociarse a etiquetas NFC haciendo una pulsación larga sobre dicho ítem</string>
+    <string name="intro_quick_tile_description">Controla tu hogar desde los ajustes rápidos de tu dispositivo (el sitio donde se encuentran los interruptores de Wi-Fi y Bluetooth, entre otros)</string>
+    <string name="intro_send_device_info">Enviar información del dispositivo al servidor</string>
+    <string name="intro_send_device_info_description">Por ejemplo, enciende las luces cuando suene la alarma</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OMITIR</string>
     <!-- Intro "DONE" button -->
