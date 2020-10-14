@@ -21,13 +21,24 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
+import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.addToPrefs
+import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.resolveThemedColor
 
-class IntroActivity : AppIntro() {
+class IntroActivity : AppIntro(), CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Util.getActivityThemeId(this))
         super.onCreate(savedInstanceState)
@@ -68,6 +79,20 @@ class IntroActivity : AppIntro() {
                 R.drawable.ic_twotone_access_alarm_themed_340dp
 
             )
+
+            if (getPrefs().getConfiguredServerIds().isEmpty()) {
+                Log.d(TAG, "Starting discovery")
+                val resolver = AsyncServiceResolver(
+                    this,
+                    AsyncServiceResolver.OPENHAB_SERVICE_TYPE,
+                    this
+                )
+                launch {
+                    resolver.resolve()?.addToPrefs(this@IntroActivity)
+                }
+            } else {
+                Log.d(TAG, "Don't start discovery, because there's already at least one server configured")
+            }
         }
 
         // Change bar color

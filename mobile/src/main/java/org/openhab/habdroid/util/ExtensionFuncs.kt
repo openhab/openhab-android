@@ -50,6 +50,7 @@ import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.CertificateRevokedException
+import javax.jmdns.ServiceInfo
 import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
@@ -66,6 +67,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
+import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.model.ServerPath
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
@@ -445,6 +448,22 @@ fun Uri.Builder.appendQueryParameter(key: String, value: Int): Uri.Builder {
 
 fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
     return appendQueryParameter(key, value.toString())
+}
+
+fun ServiceInfo.addToPrefs(context: Context) {
+    val address = hostAddresses[0]
+    val port = port.toString()
+    Log.d(Util.TAG, "Service resolved: $address port: $port")
+
+    val config = ServerConfiguration(
+        context.getPrefs().getNextAvailableServerId(),
+        context.getString(R.string.openhab),
+        ServerPath("https://$address:$port", null, null),
+        null,
+        null,
+        null
+    )
+    config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
 }
 
 fun Intent.isResolvable(context: Context): Boolean {

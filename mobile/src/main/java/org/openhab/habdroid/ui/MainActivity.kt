@@ -88,7 +88,6 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableExcepti
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
-import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.sortedWithDefaultName
@@ -104,6 +103,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.addToPrefs
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getActiveServerId
@@ -111,7 +111,6 @@ import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
-import org.openhab.habdroid.util.getNextAvailableServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
@@ -456,8 +455,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 // no local connection is configured yet
                 if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.activeLocalConnection == null) {
                     if (serviceResolveJob == null) {
-                        val resolver = AsyncServiceResolver(this,
-                            getString(R.string.openhab_service_type), this)
+                        val resolver = AsyncServiceResolver(
+                            this,
+                            AsyncServiceResolver.OPENHAB_SERVICE_TYPE,
+                            this
+                        )
                         serviceResolveJob = launch {
                             handleServiceResolveResult(resolver.resolve())
                             serviceResolveJob = null
@@ -613,22 +615,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun handleServiceResolveResult(info: ServiceInfo?) {
         if (info != null) {
-            val address = info.hostAddresses[0]
-            val port = info.port.toString()
-            Log.d(TAG, "Service resolved: $address port: $port")
-
-            val config = ServerConfiguration(
-                prefs.getNextAvailableServerId(),
-                getString(R.string.openhab),
-                ServerPath("https://$address:$port", null, null),
-                null,
-                null,
-                null
-            )
-            config.saveToPrefs(prefs, getSecretPrefs())
+            info.addToPrefs(this)
         } else {
-            Log.d(TAG, "onServiceResolveFailed()")
-            controller.indicateMissingConfiguration(true, false)
+            Log.d(TAG, "Failed to discover openHAB server")
+            controller.indicateMissingConfiguration(resolveAttempted = true, wouldHaveUsedOfficialServer = false)
         }
     }
 
