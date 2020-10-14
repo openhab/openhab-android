@@ -207,8 +207,6 @@
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Selamat Datang di openHAB</string>
     <string name="intro_whatis">Sebuah vendor dan teknologi agnostik perangkat lunak open source otomasi untuk rumah Anda</string>
-    <string name="intro_themes">Thema</string>
-    <string name="intro_themes_description">Pilih di antara beberapa tema</string>
     <string name="intro_voice_description">Kendalikan rumah Anda dengan suara Anda</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Kendali item dapat disambungkan kepada tag NFC dengan tekan dan tahan Item</string>

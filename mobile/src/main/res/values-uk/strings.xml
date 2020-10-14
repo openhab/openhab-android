@@ -417,8 +417,6 @@
     <string name="intro_welcome_back">З поверненням до openHAB</string>
     <string name="intro_app_restored">Більшість налаштувань відновлено, крім облікових даних</string>
     <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
-    <string name="intro_themes">Теми</string>
-    <string name="intro_themes_description">Виберіть між декількома темами</string>
     <string name="intro_voice_description">Керуйте будинком за допомогою голосу</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Елемент керування можна прив\'язати до NFC мітки довгим натисненням на цей елемент</string>

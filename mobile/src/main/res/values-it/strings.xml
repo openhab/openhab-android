@@ -264,6 +264,9 @@
     <string name="item_update_http_error_label">Aggiornamento %1$s fallito: %2$s</string>
     <string name="item_update_connection_error">L’aggiornamento dell’item \'%1$s\' è fallito (Manca connessione)</string>
     <string name="item_update_connection_error_label">%1$s aggiornamento fallito (Nessuna connessione)</string>
+    <string name="item_update_short_status_waiting">Attendere…</string>
+    <string name="item_update_short_status_sending">Invio…</string>
+    <string name="item_update_short_status_failed">Fallito</string>
     <string name="error_no_valid_item_name">Inserisci un nome Item valido</string>
     <string name="retry">Riprova</string>
     <string name="ignore">Ignora</string>
@@ -413,11 +416,12 @@
     <string name="intro_welcome_back">Bentornato in openHAB</string>
     <string name="intro_app_restored">La maggior parte delle tue impostazioni è stata ripristinata, tranne le credenziali del server</string>
     <string name="intro_whatis">Una soluzione domotica open source per la tua casa, indipendente da tecnologia e da produttori</string>
-    <string name="intro_themes">Temi</string>
-    <string name="intro_themes_description">Scegli tra i diversi temi</string>
     <string name="intro_voice_description">Controlla la tua casa con la tua voce</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Il controllo dell\'item può essere associato a un tag NFC premendo a lungo sull\'item</string>
+    <string name="intro_quick_tile_description">Controlla la tua casa dalle impostazioni rapide del tuo dispositivo (il luogo che contiene i controlli per es. Wi-Fi e Bluetooth)</string>
+    <string name="intro_send_device_info">Invia informazioni del dispositivo al tuo server</string>
+    <string name="intro_send_device_info_description">Ad esempio, accendi le luci quando la sveglia suona</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">SALTA</string>
     <!-- Intro "DONE" button -->
@@ -465,6 +469,23 @@
     <string name="item_update_success_message_previous">%s sta mostrando il titolo precedente</string>
     <string name="item_update_success_message_rewind">%s sta riavvolgendo</string>
     <string name="item_update_success_message_fastforward">%s sta andando avanti</string>
+    <string name="item_update_short_success_message_generic">Impostato a %s</string>
+    <string name="item_update_short_success_message_on">Attivato</string>
+    <string name="item_update_short_success_message_off">Disattivato</string>
+    <string name="item_update_short_success_message_up">Inizia ad alzarsi</string>
+    <string name="item_update_short_success_message_down">Inizia a scendere</string>
+    <string name="item_update_short_success_message_move">Inizia a muoversi</string>
+    <string name="item_update_short_success_message_stop">Fermato</string>
+    <string name="item_update_short_success_message_increase">Aumenta</string>
+    <string name="item_update_short_success_message_decrease">Diminuisci</string>
+    <string name="item_update_short_success_message_undefined">Imposta a indefinito</string>
+    <string name="item_update_short_success_message_empty_string">Imposta a stringa vuota</string>
+    <string name="item_update_short_success_message_play">Riproduzione</string>
+    <string name="item_update_short_success_message_pause">Pausa</string>
+    <string name="item_update_short_success_message_next">Mostra prossimo titolo</string>
+    <string name="item_update_short_success_message_previous">Mostra titolo precedente</string>
+    <string name="item_update_short_success_message_rewind">Riavvolgi</string>
+    <string name="item_update_short_success_message_fastforward">Avanza</string>
     <string name="item_update_error_no_connection_retry">Errore nell\'invio dell\'aggiornamento dell’Item, riprovo\u2026</string>
     <string name="item_update_error_no_connection">Nessuna connessione</string>
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>

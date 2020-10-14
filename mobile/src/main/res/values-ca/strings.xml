@@ -160,8 +160,6 @@
     <!-- Intro strings -->
     <string name="app_intro">Introducció</string>
     <string name="intro_welcome">Us donem la benvinguda a l\'openHAB</string>
-    <string name="intro_themes">Temes</string>
-    <string name="intro_themes_description">Trieu entre diferents temes</string>
     <string name="intro_voice_description">Controleu casa vostra amb la veu</string>
     <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->

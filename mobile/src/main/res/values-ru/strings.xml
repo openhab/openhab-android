@@ -395,8 +395,6 @@
     <string name="intro_welcome_back">Добро пожаловать в openHAB</string>
     <string name="intro_app_restored">Большинство настроек восстановлены, за исключением учетных данных сервера</string>
     <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
-    <string name="intro_themes">Темы</string>
-    <string name="intro_themes_description">Переключение между разными темами</string>
     <string name="intro_voice_description">Управляйте домом своим голосом</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>

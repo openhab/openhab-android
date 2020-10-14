@@ -363,8 +363,6 @@
     <string name="intro_welcome_back">Üdvözöljük újra openHAB-ban</string>
     <string name="intro_app_restored">A legtöbb beállítása visszaállítva, kivéve a szerver hitelesítő adatokat</string>
     <string name="intro_whatis">Szállító- és technológia független nyílt forráskódú automatizálási szoftver az Ön otthonába</string>
-    <string name="intro_themes">Témák</string>
-    <string name="intro_themes_description">Választhat számos téma közül</string>
     <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával összeköthető egy NFC címkékhez</string>

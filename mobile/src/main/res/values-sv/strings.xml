@@ -309,8 +309,6 @@
     <string name="app_intro">Introduktion</string>
     <string name="intro_welcome">Välkommen till openHAB</string>
     <string name="intro_whatis">En mjukvara för att automatisera ditt hem med öppen källkod, helt oberoende av tillverkare eller teknologi</string>
-    <string name="intro_themes">Teman</string>
-    <string name="intro_themes_description">Välj mellan flera teman</string>
     <string name="intro_voice_description">Kontrollera ditt hem med din röst</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Långtryck på en en Item för att knyta den till NFS-taggar</string>
