@@ -268,6 +268,9 @@
     <string name="item_update_http_error_label">Не вдалося оновити %1$s: %2$s</string>
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
     <string name="item_update_connection_error_label">Не вдалось оновити „%1$s“ (немає підключення)</string>
+    <string name="item_update_short_status_waiting">Очікування…</string>
+    <string name="item_update_short_status_sending">Надсилання…</string>
+    <string name="item_update_short_status_failed">Не вдалося</string>
     <string name="error_no_valid_item_name">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
     <string name="retry">Повторити</string>
     <string name="ignore">Нехтувати</string>
@@ -420,6 +423,9 @@
     <string name="intro_voice_description">Керуйте будинком за допомогою голосу</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Елемент керування можна прив\'язати до NFC мітки довгим натисненням на цей елемент</string>
+    <string name="intro_quick_tile_description">Керуйте своїм домівкою із швидких налаштувань пристрою (місце, в якому розміщені перемикачі, наприклад Wi-Fi і Bluetooth)</string>
+    <string name="intro_send_device_info">Відправити інформацію про пристрій на ваш сервер</string>
+    <string name="intro_send_device_info_description">Наприклад, увімкніть світло при дзвінку будильника</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">ПРОПУСТИТИ</string>
     <!-- Intro "DONE" button -->
@@ -467,6 +473,23 @@
     <string name="item_update_success_message_previous">%s показує попередню назву</string>
     <string name="item_update_success_message_rewind">%s перемотується назад</string>
     <string name="item_update_success_message_fastforward">%s перемотується вперед</string>
+    <string name="item_update_short_success_message_generic">Призначено %s</string>
+    <string name="item_update_short_success_message_on">Увімкнено</string>
+    <string name="item_update_short_success_message_off">Вимкнено</string>
+    <string name="item_update_short_success_message_up">Починає підніматися вгору</string>
+    <string name="item_update_short_success_message_down">Починає рухатися вниз</string>
+    <string name="item_update_short_success_message_move">Починає рухатись</string>
+    <string name="item_update_short_success_message_stop">Зупинено</string>
+    <string name="item_update_short_success_message_increase">Підвищено</string>
+    <string name="item_update_short_success_message_decrease">Понижено</string>
+    <string name="item_update_short_success_message_undefined">Встановлено як невизначений</string>
+    <string name="item_update_short_success_message_empty_string">Встановлено як пустий рядок</string>
+    <string name="item_update_short_success_message_play">Відтворюється</string>
+    <string name="item_update_short_success_message_pause">Призупинено</string>
+    <string name="item_update_short_success_message_next">Відображення наступної назви</string>
+    <string name="item_update_short_success_message_previous">Відображення попередньої назви</string>
+    <string name="item_update_short_success_message_rewind">Відмотування</string>
+    <string name="item_update_short_success_message_fastforward">Перемотування вперед</string>
     <string name="item_update_error_no_connection_retry">Помилка надсилання оновлення елементу, повторна спроба\u2026</string>
     <string name="item_update_error_no_connection">Немає з\'єднання</string>
     <string name="item_update_error_couldnt_get_item_type">Не вдалося отримати тип елемента</string>
