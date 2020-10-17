@@ -45,6 +45,8 @@
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
     <string name="settings_image_widget_scaling">Biller un d\' Bildschierm Gréisst upassen</string>
+    <string name="settings_image_widget_scaling_summary_off">\'Image\' Widgets déi méi kleng sinn wei d\' Bildschierm Breet op hirer originaler Gréisst loossen</string>
+    <string name="settings_image_widget_scaling_summary_on">\'Image\' Widgets méi grouss oder méi kleng maachen fir se un Bildschierm Breet un ze passen</string>
     <string name="settings_chart_scaling">Diagramm Skaléierung</string>
     <string name="settings_chart_scaling_summary">Beuecht: Eng méi kleng Skaléierung mëscht d‘ Schrëft an d‘ Linnen méi kleng, et ass also méi Platz fir den Diagramm, mä d‘ Schrëft kéint manner lieserlech ginn.</string>
     <string name="settings_chart_scaling_value_xs">Ganz kleng</string>
@@ -85,10 +87,13 @@
     <string name="settings_add_server">Server bäifügen</string>
     <string name="settings_edit_server">Server änneren</string>
     <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Wéinstens e Server Numm an eng Verbindung gi gebraucht</string>
     <string name="settings_server_confirm_deletion">Wëlls de wierklech dësen Server läschen?</string>
     <string name="settings_server_confirm_leave_title">Ongespäichert Ännerungen</string>
     <string name="settings_server_confirm_leave_message">Du hues Ännerungen gemaach. Wëlls de des späicheren oder ignoréieren?</string>
     <string name="settings_server_primary_title">Hapt Server</string>
+    <string name="settings_server_primary_summary_is_primary">Dësen ass den Hapt Server.\nMomentan ass nëmmen den Hapt Server ënnerstëtzt. Klick op den Hëllef Knäppchen fir méi Informatiounen.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" ass den Hapt Server. Klick fir dësen als Hapt Server ze wielen.\nMomentan ass nëmmen den Hapt Server ënnerstëtzt. Klick op den Hëllef Knäppchen fir méi Informatiounen.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Klick hei fir méi Informatiounen</string>
     <!-- App messages strings -->
