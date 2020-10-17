@@ -4,11 +4,16 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Astellungen</string>
+    <string name="save">Späicheren</string>
+    <string name="discard">Annuléieren</string>
+    <string name="delete">Läschen</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Astellungen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Notifikatiounen</string>
+    <string name="app_notifications_on_server">Notifikatiounen (%s)</string>
     <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
     <string name="mainmenu_openhab_selectsitemap">Standard Sitemap auswielen</string>
     <string name="mainmenu_openhab_clearcache">Biller Cache eidel maachen</string>
@@ -52,12 +57,15 @@
     <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Lokal</string>
+    <string name="settings_ringtone">Schelltoun</string>
     <string name="settings_ringtone_none">Keen</string>
     <string name="settings_ringtone_on_external">Onbekannte Ringtone op externem Spächer</string>
+    <string name="settings_notification_vibration">Vibratioun</string>
     <string name="settings_notification_vibration_off">Aus</string>
     <string name="settings_notification_vibration_short">Kuerz</string>
     <string name="settings_notification_vibration_long">Laang</string>
     <string name="settings_notification_vibration_twice">Zwee mol</string>
+    <string name="settings_notification_ringtone_vibration">Schelltoun &amp; Vibratioun</string>
     <string name="settings_connection_summary">Mat %s verbonne</string>
     <string name="settings_insecure_connection_summary">Ongeséchert mat %s verbonnen</string>
     <string name="beta">Beta</string>
@@ -72,8 +80,16 @@
     <string name="settings_screen_lock_kiosk">Kiosk Modus</string>
     <string name="settings_screen_lock_on">Un</string>
     <string name="settings_show_sitemaps_in_drawer">Weis all Sitemaps am Menü op der lénker Säit un</string>
+    <string name="settings_server_name">Server Numm</string>
+    <string name="settings_add_server">Server bäifügen</string>
+    <string name="settings_edit_server">Server änneren</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_confirm_leave_title">Ongespäichert Ännerungen</string>
+    <string name="settings_server_primary_title">Hapt Server</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
+    <string name="voice_command">Sproochbefeel</string>
     <string name="title_voice_widget_icon">Sproochbefeeler an App Shortcut</string>
     <string name="info_voice_input">openHAB, zu dengen Déngscht!</string>
     <string name="info_voice_recognized_text">Erkannte Befeel: %1$s</string>
