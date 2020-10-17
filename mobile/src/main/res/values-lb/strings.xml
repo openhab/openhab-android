@@ -101,16 +101,19 @@
     <string name="app_shortcut_disabled_habpanel">Op dengem Server ass HABPanel net installéiert</string>
     <string name="app_shortcut_disabled_notifications">Däin Remote-Host Server ass net verfügbar</string>
     <string name="app_shortcut_disabled_voice_recognition">Däi Gerät huet keng Sproocherkennungs App installéiert</string>
+    <string name="no_position_set">Positioun net gesat</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB huet eng eidel Sitemap Lescht geschéckt</string>
     <string name="error_sitemap_generic_load_error">D‘ Sitemap konnt net geluede ginn. Folgende Feeler ass opgetrueden: %1$s</string>
     <string name="error_network_not_available">D\'Netzwierk ass net verfügbar</string>
     <string name="error_wifi_not_available">Wi-Fi ass ausgeschalt</string>
+    <string name="error_http_connection_failed">Connectioun ass feelgeschloen. Et ass eng onerwaarten Äntwert ukomm, beim Versuch sech un den konfiguréierten openHAB Server ze verbannen (Empfaangenen HTTP Äntwert Code: %d).</string>
     <string name="error_invalid_url">Gëff w.e.g. eng valid URL an der \'http(s)://host(:port)/\' Form an</string>
     <string name="error_invalid_https_url">Gëff w.e.g. eng valid URL an der \'https://host(:port)/\' Form an</string>
     <string name="error_port_seems_invalid">De Port deen s du uginn schéngt net valid fir den ausgewielten Protokoll</string>
     <string name="error_connection_failed">D\'Verbindung zum Host ass schif gaangen</string>
     <string name="error_unable_to_resolve_hostname">Den Hostname kann net opgeléist ginn</string>
+    <string name="error_unknown">En onbekannte Feeler ass opgetrueden: %s</string>
     <string name="error_connection_sslhandshake_failed">Den SSL Handshake ass schif gaangen</string>
     <string name="error_certificate_not_trusted">D‘ SSL Zertifikat ass net vertrauenswierdeg. Importéier w.e.g. Root Zertifikat oder acceptéier d‘ Zertifikat wärend dem SSL Handshake.</string>
     <string name="error_certificate_expired">D‘ SSL Zertifikat ass ofgelaf. Kuck w.e.g. dass de en neit Zertifikat kriss oder acceptéier d‘ Zertifikat wärend dem SSL Handshake.</string>
@@ -121,9 +124,40 @@
     <string name="error_http_to_https_port">Onerwaarten Enn vum Stream. Probéiers du dech op en HTTPS Port via HTTP ze verbannen?</string>
     <string name="webview_ssl">Momentan ënnerstëtzt des App keng selwer-signéiert SSL Zertifikater fir Webview Widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentifizéierung feelgeschloe. Iwwerpréif w.e.g. de konfiguréierten Benotzernumm an Passwuert bezéiungsweis d‘ SSL Client-Zertifikat (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL ass ze laang. Benotz w.e.g. d‘ IP oder eng méi kuerz URL (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS ass verlaangt. Änner w.e.g. d‘ URL (HTTP Äntwert Code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Authentifizéierung feelgeschloen. Iwwerpréif w.e.g. d‘ SSL Client-Zertifikat (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Et gëtt en SSL Client-Zertifika gebraucht (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Däi Reverse-Proxy huet eng invalid Äntwert vum openHAB Server kritt (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Den openHAB Server ass temporär net verfügbar (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway Time-out. Et gesäit sou aus wei wann däin Reverse-Proxy leeft mä keng Äntwert vum openHAB Server krut (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Den openHAB Server huet net genuch fräie Späicher (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Netzwierk-Authentifizéierung erfuerderlech (HTTP Äntwert Code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB ass offline</string>
+    <string name="error_short_http_connection_failed">HTTP Code %d</string>
+    <string name="error_short_unknown">Onbekannte Feeler: %s</string>
+    <string name="error_short_certificate_not_trusted">Certificat net vertrauenswierdeg</string>
+    <string name="error_short_certificate_expired">Certificat ass net ofgelaf</string>
+    <string name="error_short_certificate_not_valid_yet">Certificat ass nach net valid</string>
+    <string name="error_short_certificate_revoked">Certificat ass revoquéiert</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL feelgeschloen</string>
+    <string name="error_short_connection_failed">Verbindung feelgeschloen</string>
+    <string name="error_short_http_to_https_port">Mat HTTPS op en HTTP Port verbonnen?</string>
+    <string name="error_short_certificate_wrong_host">Certificat ass net valid fir %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Authentifikatioun ass feelgeschloen (HTTP Code %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Net fonnt (HTTP Code %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL ass ze laang (HTTP Code %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS erfuerderlech (HTTP Code %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Authentifikatioun ass feelgeschloen (HTTP Code %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Et gëtt en SSL Client-Certificat gebraucht (HTTP Code %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Däi Reverse-Proxy huet eng invalid Äntwert vum openHAB Server kritt (HTTP Code %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">Den openHAB Server ass temporär net verfügbar (HTTP Code %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway Time-out (HTTP Code %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Et ass net genuch fräie Späicher um Server (HTTP Code %d)</string>
     <string name="error_openhab_offline">Däin openHAB Server ass Offline, mä d‘ Cloud Instanz leeft</string>
     <string name="error_no_browser_found">Es ass kee Browser op dengem Gerät fonnt ginn</string>
     <string name="error_no_speech_to_text_app_found">Keng Sproocherkennungs App fonnt</string>
@@ -132,6 +166,7 @@
     <string name="title_activity_libraries">Benotzten Librairien</string>
     <string name="info_write_tag">Beréier den Tag an hal en no bäi bis de Bestätegung s Message kennt</string>
     <string name="info_write_tag_progress">Tag gëtt geschriwwen</string>
+    <string name="info_write_tag_finished">Den Tag gouf erfollegräich beschriwwen</string>
     <string name="info_write_failed">Feeler beim schreiwen vum Tag</string>
     <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
     <string name="info_write_tag_disabled">NFC ass ausgeschalt</string>
@@ -141,12 +176,24 @@
     <string name="empty_page">Des Säit huet keng visibel Widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
+    <string name="send_device_info_to_server_short">Apparat-Informatiounen schécken</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
+    <string name="settings_background_tasks_permission_allow">Erlaben</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
     <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
     <string name="notification_channel_background_error">Feeler an den Hannergrond Prozesser</string>
+    <string name="notification_channel_messages_default_severity">Standard</string>
+    <string name="notification_channel_group_messages">Messagen</string>
+    <string name="notification_channel_severity_value">Eescht \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nei Notifikatioun</item>
+        <item quantity="other">%d nei Notifikatiounen</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Net verfügbar well keen Server agestallt ass</string>
+    <string name="push_notification_status_remote_no_cloud">Net verfügbar well den agestallte Server keng openHAB Cloud Instanz ass</string>
+    <string name="push_notification_status">Status</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
@@ -155,8 +202,19 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">Den Item \'%1$s\' konnt net geupdate ginn (Keng Verbindung)</string>
     <string name="item_update_connection_error_label">%1$s Update huet net funktionéiert (keng Verbindung)</string>
+    <string name="item_update_short_status_waiting">Waarden…</string>
+    <string name="item_update_short_status_sending">Schécken…</string>
+    <string name="item_update_short_status_failed">Feelgeschloen</string>
+    <string name="error_no_valid_item_name">Gitt w.e.g. en valabelen Item Numm un</string>
     <string name="retry">Nach emol probéieren</string>
+    <string name="ignore">Ignoréieren</string>
+    <string name="send_device_info_schedule_15_minutes">15 Minutten</string>
+    <string name="send_device_info_schedule_1_hour">1 Stonn</string>
+    <string name="send_device_info_schedule_3_hours">3 Stonnen</string>
+    <string name="send_device_info_schedule_6_hours">6 Stonnen</string>
+    <string name="send_device_info_schedule_12_hours">12 Stonnen</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Apparat-Identifikatioun</string>
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Bis elo goufe keng Notifikatiounen verschéckt</string>
