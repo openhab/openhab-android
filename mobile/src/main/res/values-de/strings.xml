@@ -334,7 +334,6 @@
     <string name="nfc_action_next">Nächste</string>
     <string name="nfc_action_previous">Vorherige</string>
     <string name="nfc_action_rewind">Zurückspulen</string>
-    <string name="nfc_action_fastforward">Schnell vorwärts</string>
     <string name="nfc_action_move">Bewegen</string>
     <string name="nfc_action_stop">Stop</string>
     <string name="nfc_action_open">Geöffnet</string>
