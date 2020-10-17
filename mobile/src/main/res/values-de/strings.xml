@@ -460,6 +460,7 @@
     <string name="item_update_success_message_fastforward">%s wird vorgespult</string>
     <string name="item_update_short_success_message_on">Eingeschaltet</string>
     <string name="item_update_short_success_message_off">Ausgeschaltet</string>
+    <string name="item_update_short_success_message_fastforward">Vorspulen</string>
     <string name="item_update_error_no_connection_retry">Senden des Item-Updates fehlgeschlagen, wiederhole\u2026</string>
     <string name="item_update_error_no_connection">Keine Verbindung</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ konnte nicht abgerufen werden</string>
