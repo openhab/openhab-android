@@ -44,6 +44,7 @@
     <string name="settings_openhab_icon_format">Icon Format</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_image_widget_scaling">Biller un d\' Bildschierm Gréisst upassen</string>
     <string name="settings_chart_scaling">Diagramm Skaléierung</string>
     <string name="settings_chart_scaling_summary">Beuecht: Eng méi kleng Skaléierung mëscht d‘ Schrëft an d‘ Linnen méi kleng, et ass also méi Platz fir den Diagramm, mä d‘ Schrëft kéint manner lieserlech ginn.</string>
     <string name="settings_chart_scaling_value_xs">Ganz kleng</string>
@@ -84,9 +85,12 @@
     <string name="settings_add_server">Server bäifügen</string>
     <string name="settings_edit_server">Server änneren</string>
     <string name="server_with_name">Server %s</string>
+    <string name="settings_server_confirm_deletion">Wëlls de wierklech dësen Server läschen?</string>
     <string name="settings_server_confirm_leave_title">Ongespäichert Ännerungen</string>
+    <string name="settings_server_confirm_leave_message">Du hues Ännerungen gemaach. Wëlls de des späicheren oder ignoréieren?</string>
     <string name="settings_server_primary_title">Hapt Server</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Klick hei fir méi Informatiounen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
     <string name="voice_command">Sproochbefeel</string>
@@ -138,6 +142,7 @@
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB ass offline</string>
     <string name="error_short_http_connection_failed">HTTP Code %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Feeler beim opléisen vum Hostnumm</string>
     <string name="error_short_unknown">Onbekannte Feeler: %s</string>
     <string name="error_short_certificate_not_trusted">Certificat net vertrauenswierdeg</string>
     <string name="error_short_certificate_expired">Certificat ass net ofgelaf</string>
@@ -158,9 +163,11 @@
     <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">Den openHAB Server ass temporär net verfügbar (HTTP Code %d)</string>
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway Time-out (HTTP Code %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Et ass net genuch fräie Späicher um Server (HTTP Code %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Netzwierk-Authentifizéierung erfuerderlech (HTTP Äntwert Code %d)</string>
     <string name="error_openhab_offline">Däin openHAB Server ass Offline, mä d‘ Cloud Instanz leeft</string>
     <string name="error_no_browser_found">Es ass kee Browser op dengem Gerät fonnt ginn</string>
     <string name="error_no_speech_to_text_app_found">Keng Sproocherkennungs App fonnt</string>
+    <string name="error_video_player">%s kann net geluede ginn</string>
     <string name="install">Installéieren</string>
     <string name="title_activity_openhabwritetag">NFC-Tag schreiwen</string>
     <string name="title_activity_libraries">Benotzten Librairien</string>
@@ -177,7 +184,12 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
     <string name="send_device_info_to_server_short">Apparat-Informatiounen schécken</string>
+    <string name="send_device_info_category_event_based_title">Evenement baséiert</string>
+    <string name="send_device_info_category_event_based_explanation">Des Items ginn baséierend op Evenementer geupdate, z.B. en neien Uruff</string>
+    <string name="send_device_info_category_schedule_based_title">Baséierend op engem Zäitplang</string>
+    <string name="send_device_info_foreground_service_title">Iwwerwaachung vun Evenementer</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
+    <string name="settings_alarm_clock">Erwächzäit</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
     <string name="settings_battery_level">Akkuniveau</string>
     <string name="settings_wifi_ssid">Wi-Fi Numm</string>
