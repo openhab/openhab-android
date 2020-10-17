@@ -404,12 +404,22 @@
     <string name="item_update_short_success_message_move">Fänkt un sech ze beweegen</string>
     <string name="item_update_short_success_message_stop">Gestoppt</string>
     <string name="item_update_short_success_message_increase">Eropgesat</string>
+    <string name="item_update_short_success_message_decrease">Erofgesat</string>
+    <string name="item_update_short_success_message_undefined">Op ondefinéiert setzen</string>
+    <string name="item_update_short_success_message_empty_string">Op eidelen Text setzen</string>
+    <string name="item_update_short_success_message_play">Gett ofgespillt</string>
+    <string name="item_update_short_success_message_pause">Gepaust</string>
+    <string name="item_update_short_success_message_next">Weist den nächsten Titel un</string>
+    <string name="item_update_short_success_message_previous">Weist den viregten Titel un</string>
+    <string name="item_update_short_success_message_rewind">Spullt zeréck</string>
+    <string name="item_update_short_success_message_fastforward">Spullt schnell no fir</string>
     <string name="item_update_error_no_connection_retry">Feeler beim schécken vum Item Update, probéieren weider\u2026</string>
     <string name="item_update_error_no_connection">Keng Connectioun</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ net fonnt</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
     <string name="item_update_widget_widget_label">Widget Label</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="widget_type_image">Bild</string>
     <string name="widget_type_webview">WebView</string>
@@ -448,5 +458,25 @@
     <string name="tile_icon_earth">Äerd</string>
     <string name="tile_icon_chat">Sproochblosen</string>
     <string name="tile_icon_house">Haus</string>
+    <string name="tile_icon_dashboard">Dashboard</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Schëld</string>
+    <string name="tile_icon_man">Mann</string>
+    <string name="tile_icon_bed">Bett</string>
+    <string name="tile_icon_child">Kand</string>
+    <string name="tile_icon_baby">Puppelchen</string>
+    <string name="tile_icon_settings">Zännrad</string>
+    <string name="tile_icon_bath">Buedzëmmer</string>
+    <string name="tile_icon_woman">Fra</string>
+    <string name="tile_icon_roller_shutter">Rolllued</string>
+    <string name="tile_icon_camera">Kamera</string>
+    <string name="tile_icon_light_switch">Luuchte Schalter</string>
+    <string name="tile_icon_garage">Garage</string>
+    <string name="tile_icon_switch">Schalter</string>
+    <string name="tile_icon_sofa">Canapé</string>
+    <string name="tile_icon_lamp_ceiling">Plaffong \'s Luucht</string>
+    <string name="tile_icon_lamp_floor">Stéiluucht</string>
+    <string name="tile_icon_lamp_bedside">Nuetsdësch Luucht</string>
+    <string name="tile_icon_lamp_outdoor">Bausseluucht</string>
     <!-- Tile icon values -->
 </resources>
