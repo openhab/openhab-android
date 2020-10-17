@@ -190,13 +190,30 @@
     <string name="send_device_info_foreground_service_title">Iwwerwaachung vun Evenementer</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_alarm_clock">Erwächzäit</string>
+    <string name="settings_alarm_clock_summary_on">Erwächzäit un den Item \'%1$s\' schécken</string>
+    <string name="settings_alarm_clock_summary_off">Erwächzäit net schécken</string>
+    <string name="settings_phone_state">Uruff Status</string>
+    <string name="settings_phone_state_summary_on">Schéckt den Uruffstatus un den Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Uruffstatus net schécken</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
     <string name="settings_battery_level">Akkuniveau</string>
+    <string name="settings_battery_level_summary_on">Schéckt den Akkustatus un den Item %1$s</string>
+    <string name="settings_battery_level_summary_off">Akkustatus net schécken</string>
+    <string name="settings_charging_state">Akkustatus</string>
+    <string name="settings_charging_state_summary_on">Schéckt den Akkustatus un den Item %1$s</string>
+    <string name="settings_charging_state_summary_off">Akkustatus net schécken</string>
     <string name="settings_wifi_ssid">Wi-Fi Numm</string>
+    <string name="settings_wifi_ssid_summary_on">Schéckt den Wi-Fi Numm (SSID) un den Item %1$s</string>
+    <string name="settings_wifi_ssid_summary_off">Wi-Fi Numm net schécken (SSID)</string>
+    <string name="settings_wifi_ssid_permission_denied">D‘ Schécken vum Wi-Fi Numm ass ausgeschalt wéinst feelende Permissiounen</string>
+    <string name="settings_dnd_mode">Net-Steieren Modus</string>
+    <string name="settings_dnd_mode_summary_on">Schéckt den Net-Steieren Modus un den Item %1$s</string>
+    <string name="settings_dnd_mode_summary_off">Net-Steieren Modus net schécken</string>
     <string name="settings_background_tasks_permission_allow">Erlaben</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
     <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
+    <string name="notification_channel_background">Hannergrond Aufgaben</string>
     <string name="notification_channel_background_error">Feeler an den Hannergrond Prozesser</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_group_messages">Messagen</string>
@@ -208,6 +225,7 @@
     <string name="push_notification_status_no_remote_configured">Net verfügbar well keen Server agestallt ass</string>
     <string name="push_notification_status_remote_no_cloud">Net verfügbar well den agestallte Server keng openHAB Cloud Instanz ass</string>
     <string name="push_notification_status">Status</string>
+    <string name="push_notification_help_icon_description">Klick hei fir Hëllef ze kreien</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
@@ -222,6 +240,8 @@
     <string name="error_no_valid_item_name">Gitt w.e.g. en valabelen Item Numm un</string>
     <string name="retry">Nach emol probéieren</string>
     <string name="ignore">Ignoréieren</string>
+    <string name="send_device_info_schedule">Zäitplang</string>
+    <string name="send_device_info_schedule_summary">All 15 Minutten wärend dem lueden, soss all %s</string>
     <string name="send_device_info_schedule_15_minutes">15 Minutten</string>
     <string name="send_device_info_schedule_1_hour">1 Stonn</string>
     <string name="send_device_info_schedule_3_hours">3 Stonnen</string>
@@ -374,6 +394,7 @@
     <string name="item_picker_dialog_title">Aktioun auswielen</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
     <string name="item_picker_tasker_variable">Tasker Variabel \"%s\"</string>
     <string name="item_picker_item_update">Aktualiséierung</string>
     <string name="item_picker_item_command">Kommando</string>
@@ -433,6 +454,11 @@
     <string name="item_update_widget_widget_label">Widget Label</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="data_saver_title">Datespuermodus</string>
+    <string name="data_saver_off_pre_n">All Sitemap Elementer gi gelueden, onofhängeg vun hirer Datenotzung</string>
+    <string name="data_saver_load">Trotzdeem lueden</string>
+    <string name="data_saver_hint">%s ass net gelueden ginn fir Daten ze spueren</string>
+    <string name="data_saver_snackbar">Icons sinn net baséiert op Item Statussen, well den Datespuermodus aktiv ass</string>
     <string name="widget_type_image">Bild</string>
     <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Video</string>
@@ -440,12 +466,21 @@
     <string name="widget_type_chart">Diagramm</string>
     <!-- Tiles -->
     <string name="tile">Block</string>
+    <string name="tiles_for_quick_settings">Bléck fir schnell Astellungen</string>
     <string name="tile_item_picker_title">Item auswielen</string>
+    <string name="tile_error_saving">Fell w.e.g. all Astellungen aus</string>
     <string name="tile_disabled">Ausgeschalt</string>
     <string name="tile_enable">Umaachen</string>
     <string name="item_item_and_action">Item an Aktioun</string>
     <string name="tile_name">Numm</string>
     <string name="tile_icon">Icon</string>
+    <string name="tile_require_unlock">Bildschierm muss entspaart sinn</string>
+    <string name="tile_require_unlock_summary_on">Froen fir den Bildschierm ze entspären fir dass Items kennen modifizéiert ginn</string>
+    <string name="tile_require_unlock_summary_off">Änneren vun Items erlaben wann d\' Gerät gespaart ass</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktive Block</item>
+        <item quantity="other">%d aktiv Bléck</item>
+    </plurals>
     <string name="tile_number">Block %d</string>
     <string name="tile_label_1">Block 1</string>
     <string name="tile_label_2">Block 2</string>
@@ -467,9 +502,21 @@
     <string name="tile_icon_clock">Auer</string>
     <string name="tile_icon_alarm_clock">Wecker</string>
     <string name="tile_icon_bell">Klack</string>
+    <string name="tile_icon_cloud_upload">Cloud Upload</string>
     <string name="tile_icon_earth">Äerd</string>
     <string name="tile_icon_chat">Sproochblosen</string>
     <string name="tile_icon_house">Haus</string>
+    <string name="tile_icon_lock">Spären</string>
+    <string name="tile_icon_microphone">Mikro</string>
+    <string name="tile_icon_color_palette">Faarfpalett</string>
+    <string name="tile_icon_people">Leit</string>
+    <string name="tile_icon_person">Persoun</string>
+    <string name="tile_icon_phone">Telefon</string>
+    <string name="tile_icon_power_plug">Stroumuschloss</string>
+    <string name="tile_icon_battery">Akku</string>
+    <string name="tile_icon_magnifier">Lupp</string>
+    <string name="tile_icon_star">Stär</string>
+    <string name="tile_icon_tree">Bam</string>
     <string name="tile_icon_dashboard">Dashboard</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Schëld</string>
