@@ -179,6 +179,8 @@
     <string name="send_device_info_to_server_short">Apparat-Informatiounen schécken</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
+    <string name="settings_battery_level">Akkuniveau</string>
+    <string name="settings_wifi_ssid">Wi-Fi Numm</string>
     <string name="settings_background_tasks_permission_allow">Erlaben</string>
     <string name="settings_item_pref_item_name">Item Numm</string>
     <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
@@ -237,7 +239,12 @@
     <string name="theme_name_dark">Däischter</string>
     <string name="theme_name_system">System no goen</string>
     <string name="theme_name_battery_saver">Donkele Modus am Energiespuermodus</string>
+    <string name="theme_name_black">Schwaarz</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Diagramm</string>
+    <string name="chart_activity_hide_legend">Legend verstoppen</string>
+    <string name="chart_activity_show_legend">Legend uweisen</string>
+    <string name="chart_activity_period">Zäitraum</string>
     <string name="chart_activity_period_1_hour">1 Stonn</string>
     <string name="chart_activity_period_4_hour">4 Stonnen</string>
     <string name="chart_activity_period_8_hour">8 Stonnen</string>
@@ -370,6 +377,7 @@
     <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
     <string name="item_update_widget_content_description_edit">Wdiet editéieren</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Item auswielen</string>
     <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
     <string name="item_update_success_message_on">%s ass ageschalt ginn</string>
@@ -388,6 +396,14 @@
     <string name="item_update_success_message_previous">%s weist den viregten Titel</string>
     <string name="item_update_success_message_rewind">%s spullt zeréck</string>
     <string name="item_update_success_message_fastforward">%s spullt no fir</string>
+    <string name="item_update_short_success_message_generic">Op %s setzen</string>
+    <string name="item_update_short_success_message_on">Ageschalt</string>
+    <string name="item_update_short_success_message_off">Ausgeschalt</string>
+    <string name="item_update_short_success_message_up">Fänkt un erop ze goen</string>
+    <string name="item_update_short_success_message_down">Fänkt un erof ze goen</string>
+    <string name="item_update_short_success_message_move">Fänkt un sech ze beweegen</string>
+    <string name="item_update_short_success_message_stop">Gestoppt</string>
+    <string name="item_update_short_success_message_increase">Eropgesat</string>
     <string name="item_update_error_no_connection_retry">Feeler beim schécken vum Item Update, probéieren weider\u2026</string>
     <string name="item_update_error_no_connection">Keng Connectioun</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ net fonnt</string>
