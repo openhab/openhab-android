@@ -574,8 +574,28 @@ class WidgetAdapter(
                 slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
                 slider.valueFrom = widget.minValue
                 slider.stepSize = widget.step
-                slider.value = item?.state?.asNumber?.value?.coerceIn(slider.valueFrom, slider.valueTo)
-                    ?: slider.valueFrom
+                val widgetValue = item?.state?.asNumber?.value ?: slider.valueFrom
+
+                // Fix "Value must be equal to valueFrom plus a multiple of stepSize when using stepSize"
+                val stepCount = (abs(slider.valueTo - slider.valueFrom) / slider.stepSize).toInt()
+                var closetValue = slider.valueFrom
+                var closestDelta = Float.MAX_VALUE
+                (0..stepCount).map { index ->
+                    val stepValue = slider.valueFrom + index * slider.stepSize
+                    if (abs(widgetValue - stepValue) < closestDelta) {
+                        closetValue = stepValue
+                        closestDelta = abs(widgetValue - stepValue)
+                    }
+                }
+
+                Log.d(
+                    TAG,
+                    "Slider: valueFrom = ${slider.valueFrom}, valueTo = ${slider.valueTo}, " +
+                        "stepSize = ${slider.stepSize}, stepCount = $stepCount, widgetValue = $widgetValue, " +
+                        "closetValue = $closetValue, closestDelta = $closestDelta"
+                )
+
+                slider.value = closetValue
             }
         }
 
@@ -864,7 +884,7 @@ class WidgetAdapter(
             val stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
             val stepCount = (abs(widget.maxValue - widget.minValue) / stepSize).toInt()
             var closestIndex = 0
-            var closestDelta = java.lang.Float.MAX_VALUE
+            var closestDelta = Float.MAX_VALUE
 
             val stepValues: List<ParsedState.NumberState> = (0..stepCount).map { index ->
                 val stepValue = widget.minValue + index * stepSize
