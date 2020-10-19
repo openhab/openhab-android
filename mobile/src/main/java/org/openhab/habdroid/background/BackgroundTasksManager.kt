@@ -32,6 +32,7 @@ import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.telephony.TelephonyManager
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.content.edit
 import androidx.core.location.LocationManagerCompat
 import androidx.core.os.bundleOf
@@ -632,6 +633,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
                 ItemUpdateWorker.ValueWithInfo(ssidToSend)
             }
+            @RequiresApi(Build.VERSION_CODES.M)
             VALUE_GETTER_MAP[PrefKeys.SEND_DND_MODE] = { context ->
                 val nm = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 val mode = when (nm.currentInterruptionFilter) {
