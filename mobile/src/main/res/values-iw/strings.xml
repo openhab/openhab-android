@@ -92,10 +92,7 @@
     <string name="settings_server_confirm_leave_title">שינויים שלא נשמרו</string>
     <string name="settings_server_confirm_leave_message">קיימים שינויים שלא נשמרו. האם ברצונך לשמור או למחוק אותם?</string>
     <string name="settings_server_primary_title">שרת ראשי</string>
-    <string name="settings_server_primary_summary_is_primary">שרת זה הוא הראשי.\n נכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
-    <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_default_name">openHAB %d</string>
-    <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="voice_command">פקודה קולית</string>
@@ -184,7 +181,6 @@
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
     <string name="info_write_tag_disabled">NFC מושבת</string>
     <string name="action_settings">הגדרות</string>
-    <string name="nfc_info_hint">עדכוני פריטים יכולים להיכתב לתגי NFC. באפשרותך לבחור פריט כאן או ע״י לחיצה ארוכה על הפריט בתצוגת Sitemap.</string>
     <string name="info_not_set">לא מוגדר</string>
     <string name="empty_page">דף זה אינו מכיל יישומונים המוגדרים כגלויים</string>
     <!-- Background tasks -->
@@ -251,7 +247,6 @@
     <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
     <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
     <string name="push_notification_status">מצב</string>
-    <string name="push_notification_help_icon_description">לחץ לעזרה</string>
     <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
@@ -497,7 +492,6 @@
     <string name="tile_require_unlock">דרוש ביטול נעילת מסך</string>
     <string name="tile_require_unlock_summary_on">בקש ביטול נעילת מכשיר לפני אפשור עדכון פריטים</string>
     <string name="tile_require_unlock_summary_off">אפשר עדכון פריטים גם כאשר המכשיר נעול</string>
-    <string name="tile_overview_hint">מצב האריח אינו משקף את מצב הפריט.\nאם יש בעיות שאריחים לא מתעדכנים אחרי שינוי כאן, לחץ על האריח או ערוך את ההגדרות המהירות במכשיר שלך (התפריט העליון במכשיר המכיל שליטה מהירה על Wi-Fi ו- Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">אריח פעיל %d</item>
         <item quantity="two">%d אריחים פעילים</item>
