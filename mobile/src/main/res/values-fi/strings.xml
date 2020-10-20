@@ -164,7 +164,6 @@
     <string name="info_write_tag_unsupported">Tämä laite ei tue NFC:tä</string>
     <string name="info_write_tag_disabled">NFC on poistettu käytöstä</string>
     <string name="action_settings">Asetukset</string>
-    <string name="nfc_info_hint">Item päivitykset voi kirjoittaa NFC tunnisteeseen. Voit valita Itemin täällä tai pitkään painamalla Sitemapissa.</string>
     <string name="info_not_set">Ei määritetty</string>
     <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Background tasks -->
@@ -229,7 +228,6 @@
     <string name="push_notification_status_http_error">Ei saatavilla, virhe yhdistettäessä etäpalvelimelle: %s</string>
     <string name="push_notification_status_remote_no_cloud">Ei saatavilla, etäpalvelin ei vastaa openHAB pilveä</string>
     <string name="push_notification_status">Tila</string>
-    <string name="push_notification_help_icon_description">Klikkaa tästä saadaksesi apua</string>
     <string name="push_notification_hint">Ilmoitukset kysellään säännöllisen aikataulun mukaan, samalla lailla kuin \"Lähetä laitteen tiedot palvelimelle\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
@@ -471,7 +469,6 @@
     <string name="tile_require_unlock">Näytön lukitus oltava avattu</string>
     <string name="tile_require_unlock_summary_on">Kysy laitteen lukituksen poistamisesta ennen kuin Itemien päivitys sallitaan</string>
     <string name="tile_require_unlock_summary_off">Salli Itemien päivitykset vaikka laite on lukittu</string>
-    <string name="tile_overview_hint">Laatan tila ei vastaa Itemin tilaa.\nJos sinulla on ongelmia laattojen päivittymisessä niiden muuttamisen jälkeen täällä, klikkaa laattaa tai muokkaa laitteesi pika-asetuksia (paikka, jossa on esimerkiksi napit Wi-Fi ja Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktiivinen laatta</item>
         <item quantity="other">%d aktiivista laattaa</item>
