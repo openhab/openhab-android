@@ -162,7 +162,6 @@
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
     <string name="action_settings">Beállítások</string>
-    <string name="nfc_info_hint">Elem frissítés kiírható NFC címkére. Kiválaszthatja az elemet, vagy hosszan koppintva a widget-en a kijelzőn.</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
@@ -212,7 +211,6 @@
     <string name="push_notification_status_http_error">Nem elérhető, hiba a távoli szerver csatlakozásakor: %s</string>
     <string name="push_notification_status_remote_no_cloud">Nem érhető el, a távoli kiszolgáló nem openHAB-cloud kiszolgáló</string>
     <string name="push_notification_status">Állapot</string>
-    <string name="push_notification_help_icon_description">Kattints ide a segítséghez</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>
