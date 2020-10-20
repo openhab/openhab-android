@@ -345,6 +345,7 @@
     <string name="no_remote_server">Kapcsolódás a helyi szerverhez nem sikerült, és a távoli kiszolgáló nem konfigurált</string>
     <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
     <string name="waiting_for_wifi">Várakozás a Wi-Fi kapcsolat\u2026 létrehozására</string>
+    <string name="visit_status_openhab_org">status.openhab.org megtekintése</string>
     <!-- Log -->
     <string name="log">Napló</string>
     <string name="view_log">Napló megtekintése</string>
@@ -440,6 +441,10 @@
     <string name="item_update_short_success_message_empty_string">Beállítás üres szövegre</string>
     <string name="item_update_short_success_message_play">Lejátszás</string>
     <string name="item_update_short_success_message_pause">Szüneteltetve</string>
+    <string name="item_update_short_success_message_next">Következő cím megjelenítése</string>
+    <string name="item_update_short_success_message_previous">Előző cím megjelenítése</string>
+    <string name="item_update_short_success_message_rewind">Visszapörgetés</string>
+    <string name="item_update_short_success_message_fastforward">Gyors előretekerés</string>
     <string name="item_update_error_no_connection_retry">Hiba az elem frissítésekor, újrapróbálkozás\u2026</string>
     <string name="item_update_error_no_connection">Nincs kapcsolat</string>
     <string name="item_update_error_couldnt_get_item_type">Nem megállapítható az elem típusa</string>
@@ -456,6 +461,8 @@
     <string name="widget_type_mapview">Térkép</string>
     <string name="widget_type_chart">Grafikon</string>
     <!-- Tiles -->
+    <string name="tile">Csempe</string>
+    <string name="tiles_for_quick_settings">Csempék a gyors beállításokhoz</string>
     <string name="tile_item_picker_title">Elem kiválasztása</string>
     <string name="tile_error_saving">Kérlek, tölts ki minden beállítást</string>
     <string name="tile_disabled">Kikapcsolás</string>
@@ -464,6 +471,23 @@
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
     <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktív csempe</item>
+        <item quantity="other">%d aktív csempék</item>
+    </plurals>
+    <string name="tile_number">%d. csempe</string>
+    <string name="tile_label_1">1-es csempe</string>
+    <string name="tile_label_2">2-es csempe</string>
+    <string name="tile_label_3">3-as csempe</string>
+    <string name="tile_label_4">4-es csempe</string>
+    <string name="tile_label_5">5-ös csempe</string>
+    <string name="tile_label_6">6-os csempe</string>
+    <string name="tile_label_7">7-es csempe</string>
+    <string name="tile_label_8">8-as csempe</string>
+    <string name="tile_label_9">9-es csempe</string>
+    <string name="tile_label_10">10-es csempe</string>
+    <string name="tile_label_11">11-es csempe</string>
+    <string name="tile_label_12">12-as csempe</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB Ikon</string>
     <string name="tile_icon_tv">TV</string>
@@ -474,6 +498,7 @@
     <string name="tile_icon_bell">Csengő</string>
     <string name="tile_icon_cloud_upload">Felhő feltöltés</string>
     <string name="tile_icon_earth">Föld</string>
+    <string name="tile_icon_chat">Beszéd gomb</string>
     <string name="tile_icon_house">Ház</string>
     <string name="tile_icon_lock">Zár</string>
     <string name="tile_icon_microphone">Mikrofon</string>
@@ -501,5 +526,10 @@
     <string name="tile_icon_light_switch">Villany kapcsoló</string>
     <string name="tile_icon_garage">Garázs</string>
     <string name="tile_icon_switch">Kapcsoló</string>
+    <string name="tile_icon_sofa">Kanapé</string>
+    <string name="tile_icon_lamp_ceiling">Mennyezeti lámpa</string>
+    <string name="tile_icon_lamp_floor">Állólámpa</string>
+    <string name="tile_icon_lamp_bedside">Éjjeli lámpa</string>
+    <string name="tile_icon_lamp_outdoor">Kültéri lámpa</string>
     <!-- Tile icon values -->
 </resources>
