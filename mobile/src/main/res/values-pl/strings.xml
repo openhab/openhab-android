@@ -155,7 +155,6 @@
     <string name="info_write_tag_unsupported">To urządzenie nie wspiera technologii NFC</string>
     <string name="info_write_tag_disabled">Komunikacja NFC jest wyłączona</string>
     <string name="action_settings">Ustawienia</string>
-    <string name="nfc_info_hint">Zmiany Itemu mogą być zapisane do tagu NFC. Item możesz wybrać tutaj lub przytrzymać widżet w Sitemapie.</string>
     <string name="info_not_set">Nie ustawiono</string>
     <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Background tasks -->
