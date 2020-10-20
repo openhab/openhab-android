@@ -66,6 +66,7 @@
     <string name="settings_notification_vibration_short">Rövid</string>
     <string name="settings_notification_vibration_long">Hosszú</string>
     <string name="settings_notification_vibration_twice">Kétszer</string>
+    <string name="settings_notification_ringtone_vibration">Csengőhang &amp; rezgés</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <string name="beta">Béta</string>
@@ -84,6 +85,7 @@
     <string name="settings_add_server">Szerver hozzáadása</string>
     <string name="settings_edit_server">Szerver szerkesztése</string>
     <string name="server_with_name">Szerver %s</string>
+    <string name="settings_server_confirm_deletion">Biztosan eltávolítja ezt a kiszolgálót?</string>
     <string name="settings_server_confirm_leave_title">Nem mentett módosítások</string>
     <string name="settings_server_primary_title">Elsődleges szerver</string>
     <string name="settings_server_default_name">openHAB %d</string>
@@ -184,6 +186,7 @@
     <string name="send_device_info_category_schedule_based_title">Ütemezés alapú</string>
     <string name="send_device_info_foreground_service_title">Eseményfigyelő</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
+    <string name="item_update_summary_success">Utolsó frissítés \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Ébresztési idő</string>
     <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_alarm_clock_summary_off">Ne küldje el az ébresztőidőt</string>
@@ -215,8 +218,10 @@
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
+    <string name="notification_channel_messages_default_severity_description">A szerver által küldött értesítés nincs priorizálva</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
     <string name="notification_channel_severity_value">Súlyossága \"%1$s\"</string>
+    <string name="notification_channel_severity_value_description">A szerver által küldött értesítés fontossága \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d új értesítés</item>
         <item quantity="other">%d új értesítések</item>
@@ -359,6 +364,7 @@
     <string name="home_shortcut_pin_to_home">Kitűzés a kezdőképernyőre</string>
     <string name="home_shortcut_error_pinning">Hiba a kezdőképernyőre kitűzésekor</string>
     <string name="home_shortcut_success_pinning">Kezdőképernyőre kitűzve</string>
+    <string name="home_shortcut_server_has_been_deleted">A kiszolgáló ehhez az ikonhoz törölve lett</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Redőny nyitása</string>
     <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
@@ -382,6 +388,7 @@
     <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával összeköthető egy NFC címkékhez</string>
+    <string name="intro_send_device_info">Eszközadatok küldése a kiszolgálónak</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Kihagyás</string>
     <!-- Intro "DONE" button -->
