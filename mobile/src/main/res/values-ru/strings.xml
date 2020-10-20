@@ -167,7 +167,6 @@
     <string name="info_write_tag_unsupported">Это устройство не поддерживает NFC</string>
     <string name="info_write_tag_disabled">NFC отключен</string>
     <string name="action_settings">Настройки</string>
-    <string name="nfc_info_hint">Обновления Item можно записать на NFC метку. Выберите Item тут или на Sitemap долгим нажатием на виджет.</string>
     <string name="info_not_set">Не задано</string>
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Background tasks -->
@@ -234,7 +233,6 @@
     <string name="push_notification_status_http_error">Недоступно, ошибка подключения к удаленному серверу: %s</string>
     <string name="push_notification_status_remote_no_cloud">Недоступно. Удаленный сервер не облачный openHAB сервер</string>
     <string name="push_notification_status">Статус</string>
-    <string name="push_notification_help_icon_description">Нажмите здесь для помощи</string>
     <string name="push_notification_hint">Уведомления проверяются по регулярному расписанию, такому же как и в \"Посылать информацию об устройстве на сервер\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item не может быть обновлен</item>
@@ -478,7 +476,6 @@
     <string name="tile_require_unlock">Требует чтобы экран был разблокирован</string>
     <string name="tile_require_unlock_summary_on">Запрос на разблокировку устройства перед обновлением Item</string>
     <string name="tile_require_unlock_summary_off">Разрешить обновление Items, даже если устройство заблокировано</string>
-    <string name="tile_overview_hint">Состояние плитки не отражает состояние Item.\nЕсли у вас есть проблемы с плитками, которые не обновляются после изменения их здесь, нажмите на плитку или отредактируйте быстрые настройки вашего устройства (место, которое содержит переключатели как пример Wi-Fi и Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d активная плитка</item>
         <item quantity="few">%d активных плиток</item>
