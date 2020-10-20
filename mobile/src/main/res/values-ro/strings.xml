@@ -118,7 +118,6 @@
     <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
     <string name="info_write_tag_disabled">Serviciul NFC este dezactivat</string>
     <string name="action_settings">Setări</string>
-    <string name="nfc_info_hint">Comanda unui Item pot fi scrise pe etichete NFC. Puteți selecta un Item aici sau puteți să faceți clic lung pe un widget din Sitemap.</string>
     <string name="info_not_set">Nu este setat</string>
     <string name="empty_page">Această pagină nu conţine widget-uri setate ca vizibile</string>
     <!-- Background tasks -->
