@@ -92,10 +92,7 @@
     <string name="settings_server_confirm_leave_title">Ongespäichert Ännerungen</string>
     <string name="settings_server_confirm_leave_message">Du hues Ännerungen gemaach. Wëlls de des späicheren oder ignoréieren?</string>
     <string name="settings_server_primary_title">Hapt Server</string>
-    <string name="settings_server_primary_summary_is_primary">Dësen ass den Hapt Server.\nMomentan ass nëmmen den Hapt Server ënnerstëtzt. Klick op den Hëllef Knäppchen fir méi Informatiounen.</string>
-    <string name="settings_server_primary_summary_is_not_primary">\"%s\" ass den Hapt Server. Klick fir dësen als Hapt Server ze wielen.\nMomentan ass nëmmen den Hapt Server ënnerstëtzt. Klick op den Hëllef Knäppchen fir méi Informatiounen.</string>
     <string name="settings_server_default_name">openHAB %d</string>
-    <string name="click_here_for_more_information">Klick hei fir méi Informatiounen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
     <string name="voice_command">Sproochbefeel</string>
@@ -183,7 +180,6 @@
     <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
     <string name="info_write_tag_disabled">NFC ass ausgeschalt</string>
     <string name="action_settings">Astellungen</string>
-    <string name="nfc_info_hint">Item Updates kennen op NFC Tags geschriwwe ginn. Du kanns en Item hei auswielen oder duerch laang-Klicken op der Sitemap.</string>
     <string name="info_not_set">Net gesat</string>
     <string name="empty_page">Des Säit huet keng visibel Widgets</string>
     <!-- Background tasks -->
@@ -230,7 +226,6 @@
     <string name="push_notification_status_no_remote_configured">Net verfügbar well keen Server agestallt ass</string>
     <string name="push_notification_status_remote_no_cloud">Net verfügbar well den agestallte Server keng openHAB Cloud Instanz ass</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_help_icon_description">Klick hei fir Hëllef ze kreien</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
