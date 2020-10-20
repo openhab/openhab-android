@@ -260,6 +260,9 @@
     <string name="item_update_http_error_label">עדכון %1$s נכשל: %2$s</string>
     <string name="item_update_connection_error">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="item_update_connection_error_label">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
+    <string name="item_update_short_status_waiting">ממתין…</string>
+    <string name="item_update_short_status_sending">שולח…</string>
+    <string name="item_update_short_status_failed">נכשל</string>
     <string name="error_no_valid_item_name">אנא הכנס שם פריט חוקי</string>
     <string name="retry">נסה שנית</string>
     <string name="ignore">התעלם</string>
