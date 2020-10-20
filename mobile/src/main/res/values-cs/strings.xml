@@ -164,7 +164,6 @@
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
     <string name="action_settings">Nastavení</string>
-    <string name="nfc_info_hint">Aktualizace Item lze zapsat na NFC tagy. Item můžete vybrat zde, nebo můžete dlouze kliknout na widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
@@ -231,7 +230,6 @@
     <string name="push_notification_status_http_error">Nedostupné, chyba při připojování ke vzdálenému serveru: %s</string>
     <string name="push_notification_status_remote_no_cloud">Nedostupné, vzdálený server není openHAB cloud</string>
     <string name="push_notification_status">Stav</string>
-    <string name="push_notification_help_icon_description">Klikni pro nápovědu</string>
     <string name="push_notification_hint">Oznámení jsou stahována v pravidelném intervalu, který je stejný jako pro \"Odeslat informace o zařízení na server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item nemohla být aktualizována</item>
@@ -475,7 +473,6 @@
     <string name="tile_require_unlock">Vyžadovat odemknutí obrazovky</string>
     <string name="tile_require_unlock_summary_on">Vyzvat k odemknutí zařízení před povolením aktualizace Item</string>
     <string name="tile_require_unlock_summary_off">Povolit aktualizaci Item i v případě, že je zařízení uzamčeno</string>
-    <string name="tile_overview_hint">Stav dlaždice neodráží stav Item.\nPokud máte problémy s tím, že dlaždice nejsou aktualizovány po jejich změně zde, klikněte na dlaždici nebo upravte rychlé nastavení zařízení (místo, kde jsou přepínače např. pro Wi-Fi a Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktivní dlaždice</item>
         <item quantity="few">%d aktivní dlaždice</item>
