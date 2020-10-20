@@ -92,7 +92,9 @@
     <string name="settings_server_confirm_leave_message">Sie haben Änderungen vorgenommen. Möchten Sie sie speichern oder verwerfen?</string>
     <string name="settings_server_primary_title">Primärer Server</string>
     <string name="settings_server_primary_summary_is_primary">Dieser Server ist der primäre Server.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" ist der primäre Server. Hier berühren, um diesen Server zum primären zu machen.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Hier berühren für mehr Informationen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
@@ -507,6 +509,7 @@
     <string name="tile_require_unlock">Bildschirm-Entsperrung erfordern</string>
     <string name="tile_require_unlock_summary_on">Vor der Aktualisierung von Items zum Entsperren auffordern</string>
     <string name="tile_require_unlock_summary_off">Aktualisierung von Items bei gesperrtem Gerät erlauben</string>
+    <string name="tile_overview_hint">Der Zustand der Kachel reflektiert nicht den Zustand des Items.\nWenn Sie Probleme mit Kacheln haben, die nach der Änderung hier nicht aktualisiert werden, berühren Sie die Kachel oder bearbeiten Sie die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. WLAN und Bluetooth sind).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktive Kachel</item>
         <item quantity="other">%d aktive Kacheln</item>
