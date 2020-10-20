@@ -92,7 +92,10 @@
     <string name="settings_server_confirm_leave_title">Modifiche non salvate</string>
     <string name="settings_server_confirm_leave_message">Hai apportato alcune modifiche. Vuoi salvarle o eliminarle?</string>
     <string name="settings_server_primary_title">Server primario</string>
+    <string name="settings_server_primary_summary_is_primary">Questo è il server primario.\nAttualmente solo il server primario è supportato da tutte le funzionalità di questa app. Tocca il pulsante di aiuto per ulteriori informazioni.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" è il server primario. Tocca per rendere questo server quello primario.\nAttualmente solo il server primario è supportato da tutte le funzionalità di questa app. Tocca il pulsante di aiuto per ulteriori informazioni.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Tocca qui per maggiori informazioni</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="voice_command">Comando vocale</string>
@@ -181,6 +184,7 @@
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
     <string name="info_write_tag_disabled">NFC è disabilitato</string>
     <string name="action_settings">Impostazioni</string>
+    <string name="nfc_info_hint">Gli aggiornamenti degli Item possono essere scritti su tag NFC. Puoi selezionare un Item qui o puoi premere a lungo un widget sulla Sitemap.</string>
     <string name="info_not_set">Non impostato</string>
     <string name="empty_page">Questa pagina non contiene tutti i widget impostati per essere visibili</string>
     <!-- Background tasks -->
@@ -515,6 +519,7 @@
     <string name="tile_require_unlock">Richiede che lo schermo sia sbloccato</string>
     <string name="tile_require_unlock_summary_on">Avverte per sbloccare il dispositivo prima di consentire gli aggiornamenti degli Items</string>
     <string name="tile_require_unlock_summary_off">Consenti l\'aggiornamento degli Items anche se il dispositivo è bloccato</string>
+    <string name="tile_overview_hint">Lo stato della tile non riflette lo stato dell\'Item.\nSe hai problemi con i tile non aggiornati dopo averli cambiati qui, tocca il tile o modifica le impostazioni rapide del dispositivo (il luogo che contiene gli interruttori per es. Wi-Fi e Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d Tile attivo</item>
         <item quantity="other">%d Tile attivi</item>
