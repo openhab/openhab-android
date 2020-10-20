@@ -5,11 +5,15 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Beállítások</string>
     <string name="save">Mentés</string>
+    <string name="discard">Elvet</string>
+    <string name="delete">Töröl</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Értesítések</string>
+    <string name="app_notifications_on_server">Értesítések (%s)</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
