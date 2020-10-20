@@ -107,11 +107,11 @@
     <string name="settings_server_confirm_leave_title">Unsaved changes</string>
     <string name="settings_server_confirm_leave_message">You made some changes. Do you want to save or discard them?</string>
     <string name="settings_server_primary_title">Primary server</string>
-    <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
-    <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Click to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
+    <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Touch the help button for more information.</string>
+    <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Touch to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Touch the help button for more information.</string>
     <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html#multi-server-support</string>
     <string name="settings_server_default_name">openHAB %d</string>
-    <string name="click_here_for_more_information">Click here for more information</string>
+    <string name="click_here_for_more_information">Touch here for more information</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -206,7 +206,7 @@
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled</string>
     <string name="action_settings">Settings</string>
-    <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long click a widget on the Sitemap.</string>
+    <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long press a widget on the Sitemap.</string>
     <string name="info_not_set">Not set</string>
     <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
@@ -282,7 +282,6 @@
     <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
     <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_help_icon_description">Click here for help</string>
     <string name="push_notification_hint">The notifications are polled on a regular schedule, which is the same than for \"Send device information to server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item could not be updated</item>
@@ -575,7 +574,7 @@
     <string name="tile_require_unlock">Require screen to be unlocked</string>
     <string name="tile_require_unlock_summary_on">Prompt for unlocking the device before allowing Item updates</string>
     <string name="tile_require_unlock_summary_off">Allow updating Items even if the device is locked</string>
-    <string name="tile_overview_hint">The state of the tile doesn\'t reflect the state of the Item.\nIf you have issues with tiles not being updated after changing them here, click on the tile or edit the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth).</string>
+    <string name="tile_overview_hint">The state of the tile doesn\'t reflect the state of the Item.\nIf you have issues with tiles not being updated after changing them here, touch the tile or edit the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d active tile</item>
         <item quantity="other">%d active tiles</item>

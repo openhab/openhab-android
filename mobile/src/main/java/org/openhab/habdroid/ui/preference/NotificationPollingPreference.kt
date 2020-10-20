@@ -93,7 +93,7 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
             helpIcon = v.findViewById(R.id.help_icon)
             helpIcon.setupHelpIcon(
                 "https://www.openhab.org/docs/apps/android.html#notifications-in-foss-version",
-                R.string.push_notification_help_icon_description
+                R.string.click_here_for_more_information
             )
             spinner = v.findViewById(R.id.spinner)
             ArrayAdapter.createFromResource(
