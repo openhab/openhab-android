@@ -158,7 +158,6 @@
     <string name="info_write_tag_unsupported">Denna enhet har inte stöd för NFC</string>
     <string name="info_write_tag_disabled">NFC är inaktiverat</string>
     <string name="action_settings">Inställningar</string>
-    <string name="nfc_info_hint">Objektuppdateringar kan skrivas till NFC-taggar. Du kan välja ett objekt här eller så kan du långklicka på en widget på Sitemap.</string>
     <string name="info_not_set">Ej angivet</string>
     <string name="empty_page">Denna sida innehåller inte några synliga widgets</string>
     <!-- Background tasks -->

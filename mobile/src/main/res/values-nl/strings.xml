@@ -164,7 +164,6 @@
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
     <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
     <string name="action_settings">Instellingen</string>
-    <string name="nfc_info_hint">Item updates kunnen naar NFC-tags worden geschreven. Kies hier een Item of houd een Sitemap widget enige tijd ingedrukt.</string>
     <string name="info_not_set">Niet ingesteld</string>
     <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
@@ -229,7 +228,6 @@
     <string name="push_notification_status_http_error">Niet beschikbaar, fout bij verbinding met externe server: %s</string>
     <string name="push_notification_status_remote_no_cloud">Niet beschikbaar, externe server is geen openHAB cloud instance</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_help_icon_description">Klik hier voor hulp</string>
     <string name="push_notification_hint">De meldingen worden opgevraagd volgens een schema, welke hetzelfde is als voor \"Apparaatinformatie naar server verzenden\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
@@ -468,7 +466,6 @@
     <string name="tile_require_unlock">Vereis dat het scherm is ontgrendeld</string>
     <string name="tile_require_unlock_summary_on">Vraag om het apparaat te ontgrendelen voordat het verversen van Items wordt toegestaan</string>
     <string name="tile_require_unlock_summary_off">Bijwerken van Items toestaan, zelfs als het apparaat is vergrendeld</string>
-    <string name="tile_overview_hint">De staat van de tegel geeft niet de status van het Item weer.\nAls je problemen hebt met het niet verversen van tegels nadat je ze hier hebt veranderd, klik dan op de tegel of bewerk de snelle instellingen van je apparaat (de plek waar de schakelaars staan van bijvoorbeeld Wi-Fi en Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d actieve tegel</item>
         <item quantity="other">%d actieve tegels</item>

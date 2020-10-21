@@ -87,8 +87,14 @@
     <string name="settings_add_server">Server hinzufügen</string>
     <string name="settings_edit_server">Server bearbeiten</string>
     <string name="server_with_name">Server %s</string>
+    <string name="settings_server_confirm_deletion">Möchten Sie diesen Server wirklich entfernen?</string>
+    <string name="settings_server_confirm_leave_title">Ungespeicherte Änderungen</string>
+    <string name="settings_server_confirm_leave_message">Sie haben Änderungen vorgenommen. Möchten Sie sie speichern oder verwerfen?</string>
     <string name="settings_server_primary_title">Primärer Server</string>
+    <string name="settings_server_primary_summary_is_primary">Dieser Server ist der primäre Server.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" ist der primäre Server. Hier berühren, um diesen Server zum primären zu machen.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Hier berühren für mehr Informationen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
@@ -177,7 +183,6 @@
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="nfc_info_hint">Item-Updates können auf NFC-Tags geschrieben werden. Sie können hier ein Item auswählen oder ein Widget auf der Sitemap anklicken.</string>
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
@@ -242,7 +247,6 @@
     <string name="push_notification_status_http_error">Nicht verfügbar, Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
     <string name="push_notification_status_remote_no_cloud">Nicht verfügbar, da der Remote-Server keine openHAB-Cloud-Instanz ist</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_help_icon_description">Für Hilfe hier berühren</string>
     <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, dessen Intervall mit dem für \"Geräteinformationen an Server senden\" eingestellten identisch ist</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
@@ -254,6 +258,9 @@
     <string name="item_update_http_error_label">Update von %1$s fehlgeschlagen: %2$s</string>
     <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
     <string name="item_update_connection_error_label">Update von %1$s fehlgeschlagen (Keine Verbindung)</string>
+    <string name="item_update_short_status_waiting">Warte…</string>
+    <string name="item_update_short_status_sending">Senden…</string>
+    <string name="item_update_short_status_failed">Fehlgeschlagen</string>
     <string name="error_no_valid_item_name">Bitte geben Sie einen gültigen Item-Namen an</string>
     <string name="retry">Erneut versuchen</string>
     <string name="ignore">Ignorieren</string>
@@ -328,7 +335,7 @@
     <string name="nfc_action_next">Nächste</string>
     <string name="nfc_action_previous">Vorherige</string>
     <string name="nfc_action_rewind">Zurückspulen</string>
-    <string name="nfc_action_fastforward">Schnell vorwärts</string>
+    <string name="nfc_action_fastforward">Vorspulen</string>
     <string name="nfc_action_move">Bewegen</string>
     <string name="nfc_action_stop">Stop</string>
     <string name="nfc_action_open">Geöffnet</string>
@@ -406,6 +413,7 @@
     <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Die Steuerung eines Items kann durch Gedrückthalten des Items an NFC-Tags gebunden werden</string>
+    <string name="intro_send_device_info">Geräteinformationen an Ihren Server senden</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">ÜBERSPRINGEN</string>
     <!-- Intro "DONE" button -->
@@ -453,12 +461,25 @@
     <string name="item_update_success_message_previous">%s zeigt den vorherigen Titel</string>
     <string name="item_update_success_message_rewind">%s wird zurückgespult</string>
     <string name="item_update_success_message_fastforward">%s wird vorgespult</string>
+    <string name="item_update_short_success_message_generic">Auf %s gesetzt</string>
     <string name="item_update_short_success_message_on">Eingeschaltet</string>
     <string name="item_update_short_success_message_off">Ausgeschaltet</string>
+    <string name="item_update_short_success_message_stop">Gestoppt</string>
+    <string name="item_update_short_success_message_increase">Erhöht</string>
+    <string name="item_update_short_success_message_decrease">Verringert</string>
+    <string name="item_update_short_success_message_undefined">Auf undefiniert gesetzt</string>
+    <string name="item_update_short_success_message_empty_string">Auf leeren String gesetzt</string>
+    <string name="item_update_short_success_message_play">Wiedergabe</string>
+    <string name="item_update_short_success_message_pause">Pausiert</string>
+    <string name="item_update_short_success_message_next">Nächsten Titel anzeigen</string>
+    <string name="item_update_short_success_message_previous">Vorherigen Titel anzeigen</string>
+    <string name="item_update_short_success_message_rewind">Zurückspulen</string>
+    <string name="item_update_short_success_message_fastforward">Vorspulen</string>
     <string name="item_update_error_no_connection_retry">Senden des Item-Updates fehlgeschlagen, wiederhole\u2026</string>
     <string name="item_update_error_no_connection">Keine Verbindung</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ konnte nicht abgerufen werden</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
+    <string name="create_home_screen_widget_not_supported">Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
     <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
@@ -488,7 +509,7 @@
     <string name="tile_require_unlock">Bildschirm-Entsperrung erfordern</string>
     <string name="tile_require_unlock_summary_on">Vor der Aktualisierung von Items zum Entsperren auffordern</string>
     <string name="tile_require_unlock_summary_off">Aktualisierung von Items bei gesperrtem Gerät erlauben</string>
-    <string name="tile_overview_hint">Der Zustand der Kachel reflektiert nicht den Zustand des Items.\nWenn Sie Probleme mit Kacheln haben, die nach der Änderung hier nicht aktualisiert werden, klicken Sie auf die Kachel oder bearbeiten Sie die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. WLAN und Bluetooth sind).</string>
+    <string name="tile_overview_hint">Der Zustand der Kachel reflektiert nicht den Zustand des Items.\nWenn Sie Probleme mit Kacheln haben, die nach der Änderung hier nicht aktualisiert werden, berühren Sie die Kachel oder bearbeiten Sie die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. WLAN und Bluetooth sind).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktive Kachel</item>
         <item quantity="other">%d aktive Kacheln</item>

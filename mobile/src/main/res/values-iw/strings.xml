@@ -226,7 +226,10 @@
     <string name="settings_dnd_mode">מצב \'נא לא להפריע\'</string>
     <string name="settings_dnd_mode_summary_on">שלח מצב \'נא לא להפריע\' לפריט \'%1$s \'</string>
     <string name="settings_dnd_mode_summary_off">אל תשלח מצב \'נא לא להפריע\'</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">אפשרות זו דורשת הרשאות נוספות על מנת לעבוד. לאחר הפעלתה תתבקשר לאשר את מתן ההרשאות.</string>
+    <string name="settings_background_tasks_permission_hint">אפשרות זו דורשת הרשאות נוספות על מנת לפעול. לאחר הפעלתה, תתבקש לאשר את ההרשאות. אנא וודא שתאשר את ההרשאות גם עבור פעילות ברקע, מאחר ועדכון הפריטים באפליקציה זו מתרחש גם ברקע.</string>
     <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
+    <string name="settings_background_tasks_permission_denied_background_location">חלק מהתהליכים הפועלים ברקע דורשים גישה למיקום שיוגדר ל״%s״ בהגדרות אנדרואיד</string>
     <string name="settings_background_tasks_permission_allow">אפשר</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
@@ -251,7 +254,6 @@
     <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
     <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
     <string name="push_notification_status">מצב</string>
-    <string name="push_notification_help_icon_description">לחץ לעזרה</string>
     <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
@@ -265,6 +267,9 @@
     <string name="item_update_http_error_label">עדכון %1$s נכשל: %2$s</string>
     <string name="item_update_connection_error">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
     <string name="item_update_connection_error_label">עדכון הפריט \'%1$s\' נכשל (אין חיבור)</string>
+    <string name="item_update_short_status_waiting">ממתין…</string>
+    <string name="item_update_short_status_sending">שולח…</string>
+    <string name="item_update_short_status_failed">נכשל</string>
     <string name="error_no_valid_item_name">אנא הכנס שם פריט חוקי</string>
     <string name="retry">נסה שנית</string>
     <string name="ignore">התעלם</string>
@@ -417,6 +422,9 @@
     <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
     <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
     <string name="intro_nfc_description">השליטה בפריט יכולה להיות משוייכת לתגית NFC באמצעות לחיצה ממושכת על הפריט</string>
+    <string name="intro_quick_tile_description">שלוט בביתך מחלונית ההגדרות המהירות של המכשיר שלך (המקום בו שולטים על Bluetooth ורשת אלחוטית)</string>
+    <string name="intro_send_device_info">שלח מידע על המכשיר לשרת</string>
+    <string name="intro_send_device_info_description">לדוגמא להדליק את האורות כשהשעון המעורר מצלצל</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">דלג</string>
     <!-- Intro "DONE" button -->
@@ -464,10 +472,28 @@
     <string name="item_update_success_message_previous">%s מציג את הכותרת הקודמת</string>
     <string name="item_update_success_message_rewind">%s מריץ אחורה</string>
     <string name="item_update_success_message_fastforward">%s מריץ קדימה</string>
+    <string name="item_update_short_success_message_generic">קבע ל-%s</string>
+    <string name="item_update_short_success_message_on">מופעל</string>
+    <string name="item_update_short_success_message_off">כבוי</string>
+    <string name="item_update_short_success_message_up">מתחיל לעלות</string>
+    <string name="item_update_short_success_message_down">מתחיל לרדת</string>
+    <string name="item_update_short_success_message_move">מתחיל לנוע</string>
+    <string name="item_update_short_success_message_stop">נעצר</string>
+    <string name="item_update_short_success_message_increase">גדל</string>
+    <string name="item_update_short_success_message_decrease">הופחת</string>
+    <string name="item_update_short_success_message_undefined">הוגדר למצב לא מוגדר</string>
+    <string name="item_update_short_success_message_empty_string">עבר למצב מחרוזת ריקה</string>
+    <string name="item_update_short_success_message_play">מתנגן</string>
+    <string name="item_update_short_success_message_pause">מושהה</string>
+    <string name="item_update_short_success_message_next">מציג את הכותרת הבאה</string>
+    <string name="item_update_short_success_message_previous">מציג את הכותרת הקודמת</string>
+    <string name="item_update_short_success_message_rewind">מריץ אחורה</string>
+    <string name="item_update_short_success_message_fastforward">מריץ קדימה</string>
     <string name="item_update_error_no_connection_retry">שגיאה בעדכון פריט, מנסה שנית\u2026</string>
     <string name="item_update_error_no_connection">לא מחובר</string>
     <string name="item_update_error_couldnt_get_item_type">כשל בזיהוי סוג פריט</string>
     <string name="create_home_screen_widget_title">יצירת יישומון</string>
+    <string name="create_home_screen_widget_not_supported">אנא פנה לתפריט הווידג׳ט במסך הבית וצור ווידג׳ט שם</string>
     <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
     <string name="item_update_widget_widget_label">תווית יישומון</string>
     <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>

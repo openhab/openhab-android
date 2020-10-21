@@ -163,7 +163,6 @@
     <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
     <string name="info_write_tag_disabled">NFC は無効です</string>
     <string name="action_settings">設定</string>
-    <string name="nfc_info_hint">アイテムの更新をNFCタグに書き込むことができます。 ここでアイテムを選択するか、サイトマップでウィジェットを長押しします。</string>
     <string name="info_not_set">未設定</string>
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
@@ -227,7 +226,6 @@
     <string name="push_notification_status_http_error">使用できません。リモートサーバーへの接続エラー: %s</string>
     <string name="push_notification_status_remote_no_cloud">使用できません。リモートサーバーは openHAB クラウドインスタンスではありません</string>
     <string name="push_notification_status">ステータス</string>
-    <string name="push_notification_help_icon_description">ここをクリックするとヘルプを表示します</string>
     <string name="push_notification_hint">通常のスケジュールで通知がポーリングされます。通知は「サーバーにデバイス情報を送信」と同じです。</string>
     <plurals name="item_update_error_title">
         <item quantity="other">%d 個のアイテムを更新できませんでした</item>
@@ -468,7 +466,6 @@
     <string name="tile_require_unlock">画面のロック解除が必要です</string>
     <string name="tile_require_unlock_summary_on">アイテムの更新を許可する前にデバイスのロックを解除するように促します</string>
     <string name="tile_require_unlock_summary_off">デバイスがロックされていてもアイテムの更新を許可します</string>
-    <string name="tile_overview_hint">タイルの状態は、アイテムの状態を反映していません。\nここでタイルを変更した後に更新されない問題がある場合。 タイルをクリックするか、デバイスのクイック設定を編集してください。 (Wi-FiやBluetoothなど、切り替えを保持する場所)</string>
     <plurals name="tile_active_number">
         <item quantity="other">%d のアクティブなタイル</item>
     </plurals>

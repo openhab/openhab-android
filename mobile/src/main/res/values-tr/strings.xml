@@ -129,7 +129,6 @@
     <string name="info_write_tag_unsupported">Bu cihazın NFC desteği yoktur</string>
     <string name="info_write_tag_disabled">NFC devre dışı</string>
     <string name="action_settings">Ayarlar</string>
-    <string name="nfc_info_hint">Item güncellemeleri NFC etiketlerine yazılabilir, buradan bir Öğe seçebilir veya Sitemap Haritasındaki bir widget\'ı uzun süre tıklayabilirsiniz.</string>
     <string name="info_not_set">Ayarlı değil</string>
     <string name="empty_page">Bu sayfa görüntülenecek herhangi bir widget içermiyor</string>
     <!-- Background tasks -->

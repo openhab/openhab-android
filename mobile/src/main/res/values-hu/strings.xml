@@ -5,11 +5,15 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Beállítások</string>
     <string name="save">Mentés</string>
+    <string name="discard">Elvet</string>
+    <string name="delete">Töröl</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Értesítések</string>
+    <string name="app_notifications_on_server">Értesítések (%s)</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
@@ -40,6 +44,7 @@
     <string name="settings_openhab_icon_format">Ikon formátum</string>
     <string name="settings_openhab_icon_format_png">Bitkép</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_image_widget_scaling">Kép igazítása a képernyőhöz</string>
     <string name="settings_chart_scaling">Grafikon méretezés</string>
     <string name="settings_chart_scaling_summary">Megjegyzés: A kisebb méretezés csökkenti a betűtípusokat és a vonalszélességet, így több hely van a grafikon számára, de a betűk olvashatósága is csökkenhet.</string>
     <string name="settings_chart_scaling_value_xs">Nagyon kicsi</string>
@@ -61,6 +66,7 @@
     <string name="settings_notification_vibration_short">Rövid</string>
     <string name="settings_notification_vibration_long">Hosszú</string>
     <string name="settings_notification_vibration_twice">Kétszer</string>
+    <string name="settings_notification_ringtone_vibration">Csengőhang &amp; rezgés</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <string name="beta">Béta</string>
@@ -75,6 +81,15 @@
     <string name="settings_screen_lock_kiosk">Kiosk mód</string>
     <string name="settings_screen_lock_on">Be</string>
     <string name="settings_show_sitemaps_in_drawer">Mutasson minden felületet a menüben</string>
+    <string name="settings_server_name">Szerver neve</string>
+    <string name="settings_add_server">Szerver hozzáadása</string>
+    <string name="settings_edit_server">Szerver szerkesztése</string>
+    <string name="server_with_name">Szerver %s</string>
+    <string name="settings_server_confirm_deletion">Biztosan eltávolítja ezt a kiszolgálót?</string>
+    <string name="settings_server_confirm_leave_title">Nem mentett módosítások</string>
+    <string name="settings_server_primary_title">Elsődleges szerver</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Kattintson ide további információért</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="voice_command">Hangutasítás</string>
@@ -162,7 +177,6 @@
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
     <string name="action_settings">Beállítások</string>
-    <string name="nfc_info_hint">Elem frissítés kiírható NFC címkére. Kiválaszthatja az elemet, vagy hosszan koppintva a widget-en a kijelzőn.</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
@@ -170,7 +184,9 @@
     <string name="send_device_info_to_server_short">Eszközinformáció küldése</string>
     <string name="send_device_info_category_event_based_title">Esemény alapú</string>
     <string name="send_device_info_category_schedule_based_title">Ütemezés alapú</string>
+    <string name="send_device_info_foreground_service_title">Eseményfigyelő</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
+    <string name="item_update_summary_success">Utolsó frissítés \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Ébresztési idő</string>
     <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_alarm_clock_summary_off">Ne küldje el az ébresztőidőt</string>
@@ -202,8 +218,10 @@
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
+    <string name="notification_channel_messages_default_severity_description">A szerver által küldött értesítés nincs priorizálva</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
     <string name="notification_channel_severity_value">Súlyossága \"%1$s\"</string>
+    <string name="notification_channel_severity_value_description">A szerver által küldött értesítés fontossága \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d új értesítés</item>
         <item quantity="other">%d új értesítések</item>
@@ -212,7 +230,6 @@
     <string name="push_notification_status_http_error">Nem elérhető, hiba a távoli szerver csatlakozásakor: %s</string>
     <string name="push_notification_status_remote_no_cloud">Nem érhető el, a távoli kiszolgáló nem openHAB-cloud kiszolgáló</string>
     <string name="push_notification_status">Állapot</string>
-    <string name="push_notification_help_icon_description">Kattints ide a segítséghez</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>
@@ -223,6 +240,9 @@
     <string name="item_update_http_error_label">%1$s frissítése sikertelen: %2$s</string>
     <string name="item_update_connection_error">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
     <string name="item_update_connection_error_label">Az elem \'%1$s\' frissítése sikertelen (Nincs kapcsolat)</string>
+    <string name="item_update_short_status_waiting">Várjon...</string>
+    <string name="item_update_short_status_sending">Küldés...</string>
+    <string name="item_update_short_status_failed">Sikertelen</string>
     <string name="error_no_valid_item_name">Kérlek add meg az Elem helyes nevét</string>
     <string name="retry">Újra</string>
     <string name="ignore">Mellőzés</string>
@@ -330,6 +350,7 @@
     <string name="no_remote_server">Kapcsolódás a helyi szerverhez nem sikerült, és a távoli kiszolgáló nem konfigurált</string>
     <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
     <string name="waiting_for_wifi">Várakozás a Wi-Fi kapcsolat\u2026 létrehozására</string>
+    <string name="visit_status_openhab_org">status.openhab.org megtekintése</string>
     <!-- Log -->
     <string name="log">Napló</string>
     <string name="view_log">Napló megtekintése</string>
@@ -343,6 +364,7 @@
     <string name="home_shortcut_pin_to_home">Kitűzés a kezdőképernyőre</string>
     <string name="home_shortcut_error_pinning">Hiba a kezdőképernyőre kitűzésekor</string>
     <string name="home_shortcut_success_pinning">Kezdőképernyőre kitűzve</string>
+    <string name="home_shortcut_server_has_been_deleted">A kiszolgáló ehhez az ikonhoz törölve lett</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Redőny nyitása</string>
     <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
@@ -366,6 +388,7 @@
     <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával összeköthető egy NFC címkékhez</string>
+    <string name="intro_send_device_info">Eszközadatok küldése a kiszolgálónak</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Kihagyás</string>
     <!-- Intro "DONE" button -->
@@ -412,6 +435,23 @@
     <string name="item_update_success_message_previous">%s mutatja az előző címet</string>
     <string name="item_update_success_message_rewind">%s visszateker</string>
     <string name="item_update_success_message_fastforward">%s gyors pörgetés</string>
+    <string name="item_update_short_success_message_generic">%s beállítása</string>
+    <string name="item_update_short_success_message_on">Bekapcsolva</string>
+    <string name="item_update_short_success_message_off">Kikapcsolva</string>
+    <string name="item_update_short_success_message_up">Indítás felfelé</string>
+    <string name="item_update_short_success_message_down">Indítás lelfelé</string>
+    <string name="item_update_short_success_message_move">Mozgatás</string>
+    <string name="item_update_short_success_message_stop">Megállítva</string>
+    <string name="item_update_short_success_message_increase">Növelve</string>
+    <string name="item_update_short_success_message_decrease">Csökkentve</string>
+    <string name="item_update_short_success_message_undefined">Beállítás nem meghatározottra</string>
+    <string name="item_update_short_success_message_empty_string">Beállítás üres szövegre</string>
+    <string name="item_update_short_success_message_play">Lejátszás</string>
+    <string name="item_update_short_success_message_pause">Szüneteltetve</string>
+    <string name="item_update_short_success_message_next">Következő cím megjelenítése</string>
+    <string name="item_update_short_success_message_previous">Előző cím megjelenítése</string>
+    <string name="item_update_short_success_message_rewind">Visszapörgetés</string>
+    <string name="item_update_short_success_message_fastforward">Gyors előretekerés</string>
     <string name="item_update_error_no_connection_retry">Hiba az elem frissítésekor, újrapróbálkozás\u2026</string>
     <string name="item_update_error_no_connection">Nincs kapcsolat</string>
     <string name="item_update_error_couldnt_get_item_type">Nem megállapítható az elem típusa</string>
@@ -428,6 +468,8 @@
     <string name="widget_type_mapview">Térkép</string>
     <string name="widget_type_chart">Grafikon</string>
     <!-- Tiles -->
+    <string name="tile">Csempe</string>
+    <string name="tiles_for_quick_settings">Csempék a gyors beállításokhoz</string>
     <string name="tile_item_picker_title">Elem kiválasztása</string>
     <string name="tile_error_saving">Kérlek, tölts ki minden beállítást</string>
     <string name="tile_disabled">Kikapcsolás</string>
@@ -436,6 +478,23 @@
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
     <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktív csempe</item>
+        <item quantity="other">%d aktív csempék</item>
+    </plurals>
+    <string name="tile_number">%d. csempe</string>
+    <string name="tile_label_1">1-es csempe</string>
+    <string name="tile_label_2">2-es csempe</string>
+    <string name="tile_label_3">3-as csempe</string>
+    <string name="tile_label_4">4-es csempe</string>
+    <string name="tile_label_5">5-ös csempe</string>
+    <string name="tile_label_6">6-os csempe</string>
+    <string name="tile_label_7">7-es csempe</string>
+    <string name="tile_label_8">8-as csempe</string>
+    <string name="tile_label_9">9-es csempe</string>
+    <string name="tile_label_10">10-es csempe</string>
+    <string name="tile_label_11">11-es csempe</string>
+    <string name="tile_label_12">12-as csempe</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB Ikon</string>
     <string name="tile_icon_tv">TV</string>
@@ -446,6 +505,7 @@
     <string name="tile_icon_bell">Csengő</string>
     <string name="tile_icon_cloud_upload">Felhő feltöltés</string>
     <string name="tile_icon_earth">Föld</string>
+    <string name="tile_icon_chat">Beszéd gomb</string>
     <string name="tile_icon_house">Ház</string>
     <string name="tile_icon_lock">Zár</string>
     <string name="tile_icon_microphone">Mikrofon</string>
@@ -473,5 +533,10 @@
     <string name="tile_icon_light_switch">Villany kapcsoló</string>
     <string name="tile_icon_garage">Garázs</string>
     <string name="tile_icon_switch">Kapcsoló</string>
+    <string name="tile_icon_sofa">Kanapé</string>
+    <string name="tile_icon_lamp_ceiling">Mennyezeti lámpa</string>
+    <string name="tile_icon_lamp_floor">Állólámpa</string>
+    <string name="tile_icon_lamp_bedside">Éjjeli lámpa</string>
+    <string name="tile_icon_lamp_outdoor">Kültéri lámpa</string>
     <!-- Tile icon values -->
 </resources>
