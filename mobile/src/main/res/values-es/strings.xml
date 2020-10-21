@@ -92,7 +92,10 @@
     <string name="settings_server_confirm_leave_title">Cambios sin guardar</string>
     <string name="settings_server_confirm_leave_message">Ha hecho algunos cambios. ¿Desea guardarlos o descartarlos?</string>
     <string name="settings_server_primary_title">Servidor primario</string>
+    <string name="settings_server_primary_summary_is_primary">Este servidor es el principal.\nActualmente sólo el servidor principal soporta todas las características de esta aplicación. Pulse el botón de ayuda para obtener más información.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" es el servidor principal. Pulse para hacer de este servidor el servidor principal.\nActualmente sólo el servidor principal soporta todas las características de esta aplicación. Pulse el botón de ayuda para más información.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Pulse aquí para más información</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="voice_command">Comando de voz</string>
@@ -181,6 +184,7 @@
     <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC</string>
     <string name="info_write_tag_disabled">NFC está deshabilitado</string>
     <string name="action_settings">Configuración</string>
+    <string name="nfc_info_hint">Las actualizaciones del Item pueden ser escritas en etiquetas NFC. Puede seleccionar un Item aquí o puede hacer pulsación larga sobre un widget en el Sitemap.</string>
     <string name="info_not_set">Sin establecer</string>
     <string name="empty_page">Esta página no contiene ningún widget que pueda ser visible</string>
     <!-- Background tasks -->
@@ -514,6 +518,7 @@
     <string name="tile_require_unlock">Requiere que la pantalla esté desbloqueada</string>
     <string name="tile_require_unlock_summary_on">Requerir desbloqueo del dispositivo antes de permitir actualizar un Item</string>
     <string name="tile_require_unlock_summary_off">Permitir la actualización de Items aunque el dispositivo está bloqueado</string>
+    <string name="tile_overview_hint">El estado de la baldosa no refleja el estado del objeto.\nSi tiene problemas con baldosas que no se actualizan después de cambiarlas aquí, pulse en la baldosa o edite los ajustes rápidos de su dispositivo (el lugar donde están los botones para encender o apagar Wi-Fi, Bluetooth, etc...).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d baldosa activa</item>
         <item quantity="other">%d baldosas activas</item>
