@@ -70,7 +70,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
     }
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
-        private var wrapper: TextInputLayout? = null
+        private lateinit var wrapper: TextInputLayout
         private lateinit var editor: EditText
 
         override fun onBindDialogView(view: View?) {
@@ -85,7 +85,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                 editor.inputType = type
             }
             arguments?.getCharSequence(KEY_TITLE)?.let { title ->
-                wrapper?.hint = title
+                wrapper.hint = title
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
@@ -96,6 +96,11 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                     editor.setAutofillHints(*hints)
                 }
             }
+        }
+
+        override fun onStart() {
+            super.onStart()
+            afterTextChanged(editor.text)
         }
 
         override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
@@ -112,8 +117,8 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
             val isLastCharWhitespace = value.lastOrNull()?.isWhitespace() ?: false
             val isFirstCharWhitespace = value.firstOrNull()?.isWhitespace() ?: false
 
-            val res = editor.resources
-            wrapper?.error = when {
+            val res = wrapper.resources
+            wrapper.error = when {
                 isFirstCharWhitespace -> res.getString(R.string.error_first_char_is_whitespace)
                 isLastCharWhitespace -> res.getString(R.string.error_last_char_is_whitespace)
                 else -> null
