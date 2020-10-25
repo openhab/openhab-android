@@ -110,12 +110,14 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         super.onResume()
         webView?.onResume()
         webView?.resumeTimers()
+        (activity as MainActivity?)?.setDrawerLocked(true)
     }
 
     override fun onPause() {
         super.onPause()
         webView?.onPause()
         webView?.pauseTimers()
+        (activity as MainActivity?)?.setDrawerLocked(false)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

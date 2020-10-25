@@ -1120,6 +1120,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
+    fun setDrawerLocked(locked: Boolean) {
+        drawerLayout.setDrawerLockMode(
+            if (locked) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED
+        )
+    }
+
     private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
         Log.e(TAG, "Error: $error", error)
         Log.e(TAG, "HTTP status code: $statusCode")
