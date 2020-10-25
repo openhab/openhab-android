@@ -166,8 +166,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 Log.d(TAG, "No next snackbar to show")
                 return
             }
-            val nextSnackbar = snackbarQueue.removeAt(0)
-            nextSnackbar.show()
+            val nextSnackbar = snackbarQueue.removeFirstOrNull()
+            nextSnackbar?.show()
             lastSnackbar = nextSnackbar
         }
 
