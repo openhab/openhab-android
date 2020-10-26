@@ -33,13 +33,18 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
     EditTextPreference(context, attrs), CustomDialogPreference {
     private val inputType: Int
     private var autofillHints: Array<String>? = null
+    private lateinit var whitespaceBehavior: WhitespaceBehavior
     private var defValue: Any? = null
 
     init {
-        val attrArray = intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints)
+        val attrArray = intArrayOf(android.R.attr.inputType, android.R.attr.autofillHints, R.attr.whitespaceBehavior)
         context.obtainStyledAttributes(attrs, attrArray).apply {
             inputType = getInt(0, 0)
             autofillHints = getString(1)?.split(',')?.toTypedArray()
+            val whitespaceBehaviorId = getInt(2, 0)
+            if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
+                whitespaceBehavior = WhitespaceBehavior.values()[whitespaceBehaviorId]
+            }
             recycle()
         }
     }
@@ -66,12 +71,18 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
     }
 
     override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, title, inputType, autofillHints)
+        return PrefFragment.newInstance(key, title, inputType, autofillHints, whitespaceBehavior.ordinal)
+    }
+
+    override fun setText(text: String?) {
+        val textToSave = if (whitespaceBehavior == WhitespaceBehavior.TRIM) text?.trim() else text
+        super.setText(textToSave)
     }
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
         private lateinit var wrapper: TextInputLayout
         private lateinit var editor: EditText
+        private lateinit var whitespaceBehavior: WhitespaceBehavior
 
         override fun onBindDialogView(view: View?) {
             super.onBindDialogView(view)
@@ -96,6 +107,10 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                     editor.setAutofillHints(*hints)
                 }
             }
+            val whitespaceBehaviorId = arguments?.getInt(KEY_WHITESPACE_BEHAVIOR, 0) ?: 0
+            if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
+                whitespaceBehavior = WhitespaceBehavior.values()[whitespaceBehaviorId]
+            }
         }
 
         override fun onStart() {
@@ -112,6 +127,10 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
         }
 
         override fun afterTextChanged(editable: Editable) {
+            if (whitespaceBehavior != WhitespaceBehavior.WARN) {
+                return
+            }
+
             val value = editable.toString()
 
             val isLastCharWhitespace = value.lastOrNull()?.isWhitespace() ?: false
@@ -129,23 +148,32 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
             private const val KEY_INPUT_TYPE = "inputType"
             private const val KEY_TITLE = "title"
             private const val KEY_AUTOFILL_HINTS = "autofillHint"
+            private const val KEY_WHITESPACE_BEHAVIOR = "whitespaceBehavior"
 
             fun newInstance(
                 key: String,
                 title: CharSequence,
                 inputType: Int,
-                autofillHints: Array<String>?
+                autofillHints: Array<String>?,
+                whitespaceBehavior: Int
             ): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(
                     ARG_KEY to key,
                     KEY_TITLE to title,
                     KEY_INPUT_TYPE to inputType,
-                    KEY_AUTOFILL_HINTS to autofillHints
+                    KEY_AUTOFILL_HINTS to autofillHints,
+                    KEY_WHITESPACE_BEHAVIOR to whitespaceBehavior
                 )
                 return f
             }
         }
+    }
+
+    enum class WhitespaceBehavior {
+        IGNORE,
+        TRIM,
+        WARN
     }
 }
 

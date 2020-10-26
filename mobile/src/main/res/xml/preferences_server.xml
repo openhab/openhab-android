@@ -14,10 +14,12 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <EditTextPreference
+    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:key="name"
         android:title="@string/settings_server_name"
         android:persistent="false"
+        app:whitespaceBehavior="trim"
+        android:inputType="text"
         app:useSimpleSummaryProvider="true" />
     <Preference
         android:key="local"

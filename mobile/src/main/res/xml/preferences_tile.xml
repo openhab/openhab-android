@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreferenceCompat
         android:persistent="false"
         android:key="tile_show"
@@ -15,6 +16,7 @@
         android:dependency="tile_show"
         android:key="tile_name"
         android:title="@string/tile_name"
+        app:whitespaceBehavior="trim"
         android:inputType="text" />
     <ListPreference
         android:persistent="false"
