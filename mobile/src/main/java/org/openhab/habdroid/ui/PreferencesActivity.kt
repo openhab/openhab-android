@@ -23,6 +23,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -277,12 +278,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             notificationPollingPref =
                 getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
             notificationStatusHint = getPreference(PrefKeys.NOTIFICATION_STATUS_HINT)
+            val drawerEntriesPrefs = getPreference(PrefKeys.DRAWER_ENTRIES)
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
-            val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
-            val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
-            val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
+            val fullscreenPref = getPreference(PrefKeys.FULLSCREEN)
+            val iconFormatPref = getPreference(PrefKeys.ICON_FORMAT)
             val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
             val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
             val ringtoneVibrationPref = getPreference(PrefKeys.NOTIFICATION_TONE_VIBRATION)
@@ -332,6 +333,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            drawerEntriesPrefs.setOnPreferenceClickListener {
+                parentActivity.openSubScreen(DrawerEntriesMenuFragment())
+                false
+            }
+
             themePref.setOnPreferenceChangeListener { _, _ ->
                 // getDayNightMode() needs the new preference value, so delay the call until
                 // after this listener has returned
@@ -361,11 +367,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            showSitemapInDrawerPref.setOnPreferenceChangeListener { _, _ ->
-                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, true)
-                true
-            }
-
             if (!prefs.isTaskerPluginEnabled() && !isAutomationAppInstalled()) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.TASKER_PLUGIN_ENABLED)
             }
@@ -376,7 +377,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            fullscreenPreference.setOnPreferenceChangeListener { _, newValue ->
+            fullscreenPref.setOnPreferenceChangeListener { _, newValue ->
                 (activity as AbstractBaseActivity).setFullscreen(newValue as Boolean)
                 true
             }
@@ -440,7 +441,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 flags and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.ICON_FORMAT)
             } else {
-                iconFormatPreference.setOnPreferenceChangeListener { pref, _ ->
+                iconFormatPref.setOnPreferenceChangeListener { pref, _ ->
                     val context = pref.context
                     clearImageCache(context)
                     ItemUpdateWidget.updateAllWidgets(context)
@@ -1031,6 +1032,25 @@ class PreferencesActivity : AbstractBaseActivity() {
                 parent.parentFragmentManager.putFragment(args, "parent", parent)
                 f.arguments = args
                 return f
+            }
+        }
+    }
+
+    internal class DrawerEntriesMenuFragment : AbstractSettingsFragment() {
+        override val titleResId: Int @StringRes get() = R.string.drawer_entries
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            addPreferencesFromResource(R.xml.preferences_drawer_entries)
+
+            val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
+
+            showSitemapInDrawerPref.setOnPreferenceChangeListener { _, _ ->
+                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, true)
+                true
+            }
+
+            if (NfcAdapter.getDefaultAdapter(requireContext()) == null && !Util.isEmulator()) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.DRAWER_ENTRY_NFC)
             }
         }
     }

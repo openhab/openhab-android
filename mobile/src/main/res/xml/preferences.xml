@@ -19,10 +19,6 @@
             android:order="999" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_sitemap_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="show_sitemaps"
-            android:title="@string/settings_show_sitemaps_in_drawer" />
         <ListPreference
             android:title="@string/settings_openhab_icon_format"
             android:key="iconFormatType"
@@ -53,6 +49,10 @@
             android:title="@string/settings_openhab_chart_hq" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
+        <Preference
+            android:key="drawer_entries"
+            android:title="@string/drawer_entries"
+            android:persistent="false" />
         <ListPreference
             android:key="theme"
             android:title="@string/settings_openhab_theme"

@@ -228,7 +228,7 @@ abstract class AbstractTileService : TileService() {
             context.getString(R.string.tile_icon_settings_value) -> R.drawable.ic_settings_outline_grey_24dp
             context.getString(R.string.tile_icon_shield_value) -> R.drawable.ic_security_grey_24dp
             context.getString(R.string.tile_icon_bell_value) -> R.drawable.ic_bell_outline_grey_24dp
-            context.getString(R.string.tile_icon_dashboard_value) -> R.drawable.ic_view_dashboard_outline_black_24dp
+            context.getString(R.string.tile_icon_dashboard_value) -> R.drawable.ic_view_dashboard_outline_grey_24dp
             else -> R.drawable.ic_openhab_appicon_24dp
         }
 

@@ -859,19 +859,23 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             drawerMenu.setGroupVisible(R.id.options, true)
 
             val notificationsItem = drawerMenu.findItem(R.id.notifications)
-            notificationsItem.isVisible = ConnectionFactory.activeCloudConnection?.connection != null
+            notificationsItem.isVisible = ConnectionFactory.activeCloudConnection?.connection != null &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_NOTIFICATIONS, true)
 
             val habPanelItem = drawerMenu.findItem(R.id.habpanel)
-            habPanelItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true
+            habPanelItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_HABPANEL, true)
             manageHabPanelShortcut(serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true)
 
             val oh3UiItem = drawerMenu.findItem(R.id.oh3_ui)
-            oh3UiItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.OH3_UI) == true
+            oh3UiItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.OH3_UI) == true &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_OH3_UI, true)
 
             val nfcItem = drawerMenu.findItem(R.id.nfc)
             nfcItem.isVisible = serverProperties != null &&
                 (NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()) &&
-                prefs.getPrimaryServerId() == prefs.getActiveServerId()
+                prefs.getPrimaryServerId() == prefs.getActiveServerId() &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_NFC, true)
         }
     }
 
