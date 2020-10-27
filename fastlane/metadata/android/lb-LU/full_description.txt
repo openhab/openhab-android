@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - eng Hiersteller an Technologie onofhängeg Open Source Automatisatioun s Léisung fir Doheem
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+An der F-Droid Versioun sinn FCM an Crash-Rapporten erausgeholl ginn. Dofir ass et net méiglech fir Push-Notifikatiounen vun der openHAB Cloud ze kréien. Am platz heivunner, ginn d‘ Notifikatiounen an dëse Builds reegelméisseg ofgefrot.
 Probéier nei Features aus a gëff eis Feedback!
 Du kann s d´ Beta Versioun parallel zu der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabeler Versioun</a> installéieren.
 
