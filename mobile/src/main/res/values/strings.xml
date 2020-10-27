@@ -16,9 +16,12 @@
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_notifications_on_server">Notifications (%s)</string>
     <string name="habpanel_error">An error occurred while loading HABPanel</string>
+    <string name="oh3_ui_error">An error occurred while loading openHAB 3 UI</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 

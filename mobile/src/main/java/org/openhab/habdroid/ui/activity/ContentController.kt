@@ -48,6 +48,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
@@ -258,26 +259,26 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
-    fun showHabPanel() {
+    fun showWebViewUi(ui: WebViewUi) {
         val prefs = activity.getPrefs()
         val activeServerId = prefs.getActiveServerId()
         val title = if (prefs.getConfiguredServerIds().size <= 1) {
-            activity.getString(R.string.mainmenu_openhab_habpanel)
+            activity.getString(ui.titleRes)
         } else {
             val activeServerName = ServerConfiguration.load(prefs, activity.getSecretPrefs(), activeServerId)?.name
-            activity.getString(R.string.mainmenu_openhab_habpanel_on_server, activeServerName)
+            activity.getString(ui.multiServerTitleRes, activeServerName)
         }
 
         showTemporaryPage(
             WebViewFragment.newInstance(
                 title,
-                R.string.habpanel_error,
-                "/habpanel/index.html",
-                "/rest/events",
+                ui.errorRes,
+                ui.urlToLoad,
+                ui.urlForError,
                 activeServerId,
-                MainActivity.ACTION_HABPANEL_SELECTED,
+                ui.shortcutAction,
                 title,
-                R.mipmap.ic_shortcut_habpanel
+                ui.shortcutIconRes
             )
         )
     }
