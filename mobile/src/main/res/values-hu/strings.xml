@@ -12,9 +12,12 @@
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 felület</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 felület (%s)</string>
     <string name="app_notifications">Értesítések</string>
     <string name="app_notifications_on_server">Értesítések (%s)</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
+    <string name="oh3_ui_error">Hiba történt a openHAB 3 felület betöltése során</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
     <!-- App settings strings -->
@@ -255,6 +258,7 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Eszköz azonosító</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Előtag a hangvezérlésekhez \'&lt;Device identifier&gt;|\'</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
@@ -478,6 +482,7 @@
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
     <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>
+    <string name="tile_require_unlock_summary_off">Elemek frissítésének engedélyezése, még zárolt eszköz esetén is</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktív csempe</item>
         <item quantity="other">%d aktív csempék</item>
