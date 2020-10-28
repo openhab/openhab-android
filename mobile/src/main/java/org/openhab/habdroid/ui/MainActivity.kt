@@ -859,8 +859,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             drawerMenu.setGroupVisible(R.id.options, true)
 
             val notificationsItem = drawerMenu.findItem(R.id.notifications)
-            notificationsItem.isVisible = ConnectionFactory.activeCloudConnection?.connection != null &&
-                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_NOTIFICATIONS, true)
+            notificationsItem.isVisible = ConnectionFactory.activeCloudConnection?.connection != null
 
             val habPanelItem = drawerMenu.findItem(R.id.habpanel)
             habPanelItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true &&

@@ -17,11 +17,6 @@
         android:title="@string/mainmenu_openhab_habpanel" />
     <SwitchPreference
         android:defaultValue="true"
-        android:key="show_notifications"
-        android:icon="@drawable/ic_bell_outline_grey_24dp"
-        android:title="@string/app_notifications" />
-    <SwitchPreference
-        android:defaultValue="true"
         android:key="show_nfc"
         android:icon="@drawable/ic_nfc_grey_24dp"
         android:title="@string/intro_nfc" />
