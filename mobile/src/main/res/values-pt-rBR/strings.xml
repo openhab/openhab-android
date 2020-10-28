@@ -12,9 +12,12 @@
     <string name="mainmenu_openhab_preferences">Configurações</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Notificações</string>
     <string name="app_notifications_on_server">Notificações (%s)</string>
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
+    <string name="oh3_ui_error">Ocorreu um erro ao carregar openHAB 3 UI</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
     <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
@@ -92,7 +95,10 @@
     <string name="settings_server_confirm_leave_title">Alterações não salvas</string>
     <string name="settings_server_confirm_leave_message">Você fez algumas alterações. Você deseja salvar ou descartá-las?</string>
     <string name="settings_server_primary_title">Servidor principal</string>
+    <string name="settings_server_primary_summary_is_primary">Este é o servidor principal.\nAtualmente, apenas o servidor principal é suportado por todos os recursos deste aplicativo. Toque no botão de ajuda para obter mais informações.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" é o servidor principal. Clique para esse servidor tornar o principal.\nAtualmente, apenas o servidor principal é capaz de todos os recursos deste aplicativo. Clique no botão de ajuda para mais informações.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Clique aqui para mais informações</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de Voz</string>
     <string name="voice_command">Comando de voz</string>
@@ -181,6 +187,7 @@
     <string name="info_write_tag_unsupported">Este dispositivo não tem suporte NFC</string>
     <string name="info_write_tag_disabled">O NFC está desativado</string>
     <string name="action_settings">Configurações</string>
+    <string name="nfc_info_hint">Atualizações de Item podem ser escritas em tags NFC. Você pode selecionar um Item aqui ou por um widget no Sitemap.</string>
     <string name="info_not_set">Não definido</string>
     <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
     <!-- Background tasks -->
@@ -515,6 +522,7 @@
     <string name="tile_require_unlock">Exigir desbloqueio de tela</string>
     <string name="tile_require_unlock_summary_on">Solicitar desbloqueio antes de permitir atualizações de Item</string>
     <string name="tile_require_unlock_summary_off">Permitir atualizar Items, mesmo que o dispositivo esteja bloqueado</string>
+    <string name="tile_overview_hint">O estado do bloco não reflete o estado do item.\nSe você tiver problemas com os blocos não sendo atualizados depois de alterá-los aqui, clique no bloco ou edite as configurações rápidas do seu dispositivo (Onde mantém os botões, por ex: Wi-Fi e Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d bloco ativado</item>
         <item quantity="other">%d blocos ativados</item>
