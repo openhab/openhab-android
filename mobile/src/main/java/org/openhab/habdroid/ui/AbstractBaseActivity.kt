@@ -162,13 +162,15 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         onClickListener: (() -> Unit)? = null
     ) {
         fun showNextSnackbar() {
-            if (lastSnackbar?.isShown == true || snackbarQueue.isEmpty()) {
-                Log.d(TAG, "No next snackbar to show")
-                return
+            synchronized(this) {
+                if (lastSnackbar?.isShown == true || snackbarQueue.isEmpty()) {
+                    Log.d(TAG, "No next snackbar to show")
+                    return
+                }
+                val nextSnackbar = snackbarQueue.removeFirstOrNull()
+                nextSnackbar?.show()
+                lastSnackbar = nextSnackbar
             }
-            val nextSnackbar = snackbarQueue.removeFirstOrNull()
-            nextSnackbar?.show()
-            lastSnackbar = nextSnackbar
         }
 
         if (tag.isEmpty()) {
@@ -193,14 +195,18 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         })
         hideSnackbar(tag)
         Log.d(TAG, "Queue snackbar with tag $tag")
-        snackbarQueue.add(snackbar)
+        synchronized(this) {
+            snackbarQueue.add(snackbar)
+        }
         showNextSnackbar()
     }
 
     protected fun hideSnackbar(tag: String) {
-        snackbarQueue.firstOrNull { it.view.tag == tag }?.let { snackbar ->
-            Log.d(TAG, "Remove snackbar with tag $tag from queue")
-            snackbarQueue.remove(snackbar)
+        synchronized(this) {
+            snackbarQueue.firstOrNull { it.view.tag == tag }?.let { snackbar ->
+                Log.d(TAG, "Remove snackbar with tag $tag from queue")
+                snackbarQueue.remove(snackbar)
+            }
         }
         if (lastSnackbar?.view?.tag == tag) {
             Log.d(TAG, "Hide snackbar with tag $tag")
