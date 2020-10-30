@@ -24,6 +24,7 @@ import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
@@ -455,13 +456,18 @@ fun ServiceInfo.addToPrefs(context: Context) {
     val port = port.toString()
     Log.d(Util.TAG, "Service resolved: $address port: $port")
 
+    val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    val wifiInfo = wifiManager.connectionInfo
+    val wifiSsid = if (wifiInfo.networkId == -1) null else wifiInfo.ssid.removeSurrounding("\"")
+
     val config = ServerConfiguration(
         context.getPrefs().getNextAvailableServerId(),
         context.getString(R.string.openhab),
         ServerPath("https://$address:$port", null, null),
         null,
         null,
-        null
+        null,
+        wifiSsid
     )
     config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
 }

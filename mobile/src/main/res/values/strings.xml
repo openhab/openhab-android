@@ -116,6 +116,10 @@
     <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html#multi-server-support</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Touch here for more information</string>
+    <string name="settings_multi_server_wifi_ssid_summary">The app will select this server if it\'s connected to this Wi-Fi name</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Switched to server "%s" based on Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Unable to read Wi-Fi name: Missing permissions</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Unable to read Wi-Fi name: Location is off</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -424,6 +428,7 @@
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="undo">Undo</string>
     <string name="try_again_button">Try again</string>
     <string name="enable_wifi_button">Turn on Wi-Fi</string>
     <string name="go_to_settings_button">Go to settings</string>

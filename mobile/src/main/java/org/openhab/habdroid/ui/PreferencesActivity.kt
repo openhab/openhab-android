@@ -309,7 +309,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     getString(R.string.settings_server_default_name, nextServerId)
                 }
                 val f = ServerEditorFragment.newInstance(
-                    ServerConfiguration(nextServerId, nextName, null, null, null, null)
+                    ServerConfiguration(nextServerId, nextName, null, null, null, null, null)
                 )
                 parentActivity.openSubScreen(f)
                 true
@@ -763,7 +763,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.localPath,
                     config.remotePath,
                     config.sslClientCert,
-                    config.defaultSitemap
+                    config.defaultSitemap,
+                    config.wifiSsid
                 )
                 parentActivity.invalidateOptionsMenu()
                 true
@@ -807,7 +808,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.localPath,
                     config.remotePath,
                     newValue as String?,
-                    config.defaultSitemap
+                    config.defaultSitemap,
+                    config.wifiSsid
                 )
                 true
             }
@@ -829,6 +831,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             if (prefs.getConfiguredServerIds().isEmpty()) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.PRIMARY_SERVER_PREF)
+                preferenceScreen.removePreferenceRecursively("wifi_ssid")
             } else {
                 val primaryServerPref = getPreference(PrefKeys.PRIMARY_SERVER_PREF)
                 updatePrimaryServerPrefState(primaryServerPref, config.id == prefs.getPrimaryServerId())
@@ -841,6 +844,21 @@ class PreferencesActivity : AbstractBaseActivity() {
                         markAsPrimary = true
                     }
                     updatePrimaryServerPrefState(primaryServerPref, true)
+                    true
+                }
+
+                val wifiSsidPref = getPreference("wifi_ssid") as EditTextPreference
+                wifiSsidPref.text = config.wifiSsid
+                wifiSsidPref.setOnPreferenceChangeListener { _, newValue ->
+                    config = ServerConfiguration(
+                        config.id,
+                        config.name,
+                        config.localPath,
+                        config.remotePath,
+                        config.sslClientCert,
+                        config.defaultSitemap,
+                        newValue as String?
+                    )
                     true
                 }
             }
@@ -868,7 +886,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     path,
                     config.remotePath,
                     config.sslClientCert,
-                    config.defaultSitemap
+                    config.defaultSitemap,
+                    config.wifiSsid
                 )
             } else {
                 ServerConfiguration(
@@ -877,7 +896,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.localPath,
                     path,
                     config.sslClientCert,
-                    config.defaultSitemap
+                    config.defaultSitemap,
+                    config.wifiSsid
                 )
             }
             parentActivity.invalidateOptionsMenu()

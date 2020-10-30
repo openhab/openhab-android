@@ -37,6 +37,11 @@
         android:persistent="false"
         android:summary="@string/settings_openhab_none"
         android:title="@string/settings_openhab_sslclientcert" />
+    <EditTextPreference
+        android:key="wifi_ssid"
+        android:persistent="false"
+        android:summary="@string/settings_multi_server_wifi_ssid_summary"
+        android:title="@string/settings_wifi_ssid" />
     <Preference
         android:clickable="true"
         android:key="clear_default_sitemap"
