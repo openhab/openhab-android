@@ -1037,6 +1037,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun openWebViewUi(ui: WebViewUi) {
+        hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
         controller.showWebViewUi(ui)
         drawerToggle.isDrawerIndicatorEnabled = false
     }
