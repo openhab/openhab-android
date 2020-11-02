@@ -42,6 +42,7 @@ object PrefKeys {
     const val CHART_HQ = "default_openhab_chart_hq"
     const val IMAGE_WIDGET_SCALE_TO_FIT = "imageWidgetScaleToFit"
 
+    const val DRAWER_ENTRIES = "drawer_entries"
     const val THEME = "theme"
     const val ACCENT_COLOR = "theme_color"
     const val SCREEN_TIMER_OFF = "default_openhab_screentimeroff"
@@ -69,6 +70,10 @@ object PrefKeys {
     const val DATA_SAVER = "data_saver"
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
     const val LOG = "default_openhab_log"
+
+    const val DRAWER_ENTRY_OH3_UI = "show_oh3_ui"
+    const val DRAWER_ENTRY_HABPANEL = "show_habpanel"
+    const val DRAWER_ENTRY_NFC = "show_nfc"
 
     /**
      * Application state flags

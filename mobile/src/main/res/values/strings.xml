@@ -46,6 +46,7 @@
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">If you don\'t have an openHAB server, enable demo mode to get an imagination of what openHAB is capable of.</string>
+    <string name="drawer_entries">Side menu entries</string>
     <string name="settings_openhab_theme">Theme</string>
     <string name="settings_accent_color">Accent color</string>
     <string name="settings_select_a_color">Select a color</string>

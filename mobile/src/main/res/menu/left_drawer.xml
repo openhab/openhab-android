@@ -18,12 +18,12 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/oh3_ui"
-            android:icon="@drawable/ic_outline_looks_3_black_24dp"
+            android:icon="@drawable/ic_outline_looks_3_grey_24dp"
             android:title="@string/mainmenu_openhab_oh3_ui"
             android:menuCategory="system" />
         <item
             android:id="@+id/habpanel"
-            android:icon="@drawable/ic_view_dashboard_outline_black_24dp"
+            android:icon="@drawable/ic_view_dashboard_outline_grey_24dp"
             android:title="@string/mainmenu_openhab_habpanel"
             android:menuCategory="system" />
         <item
@@ -33,7 +33,7 @@
             android:menuCategory="system" />
         <item
             android:id="@+id/nfc"
-            android:icon="@drawable/ic_nfc_black_24dp"
+            android:icon="@drawable/ic_nfc_grey_24dp"
             android:title="@string/intro_nfc"
             android:menuCategory="system" />
         <item
