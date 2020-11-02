@@ -12,9 +12,12 @@
     <string name="mainmenu_openhab_preferences">Configuración</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Notificaciones</string>
     <string name="app_notifications_on_server">Notificaciones (%s)</string>
     <string name="habpanel_error">Error al cargar HABPanel</string>
+    <string name="oh3_ui_error">Se ha producido un error al cargar la interfaz de usuario (UI) de openHAB 3</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccionar el Sitemap por defecto</string>
     <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
     <!-- App settings strings -->
@@ -34,7 +37,7 @@
     <string name="settings_openhab_sslclientcert_howto_summary">Clic aquí para obtener sugerencias y explicaciones sobre cómo configurar la autenticación del certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Los certificados de cliente SSL no son compatibles con su dispositivo</string>
     <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
-    <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
+    <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras openHAB se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
     <string name="settings_openhab_demomode_summary">Si no dispone de un servidor de openHAB, habilite el modo demo para ver todo lo que puede hacer openHAB</string>
     <string name="settings_openhab_theme">Tema</string>
@@ -468,6 +471,7 @@
     <string name="item_update_success_message_previous">%s está mostrando el título anterior</string>
     <string name="item_update_success_message_rewind">%s está retrocediendo</string>
     <string name="item_update_success_message_fastforward">%s está avanzando rápido</string>
+    <string name="item_update_short_success_message_generic">Establecer a %s</string>
     <string name="item_update_short_success_message_on">Encendido</string>
     <string name="item_update_short_success_message_off">Apagado</string>
     <string name="item_update_short_success_message_up">Empieza a subir</string>
