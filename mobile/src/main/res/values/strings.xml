@@ -141,6 +141,8 @@
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_invalid_https_url">Please enter a valid URL in a \'https://host(:port)/\' form</string>
     <string name="error_port_seems_invalid">The port you have entered seems invalid for the selected protocol</string>
+    <string name="error_first_char_is_whitespace">The first character is a whitespace, which is probably unwanted</string>
+    <string name="error_last_char_is_whitespace">The last character is a whitespace, which is probably unwanted</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_unknown">An unknown error occurred: %s</string>
