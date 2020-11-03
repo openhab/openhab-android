@@ -37,6 +37,7 @@
     <string name="settings_openhab_screentimeroff_summary">Вимкнути таймер вимикання дисплея, коли працює openHAB</string>
     <string name="settings_openhab_demomode">Демонстраційний режим</string>
     <string name="settings_openhab_demomode_summary">Якщо ви не маєте сервера openHAB, увімкніть демонстраційний режим, щоб мати уяву на що openHAB здатний.</string>
+    <string name="drawer_entries">Елементи бічного меню</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_accent_color">Контрастний колір</string>
     <string name="settings_select_a_color">Оберіть колір</string>
@@ -117,6 +118,8 @@
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Будь ласка, введіть правильне посилання URL у форматі \"https://хост(:порт)/\"</string>
     <string name="error_port_seems_invalid">Введений порт здається непридатний для вибраного протоколу</string>
+    <string name="error_first_char_is_whitespace">Перший символ - це пробіл, який, ймовірно, не потрібен</string>
+    <string name="error_last_char_is_whitespace">Останній символ - це пробіль, який, ймовірно, не потрібен</string>
     <string name="error_connection_failed">Підключення до хоста не вдалося</string>
     <string name="error_unable_to_resolve_hostname">Не вдалося знайти доменне ім\'я</string>
     <string name="error_unknown">Сталася невідома помилка: %s</string>
