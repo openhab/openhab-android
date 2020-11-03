@@ -32,8 +32,8 @@ import org.openhab.habdroid.ui.CustomDialogPreference
 open class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs), CustomDialogPreference {
     private val inputType: Int
-    private var autofillHints: Array<String>? = null
-    private lateinit var whitespaceBehavior: WhitespaceBehavior
+    private var autofillHints: Array<String>?
+    private var whitespaceBehavior: WhitespaceBehavior
     private var defValue: Any? = null
 
     init {
@@ -42,8 +42,10 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
             inputType = getInt(0, 0)
             autofillHints = getString(1)?.split(',')?.toTypedArray()
             val whitespaceBehaviorId = getInt(2, 0)
-            if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
-                whitespaceBehavior = WhitespaceBehavior.values()[whitespaceBehaviorId]
+            whitespaceBehavior = if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
+                WhitespaceBehavior.values()[whitespaceBehaviorId]
+            } else {
+                WhitespaceBehavior.IGNORE
             }
             recycle()
         }
@@ -82,7 +84,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
     class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
         private lateinit var wrapper: TextInputLayout
         private lateinit var editor: EditText
-        private lateinit var whitespaceBehavior: WhitespaceBehavior
+        private var whitespaceBehavior: WhitespaceBehavior? = null
 
         override fun onBindDialogView(view: View?) {
             super.onBindDialogView(view)
@@ -108,8 +110,10 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                 }
             }
             val whitespaceBehaviorId = arguments?.getInt(KEY_WHITESPACE_BEHAVIOR, 0) ?: 0
-            if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
-                whitespaceBehavior = WhitespaceBehavior.values()[whitespaceBehaviorId]
+            whitespaceBehavior = if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
+                WhitespaceBehavior.values()[whitespaceBehaviorId]
+            } else {
+                WhitespaceBehavior.IGNORE
             }
         }
 
