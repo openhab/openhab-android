@@ -12,9 +12,12 @@
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">інтерфейс openHAB 3</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">інтерфейс openHAB 3 (%s)</string>
     <string name="app_notifications">Сповіщення</string>
     <string name="app_notifications_on_server">Сповіщення (%s)</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
+    <string name="oh3_ui_error">Сталася помилка під час завантаження інтерфейсу openHAB 3</string>
     <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
     <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
     <!-- App settings strings -->
@@ -93,7 +96,10 @@
     <string name="settings_server_confirm_leave_title">Незбережені зміни</string>
     <string name="settings_server_confirm_leave_message">Ви внесли деякі зміни. Ви хочете зберегти чи скасувати їх?</string>
     <string name="settings_server_primary_title">Основний сервер</string>
+    <string name="settings_server_primary_summary_is_primary">Цей сервер є основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Торкніться кнопки Довідка для отримання додаткової інформації.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" є основним сервером. Торкніться щоб зробити цей сервер основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Щоб дізнатися більше, торкніться кнопки довідки.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="voice_command">Голосова команда</string>
@@ -184,6 +190,7 @@
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
     <string name="info_write_tag_disabled">NFC вимкнено</string>
     <string name="action_settings">Налаштування</string>
+    <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисканням віджету на сторінці інтерфейсу.</string>
     <string name="info_not_set">Не вказано</string>
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
@@ -522,6 +529,7 @@
     <string name="tile_require_unlock">Потрібно розблокувати екран</string>
     <string name="tile_require_unlock_summary_on">Запитувати розблокування пристрою перед дозволом оновлення об\'єктів</string>
     <string name="tile_require_unlock_summary_off">Дозволити оновлення об\'єктів, навіть якщо пристрій заблоковано</string>
+    <string name="tile_overview_hint">Стан плитки не відображає стан об\'єкта.\nЯкщо плитки не оновлюються після їх зміни тут, торкніться плитки або відредагуйте швидкі налаштування вашого пристрою (місце, де знаходяться перемикачі на приклад Wi-Fi та Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d активна плитка</item>
         <item quantity="few">%d активні плитки</item>
