@@ -40,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras openHAB se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
     <string name="settings_openhab_demomode_summary">Si no dispone de un servidor de openHAB, habilite el modo demo para ver todo lo que puede hacer openHAB</string>
+    <string name="drawer_entries">Entradas de menú lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Color destacado</string>
     <string name="settings_select_a_color">Seleccione un color</string>
@@ -123,6 +124,8 @@
     <string name="error_invalid_url">Por favor, introducir una URL válida con formato \'http(s)://host(:puerto)/\'</string>
     <string name="error_invalid_https_url">Por favor, introduzca una URL válida con el formato \'https://host(:puerto)/\'</string>
     <string name="error_port_seems_invalid">El puerto introducido no es válido para el protocolo seleccionado</string>
+    <string name="error_first_char_is_whitespace">El primer carácter es un espacio en blanco, que probablemente no es deseado</string>
+    <string name="error_last_char_is_whitespace">El último carácter es un espacio en blanco, que probablemente no es deseado</string>
     <string name="error_connection_failed">Ha fallado la conexión con el host</string>
     <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
     <string name="error_unknown">Se produjo un error desconocido: %s</string>
