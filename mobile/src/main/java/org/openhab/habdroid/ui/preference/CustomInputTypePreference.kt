@@ -32,8 +32,8 @@ import org.openhab.habdroid.ui.CustomDialogPreference
 open class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs), CustomDialogPreference {
     private val inputType: Int
-    private var autofillHints: Array<String>?
-    private var whitespaceBehavior: WhitespaceBehavior
+    private val autofillHints: Array<String>?
+    private val whitespaceBehavior: WhitespaceBehavior
     private var defValue: Any? = null
 
     init {
