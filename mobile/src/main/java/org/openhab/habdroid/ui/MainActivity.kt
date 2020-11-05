@@ -534,7 +534,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             else -> null
         }
 
-        val serverHaveWifiSet = prefs
+        val anyServerHasSetWifi = prefs
             .getConfiguredServerIds()
             .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
             .any { config -> config?.wifiSsid?.isNotEmpty() == true }
@@ -545,7 +545,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val wifiSsid = if (wifiInfo.networkId == -1) null else wifiInfo.ssid.removeSurrounding("\"")
         val requiredPermission = getPermissionForSsidRead()
         when {
-            !serverHaveWifiSet -> {
+            !anyServerHasSetWifi -> {
                 Log.d(TAG, "Cannot auto select server: No server with configured wifi")
                 return
             }
