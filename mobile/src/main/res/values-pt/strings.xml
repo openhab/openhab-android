@@ -151,7 +151,6 @@
     <string name="about_community">comunidade openHAB</string>
     <string name="about_translation">Ajude-nos a traduzir!</string>
     <string name="about_privacy_policy">Política de Privacidade</string>
-    <string name="error_couldnt_determine_openhab_url">Não consegui determinar o URL openHAB</string>
     <string name="set">Conjunto</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Fechar</string>
@@ -188,8 +187,6 @@
     <string name="app_intro">Introdução</string>
     <string name="intro_welcome">Bem-vindo ao openHAB</string>
     <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
-    <string name="intro_themes">Temas</string>
-    <string name="intro_themes_description">Escolha entre vários temas</string>
     <string name="intro_voice_description">Controle sua casa com sua voz</string>
     <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->

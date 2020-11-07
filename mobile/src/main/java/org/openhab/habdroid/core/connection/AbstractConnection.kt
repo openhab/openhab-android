@@ -13,13 +13,12 @@
 
 package org.openhab.habdroid.core.connection
 
-import okhttp3.OkHttpClient
-import org.openhab.habdroid.model.ServerPath
-import org.openhab.habdroid.util.HttpClient
-
 import java.net.InetAddress
 import java.net.Socket
 import javax.net.SocketFactory
+import okhttp3.OkHttpClient
+import org.openhab.habdroid.model.ServerPath
+import org.openhab.habdroid.util.HttpClient
 
 abstract class AbstractConnection : Connection {
     final override val connectionType: Int

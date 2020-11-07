@@ -158,7 +158,6 @@
     <string name="info_write_tag_unsupported">Denna enhet har inte stöd för NFC</string>
     <string name="info_write_tag_disabled">NFC är inaktiverat</string>
     <string name="action_settings">Inställningar</string>
-    <string name="nfc_info_hint">Objektuppdateringar kan skrivas till NFC-taggar. Du kan välja ett objekt här eller så kan du långklicka på en widget på Sitemap.</string>
     <string name="info_not_set">Ej angivet</string>
     <string name="empty_page">Denna sida innehåller inte några synliga widgets</string>
     <!-- Background tasks -->
@@ -180,7 +179,6 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Meddelanden som skickas av servern utan någon definierad allvarlighetsgrad</string>
     <string name="notification_channel_group_messages">Medelande</string>
-    <string name="notification_channel_group_other">Annat</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d kunde inte uppdateras</item>
         <item quantity="other">Items %d kunde inte uppdateras</item>
@@ -276,7 +274,6 @@
     <string name="about_translation">Hjälp oss att översätta openHAB</string>
     <string name="about_privacy_policy">Integritetspolicy</string>
     <string name="about_rate_this_app">Betygsätt appen</string>
-    <string name="error_couldnt_determine_openhab_url">Kunde inte avgöra URL för openHAB</string>
     <string name="set">Sätt</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
@@ -311,8 +308,6 @@
     <string name="app_intro">Introduktion</string>
     <string name="intro_welcome">Välkommen till openHAB</string>
     <string name="intro_whatis">En mjukvara för att automatisera ditt hem med öppen källkod, helt oberoende av tillverkare eller teknologi</string>
-    <string name="intro_themes">Teman</string>
-    <string name="intro_themes_description">Välj mellan flera teman</string>
     <string name="intro_voice_description">Kontrollera ditt hem med din röst</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Långtryck på en en Item för att knyta den till NFS-taggar</string>

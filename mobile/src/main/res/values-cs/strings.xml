@@ -164,7 +164,6 @@
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
     <string name="action_settings">Nastavení</string>
-    <string name="nfc_info_hint">Aktualizace Item lze zapsat na NFC tagy. Item můžete vybrat zde, nebo můžete dlouze kliknout na widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
@@ -219,7 +218,6 @@
     <string name="notification_channel_messages_default_severity">Výchozí</string>
     <string name="notification_channel_messages_default_severity_description">Oznámení odeslaná serverem se standardní důležitostí</string>
     <string name="notification_channel_group_messages">Zprávy</string>
-    <string name="notification_channel_group_other">Ostatní</string>
     <string name="notification_channel_severity_value">Priorita \"%1$s\"</string>
     <string name="notification_channel_severity_value_description">Oznámení zasílaná serverem s prioritou \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -232,7 +230,6 @@
     <string name="push_notification_status_http_error">Nedostupné, chyba při připojování ke vzdálenému serveru: %s</string>
     <string name="push_notification_status_remote_no_cloud">Nedostupné, vzdálený server není openHAB cloud</string>
     <string name="push_notification_status">Stav</string>
-    <string name="push_notification_help_icon_description">Klikni pro nápovědu</string>
     <string name="push_notification_hint">Oznámení jsou stahována v pravidelném intervalu, který je stejný jako pro \"Odeslat informace o zařízení na server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item nemohla být aktualizována</item>
@@ -348,7 +345,6 @@
     <string name="about_rate_this_app">Ohodnotit aplikaci</string>
     <string name="settings_debug_messages_title">Rozšířené chybové zprávy</string>
     <string name="settings_troubleshooting_title">Řešení problémů</string>
-    <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
     <string name="set">Nastavit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
@@ -394,8 +390,6 @@
     <string name="intro_welcome_back">Vítejte zpět v openHAB</string>
     <string name="intro_app_restored">Většina vašich nastavení byla obnovena, s výjimkou přihlašovacích údajů na server</string>
     <string name="intro_whatis">Open source program pro domácí automatizaci</string>
-    <string name="intro_themes">Motivy vzhledu</string>
-    <string name="intro_themes_description">Vyberte si mezi několika motivy</string>
     <string name="intro_voice_description">Ovládejte svůj domov hlasem</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Ovládání Item můžete přiřadit k NFC tagu dlouhým podržením Item</string>
@@ -469,9 +463,7 @@
     <!-- Tiles -->
     <string name="tile">Dlaždice</string>
     <string name="tiles_for_quick_settings">Dlaždice pro rychlé nastavení</string>
-    <string name="tile_empty">Prázdná dlaždice</string>
     <string name="tile_item_picker_title">Vyberte Item</string>
-    <string name="tile_configure_in_settings">Tuto dlaždici lze nastavit v nastavení aplikace openHAB</string>
     <string name="tile_error_saving">Vyplňte prosím každou možnost nastavení</string>
     <string name="tile_disabled">Vypnuto</string>
     <string name="tile_enable">Zapnout</string>
@@ -481,7 +473,6 @@
     <string name="tile_require_unlock">Vyžadovat odemknutí obrazovky</string>
     <string name="tile_require_unlock_summary_on">Vyzvat k odemknutí zařízení před povolením aktualizace Item</string>
     <string name="tile_require_unlock_summary_off">Povolit aktualizaci Item i v případě, že je zařízení uzamčeno</string>
-    <string name="tile_overview_hint">Stav dlaždice neodráží stav Item.\nPokud máte problémy s tím, že dlaždice nejsou aktualizovány po jejich změně zde, klikněte na dlaždici nebo upravte rychlé nastavení zařízení (místo, kde jsou přepínače např. pro Wi-Fi a Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktivní dlaždice</item>
         <item quantity="few">%d aktivní dlaždice</item>

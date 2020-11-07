@@ -21,36 +21,78 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
+import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.addToPrefs
+import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.resolveThemedColor
 
-class IntroActivity : AppIntro() {
+class IntroActivity : AppIntro(), CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Util.getActivityThemeId(this))
         super.onCreate(savedInstanceState)
 
         if (getPrefs().getBoolean(PrefKeys.RECENTLY_RESTORED, false)) {
             Log.d(TAG, "Show restore intro")
-            addSlide(R.string.intro_welcome_back,
+            addSlide(
+                R.string.intro_welcome_back,
                 R.string.intro_app_restored,
-                R.drawable.ic_openhab_appicon_340dp)
+                R.drawable.ic_openhab_appicon_340dp
+            )
         } else {
             Log.d(TAG, "Show regular intro")
-            addSlide(R.string.intro_welcome,
+            addSlide(
+                R.string.intro_welcome,
                 R.string.intro_whatis,
-                R.drawable.ic_openhab_appicon_340dp)
-            addSlide(R.string.intro_themes,
-                R.string.intro_themes_description,
-                R.drawable.ic_palette_outline_themed_340dp)
-            addSlide(R.string.mainmenu_openhab_voice_recognition,
+                R.drawable.ic_openhab_appicon_340dp
+            )
+            addSlide(
+                R.string.mainmenu_openhab_voice_recognition,
                 R.string.intro_voice_description,
-                R.drawable.ic_microphone_outline_themed_340dp)
-            addSlide(R.string.intro_nfc,
+                R.drawable.ic_twotone_keyboard_voice_themed_340dp
+            )
+            addSlide(
+                R.string.intro_nfc,
                 R.string.intro_nfc_description,
-                R.drawable.ic_nfc_themed_340dp)
+                R.drawable.ic_nfc_themed_340dp
+            )
+            addSlide(
+                R.string.tiles_for_quick_settings,
+                R.string.intro_quick_tile_description,
+                R.drawable.ic_twotone_library_books_themed_340dp
+
+            )
+            addSlide(
+                R.string.intro_send_device_info,
+                R.string.intro_send_device_info_description,
+                R.drawable.ic_twotone_access_alarm_themed_340dp
+
+            )
+
+            if (getPrefs().getConfiguredServerIds().isEmpty()) {
+                Log.d(TAG, "Starting discovery")
+                val resolver = AsyncServiceResolver(
+                    this,
+                    AsyncServiceResolver.OPENHAB_SERVICE_TYPE,
+                    this
+                )
+                launch {
+                    resolver.resolve()?.addToPrefs(this@IntroActivity)
+                }
+            } else {
+                Log.d(TAG, "Don't start discovery, because there's already at least one server configured")
+            }
         }
 
         // Change bar color

@@ -35,7 +35,7 @@ If it fails, you can click on `Go to settings` and manually enter the server set
 The URL field(s) might look like one of the following examples:
 
 * IP address: `http://192.168.1.3:8080`
-* Local hostname: `http://openhabianpi:8080` (depending on your network the suffix `.local` needs to be added to the hostname)
+* Local hostname: `http://openhab:8080` (depending on your network the suffix `.local` needs to be added to the hostname)
 * Remote domain name: `https://myopenhab.org` for an openHAB cloud account with [myopenHAB](http://www.myopenhab.org/)
 
 **Local server settings:**

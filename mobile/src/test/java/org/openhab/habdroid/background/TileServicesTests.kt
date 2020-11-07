@@ -53,6 +53,11 @@ class TileServicesTests {
                 AbstractTileService.getClassNameForId(id),
                 tileService.canonicalName
             )
+
+            Assert.assertEquals(
+                AbstractTileService.getIdFromClassName(tileService.canonicalName!!),
+                id
+            )
         }
     }
 }

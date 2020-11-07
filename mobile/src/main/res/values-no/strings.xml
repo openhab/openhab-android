@@ -121,7 +121,6 @@
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_write_tag_disabled">NFC er slått av</string>
     <string name="action_settings">Innstillinger</string>
-    <string name="nfc_info_hint">Enhetsoppdateringer kan skrives til NFC-brikker. Du kan velge en enhet her eller du kan trykke-og-holde en widget I Nettstedskartet.</string>
     <string name="info_not_set">Ikke angitt</string>
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
@@ -222,7 +221,6 @@
     <string name="about_community">openHABs fellesskap</string>
     <string name="about_translation">Hjelp oss å oversette openHAB</string>
     <string name="about_privacy_policy">Personvernregler</string>
-    <string name="error_couldnt_determine_openhab_url">Kunne ikke bestemme URL for openHAB</string>
     <string name="set">Sett</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>
@@ -267,8 +265,6 @@
     <string name="intro_welcome_back">Velkommen tilbake til openHAB</string>
     <string name="intro_app_restored">De fleste av innstillingene dine er gjenopprettet, bortsett fra server-legitimasjonen</string>
     <string name="intro_whatis">En leverandør og teknologiuavhengig - åpen kildekode - automatiseringsprogramvare for hjemmet ditt</string>
-    <string name="intro_themes">Temaer</string>
-    <string name="intro_themes_description">Velg mellom flere temaer</string>
     <string name="intro_voice_description">Styr hjemmet ditt med stemmen</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Element-kontrollen kan bindes til NFC koder ved å holde inne knappen til elementet</string>

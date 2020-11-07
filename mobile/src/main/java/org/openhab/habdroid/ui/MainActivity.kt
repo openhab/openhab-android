@@ -93,9 +93,9 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableExcepti
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
-import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
@@ -108,8 +108,8 @@ import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.addToPrefs
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getActiveServerId
@@ -117,7 +117,6 @@ import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
-import org.openhab.habdroid.util.getNextAvailableServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
@@ -130,7 +129,6 @@ import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.putActiveServerId
-import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
@@ -675,8 +673,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             )
             config.saveToPrefs(prefs, getSecretPrefs())
         } else {
-            Log.d(TAG, "onServiceResolveFailed()")
-            controller.indicateMissingConfiguration(true, false)
+            Log.d(TAG, "Failed to discover openHAB server")
+            controller.indicateMissingConfiguration(resolveAttempted = true, wouldHaveUsedOfficialServer = false)
         }
     }
 
@@ -697,9 +695,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 val notificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
                 executeActionIfPossible(PendingAction.OpenNotification(notificationId, true))
             }
-            ACTION_HABPANEL_SELECTED -> {
+            ACTION_HABPANEL_SELECTED, ACTION_OH3_UI_SELECTED -> {
                 val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
-                executeOrStoreAction(PendingAction.OpenHabPanel(serverId))
+                val ui = when (intent.action) {
+                    ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
+                    else -> WebViewUi.OH3_UI
+                }
+                executeOrStoreAction(PendingAction.OpenWebViewUi(ui, serverId))
             }
             ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
             ACTION_SITEMAP_SELECTED -> {
@@ -778,7 +780,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.habpanel -> {
-                    openHabPanel()
+                    openWebViewUi(WebViewUi.HABPANEL)
+                    handled = true
+                }
+                R.id.oh3_ui -> {
+                    openWebViewUi(WebViewUi.OH3_UI)
                     handled = true
                 }
                 R.id.settings -> {
@@ -916,13 +922,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             notificationsItem.isVisible = ConnectionFactory.activeCloudConnection?.connection != null
 
             val habPanelItem = drawerMenu.findItem(R.id.habpanel)
-            habPanelItem.isVisible = serverProperties?.hasHabPanelInstalled() == true
-            manageHabPanelShortcut(serverProperties?.hasHabPanelInstalled() == true)
+            habPanelItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_HABPANEL, true)
+            manageHabPanelShortcut(serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true)
+
+            val oh3UiItem = drawerMenu.findItem(R.id.oh3_ui)
+            oh3UiItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.OH3_UI) == true &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_OH3_UI, true)
 
             val nfcItem = drawerMenu.findItem(R.id.nfc)
             nfcItem.isVisible = serverProperties != null &&
                 (NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()) &&
-                prefs.getPrimaryServerId() == prefs.getActiveServerId()
+                prefs.getPrimaryServerId() == prefs.getActiveServerId() &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_NFC, true)
         }
     }
 
@@ -989,8 +1001,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         action is PendingAction.OpenSitemapUrl && isStarted && serverProperties != null -> {
             executeActionForServer(action.serverId) { buildUrlAndOpenSitemap(action.url) }
         }
-        action is PendingAction.OpenHabPanel && isStarted && serverProperties?.hasHabPanelInstalled() == true -> {
-            executeActionForServer(action.serverId) { openHabPanel() }
+        action is PendingAction.OpenWebViewUi && isStarted &&
+            serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
+            executeActionForServer(action.serverId) { openWebViewUi(action.ui) }
         }
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
             launchVoiceRecognition()
@@ -1014,7 +1027,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun executeActionForServer(serverId: Int, action: () -> Unit): Boolean = when {
         serverId !in prefs.getConfiguredServerIds() -> {
-            showToast(R.string.home_shortcut_server_has_been_deleted, ToastType.ERROR)
+            showSnackbar(
+                SNACKBAR_TAG_SERVER_MISSING,
+                R.string.home_shortcut_server_has_been_deleted
+            )
             true
         }
         serverId != prefs.getActiveServerId() -> {
@@ -1083,8 +1099,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
-    private fun openHabPanel() {
-        controller.showHabPanel()
+    private fun openWebViewUi(ui: WebViewUi) {
+        hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
+        controller.showWebViewUi(ui)
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
@@ -1165,6 +1182,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 putBoolean(PrefKeys.DATA_SAVER_EXPLAINED, true)
             }
         }
+    }
+
+    fun setDrawerLocked(locked: Boolean) {
+        drawerLayout.setDrawerLockMode(
+            if (locked) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED
+        )
     }
 
     private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
@@ -1324,7 +1347,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private sealed class PendingAction {
         class ChooseSitemap : PendingAction()
         class OpenSitemapUrl constructor(val url: String, val serverId: Int) : PendingAction()
-        class OpenHabPanel constructor(val serverId: Int) : PendingAction()
+        class OpenWebViewUi constructor(val ui: WebViewUi, val serverId: Int) : PendingAction()
         class LaunchVoiceRecognition : PendingAction()
         class OpenNotification constructor(val notificationId: String, val primary: Boolean) : PendingAction()
     }
@@ -1332,6 +1355,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     companion object {
         const val ACTION_NOTIFICATION_SELECTED = "org.openhab.habdroid.action.NOTIFICATION_SELECTED"
         const val ACTION_HABPANEL_SELECTED = "org.openhab.habdroid.action.HABPANEL_SELECTED"
+        const val ACTION_OH3_UI_SELECTED = "org.openhab.habdroid.action.OH3_UI_SELECTED"
         const val ACTION_VOICE_RECOGNITION_SELECTED = "org.openhab.habdroid.action.VOICE_SELECTED"
         const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
         const val EXTRA_SITEMAP_URL = "sitemapUrl"
@@ -1346,9 +1370,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val SNACKBAR_TAG_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
         const val SNACKBAR_TAG_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
         const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
+        const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
         const val SNACKBAR_TAG_SSE_ERROR = "sseError"
         const val SNACKBAR_TAG_SHORTCUT_INFO = "shortcutInfo"
-        const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
+        const val SNACKBAR_TAG_SERVER_MISSING = "serverMissing"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"

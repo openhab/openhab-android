@@ -164,7 +164,6 @@
     <string name="info_write_tag_unsupported">Ce téléphone n\'est pas compatible NFC</string>
     <string name="info_write_tag_disabled">La technologie NFC est désactivée</string>
     <string name="action_settings">Paramétrage</string>
-    <string name="nfc_info_hint">Les mises à jour d\'Item peuvent être écrites sur des labels NFC. Vous pouvez sélectionner un Item ici ou vous pouvez faire un appui long sur un widget du Sitemap.</string>
     <string name="info_not_set">Non paramétré</string>
     <string name="empty_page">Cette page ne contient aucun widget qui soit défini pour être visible</string>
     <!-- Background tasks -->
@@ -211,7 +210,6 @@
     <string name="notification_channel_messages_default_severity">Défaut</string>
     <string name="notification_channel_messages_default_severity_description">Notifications envoyées par le serveur sans définition de gravité</string>
     <string name="notification_channel_group_messages">Messages</string>
-    <string name="notification_channel_group_other">Autres</string>
     <string name="notification_channel_severity_value">Gravité «%1$s »</string>
     <string name="notification_channel_severity_value_description">Notifications envoyées par le serveur avec la gravité \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -222,7 +220,6 @@
     <string name="push_notification_status_http_error">Indisponible, erreur de connexion au serveur distant : %s</string>
     <string name="push_notification_status_remote_no_cloud">Indisponible, le serveur distant n\'est pas une instance openHAB Cloud</string>
     <string name="push_notification_status">État </string>
-    <string name="push_notification_help_icon_description">Cliquez ici pour obtenir de l\'aide</string>
     <string name="push_notification_hint">Les notifications sont interrogées selon une planification régulière, qui est la même que pour \"Envoyer les informations de l\'appareil au serveur\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Impossible de mettre à jour %d Item</item>
@@ -333,7 +330,6 @@
     <string name="about_translation">Aidez-nous à traduire openHAB</string>
     <string name="about_privacy_policy">Politique de Confidentialité</string>
     <string name="about_rate_this_app">Notez cette application</string>
-    <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
     <string name="set">Définir</string>
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
@@ -379,8 +375,6 @@
     <string name="intro_welcome_back">Bon retour dans openHAB</string>
     <string name="intro_app_restored">La plupart de vos paramètres ont été restaurés, sauf les identifiants du serveur</string>
     <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>
-    <string name="intro_themes">Thêmes</string>
-    <string name="intro_themes_description">Choisir parmi ces thêmes</string>
     <string name="intro_voice_description">Contrôler votre maison à l\'aide de commandes vocales</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Le contrôle d\'un équipement peut être associé à des tags NFC avec une pression longue sur celui-ci</string>
@@ -453,9 +447,7 @@
     <!-- Tiles -->
     <string name="tile">Tuile</string>
     <string name="tiles_for_quick_settings">Tuiles pour les paramètres rapides</string>
-    <string name="tile_empty">Tuile vide</string>
     <string name="tile_item_picker_title">Sélectionnez un Item</string>
-    <string name="tile_configure_in_settings">Cette tuile peut être configurée dans les paramètres de l\'application openHAB</string>
     <string name="tile_error_saving">Veuillez remplir chaque paramètre</string>
     <string name="tile_disabled">Éteint</string>
     <string name="tile_enable">Allumé</string>
@@ -465,7 +457,6 @@
     <string name="tile_require_unlock">Nécessite le déverrouillage de l\'écran</string>
     <string name="tile_require_unlock_summary_on">Demander le déverrouillage de l\'appareil avant d\'autoriser les mises à jour d\'Item</string>
     <string name="tile_require_unlock_summary_off">Autoriser la mise à jour d\'Items même si l\'appareil est verrouillé</string>
-    <string name="tile_overview_hint">L\'état de la tuile ne reflète pas l\'état de l\'Item.\nSi vous rencontrez des problèmes avec des tuiles non mises à jour après les avoir changées ici, cliquez sur la tuile ou modifiez les paramètres rapides de votre appareil (l\'endroit où se trouvent les commutateurs pour le Wi-Fi et Bluetooth, par exemple).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d tuile active</item>
         <item quantity="other">%d tuiles actives</item>

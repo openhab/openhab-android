@@ -18,9 +18,9 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
+import java.util.Locale
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
-import java.util.Locale
 
 object Util {
     val TAG: String = Util::class.java.simpleName

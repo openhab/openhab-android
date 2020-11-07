@@ -25,6 +25,14 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import java.io.IOException
+import java.io.StringReader
+import java.net.SocketTimeoutException
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.runBlocking
 import org.json.JSONException
@@ -46,14 +54,6 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showToast
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
-import java.io.IOException
-import java.io.StringReader
-import java.net.SocketTimeoutException
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.TimeZone
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
@@ -385,6 +385,29 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 .putBoolean(INPUT_DATA_IS_IMPORTANT, isImportant)
                 .putBoolean(INPUT_DATA_PRIMARY_SERVER, primaryServer)
                 .build()
+        }
+
+        fun getShortItemUpdateSuccessMessage(
+            context: Context,
+            value: String
+        ): String = when (value) {
+            "ON" -> context.getString(R.string.item_update_short_success_message_on)
+            "OFF" -> context.getString(R.string.item_update_short_success_message_off)
+            "UP" -> context.getString(R.string.item_update_short_success_message_up)
+            "DOWN" -> context.getString(R.string.item_update_short_success_message_down)
+            "MOVE" -> context.getString(R.string.item_update_short_success_message_move)
+            "STOP" -> context.getString(R.string.item_update_short_success_message_stop)
+            "INCREASE" -> context.getString(R.string.item_update_short_success_message_increase)
+            "DECREASE" -> context.getString(R.string.item_update_short_success_message_decrease)
+            "UNDEF" -> context.getString(R.string.item_update_short_success_message_undefined)
+            "" -> context.getString(R.string.item_update_short_success_message_empty_string)
+            "PLAY" -> context.getString(R.string.item_update_short_success_message_play)
+            "PAUSE" -> context.getString(R.string.item_update_short_success_message_pause)
+            "NEXT" -> context.getString(R.string.item_update_short_success_message_next)
+            "PREVIOUS" -> context.getString(R.string.item_update_short_success_message_previous)
+            "REWIND" -> context.getString(R.string.item_update_short_success_message_rewind)
+            "FASTFORWARD" -> context.getString(R.string.item_update_short_success_message_fastforward)
+            else -> context.getString(R.string.item_update_short_success_message_generic, value)
         }
     }
 

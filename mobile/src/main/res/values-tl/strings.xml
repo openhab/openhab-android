@@ -84,7 +84,6 @@
     <!-- About -->
     <string name="about_title">Impormasyon</string>
     <string name="about_license_title">Lisensya</string>
-    <string name="error_couldnt_determine_openhab_url">Hindi malaman ang openHAB URL</string>
     <string name="set">I-set</string>
     <string name="cancel">Kanselahin</string>
     <string name="try_again_button">Subukan muli</string>
@@ -105,8 +104,6 @@
     <string name="app_intro">Panimula</string>
     <string name="intro_welcome">Maligayang pagdating sa openHAB</string>
     <string name="intro_whatis">Isang vendor at teknolohiyang agnostika na may bukas na pinagmulan awtomasyong software para sainyong tirahan</string>
-    <string name="intro_themes">Mga tema</string>
-    <string name="intro_themes_description">Mamili mula sa ilang mga tema</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Laktawan</string>
     <!-- Intro "DONE" button -->

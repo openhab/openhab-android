@@ -131,7 +131,6 @@
     <string name="about_community">Κοινότητα openHAB</string>
     <string name="about_translation">Βοηθείστε μας να μεταφράσουμε το openHAB</string>
     <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
-    <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
     <string name="set">Ορισμός</string>
     <string name="cancel">Άκυρο</string>
     <string name="close">Κλείσιμο</string>
@@ -156,8 +155,6 @@
     <string name="app_intro">Εισαγωγή</string>
     <string name="intro_welcome">Καλώς ήρθατε στο openHAB</string>
     <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
-    <string name="intro_themes">Θέματα</string>
-    <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
     <string name="intro_voice_description">Ελέγξτε το σπίτι σας με την φωνή σας</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Το στοιχείο ελέγχου μπορεί να συνδεθεί σε ετικέτες NFC κρατώντας πατημένο το στοιχείο</string>

@@ -1,0 +1,6 @@
+## Added
+* Add confirm leave dialog to tiles prefs (#2237)
+* Opt out of webview usage statistics collection (#2240)
+
+## Fixed
+* Hide shortcut action if pinning shortcuts is unsupported (#2251)

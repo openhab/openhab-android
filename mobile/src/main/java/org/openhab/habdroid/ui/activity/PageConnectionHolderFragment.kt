@@ -17,6 +17,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import java.io.IOException
+import java.io.StringReader
+import java.util.HashMap
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -37,11 +42,6 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.appendQueryParameter
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
-import java.io.IOException
-import java.io.StringReader
-import java.util.HashMap
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 
 /**
  * Fragment that manages connections for active instances of

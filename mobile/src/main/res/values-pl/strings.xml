@@ -155,7 +155,6 @@
     <string name="info_write_tag_unsupported">To urządzenie nie wspiera technologii NFC</string>
     <string name="info_write_tag_disabled">Komunikacja NFC jest wyłączona</string>
     <string name="action_settings">Ustawienia</string>
-    <string name="nfc_info_hint">Zmiany Itemu mogą być zapisane do tagu NFC. Item możesz wybrać tutaj lub przytrzymać widżet w Sitemapie.</string>
     <string name="info_not_set">Nie ustawiono</string>
     <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Background tasks -->
@@ -245,7 +244,6 @@
     <string name="about_community">Społeczność openHAB</string>
     <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
     <string name="about_privacy_policy">Polityka prywatności</string>
-    <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
     <string name="set">Wybierz</string>
     <string name="cancel">Anuluj</string>
     <string name="close">Zamknij</string>
@@ -290,8 +288,6 @@
     <string name="intro_welcome_back">Witaj ponownie w openHAB</string>
     <string name="intro_app_restored">Przywrócono większość twoich ustawień, poza danymi logowania do serwera</string>
     <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
-    <string name="intro_themes">Motywy</string>
-    <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
     <string name="intro_voice_description">Kontroluj swój domu za pomocą głosu</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item może być powiązana z tagiem NFC poprzez długie przyciśnięcie Item</string>

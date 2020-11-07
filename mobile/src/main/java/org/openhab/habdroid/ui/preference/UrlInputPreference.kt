@@ -28,7 +28,6 @@ import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import com.google.android.material.textfield.TextInputLayout
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.openhab.habdroid.R
-import java.net.MalformedURLException
 
 class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {

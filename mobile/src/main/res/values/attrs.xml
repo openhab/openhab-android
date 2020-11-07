@@ -33,6 +33,14 @@
         <attr name="selectedWidgetBackgroundColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="CustomInputTypePreference">
+        <attr name="whitespaceBehavior" format="enum">
+            <enum name="ignore" value="0" />
+            <enum name="trim" value="1" />
+            <enum name="warn" value="2" />
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="UrlInputPreference">
         <attr name="isHttpEnabled" format="boolean" />
     </declare-styleable>

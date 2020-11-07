@@ -5,7 +5,6 @@
 
     <!-- General app strings -->
     <string name="openhab" translatable="false">openHAB</string>
-    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="empty_string" translatable="false" />
     <string name="save">Save</string>
@@ -17,9 +16,12 @@
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_notifications_on_server">Notifications (%s)</string>
     <string name="habpanel_error">An error occurred while loading HABPanel</string>
+    <string name="oh3_ui_error">An error occurred while loading openHAB 3 UI</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 
@@ -45,6 +47,7 @@
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">If you don\'t have an openHAB server, enable demo mode to get an imagination of what openHAB is capable of.</string>
+    <string name="drawer_entries">Side menu entries</string>
     <string name="settings_openhab_theme">Theme</string>
     <string name="settings_accent_color">Accent color</string>
     <string name="settings_select_a_color">Select a color</string>
@@ -103,18 +106,17 @@
     <string name="settings_server_name">Server name</string>
     <string name="settings_add_server">Add server</string>
     <string name="settings_edit_server">Edit server</string>
-    <string name="drawer_title_servers">Servers</string>
     <string name="server_with_name">Server %s</string>
     <string name="settings_server_at_least_name_and_connection">At least server name and one connection is required</string>
     <string name="settings_server_confirm_deletion">Do you really want to remove this server?</string>
     <string name="settings_server_confirm_leave_title">Unsaved changes</string>
     <string name="settings_server_confirm_leave_message">You made some changes. Do you want to save or discard them?</string>
     <string name="settings_server_primary_title">Primary server</string>
-    <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
-    <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Click to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Click on the help button for more information.</string>
+    <string name="settings_server_primary_summary_is_primary">This server is the primary one.\nCurrently only the primary server is supported by all features of this app. Touch the help button for more information.</string>
+    <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Touch to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Touch the help button for more information.</string>
     <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html#multi-server-support</string>
     <string name="settings_server_default_name">openHAB %d</string>
-    <string name="click_here_for_more_information">Click here for more information</string>
+    <string name="click_here_for_more_information">Touch here for more information</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -141,6 +143,8 @@
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_invalid_https_url">Please enter a valid URL in a \'https://host(:port)/\' form</string>
     <string name="error_port_seems_invalid">The port you have entered seems invalid for the selected protocol</string>
+    <string name="error_first_char_is_whitespace">The first character is a whitespace, which is probably unwanted</string>
+    <string name="error_last_char_is_whitespace">The last character is a whitespace, which is probably unwanted</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_unknown">An unknown error occurred: %s</string>
@@ -209,7 +213,7 @@
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled</string>
     <string name="action_settings">Settings</string>
-    <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long click a widget on the Sitemap.</string>
+    <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long press a widget on the Sitemap.</string>
     <string name="info_not_set">Not set</string>
     <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
@@ -285,7 +289,6 @@
     <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
     <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_help_icon_description">Click here for help</string>
     <string name="push_notification_hint">The notifications are polled on a regular schedule, which is the same than for \"Send device information to server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item could not be updated</item>
@@ -297,6 +300,9 @@
     <string name="item_update_http_error_label">%1$s update failed: %2$s</string>
     <string name="item_update_connection_error">Item \'%1$s\' update failed (No connection)</string>
     <string name="item_update_connection_error_label">%1$s update failed (No connection)</string>
+    <string name="item_update_short_status_waiting">Waiting…</string>
+    <string name="item_update_short_status_sending">Sending…</string>
+    <string name="item_update_short_status_failed">Failed</string>
     <string name="error_no_valid_item_name">Please enter a valid Item name</string>
     <string name="retry">Retry</string>
     <string name="ignore">Ignore</string>
@@ -416,7 +422,6 @@
 
     <string name="settings_debug_messages_title">Extended error messages</string>
     <string name="settings_troubleshooting_title">Troubleshooting</string>
-    <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
@@ -468,11 +473,12 @@
     <string name="intro_welcome_back">Welcome back to openHAB</string>
     <string name="intro_app_restored">Most of your settings have been restored, except the server credentials</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
-    <string name="intro_themes">Themes</string>
-    <string name="intro_themes_description">Choose between several themes</string>
     <string name="intro_voice_description">Control your home with your voice</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the Item</string>
+    <string name="intro_quick_tile_description">Control your home from the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth)</string>
+    <string name="intro_send_device_info">Send device information to your server</string>
+    <string name="intro_send_device_info_description">For example turn on your lights when the alarm clock rings</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
@@ -522,6 +528,23 @@
     <string name="item_update_success_message_previous">%s is showing the previous title</string>
     <string name="item_update_success_message_rewind">%s is rewinding</string>
     <string name="item_update_success_message_fastforward">%s is fast forwarding</string>
+    <string name="item_update_short_success_message_generic">Set to %s</string>
+    <string name="item_update_short_success_message_on">Turned on</string>
+    <string name="item_update_short_success_message_off">Turned off</string>
+    <string name="item_update_short_success_message_up">Starts moving up</string>
+    <string name="item_update_short_success_message_down">Starts moving down</string>
+    <string name="item_update_short_success_message_move">Starts moving</string>
+    <string name="item_update_short_success_message_stop">Stopped</string>
+    <string name="item_update_short_success_message_increase">Increased</string>
+    <string name="item_update_short_success_message_decrease">Decreased</string>
+    <string name="item_update_short_success_message_undefined">Set to undefined</string>
+    <string name="item_update_short_success_message_empty_string">Set to empty string</string>
+    <string name="item_update_short_success_message_play">Playing</string>
+    <string name="item_update_short_success_message_pause">Paused</string>
+    <string name="item_update_short_success_message_next">Showing next title</string>
+    <string name="item_update_short_success_message_previous">Showing previous title</string>
+    <string name="item_update_short_success_message_rewind">Rewinding</string>
+    <string name="item_update_short_success_message_fastforward">Fast forwarding</string>
     <string name="item_update_error_no_connection_retry">Error sending Item update, retrying\u2026</string>
     <string name="item_update_error_no_connection">No connection</string>
     <string name="item_update_error_couldnt_get_item_type">Couldn\'t get Item type</string>
@@ -548,9 +571,7 @@
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">Tiles for quick settings</string>
-    <string name="tile_empty">Empty tile</string>
     <string name="tile_item_picker_title">Select an Item</string>
-    <string name="tile_configure_in_settings">This tile can be configured in the openHAB app settings</string>
     <string name="tile_error_saving">Please fill out every setting</string>
     <string name="tile_disabled">Turned off</string>
     <string name="tile_enable">Turn on</string>
@@ -560,7 +581,7 @@
     <string name="tile_require_unlock">Require screen to be unlocked</string>
     <string name="tile_require_unlock_summary_on">Prompt for unlocking the device before allowing Item updates</string>
     <string name="tile_require_unlock_summary_off">Allow updating Items even if the device is locked</string>
-    <string name="tile_overview_hint">The state of the tile doesn\'t reflect the state of the Item.\nIf you have issues with tiles not being updated after changing them here, click on the tile or edit the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth).</string>
+    <string name="tile_overview_hint">The state of the tile doesn\'t reflect the state of the Item.\nIf you have issues with tiles not being updated after changing them here, touch the tile or edit the quick settings of your device (the place that holds the toggles for e.g. Wi-Fi and Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d active tile</item>
         <item quantity="other">%d active tiles</item>

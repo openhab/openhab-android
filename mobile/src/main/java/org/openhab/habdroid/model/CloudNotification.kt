@@ -14,15 +14,14 @@
 package org.openhab.habdroid.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-import org.json.JSONException
-import org.json.JSONObject
-import org.openhab.habdroid.util.optStringOrNull
-
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
+import kotlinx.android.parcel.Parcelize
+import org.json.JSONException
+import org.json.JSONObject
+import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
 data class CloudNotification internal constructor(

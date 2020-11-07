@@ -32,6 +32,7 @@ import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.telephony.TelephonyManager
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.content.edit
 import androidx.core.location.LocationManagerCompat
 import androidx.core.os.bundleOf
@@ -44,6 +45,9 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import java.util.HashMap
+import java.util.concurrent.TimeUnit
+import kotlin.math.max
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
@@ -67,9 +71,6 @@ import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
-import java.util.HashMap
-import java.util.concurrent.TimeUnit
-import kotlin.math.max
 
 class BackgroundTasksManager : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -245,6 +246,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_TASKER = "tasker-"
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
         const val WORKER_TAG_PREFIX_TILE = "tile-"
+        const val WORKER_TAG_PREFIX_TILE_ID = "tile_id-"
         const val WORKER_TAG_VOICE_COMMAND = "voiceCommand"
         fun buildWorkerTagForServer(id: Int) = "server-id-$id"
 
@@ -352,7 +354,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
         }
 
-        fun enqueueTileUpdate(context: Context, data: TileData) {
+        fun enqueueTileUpdate(context: Context, data: TileData, tileId: Int) {
             enqueueItemUpload(
                 context,
                 WORKER_TAG_PREFIX_TILE + data.item,
@@ -360,8 +362,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 data.label,
                 ItemUpdateWorker.ValueWithInfo(data.state, data.mappedState),
                 isImportant = true,
-                showToast = true,
-                asCommand = true
+                showToast = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q,
+                asCommand = true,
+                secondaryTags = listOf(WORKER_TAG_PREFIX_TILE_ID + tileId)
             )
         }
 
@@ -504,7 +507,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private fun enqueueItemUpload(
             context: Context,
-            tag: String,
+            primaryTag: String,
             itemName: String,
             label: String?,
             value: ItemUpdateWorker.ValueWithInfo,
@@ -512,7 +515,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             showToast: Boolean,
             taskerIntent: String? = null,
             asCommand: Boolean,
-            primaryServer: Boolean = true
+            primaryServer: Boolean = true,
+            secondaryTags: List<String>? = null
         ) {
             val prefs = context.getPrefs()
             val constraints = Constraints.Builder()
@@ -532,7 +536,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .setConstraints(constraints)
                 .setBackoffCriteria(if (isImportant) BackoffPolicy.LINEAR else BackoffPolicy.EXPONENTIAL,
                     WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
-                .addTag(tag)
+                .addTag(primaryTag)
                 .addTag(WORKER_TAG_ITEM_UPLOADS)
                 .addTag(
                     buildWorkerTagForServer(
@@ -540,11 +544,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     )
                 )
                 .setInputData(inputData)
-                .build()
+
+            secondaryTags?.forEach {
+                workRequest.addTag(it)
+            }
 
             val workManager = WorkManager.getInstance(context)
-            Log.d(TAG, "Scheduling work for tag $tag")
-            workManager.enqueueUniqueWork(tag, ExistingWorkPolicy.REPLACE, workRequest)
+            Log.d(TAG, "Scheduling work for tag $primaryTag")
+            workManager.enqueueUniqueWork(primaryTag, ExistingWorkPolicy.REPLACE, workRequest.build())
         }
 
         init {
@@ -626,6 +633,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
                 ItemUpdateWorker.ValueWithInfo(ssidToSend)
             }
+            @RequiresApi(Build.VERSION_CODES.M)
             VALUE_GETTER_MAP[PrefKeys.SEND_DND_MODE] = { context ->
                 val nm = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 val mode = when (nm.currentInterruptionFilter) {

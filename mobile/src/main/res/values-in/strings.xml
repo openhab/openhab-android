@@ -171,7 +171,6 @@
     <string name="about_community">komunitas openHAB</string>
     <string name="about_translation">Bantu kami menerjemahkan openHAB</string>
     <string name="about_privacy_policy">Kebijakan privasi</string>
-    <string name="error_couldnt_determine_openhab_url">Tidak dapat menentukan URL openHAB</string>
     <string name="set">Atur</string>
     <string name="cancel">Batalkan</string>
     <string name="close">Tutup</string>
@@ -208,8 +207,6 @@
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Selamat Datang di openHAB</string>
     <string name="intro_whatis">Sebuah vendor dan teknologi agnostik perangkat lunak open source otomasi untuk rumah Anda</string>
-    <string name="intro_themes">Thema</string>
-    <string name="intro_themes_description">Pilih di antara beberapa tema</string>
     <string name="intro_voice_description">Kendalikan rumah Anda dengan suara Anda</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Kendali item dapat disambungkan kepada tag NFC dengan tekan dan tahan Item</string>

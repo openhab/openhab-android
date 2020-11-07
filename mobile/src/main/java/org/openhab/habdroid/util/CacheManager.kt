@@ -16,14 +16,14 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.LruCache
-import okhttp3.Cache
-import okhttp3.HttpUrl
-import org.openhab.habdroid.model.IconFormat
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import okhttp3.Cache
+import okhttp3.HttpUrl
+import org.openhab.habdroid.model.IconFormat
 
 class CacheManager private constructor(appContext: Context) {
     val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (10 * 1024 * 1024).toLong())

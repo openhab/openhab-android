@@ -118,7 +118,6 @@
     <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
     <string name="info_write_tag_disabled">Serviciul NFC este dezactivat</string>
     <string name="action_settings">Setări</string>
-    <string name="nfc_info_hint">Comanda unui Item pot fi scrise pe etichete NFC. Puteți selecta un Item aici sau puteți să faceți clic lung pe un widget din Sitemap.</string>
     <string name="info_not_set">Nu este setat</string>
     <string name="empty_page">Această pagină nu conţine widget-uri setate ca vizibile</string>
     <!-- Background tasks -->
@@ -201,7 +200,6 @@
     <string name="about_community">Comunitatea openHAB</string>
     <string name="about_translation">Ajutați-ne să traducem openHAB</string>
     <string name="about_privacy_policy">Politica de confidențialitate</string>
-    <string name="error_couldnt_determine_openhab_url">Nu a putut fi determinată adresa URL pentru openHAB</string>
     <string name="set">Setează</string>
     <string name="cancel">Anulează</string>
     <string name="close">Închide</string>
@@ -246,8 +244,6 @@
     <string name="intro_welcome_back">Bine ați revenit la openHAB</string>
     <string name="intro_app_restored">Majoritatea setărilor au fost restaurate, cu excepția datelor de acces la server</string>
     <string name="intro_whatis">Un software open source de automatizare pentru locuința dumneavoastră, independent de producători și tehnologii</string>
-    <string name="intro_themes">Teme</string>
-    <string name="intro_themes_description">Alege dintre câteva teme</string>
     <string name="intro_voice_description">Controlați-vă locuința cu vocea</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Controlul unui Item poate fi legat de NFC-tags apăsând lung pe Item</string>

@@ -17,12 +17,6 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.MulticastLock
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeoutOrNull
 import java.net.BindException
 import java.net.Inet4Address
 import java.net.InetAddress
@@ -32,6 +26,12 @@ import javax.jmdns.JmDNS
 import javax.jmdns.ServiceEvent
 import javax.jmdns.ServiceInfo
 import javax.jmdns.ServiceListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 
 class AsyncServiceResolver(
     context: Context,
@@ -122,5 +122,6 @@ class AsyncServiceResolver(
         private val TAG = AsyncServiceResolver::class.java.simpleName
 
         private const val DEFAULT_DISCOVERY_TIMEOUT = 3000L
+        const val OPENHAB_SERVICE_TYPE = "_openhab-server-ssl._tcp.local."
     }
 }

@@ -159,7 +159,6 @@
     <string name="got_it">Selge!</string>
     <!-- Intro strings -->
     <string name="app_intro">Tutvustus</string>
-    <string name="intro_themes">Teemad</string>
     <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">JÄTA VAHELE</string>

@@ -164,7 +164,6 @@
     <string name="info_write_tag_unsupported">Tämä laite ei tue NFC:tä</string>
     <string name="info_write_tag_disabled">NFC on poistettu käytöstä</string>
     <string name="action_settings">Asetukset</string>
-    <string name="nfc_info_hint">Item päivitykset voi kirjoittaa NFC tunnisteeseen. Voit valita Itemin täällä tai pitkään painamalla Sitemapissa.</string>
     <string name="info_not_set">Ei määritetty</string>
     <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Background tasks -->
@@ -219,7 +218,6 @@
     <string name="notification_channel_messages_default_severity">Oletus</string>
     <string name="notification_channel_messages_default_severity_description">Palvelimen lähettämät ilmoitukset ilman vakavuusarvoa</string>
     <string name="notification_channel_group_messages">Viestit</string>
-    <string name="notification_channel_group_other">Muut</string>
     <string name="notification_channel_severity_value">Vakavuus \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Palvelimen lähettämät viestit vakavuudella \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -230,7 +228,6 @@
     <string name="push_notification_status_http_error">Ei saatavilla, virhe yhdistettäessä etäpalvelimelle: %s</string>
     <string name="push_notification_status_remote_no_cloud">Ei saatavilla, etäpalvelin ei vastaa openHAB pilveä</string>
     <string name="push_notification_status">Tila</string>
-    <string name="push_notification_help_icon_description">Klikkaa tästä saadaksesi apua</string>
     <string name="push_notification_hint">Ilmoitukset kysellään säännöllisen aikataulun mukaan, samalla lailla kuin \"Lähetä laitteen tiedot palvelimelle\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
@@ -344,7 +341,6 @@
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
     <string name="settings_debug_messages_title">Laajennetut virheviestit</string>
     <string name="settings_troubleshooting_title">Vianmääritys</string>
-    <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
     <string name="set">Aseta</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
@@ -390,8 +386,6 @@
     <string name="intro_welcome_back">Tervetuloa takaisin openHABiin</string>
     <string name="intro_app_restored">Lähes kaikki asetuksesi on palautettu, paitsi palvelimen tunnukset</string>
     <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
-    <string name="intro_themes">Teemat</string>
-    <string name="intro_themes_description">Valitse useista teemoista</string>
     <string name="intro_voice_description">Hallitse kotia äänelläsi</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Itemin käyttö voidaan sitoa NFC tunnisteisiin painamalla Itemiä pitkään</string>
@@ -465,9 +459,7 @@
     <!-- Tiles -->
     <string name="tile">Laatta</string>
     <string name="tiles_for_quick_settings">Laatta pika-asetuksille</string>
-    <string name="tile_empty">Tyhjä laatta</string>
     <string name="tile_item_picker_title">Valitse Item</string>
-    <string name="tile_configure_in_settings">Tämän tiilen voi konfiguroida openHAB aplikaation asetuksissa</string>
     <string name="tile_error_saving">Ole hyvä ja täytä kaikki asetukset</string>
     <string name="tile_disabled">Poistettu käytöstä</string>
     <string name="tile_enable">Ota käyttöön</string>
@@ -477,7 +469,6 @@
     <string name="tile_require_unlock">Näytön lukitus oltava avattu</string>
     <string name="tile_require_unlock_summary_on">Kysy laitteen lukituksen poistamisesta ennen kuin Itemien päivitys sallitaan</string>
     <string name="tile_require_unlock_summary_off">Salli Itemien päivitykset vaikka laite on lukittu</string>
-    <string name="tile_overview_hint">Laatan tila ei vastaa Itemin tilaa.\nJos sinulla on ongelmia laattojen päivittymisessä niiden muuttamisen jälkeen täällä, klikkaa laattaa tai muokkaa laitteesi pika-asetuksia (paikka, jossa on esimerkiksi napit Wi-Fi ja Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktiivinen laatta</item>
         <item quantity="other">%d aktiivista laattaa</item>

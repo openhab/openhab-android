@@ -15,7 +15,6 @@ package org.openhab.habdroid.core
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import org.openhab.habdroid.R

@@ -171,7 +171,6 @@
     <string name="about_community">مجتمع openHAB</string>
     <string name="about_translation">ساعدنا في ترجمة openHAB</string>
     <string name="about_privacy_policy">سياسة الخصوصية</string>
-    <string name="error_couldnt_determine_openhab_url">لا يمكن تحديد عنوان openHAB</string>
     <string name="set">تعيين</string>
     <string name="cancel">إلغاء</string>
     <string name="close">إغلاق</string>
@@ -204,8 +203,6 @@
     <string name="app_intro">مقدمة</string>
     <string name="intro_welcome">مرحبا في openHAB</string>
     <string name="intro_whatis">مهما تكن التكنلوجيا والمزود برنامج أتمتة مفتوح المصدر لأجل منزلك</string>
-    <string name="intro_themes">السمات</string>
-    <string name="intro_themes_description">اختار من بين السمات</string>
     <string name="intro_voice_description">تحكم ببيتك بصوتك</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">يمكن ربط عنصر التحكم إلى علامات NFC عن طريق الضغط على العنصر</string>

@@ -34,6 +34,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+
 import androidx.appcompat.app.AlertDialog;
 
 import org.openhab.habdroid.R;

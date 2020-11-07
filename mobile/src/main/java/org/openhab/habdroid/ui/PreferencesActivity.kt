@@ -17,11 +17,13 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.KeyguardManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -99,7 +101,6 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.putPrimaryServerId
-import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 /**
@@ -120,7 +121,13 @@ class PreferencesActivity : AbstractBaseActivity() {
             resultIntent = Intent()
             val fragment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
                 intent.action == TileService.ACTION_QS_TILE_PREFERENCES) {
-                TileOverviewFragment()
+                val tile = intent.getParcelableExtra<ComponentName>(Intent.EXTRA_COMPONENT_NAME)
+                val tileId: Int = tile?.className?.let { AbstractTileService.getIdFromClassName(it) } ?: 0
+                if (tileId > 0) {
+                    TileSettingsFragment.newInstance(tileId)
+                } else {
+                    TileOverviewFragment()
+                }
             } else {
                 MainSettingsFragment()
             }
@@ -271,12 +278,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             notificationPollingPref =
                 getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
             notificationStatusHint = getPreference(PrefKeys.NOTIFICATION_STATUS_HINT)
+            val drawerEntriesPrefs = getPreference(PrefKeys.DRAWER_ENTRIES)
             val themePref = getPreference(PrefKeys.THEME)
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
-            val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
-            val fullscreenPreference = getPreference(PrefKeys.FULLSCREEN)
-            val iconFormatPreference = getPreference(PrefKeys.ICON_FORMAT)
+            val fullscreenPref = getPreference(PrefKeys.FULLSCREEN)
+            val iconFormatPref = getPreference(PrefKeys.ICON_FORMAT)
             val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
             val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
             val ringtoneVibrationPref = getPreference(PrefKeys.NOTIFICATION_TONE_VIBRATION)
@@ -326,6 +333,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            drawerEntriesPrefs.setOnPreferenceClickListener {
+                parentActivity.openSubScreen(DrawerEntriesMenuFragment())
+                false
+            }
+
             themePref.setOnPreferenceChangeListener { _, _ ->
                 // getDayNightMode() needs the new preference value, so delay the call until
                 // after this listener has returned
@@ -355,11 +367,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            showSitemapInDrawerPref.setOnPreferenceChangeListener { _, _ ->
-                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, true)
-                true
-            }
-
             if (!prefs.isTaskerPluginEnabled() && !isAutomationAppInstalled()) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.TASKER_PLUGIN_ENABLED)
             }
@@ -370,7 +377,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            fullscreenPreference.setOnPreferenceChangeListener { _, newValue ->
+            fullscreenPref.setOnPreferenceChangeListener { _, newValue ->
                 (activity as AbstractBaseActivity).setFullscreen(newValue as Boolean)
                 true
             }
@@ -434,7 +441,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 flags and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.ICON_FORMAT)
             } else {
-                iconFormatPreference.setOnPreferenceChangeListener { pref, _ ->
+                iconFormatPref.setOnPreferenceChangeListener { pref, _ ->
                     val context = pref.context
                     clearImageCache(context)
                     ItemUpdateWidget.updateAllWidgets(context)
@@ -622,7 +629,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
-    class ServerEditorConfirmLeaveDialogFragment : DialogFragment() {
+    class ConfirmLeaveDialogFragment : DialogFragment() {
         interface Callback {
             fun onLeaveAndSave()
             fun onLeaveAndDiscard()
@@ -651,7 +658,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     class ServerEditorFragment :
         AbstractSettingsFragment(),
         ConfirmationDialogFragment.Callback,
-        ServerEditorConfirmLeaveDialogFragment.Callback {
+        ConfirmLeaveDialogFragment.Callback {
         private lateinit var config: ServerConfiguration
         private lateinit var initialConfig: ServerConfiguration
         private var markAsPrimary = false
@@ -693,7 +700,10 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private fun saveAndQuit() {
             if (config.name.isEmpty() || (config.localPath == null && config.remotePath == null)) {
-                context?.showToast(R.string.settings_server_at_least_name_and_connection)
+                parentActivity.showSnackbar(
+                    SNACKBAR_TAG_MISSING_PREFS,
+                    R.string.settings_server_at_least_name_and_connection
+                )
                 return
             }
             config.saveToPrefs(prefs, secretPrefs)
@@ -708,7 +718,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onBackPressed(): Boolean {
             if (initialConfig != config) {
-                ServerEditorConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
                 return true
             }
             return false
@@ -1035,6 +1045,25 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
+    internal class DrawerEntriesMenuFragment : AbstractSettingsFragment() {
+        override val titleResId: Int @StringRes get() = R.string.drawer_entries
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            addPreferencesFromResource(R.xml.preferences_drawer_entries)
+
+            val showSitemapInDrawerPref = getPreference(PrefKeys.SHOW_SITEMAPS_IN_DRAWER)
+
+            showSitemapInDrawerPref.setOnPreferenceChangeListener { _, _ ->
+                parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, true)
+                true
+            }
+
+            if (NfcAdapter.getDefaultAdapter(requireContext()) == null && !Util.isEmulator()) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.DRAWER_ENTRY_NFC)
+            }
+        }
+    }
+
     internal class SendDeviceInfoSettingsFragment : AbstractSettingsFragment() {
         override val titleResId: Int @StringRes get() = R.string.send_device_info_to_server_short
         private lateinit var phoneStatePref: ItemUpdatingPreference
@@ -1217,7 +1246,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    internal class TileSettingsFragment : AbstractSettingsFragment() {
+    internal class TileSettingsFragment : AbstractSettingsFragment(), ConfirmLeaveDialogFragment.Callback {
         override val titleResId: Int @StringRes get() = R.string.tile
         private var tileId = 0
 
@@ -1257,41 +1286,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val context = preferenceManager.context
-            when (item.itemId) {
+            return when (item.itemId) {
                 R.id.save -> {
-                    Log.d(TAG, "Save tile $tileId")
-                    val data: TileData? = if (enabledPref.isChecked) {
-                        val itemName = itemAndStatePref.item
-                        val label = itemAndStatePref.label
-                        val state = itemAndStatePref.state
-                        val mappedState = itemAndStatePref.mappedState
-                        val tileLabel = namePref.text
-                        val icon = iconPref.value
-                        val requireUnlock = requireUnlockPref.isChecked
-                        if (itemName.isNullOrEmpty() || state.isNullOrEmpty() || label.isNullOrEmpty() ||
-                            tileLabel.isNullOrEmpty() || mappedState.isNullOrEmpty() || icon.isNullOrEmpty()) {
-                            parentActivity.showSnackbar(
-                                SNACKBAR_TAG_ERROR_SAVING_TILE,
-                                R.string.tile_error_saving,
-                                Snackbar.LENGTH_LONG
-                            )
-                            return true
-                        }
-                        TileData(itemName, state, label, tileLabel, mappedState, icon, requireUnlock)
-                    } else {
-                        null
-                    }
-
-                    prefs.edit {
-                        putTileData(tileId, data)
-                    }
-                    AbstractTileService.updateTile(context, tileId)
-                    parentActivity.invalidateOptionsMenu()
-                    parentFragmentManager.popBackStack() // close ourself
-                    return true
+                    onLeaveAndSave()
+                    true
                 }
-                else -> return super.onOptionsItemSelected(item)
+                else -> super.onOptionsItemSelected(item)
             }
         }
 
@@ -1312,6 +1312,14 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        override fun onBackPressed(): Boolean {
+            if (prefs.getTileData(tileId) != getCurrentPrefsAsTileData()) {
+                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                return true
+            }
+            return false
+        }
+
         private fun updateItemAndStatePrefSummary() {
             itemAndStatePref.summary = if (itemAndStatePref.label == null) {
                 itemAndStatePref.context.getString(R.string.info_not_set)
@@ -1327,6 +1335,22 @@ class PreferencesActivity : AbstractBaseActivity() {
                     mutate()
                     setTint(context.getColor(R.color.pref_icon_grey))
                 }
+        }
+
+        private fun getCurrentPrefsAsTileData(): TileData? {
+            return if (enabledPref.isChecked) {
+                TileData(
+                    item = itemAndStatePref.item.orEmpty(),
+                    state = itemAndStatePref.state.orEmpty(),
+                    label = itemAndStatePref.label.orEmpty(),
+                    tileLabel = namePref.text.orEmpty(),
+                    mappedState = itemAndStatePref.mappedState.orEmpty(),
+                    icon = iconPref.value.orEmpty(),
+                    requireUnlock = requireUnlockPref.isChecked
+                )
+            } else {
+                null
+            }
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1394,6 +1418,32 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        override fun onLeaveAndSave() {
+            Log.d(TAG, "Save tile $tileId")
+            val context = preferenceManager.context
+            val currentData = getCurrentPrefsAsTileData()
+            if (currentData != null && !currentData.isValid()) {
+                parentActivity.showSnackbar(
+                    SNACKBAR_TAG_MISSING_PREFS,
+                    R.string.tile_error_saving,
+                    Snackbar.LENGTH_LONG
+                )
+                return
+            }
+
+            prefs.edit {
+                putTileData(tileId, currentData)
+            }
+            AbstractTileService.updateTile(context, tileId)
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
+        }
+
+        override fun onLeaveAndDiscard() {
+            parentActivity.invalidateOptionsMenu()
+            parentFragmentManager.popBackStack() // close ourself
+        }
+
         companion object {
             fun newInstance(id: Int): TileSettingsFragment {
                 val f = TileSettingsFragment()
@@ -1423,8 +1473,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         internal const val SNACKBAR_TAG_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
         internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"
         internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI = "bgTasksPermissionDeclinedWifi"
-        internal const val SNACKBAR_TAG_ERROR_SAVING_TILE = "errorSavingTile"
         internal const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
+        internal const val SNACKBAR_TAG_MISSING_PREFS = "missingPrefs"
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }

@@ -110,12 +110,14 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         super.onResume()
         webView?.onResume()
         webView?.resumeTimers()
+        (activity as MainActivity?)?.setDrawerLocked(true)
     }
 
     override fun onPause() {
         super.onPause()
         webView?.onPause()
         webView?.pauseTimers()
+        (activity as MainActivity?)?.setDrawerLocked(false)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -124,7 +126,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if (shortcutInfo != null) {
+        if (shortcutInfo != null && ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
             inflater.inflate(R.menu.webview_menu, menu)
         }
     }
@@ -251,7 +253,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             urlForError: String,
             serverId: Int,
             shortcutAction: String? = null,
-            shortcutLabel: String? = null,
+            shortcutLabel: String,
             shortcutIconRes: Int = 0
         ): WebViewFragment {
             val f = WebViewFragment()
