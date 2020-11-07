@@ -582,7 +582,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val serverForCurrentWifi = prefs
             .getConfiguredServerIds()
             .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
-            .firstOrNull { config -> config?.wifiSsid == wifiSsid } ?: return
+            .firstOrNull { config -> config?.wifiSsid == wifiSsid }
+            ?: return
 
         val prevActiveServer = prefs.getActiveServerId()
 
