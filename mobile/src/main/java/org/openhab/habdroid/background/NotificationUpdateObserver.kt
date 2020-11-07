@@ -21,11 +21,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import java.util.ArrayList
 import java.util.HashMap
 import org.openhab.habdroid.R
@@ -36,6 +40,7 @@ import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
 
 internal class NotificationUpdateObserver(context: Context) : Observer<List<WorkInfo>> {
+
     private val context: Context = context.applicationContext
 
     override fun onChanged(workInfos: List<WorkInfo>) {
@@ -116,21 +121,27 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                         )
                     )
                 }
-                errors.add(if (hadConnection) {
-                    if (label.isNullOrEmpty()) {
-                        context.getString(R.string.item_update_http_error, itemName,
-                            context.getHumanReadableErrorMessage("", httpStatus, null, true))
+                errors.add(
+                    if (hadConnection) {
+                        if (label.isNullOrEmpty()) {
+                            context.getString(
+                                R.string.item_update_http_error, itemName,
+                                context.getHumanReadableErrorMessage("", httpStatus, null, true)
+                            )
+                        } else {
+                            context.getString(
+                                R.string.item_update_http_error_label, label,
+                                context.getHumanReadableErrorMessage("", httpStatus, null, true)
+                            )
+                        }
                     } else {
-                        context.getString(R.string.item_update_http_error_label, label,
-                            context.getHumanReadableErrorMessage("", httpStatus, null, true))
+                        if (label.isNullOrEmpty()) {
+                            context.getString(R.string.item_update_connection_error, itemName)
+                        } else {
+                            context.getString(R.string.item_update_connection_error_label, label)
+                        }
                     }
-                } else {
-                    if (label.isNullOrEmpty()) {
-                        context.getString(R.string.item_update_connection_error, itemName)
-                    } else {
-                        context.getString(R.string.item_update_connection_error_label, label)
-                    }
-                })
+                )
             }
             val n = createErrorNotification(context, errors, retryInfoList)
             createNotificationChannels(context)
@@ -149,6 +160,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
     }
 
     companion object {
+        private val TAG = NotificationUpdateObserver::class.java.simpleName
+
         private const val NOTIFICATION_ID_BACKGROUND_WORK = 1000
         const val NOTIFICATION_ID_BACKGROUND_WORK_RUNNING = 1001
         const val NOTIFICATION_ID_BROADCAST_RECEIVER = 1002
@@ -172,7 +185,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
             // Channel groups
             nm.createNotificationChannelGroup(
-                    NotificationChannelGroup(
+                NotificationChannelGroup(
                     CHANNEL_GROUP_MESSAGES,
                     context.getString(R.string.notification_channel_group_messages)
                 )
@@ -254,8 +267,10 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             errors: ArrayList<CharSequence>,
             retryInfoList: ArrayList<BackgroundTasksManager.RetryInfo>
         ): Notification {
-            val text = context.resources.getQuantityString(R.plurals.item_update_error_title,
-                errors.size, errors.size)
+            val text = context.resources.getQuantityString(
+                R.plurals.item_update_error_title,
+                errors.size, errors.size
+            )
             val prefs = context.getPrefs()
             val nb = createBaseBuilder(context, CHANNEL_ID_BACKGROUND_ERROR)
                 .setContentTitle(text)
@@ -272,26 +287,40 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 }
                 nb.setStyle(style)
             } else {
-                nb.setStyle(NotificationCompat.BigTextStyle()
-                    .bigText(errors[0])
-                    .setBigContentTitle(text))
+                nb.setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(errors[0])
+                        .setBigContentTitle(text)
+                )
             }
 
             if (retryInfoList.isNotEmpty()) {
                 val retryIntent = Intent(context, BackgroundTasksManager::class.java)
                     .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
                     .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFO_LIST, retryInfoList)
-                val retryPendingIntent = PendingIntent.getBroadcast(context, 0,
-                    retryIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                nb.addAction(NotificationCompat.Action(R.drawable.ic_refresh_grey_24dp,
-                    context.getString(R.string.retry), retryPendingIntent))
+                val retryPendingIntent = PendingIntent.getBroadcast(
+                    context, 0,
+                    retryIntent, PendingIntent.FLAG_UPDATE_CURRENT
+                )
+                nb.addAction(
+                    NotificationCompat.Action(
+                        R.drawable.ic_refresh_grey_24dp,
+                        context.getString(R.string.retry), retryPendingIntent
+                    )
+                )
 
                 val clearIntent = Intent(context, BackgroundTasksManager::class.java)
                     .setAction(BackgroundTasksManager.ACTION_CLEAR_UPLOAD)
-                val clearPendingIntent = PendingIntent.getBroadcast(context, 0,
-                    clearIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                nb.addAction(NotificationCompat.Action(R.drawable.ic_clear_grey_24dp,
-                    context.getString(R.string.ignore), clearPendingIntent))
+                val clearPendingIntent = PendingIntent.getBroadcast(
+                    context, 0,
+                    clearIntent, PendingIntent.FLAG_UPDATE_CURRENT
+                )
+                nb.addAction(
+                    NotificationCompat.Action(
+                        R.drawable.ic_clear_grey_24dp,
+                        context.getString(R.string.ignore), clearPendingIntent
+                    )
+                )
             }
 
             return nb.build()
@@ -300,8 +329,10 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         private fun createBaseBuilder(context: Context, channelId: String): NotificationCompat.Builder {
             val notificationIntent = Intent(context, MainActivity::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            val contentIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0)
+            val contentIntent = PendingIntent.getActivity(
+                context, 0,
+                notificationIntent, 0
+            )
 
             return NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)

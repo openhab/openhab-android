@@ -666,4 +666,10 @@
     <string name="tile_icon_lamp_floor_value" translatable="false">lamp_floor</string>
     <string name="tile_icon_lamp_bedside_value" translatable="false">lamp_bedside</string>
     <string name="tile_icon_lamp_outdoor_value" translatable="false">lamp_outdoor</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_name" translatable="true">mcsoft</string>
+    <string name="msg_subscribed">Subscribed to mcsoft topic</string>
+    <string name="msg_subscribe_failed">Failed to subscribe to mcsoft topic</string>
+
 </resources>

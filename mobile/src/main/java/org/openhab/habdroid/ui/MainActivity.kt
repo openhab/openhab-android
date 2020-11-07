@@ -14,6 +14,8 @@
 package org.openhab.habdroid.ui
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
@@ -60,8 +62,11 @@ import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessaging
 import java.nio.charset.Charset
 import java.util.concurrent.CancellationException
 import javax.jmdns.ServiceInfo
@@ -224,6 +229,39 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         processIntent(intent)
+
+        /////////////////////////////////////////////////////////////////////////
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d(TAG, "Start mcsoft notifications")
+
+            // Create channel to show notifications.
+            val channelId = getString(R.string.default_notification_channel_id)
+            val channelName = getString(R.string.default_notification_channel_name)
+            val notificationManager: NotificationManager? = getSystemService(NotificationManager::class.java)
+
+            notificationManager!!.createNotificationChannel(
+                NotificationChannel(
+                    channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW
+                )
+            )
+
+            //subscribe_topic
+            FirebaseMessaging.getInstance().subscribeToTopic("mcsoft")
+                .addOnCompleteListener(object : OnCompleteListener<Void?> {
+                    override fun onComplete(task: Task<Void?>) {
+                        var msg: String? = getString(R.string.msg_subscribed)
+                        if (!task.isSuccessful()) {
+                            msg = getString(R.string.msg_subscribe_failed)
+                        }
+                    }
+                })
+
+            Log.d(TAG, "End mcsoft notifications")
+        }
+
+        /////////////////////////////////////////////////////////////////////////
 
         if (prefs.getBoolean(PrefKeys.FIRST_START, true) ||
             prefs.getBoolean(PrefKeys.RECENTLY_RESTORED, false)
@@ -458,15 +496,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 // no local connection is configured yet
                 if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.activeLocalConnection == null) {
                     if (serviceResolveJob == null) {
-                        val resolver = AsyncServiceResolver(this,
-                            getString(R.string.openhab_service_type), this)
+                        val resolver = AsyncServiceResolver(
+                            this,
+                            getString(R.string.openhab_service_type), this
+                        )
                         serviceResolveJob = launch {
                             handleServiceResolveResult(resolver.resolve())
                             serviceResolveJob = null
                         }
-                        controller.updateConnection(null,
+                        controller.updateConnection(
+                            null,
                             getString(R.string.resolving_openhab),
-                            R.drawable.ic_home_search_outline_grey_340dp)
+                            R.drawable.ic_home_search_outline_grey_340dp
+                        )
                     }
                 } else {
                     val officialServer = !failureReason.wouldHaveUsedLocalConnection() &&
@@ -563,8 +605,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
             @Suppress("DEPRECATION")
             wifiManager.isWifiEnabled = true
-            controller.updateConnection(null, getString(R.string.waiting_for_wifi),
-                R.drawable.ic_wifi_strength_outline_grey_24dp)
+            controller.updateConnection(
+                null, getString(R.string.waiting_for_wifi),
+                R.drawable.ic_wifi_strength_outline_grey_24dp
+            )
         }
     }
 
@@ -599,8 +643,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             handlePendingAction()
         }
-        propsUpdateHandle = ServerProperties.fetch(this, connection!!,
-            successCb, this::handlePropertyFetchFailure)
+        propsUpdateHandle = ServerProperties.fetch(
+            this, connection!!,
+            successCb, this::handlePropertyFetchFailure
+        )
         BackgroundTasksManager.triggerPeriodicWork(this)
     }
 
@@ -680,21 +726,26 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun setupDrawer() {
         drawerLayout = findViewById(R.id.activity_content)
-        drawerToggle = ActionBarDrawerToggle(this, drawerLayout,
-            R.string.drawer_open, R.string.drawer_close)
+        drawerToggle = ActionBarDrawerToggle(
+            this, drawerLayout,
+            R.string.drawer_open, R.string.drawer_close
+        )
         drawerLayout.addDrawerListener(drawerToggle)
         drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
             override fun onDrawerOpened(drawerView: View) {
                 if (serverProperties != null && propsUpdateHandle == null) {
-                    propsUpdateHandle = ServerProperties.updateSitemaps(this@MainActivity,
+                    propsUpdateHandle = ServerProperties.updateSitemaps(
+                        this@MainActivity,
                         serverProperties!!, connection!!,
                         { props ->
                             serverProperties = props
                             updateSitemapDrawerEntries()
                         },
-                        this@MainActivity::handlePropertyFetchFailure)
+                        this@MainActivity::handlePropertyFetchFailure
+                    )
                 }
             }
+
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
                 updateDrawerMode(false)
@@ -1128,8 +1179,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     val authHeader = request.header("Authorization")
                     if (authHeader?.startsWith("Basic") == true) {
                         val base64Credentials = authHeader.substring("Basic".length).trim()
-                        val credentials = String(Base64.decode(base64Credentials, Base64.DEFAULT),
-                            Charset.forName("UTF-8"))
+                        val credentials = String(
+                            Base64.decode(base64Credentials, Base64.DEFAULT),
+                            Charset.forName("UTF-8")
+                        )
                         append("\nUsername: ")
                         append(credentials.substring(0, credentials.indexOf(":")))
                     }
@@ -1210,22 +1263,28 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun manageHabPanelShortcut(visible: Boolean) {
-        manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
+        manageShortcut(
+            visible, "habpanel", ACTION_HABPANEL_SELECTED,
             R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
-            R.string.app_shortcut_disabled_habpanel)
+            R.string.app_shortcut_disabled_habpanel
+        )
     }
 
     private fun manageNotificationShortcut(visible: Boolean) {
-        manageShortcut(visible, "notification", ACTION_NOTIFICATION_SELECTED,
+        manageShortcut(
+            visible, "notification", ACTION_NOTIFICATION_SELECTED,
             R.string.app_notifications, R.mipmap.ic_shortcut_notifications,
-            R.string.app_shortcut_disabled_notifications)
+            R.string.app_shortcut_disabled_notifications
+        )
     }
 
     private fun manageVoiceRecognitionShortcut(visible: Boolean) {
-        manageShortcut(visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
+        manageShortcut(
+            visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
             R.string.mainmenu_openhab_voice_recognition,
             R.mipmap.ic_shortcut_voice_recognition,
-            R.string.app_shortcut_disabled_voice_recognition)
+            R.string.app_shortcut_disabled_voice_recognition
+        )
     }
 
     private fun manageShortcut(
