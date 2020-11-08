@@ -124,6 +124,8 @@
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
+    <string name="error_first_char_is_whitespace">התו הראשון הוא רווח, כנראה שאינו רצוי</string>
+    <string name="error_last_char_is_whitespace">התו האחרון הוא רווח, כנראה שאינו רצוי</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
     <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
     <string name="error_unknown">התרחשה שגיאה לא מזוהה: %s</string>
