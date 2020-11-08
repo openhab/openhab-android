@@ -40,7 +40,6 @@
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:key="wifi_ssid"
         android:persistent="false"
-        android:summary="@string/settings_multi_server_wifi_ssid_summary"
         app:whitespaceBehavior="trim"
         android:inputType="text"
         android:title="@string/settings_wifi_ssid" />

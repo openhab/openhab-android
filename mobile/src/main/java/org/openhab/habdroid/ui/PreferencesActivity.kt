@@ -849,6 +849,14 @@ class PreferencesActivity : AbstractBaseActivity() {
 
                 val wifiSsidPref = getPreference("wifi_ssid") as EditTextPreference
                 wifiSsidPref.text = config.wifiSsid
+                wifiSsidPref.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
+                    val value = preference.text
+                    if (value.isNullOrEmpty()) {
+                        getString(R.string.settings_multi_server_wifi_ssid_summary_unset)
+                    } else {
+                        getString(R.string.settings_multi_server_wifi_ssid_summary_set, value)
+                    }
+                }
                 wifiSsidPref.setOnPreferenceChangeListener { _, newValue ->
                     config = ServerConfiguration(
                         config.id,
