@@ -40,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
     <string name="settings_openhab_demomode">מצב הדגמה</string>
     <string name="settings_openhab_demomode_summary">אם אין לך שרת openHAB, הפעל במצב הדגמה כדי לראות את היכולות של openHAB.</string>
+    <string name="drawer_entries">ערכי תפריט צד</string>
     <string name="settings_openhab_theme">ערכת עיצוב</string>
     <string name="settings_accent_color">צבע נושא</string>
     <string name="settings_select_a_color">בחר צבע</string>
