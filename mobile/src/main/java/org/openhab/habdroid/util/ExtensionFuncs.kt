@@ -21,6 +21,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
@@ -435,6 +436,13 @@ fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor:
     }
 }
 
+fun Context.getCurrentWifiSsid() : String? {
+    val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    return wifiManager.connectionInfo.let {info ->
+        if (info.networkId == -1) null else info.ssid.removeSurrounding("\"")
+    }
+}
+
 fun Socket.bindToNetworkIfPossible(network: Network?) {
     try {
         network?.bindSocket(this)
@@ -456,9 +464,7 @@ fun ServiceInfo.addToPrefs(context: Context) {
     val port = port.toString()
     Log.d(Util.TAG, "Service resolved: $address port: $port")
 
-    val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-    val wifiInfo = wifiManager.connectionInfo
-    val wifiSsid = if (wifiInfo.networkId == -1) null else wifiInfo.ssid.removeSurrounding("\"")
+    val wifiSsid = context.getCurrentWifiSsid()
 
     val config = ServerConfiguration(
         context.getPrefs().getNextAvailableServerId(),

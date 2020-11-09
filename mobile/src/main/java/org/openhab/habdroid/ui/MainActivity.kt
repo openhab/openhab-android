@@ -111,6 +111,7 @@ import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
@@ -275,7 +276,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             queryServerProperties()
         }
 
-        val switchToServer = determineServerIdToSwitchTo()
+        val currentWifiSsid = getCurrentWifiSsid()
+        val switchToServer = determineServerIdToSwitchToBasedOnWifi(currentWifiSsid, wifiSsidDuringLastOnStart)
+        wifiSsidDuringLastOnStart = currentWifiSsid
         if (pendingAction == null && switchToServer != -1) {
             switchServerBasedOnWifi(switchToServer)
         }
@@ -536,25 +539,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
      * Determines whether to switch the server based on the wifi ssid. Returns -1 if no switch is required,
      * the server id otherwise.
      */
-    private fun determineServerIdToSwitchTo(): Int {
-        fun getPermissionForSsidRead() = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.ACCESS_FINE_LOCATION
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> Manifest.permission.ACCESS_COARSE_LOCATION
-            else -> null
-        }
-
+    private fun determineServerIdToSwitchToBasedOnWifi(ssid: String?, prevSsid: String?): Int {
         val anyServerHasSetWifi = prefs
             .getConfiguredServerIds()
             .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
             .any { config -> config?.wifiSsid?.isNotEmpty() == true }
 
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val wifiInfo = wifiManager.connectionInfo
-        val wifiSsid = if (wifiInfo.networkId == -1) null else wifiInfo.ssid.removeSurrounding("\"")
-        val prevWifiSsid = wifiSsidDuringLastOnStart
-        wifiSsidDuringLastOnStart = wifiSsid
-        val requiredPermission = getPermissionForSsidRead()
+        val requiredPermission = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.ACCESS_FINE_LOCATION
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> Manifest.permission.ACCESS_COARSE_LOCATION
+            else -> null
+        }
+
         when {
             !anyServerHasSetWifi -> {
                 Log.d(TAG, "Cannot auto select server: No server with configured wifi")
@@ -584,11 +581,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }
                 return -1
             }
-            prevWifiSsid == wifiSsid -> {
+            ssid == prevSsid -> {
                 Log.d(TAG, "Cannot auto select server: SSID didn't change since the last check")
                 return -1
             }
-            wifiSsid.isNullOrEmpty() -> {
+            ssid.isNullOrEmpty() -> {
                 Log.d(TAG, "Cannot auto select server: SSID empty, probably not connected to wifi")
                 return -1
             }
@@ -597,7 +594,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val serverForCurrentWifi = prefs
             .getConfiguredServerIds()
             .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
-            .firstOrNull { config -> config?.wifiSsid == wifiSsid }
+            .firstOrNull { config -> config?.wifiSsid == ssid }
             ?: return -1
 
         val currentActive = prefs.getActiveServerId()
