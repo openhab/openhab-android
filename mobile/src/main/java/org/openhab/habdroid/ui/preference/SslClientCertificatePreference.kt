@@ -26,6 +26,7 @@ import android.widget.ImageView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,7 +36,8 @@ import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 
-class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
+class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) :
+    Preference(context, attrs), CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private var currentAlias: String? = null
     private var helpIcon: ImageView? = null
 
@@ -92,7 +94,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         throw IllegalStateException("Unknown context $c")
     }
 
-    private fun handleAliasChosen(alias: String?) {
+    private fun handleAliasChosen(alias: String?) = launch {
         if (callChangeListener(alias)) {
             setValue(alias)
         }
