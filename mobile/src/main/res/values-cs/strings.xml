@@ -529,6 +529,7 @@
     <string name="tile_require_unlock">Vyžadovat odemknutí obrazovky</string>
     <string name="tile_require_unlock_summary_on">Vyzvat k odemknutí zařízení před povolením aktualizace Item</string>
     <string name="tile_require_unlock_summary_off">Povolit aktualizaci Item i v případě, že je zařízení uzamčeno</string>
+    <string name="tile_overview_hint">Stav dlaždice neodráží stav Item.\nPokud máte problémy s tím, že dlaždice nejsou aktualizovány po jejich změně zde, dotkněte se dlaždice nebo upravte rychlé nastavení vašeho zařízení (místo, kde jsou přepínače např. Wi-Fi a Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktivní dlaždice</item>
         <item quantity="few">%d aktivní dlaždice</item>
