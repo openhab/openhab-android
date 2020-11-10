@@ -5,12 +5,19 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Nastavení</string>
     <string name="save">Uložit</string>
+    <string name="discard">Zahodit</string>
+    <string name="delete">Smazat</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Nastavení</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Oznámení</string>
+    <string name="app_notifications_on_server">Oznámení (%s)</string>
     <string name="habpanel_error">Při načítání HABPanel došlo k chybě</string>
+    <string name="oh3_ui_error">Při načítání openHAB 3 UI došlo k chybě</string>
     <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
     <!-- App settings strings -->
@@ -33,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">Zabránit systému zhasnout automaticky displej pokud je aplikace openHAB spuštěna</string>
     <string name="settings_openhab_demomode">Ukázkový režim</string>
     <string name="settings_openhab_demomode_summary">Pokud nemáte openHAB server, povolte režim demo abyste získali představu o možnostech openHAB.</string>
+    <string name="drawer_entries">Položky postranního menu</string>
     <string name="settings_openhab_theme">Motivy vzhledu</string>
     <string name="settings_accent_color">Barva zvýraznění</string>
     <string name="settings_select_a_color">Vybrat barvu</string>
@@ -40,6 +48,9 @@
     <string name="settings_openhab_icon_format">Formát ikon</string>
     <string name="settings_openhab_icon_format_png">Bitmapa</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_image_widget_scaling">Přizpůsobit obrázky velikosti obrazovky</string>
+    <string name="settings_image_widget_scaling_summary_off">Ponechat \'Image\' widgety, které jsou menší než velikost obrazovky, v původní velikosti</string>
+    <string name="settings_image_widget_scaling_summary_on">Ujistěte se, že \'Image\' widgety odpovídají šířce obrazovky jejich zmenšením či zvětšením</string>
     <string name="settings_chart_scaling">Měřítko grafu</string>
     <string name="settings_chart_scaling_summary">Poznámka: Menší měřítko zmenší písmo a šířky čar, takže je více místa pro graf, ale čitelnost písma se může zhoršit.</string>
     <string name="settings_chart_scaling_value_xs">Velmi malé</string>
@@ -76,6 +87,19 @@
     <string name="settings_screen_lock_kiosk">Kioskový režim</string>
     <string name="settings_screen_lock_on">Zapnuto</string>
     <string name="settings_show_sitemaps_in_drawer">Zobrazit všechny Sitemap v bočním menu</string>
+    <string name="settings_server_name">Název serveru</string>
+    <string name="settings_add_server">Přidat server</string>
+    <string name="settings_edit_server">Upravit server</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Vyplňte alespoň název serveru a jedno připojení</string>
+    <string name="settings_server_confirm_deletion">Opravdu chcete odstranit tento server?</string>
+    <string name="settings_server_confirm_leave_title">Neuložené změny</string>
+    <string name="settings_server_confirm_leave_message">Provedli jste nějaké změny. Chcete je uložit nebo zahodit?</string>
+    <string name="settings_server_primary_title">Primární server</string>
+    <string name="settings_server_primary_summary_is_primary">Tento server je primární.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" je primární server. Klepněte pro nastavení tohoto serveru jako primárního.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="voice_command">Hlasový příkaz</string>
@@ -100,6 +124,8 @@
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Zadejte platnou adresu URL ve formátu \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">Port, který jste zadali, se zdá být neplatný pro vybraný protokol</string>
+    <string name="error_first_char_is_whitespace">První znak je mezera, která je pravděpodobně nechtěná</string>
+    <string name="error_last_char_is_whitespace">Poslední znak je mezera, která je pravděpodobně nechtěná</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
     <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
     <string name="error_unknown">Došlo k neznámé chybě: %s</string>
