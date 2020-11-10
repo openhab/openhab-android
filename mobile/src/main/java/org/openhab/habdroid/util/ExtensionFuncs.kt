@@ -464,8 +464,6 @@ fun ServiceInfo.addToPrefs(context: Context) {
     val port = port.toString()
     Log.d(Util.TAG, "Service resolved: $address port: $port")
 
-    val wifiSsid = context.getCurrentWifiSsid()
-
     val config = ServerConfiguration(
         context.getPrefs().getNextAvailableServerId(),
         context.getString(R.string.openhab),
@@ -473,7 +471,7 @@ fun ServiceInfo.addToPrefs(context: Context) {
         null,
         null,
         null,
-        wifiSsid
+        null
     )
     config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
 }
