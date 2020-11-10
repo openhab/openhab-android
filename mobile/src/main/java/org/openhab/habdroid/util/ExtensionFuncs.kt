@@ -21,7 +21,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
@@ -436,9 +435,9 @@ fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor:
     }
 }
 
-fun Context.getCurrentWifiSsid() : String? {
+fun Context.getCurrentWifiSsid(): String? {
     val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-    return wifiManager.connectionInfo.let {info ->
+    return wifiManager.connectionInfo.let { info ->
         if (info.networkId == -1) null else info.ssid.removeSurrounding("\"")
     }
 }
