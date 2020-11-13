@@ -169,7 +169,7 @@ dependencies {
     // FCM
     fullImplementation "com.google.firebase:firebase-messaging:20.3.0"
     // Crash reporting
-    fullImplementation "com.google.firebase:firebase-crashlytics:17.2.2"
+    fullImplementation "com.google.firebase:firebase-crashlytics:17.3.0"
 
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"
