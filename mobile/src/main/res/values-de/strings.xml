@@ -190,6 +190,7 @@
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
     <string name="action_settings">Einstellungen</string>
+    <string name="nfc_info_hint">Item-Updates können auf NFC-Tags geschrieben werden. Sie können hier ein Item auswählen oder ein Widget auf der Sitemap berühren.</string>
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
@@ -231,7 +232,10 @@
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten.</string>
+    <string name="settings_background_tasks_permission_hint">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten. Bitte genehmigen Sie die Berechtigung auch für die Hintergrundnutzung, da die Item-Aktualisierung auch erfolgt, wenn die App im Hintergrund läuft.</string>
     <string name="settings_background_tasks_permission_denied">Einige Hintergrundaufgaben wurden aufgrund fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Einige Hintergrundaufgaben erfordern, dass der Standortzugriff auf \"%s\" in den Android-Einstellungen gesetzt ist</string>
     <string name="settings_background_tasks_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
@@ -420,7 +424,9 @@
     <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Die Steuerung eines Items kann durch Gedrückthalten des Items an NFC-Tags gebunden werden</string>
+    <string name="intro_quick_tile_description">Steuern Sie Ihr Haus über die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. Wi-Fi und Bluetooth sind)</string>
     <string name="intro_send_device_info">Geräteinformationen an Ihren Server senden</string>
+    <string name="intro_send_device_info_description">Schalten Sie bespielsweise Ihre Lichter ein, wenn der Wecker klingelt</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">ÜBERSPRINGEN</string>
     <!-- Intro "DONE" button -->
@@ -471,6 +477,9 @@
     <string name="item_update_short_success_message_generic">Auf %s gesetzt</string>
     <string name="item_update_short_success_message_on">Eingeschaltet</string>
     <string name="item_update_short_success_message_off">Ausgeschaltet</string>
+    <string name="item_update_short_success_message_up">Startet nach oben</string>
+    <string name="item_update_short_success_message_down">Startet nach unten</string>
+    <string name="item_update_short_success_message_move">Startet Bewegung</string>
     <string name="item_update_short_success_message_stop">Gestoppt</string>
     <string name="item_update_short_success_message_increase">Erhöht</string>
     <string name="item_update_short_success_message_decrease">Verringert</string>
