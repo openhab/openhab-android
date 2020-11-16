@@ -180,7 +180,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:3.6.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "junit:junit:4.13.1"
-    testImplementation "org.json:json:20200518"
+    testImplementation "org.json:json:20201115"
     testImplementation "org.reflections:reflections:0.9.12"
     testImplementation "com.squareup.okhttp3:mockwebserver:$ok_http_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
