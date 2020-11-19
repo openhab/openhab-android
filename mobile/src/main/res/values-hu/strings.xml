@@ -40,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
     <string name="settings_openhab_demomode_summary">Ha nincs openHAB szervere, engedélyezze a demo módot, hogy láthassa mire képes az openHAB.</string>
+    <string name="drawer_entries">Oldalsó menü bejegyzései</string>
     <string name="settings_openhab_theme">Sablonok</string>
     <string name="settings_accent_color">Kiemelőszín</string>
     <string name="settings_select_a_color">Szín kiválasztása</string>
@@ -93,6 +94,11 @@
     <string name="settings_server_primary_title">Elsődleges szerver</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Kattintson ide további információért</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Az alkalmazás ezt a szervert választja, ha csatlakozva van a(z) \'%s\' Wi-Fi-hez</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">Az alkalmazás nem fogja automatikusan ezt a szervert választani Wi-Fi kapcsolat alapján</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Váltás a(z) \"%s\" szerverre Wi-Fi alapján</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi név nem olvasható: Hiányzó jogosultság</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi név nem olvasható: Helymeghatározás kikapcsolva</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="voice_command">Hangutasítás</string>
@@ -346,6 +352,7 @@
     <string name="set">Beállít</string>
     <string name="cancel">Mégse</string>
     <string name="close">Bezár</string>
+    <string name="undo">Visszavonás</string>
     <string name="try_again_button">Próbáld újra</string>
     <string name="enable_wifi_button">Kapcsolja be a Wi-Fi-t</string>
     <string name="go_to_settings_button">Beállítások megnyitása</string>
