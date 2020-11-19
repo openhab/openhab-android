@@ -377,6 +377,7 @@
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
+    <string name="undo">Rückgängig</string>
     <string name="try_again_button">Erneut versuchen</string>
     <string name="enable_wifi_button">WLAN aktivieren</string>
     <string name="go_to_settings_button">Einstellungen öffnen</string>
