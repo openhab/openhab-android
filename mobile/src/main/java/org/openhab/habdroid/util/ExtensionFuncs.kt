@@ -24,6 +24,7 @@ import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
@@ -434,6 +435,13 @@ fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor:
     }
 }
 
+fun Context.getCurrentWifiSsid(): String? {
+    val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    return wifiManager.connectionInfo.let { info ->
+        if (info.networkId == -1) null else info.ssid.removeSurrounding("\"")
+    }
+}
+
 fun Socket.bindToNetworkIfPossible(network: Network?) {
     try {
         network?.bindSocket(this)
@@ -459,6 +467,7 @@ fun ServiceInfo.addToPrefs(context: Context) {
         context.getPrefs().getNextAvailableServerId(),
         context.getString(R.string.openhab),
         ServerPath("https://$address:$port", null, null),
+        null,
         null,
         null,
         null

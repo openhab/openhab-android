@@ -62,7 +62,8 @@ data class ServerConfiguration(
     val localPath: ServerPath?,
     val remotePath: ServerPath?,
     val sslClientCert: String?,
-    val defaultSitemap: DefaultSitemap?
+    val defaultSitemap: DefaultSitemap?,
+    val wifiSsid: String?
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
         val serverIdSet = prefs.getConfiguredServerIds()
@@ -72,6 +73,7 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX), localPath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsid)
             if (!serverIdSet.contains(id)) {
                 serverIdSet.add(id)
                 putConfiguredServerIds(serverIdSet)
@@ -100,6 +102,7 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX))
             putConfiguredServerIds(serverIdSet)
             if (prefs.getActiveServerId() == id) {
                 putActiveServerId(if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
@@ -139,7 +142,16 @@ data class ServerConfiguration(
                 return null
             }
             val clientCert = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
-            return ServerConfiguration(id, serverName, localPath, remotePath, clientCert, getDefaultSitemap(prefs, id))
+            val wifiSsid = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX))
+            return ServerConfiguration(
+                id,
+                serverName,
+                localPath,
+                remotePath,
+                clientCert,
+                getDefaultSitemap(prefs, id),
+                wifiSsid
+            )
         }
 
         fun saveDefaultSitemap(prefs: SharedPreferences, id: Int, defaultSitemap: DefaultSitemap?) {

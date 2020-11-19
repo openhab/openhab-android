@@ -26,6 +26,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
+import android.location.LocationManager
 import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
 import android.os.Build
@@ -52,6 +53,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.location.LocationManagerCompat
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
@@ -109,6 +111,7 @@ import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
@@ -153,6 +156,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var shortcutManager: ShortcutManager? = null
     private val backgroundTasksManager = BackgroundTasksManager()
     private var inServerSelectionMode = false
+    private var wifiSsidDuringLastOnStart: String? = null
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -270,6 +274,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (connection != null && serverProperties == null) {
             controller.clearServerCommunicationFailure()
             queryServerProperties()
+        }
+
+        val currentWifiSsid = getCurrentWifiSsid()
+        val switchToServer = determineServerIdToSwitchToBasedOnWifi(currentWifiSsid, wifiSsidDuringLastOnStart)
+        wifiSsidDuringLastOnStart = currentWifiSsid
+        if (pendingAction == null && switchToServer != -1) {
+            switchServerBasedOnWifi(switchToServer)
         }
         handlePendingAction()
     }
@@ -521,6 +532,95 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         handlePendingAction()
         GlobalScope.launch {
             showPushNotificationWarningIfNeeded()
+        }
+    }
+
+    /**
+     * Determines whether to switch the server based on the wifi ssid. Returns -1 if no switch is required,
+     * the server id otherwise.
+     */
+    private fun determineServerIdToSwitchToBasedOnWifi(ssid: String?, prevSsid: String?): Int {
+        val anyServerHasSetWifi = prefs
+            .getConfiguredServerIds()
+            .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
+            .any { config -> config?.wifiSsid?.isNotEmpty() == true }
+
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val requiredPermission = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.ACCESS_FINE_LOCATION
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> Manifest.permission.ACCESS_COARSE_LOCATION
+            else -> null
+        }
+
+        when {
+            !anyServerHasSetWifi -> {
+                Log.d(TAG, "Cannot auto select server: No server with configured wifi")
+                return -1
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                !LocationManagerCompat.isLocationEnabled(locationManager) -> {
+                Log.d(TAG, "Cannot auto select server: Location off")
+                showSnackbar(
+                    SNACKBAR_TAG_SWITCHED_SERVER,
+                    R.string.settings_multi_server_wifi_ssid_location_off,
+                )
+                return -1
+            }
+            requiredPermission != null && !hasPermissions(arrayOf(requiredPermission)) -> {
+                Log.d(TAG, "Cannot auto select server: Missing permission $requiredPermission")
+                showSnackbar(
+                    SNACKBAR_TAG_SWITCHED_SERVER,
+                    R.string.settings_multi_server_wifi_ssid_missing_permissions,
+                    actionResId = R.string.settings_background_tasks_permission_allow
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(requiredPermission),
+                        REQUEST_CODE_PERMISSIONS
+                    )
+                }
+                return -1
+            }
+            ssid == prevSsid -> {
+                Log.d(TAG, "Cannot auto select server: SSID didn't change since the last check")
+                return -1
+            }
+            ssid.isNullOrEmpty() -> {
+                Log.d(TAG, "Cannot auto select server: SSID empty, probably not connected to wifi")
+                return -1
+            }
+        }
+
+        val serverForCurrentWifi = prefs
+            .getConfiguredServerIds()
+            .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
+            .firstOrNull { config -> config?.wifiSsid == ssid }
+            ?: return -1
+
+        val currentActive = prefs.getActiveServerId()
+        if (serverForCurrentWifi.id == currentActive) {
+            Log.d(TAG, "Server for current wifi already active")
+            return -1
+        }
+        return serverForCurrentWifi.id
+    }
+
+    private fun switchServerBasedOnWifi(serverId: Int) {
+        val prevActiveServer = prefs.getActiveServerId()
+        val serverForCurrentWifi = ServerConfiguration.load(prefs, getSecretPrefs(), serverId) ?: return
+
+        prefs.edit {
+            putActiveServerId(serverForCurrentWifi.id)
+        }
+        showSnackbar(
+            SNACKBAR_TAG_SWITCHED_SERVER,
+            getString(R.string.settings_multi_server_wifi_ssid_switched, serverForCurrentWifi.name),
+            Snackbar.LENGTH_LONG,
+            R.string.undo
+        ) {
+            prefs.edit {
+                putActiveServerId(prevActiveServer)
+            }
         }
     }
 
@@ -1306,6 +1406,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val SNACKBAR_TAG_SSE_ERROR = "sseError"
         const val SNACKBAR_TAG_SHORTCUT_INFO = "shortcutInfo"
         const val SNACKBAR_TAG_SERVER_MISSING = "serverMissing"
+        const val SNACKBAR_TAG_SWITCHED_SERVER = "switchedServer"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"
