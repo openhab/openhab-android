@@ -12,9 +12,12 @@
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">ממשק openHAB 3</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">ממשק openHAB 3 (%s)</string>
     <string name="app_notifications">התראות</string>
     <string name="app_notifications_on_server">התראות (%s)</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
+    <string name="oh3_ui_error">אירעה שגיאה בעת טעינת ממשק openHAB 3</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
     <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
     <!-- App settings strings -->
@@ -37,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
     <string name="settings_openhab_demomode">מצב הדגמה</string>
     <string name="settings_openhab_demomode_summary">אם אין לך שרת openHAB, הפעל במצב הדגמה כדי לראות את היכולות של openHAB.</string>
+    <string name="drawer_entries">ערכי תפריט צד</string>
     <string name="settings_openhab_theme">ערכת עיצוב</string>
     <string name="settings_accent_color">צבע נושא</string>
     <string name="settings_select_a_color">בחר צבע</string>
@@ -120,6 +124,8 @@
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
+    <string name="error_first_char_is_whitespace">התו הראשון הוא רווח, כנראה שאינו רצוי</string>
+    <string name="error_last_char_is_whitespace">התו האחרון הוא רווח, כנראה שאינו רצוי</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
     <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
     <string name="error_unknown">התרחשה שגיאה לא מזוהה: %s</string>

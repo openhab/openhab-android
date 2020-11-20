@@ -12,9 +12,12 @@
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 felület</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 felület (%s)</string>
     <string name="app_notifications">Értesítések</string>
     <string name="app_notifications_on_server">Értesítések (%s)</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
+    <string name="oh3_ui_error">Hiba történt a openHAB 3 felület betöltése során</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
     <!-- App settings strings -->
@@ -37,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
     <string name="settings_openhab_demomode_summary">Ha nincs openHAB szervere, engedélyezze a demo módot, hogy láthassa mire képes az openHAB.</string>
+    <string name="drawer_entries">Oldalsó menü bejegyzései</string>
     <string name="settings_openhab_theme">Sablonok</string>
     <string name="settings_accent_color">Kiemelőszín</string>
     <string name="settings_select_a_color">Szín kiválasztása</string>
@@ -90,6 +94,11 @@
     <string name="settings_server_primary_title">Elsődleges szerver</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Kattintson ide további információért</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Az alkalmazás ezt a szervert választja, ha csatlakozva van a(z) \'%s\' Wi-Fi-hez</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">Az alkalmazás nem fogja automatikusan ezt a szervert választani Wi-Fi kapcsolat alapján</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Váltás a(z) \"%s\" szerverre Wi-Fi alapján</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi név nem olvasható: Hiányzó jogosultság</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi név nem olvasható: Helymeghatározás kikapcsolva</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="voice_command">Hangutasítás</string>
@@ -255,6 +264,7 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Eszköz azonosító</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Előtag a hangvezérlésekhez \'&lt;Device identifier&gt;|\'</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
@@ -342,6 +352,7 @@
     <string name="set">Beállít</string>
     <string name="cancel">Mégse</string>
     <string name="close">Bezár</string>
+    <string name="undo">Visszavonás</string>
     <string name="try_again_button">Próbáld újra</string>
     <string name="enable_wifi_button">Kapcsolja be a Wi-Fi-t</string>
     <string name="go_to_settings_button">Beállítások megnyitása</string>
@@ -478,6 +489,7 @@
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
     <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>
+    <string name="tile_require_unlock_summary_off">Elemek frissítésének engedélyezése, még zárolt eszköz esetén is</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktív csempe</item>
         <item quantity="other">%d aktív csempék</item>

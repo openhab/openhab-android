@@ -5,12 +5,19 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Nastavení</string>
     <string name="save">Uložit</string>
+    <string name="discard">Zahodit</string>
+    <string name="delete">Smazat</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Nastavení</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Oznámení</string>
+    <string name="app_notifications_on_server">Oznámení (%s)</string>
     <string name="habpanel_error">Při načítání HABPanel došlo k chybě</string>
+    <string name="oh3_ui_error">Při načítání openHAB 3 UI došlo k chybě</string>
     <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
     <!-- App settings strings -->
@@ -33,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">Zabránit systému zhasnout automaticky displej pokud je aplikace openHAB spuštěna</string>
     <string name="settings_openhab_demomode">Ukázkový režim</string>
     <string name="settings_openhab_demomode_summary">Pokud nemáte openHAB server, povolte režim demo abyste získali představu o možnostech openHAB.</string>
+    <string name="drawer_entries">Položky postranního menu</string>
     <string name="settings_openhab_theme">Motivy vzhledu</string>
     <string name="settings_accent_color">Barva zvýraznění</string>
     <string name="settings_select_a_color">Vybrat barvu</string>
@@ -40,6 +48,9 @@
     <string name="settings_openhab_icon_format">Formát ikon</string>
     <string name="settings_openhab_icon_format_png">Bitmapa</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_image_widget_scaling">Přizpůsobit obrázky velikosti obrazovky</string>
+    <string name="settings_image_widget_scaling_summary_off">Ponechat \'Image\' widgety, které jsou menší než velikost obrazovky, v původní velikosti</string>
+    <string name="settings_image_widget_scaling_summary_on">Ujistěte se, že \'Image\' widgety odpovídají šířce obrazovky jejich zmenšením či zvětšením</string>
     <string name="settings_chart_scaling">Měřítko grafu</string>
     <string name="settings_chart_scaling_summary">Poznámka: Menší měřítko zmenší písmo a šířky čar, takže je více místa pro graf, ale čitelnost písma se může zhoršit.</string>
     <string name="settings_chart_scaling_value_xs">Velmi malé</string>
@@ -76,6 +87,19 @@
     <string name="settings_screen_lock_kiosk">Kioskový režim</string>
     <string name="settings_screen_lock_on">Zapnuto</string>
     <string name="settings_show_sitemaps_in_drawer">Zobrazit všechny Sitemap v bočním menu</string>
+    <string name="settings_server_name">Název serveru</string>
+    <string name="settings_add_server">Přidat server</string>
+    <string name="settings_edit_server">Upravit server</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Vyplňte alespoň název serveru a jedno připojení</string>
+    <string name="settings_server_confirm_deletion">Opravdu chcete odstranit tento server?</string>
+    <string name="settings_server_confirm_leave_title">Neuložené změny</string>
+    <string name="settings_server_confirm_leave_message">Provedli jste nějaké změny. Chcete je uložit nebo zahodit?</string>
+    <string name="settings_server_primary_title">Primární server</string>
+    <string name="settings_server_primary_summary_is_primary">Tento server je primární.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" je primární server. Klepněte pro nastavení tohoto serveru jako primárního.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="voice_command">Hlasový příkaz</string>
@@ -100,6 +124,8 @@
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Zadejte platnou adresu URL ve formátu \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">Port, který jste zadali, se zdá být neplatný pro vybraný protokol</string>
+    <string name="error_first_char_is_whitespace">První znak je mezera, která je pravděpodobně nechtěná</string>
+    <string name="error_last_char_is_whitespace">Poslední znak je mezera, která je pravděpodobně nechtěná</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
     <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
     <string name="error_unknown">Došlo k neznámé chybě: %s</string>
@@ -164,6 +190,7 @@
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
     <string name="action_settings">Nastavení</string>
+    <string name="nfc_info_hint">Aktualizace Items lze zapsat na NFC tagy. Můžete vybrat Item zde, nebo můžete dlouze stisknout widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
@@ -205,7 +232,10 @@
     <string name="settings_dnd_mode">Režim Nerušit</string>
     <string name="settings_dnd_mode_summary_on">Odeslat stav režimu Nerušit do Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Neposílat stav režimu Nerušit</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění.</string>
+    <string name="settings_background_tasks_permission_hint">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění. Přesvědčte se, zda jste povolili oprávnění také pro použití na pozadí, protože k aktualizaci Item dochází i v případě, že je aplikace na pozadí.</string>
     <string name="settings_background_tasks_permission_denied">Některé úlohy na pozadí byly zakázány kvůli chybějícím oprávněním</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Některé úlohy na pozadí vyžadují nastavení přístupu k poloze na \"%s\" v nastavení Androidu</string>
     <string name="settings_background_tasks_permission_allow">Povolit</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
     <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
@@ -243,6 +273,9 @@
     <string name="item_update_http_error_label">%1$s aktualizace selhala: %2$s</string>
     <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
     <string name="item_update_connection_error_label">Chyba aktualizace %1$s (žádné připojení)</string>
+    <string name="item_update_short_status_waiting">Čekám…</string>
+    <string name="item_update_short_status_sending">Odesílám…</string>
+    <string name="item_update_short_status_failed">Selhalo</string>
     <string name="error_no_valid_item_name">Vyplňte prosím platný název Item</string>
     <string name="retry">Opakovat</string>
     <string name="ignore">Ignorovat</string>
@@ -356,6 +389,7 @@
     <string name="no_remote_server">Připojení k místnímu serveru selhalo a vzdálený server není nakonfigurovaný</string>
     <string name="resolving_openhab">Hledám openHAB server\u2026</string>
     <string name="waiting_for_wifi">Čekám než Wi-Fi naváže spojení\u2026</string>
+    <string name="visit_status_openhab_org">Navštivte status.openhab.org</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Zobrazit log</string>
@@ -370,6 +404,7 @@
     <string name="home_shortcut_pin_to_home">Připnout na domovskou obrazovku</string>
     <string name="home_shortcut_error_pinning">Nepodařilo se připnout</string>
     <string name="home_shortcut_success_pinning">Připnuto na domovskou obrazovku</string>
+    <string name="home_shortcut_server_has_been_deleted">Server pro tohoto zástupce byl smazán</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
     <string name="content_description_stop_roller_shutter">Zastavit roletu</string>
@@ -393,6 +428,9 @@
     <string name="intro_voice_description">Ovládejte svůj domov hlasem</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Ovládání Item můžete přiřadit k NFC tagu dlouhým podržením Item</string>
+    <string name="intro_quick_tile_description">Ovládejte svůj domov z rychlého nastavení zařízení (místo, kde jsou přepínače např. pro Wi-Fi a Bluetooth)</string>
+    <string name="intro_send_device_info">Odesílat informace o zařízení na server</string>
+    <string name="intro_send_device_info_description">Například zapněte světla když zazvoní budík</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">PŘESKOČIT</string>
     <!-- Intro "DONE" button -->
@@ -440,10 +478,28 @@
     <string name="item_update_success_message_previous">%s ukazuje předchozí název</string>
     <string name="item_update_success_message_rewind">%s přetáčí zpět</string>
     <string name="item_update_success_message_fastforward">%s přetáčí vpřed</string>
+    <string name="item_update_short_success_message_generic">Nastavit na %s</string>
+    <string name="item_update_short_success_message_on">Zapnuto</string>
+    <string name="item_update_short_success_message_off">Vypnuto</string>
+    <string name="item_update_short_success_message_up">Začíná se pohybovat nahoru</string>
+    <string name="item_update_short_success_message_down">Začíná se pohybovat dolů</string>
+    <string name="item_update_short_success_message_move">Začíná se pohybovat</string>
+    <string name="item_update_short_success_message_stop">Zastaveno</string>
+    <string name="item_update_short_success_message_increase">Zvýšeno</string>
+    <string name="item_update_short_success_message_decrease">Sníženo</string>
+    <string name="item_update_short_success_message_undefined">Nastaveno na undefined</string>
+    <string name="item_update_short_success_message_empty_string">Nastaveno na prázdný řetězec</string>
+    <string name="item_update_short_success_message_play">Přehrává</string>
+    <string name="item_update_short_success_message_pause">Pozastaveno</string>
+    <string name="item_update_short_success_message_next">Zobrazena další položka</string>
+    <string name="item_update_short_success_message_previous">Zobrazena předchozí položka</string>
+    <string name="item_update_short_success_message_rewind">Přetáčím zpět</string>
+    <string name="item_update_short_success_message_fastforward">Přetáčím vpřed</string>
     <string name="item_update_error_no_connection_retry">Aktualizace Item se nezdařila, zkouším znovu\u2026</string>
     <string name="item_update_error_no_connection">Žádné připojení</string>
     <string name="item_update_error_couldnt_get_item_type">Typ Item nelze zjistit</string>
     <string name="create_home_screen_widget_title">Vytvořit widget</string>
+    <string name="create_home_screen_widget_not_supported">Přejděte do menu widgetů na domovské obrazovce a tam vytvořte widget</string>
     <string name="item_update_widget_auto_generate_widget_label">Automaticky generovat popisek widgetu</string>
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
@@ -473,6 +529,7 @@
     <string name="tile_require_unlock">Vyžadovat odemknutí obrazovky</string>
     <string name="tile_require_unlock_summary_on">Vyzvat k odemknutí zařízení před povolením aktualizace Item</string>
     <string name="tile_require_unlock_summary_off">Povolit aktualizaci Item i v případě, že je zařízení uzamčeno</string>
+    <string name="tile_overview_hint">Stav dlaždice neodráží stav Item.\nPokud máte problémy s tím, že dlaždice nejsou aktualizovány po jejich změně zde, dotkněte se dlaždice nebo upravte rychlé nastavení vašeho zařízení (místo, kde jsou přepínače např. Wi-Fi a Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d aktivní dlaždice</item>
         <item quantity="few">%d aktivní dlaždice</item>

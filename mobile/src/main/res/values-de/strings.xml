@@ -12,9 +12,12 @@
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Benachrichtigungen</string>
     <string name="app_notifications_on_server">Benachrichtigungen (%s)</string>
     <string name="habpanel_error">Beim Laden von HABPanel ist ein Fehler aufgetreten</string>
+    <string name="oh3_ui_error">Beim Laden der openHAB 3 UI ist ein Fehler aufgetreten</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
     <!-- App settings strings -->
@@ -37,6 +40,7 @@
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
+    <string name="drawer_entries">Einträge im Seitenmenü</string>
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_accent_color">Akzentfarbe</string>
     <string name="settings_select_a_color">Wähle eine Farbe</string>
@@ -87,6 +91,7 @@
     <string name="settings_add_server">Server hinzufügen</string>
     <string name="settings_edit_server">Server bearbeiten</string>
     <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Mindestens Servername und eine Verbindung sind erforderlich</string>
     <string name="settings_server_confirm_deletion">Möchten Sie diesen Server wirklich entfernen?</string>
     <string name="settings_server_confirm_leave_title">Ungespeicherte Änderungen</string>
     <string name="settings_server_confirm_leave_message">Sie haben Änderungen vorgenommen. Möchten Sie sie speichern oder verwerfen?</string>
@@ -119,6 +124,8 @@
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
     <string name="error_invalid_https_url">Bitte geben Sie eine gültige URL im Format \'https://Adresse(:Port)/\' an</string>
     <string name="error_port_seems_invalid">Der eingegebene Port für das ausgewählte Protokoll scheint ungültig zu sein</string>
+    <string name="error_first_char_is_whitespace">Das erste Zeichen ist ein Leerzeichen, was wahrscheinlich unerwünscht ist</string>
+    <string name="error_last_char_is_whitespace">Das letzte Zeichen ist ein Leerzeichen, was wahrscheinlich unerwünscht ist</string>
     <string name="error_connection_failed">Verbindung zum Host fehlgeschlagen</string>
     <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
     <string name="error_unknown">Ein unbekannter Fehler ist aufgetreten: %s</string>
@@ -183,6 +190,7 @@
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
     <string name="action_settings">Einstellungen</string>
+    <string name="nfc_info_hint">Item-Updates können auf NFC-Tags geschrieben werden. Sie können hier ein Item auswählen oder ein Widget auf der Sitemap berühren.</string>
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
@@ -224,7 +232,10 @@
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten.</string>
+    <string name="settings_background_tasks_permission_hint">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten. Bitte genehmigen Sie die Berechtigung auch für die Hintergrundnutzung, da die Item-Aktualisierung auch erfolgt, wenn die App im Hintergrund läuft.</string>
     <string name="settings_background_tasks_permission_denied">Einige Hintergrundaufgaben wurden aufgrund fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Einige Hintergrundaufgaben erfordern, dass der Standortzugriff auf \"%s\" in den Android-Einstellungen gesetzt ist</string>
     <string name="settings_background_tasks_permission_allow">Erlauben</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
@@ -366,6 +377,7 @@
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
+    <string name="undo">Rückgängig</string>
     <string name="try_again_button">Erneut versuchen</string>
     <string name="enable_wifi_button">WLAN aktivieren</string>
     <string name="go_to_settings_button">Einstellungen öffnen</string>
@@ -413,7 +425,9 @@
     <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Die Steuerung eines Items kann durch Gedrückthalten des Items an NFC-Tags gebunden werden</string>
+    <string name="intro_quick_tile_description">Steuern Sie Ihr Haus über die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. Wi-Fi und Bluetooth sind)</string>
     <string name="intro_send_device_info">Geräteinformationen an Ihren Server senden</string>
+    <string name="intro_send_device_info_description">Schalten Sie bespielsweise Ihre Lichter ein, wenn der Wecker klingelt</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">ÜBERSPRINGEN</string>
     <!-- Intro "DONE" button -->
@@ -464,6 +478,9 @@
     <string name="item_update_short_success_message_generic">Auf %s gesetzt</string>
     <string name="item_update_short_success_message_on">Eingeschaltet</string>
     <string name="item_update_short_success_message_off">Ausgeschaltet</string>
+    <string name="item_update_short_success_message_up">Startet nach oben</string>
+    <string name="item_update_short_success_message_down">Startet nach unten</string>
+    <string name="item_update_short_success_message_move">Startet Bewegung</string>
     <string name="item_update_short_success_message_stop">Gestoppt</string>
     <string name="item_update_short_success_message_increase">Erhöht</string>
     <string name="item_update_short_success_message_decrease">Verringert</string>
