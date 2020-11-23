@@ -100,6 +100,11 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" є основним сервером. Торкніться щоб зробити цей сервер основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Щоб дізнатися більше, торкніться кнопки довідки.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Програма вибере цей сервер при підключенні до точки Wi-Fi \'%s</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">Додаток не буде автоматично обирати цей сервер на основі під\'єднаної Wi-Fi мережі</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Перемкнуто на сервер \"%s\" на основі точки Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Не вдалося прочитати ім\'я Wi-Fi: Відсутні дозволи</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Не вдалося прочитати ім\'я Wi-Fi: Визначення розташування вимкнуто</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="voice_command">Голосова команда</string>
@@ -381,6 +386,7 @@
     <string name="set">Встановити</string>
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
+    <string name="undo">Скасувати</string>
     <string name="try_again_button">Спробуйте ще раз</string>
     <string name="enable_wifi_button">Увымкнути Wi-Fi</string>
     <string name="go_to_settings_button">Перейти до налаштувань</string>
