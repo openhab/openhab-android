@@ -272,11 +272,11 @@ The variable `%httpcode` is returned by the plugin and contains the HTTP code re
 
 In case of an error the plugin returns an error code.
 
-| Error Code | Description                                                                                |
-| ---------- | ------------------------------------------------------------------------------------------ |
-| 10         | Tasker plugin is disabled                                                                  |
-| 11         | The app couldn't establish a connection                                                    |
-| 1000+      | A connection was established, but an error occured. The error code is 1000 + the HTTP code |
+| Error Code | Description                                                                                                                                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 10         | Tasker plugin is disabled                                                                                                                                                                                  |
+| 11         | The app couldn't establish a connection                                                                                                                                                                    |
+| 1000+      | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
 
 ## Multi server support
 
