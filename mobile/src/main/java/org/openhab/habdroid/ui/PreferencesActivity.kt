@@ -1453,7 +1453,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             prefs.edit {
                 putTileData(tileId, currentData)
             }
-            AbstractTileService.updateTile(context, tileId)
+            AbstractTileService.requestTileUpdate(context, tileId)
             parentActivity.invalidateOptionsMenu()
             parentFragmentManager.popBackStack() // close ourself
         }

@@ -180,7 +180,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             for (tileId in 1..AbstractTileService.TILE_COUNT) {
-                AbstractTileService.updateTile(context, tileId)
+                AbstractTileService.requestTileUpdate(context, tileId)
             }
         }
         EventListenerService.startOrStopService(context)
