@@ -100,6 +100,9 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">היישומון יבחר בשרת זה כאשר יש חיבור ל- Wi-Fi \'%s\'</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">היישומון לא יבחר באופן אוטומטי בשרת זה על סמך חיבור לרשת Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_switched">הוחלף לשרת \"%s\" בהתבסס על Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">לא ניתן לקרוא את שם ה- Wi-Fi: חסרות הרשאות</string>
     <string name="settings_multi_server_wifi_ssid_location_off">לא ניתן לקרוא את שם ה- Wi-Fi: המיקום כבוי</string>
     <!-- App messages strings -->
