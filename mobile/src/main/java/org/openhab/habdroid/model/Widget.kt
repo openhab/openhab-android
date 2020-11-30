@@ -19,7 +19,7 @@ import android.os.Parcelable
 import java.util.ArrayList
 import kotlin.math.abs
 import kotlin.math.max
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.appendQueryParameter

@@ -35,9 +35,9 @@ import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
 import kotlin.math.min
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory

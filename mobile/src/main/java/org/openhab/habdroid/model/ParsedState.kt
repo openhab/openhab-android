@@ -20,7 +20,7 @@ import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.math.roundToInt
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {

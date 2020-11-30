@@ -29,7 +29,7 @@ buildscript {
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-parcelize"
 apply plugin: 'de.mobilej.unmock'
 apply plugin: "com.mikepenz.aboutlibraries.plugin"
 apply plugin: "de.jjohannes.missing-metadata-guava"
@@ -106,10 +106,6 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
         allWarningsAsErrors = true
-    }
-
-    androidExtensions {
-        experimental = true // For Parcelize
     }
 }
 
