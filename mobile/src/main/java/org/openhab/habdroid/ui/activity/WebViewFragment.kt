@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui.activity
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -23,6 +24,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -30,6 +32,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -47,6 +50,8 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
+import org.openhab.habdroid.util.getDayNightMode
+import org.openhab.habdroid.util.getPrefs
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
@@ -210,6 +215,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
         webView.setBackgroundColor(Color.TRANSPARENT)
 
+        webView.addJavascriptInterface(OHAppInterface(requireContext()), "OHApp")
+
         webView.webViewClient = object : ConnectionWebViewClient(conn) {
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 val errorUrl = request.url.toString()
@@ -231,6 +238,22 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         webView?.isVisible = !error
         view?.findViewById<View>(android.R.id.empty)?.isVisible = error
         view?.findViewById<View>(R.id.progress)?.isVisible = loading
+    }
+
+    class OHAppInterface(private val context: Context) {
+        @JavascriptInterface
+        fun preferTheme(): String {
+            return "md" // Material design == Android
+        }
+
+        @JavascriptInterface
+        fun preferDarkMode(): String {
+            return when (context.getPrefs().getDayNightMode(context)) {
+                AppCompatDelegate.MODE_NIGHT_NO -> "light"
+                AppCompatDelegate.MODE_NIGHT_YES -> "dark"
+                else -> "auto"
+            }
+        }
     }
 
     companion object {
