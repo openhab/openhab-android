@@ -266,7 +266,6 @@ data class TileData(
 ) : Parcelable {
     fun isValid(): Boolean {
         return item.isNotEmpty() &&
-            state.isNotEmpty() &&
             label.isNotEmpty() &&
             tileLabel.isNotEmpty() &&
             mappedState.isNotEmpty() &&
