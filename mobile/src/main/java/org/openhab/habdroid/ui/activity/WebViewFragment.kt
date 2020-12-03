@@ -215,7 +215,12 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
         webView.setBackgroundColor(Color.TRANSPARENT)
 
-        webView.addJavascriptInterface(OHAppInterface(requireContext()), "OHApp")
+        val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
+            OHAppInterfaceWithPin(requireContext(), this)
+        } else {
+            OHAppInterface(requireContext(), this)
+        }
+        webView.addJavascriptInterface(jsInterface, "OHApp")
 
         webView.webViewClient = object : ConnectionWebViewClient(conn) {
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
@@ -240,7 +245,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         view?.findViewById<View>(R.id.progress)?.isVisible = loading
     }
 
-    class OHAppInterface(private val context: Context) {
+    open class OHAppInterface(private val context: Context, private val fragment: WebViewFragment) {
         @JavascriptInterface
         fun preferTheme(): String {
             return "md" // Material design == Android
@@ -248,11 +253,35 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
         @JavascriptInterface
         fun preferDarkMode(): String {
-            return when (context.getPrefs().getDayNightMode(context)) {
+            val nightMode = when (context.getPrefs().getDayNightMode(context)) {
                 AppCompatDelegate.MODE_NIGHT_NO -> "light"
                 AppCompatDelegate.MODE_NIGHT_YES -> "dark"
                 else -> "auto"
             }
+            Log.d(TAG, "preferDarkMode(): $nightMode")
+            return nightMode
+        }
+
+        @JavascriptInterface
+        fun exitToApp() {
+            Log.d(TAG, "exitToApp()")
+            // TODO
+        }
+
+        companion object {
+            @JvmStatic
+            protected val TAG: String = OHAppInterface::class.java.simpleName
+        }
+    }
+
+    class OHAppInterfaceWithPin(
+        context: Context,
+        private val fragment: WebViewFragment
+        ) : OHAppInterface(context, fragment) {
+        @JavascriptInterface
+        fun pinToHome() {
+            Log.d(TAG, "pinToHome()")
+            fragment.pinShortcut()
         }
     }
 
