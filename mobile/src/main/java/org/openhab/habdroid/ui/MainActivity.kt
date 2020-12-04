@@ -504,6 +504,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         viewPool.clear()
         updateSitemapDrawerEntries()
         updateDrawerItemVisibility()
+        updateDrawerServerEntries()
         invalidateOptionsMenu()
         updateTitle()
     }
