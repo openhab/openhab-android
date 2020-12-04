@@ -875,9 +875,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         drawerModeSelectorContainer = drawerView.inflateHeaderView(R.layout.drawer_header)
+        drawerModeSelectorContainer.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
         drawerModeToggle = drawerModeSelectorContainer.findViewById(R.id.drawer_mode_switcher)
         drawerServerNameView = drawerModeSelectorContainer.findViewById(R.id.server_name)
-        drawerModeToggle.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
     }
 
     private fun updateDrawerServerEntries() {
