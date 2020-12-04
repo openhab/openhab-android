@@ -16,7 +16,7 @@ package org.openhab.habdroid.model
 import android.content.SharedPreferences
 import android.os.Parcelable
 import androidx.core.content.edit
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds

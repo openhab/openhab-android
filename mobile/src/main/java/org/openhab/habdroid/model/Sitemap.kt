@@ -16,7 +16,7 @@ package org.openhab.habdroid.model
 import android.os.Parcelable
 import android.util.Log
 
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject

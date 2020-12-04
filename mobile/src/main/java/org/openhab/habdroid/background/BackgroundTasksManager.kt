@@ -48,7 +48,7 @@ import androidx.work.WorkRequest
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData

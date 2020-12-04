@@ -15,7 +15,7 @@ package org.openhab.habdroid.model
 
 import android.os.Parcelable
 
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.optStringOrNull
