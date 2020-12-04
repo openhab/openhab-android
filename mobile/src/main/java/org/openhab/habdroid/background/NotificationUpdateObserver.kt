@@ -29,6 +29,7 @@ import androidx.work.WorkInfo
 import java.util.ArrayList
 import java.util.HashMap
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getNotificationTone
@@ -70,8 +71,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             else -> {}
                         }
                     }
-                    // Stop evaluating tags and advance to next info
-                    break
+                } else if (tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID)) {
+                    val tileId = tag.substringAfter(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID).toInt()
+                    AbstractTileService.requestTileUpdate(context, tileId)
                 }
             }
         }

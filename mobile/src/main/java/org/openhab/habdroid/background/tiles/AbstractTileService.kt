@@ -83,6 +83,8 @@ abstract class AbstractTileService : TileService() {
             infoLiveData.observe(lifeCycleOwner) {
                 updateTileSubtitle()
             }
+
+            updateTileSubtitle()
         }
     }
 
@@ -126,6 +128,7 @@ abstract class AbstractTileService : TileService() {
     }
 
     private fun updateTile(tile: Tile) {
+        Log.d(TAG, "updateTile()")
         val data = getPrefs().getTileData(ID)
 
         tile.apply {
@@ -138,6 +141,8 @@ abstract class AbstractTileService : TileService() {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun updateTileSubtitle() {
+        Log.d(TAG, "updateTileSubtitle()")
+
         val lastInfo = WorkManager
             .getInstance(applicationContext)
             .getWorkInfosByTag(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID + ID)
@@ -232,7 +237,7 @@ abstract class AbstractTileService : TileService() {
             else -> R.drawable.ic_openhab_appicon_24dp
         }
 
-        fun updateTile(context: Context, id: Int) {
+        fun requestTileUpdate(context: Context, id: Int) {
             val data = context.getPrefs().getTileData(id)
             val tileService = ComponentName(
                 context,
