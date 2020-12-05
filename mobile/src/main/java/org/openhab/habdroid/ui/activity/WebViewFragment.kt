@@ -32,6 +32,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -58,6 +59,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private lateinit var urlToLoad: String
     private lateinit var urlForError: String
     private var shortcutInfo: ShortcutInfoCompat? = null
+    private var actionBar: ActionBar? = null
 
     val title: String
         get() = requireArguments().getString(KEY_PAGE_TITLE)!!
@@ -72,6 +74,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        actionBar = (activity as? MainActivity)?.supportActionBar
+
         val args = requireArguments()
         webView = view.findViewById(R.id.webview)
         urlToLoad = args.getString(KEY_URL_LOAD) as String
@@ -192,6 +196,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             } while (webView?.url == oldUrl && webView?.canGoBack() == true)
             return true
         }
+        actionBar?.show()
         return false
     }
 
@@ -245,14 +250,24 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         view?.findViewById<View>(R.id.progress)?.isVisible = loading
     }
 
+    private fun jsInterfaceCalled() {
+        GlobalScope.launch(Dispatchers.Main) {
+            if (actionBar?.isShowing == true) {
+                actionBar?.hide()
+            }
+        }
+    }
+
     open class OHAppInterface(private val context: Context, private val fragment: WebViewFragment) {
         @JavascriptInterface
         fun preferTheme(): String {
+            fragment.jsInterfaceCalled()
             return "md" // Material design == Android
         }
 
         @JavascriptInterface
         fun preferDarkMode(): String {
+            fragment.jsInterfaceCalled()
             val nightMode = when (context.getPrefs().getDayNightMode(context)) {
                 AppCompatDelegate.MODE_NIGHT_NO -> "light"
                 AppCompatDelegate.MODE_NIGHT_YES -> "dark"
@@ -264,6 +279,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
         @JavascriptInterface
         fun exitToApp() {
+            fragment.jsInterfaceCalled()
             Log.d(TAG, "exitToApp()")
             // TODO
         }
@@ -280,6 +296,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         ) : OHAppInterface(context, fragment) {
         @JavascriptInterface
         fun pinToHome() {
+            fragment.jsInterfaceCalled()
             Log.d(TAG, "pinToHome()")
             fragment.pinShortcut()
         }
