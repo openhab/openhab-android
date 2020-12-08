@@ -1454,8 +1454,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                 putTileData(tileId, currentData)
             }
             AbstractTileService.requestTileUpdate(context, tileId)
-            parentActivity.invalidateOptionsMenu()
-            parentFragmentManager.popBackStack() // close ourself
+
+            if (parentFragmentManager.backStackEntryCount > 0) {
+                parentActivity.invalidateOptionsMenu()
+                parentFragmentManager.popBackStack() // close ourself
+            } else {
+                parentActivity.onBackPressed()
+            }
         }
 
         override fun onLeaveAndDiscard() {
