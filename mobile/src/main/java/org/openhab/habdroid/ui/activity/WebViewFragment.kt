@@ -293,7 +293,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     class OHAppInterfaceWithPin(
         context: Context,
         private val fragment: WebViewFragment
-        ) : OHAppInterface(context, fragment) {
+    ) : OHAppInterface(context, fragment) {
         @JavascriptInterface
         fun pinToHome() {
             fragment.jsInterfaceCalled()
