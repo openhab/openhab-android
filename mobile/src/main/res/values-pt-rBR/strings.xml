@@ -120,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Seu servidor remoto não está disponível</string>
     <string name="app_shortcut_disabled_voice_recognition">Seu dispositivo não tem um aplicativo de reconhecimento de voz instalado</string>
     <string name="no_position_set">Nenhuma posição definida</string>
+    <string name="show_and_copy_item_name">Mostrar e copiar nome do Item</string>
+    <string name="copied_item_name">Copiado \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB retornou uma lista de Sitemap vazia</string>
     <string name="error_sitemap_generic_load_error">O Sitemap não pôde ser carregado. Ocorreu o seguinte erro: %1$s</string>
