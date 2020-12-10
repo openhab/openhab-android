@@ -24,5 +24,6 @@ data class LabeledValue internal constructor(val value: String, val label: Strin
 
 @Throws(JSONException::class)
 fun JSONObject.toLabeledValue(keyName: String, valueName: String): LabeledValue {
-    return LabeledValue(getString(keyName), getString(valueName))
+    val value = getString(keyName)
+    return LabeledValue(value, optString(valueName, value))
 }
