@@ -20,6 +20,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.core.connection.NotACloudServerException
 import org.openhab.habdroid.ui.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
@@ -56,6 +57,7 @@ object CloudMessagingHelper {
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
         ConnectionFactory.waitForInitialization()
         val prefs = context.getPrefs()
+        val cloudFailure = ConnectionFactory.primaryCloudConnection?.failureReason
         return when {
             // No remote server is configured
             prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() ->
@@ -65,8 +67,7 @@ object CloudMessagingHelper {
                     false
                 )
             // Cloud connection failed
-            ConnectionFactory.primaryCloudConnection?.failureReason != null -> {
-                val cloudFailure = ConnectionFactory.primaryCloudConnection?.failureReason
+            cloudFailure != null && cloudFailure !is NotACloudServerException -> {
                 val message = context.getString(R.string.push_notification_status_http_error,
                     context.getHumanReadableErrorMessage(
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
