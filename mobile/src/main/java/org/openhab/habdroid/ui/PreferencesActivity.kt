@@ -1002,7 +1002,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 updateIconColors(url, userName, password)
                 pref.summary = summaryGenerator(newValue as String)
 
-                if (!url.isNullOrEmpty()) {
+                if (url != null) {
                     val path = ServerPath(url, userName, password)
                     parent.onPathChanged(requireArguments().getString("key", ""), path)
                 }
