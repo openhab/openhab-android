@@ -289,9 +289,9 @@
         <item quantity="one">%d new notification</item>
         <item quantity="other">%d new notifications</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Unavailable, remote server isn\'t configured</string>
-    <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
+    <string name="push_notification_status_no_remote_configured">Notifications are unavailable: Remote server isn\'t configured</string>
+    <string name="push_notification_status_http_error">Notifications are unavailable: Error connecting to remote server: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Notifications are unavailable: Remote server isn\'t an openHAB cloud instance</string>
     <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">The notifications are polled on a regular schedule, which is the same than for \"Send device information to server\"</string>
     <plurals name="item_update_error_title">
