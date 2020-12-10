@@ -100,6 +100,11 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" es el servidor principal. Pulse para hacer de este servidor el servidor principal.\nActualmente sólo el servidor principal soporta todas las características de esta aplicación. Pulse el botón de ayuda para más información.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Pulse aquí para más información</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">La aplicación seleccionará este servidor cuando esté conectado a la Wi-Fi \'%s\'</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">La aplicación no seleccionará automáticamente este servidor basándose en la red Wi-Fi conectada</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Se cambió al servidor \"%s\" basándose en la Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">No se puede leer el nombre de la Wi-Fi: Faltan permisos</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">No se puede leer el nombre de la Wi-Fi: La ubicación está desactivada</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="voice_command">Comando de voz</string>
@@ -377,6 +382,7 @@
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
+    <string name="undo">Deshacer</string>
     <string name="try_again_button">Vuelve a intentarlo</string>
     <string name="enable_wifi_button">Activar Wi-Fi</string>
     <string name="go_to_settings_button">Ir a la configuración</string>
