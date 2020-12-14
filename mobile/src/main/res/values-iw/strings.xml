@@ -120,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">השרת המרוחק אינו זמין</string>
     <string name="app_shortcut_disabled_voice_recognition">היישום דיבור-לטקסט אינו מותקן במכשיר שלך</string>
     <string name="no_position_set">לא נקבע מיקום</string>
+    <string name="show_and_copy_item_name">הצג והעתק את שם הפריט</string>
+    <string name="copied_item_name">\"%s\" הועתק</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
