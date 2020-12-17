@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Apparaat-registratie is bezig</string>
-    <string name="info_openhab_gcm_failed">Registreren van push notificatie is mislukt</string>
-    <string name="info_openhab_gcm_failed_play_services">Registratie van push notificatie is mislukt vanwege een Google Play Services probleem: %s</string>
-    <string name="info_openhab_gcm_connected">Apparaat succesvol geregistreerd met Firebase Cloud Messaging</string>
     <string name="open_in_maps">Openen in Google Maps</string>
 </resources>
