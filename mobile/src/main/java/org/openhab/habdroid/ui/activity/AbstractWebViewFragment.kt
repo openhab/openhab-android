@@ -69,6 +69,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     abstract val urlForError: String
     abstract val shortcutInfo: ShortcutInfoCompat
     abstract val errorMessageRes: Int
+    open val avoidAuthentication = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -223,7 +224,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val webView = webView ?: return
         val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
 
-        webView.setUpForConnection(conn, url) { progress ->
+        webView.setUpForConnection(conn, url, avoidAuthentication) { progress ->
             if (progress == 100) {
                 updateViewVisibility(error = false, loading = false)
             } else {

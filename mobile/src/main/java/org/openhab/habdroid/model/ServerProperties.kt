@@ -43,7 +43,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
     }
 
     fun hasWebViewUiInstalled(ui: WebViewUi): Boolean {
-        return flags and ui.serverFlag != 0
+        return if (ui.serverFlag == 0) true else flags and ui.serverFlag != 0
     }
 
     fun hasInvisibleWidgetSupport(): Boolean {
