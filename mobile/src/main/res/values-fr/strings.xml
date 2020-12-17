@@ -216,9 +216,6 @@
         <item quantity="one">%d nouvelles notifications</item>
         <item quantity="other">%d nouvelles notifications</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Indisponible, serveur distant non configuré</string>
-    <string name="push_notification_status_http_error">Indisponible, erreur de connexion au serveur distant : %s</string>
-    <string name="push_notification_status_remote_no_cloud">Indisponible, le serveur distant n\'est pas une instance openHAB Cloud</string>
     <string name="push_notification_status">État </string>
     <string name="push_notification_hint">Les notifications sont interrogées selon une planification régulière, qui est la même que pour \"Envoyer les informations de l\'appareil au serveur\"</string>
     <plurals name="item_update_error_title">
