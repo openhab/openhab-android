@@ -224,9 +224,6 @@
         <item quantity="one">%d nieuwe melding</item>
         <item quantity="other">%d nieuwe meldingen</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Niet beschikbaar, externe server is niet geconfigureerd</string>
-    <string name="push_notification_status_http_error">Niet beschikbaar, fout bij verbinding met externe server: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Niet beschikbaar, externe server is geen openHAB cloud instance</string>
     <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">De meldingen worden opgevraagd volgens een schema, welke hetzelfde is als voor \"Apparaatinformatie naar server verzenden\"</string>
     <plurals name="item_update_error_title">
