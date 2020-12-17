@@ -250,7 +250,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         view?.findViewById<View>(R.id.progress)?.isVisible = loading
     }
 
-    private fun jsInterfaceCalled() {
+    private fun hideActionBar() {
         GlobalScope.launch(Dispatchers.Main) {
             if (actionBar?.isShowing == true) {
                 actionBar?.hide()
@@ -261,13 +261,11 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     open class OHAppInterface(private val context: Context, private val fragment: WebViewFragment) {
         @JavascriptInterface
         fun preferTheme(): String {
-            fragment.jsInterfaceCalled()
             return "md" // Material design == Android
         }
 
         @JavascriptInterface
         fun preferDarkMode(): String {
-            fragment.jsInterfaceCalled()
             val nightMode = when (context.getPrefs().getDayNightMode(context)) {
                 AppCompatDelegate.MODE_NIGHT_NO -> "light"
                 AppCompatDelegate.MODE_NIGHT_YES -> "dark"
@@ -279,9 +277,14 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
         @JavascriptInterface
         fun exitToApp() {
-            fragment.jsInterfaceCalled()
             Log.d(TAG, "exitToApp()")
             // TODO
+        }
+
+        @JavascriptInterface
+        fun goFullscreen() {
+            Log.d(TAG, "goFullscreen()")
+            fragment.hideActionBar()
         }
 
         companion object {
@@ -296,7 +299,6 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     ) : OHAppInterface(context, fragment) {
         @JavascriptInterface
         fun pinToHome() {
-            fragment.jsInterfaceCalled()
             Log.d(TAG, "pinToHome()")
             fragment.pinShortcut()
         }
