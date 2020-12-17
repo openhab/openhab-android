@@ -235,9 +235,6 @@
         <item quantity="one">%d új értesítés</item>
         <item quantity="other">%d új értesítések</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Nem érhető el, a távoli kiszolgáló nincs beállítva</string>
-    <string name="push_notification_status_http_error">Nem elérhető, hiba a távoli szerver csatlakozásakor: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Nem érhető el, a távoli kiszolgáló nem openHAB-cloud kiszolgáló</string>
     <string name="push_notification_status">Állapot</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
