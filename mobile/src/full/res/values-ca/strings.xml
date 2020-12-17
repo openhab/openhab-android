@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">S\'està processant el registre del dispositiu</string>
-    <string name="info_openhab_gcm_connected">Dispositiu registrat correctament amb Firebase Cloud Messaging</string>
     <string name="open_in_maps">Obre a Google Maps</string>
 </resources>
