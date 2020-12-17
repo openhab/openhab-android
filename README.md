@@ -2,8 +2,6 @@
     <a href="https://github.com/openhab/openhab-android/actions?query=workflow%3A%22Build+App%22"><img alt="GitHub Action" src="https://github.com/openhab/openhab-android/workflows/Build%20App/badge.svg"></a>
     <a href="https://travis-ci.com/openhab/openhab-android"><img alt="Travis CI Status" src="https://travis-ci.com/openhab/openhab-android.svg?branch=master"></a>
     <a href="https://crowdin.com/project/openhab-android"><img alt="Crowdin" src="https://d322cqt584bo4o.cloudfront.net/openhab-android/localized.svg"></a>
-    <a href="https://dependabot.com"><img alt="Dependabot Status" src="https://api.dependabot.com/badges/status?host=github&repo=openhab/openhab-android"></a>
-    <a href="https://lgtm.com/projects/g/openhab/openhab-android/alerts/"><img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/openhab/openhab-android.svg?logo=lgtm&logoWidth=18"></a>
     <a href="https://www.bountysource.com/teams/openhab/issues?tracker_ids=968858"><img alt="Bountysource" src="https://www.bountysource.com/badge/tracker?tracker_id=968858"></a>
     <br>
     <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100">
