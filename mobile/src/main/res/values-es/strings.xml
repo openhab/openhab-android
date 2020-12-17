@@ -261,9 +261,6 @@
         <item quantity="one">%d nueva notificación</item>
         <item quantity="other">%d nuevas notificaciones</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">No disponible, el servidor remoto no está configurado</string>
-    <string name="push_notification_status_http_error">No disponible, error al conectarse al servidor remoto: %s</string>
-    <string name="push_notification_status_remote_no_cloud">No disponible, el servidor remoto no es una instancia de openHAB cloud</string>
     <string name="push_notification_status">Estado</string>
     <string name="push_notification_hint">Las notificaciones son comprobadas a intervalos regulares, los mismos intervalos que para \"Enviar información del dispositivo al servidor\"</string>
     <plurals name="item_update_error_title">
