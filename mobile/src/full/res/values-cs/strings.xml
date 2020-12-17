@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="info_openhab_gcm_in_progress">Probíhá registrace oznámení</string>
+    <string name="info_openhab_gcm_failed">Registrace oznámení se nezdařila</string>
+    <string name="info_openhab_gcm_failed_play_services">Registrace oznámení se nezdařila z důvodu problému služeb Google Play: %s</string>
+    <string name="info_openhab_gcm_connected">Registrace oznámení byla úspěšně dokončena</string>
     <string name="open_in_maps">Otevřít v Google Mapách</string>
 </resources>
