@@ -263,9 +263,6 @@
         <item quantity="many">%d nových oznámení</item>
         <item quantity="other">%d nová oznámení</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Nedostupné, vzdálený server není nakonfigurován</string>
-    <string name="push_notification_status_http_error">Nedostupné, chyba při připojování ke vzdálenému serveru: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Nedostupné, vzdálený server není openHAB cloud</string>
     <string name="push_notification_status">Stav</string>
     <string name="push_notification_hint">Oznámení jsou stahována v pravidelném intervalu, který je stejný jako pro \"Odeslat informace o zařízení na server\"</string>
     <plurals name="item_update_error_title">
