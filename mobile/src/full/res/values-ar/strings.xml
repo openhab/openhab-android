@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">جاري تسجيل الجهاز</string>
-    <string name="info_openhab_gcm_connected">تم تسجيل الجهاز بنجاح مع Firebase Cloud Messaging</string>
     <string name="open_in_maps">افتح في خرائط جوجل</string>
 </resources>
