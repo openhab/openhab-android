@@ -261,9 +261,6 @@
         <item quantity="many">%d нових сповіщень</item>
         <item quantity="other">%d нових сповіщень</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Недоступно, віддалений сервер не налаштовано</string>
-    <string name="push_notification_status_http_error">Недоступно, помилка підключення до віддаленого сервера: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Недоступно, віддалений сервер не є екземпляром openHAB cloud</string>
     <string name="push_notification_status">Стан</string>
     <string name="push_notification_hint">Сповіщення відтворюються за звичайним розкладом, таким самим як \"Відправити інформацію про пристрій на сервер\"</string>
     <plurals name="item_update_error_title">
