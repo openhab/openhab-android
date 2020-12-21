@@ -263,6 +263,9 @@
         <item quantity="many">%d התראות חדשות</item>
         <item quantity="other">%d התראות חדשות</item>
     </plurals>
+    <string name="push_notification_status_no_remote_configured">התראות לא זמינות: השרת המרוחק אינו מוגדר</string>
+    <string name="push_notification_status_http_error">התראות לא זמינות: שגיאה בחיבור לשרת מרוחק: %s</string>
+    <string name="push_notification_status_remote_no_cloud">התראות לא זמינות: השרת המרוחק אינו שרת ענן של openHAB</string>
     <string name="push_notification_status">מצב</string>
     <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
     <plurals name="item_update_error_title">
