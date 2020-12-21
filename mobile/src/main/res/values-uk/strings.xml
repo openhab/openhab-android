@@ -120,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Ваш віддалений сервер недоступний</string>
     <string name="app_shortcut_disabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <string name="no_position_set">Розташування не встановлено</string>
+    <string name="show_and_copy_item_name">Показати і копіювати ім\'я об’єкта</string>
+    <string name="copied_item_name">Скопійовано \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
