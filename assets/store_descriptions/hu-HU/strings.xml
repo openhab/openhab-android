@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
     <intro>openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver</intro>
-    <whatis>openHAB, egy Java alapú, nyílt forráskódú otthon automatizálási platform. Mely integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat egyetlen felületen.</whatis>
+    <whatis>az openHAB szoftver, egy Java alapú, nyílt forráskódú otthon automatizálási platform, mely egyetlen felületen integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat.</whatis>
     <rules>Az egyes eszközök fölött található, mely így összefogja, és vezérli illetve automatizálja az összes hozzá csatlakozott elemet.</rules>
     <supported>Támogatott termékek</supported>
     <bindings>104/5000
