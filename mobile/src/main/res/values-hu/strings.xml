@@ -49,6 +49,8 @@
     <string name="settings_openhab_icon_format_png">Bitkép</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
     <string name="settings_image_widget_scaling">Kép igazítása a képernyőhöz</string>
+    <string name="settings_image_widget_scaling_summary_off">A képernyőnél kisebb képeket az eredeti méretben jelenítse meg</string>
+    <string name="settings_image_widget_scaling_summary_on">A képernyőnél nagyobb vagy kisebb képeket igazítsa a képernyő szélességéhez</string>
     <string name="settings_chart_scaling">Grafikon méretezés</string>
     <string name="settings_chart_scaling_summary">Megjegyzés: A kisebb méretezés csökkenti a betűtípusokat és a vonalszélességet, így több hely van a grafikon számára, de a betűk olvashatósága is csökkenhet.</string>
     <string name="settings_chart_scaling_value_xs">Nagyon kicsi</string>
@@ -89,9 +91,13 @@
     <string name="settings_add_server">Szerver hozzáadása</string>
     <string name="settings_edit_server">Szerver szerkesztése</string>
     <string name="server_with_name">Szerver %s</string>
+    <string name="settings_server_at_least_name_and_connection">Legalább egy kiszolgáló név és egy kapcsolat szükséges</string>
     <string name="settings_server_confirm_deletion">Biztosan eltávolítja ezt a kiszolgálót?</string>
     <string name="settings_server_confirm_leave_title">Nem mentett módosítások</string>
+    <string name="settings_server_confirm_leave_message">Nem mentett módosításai vannak. Elveti a változtatásokat vagy kívánja menteni azokat?</string>
     <string name="settings_server_primary_title">Elsődleges szerver</string>
+    <string name="settings_server_primary_summary_is_primary">Ez a kiszolgáló az elsődleges.\nAz alkalmazás összes funkcióját csak az elsődeleges szerverrel tudja használni. Érintse meg a súgót a további információ eléréséhez.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" az elsődleges kiszolgáló. Érintse meg a jelenlegi szerver elsődlegessé tételéhez.\nAz alkalmazás összes funkcióját csak az elsődeleges szerverrel tudja használni. Érintse meg a súgót a további információ eléréséhez.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Kattintson ide további információért</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Az alkalmazás ezt a szervert választja, ha csatlakozva van a(z) \'%s\' Wi-Fi-hez</string>
@@ -114,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">A távoli szerver nem érhető el</string>
     <string name="app_shortcut_disabled_voice_recognition">Ez az eszköz nem rendelkezik hangfelismerő alkalmazással</string>
     <string name="no_position_set">Nincs művelet beállítva</string>
+    <string name="show_and_copy_item_name">Mutassa meg és másolja az Elem nevét</string>
+    <string name="copied_item_name">\"%s\" másolva</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_sitemap_generic_load_error">A felület nem tölthető be. Akövetkező hiba miatt: %1$s</string>
@@ -123,6 +131,8 @@
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
     <string name="error_invalid_https_url">Adjon meg egy érvényes URL-címet \' https://kiszolgáló(:port)/\' formában</string>
     <string name="error_port_seems_invalid">Úgy tűnik, a megadott port érvénytelen a kiválasztott protokollhoz</string>
+    <string name="error_first_char_is_whitespace">Az első karakter szóköz, valószínűleg ez nem szükséges</string>
+    <string name="error_last_char_is_whitespace">Az utolsó karakter szóköz, valószínűleg ez nem szükséges</string>
     <string name="error_connection_failed">Sikertelen kapcsolódás</string>
     <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
     <string name="error_unknown">Ismeretlen hiba történt: %s</string>
@@ -175,6 +185,7 @@
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
     <string name="error_no_speech_to_text_app_found">Hangfelismerő alkalmazás nem található</string>
+    <string name="error_sse_failed">Az esemény feliratkozás meghiúsult, az adatok frissítése nem megbízható</string>
     <string name="error_video_player">%s nem tölthető be</string>
     <string name="install">Telepítés</string>
     <string name="title_activity_openhabwritetag">NFC-címke írása</string>
@@ -186,14 +197,20 @@
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
     <string name="action_settings">Beállítások</string>
+    <string name="nfc_info_hint">Az Elem frissítést NFC címkére írhatja. Kiválaszthat egy Elemet itt vagy hosszú érintéssel a felületen.</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Eszközadatok küldése a kiszolgálónak</string>
     <string name="send_device_info_to_server_short">Eszközinformáció küldése</string>
     <string name="send_device_info_category_event_based_title">Esemény alapú</string>
+    <string name="send_device_info_category_event_based_explanation">Ezek az Elemek eseményfüggően frissülnek, pl.: bejövő hívás esetén</string>
     <string name="send_device_info_category_schedule_based_title">Ütemezés alapú</string>
+    <string name="send_device_info_category_schedule_based_explanation">Minél rövidebb a kiválasztott intervallum, annál jobban merül az eszköz akkumulátora. Ezen kívül az eszköz nem biztos, hogy tudja a megadott intervallumot pontosan követni, az akkumulátor kímélete miatt késleltetés léphet fel.</string>
+    <string name="send_device_info_item_prefix_summary">Az Elemek neve ezen az oldalon az eszköz azonosítóval lesz előtétezve: \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Ezen az oldalon nincs előtét megadva az Elemekhez. Megadhatja ehhez az eszköz azonosítót a program beállításainak főoldalán.</string>
     <string name="send_device_info_foreground_service_title">Eseményfigyelő</string>
+    <string name="send_device_info_foreground_service_summary">Figyelje az eseményeket az alábbi Elemekhez. Ez állando értesítést igényel és növeli az akkumulátor használatát.</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
     <string name="item_update_summary_success">Utolsó frissítés \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Ébresztési idő</string>
