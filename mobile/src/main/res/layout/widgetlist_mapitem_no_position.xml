@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/empty"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:visibility="gone"
+    tools:visibility="visible"
+    tools:showIn="@layout/widgetlist_mapitem">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/watermark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_location_off_grey_64dp"
+        app:tint="@color/empty_list_text_color"
+        app:tintMode="src_in" />
+
+    <TextView
+        android:id="@+id/empty_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:text="@string/no_position_set"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/empty_list_text_color" />
+</LinearLayout>

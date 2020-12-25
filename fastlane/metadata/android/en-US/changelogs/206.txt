@@ -1,0 +1,2 @@
+## Fixed
+* Fix IndexOutOfBoundsException with section switch (#1604)

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:background="?android:activatedBackgroundIndicator"
-    android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin">
+    android:paddingStart="@dimen/widgetlist_item_side_margin"
+    android:paddingEnd="@dimen/widgetlist_item_side_margin">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
-        android:id="@+id/mjpegimage"
+        android:id="@+id/widget_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
         android:layout_margin="4dip"
         android:contentDescription="@string/content_description_video"
-        app:progressIndicator="?attr/imageLoadingIndicator" />
+        app:imageScalingType="scaleToFitWithViewAdjustment"
+        app:progressIndicator="@drawable/ic_image_loading_themed" />
+
+    <include layout="@layout/widgetlist_data_saver" />
 
 </FrameLayout>

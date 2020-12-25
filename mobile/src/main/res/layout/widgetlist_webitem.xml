@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WebView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/webview"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="4dp"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
-    android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin" />
+    android:layout_height="wrap_content"
+    tools:ignore="WebViewLayout">
+
+    <WebView
+        android:id="@+id/widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:paddingStart="@dimen/widgetlist_item_side_margin"
+        android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/widgetlist_item_side_margin"
+        android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+
+    <include layout="@layout/widgetlist_data_saver" />
+
+</FrameLayout>

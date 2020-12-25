@@ -1,0 +1,3 @@
+## Fixed
+* Fix Setpoint widget (#1390)
+* Always use item options instead of mappings if available. (#1410) 

@@ -1,0 +1,4 @@
+## Fixed
+* Apply app theme to intro activity (#2075)
+* Remove transformation instructions from state description pattern (#2086)
+* Fix crash when tapping on notification

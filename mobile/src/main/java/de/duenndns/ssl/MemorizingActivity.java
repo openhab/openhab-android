@@ -34,6 +34,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+
 import androidx.appcompat.app.AlertDialog;
 
 import org.openhab.habdroid.R;
@@ -54,7 +55,7 @@ public class MemorizingActivity extends Activity
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mThemedContext = new ContextThemeWrapper(this, Util.getActivityThemeId(this));
+		mThemedContext = new ContextThemeWrapper(this, Util.INSTANCE.getActivityThemeId(this));
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			TypedValue typedValue = new TypedValue();

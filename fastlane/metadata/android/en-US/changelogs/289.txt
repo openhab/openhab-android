@@ -1,0 +1,4 @@
+## Fixed
+* Fix crash in Video item (#2026)
+* Fix crash on Android L when changing prefix (#2033)
+* Fix crash when reading SSID on Android 8 (#2025)

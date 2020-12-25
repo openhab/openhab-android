@@ -1,0 +1,5 @@
+## Changed
+* Show hint in MapView if no location is set (#1789)
+
+## Fixed
+* Close dialogs when opening a new page (#1771)

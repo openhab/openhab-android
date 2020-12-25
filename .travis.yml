@@ -1,4 +1,5 @@
 language: android
+dist: trusty
 jdk: oraclejdk8
 env:
   global:
@@ -31,17 +32,11 @@ install:
   - sdkmanager --list || true
 
 stages:
-  - test
   - deploy
 
 jobs:
   include:
-    - stage: test
-      script: bash travis/test.sh
-      env:
-        - desc="Build & test"
-      if: tag != "-fdroid$"
-    - stage: test
+    - stage: deploy
       script: bash travis/uploads.sh
       env:
         - desc="Uploads to GitHub"
@@ -51,7 +46,6 @@ jobs:
       if: tag IS present AND tag != "-fdroid$"
       deploy:
         provider: releases
-        prerelease: true
         file:
           - $HOME/apks_to_deploy/openhab-android.apk
         skip_cleanup: true

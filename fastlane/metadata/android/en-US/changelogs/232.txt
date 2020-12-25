@@ -1,0 +1,3 @@
+• Improve widgets and Tasker plugin.
+• Show only the default Sitemap in the side menu. There's a new setting to show all Sitemaps there.
+• Disable HTTP for new remote connections.

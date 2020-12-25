@@ -1,0 +1,4 @@
+• Add Tasker/Locale action plugin
+• Add ability to create sitemap shortcuts
+• Fix issues with visibility flag
+• Stability and performance improvements

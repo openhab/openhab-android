@@ -1,0 +1,2 @@
+## Changed
+* Always render Switch items without mappings as switches. (#1487)

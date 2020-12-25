@@ -1,12 +1,8 @@
 openHAB - ”empowering the smart home” - leverandør- og teknikkuavhengig hjemmeautomasjon med åpen kildekode
 
-Builds på F-Droid har kartvisning-støtte, GCM og krasj-rapportering fjernet og vil ikke kunne motta push varsler fra openHAB Cloud.
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 Prøv ut nye funksjoner og gi tidlig tilbakemelding!
 Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.
-
-<b>Viktig merknad</b>
-
-Du trenger en openHAB server for denne appen
 
 openHAB er en Java-basert hjemmeautomasjonsplattform med åpen kildekode som integrerer og kombinerer et stort utvalg av ulike systemer og teknikker for smarte hjem i en samlet løsning.
 Ovenpå det enhetlige abstraksjonslaget er alle tilsluttede enheter tilgjengelig for den overgripende regelmotoren og ulike brukergrensesnitt.
@@ -14,15 +10,7 @@ Ovenpå det enhetlige abstraksjonslaget er alle tilsluttede enheter tilgjengelig
 <b>Produkter som har støtte</b>
 
 Over 200 tillegg gir support for varemerker, enheter, teknikk og kommunikasjonsprotokoller. For eksempel Z-Wave, Philips Hue, Amazon Echo, Chromecast och Sonos. Oppdag alle tilgjengelige tilleggsprogrammer og støttede enheter og/eller funksjoner på: https://www.openhab.org/addons/
-
-• Hjemme automasjon løsninger: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...
-• Belysning: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Oppvarming: Max!, reir, Vitotronic, Heatmiser,...
-• Hjemmeunderholdning: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
-• Sikkerhet: ZoneMinder, DSC,...
-• Åpne protokoller: HTTP, TCP/UDP, MQTT, seriell,...
-• Spesielle useCases: Minecraft, Tesla bil, værmeldingstjenester,...
-• ...
+App'en har en plugin for Tasker og Locale inkludert.
 
 <b>Åpen kildekode Community</b>
 
@@ -34,9 +22,8 @@ Hvis du vil oversette app til ditt språk bli med oss på https://crowdin.com/pr
 
 openHAB Foundation e.V. er en ideell organisasjon med oppgave å opplyse offentligheten om mulighetene og fordelene av fri og åpen smarte-hjem løsninger. Lær om oppdraget og tjenestene til stiftelsen under https://www.openhabfoundation.org
 
-<b>Anti funksjoner</b>
+<b>Viktig merknad</b>
 
-Programmet er flagget med flagget "NonFreeAsset" fordi ikonet openHAB ikke er under en fri lisens.
-
+Du trenger en openHAB server for denne appen.
 
 Personvern: https://www.openhabfoundation.org/privacy.html

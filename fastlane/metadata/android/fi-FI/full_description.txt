@@ -1,32 +1,20 @@
 openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota
 
-F-Droid sovelluskaupasta ladatuissa koontiversioissa on tuki karttanäytölle, mutta GCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.
+F-Droid sovelluskaupasta ladatuissa koontiversioissa FCM ja kaatumisilmoitukset ovat pois käytöstä eikä push-ilmoitukset openHAB pilvestä ole käytettävissä. Sen sijaan ilmoitukset haetaan toistuvasti.
 Kokeilla uusia ominaisuuksia ja anna pian palautetta!
 Voit asentaa beta version <a href="https://f-droid.org/packages/org.openhab.habdroid/">vakaan version</a> rinnalle.
 
-<b>Tärkeä huomautus</b>
-
-Tarvitset openHAB palvelimen tätä sovellusta varten
-
 openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.
-Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.
+Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä kaiken kattavassa sääntö- ja automaatio-ohjelmoinnissa.
 
 <b>Tuetut laitteet ja tuotteet</b>
 
 Yli 200 yksilöllistä lisäosaa antaa tuen erilaisille tuotteille, laitteille, teknologioille ja protokollille. Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Loydä kaikki saatavailla olevat lisäosat ja tuetut laitteet sekä toiminnot osoitteesta: https://www.openhab.org/addons/
-
-• Kotiautomaatio: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Valaistus: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Lämmitys: Max!, Nest, Vitotronic, Heatmiser, ...
-• Viihde: LG TV, Samsung TV, Plex, Pioneer AVR, Squeezebox, Sonos, Kodi, ...
-• Turvallisuus: ZoneMinder, DSC,...
-• Avoimet protokollat: TCP/UDP, HTTP, Serial, MQTT...
-• Erikoissovellukset: Minecraft, Tesla auto, sääpalvelut,...
-• ...
+Sovelluksessa on liitännäinen Taskeria ja Localea varten.
 
 <b>Avoimen lähdekoodin yhteisö</b>
 
-openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org
+openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka josta löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org
 Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues
 Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android
 
@@ -34,9 +22,8 @@ Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan o
 
 openHAB Säätiö e.V. on yleishyödyllinen järjestö, jonka tehtävänä on kertoa yleisölle ilmaisten ja vapaiden älykotiratkaisuiden mahdollisuuksista ja eduista. Lisätietoja järjestön tehtävästä ja palveluista löydät osoitteesta https://www.openhabfoundation.org
 
-<b>Anti-ominaisuudet</b>
+<b>Tärkeä huomautus</b>
 
-Sovellus on merkitty lipulla ”NonFreeAsset”, koska openHAB kuvaketta ei ole vapaalla lisenssillä.
-
+Tarvitset openHAB palvelimen tätä sovellusta varten.
 
 Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy.html

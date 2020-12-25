@@ -1,0 +1,5 @@
+## Added
+* Edit widgets after creation (#1706)
+
+## Changed
+* Update translations

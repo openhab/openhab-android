@@ -1,0 +1,2 @@
+## Added
+* Add setting to make "schedule based" items "event based" (#2082)

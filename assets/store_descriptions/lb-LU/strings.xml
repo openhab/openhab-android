@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+    <intro>openHAB - "empowering the smart home" - eng Hiersteller an Technologie onofhängeg Open Source Automatisatioun s Léisung fir Doheem</intro>
+    <whatis>openHAB ass eng Java baséiert Open-Source Platform fir Heem-Automatisatioun, déi eng grouss Bandbreet un verschiddene Smart-Home Systemer an Technologien an enger Solutioun integréiert an kombinéiert.</whatis>
+    <rules>Opbauend op enger eenheetlecher Abstraktioun s Couche sinn all verbonnen Geräter fir déi iwwergräifend Automatiséierung s bzw. Regelméiglechkeeten an déi verschidden Benotzer Interfacen disponibel.</rules>
+    <supported>Ënnerstëtzt Produiten</supported>
+    <bindings>Iwwer 200 spezifesch Add-On's bidden Ënnerstëtzung fir diverse Marken, Geräter, Technologien an Kommunikatioun's Protokoller. Beispiller heifir sinn Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Entdeck all verfügbar Add-On‘s an ënnerstëtze Geräter an/oder Funktiounen ënner:
+https://www.openhab.org/addons/</bindings>
+    <automation_apps>Dës App huet en Action-Plugin fir Tasker an Locale.</automation_apps>
+
+    <oss_community>Open Source Communautéit</oss_community>
+    <forum>D´ Open-Source openHAB Initiativ gëtt hirer Communautéit eng staark Ënnerstëtzung. De Forum mat iwwer 13.000 registréierte Useren ass eng Plaz fir Hëllef an Inspiratioun ze fannen. Besich den Forum vun der openHAB Communautéit ënner https://community.openhab.org</forum>
+
+    <report_issues>Wann dir e Problem opfält, mell deen w.e.g. am Forum oder ënner https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Wann s de des App op deng Sprooch iwwersetze wëlls dann hëllef eis ënner https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB Fondatioun</foundation>
+    <about_foundation>D´ openHAB Foundation e.V. ass eng a.s.b.l. déi als Missioun huet fir den Public iwwer d´ Méiglechkeeten an Notzen vun enger gratis an oppener Smart Home Léisung op ze klären. Gëff méi gewuer iwwer d´ Missioun an Servicer vun der Fondatioun ënner https://www.openhabfoundation.org</about_foundation>
+    <important_note>Wichtegen Hiweis</important_note>
+    <oh_server>Du brauchs en openHAB Server fir des App kennen ze notzen.</oh_server>
+    <short_description>Hiersteller an Technologie neutral Open-Source Heem-Automatisatioun</short_description>
+    <fdroid>An der F-Droid Versioun sinn FCM an Crash-Rapporten erausgeholl ginn. Dofir ass et net méiglech fir Push-Notifikatiounen vun der openHAB Cloud ze kréien. Am platz heivunner, ginn d‘ Notifikatiounen an dëse Builds reegelméisseg ofgefrot.</fdroid>
+    <fdroid_beta><![CDATA[Du kann s d´ Beta Versioun parallel zu der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabeler Versioun</a> installéieren.]]></fdroid_beta>
+    <fdroid_privacy_policy>Dateschutzerklärung: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Probéier nei Features aus a gëff eis Feedback!</beta>
+    <play_beta>Du kann s d´ Beta Versioun parallel zu der stabeler Versioun installéieren.</play_beta>
+    <changelog_play_beta>Feeler an Stabilitéits Verbesserungen. Fir den Log vun den Ännerungen kuck ënnert https://github.com/openhab/openhab-android/releases</changelog_play_beta>
+</strings>

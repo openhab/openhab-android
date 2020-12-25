@@ -1,0 +1,5 @@
+## Added
+* Add action to cancel workers (#2172)
+
+## Fixed
+* Don't clear icon cache on manual refresh (#2153)

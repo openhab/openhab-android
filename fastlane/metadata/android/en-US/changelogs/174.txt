@@ -1,0 +1,5 @@
+## Added
+* Offer opening MapViews in Browser or native Maps app (#1504)
+
+## Changed
+* Improve UrlInputPreference (#1495)

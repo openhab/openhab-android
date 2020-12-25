@@ -1,0 +1,3 @@
+## Fixed
+* Fix crash when scheduling periodic workers (#1986)
+* Correctly theme dialogs (#1993)

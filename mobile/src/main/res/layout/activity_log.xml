@@ -8,11 +8,14 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/openhab_toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="8dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,78 +24,50 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         app:fabSize="normal"
         android:src="@drawable/ic_share_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/log_activity_content_description_share"
+        style="@style/Widget.Design.FloatingActionButton"
         android:visibility="gone"
+        app:tint="@color/light"
         tools:visibility="visible" />
 
-    <ScrollView
-        android:id="@+id/scrollview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/activity_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/openhab_toolbar">
 
-        <FrameLayout
+        <ScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context=".ui.LogActivity">
+            android:layout_height="0dp"
+            android:fillViewport="true">
 
-            <TextView
-                android:id="@+id/log"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:textSize="12sp"
-                android:typeface="monospace"
-                app:fontFamily="monospace"
-                tools:text="D/WidgetListFragment: onCreate()\nD/WidgetListFragment: isAdded = false\nI/WidgetListFragment: onCreateView" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?attr/indeterminateProgressStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_gravity="center"
-                android:visibility="visible"/>
-
-            <LinearLayout
-                android:id="@android:id/empty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/watermark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="16dp"
-                    app:tint="@color/empty_list_text_color"
-                    app:tintMode="src_in"
-                    android:src="@drawable/ic_playlist_remove_black_120dp" />
+                tools:context=".ui.LogActivity">
 
                 <TextView
-                    android:id="@+id/empty_message"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/log"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="16dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/empty_list_text_color"
-                    android:text="@string/empty_log" />
-            </LinearLayout>
-        </FrameLayout>
-    </ScrollView>
+                    android:layout_margin="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textIsSelectable="true"
+                    android:textSize="12sp"
+                    android:typeface="monospace"
+                    app:fontFamily="monospace"
+                    tools:text="D/WidgetListFragment: onCreate()\nD/WidgetListFragment: isAdded = false\nI/WidgetListFragment: onCreateView" />
+            </FrameLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

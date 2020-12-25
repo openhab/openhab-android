@@ -1,0 +1,2 @@
+## Fixed
+* Fix lock prompt on API 28+ (#1569)

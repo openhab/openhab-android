@@ -5,15 +5,7 @@
     <rules>On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.</rules>
     <supported>Supported Products</supported>
     <bindings>Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
-    <lighting>• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
-    <heating>• Heating: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
-    <home_entertainment>• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
-    <security>• Security: ZoneMinder, DSC, ...</security>
-    <open_protocols>• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
-    <special_useCases>• Special UseCases: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>The app has an action plugin for Tasker and Locale included.</automation_apps>
 
     <oss_community>Open Source Community</oss_community>
     <forum>The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org</forum>
@@ -23,13 +15,12 @@
     <foundation>openHAB Foundation</foundation>
     <about_foundation>The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org</about_foundation>
     <important_note>Important note</important_note>
-    <oh_server>You need an openHAB server for this app</oh_server>
+    <oh_server>You need an openHAB server for this app.</oh_server>
     <short_description>Vendor and technology agnostic open source home automation</short_description>
-    <fdroid>The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.</fdroid>
+    <fdroid>The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.</fdroid>
     <fdroid_beta><![CDATA[You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Privacy policy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti Features</fdroid_anti_features>
-    <fdroid_anti_features_text>The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.</fdroid_anti_features_text>
     <beta>Try out new features and give early feedback!</beta>
     <play_beta>You can install the beta version alongside the stable version.</play_beta>
+    <changelog_play_beta>Bug fixes and stability improvements. Please visit https://github.com/openhab/openhab-android/releases for a detailed changelog.</changelog_play_beta>
 </strings>

@@ -1,0 +1,2 @@
+## Fixed
+* Simplify and fix API 26+ connection detection logic

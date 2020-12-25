@@ -1,0 +1,3 @@
+## Changed
+* Update translations
+* Bump dependencies

@@ -12,8 +12,6 @@ then
     echo "Beta"
     releaseFlavor="beta"
     releaseFlavorCapital="Beta"
-    # Workaround for #794: Remove crashalytics
-    sed -i -e 's|maven.fabric.io/public|repo1.maven.org/maven2|' -e /fabric/d -e '/google-services/d' mobile/build.gradle
 fi
 echo "Build apk"
 time ./gradlew :mobile:assembleFull${releaseFlavorCapital}Release

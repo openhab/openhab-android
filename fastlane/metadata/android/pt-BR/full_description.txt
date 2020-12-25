@@ -1,12 +1,8 @@
 openHAB - "empowering the smart home" - fornecedor e tecnologia agnóstica de código aberto de automação residencial
 
-As compilaçoes de F-Droid possuem suporte à visualização de mapas, GCM e relatórios de erros removidos não serão capazes de receber notificações do openHAB Cloud.
+As compilações em F-Droid têm FCM e o relatório de falha removidos e não serão capazes de receber notificações push do openHAB Cloud. Em vez disso, as notificações são consultadas regularmente nestas compilações.
 Experimente novos recursos e dê feedback antecipado!
 Você pode instalar a versão beta junto da <a href="https://f-droid.org/packages/org.openhab.habdroid/">versão estável</a>.
-
-<b>Nota importante</b>
-
-É necessário um servidor openHAB para esse aplicativo
 
 openHAB é uma plataforma de automação residencial de código aberto baseada em Java que integra e combina uma vasta gama de diferentes sistemas e tecnologias domésticos inteligentes em uma única solução.
 No topo da camada de abstração unificada, todos os dispositivos conectados estão disponíveis para os mecanismos de regras de automação abrangentes e diferentes interfaces de usuário.
@@ -14,15 +10,7 @@ No topo da camada de abstração unificada, todos os dispositivos conectados est
 <b>Produtos suportados</b>
 
 Mais de 200 add-ons específicos fornecem suporte para marcas, dispositivos, tecnologias e protocolos de comunicação. Exemplos são o Z-Wave, Philips Hue, Amazon eco, Chromecast e Sonos. Descubra todos os add-ons disponíveis e dispositivos suportados e/ou funções em: https://www.openhab.org/addons/
-
-• Soluções de automação residencial: Z-Wave Ocean, Netatmo, Homematic, Insteon,...
-• Iluminação: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Aquecimento: Max!, Nest, Vitotronic, Heatmiser,...
-• Entretenimento: TV Samsung, TV LG, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
-• Segurança: ZoneMinder, DSC,...
-• Protocolos abertos: HTTP, TCP/UDP, MQTT, Serial,...
-• Especiais: Minecraft, carros Tesla, Serviços Climáticos,...
-• ...
+O aplicativo tem um plugin de ação para Tasker e Locale incluído.
 
 <b>Comunidade Open Source</b>
 
@@ -34,9 +22,8 @@ Se você quiser traduzir o aplicativo para o seu idioma, junte-se a nós em http
 
 A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão de educar o público sobre as possibilidades e benefícios de soluções de automação residencial gratuitas e abertas. Aprenda sobre a missão e os serviços da fundação em https://www.openhabfoundation.org
 
-<b>Anti-recursos</b>
+<b>Nota importante</b>
 
-O aplicativo é sinalizado com o sinalizador "NonFreeAsset", porque o ícone do openHAB não está sob uma licença gratuita.
-
+Você precisa de um servidor openHAB para este app.
 
 Política de privacidade: https://www.openhabfoundation.org/privacy.html

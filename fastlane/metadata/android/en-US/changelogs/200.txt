@@ -1,0 +1,10 @@
+## Added
+* Add NFC info and item select activity (#1545)
+
+## Changed
+* Update theme engine to support Android Q's dark theme (#1547)
+* Bump dependencies
+
+## Fixed
+* Fix HTTP response body leaks. (#1565)
+* Improve preference activity startup time (#1563)

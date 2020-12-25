@@ -1,0 +1,2 @@
+## Fixed
+* Set alarm clock to 0 if alarm gets canceled (#1709)

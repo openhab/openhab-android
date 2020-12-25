@@ -1,0 +1,2 @@
+## Changed
+* Enable twopane mode for portrait (#1215)

@@ -1,0 +1,7 @@
+## Fixed
+* Fix crash in SVG parsing (#1352)
+* Fix chart and image widget scaling. (#1382)
+* Parse missing fields from SSE update events. (#1383)
+
+## Changed
+* Bump dependencies

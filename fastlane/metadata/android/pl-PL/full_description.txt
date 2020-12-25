@@ -1,42 +1,30 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "empowering the smart home" - niezależne i otwarte oprogramowanie dla automatyki domowej
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
-Try out new features and give early feedback!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+Wypróbuj nowe funkcje i dziel się uwagami!
+Możesz zainstalować wersję beta obok <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
-<b>Important note</b>
+openHAB jest otwartą platformą dla automatyki domowej opartą na Javie, która integruje szeroki zakres różnych systemów i technologi "smart home" w jedno rozwiązanie.
+Na górnej ujednoliconej warstwie abstrakcji wszystkie połączone urządzenia są dostępne dla silnika reguł a także różnych interfejsów użytkownika.
 
-You need an openHAB server for this app
+<b>Wspierane Produkty</b>
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+Ponad 200 dodatków wspierających marki, urządzenia, technologie i protokoły komunikacji. Jednymi z przykładów są Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Odkryj wszystkie dostępne dodatki i obsługiwane urządzenia i/lub funkcje na: https://www.openhab.org/addons/
+Aplikacja zawiera wtyczkę akcji dla Taskera i Locale.
 
-<b>Supported Products</b>
+<b>Społeczność Open Source</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+Inicjatywa open source openHAB mocno wspiera swoją żywą społeczność. Forum z ponad 13 000 zarejestrowanymi użytkownikami to miejsce, gdzie możesz
+znaleźć wskazówki, pomoc i inspirację. Dołącz do forum społeczności openHAB na https://community.openhab.org
+Po znalezieniu problemu złoś go na forum lub na https://github.com/openhab/openhab-android/issues
+Jeśli chcesz przetłumaczyć tę aplikację na swój język dołącz do nas na https://crowdin.com/project/openhab-android
 
-• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
-• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Security: ZoneMinder, DSC, ...
-• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
-• Special UseCases: Minecraft, Tesla Car, Weather Services, ...
-• ...
+<b>Fundacja openHAB</b>
 
-<b>Open Source Community</b>
+Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji na https://www.openhabfoundation.org
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
+<b>Istotne kwestie</b>
 
-<b>openHAB Foundation</b>
+Potrzebujesz serwera openHAB dla tej aplikacji.
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
-
-<b>Anti Features</b>
-
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
-
-
-Privacy policy: https://www.openhabfoundation.org/privacy.html
+Polityka prywatności: https://www.openhabfoundation.org/privacy.html

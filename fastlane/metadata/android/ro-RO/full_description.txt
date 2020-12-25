@@ -1,42 +1,29 @@
-openHAB - "empowering the smart home" - automatizare de locuințe open source, independent de producatori și tehnologii
+openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
-Build-urile F-Droid au suport pentru vizualizarea hărților. Au eliminat GCM, raportarea erorilor și nu vor putea primi notificări de la openHAB Cloud.
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 Încercați funcții noi și lăsați primele impresii!
-Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
-<b>Notă importantă</b>
-
-Ai nevoie de un server openHAB pentru această aplicație
-
-openHAB este o platformă open-source pentru automatizarea locuințelor, bazată pe Java, care integrează o gamă largă de diferite sisteme și tehnologii într-o singură soluție.
+openHAB este o platformă open-source bazată pe Java, care integrează şi combină o gamă largă de diferite sisteme inteligente şi tehnologii într-o singură soluţie.
 Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivele pentru motorul de automatizare bazat pe reguli și diferite interfețe de utilizator.
 
 <b>Produse suportate</b>
 
-Peste 200 de add-onuri specifice furnizează suport pentru producători, dispozitive, tehnologii și protocoale de comunicație. Exemple sunt Z-Wave, Philips Hue, Amazon Echo, Chromecast și Sonos. Descoperiți toate add-onurile disponibile, dispozitivele și/sau funcțiile suportate la: https://www.openhab.org/addons/
+Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+The app has an action plugin for Tasker and Locale included.
 
-Soluții de automatizare a locuințelor: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-Iluminat: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Încălzire: Max!, Nest, Vitotronic, Heatmiser, ...
-• Sisteme de divertisment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Securitate: ZoneMinder, DSC, ...
-• Protocoale deschise: HTTP, TCP/UDP, MQTT, Serial, ...
-• Cazuri speciale de utilizare: Minecraft, Tesla Car, Weather Services, ...
-• ...
+<b>Open Source Community</b>
 
-<b>Comunitate open source</b>
+  Alătură-te comunității openHAB pe forum la https://community.openhab.org
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
 
-Inițiativa open source openHAB susține comunitatea sa activă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. Alătură-te comunității openAHB pe forum la https://community.openhab.org
-Dacă găsiți o problemă, vă rugăm raportați în forum sau la https://github.com/openhab/openhab-android/issues
-Dacă vrei să traduci aplicația în limba ta, alătură-te nouă la https://crowdin.com/project/openhab-android
+<b>openHAB Foundation</b>
 
-<b>Fundația openHAB</b>
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 
-Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. Află mai multe despre misiunea și serviciile fundației la https://www.openhabfoundation.org
+<b>Important note</b>
 
-<b>Anti Features</b>
-
-Aplicația este marcată ca "NonFreeAsset", deoarece pictograma openHAB nu are o licență liberă.
-
+You need an openHAB server for this app.
 
 Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html

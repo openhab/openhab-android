@@ -1,0 +1,30 @@
+openHAB - "empowering the smart home" - eng Hiersteller an Technologie onofhängeg Open Source Automatisatioun s Léisung fir Doheem
+
+An der F-Droid Versioun sinn FCM an Crash-Rapporten erausgeholl ginn. Dofir ass et net méiglech fir Push-Notifikatiounen vun der openHAB Cloud ze kréien. Am platz heivunner, ginn d‘ Notifikatiounen an dëse Builds reegelméisseg ofgefrot.
+Probéier nei Features aus a gëff eis Feedback!
+Du kann s d´ Beta Versioun parallel zu der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabeler Versioun</a> installéieren.
+
+openHAB ass eng Java baséiert Open-Source Platform fir Heem-Automatisatioun, déi eng grouss Bandbreet un verschiddene Smart-Home Systemer an Technologien an enger Solutioun integréiert an kombinéiert.
+Opbauend op enger eenheetlecher Abstraktioun s Couche sinn all verbonnen Geräter fir déi iwwergräifend Automatiséierung s bzw. Regelméiglechkeeten an déi verschidden Benotzer Interfacen disponibel.
+
+<b>Ënnerstëtzt Produiten</b>
+
+Iwwer 200 spezifesch Add-On's bidden Ënnerstëtzung fir diverse Marken, Geräter, Technologien an Kommunikatioun's Protokoller. Beispiller heifir sinn Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Entdeck all verfügbar Add-On‘s an ënnerstëtze Geräter an/oder Funktiounen ënner:
+https://www.openhab.org/addons/
+Dës App huet en Action-Plugin fir Tasker an Locale.
+
+<b>Open Source Communautéit</b>
+
+D´ Open-Source openHAB Initiativ gëtt hirer Communautéit eng staark Ënnerstëtzung. De Forum mat iwwer 13.000 registréierte Useren ass eng Plaz fir Hëllef an Inspiratioun ze fannen. Besich den Forum vun der openHAB Communautéit ënner https://community.openhab.org
+Wann dir e Problem opfält, mell deen w.e.g. am Forum oder ënner https://github.com/openhab/openhab-android/issues
+Wann s de des App op deng Sprooch iwwersetze wëlls dann hëllef eis ënner https://crowdin.com/project/openhab-android
+
+<b>openHAB Fondatioun</b>
+
+D´ openHAB Foundation e.V. ass eng a.s.b.l. déi als Missioun huet fir den Public iwwer d´ Méiglechkeeten an Notzen vun enger gratis an oppener Smart Home Léisung op ze klären. Gëff méi gewuer iwwer d´ Missioun an Servicer vun der Fondatioun ënner https://www.openhabfoundation.org
+
+<b>Wichtegen Hiweis</b>
+
+Du brauchs en openHAB Server fir des App kennen ze notzen.
+
+Dateschutzerklärung: https://www.openhabfoundation.org/privacy.html

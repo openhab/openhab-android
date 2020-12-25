@@ -1,12 +1,8 @@
 openHAB - "empowering the smart home" - Ανοικτού κώδικα, ανεξάρτητο κατασκευαστή και τεχνολογίας λογισμικό αυτοματοποίησης σπιτιού
 
-Στις εκδόσεις στο F-Droid έχει αφαιρεθεί η υποστήριξη για προβολή χάρτη, GCM και αναφοράς σφάλματος και δεν είναι δυνατή η λήψη ενημερώσεων απο το openHAB Cloud.
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 Δοκιμάστε νέες δυνατότητες και να δώστε έγκαιρη ανατροφοδότηση!
 Μπορείτε να εγκαταστήσετε την έκδοση beta παράλληλα με την <a href="https://f-droid.org/packages/org.openhab.habdroid/">σταθερή έκδοση</a>.
-
-<b>Σημαντική Σημείωση</b>
-
-Χρειάζεστε έναν διακομιστή openHAB για αυτό το app
 
 Το openHAB είναι μια πλατφόρμα ανοικτού λογισμικού βασισμένη στην Java που ενσωματώνει και συνδυάζει ένα ευρύ φάσμα διαφορετικών συστημάτων και τεχνολογιών έξυπνου σπιτιού σε μία ενιαία λύση.
 Όλες οι συσκευές είναι διαθέσιμες για τις μηχανές κανόνων αυτοματοποίησης και τις διαφορετικές διεπαφές χρήστη (UI) μέσα από το ενοποιημένο και αφαιρετικό επίπεδο.
@@ -14,15 +10,7 @@ openHAB - "empowering the smart home" - Ανοικτού κώδικα, ανεξ�
 <b>Υποστηριζόμενα προϊόντα</b>
 
 Πάνω από 200 συγκεκριμένα πρόσθετα παρέχουν υποστήριξη για μάρκες, συσκευές, τεχνολογίες και πρωτόκολλα επικοινωνίας. Παραδείγματα είναι Z-Wave, Philips Hue, Amazon Echo, Chromecast και Sonos. Ανακαλύψτε όλα τα διαθέσιμα πρόσθετα και τις υποστηριζόμενες συσκευές ή/και λειτουργίες στο: https://www.openhab.org/addons/
-
-• Λύσεις οικιακού αυτοματισμού: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...
-• Φωτισμός: Philips Hue, LIFX, Lutron, Ikea Trådfri, Milight,...
-• Θέρμανση: Max!, φωλιά, Vitotronic, Heatmiser,...
-• Οικιακή ψυχαγωγία: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
-• Ασφάλεια: ZoneMinder, DSC,...
-• Ανοικτά πρωτόκολλα: TCP/UDP HTTP, MQTT, σειριακό,...
-• Ειδικές περιπτώσεις χρήσης: Minecraft, αυτοκίνητο Tesla, μετεωρολογικές υπηρεσίες,...
-• ...
+The app has an action plugin for Tasker and Locale included.
 
 <b>Κοινότητα Ανοικτού Λογισμικού</b>
 
@@ -34,9 +22,8 @@ openHAB - "empowering the smart home" - Ανοικτού κώδικα, ανεξ�
 
 Το ίδρυμα openHAB είναι ένας μη κερδοσκοπικός οργανισμός με στόχο την ενημέρωση του κοινού για τις δυνατότητες και τα οφέλη των ελεύθερων και ανοικτού λογισμικού λύσεων έξυπνου σπιτιού. Μάθετε περισσότερα για την αποστολή και τις υπηρεσίες του ιδρύματος στο σύνδεσμο https://www.openhabfoundation.org
 
-<b>Μη αποδεκτά xαρακτηριστικά</b>
+<b>Σημαντική Σημείωση</b>
 
-Η εφαρμογή έχει χαρακτηριστεί ως "NonFreeAsset", διότι το εικονίδιο του openHAB δεν είναι υπό ελεύθερη άδεια.
-
+Χρειάζεστε έναν διακομιστή openHAB για αυτό το app.
 
 Πολιτική προστασίας προσωπικών δεδομένων: https://www.openhabfoundation.org/privacy.html

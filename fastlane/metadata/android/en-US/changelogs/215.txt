@@ -1,0 +1,2 @@
+## Changed
+* Disabled http protocol for remote URL (#1648)

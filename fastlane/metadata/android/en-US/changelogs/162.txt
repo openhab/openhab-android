@@ -1,0 +1,4 @@
+## Changed
+* Show MapView dialog in fullscreen (#1467)
+* Update app store description (#1470)
+* Bump dependency (#1468)

@@ -5,15 +5,7 @@
     <rules>קיימת אפשרות לבצע אוטומציה, להגדיר כללים וממשקי משתמש שונים ומגוונים על גבי שכבת הרכיבים המחוברים.</rules>
     <supported>מוצרים נתמכים</supported>
     <bindings>למעלה מ-200 תוספים מספקים תמיכה עבור מותגים, התקנים, טכנולוגיות ופרוטוקולי תקשורת. כמה דוגמאות: Amazon Echo, Chromecast, Philips Hue, Z-Wave ו- Sonos. גלה את כל ההרחבות הזמינות, ההתקנים הנתמכים ו/או פונקציות ב: https://www.openhab.org/addons</bindings>
-
-    <home_automation_solutions>• פתרונות אוטומציה ביתית: EnOcean, Netatmo, Homematic, Insteon, Z-Wave,...</home_automation_solutions>
-    <lighting>• תאורה: LIFX, Lutron, Milight, IKEA Trådfri ,Philips Hue,...</lighting>
-    <heating>• חימום: MAX!, NEST, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>• בידור ביתי: טלוויזיות סמסונג, טלוויזיות אל-ג'י, Sonos ,AVR, פיוניר ,Squeezebox, Kodi, Plex,...</home_entertainment>
-    <security>• אבטחה: ZoneMinder, DSC,...</security>
-    <open_protocols>• פרוטוקולים פתוחים: HTTP, TCP/UDP, MQTT, יציאה טורית,...</open_protocols>
-    <special_useCases>• שימושים מיוחדים: Minecraft, מכוניות טסלה, שירותי מזג אוויר,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>יישום זה כולל בתוכו תוסף לביצוע פעולות עם Tasker ו- Locale.</automation_apps>
 
     <oss_community>קהילת הקוד הפתוח</oss_community>
     <forum>היוזמה הפתוחה של openHAB תומכת מאוד בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. הצטרף לפורום קהילת openHAB ב https://community.openhab.org</forum>
@@ -23,13 +15,12 @@
     <foundation>ארגון openHAB</foundation>
     <about_foundation>קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org</about_foundation>
     <important_note>הערה חשובה</important_note>
-    <oh_server>יש צורך בשרת openHAB עבור יישום זה</oh_server>
+    <oh_server>יש צורך בשרת openHAB עבור יישום זה.</oh_server>
     <short_description>אוטומציה לבית החכם מבוססת על קוד פתוח ובלתי מוגבלת לטכנולוגיה וחברה מסויימת</short_description>
-    <fdroid>תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.</fdroid>
+    <fdroid>דיווחי FCM ודוחות קריסה הוסרו בגרסאות של F-Droid ולכן הם לא יוכלו לקבל התראות דחיפה מ-openHAB Cloud. במקום זאת, ההתראות נבדקות על בסיס קבוע בגרסאות האלו.</fdroid>
     <fdroid_beta><![CDATA[באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>תכונות שצריך לשים לב אליהן</fdroid_anti_features>
-    <fdroid_anti_features_text>האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB אינה תחת רישיון חופשי.</fdroid_anti_features_text>
     <beta>נסה תכונות חדשות וספר לנו מה דעתך!</beta>
     <play_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה.</play_beta>
+    <changelog_play_beta>תיקוני באגים ושיפורי יציבות. אנא בקר ב- https://github.com/openhab/openhab-android/releases למידע מפורט אודות השינויים.</changelog_play_beta>
 </strings>

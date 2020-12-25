@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Solution de domotique open source et agnostique des technologies

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.openhab.habdroid"
     android:installLocation="internalOnly">
 
@@ -8,8 +9,17 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+    <uses-sdk tools:overrideLibrary="androidx.security"/>
 
     <uses-feature
         android:name="android.hardware.location.gps"
@@ -18,34 +28,47 @@
         android:name="android.hardware.nfc"
         android:required="false" />
 
+    <queries>
+        <package android:name="net.dinglisch.android.taskerm" />
+        <package android:name="com.twofortyfouram.locale" />
+    </queries>
+
     <application
-        android:name=".core.HabDroidApplication"
-        android:allowBackup="false"
+        android:name=".core.OpenHabApplication"
+        android:allowBackup="true"
+        android:fullBackupOnly="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:backupAgent=".util.CustomBackupAgent"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
         android:supportsRtl="true"
-        android:theme="@style/HABDroid.Light"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:theme="@style/openHAB.Launch">
+
+        <meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
+
         <activity
             android:name=".ui.PreferencesActivity"
             android:label="@string/app_preferences_name">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.openhab.habdroid.ui.MainActivity" />
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.AboutActivity"
             android:label="@string/about_title" />
-        <activity android:name=".ui.LogActivity"
+        <activity
+            android:name=".ui.LogActivity"
             android:label="@string/log" />
+        <activity
+            android:name=".ui.ChartActivity"
+            android:label="@string/chart_activity_title" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
@@ -64,6 +87,115 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.WriteTagActivity"
+            android:label="@string/title_activity_openhabwritetag" />
+        <activity
+            android:name=".ui.IntroActivity"
+            android:label="@string/app_intro" />
+        <activity
+            android:name="de.duenndns.ssl.MemorizingActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.MaterialComponents.Translucent" />
+        <activity android:name=".ui.TaskerItemPickerActivity"
+            android:label="@string/tasker_item_picker_title" >
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.ItemUpdateWidgetItemPickerActivity"
+            android:launchMode="singleTask"
+            android:label="@string/item_update_widget_item_picker_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.TileItemPickerActivity"
+            android:launchMode="singleTask"
+            android:label="@string/tile_item_picker_title">
+        </activity>
+        <activity
+            android:name=".ui.NfcItemPickerActivity"
+            android:label="@string/intro_nfc" />
+
+        <receiver
+            android:name=".ui.homescreenwidget.VoiceWidget"
+            android:label="@string/title_voice_widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/voice_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".ui.homescreenwidget.VoiceWidgetWithIcon"
+            android:label="@string/title_voice_widget_icon">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/voice_widget_with_icon_info" />
+        </receiver>
+        <receiver
+            android:name=".ui.homescreenwidget.ItemUpdateWidget"
+            android:label="@string/item_update_widget_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/item_update_widget" />
+        </receiver>
+        <receiver android:name=".core.UpdateBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".background.BackgroundTasksManager"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".background.NfcReceiveActivity"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -80,48 +212,69 @@
                 <data android:scheme="openhab" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.WriteTagActivity"
-            android:label="@string/title_activity_openhabwritetag" />
-        <activity
-            android:name=".ui.IntroActivity"
-            android:label="@string/app_intro" />
-        <activity
-            android:name="de.duenndns.ssl.MemorizingActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Translucent" />
 
         <service
-            android:name=".core.VoiceService"
+            android:name=".background.EventListenerService"
+            android:enabled="true"
             android:exported="false" />
 
-        <receiver
-            android:name=".ui.homescreenwidget.VoiceWidget"
-            android:label="@string/title_voice_widget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:directBootAware="false"
+            android:enabled="@bool/enable_system_foreground_service_default"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            tools:targetApi="n" />
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/voice_widget_info" />
-        </receiver>
-        <receiver
-                android:name=".ui.homescreenwidget.VoiceWidgetWithIcon"
-                android:label="@string/title_voice_widget_icon">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/voice_widget_with_icon_info" />
-        </receiver>
-        <receiver android:name=".core.OnUpdateBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-            </intent-filter>
-        </receiver>
+        <!-- Tiles -->
+        <service android:name=".background.tiles.TileService1" android:label="@string/tile_label_1" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="true">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService2" android:label="@string/tile_label_2" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService3" android:label="@string/tile_label_3" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService4" android:label="@string/tile_label_4" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService5" android:label="@string/tile_label_5" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService6" android:label="@string/tile_label_6" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService7" android:label="@string/tile_label_7" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService8" android:label="@string/tile_label_8" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService9" android:label="@string/tile_label_9" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService10" android:label="@string/tile_label_10" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService11" android:label="@string/tile_label_11" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
+        <service android:name=".background.tiles.TileService12" android:label="@string/tile_label_12" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="false">
+            <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true" />
+        </service>
     </application>
 
 </manifest>

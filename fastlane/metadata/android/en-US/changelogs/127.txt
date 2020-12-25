@@ -1,0 +1,2 @@
+## Added
+Add up/down buttons to setpoint widgets (#1052)

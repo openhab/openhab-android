@@ -1,0 +1,2 @@
+## Added
+* Send charging state to server (#1888)

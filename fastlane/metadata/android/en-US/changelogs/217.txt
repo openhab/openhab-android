@@ -1,0 +1,5 @@
+## Added
+* Support Tasker variables (#1630)
+
+## Fixed
+* Fix font scaling (#1657)

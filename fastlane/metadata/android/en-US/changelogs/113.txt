@@ -1,0 +1,2 @@
+## Fixed
+* Don't play notification sound for summary notification. (#1227)

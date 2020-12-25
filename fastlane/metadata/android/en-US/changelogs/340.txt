@@ -1,0 +1,2 @@
+## Fixed
+* Fix crash when entering password (#2286)

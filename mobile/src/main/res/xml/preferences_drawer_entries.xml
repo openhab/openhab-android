@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="show_sitemaps"
+        android:title="@string/settings_show_sitemaps_in_drawer" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="show_oh3_ui"
+        android:icon="@drawable/ic_outline_looks_3_grey_24dp"
+        android:title="@string/mainmenu_openhab_oh3_ui" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="show_habpanel"
+        android:icon="@drawable/ic_view_dashboard_outline_grey_24dp"
+        android:title="@string/mainmenu_openhab_habpanel" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="show_nfc"
+        android:icon="@drawable/ic_nfc_grey_24dp"
+        android:title="@string/intro_nfc" />
+</androidx.preference.PreferenceScreen>

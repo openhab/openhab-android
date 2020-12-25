@@ -1,0 +1,2 @@
+## Added
+* Add radio icon to quick tiles (#2144)

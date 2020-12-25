@@ -1,0 +1,3 @@
+## Added (in 2.8.9-beta)
+* Add lock screen (#1449)
+* Support autofill for username and password prefs (#1477)

@@ -5,15 +5,7 @@
     <rules>Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.</rules>
     <supported>Podporované produkty</supported>
     <bindings>Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Řešení domácí automatizace: Z-Wave, Banaba, Netatmo, Homematic, Insteon,...</home_automation_solutions>
-    <lighting>• Osvětlení: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Vytápění: Max!, Nest, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>• Domácí zábava: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...</home_entertainment>
-    <security>• Bezpečnost: ZoneMinder, DSC,...</security>
-    <open_protocols>• Otevřené protokoly: HTTP, TCP/UDP, MQTT, sériový,...</open_protocols>
-    <special_useCases>• Speciální použití: Minecraft, automobil Tesla, meteorologické služby,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>Aplikace obsahuje action plugin pro Tasker a Locale.</automation_apps>
 
     <oss_community>Open Source komunita</oss_community>
     <forum>openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org</forum>
@@ -23,13 +15,12 @@
     <foundation>openHAB Foundation</foundation>
     <about_foundation>openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org</about_foundation>
     <important_note>Důležitá poznámka</important_note>
-    <oh_server>Pro správné fungování aplikace budete potřebovat openHAB server</oh_server>
+    <oh_server>Pro tuto aplikaci potřebujete openHAB server.</oh_server>
     <short_description>Domácí automatizace pro IoT různých výrobců a technologií</short_description>
-    <fdroid>F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.</fdroid>
+    <fdroid>Sestavení pro F-Droid má odebráno FCM a reporty o chybách a nemůže přijímat push notifikace z openHAB Cloud. Namísto toho jsou oznámení získávána v pravidelných intervalech.</fdroid>
     <fdroid_beta><![CDATA[Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Potenciálně nechtěné vlastnosti</fdroid_anti_features>
-    <fdroid_anti_features_text>Aplikace je označena příznakem "NonFreeAsset", protože openHAB ikona není k dispozici pod svobodnou licencí.</fdroid_anti_features_text>
     <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>
     <play_beta>Vedle stabilní verze můžete nainstalovat i beta verzi.</play_beta>
+    <changelog_play_beta>Opravy chyb a vylepšení stability. Prosím navštivte https://github.com/openhab/openhab-android/releases pro detailní informace o změnách.</changelog_play_beta>
 </strings>

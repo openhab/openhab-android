@@ -14,19 +14,17 @@
      limitations under the License.
 -->
 
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@android:id/text1"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:minHeight="48dp"
-                 android:textAppearance="?android:attr/textAppearanceMedium"
-                 android:textColor="?android:attr/textColorAlertDialogListItem"
-                 android:gravity="center_vertical"
-                 android:paddingLeft="12dp"
-                 android:paddingStart="12dp"
-                 android:paddingRight="7dp"
-                 android:paddingEnd="7dp"
-                 android:drawableLeft="?android:attr/listChoiceIndicatorSingle"
-                 android:drawableStart="?android:attr/listChoiceIndicatorSingle"
-                 android:drawablePadding="12dp"
-                 android:ellipsize="marquee" />
+<CheckedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textColor="?android:attr/textColorAlertDialogListItem"
+    android:gravity="center_vertical"
+    android:paddingStart="12dp"
+    android:paddingEnd="7dp"
+    android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+    android:drawablePadding="12dp"
+    android:ellipsize="marquee" />

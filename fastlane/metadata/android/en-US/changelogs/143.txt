@@ -1,0 +1,2 @@
+## Changed
+* Update App Store description (#1350)

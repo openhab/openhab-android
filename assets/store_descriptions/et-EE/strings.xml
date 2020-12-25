@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+    <intro>openHAB - "empowering the smart home" - nutitkodudele mõeldud automatiseerimistarkvara, mis on tootjatest ja tehnoloogiatest sõltumatu</intro>
+    <whatis>openHAB - see on Java-põhine avatud lähtekoodiga koduautomaatika platvorm, mis integreerib suure hulga nutika kodu süsteemid ühte lahendusesse.</whatis>
+    <rules>Abstraktsiooni tipptasemel on kõik ühendatud seadmed automatiseerimisreeglite ja mitmesuguste kasutajaliideste jaoks saadaval.</rules>
+    <supported>Toetatud tooted</supported>
+    <bindings>Enam kui 200 lisandmoodulit pakuvad tuge erinevate tootjate seadmetele, tehnoloogiatele ja kommunikatsiooniprotokollidele. Näiteks: Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Saadaval olevad lisandmoodulid, toetatud seadmete loend ja täiendavad funktsioonid leiate aadressilt https://www.openhab.org/addons/</bindings>
+    <automation_apps>Rakendusel on sisseehitatud tegumi pistikprogrammid Taskeri ja Locale jaoks.</automation_apps>
+
+    <oss_community>Avatud lähtekoodiga ühendus</oss_community>
+    <forum>openHAB kogukond on pühendunud avatud lähtekoodiga põhimõtetele. Enam kui 13 000 registreeritud kasutajaga foorum on koht, kust leiate soovitusi, abi ja ideid uute lahenduste jaoks. Liituge openHAB-i kogukonnaga aadressil https://community.openhab.org</forum>
+
+    <report_issues>Kui leiate vea, teatage sellest foorumis või aadressil https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Kui soovite rakenduse oma keelde tõlkida, liituge meiega aadressil https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB sihtasutus</foundation>
+    <about_foundation>Sihtasutus openHAB on mittetulundusühing, mis teavitab avalikkust tasuta ja avatud nutika kodu lahenduste võimalustest ja eelistest. Lugege openHAB sihtasutuse ülesannete kohta aadressil https://www.openhabfoundation.org</about_foundation>
+    <important_note>Juhime tähelepanu</important_note>
+    <oh_server>Selle rakenduse jaoks vajate openHAB-serverit.</oh_server>
+    <short_description>Nutika kodu automatiseerimise avatud lähtekoodiga tehnoloogia pakkuja</short_description>
+    <fdroid> </fdroid>
+    <fdroid_beta><![CDATA[Võite installida beta versiooni paralleelselt <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiilse versiooniga</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>Privaatsuseeskirjad: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Proovige uusi funktsioone ja andke tagasisidet!</beta>
+    <play_beta>Võite installida beetaversiooni asemel stabiilse versiooni.</play_beta>
+    <changelog_play_beta>Veaparandused ja stabiilsuse täiustused. Üksikasjaliku muudatuste logi leiate aadressilt https://github.com/openhab/openhab-android/releases.</changelog_play_beta>
+</strings>

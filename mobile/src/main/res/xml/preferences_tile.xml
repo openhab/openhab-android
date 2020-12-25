@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        android:persistent="false"
+        android:key="tile_show"
+        android:title="@string/tile_enable" />
+    <org.openhab.habdroid.ui.preference.TileItemAndStatePreference
+        android:persistent="false"
+        android:dependency="tile_show"
+        android:key="tile_item_and_action"
+        android:title="@string/item_item_and_action" />
+    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+        android:persistent="false"
+        android:dependency="tile_show"
+        android:key="tile_name"
+        android:title="@string/tile_name"
+        app:whitespaceBehavior="trim"
+        android:inputType="text" />
+    <ListPreference
+        android:persistent="false"
+        android:dependency="tile_show"
+        android:key="tile_icon"
+        android:title="@string/tile_icon"
+        android:summary="%s"
+        android:defaultValue="@string/tile_icon_openhab_value"
+        android:entries="@array/tile_icons"
+        android:entryValues="@array/tile_icons_values" />
+    <SwitchPreferenceCompat
+        android:persistent="false"
+        android:dependency="tile_show"
+        android:key="tile_require_unlock"
+        android:title="@string/tile_require_unlock"
+        android:summaryOn="@string/tile_require_unlock_summary_on"
+        android:summaryOff="@string/tile_require_unlock_summary_off" />
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,2 @@
+## Fixed
+* Fix snackbar related crashes (#2272)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_container"
@@ -42,14 +43,13 @@
                 android:padding="16dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/empty_list_text_color"
-                tools:text="Some error occured" />
+                tools:text="Some error occurred" />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/retry_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                style="?attr/buttonBarButtonStyle"
                 android:text="@string/try_again_button" />
 
         </LinearLayout>

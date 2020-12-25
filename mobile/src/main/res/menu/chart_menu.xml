@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/show_legend"
+        android:icon="@drawable/ic_error_outline_white_24dp"
+        android:title="@string/chart_activity_show_legend"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/period"
+        android:title="@string/chart_activity_period"
+        android:icon="@drawable/ic_access_time_white_24dp"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/period_h"
+                android:title="@string/chart_activity_period_1_hour" />
+            <item
+                android:id="@+id/period_4h"
+                android:title="@string/chart_activity_period_4_hour" />
+            <item
+                android:id="@+id/period_8h"
+                android:title="@string/chart_activity_period_8_hour" />
+            <item
+                android:id="@+id/period_12h"
+                android:title="@string/chart_activity_period_12_hour" />
+            <item
+                android:id="@+id/period_d"
+                android:title="@string/chart_activity_period_1_day" />
+            <item
+                android:id="@+id/period_2d"
+                android:title="@string/chart_activity_period_2_day" />
+            <item
+                android:id="@+id/period_3d"
+                android:title="@string/chart_activity_period_3_day" />
+            <item
+                android:id="@+id/period_w"
+                android:title="@string/chart_activity_period_1_week" />
+            <item
+                android:id="@+id/period_2w"
+                android:title="@string/chart_activity_period_2_week" />
+            <item
+                android:id="@+id/period_m"
+                android:title="@string/chart_activity_period_1_month" />
+            <item
+                android:id="@+id/period_2m"
+                android:title="@string/chart_activity_period_2_month" />
+            <item
+                android:id="@+id/period_4m"
+                android:title="@string/chart_activity_period_4_month" />
+            <item
+                android:id="@+id/period_y"
+                android:title="@string/chart_activity_period_1_year" />
+
+        </menu>
+    </item>
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="@string/log_activity_action_reload"
+        app:showAsAction="never" />
+</menu>

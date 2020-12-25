@@ -1,0 +1,19 @@
+<!--
+    Copyright (c) 2014, Austin Andrews (http://materialdesignicons.com/),
+    with Reserved Font Name Material Design Icons.
+    Copyright (c) 2014, Google (http://www.google.com/design/)
+    uses the license at https://github.com/google/material-design-icons/blob/master/LICENSE
+
+    This Font Software is licensed under the SIL Open Font License, Version 1.1.
+    This license is copied below, and is also available with a FAQ at:
+    http://scripts.sil.org/OFL
+
+    Author: https://github.com/terreng
+-->
+
+<vector android:height="180dp" android:viewportHeight="24"
+    android:viewportWidth="24" android:width="180dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillAlpha="1" android:fillColor="#000000"
+        android:pathData="M16.51,12C19.01,12 21.01,14 21.01,16.5C21.01,17.38 20.76,18.21 20.32,18.9L23.4,22L22.01,23.39L18.89,20.32C18.2,20.75 17.38,21 16.51,21C14.01,21 12.01,19 12.01,16.5C12.01,14 14.01,12 16.51,12ZM16.51,14C15.13,14 14.01,15.12 14.01,16.5C14.01,17.88 15.13,19 16.51,19C17.89,19 19.01,17.88 19.01,16.5C19.01,15.12 17.89,14 16.51,14ZM18,6L18,10.1752C17.33,10.0156 16.6565,9.9667 16,10.0175L16,8L13,8L13,10.277L13.5282,10.7191C12.3444,11.3278 11.3474,12.2974 10.7154,13.533C10.278,13.166 10,12.6153 10,12C10,11.262 10.405,10.624 11,10.277L11,8C11,6.896 11.895,6 13,6L18,6ZM6,18L6,6L8,6L10,6L10,8L8,8L8,16L10.0179,16C9.9647,16.6808 10.0207,17.3547 10.1744,18L6,18ZM20,4L4,4L4,20L11.0226,20C11.5302,20.7951 12.2115,21.4829 13.0328,22L4,22C2.895,22 2,21.104 2,20L2,4C2,2.896 2.895,2 4,2L20,2C21.104,2 22,2.896 22,4L22,13.0357C21.4969,12.2361 20.8189,11.5433 20,11.0208L20,4Z"
+        android:strokeLineJoin="round" android:strokeWidth="0.2"/>
+</vector>

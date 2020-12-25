@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <settings default="openHAB">
+    <module2copyright>
+      <element module="Kotlin files" copyright="openHAB" />
+    </module2copyright>
+  </settings>
+</component>

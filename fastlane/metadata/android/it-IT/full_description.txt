@@ -1,12 +1,8 @@
 openHAB - "empowering the smart home" - open source home automation indipendente da tecnologia e produttore
 
-Il compilato su F-Droid ha il supporto per map-view, GCM e crash reporting rimosso e non sara' in grado di ricevere notifiche da openHAB cloud.
+Le build su F-Droid hanno FCM e crash reporting rimossi e quindi non sarà in grado di ricevere notifiche push da openHAB Cloud. Invece, le notifiche sono controllate su base regolare in questi compilati.
 Prova le nuove funzioni e dai un feedback quanto prima!
 È possibile installare la versione beta insieme alla <a href="https://f-droid.org/packages/org.openhab.habdroid/">versione stabile</a>.
-
-<b>Nota importante</b>
-
-E' richiesto un server openHAB per questa applicazione
 
 openHAB e' una piattaforma open-source basata su java, che integra e combina una vasta gamma di diversi smart home systems e tecnologie in un'unica soluzione.
 Usando un livello unificato di astrazione, tutti i dispositivi collegati sono disponibili per le regole di automazione e per diverse interfacce utente.
@@ -14,15 +10,7 @@ Usando un livello unificato di astrazione, tutti i dispositivi collegati sono di
 <b>Prodotti supportati</b>
 
 Oltre 200 componenti aggiuntivi forniscono il supporto per marche, dispositivi, tecnologie e protocolli di comunicazione. Esempi sono Z-Wave, Philips Hue, Amazon Echo, Chromecast e Sonos. Scopri tutti i componenti aggiuntivi disponibili, dispositivi supportati e funzionalita' a: https://www.openhab.org/addons/
-
-• Soluzioni di domotica: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...
-• Illuminazione: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Riscaldamento: Max!, nido, Vitotronic, Heatmiser,...
-• Home Entertainment: TV Samsung, TV LG, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
-• Sicurezza: ZoneMinder, DSC,...
-• Protocolli aperti: HTTP, TCP/UDP, MQTT, seriale,...
-• Funzioni speciali: Minecraft, Tesla Car, servizi meteo,...
-• ...
+L'app ha un plugin di azione per Tasker e Locale incluso.
 
 <b>Comunità Open Source</b>
 
@@ -32,11 +20,10 @@ Se vuoi aiutare a tradurre l'applicazione nella tua lingua, visita https://crowd
 
 <b>openHAB Foundation</b>
 
-openHAB Foundation e.V. e' una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilita' e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org
+openHAB Foundation e.V. è una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilità e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org
 
-<b>Anti Features</b>
+<b>Nota importante</b>
 
-L'app è contrassegnata con il flag "NonFreeAsset", perché l'icona di openHAB non è licenza libera.
-
+Hai bisogno di un server openHAB per questa app.
 
 Informativa sulla privacy: https://www.openhabfoundation.org/privacy.html

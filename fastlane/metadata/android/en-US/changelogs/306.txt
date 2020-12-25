@@ -1,0 +1,2 @@
+## Fixed
+* Fix handling of large bitmaps (#2111)

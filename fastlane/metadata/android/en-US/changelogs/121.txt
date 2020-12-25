@@ -1,0 +1,2 @@
+## Fixed
+* Include item value in page title. (#1255)

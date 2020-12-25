@@ -1,0 +1,5 @@
+## Added
+* Support writing NFC tags of Setpoint and Slider (#1283)
+
+## Changed
+* Improve icons (#1218)

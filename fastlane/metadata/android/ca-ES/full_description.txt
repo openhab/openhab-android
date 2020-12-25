@@ -1,42 +1,29 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - «potenciant la llar intel·ligent» - automatització de la llar amb codi obert i independent del proveïdor i de la tecnologia
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 Try out new features and give early feedback!
 You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
-<b>Important note</b>
-
-You need an openHAB server for this app
-
 openHAB és una plataforma feta en Java per a l'automatització de la llar basada en codi obert, que integra i combina una gran varietat de sistemes i tecnologies per a la llar intel·ligent en una solució única.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+Per sobre de la capa unificada d'abstracció, tots els dispositius connectats són disponibles per al motor de regles generals d'automatització i diferents interfícies d'usuari.
 
-<b>Supported Products</b>
+<b>Productes suportats</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+Més de 200 complements específics proporcionen suport per a diferents marques, dispositius, tecnologies i protocols de comunicació. Alguns exemples són Z-Wave, Philips Hue, Amazon Echo, Chromecast i Sonos. Descobriu tots els complements disponibles, i dispositius i funcions suportats a: https://www.openhab.org/addons/
+The app has an action plugin for Tasker and Locale included.
 
-• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
-• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Security: ZoneMinder, DSC, ...
-• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
-• Special UseCases: Minecraft, Tesla Car, Weather Services, ...
-• ...
+<b>Comunitat de codi obert</b>
 
-<b>Open Source Community</b>
+La iniciativa de codi obert openHAB dona ferm suport a la seva vibrant comunitat. El fòrum, amb més de 13.000 usuaris registrats, és un lloc on trobar orientacions, ajuda i inspiració. Uniu-vos al fòrum de la comunitat openHAB a https://community.openhab.org
+Si trobeu un problema, informeu-nos en en el fòrem o a https://github.com/openhab/openhab-android/issues
+Si voleu traduir la aplicació a la vostra llengua, uniu-vos a https://crowdin.com/project/openhab-android
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
+<b>Fundació openHAB</b>
 
-<b>openHAB Foundation</b>
+La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany de lucre amb la missió d'educar al públic sobre la possibilitats i beneficis de les solucions lliures i obertes per a la domòtica i llars intel·ligents. Teniu més informació sobre la missió i els serveis de la fundació a https://www.openhabfoundation.org
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+<b>Nota important</b>
 
-<b>Anti Features</b>
+You need an openHAB server for this app.
 
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
-
-
-Privacy policy: https://www.openhabfoundation.org/privacy.html
+Política de privadesa: https://www.openhabfoundation.org/privacy.html

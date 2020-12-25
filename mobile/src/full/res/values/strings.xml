@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_no_remote">Unavailable, remote server isn\'t configured</string>
-    <string name="info_openhab_gcm_unsupported">Unavailable, remote server isn\'t an openHAB cloud instance</string>
-    <string name="info_openhab_gcm_in_progress">Device registration is in progress</string>
-    <string name="info_openhab_gcm_failed">Device registration failed</string>
-    <string name="info_openhab_gcm_connected">Device successfully registered with Google Cloud Messaging</string>
-    <string name="notification_channel_default">Default</string>
-    <string name="notification_channel_severity_value">Severity \'%1$s\'</string>
-
-    <plurals name="summary_notification_text">
-        <item quantity="one">%d new notification</item>
-        <item quantity="other">%d new notifications</item>
-    </plurals>
+    <string name="info_openhab_gcm_in_progress">Notification registration is in progress</string>
+    <string name="info_openhab_gcm_failed">Notification registration failed</string>
+    <string name="info_openhab_gcm_failed_play_services">Notification registration failed due to a Google Play Services issue: %s</string>
+    <string name="info_openhab_gcm_connected">Notification registration completed successfully</string>
+    <string name="open_in_maps">Open in Google Maps</string>
 </resources>

@@ -1,82 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Parent theme for all openHAB themes with bright background -->
-    <style name="openHAB.Common.Bright" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="openHAB.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="android:windowBackground">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="sliderStyle">@style/openHAB.Slider</item>
+        <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
+    </style>
 
-        <item name="themedDrawerBackground">?android:colorBackground</item>
-        <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-
-        <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
-        <item name="imageLoadingIndicator">@drawable/ic_image_loading_black</item>
-
-        <item name="mal_card_background">@color/about_libraries_window_background</item>
-        <item name="mal_color_primary">@color/about_libraries_title_openSource</item>
-        <item name="mal_color_secondary">@color/about_libraries_text_openSource</item>
+    <style name="openHAB.DayNight" parent="openHAB.Base">
+        <item name="mal_card_background">@android:color/background_light</item>
+        <item name="mal_color_primary">@android:color/primary_text_light</item>
+        <item name="mal_color_secondary">@android:color/secondary_text_light</item>
 
         <item name="chartTheme">white</item>
-
-        <item name="themedArrowDownIcon">@drawable/ic_keyboard_arrow_down_black_24dp</item>
-        <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_black_24dp</item>
-        <item name="themedArrowRightIcon">@drawable/ic_keyboard_arrow_right_black_24dp</item>
-        <item name="themedColorIcon">@drawable/ic_color_lens_black_24dp</item>
-        <item name="themedClearIcon">@drawable/ic_clear_black_24dp</item>
-        <item name="themedSpinnerCaret">@drawable/ic_spinner_caret_black</item>
-
         <item name="valueColors">@array/valueColorsBrightBackground</item>
     </style>
 
-    <!-- Parent theme for all openHAB themes with dark background -->
-    <style name="openHAB.Common.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
-
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowActionBarOverlay">false</item>
-        <item name="android:windowBackground">?android:colorBackground</item>
-
-        <item name="themedDrawerBackground">?android:colorBackground</item>
-        <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-
-        <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
-        <item name="imageLoadingIndicator">@drawable/ic_image_loading_white</item>
-
-        <item name="android:itemTextAppearance">@style/WhiteText</item>
-        <item name="android:itemBackground">#303030</item>
-
-        <item name="about_libraries_window_background">
-            @color/about_libraries_window_background_dark
-        </item>
-        <item name="about_libraries_card">@color/about_libraries_card_dark</item>
-        <item name="about_libraries_title_openSource">
-            @color/about_libraries_title_openSource_dark
-        </item>
-        <item name="about_libraries_text_openSource">
-            @color/about_libraries_text_openSource_dark
-        </item>
-
-        <item name="mal_card_background">@color/about_libraries_window_background_dark</item>
-        <item name="mal_color_primary">@color/about_libraries_title_openSource_dark</item>
-        <item name="mal_color_secondary">@color/about_libraries_text_openSource_dark</item>
-
-        <item name="chartTheme">dark</item>
-
-        <item name="themedArrowDownIcon">@drawable/ic_keyboard_arrow_down_white_24dp</item>
-        <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_white_24dp</item>
-        <item name="themedArrowRightIcon">@drawable/ic_keyboard_arrow_right_white_24dp</item>
-        <item name="themedColorIcon">@drawable/ic_color_lens_white_24dp</item>
-        <item name="themedClearIcon">@drawable/ic_clear_white_24dp</item>
-        <item name="themedSpinnerCaret">@drawable/ic_spinner_caret_white</item>
-
-        <item name="valueColors">@array/valueColorsDarkBackground</item>
+    <style name="openHAB.Launch" parent="openHAB.Base">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="colorPrimaryDark">@android:color/background_light</item>
     </style>
 
-    <style name="Theme.AppCompat.TranslucentBase">
+    <style name="openHAB.DayNight.orange" parent="openHAB.DayNight">
+        <item name="colorPrimary">@color/openhab_orange</item>
+        <item name="colorSecondary">@color/openhab_orange</item>
+        <item name="colorPrimaryDark">@color/openhab_orange_dark</item>
+        <item name="selectedWidgetBackgroundColor">#5cff5722</item>
+        <item name="alertDialogTheme">@style/openHAB.Dialog.orange</item>
+    </style>
+
+    <style name="openHAB.DayNight.basicui" parent="openHAB.DayNight">
+        <item name="colorPrimary">@color/indigo_500</item>
+        <item name="colorSecondary">@color/pink_a200</item>
+        <item name="colorPrimaryDark">@color/indigo_800</item>
+        <item name="selectedWidgetBackgroundColor">#5cff4081</item>
+        <item name="alertDialogTheme">@style/openHAB.Dialog.basicui</item>
+    </style>
+
+    <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
+        <item name="colorPrimary">@color/blue_grey_700</item>
+        <item name="colorSecondary">@color/secondary_color_grey_theme</item>
+        <item name="colorPrimaryDark">@color/blue_grey_900</item>
+        <item name="selectedWidgetBackgroundColor">#5c455A64</item>
+        <item name="alertDialogTheme">@style/openHAB.Dialog.grey</item>
+    </style>
+
+    <style name="openHAB.Black.orange" parent="openHAB.DayNight.orange">
+        <item name="chartTheme">black</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
+    <style name="openHAB.Black.basicui" parent="openHAB.DayNight.basicui">
+        <item name="chartTheme">black</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
+    <style name="openHAB.Black.grey" parent="openHAB.DayNight.grey">
+        <item name="chartTheme">black</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
+    <style name="Theme.MaterialComponents.TranslucentBase">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -84,50 +71,11 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.TranslucentBase" />
-
-    <!-- Default theme -->
-    <style name="HABDroid.Light" parent="openHAB.Common.Bright">
-        <item name="colorPrimary">@color/openhab_orange</item>
-        <item name="colorAccent">@color/openhab_orange</item>
-        <item name="colorPrimaryDark">#BF360C</item>
+    <style name="ThemeOverlay.MaterialComponents.SecondaryAsPrimary">
+        <item name="colorPrimary">?colorSecondary</item>
     </style>
 
-    <style name="HABDroid.Dark" parent="openHAB.Common.Dark">
-        <item name="colorPrimary">#9E9E9E</item>
-        <item name="colorAccent">#9E9E9E</item>
-        <item name="colorPrimaryDark">#212121</item>
-        <item name="android:itemBackground">#212121</item>
-    </style>
-
-    <style name="HABDroid.Basic_ui" parent="openHAB.Common.Bright">
-        <item name="colorPrimary">@color/indigo_500</item>
-        <item name="colorAccent">@color/pink_a200</item>
-        <item name="colorPrimaryDark">@color/indigo_800</item>
-    </style>
-
-    <style name="HABDroid.Basic_ui_dark" parent="openHAB.Common.Dark">
-        <item name="colorPrimary">@color/indigo_500</item>
-        <item name="colorAccent">@color/pink_a200</item>
-        <item name="colorPrimaryDark">@color/indigo_800</item>
-    </style>
-
-    <!-- Black theme, inherits from Common.Dark, but overrides some attributes -->
-    <style name="HABDroid.Black" parent="openHAB.Common.Dark">
-        <item name="frameWidgetDividerBackground">@color/black</item>
-
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorAccent">#9E9E9E</item>
-        <item name="colorPrimaryDark">@color/black</item>
-
-        <item name="android:windowBackground">@color/black</item>
-        <item name="android:itemBackground">@color/black</item>
-
-        <item name="themedDrawerBackground">@color/black</item>
-
-        <item name="mal_card_background">@color/black</item>
-        <item name="about_libraries_card">@color/black</item>
-
-        <item name="chartTheme">black</item>
+    <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase">
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

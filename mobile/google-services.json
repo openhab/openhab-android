@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "849058498762-079qmadgd5f5hkdve7lkrbubfi842afj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.openhab.habdroid",
+            "certificate_hash": "28e3a41b7c84483ded3df7b8fc2789b5c912badd"
+          }
+        },
+        {
           "client_id": "849058498762-bc6nbdk0aercq1e5utj1so77e390cr5j.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -25,15 +33,66 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849058498762-bc6nbdk0aercq1e5utj1so77e390cr5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "849058498762-3m681ei7b78ajqt9gmvt2gumah724v7q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "es.spaphone.openhab",
+                "app_store_id": "492054521"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849058498762:android:1e73d9e722953c8b",
+        "android_client_info": {
+          "package_name": "org.openhab.habdroid.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849058498762-b49s5qfketdcojkrue5mo1geh0k5q4pm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.openhab.habdroid.beta",
+            "certificate_hash": "28e3a41b7c84483ded3df7b8fc2789b5c912badd"
+          }
         },
-        "ads_service": {
-          "status": 2
+        {
+          "client_id": "849058498762-bc6nbdk0aercq1e5utj1so77e390cr5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtollIxWyEIm3ni68CaoDJgZuUqoYC2Zw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849058498762-bc6nbdk0aercq1e5utj1so77e390cr5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "849058498762-3m681ei7b78ajqt9gmvt2gumah724v7q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "es.spaphone.openhab",
+                "app_store_id": "492054521"
+              }
+            }
+          ]
         }
       }
     }

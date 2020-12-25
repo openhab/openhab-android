@@ -1,0 +1,8 @@
+## Changed
+* Handle video player errors (#1907)
+* New icon for server discovery (#1930)
+
+## Fixed
+* Fix issue when refreshing item picker (#1940)
+* Fix NPE in isAutomationAppInstalled() (#1931)
+* Close drawer on back press (#1924)

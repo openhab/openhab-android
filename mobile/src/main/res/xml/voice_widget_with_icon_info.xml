@@ -3,7 +3,7 @@
     android:minWidth="40dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="86400000"
-    android:previewImage="@drawable/voice_widget_preview_with_icon"
+    android:previewImage="@drawable/widget_preview_voice_with_icon"
     android:initialLayout="@layout/widget_voice_with_icon"
     android:widgetCategory="home_screen"
     android:resizeMode="horizontal|vertical" >

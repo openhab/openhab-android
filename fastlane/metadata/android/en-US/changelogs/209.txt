@@ -1,0 +1,4 @@
+## Changed
+* Beautify section switch. (#1606)
+* Update translations (#1599)
+* Bump dependencies

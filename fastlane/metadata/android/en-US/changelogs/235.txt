@@ -1,0 +1,6 @@
+## Changed
+* Improve error messages with HTTP code (#1744)
+* Show openHAB icon in all toasts (#1749)
+
+## Fixed
+* Fix crash caused by SVG library (#1751)

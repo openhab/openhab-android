@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
-    android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin">
+    android:paddingStart="@dimen/widgetlist_item_side_margin"
+    android:paddingEnd="@dimen/widgetlist_item_side_margin">
 
     <androidx.legacy.widget.Space
         android:id="@+id/spacer"
@@ -19,24 +18,22 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="8dip"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin"
-        android:background="?attr/frameWidgetDividerBackground" />
+        android:layout_marginStart="@dimen/widgetlist_divider_side_margin"
+        android:layout_marginEnd="@dimen/widgetlist_divider_side_margin"
+        android:background="@drawable/material_divider_themed" />
 
     <TextView
         android:id="@+id/widgetlabel"
         android:textDirection="locale"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:gravity="center_vertical"
         android:minHeight="36dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="?attr/themedHeaderTextColor"
+        android:textColor="@color/colorAccent_themeDark"
         android:textStyle="bold"
         tools:ignore="SelectableText" />
 

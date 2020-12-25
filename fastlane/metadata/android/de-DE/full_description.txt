@@ -1,12 +1,8 @@
 openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause
 
-In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.
+Die Builds auf F-Droid haben FCM und Absturzberichte entfernt und können daher keine Push-Benachrichtigungen von openHAB Cloud erhalten. Stattdessen werden Benachrichtigungen regelmäßig in diesen Builds abgefragt.
 Testen Sie neue Features und geben Sie früh Feedback!
 Sie können die Betaversion neben der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilen Version</a> installieren.
-
-<b>Wichtiger Hinweis</b>
-
-Um diese App zu nutzen, benötigen Sie einen openHAB-Server
 
 openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.
 Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs- bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.
@@ -14,29 +10,20 @@ Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für
 <b>Unterstützte Produkte</b>
 
 Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://www.openhab.org/addons/
-
-• Heimautomatisierungslösungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Licht: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heizung: Max!, Nest, Vitotronic, Heatmiser, ...
-• Heimunterhaltung: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Sicherheitstechnik: ZoneMinder, DSC, ...
-• Offene Protokolle: HTTP, TCP/UDP, MQTT, Serial, ...
-• Spezielle Anwendungsfälle: Minecraft, Tesla Auto, Wetterdienste,...
-• ...
+Diese App besitzt ein Action-Plugin für Tasker und Locale.
 
 <b>Open-Source-Community</b>
 
-Die quelloffene openHAB Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org
+Die quelloffene openHAB-Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org
 Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues
-Helfen Sie uns, diese App in Ihre Sprache zu übersetzen: https://crowdin.com/project/openhab-android
+Wenn Sie die App in Ihre Sprache übersetzen möchten, dann nehmen Sie unter https://crowdin.com/project/openhab-android teil
 
 <b>openHAB Foundation e.V.</b>
 
 Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org
 
-<b>Anti-Features</b>
+<b>Wichtiger Hinweis</b>
 
-Die App wurde mit dem "NonFreeAsset"-Anti-Feature markiert, da das openHAB-Icon nicht unter freier Lizenz steht.
-
+Um diese App zu nutzen, benötigen Sie einen openHAB-Server.
 
 Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html

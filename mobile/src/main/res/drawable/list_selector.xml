@@ -1,4 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_activated="true" android:drawable="@drawable/list_arrow_activated" />
-    <item android:drawable="@android:color/transparent" />
+    <item android:state_activated="true">
+        <color android:color="?attr/selectedWidgetBackgroundColor" />
+    </item>
+    <item>
+        <ripple android:color="?attr/colorControlHighlight" />
+    </item>
 </selector>

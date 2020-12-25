@@ -1,0 +1,2 @@
+## Fixed
+* Fix handling of frames without label. (#1502)

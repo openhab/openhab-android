@@ -1,0 +1,2 @@
+## Changed
+* Report error during load of sitemap back to user (#1292)

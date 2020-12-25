@@ -1,0 +1,2 @@
+## Added
+* Change slider size according to screen size (#1259)

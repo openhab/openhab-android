@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-
-    <string-array name="nfcActionValues">
-        <item>@string/nfc_action_on</item>
-        <item>@string/nfc_action_off</item>
-        <item>@string/nfc_action_toggle</item>
-    </string-array>
-
     <string-array name="themeArray">
         <item>@string/theme_name_light</item>
         <item>@string/theme_name_dark</item>
+        <item>@string/theme_name_battery_saver</item>
         <item>@string/theme_name_black</item>
-        <item>@string/theme_name_basic_ui</item>
-        <item>@string/theme_name_basic_ui_dark</item>
     </string-array>
 
     <string-array name="themeValues">
         <item>@string/theme_value_light</item>
         <item>@string/theme_value_dark</item>
+        <item>@string/theme_value_system</item>
         <item>@string/theme_value_black</item>
-        <item>@string/theme_value_basic_ui</item>
-        <item>@string/theme_value_basic_ui_dark</item>
     </string-array>
 
     <string-array name="iconTypeNames">
@@ -41,6 +32,7 @@
         <item>#fdd835</item> <!-- yellow => use material yellow 600 -->
         <item>#800080</item> <!-- purple -->
         <item>#ff00ff</item> <!-- fuchsia -->
+        <item>#ff1493</item> <!-- pink -->
         <item>#000000</item> <!-- white => use black -->
         <item>#827717</item> <!-- lime => use material lime 900-->
         <item>#008000</item> <!-- green -->
@@ -51,6 +43,7 @@
         <item>#000000</item> <!-- black -->
         <item>#838996</item> <!-- silver => use darker silver -->
         <item>#808080</item> <!-- grey -->
+        <item>#daa520</item> <!-- gold -->
     </array>
 
     <array name="valueColorsDarkBackground">
@@ -61,6 +54,7 @@
         <item>#ffff00</item> <!-- yellow -->
         <item>#ce93d8</item> <!-- purple => use material purple 200 -->
         <item>#ff00ff</item> <!-- fuchsia -->
+        <item>#ffc0cb</item> <!-- pink -->
         <item>#ffffff</item> <!-- white -->
         <item>#00ff00</item> <!-- lime -->
         <item>#4CAF50</item> <!-- green => use material green 500 -->
@@ -71,6 +65,7 @@
         <item>#ffffff</item> <!-- black => use white -->
         <item>#c0c0c0</item> <!-- silver -->
         <item>#808080</item> <!-- grey -->
+        <item>#daa520</item> <!-- gold -->
     </array>
 
     <string-array name="valueColorNames" translatable="false">
@@ -81,6 +76,7 @@
         <item>yellow</item>
         <item>purple</item>
         <item>fuchsia</item>
+        <item>pink</item>
         <item>white</item>
         <item>lime</item>
         <item>green</item>
@@ -91,6 +87,7 @@
         <item>black</item>
         <item>silver</item>
         <item>grey</item>
+        <item>gold</item>
     </string-array>
 
     <string-array name="chartScalingEntries">
@@ -119,5 +116,159 @@
         <item>@string/settings_notification_vibration_value_short</item>
         <item>@string/settings_notification_vibration_value_long</item>
         <item>@string/settings_notification_vibration_value_twice</item>
+    </string-array>
+
+    <string-array name="screen_lock">
+        <item>@string/settings_screen_lock_off</item>
+        <item>@string/settings_screen_lock_kiosk</item>
+        <item>@string/settings_screen_lock_on</item>
+    </string-array>
+
+    <string-array name="screen_lock_values">
+        <item>@string/settings_screen_lock_off_value</item>
+        <item>@string/settings_screen_lock_kiosk_value</item>
+        <item>@string/settings_screen_lock_on_value</item>
+    </string-array>
+
+    <array name="accentColors">
+        <item>@color/openhab_orange</item>
+        <item>@color/indigo_500</item>
+        <item>@color/blue_grey_700</item>
+    </array>
+
+    <string-array name="send_device_info_schedule_values">
+        <item>15</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>720</item>
+    </string-array>
+
+    <string-array name="send_device_info_schedule">
+        <item>@string/send_device_info_schedule_15_minutes</item>
+        <item>@string/send_device_info_schedule_1_hour</item>
+        <item>@string/send_device_info_schedule_3_hours</item>
+        <item>@string/send_device_info_schedule_6_hours</item>
+        <item>@string/send_device_info_schedule_12_hours</item>
+    </string-array>
+
+    <!-- Icons grouped by https://www.openhab.org/docs/configuration/iconsets/classic/ -->
+    <string-array name="tile_icons">
+        <item>@string/tile_icon_openhab</item>
+        <!-- Places -->
+        <!-- Missing: attic, cellar, corridor, firstfloor, groundfloor, kitchen, office, terrace -->
+        <item>@string/tile_icon_bed</item>
+        <item>@string/tile_icon_sofa</item>
+        <item>@string/tile_icon_bath</item>
+        <item>@string/tile_icon_house</item>
+        <item>@string/tile_icon_tree</item>
+
+        <!-- Things -->
+        <!-- Missing: door, frontdoor, lawnmower, poweroutlet, projector, receiver, siren, whitegood -->
+        <item>@string/tile_icon_light_switch</item>
+        <item>@string/tile_icon_bulb</item>
+        <item>@string/tile_icon_lamp_ceiling</item>
+        <item>@string/tile_icon_lamp_floor</item>
+        <item>@string/tile_icon_lamp_bedside</item>
+        <item>@string/tile_icon_lamp_outdoor</item>
+        <item>@string/tile_icon_garage</item>
+        <item>@string/tile_icon_roller_shutter</item>
+        <item>@string/tile_icon_battery</item>
+        <item>@string/tile_icon_lock</item>
+        <item>@string/tile_icon_camera</item>
+        <item>@string/tile_icon_tv</item>
+        <item>@string/tile_icon_radio</item>
+        <item>@string/tile_icon_wifi</item>
+        <item>@string/tile_icon_phone</item>
+        <item>@string/tile_icon_cloud_upload</item>
+        <item>@string/tile_icon_microphone</item>
+        <item>@string/tile_icon_power_plug</item>
+
+        <!-- Channels: Widgets -->
+        <!-- Missing: text -->
+        <item>@string/tile_icon_color_palette</item>
+        <item>@string/tile_icon_switch</item>
+
+        <!-- Channels: Weather -->
+        <!-- Missing: humidity, moon, rain, snow, sun, sun_cloud, temperature, wind -->
+        <item>@string/tile_icon_earth</item>
+        <item>@string/tile_icon_star</item>
+
+        <!-- Channels: Properties -->
+        <!-- Missing: carbondioxide, energy, fire, flow, gas, motion, oil, pressure, price, qualityofservice, smoke,
+                      soundvolume, temperature, water -->
+        <item>@string/tile_icon_clock</item>
+        <item>@string/tile_icon_alarm_clock</item>
+
+        <!-- Channels: Control -->
+        <!-- Missing: heating, mediacontrol, movecontrol -->
+        <item>@string/tile_icon_magnifier</item>
+
+        <!-- Channels: Purpose -->
+        <!-- Missing: alarm, party, vacation -->
+
+        <!-- Other icons -->
+        <!-- Missing: bluetooth, calendar, chart, cinema, cinemascreen, cistern, climate, contact, dryer, error, fan,
+                      fan_box, fan_ceiling, faucet, flowpipe, greenhouse, incline, keyring, line, niveau, outdoorlight,
+                      pantry, pie, piggybank, player, poweroutlet_au, poweroutlet_eu, poweroutlet_uk, poweroutlet_us,
+                      pump, radiator, returnpipe, sewerage, smiley, softener, solarplant, soundvolume_mute,
+                      status, suitcase, sunrise, sunset, temperature_cold, temperature_hot, video, wardrobe,
+                      washingmachine, washingmachine_2 -->
+        <item>@string/tile_icon_baby</item>
+        <item>@string/tile_icon_child</item>
+        <item>@string/tile_icon_man</item>
+        <item>@string/tile_icon_woman</item>
+        <item>@string/tile_icon_person</item>
+        <item>@string/tile_icon_people</item>
+        <item>@string/tile_icon_chat</item>
+        <item>@string/tile_icon_settings</item>
+        <item>@string/tile_icon_shield</item>
+        <item>@string/tile_icon_bell</item>
+        <item>@string/tile_icon_dashboard</item>
+    </string-array>
+
+    <string-array name="tile_icons_values">
+        <item>@string/tile_icon_openhab_value</item>
+        <item>@string/tile_icon_bed_value</item>
+        <item>@string/tile_icon_sofa_value</item>
+        <item>@string/tile_icon_bath_value</item>
+        <item>@string/tile_icon_house_value</item>
+        <item>@string/tile_icon_tree_value</item>
+        <item>@string/tile_icon_light_switch_value</item>
+        <item>@string/tile_icon_bulb_value</item>
+        <item>@string/tile_icon_lamp_ceiling_value</item>
+        <item>@string/tile_icon_lamp_floor_value</item>
+        <item>@string/tile_icon_lamp_bedside_value</item>
+        <item>@string/tile_icon_lamp_outdoor_value</item>
+        <item>@string/tile_icon_garage_value</item>
+        <item>@string/tile_icon_roller_shutter_value</item>
+        <item>@string/tile_icon_battery_value</item>
+        <item>@string/tile_icon_lock_value</item>
+        <item>@string/tile_icon_camera_value</item>
+        <item>@string/tile_icon_tv_value</item>
+        <item>@string/tile_icon_radio_value</item>
+        <item>@string/tile_icon_wifi_value</item>
+        <item>@string/tile_icon_phone_value</item>
+        <item>@string/tile_icon_cloud_upload_value</item>
+        <item>@string/tile_icon_microphone_value</item>
+        <item>@string/tile_icon_power_plug_value</item>
+        <item>@string/tile_icon_color_palette_value</item>
+        <item>@string/tile_icon_switch_value</item>
+        <item>@string/tile_icon_earth_value</item>
+        <item>@string/tile_icon_star_value</item>
+        <item>@string/tile_icon_clock_value</item>
+        <item>@string/tile_icon_alarm_clock_value</item>
+        <item>@string/tile_icon_magnifier_value</item>
+        <item>@string/tile_icon_baby_value</item>
+        <item>@string/tile_icon_child_value</item>
+        <item>@string/tile_icon_man_value</item>
+        <item>@string/tile_icon_woman_value</item>
+        <item>@string/tile_icon_person_value</item>
+        <item>@string/tile_icon_people_value</item>
+        <item>@string/tile_icon_chat_value</item>
+        <item>@string/tile_icon_settings_value</item>
+        <item>@string/tile_icon_shield_value</item>
+        <item>@string/tile_icon_bell_value</item>
+        <item>@string/tile_icon_dashboard_value</item>
     </string-array>
 </resources>

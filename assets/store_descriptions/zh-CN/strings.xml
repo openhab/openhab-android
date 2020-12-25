@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
     <intro>openHAB - "智能化家居" - 开源家居自动化供应商与技术</intro>
-    <whatis>openHAB 是一款基于 Java 的开源家居自动化平台，整合了大量不同的智能家居系统与技术为一体。</whatis>
+    <whatis>openHAB 是一款基于 Java 的开源家居自动化平台，整合多种智能家居系统与技术。</whatis>
     <rules>在统一抽象层上，所有连接设备均可通过自动规则引擎与不同的用户界面管理。</rules>
     <supported>支持产品</supported>
     <bindings>超过 200 个支持品牌、设备、技术及通讯协议的附加组件。 例如 Z-Wave、Philips Hue、Amazon Echo、Chromecast 及 Sonos。 请在前往此网址探索所有可用的附加组件及支持的设备/功能：https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• 家庭自动化解决方案：Z-Wave、EnOcean、Netatmo、Homematic、Insteon···</home_automation_solutions>
-    <lighting>• 照明：Philips Hue、Ikea Trådfri、LIFX、Lutron、Milight···</lighting>
-    <heating>• 供热：Max!、Nest、Vitotronic、Heatmiser···</heating>
-    <home_entertainment>• 家庭娱乐：三星电视、LG TV、Sonos、Pioneer AVR、Squeezebox、Kodi、Plex···</home_entertainment>
-    <security>• 安全：ZoneMinder、DSC···</security>
-    <open_protocols>• 开源协议：HTTP、TCP/UDP、MQTT、串口···</open_protocols>
-    <special_useCases>• 特殊用例：我的世界、特斯拉汽车、天气服务···</special_useCases>
-    <empty_point/>
+    <automation_apps>此应用程序自带 Tasker 及本地化插件。</automation_apps>
 
     <oss_community>开源社区</oss_community>
     <forum>openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 13000 位注册用户，是您寻求帮助与灵感的好地方。 在 https://community.openhab.org 处加入 openHAB 社区论坛</forum>
@@ -23,13 +15,12 @@
     <foundation>openHAB 基金会</foundation>
     <about_foundation>openHAB 基金会是一个致力于向公共提出开源智能家居解决方案的无限可能与无限优点的非盈利组织。 请在 https://www.openhabfoundation.org 处了解本基金会的任务及服务</about_foundation>
     <important_note>重要提示</important_note>
-    <oh_server>您需要 openHAB 服务器以使用此应用程序</oh_server>
+    <oh_server>您需要一台 openHAB 服务器以使用此应用程序.</oh_server>
     <short_description>开源家居自动化供应商与技术</short_description>
-    <fdroid>F-Droid 版本拥有地图预览支持、Google 云信息并移除了崩溃报告且无法从 openHAB 云接收推送信息。</fdroid>
-    <fdroid_beta><![CDATA[您可以在安装<a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>的情况下安装测试版。]]></fdroid_beta>
+    <fdroid> </fdroid>
+    <fdroid_beta><![CDATA[<a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>可与测试版共存。]]></fdroid_beta>
     <fdroid_privacy_policy>隐私政策：https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>不利功能</fdroid_anti_features>
-    <fdroid_anti_features_text>此应用程序被标记为 “非免费资源”，因为 openHAB 并未通过自由许可授权。</fdroid_anti_features_text>
     <beta>尝试新功能并提供早期反馈！</beta>
     <play_beta>您可以在安装稳定版的情况下安装测试版。</play_beta>
+    <changelog_play_beta>修复了漏洞并提升了稳定性。 请访问 https://github.com/openhab/openhab-android/releases 以获取详细更新日志。</changelog_play_beta>
 </strings>

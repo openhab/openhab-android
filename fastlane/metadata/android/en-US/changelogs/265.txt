@@ -1,0 +1,6 @@
+## Added
+* Toggle Player items (#1844)
+* Implement auto refresh in ChartActivity (#1847)
+
+## Fixed
+* Fix url validation in UrlInputPreference (#1843)

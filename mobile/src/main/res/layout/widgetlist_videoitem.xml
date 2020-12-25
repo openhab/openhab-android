@@ -1,10 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<VideoView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/video"
-    android:layout_width="match_parent"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_margin="4dip"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
-    android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin" />
+    android:layout_width="match_parent">
+
+    <ProgressBar
+        android:id="@+id/video_player_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?attr/indeterminateProgressStyle"
+        android:padding="32dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <org.openhab.habdroid.ui.widget.AutoHeightPlayerView
+        android:id="@+id/widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dip"
+        android:paddingStart="@dimen/widgetlist_item_side_margin"
+        android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+
+    <include layout="@layout/widgetlist_data_saver" />
+
+    <LinearLayout
+        android:id="@+id/video_player_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="32dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/video_player_error_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@color/empty_list_text_color"
+            tools:text="@string/error_video_player" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/video_player_error_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/retry" />
+    </LinearLayout>
+</FrameLayout>

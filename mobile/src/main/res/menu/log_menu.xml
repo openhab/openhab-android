@@ -4,7 +4,17 @@
 
     <item
         android:id="@+id/delete_log"
-        android:icon="@drawable/ic_delete_white_24dp"
-        android:title="@string/clear_log"
+        android:icon="@drawable/ic_delete_outline_white_24dp"
+        android:title="@string/log_activity_action_clear_log"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/show_errors"
+        android:icon="@drawable/ic_error_outline_white_24dp"
+        android:title="@string/log_activity_action_show_errors"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="@string/log_activity_action_reload"
+        app:showAsAction="ifRoom" />
 </menu>

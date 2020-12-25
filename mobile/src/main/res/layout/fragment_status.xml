@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/image"
             android:paddingTop="4dp"
@@ -18,8 +20,8 @@
             android:adjustViewBounds="true"
             android:gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_signal_cellular_off_black_24dp"
-            tools:ignore="contentDescription"/>
+            android:src="@drawable/ic_network_strength_off_outline_black_24dp"
+            tools:ignore="contentDescription" />
 
         <TextView
             android:id="@+id/description"
@@ -40,9 +42,8 @@
             android:layout_margin="8dp"
             android:layout_gravity="center_horizontal" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button1"
-            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,9 +52,8 @@
             android:gravity="center"
             tools:text="Some action" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button2"
-            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -63,4 +63,5 @@
             tools:text="Some other action" />
 
     </LinearLayout>
+
 </ScrollView>

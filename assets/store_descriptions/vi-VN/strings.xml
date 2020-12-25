@@ -5,15 +5,7 @@
     <rules/>
     <supported/>
     <bindings>  </bindings>
-
-    <home_automation_solutions/>
-    <lighting/>
-    <heating/>
-    <home_entertainment/>
-    <security/>
-    <open_protocols/>
-    <special_useCases/>
-    <empty_point/>
+    <automation_apps/>
 
     <oss_community/>
     <forum>  </forum>
@@ -25,11 +17,10 @@
     <important_note/>
     <oh_server/>
     <short_description/>
-    <fdroid/>
+    <fdroid> </fdroid>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy/>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
     <beta/>
     <play_beta/>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>

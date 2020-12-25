@@ -1,0 +1,4 @@
+## Fixed
+* Correctly initialize editor prefs with custom data store. (#1568)
+* Show loading indicator in home screen widgets after reboot (#1570)
+* Hide NFC drawer entry if no connection (#1571)

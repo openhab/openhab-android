@@ -1,0 +1,7 @@
+## Added
+* Create home screen widget via long press menu (#1627)
+* Handle new `anyFormat` icon parameter (#1667)
+* Support Tasker error reporting (#1670)
+
+## Changed
+* Update translations (#1669)

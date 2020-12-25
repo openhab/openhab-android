@@ -1,0 +1,2 @@
+## Changed
+* Improve long press menu (#1465)

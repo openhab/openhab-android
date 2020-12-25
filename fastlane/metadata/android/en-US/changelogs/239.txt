@@ -1,0 +1,4 @@
+## Fixed
+* Use notification channels in MTM (#1765)
+* Correctly show hint if subpage contains no visible widgets (#1770)
+* Fix several crashes (#1775, #1776, #1777)

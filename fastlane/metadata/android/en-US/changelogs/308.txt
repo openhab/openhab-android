@@ -1,0 +1,7 @@
+## Changed
+* Badge shortcuts on API 24 and below (#2117)
+
+## Fixed
+* Fix image widget sizing issues (#2119)
+* Fix crash when starting event listener (#2103)
+* Fix blurred outline of switches with mapping (#2123)

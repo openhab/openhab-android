@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Notifikatiounen hunn an der FOSS Versioun limitéiert Funktionalitéit. Dreck hei fir méi Informatiounen.</string>
+    <string name="push_notification_status_disabled">Notifikatiounen sinn desaktivéiert</string>
+    <string name="open_in_maps">An OpenStreetMap op maachen</string>
+</resources>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/send_device_info_to_server">
+    <Preference
+        android:key="device_identifier_prefix_background_tasks"
+        android:enabled="false"
+        android:selectable="false"
+        android:icon="@drawable/ic_info_outline_grey_24dp" />
+    <PreferenceCategory
+        android:title="@string/send_device_info_category_event_based_title">
+        <Preference
+            android:enabled="false"
+            android:selectable="false"
+            android:icon="@drawable/ic_info_outline_grey_24dp"
+            android:summary="@string/send_device_info_category_event_based_explanation" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|AlarmClock"
+            android:key="alarmClock"
+            app:helpUrl="@string/settings_alarm_clock_howto_url"
+            android:title="@string/settings_alarm_clock"
+            app:summaryEnabled="@string/settings_alarm_clock_summary_on"
+            app:summaryDisabled="@string/settings_alarm_clock_summary_off"
+            app:iconEnabled="@drawable/ic_alarm_grey_24dp"
+            app:iconDisabled="@drawable/ic_alarm_off_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|CallState"
+            android:key="phoneState"
+            app:helpUrl="@string/settings_phone_state_howto_url"
+            app:summaryEnabled="@string/settings_phone_state_summary_on"
+            app:summaryDisabled="@string/settings_phone_state_summary_off"
+            android:title="@string/settings_phone_state"
+            app:iconEnabled="@drawable/ic_phone_outline_grey_24dp"
+            app:iconDisabled="@drawable/ic_phone_off_outline_grey_24dp" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/send_device_info_category_schedule_based_title">
+        <Preference
+            android:enabled="false"
+            android:selectable="false"
+            android:icon="@drawable/ic_info_outline_grey_24dp"
+            android:summary="@string/send_device_info_category_schedule_based_explanation" />
+        <ListPreference
+            android:key="send_device_info_schedule"
+            android:title="@string/send_device_info_schedule"
+            android:summary="@string/send_device_info_schedule_summary"
+            android:defaultValue="360"
+            android:entries="@array/send_device_info_schedule"
+            android:entryValues="@array/send_device_info_schedule_values" />
+        <SwitchPreferenceCompat
+            android:key="send_device_info_foreground_service"
+            android:title="@string/send_device_info_foreground_service_title"
+            android:summary="@string/send_device_info_foreground_service_summary"
+            android:defaultValue="false" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|BatteryLevel"
+            android:key="battery_level"
+            app:helpUrl="@string/settings_battery_level_howto_url"
+            app:summaryEnabled="@string/settings_battery_level_summary_on"
+            app:summaryDisabled="@string/settings_battery_level_summary_off"
+            android:title="@string/settings_battery_level"
+            app:iconEnabled="@drawable/ic_battery_outline_grey_24dp"
+            app:iconDisabled="@drawable/ic_battery_off_outline_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|ChargingState"
+            android:key="charging_state"
+            app:helpUrl="@string/settings_charging_state_howto_url"
+            app:summaryEnabled="@string/settings_charging_state_summary_on"
+            app:summaryDisabled="@string/settings_charging_state_summary_off"
+            android:title="@string/settings_charging_state"
+            app:iconEnabled="@drawable/ic_power_plug_outline_grey_24dp"
+            app:iconDisabled="@drawable/ic_power_plug_off_outline_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|WifiName"
+            android:key="send_wifi_ssid"
+            app:helpUrl="@string/settings_wifi_ssid_howto_url"
+            app:summaryEnabled="@string/settings_wifi_ssid_summary_on"
+            app:summaryDisabled="@string/settings_wifi_ssid_summary_off"
+            android:title="@string/settings_wifi_ssid"
+            app:iconEnabled="@drawable/ic_wifi_strength_outline_grey_24dp"
+            app:iconDisabled="@drawable/ic_wifi_strength_off_outline_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|DndMode"
+            android:key="send_dnd_mode"
+            app:helpUrl="@string/settings_dnd_mode_howto_url"
+            app:summaryEnabled="@string/settings_dnd_mode_summary_on"
+            app:summaryDisabled="@string/settings_dnd_mode_summary_off"
+            android:title="@string/settings_dnd_mode"
+            app:iconEnabled="@drawable/ic_minus_circle_outline_grey_24dp"
+            app:iconDisabled="@drawable/ic_minus_circle_off_outline_grey_24dp" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

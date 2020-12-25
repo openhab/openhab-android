@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Kotlin files" pattern="file:*.kt&amp;&amp;!file:src/main/java/org/openhab/habdroid/util/TaskerIntent.kt" />
+</component>

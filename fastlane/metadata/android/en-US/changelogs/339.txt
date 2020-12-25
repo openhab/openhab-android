@@ -1,0 +1,6 @@
+## Added
+* Handle whitespaces in EditText based on the pref (#2273)
+* Make drawer entries configurable (#2276)
+
+## Fixed
+* Hide SSE failure snackbar when opening HABPanel (#2283)

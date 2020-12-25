@@ -5,15 +5,7 @@
     <rules>Ovenpå det enhetlige abstraksjonslaget er alle tilsluttede enheter tilgjengelig for den overgripende regelmotoren og ulike brukergrensesnitt.</rules>
     <supported>Produkter som har støtte</supported>
     <bindings>Over 200 tillegg gir support for varemerker, enheter, teknikk og kommunikasjonsprotokoller. For eksempel Z-Wave, Philips Hue, Amazon Echo, Chromecast och Sonos. Oppdag alle tilgjengelige tilleggsprogrammer og støttede enheter og/eller funksjoner på: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Hjemme automasjon løsninger: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
-    <lighting>• Belysning: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Oppvarming: Max!, reir, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>• Hjemmeunderholdning: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...</home_entertainment>
-    <security>• Sikkerhet: ZoneMinder, DSC,...</security>
-    <open_protocols>• Åpne protokoller: HTTP, TCP/UDP, MQTT, seriell,...</open_protocols>
-    <special_useCases>• Spesielle useCases: Minecraft, Tesla bil, værmeldingstjenester,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>App'en har en plugin for Tasker og Locale inkludert.</automation_apps>
 
     <oss_community>Åpen kildekode Community</oss_community>
     <forum>openHAB åpen kildekode initiativ støtter sterkt stt levende Community. Forumet med over 13 000 registrerte brukere er et sted å finne veiledning, hjelp og inspirasjon. Bli med gruppeforumet openHAB over på https://community.openhab.org</forum>
@@ -23,13 +15,12 @@
     <foundation>openHAB Foundation</foundation>
     <about_foundation>openHAB Foundation e.V. er en ideell organisasjon med oppgave å opplyse offentligheten om mulighetene og fordelene av fri og åpen smarte-hjem løsninger. Lær om oppdraget og tjenestene til stiftelsen under https://www.openhabfoundation.org</about_foundation>
     <important_note>Viktig merknad</important_note>
-    <oh_server>Du trenger en openHAB server for denne appen</oh_server>
+    <oh_server>Du trenger en openHAB server for denne appen.</oh_server>
     <short_description>Leverandør og teknologi uavhengig åpen kildekode for hjemme-automasjon</short_description>
-    <fdroid>Builds på F-Droid har kartvisning-støtte, GCM og krasj-rapportering fjernet og vil ikke kunne motta push varsler fra openHAB Cloud.</fdroid>
+    <fdroid> </fdroid>
     <fdroid_beta><![CDATA[Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Personvern: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti funksjoner</fdroid_anti_features>
-    <fdroid_anti_features_text>Programmet er flagget med flagget "NonFreeAsset" fordi ikonet openHAB ikke er under en fri lisens.</fdroid_anti_features_text>
     <beta>Prøv ut nye funksjoner og gi tidlig tilbakemelding!</beta>
     <play_beta>Du kan installere betaversjonen sammen med den stabile versjonen.</play_beta>
+    <changelog_play_beta>Feilrettinger og stabilitets forbedringer. Vennligst gå til https://github.com/openhab/openhab-android/releases for en detaljert endringslogg.</changelog_play_beta>
 </strings>

@@ -1,0 +1,2 @@
+## Fixed
+* Use anyFormat for all icons (#1731)

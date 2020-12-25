@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="keyword" value="Copyright .+ openHAB project" />
+    <option name="notice" value="Copyright (c) 2010-&amp;#36;today.year Contributors to the openHAB project&#10;&#10;See the NOTICE file(s) distributed with this work for additional&#10;information.&#10;&#10;This program and the accompanying materials are made available under the&#10;terms of the Eclipse Public License 2.0 which is available at&#10;http://www.eclipse.org/legal/epl-2.0&#10;&#10;SPDX-License-Identifier: EPL-2.0" />
+    <option name="myName" value="openHAB" />
+  </copyright>
+</component>

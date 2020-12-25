@@ -6,15 +6,7 @@
     <supported>Támogatott termékek</supported>
     <bindings>104/5000
 Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, technológiákat és kommunikációs protokollokat. Például a Z-Wave, a Philips Hue, az Amazon Echo, a Chromecast és a Sonos. Fedezze fel az összes rendelkezésre álló bővítményt és támogatott eszközt és / vagy funkciót a következő címen: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Otthonautomatizálási megoldások: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
-    <lighting>• Világítás: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
-    <heating>• Fűtés: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
-    <home_entertainment>• Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
-    <security>• Biztonság: ZoneMinder, DSC, ...</security>
-    <open_protocols>• Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
-    <special_useCases>• Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Időjárási szolgáltatások, ...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>Az alkalmazás rendelkezik eseménykezelő bővítménnyel a Tasker és a Locale számára.</automation_apps>
 
     <oss_community>Nyílt forráskódú közösség</oss_community>
     <forum>Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. A fórumunk egy olyan hely, aminek több mint 13,000 regisztrált felhasználója van, akiktől segítséget, leírásokat és inspirációkat lehet nyerni. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni</forum>
@@ -24,13 +16,12 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <foundation>openHAB alapítvány</foundation>
     <about_foundation>A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org</about_foundation>
     <important_note>Fontos megjegyzés</important_note>
-    <oh_server>Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást</oh_server>
+    <oh_server>openHAB szerverre van szükség az alkalmazás használatához.</oh_server>
     <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
-    <fdroid>A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.</fdroid>
+    <fdroid>Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből. Ehelyett az értesítések rendszeresen lekérdezésre kerülnek ezekből az összeállításokból.</fdroid>
     <fdroid_beta><![CDATA[A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.]]></fdroid_beta>
     <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti funkciók</fdroid_anti_features>
-    <fdroid_anti_features_text>Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.</fdroid_anti_features_text>
     <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
     <play_beta>Telepíthetsz béta verziót is a stabil mellé.</play_beta>
+    <changelog_play_beta>Hibajavítások és kisebb fejlesztések. Kérem látogassa meg a https://github.com/openhab/openhab-android/releases hogy többet tudjon meg a változásokról.</changelog_play_beta>
 </strings>

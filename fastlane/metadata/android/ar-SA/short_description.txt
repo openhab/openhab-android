@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+تكنولوجيا أتمتة المنزل المفتوحة المصدر والغير مرتبطة بتقنية أو مصنع محدد

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <color name="normal">#b0b0b0</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="light">#ffffff</color>
-    <color name="dark">#191919</color>
-    <color name="highlight">#38c0f4</color>
     <color name="black">#000000</color>
     <color name="colorAccent_themeDark">#9E9E9E</color>
-    <color name="foreground_material_light">#ffffff</color>
     <color name="openhab_orange">#ff5722</color>
     <color name="openhab_orange_dark">#bf360c</color>
     <color name="indigo_500">#3f51b5</color>
     <color name="indigo_800">#283593</color>
     <color name="pink_a200">#ff4081</color>
-    <color name="grey_300">#E0E0E0</color>
+    <color name="blue_grey_700">#455A64</color>
+    <color name="blue_grey_900">#263238</color>
+    <color name="secondary_color_grey_theme">@color/blue_grey_700</color>
     <color name="empty_list_text_color">#b2b2b2</color>
     <color name="pref_icon_red">#D32F2F</color>
     <color name="pref_icon_green">#388E3C</color>

@@ -1,12 +1,8 @@
 openHAB - "empowering the smart home" - open source program pro domácí automatizaci IoT zařízení od různých výrobců s různou technologií
 
-F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.
+Sestavení pro F-Droid má odebráno FCM a reporty o chybách a nemůže přijímat push notifikace z openHAB Cloud. Namísto toho jsou oznámení získávána v pravidelných intervalech.
 Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!
 Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.
-
-<b>Důležitá poznámka</b>
-
-Pro správné fungování aplikace budete potřebovat openHAB server
 
 openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.
 Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.
@@ -14,15 +10,7 @@ Všechna připojená zařízení je možné spravovat, ovládat a automatizovat 
 <b>Podporované produkty</b>
 
 Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/
-
-• Řešení domácí automatizace: Z-Wave, Banaba, Netatmo, Homematic, Insteon,...
-• Osvětlení: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Vytápění: Max!, Nest, Vitotronic, Heatmiser,...
-• Domácí zábava: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
-• Bezpečnost: ZoneMinder, DSC,...
-• Otevřené protokoly: HTTP, TCP/UDP, MQTT, sériový,...
-• Speciální použití: Minecraft, automobil Tesla, meteorologické služby,...
-• ...
+Aplikace obsahuje action plugin pro Tasker a Locale.
 
 <b>Open Source komunita</b>
 
@@ -34,9 +22,8 @@ Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https:
 
 openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
 
-<b>Potenciálně nechtěné vlastnosti</b>
+<b>Důležitá poznámka</b>
 
-Aplikace je označena příznakem "NonFreeAsset", protože openHAB ikona není k dispozici pod svobodnou licencí.
-
+Pro tuto aplikaci potřebujete openHAB server.
 
 Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html

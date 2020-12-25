@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_notification_status_unavailable">Not available in the FOSS version</string>
+    <string name="push_notification_status_impaired">Notifications have limited functionality in the FOSS version. Touch for more information.</string>
+    <string name="push_notification_status_disabled">Notifications are disabled</string>
+    <string name="open_in_maps">Open in OpenStreetMap</string>
 </resources>

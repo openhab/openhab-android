@@ -10,31 +10,40 @@
         <attr name="fallback" format="reference" />
         <attr name="progressIndicator" format="reference" />
         <attr name="emptyHeightToWidthRatio" format="fraction" />
+        <attr name="addRandomnessToUrl" format="boolean" />
+        <attr name="imageScalingType" format="enum">
+            <enum name="noScaling" value="0" />
+            <enum name="scaleToFit" value="1" />
+            <enum name="scaleToFitWithViewAdjustment" value="2" />
+            <enum name="scaleToFitWithViewAdjustmentDownscaleOnly" value="3" />
+        </attr>
     </declare-styleable>
 
-    <declare-styleable name="SegmentedControlButton">
-        <attr name="underlineColor" format="color" />
-        <attr name="textDistanceFromLine" format="dimension" />
-        <attr name="underlineHeight" format="dimension" />
-        <attr name="backgroundColor" format="color" />
+    <declare-styleable name="ItemUpdatingPreference">
+        <attr name="summaryEnabled" format="string" />
+        <attr name="summaryDisabled" format="string" />
+        <attr name="iconEnabled" format="integer" />
+        <attr name="iconDisabled" format="integer" />
+        <attr name="helpUrl" format="string" />
     </declare-styleable>
 
     <declare-styleable name="customAttrs">
-        <attr name="themedArrowDownIcon" format="reference" />
-        <attr name="themedArrowUpIcon" format="reference" />
-        <attr name="themedArrowRightIcon" format="reference" />
-        <attr name="themedColorIcon" format="reference" />
-        <attr name="themedClearIcon" format="reference" />
-        <attr name="themedSpinnerCaret" format="reference" />
-        <attr name="widgetlistItemDivider" format="reference" />
-        <attr name="frameWidgetDividerBackground" format="reference" />
-        <attr name="imageLoadingIndicator" format="reference" />
         <attr name="chartTheme" format="string" />
         <attr name="valueColors" format="reference" />
+        <attr name="selectedWidgetBackgroundColor" format="color" />
     </declare-styleable>
 
-    <attr name="themedDrawerBackground" format="reference|color" />
-    <attr name="themedHeaderTextColor" format="reference|color" />
+    <declare-styleable name="CustomInputTypePreference">
+        <attr name="whitespaceBehavior" format="enum">
+            <enum name="ignore" value="0" />
+            <enum name="trim" value="1" />
+            <enum name="warn" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UrlInputPreference">
+        <attr name="isHttpEnabled" format="boolean" />
+    </declare-styleable>
 
     <item name="originalColor" type="id" />
 </resources>

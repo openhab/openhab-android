@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Satıcı ve teknoloji agnostik açık kaynaklı ev otomasyonu

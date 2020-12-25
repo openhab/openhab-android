@@ -1,0 +1,8 @@
+## Fixed
+* Catch SecurityException if ringtone is on external storage (#1646)
+* Ignore "com.android.calendar" for alarm clock (#1644)
+* Grey dark theme: Increase contrast between buttons and background (#1632)
+
+## Changed
+* Bump dependencies
+* Update translations

@@ -1,0 +1,2 @@
+## Added
+* Allow sending charging state to switch Items (#2097)

@@ -1,0 +1,7 @@
+## Added
+* Send battery level to server (#1851)
+* Run background tasks after boot (#1856)
+
+## Fixed
+* Don't show state from label in NFC success toast (#1872)
+* Remove newline from value view (#1848)

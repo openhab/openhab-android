@@ -1,0 +1,2 @@
+## Added
+* Add "Turn off" action to demo mode snackbar (#1258)

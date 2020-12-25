@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:background="?attr/selectableItemBackground"
+    android:focusable="false"
+    android:orientation="horizontal">
+
+    <org.openhab.habdroid.ui.widget.WidgetImageView
+        android:id="@+id/itemIcon"
+        android:layout_width="@dimen/notificationlist_icon_size"
+        android:layout_height="@dimen/notificationlist_icon_size"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="center_vertical"
+        app:imageScalingType="noScaling"
+        app:progressIndicator="@drawable/ic_openhab_appicon_24dp"
+        app:fallback="@drawable/ic_openhab_appicon_24dp"
+        tools:src="@drawable/ic_openhab_appicon_24dp" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="AndroidAlarmClock" />
+
+        <TextView
+            android:id="@+id/itemLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemName"
+            android:layout_alignParentStart="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="Alarm clock" />
+
+        <TextView
+            android:id="@+id/itemType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemName"
+            android:layout_toEndOf="@id/itemLabel"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textStyle="bold"
+            tools:text="Number" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -8,27 +8,30 @@
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="WhiteText">
-        <item name="android:textColor">#ffffff</item>
+    <style name="openHAB.Dialog.Base" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="dialogCornerRadius">8dp</item>
     </style>
 
-    <style name="SectionButton">
-        <item name="android:textColor">@color/sectionswitch_text</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:stretchColumns">0</item>
-        <item name="android:paddingLeft">8dip</item>
-        <item name="android:paddingRight">8dip</item>
-        <item name="android:paddingTop">4dip</item>
-        <item name="underlineHeight">2dp</item>
-        <item name="underlineColor">?attr/colorAccent</item>
-        <item name="textDistanceFromLine">10dp</item>
-        <!-- Our background uses theme attributes which doesn't work when inflated as
-             a drawable on API < 21. This is why we use that custom attribute which has
-             special handling in code. -->
-        <item name="backgroundColor">@color/sectionswitch_bg</item>
+    <style name="openHAB.Dialog.orange" parent="@style/openHAB.Dialog.Base">
+        <item name="colorPrimary">@color/openhab_orange</item>
+        <item name="colorSecondary">@color/openhab_orange</item>
     </style>
 
+    <style name="openHAB.Dialog.basicui" parent="@style/openHAB.Dialog.Base">
+        <item name="colorPrimary">@color/pink_a200</item>
+        <item name="colorSecondary">@color/pink_a200</item>
+    </style>
+
+    <style name="openHAB.Dialog.grey" parent="@style/openHAB.Dialog.Base">
+        <item name="colorPrimary">@color/secondary_color_grey_theme</item>
+        <item name="colorSecondary">@color/secondary_color_grey_theme</item>
+    </style>
+
+    <style name="openHAB.Slider" parent="@style/Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.SecondaryAsPrimary</item>
+    </style>
+
+    <style name="openHAB.OutlineButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeWidth">@dimen/outlineButtonStrokeWidth</item>
+    </style>
 </resources>

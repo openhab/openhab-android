@@ -1,0 +1,3 @@
+<resources>
+    <string name="controller_class" translatable="false">org.openhab.habdroid.ui.activity.ContentControllerTwoPane</string>
+</resources>

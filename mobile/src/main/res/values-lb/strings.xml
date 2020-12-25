@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- General app strings -->
+    <string name="app_preferences_name">Astellungen</string>
+    <string name="save">Späicheren</string>
+    <string name="discard">Annuléieren</string>
+    <string name="delete">Läschen</string>
+    <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
+    <string name="mainmenu_openhab_preferences">Astellungen</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="app_notifications">Notifikatiounen</string>
+    <string name="app_notifications_on_server">Notifikatiounen (%s)</string>
+    <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
+    <string name="mainmenu_openhab_selectsitemap">Standard Sitemap auswielen</string>
+    <string name="mainmenu_openhab_clearcache">Biller Cache eidel maachen</string>
+    <!-- App settings strings -->
+    <string name="settings_connection_title">Connectioun</string>
+    <string name="settings_display_title">Display</string>
+    <string name="settings_sitemap_title">Sitemap</string>
+    <string name="settings_misc_title">Verschiddenes</string>
+    <string name="settings_openhab_url">URL vum lokale Server</string>
+    <string name="settings_openhab_url_summary">D´ URL vum openHAB Dashboard (baséierend um Hostname oder IP). Wa konfiguréiert ass déi automatesch Erkennung desaktivéiert. Aktuell Astellung: %s</string>
+    <string name="settings_openhab_alturl">Server URL</string>
+    <string name="settings_openhab_alturl_summary">D´ URL vum openHAB Dashboard déi benotzt gëtt wann déi lokal Adress net verfügbar ass. Aktuell Astellung: %s</string>
+    <string name="settings_openhab_username">Benotzernumm</string>
+    <string name="settings_openhab_password">Passwuert</string>
+    <string name="settings_openhab_password_summary_weak">Schwaacht Passwuert gesat</string>
+    <string name="settings_openhab_password_summary_strong">Staarkt Passwuert gesat</string>
+    <string name="settings_openhab_sslclientcert">SSL Client Certificat</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Tipp heihinner fir Hiweiser an Erklärungen iwwer d´ Authentifizéierung per SSL Client Certificat ze kréien</string>
+    <string name="settings_openhab_sslclientcert_not_supported">SSL Client-Zertifikater sinn vun dengem Gerät net ennerstetzt</string>
+    <string name="settings_openhab_screentimeroff">Display Timer ausschalten</string>
+    <string name="settings_openhab_screentimeroff_summary">Display Ausschalt-Timer desaktivéieren wann openHAB leeft</string>
+    <string name="settings_openhab_demomode">Demo Modus</string>
+    <string name="settings_openhab_demomode_summary">Wann s de keen openHAB Server hues, schalt den Demo Modus an fir eng Iddi ze kréien wat openHAB kann.</string>
+    <string name="settings_openhab_theme">Design</string>
+    <string name="settings_accent_color">Akzent Faarw</string>
+    <string name="settings_select_a_color">Faarf auswielen</string>
+    <string name="settings_openhab_fullscreen">Fullscreen</string>
+    <string name="settings_openhab_icon_format">Icon Format</string>
+    <string name="settings_openhab_icon_format_png">Bitmap</string>
+    <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_image_widget_scaling">Biller un d\' Bildschierm Gréisst upassen</string>
+    <string name="settings_image_widget_scaling_summary_off">\'Image\' Widgets déi méi kleng sinn wei d\' Bildschierm Breet op hirer originaler Gréisst loossen</string>
+    <string name="settings_image_widget_scaling_summary_on">\'Image\' Widgets méi grouss oder méi kleng maachen fir se un Bildschierm Breet un ze passen</string>
+    <string name="settings_chart_scaling">Diagramm Skaléierung</string>
+    <string name="settings_chart_scaling_summary">Beuecht: Eng méi kleng Skaléierung mëscht d‘ Schrëft an d‘ Linnen méi kleng, et ass also méi Platz fir den Diagramm, mä d‘ Schrëft kéint manner lieserlech ginn.</string>
+    <string name="settings_chart_scaling_value_xs">Ganz kleng</string>
+    <string name="settings_chart_scaling_value_s">Kleng</string>
+    <string name="settings_chart_scaling_value_m">Standard</string>
+    <string name="settings_chart_scaling_value_l">Grouss</string>
+    <string name="settings_openhab_chart_hq">Héich opléisend Diagrammen</string>
+    <string name="settings_openhab_chart_hq_summary">Diagrammer generéieren ass opwänneg fir de Server. Wann s de keen staarke Server hues an d‘ Diagrammer lues lueden, schalt des Optioun aus fir d‘ Luedzäiten ze verbesseren.</string>
+    <string name="settings_clear_default_sitemap">Standard Sitemap ophiewen</string>
+    <string name="settings_no_default_sitemap">Keng Standard Sitemap gewielt</string>
+    <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
+    <string name="settings_openhab_alt_connection">Remote</string>
+    <string name="settings_openhab_connection">Lokal</string>
+    <string name="settings_ringtone">Schelltoun</string>
+    <string name="settings_ringtone_none">Keen</string>
+    <string name="settings_ringtone_on_external">Onbekannte Ringtone op externem Spächer</string>
+    <string name="settings_notification_vibration">Vibratioun</string>
+    <string name="settings_notification_vibration_off">Aus</string>
+    <string name="settings_notification_vibration_short">Kuerz</string>
+    <string name="settings_notification_vibration_long">Laang</string>
+    <string name="settings_notification_vibration_twice">Zwee mol</string>
+    <string name="settings_notification_ringtone_vibration">Schelltoun &amp; Vibratioun</string>
+    <string name="settings_connection_summary">Mat %s verbonne</string>
+    <string name="settings_insecure_connection_summary">Ongeséchert mat %s verbonnen</string>
+    <string name="beta">Beta</string>
+    <string name="settings_screen_lock">Displayspär</string>
+    <string name="settings_screen_lock_nolock_summary">Du muss eng Display Spär uschalten fir d‘ Spären vun App Zougrëff ze aktivéieren</string>
+    <string name="settings_screen_lock_off_summary">Zougrëff op d‘ App ass net gespaart</string>
+    <string name="settings_screen_lock_kiosk_summary">Zougrëff op d‘ App Astellungen ass mat der Android Display Spär oder Fangerofdrock gespaart</string>
+    <string name="settings_screen_lock_on_summary">Zougrëff op d‘ App Astellungen ass mat der Android Display Spär oder Fangerofdrock gespaart\nHiwäis: Widgets kennen trotzdeem benotzt ginn</string>
+    <string name="screen_lock_unlock_screen_description">Entspären fir Zougrëff op openHAB ze kréien</string>
+    <string name="screen_lock_unlock_preferences_description">Entspär fir Zougrëff op d‘ Astellungen ze kréien</string>
+    <string name="settings_screen_lock_off">Aus</string>
+    <string name="settings_screen_lock_kiosk">Kiosk Modus</string>
+    <string name="settings_screen_lock_on">Un</string>
+    <string name="settings_show_sitemaps_in_drawer">Weis all Sitemaps am Menü op der lénker Säit un</string>
+    <string name="settings_server_name">Server Numm</string>
+    <string name="settings_add_server">Server bäifügen</string>
+    <string name="settings_edit_server">Server änneren</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Wéinstens e Server Numm an eng Verbindung gi gebraucht</string>
+    <string name="settings_server_confirm_deletion">Wëlls de wierklech dësen Server läschen?</string>
+    <string name="settings_server_confirm_leave_title">Ongespäichert Ännerungen</string>
+    <string name="settings_server_confirm_leave_message">Du hues Ännerungen gemaach. Wëlls de des späicheren oder ignoréieren?</string>
+    <string name="settings_server_primary_title">Hapt Server</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <!-- App messages strings -->
+    <string name="title_voice_widget">Sproochbefeeler</string>
+    <string name="voice_command">Sproochbefeel</string>
+    <string name="title_voice_widget_icon">Sproochbefeeler an App Shortcut</string>
+    <string name="info_voice_input">openHAB, zu dengen Déngscht!</string>
+    <string name="info_voice_recognized_text">Erkannte Befeel: %1$s</string>
+    <string name="info_demo_mode_short">Leeft am Demo Modus</string>
+    <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Ausschalte</string>
+    <string name="info_conn_url">Verbanne mat URL</string>
+    <string name="info_conn_rem_url">Verbanne mat Remote URL</string>
+    <string name="app_shortcut_disabled_habpanel">Op dengem Server ass HABPanel net installéiert</string>
+    <string name="app_shortcut_disabled_notifications">Däin Remote-Host Server ass net verfügbar</string>
+    <string name="app_shortcut_disabled_voice_recognition">Däi Gerät huet keng Sproocherkennungs App installéiert</string>
+    <string name="no_position_set">Positioun net gesat</string>
+    <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB huet eng eidel Sitemap Lescht geschéckt</string>
+    <string name="error_sitemap_generic_load_error">D‘ Sitemap konnt net geluede ginn. Folgende Feeler ass opgetrueden: %1$s</string>
+    <string name="error_network_not_available">D\'Netzwierk ass net verfügbar</string>
+    <string name="error_wifi_not_available">Wi-Fi ass ausgeschalt</string>
+    <string name="error_http_connection_failed">Connectioun ass feelgeschloen. Et ass eng onerwaarten Äntwert ukomm, beim Versuch sech un den konfiguréierten openHAB Server ze verbannen (Empfaangenen HTTP Äntwert Code: %d).</string>
+    <string name="error_invalid_url">Gëff w.e.g. eng valid URL an der \'http(s)://host(:port)/\' Form an</string>
+    <string name="error_invalid_https_url">Gëff w.e.g. eng valid URL an der \'https://host(:port)/\' Form an</string>
+    <string name="error_port_seems_invalid">De Port deen s du uginn schéngt net valid fir den ausgewielten Protokoll</string>
+    <string name="error_connection_failed">D\'Verbindung zum Host ass schif gaangen</string>
+    <string name="error_unable_to_resolve_hostname">Den Hostname kann net opgeléist ginn</string>
+    <string name="error_unknown">En onbekannte Feeler ass opgetrueden: %s</string>
+    <string name="error_connection_sslhandshake_failed">Den SSL Handshake ass schif gaangen</string>
+    <string name="error_certificate_not_trusted">D‘ SSL Zertifikat ass net vertrauenswierdeg. Importéier w.e.g. Root Zertifikat oder acceptéier d‘ Zertifikat wärend dem SSL Handshake.</string>
+    <string name="error_certificate_expired">D‘ SSL Zertifikat ass ofgelaf. Kuck w.e.g. dass de en neit Zertifikat kriss oder acceptéier d‘ Zertifikat wärend dem SSL Handshake.</string>
+    <string name="error_certificate_not_valid_yet">D‘ SSL Zertifikat ass nach net valid. Kuck w.e.g. dass de en richtegt Zertifikat kriss oder acceptéier d‘ Zertifikat wärend dem SSL Handshake. Iwwerpréif och dass d‘ Auer op dengem Gerät richteg gesat ass.</string>
+    <string name="error_certificate_invalid_date">D‘ SSL Zertifikat huet keen validen Datum. Kuck w.e.g. dass de en richtegt Zertifikat kriss an iwwerpréif dass d‘ Auer op dengem Gerät richteg gesat ass.</string>
+    <string name="error_certificate_revoked">D‘ SSL Zertifikat ass revoquéiert ginn. Kuck w.e.g. dass de en neit Zertifikat kriss oder acceptéier d‘ Zertifikat wärend dem SSL Handshake.</string>
+    <string name="error_certificate_wrong_host">D‘ SSL Zertifikat ass net valid fir %s</string>
+    <string name="error_http_to_https_port">Onerwaarten Enn vum Stream. Probéiers du dech op en HTTPS Port via HTTP ze verbannen?</string>
+    <string name="webview_ssl">Momentan ënnerstëtzt des App keng selwer-signéiert SSL Zertifikater fir Webview Widgets</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentifizéierung feelgeschloe. Iwwerpréif w.e.g. de konfiguréierten Benotzernumm an Passwuert bezéiungsweis d‘ SSL Client-Zertifikat (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL ass ze laang. Benotz w.e.g. d‘ IP oder eng méi kuerz URL (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS ass verlaangt. Änner w.e.g. d‘ URL (HTTP Äntwert Code %d).</string>
+    <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Authentifizéierung feelgeschloen. Iwwerpréif w.e.g. d‘ SSL Client-Zertifikat (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Et gëtt en SSL Client-Zertifika gebraucht (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Däi Reverse-Proxy huet eng invalid Äntwert vum openHAB Server kritt (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Den openHAB Server ass temporär net verfügbar (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway Time-out. Et gesäit sou aus wei wann däin Reverse-Proxy leeft mä keng Äntwert vum openHAB Server krut (HTTP Äntwert Code %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Den openHAB Server huet net genuch fräie Späicher (HTTP Äntwert Code %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Netzwierk-Authentifizéierung erfuerderlech (HTTP Äntwert Code %d)</string>
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB ass offline</string>
+    <string name="error_short_http_connection_failed">HTTP Code %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Feeler beim opléisen vum Hostnumm</string>
+    <string name="error_short_unknown">Onbekannte Feeler: %s</string>
+    <string name="error_short_certificate_not_trusted">Certificat net vertrauenswierdeg</string>
+    <string name="error_short_certificate_expired">Certificat ass net ofgelaf</string>
+    <string name="error_short_certificate_not_valid_yet">Certificat ass nach net valid</string>
+    <string name="error_short_certificate_revoked">Certificat ass revoquéiert</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL feelgeschloen</string>
+    <string name="error_short_connection_failed">Verbindung feelgeschloen</string>
+    <string name="error_short_http_to_https_port">Mat HTTPS op en HTTP Port verbonnen?</string>
+    <string name="error_short_certificate_wrong_host">Certificat ass net valid fir %s</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Authentifikatioun ass feelgeschloen (HTTP Code %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Net fonnt (HTTP Code %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL ass ze laang (HTTP Code %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS erfuerderlech (HTTP Code %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Authentifikatioun ass feelgeschloen (HTTP Code %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Et gëtt en SSL Client-Certificat gebraucht (HTTP Code %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Däi Reverse-Proxy huet eng invalid Äntwert vum openHAB Server kritt (HTTP Code %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">Den openHAB Server ass temporär net verfügbar (HTTP Code %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway Time-out (HTTP Code %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Et ass net genuch fräie Späicher um Server (HTTP Code %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Netzwierk-Authentifizéierung erfuerderlech (HTTP Äntwert Code %d)</string>
+    <string name="error_openhab_offline">Däin openHAB Server ass Offline, mä d‘ Cloud Instanz leeft</string>
+    <string name="error_no_browser_found">Es ass kee Browser op dengem Gerät fonnt ginn</string>
+    <string name="error_no_speech_to_text_app_found">Keng Sproocherkennungs App fonnt</string>
+    <string name="error_video_player">%s kann net geluede ginn</string>
+    <string name="install">Installéieren</string>
+    <string name="title_activity_openhabwritetag">NFC-Tag schreiwen</string>
+    <string name="title_activity_libraries">Benotzten Librairien</string>
+    <string name="info_write_tag">Beréier den Tag an hal en no bäi bis de Bestätegung s Message kennt</string>
+    <string name="info_write_tag_progress">Tag gëtt geschriwwen</string>
+    <string name="info_write_tag_finished">Den Tag gouf erfollegräich beschriwwen</string>
+    <string name="info_write_failed">Feeler beim schreiwen vum Tag</string>
+    <string name="info_write_tag_unsupported">Dëst Gerät huet keng NFC Ënnerstëtzung</string>
+    <string name="info_write_tag_disabled">NFC ass ausgeschalt</string>
+    <string name="action_settings">Astellungen</string>
+    <string name="info_not_set">Net gesat</string>
+    <string name="empty_page">Des Säit huet keng visibel Widgets</string>
+    <!-- Background tasks -->
+    <string name="send_device_info_to_server">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
+    <string name="send_device_info_to_server_short">Apparat-Informatiounen schécken</string>
+    <string name="send_device_info_category_event_based_title">Evenement baséiert</string>
+    <string name="send_device_info_category_event_based_explanation">Des Items ginn baséierend op Evenementer geupdate, z.B. en neien Uruff</string>
+    <string name="send_device_info_category_schedule_based_title">Baséierend op engem Zäitplang</string>
+    <string name="send_device_info_foreground_service_title">Iwwerwaachung vun Evenementer</string>
+    <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
+    <string name="settings_alarm_clock">Erwächzäit</string>
+    <string name="settings_alarm_clock_summary_on">Erwächzäit un den Item \'%1$s\' schécken</string>
+    <string name="settings_alarm_clock_summary_off">Erwächzäit net schécken</string>
+    <string name="settings_phone_state">Uruff Status</string>
+    <string name="settings_phone_state_summary_on">Schéckt den Uruffstatus un den Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Uruffstatus net schécken</string>
+    <string name="settings_phone_state_permission_denied">D‘ Schecken vum Uruffstatus ass feelgeschloe wéinst feelende Permissiounen</string>
+    <string name="settings_battery_level">Akkuniveau</string>
+    <string name="settings_battery_level_summary_on">Schéckt den Akkustatus un den Item %1$s</string>
+    <string name="settings_battery_level_summary_off">Akkustatus net schécken</string>
+    <string name="settings_charging_state">Akkustatus</string>
+    <string name="settings_charging_state_summary_on">Schéckt den Akkustatus un den Item %1$s</string>
+    <string name="settings_charging_state_summary_off">Akkustatus net schécken</string>
+    <string name="settings_wifi_ssid">Wi-Fi Numm</string>
+    <string name="settings_wifi_ssid_summary_on">Schéckt den Wi-Fi Numm (SSID) un den Item %1$s</string>
+    <string name="settings_wifi_ssid_summary_off">Wi-Fi Numm net schécken (SSID)</string>
+    <string name="settings_wifi_ssid_permission_denied">D‘ Schécken vum Wi-Fi Numm ass ausgeschalt wéinst feelende Permissiounen</string>
+    <string name="settings_dnd_mode">Net-Steieren Modus</string>
+    <string name="settings_dnd_mode_summary_on">Schéckt den Net-Steieren Modus un den Item %1$s</string>
+    <string name="settings_dnd_mode_summary_off">Net-Steieren Modus net schécken</string>
+    <string name="settings_background_tasks_permission_allow">Erlaben</string>
+    <string name="settings_item_pref_item_name">Item Numm</string>
+    <string name="waiting_for_item_upload">Waarden op d\'Netzwierk fir Item Updates ze schécken</string>
+    <string name="item_upload_in_progress">D\'Items ginn aktualiséiert</string>
+    <string name="notification_channel_background">Hannergrond Aufgaben</string>
+    <string name="notification_channel_background_error">Feeler an den Hannergrond Prozesser</string>
+    <string name="notification_channel_messages_default_severity">Standard</string>
+    <string name="notification_channel_group_messages">Messagen</string>
+    <string name="notification_channel_severity_value">Eescht \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nei Notifikatioun</item>
+        <item quantity="other">%d nei Notifikatiounen</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Net verfügbar well keen Server agestallt ass</string>
+    <string name="push_notification_status_remote_no_cloud">Net verfügbar well den agestallte Server keng openHAB Cloud Instanz ass</string>
+    <string name="push_notification_status">Status</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
+        <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
+    </plurals>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_connection_error">Den Item \'%1$s\' konnt net geupdate ginn (Keng Verbindung)</string>
+    <string name="item_update_connection_error_label">%1$s Update huet net funktionéiert (keng Verbindung)</string>
+    <string name="item_update_short_status_waiting">Waarden…</string>
+    <string name="item_update_short_status_sending">Schécken…</string>
+    <string name="item_update_short_status_failed">Feelgeschloen</string>
+    <string name="error_no_valid_item_name">Gitt w.e.g. en valabelen Item Numm un</string>
+    <string name="retry">Nach emol probéieren</string>
+    <string name="ignore">Ignoréieren</string>
+    <string name="send_device_info_schedule">Zäitplang</string>
+    <string name="send_device_info_schedule_summary">All 15 Minutten wärend dem lueden, soss all %s</string>
+    <string name="send_device_info_schedule_15_minutes">15 Minutten</string>
+    <string name="send_device_info_schedule_1_hour">1 Stonn</string>
+    <string name="send_device_info_schedule_3_hours">3 Stonnen</string>
+    <string name="send_device_info_schedule_6_hours">6 Stonnen</string>
+    <string name="send_device_info_schedule_12_hours">12 Stonnen</string>
+    <!-- Device identifier -->
+    <string name="device_identifier_title">Apparat-Identifikatioun</string>
+    <!-- Please translate "Device identifier" in this string -->
+    <!-- Notification list strings -->
+    <string name="notification_list_empty">Bis elo goufe keng Notifikatiounen verschéckt</string>
+    <string name="notification_list_error">Wärend dem Lueden vun den Notifikatiounen ass e Feeler geschitt</string>
+    <string name="list_loading_message">Lueden\u2026</string>
+    <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Onbekannten Zertifikat unhuelen?</string>
+    <string name="mtm_trust_anchor">Den Zertifikat ass net vun enger bekannter Zertifikat Autoritéit signéiert ginn</string>
+    <string name="mtm_cert_expired">Den Zertifikat vum Server ass ofgelaf</string>
+    <string name="mtm_accept_servername">Onpassenden Server Numm unhuelen?</string>
+    <string name="mtm_hostname_mismatch">De Server konnt mat \&quot;%s\&quot; authentifizéiert ginn. De Zertifika ass nëmmen valid fir:</string>
+    <string name="mtm_connect_anyway">Wëllt Dir Iech awer verbannen?</string>
+    <string name="mtm_cert_details">Detailer vum Zertifikat:</string>
+    <string name="mtm_decision_always">Acceptéieren</string>
+    <string name="mtm_decision_abort">Ofbriechen</string>
+    <string name="mtm_notification">Kontroll vum Zertifikat</string>
+    <string name="settings_openhab_none">Keen</string>
+    <!-- Themes -->
+    <string name="theme_name_light">Hell</string>
+    <string name="theme_name_dark">Däischter</string>
+    <string name="theme_name_system">System no goen</string>
+    <string name="theme_name_battery_saver">Donkele Modus am Energiespuermodus</string>
+    <string name="theme_name_black">Schwaarz</string>
+    <!-- Chart -->
+    <string name="chart_activity_title">Diagramm</string>
+    <string name="chart_activity_hide_legend">Legend verstoppen</string>
+    <string name="chart_activity_show_legend">Legend uweisen</string>
+    <string name="chart_activity_period">Zäitraum</string>
+    <string name="chart_activity_period_1_hour">1 Stonn</string>
+    <string name="chart_activity_period_4_hour">4 Stonnen</string>
+    <string name="chart_activity_period_8_hour">8 Stonnen</string>
+    <string name="chart_activity_period_12_hour">12 Stonnen</string>
+    <string name="chart_activity_period_1_day">1 Dag</string>
+    <string name="chart_activity_period_2_day">2 Deeg</string>
+    <string name="chart_activity_period_3_day">3 Deeg</string>
+    <string name="chart_activity_period_1_week">1 Woch</string>
+    <string name="chart_activity_period_2_week">2 Wochen</string>
+    <string name="chart_activity_period_1_month">1 Mount</string>
+    <string name="chart_activity_period_2_month">2 Méint</string>
+    <string name="chart_activity_period_4_month">4 Méint</string>
+    <string name="chart_activity_period_1_year">1 Joer</string>
+    <!-- NFC -->
+    <string name="nfc_action_on">Un</string>
+    <string name="nfc_action_up">Erop</string>
+    <string name="nfc_action_off">Aus</string>
+    <string name="nfc_action_down">Erof</string>
+    <string name="nfc_action_toggle">Ëmschalten</string>
+    <string name="nfc_action_toggled">Ëmgeschalt</string>
+    <string name="nfc_action_undefined">Ondefinéiert</string>
+    <string name="nfc_action_empty_string">Eidelen Text</string>
+    <string name="nfc_action_increase">Eropsetzen</string>
+    <string name="nfc_action_decrease">Erofsetzen</string>
+    <string name="nfc_action_play">Play</string>
+    <string name="nfc_action_pause">Paus</string>
+    <string name="nfc_action_next">Weider</string>
+    <string name="nfc_action_previous">Zeréck</string>
+    <string name="nfc_action_rewind">Zeréck spullen</string>
+    <string name="nfc_action_fastforward">No fir spullen</string>
+    <string name="nfc_action_move">Beweegen</string>
+    <string name="nfc_action_stop">Stopp</string>
+    <string name="nfc_action_open">Opgemaach</string>
+    <string name="nfc_action_closed">Zou</string>
+    <string name="nfc_activate">Aktivéieren</string>
+    <string name="nfc_action_current_color">Aktuell Faarw</string>
+    <string name="nfc_action_to_sitemap_page">NFC Tag vun der Sitemap schreiwen</string>
+    <string name="nfc_action_write_command_tag">NFC Tag vum Item schreiwen</string>
+    <!-- Drawer -->
+    <string name="drawer_open">Sitemap Menü ass op</string>
+    <string name="drawer_close">Sitemap Menü ass zou</string>
+    <string name="mainmenu_openhab_voice_recognition">Sproocherkennung</string>
+    <!-- About -->
+    <string name="about_title">Iwwer</string>
+    <string name="about_license_title">Lizenz</string>
+    <string name="about_changelog">Changelog</string>
+    <string name="about_source_code">Source Code</string>
+    <string name="about_issues">E Problem mellen</string>
+    <string name="about_docs">Dokumentatioun</string>
+    <string name="about_community_forum">Community-Forum</string>
+    <string name="about_foundation">openHAB Fondatioun</string>
+    <string name="about_community">openHAB-Community</string>
+    <string name="about_translation">Hëllef eis openHAB ze iwwersetzen</string>
+    <string name="about_privacy_policy">Dateschutzerklärung</string>
+    <string name="about_rate_this_app">Des App bewäerten</string>
+    <string name="settings_debug_messages_title">Erweidert Feelermeldungen</string>
+    <string name="settings_troubleshooting_title">Feelerbehiewung</string>
+    <string name="set">Setzen</string>
+    <string name="cancel">Ofbriechen</string>
+    <string name="close">Zoumaachen</string>
+    <string name="try_again_button">Nach eng Kéier probéieren</string>
+    <string name="enable_wifi_button">Wi-Fi u maachen</string>
+    <string name="go_to_settings_button">Bei d\' Astellungen goen</string>
+    <string name="enable_demo_mode_button">Demo Modus umaachen</string>
+    <string name="configuration_missing">Mir hu keen openHAB Server an dengem Netzwierk fonnt. Wann s du schonn en Server hues, dann konfiguréier d\'IP Adress oder den Hostname, an den Server Astellungen. Wann s du nach keen Server hues, kanns du den Demo Modus aktivéieren fir ze gesinn wat den openHAB System kann.</string>
+    <string name="no_remote_server">D\'Verbindung zum lokalen Server ass schif gaangen an du hues keen Remote Server konfiguréiert</string>
+    <string name="resolving_openhab">Versichen d\'openHAB Server Instanz \u2026 ze fannen</string>
+    <string name="waiting_for_wifi">Waarden op d\'Hierstellung vun der Wi-Fi Verbindung \u2026</string>
+    <string name="visit_status_openhab_org">Gei op status.openhab.org</string>
+    <!-- Log -->
+    <string name="log">Log</string>
+    <string name="view_log">Log uweisen</string>
+    <string name="log_activity_action_clear_log">Log läschen</string>
+    <string name="log_activity_action_show_errors">Nëmmen Feeler uweisen</string>
+    <string name="log_activity_action_show_all">All Messagen uweisen</string>
+    <string name="log_activity_action_reload">Nei lueden</string>
+    <string name="log_activity_content_description_share">Log deelen</string>
+    <string name="empty_log">Log ass eidel</string>
+    <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Op den Startbildschierm pechen</string>
+    <string name="home_shortcut_error_pinning">Feeler beim pechen op den Startbildschierm</string>
+    <string name="home_shortcut_success_pinning">Op den Startbildschierm gepecht</string>
+    <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Rolllued op maachen</string>
+    <string name="content_description_stop_roller_shutter">Rolllued stoppen</string>
+    <string name="content_description_close_roller_shutter">Rolllued zou maachen</string>
+    <string name="content_description_open_color_wheel">Faarw Auswiel opmaachen</string>
+    <string name="content_description_color_up">Un oder halen fir d\'Hellegkeet erop ze setzen</string>
+    <string name="content_description_color_down">Aus oder halen fir d\'Hellegkeet erof ze setzen</string>
+    <string name="content_description_open_number_picker">Nummer Auswiel opmaachen</string>
+    <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">openHAB opmaachen</string>
+    <string name="content_description_increase_item_value">Wäert vum Item eropsetzen</string>
+    <string name="content_description_decrease_item_value">Wäert vum Item erofsetzen</string>
+    <string name="swipe_to_refresh_description">D\'App aktualiséiert sech automatesch, Du brauchs et net manuell ze maachen</string>
+    <string name="got_it">Verstanen!</string>
+    <!-- Intro strings -->
+    <string name="app_intro">Introduktioun</string>
+    <string name="intro_welcome">Wëllkomm bei openHAB</string>
+    <string name="intro_welcome_back">Wëllkomm zeréck bei openHAB</string>
+    <string name="intro_app_restored">Bis op d‘ Server Login Informatiounen, sinn di meescht vun dengen Astellungen sinn erëm hiergestallt</string>
+    <string name="intro_whatis">Eng Verkeefer an Technik agnostescht Open-Source Automatiséierungs Software fir Äert Haus</string>
+    <string name="intro_voice_description">Kontrolléiert Äert Haus mat Ärer Stemm</string>
+    <string name="intro_nfc">NFC</string>
+    <string name="intro_nfc_description">D‘ Kontroll vum Item kann un en NFC Tag gebonne ginn an deem een laang op den Item dréckt</string>
+    <string name="intro_send_device_info">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
+    <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">Iwwersprangen</string>
+    <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">Fäerdeg</string>
+    <!-- Item picker -->
+    <string name="item_picker_list_empty">Keen Item fonnt</string>
+    <string name="item_picker_list_error">E Feeler ass beim lueden vun den Items opgetrueden</string>
+    <string name="item_picker_custom">Personaliséiert</string>
+    <string name="item_picker_dialog_title">Aktioun auswielen</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">\"%1$s\" (%2$s) op \"%3$s\" setzen</string>
+    <string name="item_picker_tasker_variable">Tasker Variabel \"%s\"</string>
+    <string name="item_picker_item_update">Aktualiséierung</string>
+    <string name="item_picker_item_command">Kommando</string>
+    <string name="item_picker_contact_no_command">Kontakt Items kënne keng Item Kommandoen empfänken, ass op Update geännert ginn</string>
+    <string name="search">Sichen</string>
+    <string name="settings_tasker_plugin">Abannen vum Tasker</string>
+    <string name="settings_tasker_plugin_summary">Schalt Tasker Action Plugin an fir d‘ Updaten vun Items via Tasker oder aneren kompatibelen Apps ze erlaben</string>
+    <string name="tasker_plugin_disabled">Tasker-Plugin ass desaktivéiert</string>
+    <string name="turn_on">Aschalten</string>
+    <string name="press_back_to_exit">Nach eemol drécke fir zou ze maachen</string>
+    <!-- Item update widget -->
+    <string name="item_update_widget_title">Item Steierung</string>
+    <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
+    <string name="item_update_widget_content_description_edit">Wdiet editéieren</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Item auswielen</string>
+    <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
+    <string name="item_update_success_message_on">%s ass ageschalt ginn</string>
+    <string name="item_update_success_message_off">%s ass ausgeschalt ginn</string>
+    <string name="item_update_success_message_up">%s fänkt un erop ze goen</string>
+    <string name="item_update_success_message_down">%s fänkt un erof ze goen</string>
+    <string name="item_update_success_message_move">%s fänkt un sech ze beweegen</string>
+    <string name="item_update_success_message_stop">%s ass gestoppt ginn</string>
+    <string name="item_update_success_message_increase">%s ass erhéicht ginn</string>
+    <string name="item_update_success_message_decrease">%s ass verréngert ginn</string>
+    <string name="item_update_success_message_undefined">%s ass op ondefinéiert gesat ginn</string>
+    <string name="item_update_success_message_empty_string">%s ass op en eidelen String gesat ginn</string>
+    <string name="item_update_success_message_play">%s leeft</string>
+    <string name="item_update_success_message_pause">%s ass gepaust ginn</string>
+    <string name="item_update_success_message_next">%s weist den nächsten Titel</string>
+    <string name="item_update_success_message_previous">%s weist den viregten Titel</string>
+    <string name="item_update_success_message_rewind">%s spullt zeréck</string>
+    <string name="item_update_success_message_fastforward">%s spullt no fir</string>
+    <string name="item_update_short_success_message_generic">Op %s setzen</string>
+    <string name="item_update_short_success_message_on">Ageschalt</string>
+    <string name="item_update_short_success_message_off">Ausgeschalt</string>
+    <string name="item_update_short_success_message_up">Fänkt un erop ze goen</string>
+    <string name="item_update_short_success_message_down">Fänkt un erof ze goen</string>
+    <string name="item_update_short_success_message_move">Fänkt un sech ze beweegen</string>
+    <string name="item_update_short_success_message_stop">Gestoppt</string>
+    <string name="item_update_short_success_message_increase">Eropgesat</string>
+    <string name="item_update_short_success_message_decrease">Erofgesat</string>
+    <string name="item_update_short_success_message_undefined">Op ondefinéiert setzen</string>
+    <string name="item_update_short_success_message_empty_string">Op eidelen Text setzen</string>
+    <string name="item_update_short_success_message_play">Gett ofgespillt</string>
+    <string name="item_update_short_success_message_pause">Gepaust</string>
+    <string name="item_update_short_success_message_next">Weist den nächsten Titel un</string>
+    <string name="item_update_short_success_message_previous">Weist den viregten Titel un</string>
+    <string name="item_update_short_success_message_rewind">Spullt zeréck</string>
+    <string name="item_update_short_success_message_fastforward">Spullt schnell no fir</string>
+    <string name="item_update_error_no_connection_retry">Feeler beim schécken vum Item Update, probéieren weider\u2026</string>
+    <string name="item_update_error_no_connection">Keng Connectioun</string>
+    <string name="item_update_error_couldnt_get_item_type">Item-Typ net fonnt</string>
+    <string name="create_home_screen_widget_title">Widget erstellen</string>
+    <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
+    <string name="item_update_widget_widget_label">Widget Label</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
+    <string name="data_saver_title">Datespuermodus</string>
+    <string name="data_saver_off_pre_n">All Sitemap Elementer gi gelueden, onofhängeg vun hirer Datenotzung</string>
+    <string name="data_saver_load">Trotzdeem lueden</string>
+    <string name="data_saver_hint">%s ass net gelueden ginn fir Daten ze spueren</string>
+    <string name="data_saver_snackbar">Icons sinn net baséiert op Item Statussen, well den Datespuermodus aktiv ass</string>
+    <string name="widget_type_image">Bild</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Kaart</string>
+    <string name="widget_type_chart">Diagramm</string>
+    <!-- Tiles -->
+    <string name="tile">Block</string>
+    <string name="tiles_for_quick_settings">Bléck fir schnell Astellungen</string>
+    <string name="tile_item_picker_title">Item auswielen</string>
+    <string name="tile_error_saving">Fell w.e.g. all Astellungen aus</string>
+    <string name="tile_disabled">Ausgeschalt</string>
+    <string name="tile_enable">Umaachen</string>
+    <string name="item_item_and_action">Item an Aktioun</string>
+    <string name="tile_name">Numm</string>
+    <string name="tile_icon">Icon</string>
+    <string name="tile_require_unlock">Bildschierm muss entspaart sinn</string>
+    <string name="tile_require_unlock_summary_on">Froen fir den Bildschierm ze entspären fir dass Items kennen modifizéiert ginn</string>
+    <string name="tile_require_unlock_summary_off">Änneren vun Items erlaben wann d\' Gerät gespaart ass</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktive Block</item>
+        <item quantity="other">%d aktiv Bléck</item>
+    </plurals>
+    <string name="tile_number">Block %d</string>
+    <string name="tile_label_1">Block 1</string>
+    <string name="tile_label_2">Block 2</string>
+    <string name="tile_label_3">Block 3</string>
+    <string name="tile_label_4">Block 4</string>
+    <string name="tile_label_5">Block 5</string>
+    <string name="tile_label_6">Block 6</string>
+    <string name="tile_label_7">Block 7</string>
+    <string name="tile_label_8">Block 8</string>
+    <string name="tile_label_9">Block 9</string>
+    <string name="tile_label_10">Block 10</string>
+    <string name="tile_label_11">Block 11</string>
+    <string name="tile_label_12">Block 12</string>
+    <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB Icon</string>
+    <string name="tile_icon_tv">Tëlee</string>
+    <string name="tile_icon_radio">Radio</string>
+    <string name="tile_icon_bulb">Bier</string>
+    <string name="tile_icon_clock">Auer</string>
+    <string name="tile_icon_alarm_clock">Wecker</string>
+    <string name="tile_icon_bell">Klack</string>
+    <string name="tile_icon_cloud_upload">Cloud Upload</string>
+    <string name="tile_icon_earth">Äerd</string>
+    <string name="tile_icon_chat">Sproochblosen</string>
+    <string name="tile_icon_house">Haus</string>
+    <string name="tile_icon_lock">Spären</string>
+    <string name="tile_icon_microphone">Mikro</string>
+    <string name="tile_icon_color_palette">Faarfpalett</string>
+    <string name="tile_icon_people">Leit</string>
+    <string name="tile_icon_person">Persoun</string>
+    <string name="tile_icon_phone">Telefon</string>
+    <string name="tile_icon_power_plug">Stroumuschloss</string>
+    <string name="tile_icon_battery">Akku</string>
+    <string name="tile_icon_magnifier">Lupp</string>
+    <string name="tile_icon_star">Stär</string>
+    <string name="tile_icon_tree">Bam</string>
+    <string name="tile_icon_dashboard">Dashboard</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Schëld</string>
+    <string name="tile_icon_man">Mann</string>
+    <string name="tile_icon_bed">Bett</string>
+    <string name="tile_icon_child">Kand</string>
+    <string name="tile_icon_baby">Puppelchen</string>
+    <string name="tile_icon_settings">Zännrad</string>
+    <string name="tile_icon_bath">Buedzëmmer</string>
+    <string name="tile_icon_woman">Fra</string>
+    <string name="tile_icon_roller_shutter">Rolllued</string>
+    <string name="tile_icon_camera">Kamera</string>
+    <string name="tile_icon_light_switch">Luuchte Schalter</string>
+    <string name="tile_icon_garage">Garage</string>
+    <string name="tile_icon_switch">Schalter</string>
+    <string name="tile_icon_sofa">Canapé</string>
+    <string name="tile_icon_lamp_ceiling">Plaffong \'s Luucht</string>
+    <string name="tile_icon_lamp_floor">Stéiluucht</string>
+    <string name="tile_icon_lamp_bedside">Nuetsdësch Luucht</string>
+    <string name="tile_icon_lamp_outdoor">Bausseluucht</string>
+    <!-- Tile icon values -->
+</resources>

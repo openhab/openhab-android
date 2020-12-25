@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.openhab.habdroid.ui.widget.SegmentedControlButton xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/SectionButton"
-    android:text=""
-    android:focusable="false"
-    android:focusableInTouchMode="false" />
+<com.google.android.material.button.MaterialButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?materialButtonOutlinedStyle"
+    android:theme="@style/ThemeOverlay.MaterialComponents.SecondaryAsPrimary"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+    android:minWidth="0dp" />

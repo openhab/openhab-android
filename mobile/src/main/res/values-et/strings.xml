@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- General app strings -->
+    <string name="app_preferences_name">Seaded</string>
+    <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Sisukaardid</string>
+    <string name="mainmenu_openhab_preferences">Seaded</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="app_notifications">Teavitused</string>
+    <string name="habpanel_error">HABPaneli laadimisel ilmnes viga</string>
+    <string name="mainmenu_openhab_clearcache">Tühjendage piltide vahemälu</string>
+    <!-- App settings strings -->
+    <string name="settings_connection_title">Ühendus</string>
+    <string name="settings_display_title">Ekraan</string>
+    <string name="settings_sitemap_title">Sisukaart</string>
+    <string name="settings_misc_title">Mitmesugust</string>
+    <string name="settings_openhab_username">Kasutajanimi</string>
+    <string name="settings_openhab_password">Parool</string>
+    <string name="settings_openhab_sslclientcert">SSL kliendisertifikaat</string>
+    <string name="settings_openhab_demomode">Demorežiim</string>
+    <string name="settings_openhab_theme">Teema</string>
+    <string name="settings_accent_color">Rõhuvärv</string>
+    <string name="settings_select_a_color">Vali värv</string>
+    <string name="settings_openhab_fullscreen">Täisekraan</string>
+    <string name="settings_openhab_icon_format">Ikooni formaat</string>
+    <string name="settings_openhab_icon_format_png">Bitikaart</string>
+    <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_chart_scaling_value_xs">Väga väike</string>
+    <string name="settings_chart_scaling_value_s">Väike</string>
+    <string name="settings_chart_scaling_value_m">Vaikimisi</string>
+    <string name="settings_chart_scaling_value_l">Suur</string>
+    <string name="settings_openhab_alt_connection">Kaugjuhtimine</string>
+    <string name="settings_openhab_connection">Kohalik</string>
+    <string name="settings_ringtone_none">Mitte ükski</string>
+    <string name="settings_notification_vibration_off">Väljas</string>
+    <string name="settings_notification_vibration_short">Lühike</string>
+    <string name="settings_notification_vibration_long">Pikk</string>
+    <string name="settings_connection_summary">Ühendatud võrguga %s</string>
+    <string name="beta">Beeta</string>
+    <string name="settings_screen_lock">Ekraanilukk</string>
+    <string name="settings_screen_lock_off">Väljas</string>
+    <string name="settings_screen_lock_on">Sees</string>
+    <!-- App messages strings -->
+    <string name="title_voice_widget">Häälkäsklused</string>
+    <string name="info_demo_mode_short">Töötab demo režiimis</string>
+    <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Sulge</string>
+    <string name="info_conn_url">Ühenduse loomine kohaliku URL-iga</string>
+    <string name="info_conn_rem_url">Ühendamine serveri URL-iga</string>
+    <!-- Error messages -->
+    <string name="error_network_not_available">Võrk ei ole saadaval</string>
+    <string name="error_wifi_not_available">Wi-Fi on välja lülitatud</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_unknown">Tundmatu viga: %s</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL ebaõnnestus</string>
+    <string name="error_short_connection_failed">Ühendus katkes</string>
+    <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="install">Installi</string>
+    <string name="title_activity_openhabwritetag">Kirjutage NFC-kiibile</string>
+    <string name="title_activity_libraries">Kasutatud teegid</string>
+    <string name="info_write_tag_disabled">NFC on keelatud</string>
+    <string name="action_settings">Seaded</string>
+    <string name="info_not_set">Määramata</string>
+    <!-- Background tasks -->
+    <string name="settings_item_pref_item_name">Kauba nimetus</string>
+    <string name="item_upload_in_progress">üksusi hetkel uuendatakse</string>
+    <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="retry">Uuesti</string>
+    <string name="ignore">Eira</string>
+    <!-- Device identifier -->
+    <!-- Please translate "Device identifier" in this string -->
+    <!-- Notification list strings -->
+    <string name="notification_list_error">Teatiste laadimisel ilmnes viga</string>
+    <string name="list_loading_message">Laadimine\u2026</string>
+    <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_cert_details">Sertifikaadi andmed:</string>
+    <string name="mtm_decision_always">Nõustu</string>
+    <string name="mtm_decision_abort">Katkesta</string>
+    <string name="settings_openhab_none">Mitte ükski</string>
+    <!-- Themes -->
+    <string name="theme_name_light">Hele</string>
+    <string name="theme_name_dark">Tume</string>
+    <!-- Chart -->
+    <string name="chart_activity_title">Skeem</string>
+    <string name="chart_activity_period">Ajavahemik</string>
+    <string name="chart_activity_period_1_hour">1 tund</string>
+    <string name="chart_activity_period_4_hour">4 tundi</string>
+    <string name="chart_activity_period_8_hour">8 tundi</string>
+    <string name="chart_activity_period_12_hour">12 tundi</string>
+    <string name="chart_activity_period_1_day">1 päev</string>
+    <string name="chart_activity_period_2_day">2 päeva</string>
+    <string name="chart_activity_period_3_day">3 päeva</string>
+    <string name="chart_activity_period_1_week">1 nädal</string>
+    <string name="chart_activity_period_2_week">2 nädalat</string>
+    <string name="chart_activity_period_1_month">1 kuu</string>
+    <string name="chart_activity_period_2_month">2 kuud</string>
+    <string name="chart_activity_period_4_month">4 kuud</string>
+    <string name="chart_activity_period_1_year">1 aasta</string>
+    <!-- NFC -->
+    <string name="nfc_action_on">Sees</string>
+    <string name="nfc_action_up">Üles</string>
+    <string name="nfc_action_off">Välja</string>
+    <string name="nfc_action_down">Alla</string>
+    <string name="nfc_action_toggle">Lülita</string>
+    <string name="nfc_action_toggled">Lülitatud</string>
+    <string name="nfc_action_undefined">Määratlemata</string>
+    <string name="nfc_action_increase">Suurenda</string>
+    <string name="nfc_action_decrease">Vähenda</string>
+    <string name="nfc_action_play">Esita</string>
+    <string name="nfc_action_pause">Paus</string>
+    <string name="nfc_action_next">Järgmine</string>
+    <string name="nfc_action_previous">Eelmine</string>
+    <string name="nfc_action_rewind">Keri tagasi</string>
+    <string name="nfc_action_fastforward">Keri edasi</string>
+    <string name="nfc_action_move">Teiselda</string>
+    <string name="nfc_action_stop">Peata</string>
+    <string name="nfc_action_open">Avatud</string>
+    <string name="nfc_action_closed">Suletud</string>
+    <string name="nfc_activate">Käivita</string>
+    <string name="nfc_action_current_color">Praegune värv</string>
+    <!-- Drawer -->
+    <string name="mainmenu_openhab_voice_recognition">Helituvastus</string>
+    <!-- About -->
+    <string name="about_title">Info</string>
+    <string name="about_license_title">Litsents</string>
+    <string name="about_changelog">Muudatuste logi</string>
+    <string name="about_source_code">Lähtekood</string>
+    <string name="about_issues">Teavitage probleemist</string>
+    <string name="about_docs">Dokumentatsioon</string>
+    <string name="about_community_forum">Kogukonna foorum</string>
+    <string name="about_foundation">openHAB sihtasutus</string>
+    <string name="about_community">openHAB kogukond</string>
+    <string name="about_privacy_policy">Privaatsuseeskirjad</string>
+    <string name="about_rate_this_app">Hinda seda rakendust</string>
+    <string name="set">Määra</string>
+    <string name="cancel">Tühista</string>
+    <string name="close">Sulge</string>
+    <string name="try_again_button">Proovi uuesti</string>
+    <string name="enable_wifi_button">Lülita Wi-Fi sisse</string>
+    <string name="go_to_settings_button">Mine sätetesse</string>
+    <string name="enable_demo_mode_button">Lülita sisse demo režiim</string>
+    <!-- Log -->
+    <string name="log">Logi</string>
+    <string name="view_log">Vaata logi</string>
+    <string name="log_activity_action_clear_log">Tühjenda logi</string>
+    <string name="log_activity_action_show_errors">Näita ainult vigu</string>
+    <string name="log_activity_action_show_all">Näita kõiki sõnumeid</string>
+    <string name="log_activity_action_reload">Lae uuesti</string>
+    <!-- Home screen shortcuts -->
+    <!-- Content description for images -->
+    <string name="content_description_open_number_picker">Ava numbrivalija</string>
+    <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">Ava openHAB</string>
+    <string name="got_it">Selge!</string>
+    <!-- Intro strings -->
+    <string name="app_intro">Tutvustus</string>
+    <string name="intro_nfc">NFC</string>
+    <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">JÄTA VAHELE</string>
+    <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">VALMIS</string>
+    <!-- Item picker -->
+    <string name="item_picker_list_empty">Ühtegi ühikut ei leitud</string>
+    <string name="item_picker_list_error">Üksuste laadimisel ilmnes viga</string>
+    <string name="item_picker_custom">Kohandatud</string>
+    <string name="item_picker_dialog_title">Vali tegevus</string>
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_item_update">Uuenda</string>
+    <string name="item_picker_item_command">Käsklus</string>
+    <string name="search">Otsi</string>
+    <string name="turn_on">Lülita sisse</string>
+    <string name="press_back_to_exit">Väljumiseks vajuta veelkord tagasi</string>
+    <!-- Item update widget -->
+    <string name="item_update_widget_content_description_edit">Redigeeri vidinat</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Vali üksus</string>
+    <string name="item_update_success_message_on">%s on sisse lülitatud</string>
+    <string name="item_update_success_message_off">%s on välja lülitatud</string>
+    <string name="item_update_success_message_stop">%s on peatatud</string>
+    <string name="item_update_success_message_play">%s mängib</string>
+    <string name="item_update_success_message_pause">%s on peatatud</string>
+    <string name="item_update_error_no_connection">Ühendust ei ole</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <!-- Data saver -->
+    <string name="data_saver_title">Andmesäästja</string>
+    <string name="widget_type_image">Pilt</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Kaart</string>
+    <string name="widget_type_chart">Skeem</string>
+    <!-- Tiles -->
+    <!-- Tile icon names -->
+    <!-- Tile icon values -->
+</resources>

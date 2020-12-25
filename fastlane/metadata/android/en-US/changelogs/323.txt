@@ -1,0 +1,4 @@
+• Add a setting for the image Item scaling behavior
+• Add long press behavior for the up/down buttons of roller shutter and color Items
+• Fix crash when using video Items
+• Stability and performance improvements

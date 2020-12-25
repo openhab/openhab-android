@@ -1,0 +1,7 @@
+## Added
+* Add notification channel groups (#1884)
+* Implement data saver (#1796)
+* Show snackbar on SSE subscription failure (#1899)
+
+## Changed
+* New colorpicker (#1817)

@@ -1,0 +1,9 @@
+## Changed
+* Show label in background tasks error notifications (#1588)
+
+## Fixed
+* Item picker: Close search view on back press (#1592)
+* Hide Contact Items in Item picker (#1590)
+* Fix migration to DayNight themes (#1596)
+* Reschedule item uploads if prefix changes (#1593)
+* Show prefix in summary (#1589)

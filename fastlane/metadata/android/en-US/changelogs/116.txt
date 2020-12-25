@@ -1,0 +1,5 @@
+## Fixed
+* Catch more exceptions in ParsedState (#1235)
+
+## Changed
+* Migrate from GCM to FCM SDK. (#1226)

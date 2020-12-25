@@ -1,0 +1,7 @@
+## Added
+* Make widget label configurable (#1699)
+* Show hint in nfc item picker (#1694)
+* Add pink and gold as supported colors (#1703)
+
+## Fixed
+* Don't force NFC item picker into non-fullscreen (#1704)

@@ -5,15 +5,7 @@
     <rules>Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.</rules>
     <supported>Ondersteunde producten</supported>
     <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://www.openhab.org/addons/</bindings>
-
-    <home_automation_solutions>• Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
-    <lighting>• Verlichting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>• Verwarming: Max!, Nest, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
-    <security>• Beveiliging: ZoneMinder, DSC,...</security>
-    <open_protocols>• Open protocollen: HTTP, TCP/UDP, MQTT, serieel, ...</open_protocols>
-    <special_useCases>• Speciale toepassingen: Minecraft, Tesla auto, weerdiensten,...</special_useCases>
-    <empty_point>• ...</empty_point>
+    <automation_apps>De app heeft een action plugin voor Tasker en Locale.</automation_apps>
 
     <oss_community>Open Source Community</oss_community>
     <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org</forum>
@@ -23,13 +15,12 @@
     <foundation>openHAB Foundation</foundation>
     <about_foundation>De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org</about_foundation>
     <important_note>Belangrijke opmerking</important_note>
-    <oh_server>U heeft een eigen openHAB server nodig voor deze app</oh_server>
+    <oh_server>Deze app vereist een eigen openHAB server.</oh_server>
     <short_description>Leverancier en technologie onafhankelijke open source domotica software</short_description>
-    <fdroid>Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.</fdroid>
+    <fdroid>De builds op F-Droid hebben geen ondersteuning voor FCM en crash rapportage, en kunnen geen push-meldingen ontvangen van openHAB Cloud. In plaats daarvan worden in deze versie meldingen regelmatig opgevraagd bij de server.</fdroid>
     <fdroid_beta><![CDATA[U kunt de beta-versie installeer samen met de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiele versie</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Privacybeleid: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <fdroid_anti_features>Anti Features</fdroid_anti_features>
-    <fdroid_anti_features_text>De app is gemarkeerd als "NonFreeAsset", omdat het openHAB pictogram niet onder een vrije licentie beschikbaar is.</fdroid_anti_features_text>
     <beta>Probeer nieuwe functies uit en geef alvast feedback!</beta>
     <play_beta>De beta versie kan geïnstalleerd worden naast de stabiele versie.</play_beta>
+    <changelog_play_beta>Bug fixes en stabiliteitsverbeteringen. Bezoek https://github.com/openhab/openhab-android/releases voor een gedetailleerde changelog.</changelog_play_beta>
 </strings>

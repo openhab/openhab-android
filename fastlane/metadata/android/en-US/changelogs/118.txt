@@ -1,0 +1,2 @@
+## Fixed
+* Wait up to 2 seconds for connection to become available (#1232)

@@ -1,0 +1,4 @@
+## Fixed
+* Allow writing empty states on NFC tags (#1523)
+* Close context menu if connection is lost (#1522)
+* Fix crash when device language is Hebrew (#1506)

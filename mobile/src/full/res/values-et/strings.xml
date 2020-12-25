@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="info_openhab_gcm_in_progress">Seade registreeritakse</string>
+    <string name="info_openhab_gcm_failed">Viga Push-märguannete registreerimisel</string>
+    <string name="info_openhab_gcm_failed_play_services">Push-märguannete registreerimine ebaõnnestus Google Play teenuste probleemi tõttu: %s</string>
+    <string name="info_openhab_gcm_connected">Seade on edukalt registreeritud Firebase Cloud Messaging\'i pilvesõnumite kausta</string>
+    <string name="open_in_maps">Ava tarkvaras Google Maps</string>
+</resources>

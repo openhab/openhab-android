@@ -1,0 +1,4 @@
+## Fixed
+* Improve number handling (#1269)
+* Assign correct colors to swipe refresh layouts (#1276)
+* Fix crashes (#1277, #1278, #1279)

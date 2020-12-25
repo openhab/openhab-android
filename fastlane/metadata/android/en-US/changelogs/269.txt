@@ -1,0 +1,3 @@
+• Click on charts to view them full screen
+• If no alarm is active, the app sends UNDEF instead of 0 now
+• Add ability to create Sitemap shortcuts with dark background

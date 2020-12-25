@@ -1,0 +1,7 @@
+## Added
+* Add loading indicator to webviews (#2130)
+
+## Fixed
+* Fix myopenhab access for openHAB 3 (#2149)
+* Fix flickering when loading uncached icons (#2154)
+* Various fixes for video elements (#2138) 

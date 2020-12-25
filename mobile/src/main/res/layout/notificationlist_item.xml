@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,10 +14,10 @@
         android:id="@+id/notificationImage"
         android:layout_width="@dimen/notificationlist_icon_size"
         android:layout_height="@dimen/notificationlist_icon_size"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_gravity="center_vertical"
-        android:scaleType="centerInside"
+        app:imageScalingType="noScaling"
         app:progressIndicator="@drawable/ic_openhab_appicon_24dp"
         app:fallback="@drawable/ic_openhab_appicon_24dp"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
@@ -26,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">
 
         <TextView
@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/notificationMessage"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             tools:text="6 hours ago" />
 
@@ -52,10 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/notificationMessage"
             android:layout_toEndOf="@id/notificationCreated"
-            android:layout_toRightOf="@id/notificationCreated"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:gravity="end|right"
+            android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textStyle="bold"
             tools:text="Important" />

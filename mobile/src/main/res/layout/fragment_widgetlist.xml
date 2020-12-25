@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swiperefresh"
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +33,7 @@
                 android:padding="16dp"
                 app:tint="@color/empty_list_text_color"
                 app:tintMode="src_in"
-                android:src="@drawable/ic_visibility_off_grey_120dp" />
+                android:src="@drawable/ic_eye_off_outline_grey_120dp" />
 
             <TextView
                 android:id="@+id/empty_message"
@@ -48,4 +49,4 @@
 
     </FrameLayout>
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout>

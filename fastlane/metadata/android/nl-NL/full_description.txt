@@ -1,12 +1,8 @@
 openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software
 
-Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.
+De builds op F-Droid hebben geen ondersteuning voor FCM en crash rapportage, en kunnen geen push-meldingen ontvangen van openHAB Cloud. In plaats daarvan worden in deze versie meldingen regelmatig opgevraagd bij de server.
 Probeer nieuwe functies uit en geef alvast feedback!
 U kunt de beta-versie installeer samen met de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiele versie</a>.
-
-<b>Belangrijke opmerking</b>
-
-U heeft een eigen openHAB server nodig voor deze app
 
 openHAB is een Java gebaseerd open-source domotica platform dat een breed scala aan verschillende smart home systemen en technologieën integreert en combineert in één enkele oplossing.
 Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.
@@ -14,15 +10,7 @@ Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor
 <b>Ondersteunde producten</b>
 
 Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://www.openhab.org/addons/
-
-• Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...
-• Verlichting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
-• Verwarming: Max!, Nest, Vitotronic, Heatmiser,...
-• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Beveiliging: ZoneMinder, DSC,...
-• Open protocollen: HTTP, TCP/UDP, MQTT, serieel, ...
-• Speciale toepassingen: Minecraft, Tesla auto, weerdiensten,...
-• ...
+De app heeft een action plugin voor Tasker en Locale.
 
 <b>Open Source Community</b>
 
@@ -34,9 +22,8 @@ Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/proj
 
 De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org
 
-<b>Anti Features</b>
+<b>Belangrijke opmerking</b>
 
-De app is gemarkeerd als "NonFreeAsset", omdat het openHAB pictogram niet onder een vrije licentie beschikbaar is.
-
+Deze app vereist een eigen openHAB server.
 
 Privacybeleid: https://www.openhabfoundation.org/privacy.html

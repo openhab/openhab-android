@@ -1,5 +1,6 @@
 linters:
-    checkstyle:
-        config: ./stickler/checkstyle.xml
+    ktlint:
+        android: true
+        config: ./.editorconfig
     yamllint:
         config: ./stickler/yamllint.yml

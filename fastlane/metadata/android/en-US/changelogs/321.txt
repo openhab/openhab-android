@@ -1,0 +1,2 @@
+## Added
+* Add a toggle for image item scaling behavior. (#2187)

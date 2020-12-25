@@ -1,28 +1,16 @@
 openHAB - "智能化家居" - 开源家居自动化供应商与技术
 
-F-Droid 版本拥有地图预览支持、Google 云信息并移除了崩溃报告且无法从 openHAB 云接收推送信息。
+The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 尝试新功能并提供早期反馈！
-您可以在安装<a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>的情况下安装测试版。
+<a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>可与测试版共存。
 
-<b>重要提示</b>
-
-您需要 openHAB 服务器以使用此应用程序
-
-openHAB 是一款基于 Java 的开源家居自动化平台，整合了大量不同的智能家居系统与技术为一体。
+openHAB 是一款基于 Java 的开源家居自动化平台，整合多种智能家居系统与技术。
 在统一抽象层上，所有连接设备均可通过自动规则引擎与不同的用户界面管理。
 
 <b>支持产品</b>
 
 超过 200 个支持品牌、设备、技术及通讯协议的附加组件。 例如 Z-Wave、Philips Hue、Amazon Echo、Chromecast 及 Sonos。 请在前往此网址探索所有可用的附加组件及支持的设备/功能：https://www.openhab.org/addons/
-
-• 家庭自动化解决方案：Z-Wave、EnOcean、Netatmo、Homematic、Insteon···
-• 照明：Philips Hue、Ikea Trådfri、LIFX、Lutron、Milight···
-• 供热：Max!、Nest、Vitotronic、Heatmiser···
-• 家庭娱乐：三星电视、LG TV、Sonos、Pioneer AVR、Squeezebox、Kodi、Plex···
-• 安全：ZoneMinder、DSC···
-• 开源协议：HTTP、TCP/UDP、MQTT、串口···
-• 特殊用例：我的世界、特斯拉汽车、天气服务···
-• ...
+此应用程序自带 Tasker 及本地化插件。
 
 <b>开源社区</b>
 
@@ -34,9 +22,8 @@ openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 1
 
 openHAB 基金会是一个致力于向公共提出开源智能家居解决方案的无限可能与无限优点的非盈利组织。 请在 https://www.openhabfoundation.org 处了解本基金会的任务及服务
 
-<b>不利功能</b>
+<b>重要提示</b>
 
-此应用程序被标记为 “非免费资源”，因为 openHAB 并未通过自由许可授权。
-
+您需要一台 openHAB 服务器以使用此应用程序.
 
 隐私政策：https://www.openhabfoundation.org/privacy.html

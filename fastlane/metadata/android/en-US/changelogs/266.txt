@@ -1,0 +1,2 @@
+## Changed
+* Improve chart activity (#1854)

@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Domòtica de codi obert independent de la tecnologia i el fabricant

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:enabled="false"
+        android:selectable="false"
+        android:icon="@drawable/ic_info_outline_grey_24dp"
+        android:summary="@string/tile_overview_hint" />
+</androidx.preference.PreferenceScreen>
