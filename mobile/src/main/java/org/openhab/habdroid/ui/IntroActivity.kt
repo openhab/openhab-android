@@ -19,8 +19,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import com.github.paolorotolo.appintro.AppIntro
-import com.github.paolorotolo.appintro.AppIntroFragment
+import com.github.appintro.AppIntro
+import com.github.appintro.AppIntroFragment
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -139,14 +139,16 @@ class IntroActivity : AppIntro(), CoroutineScope {
         val colorText = resolveThemedColor(R.attr.colorOnBackground)
         val colorBackground = resolveThemedColor(android.R.attr.colorBackground)
 
-        addSlide(AppIntroFragment.newInstance(getString(title),
-            null, // Title font: null => default
-            getString(description),
-            null, // Description font: null => default
-            imageDrawable,
-            colorBackground, // Background color
-            colorText, // Title color
-            colorText)) // Description color
+        addSlide(
+            AppIntroFragment.newInstance(
+                getString(title),
+                getString(description),
+                imageDrawable,
+                colorBackground,
+                colorText,
+                colorText
+            )
+        )
     }
 
     companion object {

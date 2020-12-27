@@ -154,10 +154,7 @@ dependencies {
     // Color picker for preference
     implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
-    implementation("com.github.appintro:appintro:5.1.0") {
-        transitive false
-        exclude group: "com.intellij", module: "annotations"
-    }
+    implementation "com.github.AppIntro:AppIntro:6.0.0"
     // MapView support
     fullImplementation "com.google.android.gms:play-services-maps:17.0.0"
     fossImplementation "org.osmdroid:osmdroid-android:6.1.6"
