@@ -120,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">השרת המרוחק אינו זמין</string>
     <string name="app_shortcut_disabled_voice_recognition">היישום דיבור-לטקסט אינו מותקן במכשיר שלך</string>
     <string name="no_position_set">לא נקבע מיקום</string>
+    <string name="show_and_copy_item_name">הצג והעתק את שם הפריט</string>
+    <string name="copied_item_name">\"%s\" הועתק</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
@@ -261,9 +263,9 @@
         <item quantity="many">%d התראות חדשות</item>
         <item quantity="other">%d התראות חדשות</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">לא זמין, לא הוגדר שרת מרוחק</string>
-    <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
-    <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
+    <string name="push_notification_status_no_remote_configured">התראות לא זמינות: השרת המרוחק אינו מוגדר</string>
+    <string name="push_notification_status_http_error">התראות לא זמינות: שגיאה בחיבור לשרת מרוחק: %s</string>
+    <string name="push_notification_status_remote_no_cloud">התראות לא זמינות: השרת המרוחק אינו שרת ענן של openHAB</string>
     <string name="push_notification_status">מצב</string>
     <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
     <plurals name="item_update_error_title">

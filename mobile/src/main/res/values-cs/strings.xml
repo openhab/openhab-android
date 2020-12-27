@@ -100,6 +100,11 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" je primární server. Klepněte pro nastavení tohoto serveru jako primárního.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Aplikace vybere tento server při připojení k Wi-Fi \'%s\'</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">Aplikace nebude automaticky vybírat tento server na základě připojené Wi-Fi sítě</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Přepnuto na server \"%s\" na základě Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Nelze načíst název Wi-Fi: Chybí oprávnění</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Nelze načíst název Wi-Fi: Poloha je vypnuta</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="voice_command">Hlasový příkaz</string>
@@ -115,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Váš vzdálený server není dostupný</string>
     <string name="app_shortcut_disabled_voice_recognition">Na Vašem zařízení nemáte nainstalovanou aplikaci k převodu řeči na text</string>
     <string name="no_position_set">Žádná pozice není nastavena</string>
+    <string name="show_and_copy_item_name">Zobrazit a zkopírovat název Item</string>
+    <string name="copied_item_name">Zkopírováno \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_sitemap_generic_load_error">Nelze načíst Sitemap. Došlo k následující chybě: %1$s</string>
@@ -256,9 +263,6 @@
         <item quantity="many">%d nových oznámení</item>
         <item quantity="other">%d nová oznámení</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Nedostupné, vzdálený server není nakonfigurován</string>
-    <string name="push_notification_status_http_error">Nedostupné, chyba při připojování ke vzdálenému serveru: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Nedostupné, vzdálený server není openHAB cloud</string>
     <string name="push_notification_status">Stav</string>
     <string name="push_notification_hint">Oznámení jsou stahována v pravidelném intervalu, který je stejný jako pro \"Odeslat informace o zařízení na server\"</string>
     <plurals name="item_update_error_title">
@@ -381,6 +385,7 @@
     <string name="set">Nastavit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
+    <string name="undo">Vrátit zpět</string>
     <string name="try_again_button">Zkusit znovu</string>
     <string name="enable_wifi_button">Zapnout Wi-Fi</string>
     <string name="go_to_settings_button">Přejít do nastavení</string>

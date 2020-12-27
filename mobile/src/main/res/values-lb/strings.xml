@@ -223,8 +223,6 @@
         <item quantity="one">%d nei Notifikatioun</item>
         <item quantity="other">%d nei Notifikatiounen</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Net verfügbar well keen Server agestallt ass</string>
-    <string name="push_notification_status_remote_no_cloud">Net verfügbar well den agestallte Server keng openHAB Cloud Instanz ass</string>
     <string name="push_notification_status">Status</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>

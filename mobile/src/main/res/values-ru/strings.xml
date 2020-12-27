@@ -229,9 +229,6 @@
         <item quantity="many">%d уведомлений</item>
         <item quantity="other">%d уведомления</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Недоступно. Удаленный сервер не настроен</string>
-    <string name="push_notification_status_http_error">Недоступно, ошибка подключения к удаленному серверу: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Недоступно. Удаленный сервер не облачный openHAB сервер</string>
     <string name="push_notification_status">Статус</string>
     <string name="push_notification_hint">Уведомления проверяются по регулярному расписанию, такому же как и в \"Посылать информацию об устройстве на сервер\"</string>
     <plurals name="item_update_error_title">

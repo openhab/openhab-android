@@ -256,9 +256,6 @@
         <item quantity="one">%d neue Benachrichtigung</item>
         <item quantity="other">%d neue Benachrichtigungen</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Nicht verfügbar, da kein Remote-Server konfiguriert ist</string>
-    <string name="push_notification_status_http_error">Nicht verfügbar, Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Nicht verfügbar, da der Remote-Server keine openHAB-Cloud-Instanz ist</string>
     <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, dessen Intervall mit dem für \"Geräteinformationen an Server senden\" eingestellten identisch ist</string>
     <plurals name="item_update_error_title">

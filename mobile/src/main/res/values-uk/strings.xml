@@ -120,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Ваш віддалений сервер недоступний</string>
     <string name="app_shortcut_disabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <string name="no_position_set">Розташування не встановлено</string>
+    <string name="show_and_copy_item_name">Показати і копіювати ім\'я об’єкта</string>
+    <string name="copied_item_name">Скопійовано \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
@@ -261,9 +263,9 @@
         <item quantity="many">%d нових сповіщень</item>
         <item quantity="other">%d нових сповіщень</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Недоступно, віддалений сервер не налаштовано</string>
-    <string name="push_notification_status_http_error">Недоступно, помилка підключення до віддаленого сервера: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Недоступно, віддалений сервер не є екземпляром openHAB cloud</string>
+    <string name="push_notification_status_no_remote_configured">Сповіщення недоступні: віддалений сервер не налаштовано</string>
+    <string name="push_notification_status_http_error">Сповіщення недоступні: помилка підключення до віддаленого сервера: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Сповіщення недоступні: віддалений сервер не є хмарним екземпляром openHAB</string>
     <string name="push_notification_status">Стан</string>
     <string name="push_notification_hint">Сповіщення відтворюються за звичайним розкладом, таким самим як \"Відправити інформацію про пристрій на сервер\"</string>
     <plurals name="item_update_error_title">

@@ -224,9 +224,6 @@
         <item quantity="one">%d uusi ilmoitus</item>
         <item quantity="other">%d uutta ilmoitusta</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Ei saatavilla, etäpalvelinta ei ole määritetty</string>
-    <string name="push_notification_status_http_error">Ei saatavilla, virhe yhdistettäessä etäpalvelimelle: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Ei saatavilla, etäpalvelin ei vastaa openHAB pilveä</string>
     <string name="push_notification_status">Tila</string>
     <string name="push_notification_hint">Ilmoitukset kysellään säännöllisen aikataulun mukaan, samalla lailla kuin \"Lähetä laitteen tiedot palvelimelle\"</string>
     <plurals name="item_update_error_title">

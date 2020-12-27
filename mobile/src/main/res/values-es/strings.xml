@@ -120,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Tu servidor remoto no está disponible</string>
     <string name="app_shortcut_disabled_voice_recognition">Tu dispositivo no tiene una aplicación de reconocimiento de voz instalada</string>
     <string name="no_position_set">No hay posición establecida</string>
+    <string name="show_and_copy_item_name">Mostrar y copiar el nombre del Item</string>
+    <string name="copied_item_name">Copiado \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de Sitemaps vacía</string>
     <string name="error_sitemap_generic_load_error">No se pudo cargar el Sitemap. Ocurrió el siguiente error: %1$s</string>
@@ -259,9 +261,9 @@
         <item quantity="one">%d nueva notificación</item>
         <item quantity="other">%d nuevas notificaciones</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">No disponible, el servidor remoto no está configurado</string>
-    <string name="push_notification_status_http_error">No disponible, error al conectarse al servidor remoto: %s</string>
-    <string name="push_notification_status_remote_no_cloud">No disponible, el servidor remoto no es una instancia de openHAB cloud</string>
+    <string name="push_notification_status_no_remote_configured">Las notificaciones no están disponibles: no se ha configurado servidor remoto</string>
+    <string name="push_notification_status_http_error">Las notificaciones no están disponibles: Error al conectar al servidor remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Las notificaciones no están disponibles: el servidor remoto no es una instancia cloud de openHAB</string>
     <string name="push_notification_status">Estado</string>
     <string name="push_notification_hint">Las notificaciones son comprobadas a intervalos regulares, los mismos intervalos que para \"Enviar información del dispositivo al servidor\"</string>
     <plurals name="item_update_error_title">

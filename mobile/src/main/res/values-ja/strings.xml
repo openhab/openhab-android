@@ -222,9 +222,6 @@
     <plurals name="summary_notification_text">
         <item quantity="other">%d の新しい通知</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">使用できません。リモートサーバーが設定されていません</string>
-    <string name="push_notification_status_http_error">使用できません。リモートサーバーへの接続エラー: %s</string>
-    <string name="push_notification_status_remote_no_cloud">使用できません。リモートサーバーは openHAB クラウドインスタンスではありません</string>
     <string name="push_notification_status">ステータス</string>
     <string name="push_notification_hint">通常のスケジュールで通知がポーリングされます。通知は「サーバーにデバイス情報を送信」と同じです。</string>
     <plurals name="item_update_error_title">

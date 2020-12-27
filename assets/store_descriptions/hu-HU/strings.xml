@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver</intro>
-    <whatis>openHAB, egy Java alapú, nyílt forráskódú otthon automatizálási platform. Mely integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat egyetlen felületen.</whatis>
+    <intro>openHAB - "empowering the smart home" - technológia független nyílt forráskódú okosotthon vezérlő szoftver</intro>
+    <whatis>az openHAB szoftver, egy Java alapú, nyílt forráskódú otthon automatizálási platform, mely egyetlen felületen integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat.</whatis>
     <rules>Az egyes eszközök fölött található, mely így összefogja, és vezérli illetve automatizálja az összes hozzá csatlakozott elemet.</rules>
     <supported>Támogatott termékek</supported>
     <bindings>104/5000
@@ -14,13 +14,13 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <report_issues>Amikor találsz valamilyen hibát vagy hiányosságot, kérlek jelezd a fórumon vagy a https://github.com/openhab/openhab-android/issues internet oldalon</report_issues>
     <translation>Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz hozzánk https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB alapítvány</foundation>
-    <about_foundation>A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org</about_foundation>
     <important_note>Fontos megjegyzés</important_note>
     <oh_server>openHAB szerverre van szükség az alkalmazás használatához.</oh_server>
     <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
     <fdroid>Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből. Ehelyett az értesítések rendszeresen lekérdezésre kerülnek ezekből az összeállításokból.</fdroid>
     <fdroid_beta><![CDATA[A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.]]></fdroid_beta>
-    <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy>Adatvédelemi tájékoztató: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
     <play_beta>Telepíthetsz béta verziót is a stabil mellé.</play_beta>
     <changelog_play_beta>Hibajavítások és kisebb fejlesztések. Kérem látogassa meg a https://github.com/openhab/openhab-android/releases hogy többet tudjon meg a változásokról.</changelog_play_beta>

@@ -120,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Seu servidor remoto não está disponível</string>
     <string name="app_shortcut_disabled_voice_recognition">Seu dispositivo não tem um aplicativo de reconhecimento de voz instalado</string>
     <string name="no_position_set">Nenhuma posição definida</string>
+    <string name="show_and_copy_item_name">Mostrar e copiar nome do Item</string>
+    <string name="copied_item_name">Copiado \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB retornou uma lista de Sitemap vazia</string>
     <string name="error_sitemap_generic_load_error">O Sitemap não pôde ser carregado. Ocorreu o seguinte erro: %1$s</string>
@@ -259,9 +261,9 @@
         <item quantity="one">%d nova notificação</item>
         <item quantity="other">%d novas notificações</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Indisponível, o servidor remoto não está configurado</string>
-    <string name="push_notification_status_http_error">Indisponível, erro ao conectar ao servidor remoto: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Indisponível, servidor remoto não é um openHAB</string>
+    <string name="push_notification_status_no_remote_configured">Notificações estão indisponíveis: Servidor remoto não está configurado</string>
+    <string name="push_notification_status_http_error">Notificações estão indisponíveis: Erro ao conectar ao servidor remoto: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Notificações estão indisponíveis: Servidor remoto não é uma instância do openHAB</string>
     <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">As notificações são consultadas regularmente, que é o mesmo que \"Enviar informações do dispositivo para o servidor\"</string>
     <plurals name="item_update_error_title">
