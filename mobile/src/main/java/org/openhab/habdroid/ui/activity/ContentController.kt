@@ -553,8 +553,12 @@ abstract class ContentController protected constructor(private val activity: Mai
         companion object {
             fun newInstance(message: CharSequence): CommunicationFailureFragment {
                 val f = CommunicationFailureFragment()
-                f.arguments = buildArgs(message, R.string.try_again_button,
-                    R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
+                f.arguments = buildArgs(
+                    message,
+                    R.string.try_again_button,
+                    R.drawable.ic_openhab_appicon_340dp,
+                    false
+                )
                 return f
             }
         }
