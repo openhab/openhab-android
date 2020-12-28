@@ -1,0 +1,81 @@
+name: Bump version and update changelog
+
+on:
+  release:
+    types:
+      - created
+
+env:
+  GRADLE_FILE: "mobile/build.gradle"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Bump version
+        run: |
+          # Get and bump version code
+          VERSION_CODE=$(grep 'versionCode' $GRADLE_FILE | sed -r 's/(.*) (.*)$/\2/')
+          let VERSION_CODE++
+
+          # Remove "-release$" and and "^refs/tags/" from version name
+          TAG_NAME="${GITHUB_REF##*/}"
+          VERSION_NAME="${TAG_NAME%-release}"
+
+          echo "Replace versionCode with $VERSION_CODE"
+          sed --in-place -r "s/versionCode (.*)/versionCode ${VERSION_CODE}/" $GRADLE_FILE
+          echo "Replace versionName with $VERSION_NAME"
+          sed --in-place -r "s/versionName \"(.*)\"/versionName \"${VERSION_NAME}\"/" $GRADLE_FILE
+
+          # Save variables for next steps
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "TAG_NAME=$TAG_NAME"         >> $GITHUB_ENV
+
+      - name: Build store description
+        run: |
+          if $(echo "$GITHUB_REF" | grep -q "beta")
+          then
+              echo "Build store description for beta version on F-Droid"
+              python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
+          else
+              echo "Build store description for stable version on F-Droid"
+              python3 assets/store_descriptions/generate_and_validate.py fdroid
+          fi
+
+      - name: Download release notes
+        run: |
+          echo "Get release notes for version code ${{ env.VERSION_CODE }}"
+
+          retryCount=0
+          until curl https://api.github.com/repos/openhab/openhab-android/releases | jq -r '.[0].body' > fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt
+          do
+              let retryCount++
+              if [ "$retryCount" -gt 20 ]
+              then
+                  exit 1
+              fi
+              echo "Download failed. Retry"
+              sleep 5
+          done
+
+          echo ""
+          echo "Got release notes:"
+          echo "========================"
+          cat fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt
+          echo "========================"
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v6
+        with:
+          add: '.'
+          author_name: openhab-bot
+          author_email: bot@openhab.org
+          message: "Bump version to ${{ env.VERSION_NAME }} and update fastlane metadata"
+          signoff: true
+          branch: master
+          tag: "${{ env.TAG_NAME }}-fdroid"
+          token: ${{ secrets.GITHUB_TOKEN }}
