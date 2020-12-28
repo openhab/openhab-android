@@ -1,10 +1,10 @@
-openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver
+openHAB - "empowering the smart home" - technológia független nyílt forráskódú okosotthon vezérlő szoftver
 
 Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből. Ehelyett az értesítések rendszeresen lekérdezésre kerülnek ezekből az összeállításokból.
 Próbáld ki az új funkciókat és adj korai visszajelzést!
 A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.
 
-openHAB, egy Java alapú, nyílt forráskódú otthon automatizálási platform. Mely integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat egyetlen felületen.
+az openHAB szoftver, egy Java alapú, nyílt forráskódú otthon automatizálási platform, mely egyetlen felületen integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat.
 Az egyes eszközök fölött található, mely így összefogja, és vezérli illetve automatizálja az összes hozzá csatlakozott elemet.
 
 <b>Támogatott termékek</b>
@@ -21,10 +21,10 @@ Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz h
 
 <b>openHAB alapítvány</b>
 
-A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org
+Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org
 
 <b>Fontos megjegyzés</b>
 
 openHAB szerverre van szükség az alkalmazás használatához.
 
-Adatvédelem: https://www.openhabfoundation.org/privacy.html
+Adatvédelemi tájékoztató: https://www.openhabfoundation.org/privacy.html

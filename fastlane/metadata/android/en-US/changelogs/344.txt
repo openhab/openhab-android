@@ -1,0 +1,2 @@
+## Fixed
+* Use correct port for demo server (#2344) (There's still another issue that brakes the demo mode)
