@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -275,7 +276,10 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             val nightMode = when (context.getPrefs().getDayNightMode(context)) {
                 AppCompatDelegate.MODE_NIGHT_NO -> "light"
                 AppCompatDelegate.MODE_NIGHT_YES -> "dark"
-                else -> "auto"
+                else -> {
+                    val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                    if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) "light" else "dark"
+                }
             }
             Log.d(TAG, "preferDarkMode(): $nightMode")
             return nightMode
