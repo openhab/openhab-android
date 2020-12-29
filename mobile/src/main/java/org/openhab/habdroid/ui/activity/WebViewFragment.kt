@@ -55,6 +55,7 @@ import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
+    var callback: ParentCallback? = null
     private var webView: WebView? = null
     private lateinit var urlToLoad: String
     private lateinit var urlForError: String
@@ -252,16 +253,21 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
     private fun hideActionBar() {
         GlobalScope.launch(Dispatchers.Main) {
-            if (actionBar?.isShowing == true) {
-                actionBar?.hide()
-            }
+            actionBar?.hide()
+        }
+    }
+
+    private fun closeFragment() {
+        GlobalScope.launch(Dispatchers.Main) {
+            actionBar?.show()
+            callback?.closeFragment()
         }
     }
 
     open class OHAppInterface(private val context: Context, private val fragment: WebViewFragment) {
         @JavascriptInterface
         fun preferTheme(): String {
-            return "md" // Material design == Android
+            return "md" // Material design
         }
 
         @JavascriptInterface
@@ -278,7 +284,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         @JavascriptInterface
         fun exitToApp() {
             Log.d(TAG, "exitToApp()")
-            // TODO
+            fragment.closeFragment()
         }
 
         @JavascriptInterface
@@ -339,5 +345,9 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 KEY_SHORTCUT_ICON_RES to shortcutIconRes)
             return f
         }
+    }
+
+    interface ParentCallback {
+        fun closeFragment()
     }
 }

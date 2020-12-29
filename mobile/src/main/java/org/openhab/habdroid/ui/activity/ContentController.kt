@@ -72,7 +72,7 @@ import org.openhab.habdroid.util.openInBrowser
  * The layout of the content area is up to the respective subclasses.
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
-    PageConnectionHolderFragment.ParentCallback {
+    PageConnectionHolderFragment.ParentCallback, WebViewFragment.ParentCallback {
     protected val fm: FragmentManager = activity.supportFragmentManager
 
     private var noConnectionFragment: Fragment? = null
@@ -269,17 +269,19 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.getString(ui.multiServerTitleRes, activeServerName)
         }
 
+        val webViewFragment = WebViewFragment.newInstance(
+            title,
+            ui.errorRes,
+            ui.urlToLoad,
+            ui.urlForError,
+            activeServerId,
+            ui.shortcutAction,
+            title,
+            ui.shortcutIconRes
+        )
+        webViewFragment.callback = this
         showTemporaryPage(
-            WebViewFragment.newInstance(
-                title,
-                ui.errorRes,
-                ui.urlToLoad,
-                ui.urlForError,
-                activeServerId,
-                ui.shortcutAction,
-                title,
-                ui.shortcutIconRes
-            )
+            webViewFragment
         )
     }
 
@@ -438,6 +440,15 @@ abstract class ContentController protected constructor(private val activity: Mai
             return true
         }
         return false
+    }
+
+    override fun closeFragment() {
+        if (temporaryPage != null) {
+            temporaryPage = null
+            activity.updateTitle()
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+            updateConnectionState()
+        }
     }
 
     override fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>) {
