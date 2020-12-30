@@ -104,10 +104,10 @@ then
         logInfo("alarm", "Scheduling alarm for {} ({})", newState.toLocaleZone, epoch)
         if (timerAlarm !== null) {
             logInfo("alarm", "Reschedule alarm")
-            timerAlarm.reschedule(new DateTime(epoch))
+            timerAlarm.reschedule(newState.toLocaleZone.zonedDateTime)
         } else {
             logInfo("alarm", "New alarm")
-            timerAlarm = createTimer(new DateTime(epoch), [ |
+            timerAlarm = createTimer(newState.toLocaleZone.zonedDateTime, [ |
                 // Turn on stuff, e.g. radio or light
                 logInfo("alarm", "Alarm expired")
                 timerAlarm = null
