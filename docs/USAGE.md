@@ -104,7 +104,7 @@ then
         logInfo("alarm", "Scheduling alarm for {} ({})", newState.toLocaleZone, epoch)
         if (timerAlarm !== null) {
             logInfo("alarm", "Reschedule alarm")
-            timerAlarm.reschedule(newState.toLocaleZone)
+            timerAlarm.reschedule(newState.toLocaleZone.zonedDateTime)
         } else {
             logInfo("alarm", "New alarm")
             timerAlarm = createTimer(newState.toLocaleZone.zonedDateTime, [ |
