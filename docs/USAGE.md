@@ -107,7 +107,7 @@ then
             timerAlarm.reschedule(newState.toLocaleZone)
         } else {
             logInfo("alarm", "New alarm")
-            timerAlarm = createTimer(newState.toLocaleZone, [ |
+            timerAlarm = createTimer(newState.toLocaleZone.zonedDateTime, [ |
                 // Turn on stuff, e.g. radio or light
                 logInfo("alarm", "Alarm expired")
                 timerAlarm = null
