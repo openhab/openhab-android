@@ -1108,11 +1108,16 @@ class WidgetAdapter(
 
         @SuppressLint("SetJavaScriptEnabled")
         override fun bindAfterDataSaverCheck(widget: Widget) {
-            val url = connection.httpClient.buildUrl(widget.url!!)
+            val url = widget.url?.let {
+                connection.httpClient.buildUrl(widget.url)
+            }
             with(webView) {
                 adjustForWidgetHeight(widget, 0)
                 loadUrl("about:blank")
 
+                if (url == null) {
+                    return
+                }
                 setUpForConnection(connection, url) { progress ->
                     if (progress == 100) {
                         progressBar.hide()
