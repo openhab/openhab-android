@@ -211,7 +211,7 @@
     <string name="send_device_info_item_prefix_summary_not_set">Ezen az oldalon nincs előtét megadva az Elemekhez. Megadhatja ehhez az eszköz azonosítót a program beállításainak főoldalán.</string>
     <string name="send_device_info_foreground_service_title">Eseményfigyelő</string>
     <string name="send_device_info_foreground_service_summary">Figyelje az eseményeket az alábbi Elemekhez. Ez állandó értesítést igényel és növeli az akkumulátor használatát.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Figyelje az eseményeket az alábbi Elemekhez. Ez állando értesítést igényel és növeli az akkumulátor használatát. Ez a Ne Zavarj Üzemmód elküldéséhez szükséges.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Figyelje az eseményeket az alábbi Elemekhez. Ez állandó értesítést igényel és növeli az akkumulátor használatát. Ez a Ne Zavarj Üzemmód elküldéséhez szükséges.</string>
     <string name="send_device_info_foreground_service_running_summary_dnd">Figyelje a Ne Zavarj Üzemmódhoz kapcsolódó eseményeket</string>
     <string name="send_device_info_foreground_service_running_summary_one">Figyelje a(z) %s kapcsolatos eseményeket</string>
     <string name="send_device_info_foreground_service_running_summary_two">Figyelje a(z) %1$s-el és a%2$s-el kapcsolatos eseményeket</string>
