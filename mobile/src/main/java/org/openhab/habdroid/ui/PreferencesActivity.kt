@@ -1507,3 +1507,9 @@ class PreferencesActivity : AbstractBaseActivity() {
 interface CustomDialogPreference {
     fun createDialog(): DialogFragment
 }
+
+data class PushNotificationStatus(
+    val message: String,
+    @DrawableRes val icon: Int,
+    val notifyUser: Boolean
+)
