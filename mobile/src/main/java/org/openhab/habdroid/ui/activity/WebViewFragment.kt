@@ -13,7 +13,9 @@
 
 package org.openhab.habdroid.ui.activity
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +25,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -30,6 +33,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -47,12 +52,16 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
+import org.openhab.habdroid.util.getDayNightMode
+import org.openhab.habdroid.util.getPrefs
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
+    var callback: ParentCallback? = null
     private var webView: WebView? = null
     private lateinit var urlToLoad: String
     private lateinit var urlForError: String
     private var shortcutInfo: ShortcutInfoCompat? = null
+    private var actionBar: ActionBar? = null
 
     val title: String
         get() = requireArguments().getString(KEY_PAGE_TITLE)!!
@@ -67,6 +76,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        actionBar = (activity as? MainActivity)?.supportActionBar
+
         val args = requireArguments()
         webView = view.findViewById(R.id.webview)
         urlToLoad = args.getString(KEY_URL_LOAD) as String
@@ -187,6 +198,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             } while (webView?.url == oldUrl && webView?.canGoBack() == true)
             return true
         }
+        actionBar?.show()
         return false
     }
 
@@ -210,6 +222,13 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
         webView.setBackgroundColor(Color.TRANSPARENT)
 
+        val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
+            OHAppInterfaceWithPin(requireContext(), this)
+        } else {
+            OHAppInterface(requireContext(), this)
+        }
+        webView.addJavascriptInterface(jsInterface, "OHApp")
+
         webView.webViewClient = object : ConnectionWebViewClient(conn) {
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 val errorUrl = request.url.toString()
@@ -231,6 +250,68 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         webView?.isVisible = !error
         view?.findViewById<View>(android.R.id.empty)?.isVisible = error
         view?.findViewById<View>(R.id.progress)?.isVisible = loading
+    }
+
+    private fun hideActionBar() {
+        GlobalScope.launch(Dispatchers.Main) {
+            actionBar?.hide()
+        }
+    }
+
+    private fun closeFragment() {
+        GlobalScope.launch(Dispatchers.Main) {
+            actionBar?.show()
+            callback?.closeFragment()
+        }
+    }
+
+    open class OHAppInterface(private val context: Context, private val fragment: WebViewFragment) {
+        @JavascriptInterface
+        fun preferTheme(): String {
+            return "md" // Material design
+        }
+
+        @JavascriptInterface
+        fun preferDarkMode(): String {
+            val nightMode = when (context.getPrefs().getDayNightMode(context)) {
+                AppCompatDelegate.MODE_NIGHT_NO -> "light"
+                AppCompatDelegate.MODE_NIGHT_YES -> "dark"
+                else -> {
+                    val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                    if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) "light" else "dark"
+                }
+            }
+            Log.d(TAG, "preferDarkMode(): $nightMode")
+            return nightMode
+        }
+
+        @JavascriptInterface
+        fun exitToApp() {
+            Log.d(TAG, "exitToApp()")
+            fragment.closeFragment()
+        }
+
+        @JavascriptInterface
+        fun goFullscreen() {
+            Log.d(TAG, "goFullscreen()")
+            fragment.hideActionBar()
+        }
+
+        companion object {
+            @JvmStatic
+            protected val TAG: String = OHAppInterface::class.java.simpleName
+        }
+    }
+
+    class OHAppInterfaceWithPin(
+        context: Context,
+        private val fragment: WebViewFragment
+    ) : OHAppInterface(context, fragment) {
+        @JavascriptInterface
+        fun pinToHome() {
+            Log.d(TAG, "pinToHome()")
+            fragment.pinShortcut()
+        }
     }
 
     companion object {
@@ -268,5 +349,9 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 KEY_SHORTCUT_ICON_RES to shortcutIconRes)
             return f
         }
+    }
+
+    interface ParentCallback {
+        fun closeFragment()
     }
 }
