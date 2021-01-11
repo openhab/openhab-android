@@ -34,14 +34,15 @@ jobs:
         run: |
           if $(echo "$GITHUB_REF" | grep -q "beta")
           then
-              echo "releaseFlavor=Beta"   >> $GITHUB_ENV
+              releaseFlavor="Beta"
           else
-              echo "releaseFlavor=Stable" >> $GITHUB_ENV
+              releaseFlavor="Stable"
           fi
           echo "Use $releaseFlavor"
+          echo "releaseFlavor=$releaseFlavor"   >> $GITHUB_ENV
           
       - name: Build APK
-        run: bash gradlew :mobile:assembleFull${releaseFlavor}Release
+        run: bash gradlew :mobile:assembleFull${{ env.releaseFlavor }}Release
         
       - uses: r0adkll/sign-android-release@v1
         name: Sign APK
@@ -51,7 +52,6 @@ jobs:
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: "sign"
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
           
       - uses: actions/upload-artifact@v2
         with:
