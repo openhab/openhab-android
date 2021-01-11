@@ -203,7 +203,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         private val scope: CoroutineScope,
         private val url: String,
         connection: Connection,
-        internal var callback: ParentCallback
+        var callback: ParentCallback
     ) {
         private var httpClient: HttpClient = connection.httpClient
         private var requestJob: Job? = null
@@ -253,7 +253,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        internal fun load() {
+        fun load() {
             if (eventHelper != null && longPolling) {
                 // We update via events
                 return
@@ -380,7 +380,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        internal fun handleUpdateEvent(pageId: String, payload: String) {
+        fun handleUpdateEvent(pageId: String, payload: String) {
             try {
                 val jsonObject = JSONObject(payload)
 

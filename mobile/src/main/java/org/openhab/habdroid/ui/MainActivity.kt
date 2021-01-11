@@ -509,7 +509,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         updateTitle()
     }
 
-    private fun scheduleRetry(runAfterDelay: () -> Unit) {
+    fun scheduleRetry(runAfterDelay: () -> Unit) {
         retryJob?.cancel(CancellationException("scheduleRetry() was called"))
         retryJob = CoroutineScope(Dispatchers.Main + Job()).launch {
             delay(30 * 1000)

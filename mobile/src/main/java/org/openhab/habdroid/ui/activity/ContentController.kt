@@ -485,6 +485,10 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (pendingDataLoadUrls.remove(error.originalUrl) && pendingDataLoadUrls.isEmpty()) {
             activity.setProgressIndicatorVisible(false)
         }
+
+        activity.scheduleRetry {
+            activity.retryServerPropertyQuery()
+        }
     }
 
     override fun onSseFailure() {
