@@ -44,7 +44,7 @@ jobs:
       - name: Build APK
         run: bash gradlew :mobile:assembleFull${{ env.releaseFlavor }}Release
         
-      - uses: r0adkll/sign-android-release@v1
+      - uses: r0adkll/sign-android-release@v1.0.4
         name: Sign APK
         id: sign_app
         with:
