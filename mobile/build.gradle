@@ -8,7 +8,7 @@ buildscript {
     ext.about_libraries_version = '8.6.5'
     ext.powermock_version = '2.0.9'
     ext.espresso_version = '3.3.0'
-    ext.exoplayer_version = '2.12.2'
+    ext.exoplayer_version = '2.12.3'
 
     repositories {
         mavenCentral()
