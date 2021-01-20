@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Benachrichtigungsregistrierung wird durchgeführt</string>
-    <string name="info_openhab_gcm_failed">Aktivierung der Benachrichtigungen fehlgeschlagen</string>
-    <string name="info_openhab_gcm_failed_play_services">Registrierung der Benachrichtigungen aufgrund eines Problems mit Google Play-Services fehlgeschlagen: %s</string>
-    <string name="info_openhab_gcm_connected">Registrierung der Benachrichtigungen erfolgreich abgeschlossen</string>
-    <string name="open_in_maps">In Google Maps öffnen</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
 </resources>
