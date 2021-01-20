@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="push_notification_status_impaired">FOSSバージョンでは通知機能が制限されています。タップして詳細を確認してください。</string>
-    <string name="push_notification_status_disabled">通知は無効です</string>
-    <string name="open_in_maps">OpenStreetMap で開く</string>
-</resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
