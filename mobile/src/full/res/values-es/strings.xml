@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Registro de notificaciones en curso</string>
-    <string name="info_openhab_gcm_failed">Error al registrar notificaciones</string>
-    <string name="info_openhab_gcm_failed_play_services">El registro de notificaciones falló debido a un problema de los Servicios de Google Play: %s</string>
-    <string name="info_openhab_gcm_connected">Registro de notificaciones completado correctamente</string>
-    <string name="open_in_maps">Abrir en Google Maps</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
 </resources>
