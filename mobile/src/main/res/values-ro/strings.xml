@@ -1,289 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
-    <string name="app_preferences_name">Setări</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Harta site-ului</string>
-    <string name="mainmenu_openhab_preferences">Setări</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="app_notifications">Notificări</string>
-    <string name="habpanel_error">O eroare a avut loc la încărcarea HABPanel</string>
-    <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
-    <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
     <!-- App settings strings -->
-    <string name="settings_connection_title">Conexiune</string>
-    <string name="settings_display_title">Afișaj</string>
-    <string name="settings_misc_title">Diverse</string>
-    <string name="settings_openhab_url">Adresa URL a serverului local</string>
-    <string name="settings_openhab_url_summary">Adresa URL pentru panoul de control openHAB (pe baza numelui sau a adresei IP). Daca este configurat, functia de autodescoperire este dezactivata. Setarea curenta: %s</string>
-    <string name="settings_openhab_alturl">Adresa URL a serverului distant</string>
-    <string name="settings_openhab_alturl_summary">Adresa URL pentru panoul de control openHAB pentru cazul in care adresa locala nu este disponibila. Setarea curenta: %s</string>
-    <string name="settings_openhab_username">Nume utilizator</string>
-    <string name="settings_openhab_password">Parola</string>
-    <string name="settings_openhab_password_summary_weak">Ati ales o parola slaba</string>
-    <string name="settings_openhab_password_summary_strong">Ati ales o parola puternica</string>
-    <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
-    <string name="settings_openhab_sslclientcert_howto_summary">Apasati aici pentru cateva instructiuni si explicatii descpre cum se seteaza autentificarea clientului prin certificat SSL</string>
-    <string name="settings_openhab_sslclientcert_not_supported">Certificatele client SSL nu sunt acceptate de dispozitiv</string>
-    <string name="settings_openhab_screentimeroff">Dezactiveaza afisarea cronometrului</string>
-    <string name="settings_openhab_screentimeroff_summary">Dezactiveaza afisarea comutatorului de oprire a cronometrului atunci cand openHAB este pornit</string>
-    <string name="settings_openhab_demomode">Modul demonstrativ</string>
-    <string name="settings_openhab_demomode_summary">Dacă nu aveţi un server openHAB, activaţi modul demo pentru a vă face o idee de ce este capabil openHAB.</string>
-    <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Culoare de accent</string>
-    <string name="settings_select_a_color">Selectați o culoare</string>
-    <string name="settings_openhab_fullscreen">Ecran complet</string>
-    <string name="settings_openhab_icon_format">Format pictograma</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
-    <string name="settings_openhab_icon_format_svg">Vector</string>
-    <string name="settings_chart_scaling">Scalare grafic</string>
-    <string name="settings_chart_scaling_summary">Nota: O scara redusa micsoreaza scrisul si grosimile liniilor pentru a fi mai mult spatiu pe grafic, dar lizibilitatea textului poate suferi.</string>
-    <string name="settings_chart_scaling_value_xs">Foarte mic</string>
-    <string name="settings_chart_scaling_value_s">Mic</string>
-    <string name="settings_chart_scaling_value_m">Implicit</string>
-    <string name="settings_chart_scaling_value_l">Mare</string>
-    <string name="settings_openhab_chart_hq">Diagrame de înaltă rezoluţie</string>
-    <string name="settings_openhab_chart_hq_summary">Generarea de diagrame poate fi dificilă pentru server. Dacă vă confruntaţi cu diagrame încărcate lent şi serverul nu este puternic, dezactivaţi această opţiune pentru a îmbunătăţi timpii de încărcare.</string>
-    <string name="settings_clear_default_sitemap">Sterge fisierul Sitemap implicit</string>
-    <string name="settings_no_default_sitemap">Niciun Sitemap implicit nu este selectat</string>
-    <string name="settings_current_default_sitemap">Predefiniție actuală Sitemap: %1$s</string>
-    <string name="settings_openhab_alt_connection">Control de la distanţă</string>
-    <string name="settings_openhab_connection">Local</string>
-    <string name="settings_ringtone_none">Nici unul</string>
-    <string name="settings_ringtone_on_external">Ton de apel necunoscut pe stocarea externă</string>
-    <string name="settings_notification_vibration_off">Oprit</string>
-    <string name="settings_notification_vibration_short">Scurt</string>
-    <string name="settings_notification_vibration_long">Lung</string>
-    <string name="settings_notification_vibration_twice">De doua ori</string>
-    <string name="settings_connection_summary">Conectat la %s</string>
-    <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
-    <string name="beta">Beta</string>
-    <string name="settings_screen_lock">Blocare ecran</string>
-    <string name="settings_screen_lock_nolock_summary">Trebuie să activați un blocaj de ecran dispozitivului pentru a putea activa blocarea accesului la aplicație</string>
-    <string name="settings_screen_lock_off_summary">Accesul la aplicație nu este blocat</string>
-    <string name="settings_screen_lock_kiosk_summary">Accesul la setările aplicației este blocat prin blocarea ecranului Android sau amprentă digitală</string>
-    <string name="settings_screen_lock_on_summary">Accesul la aplicației este blocat prin blocarea ecranului Android sau amprentă digitală\nNotă: Widget-urile pot fi totuși utilizate</string>
-    <string name="screen_lock_unlock_screen_description">Deblocați pentru a avea acces la openHAB</string>
-    <string name="screen_lock_unlock_preferences_description">Deblocați pentru a avea acces la setări</string>
-    <string name="settings_screen_lock_off">Oprit</string>
-    <string name="settings_screen_lock_kiosk">Modul Kiosk</string>
-    <string name="settings_screen_lock_on">Pornit</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Comandă vocală</string>
-    <string name="title_voice_widget_icon">Comenzi vocale şi scurtătură aplicaţie</string>
-    <string name="info_voice_input">openHAB, la comanda ta!</string>
-    <string name="info_voice_recognized_text">Comandă recunoscută: %1$s</string>
-    <string name="info_demo_mode_short">Rulează în modul demonstrativ</string>
     <!-- Please try to keep the string as short as possible -->
-    <string name="turn_off">Oprește</string>
-    <string name="info_conn_url">Se conectează la URL-ul local</string>
-    <string name="info_conn_rem_url">Conectare la adresa URL la distanță</string>
-    <string name="app_shortcut_disabled_habpanel">Nu aveți HABPanel instalat pe server</string>
-    <string name="app_shortcut_disabled_notifications">Serverul dvs. de la distanță nu este disponibil</string>
-    <string name="app_shortcut_disabled_voice_recognition">Dispozitivul dvs. nu are instalată o aplicație de recunoaștere vocală</string>
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB a returnat lista Sitemap goală</string>
-    <string name="error_sitemap_generic_load_error">Sitemap-ul nu a putut fi încărcat. A apărut următoarea eroare: %1$s</string>
-    <string name="error_network_not_available">Rețeaua nu este disponibilă</string>
-    <string name="error_wifi_not_available">Wi-Fi este dezactivat</string>
-    <string name="error_invalid_url">Introdu adresa URL în forma \'http(s)://host(:port)/\'</string>
-    <string name="error_invalid_https_url">Vă rugăm să introduceți o adresă URL validă în format \'https://host(:port)/\'</string>
-    <string name="error_port_seems_invalid">Portul introdus pare să fie nevalid pentru protocolul selectat</string>
-    <string name="error_connection_failed">Conectarea la dispozitiv a eșuat!</string>
-    <string name="error_unable_to_resolve_hostname">Nu se poate rezulta numele dispozitivului (hostname)</string>
-    <string name="error_connection_sslhandshake_failed">Conexiune SSL eșuată</string>
-    <string name="error_certificate_not_trusted">Certificatul SSL nu este de încredere. Vă rugăm importați certificatul de bază sau acceptați certificatul în timpul etapei de conectare SSL.</string>
-    <string name="error_certificate_expired">Certificatul SSL a expirat. Vă rugăm obțineți un nou certificat sau acceptați certificatul in timpul etapei de conectare SSL.</string>
-    <string name="error_certificate_not_valid_yet">Certificatul SSL nu este încă valid. Vă rugăm să acceptați certificatul în timpul etapei de conectare SSL. De asemenea, verificați dacă ceasul este setat corect pe dispozitivul dumneavoastră.</string>
-    <string name="error_certificate_invalid_date">Certificatul SSL are o dată nevalidă. Obțineți un certificat corect și verificați dacă ceasul de pe dispozitiv este setat corect.</string>
-    <string name="error_certificate_revoked">Certificatul SSL a fost revocat. Vă rugăm obțineți un nou certificat sau acceptați certificatul în timpul etapei de conectare SSL.</string>
-    <string name="error_certificate_wrong_host">Certificatul SSL nu este valid pentru %s</string>
-    <string name="error_http_to_https_port">Terminare neașteptată a conexiunii. Încercați să vă conectați la un port HTTPS prin HTTP?</string>
-    <string name="webview_ssl">În prezent, această aplicație nu acceptă certificate SSL auto-semnate pentru widget-urile Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
-    <string name="error_no_browser_found">Nu a fost găsit nici un browser pe dispozitivul tău</string>
-    <string name="error_no_speech_to_text_app_found">Nu a fost găsită nicio aplicație de recunoaștere vocală</string>
-    <string name="install">Instalează</string>
-    <string name="title_activity_openhabwritetag">Scrie NFC-tag</string>
-    <string name="title_activity_libraries">Librării utilizate</string>
-    <string name="info_write_tag">Atingeţi eticheta şi păstraţi tag-ul NFC aproape, până când apare mesajul de confirmare</string>
-    <string name="info_write_tag_progress">Se scrie tag-ul NFC</string>
-    <string name="info_write_failed">Eroare la scrierea tag-ului NFC</string>
-    <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
-    <string name="info_write_tag_disabled">Serviciul NFC este dezactivat</string>
-    <string name="action_settings">Setări</string>
-    <string name="info_not_set">Nu este setat</string>
-    <string name="empty_page">Această pagină nu conţine widget-uri setate ca vizibile</string>
     <!-- Background tasks -->
-    <string name="send_device_info_to_server">Trimiteți informațiile dispozitivului pe server</string>
-    <string name="settings_item_update_pref_howto_summary">Atingeți aici pentru a obține indicații despre cum puteți configura această caracteristică pe server</string>
-    <string name="settings_phone_state_permission_denied">Trimiterea stării de apel a fost dezactivată din cauza permisiunilor care lipsesc</string>
-    <string name="settings_item_pref_item_name">Nume Item</string>
-    <string name="waiting_for_item_upload">Se așteaptă ca rețeaua să actualizeze starea unui Item</string>
-    <string name="item_upload_in_progress">În prezent, Items sunt actualizate</string>
-    <string name="notification_channel_background_error">Eroare în sarcinile de fundal</string>
-    <plurals name="item_update_error_title">
-        <item quantity="one">%d Item nu a putut fi actualizat</item>
-        <item quantity="few">%d Items nu au putut fi actualizate</item>
-        <item quantity="other">%d Items nu au putut fi actualizate</item>
-    </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
-    <string name="item_update_connection_error">Item \'%1$s\' actualizare eșuată (fără conexiune)</string>
-    <string name="item_update_connection_error_label">%1$s actualizare eșuată (fără conexiune)</string>
-    <string name="retry">Reîncearcă</string>
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
-    <string name="notification_list_empty">Nicio notificare nu a fost trimisă până acum</string>
-    <string name="notification_list_error">A apărut o eroare în timpul încărcării notificărilor</string>
-    <string name="list_loading_message">Se încarcă\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
-    <string name="mtm_accept_cert">Acceptare certificat necunoscut?</string>
-    <string name="mtm_trust_anchor">Certificatul serverului nu este semnat de o Autoritate de Certificare cunoscută</string>
-    <string name="mtm_cert_expired">Certificatul serverului a expirat</string>
-    <string name="mtm_accept_servername">Acceptați nepotrivirea numelui serverului?</string>
-    <string name="mtm_hostname_mismatch">Serverul nu a putut faca autentificarea ca \&quot;%s\&quot;. Certificatul este valid doar pentru:</string>
-    <string name="mtm_connect_anyway">Vreți să vă conectați oricum?</string>
-    <string name="mtm_cert_details">Detalii certificat:</string>
-    <string name="mtm_decision_always">Acceptare</string>
-    <string name="mtm_decision_abort">Renunță</string>
-    <string name="mtm_notification">Verificare certificat</string>
-    <string name="settings_openhab_none">Niciunul</string>
     <!-- Themes -->
-    <string name="theme_name_light">Luminos</string>
-    <string name="theme_name_dark">Întunecat</string>
-    <string name="theme_name_system">Urmăriți sistemul</string>
-    <string name="theme_name_battery_saver">Mod întunecat în economisirea bateriei</string>
     <!-- Chart -->
     <!-- NFC -->
-    <string name="nfc_action_on">Pornit</string>
-    <string name="nfc_action_up">Sus</string>
-    <string name="nfc_action_off">Oprit</string>
-    <string name="nfc_action_down">Jos</string>
-    <string name="nfc_action_toggle">Comută</string>
-    <string name="nfc_action_undefined">Nedefinit</string>
-    <string name="nfc_action_empty_string">Empty string</string>
-    <string name="nfc_action_increase">Creșteți</string>
-    <string name="nfc_action_decrease">Reduceți</string>
-    <string name="nfc_action_play">Redare</string>
-    <string name="nfc_action_pause">Pauză</string>
-    <string name="nfc_action_next">Următor</string>
-    <string name="nfc_action_previous">Anterior</string>
-    <string name="nfc_action_rewind">Derulare înapoi</string>
-    <string name="nfc_action_fastforward">Derulare înainte</string>
-    <string name="nfc_action_move">Mută</string>
-    <string name="nfc_action_stop">Oprește</string>
-    <string name="nfc_activate">Activare</string>
-    <string name="nfc_action_current_color">Culoarea curentă</string>
-    <string name="nfc_action_to_sitemap_page">Scrieți Sitemap într-o etichetă NFC</string>
-    <string name="nfc_action_write_command_tag">Scrie Item într-o etichetă NFC</string>
     <!-- Drawer -->
-    <string name="drawer_open">Secțiunea Sitemap deschisă</string>
-    <string name="drawer_close">Secțiunea Sitemap închisă</string>
-    <string name="mainmenu_openhab_voice_recognition">Recunoaștere voce</string>
     <!-- About -->
-    <string name="about_title">Despre</string>
-    <string name="about_license_title">Licenţă</string>
-    <string name="about_changelog">Istoric modificări</string>
-    <string name="about_source_code">Cod sursă</string>
-    <string name="about_issues">Raportaţi o problemă</string>
-    <string name="about_docs">Documentație</string>
-    <string name="about_community_forum">Forum-ul comunității</string>
-    <string name="about_foundation">Fundația openHAB</string>
-    <string name="about_community">Comunitatea openHAB</string>
-    <string name="about_translation">Ajutați-ne să traducem openHAB</string>
-    <string name="about_privacy_policy">Politica de confidențialitate</string>
-    <string name="set">Setează</string>
-    <string name="cancel">Anulează</string>
-    <string name="close">Închide</string>
-    <string name="try_again_button">Încearcă din nou</string>
-    <string name="enable_wifi_button">Activează Wi-Fi</string>
-    <string name="go_to_settings_button">Mergi la setări</string>
-    <string name="enable_demo_mode_button">Activează modul demonstrativ</string>
-    <string name="configuration_missing">Nu găsim un server openHAB în reţea. Dacă aveţi deja un server, vă rugăm să configuraţi adresa IP sau host name-ul în setările de server. Dacă nu aveți încă un server, activaţi modul demo pentru a vedea ce de ce este capabil openHAB.</string>
-    <string name="no_remote_server">Conectarea la serverul local nu a reuşit şi nu aţi configurat un server pentru accesul de la distanţă</string>
-    <string name="resolving_openhab">Se încearcă găsirea unui server openHAB\u2026</string>
-    <string name="waiting_for_wifi">Se aşteptă Wi-Fi pentru a stabili conexiunea\u2026</string>
     <!-- Log -->
-    <string name="log">Jurnal</string>
-    <string name="view_log">Afișare jurnal</string>
-    <string name="log_activity_action_clear_log">Curăță jurnalul</string>
-    <string name="log_activity_action_show_errors">Arată numai erorile</string>
-    <string name="log_activity_action_show_all">Vezi toate mesajele</string>
-    <string name="log_activity_action_reload">Reîncarcă</string>
-    <string name="log_activity_content_description_share">Partajează jurnalul</string>
-    <string name="empty_log">Jurnalul este gol</string>
     <!-- Home screen shortcuts -->
-    <string name="home_shortcut_pin_to_home">Adăugaţi la pagina de pornire</string>
-    <string name="home_shortcut_error_pinning">Fixarea la ecranul de start nu a reușit</string>
-    <string name="home_shortcut_success_pinning">Adăugat la pagina de pornire</string>
     <!-- Content description for images -->
-    <string name="content_description_open_roller_shutter">Deschide oblonul</string>
-    <string name="content_description_stop_roller_shutter">Oprește oblonul</string>
-    <string name="content_description_close_roller_shutter">Închide oblonul</string>
-    <string name="content_description_open_color_wheel">Deschidere selector culoare</string>
-    <string name="content_description_color_up">Pornit sau ține apăsat pentru a crește luminozitatea</string>
-    <string name="content_description_color_down">Oprit sau ține apăsat pentru a diminua luminozitatea</string>
-    <string name="content_description_open_number_picker">Deschide selectorul de numere</string>
-    <string name="content_description_video">Video</string>
-    <string name="content_description_open_openhab">Deschide openHAB</string>
-    <string name="content_description_increase_item_value">Crește valoarea unui Item</string>
-    <string name="content_description_decrease_item_value">Descrește valoarea unui Item</string>
-    <string name="swipe_to_refresh_description">Aplicația se actualizează automat, în mod normal nu este necesar să faceți actualizarea manual</string>
-    <string name="got_it">Am înțeles!</string>
     <!-- Intro strings -->
-    <string name="app_intro">Introducere</string>
-    <string name="intro_welcome">Bine ați venit la openHAB</string>
-    <string name="intro_welcome_back">Bine ați revenit la openHAB</string>
-    <string name="intro_app_restored">Majoritatea setărilor au fost restaurate, cu excepția datelor de acces la server</string>
-    <string name="intro_whatis">Un software open source de automatizare pentru locuința dumneavoastră, independent de producători și tehnologii</string>
-    <string name="intro_voice_description">Controlați-vă locuința cu vocea</string>
-    <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Controlul unui Item poate fi legat de NFC-tags apăsând lung pe Item</string>
     <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">TRECI PESTE</string>
     <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">GATA</string>
     <!-- Item picker -->
-    <string name="item_picker_list_empty">Nu a fost găsit niciun Items</string>
-    <string name="item_picker_list_error">A apărut o eroare la încărcarea unor Items</string>
-    <string name="item_picker_custom">Personalizat</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
-    <string name="search">Caută</string>
-    <string name="settings_tasker_plugin">Integrează Tasker</string>
-    <string name="settings_tasker_plugin_summary">Activați Tasker-Action-Plugin care permite actualizarea Items prin Tasker sau alte aplicații compatibile</string>
-    <string name="turn_on">Porneşte</string>
-    <string name="press_back_to_exit">Apăsaţi înapoi din nou pentru a ieşi</string>
     <!-- Item update widget -->
-    <string name="item_update_widget_title">Item control</string>
-    <string name="item_update_widget_content_description">Widget pentru o modifica starea unui Item</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_item_picker_title">Selectaţi un Item</string>
-    <string name="item_update_success_message_generic">%1$s a fost setat la %2$s</string>
-    <string name="item_update_success_message_on">%s a fost pornit</string>
-    <string name="item_update_success_message_off">%s a fost oprit</string>
-    <string name="item_update_success_message_up">%s începe să se miște în sus</string>
-    <string name="item_update_success_message_down">%s începe să se miște în jos</string>
-    <string name="item_update_success_message_move">%s începe să se miște</string>
-    <string name="item_update_success_message_stop">%s a fost oprit</string>
-    <string name="item_update_success_message_increase">%s a fost mărit</string>
-    <string name="item_update_success_message_decrease">%s a fost micșorat</string>
-    <string name="item_update_success_message_undefined">%s a fost setat pe nedefinit</string>
-    <string name="item_update_success_message_empty_string">%s a fost setat pe un String gol</string>
-    <string name="item_update_success_message_play">%s se redă acum</string>
-    <string name="item_update_success_message_pause">%s a fost pus pe pauză</string>
-    <string name="item_update_success_message_next">%s arată următorul titlu</string>
-    <string name="item_update_success_message_previous">%s arată titlul anterior</string>
-    <string name="item_update_success_message_rewind">%s se derulează înapoi</string>
-    <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
