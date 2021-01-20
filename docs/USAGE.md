@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Android App
-source: https://github.com/openhab/openhab-android/blob/master/docs/USAGE.md
+source: https://github.com/openhab/openhab-android/blob/main/docs/USAGE.md
 ---
 
 {% include base.html %}
