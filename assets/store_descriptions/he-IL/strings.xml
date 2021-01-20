@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "העצמת הבית החכם" - אוטומצית הבית החכם לאנשים וחברות בראייה טכנולוגית מתקדמת מבוסס קוד פתוח</intro>
-    <whatis>openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד פתוח מבוססת Java, המשלבת מגוון רחב של מערכות וטכנולוגיות ביתיות חכמות לפתרון אחד.</whatis>
-    <rules>קיימת אפשרות לבצע אוטומציה, להגדיר כללים וממשקי משתמש שונים ומגוונים על גבי שכבת הרכיבים המחוברים.</rules>
-    <supported>מוצרים נתמכים</supported>
-    <bindings>למעלה מ-200 תוספים מספקים תמיכה עבור מותגים, התקנים, טכנולוגיות ופרוטוקולי תקשורת. כמה דוגמאות: Amazon Echo, Chromecast, Philips Hue, Z-Wave ו- Sonos. גלה את כל ההרחבות הזמינות, ההתקנים הנתמכים ו/או פונקציות ב: https://www.openhab.org/addons</bindings>
-    <automation_apps>יישום זה כולל בתוכו תוסף לביצוע פעולות עם Tasker ו- Locale.</automation_apps>
+    <intro/>
+    <whatis/>
+    <rules/>
+    <supported/>
+    <bindings>  </bindings>
+    <automation_apps/>
 
-    <oss_community>קהילת הקוד הפתוח</oss_community>
-    <forum>היוזמה הפתוחה של openHAB תומכת מאוד בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. הצטרף לפורום קהילת openHAB ב https://community.openhab.org</forum>
+    <oss_community/>
+    <forum>  </forum>
 
-    <report_issues>אם נתקלת בבעיה ביישומון אנא דווח על כך בפורום או ב- https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>אם את או אתה רוצים לעזור לתרגם את היישום לשפתך הצטרפו אלינו https://crowdin.com/project/openhab-android</translation>
-    <foundation>ארגון openHAB</foundation>
-    <about_foundation>קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org</about_foundation>
-    <important_note>הערה חשובה</important_note>
-    <oh_server>יש צורך בשרת openHAB עבור יישום זה.</oh_server>
-    <short_description>אוטומציה לבית החכם מבוססת על קוד פתוח ובלתי מוגבלת לטכנולוגיה וחברה מסויימת</short_description>
-    <fdroid>דיווחי FCM ודוחות קריסה הוסרו בגרסאות של F-Droid ולכן הם לא יוכלו לקבל התראות דחיפה מ-openHAB Cloud. במקום זאת, ההתראות נבדקות על בסיס קבוע בגרסאות האלו.</fdroid>
-    <fdroid_beta><![CDATA[באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <beta>נסה תכונות חדשות וספר לנו מה דעתך!</beta>
-    <play_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה.</play_beta>
-    <changelog_play_beta>תיקוני באגים ושיפורי יציבות. אנא בקר ב- https://github.com/openhab/openhab-android/releases למידע מפורט אודות השינויים.</changelog_play_beta>
+    <report_issues/>
+    <translation/>
+    <foundation/>
+    <about_foundation> </about_foundation>
+    <important_note/>
+    <oh_server/>
+    <short_description/>
+    <fdroid> </fdroid>
+    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <fdroid_privacy_policy/>
+    <beta/>
+    <play_beta/>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>
