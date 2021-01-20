@@ -1,53 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
-    <string name="app_preferences_name">Cài đặt</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Bản đồ trang</string>
-    <string name="mainmenu_openhab_preferences">Cài đặt</string>
-    <string name="app_notifications">Thông báo</string>
-    <string name="mainmenu_openhab_selectsitemap">Chọn mặc định sơ đồ trang web</string>
-    <string name="mainmenu_openhab_clearcache">Xóa ảnh lưu tạm</string>
     <!-- App settings strings -->
-    <string name="settings_connection_title">Kết nối</string>
-    <string name="settings_display_title">Hiển thị</string>
-    <string name="settings_misc_title">Khác</string>
-    <string name="settings_openhab_url">URL máy chủ cục bộ</string>
-    <string name="settings_openhab_url_summary">URL của trang dashboard openHAB (dựa trên IP hoặc tên máy). Nếu đã cấu hình, tự động tìm kiếm bị vô hiệu hóa. Thiết đặt hiện tại: %s</string>
-    <string name="settings_openhab_alturl">URL máy chủ từ xa</string>
-    <string name="settings_openhab_alturl_summary">URL của trang openHAB, được sử dụng khi địa chỉ nội bộ không có sẵn. Thiết đặt hiện tại: %s</string>
-    <string name="settings_openhab_username">Tài khoản</string>
-    <string name="settings_openhab_password">Mật khẩu</string>
-    <string name="settings_openhab_password_summary_weak">Mật khẩu bảo mật thấp</string>
-    <string name="settings_openhab_password_summary_strong">Mật khẩu bảo mật tốt</string>
-    <string name="settings_openhab_sslclientcert">Chứng thực SSL khách</string>
-    <string name="settings_openhab_sslclientcert_howto_summary">Bấm vào đây để có được một số gợi ý và lời giải thích làm thế nào để thiết lập chứng thực SSL cho máy khách</string>
-    <string name="settings_openhab_screentimeroff">Tắt hiển thị bộ đếm</string>
-    <string name="settings_openhab_demomode">Chế độ demo</string>
-    <string name="settings_openhab_theme">Giao diện</string>
-    <string name="settings_openhab_fullscreen">Toàn màn hình</string>
-    <string name="settings_openhab_icon_format">Định dạng biểu tượng</string>
-    <string name="settings_openhab_icon_format_png">Ảnh bitmap</string>
-    <string name="settings_openhab_icon_format_svg">Vector</string>
-    <string name="settings_chart_scaling">Chỉnh biểu đồ</string>
-    <string name="settings_chart_scaling_value_xs">Rất nhỏ</string>
-    <string name="settings_chart_scaling_value_s">Nhỏ</string>
-    <string name="settings_chart_scaling_value_m">Mặc định</string>
-    <string name="settings_chart_scaling_value_l">Lớn</string>
-    <string name="settings_clear_default_sitemap">Chọn mặc định sơ đồ trang web</string>
-    <string name="settings_no_default_sitemap">Không có sitemap mặc định được chọn</string>
-    <string name="settings_current_default_sitemap">Sitemap mặc định hiện tại: %1$s</string>
-    <string name="settings_openhab_alt_connection">Từ xa</string>
-    <string name="settings_openhab_connection">Nội bộ</string>
-    <string name="settings_ringtone_none">Không có</string>
-    <string name="settings_notification_vibration_off">Tắt</string>
-    <string name="settings_notification_vibration_short">Ngắn</string>
-    <string name="settings_notification_vibration_long">Dài</string>
-    <string name="settings_notification_vibration_twice">Hai lần</string>
-    <string name="settings_connection_summary">Đã kết nối đến %s</string>
-    <string name="settings_insecure_connection_summary">Kết nối không an toàn đến %s</string>
     <!-- App messages strings -->
     <!-- Please try to keep the string as short as possible -->
     <!-- Error messages -->
