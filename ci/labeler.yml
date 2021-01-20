@@ -3,7 +3,7 @@ documentation:
   - assets/*
 
 automation:
-  - travis/*
+  - ci/*
   - .github/workflows/*
 
 localization:

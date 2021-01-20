@@ -15,4 +15,4 @@ jobs:
       - name: Validate App Store Strings (fdroidBeta)
         run: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
       - name: Validate App Strings
-        run: python3 travis/validate-app-strings.py
+        run: python3 ci/validate-app-strings.py

@@ -3,4 +3,4 @@ linters:
         android: true
         config: ./.editorconfig
     yamllint:
-        config: ./stickler/yamllint.yml
+        config: ./ci/yamllint.yml
