@@ -10,7 +10,7 @@ Please report [Android specific issues here](https://github.com/openhab/openhab-
 
 ## Build Environment
 
-For instructions on setting up your development environment, please see [README](https://github.com/openhab/openhab-android/blob/master/README.md).
+For instructions on setting up your development environment, please see [README](https://github.com/openhab/openhab-android/blob/main/README.md).
 
 ## Contribution guidelines
 

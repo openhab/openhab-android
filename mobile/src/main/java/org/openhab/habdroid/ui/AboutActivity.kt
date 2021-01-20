@@ -131,7 +131,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 .text(R.string.about_license_title)
                 .subText(R.string.about_license)
                 .icon(R.drawable.ic_account_balance_grey_24dp)
-                .setOnClickAction(makeClickRedirect(context, "$URL_TO_GITHUB/blob/master/LICENSE"))
+                .setOnClickAction(makeClickRedirect(context, "$URL_TO_GITHUB/blob/main/LICENSE"))
                 .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.title_activity_libraries)
