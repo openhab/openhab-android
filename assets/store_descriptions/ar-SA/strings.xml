@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "empowering the smart home" - نظام التحكم المنزلي المفتوح المصدر والغير مرتبط بتقنية أو مصنع محدد</intro>
-    <whatis>openHAB مبنية على الجافا ومفتوحة المصدر ، منصة أتمتة البيوت اللتي تتكامل وتدمج نطاق كبير من أنظمة وتكنلوجيا البيوت الذكبة في حل واحد.</whatis>
-    <rules>على قمة الطبقات المجردة الموحدة، جميع الأجهزة المتصلة قابلة لقاعدة محركات أتمتة شاملة و واجهات مستخدم متوعة.</rules>
-    <supported>منتجات مدعومة</supported>
-    <bindings>ما يزيد على 200 من إضافات محددة توفر الدعم لماركات أجهزة وتقنيات وبروتوكولات الاتصال. مثال زد-ويف، فيليبس هيو، أمازون إيكو، كرومكاست، و سونوس.
-https://docs.openhab.org/addons/bindings.html. أكتشف كل الإضافات المتوفرة والأجهزة المدعومة و/أو الوظائف بزبارة الرابط: 
-https://www.openhab.org/addons/</bindings>
+    <intro/>
+    <whatis/>
+    <rules/>
+    <supported/>
+    <bindings>  </bindings>
     <automation_apps/>
 
-    <oss_community>مجتمع المصدر المفتوح</oss_community>
-    <forum>openHAB مبادرة المصدر المفتوح مدعومة بقوة من مجتمع نابض بالحياة. منتدى مكون من أكثر من 13,000 مستخدم مسجل، مكان مناسب للحصول على إرشادات، مساعدات، والإلهام. الانضمام إلى منتدى المجتمع أوبينهاب عبر https://community.openhab.org</forum>
+    <oss_community/>
+    <forum>  </forum>
 
-    <report_issues>نرجو أن تقوم بالإبلاغ عند وجود أي مشكلة عبر المنتدى أو على https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>إذا كنت ترغب في ترجمة التطبيق إلى لغتك انظم إلينا في https://crowdin.com/project/openhab-android</translation>
-    <foundation>مؤسسة openHAB</foundation>
-    <about_foundation>مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org</about_foundation>
-    <important_note>ملاحظة هامة</important_note>
-    <oh_server>أنت بحاجة إلى خادم openHAB لهذا التطبيق.</oh_server>
-    <short_description>تكنولوجيا أتمتة المنزل المفتوحة المصدر والغير مرتبطة بتقنية أو مصنع محدد</short_description>
+    <report_issues/>
+    <translation/>
+    <foundation/>
+    <about_foundation> </about_foundation>
+    <important_note/>
+    <oh_server/>
+    <short_description/>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>سياسة الخصوصية: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <beta>جرب الميزات الجديدة واعطنا ملاحظاتك!</beta>
-    <play_beta>يمكنك تثبيت الإصدار التجريبي بجانب الإصدار المستقر.</play_beta>
-    <changelog_play_beta>إصلاح الأخطاء وتحسينات. يرجى زيارة https://github.com/openhab/openhab-android/releases للحصول على سجل تفصيلي.</changelog_play_beta>
+    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <fdroid_privacy_policy/>
+    <beta/>
+    <play_beta/>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>
