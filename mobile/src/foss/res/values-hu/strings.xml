@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="push_notification_status_impaired">Az értesítések korlátozott funkcionalitással rendelkeznek a FOSS verzióban. Érintse meg a további információkért.</string>
-    <string name="push_notification_status_disabled">Az értesítések le vannak tiltva</string>
-    <string name="open_in_maps">Megnyitás OpenStreetMap-al</string>
-</resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
