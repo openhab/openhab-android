@@ -76,6 +76,6 @@ jobs:
           author_email: bot@openhab.org
           message: "Bump version to ${{ env.VERSION_NAME }} and update fastlane metadata"
           signoff: true
-          branch: master
+          branch: main
           tag: "${{ env.TAG_NAME }}-fdroid"
           token: ${{ secrets.GITHUB_TOKEN }}
