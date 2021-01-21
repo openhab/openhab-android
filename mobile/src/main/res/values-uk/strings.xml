@@ -154,9 +154,59 @@
     <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
     <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Ваш зворотний проксі отримав неприпустиму відповідь від сервера openHAB (код HTTP %d)</string>
     <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Сервер openHAB тимчасово недоступний (код HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Тайм-аут шлюзу. Здається, що Ваш проксі-сервер працює, але не зміг отримати відповідь від сервера openHAB (код HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">На сервері openHAB не достатньо вільного місця (код HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Потрібна аутентифікація мережі (код HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB не в мережі</string>
+    <string name="error_short_http_connection_failed">Код HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Помилка пошуку доменного імені</string>
+    <string name="error_short_unknown">Невідома помилка: %s</string>
+    <string name="error_short_certificate_not_trusted">Сертифікат не є довіреним</string>
+    <string name="error_short_certificate_expired">Термін дії сертифіката дійсний</string>
+    <string name="error_short_certificate_not_valid_yet">Сертифікат ще не дійсний</string>
+    <string name="error_short_certificate_revoked">Сертифікат відкликано</string>
+    <string name="error_short_connection_sslhandshake_failed">Помилка SSL</string>
+    <string name="error_short_connection_failed">Помилка зʼєднання</string>
+    <string name="error_short_http_to_https_port">Підключення до HTTPS-порту через HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Сертифікат не дійсний для %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не знайдено (код HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">Надто довге посилання (код HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">Вимагається HTTPS (код HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Помилка аутентифікації (код HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Потрібен SSL-сертифікат клієнта (код HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Зворотний проксі отримав неприпустиму відповідь від openHAB (код HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB тимчасово недоступний (код HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Тайм-аут шлюзу (код HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Недостатньо вільного місця на сервері (код HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Потрібна автентифікація мережі (код HTTP %d)</string>
+    <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
+    <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
+    <string name="error_no_speech_to_text_app_found">Не знайдено застосунок розпізнавання мови</string>
+    <string name="error_sse_failed">Операція не вдалася, оновлення віджета може погіршитися</string>
+    <string name="error_video_player">%s неможливо завантажити</string>
+    <string name="install">Встановити</string>
+    <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
+    <string name="title_activity_libraries">Використані бібліотеки</string>
+    <string name="info_write_tag">Доторкніться до NFС мітки і притримайте доки не з’явиться підтвердження</string>
+    <string name="info_write_tag_progress">Записування мітки</string>
+    <string name="info_write_tag_finished">Мітка успішно записана</string>
+    <string name="info_write_failed">Помилка запису мітки</string>
+    <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
+    <string name="info_write_tag_disabled">NFC вимкнено</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисканням віджету на сторінці інтерфейсу.</string>
+    <string name="info_not_set">Не вказано</string>
+    <string name="empty_page">На цій сторінці немає віджетів, які позначені як видимі</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
+    <string name="send_device_info_to_server_short">Надіслати інформацію про пристрій</string>
+    <string name="send_device_info_category_event_based_title">На основі подій</string>
+    <string name="send_device_info_category_event_based_explanation">Ці об\'єкти оновлюються при відповідних подіях, наприклад, при вхідних телефонних дзвінках</string>
+    <string name="send_device_info_category_schedule_based_title">За розкладом</string>
+    <string name="send_device_info_category_schedule_based_explanation">Чим коротший обраний інтервал, тим більший потенційний вплив на розряджання акумулятора Вашого пристрою. Ваш пристрій може не дотримуватись обраного інтервалу, відтерміновувати оновлення, щоб зменшити енергоспоживання через додатки.</string>
     <string name="send_device_info_item_prefix_summary">Назви об’єктів на цій сторінці префіксуються з ідентифікатором пристрою \'%s</string>
     <string name="send_device_info_item_prefix_summary_not_set">Не встановлено префікс для імен об’єктів на цій сторінці. Ви можете додати їх префікс за допомогою ідентифікатора пристрою, який може бути встановлений на сторінці основних налаштувань.</string>
     <string name="send_device_info_foreground_service_title">Монітор подій</string>
@@ -246,11 +296,35 @@
     <!-- Device identifier -->
     <string name="device_identifier_title">Ідентифікатор пристрою</string>
     <!-- Please translate "Device identifier" in this string -->
-    <string name="device_identifier_prefix_voice">Префіксувати голосові команди за допомогою \'&lt;Ідентифікатор пристрою&gt;|\'</string>
+    <string name="device_identifier_prefix_voice">Префіксувати голосові команди за допомогою \'&lt;Device identifier&gt;|\'</string>
+    <string name="device_identifier_bg_tasks">Префіксувати імена об’єктів \"Відправити інформацію про пристрій на сервер\" з цим ідентифікатором</string>
+    <string name="device_identifier_hint">Цей ідентифікатор пристрою може бути будь-яким рядком і має бути унікальним для всіх пристроїв, що мають доступ до вашого сервера openHAB. Окрім двох випадків вище, ви можете використовувати його як стан за NFC мітками, щоб знати, який пристрій зчитав мітку.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Ідентифікатор пристрою сканування (\"%s\" для цього пристрою)</string>
+    <string name="device_identifier_summary_not_set">Дані надіслані на сервер і голосові команди не префіксуються ідентифікатором пристрою</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
+    <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
+    <string name="list_loading_message">Завантаження\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Прийняти невідомий сертифікат?</string>
+    <string name="mtm_trust_anchor">Сертифікат сервера не підписано відомим центром сертифікації</string>
+    <string name="mtm_cert_expired">Минув термін дії сертифіката сервера</string>
+    <string name="mtm_accept_servername">Ім\'я сервера не збігається, прийняти?</string>
+    <string name="mtm_hostname_mismatch">Сервер не може підтвердити автентичність як \&quot;%s\&quot;. Сертифікат діє тільки для:</string>
+    <string name="mtm_connect_anyway">Все одно підключитися?</string>
+    <string name="mtm_cert_details">Подробиці сертифіката:</string>
+    <string name="mtm_decision_always">Прийняти</string>
+    <string name="mtm_decision_abort">Відмінити</string>
+    <string name="mtm_notification">Перевірка сертифіката</string>
+    <string name="settings_openhab_none">Немає</string>
     <!-- Themes -->
+    <string name="theme_name_light">Світла</string>
+    <string name="theme_name_dark">Темна</string>
+    <string name="theme_name_system">Наслідувати систему</string>
+    <string name="theme_name_battery_saver">Темна тема в режимі економії заряду акумулятора</string>
+    <string name="theme_name_black">Чорна</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Графік</string>
     <string name="chart_activity_hide_legend">Приховати легенду</string>
     <string name="chart_activity_show_legend">Показати легенду</string>
     <string name="chart_activity_period">Період</string>
@@ -305,10 +379,60 @@
     <string name="about_docs">Документація</string>
     <string name="about_community_forum">Форум спільноти</string>
     <string name="about_foundation">openHAB Foundation</string>
+    <string name="about_community">Спільнота openHAB</string>
+    <string name="about_translation">Допоможіть нам перекласти openHAB</string>
+    <string name="about_privacy_policy">Політика конфіденційності</string>
+    <string name="about_rate_this_app">Оцінить цей додаток</string>
+    <string name="settings_debug_messages_title">Розширені повідомлення про помилки</string>
+    <string name="settings_troubleshooting_title">Виправлення несправностей</string>
+    <string name="set">Встановити</string>
+    <string name="cancel">Відмінити</string>
+    <string name="close">Закрити</string>
+    <string name="undo">Скасувати</string>
+    <string name="try_again_button">Спробуйте ще раз</string>
+    <string name="enable_wifi_button">Увімкнути Wi-Fi</string>
+    <string name="go_to_settings_button">Перейти до налаштувань</string>
+    <string name="enable_demo_mode_button">Увімкнути Демо-режим</string>
+    <string name="configuration_missing">Ми не знайшли сервер openHAB у вашій мережі. Якщо він у вас є, будь ласка вкажіть його адресу або ім’я у налаштуваннях. Якщо у вас ще немає працюючого сервера, ви можете увімкнути демонстраційний режим, щоб побачити на що здатний openHAB.</string>
+    <string name="no_remote_server">Під’єднання до локального сервера не вдалось, а віддалений не налаштовано</string>
+    <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
+    <string name="waiting_for_wifi">Очікування встановлення з’єднання через Wi-Fi\u2026</string>
+    <string name="visit_status_openhab_org">Відвідати status.openhab.org</string>
     <!-- Log -->
+    <string name="log">Журнал</string>
+    <string name="view_log">Переглянути журнал</string>
+    <string name="log_activity_action_clear_log">Очистити журнал</string>
+    <string name="log_activity_action_show_errors">Показати тільки помилки</string>
+    <string name="log_activity_action_show_all">Показати всі повідомлення</string>
+    <string name="log_activity_action_reload">Оновити</string>
+    <string name="log_activity_content_description_share">Надіслати журнал</string>
+    <string name="empty_log">Журнал порожній</string>
+    <string name="log_too_large_to_share">Цей журнал завеликий для відправки. Будь ласка, очистіть журнал, відтворіть помилки, і тоді поділіться ним.</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Прикріпити на домашню сторінку</string>
+    <string name="home_shortcut_error_pinning">Неможливо прикріпити на домашню сторінку</string>
+    <string name="home_shortcut_success_pinning">Прикріплено на домашню сторінку</string>
+    <string name="home_shortcut_server_has_been_deleted">Сервер для цього ярлика був видалений</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Відкрити ролети</string>
+    <string name="content_description_stop_roller_shutter">Зупинити ролети</string>
+    <string name="content_description_close_roller_shutter">Закрити ролети</string>
+    <string name="content_description_open_color_wheel">Відкрити колесо вибору кольору</string>
+    <string name="content_description_color_up">Натискайте або утримуйте щоб збільшити яскравість</string>
+    <string name="content_description_color_down">Натискайте або утримуйте щоб зменшити яскравість</string>
+    <string name="content_description_open_number_picker">Введення числа</string>
+    <string name="content_description_video">Відео</string>
+    <string name="content_description_open_openhab">Відкрити openHAB</string>
+    <string name="content_description_increase_item_value">Збільшення значення об\'єкта</string>
+    <string name="content_description_decrease_item_value">Зменшення значення об\'єкта</string>
+    <string name="swipe_to_refresh_description">Додаток періодично оновлюється автоматично, зазвичай не потрібно робити це вручну</string>
+    <string name="got_it">Зрозуміло!</string>
     <!-- Intro strings -->
+    <string name="app_intro">Вступ</string>
+    <string name="intro_welcome">Ласкаво просимо до openHAB</string>
+    <string name="intro_welcome_back">З поверненням до openHAB</string>
+    <string name="intro_app_restored">Більшість налаштувань відновлено, крім облікових даних</string>
+    <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
     <string name="intro_voice_description">Керуйте будинком за допомогою голосу</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Елемент керування можна прив\'язати до NFC мітки довгим натисненням на цей елемент</string>
@@ -368,10 +492,65 @@
     <string name="item_update_short_success_message_up">Починає підніматися вгору</string>
     <string name="item_update_short_success_message_down">Починає рухатися вниз</string>
     <string name="item_update_short_success_message_move">Починає рухатись</string>
+    <string name="item_update_short_success_message_stop">Зупинено</string>
+    <string name="item_update_short_success_message_increase">Підвищено</string>
+    <string name="item_update_short_success_message_decrease">Понижено</string>
+    <string name="item_update_short_success_message_undefined">Встановлено як невизначений</string>
+    <string name="item_update_short_success_message_empty_string">Встановлено як пустий рядок</string>
+    <string name="item_update_short_success_message_play">Відтворюється</string>
+    <string name="item_update_short_success_message_pause">Призупинено</string>
+    <string name="item_update_short_success_message_next">Відображення наступної назви</string>
+    <string name="item_update_short_success_message_previous">Відображення попередньої назви</string>
+    <string name="item_update_short_success_message_rewind">Відмотування</string>
+    <string name="item_update_short_success_message_fastforward">Перемотування вперед</string>
+    <string name="item_update_error_no_connection_retry">Помилка надсилання оновлення елементу, повторна спроба\u2026</string>
+    <string name="item_update_error_no_connection">Немає з\'єднання</string>
+    <string name="item_update_error_couldnt_get_item_type">Не вдалося отримати тип об’єкта</string>
+    <string name="create_home_screen_widget_title">Створити віджет</string>
+    <string name="create_home_screen_widget_not_supported">Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти</string>
+    <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
+    <string name="item_update_widget_widget_label">Мітка віджета</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="data_saver_title">Заощадження трафіку</string>
+    <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
+    <string name="data_saver_off">При завантаженні об’ємних сторінок інтерфейсу, використовуються системні налаштування економії трафіку</string>
+    <string name="data_saver_off_pre_n">Усі елементи сторінок інтерфейсу завантажуються, ігноруючи споживання трафіку</string>
+    <string name="data_saver_load">Все одно завантажити</string>
+    <string name="data_saver_hint">%s не завантажено, щоб заощадити трафік</string>
+    <string name="data_saver_snackbar">Значки не базуються на станах об’єктів, оскільки ввімкнено заощадження даних</string>
+    <string name="widget_type_image">Зображення</string>
     <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Відео</string>
+    <string name="widget_type_mapview">Карта</string>
+    <string name="widget_type_chart">Діаграма</string>
     <!-- Tiles -->
+    <string name="tile">Плитка</string>
+    <string name="tiles_for_quick_settings">Плитки для швидких налаштувань</string>
+    <string name="tile_item_picker_title">Оберіть об\'єкт</string>
+    <string name="tile_error_saving">Будь ласка, заповніть всі налаштування</string>
+    <string name="tile_disabled">Вимкнено</string>
+    <string name="tile_enable">Увімкнути</string>
+    <string name="item_item_and_action">Об\'єкт і дія</string>
+    <string name="tile_name">Ім\'я</string>
+    <string name="tile_icon">Іконка</string>
+    <string name="tile_require_unlock">Потрібно розблокувати екран</string>
+    <string name="tile_require_unlock_summary_on">Запитувати розблокування пристрою перед дозволом оновлення об\'єктів</string>
+    <string name="tile_require_unlock_summary_off">Дозволити оновлення об\'єктів, навіть якщо пристрій заблоковано</string>
+    <string name="tile_overview_hint">Стан плитки не відображає стан об\'єкта.\nЯкщо плитки не оновлюються після їх зміни тут, торкніться плитки або відредагуйте швидкі налаштування вашого пристрою (місце, де знаходяться перемикачі на приклад Wi-Fi та Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d активна плитка</item>
+        <item quantity="few">%d активні плитки</item>
+        <item quantity="many">%d активних плиток</item>
+        <item quantity="other">%d активних плиток</item>
+    </plurals>
+    <string name="tile_number">Плитка %d</string>
+    <string name="tile_label_1">Плитка 1</string>
+    <string name="tile_label_2">Плитка 2</string>
+    <string name="tile_label_3">Плитка 3</string>
+    <string name="tile_label_4">Плитка 4</string>
+    <string name="tile_label_5">Плитка 5</string>
+    <string name="tile_label_6">Плитка 6</string>
     <string name="tile_label_7">Плитка 7</string>
     <string name="tile_label_8">Плитка 8</string>
     <string name="tile_label_9">Плитка 9</string>
