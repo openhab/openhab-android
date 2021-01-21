@@ -4,7 +4,18 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <!-- App settings strings -->
+    <string name="settings_sitemap_title">Sitemap</string>
+    <string name="settings_openhab_icon_format_png">Mapa de bits</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
+    <string name="settings_openhab_connection">Local</string>
+    <string name="beta">Beta</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <!-- App messages strings -->
     <!-- Please try to keep the string as short as possible -->
     <!-- Error messages -->
@@ -25,8 +36,10 @@
     <!-- Drawer -->
     <!-- About -->
     <!-- Log -->
+    <string name="log">Log</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
+    <string name="content_description_video">Vídeo</string>
     <!-- Intro strings -->
     <!-- Intro "SKIP" button -->
     <!-- Intro "DONE" button -->
