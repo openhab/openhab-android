@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Сповіщення мають обмежені можливості у версії FOSS. Торкніться, щоб дізнатися більше.</string>
+    <string name="push_notification_status_disabled">Сповіщення вимкнено</string>
+    <string name="open_in_maps">Відкрити в OpenStreetMap</string>
+</resources>
