@@ -38,6 +38,7 @@
     <string name="settings_openhab_password">Password</string>
     <string name="settings_openhab_password_summary_weak">Weak password set</string>
     <string name="settings_openhab_password_summary_strong">Strong password set</string>
+    <string name="settings_openhab_api_token_hint">If you\'re using an API token, enter it in the username field and leave the password field empty</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://community.openhab.org/t/using-nginx-reverse-proxy-for-client-certificate-authentication-start-discussion/43064</string>
