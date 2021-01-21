@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
+    <intro>openHAB - "potenciando el hogar inteligente" - automatización del hogar en código abierto independiente del proveedor y de la tecnología</intro>
     <whatis/>
     <rules/>
     <supported/>
