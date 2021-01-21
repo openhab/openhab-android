@@ -57,7 +57,8 @@ import org.xml.sax.SAXException
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
-        if (inputData.getBoolean(INPUT_DATA_IS_IMPORTANT, false)) {
+        val isImportant = inputData.getBoolean(INPUT_DATA_IS_IMPORTANT, false)
+        if (isImportant) {
             setForegroundAsync(createForegroundInfo())
         }
         runBlocking {
@@ -76,7 +77,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         if (connection == null) {
             Log.e(TAG, "Got no connection")
-            return if (runAttemptCount <= MAX_RETRIES) {
+            return if (runAttemptCount <= if (isImportant) 3 else 10) {
                 if (showToast) {
                     applicationContext.showToast(R.string.item_update_error_no_connection_retry, ToastType.ERROR)
                 }
@@ -340,7 +341,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     companion object {
         private val TAG = ItemUpdateWorker::class.java.simpleName
-        private const val MAX_RETRIES = 10
         private val RETRY_HTTP_ERROR_CODES = listOf(408, 425, 502, 503, 504)
 
         private const val INPUT_DATA_ITEM_NAME = "item"
