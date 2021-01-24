@@ -45,6 +45,7 @@ import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.Sitemap
@@ -262,7 +263,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun showWebViewUi(ui: WebViewUi) {
         val prefs = activity.getPrefs()
         val activeServerId = prefs.getActiveServerId()
-        val title = if (prefs.getConfiguredServerIds().size <= 1) {
+        val title = if (prefs.getConfiguredServerIds().size <= 1 || activity.connection is DemoConnection) {
             activity.getString(ui.titleRes)
         } else {
             val activeServerName = ServerConfiguration.load(prefs, activity.getSecretPrefs(), activeServerId)?.name
