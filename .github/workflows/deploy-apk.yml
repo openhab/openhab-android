@@ -53,7 +53,9 @@ jobs:
           alias: "sign"
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           
-      - uses: actions/upload-artifact@v2
+      - uses: svenstaro/upload-release-action@v2
         with:
-          name: APK
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          file: ${{steps.sign_app.outputs.signedReleaseFile}}
+          asset_name: openhab-android.apk
+          tag: ${{ github.ref }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
