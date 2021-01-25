@@ -821,11 +821,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.habpanel -> {
-                    openWebViewUi(WebViewUi.HABPANEL)
+                    openWebViewUi(WebViewUi.HABPANEL, false)
                     handled = true
                 }
                 R.id.oh3_ui -> {
-                    openWebViewUi(WebViewUi.OH3_UI)
+                    openWebViewUi(WebViewUi.OH3_UI, false)
                     handled = true
                 }
                 R.id.settings -> {
@@ -1044,7 +1044,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         action is PendingAction.OpenWebViewUi && isStarted &&
             serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
-            executeActionForServer(action.serverId) { openWebViewUi(action.ui) }
+            executeActionForServer(action.serverId) { openWebViewUi(action.ui, true) }
         }
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
             launchVoiceRecognition()
@@ -1140,9 +1140,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
-    private fun openWebViewUi(ui: WebViewUi) {
+    private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean) {
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
-        controller.showWebViewUi(ui)
+        controller.showWebViewUi(ui, isStackRoot)
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
