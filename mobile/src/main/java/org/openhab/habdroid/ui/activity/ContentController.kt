@@ -409,8 +409,9 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @return true if back key can be consumed, false otherwise
      */
     fun canGoBack(): Boolean {
-        return if ((temporaryPage as? WebViewFragment)?.isStackRoot == true) {
-            return (temporaryPage as? WebViewFragment)?.goBack() == true
+        val tempPageAsWebView = temporaryPage as? WebViewFragment
+        return if (tempPageAsWebView?.isStackRoot == true) {
+            return tempPageAsWebView.canGoBack()
         } else {
             temporaryPage != null || !pageStack.empty()
         }

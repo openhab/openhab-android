@@ -63,6 +63,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var shortcutInfo: ShortcutInfoCompat? = null
     private var actionBar: ActionBar? = null
     var isStackRoot = false
+        private set
 
     val title: String
         get() = requireArguments().getString(KEY_PAGE_TITLE)!!
@@ -202,6 +203,10 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
         actionBar?.show()
         return false
+    }
+
+    fun canGoBack(): Boolean {
+        return webView?.canGoBack() == true
     }
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
