@@ -12,8 +12,8 @@
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">інтерфейс openHAB 3</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">інтерфейс openHAB 3 (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">Інтерфейс openHAB 3</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">Інтерфейс openHAB 3</string>
     <string name="app_notifications">Сповіщення</string>
     <string name="app_notifications_on_server">Сповіщення (%s)</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
