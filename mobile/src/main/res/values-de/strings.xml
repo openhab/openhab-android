@@ -100,6 +100,9 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" ist der primäre Server. Hier berühren, um diesen Server zum primären zu machen.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Hier berühren für mehr Informationen</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Die App wählt diesen Server aus, wenn mit WLAN „%s“ verbunden</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">Die App wird diesen Server nicht automatisch basierend auf dem verbundenen WLAN-Netzwerk auswählen</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Auf Server „%s“ basierend auf WLAN gewechselt</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Der WLAN-Name kann nicht gelesen werden: Fehlende Berechtigungen</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Der WLAN-Name kann nicht gelesen werden: Standort ist aus</string>
     <!-- App messages strings -->
@@ -117,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Ihr Server für den Fernzugriff ist nicht verfügbar</string>
     <string name="app_shortcut_disabled_voice_recognition">Ihr Gerät hat keine Spracherkennungs-App installiert</string>
     <string name="no_position_set">Keine Position gesetzt</string>
+    <string name="show_and_copy_item_name">Item-Name anzeigen und kopieren</string>
+    <string name="copied_item_name">„%s“ kopiert</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB schickte eine leere Sitemap-Liste</string>
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
@@ -256,6 +261,9 @@
         <item quantity="one">%d neue Benachrichtigung</item>
         <item quantity="other">%d neue Benachrichtigungen</item>
     </plurals>
+    <string name="push_notification_status_no_remote_configured">Benachrichtigungen nicht verfügbar: Server für den Fernzugriff nicht konfiguriert</string>
+    <string name="push_notification_status_http_error">Benachrichtigungen nicht verfügbar: Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Benachrichtigungen nicht verfügbar: Server für den Fernzugriff ist keine openHAB-Cloud-Instanz</string>
     <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, dessen Intervall mit dem für \"Geräteinformationen an Server senden\" eingestellten identisch ist</string>
     <plurals name="item_update_error_title">
