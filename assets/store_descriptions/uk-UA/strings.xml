@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <intro>openHAB - "empowering the smart home" - відкрите ПЗ для автоматизації "розумного будинку", яке не залежить від виробників і технологій</intro>
+    <whatis>openHAB - платформа домашньої автоматизації з відкритим початковим кодом, створена на базі Java і об'єднуюча велику кількість систем "розумного будинку" в монолітне рішення.</whatis>
+    <rules>Поверх програмних шарів, усі під'єднані пристрої доступні для глобальних правил автоматизації і різноманітних користувацьких інтерфейсів.</rules>
+    <supported>Підтримувані продукти</supported>
     <bindings>  </bindings>
-    <automation_apps/>
+    <automation_apps>Застосунок включає додатки дій для Tasker і Locale.</automation_apps>
 
-    <oss_community/>
+    <oss_community>Open Source спільнота</oss_community>
     <forum>  </forum>
 
-    <report_issues/>
-    <translation/>
+    <report_issues>Якщо знайдете помилку, будь ласка, повідомте про це на форумі, або на https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Якщо хочете перекласти програму своєю мовою - приєднуйтеся до нас на https://crowdin.com/project/openhab-android</translation>
     <foundation/>
     <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
+    <important_note>Важлива примітка</important_note>
+    <oh_server>Для цього застосунку Вам необхідний сервер openHAB.</oh_server>
+    <short_description>Відкрите ПЗ для домашньої автоматизації, неупереджене до виробників і технологій</short_description>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[Ви можете встановити бета версію разом зі <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабільною версією</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>Політика конфіденційності: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Спробуйте нові функції і залиште швидкий відгук!</beta>
+    <play_beta>Ви можете встановити бета версію разом зі стабільною.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
