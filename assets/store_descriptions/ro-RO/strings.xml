@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
     <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <whatis>openHAB este o platformă open-source bazată pe Java, care integrează şi combină o gamă largă de diferite sisteme inteligente şi tehnologii într-o singură soluţie.</whatis>
+    <rules>Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivele pentru motorul de automatizare bazat pe reguli și diferite interfețe de utilizator.</rules>
+    <supported>Produse suportate</supported>
     <bindings>  </bindings>
     <automation_apps/>
 
@@ -12,15 +12,15 @@
 
     <report_issues/>
     <translation/>
-    <foundation/>
+    <foundation>Fundația openHAB</foundation>
     <about_foundation> </about_foundation>
     <important_note/>
     <oh_server/>
     <short_description/>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
+    <fdroid_privacy_policy>Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Încercați funcții noi și lăsați primele impresii!</beta>
+    <play_beta>Poți instala versiunea beta alături de versiunea stabilă.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
