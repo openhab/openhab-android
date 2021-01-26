@@ -128,6 +128,7 @@
     <string name="waiting_for_item_upload">Se așteaptă ca rețeaua să actualizeze starea unui Item</string>
     <string name="item_upload_in_progress">În prezent, Items sunt actualizate</string>
     <string name="notification_channel_background_error">Eroare în sarcinile de fundal</string>
+    <string name="notification_channel_messages_default_severity">Implicit</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item nu a putut fi actualizat</item>
         <item quantity="few">%d Items nu au putut fi actualizate</item>
@@ -285,7 +286,10 @@
     <string name="item_update_success_message_rewind">%s se derulează înapoi</string>
     <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
     <!-- Data saver -->
+    <string name="widget_type_video">Video</string>
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Selectaţi un Item</string>
+    <string name="tile_enable">Porneşte</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
