@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
+    <intro>openHAB - "memberdayakan rumah cerdas" - vendor dan agnostik teknologi open source otomatisasi rumah</intro>
+    <whatis>openHAB, platform otomatisasi rumah open source berbasis Java yang mengintegrasikan dan menggabungkan banyak macam sistem rumah cerdas dan teknologi-teknologi ke dalam solusi tunggal.</whatis>
     <rules/>
-    <supported/>
+    <supported>Dukungan Produk</supported>
     <bindings>  </bindings>
     <automation_apps/>
 
     <oss_community/>
     <forum>  </forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
+    <report_issues>Ketika menemukan sebuah permasalahan laporkan di dalam forum atau pada https://github.com/openhab/openhab-androis/issues</report_issues>
+    <translation>Jika berkenan menerjemahkan aplikasi di dalam bahasa Anda gabung bersama kami di https://crowdin.com/project/openhab-android</translation>
+    <foundation>Yayasan openHAB</foundation>
     <about_foundation> </about_foundation>
-    <important_note/>
+    <important_note>Catatan penting</important_note>
     <oh_server/>
-    <short_description/>
+    <short_description>Vendor dan teknologi agnostik otomatisasi rumah open source</short_description>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[Anda dapat memasang versi beta bersama <a href="https://f-droid.org/packages/org.openhab.habdroid/">versi stabil</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>Kebijakan privasi: https://www.oprnhabfiundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Coba fitur-fitur baru dan berikan tanggapan lebih awal!</beta>
+    <play_beta>Anda dapat memasang versi beta bersama versi stabil.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
