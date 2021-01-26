@@ -53,6 +53,8 @@
     <string name="settings_notification_vibration_twice">Двойна</string>
     <string name="settings_connection_summary">Свързан към %s</string>
     <string name="settings_insecure_connection_summary">Несигурно свързан към %s</string>
+    <string name="settings_screen_lock_off">Изключено</string>
+    <string name="settings_screen_lock_on">Включено</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB на ваше командване!</string>
     <string name="info_voice_recognized_text">Разпозната команда: %1$s</string>
@@ -84,6 +86,7 @@
     <string name="action_settings">Настройки</string>
     <string name="info_not_set">Не е зададено</string>
     <!-- Background tasks -->
+    <string name="notification_channel_messages_default_severity">По подразбиране</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -172,6 +175,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Видео</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
