@@ -149,6 +149,7 @@
     <string name="waiting_for_item_upload">等待网络以发送项目更新</string>
     <string name="item_upload_in_progress">项目正被更新</string>
     <string name="notification_channel_background_error">后台任务错误</string>
+    <string name="notification_channel_messages_default_severity">默认</string>
     <plurals name="item_update_error_title">
         <item quantity="other">无法更新 %d 个项目</item>
     </plurals>
@@ -252,6 +253,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">视频</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
