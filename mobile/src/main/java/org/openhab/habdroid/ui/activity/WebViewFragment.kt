@@ -62,6 +62,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private lateinit var urlForError: String
     private var shortcutInfo: ShortcutInfoCompat? = null
     private var actionBar: ActionBar? = null
+    var isStackRoot = false
+        private set
 
     val title: String
         get() = requireArguments().getString(KEY_PAGE_TITLE)!!
@@ -85,6 +87,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         val action = args.getString(KEY_SHORTCUT_ACTION)
         val extraServerId = args.getInt(KEY_SHORTCUT_EXTRA_SERVER_ID)
         val label = args.getString(KEY_SHORTCUT_LABEL)
+        isStackRoot = args.getBoolean(KEY_IS_STACK_ROOT)
         @DrawableRes val icon = args.getInt(KEY_SHORTCUT_ICON_RES)
         action?.let {
             val context = view.context
@@ -200,6 +203,10 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
         actionBar?.show()
         return false
+    }
+
+    fun canGoBack(): Boolean {
+        return webView?.canGoBack() == true
     }
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
@@ -322,6 +329,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         private const val KEY_ERROR = "error"
         private const val KEY_URL_LOAD = "url_load"
         private const val KEY_URL_ERROR = "url_error"
+        private const val KEY_IS_STACK_ROOT = "is_stack_root"
         private const val KEY_SHORTCUT_ACTION = "shortcut_action"
         private const val KEY_SHORTCUT_EXTRA_SERVER_ID = "shortcut_extra_server_id"
         private const val KEY_SHORTCUT_LABEL = "shortcut_label"
@@ -333,6 +341,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             urlToLoad: String,
             urlForError: String,
             serverId: Int,
+            isStackRoot: Boolean,
             shortcutAction: String? = null,
             shortcutLabel: String,
             shortcutIconRes: Int = 0
@@ -343,10 +352,12 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 KEY_ERROR to errorMessage,
                 KEY_URL_LOAD to urlToLoad,
                 KEY_URL_ERROR to urlForError,
+                KEY_IS_STACK_ROOT to isStackRoot,
                 KEY_SHORTCUT_ACTION to shortcutAction,
                 KEY_SHORTCUT_EXTRA_SERVER_ID to serverId,
                 KEY_SHORTCUT_LABEL to shortcutLabel,
-                KEY_SHORTCUT_ICON_RES to shortcutIconRes)
+                KEY_SHORTCUT_ICON_RES to shortcutIconRes
+            )
             return f
         }
     }

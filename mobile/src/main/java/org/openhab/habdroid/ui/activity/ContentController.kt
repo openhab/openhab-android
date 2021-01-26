@@ -259,7 +259,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
-    fun showWebViewUi(ui: WebViewUi) {
+    fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean) {
         val prefs = activity.getPrefs()
         val activeServerId = prefs.getActiveServerId()
         val title = if (prefs.getConfiguredServerIds().size <= 1) {
@@ -275,14 +275,13 @@ abstract class ContentController protected constructor(private val activity: Mai
             ui.urlToLoad,
             ui.urlForError,
             activeServerId,
+            isStackRoot,
             ui.shortcutAction,
             title,
             ui.shortcutIconRes
         )
         webViewFragment.callback = this
-        showTemporaryPage(
-            webViewFragment
-        )
+        showTemporaryPage(webViewFragment)
     }
 
     /**
@@ -410,7 +409,12 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @return true if back key can be consumed, false otherwise
      */
     fun canGoBack(): Boolean {
-        return temporaryPage != null || !pageStack.empty()
+        val tempPageAsWebView = temporaryPage as? WebViewFragment
+        return if (tempPageAsWebView?.isStackRoot == true) {
+            return tempPageAsWebView.canGoBack()
+        } else {
+            temporaryPage != null || !pageStack.empty()
+        }
     }
 
     /**
@@ -426,6 +430,9 @@ abstract class ContentController protected constructor(private val activity: Mai
             }
         }
         if (temporaryPage != null) {
+            if ((temporaryPage as? WebViewFragment)?.isStackRoot == true) {
+                return false
+            }
             temporaryPage = null
             activity.updateTitle()
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
