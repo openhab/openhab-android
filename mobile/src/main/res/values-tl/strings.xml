@@ -31,6 +31,9 @@
     <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_openhab_alt_connection">Malayo</string>
     <string name="settings_openhab_connection">Lokal</string>
+    <string name="settings_notification_vibration_off">Off</string>
+    <string name="settings_screen_lock_off">Off</string>
+    <string name="settings_screen_lock_on">On</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, sa utos mo!</string>
     <string name="info_voice_recognized_text">Tinanggap na utos: %1$s</string>
@@ -114,6 +117,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Video</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
