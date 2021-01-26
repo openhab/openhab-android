@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="push_notification_status_impaired">Le notifiche hanno funzionalità limitate nella versione FOSS. Tocca per ulteriori informazioni.</string>
-    <string name="push_notification_status_disabled">Le notifiche sono disabilitate</string>
-    <string name="open_in_maps">Apri in OpenStreetMap</string>
-</resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
