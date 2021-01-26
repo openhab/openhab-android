@@ -433,6 +433,7 @@
     <string name="item_update_success_message_previous">%s näyttää edellisen nimikkeen</string>
     <string name="item_update_success_message_rewind">%s kelaa taaksepäin</string>
     <string name="item_update_success_message_fastforward">%s kelaa eteenpäin</string>
+    <string name="item_update_short_success_message_off">Poistettu käytöstä</string>
     <string name="item_update_error_no_connection_retry">Virhe lähetettäessä Itemin päivitystä, yritetään uudelleen\u2026</string>
     <string name="item_update_error_no_connection">Ei yhteyttä</string>
     <string name="item_update_error_couldnt_get_item_type">Ei saatu Itemin tyyppiä</string>
