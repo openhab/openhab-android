@@ -431,6 +431,7 @@
     <string name="item_update_success_message_previous">%s toont de vorige titel</string>
     <string name="item_update_success_message_rewind">%s spoelt terug</string>
     <string name="item_update_success_message_fastforward">%s spoelt vooruit</string>
+    <string name="item_update_short_success_message_off">Uitgeschakeld</string>
     <string name="item_update_error_no_connection_retry">Fout bij verzenden Item update, opnieuw proberen\u2026</string>
     <string name="item_update_error_no_connection">Geen verbinding</string>
     <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
