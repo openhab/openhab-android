@@ -3,15 +3,53 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">Mga setting</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_preferences">Mga Setting</string>
+    <string name="app_notifications">Mga notipikasyon</string>
+    <string name="mainmenu_openhab_clearcache">Burahin ang mga imaheng naka-cache</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Koneksyon</string>
+    <string name="settings_misc_title">Samut-sari</string>
+    <string name="settings_openhab_url">URL ng lokal server</string>
+    <string name="settings_openhab_url_summary">Ang URL ng openHAB dashboard (batay sa hostname o IP). Kung ito man ay na-configure, ang autodiscovery ay hindi gagana. Kasalukuyang setting: %s</string>
+    <string name="settings_openhab_alturl">URL ng Malayuang server</string>
+    <string name="settings_openhab_alturl_summary">Ang URL ng openHAB dashboard ay ginamit habang ang lokal na address ay hindi magagamit. Kasalukuyang setting</string>
+    <string name="settings_openhab_username">Pangalan ng gumagamit</string>
+    <string name="settings_openhab_sslclientcert">SSL sertipiko ng kliente</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Tapikin ito para makakuha ng mga pahiwatig at eksplanasyon ukol sa kung paano mag set-up ng pagpapatunay sa sertipiko ng kliente sa SSL</string>
+    <string name="settings_openhab_screentimeroff">Huwag paganahin ang display timer</string>
+    <string name="settings_openhab_screentimeroff_summary">Huwag paganahin ang switch off timer kapag tumatakbo ang openHAB</string>
+    <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_openhab_fullscreen">Tignan ang Kabuuan</string>
+    <string name="settings_openhab_icon_format">Pormat ng icon</string>
+    <string name="settings_openhab_alt_connection">Malayo</string>
+    <string name="settings_openhab_connection">Lokal</string>
     <!-- App messages strings -->
+    <string name="info_voice_input">openHAB, sa utos mo!</string>
+    <string name="info_voice_recognized_text">Tinanggap na utos: %1$s</string>
+    <string name="info_demo_mode_short">Tumatakbo sa demo mode</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="info_conn_url">Kumokonekta sa lokal URL</string>
+    <string name="info_conn_rem_url">Kumokonekta sa malayong URL</string>
     <!-- Error messages -->
+    <string name="error_network_not_available">Hindi available ang network</string>
+    <string name="error_invalid_url">Maaari magpasok ng wastong URL sa \'http(s)://host(:port)/\' form</string>
+    <string name="error_connection_failed">Ang koneksyon sa host ay nabigo</string>
+    <string name="error_unable_to_resolve_hostname">Hindi malutas ang hostname</string>
+    <string name="error_connection_sslhandshake_failed">Ang SSL handshake ay nabigo</string>
+    <string name="error_certificate_wrong_host">Ang sertipiko ng SSL ay hindi balido para sa %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="title_activity_openhabwritetag">Isulat ang NFC tag</string>
+    <string name="info_write_tag">Hawakan ang tag at panatilihin itong sarado hanggang sa lumabas ang mensahe ng kumpirmasyon</string>
+    <string name="info_write_tag_progress">Sinusulat ang tag</string>
+    <string name="info_write_failed">Tanda ng pagkakamali sa sulat</string>
+    <string name="info_write_tag_unsupported">Ang aparato ay walang suporta ng NFC</string>
+    <string name="action_settings">Mga setting</string>
+    <string name="info_not_set">Hindi nakatakda</string>
     <!-- Background tasks -->
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
@@ -19,17 +57,47 @@
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_decision_abort">Huwag ituloy</string>
+    <string name="mtm_notification">Pagpapatunay sa sertipiko</string>
     <!-- Themes -->
+    <string name="theme_name_light">Liwanag</string>
+    <string name="theme_name_dark">Madilim</string>
     <!-- Chart -->
     <!-- NFC -->
+    <string name="nfc_action_up">Taas</string>
+    <string name="nfc_action_down">Baba</string>
+    <string name="nfc_activate">Gawing Aktibo</string>
+    <string name="nfc_action_current_color">Kasalukuyang kulay</string>
     <!-- Drawer -->
+    <string name="drawer_open">Ang Sitemap drawer ay nabuksan</string>
+    <string name="drawer_close">Ang Sitemap drawer ay isinara</string>
+    <string name="mainmenu_openhab_voice_recognition">Pagkilala sa boses</string>
     <!-- About -->
+    <string name="about_title">Impormasyon</string>
+    <string name="about_license_title">Lisensya</string>
+    <string name="set">I-set</string>
+    <string name="cancel">Kanselahin</string>
+    <string name="try_again_button">Subukan muli</string>
+    <string name="go_to_settings_button">Pumunta sa mga setting</string>
     <!-- Log -->
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Buksan ang roller shutter</string>
+    <string name="content_description_stop_roller_shutter">Ihinto ang roller shutter</string>
+    <string name="content_description_close_roller_shutter">Isarado ang roller shutter</string>
+    <string name="content_description_open_color_wheel">Buksan ang color wheel</string>
+    <string name="content_description_color_up">I-on o hawakan para tumaas ang liwanag</string>
+    <string name="content_description_color_down">I-off o hawakan para bumaba ang liwanag</string>
+    <string name="content_description_open_number_picker">Buksan ang number picker</string>
+    <string name="content_description_open_openhab">Buksan ang openHAB</string>
     <!-- Intro strings -->
+    <string name="app_intro">Panimula</string>
+    <string name="intro_welcome">Maligayang pagdating sa openHAB</string>
+    <string name="intro_whatis">Isang vendor at teknolohiyang agnostika na may bukas na pinagmulan awtomasyong software para sainyong tirahan</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">Laktawan</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">Tapos na</string>
     <!-- Item picker -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
