@@ -12,7 +12,7 @@
 
     <report_issues>Ketika menemukan sebuah permasalahan laporkan di dalam forum atau pada https://github.com/openhab/openhab-androis/issues</report_issues>
     <translation>Jika berkenan menerjemahkan aplikasi di dalam bahasa Anda gabung bersama kami di https://crowdin.com/project/openhab-android</translation>
-    <foundation/>
+    <foundation>Yayasan openHAB</foundation>
     <about_foundation>Yayasan openHAB, sebuah organisasi nonprofit dengan misi mengedukasi masyarakat tentang kemungkinan-kemungkinan dan keuntungan atas solusi rumah cerdas yang bebas dan terbuka. Pelajari tentang misi dan layanan yayasan pada https://www.oprnhabfoundation.org</about_foundation>
     <important_note>Catatan penting</important_note>
     <oh_server/>
