@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <intro>openHAB - "העצמת הבית החכם" - אוטומצית הבית החכם לאנשים וחברות בראייה טכנולוגית מתקדמת מבוסס קוד פתוח</intro>
+    <whatis>openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד פתוח מבוססת Java, המשלבת מגוון רחב של מערכות וטכנולוגיות ביתיות חכמות לפתרון אחד.</whatis>
+    <rules>קיימת אפשרות לבצע אוטומציה, להגדיר כללים וממשקי משתמש שונים ומגוונים על גבי שכבת הרכיבים המחוברים.</rules>
+    <supported>מוצרים נתמכים</supported>
     <bindings>  </bindings>
-    <automation_apps/>
+    <automation_apps>יישום זה כולל בתוכו תוסף לביצוע פעולות עם Tasker ו- Locale.</automation_apps>
 
-    <oss_community/>
+    <oss_community>קהילת הקוד הפתוח</oss_community>
     <forum>  </forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
+    <report_issues>אם נתקלת בבעיה ביישומון אנא דווח על כך בפורום או ב- https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>אם את או אתה רוצים לעזור לתרגם את היישום לשפתך הצטרפו אלינו https://crowdin.com/project/openhab-android</translation>
+    <foundation>ארגון openHAB</foundation>
     <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
+    <important_note>הערה חשובה</important_note>
+    <oh_server>יש צורך בשרת openHAB עבור יישום זה.</oh_server>
+    <short_description>אוטומציה לבית החכם מבוססת על קוד פתוח ובלתי מוגבלת לטכנולוגיה וחברה מסויימת</short_description>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>נסה תכונות חדשות וספר לנו מה דעתך!</beta>
+    <play_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
