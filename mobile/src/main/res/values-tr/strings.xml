@@ -139,6 +139,7 @@
     <string name="waiting_for_item_upload">Item güncellemeleri için ağ bekleniyor</string>
     <string name="item_upload_in_progress">Items şu anda güncelleniyor</string>
     <string name="notification_channel_background_error">Arka plan görevlerinde hata</string>
+    <string name="notification_channel_messages_default_severity">Varsayılan</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">\'%1$s\' Item\' i güncellenemedi (Bağlantı yok)</string>
@@ -266,6 +267,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Video</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
