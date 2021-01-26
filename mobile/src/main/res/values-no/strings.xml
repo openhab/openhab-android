@@ -131,6 +131,7 @@
     <string name="waiting_for_item_upload">Venter på at nettverket skal sende element-oppdateringer</string>
     <string name="item_upload_in_progress">Elementet er under oppdatering</string>
     <string name="notification_channel_background_error">Feil i bakgrunnsoppgaver</string>
+    <string name="notification_channel_messages_default_severity">Standard</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d elementer kan ikke oppdateres</item>
         <item quantity="other">%d elementer kan ikke oppdateres</item>
@@ -140,6 +141,8 @@
     <string name="item_update_connection_error">\'%1$s\' elementoppdatering mislyktes (ingen oppkobling)</string>
     <string name="item_update_connection_error_label">\'%1$s\' oppdatering mislyktes (ingen oppkobling)</string>
     <string name="retry">Prøv på nytt</string>
+    <string name="send_device_info_schedule_1_hour">1 time</string>
+    <string name="send_device_info_schedule_12_hours">12 timer</string>
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
@@ -320,7 +323,11 @@
     <string name="item_update_widget_auto_generate_widget_label">Autogenerer widget-merking</string>
     <string name="item_update_widget_widget_label">Widget-merke</string>
     <!-- Data saver -->
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_chart">Diagram</string>
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Velg et element</string>
+    <string name="tile_enable">Slå på</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
