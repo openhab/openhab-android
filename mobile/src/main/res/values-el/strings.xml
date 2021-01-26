@@ -50,6 +50,8 @@
     <string name="settings_notification_vibration_twice">Δύο φορές</string>
     <string name="settings_connection_summary">Συνδεδεμένο σε %s</string>
     <string name="settings_insecure_connection_summary">Μη ασφαλής σύνδεση σε %s</string>
+    <string name="settings_screen_lock_off">Σβηστό</string>
+    <string name="settings_screen_lock_on">Αναμμένο</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, στις προσταγές σας!</string>
     <string name="info_voice_recognized_text">Αναγνωρισμένη εντολή: %1$s</string>
@@ -83,6 +85,7 @@
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
     <!-- Background tasks -->
+    <string name="notification_channel_messages_default_severity">Προεπιλογή</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -168,6 +171,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Βίντεο</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
