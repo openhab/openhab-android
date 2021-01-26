@@ -56,6 +56,8 @@
     <string name="settings_connection_summary">Terhubung ke %s</string>
     <string name="settings_insecure_connection_summary">Secara tidak aman terhubung ke %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_screen_lock_off">Mati</string>
+    <string name="settings_screen_lock_on">Di</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Perintah suara</string>
     <string name="title_voice_widget_icon">Perintah suara dan pintasan aplikasi</string>
@@ -109,6 +111,7 @@
     <string name="waiting_for_item_upload">Menunggu jaringan mengirimkan pemutakhiran Item</string>
     <string name="item_upload_in_progress">Saat ini Item sedang dimutakhirkan</string>
     <string name="notification_channel_background_error">Kesalahan pada task latar belakang</string>
+    <string name="notification_channel_messages_default_severity">Default</string>
     <plurals name="item_update_error_title">
         <item quantity="other">%d Item tidak dapat dimutakhirkan</item>
     </plurals>
@@ -226,6 +229,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Video</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
