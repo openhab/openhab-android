@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "スマートホームに力を与える" - ベンダーや技術に依存しないオープンソースのホームオートメーション</intro>
-    <whatis>openHAB は、Java ベースのオープンソース ホームオートメーション プラットフォームで、広大な範囲の異なるスマートホームシステムや技術を組み合わせたり統合して 1 つのソリューションにします。</whatis>
-    <rules>統一された抽象レイヤーの上で、包括的な自動化ルールエンジンと異なるユーザーインターフェイスの、すべての接続されてたデバイスが利用できます。</rules>
-    <supported>サポートされている製品</supported>
-    <bindings>200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 利用可能なアドオンやサポートされているデバイス、および機能は: https://www.openhab.org/addons/</bindings>
-    <automation_apps>アプリは Tasker と Locale 用のアクションプラグインが含まれています.</automation_apps>
+    <intro/>
+    <whatis/>
+    <rules/>
+    <supported/>
+    <bindings>  </bindings>
+    <automation_apps/>
 
-    <oss_community>オープンソース コミュニティ</oss_community>
-    <forum>openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。 登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 openHAB コミュニティフォーラムにご参加ください https://community.openhab.org</forum>
+    <oss_community/>
+    <forum>  </forum>
 
-    <report_issues>問題が見つかったときは、フォーラムまたは https://github.com/openhab/openhab-android/issues で報告してください</report_issues>
-    <translation>アプリをあなたの言語に翻訳したい場合は https://crowdin.com/project/openhab-android に参加してください。</translation>
-    <foundation>openHAB 財団</foundation>
-    <about_foundation>openHAB 財団は、フリーでオープンなスマートホームソリューションの可能性と利点について一般の人々に教育することを使命とする非営利組織です。 財団の使命とサービスについて学んでください https://www.openhabfoundation.org</about_foundation>
-    <important_note>重要な注意事項</important_note>
-    <oh_server>このアプリは openHAB サーバーが必要です.</oh_server>
-    <short_description>ベンダーや技術に依存しないオープンソースのホーム・オートメーション</short_description>
-    <fdroid>F-Droid のビルドは FCM とクラッシュレポートが削除されていて openHAB クラウドからプッシュ通知を受信することができません。 代わりに、これらのビルドでは通知が定期的にポーリングされます。</fdroid>
-    <fdroid_beta><![CDATA[<a href="https://f-droid.org/packages/org.openhab.habdroid/">安定版</a> の他、ベータ版をインストールすることができます。]]></fdroid_beta>
-    <fdroid_privacy_policy>プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <beta>新しい機能をお試しの上、フィードバックしてください!</beta>
-    <play_beta>安定版の他にベータ版をインストールできます.</play_beta>
-    <changelog_play_beta>バグ修正と安定性の改善。 変更履歴は https://github.com/openhab/openhab-android/releases をご覧ください。</changelog_play_beta>
+    <report_issues/>
+    <translation/>
+    <foundation/>
+    <about_foundation> </about_foundation>
+    <important_note/>
+    <oh_server/>
+    <short_description/>
+    <fdroid> </fdroid>
+    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <fdroid_privacy_policy/>
+    <beta/>
+    <play_beta/>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>
