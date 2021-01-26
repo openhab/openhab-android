@@ -26,6 +26,9 @@
     <string name="settings_openhab_icon_format">Piktogramų formatas</string>
     <string name="settings_openhab_icon_format_png">Taškinis</string>
     <string name="settings_openhab_icon_format_svg">Vektorinis</string>
+    <string name="settings_notification_vibration_off">Išjungti</string>
+    <string name="settings_screen_lock_off">Išjungti</string>
+    <string name="settings_screen_lock_on">Įjungti</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, jūsų paliepimu!</string>
     <string name="info_voice_recognized_text">Neatpažinta komanda: %1$s</string>
