@@ -422,6 +422,7 @@
     <string name="item_update_success_message_previous">%s affiche le titre précédent</string>
     <string name="item_update_success_message_rewind">%s est en train de rembobiner</string>
     <string name="item_update_success_message_fastforward">%s est en avance rapide</string>
+    <string name="item_update_short_success_message_off">Éteint</string>
     <string name="item_update_error_no_connection_retry">Erreur lors de l\'envoi de la mise à jour, réessayer\u2026</string>
     <string name="item_update_error_no_connection">Pas de connexion</string>
     <string name="item_update_error_couldnt_get_item_type">Impossible d\'obtenir le type d\'Item</string>
