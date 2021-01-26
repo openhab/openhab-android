@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <intro>openHAB - «potenciant la llar intel·ligent» - automatització de la llar amb codi obert i independent del proveïdor i de la tecnologia</intro>
+    <whatis>openHAB és una plataforma feta en Java per a l'automatització de la llar basada en codi obert, que integra i combina una gran varietat de sistemes i tecnologies per a la llar intel·ligent en una solució única.</whatis>
+    <rules>Per sobre de la capa unificada d'abstracció, tots els dispositius connectats són disponibles per al motor de regles generals d'automatització i diferents interfícies d'usuari.</rules>
+    <supported>Productes suportats</supported>
     <bindings>  </bindings>
     <automation_apps/>
 
-    <oss_community/>
+    <oss_community>Comunitat de codi obert</oss_community>
     <forum>  </forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
+    <report_issues>Si trobeu un problema, informeu-nos en en el fòrem o a https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Si voleu traduir la aplicació a la vostra llengua, uniu-vos a https://crowdin.com/project/openhab-android</translation>
+    <foundation>Fundació openHAB</foundation>
     <about_foundation> </about_foundation>
-    <important_note/>
+    <important_note>Nota important</important_note>
     <oh_server/>
-    <short_description/>
+    <short_description>Domòtica de codi obert independent de la tecnologia i el fabricant</short_description>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Política de privadesa: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta/>
-    <play_beta/>
+    <play_beta>Podeu instal·lar la versió beta juntament amb la versió estable.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
