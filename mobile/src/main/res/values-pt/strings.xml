@@ -199,6 +199,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Vídeo</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
