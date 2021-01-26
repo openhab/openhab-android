@@ -165,6 +165,7 @@
     <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
     <string name="item_upload_in_progress">Item\'y są obecnie aktualizowane</string>
     <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
+    <string name="notification_channel_messages_default_severity">Domyślny</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Element nie mogły zostać zaktualizowany</item>
         <item quantity="few">%d Elementy nie mogły zostać zaktualizowane</item>
@@ -346,7 +347,10 @@
     <string name="item_update_widget_widget_label">Etykieta widżetu</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="widget_type_video">Wideo</string>
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Wybierz Item</string>
+    <string name="tile_enable">Włącz</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
