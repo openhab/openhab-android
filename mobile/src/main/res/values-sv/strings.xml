@@ -191,6 +191,8 @@
     <string name="item_update_connection_error_label">%1$s uppdateringen misslyckades (ingen anslutning)</string>
     <string name="retry">Försök igen</string>
     <string name="ignore">Ignorera</string>
+    <string name="send_device_info_schedule_1_hour">1 timme</string>
+    <string name="send_device_info_schedule_12_hours">12 timmar</string>
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
@@ -333,7 +335,10 @@
     <string name="item_update_widget_widget_label">Widgetetikett</string>
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_chart">Diagram</string>
     <!-- Tiles -->
+    <string name="tile_enable">Sätt på</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
