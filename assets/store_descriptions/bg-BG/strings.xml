@@ -10,7 +10,7 @@
     <oss_community/>
     <forum>  </forum>
 
-    <report_issues>Когато намерите проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues</report_issues>
+    <report_issues/>
     <translation/>
     <foundation/>
     <about_foundation> </about_foundation>
@@ -20,7 +20,7 @@
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy/>
-    <beta>Опитайте нови функции и дайте ранна обратна връзка!</beta>
+    <beta/>
     <play_beta/>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
