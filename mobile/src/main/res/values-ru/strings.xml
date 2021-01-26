@@ -440,6 +440,7 @@
     <string name="item_update_success_message_previous">%s показывает предыдущее название</string>
     <string name="item_update_success_message_rewind">%s перематывается назад</string>
     <string name="item_update_success_message_fastforward">%s перематывается вперед</string>
+    <string name="item_update_short_success_message_off">Выключен</string>
     <string name="item_update_error_no_connection_retry">Ошибка отправки обновления Item, повторяю\u2026</string>
     <string name="item_update_error_no_connection">Нет подключения</string>
     <string name="item_update_error_couldnt_get_item_type">Не удалось получить тип Item</string>
