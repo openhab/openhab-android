@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Триває реєстрація сповіщень</string>
-    <string name="info_openhab_gcm_failed">Помилка реєстрації сповіщень</string>
-    <string name="info_openhab_gcm_failed_play_services">Помилка реєстрації сповіщень через проблему із сервісами Google Play: %s</string>
-    <string name="info_openhab_gcm_connected">Реєстрація повідомлень пройшла успішно</string>
-    <string name="open_in_maps">Відкрити у Google картах</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
 </resources>
