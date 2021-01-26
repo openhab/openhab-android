@@ -109,6 +109,7 @@
     <string name="settings_background_tasks_permission_allow">Permet</string>
     <string name="settings_item_pref_item_name">Nom d\'element</string>
     <string name="notification_channel_background_error">Error en tasques secundàries</string>
+    <string name="notification_channel_messages_default_severity">Per defecte</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">Reintenta</string>
@@ -175,6 +176,7 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="widget_type_video">Vídeo</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
