@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="push_notification_status_impaired">להתראות יש יכולות מוגבלות בגירסת FOSS. לחץ למידע נוסף.</string>
-    <string name="push_notification_status_disabled">ההתראות מושבתות</string>
-    <string name="open_in_maps">פתח באמצעות OpenStreetMap</string>
-</resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
