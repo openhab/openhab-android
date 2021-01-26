@@ -3,39 +3,175 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">Configuració</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Mapa del lloc</string>
+    <string name="mainmenu_openhab_preferences">Configuració</string>
+    <string name="app_notifications">Notificacions</string>
+    <string name="habpanel_error">S\'ha produït un error durant la càrrega d\'HABPanel</string>
+    <string name="mainmenu_openhab_selectsitemap">Seleccioneu el mapa del lloc predeterminat</string>
+    <string name="mainmenu_openhab_clearcache">Buida la memòria cau de les imatges</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Connexió</string>
+    <string name="settings_display_title">Pantalla</string>
+    <string name="settings_sitemap_title">Mapa del lloc</string>
+    <string name="settings_misc_title">Miscel·lània</string>
+    <string name="settings_openhab_url">URL del servidor local</string>
+    <string name="settings_openhab_url_summary">L\'URL del quadre openHAB (basat en el nom d\'amfitrió o la IP). Si és en ús, es desactiva la descoberta automàtica. La configuració actual és: %s</string>
+    <string name="settings_openhab_alturl">URL del servidor remot</string>
+    <string name="settings_openhab_alturl_summary">La URL del panell d\'openHAB utilitzada en local no està disponible. La configuració actual: %s</string>
+    <string name="settings_openhab_username">Nom d\'usuari</string>
+    <string name="settings_openhab_password">Contrasenya</string>
+    <string name="settings_openhab_password_summary_weak">La contrasenya és dèbil</string>
+    <string name="settings_openhab_password_summary_strong">La contrasenya és forta</string>
+    <string name="settings_openhab_sslclientcert">Certificat SSL de client</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Toqueu aquí per a obtenir alguns consells i explicacions sobre com configurar l\'autenticació amb certificat SSL de client</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Els certificats SSL de client no estan suportats per al teu dispositiu</string>
+    <string name="settings_openhab_screentimeroff">Desactiva la visualització del temporitzador</string>
+    <string name="settings_openhab_screentimeroff_summary">Desactiva el comptador enrera quan l\'openHAB estigui funcionant</string>
+    <string name="settings_openhab_demomode">Mode de demostració</string>
+    <string name="settings_openhab_demomode_summary">Si no tens un servidor openHAB, activa el mode demo per fer-te una idea de què és capaç.</string>
+    <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_select_a_color">Selecciona un color</string>
+    <string name="settings_openhab_fullscreen">Pantalla completa</string>
+    <string name="settings_openhab_icon_format">Format d\'icona</string>
+    <string name="settings_openhab_icon_format_png">Mapa de bits</string>
+    <string name="settings_openhab_icon_format_svg">Vectorial</string>
+    <string name="settings_chart_scaling">Escalat de diagrames</string>
+    <string name="settings_chart_scaling_summary">Nota: l\'ús d\'escalats menors encongeix tipus de lletra i amplades de línia, per tant, hi ha més espai per al diagrama, però la llegibilitat del text empitjora.</string>
+    <string name="settings_chart_scaling_value_xs">Molt petita</string>
+    <string name="settings_chart_scaling_value_s">Petita</string>
+    <string name="settings_chart_scaling_value_m">Per defecte</string>
+    <string name="settings_chart_scaling_value_l">Gran</string>
+    <string name="settings_openhab_chart_hq">Diagrames en alta resolució</string>
+    <string name="settings_openhab_chart_hq_summary">La generació dels diagrames pot penalitzar el rendiment del servidor. Si experimenteu temps de càrrega de diagrames molt lents i el servidor no és gaire potent, desactiveu aquesta opció per a millorar el temps de càrrega.</string>
+    <string name="settings_clear_default_sitemap">Buida el mapa del lloc predeterminat</string>
+    <string name="settings_no_default_sitemap">No hi ha cap mapa del lloc predeterminat seleccionat</string>
+    <string name="settings_current_default_sitemap">Mapa del lloc predeterminat actuall: %1$s</string>
+    <string name="settings_openhab_alt_connection">Remot</string>
+    <string name="settings_ringtone_none">Cap</string>
+    <string name="settings_notification_vibration_off">Desactivada</string>
+    <string name="settings_notification_vibration_short">Curta</string>
+    <string name="settings_notification_vibration_long">Llarga</string>
+    <string name="settings_notification_vibration_twice">Doble</string>
+    <string name="settings_connection_summary">Connectat a %s</string>
+    <string name="settings_insecure_connection_summary">Connectat de manera insegura a %s</string>
+    <string name="settings_screen_lock">Bloqueig de pantalla</string>
+    <string name="screen_lock_unlock_screen_description">Desbloqueja per accedir a openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Desbloqueja per accedir a la configuració</string>
+    <string name="settings_screen_lock_off">Desactivat</string>
+    <string name="settings_screen_lock_kiosk">Mode Quiosc</string>
+    <string name="settings_screen_lock_on">Activat</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Ordres de veu</string>
+    <string name="info_voice_input">openHAB, a les ordres!</string>
+    <string name="info_voice_recognized_text">Ordre reconeguda: %1$s</string>
+    <string name="info_demo_mode_short">Execució en mode de demostració</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Apaga</string>
+    <string name="info_conn_url">S\'està connectant a l\'URL local</string>
+    <string name="info_conn_rem_url">S\'està connectant a l\'URL remot</string>
+    <string name="app_shortcut_disabled_habpanel">El teu servidor no té HABPanel instal·lat</string>
+    <string name="app_shortcut_disabled_notifications">El teu servidor remot no està disponible</string>
+    <string name="app_shortcut_disabled_voice_recognition">El teu dispositiu no té cap aplicació de reconeixement de veu instal·lada</string>
+    <string name="no_position_set">Cap posició definida</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">l\'openHAB ha retornat un llistat de mapa de llocs buit</string>
+    <string name="error_network_not_available">La xarxa no és disponible</string>
+    <string name="error_wifi_not_available">Wi-Fi està desactivat</string>
+    <string name="error_connection_failed">Ha fallat la connexió al servidor</string>
+    <string name="error_unable_to_resolve_hostname">No és possible resoldre el nom d\'amfitrió</string>
+    <string name="error_connection_sslhandshake_failed">L\'intercanvi de SSL ha fallat</string>
+    <string name="error_certificate_wrong_host">El certificat de %s no és vàlid</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_http_connection_failed">codi HTTP %d</string>
+    <string name="error_short_unknown">Error desconegut: %s</string>
+    <string name="error_short_certificate_not_trusted">El certificat no és de confiança</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_no_browser_found">No s\'ha trobat navegador en el teu dispositiu</string>
+    <string name="install">Instal·la</string>
+    <string name="title_activity_openhabwritetag">Escriu etiqueta NFC</string>
+    <string name="title_activity_libraries">Biblioteques usades</string>
+    <string name="info_write_tag">Toca l\'etiqueta i mantenint-la a la vora fins que aparegui el missatge de confirmació</string>
+    <string name="info_write_tag_progress">Escrivint l\'etiqueta</string>
+    <string name="info_write_failed">Error al escriure l\'etiqueta</string>
+    <string name="info_write_tag_disabled">L\'NFC està desactivada</string>
+    <string name="action_settings">Configuració</string>
+    <string name="info_not_set">No establert</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Envia la informació del dispositiu al servidor</string>
+    <string name="settings_wifi_ssid">Nom del Wi-Fi</string>
+    <string name="settings_background_tasks_permission_allow">Permet</string>
+    <string name="settings_item_pref_item_name">Nom d\'element</string>
+    <string name="notification_channel_background_error">Error en tasques secundàries</string>
+    <string name="notification_channel_messages_default_severity">Per defecte</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="retry">Reintenta</string>
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
+    <string name="list_loading_message">S\'està carregant...</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Voleu acceptar el certificat desconegut?</string>
+    <string name="mtm_cert_details">Detalls del certificat:</string>
+    <string name="mtm_decision_always">D\'acord</string>
+    <string name="mtm_decision_abort">Anul·la</string>
+    <string name="mtm_notification">Verificació del certificat</string>
+    <string name="settings_openhab_none">Cap</string>
     <!-- Themes -->
+    <string name="theme_name_light">Clar</string>
+    <string name="theme_name_dark">Fosc</string>
     <!-- Chart -->
     <!-- NFC -->
+    <string name="nfc_action_on">Activat</string>
+    <string name="nfc_action_up">Amunt</string>
+    <string name="nfc_action_off">Desactivat</string>
+    <string name="nfc_action_down">Avall</string>
+    <string name="nfc_action_toggle">Canvia</string>
+    <string name="nfc_activate">Activa</string>
+    <string name="nfc_action_current_color">Color actual</string>
     <!-- Drawer -->
+    <string name="mainmenu_openhab_voice_recognition">Reconeixement de veu</string>
     <!-- About -->
+    <string name="about_title">Quant a</string>
+    <string name="about_license_title">Llicència</string>
+    <string name="about_changelog">Registre de canvis</string>
+    <string name="about_source_code">Codi font</string>
+    <string name="about_issues">Notifica un problema</string>
+    <string name="about_docs">Documentació</string>
+    <string name="about_community_forum">Fòrum de la comunitat</string>
+    <string name="about_foundation">Fundació openHAB</string>
+    <string name="about_community">Comunitat openHAB</string>
+    <string name="about_translation">Ajudeu-nos en traduir openHAB</string>
+    <string name="about_privacy_policy">Política de privadesa</string>
+    <string name="cancel">Cancel·la</string>
+    <string name="close">Tanca</string>
+    <string name="try_again_button">Torna-ho a intentar</string>
+    <string name="go_to_settings_button">Vés a la configuració</string>
     <!-- Log -->
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
+    <string name="content_description_video">Vídeo</string>
     <!-- Intro strings -->
+    <string name="app_intro">Introducció</string>
+    <string name="intro_welcome">Us donem la benvinguda a l\'openHAB</string>
+    <string name="intro_voice_description">Controleu casa vostra amb la veu</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">OMET</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">FET</string>
     <!-- Item picker -->
+    <string name="item_picker_dialog_title">Escull acció</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="press_back_to_exit">Prem recula altra vegada per sortir</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Vídeo</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
