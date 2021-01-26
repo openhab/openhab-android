@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
+    <intro>openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota</intro>
     <whatis/>
-    <rules/>
-    <supported/>
+    <rules>Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä kaiken kattavassa sääntö- ja automaatio-ohjelmoinnissa.</rules>
+    <supported>Tuetut laitteet ja tuotteet</supported>
     <bindings>  </bindings>
-    <automation_apps/>
+    <automation_apps>Sovelluksessa on liitännäinen Taskeria ja Localea varten.</automation_apps>
 
-    <oss_community/>
+    <oss_community>Avoimen lähdekoodin yhteisö</oss_community>
     <forum>  </forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
+    <report_issues>Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB Säätiö</foundation>
     <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
+    <important_note>Tärkeä huomautus</important_note>
+    <oh_server>Tarvitset openHAB palvelimen tätä sovellusta varten.</oh_server>
+    <short_description>Toimittaja- ja teknologiariippumatonta avoimen lähdekoodin kotiautomaatiota</short_description>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[Voit asentaa beta version <a href="https://f-droid.org/packages/org.openhab.habdroid/">vakaan version</a> rinnalle.]]></fdroid_beta>
+    <fdroid_privacy_policy>Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Kokeilla uusia ominaisuuksia ja anna pian palautetta!</beta>
+    <play_beta>Voit asentaa beta version vakaan version rinnalle.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
