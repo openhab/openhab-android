@@ -3,40 +3,492 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">Instellingen</string>
+    <string name="save">Opslaan</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_preferences">Instellingen</string>
+    <string name="app_notifications">Notificaties</string>
+    <string name="habpanel_error">Er is een fout opgetreden tijdens het laden van HABPanel</string>
+    <string name="mainmenu_openhab_selectsitemap">Selecteer standaard Sitemap</string>
+    <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Verbindingsinstellingen</string>
+    <string name="settings_display_title">Weergave Instellingen</string>
+    <string name="settings_misc_title">Overige Instellingen</string>
+    <string name="settings_openhab_url">Lokale server URL</string>
+    <string name="settings_openhab_url_summary">De URL van het dashboard van de openHAB (gebaseerd op hostnaam of IP). Indien geconfigureerd, is automatische detectie uitgeschakeld. Huidige instelling: %s</string>
+    <string name="settings_openhab_alturl">Externe server-URL</string>
+    <string name="settings_openhab_alturl_summary">Externe openHAB URL (wordt alleen gebruikt wanneer het lokale adres niet beschikbaar is). Huidige instelling: %s</string>
+    <string name="settings_openhab_username">Gebruikersnaam</string>
+    <string name="settings_openhab_password">Wachtwoord</string>
+    <string name="settings_openhab_password_summary_weak">Zwak wachtwoord ingesteld</string>
+    <string name="settings_openhab_password_summary_strong">Sterk Wachtwoord ingesteld</string>
+    <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Tik hier voor enkele tips en uitleg over het instellen van SSL certificaat authenticatie</string>
+    <string name="settings_openhab_sslclientcert_not_supported">SSL-cliëntcertificaten worden niet ondersteund door uw apparaat</string>
+    <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
+    <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als de openHAB App actief is</string>
+    <string name="settings_openhab_demomode">Demonstratiemodus</string>
+    <string name="settings_openhab_demomode_summary">Als je geen openHAB server hebt, schakel dan de demo-modus in, om een idee te krijgen wat openHAB allemaal kan.</string>
+    <string name="settings_openhab_theme">Thema</string>
+    <string name="settings_accent_color">Accentkleur</string>
+    <string name="settings_select_a_color">Selecteer een kleur</string>
+    <string name="settings_openhab_fullscreen">Volledig scherm</string>
+    <string name="settings_openhab_icon_format">Pictogramindeling</string>
+    <string name="settings_chart_scaling">Grafiek schalen</string>
+    <string name="settings_chart_scaling_summary">Opmerking: Kleiner schalen krimpt lettertypen en de breedte van de lijn, dus is er meer ruimte voor de grafiek, maar leesbaarheid zou er onder kunnen lijden.</string>
+    <string name="settings_chart_scaling_value_xs">Zeer klein</string>
+    <string name="settings_chart_scaling_value_s">Klein</string>
+    <string name="settings_chart_scaling_value_m">Standaard</string>
+    <string name="settings_chart_scaling_value_l">Groot</string>
+    <string name="settings_openhab_chart_hq">Hoge resolutie grafieken</string>
+    <string name="settings_openhab_chart_hq_summary">Het genereren van grafieken kan belastend zijn voor de server. Zet deze optie uit als grafieken langzaam laden en je server niet krachtig is.</string>
+    <string name="settings_clear_default_sitemap">Verwijder standaard Sitemap</string>
+    <string name="settings_no_default_sitemap">Geen standaard Sitemap geselecteerd</string>
+    <string name="settings_current_default_sitemap">Standaard Sitemap: %1$s</string>
+    <string name="settings_openhab_alt_connection">Extern</string>
+    <string name="settings_openhab_connection">Lokaal</string>
+    <string name="settings_ringtone">Beltoon</string>
+    <string name="settings_ringtone_none">Geen</string>
+    <string name="settings_ringtone_on_external">Onbekende beltoon op externe opslag</string>
+    <string name="settings_notification_vibration">Trillen</string>
+    <string name="settings_notification_vibration_off">Uit</string>
+    <string name="settings_notification_vibration_short">Kort</string>
+    <string name="settings_notification_vibration_long">Lang</string>
+    <string name="settings_notification_vibration_twice">Twee keer</string>
+    <string name="settings_notification_ringtone_vibration">Beltoon &amp; Trillen</string>
+    <string name="settings_connection_summary">Verbonden met %s</string>
+    <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
+    <string name="settings_screen_lock">Schermvergrendeling</string>
+    <string name="settings_screen_lock_nolock_summary">Schakel schermvergrendeling op het apparaat in om toegang tot de app te vergrendelen</string>
+    <string name="settings_screen_lock_off_summary">Toegang tot de app is niet vergrendeld</string>
+    <string name="settings_screen_lock_kiosk_summary">Toegang tot de app instellingen is vergrendeld met Android-schermvergrendeling of vingerafdruk</string>
+    <string name="settings_screen_lock_on_summary">Toegang tot de app is vergrendeld met Android schermvergrendeling of vingerafdruk\nOpmerking: Widgets kunnen nog steeds gebruikt worden</string>
+    <string name="screen_lock_unlock_screen_description">Ontgrendel voor toegang tot openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Ontgrendel voor toegang tot instellingen</string>
+    <string name="settings_screen_lock_off">Uit</string>
+    <string name="settings_screen_lock_kiosk">Kioskmodus</string>
+    <string name="settings_screen_lock_on">Aan</string>
+    <string name="settings_show_sitemaps_in_drawer">Toon alle Sitemaps in zijmenu</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Spraakcommando\'s</string>
+    <string name="voice_command">Spraakcommando</string>
+    <string name="title_voice_widget_icon">Spraakcommando\'s en app snelkoppeling</string>
+    <string name="info_voice_input">openHAB, tot uw dienst!</string>
+    <string name="info_voice_recognized_text">Herkend commando: %1$s</string>
+    <string name="info_demo_mode_short">Uitgevoerd in de demomodus</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Uitzetten</string>
+    <string name="info_conn_url">Verbinden met ingestelde URL</string>
+    <string name="info_conn_rem_url">Verbinden naar externe URL</string>
+    <string name="app_shortcut_disabled_habpanel">Op de server is geen HABPanel geïnstalleerd</string>
+    <string name="app_shortcut_disabled_notifications">Uw externe server is niet beschikbaar</string>
+    <string name="app_shortcut_disabled_voice_recognition">Op dit apparaat is geen app voor spraakherkenning geïnstalleerd</string>
+    <string name="no_position_set">Geen positie ingesteld</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
+    <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
+    <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
+    <string name="error_wifi_not_available">Wi-Fi is uitgeschakeld</string>
+    <string name="error_http_connection_failed">Verbinding mislukt. Tijdens het verbinden met de ingestelde openHAB server is een onverwachte reactie ontvangen (HTTP Code %d).</string>
+    <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
+    <string name="error_invalid_https_url">Geef een correcte URL op in de \'https://host(:port)/\' vorm</string>
+    <string name="error_port_seems_invalid">De ingevoerde poort lijkt ongeldig voor het geselecteerde protocol</string>
+    <string name="error_connection_failed">Verbinding met host mislukt</string>
+    <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
+    <string name="error_unknown">Een onbekende fout is opgetreden: %s</string>
+    <string name="error_connection_sslhandshake_failed">SSL-handshake mislukt</string>
+    <string name="error_certificate_not_trusted">SSL certificaat is niet vertrouwd. Importeer alstublieft het root certificate of accepteer het certificaat tijdens de SSL handshake.</string>
+    <string name="error_certificate_expired">Het SSL certificaat is verlopen. Vernieuw alstublieft het certificaat of accepteer het certificaat tijdens de SSL handshake.</string>
+    <string name="error_certificate_not_valid_yet">Het SSL certificaat is nog niet geldig. Voeg een correct certificaat toe of accepteer het certificaat tijdens de SSL handshake. Controleer ook of de klok op uw apparaat correct is ingesteld.</string>
+    <string name="error_certificate_invalid_date">SSL-certificaat heeft een ongeldige datum. Stel een correct certificaat in en controleer of de klok op uw apparaat correct is ingesteld.</string>
+    <string name="error_certificate_revoked">Het SSL certificaat is ingetrokken. Vernieuw alstublieft het certificaat of accepteer het certificaat tijdens de SSL handshake.</string>
+    <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
+    <string name="error_http_to_https_port">Onverwachte beëindiging van een stream. Probeert u verbinding te maken met een HTTPS poort via HTTP?</string>
+    <string name="webview_ssl">Momenteel ondersteunt deze app geen zelf ondertekende SSL-certificaten voor Webview widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authenticatie mislukt. Controleer de ingevulde gebruikersnaam, het wachtwoord en het verstrekte SSL certificaat (HTTP Code %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL is te lang. Gebruik het IP-adres of een korte URL (HTTP Code %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS is vereist. Wijzig de URL (HTTP Code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Authenticatie mislukt. Controleer het versterkte SSL certificaat (HTTP Code %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL certificaat vereist (HTTP Code %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Je reverse-proxy heeft een ongeldig antwoord ontvangen van de openHAB server (HTTP-code %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">De openHAB server is tijdelijk niet beschikbaar (HTTP code %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway time-out. Het lijkt erop dat uw reverse-proxy actief is, maar kon geen antwoord krijgen van de openHAB server (HTTP code %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">De openHAB-server heeft onvoldoende vrije ruimte (HTTP code %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Netwerkverificatie is vereist (HTTP code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_unable_to_resolve_hostname">Fout bij het opzoeken van hostnaam</string>
+    <string name="error_short_unknown">Onbekende fout: %s</string>
+    <string name="error_short_certificate_not_trusted">Certificaat niet vertrouwd</string>
+    <string name="error_short_certificate_expired">Certificaat niet verlopen</string>
+    <string name="error_short_certificate_not_valid_yet">Certificaat is nog niet geldig</string>
+    <string name="error_short_certificate_revoked">Certificaat ingetrokken</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL mislukt</string>
+    <string name="error_short_connection_failed">Verbinding mislukt</string>
+    <string name="error_short_http_to_https_port">Verbinden met HTTPS poort via HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certificaat niet geldig voor %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Authenticatie mislukt (HTTP code %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Niet gevonden (HTTP code %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL is te lang (HTTP code %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS vereist (HTTP code %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Authenticatie mislukt (HTTP code %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-clientcertificaat vereist (HTTP code %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Reverse proxy heeft een ongeldig antwoord ontvangen van openHAB (HTTP code %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB tijdelijk niet beschikbaar (HTTP code %d)</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Niet genoeg vrije ruimte op de server (HTTP code %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Netwerkverificatie vereist (HTTP code %d)</string>
+    <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
+    <string name="error_no_browser_found">Geen browser gevonden op dit apparaat</string>
+    <string name="error_no_speech_to_text_app_found">Geen app voor spraakherkenning gevonden</string>
+    <string name="error_sse_failed">Event abonnement mislukt, widget vernieuwen mogelijk beperkt</string>
+    <string name="error_video_player">%s kon niet worden geladen</string>
+    <string name="install">Installeren</string>
+    <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
+    <string name="title_activity_libraries">Gebruikte bibliotheken</string>
+    <string name="info_write_tag">Raak de tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
+    <string name="info_write_tag_progress">De tag wordt weggeschreven</string>
+    <string name="info_write_tag_finished">Tag succesvol geschreven</string>
+    <string name="info_write_failed">Tag schrijffout</string>
+    <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
+    <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="info_not_set">Niet ingesteld</string>
+    <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
+    <string name="send_device_info_to_server_short">Apparaatinformatie verzenden</string>
+    <string name="send_device_info_category_event_based_title">Gebeurtenis gebaseerd</string>
+    <string name="send_device_info_category_event_based_explanation">Deze Items worden bijgewerkt bij overeenkomstige gebeurtenissen, bijvoorbeeld een inkomend telefoongesprek</string>
+    <string name="send_device_info_category_schedule_based_title">Gebaseerd op een schema</string>
+    <string name="send_device_info_category_schedule_based_explanation">Hoe korter het interval is, des te groter is de potentiële impact op de batterijduur van uw apparaat. Bovendien volgt uw apparaat het gekozen interval misschien niet exact, maar vertraagt het de updates om het energieverbruik van apps te verminderen.</string>
+    <string name="send_device_info_item_prefix_summary">De Item-namen op deze pagina worden voorafgegaan door apparaat identificatie \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Er is geen voorvoegsel ingesteld voor de Item-namen op deze pagina. U kunt de toestel-id als voorvoegsel gebruiken, dit kan worden ingesteld op de pagina met de hoofdinstellingen.</string>
+    <string name="send_device_info_foreground_service_title">Gebeurtenis monitor</string>
+    <string name="send_device_info_foreground_service_summary">Monitor gebeurtenissen die zijn gerelateerd aan de volgende Items. Dit vereist een gepinde melding en kan het batterijgebruik verhogen.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Monitor gebeurtenissen die zijn gerelateerd aan de volgende Items. Dit vereist een gepinde melding en kan het batterijgebruik verhogen. Dit is alleen nodig voor het verzenden van de niet storen modus.</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">Monitor gebeurtenissen gerelateerd aan niet storen modus</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Monitor gebeurtenissen die gekoppeld zijn aan %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Monitor gebeurtenissen gerelateerd aan %1$s en %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Monitor gebeurtenissen gerelateerd aan %1$s, %2$s en meer</string>
+    <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
+    <string name="item_update_summary_success">Laatste update was \'%1$s\' (%2$s)</string>
+    <string name="settings_alarm_clock">Alarmtijd</string>
+    <string name="settings_alarm_clock_summary_on">Verstuurt alarmtijd naar item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Geen alarmtijd versturen</string>
+    <string name="settings_phone_state">Oproepstatus</string>
+    <string name="settings_phone_state_summary_on">Verstuurt oproepstatus naar Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Geen oproepstatus verzenden</string>
+    <string name="settings_phone_state_permission_denied">De belstatus wordt niet verstuurd vanwege ontbrekende permissies</string>
+    <string name="settings_battery_level">Batterijniveau</string>
+    <string name="settings_battery_level_summary_on">Verstuurt batterijniveau naar Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Geen batterijniveau verzenden</string>
+    <string name="settings_charging_state">Status van opladen</string>
+    <string name="settings_charging_state_summary_on">Verstuurt oplaadstatus naar Item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Geen oplaadstatus verzenden</string>
+    <string name="settings_wifi_ssid">Wi-Fi naam</string>
+    <string name="settings_wifi_ssid_summary_on">Verstuurt Wi-Fi naam (SSID) naar Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Verstuurt Wi-Fi-naam (SSID) naar Item \'%1$s\'. \"Locatie\" moet ingeschakeld zijn, anders mag openHAB de Wi-Fi-naam niet ophalen.</string>
+    <string name="settings_wifi_ssid_summary_off">Geen Wi-Fi-naam (SSID) verzenden</string>
+    <string name="settings_wifi_ssid_permission_denied">Het verzenden van Wi-Fi-naam is uitgeschakeld vanwege ontbrekende machtigingen</string>
+    <string name="settings_dnd_mode">Niet storen modus</string>
+    <string name="settings_dnd_mode_summary_on">Verstuurd niet storen modus naar Item \'%1$s\'s</string>
+    <string name="settings_dnd_mode_summary_off">Niet storen modus niet verzenden</string>
+    <string name="settings_background_tasks_permission_denied">Sommige achtergrondtaken zijn uitgeschakeld vanwege ontbrekende machtigingen</string>
+    <string name="settings_background_tasks_permission_allow">Toestaan</string>
+    <string name="settings_item_pref_item_name">Itemnaam</string>
+    <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
+    <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
+    <string name="notification_channel_background">Achtergrond taken</string>
+    <string name="notification_channel_background_description">Gebruikt om te informeren over lopende achtergrondtaken, bijv. wachten op netwerk om batterijniveau te verzenden</string>
+    <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
+    <string name="notification_channel_background_error_description">Gebruikt om te informeren over fouten in achtergrondtaken, b.v. geen netwerk om batterijniveau te verzenden</string>
+    <string name="notification_channel_background_foreground_service_description">Monitor gebeurtenissen om Items bij te werken. Je kunt deze categorie veilig verbergen.</string>
+    <string name="notification_channel_messages_default_severity">Standaard</string>
+    <string name="notification_channel_messages_default_severity_description">Meldingen verzonden door de server zonder gedefinieerde ernst</string>
+    <string name="notification_channel_group_messages">Berichten</string>
+    <string name="notification_channel_severity_value">Ernst \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Meldingen verzonden door de server met ernst \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nieuwe melding</item>
+        <item quantity="other">%d nieuwe meldingen</item>
+    </plurals>
+    <string name="push_notification_hint">De meldingen worden opgevraagd volgens een schema, welke hetzelfde is als voor \"Apparaatinformatie naar server verzenden\"</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item kon niet worden bijgewerkt</item>
+        <item quantity="other">%d Items konden niet worden bijgewerkt</item>
+    </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Item \'%1$s\' bijwerken mislukt: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s bijwerken mislukt: %2$s</string>
+    <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
+    <string name="item_update_connection_error_label">%1$s update mislukt (Geen verbinding)</string>
+    <string name="error_no_valid_item_name">Voer een geldige Item naam in</string>
+    <string name="retry">Opnieuw</string>
+    <string name="ignore">Negeren</string>
+    <string name="send_device_info_schedule">Schema</string>
+    <string name="send_device_info_schedule_summary">Elke 15 minuten tijdens het opladen, elke %s anders</string>
+    <string name="send_device_info_schedule_15_minutes">15 minuten</string>
+    <string name="send_device_info_schedule_1_hour">1 uur</string>
+    <string name="send_device_info_schedule_3_hours">3 uren</string>
+    <string name="send_device_info_schedule_6_hours">6 uren</string>
+    <string name="send_device_info_schedule_12_hours">12 uren</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Apparaat identificatie</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Gebruik \'&lt;Device identifier&gt;\' als voorvoegsel voor spraakcommando\'s</string>
+    <string name="device_identifier_bg_tasks">Voorvoegsel voor de Item-namen van \"Apparaatinformatie naar server verzenden\" met deze identificatie</string>
+    <string name="device_identifier_hint">Dit apparaat-id kan een string zijn en moet uniek zijn voor alle apparaten die toegang hebben tot uw openHAB-server. Naast de twee bovengenoemde gevallen kan je het ook als status op NFC-tags gebruiken, zodat je weet welk apparaat de tag leest.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Apparaat-Id van scanapparaat (\"%s\" voor dit apparaat)</string>
+    <string name="device_identifier_summary_not_set">Gegevens verzonden naar de server en spraakcommando\'s zijn niet voorzien van een apparaatidentificatie</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">Tot nu toe zijn er geen notificaties verzonden</string>
+    <string name="notification_list_error">Er is een fout opgetreden tijdens het laden van notificaties</string>
+    <string name="list_loading_message">Laden\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Onbekend certificaat accepteren?</string>
+    <string name="mtm_trust_anchor">Het server certificaat is niet ondertekend door een erkende Certificate Authority</string>
+    <string name="mtm_cert_expired">Het server certificaat is verlopen</string>
+    <string name="mtm_accept_servername">Servernaam komt niet overeen, accepteren?</string>
+    <string name="mtm_hostname_mismatch">Server kan niet worden geverifieerd als \&quot;%s\&quot;. Het certificaat is alleen geldig voor:</string>
+    <string name="mtm_connect_anyway">Wilt u toch verbinding maken?</string>
+    <string name="mtm_cert_details">Certificaatdetails:</string>
+    <string name="mtm_decision_always">Accepteren</string>
+    <string name="mtm_decision_abort">Afbreken</string>
+    <string name="mtm_notification">Certificaatverificatie</string>
+    <string name="settings_openhab_none">Geen</string>
     <!-- Themes -->
+    <string name="theme_name_light">Licht</string>
+    <string name="theme_name_dark">Donker</string>
+    <string name="theme_name_system">Systeem volgen</string>
+    <string name="theme_name_battery_saver">Donkere modus bij batterijbesparing</string>
+    <string name="theme_name_black">Zwart</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Grafiek</string>
+    <string name="chart_activity_hide_legend">Legende verbergen</string>
+    <string name="chart_activity_show_legend">Toon legende</string>
+    <string name="chart_activity_period">Periode</string>
+    <string name="chart_activity_period_1_hour">1 uur</string>
+    <string name="chart_activity_period_4_hour">4 uren</string>
+    <string name="chart_activity_period_8_hour">8 uren</string>
+    <string name="chart_activity_period_12_hour">12 uren</string>
+    <string name="chart_activity_period_1_day">1 dag</string>
+    <string name="chart_activity_period_2_day">2 dagen</string>
+    <string name="chart_activity_period_3_day">3 dagen</string>
+    <string name="chart_activity_period_2_week">2 weken</string>
+    <string name="chart_activity_period_1_month">1 maand</string>
+    <string name="chart_activity_period_2_month">2 maanden</string>
+    <string name="chart_activity_period_4_month">4 maanden</string>
+    <string name="chart_activity_period_1_year">1 jaar</string>
     <!-- NFC -->
+    <string name="nfc_action_on">Aan</string>
+    <string name="nfc_action_up">Omhoog</string>
+    <string name="nfc_action_off">Uit</string>
+    <string name="nfc_action_down">Omlaag</string>
+    <string name="nfc_action_toggle">Wissel</string>
+    <string name="nfc_action_toggled">Geschakeld</string>
+    <string name="nfc_action_undefined">Ongedefinieerd</string>
+    <string name="nfc_action_empty_string">Lege string</string>
+    <string name="nfc_action_increase">Verhogen</string>
+    <string name="nfc_action_decrease">Verlagen</string>
+    <string name="nfc_action_play">Afspelen</string>
+    <string name="nfc_action_pause">Pauzeren</string>
+    <string name="nfc_action_next">Volgende</string>
+    <string name="nfc_action_previous">Vorige</string>
+    <string name="nfc_action_rewind">Terugspoelen</string>
+    <string name="nfc_action_fastforward">Vooruitspoelen</string>
+    <string name="nfc_action_move">Bewegen</string>
+    <string name="nfc_action_open">Geopend</string>
+    <string name="nfc_action_closed">Gesloten</string>
+    <string name="nfc_activate">Activeren</string>
+    <string name="nfc_action_current_color">Huidige kleur</string>
+    <string name="nfc_action_to_sitemap_page">NFC-tag voor Sitemap schrijven</string>
+    <string name="nfc_action_write_command_tag">NFC-tag voor Item schrijven</string>
     <!-- Drawer -->
+    <string name="drawer_open">Sitemap drawer geopend</string>
+    <string name="drawer_close">Sitemap drawer gesloten</string>
+    <string name="mainmenu_openhab_voice_recognition">Stemherkenning</string>
     <!-- About -->
+    <string name="about_title">Over deze app</string>
+    <string name="about_license_title">Licentie</string>
+    <string name="about_source_code">Broncode</string>
+    <string name="about_issues">Een probleem melden</string>
+    <string name="about_docs">Documentatie</string>
+    <string name="about_translation">Help ons met het vertalen van openHAB</string>
+    <string name="about_privacy_policy">Privacy beleid</string>
+    <string name="about_rate_this_app">Deze app beoordelen</string>
+    <string name="set">Stel in</string>
+    <string name="cancel">Annuleer</string>
+    <string name="close">Sluiten</string>
+    <string name="try_again_button">Opnieuw proberen</string>
+    <string name="enable_wifi_button">Wi-Fi inschakelen</string>
+    <string name="go_to_settings_button">Ga naar instellingen</string>
+    <string name="enable_demo_mode_button">Demo modus inschakelen</string>
+    <string name="configuration_missing">We hebben geen openHAB-server gevonden in je netwerk. Als je al een server hebt, configureer dan het IP-adres of de hostnaam in de serverinstellingen. Als je nog geen server hebt, kun je de demo modus inschakelen om te zien waartoe openHAB in staat is.</string>
+    <string name="no_remote_server">Verbinding met lokale server mislukt en geen externe server geconfigureerd</string>
+    <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
+    <string name="waiting_for_wifi">Wachten op Wi-Fi om verbinding te maken\u2026</string>
     <!-- Log -->
+    <string name="log">Logboek</string>
+    <string name="view_log">Bekijk log</string>
+    <string name="log_activity_action_clear_log">Log wissen</string>
+    <string name="log_activity_action_show_errors">Alleen fouten weergeven</string>
+    <string name="log_activity_action_show_all">Toon alle berichten</string>
+    <string name="log_activity_action_reload">Herladen</string>
+    <string name="log_activity_content_description_share">Log delen</string>
+    <string name="empty_log">Logboek is leeg</string>
+    <string name="log_too_large_to_share">Deze log is te groot om te delen. Gelieve de log te wissen, de bug te reproduceren en vervolgens de log te delen.</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Vastpinnen op startscherm</string>
+    <string name="home_shortcut_error_pinning">Fout bij vastpinnen op startscherm</string>
+    <string name="home_shortcut_success_pinning">Vastgepind op startscherm</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Open rolluik</string>
+    <string name="content_description_stop_roller_shutter">Stop rolluik</string>
+    <string name="content_description_close_roller_shutter">Sluit rolluik</string>
+    <string name="content_description_open_color_wheel">Open kleurenwiel</string>
+    <string name="content_description_color_up">Aan of ingedrukt houden om feller te maken</string>
+    <string name="content_description_color_down">Uit of ingedrukt houden om minder fel te maken</string>
+    <string name="content_description_open_number_picker">Open nummer kiezer</string>
+    <string name="content_description_increase_item_value">Verhoog de waarde</string>
+    <string name="content_description_decrease_item_value">Verlaag de waarde</string>
+    <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
+    <string name="got_it">Begrepen!</string>
     <!-- Intro strings -->
+    <string name="app_intro">Introductie</string>
+    <string name="intro_welcome">Welkom bij openHAB</string>
+    <string name="intro_welcome_back">Welkom terug bij openHAB</string>
+    <string name="intro_app_restored">De meeste instellingen zijn hersteld, behalve de server inloggegevens</string>
+    <string name="intro_whatis">Leverancier en technologie onafhankelijke open source domotica software voor jouw huis</string>
+    <string name="intro_voice_description">Bestuur uw huis met uw stem</string>
+    <string name="intro_nfc_description">Item controle kan worden verbonden met NFC tags door lang op het Item te drukken</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">OVERSLAAN</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">GEREED</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Geen Items gevonden</string>
+    <string name="item_picker_list_error">Er is een fout opgetreden bij het laden van de Items</string>
+    <string name="item_picker_custom">Aangepast</string>
+    <string name="item_picker_dialog_title">Selecteer actie</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Verstuur commando \"%3$s\" to \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Wijzig \"%1$s\" (%2$s) naar \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Tasker variabele \"%s\"</string>
+    <string name="item_picker_item_update">Bewerken</string>
+    <string name="item_picker_item_command">Commando</string>
+    <string name="item_picker_contact_no_command">Contact Items kunnen geen Item commando\'s ontvangen, wijzig om bij te werken</string>
+    <string name="search">Zoeken</string>
+    <string name="settings_tasker_plugin">Tasker integratie</string>
+    <string name="settings_tasker_plugin_summary">Activeer de Tasker action plugin voor het updaten van Items via Tasker en andere compatibele apps</string>
+    <string name="tasker_plugin_disabled">Tasker plugin is uitgeschakeld</string>
+    <string name="turn_on">Inschakelen</string>
+    <string name="press_back_to_exit">Druk nogmaals op \'terug\' om te sluiten</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Item controleren</string>
+    <string name="item_update_widget_content_description">Widget voor aanpassen van Item status</string>
+    <string name="item_update_widget_content_description_edit">Widget bewerken</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_item_picker_title">Selecteer een Item</string>
+    <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
+    <string name="item_update_success_message_on">%s is ingeschakeld</string>
+    <string name="item_update_success_message_off">%s is uitgeschakeld</string>
+    <string name="item_update_success_message_up">%s begint omhoog te bewegen</string>
+    <string name="item_update_success_message_down">%s begint omlaag te bewegen</string>
+    <string name="item_update_success_message_move">%s begint te bewegen</string>
+    <string name="item_update_success_message_stop">%s is gestopt</string>
+    <string name="item_update_success_message_increase">%s is verhoogd</string>
+    <string name="item_update_success_message_decrease">%s is verlaagd</string>
+    <string name="item_update_success_message_undefined">%s is naar ongedefinieerd gezet</string>
+    <string name="item_update_success_message_empty_string">%s is op een lege string gezet</string>
+    <string name="item_update_success_message_play">%s wordt afgespeeld</string>
+    <string name="item_update_success_message_pause">%s is gepauzeerd</string>
+    <string name="item_update_success_message_next">%s toont de volgende titel</string>
+    <string name="item_update_success_message_previous">%s toont de vorige titel</string>
+    <string name="item_update_success_message_rewind">%s spoelt terug</string>
+    <string name="item_update_success_message_fastforward">%s spoelt vooruit</string>
+    <string name="item_update_error_no_connection_retry">Fout bij verzenden Item update, opnieuw proberen\u2026</string>
+    <string name="item_update_error_no_connection">Geen verbinding</string>
+    <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
+    <string name="create_home_screen_widget_title">Widget maken</string>
+    <string name="item_update_widget_auto_generate_widget_label">Automatisch widget label genereren</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Bewerking>]]></string>
     <!-- Data saver -->
+    <string name="data_saver_title">Gegevensbesparing</string>
+    <string name="data_saver_on">Sitemap elementen die mogelijk grotere data transfers vereisen zijn niet geladen</string>
+    <string name="data_saver_off">De systeeminstelling voor gegevensbesparing wordt gevolgd bij het laden van data met behulp van sitemap elementen</string>
+    <string name="data_saver_off_pre_n">Alle sitemap elementen worden geladen, zonder gegevensgebruik</string>
+    <string name="data_saver_load">Toch laden</string>
+    <string name="data_saver_hint">%s is niet geladen om gegevensgebruik te besparen</string>
+    <string name="widget_type_image">Afbeelding</string>
+    <string name="widget_type_mapview">Kaart</string>
+    <string name="widget_type_chart">Grafiek</string>
     <!-- Tiles -->
+    <string name="tile">Tegel</string>
+    <string name="tiles_for_quick_settings">Tegels voor snelle instellingen</string>
+    <string name="tile_item_picker_title">Selecteer een Item</string>
+    <string name="tile_error_saving">Vul alstublieft alle instellingen in</string>
+    <string name="tile_disabled">Uitgeschakeld</string>
+    <string name="tile_enable">Inschakelen</string>
+    <string name="item_item_and_action">Item en actie</string>
+    <string name="tile_name">Naam</string>
+    <string name="tile_icon">Pictogram</string>
+    <string name="tile_require_unlock">Vereis dat het scherm is ontgrendeld</string>
+    <string name="tile_require_unlock_summary_on">Vraag om het apparaat te ontgrendelen voordat het verversen van Items wordt toegestaan</string>
+    <string name="tile_require_unlock_summary_off">Bijwerken van Items toestaan, zelfs als het apparaat is vergrendeld</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d actieve tegel</item>
+        <item quantity="other">%d actieve tegels</item>
+    </plurals>
+    <string name="tile_number">Tegel %d</string>
+    <string name="tile_label_1">Tegel 1</string>
+    <string name="tile_label_2">Tegel 2</string>
+    <string name="tile_label_3">Tegel 3</string>
+    <string name="tile_label_4">Tegel 4</string>
+    <string name="tile_label_5">Tegel 5</string>
+    <string name="tile_label_6">Tegel 6</string>
+    <string name="tile_label_7">Tegel 7</string>
+    <string name="tile_label_8">Tegel 8</string>
+    <string name="tile_label_9">Tegel 9</string>
+    <string name="tile_label_10">Tegel 10</string>
+    <string name="tile_label_11">Tegel 11</string>
+    <string name="tile_label_12">Tegel 12</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB pictogram</string>
+    <string name="tile_icon_bulb">Lamp</string>
+    <string name="tile_icon_clock">Klok</string>
+    <string name="tile_icon_alarm_clock">Wekker</string>
+    <string name="tile_icon_bell">Bel</string>
+    <string name="tile_icon_earth">Aarde</string>
+    <string name="tile_icon_chat">Spraakballonnen</string>
+    <string name="tile_icon_house">Huis</string>
+    <string name="tile_icon_lock">Vergrendel</string>
+    <string name="tile_icon_microphone">Microfoon</string>
+    <string name="tile_icon_color_palette">Kleurenpalet</string>
+    <string name="tile_icon_people">Mensen</string>
+    <string name="tile_icon_person">Persoon</string>
+    <string name="tile_icon_phone">Telefoonnummer</string>
+    <string name="tile_icon_power_plug">Stekker</string>
+    <string name="tile_icon_battery">Batterij</string>
+    <string name="tile_icon_magnifier">Vergrootglas</string>
+    <string name="tile_icon_star">Ster</string>
+    <string name="tile_icon_tree">Boom</string>
+    <string name="tile_icon_shield">Schild</string>
+    <string name="tile_icon_man">Mens</string>
+    <string name="tile_icon_child">Kind</string>
+    <string name="tile_icon_settings">Tandwiel</string>
+    <string name="tile_icon_bath">Bad</string>
+    <string name="tile_icon_woman">Vrouw</string>
+    <string name="tile_icon_roller_shutter">Rolluik</string>
+    <string name="tile_icon_light_switch">Lichtschakelaar</string>
+    <string name="tile_icon_switch">Schakelaar</string>
+    <string name="tile_icon_lamp_ceiling">Plafondlamp</string>
+    <string name="tile_icon_lamp_floor">Vloerlamp</string>
+    <string name="tile_icon_lamp_bedside">Bedlamp</string>
+    <string name="tile_icon_lamp_outdoor">Buitenlamp</string>
     <!-- Tile icon values -->
 </resources>
