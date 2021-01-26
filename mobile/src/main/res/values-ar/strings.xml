@@ -121,6 +121,7 @@
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
     <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
     <string name="settings_background_tasks_permission_allow">السماح</string>
+    <string name="notification_channel_messages_default_severity">افتراضي</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">اعد المحاولة</string>
@@ -219,7 +220,9 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">فيديو</string>
     <!-- Tiles -->
+    <string name="tile_enable">تشغيل</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
