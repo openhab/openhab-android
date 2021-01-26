@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
-    <automation_apps/>
+    <intro>openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</intro>
+    <whatis>openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.</whatis>
+    <rules>Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs- bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.</rules>
+    <supported>Unterstützte Produkte</supported>
+    <bindings>Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://www.openhab.org/addons/</bindings>
+    <automation_apps>Diese App besitzt ein Action-Plugin für Tasker und Locale.</automation_apps>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Open-Source-Community</oss_community>
+    <forum>Die quelloffene openHAB-Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org</forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
-    <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
-    <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
-    <changelog_play_beta> </changelog_play_beta>
+    <report_issues>Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Wenn Sie die App in Ihre Sprache übersetzen möchten, dann nehmen Sie unter https://crowdin.com/project/openhab-android teil</translation>
+    <foundation>openHAB Foundation e.V.</foundation>
+    <about_foundation>Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
+    <important_note>Wichtiger Hinweis</important_note>
+    <oh_server>Um diese App zu nutzen, benötigen Sie einen openHAB-Server.</oh_server>
+    <short_description>Technologie- und herstellerunabhängige, quelloffene Automatisierungslösung</short_description>
+    <fdroid>Die Builds auf F-Droid haben FCM und Absturzberichte entfernt und können daher keine Push-Benachrichtigungen von openHAB Cloud erhalten. Stattdessen werden Benachrichtigungen regelmäßig in diesen Builds abgefragt.</fdroid>
+    <fdroid_beta><![CDATA[Sie können die Betaversion neben der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilen Version</a> installieren.]]></fdroid_beta>
+    <fdroid_privacy_policy>Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Testen Sie neue Features und geben Sie früh Feedback!</beta>
+    <play_beta>Sie können die Betaversion neben der stabilen Version installieren.</play_beta>
+    <changelog_play_beta>Stabilitätsverbesserungen und Fehlerbehebungen. Bitte besuchen Sie https://github.com/openhab/openhab-android/releases für ein detailliertes Changelog.</changelog_play_beta>
 </strings>
