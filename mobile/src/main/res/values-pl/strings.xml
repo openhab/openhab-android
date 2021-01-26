@@ -3,40 +3,346 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">Ustawienia</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_preferences">Ustawienia</string>
+    <string name="app_notifications">Powiadomienia</string>
+    <string name="habpanel_error">Wystąpił błąd podczas wczytywania HABPanel</string>
+    <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną Sitemapę</string>
+    <string name="mainmenu_openhab_clearcache">Wyczyść obrazy pamięci podręcznej</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Ustawienia połączenia</string>
+    <string name="settings_display_title">Wyświetlanie</string>
+    <string name="settings_misc_title">Różne ustawienia</string>
+    <string name="settings_openhab_url">Adres URL serwera lokalnego</string>
+    <string name="settings_openhab_url_summary">Adres URL panelu openHAB (w oparciu o nazwę hosta lub adres IP). Jeśli skonfigurowany, autowykrywanie jest wyłączone. Obecne ustawienie: %s</string>
+    <string name="settings_openhab_alturl">Adres URL serwera zdalnego</string>
+    <string name="settings_openhab_alturl_summary">Adres URL panelu openHAB jest używany, kiedy adres lokalny jest niedostępny. Obecne ustawienie: %s</string>
+    <string name="settings_openhab_username">Nazwa użytkownika</string>
+    <string name="settings_openhab_password">Hasło</string>
+    <string name="settings_openhab_password_summary_weak">Ustawiono słabe hasło</string>
+    <string name="settings_openhab_password_summary_strong">Ustawiono mocne hasło</string>
+    <string name="settings_openhab_sslclientcert">Certyfikat klienta SSL</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Naciśnij tutaj, aby uzyskać kilka wskazówek i wyjaśnień o tym, jak skonfigurować autoryzację certyfikatu klienta SSL</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Certyfikaty SSL klienta nie są obsługiwane na twoim urządzeniu</string>
+    <string name="settings_openhab_screentimeroff">Wyłącz wyświetlanie zegara</string>
+    <string name="settings_openhab_screentimeroff_summary">Wyłącz wyświetlanie wyłącznik zegara, kiedy openHAB jest włączony</string>
+    <string name="settings_openhab_demomode">Wersja demonstracyjna</string>
+    <string name="settings_openhab_demomode_summary">Jeśli nie masz serwera openHAB, włącz tryb demo aby zobaczyć co potrafi.</string>
+    <string name="settings_openhab_theme">Motyw</string>
+    <string name="settings_accent_color">Kolor akcentów</string>
+    <string name="settings_select_a_color">Wybierz kolor</string>
+    <string name="settings_openhab_fullscreen">Pełny ekran</string>
+    <string name="settings_openhab_icon_format">Format ikon</string>
+    <string name="settings_openhab_icon_format_png">Mapa bitowa</string>
+    <string name="settings_openhab_icon_format_svg">Wektor</string>
+    <string name="settings_chart_scaling">Skalowanie wykresu</string>
+    <string name="settings_chart_scaling_summary">Uwaga: Mniejsze skalowanie zmniejsza czcionki i szerokość linii, więc jest więcej miejsca na wykresy, ale czytelność czcionki może ucierpieć.</string>
+    <string name="settings_chart_scaling_value_xs">Bardzo mały</string>
+    <string name="settings_chart_scaling_value_s">Mały</string>
+    <string name="settings_chart_scaling_value_m">Domyślny</string>
+    <string name="settings_chart_scaling_value_l">Duży</string>
+    <string name="settings_openhab_chart_hq">Wykresy wysokiej rozdzielczości</string>
+    <string name="settings_openhab_chart_hq_summary">Generowanie wykresów możne spowolnić serwer. Jeśli wykresy ładują się wolno a twój serwer nie jest wystarczająco szybki wyłącz tę opcję, aby poprawić czas ładowania.</string>
+    <string name="settings_clear_default_sitemap">Wyczyść domyślną Sitemap</string>
+    <string name="settings_no_default_sitemap">Nie wybrano domyślnej Sitemap</string>
+    <string name="settings_current_default_sitemap">Bieżąca domyślna Sitemap: %1$s</string>
+    <string name="settings_openhab_alt_connection">Ustawienia serwera zdalnego</string>
+    <string name="settings_openhab_connection">Ustawienia serwera lokalnego</string>
+    <string name="settings_ringtone_none">Żaden</string>
+    <string name="settings_ringtone_on_external">Nieznany dzwonek na zewnętrznej pamięci</string>
+    <string name="settings_notification_vibration_off">Wyłączone</string>
+    <string name="settings_notification_vibration_short">Krótkie</string>
+    <string name="settings_notification_vibration_long">Długie</string>
+    <string name="settings_notification_vibration_twice">Podwójne</string>
+    <string name="settings_connection_summary">Połączono z %s</string>
+    <string name="settings_insecure_connection_summary">Połączono z %s niebezpiecznym połączeniem</string>
+    <string name="settings_screen_lock">Blokada ekranu</string>
+    <string name="settings_screen_lock_nolock_summary">Musisz włączyć blokadę ekranu dla swojego urządzenia, aby włączyć blokowanie dostępu do aplikacji</string>
+    <string name="settings_screen_lock_off_summary">Dostęp do aplikacji nie jest zablokowany</string>
+    <string name="settings_screen_lock_kiosk_summary">Dostęp do aplikacji jest zablokowany przez ekran blokady Androida lub odcisk palca</string>
+    <string name="settings_screen_lock_on_summary">Dostęp do aplikacji jest zablokowany przez ekran blokady Androida lub odcisk palca\nWidżety można użyć mimo blokady</string>
+    <string name="screen_lock_unlock_screen_description">Odblokuj by uzyskać dostęp do openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Odblokuj by uzyskać dostęp do ustawień</string>
+    <string name="settings_screen_lock_off">Wył</string>
+    <string name="settings_screen_lock_kiosk">Tryb kiosku</string>
+    <string name="settings_screen_lock_on">Wł</string>
+    <string name="settings_show_sitemaps_in_drawer">Pokaż wszystkie Sitemapy w bocznym menu</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Polecenia głosowe</string>
+    <string name="title_voice_widget_icon">Polecenia głosowe i skrót do aplikacji</string>
+    <string name="info_voice_input">openHAB, na twoje wezwanie!</string>
+    <string name="info_voice_recognized_text">Rozpoznana komenda: %1$s</string>
+    <string name="info_demo_mode_short">Uruchomiono w trybie demonstracyjnym</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Wyłącz</string>
+    <string name="info_conn_url">Łączenie z lokalnym URL</string>
+    <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
+    <string name="app_shortcut_disabled_habpanel">Na twoim serwerze nie ma zainstalowanego HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">Twój serwer zdalny jest niedostępny</string>
+    <string name="app_shortcut_disabled_voice_recognition">Twoje urządzenie nie ma zainstalowanej aplikacji rozpoznającej mowę</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę Sitemap</string>
+    <string name="error_sitemap_generic_load_error">Nie można załadować Sitemap. Wystąpił następujący błąd: %1$s</string>
+    <string name="error_network_not_available">Sieć jest niedostępna</string>
+    <string name="error_wifi_not_available">Wi-Fi jest wyłączone</string>
+    <string name="error_http_connection_failed">Połączenie nie powiodło się. Otrzymano nieoczekiwaną odpowiedź podczas próby połączenia ze skonfigurowanym serwerem openHAB (kod HTTP %d).</string>
+    <string name="error_invalid_url">Proszę wprowadź poprawny adres URL w formie \'protokół://host:port/\'</string>
+    <string name="error_invalid_https_url">Proszę wprowadź poprawny adres URL w formie \'https://host(:port)/\'</string>
+    <string name="error_port_seems_invalid">Port który wybrałeś jest niepoprawny dla wybranego protokołu</string>
+    <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
+    <string name="error_unable_to_resolve_hostname">Nie można określić nazwy hosta</string>
+    <string name="error_unknown">Wystąpił nieznany błąd: %s</string>
+    <string name="error_connection_sslhandshake_failed">Uzgadnianie SSL nie powiodło się - może potrzebujesz właściwego certyfikatu klienta</string>
+    <string name="error_certificate_not_trusted">Certyfikat SSL nie jest zaufany. Proszę zaimportuj certyfikat root lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
+    <string name="error_certificate_expired">Certyfikat SSL stracił ważność. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
+    <string name="error_certificate_not_valid_yet">Certyfikat SSL nie jest jeszcze ważny. Proszę uzyskać poprawny certyfikat lub zaakceptować certyfikat podczas SSL handshake. Sprawdzić też, czy zegar na urządzeniu jest poprawnie ustawiona.</string>
+    <string name="error_certificate_invalid_date">Certyfikat SSL ma niepoprawną datę. Proszę uzyskaj poprawny certyfikat i sprawdź czy zegar na twoim urządzeniu jest ustawiony poprawnie.</string>
+    <string name="error_certificate_revoked">Certyfikat SSL został unieważniony. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
+    <string name="error_certificate_wrong_host">Certyfikat SSL dla %s jest nieprawidłowy</string>
+    <string name="error_http_to_https_port">Nieoczekiwany koniec strumienia. Czy próbujesz podłączyć do portu HTTPS za pośrednictwem protokołu HTTP?</string>
+    <string name="webview_ssl">Obecnie ta aplikacja nie obsługuje certyfikatów SSL z podpisem własnym dla widżetów Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Uwierzytelnianie nie powiodło się. Sprawdź skonfigurowaną nazwę użytkownika i hasło dostarczonego certyfikatu klienta SSL (kod HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Adres URL jest zbyt długi. Proszę użyć adresu IP lub krótszego adresu URL (kod HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS jest wymagany. Zmień adres URL (kod HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Uwierzytelnianie nie powiodło się. Sprawdź dostarczony certyfikat klienta SSL (kod HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Certyfikat klienta SSL jest wymagany (kod HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź z serwera openHAB (kod HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">Serwer openHAB jest tymczasowo niedostępny (kod HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Przekroczono limit czasu bramy. Wygląda na to, że twój odwrócony serwer proxy jest uruchomiony, ale nie można uzyskać odpowiedzi od serwera openHAB (kod HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">Serwer openHAB nie ma wystarczającej ilości wolnego miejsca (kod HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Autoryzacja sieci jest wymagana (kod HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB jest offline</string>
+    <string name="error_short_http_connection_failed">Kod HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Błąd podczas rozwiązywania nazwy hosta</string>
+    <string name="error_short_unknown">Nieznany błąd: %s</string>
+    <string name="error_short_certificate_not_trusted">Certyfikat nie jest zaufany</string>
+    <string name="error_short_certificate_expired">Certyfikat nie wygasł</string>
+    <string name="error_short_certificate_not_valid_yet">Certyfikat nie jest jeszcze ważny</string>
+    <string name="error_short_certificate_revoked">Certyfikat cofnięty</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL nie powiodło się</string>
+    <string name="error_short_connection_failed">Połączenie nie powiodło się</string>
+    <string name="error_short_http_to_https_port">Łączenie z portem HTTPS przez HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certyfikat nie jest ważny dla %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Uwierzytelnianie nie powiodło się (kod HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Nie znaleziono (kod HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">Adres URL jest zbyt długi (kod HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">Wymagany HTTPS (kod HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Uwierzytelnianie nie powiodło się (kod HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Wymagany certyfikat klienta SSL (kod HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Proxy odwrotne otrzymało nieprawidłową odpowiedź od openHAB (kod HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB tymczasowo niedostępny (kod HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Limit czasu bramki (kod HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Za mało wolnego miejsca na serwerze (kod HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Wymagane uwierzytelnianie sieci (kod HTTP %d)</string>
+    <string name="error_openhab_offline">Twój serwer openHAB nie jest podłączony, ale instancja cloud pracuje prawidłowo</string>
+    <string name="error_no_browser_found">Nie znaleziono przeglądarki na Twoim urządzeniu</string>
+    <string name="error_no_speech_to_text_app_found">Nie znaleziono aplikacji rozpoznającej głos</string>
+    <string name="install">Zainstaluj</string>
+    <string name="title_activity_openhabwritetag">Napisz tag NFC</string>
+    <string name="title_activity_libraries">Użyte biblioteki</string>
+    <string name="info_write_tag">Kliknij na tag i przytrzymaj dopóki wiadomość informacyjna się nie pokaże</string>
+    <string name="info_write_tag_progress">Pisanie tagu</string>
+    <string name="info_write_failed">Błąd pisania tag\'u</string>
+    <string name="info_write_tag_unsupported">To urządzenie nie wspiera technologii NFC</string>
+    <string name="info_write_tag_disabled">Komunikacja NFC jest wyłączona</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="info_not_set">Nie ustawiono</string>
+    <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Wyślij informacje o urządzeniu do serwera</string>
+    <string name="settings_item_update_pref_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
+    <string name="settings_phone_state_permission_denied">Wysyłanie stanu rozmowy do zostało wyłączone z powodu braku pozwolenia</string>
+    <string name="settings_item_pref_item_name">Nazwa Item\'u</string>
+    <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
+    <string name="item_upload_in_progress">Item\'y są obecnie aktualizowane</string>
+    <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
+    <string name="notification_channel_messages_default_severity">Domyślny</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Element nie mogły zostać zaktualizowany</item>
+        <item quantity="few">%d Elementy nie mogły zostać zaktualizowane</item>
+        <item quantity="many">%d Elementów nie mogło zostać zaktualizowanych</item>
+        <item quantity="other">%d Elementów nie mogło zostać zaktualizowanych</item>
+    </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Aktualizacja Item-u \'%1$s\' nie powiodła się: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">Aktualizacja %1$s nie powiodła się: %2$s</string>
+    <string name="item_update_connection_error">Nie udało się zaktualizować Itemu \'%1$s\' (Brak połączenia)</string>
+    <string name="item_update_connection_error_label">Nie udało się zaktualizować %1$s (Brak połączenia)</string>
+    <string name="retry">Ponów</string>
+    <string name="ignore">Ignoruj</string>
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
+    <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
+    <string name="notification_list_error">Wystąpił błąd podczas ładowania powiadomień</string>
+    <string name="list_loading_message">Wczytywanie\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Zaakceptować nieznany certyfikat?</string>
+    <string name="mtm_trust_anchor">Certyfikat serwera nie jest podpisany przez znane centrum certyfikacji</string>
+    <string name="mtm_cert_expired">Ważność certyfikatu serwera wygasła</string>
+    <string name="mtm_accept_servername">Zaakceptować niepasującą nazwę serwera?</string>
+    <string name="mtm_hostname_mismatch">Serwer nie mógł uwierzytelnić się jako \&quot;%s\&quot;. Certyfikat jest ważny tylko dla:</string>
+    <string name="mtm_connect_anyway">Czy połączyć mimo to?</string>
+    <string name="mtm_cert_details">Szczegóły certyfikatu:</string>
+    <string name="mtm_decision_always">Akceptuj</string>
+    <string name="mtm_decision_abort">Anuluj</string>
+    <string name="mtm_notification">Weryfikacja certyfikatu</string>
+    <string name="settings_openhab_none">Brak</string>
     <!-- Themes -->
+    <string name="theme_name_light">Jasny</string>
+    <string name="theme_name_dark">Ciemny</string>
+    <string name="theme_name_system">Z motywu systemu</string>
+    <string name="theme_name_battery_saver">Włącz tryb ciemny w trybie oszczędzania baterii</string>
     <!-- Chart -->
     <!-- NFC -->
+    <string name="nfc_action_on">Włączony</string>
+    <string name="nfc_action_up">W górę</string>
+    <string name="nfc_action_off">Wyłączony</string>
+    <string name="nfc_action_down">W dół</string>
+    <string name="nfc_action_toggle">Przełącz</string>
+    <string name="nfc_action_toggled">Przełączono</string>
+    <string name="nfc_action_undefined">Niezdefiniowano</string>
+    <string name="nfc_action_empty_string">Pusty ciąg</string>
+    <string name="nfc_action_increase">Zwiększ</string>
+    <string name="nfc_action_decrease">Zmniejsz</string>
+    <string name="nfc_action_play">Odtwórz</string>
+    <string name="nfc_action_pause">Pauza</string>
+    <string name="nfc_action_next">Następny</string>
+    <string name="nfc_action_previous">Poprzedni</string>
+    <string name="nfc_action_rewind">Cofnij</string>
+    <string name="nfc_action_fastforward">Szybko do przodu</string>
+    <string name="nfc_action_move">Przenieś</string>
+    <string name="nfc_action_stop">Zatrzymaj</string>
+    <string name="nfc_action_open">Otwarte</string>
+    <string name="nfc_action_closed">Zamknięte</string>
+    <string name="nfc_activate">Aktywuj</string>
+    <string name="nfc_action_current_color">Bieżący kolor</string>
+    <string name="nfc_action_to_sitemap_page">Zapisz Sitemap do tagu NFC</string>
+    <string name="nfc_action_write_command_tag">Zapisz Item do tagu NFC</string>
     <!-- Drawer -->
+    <string name="drawer_open">Szuflada map witryn otwarta</string>
+    <string name="drawer_close">Szuflada map witryn zamknięta</string>
+    <string name="mainmenu_openhab_voice_recognition">Rozpoznawanie głosu</string>
     <!-- About -->
+    <string name="about_title">O programie</string>
+    <string name="about_license_title">Licencja</string>
+    <string name="about_changelog">Lista zmian</string>
+    <string name="about_source_code">Kod źródłowy</string>
+    <string name="about_issues">Zgłoś problem</string>
+    <string name="about_docs">Dokumentacja</string>
+    <string name="about_community_forum">Forum społeczności</string>
+    <string name="about_foundation">Fundacja openHAB</string>
+    <string name="about_community">Społeczność openHAB</string>
+    <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
+    <string name="about_privacy_policy">Polityka prywatności</string>
+    <string name="set">Wybierz</string>
+    <string name="cancel">Anuluj</string>
+    <string name="close">Zamknij</string>
+    <string name="try_again_button">Spróbuj ponownie</string>
+    <string name="enable_wifi_button">Włącz Wi-Fi</string>
+    <string name="go_to_settings_button">Przejdź do ustawień</string>
+    <string name="enable_demo_mode_button">Uruchom tryb demonstracyjny</string>
+    <string name="configuration_missing">Nie znaleziono serwera openHAB w twojej sieci. Jeżeli już masz serwer, skonfiguruj jego adres IP i nazwę hosta w ustawieniach serwera. Jeżeli jeszcze nie masz serwera openHAB, możesz włączyć tryb demonstracyjny by zobaczyć co potrafi openHAB.</string>
+    <string name="no_remote_server">Nie udało się połączyć z serwerem i nie skonfigurowano serwera zdalnego</string>
+    <string name="resolving_openhab">Próbując znaleźć serwer openHAB\u2026</string>
+    <string name="waiting_for_wifi">Czekam aż Wi-Fi nawiąże połączenie\2026</string>
     <!-- Log -->
+    <string name="view_log">Wyświetl log</string>
+    <string name="log_activity_action_clear_log">Wyczyść log</string>
+    <string name="log_activity_action_show_errors">Pokaż tylko błędy</string>
+    <string name="log_activity_action_show_all">Pokaż wszystkie wiadomości</string>
+    <string name="log_activity_action_reload">Odśwież</string>
+    <string name="log_activity_content_description_share">Udostępnij log</string>
+    <string name="empty_log">Log jest pusty</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Przypnij do pulpitu</string>
+    <string name="home_shortcut_error_pinning">Błąd przypinania do pulpitu</string>
+    <string name="home_shortcut_success_pinning">Przypięte do pulpitu</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Otwórz roletę</string>
+    <string name="content_description_stop_roller_shutter">Zatrzymaj roletę</string>
+    <string name="content_description_close_roller_shutter">Zamknij roletę</string>
+    <string name="content_description_open_color_wheel">Otwórz paletę kolorów</string>
+    <string name="content_description_color_up">Włącz lub przytrzymaj by rozjaśnić</string>
+    <string name="content_description_color_down">Wyłącz lub przytrzymaj by przyciemnić</string>
+    <string name="content_description_open_number_picker">Otwórz klawiaturę numeryczną</string>
+    <string name="content_description_video">Wideo</string>
+    <string name="content_description_open_openhab">Otwórz openHAB</string>
+    <string name="content_description_increase_item_value">Zwiększ wartość</string>
+    <string name="content_description_decrease_item_value">Zmniejsz wartość</string>
+    <string name="swipe_to_refresh_description">Aplikacja odświeża się automatycznie, nie musisz robić tego ręcznie</string>
+    <string name="got_it">Rozumiem!</string>
     <!-- Intro strings -->
+    <string name="app_intro">Wprowadzenie</string>
+    <string name="intro_welcome">Witaj w openHAB</string>
+    <string name="intro_welcome_back">Witaj ponownie w openHAB</string>
+    <string name="intro_app_restored">Przywrócono większość twoich ustawień, poza danymi logowania do serwera</string>
+    <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
+    <string name="intro_voice_description">Kontroluj swój domu za pomocą głosu</string>
+    <string name="intro_nfc_description">Item może być powiązana z tagiem NFC poprzez długie przyciśnięcie Item</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">POMIŃ</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">GOTOWE</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Nie znaleziono żadnych Itemów</string>
+    <string name="item_picker_list_error">Wystąpił błąd podczas ładowania Itemów</string>
+    <string name="item_picker_custom">Niestandardowy</string>
+    <string name="item_picker_dialog_title">Wybierz akcję</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Wyślij polecenie \"%3$s\" do \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Zaktualizuj \"%1$s\" (%2$s) do \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Zmienna Taskera \"%s\"</string>
+    <string name="item_picker_item_update">Aktualizuj</string>
+    <string name="item_picker_item_command">Komenda</string>
+    <string name="item_picker_contact_no_command">Itemy kontaktowe nie mogą odbierać poleceń Itemu, zmienione na aktualizację</string>
+    <string name="search">Szukaj</string>
+    <string name="settings_tasker_plugin">Integracja z Taskerem</string>
+    <string name="settings_tasker_plugin_summary">Włącz wtyczkę Taskera która pozwala aktualizować Itemy przez Taskera i inne kompatybilne aplikacje</string>
+    <string name="tasker_plugin_disabled">Wtyczka Tasker jest wyłączona</string>
+    <string name="turn_on">Włącz</string>
+    <string name="press_back_to_exit">Naciśnij ponownie, aby wyjść</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Sterowanie Item</string>
+    <string name="item_update_widget_content_description">Widżet do zmiany stanu Itemu</string>
+    <string name="item_update_widget_content_description_edit">Edytuj Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_item_picker_title">Wybierz Item</string>
+    <string name="item_update_success_message_generic">%1$s ustawiono na %2$s</string>
+    <string name="item_update_success_message_on">%s zostało włączone</string>
+    <string name="item_update_success_message_off">%s zostało wyłączone</string>
+    <string name="item_update_success_message_up">%s zaczyna się poruszać w górę</string>
+    <string name="item_update_success_message_down">%s zaczyna się poruszać w dół</string>
+    <string name="item_update_success_message_move">%s zaczyna się poruszać</string>
+    <string name="item_update_success_message_stop">%s zostało zatrzymane</string>
+    <string name="item_update_success_message_increase">%s zostało zwiększone</string>
+    <string name="item_update_success_message_decrease">%s zostało zmniejszone</string>
+    <string name="item_update_success_message_undefined">%s ustawiono na niezdefiniowany</string>
+    <string name="item_update_success_message_empty_string">%s ustawiono na pusty tekst</string>
+    <string name="item_update_success_message_play">%s gra</string>
+    <string name="item_update_success_message_pause">%s został wstrzymany</string>
+    <string name="item_update_success_message_next">%s pokazuje następny tytuł</string>
+    <string name="item_update_success_message_previous">%s pokazuje poprzedni tytuł</string>
+    <string name="item_update_success_message_rewind">%s przewija się</string>
+    <string name="item_update_success_message_fastforward">%s przewija do przodu</string>
+    <string name="item_update_error_no_connection_retry">Błąd podczas wysyłania aktualizacji Item, próbuje ponownie\u2026</string>
+    <string name="item_update_error_no_connection">Brak połączenia</string>
+    <string name="item_update_error_couldnt_get_item_type">Nie można odnaleźć typu tego Itemu</string>
+    <string name="create_home_screen_widget_title">Utwórz widget</string>
+    <string name="item_update_widget_auto_generate_widget_label">Automatycznie generuj etykietę widżetu</string>
+    <string name="item_update_widget_widget_label">Etykieta widżetu</string>
     <!-- Data saver -->
+    <string name="widget_type_video">Wideo</string>
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Wybierz Item</string>
+    <string name="tile_enable">Włącz</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>
