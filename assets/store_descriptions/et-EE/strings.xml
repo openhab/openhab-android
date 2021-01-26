@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <intro>openHAB - "empowering the smart home" - nutitkodudele mõeldud automatiseerimistarkvara, mis on tootjatest ja tehnoloogiatest sõltumatu</intro>
+    <whatis>openHAB - see on Java-põhine avatud lähtekoodiga koduautomaatika platvorm, mis integreerib suure hulga nutika kodu süsteemid ühte lahendusesse.</whatis>
+    <rules>Abstraktsiooni tipptasemel on kõik ühendatud seadmed automatiseerimisreeglite ja mitmesuguste kasutajaliideste jaoks saadaval.</rules>
+    <supported>Toetatud tooted</supported>
     <bindings>  </bindings>
-    <automation_apps/>
+    <automation_apps>Rakendusel on sisseehitatud tegumi pistikprogrammid Taskeri ja Locale jaoks.</automation_apps>
 
-    <oss_community/>
+    <oss_community>Avatud lähtekoodiga ühendus</oss_community>
     <forum>  </forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
+    <report_issues>Kui leiate vea, teatage sellest foorumis või aadressil https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Kui soovite rakenduse oma keelde tõlkida, liituge meiega aadressil https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB sihtasutus</foundation>
     <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
+    <important_note>Juhime tähelepanu</important_note>
+    <oh_server>Selle rakenduse jaoks vajate openHAB-serverit.</oh_server>
+    <short_description>Nutika kodu automatiseerimise avatud lähtekoodiga tehnoloogia pakkuja</short_description>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[Võite installida beta versiooni paralleelselt <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiilse versiooniga</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>Privaatsuseeskirjad: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Proovige uusi funktsioone ja andke tagasisidet!</beta>
+    <play_beta>Võite installida beetaversiooni asemel stabiilse versiooni.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
