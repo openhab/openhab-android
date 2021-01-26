@@ -3,15 +3,98 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">Configurações</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Mapa do site</string>
+    <string name="mainmenu_openhab_preferences">Configurações</string>
+    <string name="app_notifications">Notificações</string>
+    <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
+    <string name="mainmenu_openhab_selectsitemap">Selecione o mapa do site padrão</string>
+    <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Ligação</string>
+    <string name="settings_display_title">Definições de Visualização</string>
+    <string name="settings_misc_title">Diversos</string>
+    <string name="settings_openhab_url">URL do servidor local</string>
+    <string name="settings_openhab_url_summary">A URL do painel openHAB (baseado no nome do host ou IP). Se configurado, está desativada a detecção automática. Configuração atual %s</string>
+    <string name="settings_openhab_alturl">URL do servidor remoto</string>
+    <string name="settings_openhab_alturl_summary">A URL do painel openHAB usado quando o endereço local não está disponível. Configuração atual: %s</string>
+    <string name="settings_openhab_username">Nome de utilizador</string>
+    <string name="settings_openhab_password">Palavra passe</string>
+    <string name="settings_openhab_password_summary_weak">Password fraca definida</string>
+    <string name="settings_openhab_password_summary_strong">Password Forte definida</string>
+    <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado de cliente SSL</string>
+    <string name="settings_openhab_screentimeroff">Desativar a exibição do temporizador</string>
+    <string name="settings_openhab_screentimeroff_summary">Desativar exibição do interruptor de temporização quando openHAB está a ser executado</string>
+    <string name="settings_openhab_demomode">Modo de demonstração</string>
+    <string name="settings_openhab_demomode_summary">Se não tem um servidor openHAB, habilite o modo demo a obter uma demonstração do que o openHAB é capaz de fazer.</string>
+    <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_openhab_fullscreen">Ecrã inteiro</string>
+    <string name="settings_openhab_icon_format">Formato de icone</string>
+    <string name="settings_openhab_icon_format_svg">Vetor</string>
+    <string name="settings_chart_scaling">Escala de Gráficos</string>
+    <string name="settings_chart_scaling_summary">Nota: Menor escalonamento de fontes e largura de linha, então há mais espaço para o gráfico, mas a legibilidade de fonte pode sofrer.</string>
+    <string name="settings_openhab_chart_hq">Gráficos de alta resolução</string>
+    <string name="settings_openhab_chart_hq_summary">Gerar gráficos pode ser pesado para o servidor. Se o tempo de carregamento de gráfico estiver lento e o seu servidor não é poderoso, desative esta opção para melhorar os tempos de carregamento.</string>
+    <string name="settings_clear_default_sitemap">Limpar o mapa do site padrão</string>
+    <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
+    <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>
+    <string name="settings_openhab_alt_connection">Remoto</string>
+    <string name="settings_ringtone_none">Nenhum</string>
+    <string name="settings_notification_vibration_off">Desligar</string>
+    <string name="settings_notification_vibration_short">Curto</string>
+    <string name="settings_notification_vibration_long">Longo</string>
+    <string name="settings_notification_vibration_twice">Duas vezes</string>
+    <string name="settings_connection_summary">Ligado a %s</string>
+    <string name="settings_insecure_connection_summary">Conectado a %s sem segurança</string>
+    <string name="settings_screen_lock">Bloqueio de ecrã</string>
+    <string name="screen_lock_unlock_screen_description">Desbloqueie para acessar o openHAB</string>
+    <string name="settings_screen_lock_off">Desligar</string>
+    <string name="settings_screen_lock_kiosk">Modo Kiosk</string>
+    <string name="settings_screen_lock_on">Ligar</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Comandos de Voz</string>
+    <string name="title_voice_widget_icon">Comandos de voz e atalho do app</string>
+    <string name="info_voice_input">openhab, às suas ordens!</string>
+    <string name="info_voice_recognized_text">Comando reconhecido: %1$s</string>
+    <string name="info_demo_mode_short">A executar em modo de demonstração</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Desligar</string>
+    <string name="info_conn_url">Conectando a URL local</string>
+    <string name="info_conn_rem_url">Conectando a URL local</string>
+    <string name="app_shortcut_disabled_habpanel">Seu servidor não tem o HABPanel instalado</string>
+    <string name="app_shortcut_disabled_notifications">Seu servidor remoto não está disponível</string>
+    <string name="app_shortcut_disabled_voice_recognition">Seu dispositivo não tem uma aplicação de reconhecimento de voz instalada</string>
     <!-- Error messages -->
+    <string name="error_sitemap_generic_load_error">O mapa do site não pôde ser carregado. O seguinte erro ocorreu: %1$s</string>
+    <string name="error_network_not_available">Rede não está disponível</string>
+    <string name="error_wifi_not_available">Wi-Fi desligado</string>
+    <string name="error_invalid_url">Por favor introduza um URL válido num padrão \'http(s)://endereço(:porto)/\'</string>
+    <string name="error_port_seems_invalid">A porta que você inseriu parece inválida para o protocolo selecionado</string>
+    <string name="error_connection_failed">Conexão ao host falhado</string>
+    <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
+    <string name="error_connection_sslhandshake_failed">Handshake SSL falhado</string>
+    <string name="error_certificate_not_trusted">Certificado SSL não é confiável. Por favor, importe o certificado de raiz ou deabilite a validação de certificados durante o hanshake SSL.</string>
+    <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obter um novo certificado ou aceite a validação de certificado durante o handshake SSL.</string>
+    <string name="error_certificate_not_valid_yet">Certificado SSL ainda não é válido. Por favor, obtenha um certificado correto ou desabilite a validação de certificados durante o handshake SSL. Verifique também se o relógio no seu telefone está configurado corretamente.</string>
+    <string name="error_certificate_invalid_date">O certificado SSL tem data inválida. Por favor, obtenha um certificado correto e verifique se o relógio no seu dispositivo está definido corretamente.</string>
+    <string name="error_certificate_revoked">Certificado SLL expirou. Por favor, obter um novo certificado ou aceite a validação de certificado durante o handshake SSL.</string>
+    <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_no_browser_found">Nenhum navegador encontrado no seu dispositivo</string>
+    <string name="error_no_speech_to_text_app_found">Nenhum aplicação de reconhecimento de voz encontrada</string>
+    <string name="install">Instalar</string>
+    <string name="title_activity_openhabwritetag">Escrever na etiqueta NFC</string>
+    <string name="info_write_tag">Toque na etiqueta e mantenha-la perto até aparecer a mensagem de confirmação</string>
+    <string name="info_write_tag_progress">Escrever a etiqueta</string>
+    <string name="info_write_failed">Erro de escrita da etiqueta</string>
+    <string name="info_write_tag_unsupported">Este dispositivo não tem suporte de NFC</string>
+    <string name="action_settings">Definições</string>
+    <string name="info_not_set">Não definido</string>
     <!-- Background tasks -->
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
@@ -19,23 +102,99 @@
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_connect_anyway">Deseja conectar-se mesmo assim?</string>
+    <string name="mtm_cert_details">Detalhes do certificado:</string>
+    <string name="mtm_decision_always">Aceitar</string>
+    <string name="mtm_decision_abort">Anular</string>
+    <string name="mtm_notification">Verificação de certificado</string>
+    <string name="settings_openhab_none">Nenhum</string>
     <!-- Themes -->
+    <string name="theme_name_light">Claro</string>
+    <string name="theme_name_dark">Escuro</string>
     <!-- Chart -->
     <!-- NFC -->
+    <string name="nfc_action_on">Ligar</string>
+    <string name="nfc_action_up">Para cima</string>
+    <string name="nfc_action_off">Desligar</string>
+    <string name="nfc_action_down">Para baixo</string>
+    <string name="nfc_action_toggle">Alternar</string>
+    <string name="nfc_action_undefined">Indefinido</string>
+    <string name="nfc_action_empty_string">String vazia</string>
+    <string name="nfc_action_increase">Aumentar</string>
+    <string name="nfc_action_decrease">Diminuir</string>
+    <string name="nfc_action_play">Reproduzir</string>
+    <string name="nfc_action_pause">Pausa</string>
+    <string name="nfc_action_next">Seguinte</string>
+    <string name="nfc_action_previous">Anterior</string>
+    <string name="nfc_action_rewind">Recuar</string>
+    <string name="nfc_action_fastforward">Avanço rápido</string>
+    <string name="nfc_action_move">Mover</string>
+    <string name="nfc_action_stop">Parar</string>
+    <string name="nfc_activate">Activar</string>
+    <string name="nfc_action_current_color">Cor atual</string>
     <!-- Drawer -->
+    <string name="drawer_open">Gaveta aberta do mapa do site</string>
+    <string name="drawer_close">Gaveta fechada do mapa do site</string>
+    <string name="mainmenu_openhab_voice_recognition">Reconhecimento de voz</string>
     <!-- About -->
+    <string name="about_title">Sobre</string>
+    <string name="about_license_title">Licença</string>
+    <string name="about_changelog">Registo de alterações</string>
+    <string name="about_source_code">Código fonte</string>
+    <string name="about_issues">Reportar erros</string>
+    <string name="about_docs">Documentação</string>
+    <string name="about_community_forum">Fórum da Comunidade</string>
+    <string name="about_foundation">Fundação openHAB</string>
+    <string name="about_community">comunidade openHAB</string>
+    <string name="about_translation">Ajude-nos a traduzir!</string>
+    <string name="about_privacy_policy">Política de Privacidade</string>
+    <string name="set">Conjunto</string>
+    <string name="cancel">Cancelar</string>
+    <string name="close">Fechar</string>
+    <string name="try_again_button">Tentar novamente</string>
+    <string name="enable_wifi_button">Ligar o Wi-Fi</string>
+    <string name="go_to_settings_button">Ir para as definições</string>
+    <string name="enable_demo_mode_button">Executar em modo de demonstração</string>
+    <string name="configuration_missing">Não encontrámos um servidor openHAB na sua rede. Se você já tem um servidor, por favor configure seu endereço IP ou nome de host nas configurações do servidor. Se você ainda não tem um servidor, você pode habilitar o modo demo para ver o que o openHAB é capaz.</string>
+    <string name="no_remote_server">Falha na conexão com o servidor local e você não configurou um servidor remoto</string>
+    <string name="resolving_openhab">Tentando descobrir a instância do servidor openHAB\u2026</string>
+    <string name="waiting_for_wifi">Aguardando a conexão Wi-Fi\u2026</string>
     <!-- Log -->
+    <string name="view_log">Ver Log</string>
+    <string name="empty_log">Log está vazio</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Fixar na tela principal</string>
+    <string name="home_shortcut_error_pinning">Erro ao fixar na tela principal</string>
+    <string name="home_shortcut_success_pinning">Fixado na tela principal</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Abrir estore</string>
+    <string name="content_description_stop_roller_shutter">Parar estore</string>
+    <string name="content_description_close_roller_shutter">Fechar estore</string>
+    <string name="content_description_open_color_wheel">Abrir cores</string>
+    <string name="content_description_color_up">Ligar ou mantenha para aumentar o brilho</string>
+    <string name="content_description_color_down">Desligar ou mantenha para diminuir o brilho</string>
+    <string name="content_description_open_number_picker">Abrir selecção de valor</string>
+    <string name="content_description_video">Vídeo</string>
+    <string name="content_description_open_openhab">Abrir openHAB</string>
+    <string name="content_description_increase_item_value">Aumentar o valor do item</string>
+    <string name="content_description_decrease_item_value">Diminuir valor do item</string>
+    <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita de fazê-lo manualmente</string>
     <!-- Intro strings -->
+    <string name="app_intro">Introdução</string>
+    <string name="intro_welcome">Bem-vindo ao openHAB</string>
+    <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
+    <string name="intro_voice_description">Controle sua casa com sua voz</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">Seguinte</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">Concluído</string>
     <!-- Item picker -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Vídeo</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
