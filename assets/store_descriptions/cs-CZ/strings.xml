@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <intro>openHAB - "empowering the smart home" - open source program pro domácí automatizaci IoT zařízení od různých výrobců s různou technologií</intro>
+    <whatis>openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.</whatis>
+    <rules>Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.</rules>
+    <supported>Podporované produkty</supported>
     <bindings>  </bindings>
-    <automation_apps/>
+    <automation_apps>Aplikace obsahuje action plugin pro Tasker a Locale.</automation_apps>
 
-    <oss_community/>
+    <oss_community>Open Source komunita</oss_community>
     <forum>  </forum>
 
-    <report_issues/>
-    <translation/>
+    <report_issues>Případné nalezené chyby či problémy nahlaste prosím, ve fóru nebo v https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android</translation>
     <foundation/>
     <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
+    <important_note>Důležitá poznámka</important_note>
+    <oh_server>Pro tuto aplikaci potřebujete openHAB server.</oh_server>
+    <short_description>Domácí automatizace pro IoT různých výrobců a technologií</short_description>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>
+    <play_beta>Vedle stabilní verze můžete nainstalovat i beta verzi.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
