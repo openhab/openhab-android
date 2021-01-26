@@ -3,40 +3,519 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">設定</string>
+    <string name="save">保存</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">サイトマップ</string>
+    <string name="mainmenu_openhab_preferences">設定</string>
+    <string name="app_notifications">通知</string>
+    <string name="habpanel_error">HAPPanel の読み込み中にエラーが発生しました</string>
+    <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
+    <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">接続設定</string>
+    <string name="settings_display_title">表示設定</string>
+    <string name="settings_sitemap_title">サイトマップ</string>
+    <string name="settings_misc_title">その他の設定</string>
+    <string name="settings_openhab_url">ローカルサーバー URL</string>
+    <string name="settings_openhab_url_summary">(ホスト名または IP アドレスに基づく) openHAB ダッシュ ボードの URL です。設定した場合、自動検出は無効になります。現在の設定: %s</string>
+    <string name="settings_openhab_alturl">リモートサーバー URL</string>
+    <string name="settings_openhab_alturl_summary">ローカルアドレスが利用できない場合に使用する openHAB ダッシュ ボードの URL です。現在の設定: %s</string>
+    <string name="settings_openhab_username">ユーザー名</string>
+    <string name="settings_openhab_password">パスワード</string>
+    <string name="settings_openhab_password_summary_weak">脆弱なパスワードです</string>
+    <string name="settings_openhab_password_summary_strong">強力なパスワードです</string>
+    <string name="settings_openhab_sslclientcert">SSL クライアント証明書</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">ここをタップすると SSL クライアント証明書認証を設定する方法について、いくつかのヒントや説明を得ることができます</string>
+    <string name="settings_openhab_sslclientcert_not_supported">お使いのデバイスで SSL クライアント証明書はサポートされていません</string>
+    <string name="settings_openhab_screentimeroff">ディスプレイタイマーを無効にする</string>
+    <string name="settings_openhab_screentimeroff_summary">openHAB が実行中のとき、ディスプレイがオフにならないようにします</string>
+    <string name="settings_openhab_demomode">デモモード</string>
+    <string name="settings_openhab_demomode_summary">openHAB サーバーをお持ちでない場合は、デモモードを有効にすると、openHAB どのようなことができるか想像できます。</string>
+    <string name="settings_openhab_theme">テーマ</string>
+    <string name="settings_accent_color">アクセント色</string>
+    <string name="settings_select_a_color">色を選択</string>
+    <string name="settings_openhab_fullscreen">フルスクリーン</string>
+    <string name="settings_openhab_icon_format">アイコン形式</string>
+    <string name="settings_openhab_icon_format_png">ビットマップ</string>
+    <string name="settings_openhab_icon_format_svg">ベクター</string>
+    <string name="settings_chart_scaling">グラフのスケール</string>
+    <string name="settings_chart_scaling_summary">注: スケールを小さくすると、フォントと線の幅が縮小されてグラフのスペースが多くなりますが、フォントが読みにくくなることがあります。</string>
+    <string name="settings_chart_scaling_value_xs">極小</string>
+    <string name="settings_chart_scaling_value_s">小</string>
+    <string name="settings_chart_scaling_value_m">デフォルト</string>
+    <string name="settings_chart_scaling_value_l">大</string>
+    <string name="settings_openhab_chart_hq">高解像度グラフ</string>
+    <string name="settings_openhab_chart_hq_summary">グラフの生成をサーバーに負担させることができます。グラフの読み込みに時間がかかって、お使いのサーバーが強力ではない場合は、このオプションを無効にすると読み込み時間が改善します。</string>
+    <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
+    <string name="settings_no_default_sitemap">デフォルトのサイトマップが選択されていません</string>
+    <string name="settings_current_default_sitemap">現在のデフォルトサイトマップ: %1$s</string>
+    <string name="settings_openhab_alt_connection">リモートサーバーの設定</string>
+    <string name="settings_openhab_connection">ローカルサーバーの設定</string>
+    <string name="settings_ringtone">着信音</string>
+    <string name="settings_ringtone_none">なし</string>
+    <string name="settings_ringtone_on_external">外部ストレージの不明な着信音</string>
+    <string name="settings_notification_vibration">バイブレーション</string>
+    <string name="settings_notification_vibration_off">オフ</string>
+    <string name="settings_notification_vibration_short">短め</string>
+    <string name="settings_notification_vibration_long">長め</string>
+    <string name="settings_notification_vibration_twice">2 回</string>
+    <string name="settings_connection_summary">%s に接続しました</string>
+    <string name="settings_insecure_connection_summary">%s に安全ではない接続をしました</string>
+    <string name="beta">ベータ版</string>
+    <string name="settings_screen_lock">画面ロック</string>
+    <string name="settings_screen_lock_nolock_summary">アプリのアクセスロックを有効にするには、お使いのデバイスの画面ロックを有効にする必要があります</string>
+    <string name="settings_screen_lock_off_summary">アプリへのアクセスはロックされていません</string>
+    <string name="settings_screen_lock_kiosk_summary">Android の画面ロックまたは指紋で、アプリの設定へのアクセスがロックされています</string>
+    <string name="settings_screen_lock_on_summary">Android の画面ロックまたは指紋で、アプリへのアクセスがロックされています\n注: それでもウィジェットは使用できます</string>
+    <string name="screen_lock_unlock_screen_description">openHAB のアクセスをロック解除します</string>
+    <string name="screen_lock_unlock_preferences_description">設定へのアクセスをロック解除</string>
+    <string name="settings_screen_lock_off">オフ</string>
+    <string name="settings_screen_lock_kiosk">Kioskモード</string>
+    <string name="settings_screen_lock_on">オン</string>
+    <string name="settings_show_sitemaps_in_drawer">サイドメニューにすべてのサイトマップを表示する</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">音声コマンド</string>
+    <string name="voice_command">音声コマンド</string>
+    <string name="title_voice_widget_icon">音声コマンドとアプリのショートカット</string>
+    <string name="info_voice_input">openHAB, お話ください!</string>
+    <string name="info_voice_recognized_text">認識したコマンド: %1$s</string>
+    <string name="info_demo_mode_short">デモ モードで実行しています</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">オフにする</string>
+    <string name="info_conn_url">設定した URL に接続しています</string>
+    <string name="info_conn_rem_url">リモート URL に接続しています</string>
+    <string name="app_shortcut_disabled_habpanel">サーバーに HABPanel がインストールされていません</string>
+    <string name="app_shortcut_disabled_notifications">リモートサーバーに接続できません</string>
+    <string name="app_shortcut_disabled_voice_recognition">お使いのデバイスは音声認識アプリがインストールされていません</string>
+    <string name="no_position_set">位置が設定されていません</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
+    <string name="error_sitemap_generic_load_error">サイトマップを読み込めませんでした。次のエラーが発生しました: %1$s</string>
+    <string name="error_network_not_available">ネットワークが利用できません</string>
+    <string name="error_wifi_not_available">Wi-Fi がオフになっています</string>
+    <string name="error_http_connection_failed">接続が失敗しました。設定された openHAB サーバーに接続しようとしたときに予期しない応答を受け取りました (HTTP コード: %d)。</string>
+    <string name="error_invalid_url">\'http(s)://host(:port)/\' の形式で、正しい URL を入力してください</string>
+    <string name="error_invalid_https_url">\'https://host(:port)/\' の形式で、正しい URL を入力してください</string>
+    <string name="error_port_seems_invalid">入力したポートは、選択したプロトコルでは正しくないようです</string>
+    <string name="error_connection_failed">ホストへの接続に失敗しました</string>
+    <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
+    <string name="error_unknown">不明なエラーが発生しました: %s</string>
+    <string name="error_connection_sslhandshake_failed">SSL ハンドシェイクに失敗しました - 有効なクライアント証明書が必要かもしれません</string>
+    <string name="error_certificate_not_trusted">SSL 証明書が信頼されていません。ルート証明書をインポートするか、SSL ハンドシェイク中に証明書を確認してください。</string>
+    <string name="error_certificate_expired">SSL 証明書が有効期限切れです。新しい証明書を取得するか、SSL ハンドシェイク中に証明書を確認してください。</string>
+    <string name="error_certificate_not_valid_yet">SSL 証明書はまだ有効ではありません。正しい証明書を取得するか、SSL ハンドシェイク中に証明書を確認してください。また、お使いの携帯電話の時計が正しく設定されているかを確認してください。</string>
+    <string name="error_certificate_invalid_date">SSL 証明書の日付が無効です。正しい証明書を取得して、お使いのデバイスの時計が正しく設定されているか確認してください。</string>
+    <string name="error_certificate_revoked">SSL 証明書が失効しています。新しい証明書を取得するか、SSL ハンドシェイク中に証明書を確認してください。</string>
+    <string name="error_certificate_wrong_host">%s の SSL 証明書が無効です</string>
+    <string name="error_http_to_https_port">予期しないストリームの終わり。HTTP 経由で HTTPS ポートに接続しようとしていませんか?</string>
+    <string name="webview_ssl">現在このアプリは、Webview ウィジェットにおいて自己署名証明書をサポートしていません</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP コード %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL が長すぎます。IP アドレスまたは短縮 URL を使用してください (HTTP コード %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS が必要です。URL を変更してください (HTTP コード %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">認証に失敗しました。提供された SSL クライアント証明書を確認してください (HTTP コード %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL クライアント証明書が必要 (HTTP コード %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP コード %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB は一時的に利用できません (HTTP コード %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">ゲートウェイ タイムアウト。リバースプロキシが実行中ですが、openHAB サーバーから回答を受け取ることができなかったようです (HTTP コード %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB に十分な空き容量がありません (HTTP コード %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">ネットワーク認証が必要です (HTTP コード %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB はオフラインです</string>
+    <string name="error_short_http_connection_failed">HTTP コード %d</string>
+    <string name="error_short_unable_to_resolve_hostname">ホスト名の解決エラー</string>
+    <string name="error_short_unknown">不明なエラー: %s</string>
+    <string name="error_short_certificate_not_trusted">証明書は信頼されていません</string>
+    <string name="error_short_certificate_expired">証明書の期限は切れていません</string>
+    <string name="error_short_certificate_not_valid_yet">証明書はまだ有効ではありません</string>
+    <string name="error_short_certificate_revoked">証明書は無効になりました</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL に失敗しました</string>
+    <string name="error_short_connection_failed">接続に失敗しました</string>
+    <string name="error_short_http_to_https_port">HTTP 経由で HTTPS ポートに接続しますか?</string>
+    <string name="error_short_certificate_wrong_host">%s の証明書が有効ではありません</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">認証に失敗しました (HTTP コード %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">見つかりません (HTTP コード %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL が長すぎます (HTTP コード %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS が必要です (HTTP コード %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">認証に失敗しました (HTTP コード %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL クライアント証明書が必要 (HTTP コード %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP コード %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB は一時的に利用できません (HTTP コード %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">ゲートウェイタイムアウト (HTTP コード %d)</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">サーバーに十分な空き容量がありません (HTTP コード %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">ネットワーク認証が必要です (HTTP コード %d)</string>
+    <string name="error_openhab_offline">クラウドインスタンス実行中、お使いの openHAB サーバーがオフラインです</string>
+    <string name="error_no_browser_found">お使いのデバイス上にブラウザーが見つかりません</string>
+    <string name="error_no_speech_to_text_app_found">音声認識アプリが見つかりません</string>
+    <string name="error_sse_failed">イベントのサブスクリプションに失敗しました。ウィジェットの更新が損なわれている可能性があります</string>
+    <string name="error_video_player">%s を読み込みできません</string>
+    <string name="install">インストール</string>
+    <string name="title_activity_openhabwritetag">NFC タグを書き込み</string>
+    <string name="title_activity_libraries">使用したライブラリー</string>
+    <string name="info_write_tag">タグをタッチして、確認メッセージが表示されるまで近づけたままにしてください</string>
+    <string name="info_write_tag_progress">タグを書き込んでいます</string>
+    <string name="info_write_tag_finished">タグの書き込みが完了しました</string>
+    <string name="info_write_failed">タグの書き込みエラー</string>
+    <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
+    <string name="info_write_tag_disabled">NFC は無効です</string>
+    <string name="action_settings">設定</string>
+    <string name="info_not_set">未設定</string>
+    <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">デバイス情報をサーバーに送信</string>
+    <string name="send_device_info_to_server_short">デバイス情報を送信する</string>
+    <string name="send_device_info_category_event_based_title">イベントベース</string>
+    <string name="send_device_info_category_event_based_explanation">これらのアイテムは対応するイベントで更新されます。 例、電話の着信</string>
+    <string name="send_device_info_category_schedule_based_title">スケジュールベース</string>
+    <string name="send_device_info_category_schedule_based_explanation">選択した間隔が短いほど、デバイスのバッテリー残量への影響が大きくなります。 さらに、お使いのデバイスが選択された間隔の通りにならず、アプリ全体の消費電力を削減するための更新を遅らせる可能性があります。</string>
+    <string name="send_device_info_item_prefix_summary">このページのアイテム名にはデバイス識別子 \'%s\' が頭に付きます</string>
+    <string name="send_device_info_item_prefix_summary_not_set">このページのアイテム名にプレフィックスが設定されていません。 デバイス識別子でプレフィックスを付けることができます。デバイス識別子はメイン設定ページで設定できます。</string>
+    <string name="send_device_info_foreground_service_title">イベントモニター</string>
+    <string name="send_device_info_foreground_service_summary">以下の項目に関連付けられたイベントをモニターします。これには永続的な通知が必要で、バッテリー使用量が増える可能性があります。</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">以下の項目に関連付けられたイベントをモニターします。 これには永続的な通知が必要で、バッテリー使用量が増加する可能性があります。これはDNDモードを送信するためにのみ必要です。</string>
+    <string name="send_device_info_foreground_service_running_summary_dnd">DNDモードに関連付けられたイベントをモニターします</string>
+    <string name="send_device_info_foreground_service_running_summary_one">%s に関連付けられたイベントをモニターします</string>
+    <string name="send_device_info_foreground_service_running_summary_two">%1$s と %2$s に関連付けられたイベントをモニターします</string>
+    <string name="send_device_info_foreground_service_running_summary_more">%1$s、 %2$s などに関連付けられたイベントをモニターします</string>
+    <string name="settings_item_update_pref_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
+    <string name="item_update_summary_success">最終更新は \'%1$s\' (%2$s)</string>
+    <string name="settings_alarm_clock">アラーム時刻</string>
+    <string name="settings_alarm_clock_summary_on">アイテム \'%1$s\' にアラーム時刻を送信します</string>
+    <string name="settings_alarm_clock_summary_off">アラーム時刻を送信しません</string>
+    <string name="settings_phone_state">通話状態</string>
+    <string name="settings_phone_state_summary_on">通話状態をアイテム \'%1$s\' に送信します</string>
+    <string name="settings_phone_state_summary_off">通話状態を送信しない</string>
+    <string name="settings_phone_state_permission_denied">アクセス許可がないため通話状態の送信は無効です</string>
+    <string name="settings_battery_level">バッテリー残量</string>
+    <string name="settings_battery_level_summary_on">バッテリー残量をアイテム \'%1$s\' に送信します</string>
+    <string name="settings_battery_level_summary_off">バッテリー残量を送信しません</string>
+    <string name="settings_charging_state">充電状態</string>
+    <string name="settings_charging_state_summary_on">充電状態をアイテム \'%1$s\' に送信します</string>
+    <string name="settings_charging_state_summary_off">充電状態を送信しません</string>
+    <string name="settings_wifi_ssid">Wi-Fi 名</string>
+    <string name="settings_wifi_ssid_summary_on">Wi-Fi 名 (SSID) をアイテム \'%1$s\' に送信します</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Wi-Fi 名 (SSID) をアイテム \'%1$s\' に送信します。「場所」をオンにする必要があります。そうしないと openHAB は Wi-Fi 名を取得できません。</string>
+    <string name="settings_wifi_ssid_summary_off">Wi-Fi 名 (SSID) を送信しません</string>
+    <string name="settings_wifi_ssid_permission_denied">アクセス許可がないため Wi-Fi 名の送信は無効です</string>
+    <string name="settings_dnd_mode">DND モード</string>
+    <string name="settings_dnd_mode_summary_on">DND モードをアイテム \'%1$s\' に送信します</string>
+    <string name="settings_dnd_mode_summary_off">DND モードを送信しません</string>
+    <string name="settings_background_tasks_permission_denied">アクセス許可がないため一部のバックグラウンドタスクが無効になっています</string>
+    <string name="settings_background_tasks_permission_allow">許可する</string>
+    <string name="settings_item_pref_item_name">アイテム名</string>
+    <string name="waiting_for_item_upload">アイテムの更新を送信するため、ネットワークを待機しています</string>
+    <string name="item_upload_in_progress">アイテムを現在更新しています</string>
+    <string name="notification_channel_background">バックグラウンドタスク</string>
+    <string name="notification_channel_background_description">保留中のバックグラウンドタスクについて通知するために使用されます。 例えば、ネットワークがバッテリー残量を送信するのを待機</string>
+    <string name="notification_channel_background_error">バックグラウンド処理エラー</string>
+    <string name="notification_channel_background_error_description">バックグラウンドタスクのエラーについて通知するために使用されます。 例えば、バッテリー残量を送信するネットワーク接続がない</string>
+    <string name="notification_channel_background_foreground_service_description">アイテムを更新するイベントをモニターします。このカテゴリは安全に非表示にできます。</string>
+    <string name="notification_channel_messages_default_severity">デフォルト</string>
+    <string name="notification_channel_messages_default_severity_description">重大度が定義されずにサーバーから送信された通知</string>
+    <string name="notification_channel_group_messages">メッセージ</string>
+    <string name="notification_channel_severity_value">重要度 \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">重要度 \'%1$s\' でサーバーから送信された通知</string>
+    <plurals name="summary_notification_text">
+        <item quantity="other">%d の新しい通知</item>
+    </plurals>
+    <string name="push_notification_status">ステータス</string>
+    <string name="push_notification_hint">通常のスケジュールで通知がポーリングされます。通知は「サーバーにデバイス情報を送信」と同じです。</string>
+    <plurals name="item_update_error_title">
+        <item quantity="other">%d 個のアイテムを更新できませんでした</item>
+    </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">アイテム \'%1$s\' の更新に失敗しました: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s の更新に失敗しました: %2$s</string>
+    <string name="item_update_connection_error">アイテム \'%1$s\' を更新できませんでした (接続がありません)</string>
+    <string name="item_update_connection_error_label">%1$s を更新できませんでした (接続がありません)</string>
+    <string name="error_no_valid_item_name">正しいアイテム名を入力してください</string>
+    <string name="retry">リトライ</string>
+    <string name="ignore">無視</string>
+    <string name="send_device_info_schedule">スケジュール</string>
+    <string name="send_device_info_schedule_summary">充電中は 15 分ごと、それ以外は %s ごと</string>
+    <string name="send_device_info_schedule_15_minutes">15 分</string>
+    <string name="send_device_info_schedule_1_hour">1 時間</string>
+    <string name="send_device_info_schedule_3_hours">3 時間</string>
+    <string name="send_device_info_schedule_6_hours">6 時間</string>
+    <string name="send_device_info_schedule_12_hours">12 時間</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">デバイス識別子</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">音声コマンドの先頭に \'&lt;デバイス識別子&gt;|\' をつける</string>
+    <string name="device_identifier_bg_tasks">「サーバーにデバイス情報を送信」の項目名の最初にこの識別子をつけます</string>
+    <string name="device_identifier_hint">このデバイス識別子は任意の文字列にすることができ、openHAB サーバーにアクセスするすべてのデバイスで一意である必要があります。 上記の2つのユースケースに加えて、NFCタグの状態として使用することもでき、どのデバイスがタグを読み取るかわかります。</string>
+    <string name="device_identifier_suggested_command_nfc_tag">スキャンするデバイスのデバイス識別子 (\"%s\" はこのデバイス)</string>
+    <string name="device_identifier_summary_not_set">サーバーに送信されたデータと音声コマンドにはデバイス識別子が付いていません</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">まだ通知は送信されていません</string>
+    <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
+    <string name="list_loading_message">読み込み中\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">未知の証明書を受け入れますか?</string>
+    <string name="mtm_trust_anchor">サーバー証明書は既知の認証機関によって署名されていません</string>
+    <string name="mtm_cert_expired">サーバー証明書は期限切れです</string>
+    <string name="mtm_accept_servername">サーバー名の不一致を受け入れますか?</string>
+    <string name="mtm_hostname_mismatch">サーバーは \&quot;%s\&quot; として認証できませんでした。証明書は以下のみ有効です:</string>
+    <string name="mtm_connect_anyway">このまま接続してもよろしいですか？</string>
+    <string name="mtm_cert_details">証明書の詳細:</string>
+    <string name="mtm_decision_always">承認</string>
+    <string name="mtm_decision_abort">中断</string>
+    <string name="mtm_notification">証明書の検証</string>
+    <string name="settings_openhab_none">なし</string>
     <!-- Themes -->
+    <string name="theme_name_light">ライト</string>
+    <string name="theme_name_dark">ダーク</string>
+    <string name="theme_name_system">システムに従う</string>
+    <string name="theme_name_battery_saver">バッテリーセイバーでダークモード</string>
+    <string name="theme_name_black">ブラック</string>
     <!-- Chart -->
+    <string name="chart_activity_title">チャート</string>
+    <string name="chart_activity_hide_legend">凡例を非表示</string>
+    <string name="chart_activity_show_legend">凡例を表示</string>
+    <string name="chart_activity_period">期間</string>
+    <string name="chart_activity_period_1_hour">1 時間</string>
+    <string name="chart_activity_period_4_hour">4 時間</string>
+    <string name="chart_activity_period_8_hour">8 時間</string>
+    <string name="chart_activity_period_12_hour">12 時間</string>
+    <string name="chart_activity_period_1_day">1 日</string>
+    <string name="chart_activity_period_2_day">2 日</string>
+    <string name="chart_activity_period_3_day">3 日</string>
+    <string name="chart_activity_period_1_week">1 週間</string>
+    <string name="chart_activity_period_2_week">2 週間</string>
+    <string name="chart_activity_period_1_month">1 ヶ月</string>
+    <string name="chart_activity_period_2_month">2 ヶ月</string>
+    <string name="chart_activity_period_4_month">4 ヶ月</string>
+    <string name="chart_activity_period_1_year">1 年</string>
     <!-- NFC -->
+    <string name="nfc_action_on">オン</string>
+    <string name="nfc_action_up">上</string>
+    <string name="nfc_action_off">オフ</string>
+    <string name="nfc_action_down">下</string>
+    <string name="nfc_action_toggle">切り替え</string>
+    <string name="nfc_action_toggled">切り替えました</string>
+    <string name="nfc_action_undefined">未定義</string>
+    <string name="nfc_action_empty_string">空の文字列</string>
+    <string name="nfc_action_increase">増やす</string>
+    <string name="nfc_action_decrease">減らす</string>
+    <string name="nfc_action_play">再生</string>
+    <string name="nfc_action_pause">一時停止</string>
+    <string name="nfc_action_next">次へ</string>
+    <string name="nfc_action_previous">前へ</string>
+    <string name="nfc_action_rewind">巻き戻し</string>
+    <string name="nfc_action_fastforward">早送り</string>
+    <string name="nfc_action_move">移動</string>
+    <string name="nfc_action_stop">停止</string>
+    <string name="nfc_action_open">オープンしました</string>
+    <string name="nfc_action_closed">クローズしました</string>
+    <string name="nfc_activate">アクティベート</string>
+    <string name="nfc_action_current_color">現在の色</string>
+    <string name="nfc_action_to_sitemap_page">サイトマップNFCタグを書き込む</string>
+    <string name="nfc_action_write_command_tag">アイテムNFCタグを書き込む</string>
     <!-- Drawer -->
+    <string name="drawer_open">サイトマップドロワーを開きました</string>
+    <string name="drawer_close">サイトマップドロワーを閉じました</string>
+    <string name="mainmenu_openhab_voice_recognition">音声認識</string>
     <!-- About -->
+    <string name="about_title">アプリついて</string>
+    <string name="about_license_title">ライセンス</string>
+    <string name="about_changelog">変更履歴</string>
+    <string name="about_source_code">ソースコード</string>
+    <string name="about_issues">問題を報告する</string>
+    <string name="about_docs">ドキュメント</string>
+    <string name="about_community_forum">コミュニティフォーラム</string>
+    <string name="about_foundation">openHAB 財団</string>
+    <string name="about_community">openHAB コミュニティ</string>
+    <string name="about_translation">openHAB の翻訳にご協力ください</string>
+    <string name="about_privacy_policy">プライバシーポリシー</string>
+    <string name="about_rate_this_app">このアプリを評価する</string>
+    <string name="settings_debug_messages_title">拡張エラーメッセージ</string>
+    <string name="settings_troubleshooting_title">トラブルシューティング</string>
+    <string name="set">設定</string>
+    <string name="cancel">キャンセル</string>
+    <string name="close">閉じる</string>
+    <string name="try_again_button">もう一度やり直す</string>
+    <string name="enable_wifi_button">Wi-Fi をオンにする</string>
+    <string name="go_to_settings_button">設定に移動</string>
+    <string name="enable_demo_mode_button">デモモードをオンにする</string>
+    <string name="configuration_missing">ネットワークで openHAB サーバーを見つけられませんでした。サーバーが既にある場合は、サーバーの設定で、IP アドレスまたはホスト名を設定してください。サーバーがまだない場合は、デモモードを有効にすると、openHAB でどのようなことができるかを確認することができます。</string>
+    <string name="no_remote_server">ローカルサーバーへの接続が失敗しました。リモートサーバーが設定されていません。</string>
+    <string name="resolving_openhab">openHAB サーバーインスタンスの探索中\u2026</string>
+    <string name="waiting_for_wifi">Wi-Fi 接続の確立を待っています\u2026</string>
     <!-- Log -->
+    <string name="log">ログ</string>
+    <string name="view_log">ログの表示</string>
+    <string name="log_activity_action_clear_log">ログをクリア</string>
+    <string name="log_activity_action_show_errors">エラーのみ表示</string>
+    <string name="log_activity_action_show_all">すべてのメッセージを表示</string>
+    <string name="log_activity_action_reload">再読み込み</string>
+    <string name="log_activity_content_description_share">ログを共有</string>
+    <string name="empty_log">ログはありません</string>
+    <string name="log_too_large_to_share">ログが大きすぎて共有できません。ログをクリアしてバグを再現してから、ログを共有してください。</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">ホームに固定する</string>
+    <string name="home_shortcut_error_pinning">ホームに固定時にエラーが発生しました</string>
+    <string name="home_shortcut_success_pinning">ホームに固定しました</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">ロール シャッターを開く</string>
+    <string name="content_description_stop_roller_shutter">ロール シャッターを停止</string>
+    <string name="content_description_close_roller_shutter">ロール シャッターを閉じる</string>
+    <string name="content_description_open_color_wheel">カラー ホイールを開く</string>
+    <string name="content_description_color_up">オンまたは長押しは明るくします</string>
+    <string name="content_description_color_down">オフまたは長押しは暗くします</string>
+    <string name="content_description_open_number_picker">数字選択を開く</string>
+    <string name="content_description_video">ビデオ</string>
+    <string name="content_description_open_openhab">openHAB を開く</string>
+    <string name="content_description_increase_item_value">アイテム値の増加</string>
+    <string name="content_description_decrease_item_value">アイテム値の減少</string>
+    <string name="swipe_to_refresh_description">アプリも自動的に更新されます、通常、手動で行う必要はありません</string>
+    <string name="got_it">了解!</string>
     <!-- Intro strings -->
+    <string name="app_intro">はじめに</string>
+    <string name="intro_welcome">openHAB へようこそ</string>
+    <string name="intro_welcome_back">openHAB へまたようこそ</string>
+    <string name="intro_app_restored">サーバー資格情報を除き、ほとんどの設定が復元されました</string>
+    <string name="intro_whatis">ホーム用、ベンダーや技術に依存しないオープンソースのオートメーションソフトウェア</string>
+    <string name="intro_voice_description">音声でホームをコントロール</string>
+    <string name="intro_nfc_description">アイテムを長押しすると、アイテムのコントロールを NFC タグに接続できます</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">スキップ</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">完了</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">アイテムが見つかりません</string>
+    <string name="item_picker_list_error">アイテムの読み込み中にエラーが発生しました</string>
+    <string name="item_picker_custom">カスタム</string>
+    <string name="item_picker_dialog_title">アクションを選択</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">コマンド \"%3$s\" を \"%1$s\" (%2$s) に送信</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">\"%1$s\" (%2$s) を \"%3$s\" に更新</string>
+    <string name="item_picker_tasker_variable">Tasker 変数 \"%s\"</string>
+    <string name="item_picker_item_update">更新</string>
+    <string name="item_picker_item_command">コマンド</string>
+    <string name="item_picker_contact_no_command">連絡先アイテムは、アイテムコマンドを受信できません。更新に変更しました</string>
+    <string name="search">検索</string>
+    <string name="settings_tasker_plugin">Tasker 統合</string>
+    <string name="settings_tasker_plugin_summary">Tasker アクションプラグインを有効にして、Tasker または他の互換アプリ経由でアイテムを更新できるようにします</string>
+    <string name="tasker_plugin_disabled">Tasker プラグインは無効です</string>
+    <string name="turn_on">オンにする</string>
+    <string name="press_back_to_exit">もう一度押すと終了します</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">アイテムコントロール</string>
+    <string name="item_update_widget_content_description">アイテムの状態を変更するためのウィジェット</string>
+    <string name="item_update_widget_content_description_edit">ウィジェットを編集</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_item_picker_title">アイテムを選択</string>
+    <string name="item_update_success_message_generic">%1$s は %2$s にセットされました</string>
+    <string name="item_update_success_message_on">%s はオンになりました</string>
+    <string name="item_update_success_message_off">%s はオフになりました</string>
+    <string name="item_update_success_message_up">%s は上がり始めました</string>
+    <string name="item_update_success_message_down">%s は下がり始めました</string>
+    <string name="item_update_success_message_move">%s は動き始めました</string>
+    <string name="item_update_success_message_stop">%s は停止しました</string>
+    <string name="item_update_success_message_increase">%s は増加しました</string>
+    <string name="item_update_success_message_decrease">%s は減少しました</string>
+    <string name="item_update_success_message_undefined">%s は未定義にセットされました</string>
+    <string name="item_update_success_message_empty_string">%s は空の文字列にセットされました</string>
+    <string name="item_update_success_message_play">%s は再生しています</string>
+    <string name="item_update_success_message_pause">%s が一時停止しました</string>
+    <string name="item_update_success_message_next">%s は次のタイトルを表示しています</string>
+    <string name="item_update_success_message_previous">%s は前のタイトルを表示しています</string>
+    <string name="item_update_success_message_rewind">%s は巻き戻ししています</string>
+    <string name="item_update_success_message_fastforward">%s は早送りしています</string>
+    <string name="item_update_error_no_connection_retry">アイテムの更新時にエラーが発生しました。再試行中\u2026</string>
+    <string name="item_update_error_no_connection">接続されていません</string>
+    <string name="item_update_error_couldnt_get_item_type">アイテムの種類を取得できませんでした</string>
+    <string name="create_home_screen_widget_title">ウィジェットの作成</string>
+    <string name="item_update_widget_auto_generate_widget_label">ウィジェットラベルの自動生成</string>
+    <string name="item_update_widget_widget_label">ウィジェットラベル</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item ラベル>: <アクション>]]></string>
     <!-- Data saver -->
+    <string name="data_saver_title">データセーバー</string>
+    <string name="data_saver_on">大きなデータ転送が必要なサイトマップ要素は読み込まれていません</string>
+    <string name="data_saver_off">データ通信を使用するサイトマップ要素を読み込む場合、システム全体のデータセーバー設定に従います</string>
+    <string name="data_saver_off_pre_n">データ通信使用に関係なく、すべてのサイトマップ要素が読み込まれます</string>
+    <string name="data_saver_load">とにかく読み込む</string>
+    <string name="data_saver_hint">%s はデータを節約するために読み込みませんでした</string>
+    <string name="data_saver_snackbar">データセーバーがオンになっているため、アイコンはアイテムの状態に基づいていません</string>
+    <string name="widget_type_image">画像</string>
+    <string name="widget_type_video">ビデオ</string>
+    <string name="widget_type_mapview">マップ</string>
+    <string name="widget_type_chart">チャート</string>
     <!-- Tiles -->
+    <string name="tile">タイル</string>
+    <string name="tiles_for_quick_settings">クイック設定のタイル</string>
+    <string name="tile_item_picker_title">アイテムを選択</string>
+    <string name="tile_error_saving">すべての設定を入力してください</string>
+    <string name="tile_disabled">オフになっています</string>
+    <string name="tile_enable">オンにする</string>
+    <string name="item_item_and_action">アイテムとアクション</string>
+    <string name="tile_name">名前</string>
+    <string name="tile_icon">アイコン</string>
+    <string name="tile_require_unlock">画面のロック解除が必要です</string>
+    <string name="tile_require_unlock_summary_on">アイテムの更新を許可する前にデバイスのロックを解除するように促します</string>
+    <string name="tile_require_unlock_summary_off">デバイスがロックされていてもアイテムの更新を許可します</string>
+    <plurals name="tile_active_number">
+        <item quantity="other">%d のアクティブなタイル</item>
+    </plurals>
+    <string name="tile_number">タイル %d</string>
+    <string name="tile_label_1">タイル 1</string>
+    <string name="tile_label_2">タイル 2</string>
+    <string name="tile_label_3">タイル 3</string>
+    <string name="tile_label_4">タイル 4</string>
+    <string name="tile_label_5">タイル 5</string>
+    <string name="tile_label_6">タイル 6</string>
+    <string name="tile_label_7">タイル 7</string>
+    <string name="tile_label_8">タイル 8</string>
+    <string name="tile_label_9">タイル 9</string>
+    <string name="tile_label_10">タイル 10</string>
+    <string name="tile_label_11">タイル 11</string>
+    <string name="tile_label_12">タイル 12</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB アイコン</string>
+    <string name="tile_icon_tv">テレビ</string>
+    <string name="tile_icon_radio">ラジオ</string>
+    <string name="tile_icon_bulb">電球</string>
+    <string name="tile_icon_clock">時計</string>
+    <string name="tile_icon_alarm_clock">目覚まし時計</string>
+    <string name="tile_icon_bell">ベル</string>
+    <string name="tile_icon_cloud_upload">クラウドアップロード</string>
+    <string name="tile_icon_earth">地球</string>
+    <string name="tile_icon_chat">吹き出し</string>
+    <string name="tile_icon_house">家</string>
+    <string name="tile_icon_lock">錠</string>
+    <string name="tile_icon_microphone">マイク</string>
+    <string name="tile_icon_color_palette">カラーパレット</string>
+    <string name="tile_icon_people">人々</string>
+    <string name="tile_icon_person">人</string>
+    <string name="tile_icon_phone">電話</string>
+    <string name="tile_icon_power_plug">電源プラグ</string>
+    <string name="tile_icon_battery">バッテリー</string>
+    <string name="tile_icon_magnifier">拡大鏡</string>
+    <string name="tile_icon_star">スター</string>
+    <string name="tile_icon_tree">木</string>
+    <string name="tile_icon_dashboard">ダッシュボード</string>
+    <string name="tile_icon_shield">シールド</string>
+    <string name="tile_icon_man">男性</string>
+    <string name="tile_icon_bed">ベッド</string>
+    <string name="tile_icon_child">子ども</string>
+    <string name="tile_icon_baby">赤ちゃん</string>
+    <string name="tile_icon_settings">歯車</string>
+    <string name="tile_icon_bath">風呂</string>
+    <string name="tile_icon_woman">女性</string>
+    <string name="tile_icon_roller_shutter">ローラーシャッター</string>
+    <string name="tile_icon_camera">カメラ</string>
+    <string name="tile_icon_light_switch">照明スイッチ</string>
+    <string name="tile_icon_garage">ガレージ</string>
+    <string name="tile_icon_switch">スイッチ</string>
+    <string name="tile_icon_sofa">ソファ</string>
+    <string name="tile_icon_lamp_ceiling">天井灯</string>
+    <string name="tile_icon_lamp_floor">フロアランプ</string>
+    <string name="tile_icon_lamp_bedside">就寝灯</string>
+    <string name="tile_icon_lamp_outdoor">屋外灯</string>
     <!-- Tile icon values -->
 </resources>
