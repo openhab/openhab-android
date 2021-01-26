@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
-    <automation_apps/>
+    <intro>openHAB - "empowering the smart home" - fornecedor e tecnologia agnóstica de código aberto de automação residencial</intro>
+    <whatis>openHAB é uma plataforma de automação residencial de código aberto baseada em Java que integra e combina uma vasta gama de diferentes sistemas e tecnologias domésticos inteligentes em uma única solução.</whatis>
+    <rules>No topo da camada de abstração unificada, todos os dispositivos conectados estão disponíveis para os mecanismos de regras de automação abrangentes e diferentes interfaces de usuário.</rules>
+    <supported>Produtos suportados</supported>
+    <bindings>Mais de 200 add-ons específicos fornecem suporte para marcas, dispositivos, tecnologias e protocolos de comunicação. Exemplos são o Z-Wave, Philips Hue, Amazon eco, Chromecast e Sonos. Descubra todos os add-ons disponíveis e dispositivos suportados e/ou funções em: https://www.openhab.org/addons/</bindings>
+    <automation_apps>O aplicativo tem um plugin de ação para Tasker e Locale incluído.</automation_apps>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Comunidade Open Source</oss_community>
+    <forum>A iniciativa de código aberto openHAB apoia fortemente sua comunidade vibrante. O fórum com mais de 13.000 usuários registrados é um lugar para encontrar orientação, ajuda e inspiração. Participe do fórum da comunidade openHAB em https://community.openhab.org</forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
-    <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
-    <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
-    <changelog_play_beta> </changelog_play_beta>
+    <report_issues>Quando você encontrar um problema, por favor reporte no fórum ou em https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Se você quiser traduzir o aplicativo para o seu idioma, junte-se a nós em https://crowdin.com/project/openhab-android</translation>
+    <foundation>Fundação openHAB</foundation>
+    <about_foundation>A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão de educar o público sobre as possibilidades e benefícios de soluções de automação residencial gratuitas e abertas. Aprenda sobre a missão e os serviços da fundação em https://www.openhabfoundation.org</about_foundation>
+    <important_note>Nota importante</important_note>
+    <oh_server>Você precisa de um servidor openHAB para este app.</oh_server>
+    <short_description>Fornecedor e tecnologia agnóstica de código aberto de automação residencial</short_description>
+    <fdroid>As compilações em F-Droid têm FCM e o relatório de falha removidos e não serão capazes de receber notificações push do openHAB Cloud. Em vez disso, as notificações são consultadas regularmente nestas compilações.</fdroid>
+    <fdroid_beta><![CDATA[Você pode instalar a versão beta junto da <a href="https://f-droid.org/packages/org.openhab.habdroid/">versão estável</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>Política de privacidade: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Experimente novos recursos e dê feedback antecipado!</beta>
+    <play_beta>Você pode instalar a versão beta juntamente com a versão estável.</play_beta>
+    <changelog_play_beta>Correção de bugs e melhoria na estabilidade. Por favor, visite https://github.com/openhab/openhab-android/releases para um log de alterações detalhado.</changelog_play_beta>
 </strings>
