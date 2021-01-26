@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="push_notification_status_impaired">Уведомления имеют ограниченный функционал в версии FOSS. Нажмите для получения дополнительной информации.</string>
-    <string name="push_notification_status_disabled">Уведомления отключены</string>
-    <string name="open_in_maps">Открыть в OpenStreetMap</string>
-</resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
