@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
-    <automation_apps/>
+    <intro>openHAB - "empowering the smart home" - открытое ПО для автоматизации "умного дома", не зависящее от производителей и технологий</intro>
+    <whatis>openHAB - это платформа домашней автоматизации с открытым исходным кодом, основанная на Java и интегрирующая в себе большое количество систем "умного дома" в единое решение.</whatis>
+    <rules>На верхнем уровне абстракции все подключенные устройства доступны для правил автоматизации и различных пользовательских интерфейсов.</rules>
+    <supported>Поддерживаемые продукты</supported>
+    <bindings>Более 200 надстроек обеспечивают поддержку устройств, технологий и протоколов связи различных производителей. Для примера: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Доступные дополнения, список поддерживаемых устройств и дополнительного функционала можно найти по адресу https://www.openhab.org/addons/</bindings>
+    <automation_apps>Приложение имеет встроенные плагины действий для Tasker и Locale.</automation_apps>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Сообщество Open Source</oss_community>
+    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум с более чем 13 000 зарегистрированных пользователей - это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
-    <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
-    <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
-    <changelog_play_beta> </changelog_play_beta>
+    <report_issues>Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Если Вы хотите перевести приложение на свой язык - присоединяйтесь к нам на https://crowdin.com/project/openhab-android</translation>
+    <foundation>Cообщество openHAB</foundation>
+    <about_foundation>openHAB Foundation является некоммерческой организацией, информирующей общественность о возможностях и преимущества свободных и открытых решениях "умного дома". Узнайте о задачах openHAB Foundation на https://www.openhabfoundation.org</about_foundation>
+    <important_note>Важное примечание</important_note>
+    <oh_server>Для этого приложения необходим сервер openHAB.</oh_server>
+    <short_description>Поставщик технологий с открытым исходным кодом для автоматизации "умного дома"</short_description>
+    <fdroid>В сборках F-Droid были удалены FCM и отчеты о сбоях и нет возможности получать push-уведомления от openHAB Cloud. Вместо этого в этих сборках проверка уведомлений происходит на регулярной основе.</fdroid>
+    <fdroid_beta><![CDATA[Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>Политика конфиденциальности: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Попробуйте новые функции и оставьте о них отзыв!</beta>
+    <play_beta>Вы можете установить бета-версию вместе со стабильной версией.</play_beta>
+    <changelog_play_beta>Исправлены ошибки и улучшена стабильность. Пожалуйста, посетите https://github.com/openhab/openhab-android/releases для подробного списка изменений.</changelog_play_beta>
 </strings>
