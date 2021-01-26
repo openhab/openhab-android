@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Seaded</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sisukaardid</string>
     <string name="mainmenu_openhab_preferences">Seaded</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Teavitused</string>
     <string name="habpanel_error">HABPaneli laadimisel ilmnes viga</string>
     <string name="mainmenu_openhab_clearcache">Tühjendage piltide vahemälu</string>
@@ -68,6 +67,7 @@
     <!-- Background tasks -->
     <string name="settings_item_pref_item_name">Kauba nimetus</string>
     <string name="item_upload_in_progress">üksusi hetkel uuendatakse</string>
+    <string name="notification_channel_messages_default_severity">Vaikimisi</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">Uuesti</string>
@@ -154,12 +154,10 @@
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_number_picker">Ava numbrivalija</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Ava openHAB</string>
     <string name="got_it">Selge!</string>
     <!-- Intro strings -->
     <string name="app_intro">Tutvustus</string>
-    <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">JÄTA VAHELE</string>
     <!-- Intro "DONE" button -->
@@ -179,7 +177,6 @@
     <!-- Item update widget -->
     <string name="item_update_widget_content_description_edit">Redigeeri vidinat</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vali üksus</string>
     <string name="item_update_success_message_on">%s on sisse lülitatud</string>
     <string name="item_update_success_message_off">%s on välja lülitatud</string>
@@ -187,14 +184,14 @@
     <string name="item_update_success_message_play">%s mängib</string>
     <string name="item_update_success_message_pause">%s on peatatud</string>
     <string name="item_update_error_no_connection">Ühendust ei ole</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Andmesäästja</string>
     <string name="widget_type_image">Pilt</string>
-    <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Kaart</string>
     <string name="widget_type_chart">Skeem</string>
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Vali üksus</string>
+    <string name="tile_enable">Lülita sisse</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>

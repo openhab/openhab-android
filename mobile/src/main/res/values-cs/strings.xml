@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Nastavení</string>
     <string name="save">Uložit</string>
     <string name="discard">Zahodit</string>
     <string name="delete">Smazat</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Nastavení</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Oznámení</string>
     <string name="app_notifications_on_server">Oznámení (%s)</string>
     <string name="habpanel_error">Při načítání HABPanel došlo k chybě</string>
@@ -23,7 +18,6 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Připojení</string>
     <string name="settings_display_title">Zobrazení</string>
-    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Různé</string>
     <string name="settings_openhab_url">URL adresa lokálního serveru</string>
     <string name="settings_openhab_url_summary">Adresa URL Vašeho openHAB serveru (název hostitele nebo IP). Je-li adresa zvolena ručně, automatické hledání adresy je vypnuto. Aktuální nastavení: %s</string>
@@ -90,7 +84,6 @@
     <string name="settings_server_name">Název serveru</string>
     <string name="settings_add_server">Přidat server</string>
     <string name="settings_edit_server">Upravit server</string>
-    <string name="server_with_name">Server %s</string>
     <string name="settings_server_at_least_name_and_connection">Vyplňte alespoň název serveru a jedno připojení</string>
     <string name="settings_server_confirm_deletion">Opravdu chcete odstranit tento server?</string>
     <string name="settings_server_confirm_leave_title">Neuložené změny</string>
@@ -98,7 +91,6 @@
     <string name="settings_server_primary_title">Primární server</string>
     <string name="settings_server_primary_summary_is_primary">Tento server je primární.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" je primární server. Klepněte pro nastavení tohoto serveru jako primárního.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
-    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Aplikace vybere tento server při připojení k Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Aplikace nebude automaticky vybírat tento server na základě připojené Wi-Fi sítě</string>
@@ -375,7 +367,6 @@
     <string name="about_issues">Nahlásit problém</string>
     <string name="about_docs">Dokumentace</string>
     <string name="about_community_forum">Komunitní fórum</string>
-    <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">komunita openHAB</string>
     <string name="about_translation">Pomozte nám přeložit openHAB</string>
     <string name="about_privacy_policy">Ochrana osobních údajů</string>
@@ -396,7 +387,6 @@
     <string name="waiting_for_wifi">Čekám než Wi-Fi naváže spojení\u2026</string>
     <string name="visit_status_openhab_org">Navštivte status.openhab.org</string>
     <!-- Log -->
-    <string name="log">Log</string>
     <string name="view_log">Zobrazit log</string>
     <string name="log_activity_action_clear_log">Vymazat log</string>
     <string name="log_activity_action_show_errors">Zobrazit pouze chyby</string>
@@ -418,7 +408,6 @@
     <string name="content_description_color_up">Zapnout, nebo držením zvýšit jas</string>
     <string name="content_description_color_down">Vypnout, nebo držením snížit jas</string>
     <string name="content_description_open_number_picker">Otevřít výběr čísla</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Spustit openHAB</string>
     <string name="content_description_increase_item_value">Zvýšit hodnotu Item</string>
     <string name="content_description_decrease_item_value">Snížit hodnotu Item</string>
@@ -431,7 +420,6 @@
     <string name="intro_app_restored">Většina vašich nastavení byla obnovena, s výjimkou přihlašovacích údajů na server</string>
     <string name="intro_whatis">Open source program pro domácí automatizaci</string>
     <string name="intro_voice_description">Ovládejte svůj domov hlasem</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Ovládání Item můžete přiřadit k NFC tagu dlouhým podržením Item</string>
     <string name="intro_quick_tile_description">Ovládejte svůj domov z rychlého nastavení zařízení (místo, kde jsou přepínače např. pro Wi-Fi a Bluetooth)</string>
     <string name="intro_send_device_info">Odesílat informace o zařízení na server</string>
@@ -464,7 +452,6 @@
     <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_content_description_edit">Upravit widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vyberte Item</string>
     <string name="item_update_success_message_generic">%1$s - nastaveno na %2$s</string>
     <string name="item_update_success_message_on">%s - zapnuto</string>
@@ -507,7 +494,6 @@
     <string name="create_home_screen_widget_not_supported">Přejděte do menu widgetů na domovské obrazovce a tam vytvořte widget</string>
     <string name="item_update_widget_auto_generate_widget_label">Automaticky generovat popisek widgetu</string>
     <string name="item_update_widget_widget_label">Popisek widgetu</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Spořič dat</string>
     <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
@@ -517,8 +503,6 @@
     <string name="data_saver_hint">%s nebyl načten pro snížení spotřeby dat</string>
     <string name="data_saver_snackbar">Ikony nezobrazují stav Item, protože je zapnutý spořič dat</string>
     <string name="widget_type_image">Obrázek</string>
-    <string name="widget_type_webview">WebView</string>
-    <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Graf</string>
     <!-- Tiles -->
@@ -556,7 +540,6 @@
     <string name="tile_label_12">Dlaždice 12</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB ikona</string>
-    <string name="tile_icon_tv">TV</string>
     <string name="tile_icon_radio">Přepínací políčko</string>
     <string name="tile_icon_bulb">Žárovka</string>
     <string name="tile_icon_clock">Hodiny</string>
@@ -577,8 +560,6 @@
     <string name="tile_icon_magnifier">Lupa</string>
     <string name="tile_icon_star">Hvězda</string>
     <string name="tile_icon_tree">Strom</string>
-    <string name="tile_icon_dashboard">Dashboard</string>
-    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Štít</string>
     <string name="tile_icon_man">Muž</string>
     <string name="tile_icon_bed">Postel</string>

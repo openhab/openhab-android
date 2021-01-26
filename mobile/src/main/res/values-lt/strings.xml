@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Nustatymai</string>
     <!-- Main menu items -->
@@ -81,7 +81,6 @@
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <!-- Intro strings -->
-    <string name="app_intro">Intro</string>
     <string name="intro_welcome">Sveiki atvykę į openHAB</string>
     <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
     <!-- Intro "SKIP" button -->

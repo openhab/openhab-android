@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Innstillinger</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Varslinger</string>
     <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
@@ -37,7 +36,6 @@
     <string name="settings_select_a_color">Velg en farge</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
     <string name="settings_openhab_icon_format">Ikonformatering</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
     <string name="settings_chart_scaling">Kurveskalering</string>
     <string name="settings_chart_scaling_summary">NB: Mindre skalering, forminsker tekst og linjebredde så det blir bedre plass for kurver, men lesbarhet kan forverres.</string>
@@ -60,7 +58,6 @@
     <string name="settings_notification_vibration_twice">Dobbel</string>
     <string name="settings_connection_summary">Koblet til %s</string>
     <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Skjermlås</string>
     <string name="settings_screen_lock_nolock_summary">Du må sette på skjermlås på enheten din for å sette app tilgang</string>
     <string name="settings_screen_lock_off_summary">Tilgang til appen er ikke låst</string>
@@ -131,6 +128,7 @@
     <string name="waiting_for_item_upload">Venter på at nettverket skal sende element-oppdateringer</string>
     <string name="item_upload_in_progress">Elementet er under oppdatering</string>
     <string name="notification_channel_background_error">Feil i bakgrunnsoppgaver</string>
+    <string name="notification_channel_messages_default_severity">Standard</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d elementer kan ikke oppdateres</item>
         <item quantity="other">%d elementer kan ikke oppdateres</item>
@@ -192,7 +190,6 @@
     <string name="nfc_action_increase">Øk</string>
     <string name="nfc_action_decrease">Reduser</string>
     <string name="nfc_action_play">Spill</string>
-    <string name="nfc_action_pause">Pause</string>
     <string name="nfc_action_next">Neste</string>
     <string name="nfc_action_previous">Forrige</string>
     <string name="nfc_action_rewind">Tilbakespoling</string>
@@ -217,7 +214,6 @@
     <string name="about_issues">Rapporter et problem</string>
     <string name="about_docs">Dokumentasjon</string>
     <string name="about_community_forum">Brukerforum</string>
-    <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHABs fellesskap</string>
     <string name="about_translation">Hjelp oss å oversette openHAB</string>
     <string name="about_privacy_policy">Personvernregler</string>
@@ -253,7 +249,6 @@
     <string name="content_description_color_up">På eller hold for å øke styrken</string>
     <string name="content_description_color_down">Av eller hold for å senke styrken</string>
     <string name="content_description_open_number_picker">Åpne nummervelger</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Åpne openHAB</string>
     <string name="content_description_increase_item_value">Øk elementverdi</string>
     <string name="content_description_decrease_item_value">Senk elementverdi</string>
@@ -266,7 +261,6 @@
     <string name="intro_app_restored">De fleste av innstillingene dine er gjenopprettet, bortsett fra server-legitimasjonen</string>
     <string name="intro_whatis">En leverandør og teknologiuavhengig - åpen kildekode - automatiseringsprogramvare for hjemmet ditt</string>
     <string name="intro_voice_description">Styr hjemmet ditt med stemmen</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Element-kontrollen kan bindes til NFC koder ved å holde inne knappen til elementet</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">HOPP OVER</string>
@@ -294,7 +288,6 @@
     <string name="item_update_widget_title">Element kontroll</string>
     <string name="item_update_widget_content_description">Widget for å endre status på elementer</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Velg et element</string>
     <string name="item_update_success_message_generic">%1$s er satt til %2$s</string>
     <string name="item_update_success_message_on">%s er blitt slått på</string>
@@ -320,7 +313,10 @@
     <string name="item_update_widget_auto_generate_widget_label">Autogenerer widget-merking</string>
     <string name="item_update_widget_widget_label">Widget-merke</string>
     <!-- Data saver -->
+    <string name="widget_type_chart">Diagram</string>
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Velg et element</string>
+    <string name="tile_enable">Slå på</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>

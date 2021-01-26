@@ -4,16 +4,16 @@
     <whatis>openHAB és una plataforma feta en Java per a l'automatització de la llar basada en codi obert, que integra i combina una gran varietat de sistemes i tecnologies per a la llar intel·ligent en una solució única.</whatis>
     <rules>Per sobre de la capa unificada d'abstracció, tots els dispositius connectats són disponibles per al motor de regles generals d'automatització i diferents interfícies d'usuari.</rules>
     <supported>Productes suportats</supported>
-    <bindings>Més de 200 complements específics proporcionen suport per a diferents marques, dispositius, tecnologies i protocols de comunicació. Alguns exemples són Z-Wave, Philips Hue, Amazon Echo, Chromecast i Sonos. Descobriu tots els complements disponibles, i dispositius i funcions suportats a: https://www.openhab.org/addons/</bindings>
+    <bindings>  </bindings>
     <automation_apps/>
 
     <oss_community>Comunitat de codi obert</oss_community>
-    <forum>La iniciativa de codi obert openHAB dona ferm suport a la seva vibrant comunitat. El fòrum, amb més de 13.000 usuaris registrats, és un lloc on trobar orientacions, ajuda i inspiració. Uniu-vos al fòrum de la comunitat openHAB a https://community.openhab.org</forum>
+    <forum>  </forum>
 
     <report_issues>Si trobeu un problema, informeu-nos en en el fòrem o a https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Si voleu traduir la aplicació a la vostra llengua, uniu-vos a https://crowdin.com/project/openhab-android</translation>
     <foundation>Fundació openHAB</foundation>
-    <about_foundation>La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany de lucre amb la missió d'educar al públic sobre la possibilitats i beneficis de les solucions lliures i obertes per a la domòtica i llars intel·ligents. Teniu més informació sobre la missió i els serveis de la fundació a https://www.openhabfoundation.org</about_foundation>
+    <about_foundation> </about_foundation>
     <important_note>Nota important</important_note>
     <oh_server/>
     <short_description>Domòtica de codi obert independent de la tecnologia i el fabricant</short_description>

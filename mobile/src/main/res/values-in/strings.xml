@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Pengaturan</string>
     <!-- Main menu items -->
@@ -33,13 +33,11 @@
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Layar penuh</string>
     <string name="settings_openhab_icon_format">Format ikon</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
     <string name="settings_chart_scaling">Diagram skala</string>
     <string name="settings_chart_scaling_summary">Catatan: skala lebih kecil mengecilkan huruf dan lebar garis sehingga memberi ruang lebih bagi bagan grafik, tetapi huruf susah terbaca.</string>
     <string name="settings_chart_scaling_value_xs">Sangat kecil</string>
     <string name="settings_chart_scaling_value_s">Kecil</string>
-    <string name="settings_chart_scaling_value_m">Default</string>
     <string name="settings_chart_scaling_value_l">Besar</string>
     <string name="settings_openhab_chart_hq">Gambar grafik diagram beresolusi tinggi</string>
     <string name="settings_openhab_chart_hq_summary">Mempopulasi grafik diagram dapat membebani server. Apabila Anda mengalami waktu muat grafik diagram lamban dan server Anda kurang mumpuni, tangguhkan opsi ini untuk meningkatkan waktu memuat.</string>
@@ -55,7 +53,7 @@
     <string name="settings_notification_vibration_twice">Dua kali</string>
     <string name="settings_connection_summary">Terhubung ke %s</string>
     <string name="settings_insecure_connection_summary">Secara tidak aman terhubung ke %s</string>
-    <string name="beta">Beta</string>
+    <string name="settings_screen_lock_off">Nonaktif</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Perintah suara</string>
     <string name="title_voice_widget_icon">Perintah suara dan pintasan aplikasi</string>
@@ -143,7 +141,6 @@
     <string name="nfc_action_up">Naik</string>
     <string name="nfc_action_off">Mati</string>
     <string name="nfc_action_down">Turun</string>
-    <string name="nfc_action_toggle">Toggle</string>
     <string name="nfc_action_undefined">Tidak Terdefenisi</string>
     <string name="nfc_action_empty_string">String kosong</string>
     <string name="nfc_action_play">Putar</string>
@@ -183,7 +180,6 @@
     <string name="resolving_openhab">Mencoba menemukan server instance \u2026 openHAB</string>
     <string name="waiting_for_wifi">Menunggu Wi-Fi terkoneksi \u2026</string>
     <!-- Log -->
-    <string name="log">Log</string>
     <string name="view_log">Lihat log</string>
     <string name="empty_log">Log kosong</string>
     <!-- Home screen shortcuts -->
@@ -198,17 +194,14 @@
     <string name="content_description_color_up">Hidupkan atau tahan untuk meningkatkan kecerahan</string>
     <string name="content_description_color_down">Matikan atau tahan untuk menurunkan kecerahan</string>
     <string name="content_description_open_number_picker">Membuka nomor picker</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Buka openHAB</string>
     <string name="content_description_increase_item_value">Naikkan nilai item</string>
     <string name="content_description_decrease_item_value">Turunkan nilai item</string>
     <string name="swipe_to_refresh_description">Aplikasi juga menyegarkan secara otomatis, umumnya Anda tidak perlu melakukan secara manual</string>
     <!-- Intro strings -->
-    <string name="app_intro">Intro</string>
     <string name="intro_welcome">Selamat Datang di openHAB</string>
     <string name="intro_whatis">Sebuah vendor dan teknologi agnostik perangkat lunak open source otomasi untuk rumah Anda</string>
     <string name="intro_voice_description">Kendalikan rumah Anda dengan suara Anda</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Kendali item dapat disambungkan kepada tag NFC dengan tekan dan tahan Item</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">LEWATI</string>

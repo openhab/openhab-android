@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">设置</string>
     <!-- Main menu items -->
@@ -149,6 +149,7 @@
     <string name="waiting_for_item_upload">等待网络以发送项目更新</string>
     <string name="item_upload_in_progress">项目正被更新</string>
     <string name="notification_channel_background_error">后台任务错误</string>
+    <string name="notification_channel_messages_default_severity">默认</string>
     <plurals name="item_update_error_title">
         <item quantity="other">无法更新 %d 个项目</item>
     </plurals>
@@ -236,7 +237,6 @@
     <string name="intro_welcome">欢迎来到 openHAB</string>
     <string name="intro_whatis">开源家居自动化供应商与技术</string>
     <string name="intro_voice_description">使用声音控制您的家居</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">物品控制可通过长按物品写入 NFC 标签</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">跳过</string>
@@ -252,6 +252,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">视频</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->

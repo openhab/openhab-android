@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Ρυθμίσεις</string>
     <!-- Main menu items -->
@@ -30,7 +30,6 @@
     <string name="settings_openhab_theme">Θέμα</string>
     <string name="settings_openhab_fullscreen">Πλήρης Οθόνη</string>
     <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Διάνυσμα</string>
     <string name="settings_chart_scaling">Κλιμακοποίηση διαγράμματος</string>
     <string name="settings_chart_scaling_summary">Σημείωση: Η μικρότερη κλίμακα, συρρικνώνει τις γραμματοσειρές και το πλάτος των γραμμών, ώστε να υπάρχει περισσότερος χώρος για το γράφημα, αλλά η ευανάγνωση των γραμματοσειρών να μειωθεί.</string>
@@ -50,6 +49,7 @@
     <string name="settings_notification_vibration_twice">Δύο φορές</string>
     <string name="settings_connection_summary">Συνδεδεμένο σε %s</string>
     <string name="settings_insecure_connection_summary">Μη ασφαλής σύνδεση σε %s</string>
+    <string name="settings_screen_lock_off">Σβηστό</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, στις προσταγές σας!</string>
     <string name="info_voice_recognized_text">Αναγνωρισμένη εντολή: %1$s</string>
@@ -83,6 +83,7 @@
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
     <!-- Background tasks -->
+    <string name="notification_channel_messages_default_severity">Προεπιλογή</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -156,7 +157,6 @@
     <string name="intro_welcome">Καλώς ήρθατε στο openHAB</string>
     <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
     <string name="intro_voice_description">Ελέγξτε το σπίτι σας με την φωνή σας</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Το στοιχείο ελέγχου μπορεί να συνδεθεί σε ετικέτες NFC κρατώντας πατημένο το στοιχείο</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">ΠΑΡΑΛΕΙΨΗ</string>
@@ -168,6 +168,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Βίντεο</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->

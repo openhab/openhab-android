@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Préférences</string>
     <string name="save">Enregistrer</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Préférences</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="app_notifications">Notifications</string>
     <string name="habpanel_error">Une erreur s’est produite lors du chargement de HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Sélectionner la Sitemap par défaut</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Connexion</string>
     <string name="settings_display_title">Affichage</string>
-    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Divers</string>
     <string name="settings_openhab_url">URL du serveur local</string>
     <string name="settings_openhab_url_summary">L’URL du tableau de bord openHAB (basé sur le nom d’hôte ou adresse IP). Si configuré, la détection automatique est désactivée. Valeur actuelle : %s</string>
@@ -52,7 +48,6 @@
     <string name="settings_no_default_sitemap">Aucune Sitemap par défaut n\'est sélectionnée</string>
     <string name="settings_current_default_sitemap">Sitemap par défaut actuelle : %1$s</string>
     <string name="settings_openhab_alt_connection">Distant</string>
-    <string name="settings_openhab_connection">Local</string>
     <string name="settings_ringtone">Sonnerie</string>
     <string name="settings_ringtone_none">Aucun</string>
     <string name="settings_ringtone_on_external">Sonnerie inconnue sur le stockage externe</string>
@@ -209,7 +204,6 @@
     <string name="notification_channel_background_error_description">Utilisé pour notifier les erreurs dans les tâches en arrière-plan, par exemple, aucun réseau pour envoyer le niveau de la batterie</string>
     <string name="notification_channel_messages_default_severity">Défaut</string>
     <string name="notification_channel_messages_default_severity_description">Notifications envoyées par le serveur sans définition de gravité</string>
-    <string name="notification_channel_group_messages">Messages</string>
     <string name="notification_channel_severity_value">Gravité «%1$s »</string>
     <string name="notification_channel_severity_value_description">Notifications envoyées par le serveur avec la gravité \'%1$s\'</string>
     <plurals name="summary_notification_text">
@@ -233,7 +227,6 @@
     <string name="ignore">Ignorer</string>
     <string name="send_device_info_schedule">Planifier</string>
     <string name="send_device_info_schedule_summary">Toutes les 15 minutes pendant la charge, sinon toutes les %s</string>
-    <string name="send_device_info_schedule_15_minutes">15 minutes</string>
     <string name="send_device_info_schedule_1_hour">1 heure</string>
     <string name="send_device_info_schedule_3_hours">3 heures</string>
     <string name="send_device_info_schedule_6_hours">6 heures</string>
@@ -320,9 +313,7 @@
     <string name="about_changelog">Journal des modifications</string>
     <string name="about_source_code">Code source</string>
     <string name="about_issues">Signaler un problème</string>
-    <string name="about_docs">Documentation</string>
     <string name="about_community_forum">Forum communautaire</string>
-    <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">Communauté openHAB</string>
     <string name="about_translation">Aidez-nous à traduire openHAB</string>
     <string name="about_privacy_policy">Politique de Confidentialité</string>
@@ -373,7 +364,6 @@
     <string name="intro_app_restored">La plupart de vos paramètres ont été restaurés, sauf les identifiants du serveur</string>
     <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>
     <string name="intro_voice_description">Contrôler votre maison à l\'aide de commandes vocales</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Le contrôle d\'un équipement peut être associé à des tags NFC avec une pression longue sur celui-ci</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">PASSER</string>
@@ -436,8 +426,6 @@
     <string name="data_saver_off_pre_n">Tous les éléments Sitemap sont chargés, sans tenir compte de leur consommation de données</string>
     <string name="data_saver_load">Charger quand même</string>
     <string name="data_saver_hint">%s n\'était pas chargé pour enregistrer les données</string>
-    <string name="widget_type_image">Image</string>
-    <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Vidéo</string>
     <string name="widget_type_mapview">Carte</string>
     <string name="widget_type_chart">Graphique</string>
@@ -473,7 +461,6 @@
     <string name="tile_label_12">Tuile 12</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">Icône openHAB</string>
-    <string name="tile_icon_tv">TV</string>
     <string name="tile_icon_bulb">Ampoule</string>
     <string name="tile_icon_clock">Horloge</string>
     <string name="tile_icon_alarm_clock">Réveil</string>
@@ -483,7 +470,6 @@
     <string name="tile_icon_chat">Bulles de BD</string>
     <string name="tile_icon_house">Maison</string>
     <string name="tile_icon_lock">Verrouiller</string>
-    <string name="tile_icon_microphone">Microphone</string>
     <string name="tile_icon_color_palette">Palette de couleurs</string>
     <string name="tile_icon_people">Personnes</string>
     <string name="tile_icon_person">Personne</string>
@@ -494,7 +480,6 @@
     <string name="tile_icon_star">Étoile</string>
     <string name="tile_icon_tree">Arborescence</string>
     <string name="tile_icon_dashboard">Tableau de bord</string>
-    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Bouclier</string>
     <string name="tile_icon_man">Homme</string>
     <string name="tile_icon_bed">Lit</string>
@@ -506,7 +491,6 @@
     <string name="tile_icon_roller_shutter">Volet roulant</string>
     <string name="tile_icon_camera">Caméra</string>
     <string name="tile_icon_light_switch">Interrupteur</string>
-    <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Interrupteur</string>
     <string name="tile_icon_sofa">Canapé</string>
     <string name="tile_icon_lamp_ceiling">Plafonnier</string>

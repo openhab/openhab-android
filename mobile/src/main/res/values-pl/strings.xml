@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Ustawienia</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Ustawienia</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Powiadomienia</string>
     <string name="habpanel_error">Wystąpił błąd podczas wczytywania HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną Sitemapę</string>
@@ -15,7 +13,6 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Ustawienia połączenia</string>
     <string name="settings_display_title">Wyświetlanie</string>
-    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Różne ustawienia</string>
     <string name="settings_openhab_url">Adres URL serwera lokalnego</string>
     <string name="settings_openhab_url_summary">Adres URL panelu openHAB (w oparciu o nazwę hosta lub adres IP). Jeśli skonfigurowany, autowykrywanie jest wyłączone. Obecne ustawienie: %s</string>
@@ -60,7 +57,6 @@
     <string name="settings_notification_vibration_twice">Podwójne</string>
     <string name="settings_connection_summary">Połączono z %s</string>
     <string name="settings_insecure_connection_summary">Połączono z %s niebezpiecznym połączeniem</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Blokada ekranu</string>
     <string name="settings_screen_lock_nolock_summary">Musisz włączyć blokadę ekranu dla swojego urządzenia, aby włączyć blokowanie dostępu do aplikacji</string>
     <string name="settings_screen_lock_off_summary">Dostęp do aplikacji nie jest zablokowany</string>
@@ -165,6 +161,7 @@
     <string name="waiting_for_item_upload">Oczekiwanie na wysłanie aktualizacji przez Item\'y</string>
     <string name="item_upload_in_progress">Item\'y są obecnie aktualizowane</string>
     <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
+    <string name="notification_channel_messages_default_severity">Domyślny</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Element nie mogły zostać zaktualizowany</item>
         <item quantity="few">%d Elementy nie mogły zostać zaktualizowane</item>
@@ -256,7 +253,6 @@
     <string name="resolving_openhab">Próbując znaleźć serwer openHAB\u2026</string>
     <string name="waiting_for_wifi">Czekam aż Wi-Fi nawiąże połączenie\2026</string>
     <!-- Log -->
-    <string name="log">Log</string>
     <string name="view_log">Wyświetl log</string>
     <string name="log_activity_action_clear_log">Wyczyść log</string>
     <string name="log_activity_action_show_errors">Pokaż tylko błędy</string>
@@ -289,7 +285,6 @@
     <string name="intro_app_restored">Przywrócono większość twoich ustawień, poza danymi logowania do serwera</string>
     <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
     <string name="intro_voice_description">Kontroluj swój domu za pomocą głosu</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item może być powiązana z tagiem NFC poprzez długie przyciśnięcie Item</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">POMIŃ</string>
@@ -319,7 +314,6 @@
     <string name="item_update_widget_content_description">Widżet do zmiany stanu Itemu</string>
     <string name="item_update_widget_content_description_edit">Edytuj Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wybierz Item</string>
     <string name="item_update_success_message_generic">%1$s ustawiono na %2$s</string>
     <string name="item_update_success_message_on">%s zostało włączone</string>
@@ -344,9 +338,11 @@
     <string name="create_home_screen_widget_title">Utwórz widget</string>
     <string name="item_update_widget_auto_generate_widget_label">Automatycznie generuj etykietę widżetu</string>
     <string name="item_update_widget_widget_label">Etykieta widżetu</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="widget_type_video">Wideo</string>
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Wybierz Item</string>
+    <string name="tile_enable">Włącz</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>

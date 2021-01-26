@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Configuració</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Mapa del lloc</string>
     <string name="mainmenu_openhab_preferences">Configuració</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Notificacions</string>
     <string name="habpanel_error">S\'ha produït un error durant la càrrega d\'HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccioneu el mapa del lloc predeterminat</string>
@@ -50,7 +49,6 @@
     <string name="settings_no_default_sitemap">No hi ha cap mapa del lloc predeterminat seleccionat</string>
     <string name="settings_current_default_sitemap">Mapa del lloc predeterminat actuall: %1$s</string>
     <string name="settings_openhab_alt_connection">Remot</string>
-    <string name="settings_openhab_connection">Local</string>
     <string name="settings_ringtone_none">Cap</string>
     <string name="settings_notification_vibration_off">Desactivada</string>
     <string name="settings_notification_vibration_short">Curta</string>
@@ -58,7 +56,6 @@
     <string name="settings_notification_vibration_twice">Doble</string>
     <string name="settings_connection_summary">Connectat a %s</string>
     <string name="settings_insecure_connection_summary">Connectat de manera insegura a %s</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueig de pantalla</string>
     <string name="screen_lock_unlock_screen_description">Desbloqueja per accedir a openHAB</string>
     <string name="screen_lock_unlock_preferences_description">Desbloqueja per accedir a la configuració</string>
@@ -109,6 +106,7 @@
     <string name="settings_background_tasks_permission_allow">Permet</string>
     <string name="settings_item_pref_item_name">Nom d\'element</string>
     <string name="notification_channel_background_error">Error en tasques secundàries</string>
+    <string name="notification_channel_messages_default_severity">Per defecte</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">Reintenta</string>
@@ -161,7 +159,6 @@
     <string name="app_intro">Introducció</string>
     <string name="intro_welcome">Us donem la benvinguda a l\'openHAB</string>
     <string name="intro_voice_description">Controleu casa vostra amb la veu</string>
-    <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OMET</string>
     <!-- Intro "DONE" button -->
@@ -173,8 +170,8 @@
     <string name="press_back_to_exit">Prem recula altra vegada per sortir</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="widget_type_video">Vídeo</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->

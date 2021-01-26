@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Einstellungen</string>
     <string name="save">Speichern</string>
@@ -23,7 +23,6 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindung</string>
     <string name="settings_display_title">Anzeige</string>
-    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Verschiedenes</string>
     <string name="settings_openhab_url">Lokale Server-URL</string>
     <string name="settings_openhab_url_summary">Die Adresse des openHAB-Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
@@ -67,7 +66,6 @@
     <string name="settings_ringtone">Klingelton</string>
     <string name="settings_ringtone_none">Keiner</string>
     <string name="settings_ringtone_on_external">Unbekannter Klingelton auf externem Speicher</string>
-    <string name="settings_notification_vibration">Vibration</string>
     <string name="settings_notification_vibration_off">Aus</string>
     <string name="settings_notification_vibration_short">Kurz</string>
     <string name="settings_notification_vibration_long">Lang</string>
@@ -75,7 +73,6 @@
     <string name="settings_notification_ringtone_vibration">Klingelton &amp; Vibration</string>
     <string name="settings_connection_summary">Verbunden mit %s</string>
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bildschirmsperre</string>
     <string name="settings_screen_lock_nolock_summary">Sie müssen eine Bildschirmsperre für Ihr Gerät aktivieren, um die Sperrung von App-Zugriffen zu aktivieren</string>
     <string name="settings_screen_lock_off_summary">Zugriff auf die App ist nicht gesperrt</string>
@@ -90,7 +87,6 @@
     <string name="settings_server_name">Servername</string>
     <string name="settings_add_server">Server hinzufügen</string>
     <string name="settings_edit_server">Server bearbeiten</string>
-    <string name="server_with_name">Server %s</string>
     <string name="settings_server_at_least_name_and_connection">Mindestens Servername und eine Verbindung sind erforderlich</string>
     <string name="settings_server_confirm_deletion">Möchten Sie diesen Server wirklich entfernen?</string>
     <string name="settings_server_confirm_leave_title">Ungespeicherte Änderungen</string>
@@ -98,7 +94,6 @@
     <string name="settings_server_primary_title">Primärer Server</string>
     <string name="settings_server_primary_summary_is_primary">Dieser Server ist der primäre Server.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" ist der primäre Server. Hier berühren, um diesen Server zum primären zu machen.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
-    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Hier berühren für mehr Informationen</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Die App wählt diesen Server aus, wenn mit WLAN „%s“ verbunden</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Die App wird diesen Server nicht automatisch basierend auf dem verbundenen WLAN-Netzwerk auswählen</string>
@@ -264,7 +259,6 @@
     <string name="push_notification_status_no_remote_configured">Benachrichtigungen nicht verfügbar: Server für den Fernzugriff nicht konfiguriert</string>
     <string name="push_notification_status_http_error">Benachrichtigungen nicht verfügbar: Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
     <string name="push_notification_status_remote_no_cloud">Benachrichtigungen nicht verfügbar: Server für den Fernzugriff ist keine openHAB-Cloud-Instanz</string>
-    <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, dessen Intervall mit dem für \"Geräteinformationen an Server senden\" eingestellten identisch ist</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
@@ -349,13 +343,11 @@
     <string name="nfc_action_increase">Erhöhen</string>
     <string name="nfc_action_decrease">Verringern</string>
     <string name="nfc_action_play">Wiedergabe</string>
-    <string name="nfc_action_pause">Pause</string>
     <string name="nfc_action_next">Nächste</string>
     <string name="nfc_action_previous">Vorherige</string>
     <string name="nfc_action_rewind">Zurückspulen</string>
     <string name="nfc_action_fastforward">Vorspulen</string>
     <string name="nfc_action_move">Bewegen</string>
-    <string name="nfc_action_stop">Stop</string>
     <string name="nfc_action_open">Geöffnet</string>
     <string name="nfc_action_closed">Geschlossen</string>
     <string name="nfc_activate">Aktivieren</string>
@@ -417,7 +409,6 @@
     <string name="content_description_color_up">Ein oder Halten zum Erhöhen der Helligkeit</string>
     <string name="content_description_color_down">Aus oder Halten zum Verringern der Helligkeit</string>
     <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB öffnen</string>
     <string name="content_description_increase_item_value">Item-Wert erhöhen</string>
     <string name="content_description_decrease_item_value">Item-Wert verringern</string>
@@ -430,7 +421,6 @@
     <string name="intro_app_restored">Die meisten Einstellungen wurden wiederhergestellt, außer den Server-Zugangsdaten</string>
     <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
     <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Die Steuerung eines Items kann durch Gedrückthalten des Items an NFC-Tags gebunden werden</string>
     <string name="intro_quick_tile_description">Steuern Sie Ihr Haus über die Schnelleinstellungen Ihres Geräts (der Ort, an dem die Schalter für z.B. Wi-Fi und Bluetooth sind)</string>
     <string name="intro_send_device_info">Geräteinformationen an Ihren Server senden</string>
@@ -449,7 +439,6 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_update">\"%1$s\" (%2$s) auf \"%3$s\" ändern</string>
     <string name="item_picker_tasker_variable">Tasker-Variable \"%s\"</string>
-    <string name="item_picker_item_update">Update</string>
     <string name="item_picker_item_command">Befehl</string>
     <string name="item_picker_contact_no_command">Kontakt-Items können keine Item-Befehle empfangen, auf Update geändert</string>
     <string name="search">Suchen</string>
@@ -463,7 +452,6 @@
     <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_content_description_edit">Widget bearbeiten</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
     <string name="item_update_success_message_on">%s wurde eingeschaltet</string>
@@ -517,7 +505,6 @@
     <string name="data_saver_snackbar">Icons basieren nicht auf Item-Zuständen, da der Datensparmodus aktiviert ist</string>
     <string name="widget_type_image">Bild</string>
     <string name="widget_type_webview">Webview</string>
-    <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Karte</string>
     <string name="widget_type_chart">Diagramm</string>
     <!-- Tiles -->
@@ -528,8 +515,6 @@
     <string name="tile_disabled">Ausgeschaltet</string>
     <string name="tile_enable">Einschalten</string>
     <string name="item_item_and_action">Item und Aktion</string>
-    <string name="tile_name">Name</string>
-    <string name="tile_icon">Icon</string>
     <string name="tile_require_unlock">Bildschirm-Entsperrung erfordern</string>
     <string name="tile_require_unlock_summary_on">Vor der Aktualisierung von Items zum Entsperren auffordern</string>
     <string name="tile_require_unlock_summary_off">Aktualisierung von Items bei gesperrtem Gerät erlauben</string>
@@ -554,7 +539,6 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB-Logo</string>
     <string name="tile_icon_tv">Fernseher</string>
-    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Glühbirne</string>
     <string name="tile_icon_clock">Uhr</string>
     <string name="tile_icon_alarm_clock">Wecker</string>
@@ -567,29 +551,24 @@
     <string name="tile_icon_microphone">Mikrofon</string>
     <string name="tile_icon_color_palette">Farbpalette</string>
     <string name="tile_icon_people">Personen</string>
-    <string name="tile_icon_person">Person</string>
     <string name="tile_icon_phone">Telefon</string>
     <string name="tile_icon_power_plug">Netzstecker</string>
     <string name="tile_icon_battery">Batterie</string>
     <string name="tile_icon_magnifier">Lupe</string>
     <string name="tile_icon_star">Stern</string>
     <string name="tile_icon_tree">Baum</string>
-    <string name="tile_icon_dashboard">Dashboard</string>
     <string name="tile_icon_wifi">WLAN</string>
     <string name="tile_icon_shield">Schild</string>
     <string name="tile_icon_man">Mann</string>
     <string name="tile_icon_bed">Bett</string>
     <string name="tile_icon_child">Kind</string>
-    <string name="tile_icon_baby">Baby</string>
     <string name="tile_icon_settings">Zahnrad</string>
     <string name="tile_icon_bath">Bad</string>
     <string name="tile_icon_woman">Frau</string>
     <string name="tile_icon_roller_shutter">Rollladen</string>
     <string name="tile_icon_camera">Kamera</string>
     <string name="tile_icon_light_switch">Lichtschalter</string>
-    <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Schalter</string>
-    <string name="tile_icon_sofa">Sofa</string>
     <string name="tile_icon_lamp_ceiling">Deckenlampe</string>
     <string name="tile_icon_lamp_floor">Stehlampe</string>
     <string name="tile_icon_lamp_bedside">Nachttischlampe</string>

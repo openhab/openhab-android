@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Настройки</string>
     <string name="save">Сохранить</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Уведомления</string>
     <string name="habpanel_error">Произошла ошибка при загрузке HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать Sitemap по умолчанию</string>
@@ -16,7 +14,6 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Параметры подключения</string>
     <string name="settings_display_title">Параметры дисплея</string>
-    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Прочее</string>
     <string name="settings_openhab_url">URL адрес локального openHAB</string>
     <string name="settings_openhab_url_summary">URL-адрес панели openHAB. Если указано имя хоста или IP-адрес, то автообнаружение будет отключено. Текущие настройки: %s</string>
@@ -39,7 +36,6 @@
     <string name="settings_openhab_fullscreen">Во весь экран</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
     <string name="settings_openhab_icon_format_png">Точечный рисунок</string>
-    <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_image_widget_scaling">Масштабировать изображения по размеру экрана</string>
     <string name="settings_image_widget_scaling_summary_off">Оставлять виджеты «Изображение», которые меньше ширины экрана в исходном размере</string>
     <string name="settings_image_widget_scaling_summary_on">Убедитесь, что виджеты «Изображение» соответствуют ширине экрана, масштабируя их по мере необходимости</string>
@@ -391,7 +387,6 @@
     <string name="intro_app_restored">Большинство настроек восстановлены, за исключением учетных данных сервера</string>
     <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
     <string name="intro_voice_description">Управляйте домом своим голосом</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">ПРОПУСТИТЬ</string>
@@ -421,7 +416,6 @@
     <string name="item_update_widget_content_description">Виджет для смены состояния Item</string>
     <string name="item_update_widget_content_description_edit">Редактировать виджет</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Выберите Item</string>
     <string name="item_update_success_message_generic">%1$s был установлен в %2$s</string>
     <string name="item_update_success_message_on">%s был включен</string>
@@ -446,7 +440,6 @@
     <string name="create_home_screen_widget_title">Создать виджет</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматически генерировать метку виджета</string>
     <string name="item_update_widget_widget_label">Метка виджета</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Экономия трафика</string>
     <string name="data_saver_on">Элементы Sitemap которым необходим большой объем данным не загружены</string>
@@ -456,7 +449,6 @@
     <string name="data_saver_hint">%s не был загружен для сохранения данных</string>
     <string name="data_saver_snackbar">Значки не соответсвуют состоянию Item, потому что включено сохранение данных</string>
     <string name="widget_type_image">Изображение</string>
-    <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Видео</string>
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">График</string>
@@ -479,23 +471,8 @@
         <item quantity="many">%d активных плиток</item>
         <item quantity="other">%d активная плитка</item>
     </plurals>
-    <string name="tile_number">Tile %d</string>
-    <string name="tile_label_1">Tile 1</string>
-    <string name="tile_label_2">Tile 2</string>
-    <string name="tile_label_3">Tile 3</string>
-    <string name="tile_label_4">Tile 4</string>
-    <string name="tile_label_5">Tile 5</string>
-    <string name="tile_label_6">Tile 6</string>
-    <string name="tile_label_7">Tile 7</string>
-    <string name="tile_label_8">Tile 8</string>
-    <string name="tile_label_9">Tile 9</string>
-    <string name="tile_label_10">Tile 10</string>
-    <string name="tile_label_11">Tile 11</string>
-    <string name="tile_label_12">Tile 12</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">Иконка openHAB</string>
-    <string name="tile_icon_tv">TV</string>
-    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Лампа</string>
     <string name="tile_icon_clock">Часы</string>
     <string name="tile_icon_alarm_clock">Будильник</string>
@@ -516,7 +493,6 @@
     <string name="tile_icon_star">Звезда</string>
     <string name="tile_icon_tree">Древо</string>
     <string name="tile_icon_dashboard">Панель мониторинга</string>
-    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Щит</string>
     <string name="tile_icon_man">Человек</string>
     <string name="tile_icon_bed">Кровать</string>

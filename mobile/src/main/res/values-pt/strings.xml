@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Configurações</string>
     <!-- Main menu items -->
@@ -32,7 +32,6 @@
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Ecrã inteiro</string>
     <string name="settings_openhab_icon_format">Formato de icone</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vetor</string>
     <string name="settings_chart_scaling">Escala de Gráficos</string>
     <string name="settings_chart_scaling_summary">Nota: Menor escalonamento de fontes e largura de linha, então há mais espaço para o gráfico, mas a legibilidade de fonte pode sofrer.</string>
@@ -42,7 +41,6 @@
     <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
     <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remoto</string>
-    <string name="settings_openhab_connection">Local</string>
     <string name="settings_ringtone_none">Nenhum</string>
     <string name="settings_notification_vibration_off">Desligar</string>
     <string name="settings_notification_vibration_short">Curto</string>
@@ -50,7 +48,6 @@
     <string name="settings_notification_vibration_twice">Duas vezes</string>
     <string name="settings_connection_summary">Ligado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado a %s sem segurança</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de ecrã</string>
     <string name="screen_lock_unlock_screen_description">Desbloqueie para acessar o openHAB</string>
     <string name="settings_screen_lock_off">Desligar</string>
@@ -163,7 +160,6 @@
     <string name="resolving_openhab">Tentando descobrir a instância do servidor openHAB\u2026</string>
     <string name="waiting_for_wifi">Aguardando a conexão Wi-Fi\u2026</string>
     <!-- Log -->
-    <string name="log">Log</string>
     <string name="view_log">Ver Log</string>
     <string name="empty_log">Log está vazio</string>
     <!-- Home screen shortcuts -->
@@ -188,7 +184,6 @@
     <string name="intro_welcome">Bem-vindo ao openHAB</string>
     <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
     <string name="intro_voice_description">Controle sua casa com sua voz</string>
-    <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Seguinte</string>
     <!-- Intro "DONE" button -->
@@ -199,6 +194,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Vídeo</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">設定</string>
     <string name="save">保存</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">サイトマップ</string>
     <string name="mainmenu_openhab_preferences">設定</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">通知</string>
     <string name="habpanel_error">HAPPanel の読み込み中にエラーが発生しました</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
@@ -381,7 +380,6 @@
     <string name="intro_app_restored">サーバー資格情報を除き、ほとんどの設定が復元されました</string>
     <string name="intro_whatis">ホーム用、ベンダーや技術に依存しないオープンソースのオートメーションソフトウェア</string>
     <string name="intro_voice_description">音声でホームをコントロール</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">アイテムを長押しすると、アイテムのコントロールを NFC タグに接続できます</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">スキップ</string>
@@ -411,7 +409,6 @@
     <string name="item_update_widget_content_description">アイテムの状態を変更するためのウィジェット</string>
     <string name="item_update_widget_content_description_edit">ウィジェットを編集</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">アイテムを選択</string>
     <string name="item_update_success_message_generic">%1$s は %2$s にセットされました</string>
     <string name="item_update_success_message_on">%s はオンになりました</string>
@@ -446,7 +443,6 @@
     <string name="data_saver_hint">%s はデータを節約するために読み込みませんでした</string>
     <string name="data_saver_snackbar">データセーバーがオンになっているため、アイコンはアイテムの状態に基づいていません</string>
     <string name="widget_type_image">画像</string>
-    <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">ビデオ</string>
     <string name="widget_type_mapview">マップ</string>
     <string name="widget_type_chart">チャート</string>
@@ -503,7 +499,6 @@
     <string name="tile_icon_star">スター</string>
     <string name="tile_icon_tree">木</string>
     <string name="tile_icon_dashboard">ダッシュボード</string>
-    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">シールド</string>
     <string name="tile_icon_man">男性</string>
     <string name="tile_icon_bed">ベッド</string>

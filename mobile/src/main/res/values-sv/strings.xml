@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Inställningar</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Inställningar</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Aviseringar</string>
     <string name="habpanel_error">Ett fel inträffade vid inläsning av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Välj standard-Sitemap</string>
@@ -60,7 +58,6 @@
     <string name="settings_notification_vibration_twice">Två gånger</string>
     <string name="settings_connection_summary">Ansluten till %s</string>
     <string name="settings_insecure_connection_summary">Osäkert ansluten till %s</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Skärmlås</string>
     <string name="settings_screen_lock_nolock_summary">Du måste aktivera ett skärmlås på din enhet för att aktivera åtkomstskydd av appar</string>
     <string name="settings_screen_lock_off_summary">Åtkomst till appen är inte skyddad</string>
@@ -218,7 +215,6 @@
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Dölj teckenförklaring</string>
     <string name="chart_activity_show_legend">Visa teckenförklaring</string>
-    <string name="chart_activity_period">Period</string>
     <string name="chart_activity_period_1_hour">1 timme</string>
     <string name="chart_activity_period_4_hour">4 timmar</string>
     <string name="chart_activity_period_8_hour">8 timmar</string>
@@ -269,7 +265,6 @@
     <string name="about_issues">Rapportera ett problem</string>
     <string name="about_docs">Dokumentation</string>
     <string name="about_community_forum">Forum</string>
-    <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHABs gemenskap</string>
     <string name="about_translation">Hjälp oss att översätta openHAB</string>
     <string name="about_privacy_policy">Integritetspolicy</string>
@@ -301,7 +296,6 @@
     <string name="content_description_color_up">På eller håll för att öka ljusstyrkan</string>
     <string name="content_description_color_down">Av eller håll för att minska ljusstyrkan</string>
     <string name="content_description_open_number_picker">Öppna nummerväljare</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Öppna openHAB</string>
     <string name="swipe_to_refresh_description">Denna app uppdaterar sig även automatiskt, du behöver normalt sett inte göra det manuellt</string>
     <!-- Intro strings -->
@@ -309,7 +303,6 @@
     <string name="intro_welcome">Välkommen till openHAB</string>
     <string name="intro_whatis">En mjukvara för att automatisera ditt hem med öppen källkod, helt oberoende av tillverkare eller teknologi</string>
     <string name="intro_voice_description">Kontrollera ditt hem med din röst</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Långtryck på en en Item för att knyta den till NFS-taggar</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">HOPPA ÖVER</string>
@@ -331,9 +324,10 @@
     <string name="create_home_screen_widget_title">Skapa widget</string>
     <string name="item_update_widget_auto_generate_widget_label">Skapa widgetetikett automatiskt</string>
     <string name="item_update_widget_widget_label">Widgetetikett</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="widget_type_chart">Diagram</string>
     <!-- Tiles -->
+    <string name="tile_enable">Sätt på</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>

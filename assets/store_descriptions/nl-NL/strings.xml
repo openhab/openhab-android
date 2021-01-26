@@ -7,12 +7,12 @@
     <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://www.openhab.org/addons/</bindings>
     <automation_apps>De app heeft een action plugin voor Tasker en Locale.</automation_apps>
 
-    <oss_community>Open Source Community</oss_community>
+    <oss_community/>
     <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org</forum>
 
     <report_issues>Wanneer u een probleem gevonden heeft rapporteer deze dan in het forum of op https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/project/openhab-android</translation>
-    <foundation>openHAB Foundation</foundation>
+    <foundation/>
     <about_foundation>De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org</about_foundation>
     <important_note>Belangrijke opmerking</important_note>
     <oh_server>Deze app vereist een eigen openHAB server.</oh_server>

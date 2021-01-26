@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">הגדרות</string>
     <string name="save">שמור</string>
@@ -10,8 +10,6 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">ממשק openHAB 3</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">ממשק openHAB 3 (%s)</string>
     <string name="app_notifications">התראות</string>
@@ -98,7 +96,6 @@
     <string name="settings_server_primary_title">שרת ראשי</string>
     <string name="settings_server_primary_summary_is_primary">שרת זה הוא הראשי.\n נכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
-    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">היישומון יבחר בשרת זה כאשר יש חיבור ל- Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">היישומון לא יבחר באופן אוטומטי בשרת זה על סמך חיבור לרשת Wi-Fi</string>
@@ -467,7 +464,6 @@
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
     <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>

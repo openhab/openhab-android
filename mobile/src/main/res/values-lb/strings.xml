@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Astellungen</string>
     <string name="save">Späicheren</string>
     <string name="discard">Annuléieren</string>
     <string name="delete">Läschen</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Astellungen</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="app_notifications">Notifikatiounen</string>
     <string name="app_notifications_on_server">Notifikatiounen (%s)</string>
     <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
@@ -19,8 +16,6 @@
     <string name="mainmenu_openhab_clearcache">Biller Cache eidel maachen</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Connectioun</string>
-    <string name="settings_display_title">Display</string>
-    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Verschiddenes</string>
     <string name="settings_openhab_url">URL vum lokale Server</string>
     <string name="settings_openhab_url_summary">D´ URL vum openHAB Dashboard (baséierend um Hostname oder IP). Wa konfiguréiert ass déi automatesch Erkennung desaktivéiert. Aktuell Astellung: %s</string>
@@ -40,9 +35,7 @@
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_accent_color">Akzent Faarw</string>
     <string name="settings_select_a_color">Faarf auswielen</string>
-    <string name="settings_openhab_fullscreen">Fullscreen</string>
     <string name="settings_openhab_icon_format">Icon Format</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
     <string name="settings_image_widget_scaling">Biller un d\' Bildschierm Gréisst upassen</string>
     <string name="settings_image_widget_scaling_summary_off">\'Image\' Widgets déi méi kleng sinn wei d\' Bildschierm Breet op hirer originaler Gréisst loossen</string>
@@ -58,7 +51,6 @@
     <string name="settings_clear_default_sitemap">Standard Sitemap ophiewen</string>
     <string name="settings_no_default_sitemap">Keng Standard Sitemap gewielt</string>
     <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
-    <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Lokal</string>
     <string name="settings_ringtone">Schelltoun</string>
     <string name="settings_ringtone_none">Keen</string>
@@ -71,7 +63,6 @@
     <string name="settings_notification_ringtone_vibration">Schelltoun &amp; Vibratioun</string>
     <string name="settings_connection_summary">Mat %s verbonne</string>
     <string name="settings_insecure_connection_summary">Ongeséchert mat %s verbonnen</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Displayspär</string>
     <string name="settings_screen_lock_nolock_summary">Du muss eng Display Spär uschalten fir d‘ Spären vun App Zougrëff ze aktivéieren</string>
     <string name="settings_screen_lock_off_summary">Zougrëff op d‘ App ass net gespaart</string>
@@ -86,13 +77,11 @@
     <string name="settings_server_name">Server Numm</string>
     <string name="settings_add_server">Server bäifügen</string>
     <string name="settings_edit_server">Server änneren</string>
-    <string name="server_with_name">Server %s</string>
     <string name="settings_server_at_least_name_and_connection">Wéinstens e Server Numm an eng Verbindung gi gebraucht</string>
     <string name="settings_server_confirm_deletion">Wëlls de wierklech dësen Server läschen?</string>
     <string name="settings_server_confirm_leave_title">Ongespäichert Ännerungen</string>
     <string name="settings_server_confirm_leave_message">Du hues Ännerungen gemaach. Wëlls de des späicheren oder ignoréieren?</string>
     <string name="settings_server_primary_title">Hapt Server</string>
-    <string name="settings_server_default_name">openHAB %d</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
     <string name="voice_command">Sproochbefeel</string>
@@ -223,7 +212,6 @@
         <item quantity="one">%d nei Notifikatioun</item>
         <item quantity="other">%d nei Notifikatiounen</item>
     </plurals>
-    <string name="push_notification_status">Status</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnt net aktualiséiert ginn</item>
         <item quantity="other">%d Items konnten net aktualiséiert ginn</item>
@@ -299,7 +287,6 @@
     <string name="nfc_action_empty_string">Eidelen Text</string>
     <string name="nfc_action_increase">Eropsetzen</string>
     <string name="nfc_action_decrease">Erofsetzen</string>
-    <string name="nfc_action_play">Play</string>
     <string name="nfc_action_pause">Paus</string>
     <string name="nfc_action_next">Weider</string>
     <string name="nfc_action_previous">Zeréck</string>
@@ -320,7 +307,6 @@
     <!-- About -->
     <string name="about_title">Iwwer</string>
     <string name="about_license_title">Lizenz</string>
-    <string name="about_changelog">Changelog</string>
     <string name="about_source_code">Source Code</string>
     <string name="about_issues">E Problem mellen</string>
     <string name="about_docs">Dokumentatioun</string>
@@ -345,7 +331,6 @@
     <string name="waiting_for_wifi">Waarden op d\'Hierstellung vun der Wi-Fi Verbindung \u2026</string>
     <string name="visit_status_openhab_org">Gei op status.openhab.org</string>
     <!-- Log -->
-    <string name="log">Log</string>
     <string name="view_log">Log uweisen</string>
     <string name="log_activity_action_clear_log">Log läschen</string>
     <string name="log_activity_action_show_errors">Nëmmen Feeler uweisen</string>
@@ -365,7 +350,6 @@
     <string name="content_description_color_up">Un oder halen fir d\'Hellegkeet erop ze setzen</string>
     <string name="content_description_color_down">Aus oder halen fir d\'Hellegkeet erof ze setzen</string>
     <string name="content_description_open_number_picker">Nummer Auswiel opmaachen</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB opmaachen</string>
     <string name="content_description_increase_item_value">Wäert vum Item eropsetzen</string>
     <string name="content_description_decrease_item_value">Wäert vum Item erofsetzen</string>
@@ -378,7 +362,6 @@
     <string name="intro_app_restored">Bis op d‘ Server Login Informatiounen, sinn di meescht vun dengen Astellungen sinn erëm hiergestallt</string>
     <string name="intro_whatis">Eng Verkeefer an Technik agnostescht Open-Source Automatiséierungs Software fir Äert Haus</string>
     <string name="intro_voice_description">Kontrolléiert Äert Haus mat Ärer Stemm</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">D‘ Kontroll vum Item kann un en NFC Tag gebonne ginn an deem een laang op den Item dréckt</string>
     <string name="intro_send_device_info">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
     <!-- Intro "SKIP" button -->
@@ -408,7 +391,6 @@
     <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
     <string name="item_update_widget_content_description_edit">Wdiet editéieren</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Item auswielen</string>
     <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
     <string name="item_update_success_message_on">%s ass ageschalt ginn</string>
@@ -450,7 +432,6 @@
     <string name="create_home_screen_widget_title">Widget erstellen</string>
     <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
     <string name="item_update_widget_widget_label">Widget Label</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Datespuermodus</string>
     <string name="data_saver_off_pre_n">All Sitemap Elementer gi gelueden, onofhängeg vun hirer Datenotzung</string>
@@ -458,8 +439,6 @@
     <string name="data_saver_hint">%s ass net gelueden ginn fir Daten ze spueren</string>
     <string name="data_saver_snackbar">Icons sinn net baséiert op Item Statussen, well den Datespuermodus aktiv ass</string>
     <string name="widget_type_image">Bild</string>
-    <string name="widget_type_webview">WebView</string>
-    <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Kaart</string>
     <string name="widget_type_chart">Diagramm</string>
     <!-- Tiles -->
@@ -471,7 +450,6 @@
     <string name="tile_enable">Umaachen</string>
     <string name="item_item_and_action">Item an Aktioun</string>
     <string name="tile_name">Numm</string>
-    <string name="tile_icon">Icon</string>
     <string name="tile_require_unlock">Bildschierm muss entspaart sinn</string>
     <string name="tile_require_unlock_summary_on">Froen fir den Bildschierm ze entspären fir dass Items kennen modifizéiert ginn</string>
     <string name="tile_require_unlock_summary_off">Änneren vun Items erlaben wann d\' Gerät gespaart ass</string>
@@ -495,7 +473,6 @@
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB Icon</string>
     <string name="tile_icon_tv">Tëlee</string>
-    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Bier</string>
     <string name="tile_icon_clock">Auer</string>
     <string name="tile_icon_alarm_clock">Wecker</string>
@@ -515,8 +492,6 @@
     <string name="tile_icon_magnifier">Lupp</string>
     <string name="tile_icon_star">Stär</string>
     <string name="tile_icon_tree">Bam</string>
-    <string name="tile_icon_dashboard">Dashboard</string>
-    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Schëld</string>
     <string name="tile_icon_man">Mann</string>
     <string name="tile_icon_bed">Bett</string>
@@ -528,7 +503,6 @@
     <string name="tile_icon_roller_shutter">Rolllued</string>
     <string name="tile_icon_camera">Kamera</string>
     <string name="tile_icon_light_switch">Luuchte Schalter</string>
-    <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Schalter</string>
     <string name="tile_icon_sofa">Canapé</string>
     <string name="tile_icon_lamp_ceiling">Plaffong \'s Luucht</string>

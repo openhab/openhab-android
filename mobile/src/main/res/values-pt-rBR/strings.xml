@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Configurações</string>
     <string name="save">Salvar</string>
     <string name="discard">Descartar</string>
     <string name="delete">Excluir</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configurações</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Notificações</string>
     <string name="app_notifications_on_server">Notificações (%s)</string>
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
@@ -23,7 +18,6 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexão</string>
     <string name="settings_display_title">Configurações de visualização</string>
-    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Diversos</string>
     <string name="settings_openhab_url">URL do servidor local</string>
     <string name="settings_openhab_url_summary">A URL do painel openHAB (baseado no nome do host ou IP). Se configurado, está desativada a detecção automática. Configuração atual %s</string>
@@ -46,7 +40,6 @@
     <string name="settings_select_a_color">Selecione uma cor</string>
     <string name="settings_openhab_fullscreen">Tela cheia</string>
     <string name="settings_openhab_icon_format">Formato de ícone</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vetor</string>
     <string name="settings_image_widget_scaling">Ajuste as imagens na tela</string>
     <string name="settings_image_widget_scaling_summary_off">Manter widgets de \'Imagem\' que são menores que a largura da tela em seu tamanho original</string>
@@ -63,7 +56,6 @@
     <string name="settings_no_default_sitemap">Nenhum Sitemap selecionado</string>
     <string name="settings_current_default_sitemap">Atual Sitemap padrão: %1$s</string>
     <string name="settings_openhab_alt_connection">Remoto</string>
-    <string name="settings_openhab_connection">Local</string>
     <string name="settings_ringtone">Toque de chamada</string>
     <string name="settings_ringtone_none">Nenhum</string>
     <string name="settings_ringtone_on_external">Toque desconhecido no armazenamento externo</string>
@@ -75,7 +67,6 @@
     <string name="settings_notification_ringtone_vibration">Toque &amp; Vibração</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de tela</string>
     <string name="settings_screen_lock_nolock_summary">Você precisa habilitar um bloqueio de tela para o seu dispositivo para ativar o bloqueio de acesso a apps</string>
     <string name="settings_screen_lock_off_summary">O acesso ao app não está bloqueado</string>
@@ -98,7 +89,6 @@
     <string name="settings_server_primary_title">Servidor principal</string>
     <string name="settings_server_primary_summary_is_primary">Este é o servidor principal.\nAtualmente, apenas o servidor principal é suportado por todos os recursos deste aplicativo. Toque no botão de ajuda para obter mais informações.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" é o servidor principal. Clique para esse servidor tornar o principal.\nAtualmente, apenas o servidor principal é capaz de todos os recursos deste aplicativo. Clique no botão de ajuda para mais informações.</string>
-    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Clique aqui para mais informações</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">O app selecionará este servidor quando conectado à rede Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">O app não selecionará automaticamente este servidor de acordo com a rede Wi-Fi conectada</string>
@@ -264,7 +254,6 @@
     <string name="push_notification_status_no_remote_configured">Notificações estão indisponíveis: Servidor remoto não está configurado</string>
     <string name="push_notification_status_http_error">Notificações estão indisponíveis: Erro ao conectar ao servidor remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Notificações estão indisponíveis: Servidor remoto não é uma instância do openHAB</string>
-    <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">As notificações são consultadas regularmente, que é o mesmo que \"Enviar informações do dispositivo para o servidor\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item não pôde ser atualizado</item>
@@ -331,7 +320,6 @@
     <string name="chart_activity_period_1_day">1 dia</string>
     <string name="chart_activity_period_2_day">2 dias</string>
     <string name="chart_activity_period_3_day">3 dias</string>
-    <string name="chart_activity_period_1_week">1 week</string>
     <string name="chart_activity_period_2_week">2 semanas</string>
     <string name="chart_activity_period_1_month">1 mês</string>
     <string name="chart_activity_period_2_month">2 meses</string>
@@ -395,7 +383,6 @@
     <string name="waiting_for_wifi">Aguardando Wi-Fi para estabelecer a conexão\u2026</string>
     <string name="visit_status_openhab_org">Visite status.openhab.org</string>
     <!-- Log -->
-    <string name="log">Log</string>
     <string name="view_log">Ver Log</string>
     <string name="log_activity_action_clear_log">Limpar log</string>
     <string name="log_activity_action_show_errors">Mostrar apenas erros</string>
@@ -430,7 +417,6 @@
     <string name="intro_app_restored">A maioria das suas configurações foram restauradas, exceto as credenciais do servidor</string>
     <string name="intro_whatis">Um software agnóstico e fornecedor de automatização de software aberto para a sua casa</string>
     <string name="intro_voice_description">Controle sua casa com a sua voz</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">O controle de item pode ser vinculado a tags NFC pressionando por um longo tempo o item</string>
     <string name="intro_quick_tile_description">Controle sua casa a partir das configurações rápidas do seu dispositivo (Onde contém por exemplo, Wi-Fi e Bluetooth)</string>
     <string name="intro_send_device_info">Enviar informações do dispositivo para o servidor</string>
@@ -463,7 +449,6 @@
     <string name="item_update_widget_content_description">Widget para alterar estado do Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecione um Item</string>
     <string name="item_update_success_message_generic">%1$s foi alterado para %2$s</string>
     <string name="item_update_success_message_on">%s foi ligado</string>
@@ -506,7 +491,6 @@
     <string name="create_home_screen_widget_not_supported">Por favor, vá ao menu de widgets na sua tela inicial e crie um widget a partir daí</string>
     <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
     <string name="item_update_widget_widget_label">Rótulo do widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Economia de dados</string>
     <string name="data_saver_on">Elementos do Sitemap que podem exigir transferência de dados maiores não são carregados</string>
@@ -516,7 +500,6 @@
     <string name="data_saver_hint">%s não foi carregado para salvar dados</string>
     <string name="data_saver_snackbar">Ícones não são baseados no estado do Item, porque a economia de dados está ativada</string>
     <string name="widget_type_image">Imagem</string>
-    <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfico</string>
@@ -553,7 +536,6 @@
     <string name="tile_label_12">Bloco 12</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">Ícone openHAB</string>
-    <string name="tile_icon_tv">TV</string>
     <string name="tile_icon_radio">Rádio</string>
     <string name="tile_icon_bulb">Lâmpada</string>
     <string name="tile_icon_clock">Relógio</string>
@@ -575,7 +557,6 @@
     <string name="tile_icon_star">Estrela</string>
     <string name="tile_icon_tree">Árvore</string>
     <string name="tile_icon_dashboard">Painel</string>
-    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Escudo</string>
     <string name="tile_icon_man">Homem</string>
     <string name="tile_icon_bed">Cama</string>

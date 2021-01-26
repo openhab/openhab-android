@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <string name="info_openhab_gcm_in_progress">מתבצע רישום להתראות</string>
     <string name="info_openhab_gcm_failed">רישום להתראות נכשל</string>
     <string name="info_openhab_gcm_failed_play_services">רישום להתראות נכשל עקב בעיה בשירותי Google Play: %s</string>

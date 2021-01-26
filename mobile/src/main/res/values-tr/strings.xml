@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Ayarlar</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
     <string name="mainmenu_openhab_preferences">Ayarlar</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Bildirimler</string>
     <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
     <string name="mainmenu_openhab_selectsitemap">Varsayılan Sitemap \'i seç</string>
@@ -37,7 +36,6 @@
     <string name="settings_select_a_color">Bir renk seçin</string>
     <string name="settings_openhab_fullscreen">Tam Ekran</string>
     <string name="settings_openhab_icon_format">Simge formatı</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>
     <string name="settings_chart_scaling">Grafik ölçekleme</string>
     <string name="settings_chart_scaling_summary">Not: Daha küçük ölçeklendirme yazı tiplerini ve çizgi genişliklerini küçültür, böylece grafik için daha fazla alan vardır, ancak yazı okunabilirliği sorun yaşatabilir.</string>
@@ -60,7 +58,6 @@
     <string name="settings_notification_vibration_twice">Iki kez</string>
     <string name="settings_connection_summary">%s Bağlanıldı</string>
     <string name="settings_insecure_connection_summary">Güvenli bir şekilde %s\' e bağlandı</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Ekran kilidi</string>
     <string name="settings_screen_lock_nolock_summary">Uygulama erişim kilidini etkinleştirmek için cihazınız için bir ekran kilidini etkinleştirmeniz gerekir</string>
     <string name="settings_screen_lock_off_summary">Uygulamaya erişim kilitli değil</string>
@@ -139,6 +136,7 @@
     <string name="waiting_for_item_upload">Item güncellemeleri için ağ bekleniyor</string>
     <string name="item_upload_in_progress">Items şu anda güncelleniyor</string>
     <string name="notification_channel_background_error">Arka plan görevlerinde hata</string>
+    <string name="notification_channel_messages_default_severity">Varsayılan</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_connection_error">\'%1$s\' Item\' i güncellenemedi (Bağlantı yok)</string>
@@ -238,7 +236,6 @@
     <string name="content_description_color_up">Işığı aç yada ışık şiddetini artırmak için basılı tut</string>
     <string name="content_description_color_down">Işığı kapat yada yada ışık şiddetini azaltmak için basılı tut</string>
     <string name="content_description_open_number_picker">Numara Seçiciyi aç</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB\'ı aç</string>
     <string name="content_description_increase_item_value">Öğe değerini artır</string>
     <string name="content_description_decrease_item_value">Öğe değerini azalt</string>

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">إعدادات</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">إعدادات</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">إشعارات</string>
     <string name="habpanel_error">حدث خطأ أثناء تحميل HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">حدد Sitemap الافتراضي</string>
@@ -121,6 +119,7 @@
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
     <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
     <string name="settings_background_tasks_permission_allow">السماح</string>
+    <string name="notification_channel_messages_default_severity">افتراضي</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">اعد المحاولة</string>
@@ -204,7 +203,6 @@
     <string name="intro_welcome">مرحبا في openHAB</string>
     <string name="intro_whatis">مهما تكن التكنلوجيا والمزود برنامج أتمتة مفتوح المصدر لأجل منزلك</string>
     <string name="intro_voice_description">تحكم ببيتك بصوتك</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">يمكن ربط عنصر التحكم إلى علامات NFC عن طريق الضغط على العنصر</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">تخطي</string>
@@ -219,7 +217,9 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">فيديو</string>
     <!-- Tiles -->
+    <string name="tile_enable">تشغيل</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
 </resources>

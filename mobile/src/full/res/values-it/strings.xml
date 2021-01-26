@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <string name="info_openhab_gcm_in_progress">Registrazione delle notifiche in corso</string>
     <string name="info_openhab_gcm_failed">Registrazione delle notifiche non riuscita</string>
     <string name="info_openhab_gcm_failed_play_services">Registrazione delle notifiche non riuscita a causa di un problema Google Play Services: %s</string>

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Настройки</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сайткарти</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Известия</string>
     <string name="habpanel_error">Възникна грешка, зареждайки HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Изберете сайта по подразбиране</string>
@@ -53,6 +52,7 @@
     <string name="settings_notification_vibration_twice">Двойна</string>
     <string name="settings_connection_summary">Свързан към %s</string>
     <string name="settings_insecure_connection_summary">Несигурно свързан към %s</string>
+    <string name="settings_screen_lock_off">Изключено</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB на ваше командване!</string>
     <string name="info_voice_recognized_text">Разпозната команда: %1$s</string>
@@ -84,6 +84,7 @@
     <string name="action_settings">Настройки</string>
     <string name="info_not_set">Не е зададено</string>
     <!-- Background tasks -->
+    <string name="notification_channel_messages_default_severity">По подразбиране</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -118,7 +119,6 @@
     <string name="nfc_action_increase">Повишено</string>
     <string name="nfc_action_decrease">Умаляване</string>
     <string name="nfc_action_play">Възпроизведи</string>
-    <string name="nfc_action_pause">Pause</string>
     <string name="nfc_action_next">Следваща</string>
     <string name="nfc_action_previous">Предишен</string>
     <string name="nfc_action_rewind">Превъртане назад</string>
@@ -161,7 +161,6 @@
     <string name="swipe_to_refresh_description">Тази програма се обновява автоматично, нормално не е необходимо да го правите ръчно</string>
     <!-- Intro strings -->
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
-    <string name="intro_nfc">NFC</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Пропусни</string>
     <!-- Intro "DONE" button -->
@@ -172,6 +171,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <!-- Data saver -->
+    <string name="widget_type_video">Видео</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
