@@ -33,7 +33,8 @@ data class ServerPath(
     val userName: String?,
     val password: String?
 ) : Parcelable {
-    fun hasAuthentication() = !userName.isNullOrEmpty() && !password.isNullOrEmpty()
+    // If the user name is longer than 50 chars, assume it's an API token and therefore no password is required.
+    fun hasAuthentication() = !userName.isNullOrEmpty() && (!password.isNullOrEmpty() || userName.length > 50)
 
     companion object {
         internal fun load(
