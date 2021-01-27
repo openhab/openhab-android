@@ -8,7 +8,12 @@
     <string name="discard">Descartar</string>
     <string name="delete">Borrar</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configuración</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Notificaciones</string>
     <string name="app_notifications_on_server">Notificaciones (%s)</string>
     <string name="habpanel_error">Error al cargar HABPanel</string>
@@ -18,6 +23,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexión</string>
     <string name="settings_display_title">Pantalla</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Varios</string>
     <string name="settings_openhab_url">Dirección URL del servidor local</string>
     <string name="settings_openhab_url_summary">La dirección URL de la consola de openHAB (basada en el nombre de host o IP). Si está configurada, se desactiva la detección automática. Valor actual: %s</string>
@@ -41,6 +47,8 @@
     <string name="settings_select_a_color">Seleccione un color</string>
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
+    <string name="settings_openhab_icon_format_png">Mapa de bits</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_image_widget_scaling">Escalar imágenes para que se ajusten al tamaño de la pantalla</string>
     <string name="settings_image_widget_scaling_summary_off">Mantener el tamaño original de los widgets tipo \'Image\' que sean menores que el ancho de la pantalla</string>
     <string name="settings_image_widget_scaling_summary_on">Asegurarse de que los widgets tipo \'Image\' se ajusten al ancho de pantalla, escalándolos si fuera necesario</string>
@@ -56,6 +64,7 @@
     <string name="settings_no_default_sitemap">No se ha seleccionado ningún Sitemap por defecto</string>
     <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remota</string>
+    <string name="settings_openhab_connection">Local</string>
     <string name="settings_ringtone">Tono de llamada</string>
     <string name="settings_ringtone_none">Ninguno</string>
     <string name="settings_ringtone_on_external">Tono de llamada desconocido en almacenamiento externo</string>
@@ -67,6 +76,7 @@
     <string name="settings_notification_ringtone_vibration">Tono de llamada &amp; Vibración</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
+    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueo de pantalla</string>
     <string name="settings_screen_lock_nolock_summary">Necesita activar el bloqueo de pantalla en su dispositivo para habilitar el bloqueo de acceso a la aplicación</string>
     <string name="settings_screen_lock_off_summary">El acceso a la aplicación no está bloqueado</string>
@@ -89,6 +99,7 @@
     <string name="settings_server_primary_title">Servidor primario</string>
     <string name="settings_server_primary_summary_is_primary">Este servidor es el principal.\nActualmente sólo el servidor principal soporta todas las características de esta aplicación. Pulse el botón de ayuda para obtener más información.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" es el servidor principal. Pulse para hacer de este servidor el servidor principal.\nActualmente sólo el servidor principal soporta todas las características de esta aplicación. Pulse el botón de ayuda para más información.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Pulse aquí para más información</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">La aplicación seleccionará este servidor cuando esté conectado a la Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">La aplicación no seleccionará automáticamente este servidor basándose en la red Wi-Fi conectada</string>
@@ -385,6 +396,7 @@
     <string name="waiting_for_wifi">A la espera de Wi-Fi para establecer una conexión</string>
     <string name="visit_status_openhab_org">Visite status.openhab.org</string>
     <!-- Log -->
+    <string name="log">Log</string>
     <string name="view_log">Ver log</string>
     <string name="log_activity_action_clear_log">Borrar registro</string>
     <string name="log_activity_action_show_errors">Mostrar sólo errores</string>
@@ -406,6 +418,7 @@
     <string name="content_description_color_up">Encender, o mantener para aumentar el brillo</string>
     <string name="content_description_color_down">Apagar, o mantener para disminuir el brillo</string>
     <string name="content_description_open_number_picker">Abrir el selector de número</string>
+    <string name="content_description_video">Vídeo</string>
     <string name="content_description_open_openhab">Abrir openHAB</string>
     <string name="content_description_increase_item_value">Aumentar el valor del Item</string>
     <string name="content_description_decrease_item_value">Disminuir el valor del Item</string>
@@ -418,6 +431,7 @@
     <string name="intro_app_restored">Todos sus ajustes han sido restaurados, excepto las credenciales del servidor</string>
     <string name="intro_whatis">Un software de automatización de código abierto para tu hogar independiente del proveedor y de la tecnología</string>
     <string name="intro_voice_description">Controla tu hogar con tu voz</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">El control de un Item puede asociarse a etiquetas NFC haciendo una pulsación larga sobre dicho ítem</string>
     <string name="intro_quick_tile_description">Controla tu hogar desde los ajustes rápidos de tu dispositivo (el sitio donde se encuentran los interruptores de Wi-Fi y Bluetooth, entre otros)</string>
     <string name="intro_send_device_info">Enviar información del dispositivo al servidor</string>
@@ -450,6 +464,7 @@
     <string name="item_update_widget_content_description">Widget para cambiar el estado del Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleccione un Item</string>
     <string name="item_update_success_message_generic">%1$s se ha establecido a %2$s</string>
     <string name="item_update_success_message_on">%s ha sido activado</string>
@@ -492,6 +507,7 @@
     <string name="create_home_screen_widget_not_supported">Por favor, vaya al menú de widgets en su pantalla de inicio y cree un widget desde allí</string>
     <string name="item_update_widget_auto_generate_widget_label">Autogenerar etiqueta de widget</string>
     <string name="item_update_widget_widget_label">Etiqueta del widget</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
     <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
@@ -501,6 +517,7 @@
     <string name="data_saver_hint">%s no fue cargado para economizar datos</string>
     <string name="data_saver_snackbar">Los iconos no reflejan los estados de Item actuales, porque el ahorro de datos está activado</string>
     <string name="widget_type_image">Imagen</string>
+    <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfica</string>
@@ -537,6 +554,7 @@
     <string name="tile_label_12">Baldosa 12</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">icono de openHAB</string>
+    <string name="tile_icon_tv">TV</string>
     <string name="tile_icon_radio">Señal móvil</string>
     <string name="tile_icon_bulb">Bombilla</string>
     <string name="tile_icon_clock">Reloj</string>
@@ -558,6 +576,7 @@
     <string name="tile_icon_star">Estrella</string>
     <string name="tile_icon_tree">Árbol</string>
     <string name="tile_icon_dashboard">Cuadro de mandos</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Escudo</string>
     <string name="tile_icon_man">Hombre</string>
     <string name="tile_icon_bed">Cama</string>
