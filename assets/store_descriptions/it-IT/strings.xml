@@ -12,7 +12,7 @@
 
     <report_issues>Quando si verifica un problema, segnalalo nel forum o al https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Se vuoi aiutare a tradurre l'applicazione nella tua lingua, visita https://crowdin.com/project/openhab-android</translation>
-    <foundation/>
+    <foundation>openHAB Foundation</foundation>
     <about_foundation>openHAB Foundation e.V. è una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilità e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org</about_foundation>
     <important_note>Nota importante</important_note>
     <oh_server>Hai bisogno di un server openHAB per questa app.</oh_server>
