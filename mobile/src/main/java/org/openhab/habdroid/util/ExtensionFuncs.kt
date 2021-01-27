@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -35,6 +36,7 @@ import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
@@ -432,6 +434,17 @@ fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor:
         tv.data
     } else {
         fallbackColor
+    }
+}
+
+fun Context.isDarkModeActive(): Boolean {
+    return when (getPrefs().getDayNightMode(this)) {
+        AppCompatDelegate.MODE_NIGHT_NO -> false
+        AppCompatDelegate.MODE_NIGHT_YES -> true
+        else -> {
+            val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            currentNightMode != Configuration.UI_MODE_NIGHT_NO
+        }
     }
 }
 

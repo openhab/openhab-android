@@ -15,7 +15,6 @@ package org.openhab.habdroid.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -34,7 +33,6 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -52,8 +50,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
-import org.openhab.habdroid.util.getDayNightMode
-import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDarkModeActive
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     var callback: ParentCallback? = null
@@ -280,14 +277,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
         @JavascriptInterface
         fun preferDarkMode(): String {
-            val nightMode = when (context.getPrefs().getDayNightMode(context)) {
-                AppCompatDelegate.MODE_NIGHT_NO -> "light"
-                AppCompatDelegate.MODE_NIGHT_YES -> "dark"
-                else -> {
-                    val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                    if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) "light" else "dark"
-                }
-            }
+            val nightMode = if (context.isDarkModeActive()) "dark" else "light"
             Log.d(TAG, "preferDarkMode(): $nightMode")
             return nightMode
         }
