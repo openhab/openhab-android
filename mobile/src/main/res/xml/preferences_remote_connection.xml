@@ -29,4 +29,8 @@
         android:autofillHints="password"
         app:whitespaceBehavior="warn"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />
+    <org.openhab.habdroid.ui.preference.InfoPreference
+        android:key="api_token_hint"
+        app:infoUrl="https://www.openhab.org/docs/configuration/restdocs.html#authentication"
+        android:summary="@string/settings_openhab_api_token_hint" />
 </androidx.preference.PreferenceScreen>
