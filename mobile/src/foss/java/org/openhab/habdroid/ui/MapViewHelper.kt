@@ -32,6 +32,7 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.isDarkModeActive
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -42,6 +43,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.TilesOverlay
 
 object MapViewHelper {
     internal val TAG = MapViewHelper::class.java.simpleName
@@ -87,6 +89,7 @@ object MapViewHelper {
                         return false
                     }
                 }))
+                mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
             }
         }
 
@@ -146,6 +149,7 @@ object MapViewHelper {
                 setMultiTouchControls(true)
                 isVerticalMapRepetitionEnabled = false
                 overlays.add(CopyrightOverlay(itemView.context))
+                mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
                 onResume()
             }
             handler.post {
