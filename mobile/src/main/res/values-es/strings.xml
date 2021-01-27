@@ -27,6 +27,7 @@
     <string name="settings_openhab_password">Contraseña</string>
     <string name="settings_openhab_password_summary_weak">Contraseña poco segura</string>
     <string name="settings_openhab_password_summary_strong">Contraseña segura</string>
+    <string name="settings_openhab_api_token_hint">Si está usando un token de API, introdúzcalo en el campo nombre de usuario y deje el campo de contraseña vacío</string>
     <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Clic aquí para obtener sugerencias y explicaciones sobre cómo configurar la autenticación del certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Los certificados de cliente SSL no son compatibles con su dispositivo</string>
