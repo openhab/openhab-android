@@ -3,5 +3,6 @@
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- Name used for beta builds -->
+    <string name="app_name">openHAB Beta</string>
     <string name="tasker_item_picker_title">openHAB-Items Beta</string>
 </resources>

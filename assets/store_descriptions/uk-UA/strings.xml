@@ -4,23 +4,23 @@
     <whatis>openHAB - платформа домашньої автоматизації з відкритим початковим кодом, створена на базі Java і об'єднуюча велику кількість систем "розумного будинку" в монолітне рішення.</whatis>
     <rules>Поверх програмних шарів, усі під'єднані пристрої доступні для глобальних правил автоматизації і різноманітних користувацьких інтерфейсів.</rules>
     <supported>Підтримувані продукти</supported>
-    <bindings>  </bindings>
+    <bindings>Більше 200 додатків забезпечують підтримку пристроїв, технологій і протоколів передачі даних від різних виробників. Наприклад: Z-Wave, Philips Hue, Amazon Echo, Chromecast і Sonos. Відкрийте для себе усі доступні доповнення, підтримувані пристрої та/або функції на: https://www.openhab.org/addons/</bindings>
     <automation_apps>Застосунок включає додатки дій для Tasker і Locale.</automation_apps>
 
     <oss_community>Open Source спільнота</oss_community>
-    <forum>  </forum>
+    <forum>Ініціатори openHAB open source максимально підтримують свою спільноту. Форум, на якому зареєстровано більше 13 000 користувачів, є місцем для пошуку вказівок, допомоги та натхнення. Приєднуйтеся до спільноти openHAB на https://community.openhab.org</forum>
 
     <report_issues>Якщо знайдете помилку, будь ласка, повідомте про це на форумі, або на https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Якщо хочете перекласти програму своєю мовою - приєднуйтеся до нас на https://crowdin.com/project/openhab-android</translation>
-    <foundation/>
-    <about_foundation> </about_foundation>
+    <foundation>openHAB Foundation</foundation>
+    <about_foundation>openHAB Foundation - це неприбуткова організація, яка поставила собі за мету розповісти суспільству про можливості і переваги вільних і відкритих рішень "розумного будинку". Дізнайтеся більше про цілі і послуги openHAB Foundation на https://www.openhabfoundation.org</about_foundation>
     <important_note>Важлива примітка</important_note>
     <oh_server>Для цього застосунку Вам необхідний сервер openHAB.</oh_server>
     <short_description>Відкрите ПЗ для домашньої автоматизації, неупереджене до виробників і технологій</short_description>
-    <fdroid> </fdroid>
+    <fdroid>У версії для F-Droid, FCM і звіти про падіння видалені, тому ви не зможете отримувати push сповіщення від openHAB Cloud. Натомість, сповіщення перевіряються на регулярній основі в цих будівлях.</fdroid>
     <fdroid_beta><![CDATA[Ви можете встановити бета версію разом зі <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабільною версією</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Політика конфіденційності: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Спробуйте нові функції і залиште швидкий відгук!</beta>
     <play_beta>Ви можете встановити бета версію разом зі стабільною.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Виправлення помилок і поліпшення надійності. Будь ласка відвідайте https://github.com/openhab/openhab-android/releases для деталей змін.</changelog_play_beta>
 </strings>

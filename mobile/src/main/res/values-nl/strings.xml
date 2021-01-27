@@ -5,15 +5,25 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Instellingen</string>
     <string name="save">Opslaan</string>
+    <string name="discard">Negeer</string>
+    <string name="delete">Verwijder</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Instellingen</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">Notificaties</string>
+    <string name="app_notifications_on_server">Meldingen (%s)</string>
     <string name="habpanel_error">Er is een fout opgetreden tijdens het laden van HABPanel</string>
+    <string name="oh3_ui_error">Er is een fout opgetreden tijdens het laden van openHAB 3 UI</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindingsinstellingen</string>
     <string name="settings_display_title">Weergave Instellingen</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Overige Instellingen</string>
     <string name="settings_openhab_url">Lokale server URL</string>
     <string name="settings_openhab_url_summary">De URL van het dashboard van de openHAB (gebaseerd op hostnaam of IP). Indien geconfigureerd, is automatische detectie uitgeschakeld. Huidige instelling: %s</string>
@@ -30,11 +40,17 @@
     <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als de openHAB App actief is</string>
     <string name="settings_openhab_demomode">Demonstratiemodus</string>
     <string name="settings_openhab_demomode_summary">Als je geen openHAB server hebt, schakel dan de demo-modus in, om een idee te krijgen wat openHAB allemaal kan.</string>
+    <string name="drawer_entries">Zijmenu items</string>
     <string name="settings_openhab_theme">Thema</string>
     <string name="settings_accent_color">Accentkleur</string>
     <string name="settings_select_a_color">Selecteer een kleur</string>
     <string name="settings_openhab_fullscreen">Volledig scherm</string>
     <string name="settings_openhab_icon_format">Pictogramindeling</string>
+    <string name="settings_openhab_icon_format_png">Bitmap</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
+    <string name="settings_image_widget_scaling">Afbeeldingen aanpassen aan scherm</string>
+    <string name="settings_image_widget_scaling_summary_off">Behoud \'Image\' widgets die kleiner zijn dan de schermbreedte op hun oorspronkelijke grootte</string>
+    <string name="settings_image_widget_scaling_summary_on">Zorg ervoor dat \'Image\' widgets passen op de schermbreedte door ze omhoog of omlaag te schalen wanneer nodig</string>
     <string name="settings_chart_scaling">Grafiek schalen</string>
     <string name="settings_chart_scaling_summary">Opmerking: Kleiner schalen krimpt lettertypen en de breedte van de lijn, dus is er meer ruimte voor de grafiek, maar leesbaarheid zou er onder kunnen lijden.</string>
     <string name="settings_chart_scaling_value_xs">Zeer klein</string>
@@ -59,6 +75,7 @@
     <string name="settings_notification_ringtone_vibration">Beltoon &amp; Trillen</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
+    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Schermvergrendeling</string>
     <string name="settings_screen_lock_nolock_summary">Schakel schermvergrendeling op het apparaat in om toegang tot de app te vergrendelen</string>
     <string name="settings_screen_lock_off_summary">Toegang tot de app is niet vergrendeld</string>
@@ -70,6 +87,24 @@
     <string name="settings_screen_lock_kiosk">Kioskmodus</string>
     <string name="settings_screen_lock_on">Aan</string>
     <string name="settings_show_sitemaps_in_drawer">Toon alle Sitemaps in zijmenu</string>
+    <string name="settings_server_name">Servernaam</string>
+    <string name="settings_add_server">Server toevoegen</string>
+    <string name="settings_edit_server">Server bewerken</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Servernaam en minstens één verbinding is vereist</string>
+    <string name="settings_server_confirm_deletion">Weet je zeker dat je deze server wilt verwijderen?</string>
+    <string name="settings_server_confirm_leave_title">Niet opgeslagen wijzigingen</string>
+    <string name="settings_server_confirm_leave_message">Je hebt wijzigingen aangebracht. Wil je deze opslaan of negeren?</string>
+    <string name="settings_server_primary_title">Primaire server</string>
+    <string name="settings_server_primary_summary_is_primary">Deze server is de primaire server.\nMomenteel wordt alleen de primaire server ondersteund in alle functies van deze app. Gebruik de help-knop voor meer informatie.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" is de primaire server. Raak aan om deze server de primaire te maken.\nMomenteel wordt alleen de primaire server ondersteund in alle functies van deze app. Raak de help knop aan voor meer informatie.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">Tik hier voor meer informatie</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">De app selecteert deze server wanneer verbonden met Wi-Fi ‘%s\'</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">De app selecteert deze server niet automatisch op basis van het aangesloten wifi-netwerk</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Overgeschakeld naar server \"%s\" op basis van Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Kan Wi-Fi-naam niet lezen: Ontbrekende machtigingen</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Kan wifi-naam niet lezen: locatie is uitgeschakeld</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Spraakcommando\'s</string>
     <string name="voice_command">Spraakcommando</string>
@@ -85,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">Uw externe server is niet beschikbaar</string>
     <string name="app_shortcut_disabled_voice_recognition">Op dit apparaat is geen app voor spraakherkenning geïnstalleerd</string>
     <string name="no_position_set">Geen positie ingesteld</string>
+    <string name="show_and_copy_item_name">Item naam tonen en kopiëren</string>
+    <string name="copied_item_name">Gekopieerd \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
     <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
@@ -94,6 +131,8 @@
     <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
     <string name="error_invalid_https_url">Geef een correcte URL op in de \'https://host(:port)/\' vorm</string>
     <string name="error_port_seems_invalid">De ingevoerde poort lijkt ongeldig voor het geselecteerde protocol</string>
+    <string name="error_first_char_is_whitespace">Het eerste teken is een spatie, dit is waarschijnlijk niet gewenst</string>
+    <string name="error_last_char_is_whitespace">Het laatste teken is een spatie, dit is waarschijnlijk niet gewenst</string>
     <string name="error_connection_failed">Verbinding met host mislukt</string>
     <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
     <string name="error_unknown">Een onbekende fout is opgetreden: %s</string>
@@ -119,6 +158,8 @@
     <string name="error_http_code_507" tools:keep="@string/error_http_code_507">De openHAB-server heeft onvoldoende vrije ruimte (HTTP code %d)</string>
     <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Netwerkverificatie is vereist (HTTP code %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB is offline</string>
+    <string name="error_short_http_connection_failed">HTTP code %d</string>
     <string name="error_short_unable_to_resolve_hostname">Fout bij het opzoeken van hostnaam</string>
     <string name="error_short_unknown">Onbekende fout: %s</string>
     <string name="error_short_certificate_not_trusted">Certificaat niet vertrouwd</string>
@@ -138,6 +179,7 @@
     <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-clientcertificaat vereist (HTTP code %d)</string>
     <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Reverse proxy heeft een ongeldig antwoord ontvangen van openHAB (HTTP code %d)</string>
     <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB tijdelijk niet beschikbaar (HTTP code %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Niet genoeg vrije ruimte op de server (HTTP code %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Netwerkverificatie vereist (HTTP code %d)</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
@@ -155,6 +197,7 @@
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
     <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
     <string name="action_settings">Instellingen</string>
+    <string name="nfc_info_hint">Item updates kunnen naar NFC-tags worden geschreven. Selecteer hier een Item of druk lang op een widget in de Sitemap.</string>
     <string name="info_not_set">Niet ingesteld</string>
     <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
@@ -196,7 +239,10 @@
     <string name="settings_dnd_mode">Niet storen modus</string>
     <string name="settings_dnd_mode_summary_on">Verstuurd niet storen modus naar Item \'%1$s\'s</string>
     <string name="settings_dnd_mode_summary_off">Niet storen modus niet verzenden</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Deze functie vereist extra machtigingen. Na het inschakelen wordt u gevraagd om toestemming te verlenen.</string>
+    <string name="settings_background_tasks_permission_hint">Deze functie vereist extra machtigingen om. Na het inschakelen wordt u gevraagd om toestemming te verlenen. Zorg ervoor dat u de machtiging ook voor achtergrondgebruik goedkeurt, aangezien de Item updates ook gebeuren wanneer de app zich op de achtergrond bevindt.</string>
     <string name="settings_background_tasks_permission_denied">Sommige achtergrondtaken zijn uitgeschakeld vanwege ontbrekende machtigingen</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Sommige achtergrondtaken vereisen om locatietoegang in te stellen op \"%s\" in de Android-instellingen</string>
     <string name="settings_background_tasks_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
@@ -215,6 +261,10 @@
         <item quantity="one">%d nieuwe melding</item>
         <item quantity="other">%d nieuwe meldingen</item>
     </plurals>
+    <string name="push_notification_status_no_remote_configured">Meldingen zijn niet beschikbaar: de externe server is niet ingesteld</string>
+    <string name="push_notification_status_http_error">Meldingen zijn niet beschikbaar: Fout bij verbinden met externe server: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Meldingen zijn niet beschikbaar: Externe server is geen openHAB cloud</string>
+    <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">De meldingen worden opgevraagd volgens een schema, welke hetzelfde is als voor \"Apparaatinformatie naar server verzenden\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
@@ -480,12 +530,16 @@
     <string name="tile_icon_shield">Schild</string>
     <string name="tile_icon_man">Mens</string>
     <string name="tile_icon_child">Kind</string>
+    <string name="tile_icon_baby">Baby</string>
     <string name="tile_icon_settings">Tandwiel</string>
     <string name="tile_icon_bath">Bad</string>
     <string name="tile_icon_woman">Vrouw</string>
     <string name="tile_icon_roller_shutter">Rolluik</string>
+    <string name="tile_icon_camera">Camera</string>
     <string name="tile_icon_light_switch">Lichtschakelaar</string>
+    <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Schakelaar</string>
+    <string name="tile_icon_sofa">Sofa</string>
     <string name="tile_icon_lamp_ceiling">Plafondlamp</string>
     <string name="tile_icon_lamp_floor">Vloerlamp</string>
     <string name="tile_icon_lamp_bedside">Bedlamp</string>

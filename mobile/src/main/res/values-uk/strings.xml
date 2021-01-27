@@ -10,6 +10,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
     <string name="mainmenu_openhab_preferences">Налаштування</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">Інтерфейс openHAB 3</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">Інтерфейс openHAB 3</string>
     <string name="app_notifications">Сповіщення</string>
@@ -96,6 +98,7 @@
     <string name="settings_server_primary_title">Основний сервер</string>
     <string name="settings_server_primary_summary_is_primary">Цей сервер є основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Торкніться кнопки Довідка для отримання додаткової інформації.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" є основним сервером. Торкніться щоб зробити цей сервер основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Щоб дізнатися більше, торкніться кнопки довідки.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Програма вибере цей сервер при підключенні до точки Wi-Fi \'%s</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Додаток не буде автоматично обирати цей сервер на основі під\'єднаної Wi-Fi мережі</string>
@@ -375,6 +378,7 @@
     <string name="about_issues">Повідомити про проблему</string>
     <string name="about_docs">Документація</string>
     <string name="about_community_forum">Форум спільноти</string>
+    <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">Спільнота openHAB</string>
     <string name="about_translation">Допоможіть нам перекласти openHAB</string>
     <string name="about_privacy_policy">Політика конфіденційності</string>
@@ -430,6 +434,7 @@
     <string name="intro_app_restored">Більшість налаштувань відновлено, крім облікових даних</string>
     <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
     <string name="intro_voice_description">Керуйте будинком за допомогою голосу</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Елемент керування можна прив\'язати до NFC мітки довгим натисненням на цей елемент</string>
     <string name="intro_quick_tile_description">Керуйте своїм домівкою із швидких налаштувань пристрою (місце, в якому розміщені перемикачі, наприклад Wi-Fi і Bluetooth)</string>
     <string name="intro_send_device_info">Відправити інформацію про пристрій на ваш сервер</string>
@@ -462,6 +467,7 @@
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_content_description_edit">Редагувати віджет</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
     <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
     <string name="item_update_success_message_on">%s увімкнено</string>
@@ -504,6 +510,7 @@
     <string name="create_home_screen_widget_not_supported">Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти</string>
     <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
     <string name="item_update_widget_widget_label">Мітка віджета</string>
+    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Заощадження трафіку</string>
     <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
@@ -513,6 +520,7 @@
     <string name="data_saver_hint">%s не завантажено, щоб заощадити трафік</string>
     <string name="data_saver_snackbar">Значки не базуються на станах об’єктів, оскільки ввімкнено заощадження даних</string>
     <string name="widget_type_image">Зображення</string>
+    <string name="widget_type_webview">WebView</string>
     <string name="widget_type_video">Відео</string>
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Діаграма</string>
@@ -573,6 +581,7 @@
     <string name="tile_icon_star">Зірка</string>
     <string name="tile_icon_tree">Дерево</string>
     <string name="tile_icon_dashboard">Панель</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Щит</string>
     <string name="tile_icon_man">Чоловік</string>
     <string name="tile_icon_bed">Ліжко</string>
