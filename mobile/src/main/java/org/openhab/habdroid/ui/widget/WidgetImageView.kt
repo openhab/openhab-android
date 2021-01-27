@@ -33,6 +33,8 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDebugModeEnabled
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
@@ -333,6 +335,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                     lastRefreshTimestamp = SystemClock.uptimeMillis()
                     scheduleNextRefreshIfNeeded()
                 } catch (e: HttpClient.HttpException) {
+                    if (context.getPrefs().isDebugModeEnabled()) {
+                        Log.d(TAG, "Failed to load image, HTTP code ${e.statusCode}", e)
+                    }
                     removeProgressDrawable()
                     applyFallbackDrawable()
                 }

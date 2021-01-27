@@ -69,7 +69,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
     fun makeSse(url: HttpUrl, listener: EventSourceListener): EventSource {
         val request = Request.Builder()
             .url(url)
-            .addHeader("User-Agent", "openHAB client for Android")
+            .addHeader("User-Agent", USER_AGENT)
             .build()
         val client = this.client.newBuilder()
             .readTimeout(0, TimeUnit.SECONDS)
@@ -133,7 +133,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
     ) = suspendCancellableCoroutine<HttpResult> { cont ->
         val requestBuilder = Request.Builder()
             .url(buildUrl(url))
-            .addHeader("User-Agent", "openHAB client for Android")
+            .addHeader("User-Agent", USER_AGENT)
         if (headers != null) {
             for ((key, value) in headers) {
                 requestBuilder.addHeader(key, value)
@@ -247,5 +247,9 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
 
     companion object {
         const val DEFAULT_TIMEOUT_MS: Long = 30000
+        // Pretend to be Chrome on Android
+        const val USER_AGENT = "Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) " +
+            "AppleWebKit/535.19 (KHTML, like Gecko) " +
+            "Chrome/18.0.1025.133 Mobile Safari/535.19"
     }
 }

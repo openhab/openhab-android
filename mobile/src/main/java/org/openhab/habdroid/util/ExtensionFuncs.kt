@@ -147,7 +147,9 @@ enum class ImageConversionPolicy {
 fun ResponseBody.toBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
-            ?: throw IOException("Bitmap decoding failed")
+            ?: throw IOException(
+                "Bitmap with decoding failed: content type: ${contentType()}, length: ${contentLength()}"
+            )
         // Avoid overly huge bitmaps, as we both do not want their memory consumption and drawing those bitmaps
         // to a canvas will fail later anyway. The actual limitation threshold is more or less arbitrary; as of
         // Android 10 the OS side limit is 100 MB.
