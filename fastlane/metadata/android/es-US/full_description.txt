@@ -20,7 +20,7 @@ Si quiere traducir la aplicación a su idioma, únase a nosotros en https://crow
 
 <b>fundación openHAB</b>
 
-La openHAB Foundation e.V. es una organización sin ánimo de lucro cuya misión es difundir las posibilidades y ventajas de las soluciones libres y abiertas para los hogares inteligentes. Conozca la misión y los servicios de la fundación en https://www.openhabfoundation.org
+La openHAB Foundation e. V. es una organización sin ánimo de lucro cuya misión es difundir las posibilidades y ventajas de las soluciones libres y abiertas para los hogares inteligentes. Conozca la misión y los servicios de la fundación en https://www.openhabfoundation.org
 
 <b>Nota importante</b>
 

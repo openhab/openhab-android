@@ -9,18 +9,18 @@ Per sobre de la capa unificada d'abstracció, tots els dispositius connectats s�
 
 <b>Productes suportats</b>
 
-Més de 200 complements específics proporcionen suport per a diferents marques, dispositius, tecnologies i protocols de comunicació. Alguns exemples són Z-Wave, Philips Hue, Amazon Echo, Chromecast i Sonos. Descobriu tots els complements disponibles, i dispositius i funcions suportats a: https://www.openhab.org/addons/
+Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
 The app has an action plugin for Tasker and Locale included.
 
 <b>Comunitat de codi obert</b>
 
-La iniciativa de codi obert openHAB dona ferm suport a la seva vibrant comunitat. El fòrum, amb més de 13.000 usuaris registrats, és un lloc on trobar orientacions, ajuda i inspiració. Uniu-vos al fòrum de la comunitat openHAB a https://community.openhab.org
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
 Si trobeu un problema, informeu-nos en en el fòrem o a https://github.com/openhab/openhab-android/issues
 Si voleu traduir la aplicació a la vostra llengua, uniu-vos a https://crowdin.com/project/openhab-android
 
 <b>Fundació openHAB</b>
 
-La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany de lucre amb la missió d'educar al públic sobre la possibilitats i beneficis de les solucions lliures i obertes per a la domòtica i llars intel·ligents. Teniu més informació sobre la missió i els serveis de la fundació a https://www.openhabfoundation.org
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 
 <b>Nota important</b>
 

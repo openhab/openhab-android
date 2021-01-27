@@ -9,18 +9,18 @@ Ovanpå det enhetliga abstraktionslagret är alla anslutna enheter tillgängliga
 
 <b>Produkter som stöds</b>
 
-Över 200 tillägg ger support för varumärken, enheter, teknik och kommunikationsprotokoll. Exempel är Z-Wave, Philips Hue, Amazon Echo, Chromecast och Sonos. Upptäck alla tillgängliga tillägg och enheter som stöds och/eller fungerar på: https://www.openhab.org/addons/
+Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
 Appen har en inbyggd åtgärdsplugin för Tasker och Locale.
 
 <b>Öppen källkods-gemenskapen</b>
 
-Öppen källkods-initiativet openHAB är stark förespråkare för sitt levande community. Forumet med över 13 000 registrerade användare är ett ställe att hitta vägledning, hjälp och inspiration. Gå med i openHAB-forumet över på https://community.openhab.org
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
 När du hittar ett problem vänligen rapportera det i forumet eller på https://github.com/openhab/openhab-android/issues
 Om du vill översätta appen till ditt språk gå med oss på https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
-openHAB Foundation är en icke vinstdrivande organisation som har som mål att utbilda allmänheten kring möjligheterna och fördelarna med friga och öppna hemautomatiseringslösningar. Lär dig mer om uppdraget och tjänsterna på https://www.openhabfoundation.org
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 
 <b>Viktigt meddelande</b>
 

@@ -18,7 +18,7 @@ The openHAB open source initiative strongly supports its vibrant community. The 
 Когато намерите проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues
 If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
 
-<b>openHAB Foundation</b>
+<b>openHAB фондация</b>
 
 The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 

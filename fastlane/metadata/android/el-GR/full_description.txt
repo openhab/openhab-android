@@ -9,18 +9,18 @@ The builds on F-Droid have FCM and crash reporting removed and therefore won't b
 
 <b>Υποστηριζόμενα προϊόντα</b>
 
-Πάνω από 200 συγκεκριμένα πρόσθετα παρέχουν υποστήριξη για μάρκες, συσκευές, τεχνολογίες και πρωτόκολλα επικοινωνίας. Παραδείγματα είναι Z-Wave, Philips Hue, Amazon Echo, Chromecast και Sonos. Ανακαλύψτε όλα τα διαθέσιμα πρόσθετα και τις υποστηριζόμενες συσκευές ή/και λειτουργίες στο: https://www.openhab.org/addons/
+Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
 The app has an action plugin for Tasker and Locale included.
 
 <b>Κοινότητα Ανοικτού Λογισμικού</b>
 
-Η πρωτοβουλία ανοιχτού κώδικα του openHAB υποστηρίζει σθεναρά τη ζωντανή του κοινότητα. Το φόρουμ με πάνω από 13.000 εγγεγραμμένους χρήστες είναι ένα μέρος για να βρείτε καθοδήγηση, βοήθεια και έμπνευση. Γίνεται μέλη του φόρουμ της κοινότητας του openHAB στον σύνδεσμο https://community.openhab.org
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
 Όταν βρείτε ένα πρόβλημα παρακαλώ αναφέρετε το στο φόρουμ ή στο https://github.com/openhab/openhab-android/issues
 Εάν θέλετε να μεταφράσετε την εφαρμογή στην γλώσσα σας δηλώστε συμμετοχή στο https://crowdin.com/project/openhab-android
 
 <b>Ίδρυμα openHAB</b>
 
-Το ίδρυμα openHAB είναι ένας μη κερδοσκοπικός οργανισμός με στόχο την ενημέρωση του κοινού για τις δυνατότητες και τα οφέλη των ελεύθερων και ανοικτού λογισμικού λύσεων έξυπνου σπιτιού. Μάθετε περισσότερα για την αποστολή και τις υπηρεσίες του ιδρύματος στο σύνδεσμο https://www.openhabfoundation.org
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 
 <b>Σημαντική Σημείωση</b>
 
