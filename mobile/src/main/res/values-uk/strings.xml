@@ -33,6 +33,7 @@
     <string name="settings_openhab_password">Пароль</string>
     <string name="settings_openhab_password_summary_weak">Слабкий пароль</string>
     <string name="settings_openhab_password_summary_strong">Надійний пароль</string>
+    <string name="settings_openhab_api_token_hint">Якщо ви використовуєте токен API, введіть його в поле імені користувача і залиште поле пароля пустим</string>
     <string name="settings_openhab_sslclientcert">SSL сертифікат клієнта</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Натисніть тут, щоб отримати підказки та пояснення, щодо налаштування SSL сертифікату автентифікації клієнта</string>
     <string name="settings_openhab_sslclientcert_not_supported">Клієнтські сертифікати SSL не підтримуються вашим пристроєм</string>
