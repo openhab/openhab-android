@@ -1,5 +1,11 @@
 name: Validate Strings
-on: [push, pull_request]
+
+on:
+  push:
+    branches-ignore:
+      - l10n_main
+      - dependabot/*
+  pull_request:
 
 jobs:
   validate-strings:

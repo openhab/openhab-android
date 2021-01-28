@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - l10n_main
+      - dependabot/*
   pull_request:
     branches-ignore:
       - l10n_main
