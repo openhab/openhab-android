@@ -26,6 +26,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
@@ -254,7 +255,11 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             val info = BiometricPrompt.PromptInfo.Builder()
                 .setTitle(getString(R.string.app_name))
                 .setDescription(getString(descriptionResId))
-                .setDeviceCredentialAllowed(true)
+                .setAllowedAuthenticators(
+                    BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                        BiometricManager.Authenticators.BIOMETRIC_WEAK or
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                )
                 .build()
             contentView.isInvisible = true
             prompt.authenticate(info)
