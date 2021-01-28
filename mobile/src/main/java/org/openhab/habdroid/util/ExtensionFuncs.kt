@@ -99,7 +99,9 @@ fun String.obfuscate(clearTextCharCount: Int = 3): String {
 }
 
 fun String?.toNormalizedUrl(): String? {
-    this ?: return null
+    if (isNullOrEmpty()) {
+        return null
+    }
     return try {
         val url = this
             .replace("\n", "")
@@ -108,7 +110,7 @@ fun String?.toNormalizedUrl(): String? {
             .toString()
         if (url.endsWith("/")) url else "$url/"
     } catch (e: IllegalArgumentException) {
-        Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
+        Log.d(Util.TAG, "toNormalizedUrl(): Invalid URL '$this'")
         null
     }
 }
