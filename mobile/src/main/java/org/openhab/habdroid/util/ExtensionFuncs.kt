@@ -125,7 +125,7 @@ fun Uri?.openInBrowser(context: Context) {
         context.startActivity(intent)
     } else {
         Log.d(TAG, "Unable to open url in browser: $intent")
-        Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show()
+        context.showToast(R.string.error_no_browser_found, ToastType.ERROR)
     }
 }
 
