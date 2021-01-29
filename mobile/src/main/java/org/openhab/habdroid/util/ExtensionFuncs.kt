@@ -27,6 +27,7 @@ import android.net.Network
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
+import android.speech.RecognizerIntent
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
@@ -491,6 +492,9 @@ fun ServiceInfo.addToPrefs(context: Context) {
 }
 
 fun Intent.isResolvable(context: Context): Boolean {
+    if (action !in listOf(Intent.ACTION_VIEW, RecognizerIntent.ACTION_RECOGNIZE_SPEECH)) {
+        throw IllegalArgumentException("Intent action $action isn't in manifest")
+    }
     return context.packageManager.queryIntentActivities(this, 0).isNotEmpty()
 }
 

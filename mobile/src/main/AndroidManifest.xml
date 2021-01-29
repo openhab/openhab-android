@@ -31,6 +31,12 @@
     <queries>
         <package android:name="net.dinglisch.android.taskerm" />
         <package android:name="com.twofortyfouram.locale" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+        </intent>
+        <intent>
+            <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
+        </intent>
     </queries>
 
     <application
