@@ -215,7 +215,13 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         updateViewVisibility(error = false, loading = true)
 
         val webView = webView ?: return
-        val url = conn.httpClient.buildUrl(urlToLoad)
+        var url = conn.httpClient.buildUrl(urlToLoad)
+
+        if (url.host == "myopenhab.org") {
+            url = url.newBuilder()
+                .host("home.myopenhab.org")
+                .build()
+        }
 
         webView.setUpForConnection(conn, url) { progress ->
             if (progress == 100) {
