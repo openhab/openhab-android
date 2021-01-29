@@ -265,7 +265,12 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         internalLoad = false
     }
 
-    private fun applyFallbackDrawable() {
+    fun applyFallbackDrawable() {
+        if (originalScaleType == null) {
+            originalScaleType = scaleType
+            super.setScaleType(ScaleType.CENTER)
+            super.setAdjustViewBounds(false)
+        }
         super.setImageDrawable(fallback)
     }
 

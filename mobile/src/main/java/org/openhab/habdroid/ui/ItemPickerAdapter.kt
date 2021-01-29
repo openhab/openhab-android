@@ -127,7 +127,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
                     timeoutMillis = 2000
                 )
             } else {
-                iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
+                iconView.applyFallbackDrawable()
             }
         }
     }

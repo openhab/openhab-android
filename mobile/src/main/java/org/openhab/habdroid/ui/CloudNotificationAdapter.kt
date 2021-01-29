@@ -118,7 +118,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                     timeoutMillis = 2000
                 )
             } else {
-                iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
+                iconView.applyFallbackDrawable()
             }
             severityView.text = notification.severity
             severityView.isGone = notification.severity.isNullOrEmpty()
