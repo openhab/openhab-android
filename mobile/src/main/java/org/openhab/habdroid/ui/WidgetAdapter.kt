@@ -636,9 +636,13 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         private val parent: ViewGroup,
         connection: Connection
-    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection) {
+    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection), View.OnClickListener {
         private val imageView = widgetContentView as WidgetImageView
         private val prefs = imageView.context.getPrefs()
+
+        init {
+            imageView.setOnClickListener(this)
+        }
 
         override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
             return widget.url == null ||
@@ -679,6 +683,15 @@ class WidgetAdapter(
 
         override fun onStop() {
             imageView.cancelRefresh()
+        }
+
+        override fun onClick(v: View?) {
+            val context = v?.context ?: return
+            boundWidget?.let {
+                val intent = Intent(context, FullscreenImageActivity::class.java)
+                intent.putExtra(FullscreenImageActivity.WIDGET, it)
+                context.startActivity(intent)
+            }
         }
     }
 
