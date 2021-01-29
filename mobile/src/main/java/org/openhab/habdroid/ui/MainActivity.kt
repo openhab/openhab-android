@@ -897,6 +897,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             inServerSelectionMode = false
         }
 
+        drawerModeSelectorContainer.isVisible = connection !is DemoConnection
         updateServerNameInDrawer()
         updateDrawerItemVisibility()
     }
