@@ -72,6 +72,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
+import org.openhab.habdroid.util.Util.TAG
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
@@ -123,6 +124,7 @@ fun Uri?.openInBrowser(context: Context) {
     if (intent.isResolvable(context)) {
         context.startActivity(intent)
     } else {
+        Log.d(TAG, "Unable to open url in browser: $intent")
         Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show()
     }
 }
