@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - technológia független nyílt forráskódú okosotthon vezérlő szoftver
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből. Ehelyett az értesítések rendszeresen lekérdezésre kerülnek ezekből az összeállításokból.
 Próbáld ki az új funkciókat és adj korai visszajelzést!
 A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.
 
@@ -9,18 +9,18 @@ Az egyes eszközök fölött található, mely így összefogja, és vezérli il
 
 <b>Támogatott termékek</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+A különböző gyártók eszközeit, technológiáit és kommunikációs protokolljait kétszáznál több kiegészítővel kezelheti. Például a Z-Wave, a Philips Hue, az Amazon Echo, a Chromecast és a Sonos. Fedezze fel az összes rendelkezésre álló bővítményt és támogatott eszközt és / vagy funkciót a következő címen: https://www.openhab.org/addons/
 Az alkalmazás rendelkezik eseménykezelő bővítménnyel a Tasker és a Locale számára.
 
 <b>Nyílt forráskódú közösség</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. Különböző leírásokat, segítséget és inspriációt nyerhet fórumunk több, mint 13,000 regisztrált felhasználójától. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni
 Amikor találsz valamilyen hibát vagy hiányosságot, kérlek jelezd a fórumon vagy a https://github.com/openhab/openhab-android/issues internet oldalon
 Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz hozzánk https://crowdin.com/project/openhab-android
 
 <b>openHAB alapítvány</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org
 
 <b>Fontos megjegyzés</b>
 
