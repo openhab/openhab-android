@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui
 
 import android.Manifest
 import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -123,7 +124,6 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isEventListenerEnabled
-import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.putActiveServerId
@@ -1172,9 +1172,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun launchVoiceRecognition() {
         val speechIntent = BackgroundTasksManager.buildVoiceRecognitionIntent(this, false)
-        if (speechIntent.isResolvable(this)) {
+        try {
             startActivity(speechIntent)
-        } else {
+        } catch (e: ActivityNotFoundException) {
             showSnackbar(
                 SNACKBAR_TAG_NO_VOICE_RECOGNITION_INSTALLED,
                 R.string.error_no_speech_to_text_app_found,
