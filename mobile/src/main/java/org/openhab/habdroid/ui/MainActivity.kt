@@ -890,14 +890,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
         configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
 
-        if (configs.size > 1) {
+        if (configs.size > 1 && connection !is DemoConnection) {
             drawerModeSelectorContainer.isVisible = true
         } else {
             drawerModeSelectorContainer.isGone = true
             inServerSelectionMode = false
         }
 
-        drawerModeSelectorContainer.isVisible = connection !is DemoConnection
         updateServerNameInDrawer()
         updateDrawerItemVisibility()
     }
