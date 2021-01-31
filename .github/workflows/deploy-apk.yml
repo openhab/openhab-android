@@ -40,6 +40,9 @@ jobs:
           fi
           echo "Use $releaseFlavor"
           echo "releaseFlavor=$releaseFlavor"   >> $GITHUB_ENV
+
+      - name: Setup Google API Key
+        run: echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
           
       - name: Build APK
         run: bash gradlew :mobile:assembleFull${{ env.releaseFlavor }}Release
