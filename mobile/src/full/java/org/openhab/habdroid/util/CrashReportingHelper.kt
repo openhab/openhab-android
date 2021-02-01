@@ -13,18 +13,24 @@
 
 package org.openhab.habdroid.util
 
+import android.app.Application
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.openhab.habdroid.BuildConfig
 
-object RemoteLog {
-    private val TAG = RemoteLog::class.java.simpleName
+object CrashReportingHelper {
+    private val TAG = CrashReportingHelper::class.java.simpleName
 
-    fun initialize() {
+    fun initialize(@Suppress("UNUSED_PARAMETER") app: Application) {
         val outdatedBuildMillis = BuildConfig.TIMESTAMP + (6L * 30 * 24 * 60 * 60 * 1000) // 6 months after build
         val isOutdated = outdatedBuildMillis < System.currentTimeMillis()
         Log.d(TAG, "Crashlytics status: isDebug ${BuildConfig.DEBUG}, isOutdated $isOutdated")
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG && !isOutdated)
+    }
+
+    // Only required for ACRA
+    fun isCrashReporterProcess(): Boolean {
+        return false
     }
 
     fun d(tag: String, message: String, remoteOnly: Boolean = false) {

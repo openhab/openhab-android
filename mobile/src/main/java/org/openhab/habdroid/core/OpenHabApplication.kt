@@ -33,8 +33,8 @@ import androidx.security.crypto.MasterKeys
 import java.security.InvalidKeyException
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.DataUsagePolicy
-import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
@@ -77,7 +77,13 @@ class OpenHabApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        RemoteLog.initialize()
+        if (CrashReportingHelper.isCrashReporterProcess()) {
+            // No initialization of the app required
+            Log.d(TAG, "Skip onCreate()")
+            return
+        }
+
+        CrashReportingHelper.initialize(this)
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))
         ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
@@ -112,7 +118,7 @@ class OpenHabApplication : MultiDexApplication() {
                     return
                 }
                 Log.e("DataAudit", "Tag: $tag, Operation: $opCode\nStacktrace: $trace")
-                RemoteLog.nonFatal(DataAccessException("Tag: $tag, Operation: $opCode\nStacktrace: $trace"))
+                CrashReportingHelper.nonFatal(DataAccessException("Tag: $tag, Operation: $opCode\nStacktrace: $trace"))
             }
 
             override fun onNoted(syncNotedAppOp: SyncNotedAppOp) {
