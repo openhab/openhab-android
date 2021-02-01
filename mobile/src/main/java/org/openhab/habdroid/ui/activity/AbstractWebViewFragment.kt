@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui.activity
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -30,13 +29,9 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.TextView
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.drawable.IconCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
@@ -44,26 +39,50 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.core.connection.DemoConnection
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
+import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.isDarkModeActive
 
-class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
-    var callback: ParentCallback? = null
+abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
-    private lateinit var urlToLoad: String
-    private lateinit var urlForError: String
-    private var shortcutInfo: ShortcutInfoCompat? = null
+    private var callback: ParentCallback? = null
     private var actionBar: ActionBar? = null
     var isStackRoot = false
         private set
+    var title: String? = null
+        private set
 
-    val title: String
-        get() = requireArguments().getString(KEY_PAGE_TITLE)!!
+    abstract val titleRes: Int
+    abstract val multiServerTitleRes: Int
+    abstract val urlToLoad: String
+    abstract val urlForError: String
+    abstract val shortcutInfo: ShortcutInfoCompat
+    abstract val errorMessageRes: Int
+
+    fun init(activity: MainActivity, callback: ParentCallback, isStackRoot: Boolean) {
+        this.callback = callback
+        this.isStackRoot = isStackRoot
+
+        val prefs = activity.getPrefs()
+        val activeServerId = prefs.getActiveServerId()
+        title = if (prefs.getConfiguredServerIds().size <= 1 || activity.connection is DemoConnection) {
+            activity.getString(titleRes)
+        } else {
+            val activeServerName = ServerConfiguration.load(prefs, activity.getSecretPrefs(), activeServerId)?.name
+            activity.getString(multiServerTitleRes, activeServerName)
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_webview, container, false)
@@ -77,31 +96,12 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         actionBar = (activity as? MainActivity)?.supportActionBar
 
-        val args = requireArguments()
         webView = view.findViewById(R.id.webview)
-        urlToLoad = args.getString(KEY_URL_LOAD) as String
-        urlForError = args.getString(KEY_URL_ERROR) as String
-        val action = args.getString(KEY_SHORTCUT_ACTION)
-        val extraServerId = args.getInt(KEY_SHORTCUT_EXTRA_SERVER_ID)
-        val label = args.getString(KEY_SHORTCUT_LABEL)
-        isStackRoot = args.getBoolean(KEY_IS_STACK_ROOT)
-        @DrawableRes val icon = args.getInt(KEY_SHORTCUT_ICON_RES)
-        action?.let {
-            val context = view.context
-            val intent = Intent(context, MainActivity::class.java)
-                .putExtra(MainActivity.EXTRA_SERVER_ID, extraServerId)
-                .setAction(action)
-            shortcutInfo = ShortcutInfoCompat.Builder(context, action)
-                .setShortLabel(label!!)
-                .setIcon(IconCompat.createWithResource(context, icon))
-                .setIntent(intent)
-                .build()
-        }
 
         val retryButton = view.findViewById<Button>(R.id.retry_button)
         retryButton.setOnClickListener { loadWebsite() }
         val error = view.findViewById<TextView>(R.id.empty_message)
-        error.text = getString(args.getInt(KEY_ERROR))
+        error.text = getString(errorMessageRes)
 
         if (savedInstanceState != null) {
             webView?.restoreState(savedInstanceState)
@@ -137,7 +137,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if (shortcutInfo != null && ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
+        if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
             inflater.inflate(R.menu.webview_menu, menu)
         }
     }
@@ -154,8 +154,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
     private fun pinShortcut() = GlobalScope.launch {
         val context = context ?: return@launch
-        val info = shortcutInfo ?: return@launch
-        val success = ShortcutManagerCompat.requestPinShortcut(context, info, null)
+        val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         withContext(Dispatchers.Main) {
             if (success) {
                 (activity as? MainActivity)?.showSnackbar(
@@ -215,13 +214,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         updateViewVisibility(error = false, loading = true)
 
         val webView = webView ?: return
-        var url = conn.httpClient.buildUrl(urlToLoad)
-
-        if (url.host == "myopenhab.org") {
-            url = url.newBuilder()
-                .host("home.myopenhab.org")
-                .build()
-        }
+        val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
 
         webView.setUpForConnection(conn, url) { progress ->
             if (progress == 100) {
@@ -256,6 +249,10 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         webView.loadUrl(url.toString())
     }
 
+    open fun modifyUrl(orig: HttpUrl): HttpUrl {
+        return orig
+    }
+
     private fun updateViewVisibility(error: Boolean, loading: Boolean) {
         webView?.isVisible = !error
         view?.findViewById<View>(android.R.id.empty)?.isVisible = error
@@ -275,7 +272,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
     }
 
-    open class OHAppInterface(private val context: Context, private val fragment: WebViewFragment) {
+    open class OHAppInterface(private val context: Context, private val fragment: AbstractWebViewFragment) {
         @JavascriptInterface
         fun preferTheme(): String {
             return "md" // Material design
@@ -308,7 +305,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
     class OHAppInterfaceWithPin(
         context: Context,
-        private val fragment: WebViewFragment
+        private val fragment: AbstractWebViewFragment
     ) : OHAppInterface(context, fragment) {
         @JavascriptInterface
         fun pinToHome() {
@@ -318,44 +315,9 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     companion object {
-        private val TAG = WebViewFragment::class.java.simpleName
+        private val TAG = AbstractWebViewFragment::class.java.simpleName
 
         private const val KEY_CURRENT_URL = "url"
-        private const val KEY_PAGE_TITLE = "page_title"
-        private const val KEY_ERROR = "error"
-        private const val KEY_URL_LOAD = "url_load"
-        private const val KEY_URL_ERROR = "url_error"
-        private const val KEY_IS_STACK_ROOT = "is_stack_root"
-        private const val KEY_SHORTCUT_ACTION = "shortcut_action"
-        private const val KEY_SHORTCUT_EXTRA_SERVER_ID = "shortcut_extra_server_id"
-        private const val KEY_SHORTCUT_LABEL = "shortcut_label"
-        private const val KEY_SHORTCUT_ICON_RES = "shortcut_icon_res"
-
-        fun newInstance(
-            pageTitle: String,
-            @StringRes errorMessage: Int,
-            urlToLoad: String,
-            urlForError: String,
-            serverId: Int,
-            isStackRoot: Boolean,
-            shortcutAction: String? = null,
-            shortcutLabel: String,
-            shortcutIconRes: Int = 0
-        ): WebViewFragment {
-            val f = WebViewFragment()
-            f.arguments = bundleOf(
-                KEY_PAGE_TITLE to pageTitle,
-                KEY_ERROR to errorMessage,
-                KEY_URL_LOAD to urlToLoad,
-                KEY_URL_ERROR to urlForError,
-                KEY_IS_STACK_ROOT to isStackRoot,
-                KEY_SHORTCUT_ACTION to shortcutAction,
-                KEY_SHORTCUT_EXTRA_SERVER_ID to serverId,
-                KEY_SHORTCUT_LABEL to shortcutLabel,
-                KEY_SHORTCUT_ICON_RES to shortcutIconRes
-            )
-            return f
-        }
     }
 
     interface ParentCallback {

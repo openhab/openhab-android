@@ -45,9 +45,7 @@ import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.LinkedPage
-import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.Widget
@@ -58,11 +56,8 @@ import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.getActiveServerId
-import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
 
@@ -73,7 +68,7 @@ import org.openhab.habdroid.util.openInBrowser
  * The layout of the content area is up to the respective subclasses.
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
-    PageConnectionHolderFragment.ParentCallback, WebViewFragment.ParentCallback {
+    PageConnectionHolderFragment.ParentCallback, AbstractWebViewFragment.ParentCallback {
     protected val fm: FragmentManager = activity.supportFragmentManager
 
     private var noConnectionFragment: Fragment? = null
@@ -97,7 +92,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         noConnectionFragment != null -> null
         temporaryPage is CloudNotificationListFragment ->
             (temporaryPage as CloudNotificationListFragment).getTitle(activity)
-        temporaryPage is WebViewFragment -> (temporaryPage as WebViewFragment).title
+        temporaryPage is AbstractWebViewFragment -> (temporaryPage as AbstractWebViewFragment).title
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
     }
@@ -261,27 +256,12 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean) {
-        val prefs = activity.getPrefs()
-        val activeServerId = prefs.getActiveServerId()
-        val title = if (prefs.getConfiguredServerIds().size <= 1 || activity.connection is DemoConnection) {
-            activity.getString(ui.titleRes)
-        } else {
-            val activeServerName = ServerConfiguration.load(prefs, activity.getSecretPrefs(), activeServerId)?.name
-            activity.getString(ui.multiServerTitleRes, activeServerName)
-        }
-
-        val webViewFragment = WebViewFragment.newInstance(
-            title,
-            ui.errorRes,
-            ui.urlToLoad,
-            ui.urlForError,
-            activeServerId,
-            isStackRoot,
-            ui.shortcutAction,
-            title,
-            ui.shortcutIconRes
+        val webViewFragment = ui.fragment.newInstance()
+        webViewFragment.init(
+            activity,
+            this,
+            isStackRoot
         )
-        webViewFragment.callback = this
         showTemporaryPage(webViewFragment)
     }
 
@@ -410,7 +390,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @return true if back key can be consumed, false otherwise
      */
     fun canGoBack(): Boolean {
-        val tempPageAsWebView = temporaryPage as? WebViewFragment
+        val tempPageAsWebView = temporaryPage as? AbstractWebViewFragment
         return if (tempPageAsWebView?.isStackRoot == true) {
             return tempPageAsWebView.canGoBack()
         } else {
@@ -425,13 +405,13 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @return true if back key was consumed, false otherwise
      */
     fun goBack(): Boolean {
-        if (temporaryPage is WebViewFragment) {
-            if ((temporaryPage as WebViewFragment).goBack()) {
+        if (temporaryPage is AbstractWebViewFragment) {
+            if ((temporaryPage as AbstractWebViewFragment).goBack()) {
                 return true
             }
         }
         if (temporaryPage != null) {
-            if ((temporaryPage as? WebViewFragment)?.isStackRoot == true) {
+            if ((temporaryPage as? AbstractWebViewFragment)?.isStackRoot == true) {
                 return false
             }
             temporaryPage = null
