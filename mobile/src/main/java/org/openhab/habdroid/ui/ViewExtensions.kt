@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.content.Intent
 import android.os.Build
 import android.os.Message
 import android.view.View
@@ -26,11 +25,9 @@ import androidx.annotation.AttrRes
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.HttpUrl
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.resolveThemedColor
 
@@ -76,14 +73,12 @@ fun WebView.setUpForConnection(connection: Connection, url: HttpUrl, progressCal
 }
 
 fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {
-    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
     val contentDescription = context.getString(contentDescriptionRes)
-    if (intent.isResolvable(context)) {
-        setOnClickListener { context.startActivity(intent) }
-        this.contentDescription = contentDescription
-        TooltipCompat.setTooltipText(this, contentDescription)
-    } else {
-        isVisible = false
+    this.contentDescription = contentDescription
+    TooltipCompat.setTooltipText(this, contentDescription)
+
+    setOnClickListener {
+        url.toUri().openInBrowser(context)
     }
 }
 

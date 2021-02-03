@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.util
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -123,9 +124,9 @@ fun Uri?.openInBrowser(context: Context) {
         return
     }
     val intent = Intent(Intent.ACTION_VIEW, this)
-    if (intent.isResolvable(context)) {
+    try {
         context.startActivity(intent)
-    } else {
+    } catch (e: ActivityNotFoundException) {
         Log.d(TAG, "Unable to open url in browser: $intent")
         context.showToast(R.string.error_no_browser_found, ToastType.ERROR)
     }
@@ -368,9 +369,9 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
 
 fun Context.openInAppStore(app: String) {
     val intent = Intent(Intent.ACTION_VIEW, "market://details?id=$app".toUri())
-    if (intent.isResolvable(this)) {
+    try {
         startActivity(intent)
-    } else {
+    } catch (e: ActivityNotFoundException) {
         "http://play.google.com/store/apps/details?id=$app".toUri().openInBrowser(this)
     }
 }
@@ -492,10 +493,6 @@ fun ServiceInfo.addToPrefs(context: Context) {
         null
     )
     config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
-}
-
-fun Intent.isResolvable(context: Context): Boolean {
-    return context.packageManager.queryIntentActivities(this, 0).isNotEmpty()
 }
 
 /**
