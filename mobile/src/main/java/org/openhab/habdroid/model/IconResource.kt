@@ -29,7 +29,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
 @Parcelize
-class IconResource internal constructor(
+data class IconResource internal constructor(
     internal val icon: String,
     internal val isOh2: Boolean,
     internal val customState: String?
