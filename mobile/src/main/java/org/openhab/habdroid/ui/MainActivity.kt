@@ -1309,7 +1309,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         if (missingPermissions.isNotEmpty()) {
-            Log.d(TAG, "At least one permission for background tasks have been denied")
+            Log.d(TAG, "At least one permission for background tasks has been denied")
             showSnackbar(
                 SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSIONS,
                 R.string.settings_background_tasks_permission_denied,
