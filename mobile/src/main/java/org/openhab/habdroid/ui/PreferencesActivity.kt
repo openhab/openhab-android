@@ -20,6 +20,7 @@ import android.app.KeyguardManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
@@ -1083,7 +1084,9 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
-    internal class SendDeviceInfoSettingsFragment : AbstractSettingsFragment() {
+    internal class SendDeviceInfoSettingsFragment :
+        AbstractSettingsFragment(),
+        SharedPreferences.OnSharedPreferenceChangeListener {
         override val titleResId: Int @StringRes get() = R.string.send_device_info_to_server_short
         private lateinit var phoneStatePref: ItemUpdatingPreference
         private lateinit var wifiSsidPref: ItemUpdatingPreference
@@ -1131,21 +1134,23 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            BackgroundTasksManager.KNOWN_PERIODIC_KEYS.forEach { key ->
-                findPreference<Preference>(key)?.setOnPreferenceChangeListener { preference, _ ->
-                    EventListenerService.startOrStopService(preference.context)
-                    true
-                }
-            }
             BackgroundTasksManager.KNOWN_KEYS.forEach { key ->
                 findPreference<ItemUpdatingPreference>(key)?.startObserving(this)
             }
+
+            prefs.registerOnSharedPreferenceChangeListener(this)
 
             val prefix = prefs.getPrefixForBgTasks()
             prefixHint.summary = if (prefix.isEmpty()) {
                 prefixHint.context.getString(R.string.send_device_info_item_prefix_summary_not_set)
             } else {
                 prefixHint.context.getString(R.string.send_device_info_item_prefix_summary, prefix)
+            }
+        }
+
+        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+            if (key in BackgroundTasksManager.KNOWN_PERIODIC_KEYS) {
+                EventListenerService.startOrStopService(requireContext())
             }
         }
 
@@ -1160,7 +1165,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             var permissionsToRequest = permissions
                 ?.filter { !context.hasPermissions(arrayOf(it)) }
                 ?.toTypedArray()
-            if (value.first && permissionsToRequest != null && !context.hasPermissions(permissionsToRequest)) {
+            if (value.first && !permissionsToRequest.isNullOrEmpty() && !context.hasPermissions(permissionsToRequest)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
                     permissionsToRequest.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                 ) {
@@ -1188,7 +1193,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     }
                 }
 
-                Log.d(TAG, "Request $permissionsToRequest permission")
+                Log.d(TAG, "Request ${permissionsToRequest.contentToString()} permission")
                 requestPermissions(permissionsToRequest, requestCode)
             }
         }
