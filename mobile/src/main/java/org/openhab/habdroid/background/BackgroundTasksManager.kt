@@ -53,6 +53,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -60,6 +61,7 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefixForBgTasks
@@ -490,7 +492,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 return
             }
 
-            val value = VALUE_GETTER_MAP[key]?.invoke(context) ?: return
+            val attributionContext = Util.createAttributionContext(
+                context,
+                OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO
+            )
+
+            val value = VALUE_GETTER_MAP[key]?.invoke(attributionContext) ?: return
             val prefix = prefs.getPrefixForBgTasks()
 
             enqueueItemUpload(
