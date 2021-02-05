@@ -62,8 +62,6 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.LabelFormatter
@@ -1082,13 +1080,11 @@ class WidgetAdapter(
         }
 
         override fun createDataSource(): DataSource {
-            val dataSource = DefaultHttpDataSource(
-                "openHAB client for Android",
-                DEFAULT_CONNECT_TIMEOUT_MILLIS,
-                DEFAULT_READ_TIMEOUT_MILLIS,
-                true,
-                null
-            )
+            val dataSource = DefaultHttpDataSource.Factory()
+                .setUserAgent(HttpClient.USER_AGENT)
+                .setAllowCrossProtocolRedirects(true)
+                .createDataSource()
+
             connection.httpClient.authHeader?.let { dataSource.setRequestProperty("Authorization", it) }
             return dataSource
         }
