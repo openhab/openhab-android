@@ -57,12 +57,4 @@ object Util {
         Log.d(TAG, "Device is emulator: $isEmulator")
         return isEmulator
     }
-
-    fun createAttributionContext(context: Context, tag: String): Context {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            context.createAttributionContext(tag)
-        } else {
-            context
-        }
-    }
 }

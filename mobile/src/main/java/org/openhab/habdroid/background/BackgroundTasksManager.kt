@@ -61,7 +61,6 @@ import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
-import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getBackgroundTaskScheduleInMillis
 import org.openhab.habdroid.util.getPrefixForBgTasks
@@ -73,6 +72,7 @@ import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.withAttribution
 
 class BackgroundTasksManager : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -492,11 +492,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 return
             }
 
-            val attributionContext = Util.createAttributionContext(
-                context,
-                OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO
-            )
-
+            val attributionContext = context.withAttribution(OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO)
             val value = VALUE_GETTER_MAP[key]?.invoke(attributionContext) ?: return
             val prefix = prefs.getPrefixForBgTasks()
 
