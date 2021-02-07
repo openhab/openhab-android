@@ -13,14 +13,10 @@
 
 package org.openhab.habdroid.util
 
-import android.content.Context
 import android.os.Build
 import android.util.Log
-import androidx.annotation.StyleRes
-import androidx.core.content.ContextCompat
 import java.util.Locale
 import org.openhab.habdroid.BuildConfig
-import org.openhab.habdroid.R
 
 object Util {
     val TAG: String = Util::class.java.simpleName
@@ -29,19 +25,6 @@ object Util {
     val isFlavorBeta get() = !isFlavorStable
     val isFlavorFull get() = BuildConfig.FLAVOR.toLowerCase(Locale.ROOT).contains("full")
     val isFlavorFoss get() = !isFlavorFull
-
-    @StyleRes
-    fun getActivityThemeId(context: Context): Int {
-        val prefs = context.getPrefs()
-        val isBlackTheme = prefs.getStringOrNull(PrefKeys.THEME) == context.getString(R.string.theme_value_black)
-        return when (prefs.getInt(PrefKeys.ACCENT_COLOR, 0)) {
-            ContextCompat.getColor(context, R.color.indigo_500) ->
-                if (isBlackTheme) R.style.openHAB_Black_basicui else R.style.openHAB_DayNight_basicui
-            ContextCompat.getColor(context, R.color.blue_grey_700) ->
-                if (isBlackTheme) R.style.openHAB_Black_grey else R.style.openHAB_DayNight_grey
-            else -> if (isBlackTheme) R.style.openHAB_Black_orange else R.style.openHAB_DayNight_orange
-        }
-    }
 
     fun isEmulator(): Boolean {
         val isEmulator = Build.FINGERPRINT.startsWith("generic") ||
