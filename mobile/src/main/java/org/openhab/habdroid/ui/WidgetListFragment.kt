@@ -134,7 +134,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         registerForContextMenu(recyclerView)
 
         refreshLayout = view.findViewById(R.id.swiperefresh)
-        refreshLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+        refreshLayout.applyColors()
         refreshLayout.recyclerView = recyclerView
         refreshLayout.setOnRefreshListener {
             activity.showRefreshHintSnackbarIfNeeded()

@@ -56,7 +56,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
         chart = findViewById(R.id.chart)
         swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+        swipeLayout.applyColors()
 
         density = resources.configuration.densityDpi
 
