@@ -474,6 +474,14 @@ fun Context.getCurrentWifiSsid(): String? {
     }
 }
 
+fun Context.withAttribution(tag: String): Context {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        createAttributionContext(tag)
+    } else {
+        this
+    }
+}
+
 fun Socket.bindToNetworkIfPossible(network: Network?) {
     try {
         network?.bindSocket(this)

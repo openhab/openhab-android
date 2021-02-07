@@ -106,27 +106,34 @@ class OpenHabApplication : MultiDexApplication() {
         class DataAccessException(message: String) : Exception(message)
 
         val appOpsCallback = object : AppOpsManager.OnOpNotedCallback() {
-            private fun logPrivateDataAccess(opCode: String, trace: String) {
-                Log.e("DataAudit", "Operation: $opCode\nStacktrace: $trace")
-                RemoteLog.nonFatal(DataAccessException("Operation: $opCode\nStacktrace: $trace"))
+            private fun logPrivateDataAccess(tag: String?, opCode: String, trace: String) {
+                if (tag in DATA_ACCESS_TAGS) {
+                    // Known access, don't report it
+                    return
+                }
+                Log.e("DataAudit", "Tag: $tag, Operation: $opCode\nStacktrace: $trace")
+                RemoteLog.nonFatal(DataAccessException("Tag: $tag, Operation: $opCode\nStacktrace: $trace"))
             }
 
             override fun onNoted(syncNotedAppOp: SyncNotedAppOp) {
                 logPrivateDataAccess(
+                    syncNotedAppOp.attributionTag,
                     syncNotedAppOp.op,
-                    Throwable().stackTrace.toString()
+                    Throwable().stackTraceToString()
                 )
             }
 
             override fun onSelfNoted(syncNotedAppOp: SyncNotedAppOp) {
                 logPrivateDataAccess(
+                    syncNotedAppOp.attributionTag,
                     syncNotedAppOp.op,
-                    Throwable().stackTrace.toString()
+                    Throwable().stackTraceToString()
                 )
             }
 
             override fun onAsyncNoted(asyncNotedAppOp: AsyncNotedAppOp) {
                 logPrivateDataAccess(
+                    asyncNotedAppOp.attributionTag,
                     asyncNotedAppOp.op,
                     asyncNotedAppOp.message
                 )
@@ -186,5 +193,10 @@ class OpenHabApplication : MultiDexApplication() {
 
     companion object {
         private val TAG = OpenHabApplication::class.java.simpleName
+
+        const val DATA_ACCESS_TAG_SEND_DEV_INFO = "SEND_DEV_INFO"
+        val DATA_ACCESS_TAGS = listOf(
+            DATA_ACCESS_TAG_SEND_DEV_INFO
+        )
     }
 }
