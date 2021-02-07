@@ -99,6 +99,7 @@ import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.widget.LockableDrawerLayout
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
@@ -131,7 +132,7 @@ import org.openhab.habdroid.util.updateDefaultSitemap
 class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private lateinit var prefs: SharedPreferences
     private var serviceResolveJob: Job? = null
-    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var drawerLayout: LockableDrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var drawerMenu: Menu
     private lateinit var drawerModeSelectorContainer: View
@@ -1234,9 +1235,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     fun setDrawerLocked(locked: Boolean) {
-        drawerLayout.setDrawerLockMode(
-            if (locked) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED
-        )
+        drawerLayout.isSwipeDisabled = locked
     }
 
     private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
