@@ -40,7 +40,7 @@ import kotlinx.coroutines.asExecutor
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getActivityThemeId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
 import org.openhab.habdroid.util.resolveThemedColor
@@ -59,7 +59,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(Util.getActivityThemeId(this))
+        setTheme(getActivityThemeId())
 
         val colorPrimary = resolveThemedColor(R.attr.colorPrimary)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

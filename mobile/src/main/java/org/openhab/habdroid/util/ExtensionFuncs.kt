@@ -37,6 +37,7 @@ import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -452,6 +453,17 @@ fun Context.isDarkModeActive(): Boolean {
             val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
             currentNightMode != Configuration.UI_MODE_NIGHT_NO
         }
+    }
+}
+
+@StyleRes fun Context.getActivityThemeId(): Int {
+    val isBlackTheme = getPrefs().getStringOrNull(PrefKeys.THEME) == getString(R.string.theme_value_black)
+    return when (getPrefs().getInt(PrefKeys.ACCENT_COLOR, 0)) {
+        ContextCompat.getColor(this, R.color.indigo_500) ->
+            if (isBlackTheme) R.style.openHAB_Black_basicui else R.style.openHAB_DayNight_basicui
+        ContextCompat.getColor(this, R.color.blue_grey_700) ->
+            if (isBlackTheme) R.style.openHAB_Black_grey else R.style.openHAB_DayNight_grey
+        else -> if (isBlackTheme) R.style.openHAB_Black_orange else R.style.openHAB_DayNight_orange
     }
 }
 

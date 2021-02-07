@@ -34,6 +34,7 @@ import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getActivityThemeId
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.openInBrowser
 
@@ -189,7 +190,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         }
 
         override fun getTheme(): Int {
-            return Util.getActivityThemeId(requireContext())
+            return requireContext().getActivityThemeId()
         }
 
         companion object {
