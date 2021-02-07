@@ -1,6 +1,8 @@
 openHAB - "העצמת הבית החכם" - אוטומצית הבית החכם לאנשים וחברות בראייה טכנולוגית מתקדמת מבוסס קוד פתוח
 
 The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+נסה תכונות חדשות וספר לנו מה דעתך!
+באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.
 
 openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד פתוח מבוססת Java, המשלבת מגוון רחב של מערכות וטכנולוגיות ביתיות חכמות לפתרון אחד.
 קיימת אפשרות לבצע אוטומציה, להגדיר כללים וממשקי משתמש שונים ומגוונים על גבי שכבת הרכיבים המחוברים.

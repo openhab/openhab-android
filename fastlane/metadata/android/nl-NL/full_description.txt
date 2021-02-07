@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software
 
 De builds op F-Droid hebben geen ondersteuning voor FCM en crash rapportage, en kunnen geen push-meldingen ontvangen van openHAB Cloud. In plaats daarvan worden in deze versie meldingen regelmatig opgevraagd bij de server.
+Probeer nieuwe functies uit en geef alvast feedback!
+U kunt de beta-versie installeer samen met de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiele versie</a>.
 
 openHAB is een Java gebaseerd open-source domotica platform dat een breed scala aan verschillende smart home systemen en technologieën integreert en combineert in één enkele oplossing.
 Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.
