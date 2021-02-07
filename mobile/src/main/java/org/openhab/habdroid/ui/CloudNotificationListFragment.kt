@@ -75,7 +75,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
         swipeLayout = view.findViewById(R.id.swipe_container)
         swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+        swipeLayout.applyColors()
 
         retryButton = view.findViewById(R.id.retry_button)
         retryButton.setOnClickListener(this)

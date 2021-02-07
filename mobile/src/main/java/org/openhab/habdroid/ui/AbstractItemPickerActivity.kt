@@ -92,7 +92,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
         swipeLayout = findViewById(R.id.swipe_refresh)
         swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+        swipeLayout.applyColors()
 
         recyclerView = findViewById(android.R.id.list)
         emptyView = findViewById(android.R.id.empty)

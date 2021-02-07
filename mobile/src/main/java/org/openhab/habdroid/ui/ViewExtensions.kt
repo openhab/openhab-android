@@ -21,24 +21,23 @@ import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import android.widget.ImageView
 import android.widget.RemoteViews
-import androidx.annotation.AttrRes
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.HttpUrl
+import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.resolveThemedColor
 
 /**
- * Sets [SwipeRefreshLayout] color scheme from
- * a list of attributes pointing to color resources
- *
- * @param colorAttrIds color attributes to create color scheme from
+ * Sets [SwipeRefreshLayout] color scheme according to colorPrimary and colorAccent
  */
-fun SwipeRefreshLayout.applyColors(@AttrRes vararg colorAttrIds: Int) {
-    val colors = colorAttrIds.map { attr -> context.resolveThemedColor(attr) }.toIntArray()
+fun SwipeRefreshLayout.applyColors() {
+    val colors = listOf(R.attr.colorPrimary, R.attr.colorAccent)
+        .map { attr -> context.resolveThemedColor(attr) }
+        .toIntArray()
     setColorSchemeColors(*colors)
 }
 

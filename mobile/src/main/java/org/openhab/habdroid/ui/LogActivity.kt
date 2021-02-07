@@ -61,7 +61,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         scrollView = findViewById(R.id.scrollview)
         swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+        swipeLayout.applyColors()
 
         fab.setOnClickListener {
             val sendIntent = Intent().apply {
