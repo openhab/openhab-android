@@ -34,11 +34,21 @@ class BetaPreference constructor(context: Context, attrs: AttributeSet) : Prefer
         if (holder != null) {
             betaTag = holder.itemView.findViewById(R.id.beta_tag)
             betaTag?.isGone = !showBetaTag
+            updateDisabledState()
         }
+    }
+
+    override fun notifyDependencyChange(disableDependents: Boolean) {
+        super.notifyDependencyChange(disableDependents)
+        updateDisabledState()
     }
 
     fun setBetaTagVisibility(show: Boolean) {
         showBetaTag = show
         betaTag?.isGone = !showBetaTag
+    }
+
+    private fun updateDisabledState() {
+        betaTag?.background?.alpha = if (shouldDisableDependents()) 50 else 255
     }
 }
