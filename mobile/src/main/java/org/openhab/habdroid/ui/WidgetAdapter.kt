@@ -19,12 +19,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Base64
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -659,9 +657,7 @@ class WidgetAdapter(
 
             if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
                 val dataString = value.substring(value.indexOf(",") + 1)
-                val data = Base64.decode(dataString, Base64.DEFAULT)
-                val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-                imageView.setImageBitmap(bitmap)
+                imageView.setBase64EncodedImage(dataString)
             } else if (widget.url != null) {
                 imageView.setImageUrl(connection, widget.url, refreshDelayInMs = widget.refresh)
             } else {
