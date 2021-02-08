@@ -586,6 +586,8 @@ class WidgetAdapter(
                     }
                 }
 
+                slider.isTickVisible = stepCount <= 12
+
                 Log.d(
                     TAG,
                     "Slider: valueFrom = ${slider.valueFrom}, valueTo = ${slider.valueTo}, " +
