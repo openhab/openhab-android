@@ -289,10 +289,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             editPendingIntent: PendingIntent?,
             data: ItemUpdateWidgetData
         ): RemoteViews {
-            val views = RemoteViews(
-                context.packageName,
-                if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update
-            )
+            val layout = when {
+                data.widgetLabel.isNullOrEmpty() -> R.layout.widget_item_update_no_text
+                smallWidget -> R.layout.widget_item_update_text_small
+                else -> R.layout.widget_item_update_text
+            }
+            val views = RemoteViews(context.packageName, layout)
             views.setOnClickPendingIntent(R.id.outer_layout, itemUpdatePendingIntent)
             views.setOnClickPendingIntent(R.id.edit, editPendingIntent)
             val widgetLabel = data.widgetLabel
