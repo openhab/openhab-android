@@ -274,6 +274,7 @@
     <string name="settings_background_tasks_permission_denied">Some background tasks have been disabled due to missing permissions</string>
     <string name="settings_background_tasks_permission_denied_background_location">Some background tasks require location access to be set to \"%s\" in the Android settings</string>
     <string name="settings_background_tasks_permission_allow">Allow</string>
+    <string name="settings_location_permissions_required">This app collects location data to enable \"Sending Wi-Fi name to server\" and \"Selecting server based on Wi-Fi\" even when the app is closed or not in use. Please note that this data is only sent to the servers you have configured.</string>
     <string name="settings_item_pref_item_name">Item name</string>
     <string name="waiting_for_item_upload">Waiting for network to send Item updates</string>
     <string name="item_upload_in_progress">Items are currently being updated</string>
