@@ -1,5 +1,5 @@
----
-layout: documentation
+-متجرالت التطبيقات منصةشليله 
+التخطيط: الوثائق
 title: Android App
 source: https://github.com/openhab/openhab-android/blob/main/docs/USAGE.md
 ---
