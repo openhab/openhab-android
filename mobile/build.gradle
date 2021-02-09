@@ -155,6 +155,7 @@ dependencies {
     implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
     implementation "com.github.AppIntro:AppIntro:6.0.0"
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     // MapView support
     fullImplementation "com.google.android.gms:play-services-maps:17.0.0"
     fossImplementation "org.osmdroid:osmdroid-android:6.1.6"
