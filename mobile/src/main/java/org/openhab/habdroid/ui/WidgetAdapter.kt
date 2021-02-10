@@ -109,7 +109,7 @@ class WidgetAdapter(
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
     val hasVisibleWidgets: Boolean
-        get() = items.any { widget -> isWidgetIncludingAllParentsVisible(widget) }
+        get() = items.any { widget -> shouldShowWidget(widget) }
 
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence
@@ -257,7 +257,7 @@ class WidgetAdapter(
         }
     }
 
-    private tailrec fun isWidgetIncludingAllParentsVisible(widget: Widget): Boolean {
+    private tailrec fun shouldShowWidget(widget: Widget): Boolean {
         if (!widget.visibility) {
             return false
         }
@@ -270,11 +270,11 @@ class WidgetAdapter(
             }
         }
         val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
-        return isWidgetIncludingAllParentsVisible(parent)
+        return shouldShowWidget(parent)
     }
 
     private fun getItemViewType(widget: Widget): Int {
-        if (!isWidgetIncludingAllParentsVisible(widget)) {
+        if (!shouldShowWidget(widget)) {
             return TYPE_INVISIBLE
         }
         return when (widget.type) {
