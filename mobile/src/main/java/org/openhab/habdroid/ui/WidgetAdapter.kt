@@ -262,10 +262,12 @@ class WidgetAdapter(
             return false
         }
         if (widget.type == Widget.Type.Frame) {
-            // Hide frames with no visible children
-            return items
+            val hasVisibleChildren = items
                 .filter { it.parentId == widget.id }
                 .any { it.visibility }
+            if (!hasVisibleChildren) {
+                return false
+            }
         }
         val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
         return isWidgetIncludingAllParentsVisible(parent)
