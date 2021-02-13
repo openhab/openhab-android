@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.KeyguardManager
@@ -62,7 +61,6 @@ import java.util.BitSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.BackgroundTasksManager.Companion.buildWorkerTagForServer
@@ -99,7 +97,6 @@ import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
-import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -1099,9 +1096,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_WIFI_SSID) as ItemUpdatingPreference
 
-            phoneStatePref.setOnPreferenceChangeListener { preference, newValue ->
-                requestPermissionIfRequired(
-                    preference.context,
+            phoneStatePref.setOnPreferenceChangeListener { _, newValue ->
+                requestPermissionIfEnabled(
                     newValue,
                     BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_PHONE_STATE),
                     PERMISSIONS_REQUEST_FOR_CALL_STATE
@@ -1112,9 +1108,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 wifiSsidPref.setSummaryOn(getString(R.string.settings_wifi_ssid_summary_on_location_on))
             }
-            wifiSsidPref.setOnPreferenceChangeListener { preference, newValue ->
-                requestPermissionIfRequired(
-                    preference.context,
+            wifiSsidPref.setOnPreferenceChangeListener { _, newValue ->
+                requestPermissionIfEnabled(
                     newValue,
                     BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID),
                     PERMISSIONS_REQUEST_FOR_WIFI_NAME
@@ -1154,47 +1149,14 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
-        private fun requestPermissionIfRequired(
-            context: Context,
+        private fun requestPermissionIfEnabled(
             newValue: Any?,
             permissions: Array<String>?,
             requestCode: Int
         ) {
             @Suppress("UNCHECKED_CAST")
-            val value = newValue as Pair<Boolean, String>
-            var permissionsToRequest = permissions
-                ?.filter { !context.hasPermissions(arrayOf(it)) }
-                ?.toTypedArray()
-            if (value.first && !permissionsToRequest.isNullOrEmpty() && !context.hasPermissions(permissionsToRequest)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
-                    permissionsToRequest.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                ) {
-                    if (permissionsToRequest.size > 1) {
-                        Log.d(TAG, "Remove background location from permissions to request")
-                        permissionsToRequest = permissionsToRequest.toMutableList().apply {
-                            remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                        }.toTypedArray()
-                    } else {
-                        parentActivity.showSnackbar(
-                            SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION,
-                            getString(
-                                R.string.settings_background_tasks_permission_denied_background_location,
-                                parentActivity.packageManager.backgroundPermissionOptionLabel
-                            ),
-                            Snackbar.LENGTH_LONG,
-                            android.R.string.ok
-                        ) {
-                            Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
-                                putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
-                                startActivity(this)
-                            }
-                        }
-                        return
-                    }
-                }
-
-                Log.d(TAG, "Request ${permissionsToRequest.contentToString()} permission")
-                requestPermissions(permissionsToRequest, requestCode)
+            if ((newValue as Pair<Boolean, String>).first) {
+                parentActivity.requestPermissionsIfRequired(permissions, requestCode)
             }
         }
 

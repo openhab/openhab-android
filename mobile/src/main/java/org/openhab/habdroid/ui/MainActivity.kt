@@ -49,7 +49,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
@@ -574,8 +573,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     R.string.settings_multi_server_wifi_ssid_missing_permissions,
                     actionResId = R.string.settings_background_tasks_permission_allow
                 ) {
-                    ActivityCompat.requestPermissions(
-                        this,
+                    requestPermissionsIfRequired(
                         arrayOf(requiredPermission),
                         REQUEST_CODE_PERMISSIONS
                     )
@@ -1315,8 +1313,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 R.string.settings_background_tasks_permission_denied,
                 actionResId = R.string.settings_background_tasks_permission_allow
             ) {
-                ActivityCompat.requestPermissions(
-                    this,
+                requestPermissionsIfRequired(
                     missingPermissions.toTypedArray(),
                     REQUEST_CODE_PERMISSIONS
                 )
