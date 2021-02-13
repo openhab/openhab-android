@@ -1,0 +1,3 @@
+## Changed
+* Hide frames with no visible children (#2447)
+* Play Store compliant location permission requests (#2446)
