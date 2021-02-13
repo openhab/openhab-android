@@ -70,17 +70,22 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     abstract val shortcutInfo: ShortcutInfoCompat
     abstract val errorMessageRes: Int
 
-    fun init(activity: MainActivity, callback: ParentCallback, isStackRoot: Boolean) {
+    fun init(callback: ParentCallback) {
         this.callback = callback
-        this.isStackRoot = isStackRoot
+    }
 
-        val prefs = activity.getPrefs()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val prefs = context.getPrefs()
         val activeServerId = prefs.getActiveServerId()
-        title = if (prefs.getConfiguredServerIds().size <= 1 || activity.connection is DemoConnection) {
-            activity.getString(titleRes)
+        title = if (
+            prefs.getConfiguredServerIds().size <= 1 ||
+            ConnectionFactory.activeUsableConnection?.connection is DemoConnection
+        ) {
+            context.getString(titleRes)
         } else {
-            val activeServerName = ServerConfiguration.load(prefs, activity.getSecretPrefs(), activeServerId)?.name
-            activity.getString(multiServerTitleRes, activeServerName)
+            val activeServerName = ServerConfiguration.load(prefs, context.getSecretPrefs(), activeServerId)?.name
+            context.getString(multiServerTitleRes, activeServerName)
         }
     }
 
@@ -97,6 +102,8 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         actionBar = (activity as? MainActivity)?.supportActionBar
 
         webView = view.findViewById(R.id.webview)
+
+        isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
 
         val retryButton = view.findViewById<Button>(R.id.retry_button)
         retryButton.setOnClickListener { loadWebsite() }
@@ -318,6 +325,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         private val TAG = AbstractWebViewFragment::class.java.simpleName
 
         private const val KEY_CURRENT_URL = "url"
+        const val KEY_IS_STACK_ROOT = "is_stack_root"
     }
 
     interface ParentCallback {
