@@ -43,8 +43,8 @@ import okhttp3.sse.EventSources
 class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val client: OkHttpClient
     private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
-    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
-        Credentials.basic(username, password, StandardCharsets.UTF_8) else null
+    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty())
+        Credentials.basic(username, password.orEmpty(), StandardCharsets.UTF_8) else null
 
     init {
         val clientBuilder = client.newBuilder()
