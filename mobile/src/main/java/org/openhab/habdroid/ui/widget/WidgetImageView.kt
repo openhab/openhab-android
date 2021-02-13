@@ -363,7 +363,7 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                     scheduleNextRefreshIfNeeded()
                 } catch (e: HttpClient.HttpException) {
                     if (context.getPrefs().isDebugModeEnabled()) {
-                        Log.d(TAG, "Failed to load image, HTTP code ${e.statusCode}", e)
+                        Log.d(TAG, "Failed to load image '$url', HTTP code ${e.statusCode}", e)
                     }
                     removeProgressDrawable()
                     applyFallbackDrawable()
