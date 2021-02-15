@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - open source program pro domácí automatizaci IoT zařízení od různých výrobců s různou technologií
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+Sestavení F-Droid má FCM a hlášení o pádech bylo odstraněno, a proto nebude moci přijímat push oznámení z openHAB Cloudu. Namísto toho jsou oznámení získávána v pravidelných intervalech.
 Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!
 Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.
 
@@ -9,18 +9,18 @@ Všechna připojená zařízení je možné spravovat, ovládat a automatizovat 
 
 <b>Podporované produkty</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+Více než 200 doplňků poskytuje podporu pro značky, zařízení, technologie a komunikační protokoly. Příkladem jsou Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/
 Aplikace obsahuje action plugin pro Tasker a Locale.
 
 <b>Open Source komunita</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org
 Případné nalezené chyby či problémy nahlaste prosím, ve fóru nebo v https://github.com/openhab/openhab-android/issues
 Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
 
 <b>Důležitá poznámka</b>
 
