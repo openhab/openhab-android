@@ -43,6 +43,8 @@ import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import org.openhab.habdroid.testUtils.Retry
+import org.openhab.habdroid.testUtils.RetryRule
 import org.openhab.habdroid.util.PrefKeys
 
 class ConnectionFactoryTest {
@@ -69,6 +71,10 @@ class ConnectionFactoryTest {
     @JvmField
     val tempFolder = TemporaryFolder()
 
+    @Rule
+    @JvmField
+    val retry = RetryRule()
+
     private lateinit var mockContext: Context
     private lateinit var mockPrefs: SharedPreferences
     private val mockConnectionHelper = MockConnectionHelper()
@@ -76,10 +82,10 @@ class ConnectionFactoryTest {
     @Before
     @Throws(IOException::class)
     fun setup() {
-        val cacheFolder = tempFolder.newFolder("cache")
+        val cacheFolder = tempFolder.newFolder()
         val appDir = tempFolder.newFolder()
 
-        mockPrefs = mock() {
+        mockPrefs = mock {
             on { getStringSet(eq(PrefKeys.SERVER_IDS), anyOrNull()) } doReturn setOf("1")
             on { getInt(eq(PrefKeys.ACTIVE_SERVER_ID), any()) } doReturn 1
         }
@@ -96,6 +102,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     @Throws(IOException::class)
     fun testGetConnectionRemoteWithUrl() {
         val server = MockWebServer()
@@ -113,6 +120,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetConnectionRemoteWithoutUrl() {
         fillInServers(remote = "")
         updateAndWaitForConnections()
@@ -122,6 +130,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetConnectionLocalWithUrl() {
         fillInServers(local = "https://openhab.local:8080")
         updateAndWaitForConnections()
@@ -134,6 +143,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetConnectionLocalWithoutUrl() {
         fillInServers(local = "")
         updateAndWaitForConnections()
@@ -143,6 +153,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     @Throws(IOException::class)
     fun testGetConnectionCloudWithUrl() {
         val server = MockWebServer()
@@ -164,6 +175,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetAnyConnectionNoNetwork() {
         mockConnectionHelper.update(null)
         updateAndWaitForConnections()
@@ -174,6 +186,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetConnectionUnknownNetwork() {
         fillInServers("https://openhab.local:8080", "https://openhab.local:8080")
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(null))
@@ -186,6 +199,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetAnyConnectionWifiRemoteOnly() {
         val server = MockWebServer()
         server.enqueue(MockResponse().setResponseCode(404))
@@ -208,6 +222,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetAnyConnectionWifiLocalRemote() {
         val server = MockWebServer()
         server.enqueue(MockResponse().setResponseCode(404))
@@ -230,6 +245,7 @@ class ConnectionFactoryTest {
     }
 
     @Test
+    @Retry
     fun testGetAnyConnectionWifiNoLocalNoRemote() {
         fillInServers(null, null)
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(null))
