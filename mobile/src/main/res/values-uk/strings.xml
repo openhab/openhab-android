@@ -245,6 +245,7 @@
     <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
     <string name="settings_background_tasks_permission_denied_background_location">Деякі фонові задачі вимагають, щоб місцезнаходження було \"%s\" у налаштуваннях Android</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
+    <string name="settings_location_permissions_required">Цей додаток збирає дані про місцезнаходження, щоб ввімкнути \"Надсилання імені Wi-Fi до сервера\" і \"Вибір сервера на основі Wi-Fi\" навіть тоді, коли додаток закритий чи не використовується. Будь ласка, зверніть увагу, що ці дані відправляються лише на сервери, які ви налаштували.</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
     <string name="item_upload_in_progress">Об\'єкти зараз оновлюються</string>
