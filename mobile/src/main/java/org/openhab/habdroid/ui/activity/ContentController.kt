@@ -184,6 +184,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
         temporaryPage = fm.getFragment(state, STATE_KEY_TEMPORARY_PAGE)
         noConnectionFragment = fm.getFragment(state, STATE_KEY_ERROR_FRAGMENT)
+
+        updateConnectionState()
     }
 
     /**

@@ -297,7 +297,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         }
 
         private fun handleResponse(response: String, headers: Headers) {
-            val id = headers.get("X-Atmosphere-tracking-id")
+            val id = headers["X-Atmosphere-tracking-id"]
             if (id != null) {
                 atmosphereTrackingId = id
             }
