@@ -173,7 +173,7 @@ dependencies {
     implementation "com.github.GrenderG:Toasty:1.4.2"
     testImplementation "org.mockito:mockito-core:3.7.7"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-    testImplementation "junit:junit:4.13.1"
+    testImplementation "junit:junit:4.13.2"
     testImplementation "org.json:json:20201115"
     testImplementation "org.reflections:reflections:0.9.12"
     testImplementation "com.squareup.okhttp3:mockwebserver:$ok_http_version"
