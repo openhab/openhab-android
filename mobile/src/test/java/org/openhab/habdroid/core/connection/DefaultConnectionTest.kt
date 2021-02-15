@@ -116,6 +116,7 @@ class DefaultConnectionTest {
 
     @Test
     fun testAuthHeader() {
+        // Triple of username, password and whether the app should send credentials
         val credentials = listOf(
             Triple("user", "password", true),
             Triple("user", "", true),
