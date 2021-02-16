@@ -245,6 +245,7 @@
     <string name="settings_background_tasks_permission_denied">Některé úlohy na pozadí byly zakázány kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_denied_background_location">Některé úlohy na pozadí vyžadují nastavení přístupu k poloze na \"%s\" v nastavení Androidu</string>
     <string name="settings_background_tasks_permission_allow">Povolit</string>
+    <string name="settings_location_permissions_required">Tato aplikace shromažďuje lokalizační data, aby mohla odeslat název Wi-Fi na server a vybírat server na základě Wi-Fi a to i v případě, že je aplikace vypnuta nebo není používána. Tato data jsou odesílána pouze na servery, které jste nakonfigurovali.</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
     <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
     <string name="item_upload_in_progress">Items se právě aktualizují</string>
