@@ -1,7 +1,7 @@
 commit_message: >
   New translations %original_file_name% (%language%)
 
-  Signed-off-by: openhab-bot <bot@openhab.org>
+  Signed-off-by: mueller-ma <mueller-ma@users.noreply.github.com>
 append_commit_message: false
 files:
   - source: /mobile/src/main/res/values/strings.xml
