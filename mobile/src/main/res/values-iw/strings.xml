@@ -10,6 +10,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">ממשק openHAB 3</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">ממשק openHAB 3 (%s)</string>
     <string name="app_notifications">התראות</string>
@@ -31,6 +33,7 @@
     <string name="settings_openhab_password">סיסמה</string>
     <string name="settings_openhab_password_summary_weak">סיסמא חלשה</string>
     <string name="settings_openhab_password_summary_strong">סיסמא חזקה</string>
+    <string name="settings_openhab_api_token_hint">אם הנך משתמש ב-API token, הזן אותו בשדה שם המשתמש והשאר את שדה הסיסמה ריק</string>
     <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">אישורי לקוח SSL אינם נתמכים על ידי המכשיר שלך</string>
@@ -96,6 +99,7 @@
     <string name="settings_server_primary_title">שרת ראשי</string>
     <string name="settings_server_primary_summary_is_primary">שרת זה הוא הראשי.\n נכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">היישומון יבחר בשרת זה כאשר יש חיבור ל- Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">היישומון לא יבחר באופן אוטומטי בשרת זה על סמך חיבור לרשת Wi-Fi</string>
@@ -241,6 +245,7 @@
     <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_denied_background_location">חלק מהתהליכים הפועלים ברקע דורשים גישה למיקום שיוגדר ל״%s״ בהגדרות אנדרואיד</string>
     <string name="settings_background_tasks_permission_allow">אפשר</string>
+    <string name="settings_location_permissions_required">יישום זה אוסף נתוני מיקום כדי לאפשר \"שליחת שם Wi-Fi לשרת\" ו\"בחירת שרת על בסיס Wi-Fi\" גם כאשר האפליקציה סגורה או אינה בשימוש. לידיעתך, נתונים אלה נשלחים לשרתים שהגדרת.</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
     <string name="item_upload_in_progress">הפריטים מתעדכנים כעת</string>
@@ -464,6 +469,7 @@
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
     <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>
