@@ -9,6 +9,7 @@ buildscript {
     ext.powermock_version = '2.0.9'
     ext.espresso_version = '3.3.0'
     ext.exoplayer_version = '2.13.0'
+    ext.acra_version = '5.7.0'
 
     repositories {
         mavenCentral()
@@ -164,6 +165,8 @@ dependencies {
     fullImplementation "com.google.firebase:firebase-messaging:20.3.0"
     // Crash reporting
     fullImplementation "com.google.firebase:firebase-crashlytics:17.3.1"
+    fossImplementation "ch.acra:acra-mail:$acra_version"
+    fossImplementation "ch.acra:acra-notification:$acra_version"
 
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"

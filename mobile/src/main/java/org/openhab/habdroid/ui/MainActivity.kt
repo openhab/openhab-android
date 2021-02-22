@@ -80,6 +80,7 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
@@ -103,7 +104,6 @@ import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.RemoteLog
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.addToPrefs
@@ -159,12 +159,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        RemoteLog.d(TAG, "onNewIntent()")
+        CrashReportingHelper.d(TAG, "onNewIntent()")
         processIntent(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        RemoteLog.d(TAG, "onCreate()")
+        CrashReportingHelper.d(TAG, "onCreate()")
 
         prefs = getPrefs()
 
@@ -248,20 +248,20 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
-        RemoteLog.d(TAG, "onPostCreate()")
+        CrashReportingHelper.d(TAG, "onPostCreate()")
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
-        RemoteLog.d(TAG, "onConfigurationChanged()")
+        CrashReportingHelper.d(TAG, "onConfigurationChanged()")
         super.onConfigurationChanged(newConfig)
         drawerToggle.onConfigurationChanged(newConfig)
     }
 
     override fun onStart() {
-        RemoteLog.d(TAG, "onStart()")
+        CrashReportingHelper.d(TAG, "onStart()")
         super.onStart()
         isStarted = true
 
@@ -285,7 +285,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     public override fun onStop() {
-        RemoteLog.d(TAG, "onStop()")
+        CrashReportingHelper.d(TAG, "onStop()")
         isStarted = false
         super.onStop()
         ConnectionFactory.removeListener(this)
@@ -298,7 +298,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onResume() {
-        RemoteLog.d(TAG, "onResume()")
+        CrashReportingHelper.d(TAG, "onResume()")
         super.onResume()
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -321,7 +321,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onPause() {
-        RemoteLog.d(TAG, "onPause()")
+        CrashReportingHelper.d(TAG, "onPause()")
         super.onPause()
         retryJob?.cancel(CancellationException("onPause() was called"))
 
@@ -340,20 +340,20 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        RemoteLog.d(TAG, "onCreateOptionsMenu()")
+        CrashReportingHelper.d(TAG, "onCreateOptionsMenu()")
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        RemoteLog.d(TAG, "onPrepareOptionsMenu()")
+        CrashReportingHelper.d(TAG, "onPrepareOptionsMenu()")
         menu.findItem(R.id.mainmenu_voice_recognition).isVisible = connection != null
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        RemoteLog.d(TAG, "onOptionsItemSelected()")
+        CrashReportingHelper.d(TAG, "onOptionsItemSelected()")
         // Handle back navigation arrow
         if (item.itemId == android.R.id.home && controller.canGoBack()) {
             controller.goBack()
@@ -377,7 +377,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        RemoteLog.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
+        CrashReportingHelper.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
         when (requestCode) {
             REQUEST_CODE_SETTINGS -> {
                 if (data == null) {
@@ -398,7 +398,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
-        RemoteLog.d(TAG, "onSaveInstanceState()")
+        CrashReportingHelper.d(TAG, "onSaveInstanceState()")
         isStarted = false
         with(savedInstanceState) {
             putParcelable(STATE_KEY_SERVER_PROPERTIES, serverProperties)
@@ -411,7 +411,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onBackPressed() {
-        RemoteLog.d(TAG, "onBackPressed()")
+        CrashReportingHelper.d(TAG, "onBackPressed()")
         when {
             drawerLayout.isDrawerOpen(findViewById<NavigationView>(R.id.left_drawer)) -> drawerLayout.closeDrawers()
             controller.canGoBack() -> controller.goBack()
@@ -432,7 +432,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onActiveConnectionChanged() {
-        RemoteLog.d(TAG, "onActiveConnectionChanged()")
+        CrashReportingHelper.d(TAG, "onActiveConnectionChanged()")
         val result = ConnectionFactory.activeUsableConnection
         val newConnection = result?.connection
         val failureReason = result?.failureReason
@@ -522,13 +522,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
-        RemoteLog.d(TAG, "onActiveCloudConnectionChanged()")
+        CrashReportingHelper.d(TAG, "onActiveCloudConnectionChanged()")
         updateDrawerItemVisibility()
         handlePendingAction()
     }
 
     override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
-        RemoteLog.d(TAG, "onPrimaryCloudConnectionChanged()")
+        CrashReportingHelper.d(TAG, "onPrimaryCloudConnectionChanged()")
         handlePendingAction()
         GlobalScope.launch {
             showPushNotificationWarningIfNeeded()
