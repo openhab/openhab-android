@@ -17,7 +17,7 @@
     <important_note>重要な注意事項</important_note>
     <oh_server>このアプリは openHAB サーバーが必要です.</oh_server>
     <short_description>ベンダーや技術に依存しないオープンソースのホーム・オートメーション</short_description>
-    <fdroid>F-Droid のビルドは FCM とクラッシュレポートが削除されていて openHAB クラウドからプッシュ通知を受信することができません。 代わりに、これらのビルドでは通知が定期的にポーリングされます。</fdroid>
+    <fdroid> 代わりに、これらのビルドでは通知が定期的にポーリングされます。</fdroid>
     <fdroid_beta><![CDATA[<a href="https://f-droid.org/packages/org.openhab.habdroid/">安定版</a> の他、ベータ版をインストールすることができます。]]></fdroid_beta>
     <fdroid_privacy_policy>プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>新しい機能をお試しの上、フィードバックしてください!</beta>
