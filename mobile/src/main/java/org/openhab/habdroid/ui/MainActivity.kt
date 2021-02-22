@@ -1359,7 +1359,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 .setIcon(Icon.createWithResource(this, icon))
                 .setIntent(intent)
                 .build()
-            shortcutManager?.addDynamicShortcuts(listOf(shortcut))
+            try {
+                shortcutManager?.addDynamicShortcuts(listOf(shortcut))
+            } catch (e: IllegalArgumentException) {
+                Log.e(TAG, "Failed to add shortcut $id", e)
+            }
         } else {
             shortcutManager?.disableShortcuts(listOf(id), getString(disableMessage))
         }
