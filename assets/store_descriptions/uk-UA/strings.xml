@@ -17,7 +17,7 @@
     <important_note>Важлива примітка</important_note>
     <oh_server>Для цього застосунку Вам необхідний сервер openHAB.</oh_server>
     <short_description>Відкрите ПЗ для домашньої автоматизації, неупереджене до виробників і технологій</short_description>
-    <fdroid>У версії для F-Droid, FCM і звіти про падіння видалені, тому ви не зможете отримувати push сповіщення від openHAB Cloud. Натомість, сповіщення перевіряються на регулярній основі в цих будівлях.</fdroid>
+    <fdroid> Натомість, сповіщення перевіряються на регулярній основі в цих будівлях.</fdroid>
     <fdroid_beta><![CDATA[Ви можете встановити бета версію разом зі <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабільною версією</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Політика конфіденційності: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Спробуйте нові функції і залиште швидкий відгук!</beta>
