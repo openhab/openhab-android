@@ -1,6 +1,6 @@
 openHAB - ”empowering the smart home” - leverandør- og teknikkuavhengig hjemmeautomasjon med åpen kildekode
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 Prøv ut nye funksjoner og gi tidlig tilbakemelding!
 Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.
 
