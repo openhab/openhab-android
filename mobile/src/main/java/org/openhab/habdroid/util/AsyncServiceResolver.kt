@@ -76,7 +76,9 @@ class AsyncServiceResolver(
         try {
             multicastLock.acquire()
         } catch (e: SecurityException) {
-            Log.i(TAG, "Could not acquire multicast lock", e)
+            Log.e(TAG, "Could not acquire multicast lock", e)
+        } catch (e: UnsupportedOperationException) {
+            Log.e(TAG, "Could not acquire multicast lock", e)
         }
 
         Log.i(TAG, "Discovering service $serviceType")
