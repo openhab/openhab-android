@@ -113,7 +113,7 @@ fun String?.toNormalizedUrl(): String? {
             .toString()
         if (url.endsWith("/")) url else "$url/"
     } catch (e: IllegalArgumentException) {
-        Log.d(Util.TAG, "toNormalizedUrl(): Invalid URL '$this'")
+        Log.d(TAG, "toNormalizedUrl(): Invalid URL '$this'")
         null
     }
 }
@@ -363,7 +363,7 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
             }
         }
     } else {
-        error.let { Log.e(Util.TAG, "REST call to $url failed", it) }
+        error.let { Log.e(TAG, "REST call to $url failed", it) }
         getString(if (short) R.string.error_short_unknown else R.string.error_unknown, error?.localizedMessage)
     }
 }
@@ -486,7 +486,7 @@ fun Socket.bindToNetworkIfPossible(network: Network?) {
     try {
         network?.bindSocket(this)
     } catch (e: IOException) {
-        Log.d(Util.TAG, "Binding socket $this to network $network failed: $e")
+        Log.d(TAG, "Binding socket $this to network $network failed: $e")
     }
 }
 
@@ -499,9 +499,14 @@ fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
 }
 
 fun ServiceInfo.addToPrefs(context: Context) {
+    if (context.getPrefs().getConfiguredServerIds().isNotEmpty()) {
+        Log.d(TAG, "Don't add server, because there's already at least one server configured")
+        return
+    }
+
     val address = hostAddresses[0]
     val port = port.toString()
-    Log.d(Util.TAG, "Service resolved: $address port: $port")
+    Log.d(TAG, "Service resolved: $address port: $port")
 
     val config = ServerConfiguration(
         context.getPrefs().getNextAvailableServerId(),
