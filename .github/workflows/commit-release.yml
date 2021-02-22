@@ -78,4 +78,3 @@ jobs:
           signoff: true
           branch: main
           tag: "${{ env.TAG_NAME }}-fdroid"
-          token: ${{ secrets.GITHUB_TOKEN }}
