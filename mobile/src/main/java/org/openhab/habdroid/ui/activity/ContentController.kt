@@ -179,6 +179,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }
         temporaryPage = fm.getFragment(state, STATE_KEY_TEMPORARY_PAGE)
+        (temporaryPage as? AbstractWebViewFragment)?.setCallback(this)
         noConnectionFragment = fm.getFragment(state, STATE_KEY_ERROR_FRAGMENT)
     }
 
@@ -259,9 +260,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean) {
         val webViewFragment = ui.fragment.newInstance()
         webViewFragment.arguments = bundleOf(KEY_IS_STACK_ROOT to isStackRoot)
-        webViewFragment.init(
-            this
-        )
+        webViewFragment.setCallback(this)
         showTemporaryPage(webViewFragment)
     }
 

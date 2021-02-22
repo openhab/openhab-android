@@ -70,10 +70,6 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     abstract val shortcutInfo: ShortcutInfoCompat
     abstract val errorMessageRes: Int
 
-    fun init(callback: ParentCallback) {
-        this.callback = callback
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val prefs = context.getPrefs()
@@ -157,6 +153,10 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun setCallback(callback: ParentCallback) {
+        this.callback = callback
     }
 
     private fun pinShortcut() = GlobalScope.launch {
