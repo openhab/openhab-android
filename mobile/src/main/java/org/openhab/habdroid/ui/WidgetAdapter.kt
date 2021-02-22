@@ -573,6 +573,7 @@ class WidgetAdapter(
                 slider.valueFrom = 0F
                 slider.stepSize = 1F
                 slider.value = item.state?.asBrightness?.toFloat() ?: 0F
+                slider.isTickVisible = false
             } else {
                 // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
                 slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
