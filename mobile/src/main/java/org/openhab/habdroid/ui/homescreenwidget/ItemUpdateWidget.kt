@@ -290,7 +290,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             data: ItemUpdateWidgetData
         ): RemoteViews {
             val layout = when {
-                data.widgetLabel.isNullOrEmpty() -> R.layout.widget_item_update_no_text
+                data.widgetLabel?.isEmpty() == true -> R.layout.widget_item_update_no_text
                 smallWidget -> R.layout.widget_item_update_text_small
                 else -> R.layout.widget_item_update_text
             }
