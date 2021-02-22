@@ -17,7 +17,7 @@
     <important_note>Nota importante</important_note>
     <oh_server>Hai bisogno di un server openHAB per questa app.</oh_server>
     <short_description>Soluzione domotica open source indipendente dalla tecnologia e dai produttori</short_description>
-    <fdroid> Invece, le notifiche sono controllate su base regolare in questi compilati.</fdroid>
+    <fdroid>Le build su F-Droid hanno rimosso FCM e quindi non saranno in grado di ricevere notifiche push da openHAB Cloud. Invece, le notifiche sono controllate su base regolare in questi compilati.</fdroid>
     <fdroid_beta><![CDATA[È possibile installare la versione beta insieme alla <a href="https://f-droid.org/packages/org.openhab.habdroid/">versione stabile</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Informativa sulla privacy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Prova le nuove funzioni e dai un feedback quanto prima!</beta>
