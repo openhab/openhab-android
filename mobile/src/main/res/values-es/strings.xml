@@ -265,6 +265,9 @@
         <item quantity="one">%d nueva notificación</item>
         <item quantity="other">%d nuevas notificaciones</item>
     </plurals>
+    <string name="crash_report_notification_title">openHAB ha fallado</string>
+    <string name="crash_report_notification_text">Ayude a mejorar openHAB enviando el informe de errores</string>
+    <string name="crash_report_notification_send_mail">Enviar correo electrónico</string>
     <string name="push_notification_status_no_remote_configured">Las notificaciones no están disponibles: no se ha configurado servidor remoto</string>
     <string name="push_notification_status_http_error">Las notificaciones no están disponibles: Error al conectar al servidor remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Las notificaciones no están disponibles: el servidor remoto no es una instancia cloud de openHAB</string>
