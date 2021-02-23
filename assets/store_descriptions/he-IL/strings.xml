@@ -17,7 +17,7 @@
     <important_note>הערה חשובה</important_note>
     <oh_server>יש צורך בשרת openHAB עבור יישום זה.</oh_server>
     <short_description>אוטומציה לבית החכם מבוססת על קוד פתוח ובלתי מוגבלת לטכנולוגיה וחברה מסויימת</short_description>
-    <fdroid> במקום זאת, ההתראות נבדקות על בסיס קבוע בגרסאות האלו.</fdroid>
+    <fdroid>גרסאות עבור FCM ו-F-Droid הוסרו ולכן הם לא יוכלו לקבל התראות דחיפה מ-openHAB Cloud. במקום זאת, ההתראות נבדקות על בסיס קבוע בגרסאות האלו.</fdroid>
     <fdroid_beta><![CDATA[באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>נסה תכונות חדשות וספר לנו מה דעתך!</beta>
