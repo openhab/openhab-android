@@ -8,7 +8,7 @@ buildscript {
     ext.about_libraries_version = '8.8.2'
     ext.powermock_version = '2.0.9'
     ext.espresso_version = '3.3.0'
-    ext.exoplayer_version = '2.13.1'
+    ext.exoplayer_version = '2.13.2'
     ext.acra_version = '5.7.0'
 
     repositories {
