@@ -17,7 +17,7 @@
     <important_note>Wichtiger Hinweis</important_note>
     <oh_server>Um diese App zu nutzen, benötigen Sie einen openHAB-Server.</oh_server>
     <short_description>Technologie- und herstellerunabhängige, quelloffene Automatisierungslösung</short_description>
-    <fdroid> Stattdessen werden Benachrichtigungen regelmäßig in diesen Builds abgefragt.</fdroid>
+    <fdroid>Bei den Builds auf F-Droid wurde FCM entfernt und daher können keine Push-Benachrichtigungen von openHAB Cloud erhalten werden. Stattdessen werden Benachrichtigungen regelmäßig in diesen Builds abgefragt.</fdroid>
     <fdroid_beta><![CDATA[Sie können die Betaversion neben der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilen Version</a> installieren.]]></fdroid_beta>
     <fdroid_privacy_policy>Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Testen Sie neue Features und geben Sie früh Feedback!</beta>
