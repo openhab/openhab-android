@@ -113,7 +113,8 @@ class WidgetAdapter(
 
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence
-    private var selectedPosition = -1
+    private var selectedPosition = RecyclerView.NO_POSITION
+    private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
@@ -144,12 +145,14 @@ class WidgetAdapter(
             widgets.forEach { w -> widgetsById[w.id] = w }
             notifyDataSetChanged()
         }
+        updateFirstVisibleWidgetPosition()
     }
 
     fun updateWidget(widget: Widget) {
         val pos = items.indexOfFirst { w -> w.id == widget.id }
         if (pos >= 0) {
             updateWidgetAtPosition(pos, widget)
+            updateFirstVisibleWidgetPosition()
         }
     }
 
@@ -203,7 +206,7 @@ class WidgetAdapter(
         val wasStarted = holder.stop()
         holder.bind(items[position])
         if (holder is FrameViewHolder) {
-            holder.setShownAsFirst(position == 0)
+            holder.setShownAsFirst(position == firstVisibleWidgetPosition)
         }
         with(holder.itemView) {
             isClickable = true
@@ -255,6 +258,10 @@ class WidgetAdapter(
         } else {
             notifyItemChanged(position)
         }
+    }
+
+    private fun updateFirstVisibleWidgetPosition() {
+        firstVisibleWidgetPosition = items.indexOfFirst { w -> shouldShowWidget(w) }
     }
 
     private tailrec fun shouldShowWidget(widget: Widget): Boolean {
