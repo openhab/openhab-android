@@ -714,7 +714,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun handleServiceResolveResult(info: ServiceInfo?) {
-        if (info != null) {
+        if (info != null && prefs.getConfiguredServerIds().isEmpty()) {
             info.addToPrefs(this)
         } else {
             Log.d(TAG, "Failed to discover openHAB server")

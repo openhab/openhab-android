@@ -499,11 +499,6 @@ fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
 }
 
 fun ServiceInfo.addToPrefs(context: Context) {
-    if (context.getPrefs().getConfiguredServerIds().isNotEmpty()) {
-        Log.d(TAG, "Don't add server, because there's already at least one server configured")
-        return
-    }
-
     val address = hostAddresses[0]
     val port = port.toString()
     Log.d(TAG, "Service resolved: $address port: $port")
