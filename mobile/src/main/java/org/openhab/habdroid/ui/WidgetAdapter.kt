@@ -113,8 +113,8 @@ class WidgetAdapter(
 
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence
-    private var selectedPosition = -1
-    private var firstVisibleWidgetPosition = -1
+    private var selectedPosition = RecyclerView.NO_POSITION
+    private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
