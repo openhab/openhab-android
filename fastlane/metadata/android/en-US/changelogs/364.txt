@@ -1,0 +1,3 @@
+## Fixed
+* Determine actual position of first visible widget (#2459)
+* Avoid adding two servers during discovery (#2470)
