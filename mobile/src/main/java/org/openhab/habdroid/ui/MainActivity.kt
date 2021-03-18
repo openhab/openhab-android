@@ -80,7 +80,6 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
@@ -101,6 +100,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
@@ -975,7 +975,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 prefs.getBoolean(PrefKeys.DRAWER_ENTRY_OH3_UI, true)
 
             val frontailItem = drawerMenu.findItem(R.id.frontail)
-            frontailItem.isVisible = connection?.connectionType == Connection.TYPE_LOCAL &&
+            frontailItem.isVisible = serverProperties != null &&
+                connection?.connectionType == Connection.TYPE_LOCAL &&
                 prefs.getBoolean(PrefKeys.DRAWER_ENTRY_FRONTAIL, false)
 
             val nfcItem = drawerMenu.findItem(R.id.nfc)

@@ -225,10 +225,11 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
 
         webView.setUpForConnection(conn, url, avoidAuthentication) { progress ->
+            Log.d(TAG, "progressCallback: progress = $progress")
             if (progress == 100) {
-                updateViewVisibility(error = false, loading = false)
+                updateViewVisibility(error = null, loading = false)
             } else {
-                updateViewVisibility(error = false, loading = true)
+                updateViewVisibility(error = null, loading = true)
             }
         }
         webView.setBackgroundColor(Color.TRANSPARENT)
@@ -261,9 +262,11 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         return orig
     }
 
-    private fun updateViewVisibility(error: Boolean, loading: Boolean) {
-        webView?.isVisible = !error
-        view?.findViewById<View>(android.R.id.empty)?.isVisible = error
+    private fun updateViewVisibility(error: Boolean?, loading: Boolean) {
+        error?.let {
+            webView?.isVisible = !error
+            view?.findViewById<View>(android.R.id.empty)?.isVisible = error
+        }
         view?.findViewById<View>(R.id.progress)?.isVisible = loading
     }
 
