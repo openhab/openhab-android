@@ -1,6 +1,6 @@
 openHAB - Une solution de domotique libre et ouverte à toutes les technologies
 
-Les versions sur F-Droid ont supprimé FCM et les rapports de plantage et ne seront donc pas en mesure de recevoir les notifications push de openHAB Cloud. Au lieu de cela, les notifications sont régulièrement consultées dans ces versions.
+ Au lieu de cela, les notifications sont régulièrement consultées dans ces versions.
 Essayer les nouvelles fonctionnalités et donner un premier retour d'expérience !
 Vous pouvez installer la version bêta en parallèle de la <a href="https://f-droid.org/packages/org.openhab.habdroid/">version stable</a>.
 

@@ -1,6 +1,6 @@
 openHAB - "העצמת הבית החכם" - אוטומצית הבית החכם לאנשים וחברות בראייה טכנולוגית מתקדמת מבוסס קוד פתוח
 
-The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+גרסאות עבור FCM ו-F-Droid הוסרו ולכן הם לא יוכלו לקבל התראות דחיפה מ-openHAB Cloud. במקום זאת, ההתראות נבדקות על בסיס קבוע בגרסאות האלו.
 נסה תכונות חדשות וספר לנו מה דעתך!
 באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.
 
@@ -9,18 +9,18 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 
 <b>מוצרים נתמכים</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+למעלה מ-200 תוספים מספקים תמיכה עבור מותגים, התקנים, טכנולוגיות ופרוטוקולי תקשורת. כמה דוגמאות: Amazon Echo, Chromecast, Philips Hue, Z-Wave ו- Sonos. גלה את כל ההרחבות הזמינות, ההתקנים הנתמכים ו/או פונקציות ב: https://www.openhab.org/addons/
 יישום זה כולל בתוכו תוסף לביצוע פעולות עם Tasker ו- Locale.
 
 <b>קהילת הקוד הפתוח</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+הקוד הפתוח של openHAB נתמך ברמה גבוהה בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. הצטרף לפורום קהילת openHAB ב https://community.openhab.org
 אם נתקלת בבעיה ביישומון אנא דווח על כך בפורום או ב- https://github.com/openhab/openhab-android/issues
 אם את או אתה רוצים לעזור לתרגם את היישום לשפתך הצטרפו אלינו https://crowdin.com/project/openhab-android
 
 <b>ארגון openHAB</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org
 
 <b>הערה חשובה</b>
 
