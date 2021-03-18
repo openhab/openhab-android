@@ -41,11 +41,16 @@ fun SwipeRefreshLayout.applyColors() {
     setColorSchemeColors(*colors)
 }
 
-fun WebView.setUpForConnection(connection: Connection, url: HttpUrl, progressCallback: (progress: Int) -> Unit) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+fun WebView.setUpForConnection(
+    connection: Connection,
+    url: HttpUrl,
+    avoidAuthentication: Boolean = false,
+    progressCallback: (progress: Int) -> Unit
+) {
+    if (!avoidAuthentication && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val webViewDatabase = WebViewDatabase.getInstance(context)
         webViewDatabase.setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
-    } else {
+    } else if (!avoidAuthentication) {
         @Suppress("DEPRECATION")
         setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
     }

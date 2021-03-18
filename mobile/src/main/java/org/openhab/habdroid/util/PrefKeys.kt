@@ -75,6 +75,7 @@ object PrefKeys {
     const val DRAWER_ENTRY_OH3_UI = "show_oh3_ui"
     const val DRAWER_ENTRY_HABPANEL = "show_habpanel"
     const val DRAWER_ENTRY_NFC = "show_nfc"
+    const val DRAWER_ENTRY_FRONTAIL = "show_frontail"
 
     /**
      * Application state flags

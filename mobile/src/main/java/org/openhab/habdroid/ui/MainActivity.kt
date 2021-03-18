@@ -80,7 +80,6 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
@@ -101,6 +100,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PrefKeys
@@ -739,10 +739,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 val notificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
                 executeActionIfPossible(PendingAction.OpenNotification(notificationId, true))
             }
-            ACTION_HABPANEL_SELECTED, ACTION_OH3_UI_SELECTED -> {
+            ACTION_HABPANEL_SELECTED, ACTION_OH3_UI_SELECTED, ACTION_FRONTAIL_SELECTED -> {
                 val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
                 val ui = when (intent.action) {
                     ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
+                    ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
                     else -> WebViewUi.OH3_UI
                 }
                 executeOrStoreAction(PendingAction.OpenWebViewUi(ui, serverId))
@@ -824,6 +825,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }
                 R.id.oh3_ui -> {
                     openWebViewUi(WebViewUi.OH3_UI, false)
+                    handled = true
+                }
+                R.id.frontail -> {
+                    openWebViewUi(WebViewUi.FRONTAIL, false)
                     handled = true
                 }
                 R.id.settings -> {
@@ -968,6 +973,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val oh3UiItem = drawerMenu.findItem(R.id.oh3_ui)
             oh3UiItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.OH3_UI) == true &&
                 prefs.getBoolean(PrefKeys.DRAWER_ENTRY_OH3_UI, true)
+
+            val frontailItem = drawerMenu.findItem(R.id.frontail)
+            frontailItem.isVisible = serverProperties != null &&
+                connection?.connectionType == Connection.TYPE_LOCAL &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_FRONTAIL, false)
 
             val nfcItem = drawerMenu.findItem(R.id.nfc)
             nfcItem.isVisible = serverProperties != null &&
@@ -1390,6 +1400,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val ACTION_NOTIFICATION_SELECTED = "org.openhab.habdroid.action.NOTIFICATION_SELECTED"
         const val ACTION_HABPANEL_SELECTED = "org.openhab.habdroid.action.HABPANEL_SELECTED"
         const val ACTION_OH3_UI_SELECTED = "org.openhab.habdroid.action.OH3_UI_SELECTED"
+        const val ACTION_FRONTAIL_SELECTED = "org.openhab.habdroid.action.FRONTAIL"
         const val ACTION_VOICE_RECOGNITION_SELECTED = "org.openhab.habdroid.action.VOICE_SELECTED"
         const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
         const val EXTRA_SITEMAP_URL = "sitemapUrl"

@@ -14,9 +14,10 @@
 package org.openhab.habdroid.model
 
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.activity.AbstractWebViewFragment
+import org.openhab.habdroid.ui.activity.FrontailWebViewFragment
 import org.openhab.habdroid.ui.activity.HabpanelWebViewFragment
 import org.openhab.habdroid.ui.activity.Oh3UiWebViewFragment
-import org.openhab.habdroid.ui.activity.AbstractWebViewFragment
 
 data class WebViewUi(
     val serverFlag: Int,
@@ -34,6 +35,12 @@ data class WebViewUi(
             ServerProperties.SERVER_FLAG_OH3_UI,
             MainActivity.ACTION_OH3_UI_SELECTED,
             Oh3UiWebViewFragment::class.java
+        )
+
+        val FRONTAIL = WebViewUi(
+            0,
+            MainActivity.ACTION_FRONTAIL_SELECTED,
+            FrontailWebViewFragment::class.java
         )
     }
 }
