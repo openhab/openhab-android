@@ -15,6 +15,7 @@ package org.openhab.habdroid.model
 
 import android.content.SharedPreferences
 import android.os.Parcelable
+import android.util.Log
 import androidx.core.content.edit
 import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.util.PrefKeys
@@ -67,6 +68,7 @@ data class ServerConfiguration(
     val wifiSsid: String?
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
+        Log.d(TAG, "saveToPrefs: ${this.toRedactedString()}")
         val serverIdSet = prefs.getConfiguredServerIds()
 
         prefs.edit {
@@ -92,7 +94,9 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_PASSWORD_PREFIX), remotePath?.password)
         }
     }
+
     fun removeFromPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
+        Log.d(TAG, "removeFromPrefs: ${this.toRedactedString()}")
         val serverIdSet = prefs.getConfiguredServerIds()
         serverIdSet.remove(id)
 
@@ -120,7 +124,30 @@ data class ServerConfiguration(
         }
     }
 
+    fun toRedactedString(): String {
+        fun redactCredentials(path: ServerPath?): ServerPath? {
+            path ?: return null
+            return ServerPath(
+                path.url,
+                if (path.userName.isNullOrEmpty()) "<none>" else "<redacted>",
+                if (path.password.isNullOrEmpty()) "<none>" else "<redacted>",
+            )
+        }
+
+        return ServerConfiguration(
+            id,
+            name,
+            redactCredentials(localPath),
+            redactCredentials(remotePath),
+            sslClientCert,
+            defaultSitemap,
+            wifiSsid
+        ).toString()
+    }
+
     companion object {
+        private val TAG = ServerConfiguration::class.java.simpleName
+
         fun load(prefs: SharedPreferences, secretPrefs: SharedPreferences, id: Int): ServerConfiguration? {
             val localPath = ServerPath.load(
                 prefs,
@@ -144,7 +171,8 @@ data class ServerConfiguration(
             }
             val clientCert = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
             val wifiSsid = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX))
-            return ServerConfiguration(
+
+            val config = ServerConfiguration(
                 id,
                 serverName,
                 localPath,
@@ -153,6 +181,8 @@ data class ServerConfiguration(
                 getDefaultSitemap(prefs, id),
                 wifiSsid
             )
+            Log.d(TAG, "load: ${config.toRedactedString()}")
+            return config
         }
 
         fun saveDefaultSitemap(prefs: SharedPreferences, id: Int, defaultSitemap: DefaultSitemap?) {
