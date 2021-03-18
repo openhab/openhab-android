@@ -245,6 +245,7 @@
     <string name="settings_background_tasks_permission_denied">Algunas tareas en segundo plano se han deshabilitado debido a que faltan permisos</string>
     <string name="settings_background_tasks_permission_denied_background_location">Algunas tareas en segundo plano requieren que el acceso a la ubicación se establezca a \"%s\" en la configuración de Android</string>
     <string name="settings_background_tasks_permission_allow">Permitir</string>
+    <string name="settings_location_permissions_required">Esta aplicación recopila datos de ubicación necesarios para la función \"Enviar nombre Wi-Fi al servidor\" y \"Selección de servidor basada en Wi-Fi\", incluso cuando la aplicación está cerrada o no está en uso. Tenga en cuenta que estos datos sólo se envían a los servidores que ha configurado.</string>
     <string name="settings_item_pref_item_name">Nombre del Item</string>
     <string name="waiting_for_item_upload">Esperando a que la red envíe actualizaciones del Item</string>
     <string name="item_upload_in_progress">Los Items están siendo actualizados ahora mismo</string>

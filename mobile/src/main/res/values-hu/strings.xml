@@ -10,6 +10,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 felület</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 felület (%s)</string>
     <string name="app_notifications">Értesítések</string>
@@ -31,6 +33,7 @@
     <string name="settings_openhab_password">Jelszó</string>
     <string name="settings_openhab_password_summary_weak">Gyenge jelszó</string>
     <string name="settings_openhab_password_summary_strong">Erős jelszó</string>
+    <string name="settings_openhab_api_token_hint">Ha API tokent használ, üsse be a felhasználó név mezőbe és a jelszó mezőt hagyja üresen</string>
     <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
     <string name="settings_openhab_sslclientcert_not_supported">Hungarian</string>
@@ -96,6 +99,7 @@
     <string name="settings_server_primary_title">Elsődleges szerver</string>
     <string name="settings_server_primary_summary_is_primary">Ez a kiszolgáló az elsődleges.\nAz alkalmazás összes funkcióját csak az elsődeleges szerverrel tudja használni. Érintse meg a súgót a további információ eléréséhez.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" az elsődleges kiszolgáló. Érintse meg a jelenlegi szerver elsődlegessé tételéhez.\nAz alkalmazás összes funkcióját csak az elsődeleges szerverrel tudja használni. Érintse meg a súgót a további információ eléréséhez.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Kattintson ide további információért</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Az alkalmazás ezt a szervert választja, ha csatlakozva van a(z) \'%s\' Wi-Fi-hez</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Az alkalmazás nem fogja automatikusan ezt a szervert választani Wi-Fi kapcsolat alapján</string>
@@ -241,6 +245,7 @@
     <string name="settings_background_tasks_permission_denied">Néhány háttér művelet kikapcsolva, hiányzó engedélyek miatt</string>
     <string name="settings_background_tasks_permission_denied_background_location">Néhány háttérben futó feladathoz \"%s\" helymeghatározást kell az Android beállításokban engedélyeznie</string>
     <string name="settings_background_tasks_permission_allow">Engedélyez</string>
+    <string name="settings_location_permissions_required">Az alkalmazás bezárt állapotban vagy használatok kívül is helymeghatározási adatokat gyűjt, ha a \"Wifi név küldése a kiszolgálónak\" és a \"Wifi alapú kiszolgáló választás\" funkciók be vannak kapcsolva. Ezek az adatok csak azoknak a kiszolgálóknak lesznek elküldve, amiket beállított.</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
     <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
     <string name="item_upload_in_progress">Az Elemek jelenleg frissülnek</string>
@@ -249,6 +254,7 @@
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_background_foreground_service_description">Események megfigyelése az Elemek frissítéséhez. Ezt a kategóriát elrejtheti.</string>
+    <string name="notification_channel_crash_reports">Hibajelentések</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
     <string name="notification_channel_messages_default_severity_description">A szerver által küldött értesítés nincs priorizálva</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
@@ -258,6 +264,9 @@
         <item quantity="one">%d új értesítés</item>
         <item quantity="other">%d új értesítések</item>
     </plurals>
+    <string name="crash_report_notification_title">openHAB összeomlott</string>
+    <string name="crash_report_notification_text">Segítsd az openHAB fejlesztését azzal, hogy elküldöd a hibajelentést</string>
+    <string name="crash_report_notification_send_mail">Levél küldése</string>
     <string name="push_notification_status_no_remote_configured">Az értesítések nem elérhetőek: a távoli kiszolgáló nincs beállítva</string>
     <string name="push_notification_status_http_error">Az értesítések nem elérhetőek: a(z) \"%s\" távoli kiszolgálóhoz nem lehet csatlakozni</string>
     <string name="push_notification_status_remote_no_cloud">Az értesítések nem érhetőek el. A távoli kiszolgáló nem egy openHAB-cloud példány</string>
@@ -325,6 +334,7 @@
     <string name="chart_activity_period_4_hour">4 óra</string>
     <string name="chart_activity_period_8_hour">8 óra</string>
     <string name="chart_activity_period_12_hour">12 óra</string>
+    <string name="chart_activity_period_1_day">1 nap</string>
     <string name="chart_activity_period_2_day">2 nap</string>
     <string name="chart_activity_period_3_day">3 nap</string>
     <string name="chart_activity_period_1_week">1 hét</string>
@@ -332,6 +342,7 @@
     <string name="chart_activity_period_1_month">1 hónap</string>
     <string name="chart_activity_period_2_month">2 hónap</string>
     <string name="chart_activity_period_4_month">4 hónap</string>
+    <string name="chart_activity_period_1_year">1 év</string>
     <!-- NFC -->
     <string name="nfc_action_on">Be</string>
     <string name="nfc_action_up">Fel</string>
@@ -412,17 +423,20 @@
     <string name="content_description_color_up">Fényerő növeléséhez tartsa nyomva</string>
     <string name="content_description_color_down">Fényerő csökkentéséhez tartsa nyomva</string>
     <string name="content_description_open_number_picker">Szám megadása</string>
+    <string name="content_description_video">Videó</string>
     <string name="content_description_open_openhab">openHAB megnyitása</string>
     <string name="content_description_increase_item_value">Érték növelése</string>
     <string name="content_description_decrease_item_value">Érték csökkentése</string>
     <string name="swipe_to_refresh_description">Az alkalmazás frissül automatikusan, általában nem kell saját kezűleg ezt megtenni</string>
     <string name="got_it">Értettem!</string>
     <!-- Intro strings -->
+    <string name="app_intro">Bevezető</string>
     <string name="intro_welcome">Üdvözöljük openHAB-ban</string>
     <string name="intro_welcome_back">Üdvözöljük újra openHAB-ban</string>
     <string name="intro_app_restored">A legtöbb beállítása visszaállítva, kivéve a szerver hitelesítő adatokat</string>
     <string name="intro_whatis">Szállító- és technológia független nyílt forráskódú automatizálási szoftver az Ön otthonába</string>
     <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával összeköthető egy NFC címkékhez</string>
     <string name="intro_quick_tile_description">A gyors beállításokból is vezérelheti az okosotthonát (a Bluetooth és Wifi ki-be kapcsolásához használt gombok mellett)</string>
     <string name="intro_send_device_info">Eszközadatok küldése a kiszolgálónak</string>
@@ -455,6 +469,7 @@
     <string name="item_update_widget_content_description">Widget az elem állapot megváltoztatásához</string>
     <string name="item_update_widget_content_description_edit">Widget szerkesztése</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Válassz egy elemet</string>
     <string name="item_update_success_message_generic">%1$s beállításra került ide: %2$s</string>
     <string name="item_update_success_message_on">%s fel lett kapcsolva</string>
@@ -544,6 +559,7 @@
     <string name="tile_label_12">12-as csempe</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB Ikon</string>
+    <string name="tile_icon_tv">TV</string>
     <string name="tile_icon_radio">Rádió</string>
     <string name="tile_icon_bulb">Izzó</string>
     <string name="tile_icon_clock">Óra</string>
@@ -565,6 +581,7 @@
     <string name="tile_icon_star">Csillag</string>
     <string name="tile_icon_tree">Fa</string>
     <string name="tile_icon_dashboard">Vezérlőpult</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Pajzs</string>
     <string name="tile_icon_man">Férfi</string>
     <string name="tile_icon_bed">Ágy</string>
