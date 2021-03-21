@@ -14,10 +14,14 @@
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 felület</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 felület (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Értesítések</string>
     <string name="app_notifications_on_server">Értesítések (%s)</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
     <string name="oh3_ui_error">Hiba történt a openHAB 3 felület betöltése során</string>
+    <string name="frontail_error">Hiba történt a Frontail betöltése közben. Vegye figyelembe, hogy openHAB Cloud-n keresztül nem elérhető.</string>
+    <string name="frontail_pref_summary">A Frontail az alapértelmezett 9001-es porton keresztül kell, hogy fusson. Az openHABian része vagy külön kell telepíteni.</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
     <!-- App settings strings -->
@@ -255,6 +259,7 @@
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_background_foreground_service_description">Események megfigyelése az Elemek frissítéséhez. Ezt a kategóriát elrejtheti.</string>
     <string name="notification_channel_crash_reports">Hibajelentések</string>
+    <string name="notification_channel_crash_reports_description">Az összeomlási visszajelzés küldésének megerősítését kéri</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
     <string name="notification_channel_messages_default_severity_description">A szerver által küldött értesítés nincs priorizálva</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
