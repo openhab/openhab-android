@@ -469,6 +469,7 @@
     <string name="home_shortcut_error_pinning">Error pinning to home</string>
     <string name="home_shortcut_success_pinning">Pinned to home</string>
     <string name="home_shortcut_server_has_been_deleted">The server for this shortcut has been deleted</string>
+    <string name="home_shortcut_title">Set shortcut title</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>

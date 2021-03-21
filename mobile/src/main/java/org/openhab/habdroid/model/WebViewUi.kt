@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.model
 
-import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.activity.AbstractWebViewFragment
 import org.openhab.habdroid.ui.activity.FrontailWebViewFragment
 import org.openhab.habdroid.ui.activity.HabpanelWebViewFragment
@@ -21,25 +20,21 @@ import org.openhab.habdroid.ui.activity.Oh3UiWebViewFragment
 
 data class WebViewUi(
     val serverFlag: Int,
-    val shortcutAction: String,
     val fragment: Class<out AbstractWebViewFragment>
 ) {
     companion object {
         val HABPANEL = WebViewUi(
             ServerProperties.SERVER_FLAG_HABPANEL_INSTALLED,
-            MainActivity.ACTION_HABPANEL_SELECTED,
             HabpanelWebViewFragment::class.java
         )
 
         val OH3_UI = WebViewUi(
             ServerProperties.SERVER_FLAG_OH3_UI,
-            MainActivity.ACTION_OH3_UI_SELECTED,
             Oh3UiWebViewFragment::class.java
         )
 
         val FRONTAIL = WebViewUi(
             0,
-            MainActivity.ACTION_FRONTAIL_SELECTED,
             FrontailWebViewFragment::class.java
         )
     }

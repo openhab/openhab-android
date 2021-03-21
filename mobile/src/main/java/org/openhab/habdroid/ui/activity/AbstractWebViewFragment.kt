@@ -13,9 +13,14 @@
 
 package org.openhab.habdroid.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.text.InputType
+import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -23,16 +28,21 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +58,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
+import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
@@ -65,11 +76,25 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     abstract val titleRes: Int
     abstract val multiServerTitleRes: Int
+    abstract val errorMessageRes: Int
     abstract val urlToLoad: String
     abstract val urlForError: String
-    abstract val shortcutInfo: ShortcutInfoCompat
-    abstract val errorMessageRes: Int
     open val avoidAuthentication = false
+    abstract val shortcutIcon: Int
+    abstract val shortcutAction: String
+    private val shortcutInfo: ShortcutInfoCompat
+        get() {
+            val context = requireContext()
+            val intent = Intent(context, MainActivity::class.java)
+                .putExtra(MainActivity.EXTRA_SERVER_ID, context.getPrefs().getActiveServerId())
+                .setAction(shortcutAction)
+
+            return ShortcutInfoCompat.Builder(context, "$shortcutAction-${System.currentTimeMillis()}")
+                .setShortLabel(title!!)
+                .setIcon(IconCompat.createWithResource(context, shortcutIcon))
+                .setIntent(intent)
+                .build()
+        }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -160,23 +185,63 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         this.callback = callback
     }
 
-    private fun pinShortcut() = GlobalScope.launch {
-        val context = context ?: return@launch
-        val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
-        withContext(Dispatchers.Main) {
-            if (success) {
-                (activity as? MainActivity)?.showSnackbar(
-                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                    R.string.home_shortcut_success_pinning,
-                    Snackbar.LENGTH_SHORT
-                )
-            } else {
-                (activity as? MainActivity)?.showSnackbar(
-                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                    R.string.home_shortcut_error_pinning,
-                    Snackbar.LENGTH_LONG
+    private fun pinShortcut() {
+        val context = context ?: return
+        askForShortcutTitle(context, shortcutInfo) {
+            val success = ShortcutManagerCompat.requestPinShortcut(context, it, null)
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    if (success) {
+                        (activity as? MainActivity)?.showSnackbar(
+                            MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                            R.string.home_shortcut_success_pinning,
+                            Snackbar.LENGTH_SHORT
+                        )
+                    } else {
+                        (activity as? MainActivity)?.showSnackbar(
+                            MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                            R.string.home_shortcut_error_pinning,
+                            Snackbar.LENGTH_LONG
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun askForShortcutTitle(
+        context: Context,
+        orig: ShortcutInfoCompat,
+        callback: (newTitle: ShortcutInfoCompat) -> Unit
+    ) {
+        val input = EditText(context).apply {
+            text = SpannableStringBuilder(orig.shortLabel)
+            inputType = InputType.TYPE_CLASS_TEXT
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+            }
+            setPadding(context.resources.dpToPixel(8f).toInt())
+        }
+
+        val customDialog = AlertDialog.Builder(context)
+            .setTitle(getString(R.string.home_shortcut_title))
+            .setView(input)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                callback(
+                    ShortcutInfoCompat.Builder(orig)
+                        .setShortLabel(input.text)
+                        .build()
                 )
             }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+        input.setOnFocusChangeListener { _, hasFocus ->
+            val mode = if (hasFocus)
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+            else
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            customDialog.window?.setSoftInputMode(mode)
         }
     }
 
