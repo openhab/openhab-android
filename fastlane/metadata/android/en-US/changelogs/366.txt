@@ -1,0 +1,2 @@
+## Added
+* Add ability to set shortcut title (#2482)

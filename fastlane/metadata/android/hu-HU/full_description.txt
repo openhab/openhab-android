@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - technológia független nyílt forráskódú okosotthon vezérlő szoftver
 
- Ehelyett az értesítések rendszeresen lekérdezésre kerülnek ezekből az összeállításokból.
+Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből. Ehelyett az értesítések rendszeresen lekérdezésre kerülnek ezekből az összeállításokból.
 Próbáld ki az új funkciókat és adj korai visszajelzést!
 A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.
 
