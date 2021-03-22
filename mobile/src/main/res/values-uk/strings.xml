@@ -424,6 +424,7 @@
     <string name="home_shortcut_error_pinning">Неможливо прикріпити на домашню сторінку</string>
     <string name="home_shortcut_success_pinning">Прикріплено на домашню сторінку</string>
     <string name="home_shortcut_server_has_been_deleted">Сервер для цього ярлика був видалений</string>
+    <string name="home_shortcut_title">Встановіть назву посилання</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Відкрити ролети</string>
     <string name="content_description_stop_roller_shutter">Зупинити ролети</string>
