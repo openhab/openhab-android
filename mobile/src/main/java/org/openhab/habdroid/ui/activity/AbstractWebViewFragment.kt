@@ -50,6 +50,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -64,6 +65,7 @@ import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.isDarkModeActive
+import org.openhab.habdroid.util.toRelativeUrl
 
 abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     private var webView: WebView? = null
@@ -88,6 +90,10 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
             val intent = Intent(context, MainActivity::class.java)
                 .putExtra(MainActivity.EXTRA_SERVER_ID, context.getPrefs().getActiveServerId())
                 .setAction(shortcutAction)
+
+            webView?.url?.toHttpUrlOrNull()?.let {
+                intent.putExtra(MainActivity.EXTRA_SUBPAGE, it.toRelativeUrl())
+            }
 
             return ShortcutInfoCompat.Builder(context, "$shortcutAction-${System.currentTimeMillis()}")
                 .setShortLabel(title!!)
@@ -132,11 +138,18 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val error = view.findViewById<TextView>(R.id.empty_message)
         error.text = getString(errorMessageRes)
 
-        if (savedInstanceState != null) {
-            webView?.restoreState(savedInstanceState)
-            loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, urlToLoad))
-        } else {
-            loadWebsite()
+        val subpage = requireArguments().getString(KEY_SUBPAGE)
+        when {
+            savedInstanceState != null -> {
+                webView?.restoreState(savedInstanceState)
+                loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, urlToLoad))
+            }
+            subpage != null -> {
+                loadWebsite(subpage)
+            }
+            else -> {
+                loadWebsite()
+            }
         }
     }
 
@@ -395,6 +408,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
         private const val KEY_CURRENT_URL = "url"
         const val KEY_IS_STACK_ROOT = "is_stack_root"
+        const val KEY_SUBPAGE = "subpage"
     }
 
     interface ParentCallback {

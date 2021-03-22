@@ -747,7 +747,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
                     else -> WebViewUi.OH3_UI
                 }
-                executeOrStoreAction(PendingAction.OpenWebViewUi(ui, serverId))
+                val subpage = intent.getStringExtra(EXTRA_SUBPAGE)
+                executeOrStoreAction(PendingAction.OpenWebViewUi(ui, serverId, subpage))
             }
             ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
             ACTION_SITEMAP_SELECTED -> {
@@ -821,15 +822,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     handled = true
                 }
                 R.id.habpanel -> {
-                    openWebViewUi(WebViewUi.HABPANEL, false)
+                    openWebViewUi(WebViewUi.HABPANEL, false, null)
                     handled = true
                 }
                 R.id.oh3_ui -> {
-                    openWebViewUi(WebViewUi.OH3_UI, false)
+                    openWebViewUi(WebViewUi.OH3_UI, false, null)
                     handled = true
                 }
                 R.id.frontail -> {
-                    openWebViewUi(WebViewUi.FRONTAIL, false)
+                    openWebViewUi(WebViewUi.FRONTAIL, false, null)
                     handled = true
                 }
                 R.id.settings -> {
@@ -1053,7 +1054,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         action is PendingAction.OpenWebViewUi && isStarted &&
             serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
-            executeActionForServer(action.serverId) { openWebViewUi(action.ui, true) }
+            executeActionForServer(action.serverId) { openWebViewUi(action.ui, true, action.subpage) }
         }
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
             launchVoiceRecognition()
@@ -1149,9 +1150,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
-    private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean) {
+    private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
-        controller.showWebViewUi(ui, isStackRoot)
+        controller.showWebViewUi(ui, isStackRoot, subpage)
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
@@ -1390,7 +1391,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private sealed class PendingAction {
         class ChooseSitemap : PendingAction()
         class OpenSitemapUrl constructor(val url: String, val serverId: Int) : PendingAction()
-        class OpenWebViewUi constructor(val ui: WebViewUi, val serverId: Int) : PendingAction()
+        class OpenWebViewUi constructor(val ui: WebViewUi, val serverId: Int, val subpage: String?) : PendingAction()
         class LaunchVoiceRecognition : PendingAction()
         class OpenNotification constructor(val notificationId: String, val primary: Boolean) : PendingAction()
     }
@@ -1404,6 +1405,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
         const val EXTRA_SITEMAP_URL = "sitemapUrl"
         const val EXTRA_SERVER_ID = "serverId"
+        const val EXTRA_SUBPAGE = "subpage"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
 
         const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"
