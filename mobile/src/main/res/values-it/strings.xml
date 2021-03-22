@@ -14,10 +14,14 @@
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Notifiche</string>
     <string name="app_notifications_on_server">Notifiche (%s)</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
     <string name="oh3_ui_error">Si è verificato un errore durante il caricamento di openHAB 3 UI</string>
+    <string name="frontail_error">Si è verificato un errore durante il caricamento di Frontail. Nota che non è disponibile tramite openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail deve funzionare sulla sua porta predefinita 9001. È in bundle con openHABian o può essere installato manualmente.</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
     <string name="mainmenu_openhab_clearcache">Pulisci cache immagini</string>
     <!-- App settings strings -->
@@ -416,6 +420,7 @@
     <string name="home_shortcut_error_pinning">Errore fissando nella home</string>
     <string name="home_shortcut_success_pinning">Fissato nella home</string>
     <string name="home_shortcut_server_has_been_deleted">Il server per questo collegamento è stato eliminato</string>
+    <string name="home_shortcut_title">Imposta titolo collegamento</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Apertura tapparella</string>
     <string name="content_description_stop_roller_shutter">Ferma tapparella</string>
