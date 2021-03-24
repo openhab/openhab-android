@@ -44,7 +44,7 @@ jobs:
       - name: Setup Google API Key
         run: |
           mkdir ~/.gradle/
-          echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
+          echo -e "org.gradle.jvmargs=-Xmx6144M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
           
       - name: Build APK
         run: bash gradlew :mobile:assembleFull${{ env.releaseFlavor }}Release
@@ -59,8 +59,27 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           
       - uses: svenstaro/upload-release-action@v2
+        name: Upload APK
         with:
           file: ${{steps.sign_app.outputs.signedReleaseFile}}
           asset_name: openhab-android.apk
           tag: ${{ github.ref }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build App Bundle
+        run: bash gradlew :mobile:bundleFull${{ env.releaseFlavor }}Release
+
+      - uses: r0adkll/sign-android-release@v1.0.4
+        name: Sign App Bundle
+        id: sign_aab
+        with:
+          releaseDirectory: mobile/build/outputs/bundle/full${{ env.releaseFlavor }}/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: "sign"
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
+      - uses: actions/upload-artifact@v2
+        name: Upload App Bundle
+        with:
+          name: App Bundle
+          path: ${{steps.sign_aab.outputs.signedReleaseFile}}
