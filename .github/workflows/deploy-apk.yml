@@ -73,7 +73,7 @@ jobs:
         name: Sign App Bundle
         id: sign_aab
         with:
-          releaseDirectory: mobile/build/outputs/bundle/full${{ env.releaseFlavor }}/release
+          releaseDirectory: mobile/build/outputs/bundle/full${{ env.releaseFlavor }}Release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: "sign"
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
