@@ -2,4 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">openHAB</string>
     <string name="tasker_item_picker_title">openHAB Items</string>
+    <string name="tasker_open_app_title">Open openHAB</string>
+    <string name="tasker_open_app_blurb">Open openHAB: %s</string>
 </resources>

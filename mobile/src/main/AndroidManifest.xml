@@ -108,6 +108,13 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.TaskerOpenAppActivity"
+            android:label="@string/tasker_open_app_title" >
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.ItemUpdateWidgetItemPickerActivity"
             android:launchMode="singleTask"

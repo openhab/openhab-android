@@ -55,7 +55,9 @@ import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.NfcTag
+import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
+import org.openhab.habdroid.ui.TaskerOpenAppActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PrefKeys
@@ -148,12 +150,23 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     return
                 }
                 val bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE) ?: return
+                if (!bundle.getString(TaskerOpenAppActivity.EXTRA_OPEN_APP_ACTION).isNullOrEmpty()) {
+                    Log.d(TAG, "Open MainActivity")
+                    Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        action = bundle.getString(TaskerOpenAppActivity.EXTRA_OPEN_APP_ACTION)
+                        context.startActivity(this)
+                    }
+                    resultCode = TaskerPlugin.Setting.RESULT_CODE_OK
+                    return
+                }
                 val itemName = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_NAME)
                 val label = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_LABEL)
                 val state = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_STATE)
                 val mappedState = bundle.getString(TaskerItemPickerActivity.EXTRA_ITEM_MAPPED_STATE)
                 val asCommand = bundle.getBoolean(TaskerItemPickerActivity.EXTRA_ITEM_AS_COMMAND, true)
                 if (itemName.isNullOrEmpty() || state.isNullOrEmpty()) {
+                    Log.d(TAG, "Item name or state empty")
                     return
                 }
                 enqueueItemUpload(

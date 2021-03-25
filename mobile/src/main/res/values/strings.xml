@@ -33,6 +33,7 @@
     <string name="settings_connection_title">Connection</string>
     <string name="settings_display_title">Display</string>
     <string name="settings_sitemap_title">Sitemap</string>
+    <string name="default_sitemap">Default Sitemap</string>
     <string name="settings_misc_title">Miscellaneous</string>
     <string name="settings_openhab_url">Local server URL</string>
     <string name="settings_openhab_url_summary">The URL of the openHAB dashboard (based on hostname or IP). If configured, autodiscovery is disabled. Current setting: %s</string>

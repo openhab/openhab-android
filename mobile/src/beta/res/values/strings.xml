@@ -6,4 +6,6 @@
     <!-- Name used for beta builds -->
     <string name="app_name">openHAB Beta</string>
     <string name="tasker_item_picker_title">openHAB Beta Items</string>
+    <string name="tasker_open_app_title">Open openHAB Beta</string>
+    <string name="tasker_open_app_blurb">Open openHAB Beta: %s</string>
 </resources>
