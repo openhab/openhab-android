@@ -262,21 +262,27 @@ You can use it to distinguish between multiple clients:
 
 ### Tasker Action Plugin
 
-The Tasker Action Plugin can be used to send Item commands to the server.
+The Tasker Action Plugin can be used to send Item commands to the server or to open the app.
 
 For security reasons the plugin is disabled by default.
-You can enable it by clicking on "Turn on" when trying to select an Item or go to the openHAB app settings and turn on "Tasker integration".
+You can enable it by clicking on "Turn on" when trying to configure the plugin or go to the openHAB app settings and turn on "Tasker integration".
+
+In case of an error the plugin returns an error code.
+
+| Error Code | Item Command | Open App | Description                                                                                                                                                                                                |
+| ---------- | :----------: | :------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 10         | X            | X        | Tasker plugin is disabled                                                                                                                                                                                  |
+| 11         | X            |          | The app couldn't establish a connection                                                                                                                                                                    |
+| 1000+      | X            |          | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
+
+#### Send Item Commands ("openHAB Items")
 
 Variables can be selected as state after they have been created in the task.
 The variable `%httpcode` is returned by the plugin and contains the HTTP code returned by the server.
 
-In case of an error the plugin returns an error code.
+#### Open openHAB App ("Open openHAB")
 
-| Error Code | Description                                                                                                                                                                                                |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 10         | Tasker plugin is disabled                                                                                                                                                                                  |
-| 11         | The app couldn't establish a connection                                                                                                                                                                    |
-| 1000+      | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
+You can choose the UI that should be shown when the openHAB app is opened by Tasker, e.g. your default Sitemap or HABPanel.
 
 ## Multi server support
 
