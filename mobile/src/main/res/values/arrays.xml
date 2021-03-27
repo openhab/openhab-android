@@ -152,6 +152,20 @@
         <item>@string/send_device_info_schedule_12_hours</item>
     </string-array>
 
+    <string-array name="start_page_values">
+        <item>android.intent.action.MAIN</item>
+        <item>org.openhab.habdroid.action.HABPANEL_SELECTED</item>
+        <item>org.openhab.habdroid.action.OH3_UI_SELECTED</item>
+        <item>org.openhab.habdroid.action.FRONTAIL</item>
+    </string-array>
+
+    <string-array name="start_page">
+        <item>@string/mainmenu_openhab_sitemaps</item>
+        <item>@string/mainmenu_openhab_habpanel</item>
+        <item>@string/mainmenu_openhab_oh3_ui</item>
+        <item>@string/mainmenu_openhab_frontail</item>
+    </string-array>
+
     <!-- Icons grouped by https://www.openhab.org/docs/configuration/iconsets/classic/ -->
     <string-array name="tile_icons">
         <item>@string/tile_icon_openhab</item>

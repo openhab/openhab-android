@@ -725,6 +725,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun processIntent(intent: Intent) {
         Log.d(TAG, "Got intent: $intent")
+
+        if (intent.action == Intent.ACTION_MAIN) {
+            intent.action = prefs.getStringOrNull(PrefKeys.START_PAGE)
+        }
+
         when (intent.action) {
             NfcAdapter.ACTION_NDEF_DISCOVERED, Intent.ACTION_VIEW -> {
                 val tag = intent.data?.toTagData()
@@ -1153,7 +1158,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
         controller.showWebViewUi(ui, isStackRoot, subpage)
-        drawerToggle.isDrawerIndicatorEnabled = false
+        drawerToggle.isDrawerIndicatorEnabled = isStackRoot
     }
 
     private fun buildUrlAndOpenSitemap(partUrl: String) {
