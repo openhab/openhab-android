@@ -18,10 +18,11 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-
 import androidx.core.view.NestedScrollingChildHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlin.math.abs
 
 class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
     private val touchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
@@ -39,8 +40,9 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
     }
 
     override fun canChildScrollUp(): Boolean {
-        val recycler = recyclerView
-        return recycler?.canScrollVertically(-1) ?: super.canChildScrollUp()
+        val layoutManager = recyclerView?.layoutManager as LinearLayoutManager?
+        val firstVisibleItem = layoutManager?.findFirstCompletelyVisibleItemPosition()
+        return if (firstVisibleItem == null) super.canChildScrollUp() else firstVisibleItem != 0
     }
 
     override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {
@@ -61,7 +63,7 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
                 childScrollableOnDown = canChildScrollUp()
             }
             MotionEvent.ACTION_MOVE -> {
-                val xDiff = Math.abs(event.x - downX)
+                val xDiff = abs(event.x - downX)
                 val yDiff = event.y - downY
 
                 if (yDiff < -touchSlop) {
@@ -77,12 +79,10 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
         return super.onInterceptTouchEvent(event)
     }
 
-    // This method is called from the super constructor, where the helper isn't initialized yet
-    @Suppress("SENSELESS_COMPARISON")
     override fun setNestedScrollingEnabled(enabled: Boolean) {
-        if (nestedScrollingChildHelper != null) {
-            nestedScrollingChildHelper.isNestedScrollingEnabled = enabled
-        }
+        // This method is called from the super constructor, where the helper isn't initialized yet
+        @Suppress("UNNECESSARY_SAFE_CALL")
+        nestedScrollingChildHelper?.isNestedScrollingEnabled = enabled
     }
 
     override fun isNestedScrollingEnabled(): Boolean {
