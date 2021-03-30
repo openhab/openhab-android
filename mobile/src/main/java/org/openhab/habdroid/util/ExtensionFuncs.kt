@@ -64,6 +64,7 @@ import kotlin.math.round
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType
@@ -131,6 +132,11 @@ fun Uri?.openInBrowser(context: Context) {
         Log.d(TAG, "Unable to open url in browser: $intent")
         context.showToast(R.string.error_no_browser_found, ToastType.ERROR)
     }
+}
+
+fun HttpUrl.toRelativeUrl(): String {
+    val base = resolve("/")
+    return this.toString().substring(base.toString().length - 1)
 }
 
 /**

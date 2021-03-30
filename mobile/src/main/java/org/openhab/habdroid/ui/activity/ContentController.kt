@@ -53,8 +53,9 @@ import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
-import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_IS_STACK_ROOT
+import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_SUBPAGE
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
@@ -259,9 +260,12 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
-    fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean) {
+    fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
         val webViewFragment = ui.fragment.newInstance()
-        webViewFragment.arguments = bundleOf(KEY_IS_STACK_ROOT to isStackRoot)
+        webViewFragment.arguments = bundleOf(
+            KEY_IS_STACK_ROOT to isStackRoot,
+            KEY_SUBPAGE to subpage
+        )
         webViewFragment.setCallback(this)
         showTemporaryPage(webViewFragment)
     }

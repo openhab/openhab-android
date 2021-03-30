@@ -19,6 +19,7 @@ import java.security.cert.CertPathValidatorException
 import javax.net.ssl.SSLException
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -309,5 +310,16 @@ class UtilTest {
         assertEquals("0", 0.0F.beautify())
         assertEquals("42", 42F.beautify())
         assertEquals("3.14159", 3.14159F.beautify())
+    }
+
+    @Test
+    fun testHttpUrlToRelative() {
+        assertEquals("/", "http://example.com/".toHttpUrl().toRelativeUrl())
+        assertEquals("/foo", "http://example.com/foo".toHttpUrl().toRelativeUrl())
+        assertEquals("/foo?bar", "http://example.com/foo?bar".toHttpUrl().toRelativeUrl())
+        assertEquals("/foo#baz", "http://example.com/foo#baz".toHttpUrl().toRelativeUrl())
+        assertEquals("/foo?bar#baz", "http://example.com/foo?bar#baz".toHttpUrl().toRelativeUrl())
+        assertEquals("/foo?bar#!baz/", "http://example.com/foo?bar#!baz/".toHttpUrl().toRelativeUrl())
+        assertEquals("/foo", "http://example.com:8080/foo".toHttpUrl().toRelativeUrl())
     }
 }
