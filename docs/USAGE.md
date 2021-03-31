@@ -325,7 +325,7 @@ This has a few disadvantages:
 
 ### My voice command rule isn't run
 
-Please make sure `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/paperui/index.html#/configuration/system) and `Rule Voice Interpreter` => `Configure` => Select correct item (http://openhab:8080/paperui/index.html#/configuration/services?tab=voice).
+Please make sure that `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/#!/settings/services/org.openhab.voice) and that the correct Item is selected at `Other Services` => `Rule Voice Interpreter` => `Voice Command Item` (http://openhab:8080/#!/settings/services/org.openhab.rulehli/select/).
 
 ### Chart loading is too slow
 
