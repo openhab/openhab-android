@@ -19,6 +19,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
 import android.text.SpannableStringBuilder
 import android.util.Log
@@ -91,8 +93,10 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
                 .putExtra(MainActivity.EXTRA_SERVER_ID, context.getPrefs().getActiveServerId())
                 .setAction(shortcutAction)
 
-            webView?.url?.toHttpUrlOrNull()?.let {
-                intent.putExtra(MainActivity.EXTRA_SUBPAGE, it.toRelativeUrl())
+            Handler(Looper.getMainLooper()).post {
+                webView?.url?.toHttpUrlOrNull()?.let {
+                    intent.putExtra(MainActivity.EXTRA_SUBPAGE, it.toRelativeUrl())
+                }
             }
 
             return ShortcutInfoCompat.Builder(context, "$shortcutAction-${System.currentTimeMillis()}")
