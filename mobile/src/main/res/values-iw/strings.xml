@@ -424,6 +424,7 @@
     <string name="home_shortcut_error_pinning">שגיאה בנעיצה למסך הבית</string>
     <string name="home_shortcut_success_pinning">ננעץ למסך הבית</string>
     <string name="home_shortcut_server_has_been_deleted">השרת לקיצור דרך זה נמחק</string>
+    <string name="home_shortcut_title">קבע שם לקיצור הדרך</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
