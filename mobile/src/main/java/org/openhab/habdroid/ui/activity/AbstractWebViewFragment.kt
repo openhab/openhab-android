@@ -95,10 +95,8 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
                 .putExtra(MainActivity.EXTRA_SERVER_ID, context.getPrefs().getActiveServerId())
                 .setAction(shortcutAction)
 
-            launch {
-                webView?.url?.toHttpUrlOrNull()?.let {
-                    intent.putExtra(MainActivity.EXTRA_SUBPAGE, it.toRelativeUrl())
-                }
+            webView?.url?.toHttpUrlOrNull()?.let {
+                intent.putExtra(MainActivity.EXTRA_SUBPAGE, it.toRelativeUrl())
             }
 
             return ShortcutInfoCompat.Builder(context, "$shortcutAction-${System.currentTimeMillis()}")
@@ -405,7 +403,9 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         @JavascriptInterface
         fun pinToHome() {
             Log.d(TAG, "pinToHome()")
-            fragment.pinShortcut()
+            fragment.launch {
+                fragment.pinShortcut()
+            }
         }
     }
 
