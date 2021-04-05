@@ -22,16 +22,13 @@ import androidx.core.view.NestedScrollingChildHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlin.math.abs
 
 class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
     private val touchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
-    private var downX: Float = 0F
     private var downY: Float = 0F
     private var childScrollableOnDown: Boolean = false
     private val parentOffsetInWindow = IntArray(2)
     private val nestedScrollingChildHelper = NestedScrollingChildHelper(this)
-    private var horizontalSwipe: Boolean = false
     private var isOrWasUpSwipe: Boolean = false
     var recyclerView: RecyclerView? = null
 
@@ -56,22 +53,14 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                downX = event.x
                 downY = event.y
-                horizontalSwipe = false
                 isOrWasUpSwipe = false
                 childScrollableOnDown = canChildScrollUp()
             }
             MotionEvent.ACTION_MOVE -> {
-                val xDiff = abs(event.x - downX)
                 val yDiff = event.y - downY
-
                 if (yDiff < -touchSlop) {
                     isOrWasUpSwipe = true
-                }
-                if (horizontalSwipe || xDiff > touchSlop) {
-                    horizontalSwipe = true
-                    return false
                 }
             }
         }
