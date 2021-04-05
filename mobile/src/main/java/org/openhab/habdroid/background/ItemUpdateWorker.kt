@@ -47,6 +47,7 @@ import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefixForVoice
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.hasCause
@@ -77,20 +78,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         if (connection == null) {
             Log.e(TAG, "Got no connection")
-            return if (runAttemptCount <= if (isImportant) 3 else 10) {
-                if (showToast) {
-                    applicationContext.showToast(R.string.item_update_error_no_connection_retry, ToastType.ERROR)
-                }
-                Result.retry()
-            } else {
-                sendTaskerSignalIfNeeded(
-                    taskerIntent,
-                    false,
-                    500,
-                    applicationContext.getString(R.string.item_update_error_no_connection)
-                )
-                Result.failure(buildOutputData(false, 500))
-            }
+            return retryOrFail(isImportant, showToast, taskerIntent, false, 500)
         }
 
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
@@ -143,7 +131,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
                 if (e.hasCause(SocketTimeoutException::class.java) || e.statusCode in RETRY_HTTP_ERROR_CODES) {
-                    Result.retry()
+                    retryOrFail(isImportant, showToast, taskerIntent, true, e.statusCode)
                 } else {
                     sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
                     Result.failure(buildOutputData(true, e.statusCode))
@@ -182,18 +170,42 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return formatter.format(value.value.toLong())
     }
 
+    private fun retryOrFail(
+        isImportant: Boolean,
+        showToast: Boolean,
+        taskerIntent: String?,
+        hasConnection: Boolean,
+        httpCode: Int
+    ): Result {
+        return if (runAttemptCount <= if (isImportant) 3 else 10) {
+            if (showToast) {
+                applicationContext.showToast(R.string.item_update_error_no_connection_retry, ToastType.ERROR)
+            }
+            Result.retry()
+        } else {
+            val message = if (hasConnection) {
+                applicationContext.getHumanReadableErrorMessage("", httpCode, null, true)
+            } else {
+                applicationContext.getString(R.string.item_update_error_no_connection)
+            }
+
+            sendTaskerSignalIfNeeded(taskerIntent, hasConnection, httpCode, message)
+            Result.failure(buildOutputData(hasConnection, httpCode))
+        }
+    }
+
     private fun sendTaskerSignalIfNeeded(
         taskerIntent: String?,
-        hadConnection: Boolean,
+        hasConnection: Boolean,
         httpCode: Int,
-        errorMessage: String?
+        errorMessage: CharSequence?
     ) {
         if (taskerIntent == null) {
             return
         }
         val resultCode = when {
             errorMessage == null -> TaskerPlugin.Setting.RESULT_CODE_OK
-            hadConnection -> TaskerItemPickerActivity.getResultCodeForHttpFailure(httpCode)
+            hasConnection -> TaskerItemPickerActivity.getResultCodeForHttpFailure(httpCode)
             else -> TaskerItemPickerActivity.RESULT_CODE_NO_CONNECTION
         }
         Log.d(TAG, "Tasker result code: $resultCode, HTTP code: $httpCode")
