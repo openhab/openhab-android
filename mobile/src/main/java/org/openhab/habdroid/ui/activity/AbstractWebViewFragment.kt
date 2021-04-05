@@ -50,7 +50,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
@@ -206,22 +205,18 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val context = context ?: return
         askForShortcutTitle(context, shortcutInfo) {
             val success = ShortcutManagerCompat.requestPinShortcut(context, it, null)
-            launch {
-                withContext(Dispatchers.Main) {
-                    if (success) {
-                        (activity as? MainActivity)?.showSnackbar(
-                            MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                            R.string.home_shortcut_success_pinning,
-                            Snackbar.LENGTH_SHORT
-                        )
-                    } else {
-                        (activity as? MainActivity)?.showSnackbar(
-                            MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                            R.string.home_shortcut_error_pinning,
-                            Snackbar.LENGTH_LONG
-                        )
-                    }
-                }
+            if (success) {
+                (activity as? MainActivity)?.showSnackbar(
+                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                    R.string.home_shortcut_success_pinning,
+                    Snackbar.LENGTH_SHORT
+                )
+            } else {
+                (activity as? MainActivity)?.showSnackbar(
+                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                    R.string.home_shortcut_error_pinning,
+                    Snackbar.LENGTH_LONG
+                )
             }
         }
     }
