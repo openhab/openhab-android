@@ -420,6 +420,7 @@
     <string name="home_shortcut_error_pinning">Error al crear atajo en pantalla de inicio</string>
     <string name="home_shortcut_success_pinning">Atajo creado en pantalla de inicio</string>
     <string name="home_shortcut_server_has_been_deleted">El servidor para este acceso directo ha sido eliminado</string>
+    <string name="home_shortcut_title">Establecer el título del acceso directo</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir la persiana enrollable</string>
     <string name="content_description_stop_roller_shutter">Parar la persiana enrollable</string>
