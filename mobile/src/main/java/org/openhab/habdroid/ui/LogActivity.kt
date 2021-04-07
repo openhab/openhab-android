@@ -175,6 +175,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         logBuilder.append("-----------------------\n\n")
 
         if (clear) {
+            Log.i(TAG, "Log was cleared")
             logBuilder.append(getString(R.string.empty_log))
             return@withContext logBuilder.toString()
         }
