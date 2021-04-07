@@ -36,6 +36,7 @@ object PrefKeys {
     const val CLEAR_DEFAULT_SITEMAP = "clear_default_sitemap"
     fun buildServerKey(id: Int, prefix: String) = "$prefix$id"
 
+    const val START_PAGE = "start_page"
     const val SHOW_SITEMAPS_IN_DRAWER = "show_sitemaps"
     const val ICON_FORMAT = "iconFormatType"
     const val CLEAR_CACHE = "default_openhab_cleacache"

@@ -49,6 +49,13 @@
             android:title="@string/settings_openhab_chart_hq" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
+        <ListPreference
+            android:title="@string/start_page_title"
+            android:key="start_page"
+            android:defaultValue="android.intent.action.MAIN"
+            android:summary="%s"
+            android:entries="@array/start_page"
+            android:entryValues="@array/start_page_values" />
         <Preference
             android:key="drawer_entries"
             android:title="@string/drawer_entries"
