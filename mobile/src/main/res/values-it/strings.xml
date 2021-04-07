@@ -45,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Non mostrare timer di spegnimento quando openHAB è in esecuzione</string>
     <string name="settings_openhab_demomode">Modalità demo</string>
     <string name="settings_openhab_demomode_summary">Se non hai un openHAB server, attiva la modalità demo e potrai immaginare ciò che openHAB è in grado di fare.</string>
+    <string name="start_page_title">Pagina iniziale</string>
     <string name="drawer_entries">Voci del menu laterale</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Colore tinta</string>
