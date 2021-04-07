@@ -1,0 +1,7 @@
+## Added
+* Add preference to set start page (#2501)
+
+## Fixed
+* Fix creation of webview shortcuts (#2507)
+* Fix widget dividers not hidden (#2510)
+* Fix swipe-to-refresh if first item is hidden (#2502)
