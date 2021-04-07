@@ -45,10 +45,11 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
@@ -67,7 +68,9 @@ import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.isDarkModeActive
 import org.openhab.habdroid.util.toRelativeUrl
 
-abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
+abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateListener, CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var webView: WebView? = null
     private var callback: ParentCallback? = null
     private var actionBar: ActionBar? = null
@@ -207,22 +210,18 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val context = context ?: return
         askForShortcutTitle(context, shortcutInfo) {
             val success = ShortcutManagerCompat.requestPinShortcut(context, it, null)
-            GlobalScope.launch {
-                withContext(Dispatchers.Main) {
-                    if (success) {
-                        (activity as? MainActivity)?.showSnackbar(
-                            MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                            R.string.home_shortcut_success_pinning,
-                            Snackbar.LENGTH_SHORT
-                        )
-                    } else {
-                        (activity as? MainActivity)?.showSnackbar(
-                            MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                            R.string.home_shortcut_error_pinning,
-                            Snackbar.LENGTH_LONG
-                        )
-                    }
-                }
+            if (success) {
+                (activity as? MainActivity)?.showSnackbar(
+                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                    R.string.home_shortcut_success_pinning,
+                    Snackbar.LENGTH_SHORT
+                )
+            } else {
+                (activity as? MainActivity)?.showSnackbar(
+                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                    R.string.home_shortcut_error_pinning,
+                    Snackbar.LENGTH_LONG
+                )
             }
         }
     }
@@ -354,16 +353,12 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     private fun hideActionBar() {
-        GlobalScope.launch(Dispatchers.Main) {
-            actionBar?.hide()
-        }
+        actionBar?.hide()
     }
 
     private fun closeFragment() {
-        GlobalScope.launch(Dispatchers.Main) {
-            actionBar?.show()
-            callback?.closeFragment()
-        }
+        actionBar?.show()
+        callback?.closeFragment()
     }
 
     open class OHAppInterface(private val context: Context, private val fragment: AbstractWebViewFragment) {
@@ -382,13 +377,17 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         @JavascriptInterface
         fun exitToApp() {
             Log.d(TAG, "exitToApp()")
-            fragment.closeFragment()
+            fragment.launch {
+                fragment.closeFragment()
+            }
         }
 
         @JavascriptInterface
         fun goFullscreen() {
             Log.d(TAG, "goFullscreen()")
-            fragment.hideActionBar()
+            fragment.launch {
+                fragment.hideActionBar()
+            }
         }
 
         companion object {
@@ -404,7 +403,9 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         @JavascriptInterface
         fun pinToHome() {
             Log.d(TAG, "pinToHome()")
-            fragment.pinShortcut()
+            fragment.launch {
+                fragment.pinShortcut()
+            }
         }
     }
 
