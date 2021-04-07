@@ -82,6 +82,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     abstract val urlToLoad: String
     abstract val urlForError: String
     open val avoidAuthentication = false
+    abstract val lockDrawer: Boolean
     abstract val shortcutIcon: Int
     abstract val shortcutAction: String
     private val shortcutInfo: ShortcutInfoCompat
@@ -163,14 +164,18 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         super.onResume()
         webView?.onResume()
         webView?.resumeTimers()
-        (activity as MainActivity?)?.setDrawerLocked(true)
+        if (lockDrawer) {
+            (activity as MainActivity?)?.setDrawerLocked(true)
+        }
     }
 
     override fun onPause() {
         super.onPause()
         webView?.onPause()
         webView?.pauseTimers()
-        (activity as MainActivity?)?.setDrawerLocked(false)
+        if (lockDrawer) {
+            (activity as MainActivity?)?.setDrawerLocked(false)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
