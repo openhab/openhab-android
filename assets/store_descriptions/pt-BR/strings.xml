@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "empowering the smart home" - fornecedor e tecnologia agnóstica de código aberto de automação residencial</intro>
+    <intro/>
     <whatis>openHAB é uma plataforma de automação residencial de código aberto baseada em Java que integra e combina uma vasta gama de diferentes sistemas e tecnologias domésticos inteligentes em uma única solução.</whatis>
     <rules>No topo da camada de abstração unificada, todos os dispositivos conectados estão disponíveis para os mecanismos de regras de automação abrangentes e diferentes interfaces de usuário.</rules>
     <supported>Produtos suportados</supported>
@@ -17,7 +17,7 @@
     <important_note>Nota importante</important_note>
     <oh_server>Você precisa de um servidor openHAB para este app.</oh_server>
     <short_description>Fornecedor e tecnologia agnóstica de código aberto de automação residencial</short_description>
-    <fdroid> Em vez disso, as notificações são consultadas regularmente nestas compilações.</fdroid>
+    <fdroid>As compilações em F-Droid têm FCM e o relatório de falha removidos e não serão capazes de receber notificações push do openHAB Cloud. Em vez disso, as notificações são consultadas regularmente nestas compilações.</fdroid>
     <fdroid_beta><![CDATA[Você pode instalar a versão beta junto da <a href="https://f-droid.org/packages/org.openhab.habdroid/">versão estável</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Política de privacidade: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Experimente novos recursos e dê feedback antecipado!</beta>
