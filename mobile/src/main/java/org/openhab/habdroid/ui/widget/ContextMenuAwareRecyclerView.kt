@@ -30,7 +30,7 @@ class ContextMenuAwareRecyclerView constructor(context: Context, attrs: Attribut
         val adapter = adapter
         val lp = view?.layoutParams
         if (adapter != null && lp is LayoutParams) {
-            val position = lp.viewAdapterPosition
+            val position = lp.bindingAdapterPosition
             if (position == NO_POSITION) {
                 return false
             }
