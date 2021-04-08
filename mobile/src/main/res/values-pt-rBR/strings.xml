@@ -14,10 +14,14 @@
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Notificações</string>
     <string name="app_notifications_on_server">Notificações (%s)</string>
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
     <string name="oh3_ui_error">Ocorreu um erro ao carregar openHAB 3 UI</string>
+    <string name="frontail_error">Ocorreu um erro ao carregar o Frontail. Por favor, note que não está disponível via openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail deve ser executado na porta padrão 9001. É empacotado com openHABian ou pode ser instalado manualmente.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
     <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
@@ -41,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Desativa a exibição de interruptor de temporização quando openHAB está sendo executado</string>
     <string name="settings_openhab_demomode">Modo de demonstração</string>
     <string name="settings_openhab_demomode_summary">Se você não tiver um servidor openHAB, ative o modo de demonstração para obter uma imaginação do que openHAB é capaz de fazer.</string>
+    <string name="start_page_title">Página inicial</string>
     <string name="drawer_entries">Itens do menu lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Cor de destaque</string>
@@ -254,6 +259,8 @@
     <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
     <string name="notification_channel_background_error_description">Usado para notificar sobre erros em tarefas de segundo plano, ex: não tem conexão para enviar nível de bateria</string>
     <string name="notification_channel_background_foreground_service_description">Monitorar eventos para atualizar de acordo com os Items. Você pode ocultar esta categoria com segurança.</string>
+    <string name="notification_channel_crash_reports">Relatórios de erros</string>
+    <string name="notification_channel_crash_reports_description">Usado para perguntar se um relatório de falha deve ser enviado</string>
     <string name="notification_channel_messages_default_severity">Padrão</string>
     <string name="notification_channel_messages_default_severity_description">Notificações enviadas pelo servidor sem gravidade definida</string>
     <string name="notification_channel_group_messages">Mensagens</string>
@@ -263,6 +270,9 @@
         <item quantity="one">%d nova notificação</item>
         <item quantity="other">%d novas notificações</item>
     </plurals>
+    <string name="crash_report_notification_title">openHAB travou</string>
+    <string name="crash_report_notification_text">Ajuda a melhorar o openHAB enviando o relatório de erro</string>
+    <string name="crash_report_notification_send_mail">Enviar e-mail</string>
     <string name="push_notification_status_no_remote_configured">Notificações estão indisponíveis: Servidor remoto não está configurado</string>
     <string name="push_notification_status_http_error">Notificações estão indisponíveis: Erro ao conectar ao servidor remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Notificações estão indisponíveis: Servidor remoto não é uma instância do openHAB</string>
@@ -411,6 +421,7 @@
     <string name="home_shortcut_error_pinning">Erro ao fixar na tela inicial</string>
     <string name="home_shortcut_success_pinning">Fixado na tela inicial</string>
     <string name="home_shortcut_server_has_been_deleted">O servidor para este atalho foi excluído</string>
+    <string name="home_shortcut_title">Definir título do atalho</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir cortina</string>
     <string name="content_description_stop_roller_shutter">Parar cortina</string>
