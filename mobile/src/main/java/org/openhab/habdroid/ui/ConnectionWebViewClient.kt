@@ -22,6 +22,7 @@ import android.util.Log
 import android.webkit.ClientCertRequest
 import android.webkit.HttpAuthHandler
 import android.webkit.SslErrorHandler
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import de.duenndns.ssl.MemorizingTrustManager
@@ -32,6 +33,7 @@ import java.security.cert.CertificateFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.PrefKeys
@@ -39,6 +41,7 @@ import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDemoModeEnabled
+import org.openhab.habdroid.util.openInBrowser
 
 open class ConnectionWebViewClient(
     private val connection: Connection
@@ -46,6 +49,18 @@ open class ConnectionWebViewClient(
 
     override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler, host: String, realm: String) {
         handler.proceed(connection.username, connection.password)
+    }
+
+    override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+        if (request.url.toString().toHttpUrlOrNull()?.resolve("/") == view.url?.toHttpUrlOrNull()?.resolve("/")) {
+            Log.d(TAG, "Same host: Load in WebView (${request.url})")
+            return false
+        }
+
+        Log.d(TAG, "New host: Open in external browser (${request.url})")
+        request.url.openInBrowser(view.context)
+
+        return true
     }
 
     override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
