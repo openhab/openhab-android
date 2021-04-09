@@ -96,7 +96,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
     override fun onClick(view: View) {
         val holder = view.tag as ItemViewHolder
-        val position = holder.adapterPosition
+        val position = holder.bindingAdapterPosition
         if (position != RecyclerView.NO_POSITION) {
             itemClickListener?.onItemClicked(filteredItems[position])
         }

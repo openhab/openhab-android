@@ -239,7 +239,7 @@ class WidgetAdapter(
 
     override fun onClick(view: View) {
         val holder = view.tag as ViewHolder
-        val position = holder.adapterPosition
+        val position = holder.bindingAdapterPosition
         if (position != RecyclerView.NO_POSITION) {
             if (!itemClickListener.onItemClicked(items[position])) {
                 holder.handleRowClick()
