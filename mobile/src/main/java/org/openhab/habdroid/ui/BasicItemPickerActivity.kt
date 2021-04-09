@@ -14,14 +14,14 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.LayoutRes
-import androidx.annotation.RequiresApi
 import org.openhab.habdroid.model.Item
 
-@RequiresApi(Build.VERSION_CODES.N)
-class TileItemPickerActivity(
+/**
+ * Item picker that returns the selected item as result intent
+ */
+class BasicItemPickerActivity(
     override var hintMessageId: Int = 0,
     override var hintButtonMessageId: Int = 0,
     override var hintIconId: Int = 0

@@ -17,9 +17,10 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.Preference
 
-class TileItemAndStatePreference constructor(context: Context, attrs: AttributeSet?) : Preference(context, attrs) {
+class ItemAndStatePreference constructor(context: Context, attrs: AttributeSet?) : Preference(context, attrs) {
     var item: String? = null
     var label: String? = null
     var state: String? = null
     var mappedState: String? = null
+    var icon: String? = null
 }

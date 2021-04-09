@@ -99,7 +99,7 @@ fun String?.toOH1IconResource(): IconResource? {
 }
 
 fun String?.toOH2IconResource(): IconResource? {
-    return if (this != null && this != "none") IconResource(this, true, null) else null
+    return if (this != null && this != "none") IconResource(this, true, "") else null
 }
 
 internal fun String?.toOH2WidgetIconResource(item: Item?, type: Widget.Type, hasMappings: Boolean): IconResource? {

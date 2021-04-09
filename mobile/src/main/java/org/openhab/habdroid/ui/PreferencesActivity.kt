@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui
 import android.app.Activity
 import android.app.Dialog
 import android.app.KeyguardManager
+import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -76,13 +77,14 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.BetaPreference
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
+import org.openhab.habdroid.ui.preference.ItemAndStatePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.NotificationPollingPreference
 import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
-import org.openhab.habdroid.ui.preference.TileItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
@@ -117,17 +119,27 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         if (savedInstanceState == null) {
             resultIntent = Intent()
-            val fragment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                intent.action == TileService.ACTION_QS_TILE_PREFERENCES) {
-                val tile = intent.getParcelableExtra<ComponentName>(Intent.EXTRA_COMPONENT_NAME)
-                val tileId: Int = tile?.className?.let { AbstractTileService.getIdFromClassName(it) } ?: 0
-                if (tileId > 0) {
-                    TileSettingsFragment.newInstance(tileId)
-                } else {
-                    TileOverviewFragment()
+            val fragment = when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                    intent.action == TileService.ACTION_QS_TILE_PREFERENCES -> {
+                    val tile = intent.getParcelableExtra<ComponentName>(Intent.EXTRA_COMPONENT_NAME)
+                    val tileId: Int = tile?.className?.let { AbstractTileService.getIdFromClassName(it) } ?: 0
+                    if (tileId > 0) {
+                        TileSettingsFragment.newInstance(tileId)
+                    } else {
+                        TileOverviewFragment()
+                    }
                 }
-            } else {
-                MainSettingsFragment()
+                intent.action == AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> {
+                    val id = intent?.extras?.getInt(
+                        AppWidgetManager.EXTRA_APPWIDGET_ID,
+                        AppWidgetManager.INVALID_APPWIDGET_ID
+                    ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+                    WidgetSettingsFragment.newInstance(id)
+                }
+                else -> {
+                    MainSettingsFragment()
+                }
             }
             supportFragmentManager.commit {
                 add(R.id.activity_content, fragment)
@@ -158,12 +170,12 @@ class PreferencesActivity : AbstractBaseActivity() {
 
     override fun onBackPressed() {
         with(supportFragmentManager) {
-            if (backStackEntryCount > 0) {
-                if ((fragments.last() as? AbstractSettingsFragment)?.onBackPressed() != true) {
+            if ((fragments.last() as? AbstractSettingsFragment)?.onBackPressed() != true) {
+                if (backStackEntryCount > 0) {
                     popBackStack()
+                } else {
+                    super.onBackPressed()
                 }
-            } else {
-                super.onBackPressed()
             }
         }
     }
@@ -1237,7 +1249,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         private var tileId = 0
 
         private lateinit var enabledPref: SwitchPreferenceCompat
-        private lateinit var itemAndStatePref: TileItemAndStatePreference
+        private lateinit var itemAndStatePref: ItemAndStatePreference
         private lateinit var namePref: CustomInputTypePreference
         private lateinit var iconPref: ListPreference
         private lateinit var requireUnlockPref: SwitchPreferenceCompat
@@ -1268,7 +1280,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
             super.onCreateOptionsMenu(menu, inflater)
-            inflater.inflate(R.menu.tile_prefs, menu)
+            inflater.inflate(R.menu.prefs_save, menu)
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -1291,9 +1303,9 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
             itemAndStatePref.setOnPreferenceClickListener {
-                val intent = Intent(it.context, TileItemPickerActivity::class.java)
+                val intent = Intent(it.context, BasicItemPickerActivity::class.java)
                 intent.putExtra("item", itemAndStatePref.item)
-                startActivityForResult(intent, RESULT_TILE_ITEM_PICKER)
+                startActivityForResult(intent, RESULT_BASIC_ITEM_PICKER)
                 true
             }
         }
@@ -1342,7 +1354,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             super.onActivityResult(requestCode, resultCode, data)
             Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
-            if (requestCode == RESULT_TILE_ITEM_PICKER && resultCode == Activity.RESULT_OK && data != null) {
+            if (requestCode == RESULT_BASIC_ITEM_PICKER && resultCode == Activity.RESULT_OK && data != null) {
                 Log.d(TAG, "Setting itemAndStatePref data")
                 itemAndStatePref.item = data.getStringExtra("item")
                 itemAndStatePref.label = data.getStringExtra("label")
@@ -1411,7 +1423,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             if (currentData != null && !currentData.isValid()) {
                 parentActivity.showSnackbar(
                     SNACKBAR_TAG_MISSING_PREFS,
-                    R.string.tile_error_saving,
+                    R.string.error_missing_prefs,
                     Snackbar.LENGTH_LONG
                 )
                 return
@@ -1445,6 +1457,174 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
     }
 
+    internal class WidgetSettingsFragment : AbstractSettingsFragment(), ConfirmLeaveDialogFragment.Callback {
+        override val titleResId: Int @StringRes get() = R.string.item_update_widget
+        private var widgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID
+
+        private lateinit var itemAndStatePref: ItemAndStatePreference
+        private lateinit var namePref: CustomInputTypePreference
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setHasOptionsMenu(true)
+            activity?.setResult(RESULT_CANCELED)
+
+            widgetId = requireArguments().getInt("id", AppWidgetManager.INVALID_APPWIDGET_ID)
+            if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+                throw IllegalArgumentException("$TAG called with INVALID_APPWIDGET_ID")
+            }
+
+            setDataFromPrefs()
+        }
+
+        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+            super.onCreateOptionsMenu(menu, inflater)
+            inflater.inflate(R.menu.prefs_save, menu)
+        }
+
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.save -> {
+                    onLeaveAndSave()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
+        }
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            addPreferencesFromResource(R.xml.preferences_homescreen_widget)
+            itemAndStatePref = findPreference("widget_item_and_action")!!
+            namePref = findPreference("widget_name")!!
+
+            namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
+            itemAndStatePref.setOnPreferenceClickListener {
+                val intent = Intent(it.context, BasicItemPickerActivity::class.java)
+                intent.putExtra("item", itemAndStatePref.item)
+                startActivityForResult(intent, RESULT_BASIC_ITEM_PICKER)
+                true
+            }
+        }
+
+        override fun onBackPressed(): Boolean {
+            val oldData = ItemUpdateWidget.getInfoForWidget(requireContext(), widgetId)
+            val newData = getCurrentPrefsAsWidgetData()
+            if (oldData != newData) {
+                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                return true
+            }
+
+            return false
+        }
+
+        private fun updateItemAndStatePrefSummary() {
+            itemAndStatePref.summary = if (itemAndStatePref.item.isNullOrEmpty()) {
+                itemAndStatePref.context.getString(R.string.info_not_set)
+            } else {
+                "${itemAndStatePref.label} (${itemAndStatePref.item}): ${itemAndStatePref.mappedState}"
+            }
+        }
+
+        private fun getCurrentPrefsAsWidgetData(): ItemUpdateWidget.ItemUpdateWidgetData {
+            return ItemUpdateWidget.ItemUpdateWidgetData(
+                item = itemAndStatePref.item.orEmpty(),
+                state = itemAndStatePref.state.orEmpty(),
+                label = itemAndStatePref.label.orEmpty(),
+                widgetLabel = namePref.text.orEmpty(),
+                mappedState = itemAndStatePref.mappedState.orEmpty(),
+                icon = itemAndStatePref.icon.toOH2IconResource()
+            )
+        }
+
+        private fun setDataFromPrefs() {
+            val data = ItemUpdateWidget.getInfoForWidget(requireContext(), widgetId)
+
+            itemAndStatePref.item = data.item
+            itemAndStatePref.label = data.label
+            itemAndStatePref.state = data.state
+            itemAndStatePref.mappedState = data.mappedState
+            itemAndStatePref.icon = data.icon?.icon
+            namePref.text = data.widgetLabel
+
+            updateItemAndStatePrefSummary()
+        }
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            Log.d(TAG, "onActivityResult() requestCode = $requestCode, resultCode = $resultCode")
+            if (requestCode == RESULT_BASIC_ITEM_PICKER && resultCode == Activity.RESULT_OK && data != null) {
+                Log.d(TAG, "Setting itemAndStatePref data")
+                itemAndStatePref.item = data.getStringExtra("item")
+                val label = if (data.getStringExtra("label").isNullOrEmpty()) {
+                    itemAndStatePref.item
+                } else {
+                    data.getStringExtra("label")
+                }
+                itemAndStatePref.label = label
+                itemAndStatePref.state = data.getStringExtra("state")
+                itemAndStatePref.mappedState = data.getStringExtra("mappedState")
+                itemAndStatePref.icon = data.getStringExtra("icon")
+                updateItemAndStatePrefSummary()
+
+                if (namePref.text.isNullOrEmpty()) {
+                    namePref.text = preferenceManager.context.getString(
+                        R.string.item_update_widget_text,
+                        itemAndStatePref.label,
+                        itemAndStatePref.mappedState
+                    )
+                }
+            }
+        }
+
+        override fun onLeaveAndSave() {
+            Log.d(TAG, "Save widget $widgetId")
+            val context = preferenceManager.context
+            val newData = getCurrentPrefsAsWidgetData()
+            if (!newData.isValid()) {
+                parentActivity.showSnackbar(
+                    SNACKBAR_TAG_MISSING_PREFS,
+                    R.string.error_missing_prefs,
+                    Snackbar.LENGTH_LONG
+                )
+                return
+            }
+
+            val oldData = ItemUpdateWidget.getInfoForWidget(context, widgetId)
+            if (oldData.icon != newData.icon) {
+                CacheManager.getInstance(context).removeWidgetIcon(widgetId)
+            }
+
+            ItemUpdateWidget.saveInfoForWidget(context, newData, widgetId)
+
+            val updateIntent = Intent(context, ItemUpdateWidget::class.java).apply {
+                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(widgetId))
+            }
+            context.sendBroadcast(updateIntent)
+
+            val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+            activity?.setResult(RESULT_OK, resultValue)
+
+            parentActivity.onBackPressed()
+        }
+
+        override fun onLeaveAndDiscard() {
+            setDataFromPrefs()
+            parentActivity.onBackPressed()
+        }
+
+        companion object {
+            private val TAG = WidgetSettingsFragment::class.java.simpleName
+
+            fun newInstance(id: Int): WidgetSettingsFragment {
+                val f = WidgetSettingsFragment()
+                val args = bundleOf("id" to id)
+                f.arguments = args
+                return f
+            }
+        }
+    }
+
     companion object {
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
@@ -1459,7 +1639,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         private const val STATE_KEY_RESULT = "result"
         private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
         private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
-        private const val RESULT_TILE_ITEM_PICKER = 0
+        private const val RESULT_BASIC_ITEM_PICKER = 0
 
         internal const val SNACKBAR_TAG_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
         internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"

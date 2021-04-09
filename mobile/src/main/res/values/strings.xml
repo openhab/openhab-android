@@ -528,6 +528,7 @@
     <string name="item_update_widget_title">Item control</string>
     <string name="item_update_widget_content_description">Widget for changing Item state</string>
     <string name="item_update_widget_content_description_edit">Edit widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Select an Item</string>
@@ -570,9 +571,6 @@
     <string name="item_update_error_couldnt_get_item_type">Couldn\'t get Item type</string>
     <string name="create_home_screen_widget_title">Create widget</string>
     <string name="create_home_screen_widget_not_supported">Please go to the widget menu on your home screen and create a widget from there</string>
-    <string name="item_update_widget_auto_generate_widget_label">Auto generate widget label</string>
-    <string name="item_update_widget_widget_label">Widget label</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 
     <!-- Data saver -->
     <string name="data_saver_title">Data saver</string>
@@ -592,10 +590,9 @@
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">Tiles for quick settings</string>
     <string name="tile_item_picker_title">Select an Item</string>
-    <string name="tile_error_saving">Please fill out every setting</string>
     <string name="tile_disabled">Turned off</string>
     <string name="tile_enable">Turn on</string>
-    <string name="item_item_and_action">Item and action</string>
+    <string name="tile_item_and_action">Item and action</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
     <string name="tile_require_unlock">Require screen to be unlocked</string>
@@ -619,6 +616,7 @@
     <string name="tile_label_10">Tile 10</string>
     <string name="tile_label_11">Tile 11</string>
     <string name="tile_label_12">Tile 12</string>
+    <string name="error_missing_prefs">Please fill out every setting</string>
 
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB icon</string>
