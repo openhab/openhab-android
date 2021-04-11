@@ -45,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras openHAB se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
     <string name="settings_openhab_demomode_summary">Si no dispone de un servidor de openHAB, habilite el modo demo para ver todo lo que puede hacer openHAB</string>
+    <string name="start_page_title">Página de inicio</string>
     <string name="drawer_entries">Entradas de menú lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Color destacado</string>
