@@ -25,6 +25,7 @@ import android.webkit.SslErrorHandler
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.net.toUri
 import de.duenndns.ssl.MemorizingTrustManager
 import java.io.ByteArrayInputStream
 import java.security.cert.Certificate
@@ -33,7 +34,6 @@ import java.security.cert.CertificateFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.PrefKeys
@@ -52,13 +52,19 @@ open class ConnectionWebViewClient(
     }
 
     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-        if (request.url.toString().toHttpUrlOrNull()?.resolve("/") == view.url?.toHttpUrlOrNull()?.resolve("/")) {
-            Log.d(TAG, "Same host: Load in WebView (${request.url})")
+        @Suppress("DEPRECATION")
+        return shouldOverrideUrlLoading(view, request.url.toString())
+    }
+
+    // This is called on older Android versions
+    override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+        if (url.toUri().host == view.url?.toUri()?.host) {
+            Log.d(TAG, "Same host: Load in WebView ($url)")
             return false
         }
 
-        Log.d(TAG, "New host: Open in external browser (${request.url})")
-        request.url.openInBrowser(view.context)
+        Log.d(TAG, "New host: Open in external browser ($url)")
+        url.toUri().openInBrowser(view.context)
 
         return true
     }
