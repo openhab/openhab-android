@@ -13,8 +13,8 @@
 
 package org.openhab.habdroid.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
-import android.os.Message
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -57,19 +57,12 @@ fun WebView.setUpForConnection(
 
     with(settings) {
         domStorageEnabled = true
+        @SuppressLint("SetJavaScriptEnabled")
         javaScriptEnabled = true
-        setSupportMultipleWindows(true)
     }
 
     webViewClient = ConnectionWebViewClient(connection)
     webChromeClient = object : WebChromeClient() {
-        override fun onCreateWindow(view: WebView, dialog: Boolean, userGesture: Boolean, resultMsg: Message): Boolean {
-            val href = view.handler.obtainMessage()
-            view.requestFocusNodeHref(href)
-            href.data.getString("url")?.toUri().openInBrowser(view.context)
-            return false
-        }
-
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             progressCallback(newProgress)
         }
