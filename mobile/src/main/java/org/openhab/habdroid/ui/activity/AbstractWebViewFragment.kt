@@ -35,6 +35,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
@@ -298,10 +299,10 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
         val conn = ConnectionFactory.activeUsableConnection?.connection
         if (conn == null) {
-            updateViewVisibility(error = true, loading = false)
+            updateViewVisibility(true, null)
             return
         }
-        updateViewVisibility(error = false, loading = true)
+        updateViewVisibility(false, 0)
 
         val webView = webView ?: return
         val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
@@ -309,9 +310,9 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         webView.setUpForConnection(conn, url, avoidAuthentication) { progress ->
             Log.d(TAG, "progressCallback: progress = $progress")
             if (progress == 100) {
-                updateViewVisibility(error = null, loading = false)
+                updateViewVisibility(null, null)
             } else {
-                updateViewVisibility(error = null, loading = true)
+                updateViewVisibility(null, progress)
             }
         }
         webView.setBackgroundColor(Color.TRANSPARENT)
@@ -328,13 +329,13 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
                 val errorUrl = request.url.toString()
                 Log.e(TAG, "onReceivedError() on URL: $errorUrl")
                 if (errorUrl.endsWith(urlForError)) {
-                    updateViewVisibility(error = true, loading = false)
+                    updateViewVisibility(true, null)
                 }
             }
 
             override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
                 Log.e(TAG, "onReceivedError() (deprecated) on URL: $failingUrl")
-                updateViewVisibility(error = true, loading = false)
+                updateViewVisibility(true, null)
             }
         }
         webView.loadUrl(url.toString())
@@ -344,12 +345,20 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         return orig
     }
 
-    private fun updateViewVisibility(error: Boolean?, loading: Boolean) {
+    /**
+     * Change the visibility of the progress and error indicators and the WebView.
+     * @param error null if the error state didn't change, true if an error occurred, false if an error was cleared.
+     * @param loadingProgress null if no loading happens, current progress otherwise.
+     */
+    private fun updateViewVisibility(error: Boolean?, loadingProgress: Int?) {
         error?.let {
             webView?.isVisible = !error
             view?.findViewById<View>(android.R.id.empty)?.isVisible = error
         }
-        view?.findViewById<View>(R.id.progress)?.isVisible = loading
+        view?.findViewById<ProgressBar>(R.id.progress)?.apply {
+            isVisible = loadingProgress != null
+            progress = loadingProgress ?: 0
+        }
     }
 
     private fun hideActionBar() {
