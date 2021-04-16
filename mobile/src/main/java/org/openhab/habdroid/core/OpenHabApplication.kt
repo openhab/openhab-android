@@ -25,12 +25,14 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.PowerManager
 import android.util.Log
+import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import java.security.InvalidKeyException
+import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.CrashReportingHelper
@@ -104,6 +106,11 @@ class OpenHabApplication : MultiDexApplication() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             registerDataAccessAudit()
+        }
+
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Enable WebView debugging")
+            WebView.setWebContentsDebuggingEnabled(true)
         }
     }
 
