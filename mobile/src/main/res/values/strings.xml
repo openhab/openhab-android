@@ -289,8 +289,6 @@
     <string name="notification_channel_background_error_description">Used to notify about errors in background tasks, e.g. got no network to send battery level</string>
     <string name="notification_channel_background_foreground_service" translatable="false">@string/send_device_info_foreground_service_title</string>
     <string name="notification_channel_background_foreground_service_description">Monitor events to update Items accordingly. You can safely hide this category.</string>
-    <string name="notification_channel_crash_reports">Crash reports</string>
-    <string name="notification_channel_crash_reports_description">Used to ask if a crash report should be sent</string>
     <string name="notification_channel_messages_default_severity">Default</string>
     <string name="notification_channel_messages_default_severity_description">Notifications sent by the server with no defined severity</string>
     <string name="notification_channel_group_messages">Messages</string>
@@ -300,9 +298,6 @@
         <item quantity="one">%d new notification</item>
         <item quantity="other">%d new notifications</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB crashed</string>
-    <string name="crash_report_notification_text">Help to improve openHAB by sending the crash report</string>
-    <string name="crash_report_notification_send_mail">Send mail</string>
     <string name="push_notification_status_no_remote_configured">Notifications are unavailable: Remote server isn\'t configured</string>
     <string name="push_notification_status_http_error">Notifications are unavailable: Error connecting to remote server: %s</string>
     <string name="push_notification_status_remote_no_cloud">Notifications are unavailable: Remote server isn\'t an openHAB cloud instance</string>
