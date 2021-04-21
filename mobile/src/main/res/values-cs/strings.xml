@@ -515,9 +515,6 @@
     <string name="item_update_error_couldnt_get_item_type">Typ Item nelze zjistit</string>
     <string name="create_home_screen_widget_title">Vytvořit widget</string>
     <string name="create_home_screen_widget_not_supported">Přejděte do menu widgetů na domovské obrazovce a tam vytvořte widget</string>
-    <string name="item_update_widget_auto_generate_widget_label">Automaticky generovat popisek widgetu</string>
-    <string name="item_update_widget_widget_label">Popisek widgetu</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Spořič dat</string>
     <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
@@ -535,10 +532,8 @@
     <string name="tile">Dlaždice</string>
     <string name="tiles_for_quick_settings">Dlaždice pro rychlé nastavení</string>
     <string name="tile_item_picker_title">Vyberte Item</string>
-    <string name="tile_error_saving">Vyplňte prosím každou možnost nastavení</string>
     <string name="tile_disabled">Vypnuto</string>
     <string name="tile_enable">Zapnout</string>
-    <string name="item_item_and_action">Item a akce</string>
     <string name="tile_name">Název</string>
     <string name="tile_icon">Ikona</string>
     <string name="tile_require_unlock">Vyžadovat odemknutí obrazovky</string>
