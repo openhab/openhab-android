@@ -521,9 +521,6 @@
     <string name="item_update_error_couldnt_get_item_type">Не вдалося отримати тип елемента</string>
     <string name="create_home_screen_widget_title">Створити віджет</string>
     <string name="create_home_screen_widget_not_supported">Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти</string>
-    <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
-    <string name="item_update_widget_widget_label">Мітка віджета</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Заощадження трафіку</string>
     <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
@@ -541,10 +538,8 @@
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для швидких налаштувань</string>
     <string name="tile_item_picker_title">Оберіть об\'єкт</string>
-    <string name="tile_error_saving">Будь ласка, заповніть всі налаштування</string>
     <string name="tile_disabled">Вимкнено</string>
     <string name="tile_enable">Увімкнути</string>
-    <string name="item_item_and_action">Об\'єкт і дія</string>
     <string name="tile_name">Ім\'я</string>
     <string name="tile_icon">Іконка</string>
     <string name="tile_require_unlock">Потрібно розблокувати екран</string>
