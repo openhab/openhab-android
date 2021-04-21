@@ -517,9 +517,6 @@
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
     <string name="create_home_screen_widget_title">Crea widget</string>
     <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
-    <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
-    <string name="item_update_widget_widget_label">Etichetta Widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>
     <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
@@ -537,10 +534,8 @@
     <string name="tile">Riquadro</string>
     <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
     <string name="tile_item_picker_title">Seleziona un Item</string>
-    <string name="tile_error_saving">Per favore compilare tutte le impostazioni</string>
     <string name="tile_disabled">Spento</string>
     <string name="tile_enable">Accendi</string>
-    <string name="item_item_and_action">Item e azioni</string>
     <string name="tile_name">Nome</string>
     <string name="tile_icon">Icona</string>
     <string name="tile_require_unlock">Richiede che lo schermo sia sbloccato</string>
