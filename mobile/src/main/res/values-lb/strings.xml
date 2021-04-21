@@ -430,8 +430,6 @@
     <string name="item_update_error_no_connection">Keng Connectioun</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ net fonnt</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
-    <string name="item_update_widget_auto_generate_widget_label">Widget Label automatesch generéieren</string>
-    <string name="item_update_widget_widget_label">Widget Label</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datespuermodus</string>
     <string name="data_saver_off_pre_n">All Sitemap Elementer gi gelueden, onofhängeg vun hirer Datenotzung</string>
@@ -445,10 +443,8 @@
     <string name="tile">Block</string>
     <string name="tiles_for_quick_settings">Bléck fir schnell Astellungen</string>
     <string name="tile_item_picker_title">Item auswielen</string>
-    <string name="tile_error_saving">Fell w.e.g. all Astellungen aus</string>
     <string name="tile_disabled">Ausgeschalt</string>
     <string name="tile_enable">Umaachen</string>
-    <string name="item_item_and_action">Item an Aktioun</string>
     <string name="tile_name">Numm</string>
     <string name="tile_require_unlock">Bildschierm muss entspaart sinn</string>
     <string name="tile_require_unlock_summary_on">Froen fir den Bildschierm ze entspären fir dass Items kennen modifizéiert ginn</string>
