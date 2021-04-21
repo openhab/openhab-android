@@ -322,8 +322,6 @@
     <string name="item_update_error_no_connection">Ingen anslutning</string>
     <string name="item_update_error_couldnt_get_item_type">Kunde inte hämta Item-typ</string>
     <string name="create_home_screen_widget_title">Skapa widget</string>
-    <string name="item_update_widget_auto_generate_widget_label">Skapa widgetetikett automatiskt</string>
-    <string name="item_update_widget_widget_label">Widgetetikett</string>
     <!-- Data saver -->
     <string name="widget_type_chart">Diagram</string>
     <!-- Tiles -->
