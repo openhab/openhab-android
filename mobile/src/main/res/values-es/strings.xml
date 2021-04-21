@@ -517,9 +517,6 @@
     <string name="item_update_error_couldnt_get_item_type">No se pudo obtener el tipo del Item</string>
     <string name="create_home_screen_widget_title">Crear widget</string>
     <string name="create_home_screen_widget_not_supported">Por favor, vaya al menú de widgets en su pantalla de inicio y cree un widget desde allí</string>
-    <string name="item_update_widget_auto_generate_widget_label">Autogenerar etiqueta de widget</string>
-    <string name="item_update_widget_widget_label">Etiqueta del widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
     <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
@@ -537,10 +534,8 @@
     <string name="tile">Baldosa</string>
     <string name="tiles_for_quick_settings">Baldosas para ajustes rápidos</string>
     <string name="tile_item_picker_title">Seleccione un Item</string>
-    <string name="tile_error_saving">Por favor, rellene todos los ajustes</string>
     <string name="tile_disabled">Desactivado</string>
     <string name="tile_enable">Activar</string>
-    <string name="item_item_and_action">Item y acción</string>
     <string name="tile_name">Nombre</string>
     <string name="tile_icon">Icono</string>
     <string name="tile_require_unlock">Requiere que la pantalla esté desbloqueada</string>
