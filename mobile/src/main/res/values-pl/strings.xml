@@ -336,8 +336,6 @@
     <string name="item_update_error_no_connection">Brak połączenia</string>
     <string name="item_update_error_couldnt_get_item_type">Nie można odnaleźć typu tego Itemu</string>
     <string name="create_home_screen_widget_title">Utwórz widget</string>
-    <string name="item_update_widget_auto_generate_widget_label">Automatycznie generuj etykietę widżetu</string>
-    <string name="item_update_widget_widget_label">Etykieta widżetu</string>
     <!-- Data saver -->
     <string name="widget_type_video">Wideo</string>
     <!-- Tiles -->
