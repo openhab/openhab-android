@@ -428,8 +428,6 @@
     <string name="item_update_error_no_connection">Ei yhteyttä</string>
     <string name="item_update_error_couldnt_get_item_type">Ei saatu Itemin tyyppiä</string>
     <string name="create_home_screen_widget_title">Luo widget</string>
-    <string name="item_update_widget_auto_generate_widget_label">Luo automaattisesti widgetin nimi</string>
-    <string name="item_update_widget_widget_label">Widgetin nimi</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datan säästäjä</string>
     <string name="data_saver_on">Sivukartan elementtejä, jotka mahdollisesti vaativaat isomman datamäärän, ei ladata</string>
@@ -445,10 +443,8 @@
     <string name="tile">Laatta</string>
     <string name="tiles_for_quick_settings">Laatta pika-asetuksille</string>
     <string name="tile_item_picker_title">Valitse Item</string>
-    <string name="tile_error_saving">Ole hyvä ja täytä kaikki asetukset</string>
     <string name="tile_disabled">Poistettu käytöstä</string>
     <string name="tile_enable">Ota käyttöön</string>
-    <string name="item_item_and_action">Item ja toiminta</string>
     <string name="tile_name">Nimi</string>
     <string name="tile_icon">Kuvake</string>
     <string name="tile_require_unlock">Näytön lukitus oltava avattu</string>
