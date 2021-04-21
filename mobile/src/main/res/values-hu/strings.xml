@@ -516,9 +516,6 @@
     <string name="item_update_error_couldnt_get_item_type">Nem megállapítható az elem típusa</string>
     <string name="create_home_screen_widget_title">Widget létrehozása</string>
     <string name="create_home_screen_widget_not_supported">Kérem nyissa meg a Widget menüt a főképernyőről és hozza létre onnan</string>
-    <string name="item_update_widget_auto_generate_widget_label">Widget automatikus címkéje</string>
-    <string name="item_update_widget_widget_label">Widget címke</string>
-    <string name="item_update_widget_default_label"><![CDATA[< Elem címke>: <Művelet>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Adatforgalom-csökkentő</string>
     <string name="data_saver_on">A nagyobb adatátvitelt igénylő honlap elemek nem lesznek betöltve</string>
@@ -536,10 +533,8 @@
     <string name="tile">Csempe</string>
     <string name="tiles_for_quick_settings">Csempék a gyors beállításokhoz</string>
     <string name="tile_item_picker_title">Elem kiválasztása</string>
-    <string name="tile_error_saving">Kérlek, tölts ki minden beállítást</string>
     <string name="tile_disabled">Kikapcsolás</string>
     <string name="tile_enable">Bekapcsolás</string>
-    <string name="item_item_and_action">Elem és művelet</string>
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
     <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>
