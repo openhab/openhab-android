@@ -465,8 +465,6 @@
     <string name="item_update_error_no_connection">Geen verbinding</string>
     <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
     <string name="create_home_screen_widget_title">Widget maken</string>
-    <string name="item_update_widget_auto_generate_widget_label">Automatisch widget label genereren</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Bewerking>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Gegevensbesparing</string>
     <string name="data_saver_on">Sitemap elementen die mogelijk grotere data transfers vereisen zijn niet geladen</string>
@@ -481,10 +479,8 @@
     <string name="tile">Tegel</string>
     <string name="tiles_for_quick_settings">Tegels voor snelle instellingen</string>
     <string name="tile_item_picker_title">Selecteer een Item</string>
-    <string name="tile_error_saving">Vul alstublieft alle instellingen in</string>
     <string name="tile_disabled">Uitgeschakeld</string>
     <string name="tile_enable">Inschakelen</string>
-    <string name="item_item_and_action">Item en actie</string>
     <string name="tile_name">Naam</string>
     <string name="tile_icon">Pictogram</string>
     <string name="tile_require_unlock">Vereis dat het scherm is ontgrendeld</string>
