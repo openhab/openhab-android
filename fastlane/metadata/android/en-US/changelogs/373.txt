@@ -1,0 +1,2 @@
+## Changed
+* Improve widget configuration (#2520)
