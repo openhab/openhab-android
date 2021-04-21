@@ -475,6 +475,7 @@
     <string name="item_update_widget_title">Controllo Item</string>
     <string name="item_update_widget_content_description">Widget per cambiare lo stato Item</string>
     <string name="item_update_widget_content_description_edit">Modifica widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
@@ -536,6 +537,7 @@
     <string name="tile_item_picker_title">Seleziona un Item</string>
     <string name="tile_disabled">Spento</string>
     <string name="tile_enable">Accendi</string>
+    <string name="tile_item_and_action">Item e azioni</string>
     <string name="tile_name">Nome</string>
     <string name="tile_icon">Icona</string>
     <string name="tile_require_unlock">Richiede che lo schermo sia sbloccato</string>
@@ -559,6 +561,7 @@
     <string name="tile_label_10">Riquadro 10</string>
     <string name="tile_label_11">Riquadro 11</string>
     <string name="tile_label_12">Riquadro 12</string>
+    <string name="error_missing_prefs">Si prega di compilare ogni impostazione</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">icona openHAB</string>
     <string name="tile_icon_tv">TV</string>
