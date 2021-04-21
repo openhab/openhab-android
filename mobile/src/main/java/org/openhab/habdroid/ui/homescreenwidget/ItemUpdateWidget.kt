@@ -45,7 +45,6 @@ import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.getIconResource
 import org.openhab.habdroid.model.putIconResource
-import org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.duplicate
 import org.openhab.habdroid.util.CacheManager
@@ -54,7 +53,6 @@ import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getStringOrEmpty
-import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
@@ -102,7 +100,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 }
                 ACTION_EDIT_WIDGET -> {
                     Log.d(TAG, "Edit widget $id")
-                    val openEditIntent = Intent(context, ItemUpdateWidgetItemPickerActivity::class.java).apply {
+                    val openEditIntent = Intent(context, PreferencesActivity::class.java).apply {
+                        action = AppWidgetManager.ACTION_APPWIDGET_CONFIGURE
                         addFlags(FLAG_ACTIVITY_NEW_TASK)
                         putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
                     }
@@ -261,7 +260,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val item = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
             val state = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
             val label = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
-            val widgetLabel = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
+            val widgetLabel = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
             val mappedState = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
             return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon)
@@ -334,5 +333,10 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val widgetLabel: String?,
         val mappedState: String,
         val icon: IconResource?
-    ) : Parcelable
+    ) : Parcelable {
+        fun isValid(): Boolean {
+            return item.isNotEmpty() &&
+                label.isNotEmpty()
+        }
+    }
 }

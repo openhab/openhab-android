@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <org.openhab.habdroid.ui.preference.ItemAndStatePreference
+        android:persistent="false"
+        android:key="widget_item_and_action"
+        android:title="@string/tile_item_and_action" />
+    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+        android:persistent="false"
+        android:key="widget_name"
+        android:title="@string/tile_name"
+        app:whitespaceBehavior="trim"
+        android:inputType="text" />
+</androidx.preference.PreferenceScreen>

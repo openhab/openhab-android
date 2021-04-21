@@ -59,6 +59,9 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.AboutActivity"
@@ -109,15 +112,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ItemUpdateWidgetItemPickerActivity"
-            android:launchMode="singleTask"
-            android:label="@string/item_update_widget_item_picker_title">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.TileItemPickerActivity"
+            android:name=".ui.BasicItemPickerActivity"
             android:launchMode="singleTask"
             android:label="@string/tile_item_picker_title">
         </activity>
