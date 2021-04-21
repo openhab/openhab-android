@@ -520,9 +520,6 @@
     <string name="item_update_error_couldnt_get_item_type">כשל בזיהוי סוג פריט</string>
     <string name="create_home_screen_widget_title">יצירת יישומון</string>
     <string name="create_home_screen_widget_not_supported">אנא פנה לתפריט הווידג׳ט במסך הבית וצור ווידג׳ט שם</string>
-    <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
-    <string name="item_update_widget_widget_label">תווית יישומון</string>
-    <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
@@ -540,10 +537,8 @@
     <string name="tile">אריח</string>
     <string name="tiles_for_quick_settings">אריחים להגדרות מהירות</string>
     <string name="tile_item_picker_title">בחר פריט</string>
-    <string name="tile_error_saving">נא להשלים את כל ההגדרות</string>
     <string name="tile_disabled">כבוי</string>
     <string name="tile_enable">הפעל</string>
-    <string name="item_item_and_action">פריט ופעולה</string>
     <string name="tile_name">שם</string>
     <string name="tile_icon">צלמית</string>
     <string name="tile_require_unlock">דרוש ביטול נעילת מסך</string>
