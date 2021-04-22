@@ -475,6 +475,7 @@
     <string name="item_update_widget_title">Control del Item</string>
     <string name="item_update_widget_content_description">Widget para cambiar el estado del Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleccione un Item</string>
@@ -536,6 +537,7 @@
     <string name="tile_item_picker_title">Seleccione un Item</string>
     <string name="tile_disabled">Desactivado</string>
     <string name="tile_enable">Activar</string>
+    <string name="tile_item_and_action">Item y acción</string>
     <string name="tile_name">Nombre</string>
     <string name="tile_icon">Icono</string>
     <string name="tile_require_unlock">Requiere que la pantalla esté desbloqueada</string>
