@@ -300,10 +300,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val darkTheme = data.theme == "dark"
             val layout = when {
                 data.widgetLabel?.isEmpty() == true -> {
-                    if (darkTheme) R.layout.widget_item_update_dark_no_text else R.layout.widget_item_update_light_no_text
+                    if (darkTheme) R.layout.widget_item_update_dark_no_text
+                    else R.layout.widget_item_update_light_no_text
                 }
                 smallWidget -> {
-                    if (darkTheme) R.layout.widget_item_update_dark_text_small else R.layout.widget_item_update_light_text_small
+                    if (darkTheme) R.layout.widget_item_update_dark_text_small
+                    else R.layout.widget_item_update_light_text_small
                 }
                 else -> {
                     if (darkTheme) R.layout.widget_item_update_dark_text else R.layout.widget_item_update_light_text
