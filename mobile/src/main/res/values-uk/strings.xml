@@ -448,7 +448,7 @@
     <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
     <string name="intro_voice_description">Керуйте будинком за допомогою голосу</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Елемент керування можна прив\'язати до NFC мітки довгим натисненням на цей елемент</string>
+    <string name="intro_nfc_description">Об’єкт керування можна прив\'язати до NFC мітки довгим натисненням на цей об’єкт</string>
     <string name="intro_quick_tile_description">Керуйте своїм домівкою із швидких налаштувань пристрою (місце, в якому розміщені перемикачі, наприклад Wi-Fi і Bluetooth)</string>
     <string name="intro_send_device_info">Відправити інформацію про пристрій на ваш сервер</string>
     <string name="intro_send_device_info_description">Наприклад, увімкніть світло при дзвінку будильника</string>
@@ -476,9 +476,10 @@
     <string name="turn_on">Увімкнути</string>
     <string name="press_back_to_exit">Натисніть ще раз, щоб вийти</string>
     <!-- Item update widget -->
-    <string name="item_update_widget_title">Керування елементом</string>
+    <string name="item_update_widget_title">Керування об’єктом</string>
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_content_description_edit">Редагувати віджет</string>
+    <string name="item_update_widget">Віджет</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
@@ -540,6 +541,7 @@
     <string name="tile_item_picker_title">Оберіть об\'єкт</string>
     <string name="tile_disabled">Вимкнено</string>
     <string name="tile_enable">Увімкнути</string>
+    <string name="tile_item_and_action">Об\'єкт і дія</string>
     <string name="tile_name">Ім\'я</string>
     <string name="tile_icon">Іконка</string>
     <string name="tile_require_unlock">Потрібно розблокувати екран</string>
@@ -565,6 +567,7 @@
     <string name="tile_label_10">Плитка 10</string>
     <string name="tile_label_11">Плитка 11</string>
     <string name="tile_label_12">Плитка 12</string>
+    <string name="error_missing_prefs">Будь ласка, заповніть всі налаштування</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">значок openHAB</string>
     <string name="tile_icon_tv">ТБ</string>
