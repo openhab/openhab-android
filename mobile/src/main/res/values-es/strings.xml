@@ -561,6 +561,7 @@
     <string name="tile_label_10">Baldosa 10</string>
     <string name="tile_label_11">Baldosa 11</string>
     <string name="tile_label_12">Baldosa 12</string>
+    <string name="error_missing_prefs">Por favor, rellene todos los ajustes</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">icono de openHAB</string>
     <string name="tile_icon_tv">TV</string>
