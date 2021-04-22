@@ -1,21 +1,13 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/outer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin"
-    android:background="@drawable/widget_background"
+    android:background="@drawable/widget_dark_background"
     android:contentDescription="@string/item_update_widget_content_description">
 
-    <ImageView
-        android:id="@+id/edit"
-        android:src="@drawable/ic_settings_outline_black_12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|top"
-        android:padding="8dp"
-        android:contentDescription="@string/item_update_widget_content_description_edit" />
+    <include layout="@layout/widget_item_update_pref_icon" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,18 +38,7 @@
             android:visibility="gone"
             tools:visibility="visible"
             tools:text="Dimmer: 33 %" />
-
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="?attr/indeterminateProgressStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="100"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/openhab_orange"
-        android:indeterminateTintMode="src_in"
-        tools:visibility="gone" />
-
+    <include layout="@layout/widget_item_update_loading" />
 </FrameLayout>

@@ -1,12 +1,7 @@
-<FrameLayout
+<?xml version="1.0" encoding="utf-8"?>
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/outer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin"
-    android:background="@drawable/widget_background"
-    android:contentDescription="@string/item_update_widget_content_description">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/edit"
@@ -36,5 +31,4 @@
         android:indeterminateTint="@color/openhab_orange"
         android:indeterminateTintMode="src_in"
         tools:visibility="gone" />
-
-</FrameLayout>
+</merge>

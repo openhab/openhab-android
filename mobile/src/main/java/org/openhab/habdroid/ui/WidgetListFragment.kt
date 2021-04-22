@@ -72,6 +72,7 @@ import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
+import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.openInBrowser
 
 /**
@@ -454,7 +455,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 widget.item.label.orEmpty(),
                 null,
                 mappedState,
-                widget.icon
+                widget.icon,
+                context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark")
             )
 
             val callbackIntent = Intent(context, ItemUpdateWidget::class.java).apply {
