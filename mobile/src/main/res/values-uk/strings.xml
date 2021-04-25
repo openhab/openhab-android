@@ -259,8 +259,6 @@
     <string name="notification_channel_background_error">Помилка у фонових процесах</string>
     <string name="notification_channel_background_error_description">Використовується для сповіщення про помилки у фонових завданнях, наприклад, немає мережі для відправки рівня заряду акумулятора</string>
     <string name="notification_channel_background_foreground_service_description">Моніторинг подій для оновлення відповідних елементів. Можна безпечно приховати цю категорію.</string>
-    <string name="notification_channel_crash_reports">Звіти про падіння</string>
-    <string name="notification_channel_crash_reports_description">Використовується для запиту, чи слід надіслати звіт про падіння</string>
     <string name="notification_channel_messages_default_severity">За замовчуванням</string>
     <string name="notification_channel_messages_default_severity_description">Сповіщення, надіслані сервером без вказаної важливості</string>
     <string name="notification_channel_group_messages">Повідомлення</string>
@@ -272,9 +270,6 @@
         <item quantity="many">%d нових сповіщень</item>
         <item quantity="other">%d нових сповіщень</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB завершив роботу аварійно</string>
-    <string name="crash_report_notification_text">Допоможіть покращити openHAB надіславши звіт про падіння</string>
-    <string name="crash_report_notification_send_mail">Надіслати листа</string>
     <string name="push_notification_status_no_remote_configured">Сповіщення недоступні: віддалений сервер не налаштовано</string>
     <string name="push_notification_status_http_error">Сповіщення недоступні: помилка підключення до віддаленого сервера: %s</string>
     <string name="push_notification_status_remote_no_cloud">Сповіщення недоступні: віддалений сервер не є хмарним екземпляром openHAB</string>
