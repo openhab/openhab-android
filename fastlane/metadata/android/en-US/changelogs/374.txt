@@ -1,0 +1,4 @@
+## Fixed
+* Fix voice widget not available (#2534)
+* Fix inconsistent switch widget height (#2530)
+* Fix tile prefs not always closed (#2533)
