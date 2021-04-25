@@ -259,8 +259,6 @@
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_background_foreground_service_description">Események megfigyelése az Elemek frissítéséhez. Ezt a kategóriát elrejtheti.</string>
-    <string name="notification_channel_crash_reports">Hibajelentések</string>
-    <string name="notification_channel_crash_reports_description">Az összeomlási visszajelzés küldésének megerősítését kéri</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
     <string name="notification_channel_messages_default_severity_description">A szerver által küldött értesítés nincs priorizálva</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
@@ -270,9 +268,6 @@
         <item quantity="one">%d új értesítés</item>
         <item quantity="other">%d új értesítések</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB összeomlott</string>
-    <string name="crash_report_notification_text">Segítsd az openHAB fejlesztését azzal, hogy elküldöd a hibajelentést</string>
-    <string name="crash_report_notification_send_mail">Levél küldése</string>
     <string name="push_notification_status_no_remote_configured">Az értesítések nem elérhetőek: a távoli kiszolgáló nincs beállítva</string>
     <string name="push_notification_status_http_error">Az értesítések nem elérhetőek: a(z) \"%s\" távoli kiszolgálóhoz nem lehet csatlakozni</string>
     <string name="push_notification_status_remote_no_cloud">Az értesítések nem érhetőek el. A távoli kiszolgáló nem egy openHAB-cloud példány</string>
