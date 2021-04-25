@@ -259,8 +259,6 @@
     <string name="notification_channel_background_error">Errore nei task in background</string>
     <string name="notification_channel_background_error_description">Utilizzato per notificare errori nelle attività in background, ad esempio non hai una rete per inviare il livello della batteria</string>
     <string name="notification_channel_background_foreground_service_description">Monitora gli eventi per aggiornare gli Items. Puoi nascondere senza conseguenze questa categoria.</string>
-    <string name="notification_channel_crash_reports">Rapporti dei crash</string>
-    <string name="notification_channel_crash_reports_description">Usato per chiedere se deve essere inviato un rapporto dei crash</string>
     <string name="notification_channel_messages_default_severity">Predefinito</string>
     <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
     <string name="notification_channel_group_messages">Messaggi</string>
@@ -270,9 +268,6 @@
         <item quantity="one">%d nuova notifica</item>
         <item quantity="other">%d nuove notifiche</item>
     </plurals>
-    <string name="crash_report_notification_title">Crash di openHAB</string>
-    <string name="crash_report_notification_text">Aiutaci a migliorare openHAB inviando il rapporto dei crash</string>
-    <string name="crash_report_notification_send_mail">Invia email</string>
     <string name="push_notification_status_no_remote_configured">Notifiche non disponibili: il server remoto non è configurato</string>
     <string name="push_notification_status_http_error">Notifiche non disponibili: errore di connessione al server remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Notifiche non disponibili: il server remoto non è un\'istanza cloud openHAB</string>
