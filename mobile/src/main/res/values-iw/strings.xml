@@ -258,8 +258,6 @@
     <string name="notification_channel_background_error">שגיאה במשימות ברקע</string>
     <string name="notification_channel_background_error_description">משמש כדי להתריע על שגיאות במשימות הממתינות ברקע, למשל רשת לא זמינה בכדי לשלוח את מצב הסוללה</string>
     <string name="notification_channel_background_foreground_service_description">האזן לאירועים כדי לעדכן פריטים בהתאם. תוכל להסתיר בבטחה קטגוריה זו.</string>
-    <string name="notification_channel_crash_reports">דוחות קריסה</string>
-    <string name="notification_channel_crash_reports_description">משמש לשאול האם יש לשלוח דוח קריסה</string>
     <string name="notification_channel_messages_default_severity">ברירת מחדל</string>
     <string name="notification_channel_messages_default_severity_description">התראות שנשלחו על ידי השרת ללא הגדרת תעדוף</string>
     <string name="notification_channel_group_messages">הודעות</string>
@@ -271,9 +269,6 @@
         <item quantity="many">%d התראות חדשות</item>
         <item quantity="other">%d התראות חדשות</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB קרס</string>
-    <string name="crash_report_notification_text">עזור לשפר את openHAB על ידי שליחת דוח הקריסה</string>
-    <string name="crash_report_notification_send_mail">שלח דוא\"ל</string>
     <string name="push_notification_status_no_remote_configured">התראות לא זמינות: השרת המרוחק אינו מוגדר</string>
     <string name="push_notification_status_http_error">התראות לא זמינות: שגיאה בחיבור לשרת מרוחק: %s</string>
     <string name="push_notification_status_remote_no_cloud">התראות לא זמינות: השרת המרוחק אינו שרת ענן של openHAB</string>
