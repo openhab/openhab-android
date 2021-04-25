@@ -1259,23 +1259,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             tileId = arguments?.getInt("id") ?: throw AssertionError("No tile id specified")
             setHasOptionsMenu(true)
 
-            val data = prefs.getTileData(tileId)
-            enabledPref.isChecked = data != null
-            if (data != null) {
-                itemAndStatePref.item = data.item
-                itemAndStatePref.label = data.label
-                itemAndStatePref.state = data.state
-                itemAndStatePref.mappedState = data.mappedState
-                namePref.text = data.tileLabel
-                iconPref.value = data.icon
-                requireUnlockPref.isChecked = data.requireUnlock
-            }
-            iconPref.setOnPreferenceChangeListener { _, newValue ->
-                updateIconPrefIcon(newValue as String)
-                true
-            }
-            updateIconPrefIcon()
-            updateItemAndStatePrefSummary()
+            setDataFromPrefs()
         }
 
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -1349,6 +1333,26 @@ class PreferencesActivity : AbstractBaseActivity() {
             } else {
                 null
             }
+        }
+
+        private fun setDataFromPrefs() {
+            val data = prefs.getTileData(tileId)
+            enabledPref.isChecked = data != null
+            if (data != null) {
+                itemAndStatePref.item = data.item
+                itemAndStatePref.label = data.label
+                itemAndStatePref.state = data.state
+                itemAndStatePref.mappedState = data.mappedState
+                namePref.text = data.tileLabel
+                iconPref.value = data.icon
+                requireUnlockPref.isChecked = data.requireUnlock
+            }
+            iconPref.setOnPreferenceChangeListener { _, newValue ->
+                updateIconPrefIcon(newValue as String)
+                true
+            }
+            updateIconPrefIcon()
+            updateItemAndStatePrefSummary()
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1434,17 +1438,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
             AbstractTileService.requestTileUpdate(context, tileId)
 
-            if (parentFragmentManager.backStackEntryCount > 0) {
-                parentActivity.invalidateOptionsMenu()
-                parentFragmentManager.popBackStack() // close ourself
-            } else {
-                parentActivity.onBackPressed()
-            }
+            parentActivity.onBackPressed()
         }
 
         override fun onLeaveAndDiscard() {
-            parentActivity.invalidateOptionsMenu()
-            parentFragmentManager.popBackStack() // close ourself
+            setDataFromPrefs()
+            parentActivity.onBackPressed()
         }
 
         companion object {
