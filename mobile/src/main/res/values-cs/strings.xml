@@ -254,8 +254,6 @@
     <string name="notification_channel_background_error">Chyba v úkolech na pozadí</string>
     <string name="notification_channel_background_error_description">Slouží k informaci o chybách v úlohách na pozadí, např. žádná síť při zasílání úrovně baterie</string>
     <string name="notification_channel_background_foreground_service_description">Sleduje odpovídajícím způsobem události k aktualizaci Items. Tuto kategorii můžete bezpečně skrýt.</string>
-    <string name="notification_channel_crash_reports">Hlášení o chybách</string>
-    <string name="notification_channel_crash_reports_description">Slouží k nastavení odesílání hlášení o chybách</string>
     <string name="notification_channel_messages_default_severity">Výchozí</string>
     <string name="notification_channel_messages_default_severity_description">Oznámení odeslaná serverem se standardní důležitostí</string>
     <string name="notification_channel_group_messages">Zprávy</string>
@@ -267,9 +265,6 @@
         <item quantity="many">%d nových oznámení</item>
         <item quantity="other">%d nová oznámení</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB spadl</string>
-    <string name="crash_report_notification_text">Pomozte zlepšit openHAB odesláním hlášení chyb</string>
-    <string name="crash_report_notification_send_mail">Poslat e-mail</string>
     <string name="push_notification_status_no_remote_configured">Upozornění nejsou k dispozici: Vzdálený server není nakonfigurován</string>
     <string name="push_notification_status_http_error">Upozornění nejsou k dispozici: Chyba při připojování ke vzdálenému serveru: %s</string>
     <string name="push_notification_status_remote_no_cloud">Oznámení nejsou k dispozici: Vzdálený server není instance openHAB cloudu</string>
