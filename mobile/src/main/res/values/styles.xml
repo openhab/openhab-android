@@ -34,4 +34,8 @@
     <style name="openHAB.OutlineButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeWidth">@dimen/outlineButtonStrokeWidth</item>
     </style>
+
+    <style name="openHAB.FAB.grey" parent="@style/Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?colorPrimary</item>
+    </style>
 </resources>

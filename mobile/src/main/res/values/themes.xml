@@ -8,6 +8,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="sliderStyle">@style/openHAB.Slider</item>
         <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
+        <item name="floatingActionButtonStyle">@style/Widget.MaterialComponents.FloatingActionButton</item>
     </style>
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
@@ -46,6 +47,7 @@
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
         <item name="selectedWidgetBackgroundColor">#5c455A64</item>
         <item name="alertDialogTheme">@style/openHAB.Dialog.grey</item>
+        <item name="floatingActionButtonStyle">@style/openHAB.FAB.grey</item>
     </style>
 
     <style name="openHAB.Black.orange" parent="openHAB.DayNight.orange">
