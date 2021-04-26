@@ -416,9 +416,6 @@
     <string name="item_update_error_no_connection">Pas de connexion</string>
     <string name="item_update_error_couldnt_get_item_type">Impossible d\'obtenir le type d\'Item</string>
     <string name="create_home_screen_widget_title">Créer un widget</string>
-    <string name="item_update_widget_auto_generate_widget_label">Génération automatique du libellé du widget</string>
-    <string name="item_update_widget_widget_label">Libellé du widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Nom d\'Item>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Économiseur de données</string>
     <string name="data_saver_on">Des éléments Sitemap pouvant nécessiter des transferts de données plus importants ne sont pas chargés</string>
@@ -433,10 +430,8 @@
     <string name="tile">Tuile</string>
     <string name="tiles_for_quick_settings">Tuiles pour les paramètres rapides</string>
     <string name="tile_item_picker_title">Sélectionnez un Item</string>
-    <string name="tile_error_saving">Veuillez remplir chaque paramètre</string>
     <string name="tile_disabled">Éteint</string>
     <string name="tile_enable">Allumé</string>
-    <string name="item_item_and_action">Item et action</string>
     <string name="tile_name">Nom</string>
     <string name="tile_icon">Icône</string>
     <string name="tile_require_unlock">Nécessite le déverrouillage de l\'écran</string>

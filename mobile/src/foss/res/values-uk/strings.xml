@@ -2,5 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="push_notification_status_impaired">Сповіщення мають обмежені можливості у версії FOSS. Торкніться, щоб дізнатися більше.</string>
     <string name="push_notification_status_disabled">Сповіщення вимкнено</string>
+    <string name="notification_channel_crash_reports">Звіти про падіння</string>
+    <string name="notification_channel_crash_reports_description">Використовується для запиту, чи слід надіслати звіт про падіння</string>
+    <string name="crash_report_notification_title">openHAB завершив роботу аварійно</string>
+    <string name="crash_report_notification_text">Допоможіть покращити openHAB надіславши звіт про падіння</string>
+    <string name="crash_report_notification_send_mail">Надіслати листа</string>
     <string name="open_in_maps">Відкрити в OpenStreetMap</string>
 </resources>

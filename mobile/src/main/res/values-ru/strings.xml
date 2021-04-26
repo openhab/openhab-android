@@ -438,8 +438,6 @@
     <string name="item_update_error_no_connection">Нет подключения</string>
     <string name="item_update_error_couldnt_get_item_type">Не удалось получить тип Item</string>
     <string name="create_home_screen_widget_title">Создать виджет</string>
-    <string name="item_update_widget_auto_generate_widget_label">Автоматически генерировать метку виджета</string>
-    <string name="item_update_widget_widget_label">Метка виджета</string>
     <!-- Data saver -->
     <string name="data_saver_title">Экономия трафика</string>
     <string name="data_saver_on">Элементы Sitemap которым необходим большой объем данным не загружены</string>
@@ -456,10 +454,8 @@
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для быстрых настроек</string>
     <string name="tile_item_picker_title">Выберите Item</string>
-    <string name="tile_error_saving">Пожалуйста, заполните все настройки</string>
     <string name="tile_disabled">Выключен</string>
     <string name="tile_enable">Включить</string>
-    <string name="item_item_and_action">Item и действия</string>
     <string name="tile_name">Имя</string>
     <string name="tile_icon">Иконка</string>
     <string name="tile_require_unlock">Требует чтобы экран был разблокирован</string>

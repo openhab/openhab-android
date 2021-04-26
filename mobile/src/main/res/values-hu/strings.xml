@@ -45,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
     <string name="settings_openhab_demomode_summary">Ha nincs openHAB szervere, engedélyezze a demo módot, hogy láthassa mire képes az openHAB.</string>
+    <string name="start_page_title">Kezdőlap</string>
     <string name="drawer_entries">Oldalsó menü bejegyzései</string>
     <string name="settings_openhab_theme">Sablonok</string>
     <string name="settings_accent_color">Kiemelőszín</string>
@@ -258,8 +259,6 @@
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
     <string name="notification_channel_background_foreground_service_description">Események megfigyelése az Elemek frissítéséhez. Ezt a kategóriát elrejtheti.</string>
-    <string name="notification_channel_crash_reports">Hibajelentések</string>
-    <string name="notification_channel_crash_reports_description">Az összeomlási visszajelzés küldésének megerősítését kéri</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
     <string name="notification_channel_messages_default_severity_description">A szerver által küldött értesítés nincs priorizálva</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
@@ -269,9 +268,6 @@
         <item quantity="one">%d új értesítés</item>
         <item quantity="other">%d új értesítések</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB összeomlott</string>
-    <string name="crash_report_notification_text">Segítsd az openHAB fejlesztését azzal, hogy elküldöd a hibajelentést</string>
-    <string name="crash_report_notification_send_mail">Levél küldése</string>
     <string name="push_notification_status_no_remote_configured">Az értesítések nem elérhetőek: a távoli kiszolgáló nincs beállítva</string>
     <string name="push_notification_status_http_error">Az értesítések nem elérhetőek: a(z) \"%s\" távoli kiszolgálóhoz nem lehet csatlakozni</string>
     <string name="push_notification_status_remote_no_cloud">Az értesítések nem érhetőek el. A távoli kiszolgáló nem egy openHAB-cloud példány</string>
@@ -515,9 +511,6 @@
     <string name="item_update_error_couldnt_get_item_type">Nem megállapítható az elem típusa</string>
     <string name="create_home_screen_widget_title">Widget létrehozása</string>
     <string name="create_home_screen_widget_not_supported">Kérem nyissa meg a Widget menüt a főképernyőről és hozza létre onnan</string>
-    <string name="item_update_widget_auto_generate_widget_label">Widget automatikus címkéje</string>
-    <string name="item_update_widget_widget_label">Widget címke</string>
-    <string name="item_update_widget_default_label"><![CDATA[< Elem címke>: <Művelet>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Adatforgalom-csökkentő</string>
     <string name="data_saver_on">A nagyobb adatátvitelt igénylő honlap elemek nem lesznek betöltve</string>
@@ -535,10 +528,8 @@
     <string name="tile">Csempe</string>
     <string name="tiles_for_quick_settings">Csempék a gyors beállításokhoz</string>
     <string name="tile_item_picker_title">Elem kiválasztása</string>
-    <string name="tile_error_saving">Kérlek, tölts ki minden beállítást</string>
     <string name="tile_disabled">Kikapcsolás</string>
     <string name="tile_enable">Bekapcsolás</string>
-    <string name="item_item_and_action">Elem és művelet</string>
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
     <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>

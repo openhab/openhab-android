@@ -2,5 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="push_notification_status_impaired">Az értesítések korlátozott funkcionalitással rendelkeznek a FOSS verzióban. Érintse meg a további információkért.</string>
     <string name="push_notification_status_disabled">Az értesítések le vannak tiltva</string>
+    <string name="notification_channel_crash_reports">Hibajelentések</string>
+    <string name="notification_channel_crash_reports_description">Az összeomlási visszajelzés küldésének megerősítését kéri</string>
+    <string name="crash_report_notification_title">openHAB összeomlott</string>
+    <string name="crash_report_notification_text">Segítsd az openHAB fejlesztését azzal, hogy elküldöd a hibajelentést</string>
+    <string name="crash_report_notification_send_mail">Levél küldése</string>
     <string name="open_in_maps">Megnyitás OpenStreetMap-al</string>
 </resources>

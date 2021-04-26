@@ -45,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Non mostrare timer di spegnimento quando openHAB è in esecuzione</string>
     <string name="settings_openhab_demomode">Modalità demo</string>
     <string name="settings_openhab_demomode_summary">Se non hai un openHAB server, attiva la modalità demo e potrai immaginare ciò che openHAB è in grado di fare.</string>
+    <string name="start_page_title">Pagina iniziale</string>
     <string name="drawer_entries">Voci del menu laterale</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Colore tinta</string>
@@ -258,8 +259,6 @@
     <string name="notification_channel_background_error">Errore nei task in background</string>
     <string name="notification_channel_background_error_description">Utilizzato per notificare errori nelle attività in background, ad esempio non hai una rete per inviare il livello della batteria</string>
     <string name="notification_channel_background_foreground_service_description">Monitora gli eventi per aggiornare gli Items. Puoi nascondere senza conseguenze questa categoria.</string>
-    <string name="notification_channel_crash_reports">Rapporti dei crash</string>
-    <string name="notification_channel_crash_reports_description">Usato per chiedere se deve essere inviato un rapporto dei crash</string>
     <string name="notification_channel_messages_default_severity">Predefinito</string>
     <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
     <string name="notification_channel_group_messages">Messaggi</string>
@@ -269,9 +268,6 @@
         <item quantity="one">%d nuova notifica</item>
         <item quantity="other">%d nuove notifiche</item>
     </plurals>
-    <string name="crash_report_notification_title">Crash di openHAB</string>
-    <string name="crash_report_notification_text">Aiutaci a migliorare openHAB inviando il rapporto dei crash</string>
-    <string name="crash_report_notification_send_mail">Invia email</string>
     <string name="push_notification_status_no_remote_configured">Notifiche non disponibili: il server remoto non è configurato</string>
     <string name="push_notification_status_http_error">Notifiche non disponibili: errore di connessione al server remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Notifiche non disponibili: il server remoto non è un\'istanza cloud openHAB</string>
@@ -474,6 +470,7 @@
     <string name="item_update_widget_title">Controllo Item</string>
     <string name="item_update_widget_content_description">Widget per cambiare lo stato Item</string>
     <string name="item_update_widget_content_description_edit">Modifica widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
@@ -516,9 +513,6 @@
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
     <string name="create_home_screen_widget_title">Crea widget</string>
     <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
-    <string name="item_update_widget_auto_generate_widget_label">Genera automaticamente etichetta widget</string>
-    <string name="item_update_widget_widget_label">Etichetta Widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>
     <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
@@ -536,10 +530,9 @@
     <string name="tile">Riquadro</string>
     <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
     <string name="tile_item_picker_title">Seleziona un Item</string>
-    <string name="tile_error_saving">Per favore compilare tutte le impostazioni</string>
     <string name="tile_disabled">Spento</string>
     <string name="tile_enable">Accendi</string>
-    <string name="item_item_and_action">Item e azioni</string>
+    <string name="tile_item_and_action">Item e azioni</string>
     <string name="tile_name">Nome</string>
     <string name="tile_icon">Icona</string>
     <string name="tile_require_unlock">Richiede che lo schermo sia sbloccato</string>
@@ -563,6 +556,7 @@
     <string name="tile_label_10">Riquadro 10</string>
     <string name="tile_label_11">Riquadro 11</string>
     <string name="tile_label_12">Riquadro 12</string>
+    <string name="error_missing_prefs">Si prega di compilare ogni impostazione</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">icona openHAB</string>
     <string name="tile_icon_tv">TV</string>

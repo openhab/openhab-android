@@ -45,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras openHAB se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
     <string name="settings_openhab_demomode_summary">Si no dispone de un servidor de openHAB, habilite el modo demo para ver todo lo que puede hacer openHAB</string>
+    <string name="start_page_title">Página de inicio</string>
     <string name="drawer_entries">Entradas de menú lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Color destacado</string>
@@ -258,8 +259,6 @@
     <string name="notification_channel_background_error">Error en tareas en segundo plano</string>
     <string name="notification_channel_background_error_description">Se utiliza para notificar errores de tareas que se ejecutan en segundo plano, por ejemplo, que no hay conexión a la red para enviar el nivel de batería</string>
     <string name="notification_channel_background_foreground_service_description">Supervisar eventos para actualizar Items en consecuencia. Puede ocultar esta categoría de forma segura.</string>
-    <string name="notification_channel_crash_reports">Informes de errores</string>
-    <string name="notification_channel_crash_reports_description">Utilizado para preguntar si se debe enviar un informe de error</string>
     <string name="notification_channel_messages_default_severity">Por defecto</string>
     <string name="notification_channel_messages_default_severity_description">Notificaciones enviadas por el servidor con severidad no definida</string>
     <string name="notification_channel_group_messages">Mensajes</string>
@@ -269,9 +268,6 @@
         <item quantity="one">%d nueva notificación</item>
         <item quantity="other">%d nuevas notificaciones</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB ha fallado</string>
-    <string name="crash_report_notification_text">Ayude a mejorar openHAB enviando el informe de errores</string>
-    <string name="crash_report_notification_send_mail">Enviar correo electrónico</string>
     <string name="push_notification_status_no_remote_configured">Las notificaciones no están disponibles: no se ha configurado servidor remoto</string>
     <string name="push_notification_status_http_error">Las notificaciones no están disponibles: Error al conectar al servidor remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Las notificaciones no están disponibles: el servidor remoto no es una instancia cloud de openHAB</string>
@@ -420,6 +416,7 @@
     <string name="home_shortcut_error_pinning">Error al crear atajo en pantalla de inicio</string>
     <string name="home_shortcut_success_pinning">Atajo creado en pantalla de inicio</string>
     <string name="home_shortcut_server_has_been_deleted">El servidor para este acceso directo ha sido eliminado</string>
+    <string name="home_shortcut_title">Establecer el título del acceso directo</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir la persiana enrollable</string>
     <string name="content_description_stop_roller_shutter">Parar la persiana enrollable</string>
@@ -473,6 +470,7 @@
     <string name="item_update_widget_title">Control del Item</string>
     <string name="item_update_widget_content_description">Widget para cambiar el estado del Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleccione un Item</string>
@@ -515,9 +513,6 @@
     <string name="item_update_error_couldnt_get_item_type">No se pudo obtener el tipo del Item</string>
     <string name="create_home_screen_widget_title">Crear widget</string>
     <string name="create_home_screen_widget_not_supported">Por favor, vaya al menú de widgets en su pantalla de inicio y cree un widget desde allí</string>
-    <string name="item_update_widget_auto_generate_widget_label">Autogenerar etiqueta de widget</string>
-    <string name="item_update_widget_widget_label">Etiqueta del widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
     <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
@@ -535,10 +530,9 @@
     <string name="tile">Baldosa</string>
     <string name="tiles_for_quick_settings">Baldosas para ajustes rápidos</string>
     <string name="tile_item_picker_title">Seleccione un Item</string>
-    <string name="tile_error_saving">Por favor, rellene todos los ajustes</string>
     <string name="tile_disabled">Desactivado</string>
     <string name="tile_enable">Activar</string>
-    <string name="item_item_and_action">Item y acción</string>
+    <string name="tile_item_and_action">Item y acción</string>
     <string name="tile_name">Nombre</string>
     <string name="tile_icon">Icono</string>
     <string name="tile_require_unlock">Requiere que la pantalla esté desbloqueada</string>
@@ -562,6 +556,7 @@
     <string name="tile_label_10">Baldosa 10</string>
     <string name="tile_label_11">Baldosa 11</string>
     <string name="tile_label_12">Baldosa 12</string>
+    <string name="error_missing_prefs">Por favor, rellene todos los ajustes</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">icono de openHAB</string>
     <string name="tile_icon_tv">TV</string>

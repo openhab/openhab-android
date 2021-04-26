@@ -431,9 +431,6 @@
     <string name="item_update_error_no_connection">接続されていません</string>
     <string name="item_update_error_couldnt_get_item_type">アイテムの種類を取得できませんでした</string>
     <string name="create_home_screen_widget_title">ウィジェットの作成</string>
-    <string name="item_update_widget_auto_generate_widget_label">ウィジェットラベルの自動生成</string>
-    <string name="item_update_widget_widget_label">ウィジェットラベル</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item ラベル>: <アクション>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">データセーバー</string>
     <string name="data_saver_on">大きなデータ転送が必要なサイトマップ要素は読み込まれていません</string>
@@ -450,10 +447,8 @@
     <string name="tile">タイル</string>
     <string name="tiles_for_quick_settings">クイック設定のタイル</string>
     <string name="tile_item_picker_title">アイテムを選択</string>
-    <string name="tile_error_saving">すべての設定を入力してください</string>
     <string name="tile_disabled">オフになっています</string>
     <string name="tile_enable">オンにする</string>
-    <string name="item_item_and_action">アイテムとアクション</string>
     <string name="tile_name">名前</string>
     <string name="tile_icon">アイコン</string>
     <string name="tile_require_unlock">画面のロック解除が必要です</string>

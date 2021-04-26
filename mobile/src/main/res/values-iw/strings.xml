@@ -258,8 +258,6 @@
     <string name="notification_channel_background_error">שגיאה במשימות ברקע</string>
     <string name="notification_channel_background_error_description">משמש כדי להתריע על שגיאות במשימות הממתינות ברקע, למשל רשת לא זמינה בכדי לשלוח את מצב הסוללה</string>
     <string name="notification_channel_background_foreground_service_description">האזן לאירועים כדי לעדכן פריטים בהתאם. תוכל להסתיר בבטחה קטגוריה זו.</string>
-    <string name="notification_channel_crash_reports">דוחות קריסה</string>
-    <string name="notification_channel_crash_reports_description">משמש לשאול האם יש לשלוח דוח קריסה</string>
     <string name="notification_channel_messages_default_severity">ברירת מחדל</string>
     <string name="notification_channel_messages_default_severity_description">התראות שנשלחו על ידי השרת ללא הגדרת תעדוף</string>
     <string name="notification_channel_group_messages">הודעות</string>
@@ -271,9 +269,6 @@
         <item quantity="many">%d התראות חדשות</item>
         <item quantity="other">%d התראות חדשות</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB קרס</string>
-    <string name="crash_report_notification_text">עזור לשפר את openHAB על ידי שליחת דוח הקריסה</string>
-    <string name="crash_report_notification_send_mail">שלח דוא\"ל</string>
     <string name="push_notification_status_no_remote_configured">התראות לא זמינות: השרת המרוחק אינו מוגדר</string>
     <string name="push_notification_status_http_error">התראות לא זמינות: שגיאה בחיבור לשרת מרוחק: %s</string>
     <string name="push_notification_status_remote_no_cloud">התראות לא זמינות: השרת המרוחק אינו שרת ענן של openHAB</string>
@@ -424,6 +419,7 @@
     <string name="home_shortcut_error_pinning">שגיאה בנעיצה למסך הבית</string>
     <string name="home_shortcut_success_pinning">ננעץ למסך הבית</string>
     <string name="home_shortcut_server_has_been_deleted">השרת לקיצור דרך זה נמחק</string>
+    <string name="home_shortcut_title">קבע שם לקיצור הדרך</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
@@ -519,9 +515,6 @@
     <string name="item_update_error_couldnt_get_item_type">כשל בזיהוי סוג פריט</string>
     <string name="create_home_screen_widget_title">יצירת יישומון</string>
     <string name="create_home_screen_widget_not_supported">אנא פנה לתפריט הווידג׳ט במסך הבית וצור ווידג׳ט שם</string>
-    <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
-    <string name="item_update_widget_widget_label">תווית יישומון</string>
-    <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
@@ -539,10 +532,8 @@
     <string name="tile">אריח</string>
     <string name="tiles_for_quick_settings">אריחים להגדרות מהירות</string>
     <string name="tile_item_picker_title">בחר פריט</string>
-    <string name="tile_error_saving">נא להשלים את כל ההגדרות</string>
     <string name="tile_disabled">כבוי</string>
     <string name="tile_enable">הפעל</string>
-    <string name="item_item_and_action">פריט ופעולה</string>
     <string name="tile_name">שם</string>
     <string name="tile_icon">צלמית</string>
     <string name="tile_require_unlock">דרוש ביטול נעילת מסך</string>

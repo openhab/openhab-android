@@ -255,7 +255,6 @@
     <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
     <string name="notification_channel_background_error_description">Wird verwendet, um über Fehler in Hintergrundaufgaben zu benachrichtigen, z. B. kein Netzwerk zum Senden des Akkustands</string>
     <string name="notification_channel_background_foreground_service_description">Überwachung von Ereignissen, um Items entsprechend aktualisieren zu können. Sie können diese Kategorie ausblenden.</string>
-    <string name="notification_channel_crash_reports">Absturzberichte</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
@@ -265,9 +264,6 @@
         <item quantity="one">%d neue Benachrichtigung</item>
         <item quantity="other">%d neue Benachrichtigungen</item>
     </plurals>
-    <string name="crash_report_notification_title">openHAB ist abgestürzt</string>
-    <string name="crash_report_notification_text">Helfen Sie openHAB durch Senden des Absturzberichts zu verbessern</string>
-    <string name="crash_report_notification_send_mail">E-Mail senden</string>
     <string name="push_notification_status_no_remote_configured">Benachrichtigungen nicht verfügbar: Server für den Fernzugriff nicht konfiguriert</string>
     <string name="push_notification_status_http_error">Benachrichtigungen nicht verfügbar: Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
     <string name="push_notification_status_remote_no_cloud">Benachrichtigungen nicht verfügbar: Server für den Fernzugriff ist keine openHAB-Cloud-Instanz</string>
@@ -511,9 +507,6 @@
     <string name="item_update_error_couldnt_get_item_type">Item-Typ konnte nicht abgerufen werden</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
     <string name="create_home_screen_widget_not_supported">Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget</string>
-    <string name="item_update_widget_auto_generate_widget_label">Widget-Bezeichnung automatisch generieren</string>
-    <string name="item_update_widget_widget_label">Widget-Bezeichnung</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item-Bezeichnung>: <Aktion>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Datensparmodus</string>
     <string name="data_saver_on">Sitemap-Elemente, die größere Datenübertragungen erfordern, werden nicht geladen</string>
@@ -531,10 +524,8 @@
     <string name="tile">Kachel</string>
     <string name="tiles_for_quick_settings">Kacheln für Schnelleinstellungen</string>
     <string name="tile_item_picker_title">Wählen Sie ein Item</string>
-    <string name="tile_error_saving">Bitte füllen Sie alle Einstellungen aus</string>
     <string name="tile_disabled">Ausgeschaltet</string>
     <string name="tile_enable">Einschalten</string>
-    <string name="item_item_and_action">Item und Aktion</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
     <string name="tile_require_unlock">Bildschirm-Entsperrung erfordern</string>

@@ -14,10 +14,14 @@
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Notificações</string>
     <string name="app_notifications_on_server">Notificações (%s)</string>
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
     <string name="oh3_ui_error">Ocorreu um erro ao carregar openHAB 3 UI</string>
+    <string name="frontail_error">Ocorreu um erro ao carregar o Frontail. Por favor, note que não está disponível via openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail deve ser executado na porta padrão 9001. É empacotado com openHABian ou pode ser instalado manualmente.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
     <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
@@ -41,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Desativa a exibição de interruptor de temporização quando openHAB está sendo executado</string>
     <string name="settings_openhab_demomode">Modo de demonstração</string>
     <string name="settings_openhab_demomode_summary">Se você não tiver um servidor openHAB, ative o modo de demonstração para obter uma imaginação do que openHAB é capaz de fazer.</string>
+    <string name="start_page_title">Página inicial</string>
     <string name="drawer_entries">Itens do menu lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Cor de destaque</string>
@@ -411,6 +416,7 @@
     <string name="home_shortcut_error_pinning">Erro ao fixar na tela inicial</string>
     <string name="home_shortcut_success_pinning">Fixado na tela inicial</string>
     <string name="home_shortcut_server_has_been_deleted">O servidor para este atalho foi excluído</string>
+    <string name="home_shortcut_title">Definir título do atalho</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir cortina</string>
     <string name="content_description_stop_roller_shutter">Parar cortina</string>
@@ -464,6 +470,7 @@
     <string name="item_update_widget_title">Controle de Item</string>
     <string name="item_update_widget_content_description">Widget para alterar estado do Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecione um Item</string>
@@ -506,9 +513,6 @@
     <string name="item_update_error_couldnt_get_item_type">Não foi possível obter o tipo do Item</string>
     <string name="create_home_screen_widget_title">Criar widget</string>
     <string name="create_home_screen_widget_not_supported">Por favor, vá ao menu de widgets na sua tela inicial e crie um widget a partir daí</string>
-    <string name="item_update_widget_auto_generate_widget_label">Gerar rótulo do widget automaticamente</string>
-    <string name="item_update_widget_widget_label">Rótulo do widget</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Economia de dados</string>
     <string name="data_saver_on">Elementos do Sitemap que podem exigir transferência de dados maiores não são carregados</string>
@@ -526,10 +530,9 @@
     <string name="tile">Bloco</string>
     <string name="tiles_for_quick_settings">Blocos para configurações rápidas</string>
     <string name="tile_item_picker_title">Selecione um Item</string>
-    <string name="tile_error_saving">Preencha todas as configurações</string>
     <string name="tile_disabled">Desligado</string>
     <string name="tile_enable">Ligar</string>
-    <string name="item_item_and_action">Item e ação</string>
+    <string name="tile_item_and_action">Item e ação</string>
     <string name="tile_name">Nome</string>
     <string name="tile_icon">Ícone</string>
     <string name="tile_require_unlock">Exigir desbloqueio de tela</string>
@@ -553,6 +556,7 @@
     <string name="tile_label_10">Bloco 10</string>
     <string name="tile_label_11">Bloco 11</string>
     <string name="tile_label_12">Bloco 12</string>
+    <string name="error_missing_prefs">Preencha todas as configurações</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">Ícone openHAB</string>
     <string name="tile_icon_tv">TV</string>
