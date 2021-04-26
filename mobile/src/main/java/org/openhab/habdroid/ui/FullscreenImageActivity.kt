@@ -27,9 +27,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ScreenLockMode
@@ -37,25 +37,25 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class FullscreenImageActivity : AbstractBaseActivity() {
     private lateinit var imageView: PhotoView
-    private lateinit var widget: Widget
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_image)
 
-        widget = intent.getParcelableExtra(WIDGET)!!
-
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.widget_type_image))
+        supportActionBar?.title =
+            intent.getStringExtra(WIDGET_LABEL).orDefaultIfEmpty(getString(R.string.widget_type_image))
 
         imageView = findViewById(R.id.activity_content)
     }
 
     override fun onResume() {
         super.onResume()
-        loadImage()
+        CoroutineScope(Dispatchers.IO + Job()).launch {
+            loadImage()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -72,51 +72,62 @@ class FullscreenImageActivity : AbstractBaseActivity() {
                 super.onOptionsItemSelected(item)
             }
             R.id.refresh -> {
-                loadImage()
+                CoroutineScope(Dispatchers.IO + Job()).launch {
+                    loadImage()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun loadImage() {
-        val value = widget.state?.asString
+    private suspend fun loadImage() {
+        val connection = ConnectionFactory.activeUsableConnection?.connection
+        if (connection == null) {
+            Log.d(TAG, "Got no connection")
+            return finish()
+        }
 
-        if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
-            Log.d(TAG, "Load image from value")
-            val dataString = value.substring(value.indexOf(",") + 1)
-            val data = Base64.decode(dataString, Base64.DEFAULT)
-            val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-            imageView.setImageBitmap(bitmap)
-        } else if (widget.url != null) {
+        val widgetUrl = intent.getStringExtra(WIDGET_URL)
+        val bitmap = if (widgetUrl != null) {
             Log.d(TAG, "Load image from url")
-            val connection = ConnectionFactory.activeUsableConnection?.connection
-            if (connection == null) {
-                Log.d(TAG, "Got no connection")
-                finish()
-                return
+            val displayMetrics = resources.displayMetrics
+            val size = max(displayMetrics.widthPixels, displayMetrics.heightPixels)
+            try {
+                connection
+                    .httpClient
+                    .get(widgetUrl)
+                    .asBitmap(size, ImageConversionPolicy.PreferTargetSize)
+                    .response
+            } catch (e: HttpClient.HttpException) {
+                Log.d(TAG, "Failed to load image", e)
+                return finish()
             }
 
-            CoroutineScope(Dispatchers.IO + Job()).launch {
-                val displayMetrics = resources.displayMetrics
-                val size = max(displayMetrics.widthPixels, displayMetrics.heightPixels)
-                val bitmap = try {
-                    connection
-                        .httpClient
-                        .get(widget.url!!)
-                        .asBitmap(size, ImageConversionPolicy.PreferTargetSize)
-                        .response
-                } catch (e: HttpClient.HttpException) {
-                    Log.d(TAG, "Failed to load image", e)
-                    finish()
-                    return@launch
-                }
-                Handler(Looper.getMainLooper()).post {
-                    imageView.setImageBitmap(bitmap)
-                }
-            }
         } else {
-            finish()
+            val link = intent.getStringExtra(WIDGET_LINK)!!
+            val widgetState = JSONObject(
+                connection
+                    .httpClient
+                    .get(link)
+                    .asText()
+                    .response
+            ).getString("state") ?: return finish()
+
+            if (widgetState.matches("data:image/.*;base64,.*".toRegex())) {
+                Log.d(TAG, "Load image from value")
+                val dataString = widgetState.substring(widgetState.indexOf(",") + 1)
+                val data = Base64.decode(dataString, Base64.DEFAULT)
+                BitmapFactory.decodeByteArray(data, 0, data.size)
+            } else {
+                null
+            }
+        }
+
+        bitmap ?: return finish()
+
+        Handler(Looper.getMainLooper()).post {
+            imageView.setImageBitmap(bitmap)
         }
     }
 
@@ -127,6 +138,8 @@ class FullscreenImageActivity : AbstractBaseActivity() {
     companion object {
         private val TAG = FullscreenImageActivity::class.java.simpleName
 
-        const val WIDGET = "widget"
+        const val WIDGET_LABEL = "widget_label"
+        const val WIDGET_URL = "widget_url"
+        const val WIDGET_LINK = "widget_link"
     }
 }

@@ -699,9 +699,14 @@ class WidgetAdapter(
 
         override fun onClick(v: View?) {
             val context = v?.context ?: return
-            boundWidget?.let {
+            boundWidget?.let { widget ->
                 val intent = Intent(context, FullscreenImageActivity::class.java)
-                intent.putExtra(FullscreenImageActivity.WIDGET, it)
+                intent.putExtra(FullscreenImageActivity.WIDGET_LABEL, widget.label)
+                when {
+                    widget.item?.link != null -> intent.putExtra(FullscreenImageActivity.WIDGET_LINK, widget.item.link)
+                    widget.url != null -> intent.putExtra(FullscreenImageActivity.WIDGET_URL, widget.url)
+                    else -> return@let
+                }
                 context.startActivity(intent)
             }
         }
