@@ -42,7 +42,7 @@ class FcmRegistrationService : JobIntentService() {
         val manufacturer = Build.MANUFACTURER
         val model = Build.MODEL
 
-        val actualModel = if (model.toLowerCase(Locale.ROOT).startsWith(manufacturer.toLowerCase(Locale.ROOT)))
+        val actualModel = if (model.lowercase(Locale.ROOT).startsWith(manufacturer.lowercase(Locale.ROOT)))
             model else "$manufacturer $model"
 
         // Capitalize returned value

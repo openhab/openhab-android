@@ -21,9 +21,9 @@ import org.openhab.habdroid.BuildConfig
 object Util {
     val TAG: String = Util::class.java.simpleName
 
-    val isFlavorStable get() = BuildConfig.FLAVOR.toLowerCase(Locale.ROOT).contains("stable")
+    val isFlavorStable get() = BuildConfig.FLAVOR.lowercase(Locale.ROOT).contains("stable")
     val isFlavorBeta get() = !isFlavorStable
-    val isFlavorFull get() = BuildConfig.FLAVOR.toLowerCase(Locale.ROOT).contains("full")
+    val isFlavorFull get() = BuildConfig.FLAVOR.lowercase(Locale.ROOT).contains("full")
     val isFlavorFoss get() = !isFlavorFull
 
     fun isEmulator(): Boolean {
