@@ -1155,6 +1155,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
+        override fun onDetach() {
+            prefs.unregisterOnSharedPreferenceChangeListener(this)
+            super.onDetach()
+        }
+
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
             if (key in BackgroundTasksManager.KNOWN_PERIODIC_KEYS) {
                 EventListenerService.startOrStopService(requireContext())
