@@ -171,7 +171,7 @@ fun GoogleMap.setMarker(position: LatLng, item: Item, label: CharSequence?, canD
             .draggable(canDrag)
             .position(position)
             .title(label?.toString())
-    addMarker(marker).tag = item
+    addMarker(marker)?.tag = item
 }
 
 fun Location.toLatLng(): LatLng {
