@@ -4,7 +4,7 @@
     android:minHeight="40dp"
     android:updatePeriodMillis="0"
     android:previewImage="@drawable/widget_preview_item_update"
-    android:initialLayout="@layout/widget_item_update_text"
+    android:initialLayout="@layout/widget_item_update_dark_text"
     android:widgetCategory="home_screen|keyguard"
     android:configure="org.openhab.habdroid.ui.PreferencesActivity"
     android:resizeMode="horizontal|vertical" >

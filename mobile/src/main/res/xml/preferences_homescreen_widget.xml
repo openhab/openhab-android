@@ -12,4 +12,12 @@
         android:title="@string/tile_name"
         app:whitespaceBehavior="trim"
         android:inputType="text" />
+    <ListPreference
+        android:persistent="false"
+        android:key="widget_theme"
+        android:title="@string/settings_openhab_theme"
+        android:summary="%s"
+        android:entries="@array/widget_theme"
+        android:entryValues="@array/widget_theme_values"
+        android:defaultValue="dark" />
 </androidx.preference.PreferenceScreen>

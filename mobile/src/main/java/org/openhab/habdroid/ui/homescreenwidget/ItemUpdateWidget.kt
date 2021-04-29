@@ -50,9 +50,12 @@ import org.openhab.habdroid.ui.duplicate
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
+import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
@@ -263,7 +266,12 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val widgetLabel = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
             val mappedState = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
-            return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon)
+            // Fallback to the theme of the previously set widget
+            val theme = prefs.getStringOrFallbackIfEmpty(
+                PreferencesActivity.ITEM_UPDATE_WIDGET_THEME,
+                context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark")
+            )
+            return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon, theme)
         }
 
         fun saveInfoForWidget(
@@ -278,6 +286,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
                 putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_THEME, data.theme)
             }
         }
 
@@ -288,10 +297,19 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             editPendingIntent: PendingIntent?,
             data: ItemUpdateWidgetData
         ): RemoteViews {
+            val darkTheme = data.theme == "dark"
             val layout = when {
-                data.widgetLabel?.isEmpty() == true -> R.layout.widget_item_update_no_text
-                smallWidget -> R.layout.widget_item_update_text_small
-                else -> R.layout.widget_item_update_text
+                data.widgetLabel?.isEmpty() == true -> {
+                    if (darkTheme) R.layout.widget_item_update_dark_no_text
+                    else R.layout.widget_item_update_light_no_text
+                }
+                smallWidget -> {
+                    if (darkTheme) R.layout.widget_item_update_dark_text_small
+                    else R.layout.widget_item_update_light_text_small
+                }
+                else -> {
+                    if (darkTheme) R.layout.widget_item_update_dark_text else R.layout.widget_item_update_light_text
+                }
             }
             val views = RemoteViews(context.packageName, layout)
             views.setOnClickPendingIntent(R.id.outer_layout, itemUpdatePendingIntent)
@@ -332,7 +350,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val label: String,
         val widgetLabel: String?,
         val mappedState: String,
-        val icon: IconResource?
+        val icon: IconResource?,
+        val theme: String
     ) : Parcelable {
         fun isValid(): Boolean {
             return item.isNotEmpty() &&

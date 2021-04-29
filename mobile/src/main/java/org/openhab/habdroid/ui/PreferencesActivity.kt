@@ -1462,6 +1462,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private lateinit var itemAndStatePref: ItemAndStatePreference
         private lateinit var namePref: CustomInputTypePreference
+        private lateinit var themePref: ListPreference
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -1495,6 +1496,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             addPreferencesFromResource(R.xml.preferences_homescreen_widget)
             itemAndStatePref = findPreference("widget_item_and_action")!!
             namePref = findPreference("widget_name")!!
+            themePref = findPreference("widget_theme")!!
 
             namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
             itemAndStatePref.setOnPreferenceClickListener {
@@ -1531,7 +1533,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                 label = itemAndStatePref.label.orEmpty(),
                 widgetLabel = namePref.text.orEmpty(),
                 mappedState = itemAndStatePref.mappedState.orEmpty(),
-                icon = itemAndStatePref.icon.toOH2IconResource()
+                icon = itemAndStatePref.icon.toOH2IconResource(),
+                theme = themePref.value
             )
         }
 
@@ -1544,6 +1547,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             itemAndStatePref.mappedState = data.mappedState
             itemAndStatePref.icon = data.icon?.icon
             namePref.text = data.widgetLabel
+            themePref.value = data.theme
 
             updateItemAndStatePrefSummary()
         }
@@ -1594,6 +1598,9 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             ItemUpdateWidget.saveInfoForWidget(context, newData, widgetId)
+            prefs.edit {
+                putString(PrefKeys.LAST_WIDGET_THEME, newData.theme)
+            }
 
             val updateIntent = Intent(context, ItemUpdateWidget::class.java).apply {
                 action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -1635,6 +1642,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val ITEM_UPDATE_WIDGET_WIDGET_LABEL = "widgetLabel"
         const val ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
         const val ITEM_UPDATE_WIDGET_ICON = "icon"
+        const val ITEM_UPDATE_WIDGET_THEME = "theme"
         private const val STATE_KEY_RESULT = "result"
         private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
         private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
