@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- No extra margin required on 23+ -->
+    <dimen name="widgetlist_spinner_margin_end">0dp</dimen>
+</resources>
