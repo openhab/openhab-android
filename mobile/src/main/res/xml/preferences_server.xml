@@ -33,11 +33,9 @@
         android:icon="@drawable/ic_keyboard_arrow_down_grey_24dp"
         android:title="@string/settings_advanced" />
     <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
-        android:defaultValue="@string/settings_openhab_none"
         android:key="clientcert"
         android:persistent="false"
         app:isPreferenceVisible="false"
-        android:summary="@string/settings_openhab_none"
         android:title="@string/settings_openhab_sslclientcert" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:key="wifi_ssid"
