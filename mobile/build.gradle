@@ -169,7 +169,7 @@ dependencies {
     fossImplementation "ch.acra:acra-notification:$acra_version"
 
     // About screen
-    implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"
+    implementation "com.github.daniel-stoneuk:material-about-library:3.1.2"
     // Used libraries
     implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
