@@ -18,18 +18,6 @@
         android:persistent="false"
         android:title="@string/settings_openhab_alt_connection"
         android:icon="@drawable/ic_tree_outline_grey_24dp" />
-    <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
-        android:defaultValue="@string/settings_openhab_none"
-        android:key="clientcert"
-        android:persistent="false"
-        android:summary="@string/settings_openhab_none"
-        android:title="@string/settings_openhab_sslclientcert" />
-    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
-        android:key="wifi_ssid"
-        android:persistent="false"
-        app:whitespaceBehavior="trim"
-        android:inputType="text"
-        android:title="@string/settings_wifi_ssid" />
     <Preference
         android:clickable="true"
         android:key="clear_default_sitemap"
@@ -38,4 +26,24 @@
         android:key="primary_server_pref"
         android:icon="@drawable/ic_star_border_grey_24dp"
         android:title="@string/settings_server_primary_title" />
+    <Preference
+        android:clickable="true"
+        app:isPreferenceVisible="true"
+        android:key="advanced_prefs"
+        android:icon="@drawable/ic_keyboard_arrow_down_grey_24dp"
+        android:title="@string/settings_advanced" />
+    <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
+        android:defaultValue="@string/settings_openhab_none"
+        android:key="clientcert"
+        android:persistent="false"
+        app:isPreferenceVisible="false"
+        android:summary="@string/settings_openhab_none"
+        android:title="@string/settings_openhab_sslclientcert" />
+    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+        android:key="wifi_ssid"
+        android:persistent="false"
+        app:isPreferenceVisible="false"
+        app:whitespaceBehavior="trim"
+        android:inputType="text"
+        android:title="@string/settings_wifi_ssid" />
 </PreferenceScreen>

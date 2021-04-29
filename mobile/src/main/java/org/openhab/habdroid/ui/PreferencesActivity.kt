@@ -839,6 +839,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
+            val wifiSsidPref = getPreference("wifi_ssid") as EditTextPreference
             if (prefs.getConfiguredServerIds().isEmpty()) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.PRIMARY_SERVER_PREF)
                 preferenceScreen.removePreferenceRecursively("wifi_ssid")
@@ -857,7 +858,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                     true
                 }
 
-                val wifiSsidPref = getPreference("wifi_ssid") as EditTextPreference
                 wifiSsidPref.text = config.wifiSsid
                 wifiSsidPref.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
                     val value = preference.text
@@ -879,6 +879,14 @@ class PreferencesActivity : AbstractBaseActivity() {
                     )
                     true
                 }
+            }
+
+            val advancedPrefs = getPreference("advanced_prefs")
+            advancedPrefs.setOnPreferenceClickListener {
+                advancedPrefs.isVisible = false
+                clientCertPref.isVisible = true
+                wifiSsidPref.isVisible = true
+                false
             }
         }
 
