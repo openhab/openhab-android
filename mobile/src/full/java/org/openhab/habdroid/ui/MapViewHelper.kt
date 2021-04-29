@@ -178,6 +178,6 @@ fun Location.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
 }
 
-fun Location.toMapsUrl(): String? {
+fun Location.toMapsUrl(): String {
     return "https://www.google.de/maps/@$latitude,$longitude,16z"
 }
