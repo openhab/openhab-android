@@ -249,6 +249,6 @@ fun Location.toGeoPoint(): GeoPoint {
     return GeoPoint(this)
 }
 
-fun Location.toMapsUrl(): String? {
+fun Location.toMapsUrl(): String {
     return "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
 }
