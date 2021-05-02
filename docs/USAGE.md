@@ -305,7 +305,7 @@ Please refer to the [openhab-android project on GitHub](https://github.com/openh
 
 ### I don't receive any notifications
 
-Please have a look at the "Push notification status" on the About screen in the app.
+Please have a look at the notification status on the settings screen in the app.
 If it claims that your device is successfully registered at FCM, please open an issue on [openhab-android project on GitHub](https://github.com/openhab/openhab-android) or create a thread in the forum.
 
 ### My notifications are delayed
