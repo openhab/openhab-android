@@ -31,7 +31,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import java.security.InvalidKeyException
+import java.security.GeneralSecurityException
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -50,9 +50,9 @@ class OpenHabApplication : MultiDexApplication() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 getEncryptedSharedPrefs()
-            } catch (e: InvalidKeyException) {
+            } catch (e: GeneralSecurityException) {
                 // See https://github.com/openhab/openhab-android/issues/1807
-                Log.e(TAG, "Error getting encrypted shared prefs, try again.", e)
+                CrashReportingHelper.e(TAG, "Error getting encrypted shared prefs, try again.", exception = e)
                 getEncryptedSharedPrefs()
             }
         } else {

@@ -65,15 +65,15 @@ object CrashReportingHelper {
         return ACRA.isACRASenderServiceProcess()
     }
 
-    fun d(tag: String, message: String, remoteOnly: Boolean = false) {
+    fun d(tag: String, message: String, remoteOnly: Boolean = false, exception: Exception? = null) {
         if (!remoteOnly) {
-            Log.d(tag, message)
+            Log.d(tag, message, exception)
         }
     }
 
-    fun e(tag: String, message: String, remoteOnly: Boolean = false) {
+    fun e(tag: String, message: String, remoteOnly: Boolean = false, exception: Exception? = null) {
         if (!remoteOnly) {
-            Log.e(tag, message)
+            Log.e(tag, message, exception)
         }
     }
 

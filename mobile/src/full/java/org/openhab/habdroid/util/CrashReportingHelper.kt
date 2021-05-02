@@ -33,17 +33,17 @@ object CrashReportingHelper {
         return false
     }
 
-    fun d(tag: String, message: String, remoteOnly: Boolean = false) {
-        FirebaseCrashlytics.getInstance().log("D/$tag: $message")
+    fun d(tag: String, message: String, remoteOnly: Boolean = false, exception: Exception? = null) {
+        FirebaseCrashlytics.getInstance().log("D/$tag: $message; ${exception?.stackTraceToString()}")
         if (!remoteOnly) {
-            Log.d(tag, message)
+            Log.d(tag, message, exception)
         }
     }
 
-    fun e(tag: String, message: String, remoteOnly: Boolean = false) {
-        FirebaseCrashlytics.getInstance().log("E/$tag: $message")
+    fun e(tag: String, message: String, remoteOnly: Boolean = false, exception: Exception? = null) {
+        FirebaseCrashlytics.getInstance().log("E/$tag: $message; ${exception?.stackTraceToString()}")
         if (!remoteOnly) {
-            Log.e(tag, message)
+            Log.e(tag, message, exception)
         }
     }
 
