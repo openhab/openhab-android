@@ -1,0 +1,5 @@
+## Added
+* Add theming support to widgets (#2536)
+
+## Fixed
+* Fix base64 images overridden by URL images (#2540)
