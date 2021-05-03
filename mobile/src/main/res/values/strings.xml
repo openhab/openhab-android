@@ -121,6 +121,7 @@
     <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Touch to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Touch the help button for more information.</string>
     <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html#multi-server-support</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Advanced</string>
     <string name="click_here_for_more_information">Touch here for more information</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">The app will select this server when connected to Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">The app will not automatically select this server based on connected Wi-Fi network</string>
