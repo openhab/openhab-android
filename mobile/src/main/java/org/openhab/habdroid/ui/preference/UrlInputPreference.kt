@@ -26,6 +26,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import com.google.android.material.textfield.TextInputLayout
+import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.openhab.habdroid.R
 
@@ -57,7 +58,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
         override fun onBindDialogView(view: View?) {
             super.onBindDialogView(view)
             if (view != null) {
-                wrapper = view.findViewById<TextInputLayout>(R.id.input_wrapper)
+                wrapper = view.findViewById(R.id.input_wrapper)
                 arguments?.getCharSequence(KEY_TITLE)?.let { title ->
                     wrapper.hint = title
                 }
@@ -87,6 +88,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
         override fun afterTextChanged(editable: Editable) {
             var portSeemsInvalid = false
             val isHttpEnabled = requireArguments().getBoolean(IS_HTTP_ENABLED, false)
+            var url: HttpUrl? = null
             if (editable.isEmpty()) {
                 urlIsValid = true
             } else {
@@ -95,7 +97,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                     urlIsValid = false
                 } else {
                     try {
-                        val url = value.toHttpUrl()
+                        url = value.toHttpUrl()
                         urlIsValid = true
                         portSeemsInvalid = when {
                             url.isHttps -> url.port == 80 || url.port == 8080
@@ -110,13 +112,14 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                     }
                 }
             }
-            val res = editor.resources
-            wrapper.error = when {
-                !urlIsValid && !isHttpEnabled -> res.getString(R.string.error_invalid_https_url)
-                !urlIsValid && isHttpEnabled -> res.getString(R.string.error_invalid_url)
-                portSeemsInvalid -> res.getString(R.string.error_port_seems_invalid)
-                else -> null
+            val errorRes = when {
+                !urlIsValid -> if (isHttpEnabled) R.string.error_invalid_url else R.string.error_invalid_https_url
+                portSeemsInvalid -> R.string.error_port_seems_invalid
+                url?.host == "home.myopenhab.org" -> R.string.error_home_myopenhab_org_no_notifications
+                else -> 0
             }
+
+            wrapper.error = if (errorRes == 0) null else editor.resources.getString(errorRes)
             updateOkButtonState()
         }
 
