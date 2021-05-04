@@ -105,6 +105,7 @@
     <string name="settings_server_primary_summary_is_primary">Questo è il server primario.\nAttualmente solo il server primario è supportato da tutte le funzionalità di questa app. Tocca il pulsante di aiuto per ulteriori informazioni.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" è il server primario. Tocca per rendere questo server quello primario.\nAttualmente solo il server primario è supportato da tutte le funzionalità di questa app. Tocca il pulsante di aiuto per ulteriori informazioni.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Avanzate</string>
     <string name="click_here_for_more_information">Tocca qui per maggiori informazioni</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">L\'app selezionerà questo server quando connesso al Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">L\'app non selezionerà automaticamente questo server in base alla rete Wi-Fi connessa</string>
