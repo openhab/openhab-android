@@ -137,6 +137,7 @@
     <string name="error_invalid_url">Inserisci un URL valido nella forma \'http(s)://host(:port)/\'</string>
     <string name="error_invalid_https_url">Inserire un URL valido nella forma \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">La porta inserita non sembra valida per il protocollo selezionato</string>
+    <string name="error_home_myopenhab_org_no_notifications">Le notifiche non sono disponibili su home.myopenhab.org, ma su myopenhab.org</string>
     <string name="error_first_char_is_whitespace">Il primo carattere è uno spazio, che è probabilmente non voluto</string>
     <string name="error_last_char_is_whitespace">L\'ultimo carattere è uno spazio, che è probabilmente non voluto</string>
     <string name="error_connection_failed">Connessione al dispositivo non riuscita</string>
