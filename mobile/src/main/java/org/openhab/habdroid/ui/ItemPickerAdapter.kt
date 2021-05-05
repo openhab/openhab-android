@@ -52,11 +52,11 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
     fun filter(filter: String) {
         filteredItems.clear()
-        val searchTerm = filter.toLowerCase(Locale.getDefault())
+        val searchTerm = filter.lowercase(Locale.getDefault())
         allItems.filterTo(filteredItems) { item ->
-            searchTerm in item.name.toLowerCase(Locale.getDefault()) ||
-                searchTerm in item.label?.toLowerCase(Locale.getDefault()).orEmpty() ||
-                searchTerm in item.type.toString().toLowerCase(Locale.getDefault())
+            searchTerm in item.name.lowercase(Locale.getDefault()) ||
+                searchTerm in item.label?.lowercase(Locale.getDefault()).orEmpty() ||
+                searchTerm in item.type.toString().lowercase(Locale.getDefault())
         }
         notifyDataSetChanged()
     }
