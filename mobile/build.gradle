@@ -14,11 +14,11 @@ buildscript {
     repositories {
         mavenCentral()
         google()
-        jcenter()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
     }
+
     dependencies {
         classpath "com.google.gms:google-services:4.3.5"
         classpath "com.google.firebase:firebase-crashlytics-gradle:2.5.2"
@@ -125,7 +125,6 @@ repositories {
         url "https://jitpack.io"
     }
     google()
-    jcenter()
 }
 
 dependencies {
