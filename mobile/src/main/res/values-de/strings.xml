@@ -20,6 +20,8 @@
     <string name="app_notifications_on_server">Benachrichtigungen (%s)</string>
     <string name="habpanel_error">Beim Laden von HABPanel ist ein Fehler aufgetreten</string>
     <string name="oh3_ui_error">Beim Laden der openHAB 3 UI ist ein Fehler aufgetreten</string>
+    <string name="frontail_error">Beim Laden von Frontail ist ein Fehler aufgetreten. Bitte beachten Sie, dass Frontail nicht über openHAB Cloud verfügbar ist.</string>
+    <string name="frontail_pref_summary">Frontail muss auf dem Standard-Port 9001 laufen. Es kann entweder mit openHABian oder manuell installiert werden.</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
     <!-- App settings strings -->
@@ -43,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
+    <string name="start_page_title">Startseite</string>
     <string name="drawer_entries">Einträge im Seitenmenü</string>
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_accent_color">Akzentfarbe</string>
@@ -465,6 +468,7 @@
     <string name="item_update_widget_title">Item-Steuerung</string>
     <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_content_description_edit">Widget bearbeiten</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
@@ -526,6 +530,7 @@
     <string name="tile_item_picker_title">Wählen Sie ein Item</string>
     <string name="tile_disabled">Ausgeschaltet</string>
     <string name="tile_enable">Einschalten</string>
+    <string name="tile_item_and_action">Item und Aktion</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
     <string name="tile_require_unlock">Bildschirm-Entsperrung erfordern</string>
@@ -549,6 +554,7 @@
     <string name="tile_label_10">Kachel 10</string>
     <string name="tile_label_11">Kachel 11</string>
     <string name="tile_label_12">Kachel 12</string>
+    <string name="error_missing_prefs">Bitte füllen Sie alle Einstellungen aus</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB-Logo</string>
     <string name="tile_icon_tv">Fernseher</string>
