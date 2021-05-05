@@ -200,6 +200,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             log = redactHost(log, getPrefs().getLocalUrl(id), "<openhab-local-address-$serverName>")
             log = redactHost(log, getPrefs().getRemoteUrl(id), "<openhab-remote-address-$serverName>")
         }
+        log = log.replaceAfter("addAndroidRegistration", "<redacted>")
         log
     }
 
