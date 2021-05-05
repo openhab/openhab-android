@@ -105,6 +105,7 @@
     <string name="settings_server_primary_summary_is_primary">Цей сервер є основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Торкніться кнопки Довідка для отримання додаткової інформації.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" є основним сервером. Торкніться щоб зробити цей сервер основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Щоб дізнатися більше, торкніться кнопки довідки.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Додатково</string>
     <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Програма вибере цей сервер при підключенні до точки Wi-Fi \'%s</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Додаток не буде автоматично обирати цей сервер на основі під\'єднаної Wi-Fi мережі</string>
@@ -137,6 +138,7 @@
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Будь ласка, введіть правильне посилання URL у форматі \"https://хост(:порт)/\"</string>
     <string name="error_port_seems_invalid">Введений порт здається непридатний для вибраного протоколу</string>
+    <string name="error_home_myopenhab_org_no_notifications">Сповіщення не доступні на home.myopenhab.org, а на myopenhab.org</string>
     <string name="error_first_char_is_whitespace">Перший символ - це пробіл, який, ймовірно, не потрібен</string>
     <string name="error_last_char_is_whitespace">Останній символ - це пробіль, який, ймовірно, не потрібен</string>
     <string name="error_connection_failed">Підключення до хоста не вдалося</string>
