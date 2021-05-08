@@ -105,6 +105,7 @@
     <string name="settings_server_primary_summary_is_primary">Este é o servidor principal.\nAtualmente, apenas o servidor principal é suportado por todos os recursos deste aplicativo. Toque no botão de ajuda para obter mais informações.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" é o servidor principal. Clique para esse servidor tornar o principal.\nAtualmente, apenas o servidor principal é capaz de todos os recursos deste aplicativo. Clique no botão de ajuda para mais informações.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Avançado</string>
     <string name="click_here_for_more_information">Clique aqui para mais informações</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">O app selecionará este servidor quando conectado à rede Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">O app não selecionará automaticamente este servidor de acordo com a rede Wi-Fi conectada</string>
@@ -137,6 +138,7 @@
     <string name="error_invalid_url">Por favor insira uma URL válida num padrão \'http(s)://endereço(:porta)/\'</string>
     <string name="error_invalid_https_url">Por favor, insira uma URL válida no formulário \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">A porta que você digitou parece inválida para o protocolo selecionado</string>
+    <string name="error_home_myopenhab_org_no_notifications">Notificações não estão disponíveis em home.myopenhab.org, mas em myopenhab.org</string>
     <string name="error_first_char_is_whitespace">O primeiro caractere é um espaço em branco, o que é indesejado</string>
     <string name="error_last_char_is_whitespace">O último caractere é um espaço em branco, o que é indesejado</string>
     <string name="error_connection_failed">Conexão ao host falhou</string>
