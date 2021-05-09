@@ -45,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
     <string name="settings_openhab_demomode">מצב הדגמה</string>
     <string name="settings_openhab_demomode_summary">אם אין לך שרת openHAB, הפעל במצב הדגמה כדי לראות את היכולות של openHAB.</string>
+    <string name="start_page_title">דף פתיחה</string>
     <string name="drawer_entries">ערכי תפריט צד</string>
     <string name="settings_openhab_theme">ערכת עיצוב</string>
     <string name="settings_accent_color">צבע נושא</string>
@@ -104,6 +105,7 @@
     <string name="settings_server_primary_summary_is_primary">שרת זה הוא הראשי.\n נכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">הגדרות מתקדמות</string>
     <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">היישומון יבחר בשרת זה כאשר יש חיבור ל- Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">היישומון לא יבחר באופן אוטומטי בשרת זה על סמך חיבור לרשת Wi-Fi</string>
@@ -136,6 +138,7 @@
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
+    <string name="error_home_myopenhab_org_no_notifications">התראות אינן זמינות ב- home.myopenhab.org, אלא ב- myopenhab.org</string>
     <string name="error_first_char_is_whitespace">התו הראשון הוא רווח, כנראה שאינו רצוי</string>
     <string name="error_last_char_is_whitespace">התו האחרון הוא רווח, כנראה שאינו רצוי</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
@@ -473,6 +476,7 @@
     <string name="item_update_widget_title">שליטה בפריט</string>
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
     <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
+    <string name="item_update_widget">יישומון</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
@@ -534,6 +538,7 @@
     <string name="tile_item_picker_title">בחר פריט</string>
     <string name="tile_disabled">כבוי</string>
     <string name="tile_enable">הפעל</string>
+    <string name="tile_item_and_action">פריט ופעולה</string>
     <string name="tile_name">שם</string>
     <string name="tile_icon">צלמית</string>
     <string name="tile_require_unlock">דרוש ביטול נעילת מסך</string>
@@ -559,6 +564,7 @@
     <string name="tile_label_10">אריח 10</string>
     <string name="tile_label_11">אריח 11</string>
     <string name="tile_label_12">אריח 12</string>
+    <string name="error_missing_prefs">נא להשלים את כל ההגדרות</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">צלמית openHAB</string>
     <string name="tile_icon_tv">טלוויזיה</string>
