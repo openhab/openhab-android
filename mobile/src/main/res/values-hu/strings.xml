@@ -105,6 +105,7 @@
     <string name="settings_server_primary_summary_is_primary">Ez a kiszolgáló az elsődleges.\nAz alkalmazás összes funkcióját csak az elsődeleges szerverrel tudja használni. Érintse meg a súgót a további információ eléréséhez.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" az elsődleges kiszolgáló. Érintse meg a jelenlegi szerver elsődlegessé tételéhez.\nAz alkalmazás összes funkcióját csak az elsődeleges szerverrel tudja használni. Érintse meg a súgót a további információ eléréséhez.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Haladó</string>
     <string name="click_here_for_more_information">Kattintson ide további információért</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Az alkalmazás ezt a szervert választja, ha csatlakozva van a(z) \'%s\' Wi-Fi-hez</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Az alkalmazás nem fogja automatikusan ezt a szervert választani Wi-Fi kapcsolat alapján</string>
@@ -137,6 +138,7 @@
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
     <string name="error_invalid_https_url">Adjon meg egy érvényes URL-címet \' https://kiszolgáló(:port)/\' formában</string>
     <string name="error_port_seems_invalid">Úgy tűnik, a megadott port érvénytelen a kiválasztott protokollhoz</string>
+    <string name="error_home_myopenhab_org_no_notifications">Értesítések nem érhetőek el a home.myopenhab.org, de a myopenhab.org-on igen</string>
     <string name="error_first_char_is_whitespace">Az első karakter szóköz, valószínűleg ez nem szükséges</string>
     <string name="error_last_char_is_whitespace">Az utolsó karakter szóköz, valószínűleg ez nem szükséges</string>
     <string name="error_connection_failed">Sikertelen kapcsolódás</string>
@@ -416,6 +418,7 @@
     <string name="home_shortcut_error_pinning">Hiba a kezdőképernyőre kitűzésekor</string>
     <string name="home_shortcut_success_pinning">Kezdőképernyőre kitűzve</string>
     <string name="home_shortcut_server_has_been_deleted">A kiszolgáló ehhez az ikonhoz törölve lett</string>
+    <string name="home_shortcut_title">Parancsikon címének beállítása</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Redőny nyitása</string>
     <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
@@ -469,6 +472,7 @@
     <string name="item_update_widget_title">Elem vezérlése</string>
     <string name="item_update_widget_content_description">Widget az elem állapot megváltoztatásához</string>
     <string name="item_update_widget_content_description_edit">Widget szerkesztése</string>
+    <string name="item_update_widget">Kütyü</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Válassz egy elemet</string>
@@ -530,6 +534,7 @@
     <string name="tile_item_picker_title">Elem kiválasztása</string>
     <string name="tile_disabled">Kikapcsolás</string>
     <string name="tile_enable">Bekapcsolás</string>
+    <string name="tile_item_and_action">Elem és művelet</string>
     <string name="tile_name">Név</string>
     <string name="tile_icon">Ikon</string>
     <string name="tile_require_unlock">Szükséges a képernyő feloldása</string>
@@ -553,6 +558,7 @@
     <string name="tile_label_10">10-es csempe</string>
     <string name="tile_label_11">11-es csempe</string>
     <string name="tile_label_12">12-as csempe</string>
+    <string name="error_missing_prefs">Kérlek, tölts ki minden beállítást</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB Ikon</string>
     <string name="tile_icon_tv">TV</string>
