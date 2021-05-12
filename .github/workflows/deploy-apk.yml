@@ -58,7 +58,7 @@ jobs:
           alias: "sign"
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           
-      - uses: svenstaro/upload-release-action@v2
+      - uses: svenstaro/upload-release-action@2.2.1
         name: Upload APK
         with:
           file: ${{steps.sign_app.outputs.signedReleaseFile}}
