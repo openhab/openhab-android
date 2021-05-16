@@ -14,10 +14,14 @@
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Oznámení</string>
     <string name="app_notifications_on_server">Oznámení (%s)</string>
     <string name="habpanel_error">Při načítání HABPanel došlo k chybě</string>
     <string name="oh3_ui_error">Při načítání openHAB 3 UI došlo k chybě</string>
+    <string name="frontail_error">Při načítání Frontail došlo k chybě. Vezměte prosím na vědomí, že Frontail není k dispozici přes openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail musí běžet na výchozím portu 9001. Je buď propojen s openHABian nebo může být nainstalován ručně.</string>
     <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
     <!-- App settings strings -->
@@ -41,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Zabránit systému zhasnout automaticky displej pokud je aplikace openHAB spuštěna</string>
     <string name="settings_openhab_demomode">Ukázkový režim</string>
     <string name="settings_openhab_demomode_summary">Pokud nemáte openHAB server, povolte režim demo abyste získali představu o možnostech openHAB.</string>
+    <string name="start_page_title">Úvodní stránka</string>
     <string name="drawer_entries">Položky postranního menu</string>
     <string name="settings_openhab_theme">Motivy vzhledu</string>
     <string name="settings_accent_color">Barva zvýraznění</string>
@@ -100,6 +105,7 @@
     <string name="settings_server_primary_summary_is_primary">Tento server je primární.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" je primární server. Klepněte pro nastavení tohoto serveru jako primárního.\nV současné době je všemi funkcemi této aplikace podporován pouze primární server. Pro více informací klepněte na tlačítko nápovědy.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Rozšířené</string>
     <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Aplikace vybere tento server při připojení k Wi-Fi \'%s\'</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Aplikace nebude automaticky vybírat tento server na základě připojené Wi-Fi sítě</string>
@@ -132,6 +138,7 @@
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Zadejte platnou adresu URL ve formátu \'https://host(:port)/\'</string>
     <string name="error_port_seems_invalid">Port, který jste zadali, se zdá být neplatný pro vybraný protokol</string>
+    <string name="error_home_myopenhab_org_no_notifications">Oznámení nejsou k dispozici na home.myopenhab.org, ale na myopenhab.org</string>
     <string name="error_first_char_is_whitespace">První znak je mezera, která je pravděpodobně nechtěná</string>
     <string name="error_last_char_is_whitespace">Poslední znak je mezera, která je pravděpodobně nechtěná</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
@@ -415,6 +422,7 @@
     <string name="home_shortcut_error_pinning">Nepodařilo se připnout</string>
     <string name="home_shortcut_success_pinning">Připnuto na domovskou obrazovku</string>
     <string name="home_shortcut_server_has_been_deleted">Server pro tohoto zástupce byl smazán</string>
+    <string name="home_shortcut_title">Nastavit název odkazu</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
     <string name="content_description_stop_roller_shutter">Zastavit roletu</string>
@@ -468,6 +476,7 @@
     <string name="item_update_widget_title">Kontrola Item</string>
     <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_content_description_edit">Upravit widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vyberte Item</string>
@@ -529,6 +538,7 @@
     <string name="tile_item_picker_title">Vyberte Item</string>
     <string name="tile_disabled">Vypnuto</string>
     <string name="tile_enable">Zapnout</string>
+    <string name="tile_item_and_action">Item a akce</string>
     <string name="tile_name">Název</string>
     <string name="tile_icon">Ikona</string>
     <string name="tile_require_unlock">Vyžadovat odemknutí obrazovky</string>
@@ -554,6 +564,7 @@
     <string name="tile_label_10">Dlaždice 10</string>
     <string name="tile_label_11">Dlaždice 11</string>
     <string name="tile_label_12">Dlaždice 12</string>
+    <string name="error_missing_prefs">Vyplňte prosím každou možnost nastavení</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB ikona</string>
     <string name="tile_icon_tv">TV</string>

@@ -20,6 +20,8 @@
     <string name="app_notifications_on_server">Benachrichtigungen (%s)</string>
     <string name="habpanel_error">Beim Laden von HABPanel ist ein Fehler aufgetreten</string>
     <string name="oh3_ui_error">Beim Laden der openHAB 3 UI ist ein Fehler aufgetreten</string>
+    <string name="frontail_error">Beim Laden von Frontail ist ein Fehler aufgetreten. Bitte beachten Sie, dass Frontail nicht über openHAB Cloud verfügbar ist.</string>
+    <string name="frontail_pref_summary">Frontail muss auf dem Standard-Port 9001 laufen. Es kann entweder mit openHABian oder manuell installiert werden.</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
     <!-- App settings strings -->
@@ -43,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
+    <string name="start_page_title">Startseite</string>
     <string name="drawer_entries">Einträge im Seitenmenü</string>
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_accent_color">Akzentfarbe</string>
@@ -102,6 +105,7 @@
     <string name="settings_server_primary_summary_is_primary">Dieser Server ist der primäre Server.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" ist der primäre Server. Hier berühren, um diesen Server zum primären zu machen.\nDerzeit wird nur der primäre Server von allen Funktionen dieser App unterstützt. Berühren Sie den Hilfe-Button für mehr Informationen.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Erweitert</string>
     <string name="click_here_for_more_information">Hier berühren für mehr Informationen</string>
     <string name="settings_multi_server_wifi_ssid_summary_set">Die App wählt diesen Server aus, wenn mit WLAN „%s“ verbunden</string>
     <string name="settings_multi_server_wifi_ssid_summary_unset">Die App wird diesen Server nicht automatisch basierend auf dem verbundenen WLAN-Netzwerk auswählen</string>
@@ -134,6 +138,7 @@
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
     <string name="error_invalid_https_url">Bitte geben Sie eine gültige URL im Format \'https://Adresse(:Port)/\' an</string>
     <string name="error_port_seems_invalid">Der eingegebene Port für das ausgewählte Protokoll scheint ungültig zu sein</string>
+    <string name="error_home_myopenhab_org_no_notifications">Benachrichtigungen sind nicht auf home.myopenhab.org sondern auf myopenhab.org verfügbar</string>
     <string name="error_first_char_is_whitespace">Das erste Zeichen ist ein Leerzeichen, was wahrscheinlich unerwünscht ist</string>
     <string name="error_last_char_is_whitespace">Das letzte Zeichen ist ein Leerzeichen, was wahrscheinlich unerwünscht ist</string>
     <string name="error_connection_failed">Verbindung zum Host fehlgeschlagen</string>
@@ -247,6 +252,7 @@
     <string name="settings_background_tasks_permission_denied">Einige Hintergrundaufgaben wurden aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_background_tasks_permission_denied_background_location">Einige Hintergrundaufgaben erfordern, dass der Standortzugriff auf \"%s\" in den Android-Einstellungen gesetzt ist</string>
     <string name="settings_background_tasks_permission_allow">Erlauben</string>
+    <string name="settings_location_permissions_required">Diese App sammelt Standortdaten, um \"Senden des WLAN-Namens an Server\" und \"Wähle Server basieren auf WLAN-Namen\" nutzen zu können, auch wenn die App geschlossen ist oder nicht verwendet wird. Bitte beachten Sie, dass diese Daten nur an die Server gesendet werden, die Sie konfiguriert haben.</string>
     <string name="settings_item_pref_item_name">Item-Name</string>
     <string name="waiting_for_item_upload">Warte auf Netzwerk um Item-Aktualisierungen zu senden</string>
     <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
@@ -412,6 +418,7 @@
     <string name="home_shortcut_error_pinning">Anheften an Startbildschirm fehlgeschlagen</string>
     <string name="home_shortcut_success_pinning">Angeheftet an Startbildschirm</string>
     <string name="home_shortcut_server_has_been_deleted">Der Server für diese Verknüpfung wurde gelöscht</string>
+    <string name="home_shortcut_title">Geben Sie den Titel der Verknüpfung ein</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
     <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>
@@ -465,6 +472,7 @@
     <string name="item_update_widget_title">Item-Steuerung</string>
     <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_content_description_edit">Widget bearbeiten</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
@@ -526,6 +534,7 @@
     <string name="tile_item_picker_title">Wählen Sie ein Item</string>
     <string name="tile_disabled">Ausgeschaltet</string>
     <string name="tile_enable">Einschalten</string>
+    <string name="tile_item_and_action">Item und Aktion</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
     <string name="tile_require_unlock">Bildschirm-Entsperrung erfordern</string>
@@ -549,6 +558,7 @@
     <string name="tile_label_10">Kachel 10</string>
     <string name="tile_label_11">Kachel 11</string>
     <string name="tile_label_12">Kachel 12</string>
+    <string name="error_missing_prefs">Bitte füllen Sie alle Einstellungen aus</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB-Logo</string>
     <string name="tile_icon_tv">Fernseher</string>
