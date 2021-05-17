@@ -269,7 +269,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
             "com.android.providers.calendar",
-            "com.android.calendar"
+            "com.android.calendar",
+            "com.samsung.android.calendar"
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context) -> ItemUpdateWorker.ValueWithInfo?>()
 
