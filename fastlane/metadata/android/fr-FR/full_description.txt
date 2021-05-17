@@ -1,6 +1,8 @@
 openHAB - Une solution de domotique libre et ouverte à toutes les technologies
 
  Au lieu de cela, les notifications sont régulièrement consultées dans ces versions.
+Essayer les nouvelles fonctionnalités et donner un premier retour d'expérience !
+Vous pouvez installer la version bêta en parallèle de la <a href="https://f-droid.org/packages/org.openhab.habdroid/">version stable</a>.
 
 openHAB est une plateforme de domotique open source basée sur Java qui intègre et combine une vaste gamme de produits et technologies pour la maison connectée dans une seule et même solution.
 S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.
