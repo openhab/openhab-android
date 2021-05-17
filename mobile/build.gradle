@@ -20,8 +20,8 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.google.gms:google-services:4.3.5"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:2.5.2"
+        classpath "com.google.gms:google-services:4.3.8"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:2.6.1"
         classpath 'de.mobilej.unmock:UnMockPlugin:0.7.6'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$about_libraries_version"
         classpath "de.jjohannes.gradle:missing-metadata-guava:0.4"
@@ -159,20 +159,22 @@ dependencies {
     // MapView support
     fullImplementation "com.google.android.gms:play-services-maps:17.0.1"
     fossImplementation "org.osmdroid:osmdroid-android:6.1.6"
-
-    // FCM
-    fullImplementation "com.google.firebase:firebase-messaging:20.3.0"
-    // Crash reporting
-    fullImplementation "com.google.firebase:firebase-crashlytics:17.4.1"
-    fossImplementation "ch.acra:acra-mail:$acra_version"
-    fossImplementation "ch.acra:acra-notification:$acra_version"
-
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:3.1.2"
     // Used libraries
     implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
     implementation "com.github.GrenderG:Toasty:1.5.0"
+
+    // Firebase
+    implementation platform("com.google.firebase:firebase-bom:25.11.0")
+    fullImplementation "com.google.firebase:firebase-messaging-ktx"
+    fullImplementation "com.google.firebase:firebase-crashlytics-ktx"
+
+    // Firebase replacements
+    fossImplementation "ch.acra:acra-mail:$acra_version"
+    fossImplementation "ch.acra:acra-notification:$acra_version"
+
     testImplementation "org.mockito:mockito-core:3.10.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "junit:junit:4.13.2"
@@ -180,12 +182,10 @@ dependencies {
     testImplementation "org.reflections:reflections:0.9.12"
     testImplementation "com.squareup.okhttp3:mockwebserver:$ok_http_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
-
     // PowerMock
     testImplementation "org.powermock:powermock-core:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
-
     // Espresso UI tests
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version", {
         exclude group: "com.android.support", module: "support-annotations"
