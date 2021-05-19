@@ -531,3 +531,13 @@ fun Menu.getGroupItems(groupId: Int): List<MenuItem> {
         .map { index -> getItem(index) }
         .filter { item -> item.groupId == groupId }
 }
+
+fun PackageManager.isInstalled(app: String): Boolean {
+    return try {
+        // Some devices return `null` for getApplicationInfo()
+        @Suppress("UNNECESSARY_SAFE_CALL")
+        getApplicationInfo(app, 0)?.enabled == true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}

@@ -31,6 +31,7 @@
     <queries>
         <package android:name="net.dinglisch.android.taskerm" />
         <package android:name="com.twofortyfouram.locale" />
+        <package android:name="nodomain.freeyourgadget.gadgetbridge" />
         <intent>
             <action android:name="android.speech.RecognitionService" />
         </intent>
@@ -179,6 +180,11 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.FellAsleep" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.WokeUp" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.StartNonWear" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />

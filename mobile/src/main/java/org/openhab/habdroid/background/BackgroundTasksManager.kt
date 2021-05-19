@@ -101,6 +101,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 Log.d(TAG, "DND mode changed")
                 scheduleWorker(context, PrefKeys.SEND_DND_MODE)
             }
+            in GADGETBRIDGE_ACTIONS -> {
+                Log.d(TAG, "Gadgetbridge intent received")
+                scheduleWorker(context, PrefKeys.SEND_GADGETBRIDGE, intent)
+            }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
                 NotificationUpdateObserver.createNotificationChannels(context)
@@ -252,13 +256,21 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_VOICE_COMMAND = "voiceCommand"
         fun buildWorkerTagForServer(id: Int) = "server-id-$id"
 
+        private const val GADGETBRIDGE_ACTION_PREFIX = "nodomain.freeyourgadget.gadgetbridge."
+        private val GADGETBRIDGE_ACTIONS = listOf(
+            "${GADGETBRIDGE_ACTION_PREFIX}FellAsleep",
+            "${GADGETBRIDGE_ACTION_PREFIX}WokeUp",
+            "${GADGETBRIDGE_ACTION_PREFIX}StartNonWear"
+        )
+
         internal val KNOWN_KEYS = listOf(
             PrefKeys.SEND_ALARM_CLOCK,
             PrefKeys.SEND_PHONE_STATE,
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
             PrefKeys.SEND_WIFI_SSID,
-            PrefKeys.SEND_DND_MODE
+            PrefKeys.SEND_DND_MODE,
+            PrefKeys.SEND_GADGETBRIDGE
         )
         internal val KNOWN_PERIODIC_KEYS = listOf(
             PrefKeys.SEND_BATTERY_LEVEL,
@@ -272,7 +284,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             "com.android.calendar",
             "com.samsung.android.calendar"
         )
-        private val VALUE_GETTER_MAP = HashMap<String, (Context) -> ItemUpdateWorker.ValueWithInfo?>()
+        private val VALUE_GETTER_MAP = HashMap<String, (Context, Intent?) -> ItemUpdateWorker.ValueWithInfo?>()
 
         // need to keep a ref for this to avoid it being GC'ed
         // (SharedPreferences only keeps a WeakReference)
@@ -302,6 +314,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     }
                     if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_WIFI_SSID)) {
                         addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+                    }
+                    if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_GADGETBRIDGE)) {
+                        GADGETBRIDGE_ACTIONS.forEach { action ->
+                            addAction(action)
+                        }
                     }
                 }
                 // This broadcast is only sent to registered receivers, so we need that in any case
@@ -473,7 +490,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             )
         }
 
-        fun scheduleWorker(context: Context, key: String) {
+        fun scheduleWorker(context: Context, key: String, intent: Intent? = null) {
             val prefs = context.getPrefs()
             val setting = if (prefs.isDemoModeEnabled()) {
                 Pair(false, "") // Don't attempt any uploads in demo mode
@@ -494,7 +511,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
 
             val attributionContext = context.withAttribution(OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO)
-            val value = VALUE_GETTER_MAP[key]?.invoke(attributionContext) ?: return
+            val value = VALUE_GETTER_MAP[key]?.invoke(attributionContext, intent)
+            if (value == null) {
+                Log.d(TAG, "Got value null for $key")
+                return
+            }
             val prefix = prefs.getPrefixForBgTasks()
 
             enqueueItemUpload(
@@ -559,7 +580,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         init {
-            VALUE_GETTER_MAP[PrefKeys.SEND_ALARM_CLOCK] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_ALARM_CLOCK] = { context, _ ->
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val info = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
@@ -582,7 +603,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
                 time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
             }
-            VALUE_GETTER_MAP[PrefKeys.SEND_PHONE_STATE] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_PHONE_STATE] = { context, _ ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val state = when (manager.callState) {
                     TelephonyManager.CALL_STATE_IDLE -> "IDLE"
@@ -592,12 +613,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
                 ItemUpdateWorker.ValueWithInfo(state)
             }
-            VALUE_GETTER_MAP[PrefKeys.SEND_BATTERY_LEVEL] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_BATTERY_LEVEL] = { context, _ ->
                 val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
                 val batteryLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
                 ItemUpdateWorker.ValueWithInfo(batteryLevel.toString())
             }
-            VALUE_GETTER_MAP[PrefKeys.SEND_CHARGING_STATE] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_CHARGING_STATE] = { context, _ ->
                 val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
                     context.registerReceiver(null, ifilter)
                 }
@@ -617,7 +638,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
                 ItemUpdateWorker.ValueWithInfo(state, type = ItemUpdateWorker.ValueType.MapUndefToOffForSwitchItems)
             }
-            VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context, _ ->
                 val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
                 val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID)
@@ -638,7 +659,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 ItemUpdateWorker.ValueWithInfo(ssidToSend)
             }
             @RequiresApi(Build.VERSION_CODES.M)
-            VALUE_GETTER_MAP[PrefKeys.SEND_DND_MODE] = { context ->
+            VALUE_GETTER_MAP[PrefKeys.SEND_DND_MODE] = { context, _ ->
                 val nm = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 val mode = when (nm.currentInterruptionFilter) {
                     NotificationManager.INTERRUPTION_FILTER_NONE -> "TOTAL_SILENCE"
@@ -648,6 +669,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     else -> "UNDEF"
                 }
                 ItemUpdateWorker.ValueWithInfo(mode)
+            }
+            VALUE_GETTER_MAP[PrefKeys.SEND_GADGETBRIDGE] = { _, intent ->
+                if (intent == null) {
+                    Log.d(TAG, "VALUE_GETTER_MAP called without intent for key SEND_GADGETBRIDGE")
+                    null
+                } else {
+                    val state = intent.action?.removePrefix(GADGETBRIDGE_ACTION_PREFIX) ?: "UNDEF"
+                    ItemUpdateWorker.ValueWithInfo(state)
+                }
             }
         }
     }

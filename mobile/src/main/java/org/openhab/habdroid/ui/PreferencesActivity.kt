@@ -99,6 +99,7 @@ import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.isInstalled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -578,13 +579,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val pm = activity?.packageManager ?: return false
             // These package names must be added to the manifest as well
             return listOf("net.dinglisch.android.taskerm", "com.twofortyfouram.locale").any { pkg ->
-                try {
-                    // Some devices return `null` for getApplicationInfo()
-                    @Suppress("UNNECESSARY_SAFE_CALL")
-                    pm.getApplicationInfo(pkg, 0)?.enabled == true
-                } catch (e: PackageManager.NameNotFoundException) {
-                    false
-                }
+                pm.isInstalled(pkg)
             }
         }
 
@@ -1142,6 +1137,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                     PERMISSIONS_REQUEST_FOR_WIFI_NAME
                 )
                 true
+            }
+
+            if (activity?.packageManager?.isInstalled("nodomain.freeyourgadget.gadgetbridge") == false) {
+                preferenceScreen.removePreferenceRecursively(PrefKeys.SEND_GADGETBRIDGE)
             }
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
