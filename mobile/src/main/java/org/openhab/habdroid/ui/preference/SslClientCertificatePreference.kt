@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui.preference
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -21,6 +22,7 @@ import android.security.KeyChain
 import android.security.KeyChainException
 import android.security.keystore.KeyProperties
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.ImageView
 import androidx.preference.Preference
@@ -59,6 +61,12 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         setValue(getPersistedString(defaultValue as String?))
     }
 
+    override fun onAttached() {
+        super.onAttached()
+        updateSummary(currentAlias)
+    }
+
+    @SuppressLint("WrongConstant")
     override fun onClick() {
         val keyTypes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             arrayOf(KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC)
@@ -67,6 +75,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         }
 
         try {
+            Log.d(TAG, "Query for key types: ${keyTypes.contentToString()}")
             KeyChain.choosePrivateKeyAlias(getActivity(), { handleAliasChosen(it) }, keyTypes, null, null, -1, null)
         } catch (e: ActivityNotFoundException) {
             (getActivity() as PreferencesActivity).showSnackbar(
@@ -95,6 +104,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
     }
 
     private fun handleAliasChosen(alias: String?) = launch {
+        Log.d(TAG, "handleAliasChosen($alias)")
         if (callChangeListener(alias)) {
             setValue(alias)
         }
@@ -122,11 +132,18 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
                     null
                 }
             } catch (e: KeyChainException) {
+                Log.d(TAG, "Error getting key for summary", e)
                 null
             } catch (e: InterruptedException) {
+                Log.d(TAG, "Error getting key for summary", e)
                 null
             }
         }
+        Log.d(TAG, "Got cert $cert for alias $alias")
         summary = cert?.subjectDN?.toString() ?: context.getString(R.string.settings_openhab_none)
+    }
+
+    companion object {
+        private val TAG = SslClientCertificatePreference::class.java.simpleName
     }
 }
