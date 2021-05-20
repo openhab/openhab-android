@@ -350,6 +350,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         CrashReportingHelper.d(TAG, "onPrepareOptionsMenu()")
         menu.findItem(R.id.mainmenu_voice_recognition).isVisible = connection != null
+        menu.findItem(R.id.mainmenu_crash).isVisible = BuildConfig.DEBUG
         return true
     }
 
@@ -371,6 +372,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             R.id.mainmenu_voice_recognition -> {
                 launchVoiceRecognition()
                 true
+            }
+            R.id.mainmenu_crash -> {
+                throw Exception("Crash menu item pressed")
             }
             else -> super.onOptionsItemSelected(item)
         }
