@@ -10,7 +10,7 @@
         android:summary="@string/settings_openhab_url_summary"
         android:title="@string/settings_openhab_url"
         android:icon="@drawable/ic_earth_grey_24dp"
-        app:isHttpEnabled="true" />
+        app:isForRemoteServer="false" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
         android:persistent="false"
