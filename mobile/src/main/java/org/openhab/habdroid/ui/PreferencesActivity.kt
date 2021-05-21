@@ -930,15 +930,22 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun updateConnectionSummary(key: String, path: ServerPath?) {
+            fun insecureMessage(beautyUrl: String, reason: Int) =
+                getString(R.string.settings_insecure_connection_summary, beautyUrl, getString(reason))
+
             val pref = getPreference(key)
             val beautyUrl = beautifyUrl(path?.url.orEmpty())
             pref.summary = when {
                 path == null || path.url.isEmpty() ->
                     getString(R.string.info_not_set)
-                path.url.startsWith("https://") && (path.hasAuthentication() || config.sslClientCert != null) ->
-                    getString(R.string.settings_connection_summary, beautyUrl)
+                path.url.toHttpUrlOrNull()?.isHttps == false ->
+                    insecureMessage(beautyUrl, R.string.settings_insecure_connection_no_https)
+                !path.hasAuthentication() && config.sslClientCert == null ->
+                    insecureMessage(beautyUrl, R.string.settings_insecure_connection_no_auth)
+                isWeakPassword(path.password) ->
+                    insecureMessage(beautyUrl, R.string.settings_openhab_password_summary_weak)
                 else ->
-                    getString(R.string.settings_insecure_connection_summary, beautyUrl)
+                    getString(R.string.settings_connection_summary, beautyUrl)
             }
         }
 
@@ -1032,7 +1039,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private fun updateIconColors(url: String?, userName: String?, password: String?) {
             updateIconColor(urlPreference) { when {
-                url?.startsWith("https://") == true -> R.color.pref_icon_green
+                url?.toHttpUrlOrNull()?.isHttps == true -> R.color.pref_icon_green
                 !url.isNullOrEmpty() -> R.color.pref_icon_red
                 else -> null
             } }

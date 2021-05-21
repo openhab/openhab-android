@@ -92,7 +92,9 @@
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
     <string name="settings_notification_ringtone_vibration">Ringtone &amp; Vibration</string>
     <string name="settings_connection_summary">Connected to %s</string>
-    <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
+    <string name="settings_insecure_connection_summary">Insecurely connected to %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL doesn\'t start with \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">No username and password set</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Screen lock</string>
     <string name="settings_screen_lock_nolock_summary">You need to enable a screen lock for your device for enabling app access locking</string>
