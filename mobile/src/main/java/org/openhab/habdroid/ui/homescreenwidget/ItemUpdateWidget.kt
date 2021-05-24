@@ -56,6 +56,7 @@ import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
@@ -263,7 +264,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val item = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
             val state = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
             val label = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
-            val widgetLabel = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
+            val widgetLabel = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
             val mappedState = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
             // Fallback to the theme of the previously set widget
@@ -314,9 +315,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, layout)
             views.setOnClickPendingIntent(R.id.outer_layout, itemUpdatePendingIntent)
             views.setOnClickPendingIntent(R.id.edit, editPendingIntent)
-            val widgetLabel = data.widgetLabel
-                ?: context.getString(R.string.item_update_widget_text, data.label, data.mappedState)
-            views.setTextViewText(R.id.text, widgetLabel)
+            views.setTextViewText(R.id.text, data.widgetLabel.orEmpty())
             hideLoadingIndicator(views)
             return views
         }

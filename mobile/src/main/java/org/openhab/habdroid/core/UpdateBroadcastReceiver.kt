@@ -51,8 +51,11 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         }
 
         val prefs = context.getPrefs()
+        val comparableVersion = prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0)
+        Log.d(TAG, "Run with comparableVersion $comparableVersion")
+
         prefs.edit {
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
+            if (comparableVersion <= UPDATE_LOCAL_CREDENTIALS) {
                 Log.d(TAG, "Checking for putting local username/password to remote username/password.")
                 if (prefs.getStringOrNull("default_openhab_remote_username") == null) {
                     putString("default_openhab_remote_username", prefs.getStringOrNull("default_openhab_username"))
@@ -61,7 +64,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     putString("default_openhab_remote_password", prefs.getStringOrNull("default_openhab_password"))
                 }
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= SECURE_CREDENTIALS) {
+            if (comparableVersion <= SECURE_CREDENTIALS) {
                 Log.d(TAG, "Put username/password to encrypted prefs.")
                 context.getSecretPrefs().edit {
                     putString("default_openhab_username", prefs.getStringOrNull("default_openhab_username"))
@@ -81,7 +84,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 remove("default_openhab_remote_username")
                 remove("default_openhab_remote_password")
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= DARK_MODE) {
+            if (comparableVersion <= DARK_MODE) {
                 Log.d(TAG, "Migrate to day/night themes")
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -105,7 +108,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
                 putInt(PrefKeys.ACCENT_COLOR, accentColor)
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= WIDGET_ICON) {
+            if (comparableVersion <= WIDGET_ICON) {
                 Log.d(TAG, "Migrate widget icon prefs")
                 val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
                 AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
@@ -119,7 +122,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 Log.d(TAG, "Update widgets")
                 ItemUpdateWidget.updateAllWidgets(context)
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= MULTI_SERVER_SUPPORT) {
+            if (comparableVersion <= MULTI_SERVER_SUPPORT) {
                 // if local or remote server URL are set, convert them to a server named 'openHAB'
                 val localUrl = prefs.getStringOrNull("default_openhab_url")
                 val remoteUrl = prefs.getStringOrNull("default_openhab_alturl")
@@ -174,6 +177,25 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     }
                 }
             }
+            if (comparableVersion <= WIDGETS_NO_AUTO_GEN_LABEL) {
+                val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
+                AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
+                    val oldData = ItemUpdateWidget.getInfoForWidget(context, id)
+
+                    val newData = ItemUpdateWidget.ItemUpdateWidgetData(
+                        oldData.item,
+                        oldData.state,
+                        oldData.label,
+                        oldData.widgetLabel
+                            ?: context.getString(R.string.item_update_widget_text, oldData.label, oldData.mappedState),
+                        oldData.mappedState,
+                        oldData.icon,
+                        oldData.theme
+                    )
+
+                    ItemUpdateWidget.saveInfoForWidget(context, newData, id)
+                }
+            }
 
             updateComparableVersion(this)
         }
@@ -194,6 +216,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val DARK_MODE = 200
         private const val WIDGET_ICON = 250
         private const val MULTI_SERVER_SUPPORT = 330
+        private const val WIDGETS_NO_AUTO_GEN_LABEL = 380
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PrefKeys.COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
