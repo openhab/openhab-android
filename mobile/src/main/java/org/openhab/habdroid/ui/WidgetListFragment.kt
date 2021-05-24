@@ -449,11 +449,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
     private fun requestPinAppWidget(context: Context, widget: Widget, state: String, mappedState: String) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && appWidgetManager.isRequestPinAppWidgetSupported) {
+            val widgetLabel = widget.item?.label.orEmpty()
             val data = ItemUpdateWidget.ItemUpdateWidgetData(
                 widget.item?.name ?: return,
                 state,
-                widget.item.label.orEmpty(),
-                null,
+                widgetLabel,
+                getString(R.string.item_update_widget_text, widgetLabel, mappedState),
                 mappedState,
                 widget.icon,
                 context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark")
