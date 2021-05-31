@@ -5,11 +5,19 @@
     <!-- General app strings -->
     <string name="app_preferences_name">設定</string>
     <string name="save">保存</string>
+    <string name="discard">破棄</string>
+    <string name="delete">削除</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">サイトマップ</string>
     <string name="mainmenu_openhab_preferences">設定</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="app_notifications">通知</string>
+    <string name="app_notifications_on_server">通知 (%s)</string>
     <string name="habpanel_error">HAPPanel の読み込み中にエラーが発生しました</string>
+    <string name="oh3_ui_error">openHAB 3 UI の読み込み中にエラーが発生しました</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
     <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
     <!-- App settings strings -->
@@ -25,6 +33,7 @@
     <string name="settings_openhab_password">パスワード</string>
     <string name="settings_openhab_password_summary_weak">脆弱なパスワードです</string>
     <string name="settings_openhab_password_summary_strong">強力なパスワードです</string>
+    <string name="settings_openhab_api_token_hint">API トークンを使用している場合は、ユーザー名フィールドに入力し、パスワードフィールドを空白のままにします。</string>
     <string name="settings_openhab_sslclientcert">SSL クライアント証明書</string>
     <string name="settings_openhab_sslclientcert_howto_summary">ここをタップすると SSL クライアント証明書認証を設定する方法について、いくつかのヒントや説明を得ることができます</string>
     <string name="settings_openhab_sslclientcert_not_supported">お使いのデバイスで SSL クライアント証明書はサポートされていません</string>
@@ -32,6 +41,7 @@
     <string name="settings_openhab_screentimeroff_summary">openHAB が実行中のとき、ディスプレイがオフにならないようにします</string>
     <string name="settings_openhab_demomode">デモモード</string>
     <string name="settings_openhab_demomode_summary">openHAB サーバーをお持ちでない場合は、デモモードを有効にすると、openHAB どのようなことができるか想像できます。</string>
+    <string name="drawer_entries">サイドメニュー項目</string>
     <string name="settings_openhab_theme">テーマ</string>
     <string name="settings_accent_color">アクセント色</string>
     <string name="settings_select_a_color">色を選択</string>
@@ -39,6 +49,9 @@
     <string name="settings_openhab_icon_format">アイコン形式</string>
     <string name="settings_openhab_icon_format_png">ビットマップ</string>
     <string name="settings_openhab_icon_format_svg">ベクター</string>
+    <string name="settings_image_widget_scaling">画面に合わせて画像を拡大/縮小する</string>
+    <string name="settings_image_widget_scaling_summary_off">\'画像\' ウィジェットを画面の幅より小さい元のサイズのままにします</string>
+    <string name="settings_image_widget_scaling_summary_on">必要に応じて上下に拡大/縮小して、\'画像\' ウィジェットが画面の幅に合うようにします</string>
     <string name="settings_chart_scaling">グラフのスケール</string>
     <string name="settings_chart_scaling_summary">注: スケールを小さくすると、フォントと線の幅が縮小されてグラフのスペースが多くなりますが、フォントが読みにくくなることがあります。</string>
     <string name="settings_chart_scaling_value_xs">極小</string>
@@ -60,6 +73,7 @@
     <string name="settings_notification_vibration_short">短め</string>
     <string name="settings_notification_vibration_long">長め</string>
     <string name="settings_notification_vibration_twice">2 回</string>
+    <string name="settings_notification_ringtone_vibration">着信音&amp; バイブレーション</string>
     <string name="settings_connection_summary">%s に接続しました</string>
     <string name="beta">ベータ版</string>
     <string name="settings_screen_lock">画面ロック</string>
@@ -73,6 +87,24 @@
     <string name="settings_screen_lock_kiosk">Kioskモード</string>
     <string name="settings_screen_lock_on">オン</string>
     <string name="settings_show_sitemaps_in_drawer">サイドメニューにすべてのサイトマップを表示する</string>
+    <string name="settings_server_name">サーバー名</string>
+    <string name="settings_add_server">サーバーを追加</string>
+    <string name="settings_edit_server">サーバーの変更</string>
+    <string name="server_with_name">サーバー %s</string>
+    <string name="settings_server_at_least_name_and_connection">少なくともサーバー名と１つの接続が必要です</string>
+    <string name="settings_server_confirm_deletion">本当にこのサーバーを削除しますか？</string>
+    <string name="settings_server_confirm_leave_title">未保存の変更</string>
+    <string name="settings_server_confirm_leave_message">変更を加えました。保存または破棄しますか?</string>
+    <string name="settings_server_primary_title">プライマリサーバー</string>
+    <string name="settings_server_primary_summary_is_primary">このサーバーはプライマリです。\n現在、プライマリサーバーのみ、このアプリのすべての機能でサポートされています。 詳細はヘルプボタンをタッチしてください。</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" がプライマリサーバーです。タッチするとこのサーバーをプライマリにします。\n現在、プライマリサーバーのみ、このアプリのすべての機能でサポートされています。 詳細はヘルプボタンをタッチしてください。</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="click_here_for_more_information">詳細はここをタッチしてください</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Wi-Fi \'%s \' に接続すると、アプリがこのサーバーを選択します</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">アプリは接続されたWi-Fiネットワークに基づいてこのサーバーを自動的に選択しません</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Wi-Fiに基づいてサーバー \"%s\" に切り替えました</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi名を読み取ることができません: 権限がありません</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi名を読み取ることができません: ロケーションがオフです</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">音声コマンド</string>
     <string name="voice_command">音声コマンド</string>
@@ -88,6 +120,8 @@
     <string name="app_shortcut_disabled_notifications">リモートサーバーに接続できません</string>
     <string name="app_shortcut_disabled_voice_recognition">お使いのデバイスは音声認識アプリがインストールされていません</string>
     <string name="no_position_set">位置が設定されていません</string>
+    <string name="show_and_copy_item_name">アイテム名の表示とコピー</string>
+    <string name="copied_item_name">%sをコピーしました</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
     <string name="error_sitemap_generic_load_error">サイトマップを読み込めませんでした。次のエラーが発生しました: %1$s</string>
@@ -97,6 +131,8 @@
     <string name="error_invalid_url">\'http(s)://host(:port)/\' の形式で、正しい URL を入力してください</string>
     <string name="error_invalid_https_url">\'https://host(:port)/\' の形式で、正しい URL を入力してください</string>
     <string name="error_port_seems_invalid">入力したポートは、選択したプロトコルでは正しくないようです</string>
+    <string name="error_first_char_is_whitespace">最初の文字が空白です。これはおそらく望ましくありません</string>
+    <string name="error_last_char_is_whitespace">最後の文字が空白です。これはおそらく望ましくありません</string>
     <string name="error_connection_failed">ホストへの接続に失敗しました</string>
     <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
     <string name="error_unknown">不明なエラーが発生しました: %s</string>
@@ -161,6 +197,7 @@
     <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
     <string name="info_write_tag_disabled">NFC は無効です</string>
     <string name="action_settings">設定</string>
+    <string name="nfc_info_hint">アイテムの更新をNFCタグに書き込むことができます。 ここでアイテムを選択するか、サイトマップでウィジェットを長押ししてください。</string>
     <string name="info_not_set">未設定</string>
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
@@ -202,7 +239,10 @@
     <string name="settings_dnd_mode">DND モード</string>
     <string name="settings_dnd_mode_summary_on">DND モードをアイテム \'%1$s\' に送信します</string>
     <string name="settings_dnd_mode_summary_off">DND モードを送信しません</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">この機能を動作させるために追加の権限が必要です。有効にすると、権限の承認を求められます。</string>
+    <string name="settings_background_tasks_permission_hint">この機能を動作させるために追加の権限が必要です。有効にすると、権限の承認を求められます。アプリがバックグラウンドである場合にもアイテムのアップデートが行われるため、バックグラウンドでの使用も許可するようにしてください。</string>
     <string name="settings_background_tasks_permission_denied">アクセス許可がないため一部のバックグラウンドタスクが無効になっています</string>
+    <string name="settings_background_tasks_permission_denied_background_location">一部のバックグラウンドタスクは、Androidの設定で、位置情報へのアクセスを \"%s\" に設定する必要があります</string>
     <string name="settings_background_tasks_permission_allow">許可する</string>
     <string name="settings_item_pref_item_name">アイテム名</string>
     <string name="waiting_for_item_upload">アイテムの更新を送信するため、ネットワークを待機しています</string>
@@ -220,6 +260,9 @@
     <plurals name="summary_notification_text">
         <item quantity="other">%d の新しい通知</item>
     </plurals>
+    <string name="push_notification_status_no_remote_configured">通知は利用できません: リモートサーバーが構成されていません</string>
+    <string name="push_notification_status_http_error">通知は利用できません: リモートサーバーへの接続中にエラーが発生しました: %s</string>
+    <string name="push_notification_status_remote_no_cloud">通知は利用できません: リモートサーバーはopenHAB クラウドインスタンスではありません</string>
     <string name="push_notification_status">ステータス</string>
     <string name="push_notification_hint">通常のスケジュールで通知がポーリングされます。通知は「サーバーにデバイス情報を送信」と同じです。</string>
     <plurals name="item_update_error_title">
@@ -231,6 +274,9 @@
     <string name="item_update_http_error_label">%1$s の更新に失敗しました: %2$s</string>
     <string name="item_update_connection_error">アイテム \'%1$s\' を更新できませんでした (接続がありません)</string>
     <string name="item_update_connection_error_label">%1$s を更新できませんでした (接続がありません)</string>
+    <string name="item_update_short_status_waiting">待機中…</string>
+    <string name="item_update_short_status_sending">送信中…</string>
+    <string name="item_update_short_status_failed">失敗しました</string>
     <string name="error_no_valid_item_name">正しいアイテム名を入力してください</string>
     <string name="retry">リトライ</string>
     <string name="ignore">無視</string>
@@ -336,6 +382,7 @@
     <string name="set">設定</string>
     <string name="cancel">キャンセル</string>
     <string name="close">閉じる</string>
+    <string name="undo">元に戻す</string>
     <string name="try_again_button">もう一度やり直す</string>
     <string name="enable_wifi_button">Wi-Fi をオンにする</string>
     <string name="go_to_settings_button">設定に移動</string>
@@ -344,6 +391,7 @@
     <string name="no_remote_server">ローカルサーバーへの接続が失敗しました。リモートサーバーが設定されていません。</string>
     <string name="resolving_openhab">openHAB サーバーインスタンスの探索中\u2026</string>
     <string name="waiting_for_wifi">Wi-Fi 接続の確立を待っています\u2026</string>
+    <string name="visit_status_openhab_org">status.openhab.org を表示</string>
     <!-- Log -->
     <string name="log">ログ</string>
     <string name="view_log">ログの表示</string>
@@ -358,6 +406,7 @@
     <string name="home_shortcut_pin_to_home">ホームに固定する</string>
     <string name="home_shortcut_error_pinning">ホームに固定時にエラーが発生しました</string>
     <string name="home_shortcut_success_pinning">ホームに固定しました</string>
+    <string name="home_shortcut_server_has_been_deleted">このショートカットのサーバーは削除されました</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">ロール シャッターを開く</string>
     <string name="content_description_stop_roller_shutter">ロール シャッターを停止</string>
@@ -379,6 +428,7 @@
     <string name="intro_app_restored">サーバー資格情報を除き、ほとんどの設定が復元されました</string>
     <string name="intro_whatis">ホーム用、ベンダーや技術に依存しないオープンソースのオートメーションソフトウェア</string>
     <string name="intro_voice_description">音声でホームをコントロール</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">アイテムを長押しすると、アイテムのコントロールを NFC タグに接続できます</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">スキップ</string>
