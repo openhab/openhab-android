@@ -60,7 +60,6 @@
     <string name="settings_notification_vibration_twice">Kaksi kertaa</string>
     <string name="settings_notification_ringtone_vibration">Soittoääni &amp; Värinä</string>
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
-    <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <string name="settings_screen_lock">Näytön lukitus</string>
     <string name="settings_screen_lock_nolock_summary">Ennen kuin voit käyttää sovelluksen käyttöoikeuslukitusta sinun pitää ottaa käyttöön näytön lukitus laitteellasi</string>
     <string name="settings_screen_lock_off_summary">Pääsy sovellukseen ei ole estetty</string>
