@@ -80,6 +80,9 @@
     <string name="settings_notification_vibration_twice">Zweimal</string>
     <string name="settings_notification_ringtone_vibration">Klingelton &amp; Vibration</string>
     <string name="settings_connection_summary">Verbunden mit %s</string>
+    <string name="settings_insecure_connection_summary">Unsicher verbunden mit %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL beginnt nicht mit \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Kein Benutzername und Passwort festgelegt</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bildschirmsperre</string>
     <string name="settings_screen_lock_nolock_summary">Sie müssen eine Bildschirmsperre für Ihr Gerät aktivieren, um die Sperrung von App-Zugriffen zu aktivieren</string>
