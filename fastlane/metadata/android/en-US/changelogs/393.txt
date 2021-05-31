@@ -1,0 +1,3 @@
+## Added
+* Add hint why connection is marked as insecure (#2231)
+* Add suggestions to UrlInputPreference (#2600)
