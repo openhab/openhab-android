@@ -58,7 +58,6 @@
     <string name="settings_notification_vibration_twice">Deux fois</string>
     <string name="settings_notification_ringtone_vibration">Sonnerie &amp; Vibreur</string>
     <string name="settings_connection_summary">Connecté à %s</string>
-    <string name="settings_insecure_connection_summary">Connexion non sécurisée à %s</string>
     <string name="beta">Bêta</string>
     <string name="settings_screen_lock">Verrouillage de l\'écran</string>
     <string name="settings_screen_lock_nolock_summary">Vous devez activer un verrou d\'écran pour activer le verrouillage d\'accès à l\'application</string>
