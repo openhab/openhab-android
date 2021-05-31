@@ -57,7 +57,6 @@
     <string name="settings_notification_vibration_long">Lång</string>
     <string name="settings_notification_vibration_twice">Två gånger</string>
     <string name="settings_connection_summary">Ansluten till %s</string>
-    <string name="settings_insecure_connection_summary">Osäkert ansluten till %s</string>
     <string name="settings_screen_lock">Skärmlås</string>
     <string name="settings_screen_lock_nolock_summary">Du måste aktivera ett skärmlås på din enhet för att aktivera åtkomstskydd av appar</string>
     <string name="settings_screen_lock_off_summary">Åtkomst till appen är inte skyddad</string>
