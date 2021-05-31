@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">Двічі</string>
     <string name="settings_notification_ringtone_vibration">Дзвінок &amp; Вібрація</string>
     <string name="settings_connection_summary">З\'єднано з %s</string>
-    <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокування екрану</string>
     <string name="settings_screen_lock_nolock_summary">Необхідно увімкнути блокування екрану для блокування доступу до програми</string>
