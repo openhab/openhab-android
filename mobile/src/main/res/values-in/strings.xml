@@ -52,7 +52,6 @@
     <string name="settings_notification_vibration_long">Lama</string>
     <string name="settings_notification_vibration_twice">Dua kali</string>
     <string name="settings_connection_summary">Terhubung ke %s</string>
-    <string name="settings_insecure_connection_summary">Secara tidak aman terhubung ke %s</string>
     <string name="settings_screen_lock_off">Nonaktif</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Perintah suara</string>
