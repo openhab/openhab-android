@@ -14,10 +14,14 @@
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Notificaties</string>
     <string name="app_notifications_on_server">Meldingen (%s)</string>
     <string name="habpanel_error">Er is een fout opgetreden tijdens het laden van HABPanel</string>
     <string name="oh3_ui_error">Er is een fout opgetreden tijdens het laden van openHAB 3 UI</string>
+    <string name="frontail_error">Er is een fout opgetreden tijdens het laden van Frontail. Houd er rekening mee dat het niet beschikbaar is via openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail moet via standaard poort 9001 beschikbaar zijn. Het is gebundeld met openHABian of kan handmatig geïnstalleerd worden.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
     <!-- App settings strings -->
@@ -33,6 +37,7 @@
     <string name="settings_openhab_password">Wachtwoord</string>
     <string name="settings_openhab_password_summary_weak">Zwak wachtwoord ingesteld</string>
     <string name="settings_openhab_password_summary_strong">Sterk Wachtwoord ingesteld</string>
+    <string name="settings_openhab_api_token_hint">Voor het gebruiken van een API-token, voer deze in als gebruikersnaam en laat het wachtwoord leeg</string>
     <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tik hier voor enkele tips en uitleg over het instellen van SSL certificaat authenticatie</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-cliëntcertificaten worden niet ondersteund door uw apparaat</string>
@@ -40,6 +45,7 @@
     <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als de openHAB App actief is</string>
     <string name="settings_openhab_demomode">Demonstratiemodus</string>
     <string name="settings_openhab_demomode_summary">Als je geen openHAB server hebt, schakel dan de demo-modus in, om een idee te krijgen wat openHAB allemaal kan.</string>
+    <string name="start_page_title">Startpagina</string>
     <string name="drawer_entries">Zijmenu items</string>
     <string name="settings_openhab_theme">Thema</string>
     <string name="settings_accent_color">Accentkleur</string>
@@ -394,6 +400,7 @@
     <string name="home_shortcut_pin_to_home">Vastpinnen op startscherm</string>
     <string name="home_shortcut_error_pinning">Fout bij vastpinnen op startscherm</string>
     <string name="home_shortcut_success_pinning">Vastgepind op startscherm</string>
+    <string name="home_shortcut_server_has_been_deleted">De server voor deze snelkoppeling is verwijderd</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open rolluik</string>
     <string name="content_description_stop_roller_shutter">Stop rolluik</string>
@@ -413,6 +420,7 @@
     <string name="intro_app_restored">De meeste instellingen zijn hersteld, behalve de server inloggegevens</string>
     <string name="intro_whatis">Leverancier en technologie onafhankelijke open source domotica software voor jouw huis</string>
     <string name="intro_voice_description">Bestuur uw huis met uw stem</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item controle kan worden verbonden met NFC tags door lang op het Item te drukken</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OVERSLAAN</string>
@@ -442,6 +450,7 @@
     <string name="item_update_widget_content_description">Widget voor aanpassen van Item status</string>
     <string name="item_update_widget_content_description_edit">Widget bewerken</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecteer een Item</string>
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
     <string name="item_update_success_message_on">%s is ingeschakeld</string>
@@ -460,6 +469,14 @@
     <string name="item_update_success_message_previous">%s toont de vorige titel</string>
     <string name="item_update_success_message_rewind">%s spoelt terug</string>
     <string name="item_update_success_message_fastforward">%s spoelt vooruit</string>
+    <string name="item_update_short_success_message_generic">Ingesteld op %s</string>
+    <string name="item_update_short_success_message_on">Ingeschakeld</string>
+    <string name="item_update_short_success_message_off">Uitgeschakeld</string>
+    <string name="item_update_short_success_message_stop">Gestopt</string>
+    <string name="item_update_short_success_message_increase">Verhogen</string>
+    <string name="item_update_short_success_message_decrease">Verlagen</string>
+    <string name="item_update_short_success_message_pause">Gepauzeerd</string>
+    <string name="item_update_short_success_message_rewind">Terugspoelen</string>
     <string name="item_update_error_no_connection_retry">Fout bij verzenden Item update, opnieuw proberen\u2026</string>
     <string name="item_update_error_no_connection">Geen verbinding</string>
     <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
