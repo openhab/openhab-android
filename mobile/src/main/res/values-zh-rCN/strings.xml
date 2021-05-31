@@ -59,7 +59,6 @@
     <string name="settings_notification_vibration_long">长</string>
     <string name="settings_notification_vibration_twice">两次</string>
     <string name="settings_connection_summary">已连接至 %s</string>
-    <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
     <string name="beta">测试版</string>
     <string name="settings_screen_lock">屏幕锁定</string>
     <string name="settings_screen_lock_nolock_summary">您需要先启用设备上的屏幕锁定功能以开启此功能。</string>
