@@ -46,7 +46,6 @@
     <string name="settings_notification_vibration_long">Dài</string>
     <string name="settings_notification_vibration_twice">Hai lần</string>
     <string name="settings_connection_summary">Đã kết nối đến %s</string>
-    <string name="settings_insecure_connection_summary">Kết nối không an toàn đến %s</string>
     <string name="settings_screen_lock_off">Tắt</string>
     <!-- App messages strings -->
     <!-- Please try to keep the string as short as possible -->
