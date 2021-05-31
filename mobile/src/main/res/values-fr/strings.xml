@@ -267,7 +267,7 @@
     </plurals>
     <string name="push_notification_status_no_remote_configured">Les notifications sont indisponibles : le serveur distant n\'est pas configuré</string>
     <string name="push_notification_status_http_error">Les notifications sont indisponibles : Erreur de connexion au serveur distant : %s</string>
-    <string name="push_notification_status_remote_no_cloud">Les notifications sont indisponibles : le serveur distant n\'est pas une instance cloud OpenHAB</string>
+    <string name="push_notification_status_remote_no_cloud">Les notifications sont indisponibles : le serveur distant n\'est pas une instance cloud openHAB</string>
     <string name="push_notification_status">État </string>
     <string name="push_notification_hint">Les notifications sont interrogées selon une planification régulière, qui est la même que pour \"Envoyer les informations de l\'appareil au serveur\"</string>
     <plurals name="item_update_error_title">
