@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Obvestila imajo omejeno funkcionalnost na FOSS verziji. Dotakni se za več informacij.</string>
+    <string name="push_notification_status_disabled">Obvestila so onemogočena</string>
+    <string name="open_in_maps">Odpri v OpenStreetMap</string>
+</resources>
