@@ -28,34 +28,29 @@ object CrashReportingHelper {
     fun initialize(app: Application) {
         val outdatedBuildMillis = BuildConfig.TIMESTAMP + (6L * 30 * 24 * 60 * 60 * 1000) // 6 months after build
         val isOutdated = outdatedBuildMillis < System.currentTimeMillis()
-        Log.d(TAG, "ACRA status: isDebug ${BuildConfig.DEBUG}, isOutdated $isOutdated")
-        if (BuildConfig.DEBUG || isOutdated) {
+        Log.d(TAG, "ACRA status: isOutdated $isOutdated")
+        if (isOutdated) {
             return
         }
 
-        val builder = CoreConfigurationBuilder(app).apply {
-            setBuildConfigClass(BuildConfig::class.java)
+        val builder = CoreConfigurationBuilder(app)
+            .withBuildConfigClass(BuildConfig::class.java)
+            .apply {
+                getPluginConfigurationBuilder(NotificationConfigurationBuilder::class.java)
+                    .withEnabled(true)
+                    .withResIcon(R.drawable.ic_openhab_appicon_white_24dp)
+                    .withResTitle(R.string.crash_report_notification_title)
+                    .withResText(R.string.crash_report_notification_text)
+                    .withResSendButtonText(R.string.crash_report_notification_send_mail)
+                    .withResSendButtonIcon(0)
+                    .withResDiscardButtonIcon(0)
+                    .withResChannelName(R.string.notification_channel_crash_reports)
+                    .withResChannelDescription(R.string.notification_channel_crash_reports_description)
+                    .withSendOnClick(false)
 
-            getPluginConfigurationBuilder(NotificationConfigurationBuilder::class.java).apply {
-                setEnabled(true)
-
-                setResIcon(R.drawable.ic_openhab_appicon_white_24dp)
-                setResTitle(R.string.crash_report_notification_title)
-                setResText(R.string.crash_report_notification_text)
-                setResSendButtonText(R.string.crash_report_notification_send_mail)
-                setResSendButtonIcon(R.drawable.ic_outline_send_black_24dp)
-                setResDiscardButtonIcon(R.drawable.ic_clear_grey_24dp)
-
-                setResChannelName(R.string.notification_channel_crash_reports)
-                setResChannelDescription(R.string.notification_channel_crash_reports_description)
-
-                setSendOnClick(false)
-            }
-
-            getPluginConfigurationBuilder(MailSenderConfigurationBuilder::class.java).apply {
-                setEnabled(true)
-                setMailTo("apps@openhabfoundation.org")
-            }
+                getPluginConfigurationBuilder(MailSenderConfigurationBuilder::class.java)
+                    .withEnabled(true)
+                    .withMailTo("apps@openhabfoundation.org")
         }
 
         ACRA.init(app, builder)
