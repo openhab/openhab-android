@@ -20,11 +20,12 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
-import android.widget.EditText
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -33,17 +34,17 @@ import org.openhab.habdroid.R
 class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
 
-    private val isHttpEnabled: Boolean
+    private val isForRemoteServer: Boolean
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.UrlInputPreference).apply {
-            isHttpEnabled = getBoolean(R.styleable.UrlInputPreference_isHttpEnabled, false)
+            isForRemoteServer = getBoolean(R.styleable.UrlInputPreference_isForRemoteServer, false)
             recycle()
         }
     }
 
     override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, title, isHttpEnabled)
+        return PrefFragment.newInstance(key, title, isForRemoteServer)
     }
 
     override fun setText(text: String?) {
@@ -52,7 +53,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
         private lateinit var wrapper: TextInputLayout
-        private lateinit var editor: EditText
+        private lateinit var editor: MaterialAutoCompleteTextView
         private var urlIsValid: Boolean = false
 
         override fun onBindDialogView(view: View?) {
@@ -68,6 +69,14 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
                 }
+
+                val suggestions = if (requireArguments().getBoolean(IS_FOR_REMOTE_SERVER, false)) {
+                    listOf("https://myopenhab.org", "https://")
+                } else {
+                    listOf("https://", "http://")
+                }
+                val adapter = ArrayAdapter(editor.context, android.R.layout.simple_dropdown_item_1line, suggestions)
+                editor.setAdapter(adapter)
             }
         }
 
@@ -87,7 +96,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
 
         override fun afterTextChanged(editable: Editable) {
             var portSeemsInvalid = false
-            val isHttpEnabled = requireArguments().getBoolean(IS_HTTP_ENABLED, false)
+            val isForRemoteServer = requireArguments().getBoolean(IS_FOR_REMOTE_SERVER, false)
             var url: HttpUrl? = null
             if (editable.isEmpty()) {
                 urlIsValid = true
@@ -101,7 +110,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                         urlIsValid = true
                         portSeemsInvalid = when {
                             url.isHttps -> url.port == 80 || url.port == 8080
-                            !isHttpEnabled -> {
+                            isForRemoteServer -> {
                                 urlIsValid = false
                                 false
                             }
@@ -113,7 +122,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
                 }
             }
             val errorRes = when {
-                !urlIsValid -> if (isHttpEnabled) R.string.error_invalid_url else R.string.error_invalid_https_url
+                !urlIsValid -> if (isForRemoteServer) R.string.error_invalid_https_url else R.string.error_invalid_url
                 portSeemsInvalid -> R.string.error_port_seems_invalid
                 url?.host == "home.myopenhab.org" -> R.string.error_home_myopenhab_org_no_notifications
                 else -> 0
@@ -132,11 +141,15 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
 
         companion object {
             private const val KEY_TITLE = "title"
-            private const val IS_HTTP_ENABLED = "isHttpEnabled"
+            private const val IS_FOR_REMOTE_SERVER = "isForRemoteServer"
 
-            fun newInstance(key: String, title: CharSequence, isHttpEnabled: Boolean): PrefFragment {
+            fun newInstance(key: String, title: CharSequence, isForRemoteServer: Boolean): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title, IS_HTTP_ENABLED to isHttpEnabled)
+                f.arguments = bundleOf(
+                    ARG_KEY to key,
+                    KEY_TITLE to title,
+                    IS_FOR_REMOTE_SERVER to isForRemoteServer
+                )
                 return f
             }
         }

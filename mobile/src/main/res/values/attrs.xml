@@ -46,7 +46,7 @@
     </declare-styleable>
 
     <declare-styleable name="UrlInputPreference">
-        <attr name="isHttpEnabled" format="boolean" />
+        <attr name="isForRemoteServer" format="boolean" />
     </declare-styleable>
 
     <item name="originalColor" type="id" />
