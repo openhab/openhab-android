@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">כפול</string>
     <string name="settings_notification_ringtone_vibration">צלצול &amp; רטט</string>
     <string name="settings_connection_summary">מחובר ל- %s</string>
-    <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
     <string name="beta">בטא</string>
     <string name="settings_screen_lock">נעילת מסך</string>
     <string name="settings_screen_lock_nolock_summary">כדי לאפשר נעילת גישה ליישום יש צורך בהפעלת נעילת המכשיר</string>
