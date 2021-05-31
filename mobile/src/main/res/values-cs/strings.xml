@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">Dvakrát</string>
     <string name="settings_notification_ringtone_vibration">Vyzvánění &amp; vibrace</string>
     <string name="settings_connection_summary">Připojen k %s</string>
-    <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
     <string name="beta">Zkušební verze</string>
     <string name="settings_screen_lock">Zámek obrazovky</string>
     <string name="settings_screen_lock_nolock_summary">Abyste mohli zamknout přístup k této aplikaci, musíte nejprve nastavit zámek obrazovky Vašeho zařízení</string>
