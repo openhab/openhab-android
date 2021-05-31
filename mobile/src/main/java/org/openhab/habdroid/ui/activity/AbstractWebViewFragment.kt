@@ -139,20 +139,27 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
 
         val retryButton = view.findViewById<Button>(R.id.retry_button)
-        retryButton.setOnClickListener { loadWebsite() }
+        retryButton.setOnClickListener {
+            Log.d(TAG, "Retry button clicked, reload website")
+            loadWebsite()
+        }
         val error = view.findViewById<TextView>(R.id.empty_message)
         error.text = getString(errorMessageRes)
 
         val subpage = requireArguments().getString(KEY_SUBPAGE)
         when {
             savedInstanceState != null -> {
+                val savedUrl = savedInstanceState.getString(KEY_CURRENT_URL, urlToLoad)
+                Log.d(TAG, "Load website from savedInstanceState: $savedUrl")
                 webView?.restoreState(savedInstanceState)
-                loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, urlToLoad))
+                loadWebsite(savedUrl)
             }
             subpage != null -> {
+                Log.d(TAG, "Load subpage: $subpage")
                 loadWebsite(subpage)
             }
             else -> {
+                Log.d(TAG, "Load default website")
                 loadWebsite()
             }
         }
@@ -264,18 +271,22 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     override fun onActiveConnectionChanged() {
+        Log.d(TAG, "onActiveConnectionChanged()")
         loadWebsite()
     }
 
     override fun onPrimaryConnectionChanged() {
+        Log.d(TAG, "onPrimaryConnectionChanged()")
         // no-op
     }
 
     override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+        Log.d(TAG, "onActiveCloudConnectionChanged()")
         // no-op
     }
 
     override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
+        Log.d(TAG, "onPrimaryCloudConnectionChanged()")
         // no-op
     }
 
