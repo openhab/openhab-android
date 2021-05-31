@@ -57,7 +57,6 @@
     <string name="settings_notification_vibration_long">Uzun</string>
     <string name="settings_notification_vibration_twice">Iki kez</string>
     <string name="settings_connection_summary">%s Bağlanıldı</string>
-    <string name="settings_insecure_connection_summary">Güvenli bir şekilde %s\' e bağlandı</string>
     <string name="settings_screen_lock">Ekran kilidi</string>
     <string name="settings_screen_lock_nolock_summary">Uygulama erişim kilidini etkinleştirmek için cihazınız için bir ekran kilidini etkinleştirmeniz gerekir</string>
     <string name="settings_screen_lock_off_summary">Uygulamaya erişim kilitli değil</string>
