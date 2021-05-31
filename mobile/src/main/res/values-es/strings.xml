@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">Dos veces</string>
     <string name="settings_notification_ringtone_vibration">Tono de llamada &amp; Vibración</string>
     <string name="settings_connection_summary">Conectado a %s</string>
-    <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueo de pantalla</string>
     <string name="settings_screen_lock_nolock_summary">Necesita activar el bloqueo de pantalla en su dispositivo para habilitar el bloqueo de acceso a la aplicación</string>

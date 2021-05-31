@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">Dupla</string>
     <string name="settings_notification_ringtone_vibration">Toque &amp; Vibração</string>
     <string name="settings_connection_summary">Conectado a %s</string>
-    <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de tela</string>
     <string name="settings_screen_lock_nolock_summary">Você precisa habilitar um bloqueio de tela para o seu dispositivo para ativar o bloqueio de acesso a apps</string>

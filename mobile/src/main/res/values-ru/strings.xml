@@ -62,7 +62,6 @@
     <string name="settings_notification_vibration_twice">Дважды</string>
     <string name="settings_notification_ringtone_vibration">Рингтон &amp; вибрация</string>
     <string name="settings_connection_summary">Подключен к %s</string>
-    <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокировка экрана</string>
     <string name="settings_screen_lock_nolock_summary">Вам нужно включить блокировку экрана для включения блокировки доступа к приложению</string>

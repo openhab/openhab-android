@@ -57,7 +57,6 @@
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Dobbel</string>
     <string name="settings_connection_summary">Koblet til %s</string>
-    <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
     <string name="settings_screen_lock">Skjermlås</string>
     <string name="settings_screen_lock_nolock_summary">Du må sette på skjermlås på enheten din for å sette app tilgang</string>
     <string name="settings_screen_lock_off_summary">Tilgang til appen er ikke låst</string>

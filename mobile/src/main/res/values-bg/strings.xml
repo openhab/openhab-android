@@ -51,7 +51,6 @@
     <string name="settings_notification_vibration_long">Продължителна</string>
     <string name="settings_notification_vibration_twice">Двойна</string>
     <string name="settings_connection_summary">Свързан към %s</string>
-    <string name="settings_insecure_connection_summary">Несигурно свързан към %s</string>
     <string name="settings_screen_lock_off">Изключено</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB на ваше командване!</string>

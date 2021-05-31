@@ -52,7 +52,6 @@
     <string name="settings_notification_vibration_long">طويل</string>
     <string name="settings_notification_vibration_twice">مرتين</string>
     <string name="settings_connection_summary">متصل بـ %s</string>
-    <string name="settings_insecure_connection_summary">أتصال غير آمن بـ %s</string>
     <string name="beta">إصدار تجريبي</string>
     <string name="settings_screen_lock">قفل الشاشة</string>
     <string name="settings_screen_lock_nolock_summary">انت بحاجة لتفعيل قفل الشاشة لتتمكن من تفعيل قفل الوصول لى التطبيق</string>

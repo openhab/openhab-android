@@ -62,7 +62,6 @@
     <string name="settings_notification_vibration_twice">Zwee mol</string>
     <string name="settings_notification_ringtone_vibration">Schelltoun &amp; Vibratioun</string>
     <string name="settings_connection_summary">Mat %s verbonne</string>
-    <string name="settings_insecure_connection_summary">Ongeséchert mat %s verbonnen</string>
     <string name="settings_screen_lock">Displayspär</string>
     <string name="settings_screen_lock_nolock_summary">Du muss eng Display Spär uschalten fir d‘ Spären vun App Zougrëff ze aktivéieren</string>
     <string name="settings_screen_lock_off_summary">Zougrëff op d‘ App ass net gespaart</string>

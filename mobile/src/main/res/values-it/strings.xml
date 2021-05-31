@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">Due volte</string>
     <string name="settings_notification_ringtone_vibration">Suoneria &amp; Vibrazione</string>
     <string name="settings_connection_summary">Connesso a %s</string>
-    <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Blocco schermo</string>
     <string name="settings_screen_lock_nolock_summary">È necessario abilitare un blocco schermo per il dispositivo per abilitare il blocco dell\'accesso all\'app</string>

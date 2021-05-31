@@ -55,7 +55,6 @@
     <string name="settings_notification_vibration_long">Llarga</string>
     <string name="settings_notification_vibration_twice">Doble</string>
     <string name="settings_connection_summary">Connectat a %s</string>
-    <string name="settings_insecure_connection_summary">Connectat de manera insegura a %s</string>
     <string name="settings_screen_lock">Bloqueig de pantalla</string>
     <string name="screen_lock_unlock_screen_description">Desbloqueja per accedir a openHAB</string>
     <string name="screen_lock_unlock_preferences_description">Desbloqueja per accedir a la configuració</string>

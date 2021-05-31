@@ -48,7 +48,6 @@
     <string name="settings_notification_vibration_long">Παρατεταμένη</string>
     <string name="settings_notification_vibration_twice">Δύο φορές</string>
     <string name="settings_connection_summary">Συνδεδεμένο σε %s</string>
-    <string name="settings_insecure_connection_summary">Μη ασφαλής σύνδεση σε %s</string>
     <string name="settings_screen_lock_off">Σβηστό</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, στις προσταγές σας!</string>

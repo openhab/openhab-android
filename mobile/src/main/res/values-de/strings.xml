@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">Zweimal</string>
     <string name="settings_notification_ringtone_vibration">Klingelton &amp; Vibration</string>
     <string name="settings_connection_summary">Verbunden mit %s</string>
-    <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bildschirmsperre</string>
     <string name="settings_screen_lock_nolock_summary">Sie müssen eine Bildschirmsperre für Ihr Gerät aktivieren, um die Sperrung von App-Zugriffen zu aktivieren</string>

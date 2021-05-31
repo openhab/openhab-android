@@ -74,7 +74,6 @@
     <string name="settings_notification_vibration_twice">Twee keer</string>
     <string name="settings_notification_ringtone_vibration">Beltoon &amp; Trillen</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
-    <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Schermvergrendeling</string>
     <string name="settings_screen_lock_nolock_summary">Schakel schermvergrendeling op het apparaat in om toegang tot de app te vergrendelen</string>

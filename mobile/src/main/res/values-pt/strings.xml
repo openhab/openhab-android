@@ -47,7 +47,6 @@
     <string name="settings_notification_vibration_long">Longo</string>
     <string name="settings_notification_vibration_twice">Duas vezes</string>
     <string name="settings_connection_summary">Ligado a %s</string>
-    <string name="settings_insecure_connection_summary">Conectado a %s sem segurança</string>
     <string name="settings_screen_lock">Bloqueio de ecrã</string>
     <string name="screen_lock_unlock_screen_description">Desbloqueie para acessar o openHAB</string>
     <string name="settings_screen_lock_off">Desligar</string>

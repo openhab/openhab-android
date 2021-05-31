@@ -54,7 +54,6 @@
     <string name="settings_notification_vibration_long">Lung</string>
     <string name="settings_notification_vibration_twice">De doua ori</string>
     <string name="settings_connection_summary">Conectat la %s</string>
-    <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
     <string name="settings_screen_lock">Blocare ecran</string>
     <string name="settings_screen_lock_nolock_summary">Trebuie să activați un blocaj de ecran dispozitivului pentru a putea activa blocarea accesului la aplicație</string>
     <string name="settings_screen_lock_off_summary">Accesul la aplicație nu este blocat</string>
