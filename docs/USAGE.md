@@ -193,7 +193,7 @@ then
         // Device is charging in an unknown way (None of the three above).
         // If you see this state, please report that.
     } else {
-        // Device isn't charging ("UNDEF" is send)
+        // Device isn't charging (UNDEF is send)
     }
 end
 ```
@@ -211,7 +211,7 @@ rule "Wi-Fi name"
 when
     Item WifiName changed
 then
-    if (WifiName.state == "UNDEF") {
+    if (WifiName.state == UNDEF) {
         // Device isn't connected to Wi-Fi
     } else if (WifiName.state == "LOCATION_OFF") {
         // On Android 8 and higher "Location" must be turned on, otherwise apps don't have access to the Wi-Fi SSID
