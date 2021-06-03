@@ -199,9 +199,9 @@
         <item>@string/tile_icon_power_plug</item>
 
         <!-- Channels: Widgets -->
-        <!-- Missing: text -->
         <item>@string/tile_icon_color_palette</item>
         <item>@string/tile_icon_switch</item>
+        <item>@string/tile_icon_text</item>
 
         <!-- Channels: Weather -->
         <!-- Missing: humidity, moon, rain, snow, sun, sun_cloud, temperature, wind -->
@@ -222,8 +222,8 @@
         <!-- Missing: alarm, party, vacation -->
 
         <!-- Other icons -->
-        <!-- Missing: bluetooth, calendar, chart, cinema, cinemascreen, cistern, climate, contact, dryer, error, fan,
-                      fan_box, fan_ceiling, faucet, flowpipe, greenhouse, incline, keyring, line, niveau, outdoorlight,
+        <!-- Missing: bluetooth, calendar, chart, cinema, cinemascreen, cistern, climate, contact, dryer, error,
+                      faucet, flowpipe, greenhouse, incline, keyring, line, niveau, outdoorlight,
                       pantry, pie, piggybank, player, poweroutlet_au, poweroutlet_eu, poweroutlet_uk, poweroutlet_us,
                       pump, radiator, returnpipe, sewerage, smiley, softener, solarplant, soundvolume_mute,
                       status, suitcase, sunrise, sunset, temperature_cold, temperature_hot, video, wardrobe,
@@ -237,6 +237,7 @@
         <item>@string/tile_icon_chat</item>
         <item>@string/tile_icon_settings</item>
         <item>@string/tile_icon_shield</item>
+        <item>@string/tile_icon_fan</item>
         <item>@string/tile_icon_bell</item>
         <item>@string/tile_icon_dashboard</item>
     </string-array>
@@ -268,6 +269,7 @@
         <item>@string/tile_icon_power_plug_value</item>
         <item>@string/tile_icon_color_palette_value</item>
         <item>@string/tile_icon_switch_value</item>
+        <item>@string/tile_icon_text_value</item>
         <item>@string/tile_icon_earth_value</item>
         <item>@string/tile_icon_star_value</item>
         <item>@string/tile_icon_clock_value</item>
@@ -282,6 +284,7 @@
         <item>@string/tile_icon_chat_value</item>
         <item>@string/tile_icon_settings_value</item>
         <item>@string/tile_icon_shield_value</item>
+        <item>@string/tile_icon_fan_value</item>
         <item>@string/tile_icon_bell_value</item>
         <item>@string/tile_icon_dashboard_value</item>
     </string-array>

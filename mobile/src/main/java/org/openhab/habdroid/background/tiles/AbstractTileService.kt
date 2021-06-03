@@ -218,6 +218,7 @@ abstract class AbstractTileService : TileService() {
             context.getString(R.string.tile_icon_power_plug_value) -> R.drawable.ic_power_plug_outline_grey_24dp
             context.getString(R.string.tile_icon_color_palette_value) -> R.drawable.ic_palette_outline_grey_24dp
             context.getString(R.string.tile_icon_switch_value) -> R.drawable.ic_power_settings_black_24dp
+            context.getString(R.string.tile_icon_text_value) -> R.drawable.ic_outline_format_align_left_grey_24dp
             context.getString(R.string.tile_icon_earth_value) -> R.drawable.ic_earth_grey_24dp
             context.getString(R.string.tile_icon_star_value) -> R.drawable.ic_star_border_grey_24dp
             context.getString(R.string.tile_icon_clock_value) -> R.drawable.ic_access_time_white_24dp
@@ -232,6 +233,7 @@ abstract class AbstractTileService : TileService() {
             context.getString(R.string.tile_icon_chat_value) -> R.drawable.ic_forum_outline_grey_24dp
             context.getString(R.string.tile_icon_settings_value) -> R.drawable.ic_settings_outline_grey_24dp
             context.getString(R.string.tile_icon_shield_value) -> R.drawable.ic_security_grey_24dp
+            context.getString(R.string.tile_icon_fan_value) -> R.drawable.ic_fan_black_24dp
             context.getString(R.string.tile_icon_bell_value) -> R.drawable.ic_bell_outline_grey_24dp
             context.getString(R.string.tile_icon_dashboard_value) -> R.drawable.ic_view_dashboard_outline_grey_24dp
             else -> R.drawable.ic_openhab_appicon_24dp
