@@ -643,6 +643,7 @@
     <string name="tile_icon_dashboard">Dashboard</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Shield</string>
+    <string name="tile_icon_fan">Fan</string>
     <string name="tile_icon_man">Man</string>
     <string name="tile_icon_bed">Bed</string>
     <string name="tile_icon_child">Child</string>
@@ -655,6 +656,7 @@
     <string name="tile_icon_light_switch">Light switch</string>
     <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Switch</string>
+    <string name="tile_icon_text">Text</string>
     <string name="tile_icon_sofa">Sofa</string>
     <string name="tile_icon_lamp_ceiling">Ceiling lamp</string>
     <string name="tile_icon_lamp_floor">Floor lamp</string>
@@ -682,6 +684,7 @@
     <string name="tile_icon_tree_value" translatable="false">tree</string>
     <string name="tile_icon_wifi_value" translatable="false">wifi</string>
     <string name="tile_icon_shield_value" translatable="false">shield</string>
+    <string name="tile_icon_fan_value" translatable="false">fan</string>
     <string name="tile_icon_bed_value" translatable="false">bed</string>
     <string name="tile_icon_phone_value" translatable="false">phone</string>
     <string name="tile_icon_cloud_upload_value" translatable="false">upload</string>
@@ -699,6 +702,7 @@
     <string name="tile_icon_light_switch_value" translatable="false">light_switch</string>
     <string name="tile_icon_garage_value" translatable="false">garage</string>
     <string name="tile_icon_switch_value" translatable="false">switch</string>
+    <string name="tile_icon_text_value" translatable="false">text</string>
     <string name="tile_icon_sofa_value" translatable="false">sofa</string>
     <string name="tile_icon_lamp_ceiling_value" translatable="false">lamp_ceiling</string>
     <string name="tile_icon_lamp_floor_value" translatable="false">lamp_floor</string>

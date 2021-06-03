@@ -1416,6 +1416,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                             "garden" -> R.string.tile_icon_tree_value
                             "network" -> R.string.tile_icon_wifi_value
                             "shield" -> R.string.tile_icon_shield_value
+                            "fan", "fan_box", "fan_ceiling" -> R.string.tile_icon_fan_value
                             "bedroom", "bedroom_blue", "bedroom_orange", "bedroom_red" -> R.string.tile_icon_bed_value
                             "settings" -> R.string.tile_icon_settings_value
                             "bath", "toilet" -> R.string.tile_icon_bath_value
@@ -1425,6 +1426,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                             "garage", "garagedoor", "garage_detached", "garage_detached_selected" ->
                                 R.string.tile_icon_garage_value
                             "switch" -> R.string.tile_icon_switch_value
+                            "text" -> R.string.tile_icon_text_value
                             "sofa" -> R.string.tile_icon_sofa_value
                             else -> when {
                                 Item.Tag.Lighting in itemTags -> R.string.tile_icon_bulb_value
