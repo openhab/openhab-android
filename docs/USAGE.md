@@ -193,7 +193,7 @@ then
         // Device is charging in an unknown way (None of the three above).
         // If you see this state, please report that.
     } else {
-        // Device isn't charging (UNDEF is send)
+        // Device isn't charging ("UNDEF" is send)
     }
 end
 ```
