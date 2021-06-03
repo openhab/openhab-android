@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Powiadomienia mają ograniczoną funkcjonalność w wersji FOSS. Dotknij, aby uzyskać więcej informacji.</string>
+    <string name="push_notification_status_disabled">Powiadomienia są wyłączone</string>
+    <string name="notification_channel_crash_reports">Raporty o błędach</string>
+    <string name="notification_channel_crash_reports_description">Służy do zapytania czy raport o awarii powinien zostać wysłany</string>
+    <string name="crash_report_notification_title">openHAB uległ awarii</string>
+    <string name="crash_report_notification_text">Pomóż ulepszyć openHAB wysyłając raport o awariach</string>
+    <string name="crash_report_notification_send_mail">Wyślij mail</string>
     <string name="open_in_maps">Otwórz w OpenStreetMap</string>
 </resources>
