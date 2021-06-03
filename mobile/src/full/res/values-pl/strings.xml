@@ -2,5 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">Rejestracja powiadomień jest w toku</string>
+    <string name="info_openhab_gcm_failed">Rejestracja powiadomienia nie powiodła się</string>
+    <string name="info_openhab_gcm_failed_play_services">Rejestracja powiadomień nie powiodła się z powodu problemu usług Google Play: %s</string>
+    <string name="info_openhab_gcm_connected">Rejestracja powiadomienia zakończona pomyślnie</string>
     <string name="open_in_maps">Otwórz w Google Maps</string>
 </resources>
