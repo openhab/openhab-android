@@ -587,6 +587,7 @@
     <string name="tile_icon_dashboard">Dashboard</string>
     <string name="tile_icon_wifi">WLAN</string>
     <string name="tile_icon_shield">Schild</string>
+    <string name="tile_icon_fan">Ventilator</string>
     <string name="tile_icon_man">Mann</string>
     <string name="tile_icon_bed">Bett</string>
     <string name="tile_icon_child">Kind</string>
@@ -599,6 +600,7 @@
     <string name="tile_icon_light_switch">Lichtschalter</string>
     <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Schalter</string>
+    <string name="tile_icon_text">Text</string>
     <string name="tile_icon_sofa">Sofa</string>
     <string name="tile_icon_lamp_ceiling">Deckenlampe</string>
     <string name="tile_icon_lamp_floor">Stehlampe</string>
