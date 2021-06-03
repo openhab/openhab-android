@@ -587,6 +587,7 @@
     <string name="tile_icon_dashboard">Cruscotto</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Scudo</string>
+    <string name="tile_icon_fan">Ventilatore</string>
     <string name="tile_icon_man">Uomo</string>
     <string name="tile_icon_bed">Letto</string>
     <string name="tile_icon_child">Bambino</string>
@@ -599,6 +600,7 @@
     <string name="tile_icon_light_switch">Interruttore luce</string>
     <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Interruttore</string>
+    <string name="tile_icon_text">Testo</string>
     <string name="tile_icon_sofa">Divano</string>
     <string name="tile_icon_lamp_ceiling">Lampadario</string>
     <string name="tile_icon_lamp_floor">Lampada da terra</string>
