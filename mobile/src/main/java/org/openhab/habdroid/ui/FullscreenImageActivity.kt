@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -26,6 +27,7 @@ import kotlin.math.max
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import org.openhab.habdroid.R
@@ -33,10 +35,13 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ScreenLockMode
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class FullscreenImageActivity : AbstractBaseActivity() {
     private lateinit var imageView: PhotoView
+    private var refreshJob: Job? = null
+    private var delay: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +54,25 @@ class FullscreenImageActivity : AbstractBaseActivity() {
             intent.getStringExtra(WIDGET_LABEL).orDefaultIfEmpty(getString(R.string.widget_type_image))
 
         imageView = findViewById(R.id.activity_content)
+        delay = intent.getIntExtra(WIDGET_REFRESH, 0).toLong()
     }
 
     override fun onResume() {
         super.onResume()
-        CoroutineScope(Dispatchers.IO + Job()).launch {
-            loadImage()
+
+        launch {
+            if (determineDataUsagePolicy().canDoRefreshes && delay != 0L) {
+                scheduleRefresh()
+            } else {
+                loadImage()
+            }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        refreshJob?.cancel()
+        refreshJob = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -127,7 +144,21 @@ class FullscreenImageActivity : AbstractBaseActivity() {
         bitmap ?: return finish()
 
         Handler(Looper.getMainLooper()).post {
+            // Restore zoom after image refresh
+            val matrix = Matrix()
+            imageView.getSuppMatrix(matrix)
             imageView.setImageBitmap(bitmap)
+            imageView.setSuppMatrix(matrix)
+        }
+    }
+
+    private fun scheduleRefresh() {
+        Log.d(TAG, "scheduleRefresh()")
+        refreshJob = launch {
+            loadImage()
+            delay(delay)
+            Log.d(TAG, "refreshJob after delay")
+            scheduleRefresh()
         }
     }
 
@@ -139,6 +170,7 @@ class FullscreenImageActivity : AbstractBaseActivity() {
         private val TAG = FullscreenImageActivity::class.java.simpleName
 
         const val WIDGET_LABEL = "widget_label"
+        const val WIDGET_REFRESH = "widget_refresh"
         const val WIDGET_URL = "widget_url"
         const val WIDGET_LINK = "widget_link"
     }
