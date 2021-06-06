@@ -16,7 +16,6 @@ package org.openhab.habdroid.background
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.annotation.VisibleForTesting
@@ -60,11 +59,6 @@ class EventListenerService : Service() {
             .filter { key -> getPrefs().isItemUpdatePrefEnabled(key) }
             .map { key -> getString(getTitleResForDeviceInfo(key)) }
         val summary = when {
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.O &&
-                getPrefs().isItemUpdatePrefEnabled(PrefKeys.SEND_DND_MODE) -> {
-                getString(R.string.send_device_info_foreground_service_running_summary_dnd)
-            }
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.O -> null
             titlesOfItems.isEmpty() -> null
             titlesOfItems.size == 1 -> {
                 getString(R.string.send_device_info_foreground_service_running_summary_one, titlesOfItems[0])
@@ -111,6 +105,13 @@ class EventListenerService : Service() {
 
     companion object {
         private val TAG = EventListenerService::class.java.simpleName
+        @VisibleForTesting val KNOWN_EVENT_LISTENER_KEYS = listOf(
+            PrefKeys.SEND_BATTERY_LEVEL,
+            PrefKeys.SEND_CHARGING_STATE,
+            PrefKeys.SEND_WIFI_SSID,
+            PrefKeys.SEND_DND_MODE,
+            PrefKeys.SEND_GADGETBRIDGE
+        )
 
         fun startOrStopService(context: Context, start: Boolean = context.getPrefs().isEventListenerEnabled()) {
             val intent = Intent(context, EventListenerService::class.java)
@@ -126,6 +127,7 @@ class EventListenerService : Service() {
             PrefKeys.SEND_CHARGING_STATE -> R.string.settings_charging_state
             PrefKeys.SEND_WIFI_SSID -> R.string.settings_wifi_ssid
             PrefKeys.SEND_DND_MODE -> R.string.settings_dnd_mode
+            PrefKeys.SEND_GADGETBRIDGE -> R.string.settings_gadgetbridge
             else -> throw IllegalArgumentException("No summary for $key")
         }
     }

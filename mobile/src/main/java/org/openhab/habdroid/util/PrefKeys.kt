@@ -58,6 +58,7 @@ object PrefKeys {
     const val SEND_CHARGING_STATE = "charging_state"
     const val SEND_WIFI_SSID = "send_wifi_ssid"
     const val SEND_DND_MODE = "send_dnd_mode"
+    const val SEND_GADGETBRIDGE = "send_gadgetbridge"
 
     const val NOTIFICATION_STATUS_HINT = "notification_status"
     const val NOTIFICATION_TONE = "default_openhab_alertringtone"

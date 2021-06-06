@@ -19,7 +19,7 @@ import org.junit.Test
 class EventListenerServiceTest {
     @Test
     fun checkTitle() {
-        BackgroundTasksManager.KNOWN_PERIODIC_KEYS.forEach {
+        EventListenerService.KNOWN_EVENT_LISTENER_KEYS.forEach {
             Assert.assertNotEquals(EventListenerService.getTitleResForDeviceInfo(it), 0)
         }
     }

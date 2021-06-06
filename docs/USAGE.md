@@ -252,6 +252,32 @@ then
 end
 ```
 
+#### Gadgetbridge Device Actions
+
+[Gadgetbridge](https://www.gadgetbridge.org/) can send an Android broadcast on some actions of a wearable and openHAB can listen for these broadcasts to update an Item accordingly.
+Please keep the default values for broadcasts in Gadgetbridge.
+
+Example item definition:
+```java
+String Gadgetbridge "Wearable [%s]"
+```
+
+Example rule:
+```java
+rule "Gadgetbridge"
+when
+    Item Gadgetbridge changed
+then
+    if (Gadgetbridge.state == "FellAsleep") {
+        // The wearable recorded "FallAsleep"
+    } else if (Gadgetbridge.state == "WokeUp") {
+        // The wearable recorded "WokeUp"
+    } else if (Gadgetbridge.state == "StartNonWear") {
+        // The wearable recorded "StartNonWear"
+    }
+end
+```
+
 ### Device identifier
 
 The device identifier can be any string and should be unique for all devices accessing your openHAB server.
