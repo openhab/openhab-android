@@ -219,7 +219,6 @@
     <string name="send_device_info_foreground_service_title">Monitor událostí</string>
     <string name="send_device_info_foreground_service_summary">Sledovat události spojené s následujícími Items. Vyžaduje to trvalé oznámení a může zvýšit spotřebu baterie.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Sledovat události spojené s následujícími Items. Vyžaduje to trvalé oznámení a může zvýšit spotřebu baterie. Toto je nutné pouze pro odesílání režimu DND (nerušit).</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Sledování událostí v souvislosti s režimem DND</string>
     <string name="send_device_info_foreground_service_running_summary_one">Sledování událostí v souvislosti s %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Sledování událostí v souvislosti s %1$s a %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Sledování událostí v souvislosti s %1$s, %2$s a dalšími</string>
