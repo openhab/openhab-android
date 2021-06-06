@@ -212,7 +212,6 @@
     <string name="send_device_info_foreground_service_title">イベントモニター</string>
     <string name="send_device_info_foreground_service_summary">以下の項目に関連付けられたイベントをモニターします。これには永続的な通知が必要で、バッテリー使用量が増える可能性があります。</string>
     <string name="send_device_info_foreground_service_summary_pre_o">以下の項目に関連付けられたイベントをモニターします。 これには永続的な通知が必要で、バッテリー使用量が増加する可能性があります。これはDNDモードを送信するためにのみ必要です。</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">DNDモードに関連付けられたイベントをモニターします</string>
     <string name="send_device_info_foreground_service_running_summary_one">%s に関連付けられたイベントをモニターします</string>
     <string name="send_device_info_foreground_service_running_summary_two">%1$s と %2$s に関連付けられたイベントをモニターします</string>
     <string name="send_device_info_foreground_service_running_summary_more">%1$s、 %2$s などに関連付けられたイベントをモニターします</string>
