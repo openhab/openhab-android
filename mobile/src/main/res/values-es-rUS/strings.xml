@@ -222,7 +222,6 @@
     <string name="send_device_info_foreground_service_title">Monitor de eventos</string>
     <string name="send_device_info_foreground_service_summary">Supervisa los eventos relacionados con los siguientes Items. Requiere una notificación persistente y puede aumentar el consumo de batería.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Supervisa los eventos relacionados con los siguientes Items. Requiere una notificación persistente y puede aumentar el consumo de la batería. Esto sólo es necesario para el envío del modo DND.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Monitorear eventos relacionados con el modo DND</string>
     <string name="send_device_info_foreground_service_running_summary_one">Supervisar eventos relacionados con %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Supervisar eventos relacionados con %1$s y %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Supervisar eventos relacionados con %1$s, %2$s y otros</string>
@@ -587,6 +586,7 @@
     <string name="tile_icon_dashboard">Cuadro de mandos</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Escudo</string>
+    <string name="tile_icon_fan">Ventilador</string>
     <string name="tile_icon_man">Hombre</string>
     <string name="tile_icon_bed">Cama</string>
     <string name="tile_icon_child">Niño/a</string>
@@ -599,6 +599,7 @@
     <string name="tile_icon_light_switch">Interruptor de luz</string>
     <string name="tile_icon_garage">Garaje</string>
     <string name="tile_icon_switch">Interruptor</string>
+    <string name="tile_icon_text">Texto</string>
     <string name="tile_icon_sofa">Sofá</string>
     <string name="tile_icon_lamp_ceiling">Lámpara de techo</string>
     <string name="tile_icon_lamp_floor">Lámpara de pie</string>
