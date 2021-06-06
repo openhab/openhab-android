@@ -172,7 +172,6 @@
     <string name="send_device_info_foreground_service_title">Tapahtumanäyttö</string>
     <string name="send_device_info_foreground_service_summary">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja saattaa lisätä akun käyttöä.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja voi lisätä akun käyttöä. Tämä vaaditaan vain DND-tilan lähettämisessä.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Tarkkaile DND-tilaan liittyviä tapahtumia</string>
     <string name="send_device_info_foreground_service_running_summary_one">Tarkkaile tapahtumia, jotka liittyvät %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Tarkkaile %1$s ja %2$s liittyviä tapahtumia</string>
     <string name="send_device_info_foreground_service_running_summary_more">Tarkkaile tapahtumia, jotka liittyvät %1$s, %2$s ja enemmän</string>
