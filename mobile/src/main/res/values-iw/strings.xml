@@ -593,6 +593,7 @@
     <string name="tile_icon_dashboard">מרכז שליטה</string>
     <string name="tile_icon_wifi">רשת אלחוטית</string>
     <string name="tile_icon_shield">מגן</string>
+    <string name="tile_icon_fan">מאוורר</string>
     <string name="tile_icon_man">גבר</string>
     <string name="tile_icon_bed">מיטה</string>
     <string name="tile_icon_child">ילד</string>
@@ -605,6 +606,7 @@
     <string name="tile_icon_light_switch">מפסק תאורה</string>
     <string name="tile_icon_garage">חניה</string>
     <string name="tile_icon_switch">מתג</string>
+    <string name="tile_icon_text">טקסט</string>
     <string name="tile_icon_sofa">ספה</string>
     <string name="tile_icon_lamp_ceiling">תאורת תקרה</string>
     <string name="tile_icon_lamp_floor">תאורת רצפה</string>
