@@ -16,8 +16,6 @@ package org.openhab.habdroid.ui
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Base64
 import android.util.Log
 import android.view.Menu
@@ -60,7 +58,7 @@ class FullscreenImageActivity : AbstractBaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        launch {
+        launch(Dispatchers.Main) {
             if (determineDataUsagePolicy().canDoRefreshes && delay != 0L) {
                 scheduleRefresh()
             } else {
@@ -143,13 +141,11 @@ class FullscreenImageActivity : AbstractBaseActivity() {
 
         bitmap ?: return finish()
 
-        Handler(Looper.getMainLooper()).post {
-            // Restore zoom after image refresh
-            val matrix = Matrix()
-            imageView.getSuppMatrix(matrix)
-            imageView.setImageBitmap(bitmap)
-            imageView.setSuppMatrix(matrix)
-        }
+        // Restore zoom after image refresh
+        val matrix = Matrix()
+        imageView.getSuppMatrix(matrix)
+        imageView.setImageBitmap(bitmap)
+        imageView.setSuppMatrix(matrix)
     }
 
     private fun scheduleRefresh() {
