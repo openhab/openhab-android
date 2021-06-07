@@ -818,6 +818,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 )
                 true
             }
+            clientCertPref.setValue(config.sslClientCert)
 
             val clearDefaultSitemapPref = getPreference(PrefKeys.CLEAR_DEFAULT_SITEMAP)
             if (config.defaultSitemap?.name.isNullOrEmpty()) {
