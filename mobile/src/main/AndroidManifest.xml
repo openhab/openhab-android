@@ -111,7 +111,6 @@
         <activity android:name=".ui.TaskerItemPickerActivity"
             android:label="@string/tasker_item_picker_title" >
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity>
