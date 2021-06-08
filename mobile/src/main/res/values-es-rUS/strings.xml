@@ -248,6 +248,9 @@
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Envía el modo DND al Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">No enviar modo DND</string>
+    <string name="settings_gadgetbridge">Acciones del dispositivo Gadgetbridge</string>
+    <string name="settings_gadgetbridge_summary_on">Envía acciones del dispositivo Gadgetbridge al Item \'%1$s\'. Requiere activar el monitor de eventos.</string>
+    <string name="settings_gadgetbridge_summary_off">No enviar acciones de dispositivo Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Esta característica requiere permisos adicionales para funcionar. Tras activarla, se le pedirá que apruebe dichos permisos.</string>
     <string name="settings_background_tasks_permission_hint">Esta característica requiere permisos adicionales para funcionar. Después de activarla, se le pedirá que apruebe dichos permisos. Por favor, asegúrese de aprobar los permisos también para el uso en segundo plano, ya que las actualizaciones de los Item también suceden cuando la aplicación funciona en segundo plano.</string>
     <string name="settings_background_tasks_permission_denied">Algunas tareas en segundo plano se han deshabilitado debido a que faltan permisos</string>
