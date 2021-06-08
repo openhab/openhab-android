@@ -280,7 +280,7 @@
     <string name="settings_gadgetbridge">Gadgetbridge device actions</string>
     <string name="settings_gadgetbridge_summary_on">Sends Gadgetbridge device actions to Item \'%1$s\'. Requires event monitor to be turned on.</string>
     <string name="settings_gadgetbridge_summary_off">Don\'t send Gadgetbridge device actions</string>
-    <string name="settings_gadgetbridge_howto_url">https://www.openhab.org/docs/apps/android.html#gadgetbridge-device-actions</string>
+    <string name="settings_gadgetbridge_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#gadgetbridge-device-actions</string>
     <string name="settings_background_tasks_permission_hint_pre_r">This feature requires additional permissions to work. After enabling it, you\'ll be asked for permission approval.</string>
     <string name="settings_background_tasks_permission_hint">This feature requires additional permissions to work. After enabling it, you\'ll be asked for permission approval. Please make sure to approve the permission also for background usage, since the Item updates also happen when the app is in background.</string>
     <string name="settings_background_tasks_permission_denied">Some background tasks have been disabled due to missing permissions</string>
