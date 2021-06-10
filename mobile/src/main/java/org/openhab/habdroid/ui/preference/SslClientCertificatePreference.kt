@@ -110,7 +110,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         }
     }
 
-    private fun setValue(value: String?) {
+    fun setValue(value: String?) {
         val changed = value != currentAlias
         if (changed || currentAlias == null) {
             currentAlias = value
