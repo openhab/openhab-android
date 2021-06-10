@@ -80,6 +80,9 @@
     <string name="settings_notification_vibration_twice">Двічі</string>
     <string name="settings_notification_ringtone_vibration">Дзвінок &amp; Вібрація</string>
     <string name="settings_connection_summary">З\'єднано з %s</string>
+    <string name="settings_insecure_connection_summary">Під\'єднано до %1$s: %2$s без перевірки безпеки</string>
+    <string name="settings_insecure_connection_no_https">URL-адреса не починається з \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Не встановлено ім\'я користувача та пароль</string>
     <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокування екрану</string>
     <string name="settings_screen_lock_nolock_summary">Необхідно увімкнути блокування екрану для блокування доступу до програми</string>
@@ -219,7 +222,6 @@
     <string name="send_device_info_foreground_service_title">Монітор подій</string>
     <string name="send_device_info_foreground_service_summary">Відстеження подій, пов’язаних з наступними Об’єктами. Це вимагає постійного сповіщення і може збільшити споживання заряду акумулятора.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Спостерігати за подіями, пов’язаними з наступними об’єктами. Це вимагає постійного сповіщення і може збільшити споживання заряду акумулятора. Необхідно для відправки режиму Не Турбувати.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Відслідковування подій пов’язаних з режимом Не Турбувати</string>
     <string name="send_device_info_foreground_service_running_summary_one">Відслідковування подій пов’язаних з %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Відслідковування подій пов’язаних з %1$s і %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Відслідковування подій пов’язаних з %1$s, %2$s та іншими</string>
@@ -246,6 +248,9 @@
     <string name="settings_dnd_mode">Режим Не турбувати</string>
     <string name="settings_dnd_mode_summary_on">Надсилає режим Не турбувати до об\'єкту \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Не надсилати режим Не турбувати</string>
+    <string name="settings_gadgetbridge">Дії пристрою ґаджебридж</string>
+    <string name="settings_gadgetbridge_summary_on">Надсилає дії з пристрою Gadgetbridge до об’єкта %1$s. Потребує увімкнений монітор подій.</string>
+    <string name="settings_gadgetbridge_summary_off">Не надсилайте дії пристрою Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл.</string>
     <string name="settings_background_tasks_permission_hint">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл. Будь ласка, переконайтеся, що дали дозвіл на використання у фоні, так як оновлення відбувається також у фоновому режимі.</string>
     <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
@@ -259,7 +264,7 @@
     <string name="notification_channel_background_description">Використовується для сповіщення про очікуючі фонові завдання, наприклад, очікування мережі для відправки рівня заряду акумулятора</string>
     <string name="notification_channel_background_error">Помилка у фонових процесах</string>
     <string name="notification_channel_background_error_description">Використовується для сповіщення про помилки у фонових завданнях, наприклад, немає мережі для відправки рівня заряду акумулятора</string>
-    <string name="notification_channel_background_foreground_service_description">Моніторинг подій для оновлення відповідних елементів. Можна безпечно приховати цю категорію.</string>
+    <string name="notification_channel_background_foreground_service_description">Моніторинг подій для оновлення відповідних об’єктів. Можна безпечно приховати цю категорію.</string>
     <string name="notification_channel_messages_default_severity">За замовчуванням</string>
     <string name="notification_channel_messages_default_severity_description">Сповіщення, надіслані сервером без вказаної важливості</string>
     <string name="notification_channel_group_messages">Повідомлення</string>
@@ -373,7 +378,7 @@
     <string name="nfc_activate">Активувати</string>
     <string name="nfc_action_current_color">Поточний колір</string>
     <string name="nfc_action_to_sitemap_page">Записати сторінки інтерфейсу в NFC-мітку</string>
-    <string name="nfc_action_write_command_tag">Записати елемент в NFC-мітку</string>
+    <string name="nfc_action_write_command_tag">Записати об’єкт в NFC-мітку</string>
     <!-- Drawer -->
     <string name="drawer_open">Відображення сторінки інтерфейсу відкрито</string>
     <string name="drawer_close">Відображення сторінки інтерфейсу закрито</string>
@@ -590,6 +595,7 @@
     <string name="tile_icon_dashboard">Панель</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Щит</string>
+    <string name="tile_icon_fan">Вентилятор</string>
     <string name="tile_icon_man">Чоловік</string>
     <string name="tile_icon_bed">Ліжко</string>
     <string name="tile_icon_child">Дитина</string>
@@ -602,6 +608,7 @@
     <string name="tile_icon_light_switch">Вимикач світла</string>
     <string name="tile_icon_garage">Гараж</string>
     <string name="tile_icon_switch">Перемикач</string>
+    <string name="tile_icon_text">Текст</string>
     <string name="tile_icon_sofa">Диван</string>
     <string name="tile_icon_lamp_ceiling">Потолочна лампа</string>
     <string name="tile_icon_lamp_floor">Підлогова лампа</string>

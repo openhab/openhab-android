@@ -222,7 +222,6 @@
     <string name="send_device_info_foreground_service_title">Ereignisüberwachung</string>
     <string name="send_device_info_foreground_service_summary">Ereignisse überwachen, die mit den folgenden Items zusammenhängen. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Ereignisse überwachen, die mit den folgenden Items zusammenhängen. Dies erfordert eine dauerhafte Benachrichtigung und kann den Akkuverbrauch erhöhen. Dies ist nur für den Bitte-Nicht-Stören-Modus erforderlich.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Überwache Ereignisse, die mit dem Bitte-Nicht-Stören-Modus zusammenhängen</string>
     <string name="send_device_info_foreground_service_running_summary_one">Überwache Ereignisse, die mit %s zusammenhängen</string>
     <string name="send_device_info_foreground_service_running_summary_two">Überwache Ereignisse, die mit %1$s und %2$s zusammenhängen</string>
     <string name="send_device_info_foreground_service_running_summary_more">Überwache Ereignisse, die mit %1$s, %2$s und weiteren zusammenhängen</string>
@@ -249,6 +248,9 @@
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
+    <string name="settings_gadgetbridge">Gadgetbridge-Geräte-Aktionen</string>
+    <string name="settings_gadgetbridge_summary_on">Sendet Gadgetbridge-Geräte-Aktionen an Item \'%1$s\'. Erfordert die Aktivierung der Ereignisüberwachung.</string>
+    <string name="settings_gadgetbridge_summary_off">Keine Gadgetbridge-Geräte-Aktionen senden</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten.</string>
     <string name="settings_background_tasks_permission_hint">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten. Bitte genehmigen Sie die Berechtigung auch für die Hintergrundnutzung, da die Item-Aktualisierung auch erfolgt, wenn die App im Hintergrund läuft.</string>
     <string name="settings_background_tasks_permission_denied">Einige Hintergrundaufgaben wurden aufgrund fehlender Berechtigungen deaktiviert</string>

@@ -176,7 +176,6 @@
     <string name="send_device_info_foreground_service_title">Монитор событий</string>
     <string name="send_device_info_foreground_service_summary">Прослушивание событий, связанных со следующими Items, требует постоянного уведомления и может увеличить расход заряда батареи.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Прослушивание событий, связанных со следующими Items, требует постоянного уведомления и может увеличить расход заряда батареи. Это требуется только для посылки DND режима.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Отслеживать события, связанные с DND режимом</string>
     <string name="send_device_info_foreground_service_running_summary_one">Отслеживать события, связанные с %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Отслеживать события, связанные с %1$s и %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Отслеживать события, связанные с %1$s, %2$s и другими</string>

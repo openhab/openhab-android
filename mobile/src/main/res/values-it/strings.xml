@@ -222,7 +222,6 @@
     <string name="send_device_info_foreground_service_title">Monitor eventi</string>
     <string name="send_device_info_foreground_service_summary">Monitora gli eventi associati ai seguenti Items. Ciò richiede una notifica persistente e può aumentare l\'utilizzo della batteria.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Monitora gli eventi associati ai seguenti Items. Ciò richiede una notifica persistente e può aumentare l\'utilizzo della batteria. Questo è richiesto solo per l’invio in modalità DND.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Monitora gli eventi associati alla modalità DND</string>
     <string name="send_device_info_foreground_service_running_summary_one">Monitora gli eventi associati a %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Monitora gli eventi associati a %1$s e %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Monitora gli eventi associati a %1$s, %2$s e altri</string>
@@ -249,6 +248,9 @@
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Invia modo DND all\'item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Non inviare modo DND</string>
+    <string name="settings_gadgetbridge">Azioni device Gadgetbridge</string>
+    <string name="settings_gadgetbridge_summary_on">Invia le azioni del dispositivo Gadgetbridge all\'item \'%1$s\'. Richiede che il monitor degli eventi sia attivo.</string>
+    <string name="settings_gadgetbridge_summary_off">Non inviare azioni del device Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi.</string>
     <string name="settings_background_tasks_permission_hint">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi. Assicurati di approvare l\'autorizzazione anche per l\'utilizzo in background, poiché gli aggiornamenti degli Item avviene anche quando l\'applicazione è in background.</string>
     <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
