@@ -19,18 +19,17 @@ import android.view.View
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.video.VideoListener
 
 class AutoHeightPlayerView constructor(context: Context, attrs: AttributeSet) :
     PlayerView(context, attrs),
-    VideoListener {
+    Player.Listener {
     private var currentPlayer: SimpleExoPlayer? = null
 
     override fun setPlayer(player: Player?) {
-        currentPlayer?.removeVideoListener(this)
+        currentPlayer?.removeListener(this)
         super.setPlayer(player)
         currentPlayer = player as SimpleExoPlayer?
-        currentPlayer?.addVideoListener(this)
+        currentPlayer?.addListener(this)
     }
 
     override fun onVideoSizeChanged(
