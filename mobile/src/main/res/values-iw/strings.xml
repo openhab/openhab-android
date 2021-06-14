@@ -248,6 +248,10 @@
     <string name="settings_dnd_mode">מצב \'נא לא להפריע\'</string>
     <string name="settings_dnd_mode_summary_on">שלח מצב \'נא לא להפריע\' לפריט \'%1$s \'</string>
     <string name="settings_dnd_mode_summary_off">אל תשלח מצב \'נא לא להפריע\'</string>
+    <string name="settings_gadgetbridge">פעולות מכשיר Gadgetbridge</string>
+    <string name="settings_gadgetbridge_summary_on">שליחת מידע פעולות מכשיר Gadgetbridge לפריט \'%1$s\'.
+מחייב הפעלת צג אירועים.</string>
+    <string name="settings_gadgetbridge_summary_off">לא לשלוח מידע פעולות Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">אפשרות זו דורשת הרשאות נוספות על מנת לעבוד. לאחר הפעלתה תתבקשר לאשר את מתן ההרשאות.</string>
     <string name="settings_background_tasks_permission_hint">אפשרות זו דורשת הרשאות נוספות על מנת לפעול. לאחר הפעלתה, תתבקש לאשר את ההרשאות. אנא וודא שתאשר את ההרשאות גם עבור פעילות ברקע, מאחר ועדכון הפריטים באפליקציה זו מתרחש גם ברקע.</string>
     <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
