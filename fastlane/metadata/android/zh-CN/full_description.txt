@@ -1,6 +1,6 @@
 openHAB - "智能化家居" - 开源家居自动化供应商与技术
 
-The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+在 F-Droid 上的版本已删除 FCM ，因此无法从 openHAB Cloud 接收推送通知。 替代，在这些 builds 中进行定期轮询通知。
 尝试新功能并提供早期反馈！
 <a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>可与测试版共存。
 
