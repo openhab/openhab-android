@@ -1,0 +1,2 @@
+• Updated translations
+• Stability and performance improvements
