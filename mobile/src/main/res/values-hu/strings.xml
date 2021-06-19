@@ -80,6 +80,9 @@
     <string name="settings_notification_vibration_twice">Kétszer</string>
     <string name="settings_notification_ringtone_vibration">Csengőhang &amp; rezgés</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
+    <string name="settings_insecure_connection_summary">Nem biztonságos a csatakozás a %1$s: %2$s szerverhez</string>
+    <string name="settings_insecure_connection_no_https">AZ URL nem \"https\" el kezdődik</string>
+    <string name="settings_insecure_connection_no_auth">Nincs megadva felhasználónév és/vagy jelszó</string>
     <string name="beta">Béta</string>
     <string name="settings_screen_lock">Képernyőzár</string>
     <string name="settings_screen_lock_nolock_summary">Engedélyeznie kell a képernyőzárat, hogy engedélyezhesse az alkalmazás zárolását</string>
@@ -583,6 +586,7 @@
     <string name="tile_icon_dashboard">Vezérlőpult</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Pajzs</string>
+    <string name="tile_icon_fan">Ventilátor</string>
     <string name="tile_icon_man">Férfi</string>
     <string name="tile_icon_bed">Ágy</string>
     <string name="tile_icon_child">Gyermek</string>
@@ -595,6 +599,7 @@
     <string name="tile_icon_light_switch">Villany kapcsoló</string>
     <string name="tile_icon_garage">Garázs</string>
     <string name="tile_icon_switch">Kapcsoló</string>
+    <string name="tile_icon_text">Szöveg</string>
     <string name="tile_icon_sofa">Kanapé</string>
     <string name="tile_icon_lamp_ceiling">Mennyezeti lámpa</string>
     <string name="tile_icon_lamp_floor">Állólámpa</string>
