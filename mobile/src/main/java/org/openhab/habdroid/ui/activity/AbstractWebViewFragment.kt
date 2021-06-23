@@ -253,9 +253,11 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
             .setTitle(getString(R.string.home_shortcut_title))
             .setView(input)
             .setPositiveButton(android.R.string.ok) { _, _ ->
+                val label = if (input.text.isNullOrEmpty()) " " else input.text
+
                 callback(
                     ShortcutInfoCompat.Builder(orig)
-                        .setShortLabel(input.text)
+                        .setShortLabel(label)
                         .build()
                 )
             }
