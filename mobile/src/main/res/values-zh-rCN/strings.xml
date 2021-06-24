@@ -48,7 +48,7 @@
     <string name="start_page_title">首页</string>
     <string name="drawer_entries">侧边菜单项</string>
     <string name="settings_openhab_theme">主题</string>
-    <string name="settings_accent_color">强调色</string>
+    <string name="settings_accent_color">主题色</string>
     <string name="settings_select_a_color">选择颜色</string>
     <string name="settings_openhab_fullscreen">全屏</string>
     <string name="settings_openhab_icon_format">图标格式</string>
@@ -389,7 +389,7 @@
     <string name="about_community">openHAB 社区</string>
     <string name="about_translation">帮助我们翻译 openHAB</string>
     <string name="about_privacy_policy">隐私条款</string>
-    <string name="about_rate_this_app">为这个应用评分</string>
+    <string name="about_rate_this_app">为此应用评分</string>
     <string name="settings_debug_messages_title">扩展的错误消息</string>
     <string name="settings_troubleshooting_title">疑难解答</string>
     <string name="set">设置</string>

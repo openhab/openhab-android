@@ -80,6 +80,9 @@
     <string name="settings_notification_vibration_twice">Dupla</string>
     <string name="settings_notification_ringtone_vibration">Toque &amp; Vibração</string>
     <string name="settings_connection_summary">Conectado a %s</string>
+    <string name="settings_insecure_connection_summary">Conectado de forma insegura a %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">A URL não começa com \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Nenhum usuário e senha definidos</string>
     <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de tela</string>
     <string name="settings_screen_lock_nolock_summary">Você precisa habilitar um bloqueio de tela para o seu dispositivo para ativar o bloqueio de acesso a apps</string>
@@ -245,6 +248,9 @@
     <string name="settings_dnd_mode">Modo Não perturbe</string>
     <string name="settings_dnd_mode_summary_on">Envia o modo Não perturbe para o Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Não enviar modo Não Pertube</string>
+    <string name="settings_gadgetbridge">Ações do dispositivo Gadgetbridge</string>
+    <string name="settings_gadgetbridge_summary_on">Envia ações do dispositivo Gadgetbridge para o item \'%1$s\'. Requer monitor de eventos para ligar.</string>
+    <string name="settings_gadgetbridge_summary_off">Não enviar ações do dispositivo Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Este recurso requer permissões adicionais para funcionar. Depois de habilitá-lo, você será solicitado para dar permissão.</string>
     <string name="settings_background_tasks_permission_hint">Este recurso requer permissões adicionais para funcionar. Depois de habilitá-lo, você será solicitado para dar permissão. Certifique-se de aprovar a permissão também para uso em segundo plano, já que as atualizações de Item também acontecem quando o app está em segundo plano.</string>
     <string name="settings_background_tasks_permission_denied">Algumas tarefas de segundo plano foram desabilitadas devido à falta de permissões</string>
@@ -583,6 +589,7 @@
     <string name="tile_icon_dashboard">Painel</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Escudo</string>
+    <string name="tile_icon_fan">Ventilador</string>
     <string name="tile_icon_man">Homem</string>
     <string name="tile_icon_bed">Cama</string>
     <string name="tile_icon_child">Criança</string>
@@ -595,6 +602,7 @@
     <string name="tile_icon_light_switch">Interruptor</string>
     <string name="tile_icon_garage">Garagem</string>
     <string name="tile_icon_switch">Interruptor</string>
+    <string name="tile_icon_text">Texto</string>
     <string name="tile_icon_sofa">Sofá</string>
     <string name="tile_icon_lamp_ceiling">Luminária de teto</string>
     <string name="tile_icon_lamp_floor">Luminária de piso</string>
