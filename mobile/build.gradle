@@ -139,7 +139,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation "androidx.preference:preference-ktx:1.1.1"
     implementation "androidx.biometric:biometric:1.1.0"
-    implementation "com.google.android.material:material:1.3.0"
+    implementation "com.google.android.material:material:1.4.0"
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.work:work-runtime:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
