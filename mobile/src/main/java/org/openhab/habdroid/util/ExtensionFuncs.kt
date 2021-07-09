@@ -473,8 +473,8 @@ fun Context.isDarkModeActive(): Boolean {
     }
 }
 
-fun Context.getCurrentWifiSsid(): String? {
-    val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+fun Context.getCurrentWifiSsid(attributionTag: String): String? {
+    val wifiManager = getWifiManager(attributionTag)
     return wifiManager.connectionInfo.let { info ->
         if (info.networkId == -1) null else info.ssid.removeSurrounding("\"")
     }
@@ -486,6 +486,17 @@ fun Context.withAttribution(tag: String): Context {
     } else {
         this
     }
+}
+
+fun Context.getWifiManager(attributionTag: String): WifiManager {
+    // Android < N requires applicationContext for getting WifiManager, otherwise leaks may occur
+    val context = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        applicationContext
+    } else {
+        withAttribution(attributionTag)
+    }
+
+    return context.getSystemService(Context.WIFI_SERVICE) as WifiManager
 }
 
 fun Socket.bindToNetworkIfPossible(network: Network?) {

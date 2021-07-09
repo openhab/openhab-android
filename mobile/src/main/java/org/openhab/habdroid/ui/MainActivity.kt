@@ -28,7 +28,6 @@ import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.location.LocationManager
-import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
@@ -80,6 +79,7 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
@@ -121,6 +121,7 @@ import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isEventListenerEnabled
@@ -276,7 +277,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             queryServerProperties()
         }
 
-        val currentWifiSsid = getCurrentWifiSsid()
+        val currentWifiSsid = getCurrentWifiSsid(OpenHabApplication.DATA_ACCESS_TAG_SELECT_SERVER_WIFI)
         val switchToServer = determineServerIdToSwitchToBasedOnWifi(currentWifiSsid, wifiSsidDuringLastOnStart)
         wifiSsidDuringLastOnStart = currentWifiSsid
         if (pendingAction == null && switchToServer != -1) {
@@ -460,7 +461,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         serverProperties = null
         handlePendingAction()
 
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI)
         when {
             newConnection != null -> {
                 handleConnectionChange()
@@ -665,7 +666,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val panelIntent = Intent(Settings.Panel.ACTION_WIFI)
             startActivity(panelIntent)
         } else {
-            val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            val wifiManager = getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI)
             @Suppress("DEPRECATION")
             wifiManager.isWifiEnabled = true
             controller.updateConnection(null, getString(R.string.waiting_for_wifi),

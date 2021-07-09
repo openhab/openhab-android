@@ -208,8 +208,14 @@ class OpenHabApplication : MultiDexApplication() {
         private val TAG = OpenHabApplication::class.java.simpleName
 
         const val DATA_ACCESS_TAG_SEND_DEV_INFO = "SEND_DEV_INFO"
+        const val DATA_ACCESS_TAG_SELECT_SERVER_WIFI = "SELECT_SERVER_WIFI"
+        const val DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI = "SUGGEST_TURN_ON_WIFI"
+        const val DATA_ACCESS_TAG_SERVER_DISCOVERY = "SERVER_DISCOVERY"
         val DATA_ACCESS_TAGS = listOf(
-            DATA_ACCESS_TAG_SEND_DEV_INFO
+            DATA_ACCESS_TAG_SEND_DEV_INFO,
+            DATA_ACCESS_TAG_SELECT_SERVER_WIFI,
+            DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI,
+            DATA_ACCESS_TAG_SERVER_DISCOVERY
         )
     }
 }

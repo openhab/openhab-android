@@ -68,6 +68,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
@@ -639,7 +640,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 ItemUpdateWorker.ValueWithInfo(state, type = ItemUpdateWorker.ValueType.MapUndefToOffForSwitchItems)
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_WIFI_SSID] = { context, _ ->
-                val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val wifiManager = context.getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO)
                 val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID)
                 val ssidToSend = wifiManager.connectionInfo.let { info ->

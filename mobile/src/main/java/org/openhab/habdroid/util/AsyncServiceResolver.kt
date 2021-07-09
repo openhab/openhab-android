@@ -14,7 +14,6 @@
 package org.openhab.habdroid.util
 
 import android.content.Context
-import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.MulticastLock
 import android.util.Log
 import java.net.BindException
@@ -32,6 +31,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
+import org.openhab.habdroid.core.OpenHabApplication
 
 class AsyncServiceResolver(
     context: Context,
@@ -67,7 +67,7 @@ class AsyncServiceResolver(
     }
 
     init {
-        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = context.getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SERVER_DISCOVERY)
         multicastLock = wifiManager.createMulticastLock("HABDroidMulticastLock")
         multicastLock.setReferenceCounted(true)
     }

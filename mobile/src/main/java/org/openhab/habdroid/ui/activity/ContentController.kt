@@ -17,7 +17,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,6 +42,7 @@ import java.util.ArrayList
 import java.util.HashSet
 import java.util.Stack
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
@@ -60,6 +60,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
 
@@ -296,7 +297,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun indicateMissingConfiguration(resolveAttempted: Boolean, wouldHaveUsedOfficialServer: Boolean) {
         CrashReportingHelper.d(TAG, "Indicate missing configuration (resolveAttempted $resolveAttempted)")
         resetState()
-        val wifiManager = activity.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = activity.getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI)
         noConnectionFragment = MissingConfigurationFragment.newInstance(
             activity,
             resolveAttempted,
