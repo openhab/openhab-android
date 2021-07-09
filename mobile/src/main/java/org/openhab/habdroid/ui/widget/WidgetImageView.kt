@@ -108,7 +108,6 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         val bitmap: Bitmap? = BitmapFactory.decodeByteArray(data, 0, data.size)
 
         if (bitmap == null) {
-            removeProgressDrawable()
             applyFallbackDrawable()
             return
         }
