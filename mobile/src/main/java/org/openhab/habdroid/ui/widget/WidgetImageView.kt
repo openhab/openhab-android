@@ -105,7 +105,13 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     fun setBase64EncodedImage(base64: String) {
         prepareForNonHttpImage()
         val data = Base64.decode(base64, Base64.DEFAULT)
-        val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
+        val bitmap: Bitmap? = BitmapFactory.decodeByteArray(data, 0, data.size)
+
+        if (bitmap == null) {
+            removeProgressDrawable()
+            applyFallbackDrawable()
+            return
+        }
 
         if (targetImageSize == 0) {
             pendingRequest = PendingBase64Request(bitmap)
