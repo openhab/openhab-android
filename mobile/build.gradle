@@ -48,8 +48,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 398
-        versionName "2.18.0"
+        versionCode 399
+        versionName "2.18.1-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
@@ -167,7 +167,7 @@ dependencies {
     implementation "com.github.GrenderG:Toasty:1.5.0"
 
     // Firebase
-    implementation platform("com.google.firebase:firebase-bom:25.11.0")
+    implementation platform("com.google.firebase:firebase-bom:28.2.1")
     fullImplementation "com.google.firebase:firebase-messaging-ktx"
     fullImplementation "com.google.firebase:firebase-crashlytics-ktx"
 
