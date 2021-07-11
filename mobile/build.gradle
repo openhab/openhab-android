@@ -2,7 +2,7 @@ def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
 def isFoss = taskRequests.contains("Foss") || taskRequests.contains("foss")
 
 buildscript {
-    ext.kotlin_coroutines_version = '1.4.2'
+    ext.kotlin_coroutines_version = '1.5.1'
     ext.ok_http_version = '4.9.1'
     ext.work_manager_version = '2.5.0'
     ext.about_libraries_version = '8.8.5'
@@ -48,8 +48,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 398
-        versionName "2.18.0"
+        versionCode 399
+        versionName "2.18.1-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
