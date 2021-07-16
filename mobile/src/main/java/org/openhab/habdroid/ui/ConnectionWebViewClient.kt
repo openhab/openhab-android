@@ -58,13 +58,15 @@ open class ConnectionWebViewClient(
 
     // This is called on older Android versions
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-        if (url.toUri().host == view.url?.toUri()?.host) {
+        val uri = url.toUri()
+        val viewUri = view.url?.toUri()
+        if (uri.host == viewUri?.host) {
             Log.d(TAG, "Same host: Load in WebView ($url)")
             return false
         }
 
-        Log.d(TAG, "New host: Open in external browser ($url)")
-        url.toUri().openInBrowser(view.context)
+        Log.d(TAG, "New host: Open in external browser ($url, WebView is on $viewUri)")
+        uri.openInBrowser(view.context)
 
         return true
     }
