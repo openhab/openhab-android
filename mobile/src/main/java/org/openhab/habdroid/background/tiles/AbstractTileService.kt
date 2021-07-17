@@ -180,7 +180,7 @@ abstract class AbstractTileService : TileService() {
         subtitleUpdateJob?.cancel()
         if (updateSubtitleLaterAgain) {
             subtitleUpdateJob = GlobalScope.launch(Dispatchers.Main) {
-                delay(6 * 1000)
+                delay(6000)
                 updateTileSubtitle()
             }
         }

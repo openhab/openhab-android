@@ -517,7 +517,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     fun scheduleRetry(runAfterDelay: () -> Unit) {
         retryJob?.cancel(CancellationException("scheduleRetry() was called"))
         retryJob = CoroutineScope(Dispatchers.Main + Job()).launch {
-            delay(30 * 1000)
+            delay(30000)
             Log.d(TAG, "runAfterDelay()")
             runAfterDelay()
         }
