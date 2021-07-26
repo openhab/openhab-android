@@ -9,7 +9,7 @@ buildscript {
     ext.powermock_version = '2.0.9'
     ext.espresso_version = '3.4.0'
     ext.exoplayer_version = '2.14.1'
-    ext.acra_version = '5.8.3'
+    ext.acra_version = '5.8.4'
 
     repositories {
         mavenCentral()
