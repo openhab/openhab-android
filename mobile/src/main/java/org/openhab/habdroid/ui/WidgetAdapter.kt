@@ -1078,7 +1078,8 @@ class WidgetAdapter(
                 return
             }
 
-            exoPlayer.stop(true)
+            exoPlayer.stop()
+            exoPlayer.clearMediaItems()
             if (mediaSource == null) {
                 return
             }
