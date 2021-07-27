@@ -1177,7 +1177,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     fun updateTitle() {
         val title = controller.currentTitle
-        setTitle(title ?: getString(R.string.app_name))
+        val activeServerName = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())?.name
+        setTitle(title ?: activeServerName ?: getString(R.string.app_name))
         drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
     }
 
