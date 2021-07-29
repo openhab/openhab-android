@@ -13,7 +13,10 @@
 
 package org.openhab.habdroid.core.connection
 
+import android.util.Log
+import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.core.connection.AbstractConnection.Companion.TAG
 import org.openhab.habdroid.util.HttpClient
 
 class CloudConnection internal constructor(baseConnection: AbstractConnection, val messagingSenderId: String) :
@@ -35,7 +38,13 @@ suspend fun AbstractConnection.toCloudConnection(): CloudConnection {
     } catch (e: HttpClient.HttpException) {
         throw if (e.statusCode == 404) NotACloudServerException() else e
     }
-    val json = JSONObject(result.response)
-    val senderId = json.getJSONObject("gcm").getString("senderId")
+    val senderId = try {
+        val json = JSONObject(result.response)
+        json.getJSONObject("gcm").getString("senderId")
+    } catch (e: JSONException) {
+        Log.e(TAG, "Error parsing notification endpoint response", e)
+        throw NotACloudServerException()
+    }
+
     return CloudConnection(this, senderId)
 }
