@@ -113,7 +113,7 @@ then
         logInfo("alarm", "New alarm")
         timerAlarm = createTimer(alarmTime.getZonedDateTime.minusSeconds(5), [ |
             logInfo("alarm", "Alarm expired")
-			// Turn on stuff, e.g. radio or light
+            // Turn on stuff, e.g. radio or light
             timerAlarm = null
         ])
     }
