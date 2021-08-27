@@ -84,7 +84,6 @@ However this will show a persistent notification and may increase battery usage.
 #### Alarm Clock
 
 The openHAB app will send the next wake-up time from your alarm clock app to the server.
-The time is sent as a number containing the number of milliseconds since the epoch.
 
 Example item definition:
 ```java
@@ -97,28 +96,26 @@ var Timer timerAlarm = null
 
 rule "Alarm Clock"
 when
-    Item AlarmClock changed
+    Item AlarmClock changed or
+    System started
 then
-    if (newState instanceof DateTimeType) {
-        val epoch = newState.toLocaleZone.zonedDateTime.toInstant.toEpochMilli
-        logInfo("alarm", "Scheduling alarm for {} ({})", newState.toLocaleZone, epoch)
-        if (timerAlarm !== null) {
-            logInfo("alarm", "Reschedule alarm")
-            timerAlarm.reschedule(newState.toLocaleZone.zonedDateTime)
-        } else {
-            logInfo("alarm", "New alarm")
-            timerAlarm = createTimer(newState.toLocaleZone.zonedDateTime, [ |
-                // Turn on stuff, e.g. radio or light
-                logInfo("alarm", "Alarm expired")
-                timerAlarm = null
-            ])
-        }
+    if (!(AlarmClock.state instanceof DateTimeType)) {
+        return;
+    }
+
+    val alarmTime = AlarmClock.state as DateTimeType
+    logInfo("alarm", "Scheduling alarm for {}", alarmTime.toString)
+
+    if (timerAlarm !== null) {
+        logInfo("alarm", "Rescheduling alarm")
+        timerAlarm.reschedule(alarmTime.getZonedDateTime)
     } else {
-        if (timerAlarm !== null) {
-            timerAlarm.cancel
+        logInfo("alarm", "New alarm")
+        timerAlarm = createTimer(alarmTime.getZonedDateTime.minusSeconds(5), [ |
+            logInfo("alarm", "Alarm expired")
+            // Turn on stuff, e.g. radio or light
             timerAlarm = null
-        }
-        logInfo("alarm", "Alarm canceled")
+        ])
     }
 end
 ```
