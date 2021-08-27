@@ -58,6 +58,11 @@ open class ConnectionWebViewClient(
 
     // This is called on older Android versions
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+        if (url == EMPTY_PAGE || view.url == EMPTY_PAGE) {
+            Log.d(TAG, "Either current or new page is '$EMPTY_PAGE'")
+            return false
+        }
+
         val uri = url.toUri()
         val viewUri = view.url?.toUri()
         if (uri.host == viewUri?.host) {
@@ -142,5 +147,7 @@ open class ConnectionWebViewClient(
 
     companion object {
         private val TAG = ConnectionWebViewClient::class.java.simpleName
+
+        const val EMPTY_PAGE = "about:blank"
     }
 }
