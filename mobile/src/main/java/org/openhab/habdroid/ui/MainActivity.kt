@@ -1436,6 +1436,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private val TAG = MainActivity::class.java.simpleName
 
         // Activities request codes
-        private const val REQUEST_CODE_PERMISSIONS = 1002
+        private const val REQUEST_CODE_PERMISSIONS = 1001
     }
 }
