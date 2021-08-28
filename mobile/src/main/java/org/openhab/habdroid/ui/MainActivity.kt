@@ -174,7 +174,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                 recreate()
             }
-    }
+        }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
