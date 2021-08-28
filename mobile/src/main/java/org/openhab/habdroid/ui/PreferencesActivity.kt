@@ -212,6 +212,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 return
             }
             val showDialog: (DialogFragment) -> Unit = { fragment ->
+                @Suppress("DEPRECATION") // TODO: Replace deprecated function
                 fragment.setTargetFragment(this, 0)
                 fragment.show(parentFragmentManager, "SettingsFragment.DIALOG:${preference.key}")
             }

@@ -365,6 +365,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     fun recreateFragmentState() {
         fm.commitNow {
+            @Suppress("DEPRECATION") // TODO: Replace deprecated function
             fm.fragments
                 .filterNot { f -> f.retainInstance }
                 .forEach { f -> remove(f) }

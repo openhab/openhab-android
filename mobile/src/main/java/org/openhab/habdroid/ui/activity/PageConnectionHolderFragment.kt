@@ -110,6 +110,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION") // TODO: Replace deprecated function
         retainInstance = true
     }
 
