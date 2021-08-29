@@ -1148,7 +1148,7 @@ class WidgetAdapter(
             }
             with(webView) {
                 adjustForWidgetHeight(widget, 0)
-                loadUrl("about:blank")
+                loadUrl(ConnectionWebViewClient.EMPTY_PAGE)
 
                 if (url == null) {
                     return

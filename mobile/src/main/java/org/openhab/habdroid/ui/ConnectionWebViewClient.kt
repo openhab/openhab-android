@@ -58,13 +58,20 @@ open class ConnectionWebViewClient(
 
     // This is called on older Android versions
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-        if (url.toUri().host == view.url?.toUri()?.host) {
+        if (url == EMPTY_PAGE || view.url == EMPTY_PAGE) {
+            Log.d(TAG, "Either current or new page is '$EMPTY_PAGE'")
+            return false
+        }
+
+        val uri = url.toUri()
+        val viewUri = view.url?.toUri()
+        if (uri.host == viewUri?.host) {
             Log.d(TAG, "Same host: Load in WebView ($url)")
             return false
         }
 
-        Log.d(TAG, "New host: Open in external browser ($url)")
-        url.toUri().openInBrowser(view.context)
+        Log.d(TAG, "New host: Open in external browser ($url, WebView is on $viewUri)")
+        uri.openInBrowser(view.context)
 
         return true
     }
@@ -140,5 +147,7 @@ open class ConnectionWebViewClient(
 
     companion object {
         private val TAG = ConnectionWebViewClient::class.java.simpleName
+
+        const val EMPTY_PAGE = "about:blank"
     }
 }
