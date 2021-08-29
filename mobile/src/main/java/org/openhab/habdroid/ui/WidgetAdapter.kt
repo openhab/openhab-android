@@ -744,8 +744,7 @@ class WidgetAdapter(
                 spinnerSelectedIndex = spinnerArray.size - 1
             }
 
-            val spinnerAdapter = ArrayAdapter(itemView.context,
-                android.R.layout.simple_spinner_item, spinnerArray)
+            val spinnerAdapter = ArrayAdapter(itemView.context, R.layout.spinner_prompt, spinnerArray)
             spinnerAdapter.setDropDownViewResource(R.layout.select_dialog_singlechoice)
 
             spinner.prompt = labelView.text
