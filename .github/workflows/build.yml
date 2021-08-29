@@ -29,19 +29,5 @@ jobs:
           mkdir ~/.gradle/
           echo -e "org.gradle.jvmargs=-Xmx8192M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o\norg.gradle.daemon=false" >> ~/.gradle/gradle.properties
 
-      - name: Build (full, beta)
-        run: ./gradlew :mobile:assembleFullBeta
-      - name: Unit Tests (full, beta)
-        run: ./gradlew :mobile:testFullBetaReleaseUnitTest
-      - name: Build (full, stable)
-        run: ./gradlew :mobile:assembleFullStable
-      - name: Unit Tests (full, stable)
-        run: ./gradlew :mobile:testFullStableReleaseUnitTest
-      - name: Build (foss, beta)
-        run: ./gradlew :mobile:assembleFossBeta
-      - name: Unit Tests (foss, beta)
-        run: ./gradlew :mobile:testFossBetaReleaseUnitTest
-      - name: Build (foss, stable)
-        run: ./gradlew :mobile:assembleFossStable
-      - name: Unit Tests (foss, stable)
-        run: ./gradlew :mobile:testFossStableReleaseUnitTest
+      - name: Build and Test
+        run: ./gradlew :mobile:assemble :mobile:test
