@@ -15,6 +15,9 @@ package org.openhab.habdroid.background
 
 import com.google.common.reflect.ClassPath
 import java.util.stream.Collectors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +32,7 @@ class TileServicesTests {
         tileServices = ClassPath.from(ClassLoader.getSystemClassLoader())
             .allClasses
             .stream()
-            .filter { it.name.startsWith("org.openhab.habdroid.background.tiles.TileService")}
+            .filter { it.name.startsWith("org.openhab.habdroid.background.tiles.TileService") }
             .map { it.load() }
             .collect(Collectors.toSet())
     }
@@ -41,29 +44,33 @@ class TileServicesTests {
 
     @Test
     fun checkTileServicesImplementCorrectId() {
-        for (tileService in tileServices) {
-            val id = (tileService.newInstance() as AbstractTileService).ID
-            Assert.assertEquals(
-                "Name of the tile service doesn't match its id",
-                id,
-                tileService.name.substringAfter("TileService").toInt()
-            )
+        GlobalScope.launch(Dispatchers.Main) {
+            for (tileService in tileServices) {
+                val id = (tileService.newInstance() as AbstractTileService).ID
+                Assert.assertEquals(
+                    "Name of the tile service doesn't match its id",
+                    id,
+                    tileService.name.substringAfter("TileService").toInt()
+                )
+            }
         }
     }
 
     @Test
     fun checkClassName() {
-        for (tileService in tileServices) {
-            val id = (tileService.newInstance() as AbstractTileService).ID
-            Assert.assertEquals(
-                AbstractTileService.getClassNameForId(id),
-                tileService.canonicalName
-            )
+        GlobalScope.launch(Dispatchers.Main) {
+            for (tileService in tileServices) {
+                val id = (tileService.newInstance() as AbstractTileService).ID
+                Assert.assertEquals(
+                    AbstractTileService.getClassNameForId(id),
+                    tileService.canonicalName
+                )
 
-            Assert.assertEquals(
-                AbstractTileService.getIdFromClassName(tileService.canonicalName!!),
-                id
-            )
+                Assert.assertEquals(
+                    AbstractTileService.getIdFromClassName(tileService.canonicalName!!),
+                    id
+                )
+            }
         }
     }
 }
