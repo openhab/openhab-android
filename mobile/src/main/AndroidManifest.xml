@@ -230,7 +230,8 @@
             android:enabled="@bool/enable_system_foreground_service_default"
             android:exported="false"
             android:foregroundServiceType="dataSync"
-            tools:targetApi="n" />
+            tools:targetApi="n"
+            tools:ignore="Instantiatable" />
 
         <!-- Tiles -->
         <service android:name=".background.tiles.TileService1" android:label="@string/tile_label_1" android:icon="@drawable/ic_openhab_appicon_24dp" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:enabled="true">
