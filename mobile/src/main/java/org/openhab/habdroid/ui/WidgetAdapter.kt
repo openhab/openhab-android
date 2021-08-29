@@ -804,7 +804,7 @@ class WidgetAdapter(
                 }
             }
 
-            // remove unneded views
+            // remove unneeded views
             while (group.childCount > mappings.size) {
                 val view = group[group.childCount - 1]
                 spareViews.add(view)
@@ -816,9 +816,13 @@ class WidgetAdapter(
             val checkedId = group.children
                 .filter { it.tag == state }
                 .map { it.id }
-                .ifEmpty { sequenceOf(View.NO_ID) }
-                .first()
-            group.check(checkedId)
+                .firstOrNull()
+
+            if (checkedId == null) {
+                group.clearChecked()
+            } else {
+                group.check(checkedId)
+            }
         }
 
         override fun onClick(view: View) {
