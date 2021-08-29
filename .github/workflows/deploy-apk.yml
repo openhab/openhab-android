@@ -41,10 +41,19 @@ jobs:
           echo "Use $releaseFlavor"
           echo "releaseFlavor=$releaseFlavor"   >> $GITHUB_ENV
 
-      - name: Setup Google API Key
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
+
+      - name: Configure Gradle
         run: |
           mkdir ~/.gradle/
-          echo -e "org.gradle.jvmargs=-Xmx6144M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
+          echo -e "org.gradle.jvmargs=-Xmx8192M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o\norg.gradle.daemon=false" >> ~/.gradle/gradle.properties
           
       - name: Build APK
         run: bash gradlew :mobile:assembleFull${{ env.releaseFlavor }}Release

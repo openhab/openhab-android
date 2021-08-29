@@ -22,7 +22,7 @@ buildscript {
     dependencies {
         classpath "com.google.gms:google-services:4.3.10"
         classpath "com.google.firebase:firebase-crashlytics-gradle:2.7.1"
-        classpath 'de.mobilej.unmock:UnMockPlugin:0.7.6'
+        classpath 'com.github.bjoernq:unmockplugin:0.7.8'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$about_libraries_version"
         classpath "de.jjohannes.gradle:missing-metadata-guava:0.4"
     }
@@ -179,7 +179,6 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.json:json:20210307"
-    testImplementation "org.reflections:reflections:0.9.12"
     testImplementation "com.squareup.okhttp3:mockwebserver:$ok_http_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
     // PowerMock
