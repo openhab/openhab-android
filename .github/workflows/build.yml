@@ -14,15 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
+
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: 11
+
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.4
-      - name: Setup Gradle
-        run: mkdir ~/.gradle/ && echo -e "org.gradle.jvmargs=-Xmx6144M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o\norg.gradle.daemon=true" >> ~/.gradle/gradle.properties
+
+      - name: Configure Gradle
+        run: |
+          mkdir ~/.gradle/
+          echo -e "org.gradle.jvmargs=-Xmx8192M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o\norg.gradle.daemon=false" >> ~/.gradle/gradle.properties
+
       - name: Build (full, beta)
         run: ./gradlew :mobile:assembleFullBeta
       - name: Unit Tests (full, beta)
