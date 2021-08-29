@@ -109,7 +109,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         setFullscreen()
     }
 
-    @Suppress("DEPRECATION")
+    @Suppress("DEPRECATION") // TODO: Replace deprecated function
     fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
         var uiOptions = window.decorView.systemUiVisibility
         val flags = (
@@ -125,7 +125,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         window.decorView.systemUiVisibility = uiOptions
     }
 
-    @Suppress("DEPRECATION")
+    @Suppress("DEPRECATION") // TODO: Replace deprecated function
     private fun setNavigationBarColor() {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         @ColorInt val black = ContextCompat.getColor(this, R.color.black)
