@@ -716,14 +716,15 @@ class WidgetAdapter(
         }
     }
 
-    class SelectionViewHolder internal constructor(
+    open class SelectionViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
-        colorMapper: ColorMapper
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_selectionitem, connection, colorMapper),
+        colorMapper: ColorMapper,
+        layoutResId: Int = R.layout.widgetlist_selectionitem
+    ) : LabeledItemBaseViewHolder(inflater, parent, layoutResId, connection, colorMapper),
         ExtendedSpinner.OnSelectionUpdatedListener {
-        private val spinner: ExtendedSpinner = itemView.findViewById(R.id.spinner)
+        protected val spinner: ExtendedSpinner = itemView.findViewById(R.id.spinner)
         private var boundItem: Item? = null
         private var boundMappings: List<LabeledValue> = emptyList()
 
@@ -771,13 +772,14 @@ class WidgetAdapter(
 
     class SectionSwitchViewHolder internal constructor(
         private val inflater: LayoutInflater,
-        parent: ViewGroup,
+        private val parent: ViewGroup,
         private val connection: Connection,
         colorMapper: ColorMapper
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
+    ) : SelectionViewHolder(inflater, parent, connection, colorMapper, R.layout.widgetlist_sectionswitchitem),
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val spareViews = mutableListOf<View>()
+        private val handler: Handler = Handler(Looper.getMainLooper())
         private var boundItem: Item? = null
 
         override fun bind(widget: Widget) {
@@ -823,6 +825,12 @@ class WidgetAdapter(
                 group.clearChecked()
             } else {
                 group.check(checkedId)
+            }
+
+            // Layout has to be drawn before measuring the width
+            handler.post {
+                group.isVisible = group.measuredWidth < (parent.width * 0.8)
+                spinner.isVisible = !group.isVisible
             }
         }
 
