@@ -52,6 +52,7 @@ import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.source.LoadEventInfo
@@ -1105,7 +1106,7 @@ class WidgetAdapter(
             handleError()
         }
 
-        override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: ExoPlaybackException) {
+        override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: PlaybackException) {
             Log.e(TAG, "onPlayerError()", error)
             handleError()
         }
