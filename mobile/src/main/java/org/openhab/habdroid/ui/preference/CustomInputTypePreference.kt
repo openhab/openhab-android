@@ -19,12 +19,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import androidx.preference.PreferenceDataStore
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.CustomDialogPreference
@@ -83,7 +85,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
 
     class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
         private lateinit var wrapper: TextInputLayout
-        private lateinit var editor: EditText
+        private lateinit var editor: MaterialAutoCompleteTextView
         private var whitespaceBehavior: WhitespaceBehavior? = null
 
         override fun onBindDialogView(view: View?) {
@@ -114,6 +116,11 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                 WhitespaceBehavior.values()[whitespaceBehaviorId]
             } else {
                 WhitespaceBehavior.IGNORE
+            }
+
+            arguments?.getStringArray(KEY_SUGGESTIONS)?.let {
+                val adapter = ArrayAdapter(editor.context, android.R.layout.simple_dropdown_item_1line, it)
+                editor.setAdapter(adapter)
             }
         }
 
@@ -152,6 +159,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
             private const val KEY_INPUT_TYPE = "inputType"
             private const val KEY_TITLE = "title"
             private const val KEY_AUTOFILL_HINTS = "autofillHint"
+            private const val KEY_SUGGESTIONS = "suggestions"
             private const val KEY_WHITESPACE_BEHAVIOR = "whitespaceBehavior"
 
             fun newInstance(
@@ -159,7 +167,8 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                 title: CharSequence,
                 inputType: Int,
                 autofillHints: Array<String>?,
-                whitespaceBehavior: Int
+                whitespaceBehavior: Int,
+                suggestions: Array<String>? = null
             ): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(
@@ -167,6 +176,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
                     KEY_TITLE to title,
                     KEY_INPUT_TYPE to inputType,
                     KEY_AUTOFILL_HINTS to autofillHints,
+                    KEY_SUGGESTIONS to suggestions,
                     KEY_WHITESPACE_BEHAVIOR to whitespaceBehavior
                 )
                 return f
