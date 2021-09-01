@@ -76,7 +76,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
 
         if (connection == null) {
             Log.d(TAG, "Got no connection")
-            return if (runAttemptCount > 3) Result.failure() else Result.retry()
+            return retryOrFail()
         }
 
         when (action) {
@@ -85,29 +85,36 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
                     runBlocking { registerFcm(connection) }
                     CloudMessagingHelper.registrationFailureReason = null
                     CloudMessagingHelper.registrationDone = true
+                    return Result.success()
                 } catch (e: HttpClient.HttpException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     CloudMessagingHelper.registrationDone = true
                     Log.e(TAG, "FCM registration failed", e)
+                    return retryOrFail()
                 } catch (e: IOException) {
                     CloudMessagingHelper.registrationFailureReason = e
                     CloudMessagingHelper.registrationDone = true
                     Log.e(TAG, "FCM registration failed", e)
+                    return retryOrFail()
                 }
             }
             ACTION_HIDE_NOTIFICATION -> {
                 val id = inputData.getInt(KEY_NOTIFICATION_ID, -1)
                 if (id >= 0) {
                     sendHideNotificationRequest(id, connection.messagingSenderId)
+                    return Result.success()
                 }
+
             }
-            else -> {
-                Log.e(TAG, "Invalid action '$action'")
-                Result.failure()
-            }
+            else -> Log.e(TAG, "Invalid action '$action'")
         }
 
-        return Result.success()
+        return Result.failure()
+    }
+
+    private fun retryOrFail(): Result {
+        Log.d(TAG, "retryOrFail() on attempt $runAttemptCount")
+        return if (runAttemptCount > 3) Result.failure() else Result.retry()
     }
 
     // HttpException is thrown by our HTTP code, IOException can be thrown by FCM
