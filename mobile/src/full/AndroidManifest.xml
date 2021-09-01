@@ -4,7 +4,7 @@
 
     <application>
         <receiver
-            android:name="org.openhab.habdroid.core.FcmRegistrationService$ProxyReceiver">
+            android:name="org.openhab.habdroid.core.FcmRegistrationWorker$ProxyReceiver">
             <intent-filter>
                 <action android:name="org.openhab.habdroid.action.HIDE_NOTIFICATION" />
             </intent-filter>
@@ -18,7 +18,7 @@
         </service>
 
         <service
-            android:name="org.openhab.habdroid.core.FcmRegistrationService"
+            android:name="org.openhab.habdroid.core.FcmRegistrationWorker"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <meta-data
