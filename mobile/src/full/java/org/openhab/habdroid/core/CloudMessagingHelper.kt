@@ -36,7 +36,7 @@ object CloudMessagingHelper {
     fun onConnectionUpdated(context: Context, connection: CloudConnection?) {
         registrationDone = false
         if (connection != null) {
-            FcmRegistrationService.scheduleRegistration(context)
+            FcmRegistrationWorker.scheduleRegistration(context)
         }
     }
 
@@ -44,7 +44,7 @@ object CloudMessagingHelper {
         val notificationId = intent.getIntExtra(
                 NotificationHelper.EXTRA_NOTIFICATION_ID, -1)
         if (notificationId >= 0) {
-            FcmRegistrationService.scheduleHideNotification(context, notificationId)
+            FcmRegistrationWorker.scheduleHideNotification(context, notificationId)
         }
     }
 
