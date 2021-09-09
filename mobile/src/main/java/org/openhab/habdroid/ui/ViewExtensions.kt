@@ -17,6 +17,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.View
 import android.webkit.WebChromeClient
+import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import android.widget.ImageView
@@ -59,6 +60,7 @@ fun WebView.setUpForConnection(
         domStorageEnabled = true
         @SuppressLint("SetJavaScriptEnabled")
         javaScriptEnabled = true
+        mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
     }
 
     webViewClient = ConnectionWebViewClient(connection)
