@@ -50,7 +50,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
-import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -128,6 +127,7 @@ class WidgetAdapter(
         chartTheme = tv.string
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun update(widgets: List<Widget>, forceFullUpdate: Boolean) {
         val compatibleUpdate = !forceFullUpdate &&
             widgets.size == items.size &&
@@ -248,6 +248,7 @@ class WidgetAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateWidgetAtPosition(position: Int, widget: Widget) {
         val oldWidget = items[position]
         items[position] = widget
@@ -914,7 +915,7 @@ class WidgetAdapter(
         private fun openSelection() {
             val widget = boundWidget ?: return
             val state = widget.state?.asNumber
-            val stateValue = state?.value?.toFloat() ?: widget.minValue
+            val stateValue = state?.value ?: widget.minValue
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             val stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
@@ -953,7 +954,7 @@ class WidgetAdapter(
         private fun handleUpDown(down: Boolean) {
             val widget = boundWidget
             val state = widget?.state?.asNumber
-            val stateValue = state?.value?.toFloat()
+            val stateValue = state?.value
             val newValue = when {
                 stateValue == null -> widget?.minValue ?: return
                 down -> stateValue - widget.step
