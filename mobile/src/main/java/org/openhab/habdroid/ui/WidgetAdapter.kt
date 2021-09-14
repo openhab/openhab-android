@@ -1393,32 +1393,18 @@ class WidgetAdapter(
                 return false
             }
 
-            val adapter = parent.adapter
-            val viewTypeCurrentPos = adapter?.getItemViewType(position) ?: return false
+            val adapter = parent.adapter ?: return false
 
-            return when {
-                // Hide divider after frame widgets and invisible ones
-                viewTypeCurrentPos in NO_DIVIDER_TYPES -> true
-                // Hide divider if it's the last visible widget
-                isLastVisibleWidget(position, adapter) -> true
-                else -> false
-            }
-        }
-
-        private fun isLastVisibleWidget(position: Int, adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>):
-            Boolean {
-                var positionToCheck = position + 1
-
-                while (positionToCheck < adapter.itemCount) {
-                    val viewType = adapter.getItemViewType(positionToCheck)
-                    if (viewType !in NO_DIVIDER_TYPES) {
-                        return false
-                    }
-                    positionToCheck++
-                }
-
+            // Hide divider if this position shouldn't have dividers...
+            if (adapter.getItemViewType(position) in NO_DIVIDER_TYPES) {
                 return true
             }
+
+            // ...or if all of the following positions shouldn't have dividers
+            return (position + 1 until adapter.itemCount)
+                .map { pos -> adapter.getItemViewType(pos) }
+                .all { type -> type in NO_DIVIDER_TYPES }
+        }
 
         companion object {
             private val NO_DIVIDER_TYPES = intArrayOf(TYPE_FRAME, TYPE_INVISIBLE)
