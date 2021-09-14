@@ -329,9 +329,9 @@ class WidgetAdapter(
 
     abstract class ViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup,
+        val parent: ViewGroup,
         @LayoutRes layoutResId: Int
-    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
+    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)), View.OnLayoutChangeListener {
         open val dialogManager: DialogManager? = null
         var started = false
             private set
@@ -340,6 +340,7 @@ class WidgetAdapter(
         fun start() {
             if (!started) {
                 onStart()
+                parent.addOnLayoutChangeListener(this)
                 started = true
             }
         }
@@ -348,12 +349,25 @@ class WidgetAdapter(
                 return false
             }
             onStop()
+            parent.removeOnLayoutChangeListener(this)
             started = false
             return true
         }
         open fun onStart() {}
         open fun onStop() {}
         open fun handleRowClick() {}
+
+        override fun onLayoutChange(
+            v: View?,
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int,
+            oldLeft: Int,
+            oldTop: Int,
+            oldRight: Int,
+            oldBottom: Int
+        ) {}
     }
 
     abstract class LabeledItemBaseViewHolder internal constructor(
@@ -650,7 +664,7 @@ class WidgetAdapter(
 
     class ImageViewHolder internal constructor(
         inflater: LayoutInflater,
-        private val parent: ViewGroup,
+        parent: ViewGroup,
         connection: Connection
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection), View.OnClickListener {
         private val imageView = widgetContentView as WidgetImageView
@@ -772,7 +786,7 @@ class WidgetAdapter(
 
     class SectionSwitchViewHolder internal constructor(
         private val inflater: LayoutInflater,
-        private val parent: ViewGroup,
+        parent: ViewGroup,
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : SelectionViewHolder(inflater, parent, connection, colorMapper, R.layout.widgetlist_sectionswitchitem),
@@ -826,12 +840,21 @@ class WidgetAdapter(
             } else {
                 group.check(checkedId)
             }
+        }
 
-            // Layout has to be drawn before measuring the width
-            handler.post {
-                group.isVisible = group.measuredWidth < (parent.width * 0.8)
-                spinner.isVisible = !group.isVisible
-            }
+        override fun onLayoutChange(
+            v: View?,
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int,
+            oldLeft: Int,
+            oldTop: Int,
+            oldRight: Int,
+            oldBottom: Int
+        ) {
+            group.isVisible = group.measuredWidth < (parent.width * 0.8)
+            spinner.isVisible = !group.isVisible
         }
 
         override fun onClick(view: View) {
@@ -977,7 +1000,7 @@ class WidgetAdapter(
 
     class ChartViewHolder internal constructor(
         inflater: LayoutInflater,
-        private val parent: ViewGroup,
+        parent: ViewGroup,
         private val chartTheme: CharSequence?,
         connection: Connection
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_chartitem, connection), View.OnClickListener {
