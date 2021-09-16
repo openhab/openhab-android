@@ -1400,10 +1400,20 @@ class WidgetAdapter(
                 return true
             }
 
-            // ...or if all of the following positions shouldn't have dividers
-            return (position + 1 until adapter.itemCount)
+            var indexOfNextFrameOrEnd = (position + 1 until adapter.itemCount)
                 .map { pos -> adapter.getItemViewType(pos) }
-                .all { type -> type in NO_DIVIDER_TYPES }
+                .indexOfFirst { type -> type == TYPE_FRAME }
+
+            if (indexOfNextFrameOrEnd == -1) {
+                indexOfNextFrameOrEnd = adapter.itemCount
+            } else {
+                indexOfNextFrameOrEnd += position + 1
+            }
+
+            // ...or if all of the following positions shouldn't have dividers
+            return (position + 1 until indexOfNextFrameOrEnd)
+                .map { pos -> adapter.getItemViewType(pos) }
+                .all { type -> type == TYPE_INVISIBLE }
         }
 
         companion object {
