@@ -1,0 +1,5 @@
+## Changed
+* Render section switch as selection when too wide (#2694)
+
+## Fixed
+* Fix widget divider visibility (#2702)
