@@ -793,7 +793,6 @@ class WidgetAdapter(
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val spareViews = mutableListOf<View>()
-        private val handler: Handler = Handler(Looper.getMainLooper())
         private var boundItem: Item? = null
 
         override fun bind(widget: Widget) {
@@ -840,6 +839,9 @@ class WidgetAdapter(
             } else {
                 group.check(checkedId)
             }
+
+            group.isVisible = true
+            spinner.isVisible = false
         }
 
         override fun onLayoutChange(
