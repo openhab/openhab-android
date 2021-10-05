@@ -80,6 +80,9 @@
     <string name="settings_notification_vibration_twice">Dvakrát</string>
     <string name="settings_notification_ringtone_vibration">Vyzvánění &amp; vibrace</string>
     <string name="settings_connection_summary">Připojen k %s</string>
+    <string name="settings_insecure_connection_summary">Nebezpečně připojeno k %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">Adresa URL nezačíná \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Nenastaveno žádné uživatelské jméno a heslo</string>
     <string name="beta">Zkušební verze</string>
     <string name="settings_screen_lock">Zámek obrazovky</string>
     <string name="settings_screen_lock_nolock_summary">Abyste mohli zamknout přístup k této aplikaci, musíte nejprve nastavit zámek obrazovky Vašeho zařízení</string>
@@ -245,6 +248,9 @@
     <string name="settings_dnd_mode">Režim Nerušit</string>
     <string name="settings_dnd_mode_summary_on">Odeslat stav režimu Nerušit do Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Neposílat stav režimu Nerušit</string>
+    <string name="settings_gadgetbridge">Akce zařízení Gadgetbridge</string>
+    <string name="settings_gadgetbridge_summary_on">Odešle akci zařízení Gadgetbridge do Item \'%1$s\'. Vyžaduje zapnutí monitoru událostí.</string>
+    <string name="settings_gadgetbridge_summary_off">Neposílat akce zařízení Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění.</string>
     <string name="settings_background_tasks_permission_hint">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění. Přesvědčte se, zda jste povolili oprávnění také pro použití na pozadí, protože k aktualizaci Item dochází i v případě, že je aplikace na pozadí.</string>
     <string name="settings_background_tasks_permission_denied">Některé úlohy na pozadí byly zakázány kvůli chybějícím oprávněním</string>
@@ -589,6 +595,7 @@
     <string name="tile_icon_dashboard">Dashboard</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Štít</string>
+    <string name="tile_icon_fan">Ventilátor</string>
     <string name="tile_icon_man">Muž</string>
     <string name="tile_icon_bed">Postel</string>
     <string name="tile_icon_child">Dítě</string>
@@ -601,6 +608,7 @@
     <string name="tile_icon_light_switch">Přepínač světla</string>
     <string name="tile_icon_garage">Garáž</string>
     <string name="tile_icon_switch">Přepínač</string>
+    <string name="tile_icon_text">Text</string>
     <string name="tile_icon_sofa">Pohovka</string>
     <string name="tile_icon_lamp_ceiling">Hlavní světlo</string>
     <string name="tile_icon_lamp_floor">Stojící lampa</string>
