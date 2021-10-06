@@ -18,7 +18,7 @@
         android:key="username"
         android:title="@string/settings_openhab_username"
         android:autofillHints="username,emailAddress"
-        app:whitespaceBehavior="warn"
+        app:whitespaceBehavior="trim"
         android:icon="@drawable/ic_person_outline_grey_24dp" />
     <org.openhab.habdroid.ui.preference.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
@@ -27,7 +27,7 @@
         android:key="password"
         android:title="@string/settings_openhab_password"
         android:autofillHints="password"
-        app:whitespaceBehavior="warn"
+        app:whitespaceBehavior="trim"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />
     <org.openhab.habdroid.ui.preference.InfoPreference
         android:key="api_token_hint"
