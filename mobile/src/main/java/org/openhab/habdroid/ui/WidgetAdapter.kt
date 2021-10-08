@@ -757,7 +757,12 @@ class WidgetAdapter(
             var spinnerSelectedIndex = boundMappings.indexOfFirst { mapping -> mapping.value == stateString }
 
             if (spinnerSelectedIndex == -1) {
-                spinnerArray.add("          ")
+                val state = widget.stateFromLabel
+                if (state.isNullOrEmpty()) {
+                    spinnerArray.add("          ")
+                } else {
+                    spinnerArray.add(state)
+                }
                 spinnerSelectedIndex = spinnerArray.size - 1
             }
 
