@@ -30,6 +30,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -331,7 +332,7 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         val parent: ViewGroup,
         @LayoutRes layoutResId: Int
-    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)), View.OnLayoutChangeListener {
+    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
         open val dialogManager: DialogManager? = null
         var started = false
             private set
@@ -340,7 +341,6 @@ class WidgetAdapter(
         fun start() {
             if (!started) {
                 onStart()
-                parent.addOnLayoutChangeListener(this)
                 started = true
             }
         }
@@ -349,25 +349,12 @@ class WidgetAdapter(
                 return false
             }
             onStop()
-            parent.removeOnLayoutChangeListener(this)
             started = false
             return true
         }
         open fun onStart() {}
         open fun onStop() {}
         open fun handleRowClick() {}
-
-        override fun onLayoutChange(
-            v: View?,
-            left: Int,
-            top: Int,
-            right: Int,
-            bottom: Int,
-            oldLeft: Int,
-            oldTop: Int,
-            oldRight: Int,
-            oldBottom: Int
-        ) {}
     }
 
     abstract class LabeledItemBaseViewHolder internal constructor(
@@ -790,10 +777,10 @@ class WidgetAdapter(
         private val connection: Connection,
         colorMapper: ColorMapper
     ) : SelectionViewHolder(inflater, parent, connection, colorMapper, R.layout.widgetlist_sectionswitchitem),
+        ViewTreeObserver.OnGlobalLayoutListener,
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val spareViews = mutableListOf<View>()
-        private val handler: Handler = Handler(Looper.getMainLooper())
         private var boundItem: Item? = null
 
         override fun bind(widget: Widget) {
@@ -840,20 +827,24 @@ class WidgetAdapter(
             } else {
                 group.check(checkedId)
             }
+
+            group.isVisible = true
+            spinner.isVisible = false
         }
 
-        override fun onLayoutChange(
-            v: View?,
-            left: Int,
-            top: Int,
-            right: Int,
-            bottom: Int,
-            oldLeft: Int,
-            oldTop: Int,
-            oldRight: Int,
-            oldBottom: Int
-        ) {
-            group.isVisible = group.measuredWidth < (parent.width * 0.8)
+        override fun onStart() {
+            super.onStart()
+            itemView.viewTreeObserver.addOnGlobalLayoutListener(this)
+        }
+
+        override fun onStop() {
+            super.onStop()
+            itemView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        }
+
+        override fun onGlobalLayout() {
+            Log.d(TAG, "onGlobalLayout()")
+            group.isVisible = group.measuredWidth < (itemView.width * 0.8)
             spinner.isVisible = !group.isVisible
         }
 
