@@ -48,8 +48,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 405
-        versionName "2.19.1-beta"
+        versionCode 406
+        versionName "2.19.2-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"

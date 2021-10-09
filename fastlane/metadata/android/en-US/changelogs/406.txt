@@ -1,0 +1,5 @@
+## Changed
+* Trim user name and password in settings (#2716)
+
+## Fixed
+* Several fixes for collapsed switches with mappings (#2718, #2723)
