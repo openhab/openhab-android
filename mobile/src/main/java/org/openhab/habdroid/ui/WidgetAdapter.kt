@@ -855,6 +855,9 @@ class WidgetAdapter(
         }
 
         override fun handleRowClick() {
+            if (!group.isVisible) {
+                return super.handleRowClick()
+            }
             val visibleChildCount = group.children.filter { v -> v.isVisible }.count()
             if (visibleChildCount == 1) {
                 onClick(group[0])
