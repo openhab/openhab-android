@@ -555,6 +555,19 @@
         <item quantity="many">%d активных плиток</item>
         <item quantity="other">%d активная плитка</item>
     </plurals>
+    <string name="tile_number">Tile %d</string>
+    <string name="tile_label_1">Tile 1</string>
+    <string name="tile_label_2">Tile 2</string>
+    <string name="tile_label_3">Tile 3</string>
+    <string name="tile_label_4">Tile 4</string>
+    <string name="tile_label_5">Tile 5</string>
+    <string name="tile_label_6">Tile 6</string>
+    <string name="tile_label_7">Tile 7</string>
+    <string name="tile_label_8">Tile 8</string>
+    <string name="tile_label_9">Tile 9</string>
+    <string name="tile_label_10">Tile 10</string>
+    <string name="tile_label_11">Tile 11</string>
+    <string name="tile_label_12">Tile 12</string>
     <string name="error_missing_prefs">Пожалуйста, заполните все настройки</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">Иконка openHAB</string>
