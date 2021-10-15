@@ -17,7 +17,7 @@
     <important_note>Важное примечание</important_note>
     <oh_server>Для этого приложения необходим сервер openHAB.</oh_server>
     <short_description>Поставщик технологий с открытым исходным кодом для автоматизации "умного дома"</short_description>
-    <fdroid> Вместо этого в этих сборках проверка уведомлений происходит на регулярной основе.</fdroid>
+    <fdroid>В сборках F-Droid были удалены FCM и отчеты о сбоях и нет возможности получать push-уведомления от openHAB Cloud. Вместо этого в этих сборках проверка уведомлений происходит на основе опроса сервера.</fdroid>
     <fdroid_beta><![CDATA[Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Политика конфиденциальности: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Попробуйте новые функции и оставьте о них отзыв!</beta>
