@@ -61,6 +61,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS = 1 shl 5
         const val SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON = 1 shl 6
         const val SERVER_FLAG_OH3_UI = 1 shl 7
+        const val SERVER_FLAG_TRANSPARENT_CHARTS = 1 shl 8
 
         class UpdateHandle internal constructor(internal val scope: CoroutineScope) {
             internal var job: Job? = null
@@ -124,6 +125,9 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             }
                             if (version >= 4) {
                                 flags = flags or SERVER_FLAG_OH3_UI
+                            }
+                            if (version >= 5) {
+                                flags = flags or SERVER_FLAG_TRANSPARENT_CHARTS
                             }
                         } catch (nfe: NumberFormatException) {
                             // ignored: older versions without SSE support didn't return a number

@@ -33,6 +33,7 @@
 
     <declare-styleable name="customAttrs">
         <attr name="chartTheme" format="string" />
+        <attr name="transparentChartTheme" format="string" />
         <attr name="valueColors" format="reference" />
         <attr name="selectedWidgetBackgroundColor" format="color" />
     </declare-styleable>
