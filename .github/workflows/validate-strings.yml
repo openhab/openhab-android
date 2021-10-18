@@ -11,7 +11,7 @@ jobs:
   validate-strings:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2.3.5
       - name: Validate App Store Strings (play)
         run: python3 assets/store_descriptions/generate_and_validate.py play
       - name: Validate App Store Strings (playBeta)
