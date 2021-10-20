@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:maxLines="10"
             android:completionThreshold="1"
-            android:singleLine="true"
             tools:text="foo" />
 
     </com.google.android.material.textfield.TextInputLayout>

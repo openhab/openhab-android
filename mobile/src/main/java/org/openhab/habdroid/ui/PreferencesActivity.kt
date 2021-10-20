@@ -78,6 +78,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.toOH2IconResource
+import org.openhab.habdroid.model.toWifiSsids
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.BetaPreference
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
@@ -765,7 +766,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.remotePath,
                     config.sslClientCert,
                     config.defaultSitemap,
-                    config.wifiSsid
+                    config.wifiSsids
                 )
                 parentActivity.invalidateOptionsMenu()
                 true
@@ -810,7 +811,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.remotePath,
                     newValue as String?,
                     config.defaultSitemap,
-                    config.wifiSsid
+                    config.wifiSsids
                 )
                 true
             }
@@ -850,14 +851,22 @@ class PreferencesActivity : AbstractBaseActivity() {
                     true
                 }
 
-                wifiSsidPref.text = config.wifiSsid
+                wifiSsidPref.text = config.wifiSsids?.joinToString("\n")
                 wifiSsidPref.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-                    val value = preference.text
-                    if (value.isNullOrEmpty()) {
-                        getString(R.string.settings_multi_server_wifi_ssid_summary_unset)
-                    } else {
-                        getString(R.string.settings_multi_server_wifi_ssid_summary_set, value)
+                    val value = preference.text?.toWifiSsids()
+                    var summary = when {
+                        value.isNullOrEmpty() -> getString(R.string.settings_multi_server_wifi_ssid_summary_unset)
+                        value.size == 1 ->
+                            getString(R.string.settings_multi_server_wifi_ssid_summary_set, value.first())
+                        else -> getString(
+                            R.string.settings_multi_server_wifi_ssid_summary_multiple_set,
+                            value.joinToString(", ")
+                        )
                     }
+
+                    summary += "\n" + getString(R.string.settings_multi_server_wifi_ssid_summary_hint)
+
+                    return@SummaryProvider summary
                 }
                 wifiSsidPref.setOnPreferenceChangeListener { _, newValue ->
                     config = ServerConfiguration(
@@ -867,7 +876,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         config.remotePath,
                         config.sslClientCert,
                         config.defaultSitemap,
-                        newValue as String?
+                        (newValue as String?)?.toWifiSsids()
                     )
                     true
                 }
@@ -905,7 +914,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.remotePath,
                     config.sslClientCert,
                     config.defaultSitemap,
-                    config.wifiSsid
+                    config.wifiSsids
                 )
             } else {
                 ServerConfiguration(
@@ -915,7 +924,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     path,
                     config.sslClientCert,
                     config.defaultSitemap,
-                    config.wifiSsid
+                    config.wifiSsids
                 )
             }
             parentActivity.invalidateOptionsMenu()

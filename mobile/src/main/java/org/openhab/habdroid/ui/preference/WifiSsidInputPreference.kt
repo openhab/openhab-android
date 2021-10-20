@@ -27,7 +27,7 @@ class WifiSsidInputPreference constructor(context: Context, attrs: AttributeSet)
         return PrefFragment.newInstance(
             key,
             title,
-            InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS,
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE,
             emptyArray(),
             WhitespaceBehavior.TRIM.ordinal,
             currentSsid?.let { arrayOf(it) }

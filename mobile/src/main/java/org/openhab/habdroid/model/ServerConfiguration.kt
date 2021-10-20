@@ -65,7 +65,7 @@ data class ServerConfiguration(
     val remotePath: ServerPath?,
     val sslClientCert: String?,
     val defaultSitemap: DefaultSitemap?,
-    val wifiSsid: String?
+    val wifiSsids: List<String>?
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
         Log.d(TAG, "saveToPrefs: ${this.toRedactedString()}")
@@ -76,7 +76,7 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX), localPath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
-            putString(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsid)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsids?.joinToString("\n"))
             if (!serverIdSet.contains(id)) {
                 serverIdSet.add(id)
                 putConfiguredServerIds(serverIdSet)
@@ -141,7 +141,7 @@ data class ServerConfiguration(
             redactCredentials(remotePath),
             sslClientCert,
             defaultSitemap,
-            wifiSsid
+            wifiSsids
         ).toString()
     }
 
@@ -170,7 +170,9 @@ data class ServerConfiguration(
                 return null
             }
             val clientCert = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
-            val wifiSsid = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX))
+            val wifiSsids = prefs
+                .getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX))
+                ?.toWifiSsids()
 
             val config = ServerConfiguration(
                 id,
@@ -179,7 +181,7 @@ data class ServerConfiguration(
                 remotePath,
                 clientCert,
                 getDefaultSitemap(prefs, id),
-                wifiSsid
+                wifiSsids
             )
             Log.d(TAG, "load: ${config.toRedactedString()}")
             return config
@@ -208,3 +210,10 @@ data class ServerConfiguration(
 
 @Parcelize
 data class DefaultSitemap(val name: String, val label: String) : Parcelable
+
+fun String.toWifiSsids(): List<String> {
+    return split("\n")
+        .map { ssid -> ssid.trim() }
+        .filter { it.isNotEmpty() }
+        .distinct()
+}

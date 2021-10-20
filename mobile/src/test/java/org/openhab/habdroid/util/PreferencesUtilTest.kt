@@ -17,6 +17,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.openhab.habdroid.model.toWifiSsids
 import org.openhab.habdroid.ui.PreferencesActivity.AbstractSettingsFragment.Companion.isWeakPassword
 import org.openhab.habdroid.ui.PreferencesActivity.ServerEditorFragment.Companion.beautifyUrl
 
@@ -44,5 +45,18 @@ class PreferencesUtilTest {
         assertEquals("not.myopenhab.org", beautifyUrl("https://not.myopenhab.org"))
         assertEquals("notmyopenhab.org", beautifyUrl("https://notmyopenhab.org"))
         assertEquals("myopenhab.wrong_tld", beautifyUrl("https://myopenhab.WRONG_TLD"))
+    }
+
+    @Test
+    fun testStringToWifiSsids() {
+        val expected = listOf("foo", "bar")
+        assertEquals(expected, "foo\nbar".toWifiSsids())
+        assertEquals(expected, "foo \nbar".toWifiSsids())
+        assertEquals(expected, "foo \n bar ".toWifiSsids())
+        assertEquals(expected, " foo \n bar ".toWifiSsids())
+        assertEquals(expected, "\n foo \n bar ".toWifiSsids())
+        assertEquals(expected, "foo\nfoo\n bar ".toWifiSsids())
+        assertEquals(expected, "\nfoo\nfoo\n bar ".toWifiSsids())
+        assertEquals(expected, "foo\nfoo\n bar \nfoo".toWifiSsids())
     }
 }
