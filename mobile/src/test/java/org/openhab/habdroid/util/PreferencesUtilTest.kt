@@ -49,7 +49,7 @@ class PreferencesUtilTest {
 
     @Test
     fun testStringToWifiSsids() {
-        val expected = listOf("foo", "bar")
+        val expected = setOf("foo", "bar")
         assertEquals(expected, "foo\nbar".toWifiSsids())
         assertEquals(expected, "foo \nbar".toWifiSsids())
         assertEquals(expected, "foo \n bar ".toWifiSsids())

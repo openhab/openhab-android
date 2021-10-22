@@ -65,7 +65,7 @@ data class ServerConfiguration(
     val remotePath: ServerPath?,
     val sslClientCert: String?,
     val defaultSitemap: DefaultSitemap?,
-    val wifiSsids: List<String>?
+    val wifiSsids: Set<String>?
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
         Log.d(TAG, "saveToPrefs: ${this.toRedactedString()}")
@@ -76,7 +76,7 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX), localPath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
-            putString(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsids?.joinToString("\n"))
+            putStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsids)
             if (!serverIdSet.contains(id)) {
                 serverIdSet.add(id)
                 putConfiguredServerIds(serverIdSet)
@@ -170,9 +170,7 @@ data class ServerConfiguration(
                 return null
             }
             val clientCert = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
-            val wifiSsids = prefs
-                .getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX))
-                ?.toWifiSsids()
+            val wifiSsids = prefs.getStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), emptySet())
 
             val config = ServerConfiguration(
                 id,
@@ -211,9 +209,9 @@ data class ServerConfiguration(
 @Parcelize
 data class DefaultSitemap(val name: String, val label: String) : Parcelable
 
-fun String.toWifiSsids(): List<String> {
+fun String.toWifiSsids(): Set<String> {
     return split("\n")
         .map { ssid -> ssid.trim() }
         .filter { it.isNotEmpty() }
-        .distinct()
+        .toSet()
 }
