@@ -100,8 +100,6 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" がプライマリサーバーです。タッチするとこのサーバーをプライマリにします。\n現在、プライマリサーバーのみ、このアプリのすべての機能でサポートされています。 詳細はヘルプボタンをタッチしてください。</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">詳細はここをタッチしてください</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">Wi-Fi \'%s \' に接続すると、アプリがこのサーバーを選択します</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">アプリは接続されたWi-Fiネットワークに基づいてこのサーバーを自動的に選択しません</string>
     <string name="settings_multi_server_wifi_ssid_switched">Wi-Fiに基づいてサーバー \"%s\" に切り替えました</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi名を読み取ることができません: 権限がありません</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi名を読み取ることができません: ロケーションがオフです</string>
