@@ -36,6 +36,7 @@ import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
@@ -196,6 +197,16 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     ItemUpdateWidget.saveInfoForWidget(context, newData, id)
                 }
             }
+            if (comparableVersion <= MULTIPLE_WIFI_SSIDS) {
+                prefs.getConfiguredServerIds().forEach { serverId ->
+                    prefs.edit {
+                        val key = PrefKeys.buildServerKey(serverId, PrefKeys.WIFI_SSID_PREFIX)
+                        prefs.edit {
+                            putStringSet(key, setOf(prefs.getStringOrNull(key)))
+                        }
+                    }
+                }
+            }
 
             updateComparableVersion(this)
         }
@@ -217,6 +228,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val WIDGET_ICON = 250
         private const val MULTI_SERVER_SUPPORT = 330
         private const val WIDGETS_NO_AUTO_GEN_LABEL = 380
+        private const val MULTIPLE_WIFI_SSIDS = 407
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PrefKeys.COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()

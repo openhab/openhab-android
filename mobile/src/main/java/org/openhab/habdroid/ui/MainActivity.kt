@@ -544,7 +544,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val anyServerHasSetWifi = prefs
             .getConfiguredServerIds()
             .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
-            .any { config -> config?.wifiSsid?.isNotEmpty() == true }
+            .any { config -> config?.wifiSsids?.isNotEmpty() == true }
 
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val requiredPermission = when {
@@ -594,7 +594,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         val serverForCurrentWifi = prefs
             .getConfiguredServerIds()
             .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
-            .firstOrNull { config -> config?.wifiSsid == ssid }
+            .firstOrNull { config -> config?.wifiSsids?.contains(ssid) == true }
             ?: return -1
 
         val currentActive = prefs.getActiveServerId()

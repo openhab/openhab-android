@@ -125,8 +125,10 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Advanced</string>
     <string name="click_here_for_more_information">Touch here for more information</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">The app will select this server when connected to Wi-Fi \'%s\'</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">The app will not automatically select this server based on connected Wi-Fi network</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">The app will select this server when connected to Wi-Fi \'%s\'.</string>
+    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">The app will select this server when connected to one of the following Wi-Fis: %s</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">The app will not automatically select this server based on connected Wi-Fi network.</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Multiple Wi-Fi names can be entered by separating them with new lines.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Switched to server "%s" based on Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Unable to read Wi-Fi name: Missing permissions</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Unable to read Wi-Fi name: Location is off</string>
