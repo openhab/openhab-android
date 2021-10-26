@@ -105,8 +105,6 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" jest serwerem podstawowym. Dotknij, aby ten serwer stał się serwerem podstawowym.\nObecnie tylko serwer podstawowy jest obsługiwany przez wszystkie funkcje tej aplikacji. Dotknij przycisku pomocy, aby uzyskać więcej informacji.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Dotknij tutaj, aby uzyskać więcej informacji</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">Aplikacja wybierze ten serwer po podłączeniu do sieci Wi-Fi \'%s\'</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">Aplikacja nie wybierze automatycznie tego serwera na podstawie połączonej sieci Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_switched">Przełączono na serwer \"%s\" na podstawie Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Nie można odczytać nazwy Wi-Fi: brak uprawnień</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Nie można odczytać nazwy Wi-Fi: Lokalizacja jest wyłączona</string>
