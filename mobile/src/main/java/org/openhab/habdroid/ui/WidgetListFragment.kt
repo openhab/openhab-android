@@ -121,7 +121,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         super.onViewCreated(view, savedInstanceState)
 
         val activity = activity as MainActivity
-        adapter = activity.connection?.let { conn -> WidgetAdapter(activity, conn, this) }
+        adapter = activity.connection?.let { conn ->
+            WidgetAdapter(activity, activity.serverProperties!!.flags, conn, this)
+        }
 
         layoutManager = LinearLayoutManager(activity)
         layoutManager.recycleChildrenOnDetach = true

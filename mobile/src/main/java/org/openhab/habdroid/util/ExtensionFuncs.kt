@@ -75,6 +75,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
+import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.Util.TAG
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
@@ -449,6 +450,17 @@ fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor:
     } else {
         fallbackColor
     }
+}
+
+fun Context.getChartTheme(serverFlags: Int): CharSequence {
+    val tv = TypedValue()
+    if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS == 0) {
+        theme.resolveAttribute(R.attr.chartTheme, tv, true)
+    } else {
+        theme.resolveAttribute(R.attr.transparentChartTheme, tv, true)
+    }
+
+    return tv.string
 }
 
 fun Context.isDarkModeActive(): Boolean {

@@ -93,6 +93,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
@@ -103,6 +104,7 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class WidgetAdapter(
     context: Context,
+    val serverFlags: Int,
     private val connection: Connection,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
@@ -113,19 +115,13 @@ class WidgetAdapter(
         get() = items.any { widget -> shouldShowWidget(widget) }
 
     private val inflater = LayoutInflater.from(context)
-    private val chartTheme: CharSequence
+    private val chartTheme: CharSequence = context.getChartTheme(serverFlags)
     private var selectedPosition = RecyclerView.NO_POSITION
     private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
-    }
-
-    init {
-        val tv = TypedValue()
-        context.theme.resolveAttribute(R.attr.chartTheme, tv, true)
-        chartTheme = tv.string
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -189,7 +185,7 @@ class WidgetAdapter(
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection)
+            TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection, serverFlags)
             TYPE_VIDEO -> VideoViewHolder(inflater, parent, connection)
             TYPE_WEB -> WebViewHolder(inflater, parent, connection)
             TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper)
@@ -1001,7 +997,8 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         parent: ViewGroup,
         private val chartTheme: CharSequence?,
-        connection: Connection
+        connection: Connection,
+        private val serverFlags: Int
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_chartitem, connection), View.OnClickListener {
         private val chart = widgetContentView as WidgetImageView
         private val prefs: SharedPreferences
@@ -1044,7 +1041,8 @@ class WidgetAdapter(
             val context = v?.context ?: return
             boundWidget?.let {
                 val intent = Intent(context, ChartActivity::class.java)
-                intent.putExtra(ChartActivity.WIDGET, it)
+                intent.putExtra(ChartActivity.EXTRA_WIDGET, it)
+                intent.putExtra(ChartActivity.EXTRA_SERVER_FLAGS, serverFlags)
                 context.startActivity(intent)
             }
         }

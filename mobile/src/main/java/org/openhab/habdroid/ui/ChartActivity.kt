@@ -16,7 +16,6 @@ package org.openhab.habdroid.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -27,6 +26,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
@@ -36,6 +36,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     private lateinit var period: String
     private lateinit var widget: Widget
     private lateinit var chartTheme: CharSequence
+    private var serverFlags: Int = 0
     private var density: Int = 0
     private var showLegend: Boolean = true
 
@@ -44,10 +45,12 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         setContentView(R.layout.activity_chart)
 
-        widget = intent.getParcelableExtra(WIDGET)!!
+        widget = intent.getParcelableExtra(EXTRA_WIDGET)!!
         period = widget.period
         // If Widget#legend is null, show legend only for groups
         showLegend = widget.legend ?: widget.item?.type === Item.Type.Group
+
+        serverFlags = intent.getIntExtra(EXTRA_SERVER_FLAGS, 0)
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -187,9 +190,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     private fun updateChartTheme() {
-        val tv = TypedValue()
-        theme.resolveAttribute(R.attr.chartTheme, tv, true)
-        chartTheme = tv.string
+        chartTheme = getChartTheme(serverFlags)
     }
 
     companion object {
@@ -197,6 +198,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         private const val SHOW_LEGEND = "show_legend"
         private const val PERIOD = "period"
-        const val WIDGET = "widget"
+        const val EXTRA_WIDGET = "widget"
+        const val EXTRA_SERVER_FLAGS = "server_flags"
     }
 }

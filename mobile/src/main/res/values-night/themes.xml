@@ -2,6 +2,7 @@
 <resources>
     <style name="openHAB.DayNight" parent="openHAB.Base">
         <item name="chartTheme">dark</item>
+        <item name="transparentChartTheme">dark_transparent</item>
         <item name="valueColors">@array/valueColorsDarkBackground</item>
     </style>
 

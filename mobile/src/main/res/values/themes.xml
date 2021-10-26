@@ -13,6 +13,7 @@
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
         <item name="chartTheme">white</item>
+        <item name="transparentChartTheme">white_transparent</item>
         <item name="valueColors">@array/valueColorsBrightBackground</item>
     </style>
 
@@ -48,16 +49,19 @@
 
     <style name="openHAB.Black.orange" parent="openHAB.DayNight.orange">
         <item name="chartTheme">black</item>
+        <item name="transparentChartTheme">black_transparent</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="openHAB.Black.basicui" parent="openHAB.DayNight.basicui">
         <item name="chartTheme">black</item>
+        <item name="transparentChartTheme">black_transparent</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="openHAB.Black.grey" parent="openHAB.DayNight.grey">
         <item name="chartTheme">black</item>
+        <item name="transparentChartTheme">black_transparent</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
 
