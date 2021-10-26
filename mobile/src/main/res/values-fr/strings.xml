@@ -104,8 +104,6 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" est le serveur principal. Appuyez pour faire de ce serveur le serveur principal.\nActuellement, seul le serveur principal est pris en charge par toutes les fonctionnalités de cette application. Appuyez sur le bouton d\'aide pour plus d\'informations.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Appuyez ici pour plus d\'informations</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">L\'application sélectionnera ce serveur lorsque vous serez connecté au Wi-Fi \'%s\'</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">L\'application ne sélectionnera pas automatiquement ce serveur en fonction du réseau Wi-Fi connecté</string>
     <string name="settings_multi_server_wifi_ssid_switched">Basculé sur le serveur \"%s\" en fonction du Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Impossible de lire le nom du Wi-Fi : permissions manquantes</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Impossible de lire le nom du Wi-Fi : la localisation est désactivée</string>
