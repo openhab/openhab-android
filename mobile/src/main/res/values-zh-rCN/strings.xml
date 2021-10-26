@@ -109,8 +109,6 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">高级选项</string>
     <string name="click_here_for_more_information">点击这里获得更多信息</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">当连接到 Wi-Fi信号达到 \'%s\' 时，应用将选择此Wi-Fi</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">应用程序将不会通过已连接的 Wi-Fi 网络自动选择服务器</string>
     <string name="settings_multi_server_wifi_ssid_switched">通过Wi-Fi切换到服务器 \"%s\"</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">无法读取Wi-Fi名称：缺少权限</string>
     <string name="settings_multi_server_wifi_ssid_location_off">无法读取Wi-Fi名称：定位已关闭</string>
