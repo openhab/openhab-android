@@ -45,6 +45,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.toParsedState
+import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -87,7 +88,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launch
             }
             items.forEach {
-                createStatefulControl(it)?.let { controls.add(it) }
+                maybeCreateStatefulControl(it)?.let { controls.add(it) }
             }
             controls.done = true
         }
@@ -108,14 +109,18 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launchWithConnection
             }
 
-            ids.forEach {
-                ItemClient.loadItem(connection, it)?.let { item ->
-                    createStatefulControl(item)?.let { control ->
-                        items[item.name] = item
-                        publisher.add(
-                            control
-                        )
+            ids.forEach { id ->
+                try {
+                    ItemClient.loadItem(connection, id)?.let { item ->
+                        maybeCreateStatefulControl(item)?.let { control ->
+                            items[item.name] = item
+                            publisher.add(
+                                control
+                            )
+                        }
                     }
+                } catch (e: HttpClient.HttpException) {
+                    Log.e(TAG, "Could not load item $id", e)
                 }
             }
 
@@ -124,7 +129,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 StateChangeListener { itemId, state ->
                     val item = items[itemId] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
-                    createStatefulControl(newItem)?.let { control ->
+                    maybeCreateStatefulControl(newItem)?.let { control ->
                         publisher.add(
                             control
                         )
@@ -142,8 +147,6 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     override fun performControlAction(controlId: String, action: ControlAction, consumer: Consumer<Int>) {
         launchWithConnection { connection ->
-            Log.e(TAG, "Could not update st $action ${action::class.java.simpleName}")
-
             if (connection == null) {
                 consumer.accept(ControlAction.RESPONSE_FAIL)
                 return@launchWithConnection
@@ -167,7 +170,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
     }
 
-    private fun createStatefulControl(item: Item): Control? {
+    private fun maybeCreateStatefulControl(item: Item): Control? {
         if (item.label.isNullOrEmpty()) return null
 
         val controlTemplate = when (item.type) {
@@ -186,21 +189,29 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 )
             )
             Item.Type.Rollershutter -> RangeTemplate(
-                "${item.name}_range", 0F, 100F,
+                item.name, 0F, 100F,
                 item.state?.asNumber?.value ?: 0F, 1F,
                 "%.0f%%"
             )
-            else -> return null // TODO support thermostat
+            else -> return null // TODO support other types e.g. thermostat
         }
 
-        return Control.StatefulBuilder(
-            item.name,
-            PendingIntent.getActivity(
-                this, 1, Intent(), PendingIntent.FLAG_UPDATE_CURRENT // TODO correct intent
-            )
+        // TODO improve heuristic
+        val type = if (item.type == Item.Type.Rollershutter) {
+            DeviceTypes.TYPE_SHUTTER
+        } else if (item.type == Item.Type.Dimmer || item.tags.contains(Item.Tag.Lighting)) {
+            DeviceTypes.TYPE_LIGHT
+        } else {
+            DeviceTypes.TYPE_GENERIC_ON_OFF
+        }
+
+        val intent = PendingIntent.getActivity(
+            this, 1, Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
+        return Control.StatefulBuilder(item.name, intent)
             .setTitle(item.label)
-            .setDeviceType(DeviceTypes.TYPE_LIGHT) // TODO infer correct type
+            .setDeviceType(type)
             .setControlTemplate(controlTemplate)
             .setStatus(Control.STATUS_OK)
             .build()
