@@ -90,7 +90,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         return runBlocking {
             try {
-                val item = loadItem(connection, itemName)
+                val item = ItemClient.loadItem(connection, itemName)
                 if (item == null) {
                     sendTaskerSignalIfNeeded(
                         taskerIntent,
@@ -218,39 +218,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE to errorMessage
             )
         )
-    }
-
-    private suspend fun loadItem(connection: Connection, itemName: String): Item? {
-        val response = connection.httpClient.get("rest/items/$itemName")
-        val contentType = response.response.contentType()
-        val content = response.asText().response
-
-        if (contentType?.type == "application" && contentType.subtype == "json") {
-            // JSON
-            return try {
-                JSONObject(content).toItem()
-            } catch (e: JSONException) {
-                Log.e(TAG, "Failed parsing JSON result for item $itemName", e)
-                null
-            }
-        } else {
-            // XML
-            return try {
-                val dbf = DocumentBuilderFactory.newInstance()
-                val builder = dbf.newDocumentBuilder()
-                val document = builder.parse(InputSource(StringReader(content)))
-                document.toItem()
-            } catch (e: ParserConfigurationException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            } catch (e: SAXException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            } catch (e: IOException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            }
-        }
     }
 
     private fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {
