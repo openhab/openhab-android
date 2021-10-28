@@ -47,6 +47,7 @@ import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.toParsedState
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ItemClient
 
 @RequiresApi(Build.VERSION_CODES.R)
 class ItemsControlsProviderService : ControlsProviderService() {
@@ -80,8 +81,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 controls.done = true
                 return@launch
             }
-
-            val items = ItemClient.loadItems(connection)
+            val items = try {
+                ItemClient.loadItems(connection)
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Could not load items", e)
+                controls.done = true
+                return@launch
+            }
             if (items == null) {
                 Log.e(TAG, "Could not load items")
                 controls.done = true
@@ -172,7 +178,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
     }
 
     private fun maybeCreateStatefulControl(item: Item): Control? {
-        if (item.label.isNullOrEmpty()) return null
+        if (item.label.isNullOrEmpty() || item.readOnly) return null
 
         val controlTemplate = when (item.type) {
             Item.Type.Switch ->
@@ -197,13 +203,34 @@ class ItemsControlsProviderService : ControlsProviderService() {
             else -> return null // TODO support other types e.g. thermostat
         }
 
-        // TODO improve heuristic
-        val type = if (item.type == Item.Type.Rollershutter) {
-            DeviceTypes.TYPE_SHUTTER
-        } else if (item.type == Item.Type.Dimmer || item.tags.contains(Item.Tag.Lighting)) {
-            DeviceTypes.TYPE_LIGHT
-        } else {
-            DeviceTypes.TYPE_GENERIC_ON_OFF
+        val type = when (item.category?.lowercase()) {
+            "screen", "soundvolume", "receiver" -> DeviceTypes.TYPE_TV
+            "lightbulb", "light", "slider" -> DeviceTypes.TYPE_LIGHT
+            "lock" -> DeviceTypes.TYPE_LOCK
+            "fan", "fan_box", "fan_ceiling" -> DeviceTypes.TYPE_FAN
+            "blinds" -> DeviceTypes.TYPE_BLINDS
+            "rollershutter" -> DeviceTypes.TYPE_SHUTTER
+            "window" -> DeviceTypes.TYPE_WINDOW
+            "dryer" -> DeviceTypes.TYPE_DRYER
+            "washingmachine" -> DeviceTypes.TYPE_WASHER
+            "camera" -> DeviceTypes.TYPE_CAMERA
+            "switch", "wallswitch" -> DeviceTypes.TYPE_SWITCH
+            "lawnmower" -> DeviceTypes.TYPE_MOWER
+            "humidity" -> DeviceTypes.TYPE_HUMIDIFIER
+            "heating", "temperature" -> DeviceTypes.TYPE_HEATER
+            "poweroutlet" -> DeviceTypes.TYPE_OUTLET
+            "door", "frontdoor" -> DeviceTypes.TYPE_DOOR
+            "alarm" -> DeviceTypes.TYPE_SECURITY_SYSTEM
+            "water" -> DeviceTypes.TYPE_SHOWER
+            "garage", "garagedoor", "garage_detached", "garage_detached_selected" -> DeviceTypes.TYPE_GARAGE
+            else -> when {
+                item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.tags.contains(Item.Tag.Blind) ->
+                    DeviceTypes.TYPE_BLINDS
+                item.tags.contains(Item.Tag.Thermostat) || item.tags.contains(Item.Tag.TargetTemperature) ->
+                    DeviceTypes.TYPE_HEATER
+                item.tags.contains(Item.Tag.Lighting) -> DeviceTypes.TYPE_LIGHT
+                else -> DeviceTypes.TYPE_UNKNOWN
+            }
         }
 
         val intent = PendingIntent.getActivity(

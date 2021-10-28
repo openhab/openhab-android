@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.background
+package org.openhab.habdroid.util
 
 import android.util.Log
 import java.io.IOException
@@ -24,7 +24,6 @@ import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toItem
-import org.openhab.habdroid.util.map
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 
