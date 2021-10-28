@@ -170,7 +170,11 @@ data class ServerConfiguration(
                 return null
             }
             val clientCert = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
-            val wifiSsids = prefs.getStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), emptySet())
+            val wifiSsids = try {
+                prefs.getStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), emptySet())
+            } catch (e: ClassCastException) {
+                setOf(prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX)))
+            }
 
             val config = ServerConfiguration(
                 id,
