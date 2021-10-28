@@ -125,7 +125,8 @@ class ItemsControlsProviderService : ControlsProviderService() {
             }
 
             eventStream = connection.httpClient.makeSse(
-                connection.httpClient.buildUrl("rest/events?topics=smarthome/items/*/statechanged"),
+                // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
+                connection.httpClient.buildUrl("rest/events?topics=*/items/*/statechanged"),
                 StateChangeListener { itemId, state ->
                     val item = items[itemId] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
