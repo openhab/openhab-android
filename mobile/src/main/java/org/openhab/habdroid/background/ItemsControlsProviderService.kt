@@ -40,6 +40,7 @@ import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
@@ -61,10 +62,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
                     Log.e(TAG, "Failed parsing topic of state change event")
                     return
                 }
-                val itemId = topicPath[2]
+                val itemName = topicPath[2]
                 val payload = JSONObject(event.getString("payload"))
                 val state = payload.getString("value").toParsedState() ?: return
-                stateChangeCallback(itemId, state)
+                stateChangeCallback(itemName, state)
             } catch (e: JSONException) {
                 Log.e(TAG, "Failed parsing JSON of state change event", e)
             }
@@ -93,8 +94,8 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 controls.done = true
                 return@launch
             }
-            items.forEach {
-                maybeCreateStatefulControl(it)?.let { controls.add(it) }
+            items.forEach { item ->
+                maybeCreateStatefulControl(item)?.let { control -> controls.add(control) }
             }
             controls.done = true
         }
@@ -104,7 +105,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         return controls
     }
 
-    override fun createPublisherFor(ids: MutableList<String>): Flow.Publisher<Control> {
+    override fun createPublisherFor(itemNames: MutableList<String>): Flow.Publisher<Control> {
         val publisher = SimplePublisher<Control>()
         var eventStream: EventSource? = null
         val items = mutableMapOf<String, Item>()
@@ -115,31 +116,27 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launchWithConnection
             }
 
-            ids.forEach { id ->
+            itemNames.forEach { itemName ->
                 try {
-                    ItemClient.loadItem(connection, id)?.let { item ->
+                    ItemClient.loadItem(connection, itemName)?.let { item ->
                         maybeCreateStatefulControl(item)?.let { control ->
                             items[item.name] = item
-                            publisher.add(
-                                control
-                            )
+                            publisher.add(control)
                         }
                     }
                 } catch (e: HttpClient.HttpException) {
-                    Log.e(TAG, "Could not load item $id", e)
+                    Log.e(TAG, "Could not load item $itemName", e)
                 }
             }
 
             eventStream = connection.httpClient.makeSse(
                 // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
                 connection.httpClient.buildUrl("rest/events?topics=*/items/*/statechanged"),
-                StateChangeListener { itemId, state ->
-                    val item = items[itemId] ?: return@StateChangeListener
+                StateChangeListener { itemName, state ->
+                    val item = items[itemName] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
                     maybeCreateStatefulControl(newItem)?.let { control ->
-                        publisher.add(
-                            control
-                        )
+                        publisher.add(control)
                     }
                 }
             )
@@ -162,7 +159,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
             val state = when (action) {
                 is BooleanAction -> if (action.newState) "ON" else "OFF"
                 is FloatAction -> action.newValue.roundToInt().toString()
-                else -> return@launchWithConnection
+                else -> {
+                    Log.e(TAG, "Unsupported action $action")
+                    return@launchWithConnection
+                }
             }
 
             try {
@@ -181,14 +181,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
         if (item.label.isNullOrEmpty() || item.readOnly) return null
 
         val controlTemplate = when (item.type) {
-            Item.Type.Switch ->
-                ToggleTemplate(
-                    item.name,
-                    ControlButton(item.state?.asBoolean ?: false, "turn on")
-                )
+            Item.Type.Switch -> ToggleTemplate(
+                item.name,
+                ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle))
+            )
             Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
                 "${item.name}_toggle",
-                ControlButton(item.state?.asBoolean ?: false, "turn on"),
+                ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle)),
                 RangeTemplate(
                     "${item.name}_range", 0F, 100F,
                     item.state?.asNumber?.value ?: 0F, 1F,
