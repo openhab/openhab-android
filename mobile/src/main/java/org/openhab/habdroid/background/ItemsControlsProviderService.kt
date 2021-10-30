@@ -49,6 +49,8 @@ import org.openhab.habdroid.model.toParsedState
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
 
 @RequiresApi(Build.VERSION_CODES.R)
 class ItemsControlsProviderService : ControlsProviderService() {
@@ -177,6 +179,12 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
     }
 
+    private fun createRangeTemplate(item: Item, format: String) = RangeTemplate(
+        item.name, item.minimum?.toFloat() ?: 0F, item.maximum?.toFloat() ?: 100F,
+        item.state?.asNumber?.value ?: 0F, item.step?.toFloat() ?: 1F,
+        format
+    )
+
     private fun maybeCreateStatefulControl(item: Item): Control? {
         if (item.label.isNullOrEmpty() || item.readOnly) return null
 
@@ -188,18 +196,14 @@ class ItemsControlsProviderService : ControlsProviderService() {
             Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
                 "${item.name}_toggle",
                 ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle)),
-                RangeTemplate(
-                    "${item.name}_range", 0F, 100F,
-                    item.state?.asNumber?.value ?: 0F, 1F,
-                    "%.0f%%"
-                )
+                createRangeTemplate(item, "%.0f%%")
             )
-            Item.Type.Rollershutter -> RangeTemplate(
-                item.name, 0F, 100F,
-                item.state?.asNumber?.value ?: 0F, 1F,
-                "%.0f%%"
+            Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
+            Item.Type.Number -> createRangeTemplate(
+                item,
+                item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
             )
-            else -> return null // TODO support other types e.g. thermostat
+            else -> return null
         }
 
         val type = when (item.category?.lowercase()) {
@@ -233,8 +237,12 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
 
         val intent = PendingIntent.getActivity(
-            this, 1, Intent(this, MainActivity::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT
+            this,
+            1,
+            Intent(this, MainActivity::class.java).apply {
+                putExtra(MainActivity.EXTRA_SERVER_ID, getPrefs().getPrimaryServerId())
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         return Control.StatefulBuilder(item.name, intent)
             .setTitle(item.label)

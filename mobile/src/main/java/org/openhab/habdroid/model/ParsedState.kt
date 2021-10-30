@@ -70,13 +70,18 @@ data class ParsedState internal constructor(
                 "ON" -> NumberState(100F)
                 "OFF" -> NumberState(0F)
                 else -> {
-                    val spacePos = state.indexOf(' ')
-                    val number = if (spacePos >= 0) state.substring(0, spacePos) else state
-                    val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
-                    return try {
-                        NumberState(number.toFloat(), unit, format)
-                    } catch (e: NumberFormatException) {
-                        null
+                    val brightness = parseAsBrightness(state)
+                    if (brightness != null) {
+                        NumberState(brightness.toFloat())
+                    } else {
+                        val spacePos = state.indexOf(' ')
+                        val number = if (spacePos >= 0) state.substring(0, spacePos) else state
+                        val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
+                        return try {
+                            NumberState(number.toFloat(), unit, format)
+                        } catch (e: NumberFormatException) {
+                            null
+                        }
                     }
                 }
             }

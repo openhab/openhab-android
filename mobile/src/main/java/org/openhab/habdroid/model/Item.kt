@@ -35,7 +35,10 @@ data class Item internal constructor(
     val members: List<Item>,
     val options: List<LabeledValue>?,
     val state: ParsedState?,
-    val tags: List<Tag>
+    val tags: List<Tag>,
+    val minimum: Double?,
+    val maximum: Double?,
+    val step: Double?,
 ) : Parcelable {
     enum class Type {
         None,
@@ -89,19 +92,7 @@ data class Item internal constructor(
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
             val link = item?.link ?: parsedItem.link
-            return Item(
-                parsedItem.name,
-                parsedItem.label?.trim(),
-                parsedItem.category,
-                parsedItem.type,
-                parsedItem.groupType,
-                link,
-                parsedItem.readOnly,
-                parsedItem.members,
-                parsedItem.options,
-                parsedItem.state,
-                parsedItem.tags
-            )
+            return parsedItem.copy(link = link, label = parsedItem.label?.trim())
         }
     }
 }
@@ -138,7 +129,10 @@ fun Node.toItem(): Item? {
         emptyList(),
         null,
         state.toParsedState(),
-        emptyList()
+        emptyList(),
+        null,
+        null,
+        null
     )
 }
 
@@ -175,6 +169,15 @@ fun JSONObject.toItem(): Item {
         }
     }
 
+    fun JSONObject.getDoubleOrNull(name: String) = if (has(name)) {
+        getDouble(name)
+    } else {
+        null
+    }
+    val minimum = stateDescription?.getDoubleOrNull("minimum")
+    val maximum = stateDescription?.getDoubleOrNull("maximum")
+    val step = stateDescription?.getDoubleOrNull("step")
+
     val tags = if (has("tags")) {
         getJSONArray("tags").mapString { it.toItemTag() }
     } else {
@@ -192,7 +195,10 @@ fun JSONObject.toItem(): Item {
         members,
         options,
         state.toParsedState(numberPattern),
-        tags
+        tags,
+        minimum,
+        maximum,
+        step
     )
 }
 
