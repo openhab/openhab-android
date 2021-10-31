@@ -236,41 +236,36 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     private fun maybeCreateControl(item: Item, stateful: Boolean): Control? {
         if (item.label.isNullOrEmpty() || item.readOnly) return null
+        val controlTemplate = when (item.type) {
+            Item.Type.Switch -> ToggleTemplate(
+                item.name,
+                ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle))
+            )
+            Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
+                "${item.name}_toggle",
+                ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle)),
+                createRangeTemplate(item, "%.0f%%")
+            )
+            Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
+            Item.Type.Number -> createRangeTemplate(
+                item,
+                item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
+            )
+            else -> return null
+        }
 
-        if (stateful) {
-            val controlTemplate = when (item.type) {
-                Item.Type.Switch -> ToggleTemplate(
-                    item.name,
-                    ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle))
-                )
-                Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
-                    "${item.name}_toggle",
-                    ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle)),
-                    createRangeTemplate(item, "%.0f%%")
-                )
-                Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
-                Item.Type.Number -> createRangeTemplate(
-                    item,
-                    item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
-                )
-                else -> return null
-            }
-
-            return Control.StatefulBuilder(item.name, mainActivityPendingIntent)
+        return if (stateful) {
+            Control.StatefulBuilder(item.name, mainActivityPendingIntent)
                 .setTitle(item.label)
                 .setDeviceType(getDeviceType(item))
                 .setControlTemplate(controlTemplate)
                 .setStatus(Control.STATUS_OK)
                 .build()
         } else {
-            return when (item.type) {
-                Item.Type.Switch, Item.Type.Dimmer, Item.Type.Color, Item.Type.Rollershutter, Item.Type.Number ->
-                    Control.StatelessBuilder(item.name, mainActivityPendingIntent)
-                        .setTitle(item.label)
-                        .setDeviceType(getDeviceType(item))
-                        .build()
-                else -> null
-            }
+            Control.StatelessBuilder(item.name, mainActivityPendingIntent)
+                .setTitle(item.label)
+                .setDeviceType(getDeviceType(item))
+                .build()
         }
     }
 
