@@ -31,6 +31,8 @@ import androidx.annotation.RequiresApi
 import java.util.LinkedList
 import java.util.concurrent.Flow
 import java.util.function.Consumer
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
@@ -74,6 +76,17 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
     }
 
+    private val mainActivityPendingIntent: PendingIntent by lazy {
+        PendingIntent.getActivity(
+            this,
+            1,
+            Intent(this, MainActivity::class.java).apply {
+                putExtra(MainActivity.EXTRA_SERVER_ID, getPrefs().getPrimaryServerId())
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
     override fun createPublisherForAllAvailable(): Flow.Publisher<Control> {
         val controls = SimplePublisher<Control>()
         val job = GlobalScope.launch {
@@ -97,7 +110,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launch
             }
             items.forEach { item ->
-                maybeCreateStatefulControl(item)?.let { control -> controls.add(control) }
+                maybeCreateControl(item, false)?.let { control -> controls.add(control) }
             }
             controls.done = true
         }
@@ -121,7 +134,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
             itemNames.forEach { itemName ->
                 try {
                     ItemClient.loadItem(connection, itemName)?.let { item ->
-                        maybeCreateStatefulControl(item)?.let { control ->
+                        maybeCreateControl(item, true)?.let { control ->
                             items[item.name] = item
                             publisher.add(control)
                         }
@@ -137,7 +150,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 StateChangeListener { itemName, state ->
                     val item = items[itemName] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
-                    maybeCreateStatefulControl(newItem)?.let { control ->
+                    maybeCreateControl(newItem, true)?.let { control ->
                         publisher.add(control)
                     }
                 }
@@ -179,34 +192,8 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
     }
 
-    private fun createRangeTemplate(item: Item, format: String) = RangeTemplate(
-        item.name, item.minimum?.toFloat() ?: 0F, item.maximum?.toFloat() ?: 100F,
-        item.state?.asNumber?.value ?: 0F, item.step?.toFloat() ?: 1F,
-        format
-    )
-
-    private fun maybeCreateStatefulControl(item: Item): Control? {
-        if (item.label.isNullOrEmpty() || item.readOnly) return null
-
-        val controlTemplate = when (item.type) {
-            Item.Type.Switch -> ToggleTemplate(
-                item.name,
-                ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle))
-            )
-            Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
-                "${item.name}_toggle",
-                ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle)),
-                createRangeTemplate(item, "%.0f%%")
-            )
-            Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
-            Item.Type.Number -> createRangeTemplate(
-                item,
-                item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
-            )
-            else -> return null
-        }
-
-        val type = when (item.category?.lowercase()) {
+    private fun getDeviceType(item: Item) =
+        when (item.category?.lowercase()) {
             "screen", "soundvolume", "receiver" -> DeviceTypes.TYPE_TV
             "lightbulb", "light", "slider" -> DeviceTypes.TYPE_LIGHT
             "lock" -> DeviceTypes.TYPE_LOCK
@@ -236,20 +223,55 @@ class ItemsControlsProviderService : ControlsProviderService() {
             }
         }
 
-        val intent = PendingIntent.getActivity(
-            this,
-            1,
-            Intent(this, MainActivity::class.java).apply {
-                putExtra(MainActivity.EXTRA_SERVER_ID, getPrefs().getPrimaryServerId())
-            },
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    private fun createRangeTemplate(item: Item, format: String): RangeTemplate {
+        val currentValue = item.state?.asNumber?.value ?: 0F
+        val minimum = min(currentValue, item.minimum?.toFloat() ?: 0F)
+        val maximum = max(currentValue, item.maximum?.toFloat() ?: 100F)
+        return RangeTemplate(
+            item.name, minimum, maximum,
+            currentValue, item.step?.toFloat() ?: 1F,
+            format
         )
-        return Control.StatefulBuilder(item.name, intent)
-            .setTitle(item.label)
-            .setDeviceType(type)
-            .setControlTemplate(controlTemplate)
-            .setStatus(Control.STATUS_OK)
-            .build()
+    }
+
+    private fun maybeCreateControl(item: Item, stateful: Boolean): Control? {
+        if (item.label.isNullOrEmpty() || item.readOnly) return null
+
+        if (stateful) {
+            val controlTemplate = when (item.type) {
+                Item.Type.Switch -> ToggleTemplate(
+                    item.name,
+                    ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle))
+                )
+                Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
+                    "${item.name}_toggle",
+                    ControlButton(item.state?.asBoolean ?: false, getString(R.string.nfc_action_toggle)),
+                    createRangeTemplate(item, "%.0f%%")
+                )
+                Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
+                Item.Type.Number -> createRangeTemplate(
+                    item,
+                    item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
+                )
+                else -> return null
+            }
+
+            return Control.StatefulBuilder(item.name, mainActivityPendingIntent)
+                .setTitle(item.label)
+                .setDeviceType(getDeviceType(item))
+                .setControlTemplate(controlTemplate)
+                .setStatus(Control.STATUS_OK)
+                .build()
+        } else {
+            return when (item.type) {
+                Item.Type.Switch, Item.Type.Dimmer, Item.Type.Color, Item.Type.Rollershutter, Item.Type.Number ->
+                    Control.StatelessBuilder(item.name, mainActivityPendingIntent)
+                        .setTitle(item.label)
+                        .setDeviceType(getDeviceType(item))
+                        .build()
+                else -> null
+            }
+        }
     }
 
     private inline fun launchWithConnection(

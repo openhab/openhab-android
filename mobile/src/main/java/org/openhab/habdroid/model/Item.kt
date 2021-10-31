@@ -20,6 +20,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.mapString
+import org.openhab.habdroid.util.optDoubleOrNull
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
@@ -169,15 +170,6 @@ fun JSONObject.toItem(): Item {
         }
     }
 
-    fun JSONObject.getDoubleOrNull(name: String) = if (has(name)) {
-        getDouble(name)
-    } else {
-        null
-    }
-    val minimum = stateDescription?.getDoubleOrNull("minimum")
-    val maximum = stateDescription?.getDoubleOrNull("maximum")
-    val step = stateDescription?.getDoubleOrNull("step")
-
     val tags = if (has("tags")) {
         getJSONArray("tags").mapString { it.toItemTag() }
     } else {
@@ -196,9 +188,9 @@ fun JSONObject.toItem(): Item {
         options,
         state.toParsedState(numberPattern),
         tags,
-        minimum,
-        maximum,
-        step
+        stateDescription?.optDoubleOrNull("minimum"),
+        stateDescription?.optDoubleOrNull("maximum"),
+        stateDescription?.optDoubleOrNull("step")
     )
 }
 
