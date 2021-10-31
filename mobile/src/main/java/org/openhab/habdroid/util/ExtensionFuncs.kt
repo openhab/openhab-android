@@ -268,6 +268,10 @@ inline fun <T> JSONArray.mapString(transform: (String) -> T): List<T> {
     return (0 until length()).map { index -> transform(getString(index)) }
 }
 
+fun JSONObject.optDoubleOrNull(key: String): Double? {
+    return if (has(key)) getDouble(key) else null
+}
+
 fun JSONObject.optStringOrNull(key: String): String? {
     return optStringOrFallback(key, null)
 }

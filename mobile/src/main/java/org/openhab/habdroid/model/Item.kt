@@ -20,6 +20,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.mapString
+import org.openhab.habdroid.util.optDoubleOrNull
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
@@ -35,7 +36,10 @@ data class Item internal constructor(
     val members: List<Item>,
     val options: List<LabeledValue>?,
     val state: ParsedState?,
-    val tags: List<Tag>
+    val tags: List<Tag>,
+    val minimum: Double?,
+    val maximum: Double?,
+    val step: Double?,
 ) : Parcelable {
     enum class Type {
         None,
@@ -89,19 +93,7 @@ data class Item internal constructor(
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
             val link = item?.link ?: parsedItem.link
-            return Item(
-                parsedItem.name,
-                parsedItem.label?.trim(),
-                parsedItem.category,
-                parsedItem.type,
-                parsedItem.groupType,
-                link,
-                parsedItem.readOnly,
-                parsedItem.members,
-                parsedItem.options,
-                parsedItem.state,
-                parsedItem.tags
-            )
+            return parsedItem.copy(link = link, label = parsedItem.label?.trim())
         }
     }
 }
@@ -138,7 +130,10 @@ fun Node.toItem(): Item? {
         emptyList(),
         null,
         state.toParsedState(),
-        emptyList()
+        emptyList(),
+        null,
+        null,
+        null
     )
 }
 
@@ -192,7 +187,10 @@ fun JSONObject.toItem(): Item {
         members,
         options,
         state.toParsedState(numberPattern),
-        tags
+        tags,
+        stateDescription?.optDoubleOrNull("minimum"),
+        stateDescription?.optDoubleOrNull("maximum"),
+        stateDescription?.optDoubleOrNull("step")
     )
 }
 

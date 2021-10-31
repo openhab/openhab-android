@@ -25,26 +25,20 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import java.io.IOException
-import java.io.StringReader
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
-import org.json.JSONException
-import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver.Companion.NOTIFICATION_ID_BACKGROUND_WORK_RUNNING
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.TaskerPlugin
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
@@ -53,8 +47,6 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.hasCause
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showToast
-import org.xml.sax.InputSource
-import org.xml.sax.SAXException
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
@@ -90,7 +82,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         return runBlocking {
             try {
-                val item = loadItem(connection, itemName)
+                val item = ItemClient.loadItem(connection, itemName)
                 if (item == null) {
                     sendTaskerSignalIfNeeded(
                         taskerIntent,
@@ -218,39 +210,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                 TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE to errorMessage
             )
         )
-    }
-
-    private suspend fun loadItem(connection: Connection, itemName: String): Item? {
-        val response = connection.httpClient.get("rest/items/$itemName")
-        val contentType = response.response.contentType()
-        val content = response.asText().response
-
-        if (contentType?.type == "application" && contentType.subtype == "json") {
-            // JSON
-            return try {
-                JSONObject(content).toItem()
-            } catch (e: JSONException) {
-                Log.e(TAG, "Failed parsing JSON result for item $itemName", e)
-                null
-            }
-        } else {
-            // XML
-            return try {
-                val dbf = DocumentBuilderFactory.newInstance()
-                val builder = dbf.newDocumentBuilder()
-                val document = builder.parse(InputSource(StringReader(content)))
-                document.toItem()
-            } catch (e: ParserConfigurationException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            } catch (e: SAXException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            } catch (e: IOException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            }
-        }
     }
 
     private fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {

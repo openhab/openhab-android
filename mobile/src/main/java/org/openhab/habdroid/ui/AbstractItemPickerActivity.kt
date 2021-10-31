@@ -38,19 +38,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.map
 
 abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
@@ -260,10 +257,13 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             }
 
             try {
-                val result = connection.httpClient.get("rest/items").asText()
-                var items = JSONArray(result.response)
-                    .map { obj -> obj.toItem() }
-                    .filterNot { item -> item.readOnly }
+                var items = ItemClient.loadItems(connection)
+                if (items == null) {
+                    updateViewVisibility(loading = false, loadError = true, showHint = false)
+                    Log.e(TAG, "Item request failure")
+                    return@launch
+                }
+                items = items.filterNot { item -> item.readOnly }
 
                 if (forItemCommandOnly) {
                     // Contact Items cannot receive commands
@@ -276,9 +276,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 if (searchView.query.isNotEmpty()) {
                     itemPickerAdapter.filter(searchView.query.toString())
                 }
-            } catch (e: JSONException) {
-                Log.d(TAG, "Item response could not be parsed", e)
-                updateViewVisibility(loading = false, loadError = true, showHint = false)
             } catch (e: HttpClient.HttpException) {
                 updateViewVisibility(loading = false, loadError = true, showHint = false)
                 Log.e(TAG, "Item request failure", e)
