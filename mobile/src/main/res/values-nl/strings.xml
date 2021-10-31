@@ -105,8 +105,6 @@
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" is de primaire server. Raak aan om deze server de primaire te maken.\nMomenteel wordt alleen de primaire server ondersteund in alle functies van deze app. Raak de help knop aan voor meer informatie.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="click_here_for_more_information">Tik hier voor meer informatie</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">De app selecteert deze server wanneer verbonden met Wi-Fi ‘%s\'</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">De app selecteert deze server niet automatisch op basis van het aangesloten wifi-netwerk</string>
     <string name="settings_multi_server_wifi_ssid_switched">Overgeschakeld naar server \"%s\" op basis van Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Kan Wi-Fi-naam niet lezen: Ontbrekende machtigingen</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Kan wifi-naam niet lezen: locatie is uitgeschakeld</string>

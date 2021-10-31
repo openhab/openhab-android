@@ -109,8 +109,6 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Расширенные</string>
     <string name="click_here_for_more_information">Для получения дополнительной информации нажмите здесь</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">Приложение будет выбирать этот сервер при подключении к Wi-Fi \'%s\'</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">Приложение не будет автоматически выбирать этот сервер на основе подключенной сети Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_switched">Переключено на сервер \"%s\" на основе Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не удалось прочитать имя Wi-Fi: Отсутствуют разрешения</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Не удается прочитать имя Wi-Fi: Местоположение отключено</string>

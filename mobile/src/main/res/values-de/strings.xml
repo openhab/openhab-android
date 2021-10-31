@@ -109,8 +109,10 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Erweitert</string>
     <string name="click_here_for_more_information">Hier berühren für mehr Informationen</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">Die App wählt diesen Server aus, wenn mit WLAN „%s“ verbunden</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">Die App wird diesen Server nicht automatisch basierend auf dem verbundenen WLAN-Netzwerk auswählen</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Die App wählt diesen Server aus, wenn mit WLAN \'%s\' verbunden.</string>
+    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">Die App wählt diesen Server aus, wenn eine Verbindung zu einem der folgenden WLAN-Netzen besteht: %s</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">Die App wird diesen Server nicht automatisch basierend auf dem verbundenen WLAN-Netzwerk auswählen.</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Mehrere WLAN-Namen können eingegeben werden, indem sie durch einen Zeilenumbruch getrennt werden.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Auf Server „%s“ basierend auf WLAN gewechselt</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Der WLAN-Name kann nicht gelesen werden: Fehlende Berechtigungen</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Der WLAN-Name kann nicht gelesen werden: Standort ist aus</string>
