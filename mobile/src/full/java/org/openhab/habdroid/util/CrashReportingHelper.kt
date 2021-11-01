@@ -21,11 +21,16 @@ import org.openhab.habdroid.BuildConfig
 object CrashReportingHelper {
     private val TAG = CrashReportingHelper::class.java.simpleName
 
-    fun initialize(@Suppress("UNUSED_PARAMETER") app: Application) {
+    fun initialize(app: Application) {
         val outdatedBuildMillis = BuildConfig.TIMESTAMP + (6L * 30 * 24 * 60 * 60 * 1000) // 6 months after build
         val isOutdated = outdatedBuildMillis < System.currentTimeMillis()
-        Log.d(TAG, "Crashlytics status: isDebug ${BuildConfig.DEBUG}, isOutdated $isOutdated")
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG && !isOutdated)
+        val isUserEnabled = app.getPrefs().getBoolean(PrefKeys.CRASH_REPORTING, true)
+        Log.d(
+            TAG,
+            "Crashlytics status: isDebug ${BuildConfig.DEBUG}, isOutdated $isOutdated, isUserEnabled $isUserEnabled"
+        )
+        FirebaseCrashlytics.getInstance()
+            .setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG && !isOutdated && isUserEnabled)
     }
 
     // Only required for ACRA

@@ -132,6 +132,8 @@
     <string name="settings_multi_server_wifi_ssid_switched">Switched to server "%s" based on Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Unable to read Wi-Fi name: Missing permissions</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Unable to read Wi-Fi name: Location is off</string>
+    <string name="setting_crash_reporting_title">Crash reporting</string>
+    <string name="setting_crash_reporting_summary">Send crash reports to support the development of the app</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>

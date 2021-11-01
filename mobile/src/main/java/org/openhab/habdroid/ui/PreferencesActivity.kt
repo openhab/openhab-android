@@ -87,6 +87,7 @@ import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.NotificationPollingPreference
 import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getConfiguredServerIds
@@ -315,6 +316,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val viewLogPref = getPreference(PrefKeys.LOG)
             val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
             val tilePref = getPreference(PrefKeys.SUBSCREEN_TILE)
+            val crashReporting = getPreference(PrefKeys.CRASH_REPORTING)
             val prefs = preferenceScreen.sharedPreferences
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -394,6 +396,15 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             if (!prefs.isTaskerPluginEnabled() && !isAutomationAppInstalled()) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.TASKER_PLUGIN_ENABLED)
+            }
+
+            if (Util.isFlavorFoss) {
+                preferenceScreen.removePreference(crashReporting)
+            } else {
+                crashReporting.setOnPreferenceClickListener {
+                    CrashReportingHelper.initialize(requireActivity().application)
+                    true
+                }
             }
 
             viewLogPref.setOnPreferenceClickListener { preference ->
