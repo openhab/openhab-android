@@ -116,6 +116,8 @@
     <string name="settings_multi_server_wifi_ssid_switched">Collegato al server \"%s\" in base al Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Impossibile leggere il nome del Wi-Fi: Permessi mancanti</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Impossibile leggere il nome del Wi-Fi: la posizione è disattivata</string>
+    <string name="setting_crash_reporting_title">Segnalazione crash</string>
+    <string name="setting_crash_reporting_summary">Invia report di crash per migliorare lo sviluppo dell\'app</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="voice_command">Comando vocale</string>
