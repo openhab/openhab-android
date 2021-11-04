@@ -42,6 +42,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -575,6 +576,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 workRequest.addTag(it)
             }
 
+            if (isImportant) {
+                workRequest.setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+            }
+
             val workManager = WorkManager.getInstance(context)
             Log.d(TAG, "Scheduling work for tag $primaryTag")
             workManager.enqueueUniqueWork(primaryTag, ExistingWorkPolicy.REPLACE, workRequest.build())
@@ -606,13 +611,19 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_PHONE_STATE] = { context, _ ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                val state = when (manager.callState) {
+                val state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    manager.callStateForSubscription
+                } else {
+                    @Suppress("DEPRECATION")
+                    manager.callState
+                }
+                val itemState = when (state) {
                     TelephonyManager.CALL_STATE_IDLE -> "IDLE"
                     TelephonyManager.CALL_STATE_RINGING -> "RINGING"
                     TelephonyManager.CALL_STATE_OFFHOOK -> "OFFHOOK"
                     else -> "UNDEF"
                 }
-                ItemUpdateWorker.ValueWithInfo(state)
+                ItemUpdateWorker.ValueWithInfo(itemState)
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_BATTERY_LEVEL] = { context, _ ->
                 val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
@@ -643,7 +654,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val wifiManager = context.getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO)
                 val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID)
-                val ssidToSend = wifiManager.connectionInfo.let { info ->
+                @Suppress("DEPRECATION") val ssidToSend = wifiManager.connectionInfo.let { info ->
                     when {
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
                             !LocationManagerCompat.isLocationEnabled(locationManager) -> {

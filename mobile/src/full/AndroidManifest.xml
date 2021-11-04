@@ -4,14 +4,16 @@
 
     <application>
         <receiver
-            android:name="org.openhab.habdroid.core.FcmRegistrationWorker$ProxyReceiver">
+            android:name="org.openhab.habdroid.core.FcmRegistrationWorker$ProxyReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="org.openhab.habdroid.action.HIDE_NOTIFICATION" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name="org.openhab.habdroid.core.FcmMessageListenerService">
+            android:name="org.openhab.habdroid.core.FcmMessageListenerService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

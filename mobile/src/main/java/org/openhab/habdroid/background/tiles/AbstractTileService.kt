@@ -154,7 +154,7 @@ abstract class AbstractTileService : TileService() {
             lastWorkInfoState = null
         }
         var updateSubtitleLaterAgain = false
-        val statusRes = when (lastWorkInfoState) {
+        val statusMessage = when (lastWorkInfoState) {
             WorkInfo.State.ENQUEUED, WorkInfo.State.BLOCKED -> getString(R.string.item_update_short_status_waiting)
             WorkInfo.State.RUNNING -> getString(R.string.item_update_short_status_sending)
             WorkInfo.State.FAILED, WorkInfo.State.CANCELLED -> {
@@ -171,10 +171,10 @@ abstract class AbstractTileService : TileService() {
             null -> ""
         }
         qsTile?.apply {
-            subtitle = statusRes
+            subtitle = statusMessage
             updateTile()
         }
-        if (statusRes.isEmpty()) {
+        if (statusMessage.isEmpty()) {
             lifeCycleOwner.stopListening()
         }
         subtitleUpdateJob?.cancel()
