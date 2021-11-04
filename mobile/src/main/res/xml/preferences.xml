@@ -159,5 +159,10 @@
             android:clickable="true"
             android:key="default_openhab_log"
             android:title="@string/view_log" />
+        <SwitchPreference
+            android:key="crash_reporting"
+            android:defaultValue="true"
+            android:title="@string/setting_crash_reporting_title"
+            android:summary="@string/setting_crash_reporting_summary" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

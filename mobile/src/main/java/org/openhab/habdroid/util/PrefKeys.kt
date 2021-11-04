@@ -71,6 +71,7 @@ object PrefKeys {
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
     const val DATA_SAVER = "data_saver"
+    const val CRASH_REPORTING = "crash_reporting"
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
     const val LOG = "default_openhab_log"
 
