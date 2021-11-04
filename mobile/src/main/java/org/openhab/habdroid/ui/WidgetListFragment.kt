@@ -65,6 +65,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.DataUsagePolicy
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.Util
@@ -474,7 +475,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 context,
                 0,
                 callbackIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
             )
 
             val remoteViews = ItemUpdateWidget.getRemoteViews(context, true, null, null, data)

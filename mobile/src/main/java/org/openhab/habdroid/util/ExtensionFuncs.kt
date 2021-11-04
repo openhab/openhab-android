@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.util
 
+import android.app.PendingIntent
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -568,4 +569,10 @@ fun PackageManager.isInstalled(app: String): Boolean {
     } catch (e: PackageManager.NameNotFoundException) {
         false
     }
+}
+
+val PendingIntent_Immutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    PendingIntent.FLAG_IMMUTABLE
+} else {
+    0
 }

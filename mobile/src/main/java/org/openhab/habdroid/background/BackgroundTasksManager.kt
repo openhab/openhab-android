@@ -59,6 +59,7 @@ import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
@@ -399,7 +400,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 context,
                 if (fromBackground) 1 else 0,
                 callbackIntent,
-                0
+                PendingIntent_Immutable
             )
 
             return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -514,8 +515,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
             val attributionContext = context.withAttribution(OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO)
             val value = VALUE_GETTER_MAP[key]?.invoke(attributionContext, intent)
+            Log.d(TAG, "Got value '$value' for $key")
             if (value == null) {
-                Log.d(TAG, "Got value null for $key")
                 return
             }
             val prefix = prefs.getPrefixForBgTasks()

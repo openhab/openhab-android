@@ -50,6 +50,7 @@ import org.openhab.habdroid.ui.duplicate
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
@@ -150,14 +151,15 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
 
-        val itemUpdatePendingIntent = PendingIntent.getBroadcast(context, appWidgetId, itemUpdateIntent, 0)
+        val itemUpdatePendingIntent =
+            PendingIntent.getBroadcast(context, appWidgetId, itemUpdateIntent, PendingIntent_Immutable)
 
         val editIntent = Intent(context, ItemUpdateWidget::class.java).apply {
             action = ACTION_EDIT_WIDGET
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
 
-        val editPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, editIntent, 0)
+        val editPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, editIntent, PendingIntent_Immutable)
 
         val views = getRemoteViews(context, smallWidget, itemUpdatePendingIntent, editPendingIntent, data)
         appWidgetManager.updateAppWidget(appWidgetId, views)

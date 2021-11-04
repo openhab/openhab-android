@@ -105,6 +105,7 @@ import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
@@ -324,7 +325,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (nfcAdapter != null) {
             val intent = Intent(this, javaClass)
                 .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            val pi = PendingIntent.getActivity(this, 0, intent, 0)
+            val pi = PendingIntent.getActivity(this, 0, intent, PendingIntent_Immutable)
             nfcAdapter.enableForegroundDispatch(this, pi, null, null)
         }
 

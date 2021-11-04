@@ -42,6 +42,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.Util
 
 class FcmRegistrationWorker(private val context: Context, params: WorkerParameters) : Worker(context, params) {
@@ -160,7 +161,12 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
             internal fun wrap(context: Context, intent: Intent, id: Int): PendingIntent {
                 val wrapped = Intent(context, ProxyReceiver::class.java)
                         .putExtra("intent", intent)
-                return PendingIntent.getBroadcast(context, id, wrapped, PendingIntent.FLAG_UPDATE_CURRENT)
+                return PendingIntent.getBroadcast(
+                    context,
+                    id,
+                    wrapped,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+                )
             }
         }
     }
