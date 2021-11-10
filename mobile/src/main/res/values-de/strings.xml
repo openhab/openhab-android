@@ -116,6 +116,8 @@
     <string name="settings_multi_server_wifi_ssid_switched">Auf Server „%s“ basierend auf WLAN gewechselt</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Der WLAN-Name kann nicht gelesen werden: Fehlende Berechtigungen</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Der WLAN-Name kann nicht gelesen werden: Standort ist aus</string>
+    <string name="setting_crash_reporting_title">Absturzberichte</string>
+    <string name="setting_crash_reporting_summary">Sende Absturzberichte, um die Entwicklung der App zu unterstützen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
