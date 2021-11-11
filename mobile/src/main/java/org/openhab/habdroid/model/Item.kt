@@ -59,15 +59,147 @@ data class Item internal constructor(
     }
 
     enum class Tag {
-        Lighting,
-        Switchable,
+        // Legacy tags from openHAB 2
         ContactSensor,
-        CurrentTemperature,
-        CurrentHumidity,
-        Thermostat,
         HeatingCoolingMode,
         TargetTemperature,
-        Blind,
+
+        // Semantic types
+        Equipment,
+        Location,
+        Point,
+        Property,
+
+        // Semantic tags
+        Alarm,
+        AlarmSystem,
+        Apartment,
+        Attic,
+        BackDoor,
+        Basement,
+        Bathroom,
+        Battery,
+        Bedroom,
+        Blinds,
+        Boiler,
+        BoilerRoom,
+        Building,
+        CO,
+        CO2,
+        Camera,
+        Car,
+        Carport,
+        CeilingFan,
+        Cellar,
+        CellarDoor,
+        CleaningRobot,
+        ColorTemperature,
+        Control,
+        Corridor,
+        Current,
+        DiningRoom,
+        Dishwasher,
+        Door,
+        Doorbell,
+        Driveway,
+        Dryer,
+        Duration,
+        Energy,
+        Entry,
+        FamilyRoom,
+        Fan,
+        FirstFloor,
+        Floor,
+        Freezer,
+        Frequency,
+        FrontDoor,
+        Garage,
+        GarageDoor,
+        Garden,
+        Gas,
+        Gate,
+        GroundFloor,
+        GuestRoom,
+        HVAC,
+        House,
+        Humidity,
+        Indoor,
+        InnerDoor,
+        Inverter,
+        Kitchen,
+        KitchenHood,
+        LaundryRoom,
+        LawnMower,
+        Level,
+        Light,
+        LightStripe,
+        Lightbulb,
+        LivingRoom,
+        Lock,
+        LowBattery,
+        Measurement,
+        MotionDetector,
+        NetworkAppliance,
+        Noise,
+        Office,
+        Oil,
+        OpenLevel,
+        OpenState,
+        Opening,
+        Outdoor,
+        Oven,
+        Patio,
+        Porch,
+        Power,
+        PowerOutlet,
+        Presence,
+        Pressure,
+        Projector,
+        Pump,
+        RadiatorControl,
+        Rain,
+        Receiver,
+        Refrigerator,
+        RemoteControl,
+        Room,
+        Screen,
+        SecondFloor,
+        Sensor,
+        Setpoint,
+        Shed,
+        SideDoor,
+        Siren,
+        Smartphone,
+        Smoke,
+        SmokeDetector,
+        SoundVolume,
+        Speaker,
+        Status,
+        SummerHouse,
+        Switch,
+        Tampered,
+        Television,
+        Temperature,
+        Terrace,
+        ThirdFloor,
+        Tilt,
+        Timestamp,
+        Ultraviolet,
+        Valve,
+        Veranda,
+        Vibration,
+        VoiceAssistant,
+        Voltage,
+        WallSwitch,
+        WashingMachine,
+        Water,
+        WeatherService,
+        WebService,
+        WhiteGood,
+        Wind,
+        Window,
+
+        // Fallback
         Unknown
     }
 
@@ -222,15 +354,149 @@ fun String?.toItemType(): Item.Type {
 
 fun String?.toItemTag(): Item.Tag {
     return when (this) {
-        "Lighting" -> Item.Tag.Lighting
-        "Switchable" -> Item.Tag.Switchable
+        "Lighting" -> Item.Tag.Light
+        "Switchable" -> Item.Tag.Switch
         "ContactSensor" -> Item.Tag.ContactSensor
-        "CurrentTemperature" -> Item.Tag.CurrentTemperature
-        "CurrentHumidity" -> Item.Tag.CurrentHumidity
-        "Thermostat" -> Item.Tag.Thermostat
+        "CurrentTemperature" -> Item.Tag.Temperature
+        "CurrentHumidity" -> Item.Tag.Humidity
+        "Thermostat" -> Item.Tag.Temperature
         "homekit:HeatingCoolingMode", "homekit:TargetHeatingCoolingMode" -> Item.Tag.HeatingCoolingMode
         "homekit:TargetTemperature", "TargetTemperature" -> Item.Tag.TargetTemperature
-        "WindowCovering" -> Item.Tag.Blind
+        "WindowCovering" -> Item.Tag.Blinds
+
+        "Equipment" -> Item.Tag.Equipment
+        "Location" -> Item.Tag.Location
+        "Point" -> Item.Tag.Point
+        "Property" -> Item.Tag.Property
+
+        "Alarm" -> Item.Tag.Alarm
+        "AlarmSystem" -> Item.Tag.AlarmSystem
+        "Apartment" -> Item.Tag.Apartment
+        "Attic" -> Item.Tag.Attic
+        "BackDoor" -> Item.Tag.BackDoor
+        "Basement" -> Item.Tag.Basement
+        "Bathroom" -> Item.Tag.Bathroom
+        "Battery" -> Item.Tag.Battery
+        "Bedroom" -> Item.Tag.Bedroom
+        "Blinds" -> Item.Tag.Blinds
+        "Boiler" -> Item.Tag.Boiler
+        "BoilerRoom" -> Item.Tag.BoilerRoom
+        "Building" -> Item.Tag.Building
+        "CO" -> Item.Tag.CO
+        "CO2" -> Item.Tag.CO2
+        "Camera" -> Item.Tag.Camera
+        "Car" -> Item.Tag.Car
+        "Carport" -> Item.Tag.Carport
+        "CeilingFan" -> Item.Tag.CeilingFan
+        "Cellar" -> Item.Tag.Cellar
+        "CellarDoor" -> Item.Tag.CellarDoor
+        "CleaningRobot" -> Item.Tag.CleaningRobot
+        "ColorTemperature" -> Item.Tag.ColorTemperature
+        "Control" -> Item.Tag.Control
+        "Corridor" -> Item.Tag.Corridor
+        "Current" -> Item.Tag.Current
+        "DiningRoom" -> Item.Tag.DiningRoom
+        "Dishwasher" -> Item.Tag.Dishwasher
+        "Door" -> Item.Tag.Door
+        "Doorbell" -> Item.Tag.Doorbell
+        "Driveway" -> Item.Tag.Driveway
+        "Dryer" -> Item.Tag.Dryer
+        "Duration" -> Item.Tag.Duration
+        "Energy" -> Item.Tag.Energy
+        "Entry" -> Item.Tag.Entry
+        "FamilyRoom" -> Item.Tag.FamilyRoom
+        "Fan" -> Item.Tag.Fan
+        "FirstFloor" -> Item.Tag.FirstFloor
+        "Floor" -> Item.Tag.Floor
+        "Freezer" -> Item.Tag.Freezer
+        "Frequency" -> Item.Tag.Frequency
+        "FrontDoor" -> Item.Tag.FrontDoor
+        "Garage" -> Item.Tag.Garage
+        "GarageDoor" -> Item.Tag.GarageDoor
+        "Garden" -> Item.Tag.Garden
+        "Gas" -> Item.Tag.Gas
+        "Gate" -> Item.Tag.Gate
+        "GroundFloor" -> Item.Tag.GroundFloor
+        "GuestRoom" -> Item.Tag.GuestRoom
+        "HVAC" -> Item.Tag.HVAC
+        "House" -> Item.Tag.House
+        "Humidity" -> Item.Tag.Humidity
+        "Indoor" -> Item.Tag.Indoor
+        "InnerDoor" -> Item.Tag.InnerDoor
+        "Inverter" -> Item.Tag.Inverter
+        "Kitchen" -> Item.Tag.Kitchen
+        "KitchenHood" -> Item.Tag.KitchenHood
+        "LaundryRoom" -> Item.Tag.LaundryRoom
+        "LawnMower" -> Item.Tag.LawnMower
+        "Level" -> Item.Tag.Level
+        "Light" -> Item.Tag.Light
+        "LightStripe" -> Item.Tag.LightStripe
+        "Lightbulb" -> Item.Tag.Lightbulb
+        "LivingRoom" -> Item.Tag.LivingRoom
+        "Lock" -> Item.Tag.Lock
+        "LowBattery" -> Item.Tag.LowBattery
+        "Measurement" -> Item.Tag.Measurement
+        "MotionDetector" -> Item.Tag.MotionDetector
+        "NetworkAppliance" -> Item.Tag.NetworkAppliance
+        "Noise" -> Item.Tag.Noise
+        "Office" -> Item.Tag.Office
+        "Oil" -> Item.Tag.Oil
+        "OpenLevel" -> Item.Tag.OpenLevel
+        "OpenState" -> Item.Tag.OpenState
+        "Opening" -> Item.Tag.Opening
+        "Outdoor" -> Item.Tag.Outdoor
+        "Oven" -> Item.Tag.Oven
+        "Patio" -> Item.Tag.Patio
+        "Porch" -> Item.Tag.Porch
+        "Power" -> Item.Tag.Power
+        "PowerOutlet" -> Item.Tag.PowerOutlet
+        "Presence" -> Item.Tag.Presence
+        "Pressure" -> Item.Tag.Pressure
+        "Projector" -> Item.Tag.Projector
+        "Pump" -> Item.Tag.Pump
+        "RadiatorControl" -> Item.Tag.RadiatorControl
+        "Rain" -> Item.Tag.Rain
+        "Receiver" -> Item.Tag.Receiver
+        "Refrigerator" -> Item.Tag.Refrigerator
+        "RemoteControl" -> Item.Tag.RemoteControl
+        "Room" -> Item.Tag.Room
+        "Screen" -> Item.Tag.Screen
+        "SecondFloor" -> Item.Tag.SecondFloor
+        "Sensor" -> Item.Tag.Sensor
+        "Setpoint" -> Item.Tag.Setpoint
+        "Shed" -> Item.Tag.Shed
+        "SideDoor" -> Item.Tag.SideDoor
+        "Siren" -> Item.Tag.Siren
+        "Smartphone" -> Item.Tag.Smartphone
+        "Smoke" -> Item.Tag.Smoke
+        "SmokeDetector" -> Item.Tag.SmokeDetector
+        "SoundVolume" -> Item.Tag.SoundVolume
+        "Speaker" -> Item.Tag.Speaker
+        "Status" -> Item.Tag.Status
+        "SummerHouse" -> Item.Tag.SummerHouse
+        "Switch" -> Item.Tag.Switch
+        "Tampered" -> Item.Tag.Tampered
+        "Television" -> Item.Tag.Television
+        "Temperature" -> Item.Tag.Temperature
+        "Terrace" -> Item.Tag.Terrace
+        "ThirdFloor" -> Item.Tag.ThirdFloor
+        "Tilt" -> Item.Tag.Tilt
+        "Timestamp" -> Item.Tag.Timestamp
+        "Ultraviolet" -> Item.Tag.Ultraviolet
+        "Valve" -> Item.Tag.Valve
+        "Veranda" -> Item.Tag.Veranda
+        "Vibration" -> Item.Tag.Vibration
+        "VoiceAssistant" -> Item.Tag.VoiceAssistant
+        "Voltage" -> Item.Tag.Voltage
+        "WallSwitch" -> Item.Tag.WallSwitch
+        "WashingMachine" -> Item.Tag.WashingMachine
+        "Water" -> Item.Tag.Water
+        "WeatherService" -> Item.Tag.WeatherService
+        "WebService" -> Item.Tag.WebService
+        "WhiteGood" -> Item.Tag.WhiteGood
+        "Wind" -> Item.Tag.Wind
+        "Window" -> Item.Tag.Window
+
         else -> Item.Tag.Unknown
     }
 }

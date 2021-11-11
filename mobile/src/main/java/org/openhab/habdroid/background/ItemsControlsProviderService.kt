@@ -214,11 +214,71 @@ class ItemsControlsProviderService : ControlsProviderService() {
             "water" -> DeviceTypes.TYPE_SHOWER
             "garage", "garagedoor", "garage_detached", "garage_detached_selected" -> DeviceTypes.TYPE_GARAGE
             else -> when {
-                item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.tags.contains(Item.Tag.Blind) ->
-                    DeviceTypes.TYPE_BLINDS
-                item.tags.contains(Item.Tag.Thermostat) || item.tags.contains(Item.Tag.TargetTemperature) ->
-                    DeviceTypes.TYPE_HEATER
-                item.tags.contains(Item.Tag.Lighting) -> DeviceTypes.TYPE_LIGHT
+                // Confident mappings of Item type or tag to device type
+                item.isOfTypeOrGroupType(Item.Type.Rollershutter) -> DeviceTypes.TYPE_BLINDS
+                Item.Tag.HeatingCoolingMode in item.tags -> DeviceTypes.TYPE_THERMOSTAT
+                Item.Tag.TargetTemperature in item.tags -> DeviceTypes.TYPE_THERMOSTAT
+                Item.Tag.Alarm in item.tags -> DeviceTypes.TYPE_SECURITY_SYSTEM
+                Item.Tag.AlarmSystem in item.tags -> DeviceTypes.TYPE_SECURITY_SYSTEM
+                Item.Tag.Blinds in item.tags -> DeviceTypes.TYPE_BLINDS
+                Item.Tag.Boiler in item.tags -> DeviceTypes.TYPE_WATER_HEATER
+                Item.Tag.Camera in item.tags -> DeviceTypes.TYPE_CAMERA
+                Item.Tag.Car in item.tags -> DeviceTypes.TYPE_GARAGE
+                Item.Tag.Carport in item.tags -> DeviceTypes.TYPE_GARAGE
+                Item.Tag.CeilingFan in item.tags -> DeviceTypes.TYPE_FAN
+                Item.Tag.CellarDoor in item.tags -> DeviceTypes.TYPE_DOOR
+                Item.Tag.CleaningRobot in item.tags -> DeviceTypes.TYPE_VACUUM
+                Item.Tag.Control in item.tags -> DeviceTypes.TYPE_REMOTE_CONTROL
+                Item.Tag.Dishwasher in item.tags -> DeviceTypes.TYPE_DISHWASHER
+                Item.Tag.Door in item.tags -> DeviceTypes.TYPE_DOOR
+                Item.Tag.Doorbell in item.tags -> DeviceTypes.TYPE_DOORBELL
+                Item.Tag.Dryer in item.tags -> DeviceTypes.TYPE_DRYER
+                Item.Tag.Fan in item.tags -> DeviceTypes.TYPE_FAN
+                Item.Tag.Freezer in item.tags -> DeviceTypes.TYPE_REFRIGERATOR
+                Item.Tag.FrontDoor in item.tags -> DeviceTypes.TYPE_DOOR
+                Item.Tag.Garage in item.tags -> DeviceTypes.TYPE_GARAGE
+                Item.Tag.GarageDoor in item.tags -> DeviceTypes.TYPE_DOOR
+                Item.Tag.Gate in item.tags -> DeviceTypes.TYPE_GATE
+                Item.Tag.HVAC in item.tags -> DeviceTypes.TYPE_AIR_FRESHENER
+                Item.Tag.Humidity in item.tags -> DeviceTypes.TYPE_HUMIDIFIER
+                Item.Tag.InnerDoor in item.tags -> DeviceTypes.TYPE_DOOR
+                Item.Tag.KitchenHood in item.tags -> DeviceTypes.TYPE_HOOD
+                Item.Tag.LawnMower in item.tags -> DeviceTypes.TYPE_MOWER
+                Item.Tag.Light in item.tags -> DeviceTypes.TYPE_LIGHT
+                Item.Tag.LightStripe in item.tags -> DeviceTypes.TYPE_LIGHT
+                Item.Tag.Lightbulb in item.tags -> DeviceTypes.TYPE_LIGHT
+                Item.Tag.Lock in item.tags -> DeviceTypes.TYPE_LOCK
+                Item.Tag.NetworkAppliance in item.tags -> DeviceTypes.TYPE_SET_TOP
+                Item.Tag.Oven in item.tags -> DeviceTypes.TYPE_MULTICOOKER
+                Item.Tag.PowerOutlet in item.tags -> DeviceTypes.TYPE_OUTLET
+                Item.Tag.Projector in item.tags -> DeviceTypes.TYPE_TV
+                Item.Tag.Receiver in item.tags -> DeviceTypes.TYPE_TV
+                Item.Tag.Refrigerator in item.tags -> DeviceTypes.TYPE_REFRIGERATOR
+                Item.Tag.RemoteControl in item.tags -> DeviceTypes.TYPE_REMOTE_CONTROL
+                Item.Tag.Screen in item.tags -> DeviceTypes.TYPE_TV
+                Item.Tag.SideDoor in item.tags -> DeviceTypes.TYPE_DOOR
+                Item.Tag.Siren in item.tags -> DeviceTypes.TYPE_SECURITY_SYSTEM
+                Item.Tag.Switch in item.tags -> DeviceTypes.TYPE_SWITCH
+                Item.Tag.Television in item.tags -> DeviceTypes.TYPE_TV
+                Item.Tag.Temperature in item.tags -> DeviceTypes.TYPE_THERMOSTAT
+                Item.Tag.Valve in item.tags -> DeviceTypes.TYPE_VALVE
+                Item.Tag.Veranda in item.tags -> DeviceTypes.TYPE_PERGOLA
+                Item.Tag.WallSwitch in item.tags -> DeviceTypes.TYPE_SWITCH
+                Item.Tag.WashingMachine in item.tags -> DeviceTypes.TYPE_WASHER
+                Item.Tag.WhiteGood in item.tags -> DeviceTypes.TYPE_WASHER
+                Item.Tag.Window in item.tags -> DeviceTypes.TYPE_WINDOW
+
+                // Fallback mappings of Item type or tag to device type
+                Item.Tag.Bathroom in item.tags -> DeviceTypes.TYPE_SHOWER
+                Item.Tag.BoilerRoom in item.tags -> DeviceTypes.TYPE_WATER_HEATER
+                Item.Tag.ContactSensor in item.tags -> DeviceTypes.TYPE_GENERIC_OPEN_CLOSE
+                Item.Tag.Kitchen in item.tags -> DeviceTypes.TYPE_WASHER
+                Item.Tag.LaundryRoom in item.tags -> DeviceTypes.TYPE_WASHER
+                Item.Tag.LivingRoom in item.tags -> DeviceTypes.TYPE_TV
+                item.isOfTypeOrGroupType(Item.Type.Contact) -> DeviceTypes.TYPE_WINDOW
+                item.isOfTypeOrGroupType(Item.Type.Player) -> DeviceTypes.TYPE_TV
+                item.isOfTypeOrGroupType(Item.Type.Switch) -> DeviceTypes.TYPE_GENERIC_ON_OFF
+
                 else -> DeviceTypes.TYPE_UNKNOWN
             }
         }
