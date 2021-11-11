@@ -88,6 +88,7 @@ import org.openhab.habdroid.ui.preference.NotificationPollingPreference
 import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.CrashReportingHelper
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getConfiguredServerIds
@@ -970,7 +971,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             @VisibleForTesting fun beautifyUrl(url: String): String {
                 val host = url.toHttpUrlOrNull()?.host ?: url
-                return if (host.matches("^(home.)?myopenhab.org$".toRegex())) "myopenHAB" else host
+                return if (HttpClient.isMyOpenhab(host)) "myopenHAB" else host
             }
         }
     }
