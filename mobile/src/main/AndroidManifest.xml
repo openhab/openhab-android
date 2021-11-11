@@ -139,7 +139,7 @@
         <receiver
             android:name=".ui.homescreenwidget.VoiceWidget"
             android:label="@string/title_voice_widget"
-            android:exported="true"> <!-- TODO check if exported is required -->
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
