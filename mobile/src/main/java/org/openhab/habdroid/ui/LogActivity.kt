@@ -34,6 +34,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getLocalUrl
@@ -221,7 +222,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
 
     private fun redactHost(text: String, url: String?, replacement: String): String {
         val host = url?.toHttpUrlOrNull()?.host
-        return if (!host.isNullOrEmpty()) text.replace(host, replacement) else text
+        return if (!host.isNullOrEmpty() && !HttpClient.isMyOpenhab(host)) text.replace(host, replacement) else text
     }
 
     companion object {
