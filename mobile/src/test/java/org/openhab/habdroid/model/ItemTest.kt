@@ -106,9 +106,11 @@ class ItemTest {
     @Test
     fun getTags() {
         val sut = itemAsJsonObject.toItem()
-        assertEquals(2, sut.tags.size)
-        assertEquals(Item.Tag.Lighting, sut.tags[0])
-        assertEquals(Item.Tag.Switchable, sut.tags[1])
+        assertEquals(4, sut.tags.size)
+        assertEquals(Item.Tag.Light, sut.tags[0])
+        assertEquals(Item.Tag.Switch, sut.tags[1])
+        assertEquals(Item.Tag.Timestamp, sut.tags[2])
+        assertEquals(Item.Tag.Unknown, sut.tags[3])
     }
 
     @Test
@@ -147,7 +149,7 @@ class ItemTest {
             { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
               'label': 'Location 2', 'groupNames': [ 'LocationGroup' ] },
             ], 'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group',
-                'tags': [ "Lighting", "Switchable" ] }
+                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ] }
             """.trimIndent()
         )
         private val itemAsJsonObject = JSONObject(
@@ -156,7 +158,7 @@ class ItemTest {
                 'type': 'Group',
                 'name': 'LocationGroup',
                 'label': 'Location Group',
-                'tags': [ "Lighting", "Switchable" ] }
+                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ] }
             """.trimIndent()
         )
     }

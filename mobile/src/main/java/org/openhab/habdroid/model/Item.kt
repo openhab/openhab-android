@@ -59,15 +59,147 @@ data class Item internal constructor(
     }
 
     enum class Tag {
-        Lighting,
-        Switchable,
+        // Legacy tags from openHAB 2
         ContactSensor,
-        CurrentTemperature,
-        CurrentHumidity,
-        Thermostat,
         HeatingCoolingMode,
         TargetTemperature,
-        Blind,
+
+        // Semantic types
+        Equipment,
+        Location,
+        Point,
+        Property,
+
+        // Semantic tags
+        Alarm,
+        AlarmSystem,
+        Apartment,
+        Attic,
+        BackDoor,
+        Basement,
+        Bathroom,
+        Battery,
+        Bedroom,
+        Blinds,
+        Boiler,
+        BoilerRoom,
+        Building,
+        CO,
+        CO2,
+        Camera,
+        Car,
+        Carport,
+        CeilingFan,
+        Cellar,
+        CellarDoor,
+        CleaningRobot,
+        ColorTemperature,
+        Control,
+        Corridor,
+        Current,
+        DiningRoom,
+        Dishwasher,
+        Door,
+        Doorbell,
+        Driveway,
+        Dryer,
+        Duration,
+        Energy,
+        Entry,
+        FamilyRoom,
+        Fan,
+        FirstFloor,
+        Floor,
+        Freezer,
+        Frequency,
+        FrontDoor,
+        Garage,
+        GarageDoor,
+        Garden,
+        Gas,
+        Gate,
+        GroundFloor,
+        GuestRoom,
+        HVAC,
+        House,
+        Humidity,
+        Indoor,
+        InnerDoor,
+        Inverter,
+        Kitchen,
+        KitchenHood,
+        LaundryRoom,
+        LawnMower,
+        Level,
+        Light,
+        LightStripe,
+        Lightbulb,
+        LivingRoom,
+        Lock,
+        LowBattery,
+        Measurement,
+        MotionDetector,
+        NetworkAppliance,
+        Noise,
+        Office,
+        Oil,
+        OpenLevel,
+        OpenState,
+        Opening,
+        Outdoor,
+        Oven,
+        Patio,
+        Porch,
+        Power,
+        PowerOutlet,
+        Presence,
+        Pressure,
+        Projector,
+        Pump,
+        RadiatorControl,
+        Rain,
+        Receiver,
+        Refrigerator,
+        RemoteControl,
+        Room,
+        Screen,
+        SecondFloor,
+        Sensor,
+        Setpoint,
+        Shed,
+        SideDoor,
+        Siren,
+        Smartphone,
+        Smoke,
+        SmokeDetector,
+        SoundVolume,
+        Speaker,
+        Status,
+        SummerHouse,
+        Switch,
+        Tampered,
+        Television,
+        Temperature,
+        Terrace,
+        ThirdFloor,
+        Tilt,
+        Timestamp,
+        Ultraviolet,
+        Valve,
+        Veranda,
+        Vibration,
+        VoiceAssistant,
+        Voltage,
+        WallSwitch,
+        WashingMachine,
+        Water,
+        WeatherService,
+        WebService,
+        WhiteGood,
+        Wind,
+        Window,
+
+        // Fallback
         Unknown
     }
 
@@ -221,16 +353,24 @@ fun String?.toItemType(): Item.Type {
 }
 
 fun String?.toItemTag(): Item.Tag {
+    this ?: return Item.Tag.Unknown
+
+    try {
+        return Item.Tag.valueOf(this)
+    } catch (e: IllegalArgumentException) {
+        // No 1:1 mapping possible, fall through
+    }
+
     return when (this) {
-        "Lighting" -> Item.Tag.Lighting
-        "Switchable" -> Item.Tag.Switchable
+        "Lighting" -> Item.Tag.Light
+        "Switchable" -> Item.Tag.Switch
         "ContactSensor" -> Item.Tag.ContactSensor
-        "CurrentTemperature" -> Item.Tag.CurrentTemperature
-        "CurrentHumidity" -> Item.Tag.CurrentHumidity
-        "Thermostat" -> Item.Tag.Thermostat
+        "CurrentTemperature" -> Item.Tag.Temperature
+        "CurrentHumidity" -> Item.Tag.Humidity
+        "Thermostat" -> Item.Tag.Temperature
         "homekit:HeatingCoolingMode", "homekit:TargetHeatingCoolingMode" -> Item.Tag.HeatingCoolingMode
         "homekit:TargetTemperature", "TargetTemperature" -> Item.Tag.TargetTemperature
-        "WindowCovering" -> Item.Tag.Blind
+        "WindowCovering" -> Item.Tag.Blinds
         else -> Item.Tag.Unknown
     }
 }

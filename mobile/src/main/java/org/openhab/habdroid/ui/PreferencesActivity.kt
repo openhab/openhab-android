@@ -1344,9 +1344,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                         "text" -> R.string.tile_icon_text_value
                         "sofa" -> R.string.tile_icon_sofa_value
                         else -> when {
-                            Item.Tag.Lighting in itemTags -> R.string.tile_icon_bulb_value
-                            Item.Tag.Blind in itemTags -> R.string.tile_icon_roller_shutter_value
-                            Item.Tag.Switchable in itemTags -> R.string.tile_icon_switch_value
+                            Item.Tag.Light in itemTags -> R.string.tile_icon_bulb_value
+                            Item.Tag.Blinds in itemTags -> R.string.tile_icon_roller_shutter_value
+                            Item.Tag.Switch in itemTags -> R.string.tile_icon_switch_value
                             else -> R.string.tile_icon_openhab_value
                         }
                     }
