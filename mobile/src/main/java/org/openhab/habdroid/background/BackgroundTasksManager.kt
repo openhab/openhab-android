@@ -655,6 +655,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val wifiManager = context.getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO)
                 val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID)
+                // TODO: Replace deprecated function
                 @Suppress("DEPRECATION") val ssidToSend = wifiManager.connectionInfo.let { info ->
                     when {
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&

@@ -492,6 +492,7 @@ fun Context.isDarkModeActive(): Boolean {
 
 fun Context.getCurrentWifiSsid(attributionTag: String): String? {
     val wifiManager = getWifiManager(attributionTag)
+    // TODO: Replace deprecated function
     @Suppress("DEPRECATION")
     return wifiManager.connectionInfo.let { info ->
         if (info.networkId == -1) null else info.ssid.removeSurrounding("\"")
