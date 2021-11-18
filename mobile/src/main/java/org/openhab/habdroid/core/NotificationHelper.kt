@@ -33,6 +33,7 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
@@ -204,8 +205,10 @@ class NotificationHelper constructor(private val context: Context) {
             putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId)
         }
         return PendingIntent.getActivity(
-            context, notificationId,
-            contentIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            context,
+            notificationId,
+            contentIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
         )
     }
 

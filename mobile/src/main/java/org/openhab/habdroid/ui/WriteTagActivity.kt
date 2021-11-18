@@ -53,6 +53,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.showToast
@@ -109,7 +110,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         if (adapter != null) {
             val intent = Intent(this, javaClass)
                 .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+            val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent_Immutable)
             adapter.enableForegroundDispatch(this, pendingIntent, null, null)
         }
 

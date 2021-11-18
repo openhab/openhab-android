@@ -196,6 +196,8 @@ interface ConnectionManagerHelper {
     private class NetworkTypeHelperApi26 constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         val currentConnections: List<ConnectionType> get() {
+            // TODO: Replace deprecated function
+            @Suppress("DEPRECATION")
             return connectivityManager.allNetworks
                 .map { network -> network to connectivityManager.getNetworkCapabilities(network) }
                 .filter { (_, caps) -> caps?.isUsable() == true }
