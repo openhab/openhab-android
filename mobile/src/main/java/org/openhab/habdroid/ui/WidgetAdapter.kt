@@ -51,9 +51,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.source.LoadEventInfo
 import com.google.android.exoplayer2.source.MediaLoadData
@@ -1058,7 +1058,7 @@ class WidgetAdapter(
         private val errorView: View = itemView.findViewById(R.id.video_player_error)
         private val errorViewHint: TextView = itemView.findViewById(R.id.video_player_error_hint)
         private val errorViewButton: Button = itemView.findViewById(R.id.video_player_error_button)
-        private val exoPlayer = SimpleExoPlayer.Builder(parent.context).build()
+        private val exoPlayer = ExoPlayer.Builder(parent.context).build()
 
         init {
             playerView.player = exoPlayer
