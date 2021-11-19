@@ -114,6 +114,12 @@ class ItemTest {
     }
 
     @Test
+    fun getIcon() {
+        val sut = itemAsJsonObject.toItem()
+        assertEquals("switch", sut.category)
+    }
+
+    @Test
     fun testEquals() {
         val sut1a = itemAsJsonObjectWithMembers.toItem()
         val sut1b = itemAsJsonObjectWithMembers.toItem()
@@ -158,7 +164,8 @@ class ItemTest {
                 'type': 'Group',
                 'name': 'LocationGroup',
                 'label': 'Location Group',
-                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ] }
+                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ],
+                'category': 'Switch' }
             """.trimIndent()
         )
     }
