@@ -284,7 +284,7 @@ class ConnectionFactory internal constructor(
     ) {
         val prevState = stateChannel.value
         val newState = StateHolder(primary, active, primaryCloud, activeCloud)
-        stateChannel.offer(newState)
+        stateChannel.trySend(newState)
         if (callListenersOnChange) launch {
             if (newState.active?.failureReason != null ||
                 prevState.active?.connection !== newState.active?.connection

@@ -28,6 +28,8 @@ import javax.jmdns.ServiceListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ClosedSendChannelException
+import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
@@ -116,7 +118,8 @@ class AsyncServiceResolver(
 
     override fun serviceResolved(event: ServiceEvent) {
         scope.launch {
-            serviceInfoChannel.offer(event.info)
+            serviceInfoChannel.trySend(event.info)
+                .onClosed { throw it ?: ClosedSendChannelException("Channel was closed normally") }
         }
     }
 

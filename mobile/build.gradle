@@ -2,7 +2,7 @@ def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
 def isFoss = taskRequests.contains("Foss") || taskRequests.contains("foss")
 
 buildscript {
-    ext.kotlin_coroutines_version = '1.4.2'
+    ext.kotlin_coroutines_version = '1.5.2'
     ext.ok_http_version = '4.9.3'
     ext.work_manager_version = '2.7.1'
     ext.about_libraries_version = '8.9.4'
@@ -105,7 +105,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
+        freeCompilerArgs += [
+            "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
+            "-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi"
+        ]
         allWarningsAsErrors = true
     }
 }
@@ -141,7 +144,7 @@ dependencies {
     implementation "androidx.biometric:biometric:1.1.0"
     implementation "com.google.android.material:material:1.4.0"
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation "androidx.work:work-runtime:$work_manager_version"
+    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
     implementation "androidx.security:security-crypto:1.0.0"
     implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
