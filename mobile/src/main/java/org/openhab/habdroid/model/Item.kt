@@ -312,7 +312,7 @@ fun JSONObject.toItem(): Item {
     return Item(
         name,
         optString("label", name).trim(),
-        optStringOrNull("category")?.lowercase(Locale.getDefault()),
+        optStringOrNull("category")?.lowercase(Locale.US),
         getString("type").toItemType(),
         optString("groupType").toItemType(),
         optStringOrNull("link"),
