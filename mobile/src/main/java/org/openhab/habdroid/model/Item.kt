@@ -14,6 +14,7 @@
 package org.openhab.habdroid.model
 
 import android.os.Parcelable
+import java.util.Locale
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
@@ -311,7 +312,7 @@ fun JSONObject.toItem(): Item {
     return Item(
         name,
         optString("label", name).trim(),
-        optStringOrNull("category"),
+        optStringOrNull("category")?.lowercase(Locale.US),
         getString("type").toItemType(),
         optString("groupType").toItemType(),
         optStringOrNull("link"),
