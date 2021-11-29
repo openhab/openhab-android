@@ -50,7 +50,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
@@ -233,9 +232,9 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
     }
 
     private fun populateContextMenu(widget: Widget, menu: ContextMenu) {
-        val context = context ?: return
+        val activity = (activity as AbstractBaseActivity?) ?: return
         val suggestedCommands = suggestedCommandsFactory.fill(widget)
-        val nfcSupported = NfcAdapter.getDefaultAdapter(context) != null || Util.isEmulator()
+        val nfcSupported = NfcAdapter.getDefaultAdapter(activity) != null || Util.isEmulator()
         val hasCommandOptions = suggestedCommands.entries.isNotEmpty() || suggestedCommands.shouldShowCustom
 
         // Offer opening website if only one position is set
@@ -250,12 +249,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 R.string.create_home_screen_widget_title
             )
             widgetMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-            populateStatesMenu(widgetMenu, context, suggestedCommands, false) { state, mappedState, _ ->
-                requestPinAppWidget(context, widget, state, mappedState)
+            populateStatesMenu(widgetMenu, activity, suggestedCommands, false) { state, mappedState, _ ->
+                requestPinAppWidget(activity, widget, state, mappedState)
             }
         }
 
-        if (widget.linkedPage != null && ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
+        if (widget.linkedPage != null && ShortcutManagerCompat.isRequestPinShortcutSupported(activity)) {
             val shortcutMenu = menu.addSubMenu(
                 Menu.NONE, CONTEXT_MENU_ID_PIN_HOME_MENU,
                 Menu.NONE,
@@ -268,7 +267,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 Menu.NONE,
                 R.string.theme_name_light
             ).setOnMenuItemClickListener {
-                createShortcut(context, widget.linkedPage, true)
+                createShortcut(activity, widget.linkedPage, true)
                 return@setOnMenuItemClickListener true
             }
 
@@ -278,7 +277,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 Menu.NONE,
                 R.string.theme_name_dark
             ).setOnMenuItemClickListener {
-                createShortcut(context, widget.linkedPage, false)
+                createShortcut(activity, widget.linkedPage, false)
                 return@setOnMenuItemClickListener true
             }
         }
@@ -290,11 +289,11 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 R.string.nfc_action_write_command_tag
             )
             nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-            populateStatesMenu(nfcMenu, context, suggestedCommands, suggestedCommands.shouldShowCustom) {
+            populateStatesMenu(nfcMenu, activity, suggestedCommands, suggestedCommands.shouldShowCustom) {
                     state, mappedState, itemId ->
                 startActivity(
                     WriteTagActivity.createItemUpdateIntent(
-                        context,
+                        activity,
                         widget.item?.name ?: return@populateStatesMenu,
                         state,
                         mappedState,
@@ -312,11 +311,10 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         widget.item?.let {
             menu.add(Menu.NONE, CONTEXT_MENU_ID_COPY_ITEM_NAME, Menu.NONE, R.string.show_and_copy_item_name)
                 .setOnMenuItemClickListener {
-                    val activity = activity ?: return@setOnMenuItemClickListener false
                     val itemName = widget.item.name
                     Snackbar.make(
                         activity.findViewById(android.R.id.content),
-                        context.getString(R.string.copied_item_name, itemName),
+                        activity.getString(R.string.copied_item_name, itemName),
                         Snackbar.LENGTH_LONG
                     ).show()
                     val clipboardManager = activity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -494,21 +492,21 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
     }
 
     private fun createShortcut(
-        context: Context,
+        activity: AbstractBaseActivity,
         linkedPage: LinkedPage,
         whiteBackground: Boolean
-    ) = GlobalScope.launch {
+    ) = activity.launch {
         val connection = ConnectionFactory.activeUsableConnection?.connection ?: return@launch
         /**
          *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
          *  46dp instead of 72dp adds enough border to the icon.
          *  46dp foreground + 2 * 31dp border = 108dp
          **/
-        val foregroundSize = context.resources.dpToPixel(46F).toInt()
+        val foregroundSize = activity.resources.dpToPixel(46F).toInt()
         val iconBitmap = if (linkedPage.icon != null) {
             try {
                 connection.httpClient
-                    .get(linkedPage.icon.toUrl(context, true))
+                    .get(linkedPage.icon.toUrl(activity, true))
                     .asBitmap(foregroundSize, ImageConversionPolicy.ForceTargetSize)
                     .response
             } catch (e: HttpClient.HttpException) {
@@ -519,7 +517,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         }
 
         val icon = if (iconBitmap != null) {
-            val borderSize = context.resources.dpToPixel(31F)
+            val borderSize = activity.resources.dpToPixel(31F)
             val totalFrameWidth = (borderSize * 2).toInt()
             val bitmapWithBackground = Bitmap.createBitmap(
                 iconBitmap.width + totalFrameWidth,
@@ -532,28 +530,27 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
             IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
         } else {
             // Fall back to openHAB icon
-            IconCompat.createWithResource(context, R.mipmap.icon)
+            IconCompat.createWithResource(activity, R.mipmap.icon)
         }
 
         val sitemapUri = linkedPage.link.toUri()
         val shortSitemapUri = sitemapUri.path?.substring(14).orEmpty()
 
-        val startIntent = Intent(context, MainActivity::class.java).apply {
+        val startIntent = Intent(activity, MainActivity::class.java).apply {
             action = MainActivity.ACTION_SITEMAP_SELECTED
             putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri)
-            putExtra(MainActivity.EXTRA_SERVER_ID, context.getPrefs().getActiveServerId())
+            putExtra(MainActivity.EXTRA_SERVER_ID, activity.getPrefs().getActiveServerId())
         }
 
-        val name = if (linkedPage.title.isEmpty()) context.getString(R.string.app_name) else linkedPage.title
-        val shortcutInfo = ShortcutInfoCompat.Builder(context,
-            shortSitemapUri + '-' + System.currentTimeMillis())
+        val name = if (linkedPage.title.isEmpty()) activity.getString(R.string.app_name) else linkedPage.title
+        val shortcutInfo = ShortcutInfoCompat.Builder(activity, shortSitemapUri + '-' + System.currentTimeMillis())
             .setShortLabel(name)
             .setIcon(icon)
             .setIntent(startIntent)
             .setAlwaysBadged()
             .build()
 
-        val success = ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
+        val success = ShortcutManagerCompat.requestPinShortcut(activity, shortcutInfo, null)
         withContext(Dispatchers.Main) {
             if (success) {
                 (activity as? MainActivity)?.showSnackbar(
