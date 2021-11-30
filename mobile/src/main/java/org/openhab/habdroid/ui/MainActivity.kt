@@ -257,7 +257,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         UpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
 
         val isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this)
-        GlobalScope.launch {
+        launch {
             showPushNotificationWarningIfNeeded()
             manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable)
             setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java, isSpeechRecognizerAvailable)
@@ -532,7 +532,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
         CrashReportingHelper.d(TAG, "onPrimaryCloudConnectionChanged()")
         handlePendingAction()
-        GlobalScope.launch {
+        launch {
             showPushNotificationWarningIfNeeded()
         }
     }

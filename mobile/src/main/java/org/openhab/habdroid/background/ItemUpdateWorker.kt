@@ -20,10 +20,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
@@ -48,15 +48,13 @@ import org.openhab.habdroid.util.hasCause
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showToast
 
-class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    override fun doWork(): Result {
+class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
         val isImportant = inputData.getBoolean(INPUT_DATA_IS_IMPORTANT, false)
         if (isImportant) {
-            setForegroundAsync(createForegroundInfo())
+            setForegroundAsync(getForegroundInfo())
         }
-        runBlocking {
-            ConnectionFactory.waitForInitialization()
-        }
+        ConnectionFactory.waitForInitialization()
 
         Log.d(TAG, "Trying to get connection")
         val connection = if (inputData.getBoolean(INPUT_DATA_PRIMARY_SERVER, false)) {
@@ -80,54 +78,52 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             return handleVoiceCommand(applicationContext, connection, value)
         }
 
-        return runBlocking {
-            try {
-                val item = ItemClient.loadItem(connection, itemName)
-                if (item == null) {
-                    sendTaskerSignalIfNeeded(
-                        taskerIntent,
-                        true,
-                        500,
-                        applicationContext.getString(R.string.item_update_error_couldnt_get_item_type)
-                    )
-                    return@runBlocking Result.failure(buildOutputData(true, 500))
-                }
+        return try {
+            val item = ItemClient.loadItem(connection, itemName)
+            if (item == null) {
+                sendTaskerSignalIfNeeded(
+                    taskerIntent,
+                    true,
+                    500,
+                    applicationContext.getString(R.string.item_update_error_couldnt_get_item_type)
+                )
+                return Result.failure(buildOutputData(true, 500))
+            }
 
-                val valueToBeSent = mapValueAccordingToItemTypeAndValue(value, item)
-                Log.d(TAG, "Trying to update Item '$itemName' to value $valueToBeSent, was ${value.value}")
-                val actualMappedValue = if (value.value != valueToBeSent) {
-                    valueToBeSent
-                } else {
-                    value.mappedValue.orDefaultIfEmpty(value.value)
-                }
+            val valueToBeSent = mapValueAccordingToItemTypeAndValue(value, item)
+            Log.d(TAG, "Trying to update Item '$itemName' to value $valueToBeSent, was ${value.value}")
+            val actualMappedValue = if (value.value != valueToBeSent) {
+                valueToBeSent
+            } else {
+                value.mappedValue.orDefaultIfEmpty(value.value)
+            }
 
-                val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false) && valueToBeSent != "UNDEF") {
-                    connection.httpClient
-                        .post("rest/items/$itemName", valueToBeSent)
-                        .asStatus()
-                } else {
-                    connection.httpClient
-                        .put("rest/items/$itemName/state", valueToBeSent)
-                        .asStatus()
-                }
-                Log.d(TAG, "Item '$itemName' successfully updated to value $valueToBeSent")
-                if (showToast) {
-                    val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
-                    applicationContext.showToast(
-                        getItemUpdateSuccessMessage(applicationContext, label, valueToBeSent, actualMappedValue),
-                        ToastType.SUCCESS
-                    )
-                }
-                sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
-                Result.success(buildOutputData(true, result.statusCode, valueToBeSent))
-            } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
-                if (e.hasCause(SocketTimeoutException::class.java) || e.statusCode in RETRY_HTTP_ERROR_CODES) {
-                    retryOrFail(isImportant, showToast, taskerIntent, true, e.statusCode)
-                } else {
-                    sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
-                    Result.failure(buildOutputData(true, e.statusCode))
-                }
+            val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false) && valueToBeSent != "UNDEF") {
+                connection.httpClient
+                    .post("rest/items/$itemName", valueToBeSent)
+                    .asStatus()
+            } else {
+                connection.httpClient
+                    .put("rest/items/$itemName/state", valueToBeSent)
+                    .asStatus()
+            }
+            Log.d(TAG, "Item '$itemName' successfully updated to value $valueToBeSent")
+            if (showToast) {
+                val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
+                applicationContext.showToast(
+                    getItemUpdateSuccessMessage(applicationContext, label, valueToBeSent, actualMappedValue),
+                    ToastType.SUCCESS
+                )
+            }
+            sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
+            Result.success(buildOutputData(true, result.statusCode, valueToBeSent))
+        } catch (e: HttpClient.HttpException) {
+            Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
+            if (e.hasCause(SocketTimeoutException::class.java) || e.statusCode in RETRY_HTTP_ERROR_CODES) {
+                retryOrFail(isImportant, showToast, taskerIntent, true, e.statusCode)
+            } else {
+                sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
+                Result.failure(buildOutputData(true, e.statusCode))
             }
         }
     }
@@ -248,7 +244,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return Result.success(buildOutputData(true, result.statusCode, voiceCommand))
     }
 
-    private fun createForegroundInfo(): ForegroundInfo {
+    override suspend fun getForegroundInfo(): ForegroundInfo {
         val context = applicationContext
         val title = context.getString(R.string.item_upload_in_progress)
         val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)

@@ -22,13 +22,13 @@ import android.provider.Settings
 import android.util.Log
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
+import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
@@ -37,7 +37,6 @@ import java.io.IOException
 import java.net.URLEncoder
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -45,7 +44,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.Util
 
-class FcmRegistrationWorker(private val context: Context, params: WorkerParameters) : Worker(context, params) {
+class FcmRegistrationWorker(private val context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     /**
      * @author https://stackoverflow.com/a/12707479
      */
@@ -65,13 +64,11 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
         }
     }
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         val action = inputData.getString(KEY_ACTION)
         Log.d(TAG, "Run with action $action")
 
-        runBlocking {
-            ConnectionFactory.waitForInitialization()
-        }
+        ConnectionFactory.waitForInitialization()
 
         val connection = ConnectionFactory.primaryCloudConnection?.connection
 
@@ -83,7 +80,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
         when (action) {
             ACTION_REGISTER -> {
                 try {
-                    runBlocking { registerFcm(connection) }
+                    registerFcm(connection)
                     CloudMessagingHelper.registrationFailureReason = null
                     CloudMessagingHelper.registrationDone = true
                     return Result.success()

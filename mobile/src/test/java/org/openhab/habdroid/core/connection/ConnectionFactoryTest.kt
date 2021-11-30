@@ -26,7 +26,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import java.io.File
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
@@ -48,7 +48,7 @@ import org.openhab.habdroid.testUtils.RetryRule
 import org.openhab.habdroid.util.PrefKeys
 
 class ConnectionFactoryTest {
-    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     companion object {
         private val mainThread = newSingleThreadContext("UI thread")
 
