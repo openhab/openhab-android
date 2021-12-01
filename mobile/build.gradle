@@ -21,7 +21,7 @@ buildscript {
 
     dependencies {
         classpath "com.google.gms:google-services:4.3.10"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:2.8.0"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:2.8.1"
         classpath 'com.github.bjoernq:unmockplugin:0.7.9'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$about_libraries_version"
         classpath "de.jjohannes.gradle:missing-metadata-guava:0.4"
