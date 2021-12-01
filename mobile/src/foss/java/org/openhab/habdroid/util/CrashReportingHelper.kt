@@ -60,6 +60,8 @@ object CrashReportingHelper {
         return ACRA.isACRASenderServiceProcess()
     }
 
+    fun canBeDisabledByUser() = false
+
     fun d(tag: String, message: String, remoteOnly: Boolean = false, exception: Exception? = null) {
         if (!remoteOnly) {
             Log.d(tag, message, exception)

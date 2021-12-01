@@ -34,9 +34,9 @@ object CrashReportingHelper {
     }
 
     // Only required for ACRA
-    fun isCrashReporterProcess(): Boolean {
-        return false
-    }
+    fun isCrashReporterProcess() = false
+
+    fun canBeDisabledByUser() = true
 
     fun d(tag: String, message: String, remoteOnly: Boolean = false, exception: Exception? = null) {
         FirebaseCrashlytics.getInstance().log("D/$tag: $message; ${exception?.stackTraceToString()}")
