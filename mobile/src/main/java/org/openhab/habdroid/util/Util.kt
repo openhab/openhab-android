@@ -23,8 +23,6 @@ object Util {
 
     val isFlavorStable get() = BuildConfig.FLAVOR.lowercase(Locale.ROOT).contains("stable")
     val isFlavorBeta get() = !isFlavorStable
-    val isFlavorFull get() = BuildConfig.FLAVOR.lowercase(Locale.ROOT).contains("full")
-    val isFlavorFoss get() = !isFlavorFull
 
     fun isEmulator(): Boolean {
         val isEmulator = Build.FINGERPRINT.startsWith("generic") ||

@@ -348,7 +348,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 false
             }
 
-            if (Util.isFlavorFoss) {
+            if (CloudMessagingHelper.needsPollingForNotifications(requireContext())) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_STATUS_HINT)
             } else {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.FOSS_NOTIFICATIONS_ENABLED)
@@ -399,13 +399,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.TASKER_PLUGIN_ENABLED)
             }
 
-            if (Util.isFlavorFoss) {
-                preferenceScreen.removePreference(crashReporting)
-            } else {
+            if (CrashReportingHelper.canBeDisabledByUser()) {
                 crashReporting.setOnPreferenceClickListener {
                     CrashReportingHelper.initialize(requireActivity().application)
                     true
                 }
+            } else {
+                preferenceScreen.removePreference(crashReporting)
             }
 
             viewLogPref.setOnPreferenceClickListener { preference ->
