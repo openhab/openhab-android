@@ -34,7 +34,7 @@ object Util {
             Build.MANUFACTURER.contains("Genymotion") ||
             (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
             Build.PRODUCT == "google_sdk" ||
-            Build.PRODUCT == "sdk_gphone_x86"
+            Build.PRODUCT.startsWith("sdk_gphone")
         Log.d(TAG, "Device is emulator: $isEmulator")
         return isEmulator
     }
