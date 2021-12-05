@@ -577,3 +577,9 @@ val PendingIntent_Immutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 } else {
     0
 }
+
+val PendingIntent_Mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    PendingIntent.FLAG_MUTABLE
+} else {
+    0
+}
