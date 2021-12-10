@@ -60,6 +60,7 @@ import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PendingIntent_Immutable
+import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
 import org.openhab.habdroid.util.TaskerPlugin
@@ -400,7 +401,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 context,
                 if (fromBackground) 1 else 0,
                 callbackIntent,
-                PendingIntent_Immutable
+                PendingIntent_Mutable
             )
 
             return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
