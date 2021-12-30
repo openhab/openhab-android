@@ -4,23 +4,23 @@
     <whatis>openHAB és una plataforma feta en Java per a l'automatització de la llar basada en codi obert, que integra i combina una gran varietat de sistemes i tecnologies per a la llar intel·ligent en una solució única.</whatis>
     <rules>Per sobre de la capa unificada d'abstracció, tots els dispositius connectats són disponibles per al motor de regles generals d'automatització i diferents interfícies d'usuari.</rules>
     <supported>Productes suportats</supported>
-    <bindings>  </bindings>
-    <automation_apps/>
+    <bindings>Més de 200 complements específics proporcionen suport per a diferents marques, dispositius, tecnologies i protocols de comunicació. Alguns exemples són Z-Wave, Philips Hue, Amazon Echo, Chromecast i Sonos. Descobriu tots els complements disponibles, i dispositius i funcions suportats a: https://www.openhab.org/addons/</bindings>
+    <automation_apps>L'aplicació inclou un connector (action) per a Tasker i Locale.</automation_apps>
 
     <oss_community>Comunitat de codi obert</oss_community>
-    <forum>  </forum>
+    <forum>La iniciativa de codi obert openHAB dona ferm suport a la seva vibrant comunitat. El fòrum, amb més de 13.000 usuaris registrats, és un lloc on trobar orientacions, ajuda i inspiració. Uniu-vos al fòrum de la comunitat openHAB a https://community.openhab.org</forum>
 
     <report_issues>Si trobeu un problema, informeu-nos en en el fòrem o a https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Si voleu traduir la aplicació a la vostra llengua, uniu-vos a https://crowdin.com/project/openhab-android</translation>
     <foundation>Fundació openHAB</foundation>
-    <about_foundation> </about_foundation>
+    <about_foundation>La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany de lucre amb la missió d'educar al públic sobre la possibilitats i beneficis de les solucions lliures i obertes per a la domòtica i llars intel·ligents. Teniu més informació sobre la missió i els serveis de la fundació a https://www.openhabfoundation.org</about_foundation>
     <important_note>Nota important</important_note>
-    <oh_server/>
+    <oh_server>Us cal un servidor openHAB per a aquesta aplicació.</oh_server>
     <short_description>Domòtica de codi obert independent de la tecnologia i el fabricant</short_description>
-    <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <fdroid>Les compilacions de F-Droid no tenen FCM ni informes d'error i per tant no poden rebre notificacions instantànies (push) d'openHAB Cloud. En comptes d'això, les notificacions es consulten regularment en aquestes compilacions.</fdroid>
+    <fdroid_beta><![CDATA[Podeu instal·lar la versió beta juntament amb la <a href="https://f-droid.org/packages/org.openhab.habdroid/">versió estable</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Política de privadesa: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
-    <beta/>
+    <beta>Proveu funcions noves i feu-ne comentaris abans!</beta>
     <play_beta>Podeu instal·lar la versió beta juntament amb la versió estable.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Correccions i millores. Visiteu https://github.com/openhab/openhab-android/releases per obtenir un registre de canvis detallat.</changelog_play_beta>
 </strings>
