@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Les notificacions tenen funcionalitat limitada en la versió FOSS. Prem per a més informació.</string>
+    <string name="push_notification_status_disabled">Les notificacions estan desactivades</string>
+    <string name="notification_channel_crash_reports">Informes d\'error</string>
+    <string name="notification_channel_crash_reports_description">S\'utilitza per preguntar si s\'ha d\'enviar un informe d\'error</string>
+    <string name="crash_report_notification_title">l\'openHAB s\'ha aturat inesperadament</string>
+    <string name="crash_report_notification_text">Ajuda a millorar l\'openHAB enviant un informe d\'error</string>
+    <string name="crash_report_notification_send_mail">Envia un correu electrònic</string>
     <string name="open_in_maps">Obre a openStreetMap</string>
 </resources>
