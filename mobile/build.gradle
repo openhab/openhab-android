@@ -127,6 +127,9 @@ repositories {
     maven {
         url "https://jitpack.io"
     }
+    maven {
+        url "https://maven.mozilla.org/maven2/"
+    }
     google()
 }
 
@@ -168,6 +171,7 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
     implementation "com.github.GrenderG:Toasty:1.5.2"
+    implementation "org.mozilla.geckoview:geckoview-beta:96.0.20211219185855"
 
     // Firebase
     implementation platform("com.google.firebase:firebase-bom:25.11.0")
