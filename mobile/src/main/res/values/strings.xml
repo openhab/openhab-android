@@ -424,8 +424,8 @@
     <string name="nfc_action_write_command_tag">Write Item NFC tag</string>
 
     <!-- Drawer -->
-    <string name="drawer_open">Sitemap drawer opened</string>
-    <string name="drawer_close">Sitemap drawer closed</string>
+    <string name="drawer_open">Open side menu</string>
+    <string name="drawer_close">Close side menu</string>
     <string name="mainmenu_openhab_voice_recognition">Voice recognition</string>
 
     <!-- About -->
