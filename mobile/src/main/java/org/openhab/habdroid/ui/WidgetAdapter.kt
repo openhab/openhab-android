@@ -360,7 +360,7 @@ class WidgetAdapter(
     ) : ViewHolder(inflater, parent, layoutResId) {
         protected val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val valueView: TextView? = itemView.findViewById(R.id.widgetvalue)
-        private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
+        protected val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
 
         override fun bind(widget: Widget) {
             labelView.text = widget.label
@@ -854,7 +854,7 @@ class WidgetAdapter(
 
         override fun onGlobalLayout() {
             Log.d(TAG, "onGlobalLayout()")
-            group.isVisible = group.measuredWidth < (itemView.width * 0.8)
+            group.isVisible = group.measuredWidth < (itemView.width - iconView.measuredWidth)
             spinner.isVisible = !group.isVisible
         }
 
