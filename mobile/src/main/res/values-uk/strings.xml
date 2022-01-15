@@ -384,8 +384,6 @@
     <string name="nfc_action_to_sitemap_page">Записати сторінки інтерфейсу в NFC-мітку</string>
     <string name="nfc_action_write_command_tag">Записати об’єкт в NFC-мітку</string>
     <!-- Drawer -->
-    <string name="drawer_open">Відображення сторінки інтерфейсу відкрито</string>
-    <string name="drawer_close">Відображення сторінки інтерфейсу закрито</string>
     <string name="mainmenu_openhab_voice_recognition">Розпізнавання голосу</string>
     <!-- About -->
     <string name="about_title">Про програму</string>
