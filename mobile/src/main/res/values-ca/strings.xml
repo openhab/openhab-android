@@ -382,8 +382,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="nfc_action_to_sitemap_page">Escriu l\'etiqueta NFC del Sitemap</string>
     <string name="nfc_action_write_command_tag">Escriu a l\'etiqueta de NFC</string>
     <!-- Drawer -->
-    <string name="drawer_open">S\'ha obert el calaix del Sitemap</string>
-    <string name="drawer_close">S\'ha tancat el calaix del Sitemap</string>
     <string name="mainmenu_openhab_voice_recognition">Reconeixement de veu</string>
     <!-- About -->
     <string name="about_title">Quant a</string>
