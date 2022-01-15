@@ -154,8 +154,6 @@
     <string name="nfc_activate">تفعيل</string>
     <string name="nfc_action_current_color">اللون الحالي</string>
     <!-- Drawer -->
-    <string name="drawer_open">درج Sitemap مفتوح</string>
-    <string name="drawer_close">درج Sitemap مغلق</string>
     <string name="mainmenu_openhab_voice_recognition">تمييز الصوت</string>
     <!-- About -->
     <string name="about_title">حول</string>
