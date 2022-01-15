@@ -116,8 +116,6 @@
     <string name="nfc_activate">Ενεργοποίηση</string>
     <string name="nfc_action_current_color">Τρέχον χρώμα</string>
     <!-- Drawer -->
-    <string name="drawer_open">Συρτάρι-ανοικτό</string>
-    <string name="drawer_close">Συρτάρι-κλειστό</string>
     <string name="mainmenu_openhab_voice_recognition">Αναγνώριση φωνής</string>
     <!-- About -->
     <string name="about_title">Σχετικά</string>
