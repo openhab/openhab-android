@@ -153,8 +153,6 @@
     <string name="nfc_activate">Mengaktifkan</string>
     <string name="nfc_action_current_color">Warna sekarang</string>
     <!-- Drawer -->
-    <string name="drawer_open">Laci peta dibuka</string>
-    <string name="drawer_close">Peta Situs laci tertutup</string>
     <string name="mainmenu_openhab_voice_recognition">Pengenalan suara</string>
     <!-- About -->
     <string name="about_title">Tentang</string>
