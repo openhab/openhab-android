@@ -127,8 +127,6 @@
     <string name="nfc_activate">Активиране</string>
     <string name="nfc_action_current_color">Текущ цвят</string>
     <!-- Drawer -->
-    <string name="drawer_open">Инфокарта</string>
-    <string name="drawer_close">Упътване</string>
     <string name="mainmenu_openhab_voice_recognition">Разпознаване на глас</string>
     <!-- About -->
     <string name="about_title">Относно</string>
