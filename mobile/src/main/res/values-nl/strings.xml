@@ -360,8 +360,6 @@
     <string name="nfc_action_to_sitemap_page">NFC-tag voor Sitemap schrijven</string>
     <string name="nfc_action_write_command_tag">NFC-tag voor Item schrijven</string>
     <!-- Drawer -->
-    <string name="drawer_open">Sitemap drawer geopend</string>
-    <string name="drawer_close">Sitemap drawer gesloten</string>
     <string name="mainmenu_openhab_voice_recognition">Stemherkenning</string>
     <!-- About -->
     <string name="about_title">Over deze app</string>
