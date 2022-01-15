@@ -378,8 +378,6 @@
     <string name="nfc_action_to_sitemap_page">Записать Sitemap на NFC метку</string>
     <string name="nfc_action_write_command_tag">Записать Item на NFC метку</string>
     <!-- Drawer -->
-    <string name="drawer_open">Отображение Sitemap открыто</string>
-    <string name="drawer_close">Отображение Sitemap закрыто</string>
     <string name="mainmenu_openhab_voice_recognition">Распознавание голоса</string>
     <!-- About -->
     <string name="about_title">О программе</string>
