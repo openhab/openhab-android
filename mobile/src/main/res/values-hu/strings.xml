@@ -371,8 +371,6 @@
     <string name="nfc_action_to_sitemap_page">Felület írása NFC címkére</string>
     <string name="nfc_action_write_command_tag">NFC-címke írása</string>
     <!-- Drawer -->
-    <string name="drawer_open">Felület tervező nyitva</string>
-    <string name="drawer_close">Felület tervező zárva</string>
     <string name="mainmenu_openhab_voice_recognition">Hangfelsimerés</string>
     <!-- About -->
     <string name="about_title">Névjegy</string>
