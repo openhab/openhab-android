@@ -312,8 +312,6 @@
     <string name="nfc_action_to_sitemap_page">Kirjoita Sitemapin NFC tunniste</string>
     <string name="nfc_action_write_command_tag">Kirjoita Itemin NFC tunniste</string>
     <!-- Drawer -->
-    <string name="drawer_open">Sitemapin valitsin avattu</string>
-    <string name="drawer_close">Sitemapin valitsin suljettu</string>
     <string name="mainmenu_openhab_voice_recognition">Puheentunnistus</string>
     <!-- About -->
     <string name="about_title">Tietoja</string>
