@@ -1221,7 +1221,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         )
                         phoneStatePref.setValue(checked = false)
                     } else {
-                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
+                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE, true)
                     }
                 }
                 PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
@@ -1232,7 +1232,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         )
                         wifiSsidPref.setValue(checked = false)
                     } else {
-                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
+                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID, true)
                     }
                 }
             }

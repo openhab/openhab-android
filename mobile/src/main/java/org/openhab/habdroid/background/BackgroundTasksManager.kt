@@ -59,7 +59,6 @@ import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
-import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
@@ -85,29 +84,29 @@ class BackgroundTasksManager : BroadcastReceiver() {
         when (intent.action) {
             AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED -> {
                 Log.d(TAG, "Alarm clock changed")
-                scheduleWorker(context, PrefKeys.SEND_ALARM_CLOCK)
+                scheduleWorker(context, PrefKeys.SEND_ALARM_CLOCK, true)
             }
             TelephonyManager.ACTION_PHONE_STATE_CHANGED -> {
                 Log.d(TAG, "Phone state changed")
-                scheduleWorker(context, PrefKeys.SEND_PHONE_STATE)
+                scheduleWorker(context, PrefKeys.SEND_PHONE_STATE, true)
             }
             Intent.ACTION_POWER_CONNECTED, Intent.ACTION_POWER_DISCONNECTED,
             Intent.ACTION_BATTERY_LOW, Intent.ACTION_BATTERY_OKAY -> {
                 Log.d(TAG, "Battery or charging state changed: ${intent.action}")
-                scheduleWorker(context, PrefKeys.SEND_BATTERY_LEVEL)
-                scheduleWorker(context, PrefKeys.SEND_CHARGING_STATE)
+                scheduleWorker(context, PrefKeys.SEND_BATTERY_LEVEL, true)
+                scheduleWorker(context, PrefKeys.SEND_CHARGING_STATE, true)
             }
             WifiManager.NETWORK_STATE_CHANGED_ACTION -> {
                 Log.d(TAG, "Wifi state changed")
-                scheduleWorker(context, PrefKeys.SEND_WIFI_SSID)
+                scheduleWorker(context, PrefKeys.SEND_WIFI_SSID, true)
             }
             NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED -> {
                 Log.d(TAG, "DND mode changed")
-                scheduleWorker(context, PrefKeys.SEND_DND_MODE)
+                scheduleWorker(context, PrefKeys.SEND_DND_MODE, true)
             }
             in GADGETBRIDGE_ACTIONS -> {
                 Log.d(TAG, "Gadgetbridge intent received")
-                scheduleWorker(context, PrefKeys.SEND_GADGETBRIDGE, intent)
+                scheduleWorker(context, PrefKeys.SEND_GADGETBRIDGE, true, intent)
             }
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
@@ -115,7 +114,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 Log.d(TAG, "Boot completed")
-                KNOWN_KEYS.forEach { key -> scheduleWorker(context, key) }
+                KNOWN_KEYS.forEach { key -> scheduleWorker(context, key, true) }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     for (tileId in 1..AbstractTileService.TILE_COUNT) {
                         AbstractTileService.requestTileUpdate(context, tileId)
@@ -230,9 +229,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     // Prefix has been changed -> reschedule uploads
                     key == PrefKeys.DEV_ID || key == PrefKeys.DEV_ID_PREFIX_BG_TASKS ||
                     key == PrefKeys.PRIMARY_SERVER_ID -> {
-                    KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey) }
+                    KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey, true) }
                 }
-                key in KNOWN_KEYS -> scheduleWorker(context, key)
+                key in KNOWN_KEYS -> scheduleWorker(context, key, true)
                 key == PrefKeys.SEND_DEVICE_INFO_SCHEDULE -> schedulePeriodicTrigger(context, true)
                 key == PrefKeys.FOSS_NOTIFICATIONS_ENABLED -> schedulePeriodicTrigger(context, false)
             }
@@ -415,7 +414,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         fun triggerPeriodicWork(context: Context) {
             Log.d(TAG, "triggerPeriodicWork()")
-            KNOWN_PERIODIC_KEYS.forEach { key -> scheduleWorker(context, key) }
+            KNOWN_PERIODIC_KEYS.forEach { key -> scheduleWorker(context, key, false) }
         }
 
         fun schedulePeriodicTrigger(context: Context, force: Boolean = false) {
@@ -494,7 +493,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             )
         }
 
-        fun scheduleWorker(context: Context, key: String, intent: Intent? = null) {
+        fun scheduleWorker(context: Context, key: String, isImportant: Boolean, intent: Intent? = null) {
             val prefs = context.getPrefs()
             val setting = if (prefs.isDemoModeEnabled()) {
                 Pair(false, "") // Don't attempt any uploads in demo mode
@@ -528,7 +527,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 prefix + setting.second,
                 null,
                 value,
-                isImportant = false,
+                isImportant,
                 showToast = false,
                 asCommand = true
             )
