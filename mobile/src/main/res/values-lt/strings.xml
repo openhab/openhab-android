@@ -69,8 +69,6 @@
     <string name="nfc_action_toggle">Perjungti</string>
     <string name="nfc_action_current_color">Dabartinė spalva</string>
     <!-- Drawer -->
-    <string name="drawer_open">Vietos išplanavimų parinkiklis atvertas</string>
-    <string name="drawer_close">Vietos išplanavimų parinkiklis užvertas</string>
     <string name="mainmenu_openhab_voice_recognition">Balso atpažinimas</string>
     <!-- About -->
     <string name="about_title">Apie</string>

@@ -69,8 +69,6 @@
     <string name="nfc_activate">Gawing Aktibo</string>
     <string name="nfc_action_current_color">Kasalukuyang kulay</string>
     <!-- Drawer -->
-    <string name="drawer_open">Ang Sitemap drawer ay nabuksan</string>
-    <string name="drawer_close">Ang Sitemap drawer ay isinara</string>
     <string name="mainmenu_openhab_voice_recognition">Pagkilala sa boses</string>
     <!-- About -->
     <string name="about_title">Impormasyon</string>

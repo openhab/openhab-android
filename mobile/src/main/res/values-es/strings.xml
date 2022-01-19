@@ -380,8 +380,8 @@
     <string name="nfc_action_to_sitemap_page">Escribir etiqueta NFC del Sitemap</string>
     <string name="nfc_action_write_command_tag">Escribir etiqueta NFC del Item</string>
     <!-- Drawer -->
-    <string name="drawer_open">Sitemap drawer abierto</string>
-    <string name="drawer_close">Sitemap drawer cerrado</string>
+    <string name="drawer_open">Abrir menú lateral</string>
+    <string name="drawer_close">Cerrar menú lateral</string>
     <string name="mainmenu_openhab_voice_recognition">Reconocimiento de voz</string>
     <!-- About -->
     <string name="about_title">Acerca de</string>
