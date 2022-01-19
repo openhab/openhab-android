@@ -16,14 +16,21 @@ package org.openhab.habdroid.background
 import com.google.common.reflect.ClassPath
 import java.util.stream.Collectors
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.openhab.habdroid.background.tiles.AbstractTileService
 
+@ExperimentalCoroutinesApi
 class TileServicesTests {
+    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
     private lateinit var tileServices: Set<Class<*>>
 
     @Suppress("UnstableApiUsage")
@@ -35,6 +42,14 @@ class TileServicesTests {
             .filter { it.name.startsWith("org.openhab.habdroid.background.tiles.TileService") }
             .map { it.load() }
             .collect(Collectors.toSet())
+
+        Dispatchers.setMain(mainThreadSurrogate)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        mainThreadSurrogate.close()
     }
 
     @Test
