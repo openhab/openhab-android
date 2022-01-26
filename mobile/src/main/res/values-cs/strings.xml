@@ -109,9 +109,15 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Rozšířené</string>
     <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
+    <string name="settings_multi_server_wifi_ssid_summary_set">Aplikace vybere tento server při připojení k Wi-Fi \'%s\'.</string>
+    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">Aplikace vybere tento server při připojení k následujícím Wi-Fi \'%s</string>
+    <string name="settings_multi_server_wifi_ssid_summary_unset">Aplikace nebude automaticky vybírat tento server na základě připojené Wi-Fi sítě.</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Můžete zadat více Wi-Fi sítí, každou na nový řádek.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Přepnuto na server \"%s\" na základě Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Nelze načíst název Wi-Fi: Chybí oprávnění</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Nelze načíst název Wi-Fi: Poloha je vypnuta</string>
+    <string name="setting_crash_reporting_title">Zprávy o selhání</string>
+    <string name="setting_crash_reporting_summary">Odeslat hlášení o pádech vývojářům aplikace</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="voice_command">Hlasový příkaz</string>
@@ -378,6 +384,8 @@
     <string name="nfc_action_to_sitemap_page">Zapsat Sitemap NFC tag</string>
     <string name="nfc_action_write_command_tag">Zapsat Item NFC tag</string>
     <!-- Drawer -->
+    <string name="drawer_open">Otevřít postranní menu</string>
+    <string name="drawer_close">Zavřít postranní menu</string>
     <string name="mainmenu_openhab_voice_recognition">Rozpoznání hlasu</string>
     <!-- About -->
     <string name="about_title">O aplikaci</string>
