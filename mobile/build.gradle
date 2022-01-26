@@ -95,10 +95,6 @@ android {
             }
         }
     }
-    lintOptions {
-        lintConfig file("lint.xml")
-        abortOnError false
-    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -110,6 +106,10 @@ android {
             "-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi"
         ]
         allWarningsAsErrors = true
+    }
+    lint {
+        abortOnError false
+        lintConfig file('lint.xml')
     }
 }
 
