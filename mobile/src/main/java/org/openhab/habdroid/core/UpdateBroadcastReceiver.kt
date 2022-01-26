@@ -201,8 +201,9 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 prefs.getConfiguredServerIds().forEach { serverId ->
                     prefs.edit {
                         val key = PrefKeys.buildServerKey(serverId, PrefKeys.WIFI_SSID_PREFIX)
+                        val ssid = prefs.getStringOrNull(key)
                         prefs.edit {
-                            putStringSet(key, setOf(prefs.getStringOrNull(key)))
+                            putStringSet(key, if (ssid.isNullOrEmpty()) emptySet() else setOf(ssid))
                         }
                     }
                 }
