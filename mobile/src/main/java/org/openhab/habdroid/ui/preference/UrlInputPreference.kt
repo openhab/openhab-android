@@ -56,28 +56,26 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
         private lateinit var editor: MaterialAutoCompleteTextView
         private var urlIsValid: Boolean = false
 
-        override fun onBindDialogView(view: View?) {
+        override fun onBindDialogView(view: View) {
             super.onBindDialogView(view)
-            if (view != null) {
-                wrapper = view.findViewById(R.id.input_wrapper)
-                arguments?.getCharSequence(KEY_TITLE)?.let { title ->
-                    wrapper.hint = title
-                }
-                editor = view.findViewById(android.R.id.edit)
-                editor.addTextChangedListener(this)
-                editor.inputType = InputType.TYPE_TEXT_VARIATION_URI
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-                }
-
-                val suggestions = if (requireArguments().getBoolean(IS_FOR_REMOTE_SERVER, false)) {
-                    listOf("https://myopenhab.org", "https://")
-                } else {
-                    listOf("https://", "http://")
-                }
-                val adapter = ArrayAdapter(editor.context, android.R.layout.simple_dropdown_item_1line, suggestions)
-                editor.setAdapter(adapter)
+            wrapper = view.findViewById(R.id.input_wrapper)
+            arguments?.getCharSequence(KEY_TITLE)?.let { title ->
+                wrapper.hint = title
             }
+            editor = view.findViewById(android.R.id.edit)
+            editor.addTextChangedListener(this)
+            editor.inputType = InputType.TYPE_TEXT_VARIATION_URI
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+            }
+
+            val suggestions = if (requireArguments().getBoolean(IS_FOR_REMOTE_SERVER, false)) {
+                listOf("https://myopenhab.org", "https://")
+            } else {
+                listOf("https://", "http://")
+            }
+            val adapter = ArrayAdapter(editor.context, android.R.layout.simple_dropdown_item_1line, suggestions)
+            editor.setAdapter(adapter)
         }
 
         override fun onStart() {
@@ -143,7 +141,7 @@ class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
             private const val KEY_TITLE = "title"
             private const val IS_FOR_REMOTE_SERVER = "isForRemoteServer"
 
-            fun newInstance(key: String, title: CharSequence, isForRemoteServer: Boolean): PrefFragment {
+            fun newInstance(key: String, title: CharSequence?, isForRemoteServer: Boolean): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(
                     ARG_KEY to key,

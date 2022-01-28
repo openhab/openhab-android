@@ -47,14 +47,14 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
         widgetLayoutResource = R.layout.help_icon_pref
     }
 
-    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        if (holder != null) {
-            helpIcon = holder.itemView.findViewById(R.id.help_icon)
-            helpIcon?.setupHelpIcon(context.getString(R.string.settings_openhab_sslclientcert_howto_url),
-                R.string.settings_openhab_sslclientcert_howto_summary)
-            helpIcon?.updateHelpIconAlpha(isEnabled)
-        }
+        helpIcon = holder.itemView.findViewById(R.id.help_icon)
+        helpIcon?.setupHelpIcon(
+            context.getString(R.string.settings_openhab_sslclientcert_howto_url),
+            R.string.settings_openhab_sslclientcert_howto_summary
+        )
+        helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 
     override fun onSetInitialValue(defaultValue: Any?) {
@@ -93,7 +93,7 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
 
     private fun getActivity(): Activity {
         var c = context
-        loop@ while (c != null) {
+        loop@ while (true) {
             when (c) {
                 is Activity -> return c
                 is ContextThemeWrapper -> c = c.baseContext

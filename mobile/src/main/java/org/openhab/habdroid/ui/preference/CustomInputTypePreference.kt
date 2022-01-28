@@ -75,7 +75,13 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
     }
 
     override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, title, inputType, autofillHints, whitespaceBehavior.ordinal)
+        return PrefFragment.newInstance(
+            key,
+            title,
+            inputType,
+            autofillHints,
+            whitespaceBehavior.ordinal
+        )
     }
 
     override fun setText(text: String?) {
@@ -88,11 +94,8 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
         private lateinit var editor: MaterialAutoCompleteTextView
         private var whitespaceBehavior: WhitespaceBehavior? = null
 
-        override fun onBindDialogView(view: View?) {
+        override fun onBindDialogView(view: View) {
             super.onBindDialogView(view)
-            if (view == null) {
-                return
-            }
             wrapper = view.findViewById(R.id.input_wrapper)
             editor = view.findViewById(android.R.id.edit)
             editor.addTextChangedListener(this)
@@ -164,7 +167,7 @@ open class CustomInputTypePreference constructor(context: Context, attrs: Attrib
 
             fun newInstance(
                 key: String,
-                title: CharSequence,
+                title: CharSequence?,
                 inputType: Int,
                 autofillHints: Array<String>?,
                 whitespaceBehavior: Int,

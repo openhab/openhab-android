@@ -29,13 +29,11 @@ class BetaPreference constructor(context: Context, attrs: AttributeSet) : Prefer
         widgetLayoutResource = R.layout.pref_beta
     }
 
-    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        if (holder != null) {
-            betaTag = holder.itemView.findViewById(R.id.beta_tag)
-            betaTag?.isGone = !showBetaTag
-            updateDisabledState()
-        }
+        betaTag = holder.itemView.findViewById(R.id.beta_tag)
+        betaTag?.isGone = !showBetaTag
+        updateDisabledState()
     }
 
     override fun notifyDependencyChange(disableDependents: Boolean) {

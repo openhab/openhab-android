@@ -210,10 +210,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             parentActivity.supportActionBar?.setTitle(titleResId)
         }
 
-        override fun onDisplayPreferenceDialog(preference: Preference?) {
-            if (preference == null) {
-                return
-            }
+        override fun onDisplayPreferenceDialog(preference: Preference) {
             val showDialog: (DialogFragment) -> Unit = { fragment ->
                 @Suppress("DEPRECATION") // TODO: Replace deprecated function
                 fragment.setTargetFragment(this, 0)
@@ -318,7 +315,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
             val tilePref = getPreference(PrefKeys.SUBSCREEN_TILE)
             val crashReporting = getPreference(PrefKeys.CRASH_REPORTING)
-            val prefs = preferenceScreen.sharedPreferences
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 val dataSaverPref = getPreference(PrefKeys.DATA_SAVER) as SwitchPreference
@@ -472,7 +468,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
-                ?: preferenceScreen.sharedPreferences.getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
+                ?: prefs.getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
 
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0 ||
                 flags and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
@@ -491,6 +487,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun populateServerPrefs() {
+            val context = preferenceManager.context
             val connCategory = getPreference("connection") as PreferenceCategory
             (0 until connCategory.preferenceCount)
                 .map { index -> connCategory.getPreference(index) }
@@ -501,7 +498,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 val config = ServerConfiguration.load(prefs, secretPrefs, serverId)
                 if (config != null) {
                     val pref = Preference(context)
-                    pref.title = pref.context.getString(R.string.server_with_name, config.name)
+                    pref.title = context.getString(R.string.server_with_name, config.name)
                     pref.key = "server_$serverId"
                     pref.order = 10 * serverId
                     pref.setOnPreferenceClickListener {
@@ -509,7 +506,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         true
                     }
                     pref.icon = if (serverId == prefs.getPrimaryServerId() && prefs.getConfiguredServerIds().size > 1) {
-                        ContextCompat.getDrawable(pref.context, R.drawable.ic_star_border_grey_24dp)
+                        ContextCompat.getDrawable(context, R.drawable.ic_star_border_grey_24dp)
                     } else {
                         null
                     }
@@ -838,7 +835,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 )
             }
             clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
-                preference.sharedPreferences.updateDefaultSitemap(null, null, config.id)
+                preference.sharedPreferences!!.updateDefaultSitemap(null, null, config.id)
                 handleNoDefaultSitemap(preference)
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true
@@ -1070,11 +1067,13 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun updateIconColor(pref: Preference, colorGenerator: () -> Int?) {
-            val colorResId = colorGenerator()
-            if (colorResId != null) {
-                DrawableCompat.setTint(pref.icon, ContextCompat.getColor(pref.context, colorResId))
-            } else {
-                DrawableCompat.setTintList(pref.icon, null)
+            pref.icon?.let { icon ->
+                val colorResId = colorGenerator()
+                if (colorResId != null) {
+                    DrawableCompat.setTint(icon, ContextCompat.getColor(pref.context, colorResId))
+                } else {
+                    DrawableCompat.setTintList(icon, null)
+                }
             }
         }
 
@@ -1246,7 +1245,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences_tile_overview)
             for (tileId in 1..AbstractTileService.TILE_COUNT) {
-                val tilePref = Preference(context).apply {
+                val tilePref = Preference(preferenceManager.context).apply {
                     key = "tile_$tileId"
                     title = getString(R.string.tile_number, tileId)
                     isPersistent = false

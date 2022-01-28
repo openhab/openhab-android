@@ -155,7 +155,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         private lateinit var editor: EditText
         private lateinit var permissionHint: TextView
 
-        override fun onCreateDialogView(context: Context?): View {
+        override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
             val v = inflater.inflate(R.layout.item_updating_pref_dialog, null)
             val pref = preference as ItemUpdatingPreference
@@ -178,7 +178,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
 
             val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(pref.key)
             permissionHint.isVisible =
-                requiredPermissions != null && context?.hasPermissions(requiredPermissions) == false
+                requiredPermissions != null && context.hasPermissions(requiredPermissions) == false
 
             val label = v.findViewById<TextView>(R.id.enabledLabel)
             label.text = pref.title

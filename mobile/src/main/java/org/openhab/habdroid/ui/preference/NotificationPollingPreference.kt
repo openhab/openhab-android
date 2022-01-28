@@ -83,7 +83,7 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
         private lateinit var spinnerValues: Array<String>
         private lateinit var prefs: SharedPreferences
 
-        override fun onCreateDialogView(context: Context?): View {
+        override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
             val v = inflater.inflate(R.layout.pref_dialog_notification_polling, null)
             val pref = preference as NotificationPollingPreference
@@ -97,7 +97,7 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
             )
             spinner = v.findViewById(R.id.spinner)
             ArrayAdapter.createFromResource(
-                requireContext(),
+                context,
                 R.array.send_device_info_schedule,
                 android.R.layout.simple_spinner_item
             ).also { adapter ->
@@ -113,8 +113,8 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
                 switch.isChecked = value
             }
 
-            spinnerValues = requireContext().resources.getStringArray(R.array.send_device_info_schedule_values)
-            prefs = requireContext().getPrefs()
+            spinnerValues = context.resources.getStringArray(R.array.send_device_info_schedule_values)
+            prefs = context.getPrefs()
 
             val spinnerValue = prefs.getStringOrFallbackIfEmpty(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, "360")
             spinner.setSelection(spinnerValues.indexOf(spinnerValue), false)

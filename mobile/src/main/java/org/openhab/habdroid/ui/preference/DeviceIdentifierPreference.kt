@@ -81,7 +81,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
         private lateinit var voiceButton: SwitchMaterial
         private lateinit var backgroundTasksButton: SwitchMaterial
 
-        override fun onCreateDialogView(context: Context?): View {
+        override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
             val v = inflater.inflate(R.layout.pref_dialog_device_identifier, null)
 
@@ -99,7 +99,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
                 editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
             }
 
-            val prefs = preference.sharedPreferences
+            val prefs = preference.sharedPreferences!!
             editor.setText((preference as DeviceIdentifierPreference).value)
             editor.setSelection(editor.text.length)
             voiceButton.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, false)
@@ -110,7 +110,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
 
         override fun onDialogClosed(positiveResult: Boolean) {
             if (positiveResult) {
-                val prefs = preference.sharedPreferences
+                val prefs = preference.sharedPreferences!!
                 prefs.edit {
                     val pref = preference as DeviceIdentifierPreference
                     pref.setValue(editor.text.toString())
@@ -156,7 +156,7 @@ class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeS
 
             fun newInstance(
                 key: String,
-                title: CharSequence
+                title: CharSequence?
             ): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title)
