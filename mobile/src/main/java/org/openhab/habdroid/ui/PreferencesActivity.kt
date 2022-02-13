@@ -405,7 +405,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     true
                 }
             } else {
-                preferenceScreen.removePreference(crashReporting)
+                preferenceScreen.removePreferenceRecursively(PrefKeys.CRASH_REPORTING)
             }
 
             viewLogPref.setOnPreferenceClickListener { preference ->
