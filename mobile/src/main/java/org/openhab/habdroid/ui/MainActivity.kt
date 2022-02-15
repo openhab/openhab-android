@@ -703,7 +703,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
         propsUpdateHandle = ServerProperties.fetch(this, connection!!,
             successCb, this::handlePropertyFetchFailure)
-        BackgroundTasksManager.triggerPeriodicWork(this)
+        BackgroundTasksManager.KNOWN_KEYS.forEach { key ->
+            BackgroundTasksManager.scheduleWorker(this, key, false)
+        }
     }
 
     private fun chooseSitemap() {
