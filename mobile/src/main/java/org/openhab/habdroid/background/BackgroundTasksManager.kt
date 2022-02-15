@@ -46,7 +46,6 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import java.util.HashMap
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlinx.parcelize.Parcelize
@@ -133,7 +132,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         info.isImportant,
                         info.showToast,
                         info.taskerIntent,
-                        info.asCommand
+                        info.asCommand,
+                        forceUpdate = true
                     )
                 }
             }
@@ -172,7 +172,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     isImportant = false,
                     showToast = false,
                     taskerIntent = intent.getStringExtra(TaskerPlugin.Setting.EXTRA_PLUGIN_COMPLETION_INTENT),
-                    asCommand = asCommand
+                    asCommand = asCommand,
+                    forceUpdate = true
                 )
                 if (isOrderedBroadcast) {
                     resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
@@ -192,6 +193,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     isImportant = true,
                     showToast = true,
                     asCommand = true,
+                    forceUpdate = true,
                     primaryServer = intent.getBooleanExtra(EXTRA_FROM_BACKGROUND, false)
                 )
             }
@@ -357,7 +359,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     value,
                     isImportant = true,
                     showToast = true,
-                    asCommand = true
+                    asCommand = true,
+                    forceUpdate = true
                 )
             }
         }
@@ -372,7 +375,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     ItemUpdateWorker.ValueWithInfo(data.state, data.mappedState),
                     isImportant = true,
                     showToast = true,
-                    asCommand = true
+                    asCommand = true,
+                    forceUpdate = true
                 )
             }
         }
@@ -387,6 +391,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 isImportant = true,
                 showToast = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q,
                 asCommand = true,
+                forceUpdate = true,
                 secondaryTags = listOf(WORKER_TAG_PREFIX_TILE_ID + tileId)
             )
         }
@@ -510,6 +515,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     cancelAllWorkByTag(key)
                     pruneWork()
                 }
+                if (setting.second.isNotEmpty()) {
+                    getLastUpdateCache(context).edit {
+                        Log.d(TAG, "Remove ${setting.second} from last update cache")
+                        remove(setting.second)
+                    }
+                }
                 return
             }
 
@@ -529,7 +540,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 value,
                 isImportant,
                 showToast = false,
-                asCommand = true
+                asCommand = true,
+                forceUpdate = false
             )
         }
 
@@ -543,9 +555,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
             showToast: Boolean,
             taskerIntent: String? = null,
             asCommand: Boolean,
+            forceUpdate: Boolean,
             primaryServer: Boolean = true,
             secondaryTags: List<String>? = null
         ) {
+            if (!forceUpdate && getLastUpdateCache(context).getStringOrNull(itemName) == value.value) {
+                Log.i(TAG, "Don't send update for item $itemName with value $value")
+                return
+            }
+
             val prefs = context.getPrefs()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -586,29 +604,23 @@ class BackgroundTasksManager : BroadcastReceiver() {
             workManager.enqueueUniqueWork(primaryTag, ExistingWorkPolicy.REPLACE, workRequest.build())
         }
 
+        fun getLastUpdateCache(context: Context): SharedPreferences {
+            return context.getSharedPreferences("background-tasks-cache", Context.MODE_PRIVATE)
+        }
+
         init {
             VALUE_GETTER_MAP[PrefKeys.SEND_ALARM_CLOCK] = { context, _ ->
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val info = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
                 Log.d(TAG, "Alarm sent by $sender")
-                var time: String? = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
+                val time: String = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
                     "UNDEF"
                 } else {
                     info?.triggerTime?.toString() ?: "UNDEF"
                 }
 
-                val prefs = context.getPrefs()
-
-                if (time == "UNDEF" && prefs.getBoolean(PrefKeys.ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, false)) {
-                    time = null
-                }
-
-                prefs.edit {
-                    putBoolean(PrefKeys.ALARM_CLOCK_LAST_VALUE_WAS_UNDEF, time == "UNDEF" || time == null)
-                }
-
-                time?.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
+                time.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_PHONE_STATE] = { context, _ ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager

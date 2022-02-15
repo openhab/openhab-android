@@ -19,6 +19,7 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -116,6 +117,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
                 )
             }
             sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
+            BackgroundTasksManager.getLastUpdateCache(applicationContext).edit {
+                putString(itemName, value.value)
+            }
             Result.success(buildOutputData(true, result.statusCode, valueToBeSent))
         } catch (e: HttpClient.HttpException) {
             Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
