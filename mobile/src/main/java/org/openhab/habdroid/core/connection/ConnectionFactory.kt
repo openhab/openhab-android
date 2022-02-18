@@ -176,7 +176,7 @@ class ConnectionFactory internal constructor(
         if (key == PrefKeys.DEBUG_MESSAGES) {
             updateHttpLoggerSettings()
         }
-        val serverId = sharedPreferences.getActiveServerId()
+        val serverId = prefs.getActiveServerId()
         if (key in UPDATE_TRIGGERING_KEYS ||
             CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
         ) {
@@ -220,14 +220,9 @@ class ConnectionFactory internal constructor(
     }
 
     private fun loadServerConnections(serverId: Int): ServerConnections? {
-        val config = ServerConfiguration.load(prefs, secretPrefs, serverId)
-        if (config == null) {
-            return null
-        }
-        val local =
-            config.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
-        val remote =
-            config.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
+        val config = ServerConfiguration.load(prefs, secretPrefs, serverId) ?: return null
+        val local = config.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
+        val remote = config.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
         return ServerConnections(local, remote)
     }
 
