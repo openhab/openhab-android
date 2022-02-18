@@ -90,35 +90,7 @@ Example item definition:
 DateTime AlarmClock "Alarm Clock [%s]" <time>
 ```
 
-Example rule:
-```java
-var Timer timerAlarm = null
-
-rule "Alarm Clock"
-when
-    Item AlarmClock changed or
-    System started
-then
-    if (!(AlarmClock.state instanceof DateTimeType)) {
-        return;
-    }
-
-    val alarmTime = AlarmClock.state as DateTimeType
-    logInfo("alarm", "Scheduling alarm for {}", alarmTime.toString)
-
-    if (timerAlarm !== null) {
-        logInfo("alarm", "Rescheduling alarm")
-        timerAlarm.reschedule(alarmTime.getZonedDateTime)
-    } else {
-        logInfo("alarm", "New alarm")
-        timerAlarm = createTimer(alarmTime.getZonedDateTime.minusSeconds(5), [ |
-            logInfo("alarm", "Alarm expired")
-            // Turn on stuff, e.g. radio or light
-            timerAlarm = null
-        ])
-    }
-end
-```
+Rule template: [https://community.openhab.org/t/alarm-clock-rule/127194](https://community.openhab.org/t/alarm-clock-rule/127194)
 
 #### Call State
 
