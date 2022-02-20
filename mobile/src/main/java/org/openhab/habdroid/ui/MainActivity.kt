@@ -69,7 +69,6 @@ import java.util.concurrent.CancellationException
 import javax.jmdns.ServiceInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -89,6 +88,7 @@ import org.openhab.habdroid.core.connection.ConnectionNotInitializedException
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.core.connection.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.NoUrlInformationException
+import org.openhab.habdroid.core.connection.WrongWifiException
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
@@ -462,6 +462,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             newConnection != null -> {
                 handleConnectionChange()
                 controller.updateConnection(newConnection, null, 0)
+            }
+            failureReason is WrongWifiException -> {
+                val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
+                val ssids = activeConfig?.wifiSsids?.joinToString(", ")
+                controller.indicateWrongWifi(getString(R.string.error_wifi_restricted, activeConfig?.name, ssids))
             }
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and

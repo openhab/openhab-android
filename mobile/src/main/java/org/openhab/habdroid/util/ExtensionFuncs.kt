@@ -546,7 +546,8 @@ fun ServiceInfo.addToPrefs(context: Context) {
         null,
         null,
         null,
-        null
+        null,
+        false
     )
     config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
 }

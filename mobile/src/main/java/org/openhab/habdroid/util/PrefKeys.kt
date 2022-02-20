@@ -33,6 +33,7 @@ object PrefKeys {
     const val DEFAULT_SITEMAP_NAME_PREFIX = "default_sitemap_name_"
     const val DEFAULT_SITEMAP_LABEL_PREFIX = "default_sitemap_label_"
     const val WIFI_SSID_PREFIX = "wifi_ssid_"
+    const val RESTRICT_TO_SSID_PREFIX = "restrict_to_ssid_"
     const val CLEAR_DEFAULT_SITEMAP = "clear_default_sitemap"
     fun buildServerKey(id: Int, prefix: String) = "$prefix$id"
 

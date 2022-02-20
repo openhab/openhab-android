@@ -17,7 +17,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -285,6 +287,19 @@ abstract class ContentController protected constructor(private val activity: Mai
         } else {
             NoNetworkFragment.newInstance(message)
         }
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        activity.updateTitle()
+    }
+
+    /**
+     * Indicate to the user that the current Wi-Fi shouldn't be used.
+     *
+     * @param message Error message to show
+     */
+    fun indicateWrongWifi(message: CharSequence) {
+        CrashReportingHelper.d(TAG, "Indicate wrong Wi-Fi (message $message)")
+        resetState()
+        noConnectionFragment = WrongWifiFragment.newInstance(message)
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
     }
@@ -614,6 +629,39 @@ abstract class ContentController protected constructor(private val activity: Mai
                 val f = EnableWifiNetworkFragment()
                 f.arguments = buildArgs(message, R.string.enable_wifi_button,
                     R.drawable.ic_wifi_strength_off_outline_grey_24dp, false)
+                return f
+            }
+        }
+    }
+
+    internal class WrongWifiFragment : StatusFragment() {
+        override fun onClick(view: View) {
+            if (view.id == R.id.button1) {
+                val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
+                startActivity(preferencesIntent)
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    // Open panel to switch Wi-Fi
+                    val panelIntent = Intent(Settings.Panel.ACTION_WIFI)
+                    startActivity(panelIntent)
+                }
+            }
+        }
+
+        companion object {
+            fun newInstance(
+                message: CharSequence
+            ): WrongWifiFragment {
+                val f = WrongWifiFragment()
+                val args = buildArgs(
+                    message = message,
+                    button1TextResId = R.string.go_to_settings_button,
+                    button2TextResId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                        R.string.switch_wifi_button else 0,
+                    drawableResId = R.drawable.ic_wifi_strength_off_outline_grey_24dp,
+                    showProgress = false
+                )
+                f.arguments = args
                 return f
             }
         }
