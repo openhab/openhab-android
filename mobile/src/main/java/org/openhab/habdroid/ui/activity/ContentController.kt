@@ -40,8 +40,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
-import java.util.ArrayList
-import java.util.HashSet
 import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
@@ -638,6 +636,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         override fun onClick(view: View) {
             if (view.id == R.id.button1) {
                 val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
+                preferencesIntent.action = PreferencesActivity.ACTION_OPEN_ACTIVE_SERVER_PREFS
                 startActivity(preferencesIntent)
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -673,6 +672,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
                     // If we attempted resolving, primary button opens settings
                     val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
+                    preferencesIntent.action = PreferencesActivity.ACTION_OPEN_ACTIVE_SERVER_PREFS
                     startActivity(preferencesIntent)
                 }
                 arguments?.getBoolean(KEY_WIFI_ENABLED) == true -> {

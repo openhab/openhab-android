@@ -91,6 +91,7 @@ import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNextAvailableServerId
@@ -140,6 +141,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                         AppWidgetManager.INVALID_APPWIDGET_ID
                     ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
                     WidgetSettingsFragment.newInstance(id)
+                }
+                intent.action == ACTION_OPEN_ACTIVE_SERVER_PREFS -> {
+                    val id = getPrefs().getActiveServerId()
+                    val config = ServerConfiguration.load(getPrefs(), getSecretPrefs(), id)
+                    ServerEditorFragment.newInstance(config!!)
                 }
                 else -> {
                     MainSettingsFragment()
@@ -1659,6 +1665,8 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     companion object {
+        const val ACTION_OPEN_ACTIVE_SERVER_PREFS = "open_server_prefs"
+
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
         const val RESULT_EXTRA_SITEMAP_DRAWER_CHANGED = "sitemap_drawer_changed"
