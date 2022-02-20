@@ -80,7 +80,6 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.model.toWifiSsids
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
-import org.openhab.habdroid.ui.preference.BetaPreference
 import org.openhab.habdroid.ui.preference.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.ItemAndStatePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
@@ -259,7 +258,6 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private var notificationPollingPref: NotificationPollingPreference? = null
         private var notificationStatusHint: Preference? = null
-        private var addServerPref: BetaPreference? = null
         private var selectRingToneCallback = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -284,11 +282,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
-        override fun onResume() {
-            super.onResume()
-            addServerPref?.setBetaTagVisibility(prefs.getConfiguredServerIds().isNotEmpty())
-        }
-
         override fun onStop() {
             super.onStop()
             ConnectionFactory.removeListener(this)
@@ -297,7 +290,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences)
 
-            addServerPref = getPreference("add_server") as BetaPreference
+            val addServerPref = getPreference("add_server")
             val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
             notificationPollingPref =
                 getPreference(PrefKeys.FOSS_NOTIFICATIONS_ENABLED) as NotificationPollingPreference
@@ -325,7 +318,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateVibrationPreferenceIcon(vibrationPref,
                 prefs.getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION))
 
-            addServerPref?.setOnPreferenceClickListener {
+            addServerPref.setOnPreferenceClickListener {
                 val nextServerId = prefs.getNextAvailableServerId()
                 val nextName = if (prefs.getConfiguredServerIds().isEmpty()) {
                     getString(R.string.openhab)
