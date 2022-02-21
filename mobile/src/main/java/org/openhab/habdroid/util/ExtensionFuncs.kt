@@ -37,6 +37,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -447,6 +448,7 @@ fun Context.determineDataUsagePolicy(): DataUsagePolicy {
     }
 }
 
+@ColorInt
 fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int {
     val tv = TypedValue()
     theme.resolveAttribute(colorAttr, tv, true)
@@ -455,6 +457,12 @@ fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor:
     } else {
         fallbackColor
     }
+}
+
+@ColorRes
+fun Context.resolveThemedColorToResource(@AttrRes colorAttr: Int, @ColorRes fallbackColorRes: Int = 0): Int {
+    val ta = obtainStyledAttributes(intArrayOf(colorAttr))
+    return ta.getResourceId(0, fallbackColorRes).also { ta.recycle() }
 }
 
 fun Context.getChartTheme(serverFlags: Int): CharSequence {

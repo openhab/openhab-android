@@ -34,6 +34,7 @@ import org.openhab.habdroid.util.getActivityThemeId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.resolveThemedColor
+import org.openhab.habdroid.util.resolveThemedColorToResource
 
 class IntroActivity : AppIntro(), CoroutineScope {
     private val job = Job()
@@ -136,17 +137,17 @@ class IntroActivity : AppIntro(), CoroutineScope {
      * @param imageDrawable
      */
     private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        val colorText = resolveThemedColor(R.attr.colorOnBackground)
-        val colorBackground = resolveThemedColor(android.R.attr.colorBackground)
+        val colorTextRes = resolveThemedColorToResource(R.attr.colorOnBackground)
+        val colorBackgroundRes = resolveThemedColorToResource(android.R.attr.colorBackground)
 
         addSlide(
-            AppIntroFragment.newInstance(
-                getString(title),
-                getString(description),
-                imageDrawable,
-                colorBackground,
-                colorText,
-                colorText
+            AppIntroFragment.createInstance(
+                title = getString(title),
+                description = getString(description),
+                imageDrawable = imageDrawable,
+                backgroundColorRes = colorBackgroundRes,
+                titleColorRes = colorTextRes,
+                descriptionColorRes = colorTextRes
             )
         )
     }
