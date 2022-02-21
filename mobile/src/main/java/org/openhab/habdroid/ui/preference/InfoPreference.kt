@@ -43,15 +43,13 @@ class InfoPreference constructor(context: Context, attrs: AttributeSet) :
         }
     }
 
-    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        if (holder != null) {
-            helpIcon = holder.itemView.findViewById(R.id.help_icon)
-            infoUrl?.let {
-                helpIcon?.setupHelpIcon(it, R.string.click_here_for_more_information)
-            }
-            helpIcon?.updateHelpIconAlpha(isEnabled)
-            helpIcon?.isVisible = infoUrl != null
+        helpIcon = holder.itemView.findViewById(R.id.help_icon)
+        infoUrl?.let {
+            helpIcon?.setupHelpIcon(it, R.string.click_here_for_more_information)
         }
+        helpIcon?.updateHelpIconAlpha(isEnabled)
+        helpIcon?.isVisible = infoUrl != null
     }
 }

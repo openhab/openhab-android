@@ -29,16 +29,14 @@ class PrimaryServerPreference constructor(context: Context, attrs: AttributeSet)
         widgetLayoutResource = R.layout.help_icon_pref
     }
 
-    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        if (holder != null) {
-            helpIcon = holder.itemView.findViewById(R.id.help_icon)
-            helpIcon?.setupHelpIcon(
-                context.getString(R.string.settings_server_primary_url),
-                R.string.click_here_for_more_information
-            )
-            helpIcon?.updateHelpIconAlpha(isEnabled)
-        }
+        helpIcon = holder.itemView.findViewById(R.id.help_icon)
+        helpIcon?.setupHelpIcon(
+            context.getString(R.string.settings_server_primary_url),
+            R.string.click_here_for_more_information
+        )
+        helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 
     override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {

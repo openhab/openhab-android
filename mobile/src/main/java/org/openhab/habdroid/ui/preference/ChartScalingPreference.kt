@@ -40,11 +40,8 @@ class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) 
         values = intValues.map { v -> v.toFloat() / 100F }.toTypedArray()
     }
 
-    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        if (holder == null) {
-            return
-        }
 
         seekBar = holder.itemView.findViewById(R.id.seekbar)
         seekBar.setOnSeekBarChangeListener(this)
