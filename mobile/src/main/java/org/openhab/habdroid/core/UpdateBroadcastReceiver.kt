@@ -157,7 +157,8 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         remotePath,
                         prefs.getStringOrNull("default_openhab_sslclientcert"),
                         defaultSitemap,
-                        null
+                        null,
+                        false
                     )
                     config.saveToPrefs(prefs, secretPrefs)
                     prefs.edit {

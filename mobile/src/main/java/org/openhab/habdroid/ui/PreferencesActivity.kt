@@ -85,6 +85,7 @@ import org.openhab.habdroid.ui.preference.ItemAndStatePreference
 import org.openhab.habdroid.ui.preference.ItemUpdatingPreference
 import org.openhab.habdroid.ui.preference.NotificationPollingPreference
 import org.openhab.habdroid.ui.preference.SslClientCertificatePreference
+import org.openhab.habdroid.ui.preference.WifiSsidInputPreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
@@ -326,7 +327,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     getString(R.string.settings_server_default_name, nextServerId)
                 }
                 val f = ServerEditorFragment.newInstance(
-                    ServerConfiguration(nextServerId, nextName, null, null, null, null, null)
+                    ServerConfiguration(nextServerId, nextName, null, null, null, null, null, false)
                 )
                 parentActivity.openSubScreen(f)
                 true
@@ -768,7 +769,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.remotePath,
                     config.sslClientCert,
                     config.defaultSitemap,
-                    config.wifiSsids
+                    config.wifiSsids,
+                    config.restrictToWifiSsids
                 )
                 parentActivity.invalidateOptionsMenu()
                 true
@@ -813,7 +815,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.remotePath,
                     newValue as String?,
                     config.defaultSitemap,
-                    config.wifiSsids
+                    config.wifiSsids,
+                    config.restrictToWifiSsids
                 )
                 true
             }
@@ -834,7 +837,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            val wifiSsidPref = getPreference("wifi_ssid") as EditTextPreference
+            val wifiSsidPref = getPreference("wifi_ssid") as WifiSsidInputPreference
             if (prefs.getConfiguredServerIds().isEmpty()) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.PRIMARY_SERVER_PREF)
                 preferenceScreen.removePreferenceRecursively("wifi_ssid")
@@ -853,24 +856,18 @@ class PreferencesActivity : AbstractBaseActivity() {
                     true
                 }
 
-                wifiSsidPref.text = config.wifiSsids?.joinToString("\n")
-                wifiSsidPref.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
-                    val value = preference.text?.toWifiSsids()
-                    var summary = when {
-                        value.isNullOrEmpty() -> getString(R.string.settings_multi_server_wifi_ssid_summary_unset)
-                        value.size == 1 ->
-                            getString(R.string.settings_multi_server_wifi_ssid_summary_set, value.first())
-                        else -> getString(
-                            R.string.settings_multi_server_wifi_ssid_summary_multiple_set,
-                            value.joinToString(", ")
-                        )
-                    }
-
-                    summary += "\n" + getString(R.string.settings_multi_server_wifi_ssid_summary_hint)
-
-                    return@SummaryProvider summary
-                }
+                wifiSsidPref.setValue(
+                    Pair(
+                        config.wifiSsids?.joinToString("\n").orEmpty(),
+                        config.restrictToWifiSsids
+                    )
+                )
                 wifiSsidPref.setOnPreferenceChangeListener { _, newValue ->
+                    @Suppress("UNCHECKED_CAST")
+                    val value = newValue as Pair<String, Boolean>
+                    val ssids = value.first.toWifiSsids()
+                    // Don't restrict if no SSID is set
+                    val restrictToSsids = if (ssids.isNullOrEmpty()) false else value.second
                     config = ServerConfiguration(
                         config.id,
                         config.name,
@@ -878,7 +875,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                         config.remotePath,
                         config.sslClientCert,
                         config.defaultSitemap,
-                        (newValue as String?)?.toWifiSsids()
+                        ssids,
+                        restrictToSsids
                     )
                     true
                 }
@@ -916,7 +914,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     config.remotePath,
                     config.sslClientCert,
                     config.defaultSitemap,
-                    config.wifiSsids
+                    config.wifiSsids,
+                    config.restrictToWifiSsids
                 )
             } else {
                 ServerConfiguration(
@@ -926,7 +925,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                     path,
                     config.sslClientCert,
                     config.defaultSitemap,
-                    config.wifiSsids
+                    config.wifiSsids,
+                    config.restrictToWifiSsids
                 )
             }
             parentActivity.invalidateOptionsMenu()

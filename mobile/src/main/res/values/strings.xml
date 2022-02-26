@@ -124,10 +124,7 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Advanced</string>
     <string name="click_here_for_more_information">Touch here for more information</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">The app will select this server when connected to Wi-Fi \'%s\'.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">The app will select this server when connected to one of the following Wi-Fis: %s</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">The app will not automatically select this server based on connected Wi-Fi network.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_hint">Multiple Wi-Fi names can be entered by separating them with new lines.</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">The app will select this server when connected to one of these Wi-Fi names. Multiple Wi-Fi names can be entered by separating them with new lines.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Switched to server "%s" based on Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Unable to read Wi-Fi name: Missing permissions</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Unable to read Wi-Fi name: Location is off</string>
@@ -157,6 +154,7 @@
     <string name="error_sitemap_generic_load_error">The Sitemap could not be loaded. The following error occurred: %1$s</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_wifi_not_available">Wi-Fi is turned off</string>
+    <string name="error_wifi_restricted">Local connections to server %1$s are restricted to the following Wi-Fi names: %2$s</string>
     <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (HTTP code %d).</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_invalid_https_url">Please enter a valid URL in a \'https://host(:port)/\' form</string>
@@ -276,6 +274,7 @@
     <string name="settings_wifi_ssid_summary_off">Don\'t send Wi-Fi name (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Sending Wi-Fi name has been disabled due to missing permissions</string>
     <string name="settings_wifi_ssid_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#wifi-name-ssid</string>
+    <string name="settings_wifi_ssid_restrict">Restrict local connection to these Wi-Fi names</string>
     <string name="settings_dnd_mode">DND mode</string>
     <string name="settings_dnd_mode_summary_on">Sends DND mode to Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Don\'t send DND mode</string>
@@ -451,6 +450,7 @@
     <string name="undo">Undo</string>
     <string name="try_again_button">Try again</string>
     <string name="enable_wifi_button">Turn on Wi-Fi</string>
+    <string name="switch_wifi_button">Connect to other Wi-Fi</string>
     <string name="go_to_settings_button">Go to settings</string>
     <string name="enable_demo_mode_button">Turn on demo mode</string>
     <string name="configuration_missing">We didn\'t find an openHAB server in your network. If you already have a server, please configure its IP address or host name in the server settings. If you don\'t yet have a server, you can enable demo mode to see what openHAB is capable of.</string>

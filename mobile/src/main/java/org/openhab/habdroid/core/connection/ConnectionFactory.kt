@@ -44,10 +44,12 @@ import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
@@ -411,7 +413,9 @@ class ConnectionFactory internal constructor(
             throw NetworkNotAvailableException()
         }
 
-        if (local != null) {
+        var hasWrongWifi = false
+
+        if (local != null && local is DefaultConnection) {
             val localCandidates = available
                 .filter { type ->
                     type is ConnectionManagerHelper.ConnectionType.Wifi ||
@@ -420,7 +424,13 @@ class ConnectionFactory internal constructor(
                         type is ConnectionManagerHelper.ConnectionType.Vpn
                 }
             for (type in localCandidates) {
-                if (local is DefaultConnection && local.isReachableViaNetwork(type.network)) {
+                if (type is ConnectionManagerHelper.ConnectionType.Wifi && !serverMayUseWifi()) {
+                    Log.d(TAG, "Don't use current Wi-Fi because server is restricted to other Wi-Fis")
+                    hasWrongWifi = true
+                    continue
+                }
+
+                if (local.isReachableViaNetwork(type.network)) {
                     Log.d(TAG, "Connecting to local URL via $type")
                     local.network = type.network
                     return local
@@ -438,7 +448,20 @@ class ConnectionFactory internal constructor(
             return remote
         }
 
-        throw NoUrlInformationException(true)
+        throw if (hasWrongWifi) WrongWifiException() else NoUrlInformationException(true)
+    }
+
+    private fun serverMayUseWifi(): Boolean {
+        val activeServerId = prefs.getActiveServerId()
+        val serverPrefs = ServerConfiguration.load(prefs, secretPrefs, activeServerId) ?: return true
+
+        if (!serverPrefs.restrictToWifiSsids) {
+            Log.d(TAG, "Server ${serverPrefs.name} isn't restricted to Wi-Fis")
+            return true
+        }
+
+        val currentSsid = context.getCurrentWifiSsid(OpenHabApplication.DATA_ACCESS_TAG_SELECT_SERVER_WIFI)
+        return serverPrefs.wifiSsids?.contains(currentSsid) == true
     }
 
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
@@ -505,10 +528,15 @@ class ConnectionFactory internal constructor(
             PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID, PrefKeys.PRIMARY_SERVER_ID
         )
         private val UPDATE_TRIGGERING_PREFIXES = listOf(
-            PrefKeys.LOCAL_URL_PREFIX, PrefKeys.REMOTE_URL_PREFIX,
-            PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX,
-            PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX,
-            PrefKeys.SSL_CLIENT_CERT_PREFIX
+            PrefKeys.LOCAL_URL_PREFIX,
+            PrefKeys.REMOTE_URL_PREFIX,
+            PrefKeys.LOCAL_USERNAME_PREFIX,
+            PrefKeys.LOCAL_PASSWORD_PREFIX,
+            PrefKeys.REMOTE_USERNAME_PREFIX,
+            PrefKeys.REMOTE_PASSWORD_PREFIX,
+            PrefKeys.SSL_CLIENT_CERT_PREFIX,
+            PrefKeys.WIFI_SSID_PREFIX,
+            PrefKeys.RESTRICT_TO_SSID_PREFIX
         )
         private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)
 

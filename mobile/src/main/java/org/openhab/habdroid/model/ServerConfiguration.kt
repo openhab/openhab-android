@@ -65,7 +65,8 @@ data class ServerConfiguration(
     val remotePath: ServerPath?,
     val sslClientCert: String?,
     val defaultSitemap: DefaultSitemap?,
-    val wifiSsids: Set<String>?
+    val wifiSsids: Set<String>?,
+    val restrictToWifiSsids: Boolean
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
         Log.d(TAG, "saveToPrefs: ${this.toRedactedString()}")
@@ -77,6 +78,7 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
             putStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsids)
+            putBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), restrictToWifiSsids)
             if (!serverIdSet.contains(id)) {
                 serverIdSet.add(id)
                 putConfiguredServerIds(serverIdSet)
@@ -108,6 +110,7 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX))
             putConfiguredServerIds(serverIdSet)
             if (prefs.getActiveServerId() == id) {
                 putActiveServerId(if (serverIdSet.isNotEmpty()) serverIdSet.first() else 0)
@@ -141,7 +144,8 @@ data class ServerConfiguration(
             redactCredentials(remotePath),
             sslClientCert,
             defaultSitemap,
-            wifiSsids
+            wifiSsids,
+            restrictToWifiSsids
         ).toString()
     }
 
@@ -175,6 +179,8 @@ data class ServerConfiguration(
             } catch (e: ClassCastException) {
                 setOf(prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX)))
             }
+            val restrictToWifiSsids =
+                prefs.getBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), false)
 
             val config = ServerConfiguration(
                 id,
@@ -183,7 +189,8 @@ data class ServerConfiguration(
                 remotePath,
                 clientCert,
                 getDefaultSitemap(prefs, id),
-                wifiSsids
+                wifiSsids,
+                restrictToWifiSsids
             )
             Log.d(TAG, "load: ${config.toRedactedString()}")
             return config
