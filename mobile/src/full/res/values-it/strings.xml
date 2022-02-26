@@ -7,4 +7,5 @@
     <string name="info_openhab_gcm_failed_play_services">Registrazione delle notifiche non riuscita a causa di un problema Google Play Services: %s</string>
     <string name="info_openhab_gcm_connected">Registrazione notifiche completata con successo</string>
     <string name="open_in_maps">Apri in Google Maps</string>
+    <string name="beta">Beta</string>
 </resources>
