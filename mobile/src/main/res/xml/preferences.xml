@@ -12,7 +12,7 @@
             android:summary="@string/settings_openhab_demomode_summary"
             android:title="@string/settings_openhab_demomode"
             android:order="0" />
-        <org.openhab.habdroid.ui.preference.BetaPreference
+        <Preference
             android:key="add_server"
             android:title="@string/settings_add_server"
             android:dependency="default_openhab_demomode"
