@@ -75,7 +75,6 @@
     <string name="settings_notification_vibration_twice">2 回</string>
     <string name="settings_notification_ringtone_vibration">着信音&amp; バイブレーション</string>
     <string name="settings_connection_summary">%s に接続しました</string>
-    <string name="beta">ベータ版</string>
     <string name="settings_screen_lock">画面ロック</string>
     <string name="settings_screen_lock_nolock_summary">アプリのアクセスロックを有効にするには、お使いのデバイスの画面ロックを有効にする必要があります</string>
     <string name="settings_screen_lock_off_summary">アプリへのアクセスはロックされていません</string>
