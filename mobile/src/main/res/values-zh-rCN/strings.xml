@@ -83,7 +83,6 @@
     <string name="settings_insecure_connection_summary">不安全地连接到 %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">URL 不能以“https”开始</string>
     <string name="settings_insecure_connection_no_auth">用户名或密码未设置</string>
-    <string name="beta">测试版</string>
     <string name="settings_screen_lock">屏幕锁定</string>
     <string name="settings_screen_lock_nolock_summary">您需要先启用设备上的屏幕锁定功能以开启此功能。</string>
     <string name="settings_screen_lock_off_summary">未锁定此应用程序</string>
