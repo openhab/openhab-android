@@ -37,7 +37,6 @@
     <string name="settings_notification_vibration_short">Lühike</string>
     <string name="settings_notification_vibration_long">Pikk</string>
     <string name="settings_connection_summary">Ühendatud võrguga %s</string>
-    <string name="beta">Beeta</string>
     <string name="settings_screen_lock">Ekraanilukk</string>
     <string name="settings_screen_lock_off">Väljas</string>
     <string name="settings_screen_lock_on">Sees</string>
