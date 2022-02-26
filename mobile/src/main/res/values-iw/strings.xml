@@ -83,7 +83,6 @@
     <string name="settings_insecure_connection_summary">מחובר בצורה לא מאובטחת אל %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">כתובת אתר לא מתחילה עם \"https\"</string>
     <string name="settings_insecure_connection_no_auth">לא הוגדרו שם המשתמש והסיסמה</string>
-    <string name="beta">בטא</string>
     <string name="settings_screen_lock">נעילת מסך</string>
     <string name="settings_screen_lock_nolock_summary">כדי לאפשר נעילת גישה ליישום יש צורך בהפעלת נעילת המכשיר</string>
     <string name="settings_screen_lock_off_summary">אין נעילת גישה ליישום</string>
@@ -109,10 +108,6 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">הגדרות מתקדמות</string>
     <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">היישומון יבחר בשרת זה כאשר יש חיבור ל- Wi-Fi \'%s\'.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">היישומון יבחר בשרת זה כאשר יש חיבור לאחת מרשתות ה Wi-Fi הבאות - \'%s</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">היישומון לא יבחר באופן אוטומטי בשרת זה על סמך חיבור לרשת Wi-Fi.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_hint">ניתן להזין מספר שמות רשתות Wi-Fi על ידי הפרדתם בשורות חדשות.</string>
     <string name="settings_multi_server_wifi_ssid_switched">הוחלף לשרת \"%s\" בהתבסס על Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">לא ניתן לקרוא את שם ה- Wi-Fi: חסרות הרשאות</string>
     <string name="settings_multi_server_wifi_ssid_location_off">לא ניתן לקרוא את שם ה- Wi-Fi: המיקום כבוי</string>
