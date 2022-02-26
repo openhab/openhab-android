@@ -7,4 +7,5 @@
     <string name="info_openhab_gcm_failed_play_services">Регистрация Push-уведомлений не удалась из-за проблемы с Google Play Services: %s</string>
     <string name="info_openhab_gcm_connected">Регистрация Push уведомления успешно завершена</string>
     <string name="open_in_maps">Открыть в Google картах</string>
+    <string name="beta">Бета</string>
 </resources>
