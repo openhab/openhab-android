@@ -83,7 +83,6 @@
     <string name="settings_insecure_connection_summary">Nebezpečně připojeno k %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">Adresa URL nezačíná \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Nenastaveno žádné uživatelské jméno a heslo</string>
-    <string name="beta">Zkušební verze</string>
     <string name="settings_screen_lock">Zámek obrazovky</string>
     <string name="settings_screen_lock_nolock_summary">Abyste mohli zamknout přístup k této aplikaci, musíte nejprve nastavit zámek obrazovky Vašeho zařízení</string>
     <string name="settings_screen_lock_off_summary">Přístup k této aplikaci není omezen</string>
@@ -109,10 +108,6 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Rozšířené</string>
     <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">Aplikace vybere tento server při připojení k Wi-Fi \'%s\'.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">Aplikace vybere tento server při připojení k následujícím Wi-Fi \'%s</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">Aplikace nebude automaticky vybírat tento server na základě připojené Wi-Fi sítě.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_hint">Můžete zadat více Wi-Fi sítí, každou na nový řádek.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Přepnuto na server \"%s\" na základě Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Nelze načíst název Wi-Fi: Chybí oprávnění</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Nelze načíst název Wi-Fi: Poloha je vypnuta</string>
