@@ -80,7 +80,6 @@
     <string name="settings_notification_vibration_twice">Podwójne</string>
     <string name="settings_notification_ringtone_vibration">Dźwięk i wibracje</string>
     <string name="settings_connection_summary">Połączono z %s</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Blokada ekranu</string>
     <string name="settings_screen_lock_nolock_summary">Musisz włączyć blokadę ekranu dla swojego urządzenia, aby włączyć blokowanie dostępu do aplikacji</string>
     <string name="settings_screen_lock_off_summary">Dostęp do aplikacji nie jest zablokowany</string>
