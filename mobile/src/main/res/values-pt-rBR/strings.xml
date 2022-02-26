@@ -83,7 +83,6 @@
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">A URL não começa com \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Nenhum usuário e senha definidos</string>
-    <string name="beta">Beta</string>
     <string name="settings_screen_lock">Bloqueio de tela</string>
     <string name="settings_screen_lock_nolock_summary">Você precisa habilitar um bloqueio de tela para o seu dispositivo para ativar o bloqueio de acesso a apps</string>
     <string name="settings_screen_lock_off_summary">O acesso ao app não está bloqueado</string>
@@ -109,10 +108,6 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Avançado</string>
     <string name="click_here_for_more_information">Clique aqui para mais informações</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">O app selecionará este servidor quando conectado à rede Wi-Fi \'%s\'.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">O app selecionará este servidor quando conectado a uma das seguintes redes Wi-Fis: %s</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">O app não selecionará automaticamente este servidor de acordo com a rede Wi-Fi conectada.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_hint">Vários nomes de Wi-Fi podem ser inseridos separando-os com novas linhas.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Mudou para o servidor \"%s\" de acordo com o Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Não é possível ler o nome do Wi-Fi: Faltam permissões</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Não é possível ler o nome do Wi-Fi: a localização está desativada</string>
