@@ -73,7 +73,7 @@ class WifiSsidInputPreference constructor(context: Context, attrs: AttributeSet)
         private lateinit var editor: MaterialAutoCompleteTextView
         private lateinit var restrictButton: SwitchMaterial
 
-        override fun onCreateDialogView(context: Context?): View {
+        override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
             val v = inflater.inflate(R.layout.pref_dialog_wifi_ssid, null)
 
@@ -106,7 +106,7 @@ class WifiSsidInputPreference constructor(context: Context, attrs: AttributeSet)
 
         override fun onDialogClosed(positiveResult: Boolean) {
             if (positiveResult) {
-                val prefs = preference.sharedPreferences
+                val prefs = preference.sharedPreferences!!
                 prefs.edit {
                     val pref = preference as WifiSsidInputPreference
                     pref.setValue(Pair(editor.text.toString(), restrictButton.isChecked))
@@ -119,7 +119,7 @@ class WifiSsidInputPreference constructor(context: Context, attrs: AttributeSet)
 
             fun newInstance(
                 key: String,
-                title: CharSequence
+                title: CharSequence?
             ): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(
