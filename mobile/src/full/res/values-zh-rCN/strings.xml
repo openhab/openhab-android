@@ -7,4 +7,5 @@
     <string name="info_openhab_gcm_failed_play_services">由于Google Play服务问题，注册失败： %s</string>
     <string name="info_openhab_gcm_connected">注册成功完成</string>
     <string name="open_in_maps">使用 Google 地图打开</string>
+    <string name="beta">测试版</string>
 </resources>

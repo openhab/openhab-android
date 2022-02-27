@@ -83,7 +83,6 @@
     <string name="settings_insecure_connection_summary">Небезопасно подключено к %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">URL не начинается с \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Имя пользователя и пароль не установлены</string>
-    <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокировка экрана</string>
     <string name="settings_screen_lock_nolock_summary">Вам нужно включить блокировку экрана для включения блокировки доступа к приложению</string>
     <string name="settings_screen_lock_off_summary">Доступ к приложению не заблокирован</string>

@@ -83,7 +83,6 @@
     <string name="settings_insecure_connection_summary">Під\'єднано до %1$s: %2$s без перевірки безпеки</string>
     <string name="settings_insecure_connection_no_https">URL-адреса не починається з \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Не встановлено ім\'я користувача та пароль</string>
-    <string name="beta">Бета</string>
     <string name="settings_screen_lock">Блокування екрану</string>
     <string name="settings_screen_lock_nolock_summary">Необхідно увімкнути блокування екрану для блокування доступу до програми</string>
     <string name="settings_screen_lock_off_summary">Доступ до програми не заблоковано</string>
@@ -109,10 +108,6 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Додатково</string>
     <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
-    <string name="settings_multi_server_wifi_ssid_summary_set">Програма вибере цей сервер при підключенні до точки Wi-Fi \'%s\'.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_multiple_set">Програма вибере цей сервер при підключенні до одної з точок Wi-Fi: %s</string>
-    <string name="settings_multi_server_wifi_ssid_summary_unset">Додаток не буде автоматично обирати цей сервер на основі під\'єднаної Wi-Fi мережі.</string>
-    <string name="settings_multi_server_wifi_ssid_summary_hint">Можна ввести декілька імен Wi-Fi, розділивши їх новими рядками.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Перемкнуто на сервер \"%s\" на основі точки Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не вдалося прочитати ім\'я Wi-Fi: Відсутні дозволи</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Не вдалося прочитати ім\'я Wi-Fi: Визначення розташування вимкнуто</string>

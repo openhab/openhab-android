@@ -7,4 +7,5 @@
     <string name="info_openhab_gcm_failed_play_services">Помилка реєстрації сповіщень через проблему із сервісами Google Play: %s</string>
     <string name="info_openhab_gcm_connected">Реєстрація повідомлень пройшла успішно</string>
     <string name="open_in_maps">Відкрити у Google картах</string>
+    <string name="beta">Бета</string>
 </resources>
