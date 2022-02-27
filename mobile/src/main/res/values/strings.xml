@@ -47,8 +47,8 @@
     <string name="settings_openhab_sslclientcert_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://community.openhab.org/t/using-nginx-reverse-proxy-for-client-certificate-authentication-start-discussion/43064</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL client certificates are not supported by your device</string>
-    <string name="settings_openhab_screentimeroff">Disable display timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
+    <string name="settings_openhab_screentimeroff">Disable screen timeout</string>
+    <string name="settings_openhab_screentimeroff_summary">The screen doesn\'t turn off when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">If you don\'t have an openHAB server, enable demo mode to get an imagination of what openHAB is capable of.</string>
     <string name="start_page_title">Start page</string>
