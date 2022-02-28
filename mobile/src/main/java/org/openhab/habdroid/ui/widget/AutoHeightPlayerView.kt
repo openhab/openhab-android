@@ -18,11 +18,11 @@ import android.util.AttributeSet
 import android.view.View
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.video.VideoSize
 
 class AutoHeightPlayerView constructor(context: Context, attrs: AttributeSet) :
-    PlayerView(context, attrs),
+    StyledPlayerView(context, attrs),
     Player.Listener {
     private var currentPlayer: ExoPlayer? = null
 
