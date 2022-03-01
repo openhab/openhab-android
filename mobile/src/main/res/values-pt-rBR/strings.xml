@@ -41,8 +41,6 @@
     <string name="settings_openhab_sslclientcert">Certificado cliente SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado cliente SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Certificados de cliente SSL não são suportados pelo seu dispositivo</string>
-    <string name="settings_openhab_screentimeroff">Desativar a exibição do timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Desativa a exibição de interruptor de temporização quando openHAB está sendo executado</string>
     <string name="settings_openhab_demomode">Modo de demonstração</string>
     <string name="settings_openhab_demomode_summary">Se você não tiver um servidor openHAB, ative o modo de demonstração para obter uma imaginação do que openHAB é capaz de fazer.</string>
     <string name="start_page_title">Página inicial</string>
