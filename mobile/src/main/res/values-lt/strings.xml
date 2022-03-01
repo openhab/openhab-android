@@ -18,8 +18,6 @@
     <string name="settings_openhab_password">Slaptažodis</string>
     <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Paspauskite čia, kad gautumėte informacijos, kaip nustatyti SSL autentifikaciją</string>
-    <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
-    <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleista openHAB programėlė</string>
     <string name="settings_openhab_demomode">Demonstracinis režimas</string>
     <string name="settings_openhab_theme">openHAB tema</string>
     <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
