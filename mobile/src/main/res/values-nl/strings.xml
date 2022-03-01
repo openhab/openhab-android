@@ -41,8 +41,6 @@
     <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tik hier voor enkele tips en uitleg over het instellen van SSL certificaat authenticatie</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-cliëntcertificaten worden niet ondersteund door uw apparaat</string>
-    <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als de openHAB App actief is</string>
     <string name="settings_openhab_demomode">Demonstratiemodus</string>
     <string name="settings_openhab_demomode_summary">Als je geen openHAB server hebt, schakel dan de demo-modus in, om een idee te krijgen wat openHAB allemaal kan.</string>
     <string name="start_page_title">Startpagina</string>
