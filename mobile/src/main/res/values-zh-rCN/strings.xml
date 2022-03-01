@@ -41,8 +41,6 @@
     <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
     <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
     <string name="settings_openhab_sslclientcert_not_supported">您的设备不支持 SSL 客户端证书</string>
-    <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
-    <string name="settings_openhab_screentimeroff_summary">在 openHAB 运行时禁用显示屏关闭定时器</string>
     <string name="settings_openhab_demomode">演示模式</string>
     <string name="settings_openhab_demomode_summary">若您没有 openHAB 服务器，请启用演示模式来一览 openHAB 的功能。</string>
     <string name="start_page_title">首页</string>
