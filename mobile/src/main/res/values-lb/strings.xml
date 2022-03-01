@@ -28,8 +28,6 @@
     <string name="settings_openhab_sslclientcert">SSL Client Certificat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tipp heihinner fir Hiweiser an Erklärungen iwwer d´ Authentifizéierung per SSL Client Certificat ze kréien</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL Client-Zertifikater sinn vun dengem Gerät net ennerstetzt</string>
-    <string name="settings_openhab_screentimeroff">Display Timer ausschalten</string>
-    <string name="settings_openhab_screentimeroff_summary">Display Ausschalt-Timer desaktivéieren wann openHAB leeft</string>
     <string name="settings_openhab_demomode">Demo Modus</string>
     <string name="settings_openhab_demomode_summary">Wann s de keen openHAB Server hues, schalt den Demo Modus an fir eng Iddi ze kréien wat openHAB kann.</string>
     <string name="settings_openhab_theme">Design</string>
