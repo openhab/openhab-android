@@ -24,8 +24,6 @@
     <string name="settings_openhab_password_summary_strong">تعيين رمز مرور قوي</string>
     <string name="settings_openhab_sslclientcert">شهادة SSL العميل</string>
     <string name="settings_openhab_sslclientcert_howto_summary">اضغط هنا للحصول على بعض التلميحات والتوضيحات حول كيفية إعداد مصادقة شهادة عميل SSL</string>
-    <string name="settings_openhab_screentimeroff">تعطيل عرض المؤقت</string>
-    <string name="settings_openhab_screentimeroff_summary">تعطيل عرض إيقاف المؤقت عند تشغيل openHAB</string>
     <string name="settings_openhab_demomode">الوضع التجريبي</string>
     <string name="settings_openhab_demomode_summary">إذا لم يكن لديك ملقم openHAB، فعل وضع العرض التجريبي لتصور أمكانيات وقدرات openHAB.</string>
     <string name="settings_openhab_theme">السمة</string>
