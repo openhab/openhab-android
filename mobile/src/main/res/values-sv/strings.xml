@@ -26,8 +26,6 @@
     <string name="settings_openhab_sslclientcert">Klientcertifikat för SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tryck här för att få några tips och förklaringar på hur du konfigurerar klientautentisering med SSL-certifikat</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-klientcertifikat stöds inte av din enhet</string>
-    <string name="settings_openhab_screentimeroff">Inaktivera visningstimer</string>
-    <string name="settings_openhab_screentimeroff_summary">Inaktivera automatiskt avstängning av skärmen när openHAB är igång</string>
     <string name="settings_openhab_demomode">Demoläge</string>
     <string name="settings_openhab_demomode_summary">Om du inte har en openHAB-server, aktivera demoläget för att få en bild av vad OpanHAB kan göra.</string>
     <string name="settings_openhab_theme">Tema</string>
