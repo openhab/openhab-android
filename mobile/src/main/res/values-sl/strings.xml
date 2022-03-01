@@ -37,8 +37,6 @@
     <string name="settings_openhab_sslclientcert">SSL certifikat klienta</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Povezava na namige in pojasnila kako vzpostaviti avtentikacijo s pomočjo SSL certifikata klienta</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL certifikati klienta niso podprti na vaši napravi</string>
-    <string name="settings_openhab_screentimeroff">Onemogoči prikaz merilca časa</string>
-    <string name="settings_openhab_screentimeroff_summary">Onemogoči časovnik za zaklepanje zaslona pri odprti openHAB aplikaciji</string>
     <string name="settings_openhab_demomode">Preizkusni način</string>
     <string name="settings_openhab_demomode_summary">V kolikor nimate openHAB strežnika, omogočite preizkusni način za ogled zmožnosti sistema openHAB.</string>
     <string name="drawer_entries">Vnosi stranskega menija</string>
