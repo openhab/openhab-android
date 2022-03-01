@@ -41,8 +41,8 @@
     <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Für Hinweise und Erläuterungen zur SSL-Authentifizierung mittels Client-Zertifikat hier tippen</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-Client-Zertifikate werden von Ihrem Gerät nicht unterstützt</string>
-    <string name="settings_openhab_screentimeroff">Bildschirm-Abschaltung deaktivieren</string>
-    <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
+    <string name="settings_openhab_screentimeroff">Bildschirmabschaltung aktivieren</string>
+    <string name="settings_openhab_screentimeroff_summary">Der Bildschirm schaltet sich nicht aus, wenn openHAB läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
     <string name="start_page_title">Startseite</string>
@@ -108,6 +108,7 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Erweitert</string>
     <string name="click_here_for_more_information">Hier berühren für mehr Informationen</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Die App wählt diesen Server aus, wenn mit einem dieser WLAN-Namen verbunden. Mehrere WLAN-Namen können eingegeben werden, indem sie durch einen Zeilenumbruch getrennt werden.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Auf Server „%s“ basierend auf WLAN gewechselt</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Der WLAN-Name kann nicht gelesen werden: Fehlende Berechtigungen</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Der WLAN-Name kann nicht gelesen werden: Standort ist aus</string>
@@ -135,6 +136,7 @@
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_wifi_not_available">WLAN ist ausgeschaltet</string>
+    <string name="error_wifi_restricted">Lokale Verbindungen zu Server %1$s sind auf folgende WLAN-Namen beschränkt: %2$s</string>
     <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen (HTTP-Code %d).</string>
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
     <string name="error_invalid_https_url">Bitte geben Sie eine gültige URL im Format \'https://Adresse(:Port)/\' an</string>
@@ -244,6 +246,7 @@
     <string name="settings_wifi_ssid_summary_on_location_on">WLAN-Name (SSID) wird an Item \'%1$s\' gesendet. \"Standort\" muss eingeschaltet sein, sonst darf openHAB den WLAN-Namen nicht abrufen.</string>
     <string name="settings_wifi_ssid_summary_off">WLAN-Name (SSID) nicht senden</string>
     <string name="settings_wifi_ssid_permission_denied">Das Senden des WLAN-Namens wurde aufgrund fehlender Berechtigungen deaktiviert</string>
+    <string name="settings_wifi_ssid_restrict">Lokale Verbindung zu diesen WLAN-Namen beschränken</string>
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
@@ -399,6 +402,7 @@
     <string name="undo">Rückgängig</string>
     <string name="try_again_button">Erneut versuchen</string>
     <string name="enable_wifi_button">WLAN aktivieren</string>
+    <string name="switch_wifi_button">Mit anderem WLAN verbinden</string>
     <string name="go_to_settings_button">Einstellungen öffnen</string>
     <string name="enable_demo_mode_button">Demomodus aktivieren</string>
     <string name="configuration_missing">Wir konnten keinen openHAB-Server in Ihrem Netzwerk finden. Wenn sie bereits einen Server haben, konfigurieren Sie ihn in den Einstellungen. Andernfalls können Sie den Demomodus aktivieren, um eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>

@@ -27,8 +27,6 @@
     <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL klientsertifikater er ikke støttet av din enhet</string>
-    <string name="settings_openhab_screentimeroff">Deaktiver skjermsparer</string>
-    <string name="settings_openhab_screentimeroff_summary">Deaktiver skjermsparer når openHAB kjører</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Hvis du ikke har en openHAB server, aktiver demomodus for å få en oversikt over hva openHAB er i stand til.</string>
     <string name="settings_openhab_theme">Tema</string>

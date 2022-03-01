@@ -27,8 +27,6 @@
     <string name="settings_openhab_sslclientcert">Asiakkaan SSL sertifikaatti</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Näpäytä tästä nähdäksesi muutamia vinkkejä ja ohjeita kuinka asennat asiakkaan SSL todennuksen</string>
     <string name="settings_openhab_sslclientcert_not_supported">Laitteesi ei tue asiakkaan SSL sertifikaattia</string>
-    <string name="settings_openhab_screentimeroff">Poista näytön sammutuksen ajastin</string>
-    <string name="settings_openhab_screentimeroff_summary">Näytön sammutuksen ajastin pois päältä openHABin ollessa käynnissä</string>
     <string name="settings_openhab_demomode">Esittelytila</string>
     <string name="settings_openhab_demomode_summary">Jos sinulla ei ole openHAB palvelinta, niin valitse demo moodi saadaksesi käsityksen mihin openHAB pystyy.</string>
     <string name="settings_openhab_theme">Teema</string>

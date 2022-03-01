@@ -41,8 +41,6 @@
     <string name="settings_openhab_sslclientcert">Certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Toqueu aquí per a obtenir alguns consells i explicacions sobre com configurar l\'autenticació amb certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_not_supported">Els certificats SSL de client no estan suportats per al teu dispositiu</string>
-    <string name="settings_openhab_screentimeroff">Desactiva la visualització del temporitzador</string>
-    <string name="settings_openhab_screentimeroff_summary">Desactiva el comptador enrera quan l\'openHAB estigui funcionant</string>
     <string name="settings_openhab_demomode">Mode de demostració</string>
     <string name="settings_openhab_demomode_summary">Si no tens un servidor openHAB, activa el mode demo per fer-te una idea de què és capaç.</string>
     <string name="start_page_title">Pàgina d\'inici</string>

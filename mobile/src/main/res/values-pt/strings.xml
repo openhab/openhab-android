@@ -25,8 +25,6 @@
     <string name="settings_openhab_password_summary_strong">Password Forte definida</string>
     <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado de cliente SSL</string>
-    <string name="settings_openhab_screentimeroff">Desativar a exibição do temporizador</string>
-    <string name="settings_openhab_screentimeroff_summary">Desativar exibição do interruptor de temporização quando openHAB está a ser executado</string>
     <string name="settings_openhab_demomode">Modo de demonstração</string>
     <string name="settings_openhab_demomode_summary">Se não tem um servidor openHAB, habilite o modo demo a obter uma demonstração do que o openHAB é capaz de fazer.</string>
     <string name="settings_openhab_theme">Tema</string>

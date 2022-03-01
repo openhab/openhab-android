@@ -24,7 +24,6 @@
     <string name="settings_openhab_password_summary_strong">Mật khẩu bảo mật tốt</string>
     <string name="settings_openhab_sslclientcert">Chứng thực SSL khách</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Bấm vào đây để có được một số gợi ý và lời giải thích làm thế nào để thiết lập chứng thực SSL cho máy khách</string>
-    <string name="settings_openhab_screentimeroff">Tắt hiển thị bộ đếm</string>
     <string name="settings_openhab_demomode">Chế độ demo</string>
     <string name="settings_openhab_theme">Giao diện</string>
     <string name="settings_openhab_fullscreen">Toàn màn hình</string>

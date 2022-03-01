@@ -27,8 +27,6 @@
     <string name="settings_openhab_sslclientcert">SSL müşteri sertifikası</string>
     <string name="settings_openhab_sslclientcert_howto_summary">SSL müşteri sertifikası yetkilendirilmesi kurulu hakkında ipuçları ve açıklamalar için buraya tıklayınız</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL istemci sertifikaları cihazınız tarafından desteklenmiyor</string>
-    <string name="settings_openhab_screentimeroff">Ekran Zamanlayıcısını devre dışı bırak</string>
-    <string name="settings_openhab_screentimeroff_summary">openHAB çalışırken ekran kapatma zamanlayıcısını devre dışı bırakınız</string>
     <string name="settings_openhab_demomode">Deneme Modu</string>
     <string name="settings_openhab_demomode_summary">openHAB sunucunuz yoksa, openHAB\'ın ne yapabileceğini hayal etmek için demo modunu etkinleştirin.</string>
     <string name="settings_openhab_theme">Tema</string>

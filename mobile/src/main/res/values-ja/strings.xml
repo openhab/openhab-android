@@ -37,8 +37,6 @@
     <string name="settings_openhab_sslclientcert">SSL クライアント証明書</string>
     <string name="settings_openhab_sslclientcert_howto_summary">ここをタップすると SSL クライアント証明書認証を設定する方法について、いくつかのヒントや説明を得ることができます</string>
     <string name="settings_openhab_sslclientcert_not_supported">お使いのデバイスで SSL クライアント証明書はサポートされていません</string>
-    <string name="settings_openhab_screentimeroff">ディスプレイタイマーを無効にする</string>
-    <string name="settings_openhab_screentimeroff_summary">openHAB が実行中のとき、ディスプレイがオフにならないようにします</string>
     <string name="settings_openhab_demomode">デモモード</string>
     <string name="settings_openhab_demomode_summary">openHAB サーバーをお持ちでない場合は、デモモードを有効にすると、openHAB どのようなことができるか想像できます。</string>
     <string name="drawer_entries">サイドメニュー項目</string>

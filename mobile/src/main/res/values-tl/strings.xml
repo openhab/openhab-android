@@ -18,8 +18,6 @@
     <string name="settings_openhab_username">Pangalan ng gumagamit</string>
     <string name="settings_openhab_sslclientcert">SSL sertipiko ng kliente</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tapikin ito para makakuha ng mga pahiwatig at eksplanasyon ukol sa kung paano mag set-up ng pagpapatunay sa sertipiko ng kliente sa SSL</string>
-    <string name="settings_openhab_screentimeroff">Huwag paganahin ang display timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Huwag paganahin ang switch off timer kapag tumatakbo ang openHAB</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tignan ang Kabuuan</string>
     <string name="settings_openhab_icon_format">Pormat ng icon</string>

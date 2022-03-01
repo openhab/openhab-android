@@ -41,8 +41,6 @@
     <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
     <string name="settings_openhab_sslclientcert_not_supported">Hungarian</string>
-    <string name="settings_openhab_screentimeroff">Időzített kijelző tiltása</string>
-    <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
     <string name="settings_openhab_demomode_summary">Ha nincs openHAB szervere, engedélyezze a demo módot, hogy láthassa mire képes az openHAB.</string>
     <string name="start_page_title">Kezdőlap</string>
