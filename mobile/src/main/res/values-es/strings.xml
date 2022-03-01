@@ -108,6 +108,7 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Avanzado</string>
     <string name="click_here_for_more_information">Pulse aquí para más información</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">La aplicación seleccionará este servidor cuando esté conectado a una WI-FI que lleve uno de estos nombres. Se pueden introducir varios nombres de Wi-Fi separándolos en diferentes líneas.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Se cambió al servidor \"%s\" basándose en la Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">No se puede leer el nombre de la Wi-Fi: Faltan permisos</string>
     <string name="settings_multi_server_wifi_ssid_location_off">No se puede leer el nombre de la Wi-Fi: La ubicación está desactivada</string>
@@ -135,6 +136,7 @@
     <string name="error_sitemap_generic_load_error">No se pudo cargar el Sitemap. Ocurrió el siguiente error: %1$s</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
     <string name="error_wifi_not_available">Wi-Fi está desactivada</string>
+    <string name="error_wifi_restricted">Las conexiones locales al servidor %1$s están restringidas a los siguientes nombres de Wi-Fi: %2$s</string>
     <string name="error_http_connection_failed">La conexión no tuvo éxito. Se recibió una respuesta inesperada mientras intentaba conectarse al servidor openHAB configurado (código HTTP %d).</string>
     <string name="error_invalid_url">Por favor, introducir una URL válida con formato \'http(s)://host(:puerto)/\'</string>
     <string name="error_invalid_https_url">Por favor, introduzca una URL válida con el formato \'https://host(:puerto)/\'</string>
@@ -244,6 +246,7 @@
     <string name="settings_wifi_ssid_summary_on_location_on">Envía el nombre de la Wi-Fi (SSID) al Item \'%1$s\'. \"Ubicación\" debe estar activa, de lo contrario openHAB no puede obtener el nombre de la Wi-Fi.</string>
     <string name="settings_wifi_ssid_summary_off">No enviar nombre de Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">El envío del nombre de la wifi ha sido deshabilitado debido a que faltan permisos</string>
+    <string name="settings_wifi_ssid_restrict">Restringir la conexión local a estos nombres de Wi-Fi</string>
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Envía el modo DND al Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">No enviar modo DND</string>
@@ -399,6 +402,7 @@
     <string name="undo">Deshacer</string>
     <string name="try_again_button">Vuelve a intentarlo</string>
     <string name="enable_wifi_button">Activar Wi-Fi</string>
+    <string name="switch_wifi_button">Conectar a otra red Wi-Fi</string>
     <string name="go_to_settings_button">Ir a la configuración</string>
     <string name="enable_demo_mode_button">Ejecutar openHAB App en modo demo</string>
     <string name="configuration_missing">No hemos encontrado un servidor openHAB en su red. Si dispone de un servidor, por favor especifique el nombre de host o dirección IP en la configuración. Si todavía no dispone de servidor, puede habilitar el modo demo para ver lo que openHAB es capaz de ofrecer.</string>
