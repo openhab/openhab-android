@@ -26,8 +26,6 @@
     <string name="settings_openhab_password_summary_strong">Rangkaian kata sandi kuat</string>
     <string name="settings_openhab_sslclientcert">SSL klien sertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Ketuk di sini untuk mendapatkan beberapa petunjuk dan penjelasan tentang cara menyiapkan otentikasi sertifikat klien SSL</string>
-    <string name="settings_openhab_screentimeroff">Nonaktifkan pewaktu tampilan</string>
-    <string name="settings_openhab_screentimeroff_summary">Nonaktifkan tampilan matikan timer saat openHAB sedang berlari</string>
     <string name="settings_openhab_demomode">Mode demo</string>
     <string name="settings_openhab_demomode_summary">Jika Anda tidak memiliki server openHAB, aktifkan mode demo untuk mengimajinasikan kemampuan openHAB.</string>
     <string name="settings_openhab_theme">Tema</string>
