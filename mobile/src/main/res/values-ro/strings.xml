@@ -26,8 +26,6 @@
     <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Apasati aici pentru cateva instructiuni si explicatii descpre cum se seteaza autentificarea clientului prin certificat SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Certificatele client SSL nu sunt acceptate de dispozitiv</string>
-    <string name="settings_openhab_screentimeroff">Dezactiveaza afisarea cronometrului</string>
-    <string name="settings_openhab_screentimeroff_summary">Dezactiveaza afisarea comutatorului de oprire a cronometrului atunci cand openHAB este pornit</string>
     <string name="settings_openhab_demomode">Modul demonstrativ</string>
     <string name="settings_openhab_demomode_summary">Dacă nu aveţi un server openHAB, activaţi modul demo pentru a vă face o idee de ce este capabil openHAB.</string>
     <string name="settings_openhab_theme">Tema</string>
