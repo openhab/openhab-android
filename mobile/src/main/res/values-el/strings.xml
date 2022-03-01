@@ -24,8 +24,6 @@
     <string name="settings_openhab_password_summary_strong">Ισχυρός κωδικός πρόσβασης</string>
     <string name="settings_openhab_sslclientcert">Πιστοποιητικό SSL πελάτη</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Πατήστε εδώ για να ενημερωθείτε για το πως θα ορίσετε πιστοποίηση με πιστοποιητικό SSL πελάτη</string>
-    <string name="settings_openhab_screentimeroff">Απενεργοποίηση αδρανοποίησης</string>
-    <string name="settings_openhab_screentimeroff_summary">Απενεργοποίηση σβησίματος οθόνης όταν τρέχει το openHAB</string>
     <string name="settings_openhab_demomode">Κατάσταση επίδειξης</string>
     <string name="settings_openhab_theme">Θέμα</string>
     <string name="settings_openhab_fullscreen">Πλήρης Οθόνη</string>
