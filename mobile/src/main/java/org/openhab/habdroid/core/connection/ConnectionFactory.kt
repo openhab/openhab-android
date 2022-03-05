@@ -461,6 +461,10 @@ class ConnectionFactory internal constructor(
         }
 
         val currentSsid = context.getCurrentWifiSsid(OpenHabApplication.DATA_ACCESS_TAG_SELECT_SERVER_WIFI)
+        if (currentSsid.isNullOrEmpty()) {
+            Log.d(TAG, "Got SSID '$currentSsid'. Assume missing permissions and connect to server.")
+            return true
+        }
         return serverPrefs.wifiSsids?.contains(currentSsid) == true
     }
 
