@@ -16,12 +16,14 @@ package org.openhab.habdroid.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,12 +44,14 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getSecretPrefs
 
-class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var scrollView: ScrollView
     private lateinit var swipeLayout: SwipeRefreshLayout
+    private lateinit var searchView: SearchView
     private var showErrorsOnly: Boolean = false
+    private var fullLog = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +103,12 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "onCreateOptionsMenu()")
         menuInflater.inflate(R.menu.log_menu, menu)
+
+        val searchItem = menu.findItem(R.id.app_bar_search)
+        searchView = searchItem.actionView as SearchView
+        searchView.inputType = InputType.TYPE_CLASS_TEXT
+        searchView.setOnQueryTextListener(this)
+
         updateErrorsOnlyButtonState(menu.findItem(R.id.show_errors))
         return true
     }
@@ -129,6 +139,14 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         }
     }
 
+    override fun onBackPressed() {
+        if (!searchView.isIconified) {
+            searchView.isIconified = true
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun updateErrorsOnlyButtonState(item: MenuItem) {
         if (showErrorsOnly) {
             item.setIcon(R.drawable.ic_error_white_24dp)
@@ -151,7 +169,8 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     private fun fetchLog(clear: Boolean) = launch {
-        logTextView.text = collectLog(clear)
+        fullLog = collectLog(clear)
+        onQueryTextChange(searchView.query.toString())
         setUiState(false)
         scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
     }
@@ -231,5 +250,22 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         const val SNACKBAR_TAG_LOG_TOO_LARGE = "logTooLargeToShare"
 
         private val TAG = LogActivity::class.java.simpleName
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        logTextView.text = if (newText.isNullOrEmpty()) {
+            fullLog
+        } else {
+            fullLog
+                .lines()
+                .filter { line -> line.contains(newText, ignoreCase = true) }
+                .joinToString("\n")
+        }
+
+        return true
     }
 }
