@@ -87,7 +87,7 @@ jobs:
           alias: "sign"
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload App Bundle
         with:
           name: App Bundle
