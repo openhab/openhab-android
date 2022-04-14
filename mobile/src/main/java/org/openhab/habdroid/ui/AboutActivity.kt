@@ -138,9 +138,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 .icon(R.drawable.ic_code_braces_grey_24dp)
                 .setOnClickAction {
                     val f = LibsBuilder()
-                        .withFields(R.string::class.java.fields)
                         .withLicenseShown(true)
-                        .withAutoDetect(true)
                         .withAboutIconShown(false)
                         .withAboutVersionShown(false)
                         .withAboutVersionShownCode(false)
