@@ -33,25 +33,26 @@ object CrashReportingHelper {
             return
         }
 
-        val builder = CoreConfigurationBuilder(app)
+        val builder = CoreConfigurationBuilder()
             .withBuildConfigClass(BuildConfig::class.java)
-            .apply {
-                getPluginConfigurationBuilder(NotificationConfigurationBuilder::class.java)
+            .withPluginConfigurations(
+                NotificationConfigurationBuilder()
                     .withEnabled(true)
                     .withResIcon(R.drawable.ic_openhab_appicon_white_24dp)
-                    .withResTitle(R.string.crash_report_notification_title)
-                    .withResText(R.string.crash_report_notification_text)
-                    .withResSendButtonText(R.string.crash_report_notification_send_mail)
+                    .withTitle(app.getString(R.string.crash_report_notification_title))
+                    .withText(app.getString(R.string.crash_report_notification_text))
+                    .withSendButtonText(app.getString(R.string.crash_report_notification_send_mail))
                     .withResSendButtonIcon(0)
                     .withResDiscardButtonIcon(0)
-                    .withResChannelName(R.string.notification_channel_crash_reports)
-                    .withResChannelDescription(R.string.notification_channel_crash_reports_description)
+                    .withChannelName(app.getString(R.string.notification_channel_crash_reports))
+                    .withChannelDescription(app.getString(R.string.notification_channel_crash_reports_description))
                     .withSendOnClick(false)
-
-                getPluginConfigurationBuilder(MailSenderConfigurationBuilder::class.java)
+                    .build(),
+                MailSenderConfigurationBuilder()
                     .withEnabled(true)
                     .withMailTo("apps@openhabfoundation.org")
-        }
+                    .build()
+            )
 
         ACRA.init(app, builder)
     }
