@@ -346,6 +346,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
                 }
             }
 
+            @Deprecated(message = "Function is called on older Android versions")
             override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
                 Log.e(TAG, "onReceivedError() (deprecated) on URL: $failingUrl")
                 updateViewVisibility(true, null)

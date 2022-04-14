@@ -574,7 +574,7 @@ fun Menu.getGroupItems(groupId: Int): List<MenuItem> {
 fun PackageManager.isInstalled(app: String): Boolean {
     return try {
         // Some devices return `null` for getApplicationInfo()
-        @Suppress("UNNECESSARY_SAFE_CALL")
+        @Suppress("UNNECESSARY_SAFE_CALL", "SAFE_CALL_WILL_CHANGE_NULLABILITY")
         getApplicationInfo(app, 0)?.enabled == true
     } catch (e: PackageManager.NameNotFoundException) {
         false

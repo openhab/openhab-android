@@ -81,7 +81,7 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
 
     override fun setNestedScrollingEnabled(enabled: Boolean) {
         // This method is called from the super constructor, where the helper isn't initialized yet
-        @Suppress("UNNECESSARY_SAFE_CALL")
+        @Suppress("UNNECESSARY_SAFE_CALL", "SAFE_CALL_WILL_CHANGE_NULLABILITY")
         nestedScrollingChildHelper?.isNestedScrollingEnabled = enabled
     }
 

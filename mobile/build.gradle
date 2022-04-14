@@ -102,8 +102,8 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-            "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
-            "-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi"
+            "-opt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
+            "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi"
         ]
         allWarningsAsErrors = true
     }
