@@ -25,7 +25,6 @@ import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
-import java.util.HashSet
 import java.util.concurrent.CancellationException
 import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.KeyManager
@@ -461,6 +460,12 @@ class ConnectionFactory internal constructor(
         }
 
         val currentSsid = context.getCurrentWifiSsid(OpenHabApplication.DATA_ACCESS_TAG_SELECT_SERVER_WIFI)
+
+        if (currentSsid.isNullOrEmpty()) {
+            Log.d(TAG, "Got SSID '$currentSsid'. Assume missing permissions.")
+            return false
+        }
+
         return serverPrefs.wifiSsids?.contains(currentSsid) == true
     }
 

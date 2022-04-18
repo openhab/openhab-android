@@ -547,15 +547,25 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
      * the server id otherwise.
      */
     private fun determineServerIdToSwitchToBasedOnWifi(ssid: String?, prevSsid: String?): Int {
-        val anyServerHasSetWifi = prefs
+        val allServers = prefs
             .getConfiguredServerIds()
             .map { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
+
+        val anyServerHasSetWifi = allServers
             .any { config -> config?.wifiSsids?.isNotEmpty() == true }
 
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val requiredPermission = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Manifest.permission.ACCESS_FINE_LOCATION
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> Manifest.permission.ACCESS_COARSE_LOCATION
+        val requiredPermissions = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
+                val anyServerIsRestrictedToWifi = allServers.any { config -> config?.restrictToWifiSsids == true }
+                if (anyServerIsRestrictedToWifi) {
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                } else {
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
             else -> null
         }
 
@@ -573,17 +583,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 )
                 return -1
             }
-            requiredPermission != null && !hasPermissions(arrayOf(requiredPermission)) -> {
-                Log.d(TAG, "Cannot auto select server: Missing permission $requiredPermission")
+            requiredPermissions != null && !hasPermissions(requiredPermissions) -> {
+                Log.d(TAG, "Cannot auto select server: Missing permission ${requiredPermissions.contentToString()}")
                 showSnackbar(
                     SNACKBAR_TAG_SWITCHED_SERVER,
                     R.string.settings_multi_server_wifi_ssid_missing_permissions,
                     actionResId = R.string.settings_background_tasks_permission_allow
                 ) {
-                    requestPermissionsIfRequired(
-                        arrayOf(requiredPermission),
-                        REQUEST_CODE_PERMISSIONS
-                    )
+                    requestPermissionsIfRequired(requiredPermissions, REQUEST_CODE_PERMISSIONS)
                 }
                 return -1
             }
