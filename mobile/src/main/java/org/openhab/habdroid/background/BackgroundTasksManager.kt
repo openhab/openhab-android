@@ -559,8 +559,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
             primaryServer: Boolean = true,
             secondaryTags: List<String>? = null
         ) {
+            val workManager = WorkManager.getInstance(context)
+
             if (!forceUpdate && getLastUpdateCache(context).getStringOrNull(itemName) == value.value) {
                 Log.i(TAG, "Don't send update for item $itemName with value $value")
+                workManager.cancelUniqueWork(primaryTag)
+                workManager.pruneWork()
                 return
             }
 
@@ -599,7 +603,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 workRequest.setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             }
 
-            val workManager = WorkManager.getInstance(context)
             Log.d(TAG, "Scheduling work for tag $primaryTag")
             workManager.enqueueUniqueWork(primaryTag, ExistingWorkPolicy.REPLACE, workRequest.build())
         }
