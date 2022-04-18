@@ -479,7 +479,8 @@ class WidgetAdapter(
         }
 
         override fun bind(widget: Widget) {
-            labelView.text = widget.label
+            @SuppressLint("SetTextI18n")
+            labelView.text = "${widget.label} ${widget.stateFromLabel}"
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
             labelView.isGone = widget.label.isEmpty()
         }
