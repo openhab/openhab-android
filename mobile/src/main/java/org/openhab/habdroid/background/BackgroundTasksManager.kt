@@ -617,10 +617,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val info = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
                 Log.d(TAG, "Alarm sent by $sender")
-                val time: String = if (sender in IGNORED_PACKAGES_FOR_ALARM) {
+                val time: String = if (sender == null || sender in IGNORED_PACKAGES_FOR_ALARM) {
                     "UNDEF"
                 } else {
-                    info?.triggerTime?.toString() ?: "UNDEF"
+                    info.triggerTime.toString()
                 }
 
                 time.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
