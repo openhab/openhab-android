@@ -368,7 +368,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         CrashReportingHelper.d(TAG, "onPrepareOptionsMenu()")
-        menu.findItem(R.id.mainmenu_voice_recognition).isVisible = connection != null
+        menu.findItem(R.id.mainmenu_voice_recognition).isVisible =
+            connection != null && SpeechRecognizer.isRecognitionAvailable(this)
         menu.findItem(R.id.mainmenu_crash).isVisible = BuildConfig.DEBUG
         return true
     }
