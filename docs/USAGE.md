@@ -51,7 +51,7 @@ There are a number of strategies available to provide [secure remote access]({{b
 * Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
 * Receive notifications through an openHAB Cloud connection, [read more](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions)
 * Change items via NFC tags
-* Send voice commands to openHAB
+* [Send voice commands to openHAB](#send-voice-commands-to-openhab)
 * [Send device information to openHAB](#send-device-information-to-openhab), like next alarm clock time or call state
 * [Supports wall mounted tablets](#permanent-deployment)
 * [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
@@ -59,6 +59,13 @@ There are a number of strategies available to provide [secure remote access]({{b
 ### Permanent Deployment
 
 If you want to use openHAB Android on a wall mounted tablet, go to settings and select `Disable display timer` and `Fullscreen`.
+
+### Send voice commands to openHAB
+
+It's required to have a voice recognizer app installed on the Android device, e.g. [by Google](https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox).
+Voice recognizer apps may send the recorded sound to a server to convert it into text.
+
+To run your voice command rule please make sure that `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/#!/settings/services/org.openhab.voice) and that the correct Item is selected at `Other Services` => `Rule Voice Interpreter` => `Voice Command Item` (http://openhab:8080/#!/settings/services/org.openhab.rulehli/select/).
 
 ### Send device information to openHAB
 
@@ -329,10 +336,6 @@ This has a few disadvantages:
 ### I have issues with openHAB 3 UI or HABPanel
 
 The app uses Android WebViews to render all UIs except Sitemaps. Please make sure you're running the latest WebView version: https://play.google.com/store/apps/details?id=com.google.android.webview
-
-### My voice command rule isn't run
-
-Please make sure that `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/#!/settings/services/org.openhab.voice) and that the correct Item is selected at `Other Services` => `Rule Voice Interpreter` => `Voice Command Item` (http://openhab:8080/#!/settings/services/org.openhab.rulehli/select/).
 
 ### Chart loading is too slow
 
