@@ -18,8 +18,11 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothManager
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.BLUETOOTH_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
@@ -74,6 +77,7 @@ import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.withAttribution
 
 class BackgroundTasksManager : BroadcastReceiver() {
@@ -98,6 +102,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
             WifiManager.NETWORK_STATE_CHANGED_ACTION -> {
                 Log.d(TAG, "Wifi state changed")
                 scheduleWorker(context, PrefKeys.SEND_WIFI_SSID, true)
+            }
+            BluetoothDevice.ACTION_ACL_DISCONNECTED, BluetoothDevice.ACTION_ACL_CONNECTED -> {
+                Log.d(TAG, "Bluetooth device connected")
+                scheduleWorker(context, PrefKeys.SEND_BLUETOOTH_DEVICES, true)
             }
             NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED -> {
                 Log.d(TAG, "DND mode changed")
@@ -274,6 +282,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
             PrefKeys.SEND_WIFI_SSID,
+            PrefKeys.SEND_BLUETOOTH_DEVICES,
             PrefKeys.SEND_DND_MODE,
             PrefKeys.SEND_GADGETBRIDGE
         )
@@ -281,6 +290,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
             PrefKeys.SEND_WIFI_SSID,
+            PrefKeys.SEND_BLUETOOTH_DEVICES,
             PrefKeys.SEND_DND_MODE
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
@@ -320,6 +330,10 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_WIFI_SSID)) {
                         addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
                     }
+                    if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_BLUETOOTH_DEVICES)) {
+                        addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
+                        addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+                    }
                     if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_GADGETBRIDGE)) {
                         GADGETBRIDGE_ACTIONS.forEach { action ->
                             addAction(action)
@@ -340,6 +354,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
             task == PrefKeys.SEND_WIFI_SSID && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
                 arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+            task == PrefKeys.SEND_BLUETOOTH_DEVICES && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
+                arrayOf(Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH)
             else -> null
         }
 
@@ -698,6 +714,29 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     else -> "UNDEF"
                 }
                 ItemUpdateWorker.ValueWithInfo(mode)
+            }
+            VALUE_GETTER_MAP[PrefKeys.SEND_BLUETOOTH_DEVICES] = { context, _ ->
+                fun BluetoothDevice.isConnected(): Boolean {
+                    return try {
+                        val m = javaClass.getMethod("isConnected")
+                        m.invoke(this) as Boolean
+                    } catch (e: Exception) {
+                        throw IllegalStateException(e)
+                    }
+                }
+
+                val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_BLUETOOTH_DEVICES)
+                val state = if (requiredPermissions != null && !context.hasPermissions(requiredPermissions)) {
+                    "NO_PERMISSION"
+                } else {
+                    val bm = context.getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+                    bm.adapter.bondedDevices
+                        .filter { device -> device.isConnected() }
+                        .joinToString("|") { device -> device.address }
+                        .orDefaultIfEmpty("UNDEF")
+                }
+
+                ItemUpdateWorker.ValueWithInfo(state)
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_GADGETBRIDGE] = { _, intent ->
                 if (intent == null) {

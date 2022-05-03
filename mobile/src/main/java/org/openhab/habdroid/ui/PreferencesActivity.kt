@@ -1119,6 +1119,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         override val titleResId: Int @StringRes get() = R.string.send_device_info_to_server_short
         private lateinit var phoneStatePref: ItemUpdatingPreference
         private lateinit var wifiSsidPref: ItemUpdatingPreference
+        private lateinit var bluetoothPref: ItemUpdatingPreference
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences_device_information)
@@ -1127,6 +1128,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val foregroundServicePref = getPreference(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE)
             phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
             wifiSsidPref = getPreference(PrefKeys.SEND_WIFI_SSID) as ItemUpdatingPreference
+            bluetoothPref = getPreference(PrefKeys.SEND_BLUETOOTH_DEVICES) as ItemUpdatingPreference
 
             phoneStatePref.setOnPreferenceChangeListener { _, newValue ->
                 requestPermissionIfEnabled(
@@ -1145,6 +1147,15 @@ class PreferencesActivity : AbstractBaseActivity() {
                     newValue,
                     BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID),
                     PERMISSIONS_REQUEST_FOR_WIFI_NAME
+                )
+                true
+            }
+
+            bluetoothPref.setOnPreferenceChangeListener { _, newValue ->
+                requestPermissionIfEnabled(
+                    newValue,
+                    BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_BLUETOOTH_DEVICES),
+                    PERMISSIONS_REQUEST_FOR_BLUETOOTH_DEVICES
                 )
                 true
             }
@@ -1225,6 +1236,17 @@ class PreferencesActivity : AbstractBaseActivity() {
                         wifiSsidPref.setValue(checked = false)
                     } else {
                         BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID, true)
+                    }
+                }
+                PERMISSIONS_REQUEST_FOR_BLUETOOTH_DEVICES -> {
+                    if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
+                        parentActivity.showSnackbar(
+                            SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_BLUETOOTH,
+                            R.string.settings_bluetooth_devices_permission_denied
+                        )
+                        bluetoothPref.setValue(checked = false)
+                    } else {
+                        BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_BLUETOOTH_DEVICES, true)
                     }
                 }
             }
@@ -1673,10 +1695,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         private const val STATE_KEY_RESULT = "result"
         private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
         private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
+        private const val PERMISSIONS_REQUEST_FOR_BLUETOOTH_DEVICES = 2
 
         internal const val SNACKBAR_TAG_CLIENT_SSL_NOT_SUPPORTED = "clientSslNotSupported"
         internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE = "bgTasksPermissionDeclinedPhone"
         internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI = "bgTasksPermissionDeclinedWifi"
+        internal const val SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_BLUETOOTH = "bgTasksPermissionDeclinedBluetooth"
         internal const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
         internal const val SNACKBAR_TAG_MISSING_PREFS = "missingPrefs"
 
