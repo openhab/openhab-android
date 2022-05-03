@@ -274,6 +274,10 @@ fun JSONObject.optDoubleOrNull(key: String): Double? {
     return if (has(key)) getDouble(key) else null
 }
 
+fun JSONObject.optBooleanOrNull(key: String): Boolean? {
+    return if (has(key)) getBoolean(key) else null
+}
+
 fun JSONObject.optStringOrNull(key: String): String? {
     return optStringOrFallback(key, null)
 }

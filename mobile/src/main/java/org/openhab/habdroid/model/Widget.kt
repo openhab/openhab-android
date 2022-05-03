@@ -16,7 +16,6 @@ package org.openhab.habdroid.model
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Parcelable
-import java.util.ArrayList
 import kotlin.math.abs
 import kotlin.math.max
 import kotlinx.parcelize.Parcelize
@@ -26,6 +25,7 @@ import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.optBooleanOrNull
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.shouldRequestHighResChart
@@ -54,6 +54,7 @@ data class Widget(
     val period: String,
     val service: String,
     val legend: Boolean?,
+    val forceAsItem: Boolean,
     val switchSupport: Boolean,
     val height: Int,
     val visibility: Boolean
@@ -99,7 +100,7 @@ data class Widget(
 
         val chartUrl = Uri.Builder()
             .path("chart")
-            .appendQueryParameter(if (item.type === Item.Type.Group) "groups" else "items", item.name)
+            .appendQueryParameter(if (item.type === Item.Type.Group && !forceAsItem) "groups" else "items", item.name)
             .appendQueryParameter("dpi", actualDensity.toInt() / resDivider)
             .appendQueryParameter("period", forcedPeriod)
 
@@ -126,18 +127,33 @@ data class Widget(
             val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
             val iconName = eventPayload.optStringOrFallback("icon", source.icon?.icon)
             val icon = iconName.toOH2WidgetIconResource(item, source.type, source.mappings.isNotEmpty())
-            return Widget(source.id, source.parentId,
-                eventPayload.optString("label", source.label),
-                icon,
-                determineWidgetState(eventPayload.optStringOrNull("state"), item),
-                source.type, source.url, item, source.linkedPage, source.mappings,
-                source.encoding, source.iconColor,
-                eventPayload.optStringOrNull("labelcolor"),
-                eventPayload.optStringOrNull("valuecolor"),
-                source.refresh, source.minValue, source.maxValue, source.step,
-                source.period, source.service, source.legend,
-                source.switchSupport, source.height,
-                eventPayload.optBoolean("visibility", source.visibility))
+            return Widget(
+                id = source.id,
+                parentId = source.parentId,
+                rawLabel = eventPayload.optString("label", source.label),
+                icon = icon,
+                state = determineWidgetState(eventPayload.optStringOrNull("state"), item),
+                type = source.type,
+                url = source.url,
+                item = item,
+                linkedPage = source.linkedPage,
+                mappings = source.mappings,
+                encoding = source.encoding,
+                iconColor = source.iconColor,
+                labelColor = eventPayload.optStringOrNull("labelcolor"),
+                valueColor = eventPayload.optStringOrNull("valuecolor"),
+                refresh = source.refresh,
+                minValue = source.minValue,
+                maxValue = source.maxValue,
+                step = source.step,
+                period = source.period,
+                service = source.service,
+                legend = source.legend,
+                forceAsItem = source.forceAsItem,
+                switchSupport = source.switchSupport,
+                height = source.height,
+                visibility = eventPayload.optBoolean("visibility", source.visibility)
+            )
         }
 
         internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
@@ -225,10 +241,33 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     val finalId = id ?: return emptyList()
     val (actualMin, actualMax, actualStep) = Widget.sanitizeMinMaxStep(minValue, maxValue, step)
 
-    val widget = Widget(finalId, parent?.id, label.orEmpty(), icon.toOH1IconResource(),
-        item?.state, type, url, item, linkedPage, mappings, encoding, iconColor, labelColor, valueColor,
-        Widget.sanitizeRefreshRate(refresh), actualMin, actualMax, actualStep,
-        Widget.sanitizePeriod(period), service, null, switchSupport, height, true)
+    val widget = Widget(
+        id = finalId,
+        parentId = parent?.id,
+        rawLabel = label.orEmpty(),
+        icon = icon.toOH1IconResource(),
+        state = item?.state,
+        type = type,
+        url = url,
+        item = item,
+        linkedPage = linkedPage,
+        mappings = mappings,
+        encoding = encoding,
+        iconColor = iconColor,
+        labelColor = labelColor,
+        valueColor = valueColor,
+        refresh = Widget.sanitizeRefreshRate(refresh),
+        minValue = actualMin,
+        maxValue = actualMax,
+        step = actualStep,
+        period = Widget.sanitizePeriod(period),
+        service = service,
+        legend = null,
+        forceAsItem = false, // forceAsItem was added in openHAB 3, so no support for openHAB 1 required.
+        switchSupport = switchSupport,
+        height = height,
+        visibility = true
+    )
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
 
     return listOf(widget) + childWidgets
@@ -252,28 +291,30 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     )
 
     val widget = Widget(
-        getString("widgetId"),
-        parent?.id,
-        optString("label", ""),
-        icon.toOH2WidgetIconResource(item, type, mappings.isNotEmpty()),
-        Widget.determineWidgetState(optStringOrNull("state"), item),
-        type,
-        optStringOrNull("url"),
-        item,
-        optJSONObject("linkedPage").toLinkedPage(),
-        mappings,
-        optStringOrNull("encoding"),
-        optStringOrNull("iconcolor"),
-        optStringOrNull("labelcolor"),
-        optStringOrNull("valuecolor"),
-        Widget.sanitizeRefreshRate(optInt("refresh")),
-        minValue, maxValue, step,
-        Widget.sanitizePeriod(optString("period")),
-        optString("service", ""),
-        if (has("legend")) getBoolean("legend") else null,
-        if (has("switchSupport")) getBoolean("switchSupport") else false,
-        optInt("height"),
-        optBoolean("visibility", true))
+        id = getString("widgetId"),
+        parentId = parent?.id,
+        rawLabel = optString("label", ""),
+        icon = icon.toOH2WidgetIconResource(item, type, mappings.isNotEmpty()),
+        state = Widget.determineWidgetState(optStringOrNull("state"), item),
+        type = type,
+        url = optStringOrNull("url"),
+        item = item,
+        linkedPage = optJSONObject("linkedPage").toLinkedPage(),
+        mappings = mappings,
+        encoding = optStringOrNull("encoding"),
+        iconColor = optStringOrNull("iconcolor"),
+        labelColor = optStringOrNull("labelcolor"),
+        valueColor = optStringOrNull("valuecolor"),
+        refresh = Widget.sanitizeRefreshRate(optInt("refresh")),
+        minValue = minValue, maxValue = maxValue, step = step,
+        period = Widget.sanitizePeriod(optString("period")),
+        service = optString("service", ""),
+        legend = optBooleanOrNull("legend"),
+        forceAsItem = optBoolean("forceAsItem", false),
+        switchSupport = optBoolean("switchSupport", false),
+        height = optInt("height"),
+        visibility = optBoolean("visibility", true)
+    )
 
     val result = arrayListOf(widget)
     val childWidgetJson = optJSONArray("widgets")
