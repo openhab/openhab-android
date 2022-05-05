@@ -214,6 +214,9 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".background.CopyToClipboardReceiver"
+            android:exported="false" />
 
         <activity
             android:name=".background.NfcReceiveActivity"

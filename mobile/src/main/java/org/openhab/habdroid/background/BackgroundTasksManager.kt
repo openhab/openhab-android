@@ -33,6 +33,9 @@ import android.speech.RecognizerIntent
 import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.location.LocationManagerCompat
 import androidx.core.os.bundleOf
@@ -46,6 +49,8 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlinx.parcelize.Parcelize
@@ -58,6 +63,7 @@ import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.TaskerIntent
@@ -71,6 +77,7 @@ import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.hasPermissions
+import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
@@ -527,6 +534,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val attributionContext = context.withAttribution(OpenHabApplication.DATA_ACCESS_TAG_SEND_DEV_INFO)
             val value = VALUE_GETTER_MAP[key]?.invoke(attributionContext, intent)
             Log.d(TAG, "Got value '$value' for $key")
+
+            showDebugNotificationIfRequired(context, value?.debugInfo)
+
             if (value == null) {
                 return
             }
@@ -543,6 +553,47 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 asCommand = true,
                 forceUpdate = false
             )
+        }
+
+        private fun showDebugNotificationIfRequired(context: Context, debugInfo: String?) {
+            if (debugInfo == null || !context.getPrefs().isDebugModeEnabled()) {
+                return
+            }
+
+            val copyIntent = Intent(context, CopyToClipboardReceiver::class.java)
+            copyIntent.putExtra(CopyToClipboardReceiver.EXTRA_TO_COPY, debugInfo)
+            val copyPendingIntent = PendingIntent.getBroadcast(
+                context,
+                0,
+                copyIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent_Immutable
+            )
+
+            val copyAction = NotificationCompat.Action.Builder(
+                R.drawable.ic_outline_format_align_left_grey_24dp,
+                context.getString(R.string.copy_debug_info),
+                copyPendingIntent
+            )
+
+            val notification = NotificationCompat.Builder(context, NotificationUpdateObserver.CHANNEL_ID_BACKGROUND)
+                .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
+                .setContentTitle(context.getString(R.string.send_device_info_to_server_short))
+                .setContentText(debugInfo)
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(debugInfo)
+                )
+                .setWhen(System.currentTimeMillis())
+                .setShowWhen(true)
+                .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setAutoCancel(true)
+                .setGroup("debug")
+                .addAction(copyAction.build())
+                .build()
+
+            val notificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify("debug", System.currentTimeMillis().toInt(), notification)
         }
 
         private fun enqueueItemUpload(
@@ -617,13 +668,22 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val info = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
                 Log.d(TAG, "Alarm sent by $sender")
+                val formatter = SimpleDateFormat("HH:mm yyyy-MM-dd", Locale.US)
+                val timeStamp = info?.triggerTime?.let { formatter.format(it) }
+                @StringRes val debugInfoRes: Int
                 val time: String = if (sender == null || sender in IGNORED_PACKAGES_FOR_ALARM) {
+                    debugInfoRes = R.string.settings_alarm_clock_debug_ignored
                     "UNDEF"
                 } else {
+                    debugInfoRes = R.string.settings_alarm_clock_debug
                     info.triggerTime.toString()
                 }
 
-                time.let { ItemUpdateWorker.ValueWithInfo(it, type = ItemUpdateWorker.ValueType.Timestamp) }
+                ItemUpdateWorker.ValueWithInfo(
+                    value = time,
+                    type = ItemUpdateWorker.ValueType.Timestamp,
+                    debugInfo = context.getString(debugInfoRes, timeStamp, sender)
+                )
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_PHONE_STATE] = { context, _ ->
                 val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
