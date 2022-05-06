@@ -101,7 +101,7 @@ Rule template: [https://community.openhab.org/t/alarm-clock-rule/127194](https:/
 
 ##### Limitations
 
-The openHAB app uses the internal Android API [https://developer.android.com/reference/kotlin/android/app/AlarmManager](AlarmManager) to get the next alarm time.
+The openHAB app uses the internal Android API [AlarmManager](https://developer.android.com/reference/kotlin/android/app/AlarmManager) to get the next alarm time.
 Some apps use this API (e.g. the stock calendar app) for other purposes, e.g. scheduling notifications.
 Therefore the openHAB app may send invalid alarm times to the server.
 To circumvent this the alarm times set by some apps are blocklisted in the openHAB app and it'll send `UNDEF` instead.
