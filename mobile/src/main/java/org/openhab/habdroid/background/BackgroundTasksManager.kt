@@ -668,8 +668,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val info = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
                 Log.d(TAG, "Alarm sent by $sender")
-                val formatter = SimpleDateFormat("HH:mm yyyy-MM-dd", Locale.US)
-                val timeStamp = info?.triggerTime?.let { formatter.format(it) }
+                val timeStamp = info?.triggerTime?.let { time ->
+                    SimpleDateFormat("HH:mm yyyy-MM-dd", Locale.US).format(time)
+                }
                 @StringRes val debugInfoRes: Int
                 val time: String = if (sender == null || sender in IGNORED_PACKAGES_FOR_ALARM) {
                     debugInfoRes = R.string.settings_alarm_clock_debug_ignored

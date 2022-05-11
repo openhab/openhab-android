@@ -256,8 +256,8 @@
     <string name="settings_alarm_clock_summary_off">Don\'t send alarm time</string>
     <string name="settings_alarm_clock_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#alarm-clock</string>
     <string name="copy_debug_info">Copy</string>
-    <string name="settings_alarm_clock_debug_ignored">Got alarm time %1$s sent by %2$s, which is ignored</string>
-    <string name="settings_alarm_clock_debug">Got alarm time %1$s sent by %2$s</string>
+    <string name="settings_alarm_clock_debug_ignored">Ignored alarm time update to %1$s which was sent by %2$s</string>
+    <string name="settings_alarm_clock_debug">Got alarm time update to %1$s which was sent by %2$s</string>
     <string name="settings_phone_state">Call state</string>
     <string name="settings_phone_state_summary_on">Sends call state to Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Don\'t send call state</string>
