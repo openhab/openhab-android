@@ -317,6 +317,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         return if (stateful) {
             Control.StatefulBuilder(item.name, mainActivityPendingIntent)
                 .setTitle(item.label)
+                .setSubtitle(item.name)
                 .setDeviceType(getDeviceType(item))
                 .setControlTemplate(controlTemplate)
                 .setStatus(Control.STATUS_OK)
@@ -324,6 +325,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         } else {
             Control.StatelessBuilder(item.name, mainActivityPendingIntent)
                 .setTitle(item.label)
+                .setSubtitle(item.name)
                 .setDeviceType(getDeviceType(item))
                 .build()
         }
