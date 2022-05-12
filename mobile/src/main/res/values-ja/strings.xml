@@ -369,7 +369,6 @@
     <string name="about_translation">openHAB の翻訳にご協力ください</string>
     <string name="about_privacy_policy">プライバシーポリシー</string>
     <string name="about_rate_this_app">このアプリを評価する</string>
-    <string name="settings_debug_messages_title">拡張エラーメッセージ</string>
     <string name="settings_troubleshooting_title">トラブルシューティング</string>
     <string name="set">設定</string>
     <string name="cancel">キャンセル</string>
