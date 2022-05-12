@@ -382,7 +382,6 @@
     <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
     <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
     <string name="about_rate_this_app">Alkalmazás értékelése</string>
-    <string name="settings_debug_messages_title">Hibaüzenetek bővebben</string>
     <string name="settings_troubleshooting_title">Hibaelhárítás</string>
     <string name="set">Beállít</string>
     <string name="cancel">Mégse</string>
