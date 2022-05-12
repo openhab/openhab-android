@@ -324,7 +324,6 @@
     <string name="about_translation">Auta meitä kääntämään openHAB</string>
     <string name="about_privacy_policy">Tietosuojakäytäntö</string>
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
-    <string name="settings_debug_messages_title">Laajennetut virheviestit</string>
     <string name="settings_troubleshooting_title">Vianmääritys</string>
     <string name="set">Aseta</string>
     <string name="cancel">Peruuta</string>
