@@ -275,6 +275,10 @@
     <string name="settings_wifi_ssid_permission_denied">Sending Wi-Fi name has been disabled due to missing permissions</string>
     <string name="settings_wifi_ssid_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#wifi-name-ssid</string>
     <string name="settings_wifi_ssid_restrict">Restrict local connection to these Wi-Fi names</string>
+    <string name="settings_bluetooth_devices">Connected Bluetooth devices</string>
+    <string name="settings_bluetooth_devices_summary_on">Sends a pipe separated list of MAC addresses of connected Bluetooth devices to Item \'%1$s\'</string>
+    <string name="settings_bluetooth_devices_summary_off">Don\'t send connected Bluetooth devices</string>
+    <string name="settings_bluetooth_devices_permission_denied">Sending Bluetooth devices has been disabled due to missing permissions</string>
     <string name="settings_dnd_mode">DND mode</string>
     <string name="settings_dnd_mode_summary_on">Sends DND mode to Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Don\'t send DND mode</string>

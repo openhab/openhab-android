@@ -81,6 +81,15 @@
             app:iconEnabled="@drawable/ic_wifi_strength_outline_grey_24dp"
             app:iconDisabled="@drawable/ic_wifi_strength_off_outline_grey_24dp" />
         <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
+            android:defaultValue="false|BluetoothDevices"
+            android:key="send_bluetooth_devices"
+            app:helpUrl="https://www.openhab.org/docs/apps/android.html#bluetooth-devices"
+            app:summaryEnabled="@string/settings_bluetooth_devices_summary_on"
+            app:summaryDisabled="@string/settings_bluetooth_devices_summary_off"
+            android:title="@string/settings_bluetooth_devices"
+            app:iconEnabled="@drawable/ic_baseline_bluetooth_grey_24dp"
+            app:iconDisabled="@drawable/ic_baseline_bluetooth_disabled_grey_24dp" />
+        <org.openhab.habdroid.ui.preference.ItemUpdatingPreference
             android:defaultValue="false|DndMode"
             android:key="send_dnd_mode"
             app:helpUrl="@string/settings_dnd_mode_howto_url"

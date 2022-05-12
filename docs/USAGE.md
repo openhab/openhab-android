@@ -207,6 +207,31 @@ then
 end
 ```
 
+#### Bluetooth devices
+
+Send a `|` separated list of MAC addresses of connected bluetooth devices.
+
+Example item definition:
+```java
+String BluetoothDevices "Bluetooth devices [%s]" <bluetooth>
+```
+
+Example rule:
+```java
+rule "Bluetooth devices"
+when
+    Item BluetoothDevices changed
+then
+    if (WifiName.state == UNDEF) {
+        // No device is connected
+    } else if (WifiName.state == "NO_PERMISSION") {
+        // The bluetooth permission has been revoked by the user
+    } else {
+        logInfo("BluetoothDevices", "Connected Bluetooth devices: " + BluetoothDevices.state)
+    }
+end
+```
+
 #### DND Mode
 
 Sending the DND mode requires Android 6 or higher.
