@@ -381,7 +381,6 @@
     <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
     <string name="about_privacy_policy">Polityka prywatności</string>
     <string name="about_rate_this_app">Oceń tę aplikację</string>
-    <string name="settings_debug_messages_title">Rozszerzone komunikaty o błędach</string>
     <string name="settings_troubleshooting_title">Rozwiązywanie problemów</string>
     <string name="set">Wybierz</string>
     <string name="cancel">Anuluj</string>
