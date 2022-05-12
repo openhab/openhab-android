@@ -393,7 +393,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
     data class ValueWithInfo(
         val value: String,
         val mappedValue: String? = null,
-        val type: ValueType = ValueType.Raw
+        val type: ValueType = ValueType.Raw,
+        val debugInfo: String? = null
     ) : Parcelable
 }
 
