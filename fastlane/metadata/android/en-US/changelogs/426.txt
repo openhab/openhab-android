@@ -1,0 +1,10 @@
+## Added
+* Send list of connected bluetooth devices (#2897)
+* Show Item name in Android 11 device control (#2905)
+
+## Changed
+* Better debugging of sending alarm time (#2900) You might get more notifications when turning on debug mode now.
+
+## Fixed
+* Request location background permissions (#2881)
+* Ignore alarm sent by null (#2891)
