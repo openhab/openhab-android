@@ -161,7 +161,7 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     // MapView support
     fullImplementation "com.google.android.gms:play-services-maps:18.0.2"
-    fossImplementation "org.osmdroid:osmdroid-android:6.1.11"
+    fossImplementation "org.osmdroid:osmdroid-android:6.1.13"
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:3.1.2"
     // Used libraries
