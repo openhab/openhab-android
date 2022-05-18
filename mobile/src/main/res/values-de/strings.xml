@@ -231,6 +231,7 @@
     <string name="settings_alarm_clock">Weckzeit</string>
     <string name="settings_alarm_clock_summary_on">Weckzeit wird an Item \'%1$s\' gesendet</string>
     <string name="settings_alarm_clock_summary_off">Weckzeit nicht senden</string>
+    <string name="copy_debug_info">Kopieren</string>
     <string name="settings_phone_state">Anrufstatus</string>
     <string name="settings_phone_state_summary_on">Anrufstatus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_phone_state_summary_off">Anrufstatus nicht senden</string>
@@ -394,7 +395,6 @@
     <string name="about_translation">Helfen Sie uns bei der Übersetzung von openHAB</string>
     <string name="about_privacy_policy">Datenschutzerklärung</string>
     <string name="about_rate_this_app">Bewerten Sie diese App</string>
-    <string name="settings_debug_messages_title">Erweiterte Fehlermeldungen</string>
     <string name="settings_troubleshooting_title">Fehlerbehebung</string>
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>

@@ -41,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Clic aquí para obtener sugerencias y explicaciones sobre cómo configurar la autenticación del certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Los certificados de cliente SSL no son compatibles con su dispositivo</string>
+    <string name="settings_openhab_screentimeroff">Desactivar tiempo de espera de pantalla</string>
+    <string name="settings_openhab_screentimeroff_summary">La pantalla no se apaga cuando openHAB se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
     <string name="settings_openhab_demomode_summary">Si no dispone de un servidor de openHAB, habilite el modo demo para ver todo lo que puede hacer openHAB</string>
     <string name="start_page_title">Página de inicio</string>
@@ -392,7 +394,6 @@
     <string name="about_translation">Ayúdanos a traducir openHAB</string>
     <string name="about_privacy_policy">Política de Privacidad</string>
     <string name="about_rate_this_app">Valorar esta aplicación</string>
-    <string name="settings_debug_messages_title">Mensajes de error extendidos</string>
     <string name="settings_troubleshooting_title">Solución de problemas</string>
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>

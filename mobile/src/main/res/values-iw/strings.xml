@@ -394,7 +394,6 @@
     <string name="about_translation">עזור לנו לתרגם את openHAB</string>
     <string name="about_privacy_policy">מדיניות פרטיות</string>
     <string name="about_rate_this_app">דרג את היישום הזה</string>
-    <string name="settings_debug_messages_title">הודעות שגיאה מורחבות</string>
     <string name="settings_troubleshooting_title">פתרון בעיות</string>
     <string name="set">קבע</string>
     <string name="cancel">ביטול</string>
