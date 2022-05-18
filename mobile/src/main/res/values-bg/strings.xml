@@ -60,8 +60,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
-    <string name="error_connection_failed">Връзката с хоста е неуспешно</string>
-    <string name="error_unable_to_resolve_hostname">Не може да се свържи с домейна</string>
+    <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake е неуспешно</string>
     <string name="error_certificate_not_trusted">SSL сертификатът не е надежден. Моля внесете главен сертификат или приемете сертификат по време на SSL хендшейк.</string>
     <string name="error_certificate_expired">SSL сертификатът е изтекъл. Моля получите нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
