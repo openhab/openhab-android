@@ -3,7 +3,7 @@
     <intro/>
     <whatis/>
     <rules/>
-    <supported/>
+    <supported>Поддържани продукти</supported>
     <bindings>  </bindings>
     <automation_apps/>
 
@@ -15,7 +15,7 @@
     <foundation>openHAB фондация</foundation>
     <about_foundation> </about_foundation>
     <important_note/>
-    <oh_server/>
+    <oh_server>Трябва ти OpenHab сървър за тази програма.</oh_server>
     <short_description/>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
