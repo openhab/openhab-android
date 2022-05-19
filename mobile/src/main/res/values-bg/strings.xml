@@ -60,19 +60,47 @@
     <string name="settings_connection_summary">Свързан към %s</string>
     <string name="settings_insecure_connection_no_https">Адресът не започва с „https“</string>
     <string name="settings_insecure_connection_no_auth">Няма зададени потребителско име и парола</string>
+    <string name="settings_screen_lock">Заключване на екрана</string>
+    <string name="settings_screen_lock_off_summary">Достъпът до приложението не е заключен</string>
     <string name="settings_screen_lock_off">Изключено</string>
+    <string name="settings_screen_lock_kiosk">Павилионен режим</string>
+    <string name="settings_screen_lock_on">Включено</string>
+    <string name="settings_server_name">Име на сървър</string>
+    <string name="settings_add_server">Добави сървър</string>
+    <string name="settings_edit_server">Редактиране сървър</string>
+    <string name="server_with_name">Сървър %s</string>
+    <string name="settings_server_at_least_name_and_connection">Поне име на сървър и връзка са необходими</string>
+    <string name="settings_server_confirm_deletion">Сигурен ли си, че искаш да изтрие този сървър?</string>
+    <string name="settings_server_confirm_leave_title">Несъхранени промени</string>
+    <string name="settings_server_confirm_leave_message">Направил си промени. Искаш ли да ги запазиш или отхвърлиш?</string>
+    <string name="settings_server_primary_title">Основен сървър</string>
+    <string name="settings_server_primary_summary_is_primary">Това е основният сървър.\nПо настоящем приложението поддържа всички функции само за основния сървър. Натисни копчето Помощ за повече информация.</string>
+    <string name="settings_server_primary_summary_is_not_primary">„%s“ е основният сървър. Натисни, за да направиш този сървър основен.\nПо настоящем само основният сървър разгръща всички възможности на това приложение. Натисни помощния бутон за повече информация.</string>
+    <string name="click_here_for_more_information">Натисни тук за повече информация</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Преминах към сървър „%s“ въз основа на Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Не мога да прочета името на Wi-Fi мрежата: Липсват ми права</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Гласови команди</string>
+    <string name="voice_command">Гласова команда</string>
     <string name="info_voice_input">openHAB на ваше командване!</string>
     <string name="info_voice_recognized_text">Разпозната команда: %1$s</string>
     <string name="info_demo_mode_short">Работи в демо режим</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Изключи</string>
     <string name="info_conn_url">Свързване към местен URL</string>
     <string name="info_conn_rem_url">Свързване към отдалечен URL</string>
+    <string name="app_shortcut_disabled_habpanel">Сървърът ти няма инсталиран HABPanel</string>
+    <string name="app_shortcut_disabled_notifications">Отдалеченият ти сървър го няма</string>
+    <string name="app_shortcut_disabled_voice_recognition">Устройството ти няма инсталирана програма за разпознаване на говор</string>
+    <string name="no_position_set">Не е настроена позиция</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
+    <string name="error_first_char_is_whitespace">Първият символ е интервал, което вероятно не е желано</string>
+    <string name="error_last_char_is_whitespace">Последният символ е интервал, което вероятно не е желано</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
     <string name="error_unable_to_resolve_hostname">Не може да се свърже с домейна</string>
+    <string name="error_unknown">Появи се непозната грешка: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake е неуспешно</string>
     <string name="error_certificate_not_trusted">SSL сертификатът не е надежден. Моля внесете главен сертификат или приемете сертификат по време на SSL хендшейк.</string>
     <string name="error_certificate_expired">SSL сертификатът е изтекъл. Моля получите нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
@@ -80,9 +108,17 @@
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Адресът е прекалено дълъг. Използвай IP адрес или по-късо URL (HTTP код %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_unknown">Непозната грешка: %s</string>
+    <string name="error_short_certificate_revoked">Сертификатът е анулиран</string>
+    <string name="error_short_certificate_wrong_host">Сертификатът не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Няма достатъчно свободно място на сървъра (HTTP грешка %d)</string>
+    <string name="error_no_speech_to_text_app_found">Не е намерено приложение за разпознаване на глас</string>
+    <string name="error_video_player">%s не може да бъде заредено</string>
+    <string name="install">Инсталирай</string>
     <string name="title_activity_openhabwritetag">Запиши NFC етикет</string>
     <string name="title_activity_libraries">Използвани библиотеки</string>
     <string name="info_write_tag">Докосни етикета и задръжте докато съобщението за потвърждение се появи</string>
@@ -92,12 +128,35 @@
     <string name="action_settings">Настройки</string>
     <string name="info_not_set">Не е зададено</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Изпращай информация за устройството до сървъра</string>
+    <string name="send_device_info_to_server_short">Изпрати информация за устройството</string>
+    <string name="settings_battery_level">Ниво на батерията</string>
+    <string name="settings_battery_level_summary_off">Не изпращай нивото на батерията</string>
+    <string name="settings_wifi_ssid">Име на Wi-Fi мрежа</string>
+    <string name="settings_bluetooth_devices">Свързани Bluetooth устройства</string>
+    <string name="settings_bluetooth_devices_summary_off">Не изпращай свързаните Bluetooth устройства</string>
+    <string name="settings_background_tasks_permission_allow">Разреши</string>
     <string name="notification_channel_messages_default_severity">По подразбиране</string>
+    <string name="notification_channel_group_messages">Съобщения</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d ново известие</item>
+        <item quantity="other">%d нови известия</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Известията не са налични: отдалеченият сървър не е настроен</string>
+    <string name="push_notification_status">Състояние</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_short_status_waiting">Чакам…</string>
+    <string name="item_update_short_status_sending">Изпращам…</string>
+    <string name="send_device_info_schedule_15_minutes">15 минути</string>
+    <string name="send_device_info_schedule_1_hour">1 час</string>
+    <string name="send_device_info_schedule_3_hours">3 ча̀са</string>
+    <string name="send_device_info_schedule_6_hours">6 ча̀са</string>
+    <string name="send_device_info_schedule_12_hours">12 ча̀са</string>
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
+    <string name="notification_list_empty">Още не са изпратени известия</string>
     <string name="notification_list_error">Възникна грешка при зареждането на известията</string>
     <string name="list_loading_message">Зарежда се\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
@@ -115,7 +174,22 @@
     <!-- Themes -->
     <string name="theme_name_light">Светло</string>
     <string name="theme_name_dark">Тъмно</string>
+    <string name="theme_name_black">Черно</string>
     <!-- Chart -->
+    <string name="chart_activity_hide_legend">Скрий легендата</string>
+    <string name="chart_activity_show_legend">Покажи легендата</string>
+    <string name="chart_activity_period">Период</string>
+    <string name="chart_activity_period_1_hour">1 час</string>
+    <string name="chart_activity_period_4_hour">4 ча̀са</string>
+    <string name="chart_activity_period_8_hour">8 ча̀са</string>
+    <string name="chart_activity_period_12_hour">12 ча̀са</string>
+    <string name="chart_activity_period_1_day">1 ден</string>
+    <string name="chart_activity_period_1_week">1 седмица</string>
+    <string name="chart_activity_period_2_week">2 седмици</string>
+    <string name="chart_activity_period_1_month">1 месец</string>
+    <string name="chart_activity_period_2_month">2 месеца</string>
+    <string name="chart_activity_period_4_month">4 месеца</string>
+    <string name="chart_activity_period_1_year">1 тодина</string>
     <!-- NFC -->
     <string name="nfc_action_on">Включено</string>
     <string name="nfc_action_up">Нагоре</string>
@@ -133,6 +207,8 @@
     <string name="nfc_action_fastforward">Превъртане напред</string>
     <string name="nfc_action_move">Премести</string>
     <string name="nfc_action_stop">Спри</string>
+    <string name="nfc_action_open">Отворено</string>
+    <string name="nfc_action_closed">Затворено</string>
     <string name="nfc_activate">Активиране</string>
     <string name="nfc_action_current_color">Текущ цвят</string>
     <!-- Drawer -->
@@ -157,6 +233,9 @@
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
     <!-- Log -->
+    <string name="log_activity_action_show_errors">Покажи само грешки</string>
+    <string name="log_activity_action_show_all">Покажи всички съобщения</string>
+    <string name="log_activity_action_reload">Презареди</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_color_up">Включи или задръж за да увеличиш осветеността</string>
@@ -172,13 +251,49 @@
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">Готово</string>
     <!-- Item picker -->
+    <string name="item_picker_dialog_title">Избери действия</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_item_command">Команда</string>
+    <string name="search">Търси</string>
+    <string name="turn_on">Включи</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_short_success_message_off">Изключено</string>
+    <string name="item_update_short_success_message_increase">Увеличено</string>
+    <string name="item_update_short_success_message_decrease">Намалено</string>
     <!-- Data saver -->
+    <string name="widget_type_image">Картинка</string>
     <string name="widget_type_video">Видео</string>
+    <string name="widget_type_mapview">Карта</string>
     <!-- Tiles -->
+    <string name="tile_disabled">Изключено</string>
+    <string name="tile_enable">Включи</string>
+    <string name="tile_name">Име</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_tv">Телевизор</string>
+    <string name="tile_icon_radio">Радио</string>
+    <string name="tile_icon_bulb">Крушка</string>
+    <string name="tile_icon_clock">Часовник</string>
+    <string name="tile_icon_alarm_clock">Будилник</string>
+    <string name="tile_icon_bell">Звънец</string>
+    <string name="tile_icon_earth">Земя</string>
+    <string name="tile_icon_microphone">Микрофон</string>
+    <string name="tile_icon_people">Хора</string>
+    <string name="tile_icon_person">Човек</string>
+    <string name="tile_icon_phone">Телефон</string>
+    <string name="tile_icon_battery">Батерия</string>
+    <string name="tile_icon_tree">Дърво</string>
+    <string name="tile_icon_fan">Вентилатор</string>
+    <string name="tile_icon_man">Мъж</string>
+    <string name="tile_icon_bed">Легло</string>
+    <string name="tile_icon_child">Дете</string>
+    <string name="tile_icon_baby">Бебе</string>
+    <string name="tile_icon_bath">Баня</string>
+    <string name="tile_icon_woman">Жена</string>
+    <string name="tile_icon_camera">Камера</string>
+    <string name="tile_icon_garage">Гараж</string>
+    <string name="tile_icon_switch">Превключвател</string>
+    <string name="tile_icon_sofa">Диван</string>
     <!-- Tile icon values -->
 </resources>
