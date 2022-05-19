@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_disabled">Известията са изключени</string>
+    <string name="crash_report_notification_title">openHAB се срина</string>
+    <string name="crash_report_notification_send_mail">Изпрати писмо</string>
+    <string name="open_in_maps">Отвори в OpenStreetMap</string>
+</resources>
