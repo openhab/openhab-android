@@ -4,10 +4,13 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Настройки</string>
+    <string name="save">Съхрани</string>
+    <string name="delete">Изтрий</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сайткарти</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
     <string name="app_notifications">Известия</string>
+    <string name="app_notifications_on_server">Известия (%s)</string>
     <string name="habpanel_error">Възникна грешка, зареждайки HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Изберете сайта по подразбиране</string>
     <string name="mainmenu_openhab_clearcache">Изчисти кеша на изображенията</string>
@@ -26,8 +29,13 @@
     <string name="settings_openhab_sslclientcert">SSL сертификат на клиент</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Натиснете тук, за да получите някои съвети и обяснения за това как да настроите сертификат за удостоверяване на SSL клиент</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL клиентски сертификати не са съвместими с вашето устройство</string>
+    <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
+    <string name="settings_openhab_demomode_summary">Ако нямаш OpenHAB сървър избери този режим за да добиеш предтава на какво openHAB е способен.</string>
+    <string name="start_page_title">Начална страница</string>
     <string name="settings_openhab_theme">Тема</string>
+    <string name="settings_accent_color">Акцентиран цвят</string>
+    <string name="settings_select_a_color">Избери цвят</string>
     <string name="settings_openhab_fullscreen">Пълен екран</string>
     <string name="settings_openhab_icon_format">Формат на иконите</string>
     <string name="settings_openhab_icon_format_png">Растерна графика</string>
@@ -44,11 +52,14 @@
     <string name="settings_openhab_alt_connection">Дистанционно</string>
     <string name="settings_openhab_connection">Локално</string>
     <string name="settings_ringtone_none">Няма</string>
+    <string name="settings_notification_vibration">Вибриране</string>
     <string name="settings_notification_vibration_off">Изключено</string>
     <string name="settings_notification_vibration_short">Кратка</string>
     <string name="settings_notification_vibration_long">Продължителна</string>
     <string name="settings_notification_vibration_twice">Двойна</string>
     <string name="settings_connection_summary">Свързан към %s</string>
+    <string name="settings_insecure_connection_no_https">Адресът не започва с „https“</string>
+    <string name="settings_insecure_connection_no_auth">Няма зададени потребителско име и парола</string>
     <string name="settings_screen_lock_off">Изключено</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB на ваше командване!</string>
@@ -61,6 +72,7 @@
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
+    <string name="error_unable_to_resolve_hostname">Не може да се свърже с домейна</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake е неуспешно</string>
     <string name="error_certificate_not_trusted">SSL сертификатът не е надежден. Моля внесете главен сертификат или приемете сертификат по време на SSL хендшейк.</string>
     <string name="error_certificate_expired">SSL сертификатът е изтекъл. Моля получите нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
