@@ -1,0 +1,2 @@
+## Fixed
+* Explicitly declare some features as not required (#2914)
