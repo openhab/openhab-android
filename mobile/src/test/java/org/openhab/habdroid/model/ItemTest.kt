@@ -19,6 +19,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -120,6 +121,12 @@ class ItemTest {
     }
 
     @Test
+    fun testNoLabel() {
+        val sut = itemAsJsonObjectWithoutLabel.toItem()
+        assertNull(sut.label)
+    }
+
+    @Test
     fun testEquals() {
         val sut1a = itemAsJsonObjectWithMembers.toItem()
         val sut1b = itemAsJsonObjectWithMembers.toItem()
@@ -166,6 +173,13 @@ class ItemTest {
                 'label': 'Location Group',
                 'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ],
                 'category': 'Switch' }
+            """.trimIndent()
+        )
+        private val itemAsJsonObjectWithoutLabel = JSONObject(
+            """
+              { 'state': 'NULL',
+                'type': 'Group',
+                'name': 'LocationGroup' }
             """.trimIndent()
         )
     }

@@ -311,7 +311,7 @@ fun JSONObject.toItem(): Item {
 
     return Item(
         name,
-        optString("label", name).trim(),
+        optStringOrNull("label")?.trim(),
         optStringOrNull("category")?.lowercase(Locale.US),
         getString("type").toItemType(),
         optString("groupType").toItemType(),
