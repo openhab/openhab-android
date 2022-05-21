@@ -3,7 +3,7 @@
     <intro/>
     <whatis/>
     <rules/>
-    <supported/>
+    <supported>Поддържани продукти</supported>
     <bindings>  </bindings>
     <automation_apps/>
 
@@ -11,16 +11,16 @@
     <forum>  </forum>
 
     <report_issues>Когато намерите проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation/>
+    <translation>Ако искаш да преведеш програмата на своя език, посети https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB фондация</foundation>
     <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
+    <important_note>Важна бележка</important_note>
+    <oh_server>Трябва ти openHAB сървър за тази програма.</oh_server>
     <short_description/>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy/>
     <beta>Опитайте нови функции и дайте ранна обратна връзка!</beta>
-    <play_beta/>
+    <play_beta>Може да инсталираш бета версията паралелно със стабилната версия.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
 </strings>
