@@ -110,7 +110,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 Log.d(TAG, "Wifi state changed")
                 scheduleWorker(context, PrefKeys.SEND_WIFI_SSID, true)
             }
-            BluetoothDevice.ACTION_ACL_DISCONNECTED, BluetoothDevice.ACTION_ACL_CONNECTED -> {
+            BluetoothDevice.ACTION_ACL_CONNECTED, BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
                 Log.d(TAG, "Bluetooth device connected")
                 scheduleWorker(context, PrefKeys.SEND_BLUETOOTH_DEVICES, true)
             }
@@ -297,7 +297,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
             PrefKeys.SEND_WIFI_SSID,
-            PrefKeys.SEND_BLUETOOTH_DEVICES,
             PrefKeys.SEND_DND_MODE
         )
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
@@ -336,10 +335,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     }
                     if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_WIFI_SSID)) {
                         addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-                    }
-                    if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_BLUETOOTH_DEVICES)) {
-                        addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
-                        addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
                     }
                     if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_GADGETBRIDGE)) {
                         GADGETBRIDGE_ACTIONS.forEach { action ->

@@ -109,7 +109,6 @@ class EventListenerService : Service() {
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,
             PrefKeys.SEND_WIFI_SSID,
-            PrefKeys.SEND_BLUETOOTH_DEVICES,
             PrefKeys.SEND_DND_MODE,
             PrefKeys.SEND_GADGETBRIDGE
         )
@@ -127,7 +126,6 @@ class EventListenerService : Service() {
             PrefKeys.SEND_BATTERY_LEVEL -> R.string.settings_battery_level
             PrefKeys.SEND_CHARGING_STATE -> R.string.settings_charging_state
             PrefKeys.SEND_WIFI_SSID -> R.string.settings_wifi_ssid
-            PrefKeys.SEND_BLUETOOTH_DEVICES -> R.string.settings_bluetooth_devices
             PrefKeys.SEND_DND_MODE -> R.string.settings_dnd_mode
             PrefKeys.SEND_GADGETBRIDGE -> R.string.settings_gadgetbridge
             else -> throw IllegalArgumentException("No summary for $key")
