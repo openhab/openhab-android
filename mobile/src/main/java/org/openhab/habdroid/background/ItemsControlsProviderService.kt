@@ -47,12 +47,15 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toParsedState
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
+import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.orDefaultIfEmpty
 
 @RequiresApi(Build.VERSION_CODES.R)
 class ItemsControlsProviderService : ControlsProviderService() {
@@ -89,6 +92,9 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     override fun createPublisherForAllAvailable(): Flow.Publisher<Control> {
         val controls = SimplePublisher<Control>()
+        val primaryServerName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())
+            ?.name
+            .orDefaultIfEmpty(getString(R.string.app_name))
         val job = GlobalScope.launch {
             ConnectionFactory.waitForInitialization()
             val connection = ConnectionFactory.primaryUsableConnection?.connection
@@ -110,7 +116,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launch
             }
             items.forEach { item ->
-                maybeCreateControl(item, false)?.let { control -> controls.add(control) }
+                maybeCreateControl(item, primaryServerName, false)?.let { control -> controls.add(control) }
             }
             controls.done = true
         }
@@ -124,6 +130,9 @@ class ItemsControlsProviderService : ControlsProviderService() {
         val publisher = SimplePublisher<Control>()
         var eventStream: EventSource? = null
         val items = mutableMapOf<String, Item>()
+        val primaryServerName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())
+            ?.name
+            .orDefaultIfEmpty(getString(R.string.app_name))
         val job = launchWithConnection { connection ->
             if (connection == null) {
                 Log.e(TAG, "Got no connection for loading items")
@@ -134,7 +143,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
             itemNames.forEach { itemName ->
                 try {
                     ItemClient.loadItem(connection, itemName)?.let { item ->
-                        maybeCreateControl(item, true)?.let { control ->
+                        maybeCreateControl(item, primaryServerName, true)?.let { control ->
                             items[item.name] = item
                             publisher.add(control)
                         }
@@ -150,7 +159,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 StateChangeListener { itemName, state ->
                     val item = items[itemName] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
-                    maybeCreateControl(newItem, true)?.let { control ->
+                    maybeCreateControl(newItem, primaryServerName, true)?.let { control ->
                         publisher.add(control)
                     }
                 }
@@ -294,7 +303,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         )
     }
 
-    private fun maybeCreateControl(item: Item, stateful: Boolean): Control? {
+    private fun maybeCreateControl(item: Item, serverName: String, stateful: Boolean): Control? {
         if (item.label.isNullOrEmpty() || item.readOnly) return null
         val controlTemplate = when (item.type) {
             Item.Type.Switch -> ToggleTemplate(
@@ -318,6 +327,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
             Control.StatefulBuilder(item.name, mainActivityPendingIntent)
                 .setTitle(item.label)
                 .setSubtitle(item.name)
+                .setStructure(serverName)
                 .setDeviceType(getDeviceType(item))
                 .setControlTemplate(controlTemplate)
                 .setStatus(Control.STATUS_OK)
@@ -326,6 +336,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
             Control.StatelessBuilder(item.name, mainActivityPendingIntent)
                 .setTitle(item.label)
                 .setSubtitle(item.name)
+                .setStructure(serverName)
                 .setDeviceType(getDeviceType(item))
                 .build()
         }
