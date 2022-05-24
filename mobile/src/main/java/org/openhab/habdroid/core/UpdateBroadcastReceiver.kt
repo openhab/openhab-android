@@ -186,13 +186,14 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
                     val newData = ItemUpdateWidget.ItemUpdateWidgetData(
                         oldData.item,
-                        oldData.state,
+                        oldData.command,
                         oldData.label,
                         oldData.widgetLabel
                             ?: context.getString(R.string.item_update_widget_text, oldData.label, oldData.mappedState),
                         oldData.mappedState,
                         oldData.icon,
-                        oldData.theme
+                        oldData.theme,
+                        oldData.showState
                     )
 
                     ItemUpdateWidget.saveInfoForWidget(context, newData, id)

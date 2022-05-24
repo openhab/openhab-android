@@ -10,8 +10,13 @@
         android:persistent="false"
         android:key="widget_name"
         android:title="@string/tile_name"
-        app:whitespaceBehavior="trim"
+        app:whitespaceBehavior="ignore"
         android:inputType="text" />
+    <SwitchPreference
+        android:persistent="false"
+        android:key="show_state"
+        android:title="@string/widget_show_state"
+        android:summary="@string/widget_show_state_summary" />
     <ListPreference
         android:persistent="false"
         android:key="widget_theme"

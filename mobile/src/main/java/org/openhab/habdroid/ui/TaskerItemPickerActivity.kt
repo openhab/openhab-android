@@ -88,7 +88,11 @@ class TaskerItemPickerActivity(
         }
     }
 
-    override fun finish(item: Item, state: String, mappedState: String, tag: Any?) {
+    override fun finish(item: Item, state: String?, mappedState: String?, tag: Any?) {
+        if (state == null || mappedState == null) {
+            return
+        }
+
         var asCommand = commandButton.isChecked
 
         if (asCommand && item.type == Item.Type.Contact) {

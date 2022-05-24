@@ -65,7 +65,10 @@ class NfcItemPickerActivity(
         }
     }
 
-    override fun finish(item: Item, state: String, mappedState: String, tag: Any?) {
+    override fun finish(item: Item, state: String?, mappedState: String?, tag: Any?) {
+        if (state == null || mappedState == null) {
+            return
+        }
         val deviceId = tag == "isDeviceId"
         startActivity(WriteTagActivity.createItemUpdateIntent(
             this, item.name, state, mappedState, item.label, deviceId))

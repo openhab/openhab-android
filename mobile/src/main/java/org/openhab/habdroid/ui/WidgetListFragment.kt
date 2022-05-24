@@ -458,7 +458,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 getString(R.string.item_update_widget_text, widgetLabel, mappedState),
                 mappedState,
                 widget.icon,
-                context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark")
+                context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark"),
+                false
             )
 
             val callbackIntent = Intent(context, ItemUpdateWidget::class.java).apply {
@@ -476,7 +477,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Mutable
             )
 
-            val remoteViews = ItemUpdateWidget.getRemoteViews(context, true, null, null, data)
+            val remoteViews = ItemUpdateWidget.getRemoteViews(
+                context,
+                true,
+                null,
+                null,
+                data,
+                widget.state?.asString.orEmpty()
+            )
             appWidgetManager.requestPinAppWidget(
                 ComponentName(context, ItemUpdateWidget::class.java),
                 bundleOf(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW to remoteViews),

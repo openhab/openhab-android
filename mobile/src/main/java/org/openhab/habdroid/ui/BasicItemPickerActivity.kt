@@ -16,7 +16,9 @@ package org.openhab.habdroid.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.LayoutRes
+import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.util.SuggestedCommandsFactory
 
 /**
  * Item picker that returns the selected item as result intent
@@ -27,13 +29,15 @@ class BasicItemPickerActivity(
     override var hintIconId: Int = 0
 ) : AbstractItemPickerActivity() {
     @LayoutRes override val additionalConfigLayoutRes: Int = 0
+    private var showNoCommand = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initialHighlightItemName = intent.getStringExtra("item")
+        showNoCommand = intent.getBooleanExtra("show_no_command", false)
         super.onCreate(savedInstanceState)
     }
 
-    override fun finish(item: Item, state: String, mappedState: String, tag: Any?) {
+    override fun finish(item: Item, state: String?, mappedState: String?, tag: Any?) {
         val label = if (item.label.isNullOrEmpty()) item.name else item.label
         val resultIntent = Intent().apply {
             putExtra("item", item.name)
@@ -45,5 +49,14 @@ class BasicItemPickerActivity(
         }
         setResult(RESULT_OK, resultIntent)
         finish()
+    }
+
+    override fun addAdditionalCommands(
+        suggestedCommands: SuggestedCommandsFactory.SuggestedCommands,
+        entries: MutableList<CommandEntry>
+    ) {
+        if (showNoCommand) {
+            entries.add(CommandEntry(null, getString(R.string.widget_no_command)))
+        }
     }
 }
