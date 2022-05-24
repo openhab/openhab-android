@@ -23,7 +23,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import java.util.ArrayList
 import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min

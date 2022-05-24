@@ -26,7 +26,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import java.util.ArrayList
 import java.util.Locale
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
