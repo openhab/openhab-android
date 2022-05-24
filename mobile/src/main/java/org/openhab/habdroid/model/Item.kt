@@ -59,6 +59,7 @@ data class Item internal constructor(
         Switch
     }
 
+    @Suppress("unused")
     enum class Tag {
         // Legacy tags from openHAB 2
         ContactSensor,
