@@ -7,7 +7,7 @@ You can install the beta version alongside the <a href="https://f-droid.org/pack
 openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
 On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
-<b>Supported Products</b>
+<b>Поддържани продукти</b>
 
 Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
 The app has an action plugin for Tasker and Locale included.
@@ -16,14 +16,14 @@ The app has an action plugin for Tasker and Locale included.
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
 Когато намерите проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
+Ако искаш да преведеш програмата на своя език, посети https://crowdin.com/project/openhab-android
 
 <b>openHAB фондация</b>
 
 The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 
-<b>Important note</b>
+<b>Важна бележка</b>
 
-You need an openHAB server for this app.
+Трябва ти openHAB сървър за тази програма.
 
 Privacy policy: https://www.openhabfoundation.org/privacy.html
