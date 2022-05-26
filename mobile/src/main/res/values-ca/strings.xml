@@ -102,7 +102,6 @@
     <string name="settings_server_confirm_leave_message">Has fet alguns canvis. Vols desar-los o descartar-los?</string>
     <string name="settings_server_primary_title">Servidor principal</string>
     <string name="settings_server_primary_summary_is_primary">Aquest servidor és el principal.\nActualment aquesta aplicació només suporta totes les funcionalitats per al servidor principal. Prem el botó d\'ajuda per a més informació.</string>
-    <string name="settings_server_primary_summary_is_not_primary">Aquest servidor és el principal.\nActualment aquesta aplicació només suporta totes les funcionalitats per al servidor principal. Prem el botó d\'ajuda per a més informació.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Avançat</string>
     <string name="click_here_for_more_information">Feu clic aquí per a més informació</string>
