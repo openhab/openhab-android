@@ -38,6 +38,7 @@ data class Item internal constructor(
     val options: List<LabeledValue>?,
     val state: ParsedState?,
     val tags: List<Tag>,
+    val groupNames: List<String>,
     val minimum: Double?,
     val maximum: Double?,
     val step: Double?,
@@ -254,20 +255,21 @@ fun Node.toItem(): Item? {
     }
 
     return Item(
-        finalName,
-        finalName.trim(),
-        null,
-        type,
-        groupType,
-        link,
-        false,
-        emptyList(),
-        null,
-        state.toParsedState(),
-        emptyList(),
-        null,
-        null,
-        null
+        name = finalName,
+        label = finalName.trim(),
+        category = null,
+        type = type,
+        groupType = groupType,
+        link = link,
+        readOnly = false,
+        members = emptyList(),
+        options = null,
+        state = state.toParsedState(),
+        tags = emptyList(),
+        groupNames = emptyList(),
+        minimum = null,
+        maximum = null,
+        step = null
     )
 }
 
@@ -310,6 +312,13 @@ fun JSONObject.toItem(): Item {
         emptyList()
     }
 
+    val groupNames = if (has("groupNames")) {
+        getJSONArray("groupNames").mapString { it }
+    } else {
+        emptyList()
+    }
+
+
     return Item(
         name,
         optStringOrNull("label")?.trim(),
@@ -322,6 +331,7 @@ fun JSONObject.toItem(): Item {
         options,
         state.toParsedState(numberPattern),
         tags,
+        groupNames,
         stateDescription?.optDoubleOrNull("minimum"),
         stateDescription?.optDoubleOrNull("maximum"),
         stateDescription?.optDoubleOrNull("step")

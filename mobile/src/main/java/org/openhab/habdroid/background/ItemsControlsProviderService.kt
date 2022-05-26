@@ -116,7 +116,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launch
             }
             items.forEach { item ->
-                maybeCreateControl(item, primaryServerName, false)?.let { control -> controls.add(control) }
+                maybeCreateControl(item, items, primaryServerName, false)?.let { control -> controls.add(control) }
             }
             controls.done = true
         }
@@ -140,17 +140,22 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launchWithConnection
             }
 
-            itemNames.forEach { itemName ->
-                try {
-                    ItemClient.loadItem(connection, itemName)?.let { item ->
-                        maybeCreateControl(item, primaryServerName, true)?.let { control ->
-                            items[item.name] = item
-                            publisher.add(control)
-                        }
-                    }
-                } catch (e: HttpClient.HttpException) {
-                    Log.e(TAG, "Could not load item $itemName", e)
+            val allItems = try {
+                ItemClient.loadItems(connection) ?: emptyList()
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Could not load items", e)
+                emptyList()
+            }
+
+            itemNames
+                .map { itemName ->
+                    allItems.first { item -> item.name == itemName }
                 }
+                .forEach { item ->
+                    maybeCreateControl(item, allItems, primaryServerName, true)?.let { control ->
+                        items[item.name] = item
+                        publisher.add(control)
+                    }
             }
 
             eventStream = connection.httpClient.makeSse(
@@ -159,7 +164,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 StateChangeListener { itemName, state ->
                     val item = items[itemName] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
-                    maybeCreateControl(newItem, primaryServerName, true)?.let { control ->
+                    maybeCreateControl(newItem, allItems, primaryServerName, true)?.let { control ->
                         publisher.add(control)
                     }
                 }
@@ -199,6 +204,30 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 consumer.accept(ControlAction.RESPONSE_FAIL)
             }
         }
+    }
+
+    private fun getItemLocation(item: Item, allItems: List<Item>): String? {
+        val groups = mutableListOf<Item>()
+        item.groupNames.forEach { groupName ->
+            val group = allItems.first { item -> item.name == groupName }
+            // Check if item is in a location group
+            val isLocation = group.tags.any { tag -> tag in LOCATION_TAGS }
+            if (isLocation) {
+                return group.label
+            }
+
+            groups.add(group)
+        }
+
+        // Check if groups of item are in a location group
+        groups.forEach { group ->
+            val location = getItemLocation(group, allItems)
+            if (location != null) {
+                return location
+            }
+        }
+
+        return null
     }
 
     private fun getDeviceType(item: Item) =
@@ -303,7 +332,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         )
     }
 
-    private fun maybeCreateControl(item: Item, serverName: String, stateful: Boolean): Control? {
+    private fun maybeCreateControl(item: Item, allItems: List<Item>, serverName: String, stateful: Boolean): Control? {
         if (item.label.isNullOrEmpty() || item.readOnly) return null
         val controlTemplate = when (item.type) {
             Item.Type.Switch -> ToggleTemplate(
@@ -323,10 +352,12 @@ class ItemsControlsProviderService : ControlsProviderService() {
             else -> return null
         }
 
+        val location = getItemLocation(item, allItems).orEmpty()
+
         return if (stateful) {
             Control.StatefulBuilder(item.name, mainActivityPendingIntent)
                 .setTitle(item.label)
-                .setSubtitle(item.name)
+                .setSubtitle(location)
                 .setStructure(serverName)
                 .setDeviceType(getDeviceType(item))
                 .setControlTemplate(controlTemplate)
@@ -335,7 +366,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         } else {
             Control.StatelessBuilder(item.name, mainActivityPendingIntent)
                 .setTitle(item.label)
-                .setSubtitle(item.name)
+                .setSubtitle(location)
                 .setStructure(serverName)
                 .setDeviceType(getDeviceType(item))
                 .build()
@@ -352,6 +383,45 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     companion object {
         private val TAG = ItemsControlsProviderService::class.java.simpleName
+        private val LOCATION_TAGS = listOf(
+            Item.Tag.Apartment,
+            Item.Tag.Attic,
+            Item.Tag.Basement,
+            Item.Tag.Bathroom,
+            Item.Tag.Bedroom,
+            Item.Tag.BoilerRoom,
+            Item.Tag.Building,
+            Item.Tag.Carport,
+            Item.Tag.Cellar,
+            Item.Tag.Corridor,
+            Item.Tag.DiningRoom,
+            Item.Tag.Driveway,
+            Item.Tag.Entry,
+            Item.Tag.FamilyRoom,
+            Item.Tag.FirstFloor,
+            Item.Tag.Floor,
+            Item.Tag.Garage,
+            Item.Tag.Garden,
+            Item.Tag.GroundFloor,
+            Item.Tag.GuestRoom,
+            Item.Tag.House,
+            Item.Tag.Indoor,
+            Item.Tag.Kitchen,
+            Item.Tag.LaundryRoom,
+            Item.Tag.LivingRoom,
+            Item.Tag.Location,
+            Item.Tag.Office,
+            Item.Tag.Outdoor,
+            Item.Tag.Patio,
+            Item.Tag.Porch,
+            Item.Tag.Room,
+            Item.Tag.SecondFloor,
+            Item.Tag.Shed,
+            Item.Tag.SummerHouse,
+            Item.Tag.Terrace,
+            Item.Tag.ThirdFloor,
+            Item.Tag.Veranda
+        )
     }
 }
 
