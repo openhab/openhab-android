@@ -207,19 +207,19 @@ class ItemsControlsProviderService : ControlsProviderService() {
     }
 
     private fun getItemLocation(item: Item, allItems: List<Item>): String? {
-        val groups = mutableListOf<Item>()
-        item.groupNames.forEach { groupName ->
-            val group = allItems.first { item -> item.name == groupName }
-            // Check if item is in a location group
-            val isLocation = group.tags.any { tag -> tag in LOCATION_TAGS }
-            if (isLocation) {
+        val groups = item.groupNames.map { name -> allItems.first { item -> item.name == name } }
+        // First check if any of the groups is equipment or location
+        groups.forEach { group ->
+            if (group.tags.any { tag -> tag in EQUIPMENT_TAGS || tag == Item.Tag.Location }) {
                 return group.label
             }
-
-            groups.add(group)
+            val locationTag = group.tags.firstOrNull { tag -> tag in LOCATION_TAGS }
+            if (locationTag != null) {
+                return locationTag.toString() // FIXME: localize
+            }
         }
 
-        // Check if groups of item are in a location group
+        // If none of the groups is location or equipment, recursively check parent groups
         groups.forEach { group ->
             val location = getItemLocation(group, allItems)
             if (location != null) {
@@ -383,6 +383,63 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     companion object {
         private val TAG = ItemsControlsProviderService::class.java.simpleName
+        private val EQUIPMENT_TAGS = listOf(
+            Item.Tag.Equipment,
+            Item.Tag.AlarmSystem,
+            Item.Tag.BackDoor,
+            Item.Tag.Battery,
+            Item.Tag.Blinds,
+            Item.Tag.Boiler,
+            Item.Tag.Camera,
+            Item.Tag.Car,
+            Item.Tag.CeilingFan,
+            Item.Tag.CellarDoor,
+            Item.Tag.CleaningRobot,
+            Item.Tag.Dishwasher,
+            Item.Tag.Door,
+            Item.Tag.Doorbell,
+            Item.Tag.Dryer,
+            Item.Tag.Equipment,
+            Item.Tag.Fan,
+            Item.Tag.Freezer,
+            Item.Tag.FrontDoor,
+            Item.Tag.GarageDoor,
+            Item.Tag.Gate,
+            Item.Tag.HVAC,
+            Item.Tag.InnerDoor,
+            Item.Tag.Inverter,
+            Item.Tag.KitchenHood,
+            Item.Tag.LawnMower,
+            Item.Tag.Lightbulb,
+            Item.Tag.LightStripe,
+            Item.Tag.Lock,
+            Item.Tag.MotionDetector,
+            Item.Tag.NetworkAppliance,
+            Item.Tag.Oven,
+            Item.Tag.PowerOutlet,
+            Item.Tag.Projector,
+            Item.Tag.Pump,
+            Item.Tag.RadiatorControl,
+            Item.Tag.Receiver,
+            Item.Tag.Refrigerator,
+            Item.Tag.RemoteControl,
+            Item.Tag.Screen,
+            Item.Tag.Sensor,
+            Item.Tag.SideDoor,
+            Item.Tag.Siren,
+            Item.Tag.Smartphone,
+            Item.Tag.SmokeDetector,
+            Item.Tag.Speaker,
+            Item.Tag.Television,
+            Item.Tag.Valve,
+            Item.Tag.VoiceAssistant,
+            Item.Tag.WallSwitch,
+            Item.Tag.WashingMachine,
+            Item.Tag.WeatherService,
+            Item.Tag.WebService,
+            Item.Tag.WhiteGood,
+            Item.Tag.Window
+        )
         private val LOCATION_TAGS = listOf(
             Item.Tag.Apartment,
             Item.Tag.Attic,
