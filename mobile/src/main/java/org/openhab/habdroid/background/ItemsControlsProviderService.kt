@@ -210,10 +210,14 @@ class ItemsControlsProviderService : ControlsProviderService() {
         val groups = item.groupNames.map { name -> allItems.first { item -> item.name == name } }
         // First check if any of the groups is equipment or location
         groups.forEach { group ->
-            if (group.tags.any { tag -> tag in EQUIPMENT_TAGS || tag == Item.Tag.Location }) {
+            if (group.tags.any { tag -> tag == Item.Tag.Equipment || tag == Item.Tag.Location }) {
                 return group.label
             }
-            val locationTag = group.tags.firstOrNull { tag -> tag in LOCATION_TAGS }
+            val equipmentTag = group.tags.firstOrNull { tag -> tag.type == Item.TagType.Equipment }
+            if (equipmentTag != null) {
+                return equipmentTag.toString() // FIXME: localize
+            }
+            val locationTag = group.tags.firstOrNull { tag -> tag.type == Item.TagType.Location }
             if (locationTag != null) {
                 return locationTag.toString() // FIXME: localize
             }
@@ -383,102 +387,6 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     companion object {
         private val TAG = ItemsControlsProviderService::class.java.simpleName
-        private val EQUIPMENT_TAGS = listOf(
-            Item.Tag.Equipment,
-            Item.Tag.AlarmSystem,
-            Item.Tag.BackDoor,
-            Item.Tag.Battery,
-            Item.Tag.Blinds,
-            Item.Tag.Boiler,
-            Item.Tag.Camera,
-            Item.Tag.Car,
-            Item.Tag.CeilingFan,
-            Item.Tag.CellarDoor,
-            Item.Tag.CleaningRobot,
-            Item.Tag.Dishwasher,
-            Item.Tag.Door,
-            Item.Tag.Doorbell,
-            Item.Tag.Dryer,
-            Item.Tag.Equipment,
-            Item.Tag.Fan,
-            Item.Tag.Freezer,
-            Item.Tag.FrontDoor,
-            Item.Tag.GarageDoor,
-            Item.Tag.Gate,
-            Item.Tag.HVAC,
-            Item.Tag.InnerDoor,
-            Item.Tag.Inverter,
-            Item.Tag.KitchenHood,
-            Item.Tag.LawnMower,
-            Item.Tag.Lightbulb,
-            Item.Tag.LightStripe,
-            Item.Tag.Lock,
-            Item.Tag.MotionDetector,
-            Item.Tag.NetworkAppliance,
-            Item.Tag.Oven,
-            Item.Tag.PowerOutlet,
-            Item.Tag.Projector,
-            Item.Tag.Pump,
-            Item.Tag.RadiatorControl,
-            Item.Tag.Receiver,
-            Item.Tag.Refrigerator,
-            Item.Tag.RemoteControl,
-            Item.Tag.Screen,
-            Item.Tag.Sensor,
-            Item.Tag.SideDoor,
-            Item.Tag.Siren,
-            Item.Tag.Smartphone,
-            Item.Tag.SmokeDetector,
-            Item.Tag.Speaker,
-            Item.Tag.Television,
-            Item.Tag.Valve,
-            Item.Tag.VoiceAssistant,
-            Item.Tag.WallSwitch,
-            Item.Tag.WashingMachine,
-            Item.Tag.WeatherService,
-            Item.Tag.WebService,
-            Item.Tag.WhiteGood,
-            Item.Tag.Window
-        )
-        private val LOCATION_TAGS = listOf(
-            Item.Tag.Apartment,
-            Item.Tag.Attic,
-            Item.Tag.Basement,
-            Item.Tag.Bathroom,
-            Item.Tag.Bedroom,
-            Item.Tag.BoilerRoom,
-            Item.Tag.Building,
-            Item.Tag.Carport,
-            Item.Tag.Cellar,
-            Item.Tag.Corridor,
-            Item.Tag.DiningRoom,
-            Item.Tag.Driveway,
-            Item.Tag.Entry,
-            Item.Tag.FamilyRoom,
-            Item.Tag.FirstFloor,
-            Item.Tag.Floor,
-            Item.Tag.Garage,
-            Item.Tag.Garden,
-            Item.Tag.GroundFloor,
-            Item.Tag.GuestRoom,
-            Item.Tag.House,
-            Item.Tag.Indoor,
-            Item.Tag.Kitchen,
-            Item.Tag.LaundryRoom,
-            Item.Tag.LivingRoom,
-            Item.Tag.Location,
-            Item.Tag.Office,
-            Item.Tag.Outdoor,
-            Item.Tag.Patio,
-            Item.Tag.Porch,
-            Item.Tag.Room,
-            Item.Tag.SecondFloor,
-            Item.Tag.Shed,
-            Item.Tag.SummerHouse,
-            Item.Tag.Terrace,
-            Item.Tag.ThirdFloor,
-            Item.Tag.Veranda
-        )
     }
 }
 
