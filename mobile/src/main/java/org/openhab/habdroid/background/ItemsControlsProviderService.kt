@@ -206,14 +206,14 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
     }
 
-    private fun getItemTagLabel(item: Item, allItems: List<Item>, type: Item.Tag, tagType: Item.TagType): String? {
+    private fun getItemTagLabel(item: Item, allItems: List<Item>, type: Item.Tag): String? {
         val groups = item.groupNames.map { name -> allItems.first { item -> item.name == name } }
         // First check if any of the groups is equipment or location
         groups.forEach { group ->
             if (group.tags.any { tag -> tag == type }) {
                 return group.label
             }
-            val tagByType = group.tags.firstOrNull { tag -> tag.type == tagType }
+            val tagByType = group.tags.firstOrNull { tag -> tag.parent == type }
             if (tagByType != null) {
                 return if (group.label.isNullOrBlank()) tagByType.toString() /* FIXME: localize */ else group.label
             }
@@ -221,7 +221,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
         // If none of the groups is location or equipment, recursively check parent groups
         groups.forEach { group ->
-            val label = getItemTagLabel(group, allItems, type, tagType)
+            val label = getItemTagLabel(group, allItems, type)
             if (label != null) {
                 return label
             }
@@ -352,8 +352,8 @@ class ItemsControlsProviderService : ControlsProviderService() {
             else -> return null
         }
 
-        val location = getItemTagLabel(item, allItems, Item.Tag.Location, Item.TagType.Location)
-        val equipment = getItemTagLabel(item, allItems, Item.Tag.Equipment, Item.TagType.Equipment).orEmpty()
+        val location = getItemTagLabel(item, allItems, Item.Tag.Location)
+        val equipment = getItemTagLabel(item, allItems, Item.Tag.Equipment).orEmpty()
 
         return if (stateful) {
             Control.StatefulBuilder(item.name, mainActivityPendingIntent)
