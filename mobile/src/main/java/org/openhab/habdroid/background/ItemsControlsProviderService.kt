@@ -215,7 +215,11 @@ class ItemsControlsProviderService : ControlsProviderService() {
             }
             val tagByType = group.tags.firstOrNull { tag -> tag.parent == type }
             if (tagByType != null) {
-                return if (group.label.isNullOrBlank()) tagByType.toString() /* FIXME: localize */ else group.label
+                return if (group.label.isNullOrBlank() && tagByType.labelResId != null) {
+                    getString(tagByType.labelResId)
+                } else {
+                    group.label
+                }
             }
         }
 
