@@ -360,26 +360,21 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
         val location = getItemTagLabel(item, allItems, Item.Tag.Location).orEmpty()
         val equipment = getItemTagLabel(item, allItems, Item.Tag.Equipment).orEmpty()
-        val subtitle = "$location $equipment"
+
+        val statefulControl = Control.StatefulBuilder(item.name, mainActivityPendingIntent)
+            .setTitle(item.label)
+            .setSubtitle("$location $equipment")
+            .setZone(location)
+            .setStructure(serverName)
+            .setDeviceType(getDeviceType(item))
+            .setControlTemplate(controlTemplate)
+            .setStatus(Control.STATUS_OK)
+            .build()
 
         return if (stateful) {
-            Control.StatefulBuilder(item.name, mainActivityPendingIntent)
-                .setTitle(item.label)
-                .setSubtitle(subtitle)
-                .setZone(location)
-                .setStructure(serverName)
-                .setDeviceType(getDeviceType(item))
-                .setControlTemplate(controlTemplate)
-                .setStatus(Control.STATUS_OK)
-                .build()
+            statefulControl
         } else {
-            Control.StatelessBuilder(item.name, mainActivityPendingIntent)
-                .setTitle(item.label)
-                .setSubtitle(subtitle)
-                .setZone(location)
-                .setStructure(serverName)
-                .setDeviceType(getDeviceType(item))
-                .build()
+            Control.StatelessBuilder(statefulControl).build()
         }
     }
 
