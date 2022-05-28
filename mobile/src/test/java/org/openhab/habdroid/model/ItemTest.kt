@@ -153,6 +153,16 @@ class ItemTest {
         assertNotEquals(sut1a.hashCode(), sut2a.hashCode())
     }
 
+    @Test
+    fun tagsHaveLabel() {
+        val mustHaveLabel = listOf(Item.Tag.Location, Item.Tag.Equipment)
+        Item.Tag.values()
+            .filter { tag -> tag.parent in mustHaveLabel }
+            .forEach { tag ->
+                assertNotNull(tag.labelResId)
+            }
+    }
+
     companion object {
         private val itemAsJsonObjectWithMembers = JSONObject(
             """

@@ -207,8 +207,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
     }
 
     private fun getItemTagLabel(item: Item, allItems: List<Item>, type: Item.Tag): String? {
-        val groups = item.groupNames.map { name -> allItems.first { item -> item.name == name } }
-        // First check if any of the groups is equipment or location
+        val groups = item.groupNames.map { groupName ->
+            allItems.first { item -> item.name == groupName }
+        }
+        // First check if any of the groups is the requested type
         groups.forEach { group ->
             if (group.tags.any { tag -> tag == type }) {
                 return group.label
