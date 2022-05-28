@@ -226,14 +226,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
 
         // If none of the groups is location or equipment, recursively check parent groups
-        groups.forEach { group ->
-            val label = getItemTagLabel(group, allItems, type)
-            if (label != null) {
-                return label
-            }
-        }
-
-        return null
+        return groups.firstNotNullOfOrNull { group -> getItemTagLabel(group, allItems, type) }
     }
 
     private fun getDeviceType(item: Item) =
