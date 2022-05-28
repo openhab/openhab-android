@@ -62,7 +62,7 @@ data class Item internal constructor(
     }
 
     @Suppress("unused")
-    enum class Tag(val parent : Tag?, val labelResId: Int?) {
+    enum class Tag(val parent: Tag?, val labelResId: Int?) {
         // Legacy tags from openHAB 2
         ContactSensor(null, null),
         HeatingCoolingMode(null, null),
@@ -324,7 +324,6 @@ fun JSONObject.toItem(): Item {
     } else {
         emptyList()
     }
-
 
     return Item(
         name,
