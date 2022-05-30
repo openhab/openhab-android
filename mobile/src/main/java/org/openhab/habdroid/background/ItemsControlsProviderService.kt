@@ -50,8 +50,10 @@ import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toParsedState
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.DeviceControlSubtitleMode
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.getDeviceControlSubtitle
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
@@ -95,6 +97,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         val primaryServerName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())
             ?.name
             .orDefaultIfEmpty(getString(R.string.app_name))
+        val subtitleMode = getPrefs().getDeviceControlSubtitle(applicationContext)
         val job = GlobalScope.launch {
             ConnectionFactory.waitForInitialization()
             val connection = ConnectionFactory.primaryUsableConnection?.connection
@@ -116,7 +119,9 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launch
             }
             items.forEach { item ->
-                maybeCreateControl(item, items, primaryServerName, false)?.let { control -> controls.add(control) }
+                maybeCreateControl(item, items, primaryServerName, subtitleMode, false)?.let { control ->
+                    controls.add(control)
+                }
             }
             controls.done = true
         }
@@ -133,6 +138,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         val primaryServerName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())
             ?.name
             .orDefaultIfEmpty(getString(R.string.app_name))
+        val subtitleMode = getPrefs().getDeviceControlSubtitle(applicationContext)
         val job = launchWithConnection { connection ->
             if (connection == null) {
                 Log.e(TAG, "Got no connection for loading items")
@@ -152,7 +158,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                     allItems.first { item -> item.name == itemName }
                 }
                 .forEach { item ->
-                    maybeCreateControl(item, allItems, primaryServerName, true)?.let { control ->
+                    maybeCreateControl(item, allItems, primaryServerName, subtitleMode, true)?.let { control ->
                         items[item.name] = item
                         publisher.add(control)
                     }
@@ -164,7 +170,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 StateChangeListener { itemName, state ->
                     val item = items[itemName] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
-                    maybeCreateControl(newItem, allItems, primaryServerName, true)?.let { control ->
+                    maybeCreateControl(newItem, allItems, primaryServerName, subtitleMode, true)?.let { control ->
                         publisher.add(control)
                     }
                 }
@@ -331,7 +337,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
         )
     }
 
-    private fun maybeCreateControl(item: Item, allItems: List<Item>, serverName: String, stateful: Boolean): Control? {
+    private fun maybeCreateControl(
+        item: Item,
+        allItems: List<Item>,
+        serverName: String,
+        subtitleMode: DeviceControlSubtitleMode,
+        stateful: Boolean
+    ): Control? {
         if (item.label.isNullOrEmpty() || item.readOnly) return null
         val controlTemplate = when (item.type) {
             Item.Type.Switch -> ToggleTemplate(
@@ -354,10 +366,22 @@ class ItemsControlsProviderService : ControlsProviderService() {
         val location = getItemTagLabel(item, allItems, Item.Tag.Location).orEmpty()
         val equipment = getItemTagLabel(item, allItems, Item.Tag.Equipment).orEmpty()
 
+        val subtitle = when (subtitleMode) {
+            DeviceControlSubtitleMode.LOCATION -> location
+            DeviceControlSubtitleMode.EQUIPMENT -> equipment
+            DeviceControlSubtitleMode.LOCATION_AND_EQUIPMENT -> "$location $equipment"
+            DeviceControlSubtitleMode.ITEM_NAME -> item.name
+        }
+
+        val zone = when (subtitleMode) {
+            DeviceControlSubtitleMode.ITEM_NAME -> item.name.first().toString()
+            else -> location
+        }
+
         val statefulControl = Control.StatefulBuilder(item.name, mainActivityPendingIntent)
             .setTitle(item.label)
-            .setSubtitle("$location $equipment")
-            .setZone(location)
+            .setSubtitle(subtitle)
+            .setZone(zone)
             .setStructure(serverName)
             .setDeviceType(getDeviceType(item))
             .setControlTemplate(controlTemplate)

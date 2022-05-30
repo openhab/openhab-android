@@ -130,6 +130,15 @@
     <string name="settings_multi_server_wifi_ssid_location_off">Unable to read Wi-Fi name: Location is off</string>
     <string name="setting_crash_reporting_title">Crash reporting</string>
     <string name="setting_crash_reporting_summary">Send crash reports to support the development of the app</string>
+    <string name="device_control_subtitle_location">Location</string>
+    <string name="device_control_subtitle_equipment">Equipment</string>
+    <string name="device_control_subtitle_location_equipment">Location and equipment</string>
+    <string name="device_control_subtitle_item_name">Item name</string>
+    <string name="device_control_subtitle_location_value" translatable="false">location</string>
+    <string name="device_control_subtitle_equipment_value" translatable="false">equipment</string>
+    <string name="device_control_subtitle_location_equipment_value" translatable="false">location_equipment</string>
+    <string name="device_control_subtitle_item_name_value" translatable="false">item_name</string>
+    <string name="device_control_subtitle">Device control subtitle</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>

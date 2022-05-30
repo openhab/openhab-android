@@ -188,6 +188,23 @@ fun SharedPreferences.isItemUpdatePrefEnabled(key: String) = getString(key, null
 
 fun SharedPreferences.isEventListenerEnabled() = getBoolean(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE, false)
 
+enum class DeviceControlSubtitleMode {
+    LOCATION,
+    EQUIPMENT,
+    LOCATION_AND_EQUIPMENT,
+    ITEM_NAME
+}
+
+fun SharedPreferences.getDeviceControlSubtitle(context: Context): DeviceControlSubtitleMode {
+    return when (getStringOrNull(PrefKeys.DEVICE_CONTROL_SUBTITLE)) {
+        context.getString(R.string.device_control_subtitle_equipment_value) -> DeviceControlSubtitleMode.EQUIPMENT
+        context.getString(R.string.device_control_subtitle_location_equipment_value) ->
+            DeviceControlSubtitleMode.LOCATION_AND_EQUIPMENT
+        context.getString(R.string.device_control_subtitle_item_name_value) -> DeviceControlSubtitleMode.ITEM_NAME
+        else -> DeviceControlSubtitleMode.LOCATION
+    }
+}
+
 /**
  * Returns vibration pattern for notifications that can be passed to
  * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]

@@ -130,6 +130,20 @@
         <item>@string/settings_screen_lock_on_value</item>
     </string-array>
 
+    <string-array name="device_control_subtitle">
+        <item>@string/device_control_subtitle_location</item>
+        <item>@string/device_control_subtitle_equipment</item>
+        <item>@string/device_control_subtitle_location_equipment</item>
+        <item>@string/device_control_subtitle_item_name</item>
+    </string-array>
+
+    <string-array name="device_control_subtitle_values">
+        <item>@string/device_control_subtitle_location_value</item>
+        <item>@string/device_control_subtitle_equipment_value</item>
+        <item>@string/device_control_subtitle_location_equipment_value</item>
+        <item>@string/device_control_subtitle_item_name_value</item>
+    </string-array>
+
     <array name="accentColors">
         <item>@color/openhab_orange</item>
         <item>@color/indigo_500</item>
