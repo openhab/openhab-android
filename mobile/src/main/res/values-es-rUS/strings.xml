@@ -231,6 +231,9 @@
     <string name="settings_alarm_clock">Hora de la alarma</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de alarma al Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">No enviar hora de alarma</string>
+    <string name="copy_debug_info">Copiar</string>
+    <string name="settings_alarm_clock_debug_ignored">Actualización de hora de alarma ignorada a %1$s que fue enviada por %2$s</string>
+    <string name="settings_alarm_clock_debug">Se actualizó la hora de la alarma a %1$s que fue enviada por %2$s</string>
     <string name="settings_phone_state">Estado de llamada</string>
     <string name="settings_phone_state_summary_on">Envía el estado de llamada al Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">No enviar estado de llamada</string>
@@ -247,6 +250,10 @@
     <string name="settings_wifi_ssid_summary_off">No enviar nombre de Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">El envío del nombre de la wifi ha sido deshabilitado debido a que faltan permisos</string>
     <string name="settings_wifi_ssid_restrict">Restringir la conexión local a estos nombres de Wi-Fi</string>
+    <string name="settings_bluetooth_devices">Dispositivos Bluetooth conectados</string>
+    <string name="settings_bluetooth_devices_summary_on">Envía una lista de direcciones MAC de dispositivos Bluetooth conectados al elemento \'%1$s\' separada por el símbolo \'|\'</string>
+    <string name="settings_bluetooth_devices_summary_off">No enviar dispositivos Bluetooth conectados</string>
+    <string name="settings_bluetooth_devices_permission_denied">El envío de dispositivos Bluetooth ha sido desactivado debido a la falta de permisos</string>
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Envía el modo DND al Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">No enviar modo DND</string>
@@ -394,6 +401,7 @@
     <string name="about_translation">Ayúdanos a traducir openHAB</string>
     <string name="about_privacy_policy">Política de Privacidad</string>
     <string name="about_rate_this_app">Valorar esta aplicación</string>
+    <string name="settings_debug_messages_title">Mostrar información para la solución de problemas</string>
     <string name="settings_troubleshooting_title">Solución de problemas</string>
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>
