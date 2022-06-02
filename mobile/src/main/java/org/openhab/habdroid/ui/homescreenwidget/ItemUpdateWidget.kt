@@ -50,6 +50,7 @@ import org.openhab.habdroid.ui.duplicate
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ToastType
@@ -97,11 +98,15 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         ?.getParcelable<ItemUpdateWidgetData>(EXTRA_DATA)
                         ?: return
                     saveInfoForWidget(context, data, id)
+                    BackgroundTasksManager.schedulePeriodicTrigger(context, false)
                     setupWidget(context, data, id, AppWidgetManager.getInstance(context))
                     context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
                 }
                 ACTION_UPDATE_WIDGET -> {
-                    BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, getInfoForWidget(context, id))
+                    val data = getInfoForWidget(context, id)
+                    if (data.command != null) {
+                        BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, data)
+                    }
                 }
                 ACTION_EDIT_WIDGET -> {
                     Log.d(TAG, "Edit widget $id")
@@ -161,20 +166,43 @@ open class ItemUpdateWidget : AppWidgetProvider() {
 
         val editPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, editIntent, PendingIntent_Immutable)
 
-        val views = getRemoteViews(context, smallWidget, itemUpdatePendingIntent, editPendingIntent, data)
-        appWidgetManager.updateAppWidget(appWidgetId, views)
-        fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
+        GlobalScope.launch {
+            val itemState = if (data.showState) {
+                ConnectionFactory.waitForInitialization()
+                try {
+                    ConnectionFactory.primaryUsableConnection?.connection?.let { connection ->
+                        ItemClient.loadItem(connection, data.item)?.state?.asString
+                    }
+                } catch (e: HttpClient.HttpException) {
+                    Log.e(TAG, "Failed to load state of item ${data.item}")
+                    null
+                }
+            } else {
+                null // State isn't shown, so no need to get it
+            }
+
+            val views = getRemoteViews(
+                context,
+                smallWidget,
+                itemUpdatePendingIntent,
+                editPendingIntent,
+                data,
+                itemState ?: context.getString(R.string.error_getting_state)
+            )
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+            fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
+        }
     }
 
-    private fun fetchAndSetIcon(
+    private suspend fun fetchAndSetIcon(
         context: Context,
         views: RemoteViews,
         data: ItemUpdateWidgetData,
         smallWidget: Boolean,
         appWidgetId: Int,
         appWidgetManager: AppWidgetManager
-    ) = GlobalScope.launch {
-        val iconUrl = data.icon?.withCustomState(data.state)?.toUrl(context, true)
+    ) {
+        val iconUrl = data.icon?.withCustomState(data.command.orEmpty())?.toUrl(context, true)
 
         if (iconUrl != null) {
             val cm = CacheManager.getInstance(context)
@@ -233,7 +261,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     val connection = ConnectionFactory.primaryUsableConnection?.connection
                     if (connection == null) {
                         Log.d(TAG, "Got no connection")
-                        return@launch
+                        return
                     }
                     val response = connection.httpClient.get(iconUrl).response
                     val content = response.bytes()
@@ -264,7 +292,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData {
             val prefs = getPrefsForWidget(context, id)
             val item = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
-            val state = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
+            val command = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_COMMAND)
             val label = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
             val widgetLabel = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
             val mappedState = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
@@ -274,7 +302,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 PreferencesActivity.ITEM_UPDATE_WIDGET_THEME,
                 context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark")
             )
-            return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon, theme)
+            val showState = prefs.getBoolean(PreferencesActivity.ITEM_UPDATE_WIDGET_SHOW_STATE, false)
+            return ItemUpdateWidgetData(item, command, label, widgetLabel, mappedState, icon, theme, showState)
         }
 
         fun saveInfoForWidget(
@@ -284,12 +313,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         ) {
             getPrefsForWidget(context, id).edit {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM, data.item)
-                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE, data.state)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_COMMAND, data.command)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
                 putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_THEME, data.theme)
+                putBoolean(PreferencesActivity.ITEM_UPDATE_WIDGET_SHOW_STATE, data.showState)
             }
         }
 
@@ -298,7 +328,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             smallWidget: Boolean,
             itemUpdatePendingIntent: PendingIntent?,
             editPendingIntent: PendingIntent?,
-            data: ItemUpdateWidgetData
+            data: ItemUpdateWidgetData,
+            itemState: String
         ): RemoteViews {
             val darkTheme = data.theme == "dark"
             val layout = when {
@@ -314,10 +345,15 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     if (darkTheme) R.layout.widget_item_update_dark_text else R.layout.widget_item_update_light_text
                 }
             }
+            val label = if (data.showState) {
+                "${data.widgetLabel.orEmpty()} $itemState"
+            } else {
+                data.widgetLabel.orEmpty()
+            }
             val views = RemoteViews(context.packageName, layout)
             views.setOnClickPendingIntent(R.id.outer_layout, itemUpdatePendingIntent)
             views.setOnClickPendingIntent(R.id.edit, editPendingIntent)
-            views.setTextViewText(R.id.text, data.widgetLabel.orEmpty())
+            views.setTextViewText(R.id.text, label)
             hideLoadingIndicator(views)
             return views
         }
@@ -347,12 +383,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     @Parcelize
     data class ItemUpdateWidgetData(
         val item: String,
-        val state: String,
+        val command: String?,
         val label: String,
         val widgetLabel: String?,
         val mappedState: String,
         val icon: IconResource?,
-        val theme: String
+        val theme: String,
+        val showState: Boolean
     ) : Parcelable {
         fun isValid(): Boolean {
             return item.isNotEmpty() &&

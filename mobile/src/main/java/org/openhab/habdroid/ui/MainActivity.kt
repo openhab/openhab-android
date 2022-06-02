@@ -97,6 +97,7 @@ import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
@@ -265,6 +266,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         EventListenerService.startOrStopService(this)
+        ItemUpdateWidget.updateAllWidgets(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

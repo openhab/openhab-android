@@ -1513,6 +1513,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private lateinit var itemAndStatePref: ItemAndStatePreference
         private lateinit var namePref: CustomInputTypePreference
+        private lateinit var showStatePref: SwitchPreference
         private lateinit var themePref: ListPreference
         private var itemAndStatePrefCallback = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -1572,12 +1573,14 @@ class PreferencesActivity : AbstractBaseActivity() {
             addPreferencesFromResource(R.xml.preferences_homescreen_widget)
             itemAndStatePref = findPreference("widget_item_and_action")!!
             namePref = findPreference("widget_name")!!
+            showStatePref = findPreference("show_state")!!
             themePref = findPreference("widget_theme")!!
 
             namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
             itemAndStatePref.setOnPreferenceClickListener {
                 val intent = Intent(it.context, BasicItemPickerActivity::class.java)
                 intent.putExtra("item", itemAndStatePref.item)
+                intent.putExtra("show_no_command", true)
                 itemAndStatePrefCallback.launch(intent)
                 true
             }
@@ -1605,12 +1608,13 @@ class PreferencesActivity : AbstractBaseActivity() {
         private fun getCurrentPrefsAsWidgetData(): ItemUpdateWidget.ItemUpdateWidgetData {
             return ItemUpdateWidget.ItemUpdateWidgetData(
                 item = itemAndStatePref.item.orEmpty(),
-                state = itemAndStatePref.state.orEmpty(),
+                command = itemAndStatePref.state,
                 label = itemAndStatePref.label.orEmpty(),
                 widgetLabel = namePref.text.orEmpty(),
                 mappedState = itemAndStatePref.mappedState.orEmpty(),
                 icon = itemAndStatePref.icon.toOH2IconResource(),
-                theme = themePref.value
+                theme = themePref.value,
+                showState = showStatePref.isChecked
             )
         }
 
@@ -1619,10 +1623,11 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             itemAndStatePref.item = data.item
             itemAndStatePref.label = data.label
-            itemAndStatePref.state = data.state
+            itemAndStatePref.state = data.command
             itemAndStatePref.mappedState = data.mappedState
             itemAndStatePref.icon = data.icon?.icon
             namePref.text = data.widgetLabel
+            showStatePref.isChecked = data.showState
             themePref.value = data.theme
 
             updateItemAndStatePrefSummary()
@@ -1650,6 +1655,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             prefs.edit {
                 putString(PrefKeys.LAST_WIDGET_THEME, newData.theme)
             }
+
+            BackgroundTasksManager.schedulePeriodicTrigger(context, false)
 
             val updateIntent = Intent(context, ItemUpdateWidget::class.java).apply {
                 action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -1686,12 +1693,13 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val RESULT_EXTRA_SITEMAP_DRAWER_CHANGED = "sitemap_drawer_changed"
         const val START_EXTRA_SERVER_PROPERTIES = "server_properties"
         const val ITEM_UPDATE_WIDGET_ITEM = "item"
-        const val ITEM_UPDATE_WIDGET_STATE = "state"
+        const val ITEM_UPDATE_WIDGET_COMMAND = "state"
         const val ITEM_UPDATE_WIDGET_LABEL = "label"
         const val ITEM_UPDATE_WIDGET_WIDGET_LABEL = "widgetLabel"
         const val ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
         const val ITEM_UPDATE_WIDGET_ICON = "icon"
         const val ITEM_UPDATE_WIDGET_THEME = "theme"
+        const val ITEM_UPDATE_WIDGET_SHOW_STATE = "show_state"
         private const val STATE_KEY_RESULT = "result"
         private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
         private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1

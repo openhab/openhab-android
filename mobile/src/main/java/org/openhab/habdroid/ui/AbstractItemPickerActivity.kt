@@ -283,7 +283,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String, mappedState: String = state, tag: Any? = null)
+    protected abstract fun finish(item: Item, state: String?, mappedState: String? = state, tag: Any? = null)
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName
@@ -316,7 +316,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         retryButton.isVisible = loadError || showHint
     }
 
-    data class CommandEntry(val command: String, val label: String, val tag: Any? = null)
+    data class CommandEntry(val command: String?, val label: String, val tag: Any? = null)
 
     companion object {
         private const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"

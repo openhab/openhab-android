@@ -18,9 +18,11 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Context.BLUETOOTH_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
@@ -384,13 +386,13 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         fun enqueueWidgetItemUpdateIfNeeded(context: Context, data: ItemUpdateWidget.ItemUpdateWidgetData) {
-            if (data.item.isNotEmpty() && data.state.isNotEmpty()) {
+            if (data.item.isNotEmpty() && !data.command.isNullOrEmpty()) {
                 enqueueItemUpload(
                     context,
                     WORKER_TAG_PREFIX_WIDGET + data.item,
                     data.item,
                     data.label,
-                    ItemUpdateWorker.ValueWithInfo(data.state, data.mappedState),
+                    ItemUpdateWorker.ValueWithInfo(data.command, data.mappedState),
                     isImportant = true,
                     showToast = true,
                     asCommand = true,
@@ -446,8 +448,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val periodicWorkIsNeeded = KNOWN_PERIODIC_KEYS
                 .map { key -> prefs.getStringOrNull(key).toItemUpdatePrefValue() }
                 .any { value -> value.first }
+            val widgetShowsState = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
+                .map { id -> ItemUpdateWidget.getInfoForWidget(context, id) }
+                .any { info -> info.showState }
 
-            if (!periodicWorkIsNeeded && !CloudMessagingHelper.needsPollingForNotifications(context)) {
+            if (!periodicWorkIsNeeded &&
+                !CloudMessagingHelper.needsPollingForNotifications(context) &&
+                !widgetShowsState
+            ) {
                 Log.d(TAG, "Periodic workers are not needed, canceling...")
                 workManager.cancelAllWorkByTag(WORKER_TAG_PERIODIC_TRIGGER)
                 return

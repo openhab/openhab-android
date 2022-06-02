@@ -18,13 +18,15 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 
-class PeriodicItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+class PeriodicItemUpdateWorker(val context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
-        BackgroundTasksManager.triggerPeriodicWork(applicationContext)
-        if (CloudMessagingHelper.needsPollingForNotifications(applicationContext)) {
+        BackgroundTasksManager.triggerPeriodicWork(context)
+        ItemUpdateWidget.updateAllWidgets(context)
+        if (CloudMessagingHelper.needsPollingForNotifications(context)) {
             runBlocking {
-                CloudMessagingHelper.pollForNotifications(applicationContext)
+                CloudMessagingHelper.pollForNotifications(context)
             }
         }
         return Result.success()
