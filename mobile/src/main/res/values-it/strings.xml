@@ -490,6 +490,9 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
+    <string name="widget_show_state">Aggiungi lo stato corrente al nome</string>
+    <string name="widget_show_state_summary">Lo stato viene aggiornato periodicamente che può essere impostata nelle impostazioni in \"Invia informazioni sul dispositivo al server\"</string>
+    <string name="widget_no_command">Non inviare un comando</string>
     <string name="item_update_success_message_generic">%1$s è stato impostato a %2$s</string>
     <string name="item_update_success_message_on">%s è stato acceso</string>
     <string name="item_update_success_message_off">%s è stato spento</string>
@@ -619,4 +622,5 @@
     <string name="tile_icon_lamp_bedside">Luce comodino</string>
     <string name="tile_icon_lamp_outdoor">Luce esterna</string>
     <!-- Tile icon values -->
+    <string name="error_getting_state">Errore nel caricare lo stato</string>
 </resources>
