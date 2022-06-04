@@ -610,6 +610,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Map</string>
     <string name="widget_type_chart">Chart</string>
+    <string name="widget_type_color">Color</string>
 
     <!-- Tiles -->
     <string name="tile">Tile</string>
