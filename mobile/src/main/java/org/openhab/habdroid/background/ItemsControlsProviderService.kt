@@ -373,9 +373,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
             DeviceControlSubtitleMode.ITEM_NAME -> item.name
         }
 
-        val zone = when (subtitleMode) {
-            DeviceControlSubtitleMode.ITEM_NAME -> item.name.first().toString()
-            else -> location
+        val zone = if (subtitleMode == DeviceControlSubtitleMode.ITEM_NAME) {
+            item.name.first().toString()
+        } else {
+            location
         }
 
         val statefulControl = Control.StatefulBuilder(item.name, mainActivityPendingIntent)
