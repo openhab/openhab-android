@@ -112,17 +112,15 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 Log.e(TAG, "Could not load items", e)
                 controls.done = true
                 return@launch
-            }
+            }?.associateBy { item -> item.name }
+
             if (items == null) {
                 Log.e(TAG, "Could not load items")
                 controls.done = true
                 return@launch
             }
-            items.forEach { item ->
-                maybeCreateControl(item, items, primaryServerName, subtitleMode, false)?.let { control ->
-                    controls.add(control)
-                }
-            }
+            items.mapNotNull { maybeCreateControl(it.value, items, primaryServerName, subtitleMode, false) }
+                .forEach { control -> controls.add(control) }
             controls.done = true
         }
         controls.onCancel = {
@@ -134,7 +132,6 @@ class ItemsControlsProviderService : ControlsProviderService() {
     override fun createPublisherFor(itemNames: MutableList<String>): Flow.Publisher<Control> {
         val publisher = SimplePublisher<Control>()
         var eventStream: EventSource? = null
-        val items = mutableMapOf<String, Item>()
         val primaryServerName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())
             ?.name
             .orDefaultIfEmpty(getString(R.string.app_name))
@@ -151,24 +148,17 @@ class ItemsControlsProviderService : ControlsProviderService() {
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Could not load items", e)
                 emptyList()
-            }
+            }.associateBy { item -> item.name }
 
-            itemNames
-                .map { itemName ->
-                    allItems.first { item -> item.name == itemName }
-                }
-                .forEach { item ->
-                    maybeCreateControl(item, allItems, primaryServerName, subtitleMode, true)?.let { control ->
-                        items[item.name] = item
-                        publisher.add(control)
-                    }
-            }
+            allItems.filterKeys { itemName -> itemName in itemNames }
+                .mapNotNull { maybeCreateControl(it.value, allItems, primaryServerName, subtitleMode, true) }
+                .forEach { control -> publisher.add(control) }
 
             eventStream = connection.httpClient.makeSse(
                 // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
                 connection.httpClient.buildUrl("rest/events?topics=*/items/*/statechanged"),
                 StateChangeListener { itemName, state ->
-                    val item = items[itemName] ?: return@StateChangeListener
+                    val item = allItems[itemName] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
                     maybeCreateControl(newItem, allItems, primaryServerName, subtitleMode, true)?.let { control ->
                         publisher.add(control)
@@ -212,9 +202,9 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
     }
 
-    private fun getItemTagLabel(item: Item, allItems: List<Item>, type: Item.Tag): String? {
-        val groups = item.groupNames.map { groupName ->
-            allItems.first { item -> item.name == groupName }
+    private fun getItemTagLabel(item: Item, allItems: Map<String, Item>, type: Item.Tag): String? {
+        val groups = item.groupNames.mapNotNull { groupName ->
+            allItems[groupName]
         }
         // First check if any of the groups is the requested type
         groups.forEach { group ->
@@ -339,7 +329,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     private fun maybeCreateControl(
         item: Item,
-        allItems: List<Item>,
+        allItems: Map<String, Item>,
         serverName: String,
         subtitleMode: DeviceControlSubtitleMode,
         stateful: Boolean
