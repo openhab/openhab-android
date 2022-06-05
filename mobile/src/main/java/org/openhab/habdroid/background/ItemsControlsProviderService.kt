@@ -106,20 +106,15 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 controls.done = true
                 return@launch
             }
-            val items = try {
-                ItemClient.loadItems(connection)
+            val allItems = try {
+                ItemClient.loadItems(connection) ?: return@launch
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Could not load items", e)
                 controls.done = true
                 return@launch
-            }?.associateBy { item -> item.name }
+            }.associateBy { item -> item.name }
 
-            if (items == null) {
-                Log.e(TAG, "Could not load items")
-                controls.done = true
-                return@launch
-            }
-            items.mapNotNull { maybeCreateControl(it.value, items, primaryServerName, subtitleMode, false) }
+            allItems.mapNotNull { maybeCreateControl(it.value, allItems, primaryServerName, subtitleMode, false) }
                 .forEach { control -> controls.add(control) }
             controls.done = true
         }
@@ -144,10 +139,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
             }
 
             val allItems = try {
-                ItemClient.loadItems(connection) ?: emptyList()
+                ItemClient.loadItems(connection) ?: return@launchWithConnection
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Could not load items", e)
-                emptyList()
+                return@launchWithConnection
             }.associateBy { item -> item.name }
 
             allItems.filterKeys { itemName -> itemName in itemNames }
@@ -203,9 +198,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
     }
 
     private fun getItemTagLabel(item: Item, allItems: Map<String, Item>, type: Item.Tag): String? {
-        val groups = item.groupNames.mapNotNull { groupName ->
-            allItems[groupName]
-        }
+        val groups = item.groupNames.mapNotNull { groupName -> allItems[groupName] }
         // First check if any of the groups is the requested type
         groups.forEach { group ->
             if (group.tags.any { tag -> tag == type }) {
