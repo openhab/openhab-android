@@ -40,6 +40,7 @@
     <string name="settings_screen_lock">Ekraanilukk</string>
     <string name="settings_screen_lock_off">Väljas</string>
     <string name="settings_screen_lock_on">Sees</string>
+    <string name="device_control_subtitle_item_name">Kauba nimetus</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Häälkäsklused</string>
     <string name="info_demo_mode_short">Töötab demo režiimis</string>
@@ -193,4 +194,5 @@
     <string name="tile_enable">Lülita sisse</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>
