@@ -66,6 +66,7 @@
     <string name="settings_screen_lock_kiosk">Kiosk modu</string>
     <string name="settings_screen_lock_on">Açık</string>
     <string name="settings_show_sitemaps_in_drawer">Yan menüde tüm Sitemaps \'ları göster</string>
+    <string name="device_control_subtitle_item_name">Item adı</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sesli komutlar</string>
     <string name="title_voice_widget_icon">Sesli komutlar ve uygulama kısayolu</string>
@@ -261,4 +262,5 @@
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>
