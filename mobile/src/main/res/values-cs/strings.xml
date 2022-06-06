@@ -111,6 +111,7 @@
     <string name="settings_multi_server_wifi_ssid_location_off">Nelze načíst název Wi-Fi: Poloha je vypnuta</string>
     <string name="setting_crash_reporting_title">Zprávy o selhání</string>
     <string name="setting_crash_reporting_summary">Odeslat hlášení o pádech vývojářům aplikace</string>
+    <string name="device_control_subtitle_item_name">Jméno Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="voice_command">Hlasový příkaz</string>
@@ -611,4 +612,11 @@
     <string name="tile_icon_lamp_bedside">Lampička u postele</string>
     <string name="tile_icon_lamp_outdoor">Venkovní světlo</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garáž</string>
+    <string name="item_tag_location_house">Dům</string>
+    <string name="item_tag_equipment_battery">Baterie</string>
+    <string name="item_tag_equipment_camera">Fotoaparát</string>
+    <string name="item_tag_equipment_fan">Ventilátor</string>
+    <string name="item_tag_equipment_lock">Zámek</string>
 </resources>
