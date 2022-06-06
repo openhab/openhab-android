@@ -1,0 +1,4 @@
+## Added
+
+* Show item state in home screen widget (#2922)
+* Make subtitle in device controls configurable (#2925)
