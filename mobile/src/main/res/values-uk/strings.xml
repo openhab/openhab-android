@@ -111,6 +111,7 @@
     <string name="settings_multi_server_wifi_ssid_location_off">Не вдалося прочитати ім\'я Wi-Fi: Визначення розташування вимкнуто</string>
     <string name="setting_crash_reporting_title">Звіт про збої</string>
     <string name="setting_crash_reporting_summary">Надіслати звіти про збої для підтримки розробки програми</string>
+    <string name="device_control_subtitle_item_name">Назва об\'єкту</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="voice_command">Голосова команда</string>
@@ -609,4 +610,11 @@
     <string name="tile_icon_lamp_bedside">Приліжкова лампа</string>
     <string name="tile_icon_lamp_outdoor">Зовнішня лампа</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Гараж</string>
+    <string name="item_tag_location_house">Дім</string>
+    <string name="item_tag_equipment_battery">Акумулятор</string>
+    <string name="item_tag_equipment_camera">Камера</string>
+    <string name="item_tag_equipment_fan">Вентилятор</string>
+    <string name="item_tag_equipment_lock">Замок</string>
 </resources>
