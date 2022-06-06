@@ -104,6 +104,7 @@
     <string name="settings_multi_server_wifi_ssid_switched">Basculé sur le serveur \"%s\" en fonction du Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Impossible de lire le nom du Wi-Fi : permissions manquantes</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Impossible de lire le nom du Wi-Fi : la localisation est désactivée</string>
+    <string name="device_control_subtitle_item_name">Nom d\'Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Commandes vocales</string>
     <string name="voice_command">Commande vocale</string>
@@ -586,4 +587,10 @@
     <string name="tile_icon_lamp_bedside">Lampe de chevet</string>
     <string name="tile_icon_lamp_outdoor">Lampe extérieure</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_house">Maison</string>
+    <string name="item_tag_equipment_battery">Batterie</string>
+    <string name="item_tag_equipment_camera">Caméra</string>
+    <string name="item_tag_equipment_lock">Verrouiller</string>
 </resources>
