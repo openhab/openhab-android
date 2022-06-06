@@ -114,6 +114,7 @@
     <string name="settings_multi_server_wifi_ssid_location_off">Der WLAN-Name kann nicht gelesen werden: Standort ist aus</string>
     <string name="setting_crash_reporting_title">Absturzberichte</string>
     <string name="setting_crash_reporting_summary">Sende Absturzberichte, um die Entwicklung der App zu unterstützen</string>
+    <string name="device_control_subtitle_item_name">Item-Name</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
@@ -612,4 +613,11 @@
     <string name="tile_icon_lamp_bedside">Nachttischlampe</string>
     <string name="tile_icon_lamp_outdoor">Außenlampe</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_house">Haus</string>
+    <string name="item_tag_equipment_battery">Batterie</string>
+    <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_fan">Ventilator</string>
+    <string name="item_tag_equipment_lock">Schloss</string>
 </resources>
