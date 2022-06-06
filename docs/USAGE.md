@@ -316,7 +316,7 @@ In case of an error the plugin returns an error code.
 
 ### Quick Access Device Controls
 
-[On Android 11 and above](https://www.android.com/intl/en_US/android-11/#a11-device-controls-article) you can long press the power button to control openHAB Items.
+openHAB supports the device controls introduced in Android 11: https://www.android.com/intl/en_US/android-11/#a11-device-controls-article
 When using a [semantic model](https://www.openhab.org/docs/tutorial/model.html#semantic-model) the location and/or equipment name can be shown in the tiles.
 
 ## Multi server support
