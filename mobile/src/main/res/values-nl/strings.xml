@@ -105,6 +105,7 @@
     <string name="settings_multi_server_wifi_ssid_switched">Overgeschakeld naar server \"%s\" op basis van Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Kan Wi-Fi-naam niet lezen: Ontbrekende machtigingen</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Kan wifi-naam niet lezen: locatie is uitgeschakeld</string>
+    <string name="device_control_subtitle_item_name">Itemnaam</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Spraakcommando\'s</string>
     <string name="voice_command">Spraakcommando</string>
@@ -549,4 +550,10 @@
     <string name="tile_icon_lamp_bedside">Bedlamp</string>
     <string name="tile_icon_lamp_outdoor">Buitenlamp</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_house">Huis</string>
+    <string name="item_tag_equipment_battery">Batterij</string>
+    <string name="item_tag_equipment_camera">Camera</string>
+    <string name="item_tag_equipment_lock">Vergrendel</string>
 </resources>
