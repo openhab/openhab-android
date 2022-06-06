@@ -50,8 +50,10 @@ import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toParsedState
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.DeviceControlSubtitleMode
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.getDeviceControlSubtitle
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
@@ -95,6 +97,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         val primaryServerName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())
             ?.name
             .orDefaultIfEmpty(getString(R.string.app_name))
+        val subtitleMode = getPrefs().getDeviceControlSubtitle(applicationContext)
         val job = GlobalScope.launch {
             ConnectionFactory.waitForInitialization()
             val connection = ConnectionFactory.primaryUsableConnection?.connection
@@ -103,21 +106,16 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 controls.done = true
                 return@launch
             }
-            val items = try {
-                ItemClient.loadItems(connection)
+            val allItems = try {
+                ItemClient.loadItems(connection) ?: return@launch
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Could not load items", e)
                 controls.done = true
                 return@launch
-            }
-            if (items == null) {
-                Log.e(TAG, "Could not load items")
-                controls.done = true
-                return@launch
-            }
-            items.forEach { item ->
-                maybeCreateControl(item, primaryServerName, false)?.let { control -> controls.add(control) }
-            }
+            }.associateBy { item -> item.name }
+
+            allItems.mapNotNull { maybeCreateControl(it.value, allItems, primaryServerName, subtitleMode, false) }
+                .forEach { control -> controls.add(control) }
             controls.done = true
         }
         controls.onCancel = {
@@ -129,10 +127,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
     override fun createPublisherFor(itemNames: MutableList<String>): Flow.Publisher<Control> {
         val publisher = SimplePublisher<Control>()
         var eventStream: EventSource? = null
-        val items = mutableMapOf<String, Item>()
         val primaryServerName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())
             ?.name
             .orDefaultIfEmpty(getString(R.string.app_name))
+        val subtitleMode = getPrefs().getDeviceControlSubtitle(applicationContext)
         val job = launchWithConnection { connection ->
             if (connection == null) {
                 Log.e(TAG, "Got no connection for loading items")
@@ -140,26 +138,24 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 return@launchWithConnection
             }
 
-            itemNames.forEach { itemName ->
-                try {
-                    ItemClient.loadItem(connection, itemName)?.let { item ->
-                        maybeCreateControl(item, primaryServerName, true)?.let { control ->
-                            items[item.name] = item
-                            publisher.add(control)
-                        }
-                    }
-                } catch (e: HttpClient.HttpException) {
-                    Log.e(TAG, "Could not load item $itemName", e)
-                }
-            }
+            val allItems = try {
+                ItemClient.loadItems(connection) ?: return@launchWithConnection
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Could not load items", e)
+                return@launchWithConnection
+            }.associateBy { item -> item.name }
+
+            allItems.filterKeys { itemName -> itemName in itemNames }
+                .mapNotNull { maybeCreateControl(it.value, allItems, primaryServerName, subtitleMode, true) }
+                .forEach { control -> publisher.add(control) }
 
             eventStream = connection.httpClient.makeSse(
                 // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
                 connection.httpClient.buildUrl("rest/events?topics=*/items/*/statechanged"),
                 StateChangeListener { itemName, state ->
-                    val item = items[itemName] ?: return@StateChangeListener
+                    val item = allItems[itemName] ?: return@StateChangeListener
                     val newItem = item.copy(state = state)
-                    maybeCreateControl(newItem, primaryServerName, true)?.let { control ->
+                    maybeCreateControl(newItem, allItems, primaryServerName, subtitleMode, true)?.let { control ->
                         publisher.add(control)
                     }
                 }
@@ -199,6 +195,27 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 consumer.accept(ControlAction.RESPONSE_FAIL)
             }
         }
+    }
+
+    private fun getItemTagLabel(item: Item, allItems: Map<String, Item>, type: Item.Tag): String? {
+        val groups = item.groupNames.mapNotNull { groupName -> allItems[groupName] }
+        // First check if any of the groups is the requested type
+        groups.forEach { group ->
+            if (group.tags.any { tag -> tag == type }) {
+                return group.label
+            }
+            val tagByType = group.tags.firstOrNull { tag -> tag.parent == type }
+            if (tagByType != null) {
+                return if (group.label.isNullOrBlank() && tagByType.labelResId != null) {
+                    getString(tagByType.labelResId)
+                } else {
+                    group.label
+                }
+            }
+        }
+
+        // If none of the groups is location or equipment, recursively check parent groups
+        return groups.firstNotNullOfOrNull { group -> getItemTagLabel(group, allItems, type) }
     }
 
     private fun getDeviceType(item: Item) =
@@ -303,7 +320,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
         )
     }
 
-    private fun maybeCreateControl(item: Item, serverName: String, stateful: Boolean): Control? {
+    private fun maybeCreateControl(
+        item: Item,
+        allItems: Map<String, Item>,
+        serverName: String,
+        subtitleMode: DeviceControlSubtitleMode,
+        stateful: Boolean
+    ): Control? {
         if (item.label.isNullOrEmpty() || item.readOnly) return null
         val controlTemplate = when (item.type) {
             Item.Type.Switch -> ToggleTemplate(
@@ -323,22 +346,36 @@ class ItemsControlsProviderService : ControlsProviderService() {
             else -> return null
         }
 
-        return if (stateful) {
-            Control.StatefulBuilder(item.name, mainActivityPendingIntent)
-                .setTitle(item.label)
-                .setSubtitle(item.name)
-                .setStructure(serverName)
-                .setDeviceType(getDeviceType(item))
-                .setControlTemplate(controlTemplate)
-                .setStatus(Control.STATUS_OK)
-                .build()
+        val location = getItemTagLabel(item, allItems, Item.Tag.Location).orEmpty()
+        val equipment = getItemTagLabel(item, allItems, Item.Tag.Equipment).orEmpty()
+
+        val subtitle = when (subtitleMode) {
+            DeviceControlSubtitleMode.LOCATION -> location
+            DeviceControlSubtitleMode.EQUIPMENT -> equipment
+            DeviceControlSubtitleMode.LOCATION_AND_EQUIPMENT -> "$location $equipment"
+            DeviceControlSubtitleMode.ITEM_NAME -> item.name
+        }
+
+        val zone = if (subtitleMode == DeviceControlSubtitleMode.ITEM_NAME) {
+            item.name.first().toString()
         } else {
-            Control.StatelessBuilder(item.name, mainActivityPendingIntent)
-                .setTitle(item.label)
-                .setSubtitle(item.name)
-                .setStructure(serverName)
-                .setDeviceType(getDeviceType(item))
-                .build()
+            location
+        }
+
+        val statefulControl = Control.StatefulBuilder(item.name, mainActivityPendingIntent)
+            .setTitle(item.label)
+            .setSubtitle(subtitle)
+            .setZone(zone)
+            .setStructure(serverName)
+            .setDeviceType(getDeviceType(item))
+            .setControlTemplate(controlTemplate)
+            .setStatus(Control.STATUS_OK)
+            .build()
+
+        return if (stateful) {
+            statefulControl
+        } else {
+            Control.StatelessBuilder(statefulControl).build()
         }
     }
 

@@ -138,6 +138,13 @@
             android:entries="@array/screen_lock"
             android:entryValues="@array/screen_lock_values"
             android:icon="@drawable/ic_lock_outline_grey_24dp" />
+        <ListPreference
+            android:key="device_control_subtitle"
+            android:title="@string/device_control_subtitle"
+            android:defaultValue="@string/device_control_subtitle_location_value"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/device_control_subtitle"
+            android:entryValues="@array/device_control_subtitle_values"/>
         <SwitchPreference
             android:defaultValue="false"
             android:key="taskerPlugin"

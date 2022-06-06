@@ -55,6 +55,7 @@ There are a number of strategies available to provide [secure remote access]({{b
 * [Send device information to openHAB](#send-device-information-to-openhab), like next alarm clock time or call state
 * [Supports wall mounted tablets](#permanent-deployment)
 * [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
+* [Android Quick Access Device Controls](#quick-access-device-controls)
 
 ### Permanent Deployment
 
@@ -312,6 +313,11 @@ In case of an error the plugin returns an error code.
 | 10         | Tasker plugin is disabled                                                                                                                                                                                  |
 | 11         | The app couldn't establish a connection                                                                                                                                                                    |
 | 1000+      | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
+
+### Quick Access Device Controls
+
+openHAB supports the device controls introduced in Android 11: https://www.android.com/intl/en_US/android-11/#a11-device-controls-article
+When using a [semantic model](https://www.openhab.org/docs/tutorial/model.html#semantic-model) the location and/or equipment name can be shown in the tiles.
 
 ## Multi server support
 

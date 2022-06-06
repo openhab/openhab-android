@@ -72,6 +72,7 @@ object PrefKeys {
     const val DEV_ID_PREFIX_BG_TASKS = "device_identifier_prefix_background_tasks"
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
+    const val DEVICE_CONTROL_SUBTITLE = "device_control_subtitle"
     const val DATA_SAVER = "data_saver"
     const val CRASH_REPORTING = "crash_reporting"
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
