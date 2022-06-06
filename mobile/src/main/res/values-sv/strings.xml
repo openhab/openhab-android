@@ -66,6 +66,7 @@
     <string name="settings_screen_lock_kiosk">Fullskärmsläge</string>
     <string name="settings_screen_lock_on">På</string>
     <string name="settings_show_sitemaps_in_drawer">Visa alla Sitemaps i sidomenyn</string>
+    <string name="device_control_subtitle_item_name">Item-namn</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Röstkommandon</string>
     <string name="title_voice_widget_icon">Röstkommandon och appgenväg</string>
@@ -323,4 +324,5 @@
     <string name="tile_enable">Sätt på</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>
