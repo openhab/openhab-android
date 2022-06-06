@@ -114,6 +114,7 @@
     <string name="settings_multi_server_wifi_ssid_location_off">Impossibile leggere il nome del Wi-Fi: la posizione è disattivata</string>
     <string name="setting_crash_reporting_title">Segnalazione crash</string>
     <string name="setting_crash_reporting_summary">Invia report di crash per migliorare lo sviluppo dell\'app</string>
+    <string name="device_control_subtitle_item_name">Nome Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="voice_command">Comando vocale</string>
@@ -493,6 +494,7 @@
     <string name="widget_show_state">Aggiungi lo stato corrente al nome</string>
     <string name="widget_show_state_summary">Lo stato viene aggiornato periodicamente che può essere impostata nelle impostazioni in \"Invia informazioni sul dispositivo al server\"</string>
     <string name="widget_no_command">Non inviare un comando</string>
+    <string name="error_getting_state">Errore nel caricare lo stato</string>
     <string name="item_update_success_message_generic">%1$s è stato impostato a %2$s</string>
     <string name="item_update_success_message_on">%s è stato acceso</string>
     <string name="item_update_success_message_off">%s è stato spento</string>
@@ -622,5 +624,11 @@
     <string name="tile_icon_lamp_bedside">Luce comodino</string>
     <string name="tile_icon_lamp_outdoor">Luce esterna</string>
     <!-- Tile icon values -->
-    <string name="error_getting_state">Errore nel caricare lo stato</string>
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_house">Casa</string>
+    <string name="item_tag_equipment_battery">Batteria</string>
+    <string name="item_tag_equipment_camera">Fotocamera</string>
+    <string name="item_tag_equipment_fan">Ventilatore</string>
+    <string name="item_tag_equipment_lock">Lucchetto</string>
 </resources>
