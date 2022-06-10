@@ -41,7 +41,7 @@
     <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Für Hinweise und Erläuterungen zur SSL-Authentifizierung mittels Client-Zertifikat hier tippen</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-Client-Zertifikate werden von Ihrem Gerät nicht unterstützt</string>
-    <string name="settings_openhab_screentimeroff">Bildschirmabschaltung aktivieren</string>
+    <string name="settings_openhab_screentimeroff">Bildschirmabschaltung deaktivieren</string>
     <string name="settings_openhab_screentimeroff_summary">Der Bildschirm schaltet sich nicht aus, wenn openHAB läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
@@ -236,6 +236,7 @@
     <string name="settings_alarm_clock_summary_on">Weckzeit wird an Item \'%1$s\' gesendet</string>
     <string name="settings_alarm_clock_summary_off">Weckzeit nicht senden</string>
     <string name="copy_debug_info">Kopieren</string>
+    <string name="settings_alarm_clock_debug_ignored">Alarmzeit-Update auf %1$s wurde ignoriert, da es von %2$s gesendet wurde</string>
     <string name="settings_alarm_clock_debug">Alarmzeit auf %1$s aktualisiert, die von %2$s gesendet wurde</string>
     <string name="settings_phone_state">Anrufstatus</string>
     <string name="settings_phone_state_summary_on">Anrufstatus wird an Item \'%1$s\' gesendet</string>
@@ -542,6 +543,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Karte</string>
     <string name="widget_type_chart">Diagramm</string>
+    <string name="widget_type_color">Farbe</string>
     <!-- Tiles -->
     <string name="tile">Kachel</string>
     <string name="tiles_for_quick_settings">Kacheln für Schnelleinstellungen</string>
@@ -633,6 +635,7 @@
     <string name="item_tag_location_diningroom">Esszimmer</string>
     <string name="item_tag_location_driveway">Auffahrt</string>
     <string name="item_tag_location_entry">Eingang</string>
+    <string name="item_tag_location_familyroom">Familienzimmer</string>
     <string name="item_tag_location_garage">Garage</string>
     <string name="item_tag_location_garden">Garten</string>
     <string name="item_tag_location_guestroom">Gästezimmer</string>
@@ -658,7 +661,18 @@
     <string name="item_tag_equipment_cleaningrobot">Reinigungsroboter</string>
     <string name="item_tag_equipment_dishwasher">Spülmaschine</string>
     <string name="item_tag_equipment_door">Tür</string>
+    <string name="item_tag_equipment_doorbell">Türklingel</string>
+    <string name="item_tag_equipment_dryer">Trockner</string>
     <string name="item_tag_equipment_fan">Ventilator</string>
+    <string name="item_tag_equipment_freezer">Gefrierschrank</string>
+    <string name="item_tag_equipment_frontdoor">Haustür</string>
+    <string name="item_tag_equipment_garagedoor">Garagentor</string>
+    <string name="item_tag_equipment_gate">Tor</string>
+    <string name="item_tag_equipment_hvac">Klimaanlage</string>
+    <string name="item_tag_equipment_kitchenhood">Dunstabzugshaube</string>
+    <string name="item_tag_equipment_lawnmower">Rasenmäher</string>
+    <string name="item_tag_equipment_lightbulb">Glühbirne</string>
+    <string name="item_tag_equipment_lightstripe">Lichtband</string>
     <string name="item_tag_equipment_lock">Schloss</string>
     <string name="item_tag_equipment_refrigerator">Kühlschrank</string>
     <string name="item_tag_equipment_remotecontrol">Fernbedienung</string>
