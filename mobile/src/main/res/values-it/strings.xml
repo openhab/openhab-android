@@ -551,6 +551,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Mappa</string>
     <string name="widget_type_chart">Grafico</string>
+    <string name="widget_type_color">Colore</string>
     <!-- Tiles -->
     <string name="tile">Riquadro</string>
     <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
@@ -672,6 +673,7 @@
     <string name="item_tag_equipment_boiler">Caldaia</string>
     <string name="item_tag_equipment_camera">Telecamera</string>
     <string name="item_tag_equipment_car">Auto</string>
+    <string name="item_tag_equipment_ceilingfan">Ventilatore a soffitto</string>
     <string name="item_tag_equipment_cellardoor">Porte della Cantina</string>
     <string name="item_tag_equipment_cleaningrobot">Robot aspirapolvere</string>
     <string name="item_tag_equipment_dishwasher">Lavastoviglie</string>
