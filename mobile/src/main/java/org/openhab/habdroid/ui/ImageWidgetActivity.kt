@@ -36,7 +36,7 @@ import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
-class FullscreenImageActivity : AbstractBaseActivity() {
+class ImageWidgetActivity : AbstractBaseActivity() {
     private lateinit var imageView: PhotoView
     private var refreshJob: Job? = null
     private var delay: Long = 0
@@ -163,7 +163,7 @@ class FullscreenImageActivity : AbstractBaseActivity() {
     }
 
     companion object {
-        private val TAG = FullscreenImageActivity::class.java.simpleName
+        private val TAG = ImageWidgetActivity::class.java.simpleName
 
         const val WIDGET_LABEL = "widget_label"
         const val WIDGET_REFRESH = "widget_refresh"

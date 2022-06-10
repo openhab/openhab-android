@@ -30,7 +30,7 @@ import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
-class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var chart: WidgetImageView
     private lateinit var period: String
@@ -194,7 +194,7 @@ class ChartActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     companion object {
-        private val TAG = ChartActivity::class.java.simpleName
+        private val TAG = ChartWidgetActivity::class.java.simpleName
 
         private const val SHOW_LEGEND = "show_legend"
         private const val PERIOD = "period"

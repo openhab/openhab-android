@@ -67,7 +67,6 @@ import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.IOException
-import java.util.HashMap
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -703,13 +702,13 @@ class WidgetAdapter(
         override fun onClick(v: View?) {
             val context = v?.context ?: return
             boundWidget?.let { widget ->
-                val intent = Intent(context, FullscreenImageActivity::class.java).apply {
-                    putExtra(FullscreenImageActivity.WIDGET_LABEL, widget.label)
-                    putExtra(FullscreenImageActivity.WIDGET_REFRESH, widget.refresh)
+                val intent = Intent(context, ImageWidgetActivity::class.java).apply {
+                    putExtra(ImageWidgetActivity.WIDGET_LABEL, widget.label)
+                    putExtra(ImageWidgetActivity.WIDGET_REFRESH, widget.refresh)
                 }
                 when {
-                    widget.item?.link != null -> intent.putExtra(FullscreenImageActivity.WIDGET_LINK, widget.item.link)
-                    widget.url != null -> intent.putExtra(FullscreenImageActivity.WIDGET_URL, widget.url)
+                    widget.item?.link != null -> intent.putExtra(ImageWidgetActivity.WIDGET_LINK, widget.item.link)
+                    widget.url != null -> intent.putExtra(ImageWidgetActivity.WIDGET_URL, widget.url)
                     else -> return@let
                 }
                 context.startActivity(intent)
@@ -1044,9 +1043,9 @@ class WidgetAdapter(
         override fun onClick(v: View?) {
             val context = v?.context ?: return
             boundWidget?.let {
-                val intent = Intent(context, ChartActivity::class.java)
-                intent.putExtra(ChartActivity.EXTRA_WIDGET, it)
-                intent.putExtra(ChartActivity.EXTRA_SERVER_FLAGS, serverFlags)
+                val intent = Intent(context, ChartWidgetActivity::class.java)
+                intent.putExtra(ChartWidgetActivity.EXTRA_WIDGET, it)
+                intent.putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, serverFlags)
                 context.startActivity(intent)
             }
         }

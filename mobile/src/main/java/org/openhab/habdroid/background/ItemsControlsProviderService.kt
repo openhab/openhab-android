@@ -49,6 +49,7 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toParsedState
+import org.openhab.habdroid.ui.ColorItemActivity
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.DeviceControlSubtitleMode
 import org.openhab.habdroid.util.HttpClient
@@ -362,7 +363,20 @@ class ItemsControlsProviderService : ControlsProviderService() {
             location
         }
 
-        val statefulControl = Control.StatefulBuilder(item.name, mainActivityPendingIntent)
+        val pi = if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+            PendingIntent.getActivity(
+                this,
+                2,
+                Intent(this, ColorItemActivity::class.java).apply {
+                    putExtra(ColorItemActivity.EXTRA_ITEM, item)
+                },
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            mainActivityPendingIntent
+        }
+
+        val statefulControl = Control.StatefulBuilder(item.name, pi)
             .setTitle(item.label)
             .setSubtitle(subtitle)
             .setZone(zone)
