@@ -658,6 +658,7 @@
     <string name="item_tag_equipment_boiler">Heizkessel</string>
     <string name="item_tag_equipment_camera">Kamera</string>
     <string name="item_tag_equipment_car">Auto</string>
+    <string name="item_tag_equipment_ceilingfan">Deckenventilator</string>
     <string name="item_tag_equipment_cleaningrobot">Reinigungsroboter</string>
     <string name="item_tag_equipment_dishwasher">Spülmaschine</string>
     <string name="item_tag_equipment_door">Tür</string>
@@ -674,6 +675,13 @@
     <string name="item_tag_equipment_lightbulb">Glühbirne</string>
     <string name="item_tag_equipment_lightstripe">Lichtband</string>
     <string name="item_tag_equipment_lock">Schloss</string>
+    <string name="item_tag_equipment_motiondetector">Bewegungsmelder</string>
+    <string name="item_tag_equipment_networkappliance">Netzwerkgerät</string>
+    <string name="item_tag_equipment_oven">Ofen</string>
+    <string name="item_tag_equipment_poweroutlet">Steckdose</string>
+    <string name="item_tag_equipment_projector">Projektor</string>
+    <string name="item_tag_equipment_pump">Pumpe</string>
+    <string name="item_tag_equipment_receiver">Empfänger</string>
     <string name="item_tag_equipment_refrigerator">Kühlschrank</string>
     <string name="item_tag_equipment_remotecontrol">Fernbedienung</string>
     <string name="item_tag_equipment_screen">Bildschirm</string>
