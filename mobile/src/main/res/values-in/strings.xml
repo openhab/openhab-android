@@ -51,6 +51,7 @@
     <string name="settings_notification_vibration_twice">Dua kali</string>
     <string name="settings_connection_summary">Terhubung ke %s</string>
     <string name="settings_screen_lock_off">Nonaktif</string>
+    <string name="device_control_subtitle_item_name">Nama item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Perintah suara</string>
     <string name="title_voice_widget_icon">Perintah suara dan pintasan aplikasi</string>
@@ -217,4 +218,5 @@
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

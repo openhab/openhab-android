@@ -109,6 +109,7 @@
     <string name="settings_multi_server_wifi_ssid_switched">通过Wi-Fi切换到服务器 \"%s\"</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">无法读取Wi-Fi名称：缺少权限</string>
     <string name="settings_multi_server_wifi_ssid_location_off">无法读取Wi-Fi名称：定位已关闭</string>
+    <string name="device_control_subtitle_item_name">项目名</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">语音命令</string>
     <string name="voice_command">语音命令</string>
@@ -598,4 +599,11 @@
     <string name="tile_icon_lamp_bedside">床头灯</string>
     <string name="tile_icon_lamp_outdoor">户外灯</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">车库</string>
+    <string name="item_tag_location_house">房屋</string>
+    <string name="item_tag_equipment_battery">电池</string>
+    <string name="item_tag_equipment_camera">照相机</string>
+    <string name="item_tag_equipment_fan">风扇</string>
+    <string name="item_tag_equipment_lock">锁</string>
 </resources>

@@ -297,4 +297,9 @@
     <string name="tile_icon_switch">Превключвател</string>
     <string name="tile_icon_sofa">Диван</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Гараж</string>
+    <string name="item_tag_equipment_battery">Батерия</string>
+    <string name="item_tag_equipment_camera">Камера</string>
+    <string name="item_tag_equipment_fan">Вентилатор</string>
 </resources>

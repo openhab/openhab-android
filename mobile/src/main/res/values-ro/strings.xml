@@ -62,6 +62,7 @@
     <string name="settings_screen_lock_off">Oprit</string>
     <string name="settings_screen_lock_kiosk">Modul Kiosk</string>
     <string name="settings_screen_lock_on">Pornit</string>
+    <string name="device_control_subtitle_item_name">Nume Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandă vocală</string>
     <string name="title_voice_widget_icon">Comenzi vocale şi scurtătură aplicaţie</string>
@@ -277,4 +278,5 @@
     <string name="tile_enable">Porneşte</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

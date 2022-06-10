@@ -110,6 +110,7 @@
     <string name="settings_multi_server_wifi_ssid_location_off">No es pot llegir el nom de la Wi-Fi: la ubicació està desactivada</string>
     <string name="setting_crash_reporting_title">Informes d\'error</string>
     <string name="setting_crash_reporting_summary">Envieu informes d\'error per donar suport al desenvolupament de l\'aplicació</string>
+    <string name="device_control_subtitle_item_name">Nom d\'element</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Ordres de veu</string>
     <string name="voice_command">Ordre de veu</string>
@@ -604,4 +605,11 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="tile_icon_lamp_bedside">Llum tauleta de nit</string>
     <string name="tile_icon_lamp_outdoor">Llum exterior</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garatge</string>
+    <string name="item_tag_location_house">Casa</string>
+    <string name="item_tag_equipment_battery">Bateria</string>
+    <string name="item_tag_equipment_camera">Càmera</string>
+    <string name="item_tag_equipment_fan">Ventilador</string>
+    <string name="item_tag_equipment_lock">Pany</string>
 </resources>

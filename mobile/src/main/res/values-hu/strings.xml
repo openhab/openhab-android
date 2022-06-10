@@ -109,6 +109,7 @@
     <string name="settings_multi_server_wifi_ssid_switched">Váltás a(z) \"%s\" szerverre Wi-Fi alapján</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi név nem olvasható: Hiányzó jogosultság</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi név nem olvasható: Helymeghatározás kikapcsolva</string>
+    <string name="device_control_subtitle_item_name">Elem neve</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="voice_command">Hangutasítás</string>
@@ -598,4 +599,11 @@
     <string name="tile_icon_lamp_bedside">Éjjeli lámpa</string>
     <string name="tile_icon_lamp_outdoor">Kültéri lámpa</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garázs</string>
+    <string name="item_tag_location_house">Ház</string>
+    <string name="item_tag_equipment_battery">Akkumulátor</string>
+    <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_fan">Ventilátor</string>
+    <string name="item_tag_equipment_lock">Zár</string>
 </resources>

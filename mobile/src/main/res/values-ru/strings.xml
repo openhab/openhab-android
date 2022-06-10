@@ -109,6 +109,7 @@
     <string name="settings_multi_server_wifi_ssid_switched">Переключено на сервер \"%s\" на основе Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не удалось прочитать имя Wi-Fi: Отсутствуют разрешения</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Не удается прочитать имя Wi-Fi: Местоположение отключено</string>
+    <string name="device_control_subtitle_item_name">Имя Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосовые команды</string>
     <string name="voice_command">Голосовая команда</string>
@@ -607,4 +608,11 @@
     <string name="tile_icon_lamp_bedside">Ночник</string>
     <string name="tile_icon_lamp_outdoor">Уличный фонарь</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Гараж</string>
+    <string name="item_tag_location_house">Дом</string>
+    <string name="item_tag_equipment_battery">Батарея</string>
+    <string name="item_tag_equipment_camera">Камера</string>
+    <string name="item_tag_equipment_fan">Вентилятор</string>
+    <string name="item_tag_equipment_lock">Замок</string>
 </resources>

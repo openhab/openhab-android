@@ -66,6 +66,7 @@
     <string name="settings_screen_lock_kiosk">Kiosk-modus</string>
     <string name="settings_screen_lock_on">På</string>
     <string name="settings_show_sitemaps_in_drawer">Vis alle Nettstedskart i sidemenyen</string>
+    <string name="device_control_subtitle_item_name">Elementnavn</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Talekommandoer</string>
     <string name="title_voice_widget_icon">Talekommandoer og app snarvei</string>
@@ -312,4 +313,5 @@
     <string name="tile_enable">Slå på</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

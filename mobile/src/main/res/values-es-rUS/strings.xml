@@ -114,6 +114,7 @@
     <string name="settings_multi_server_wifi_ssid_location_off">No se puede leer el nombre de la Wi-Fi: La ubicación está desactivada</string>
     <string name="setting_crash_reporting_title">Reporte de errores</string>
     <string name="setting_crash_reporting_summary">Enviar informes de errores para apoyar el desarrollo de la aplicación</string>
+    <string name="device_control_subtitle_item_name">Nombre del Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="voice_command">Comando de voz</string>
@@ -231,6 +232,9 @@
     <string name="settings_alarm_clock">Hora de la alarma</string>
     <string name="settings_alarm_clock_summary_on">Envía la hora de alarma al Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">No enviar hora de alarma</string>
+    <string name="copy_debug_info">Copiar</string>
+    <string name="settings_alarm_clock_debug_ignored">Actualización de hora de alarma ignorada a %1$s que fue enviada por %2$s</string>
+    <string name="settings_alarm_clock_debug">Se actualizó la hora de la alarma a %1$s que fue enviada por %2$s</string>
     <string name="settings_phone_state">Estado de llamada</string>
     <string name="settings_phone_state_summary_on">Envía el estado de llamada al Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">No enviar estado de llamada</string>
@@ -247,6 +251,10 @@
     <string name="settings_wifi_ssid_summary_off">No enviar nombre de Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">El envío del nombre de la wifi ha sido deshabilitado debido a que faltan permisos</string>
     <string name="settings_wifi_ssid_restrict">Restringir la conexión local a estos nombres de Wi-Fi</string>
+    <string name="settings_bluetooth_devices">Dispositivos Bluetooth conectados</string>
+    <string name="settings_bluetooth_devices_summary_on">Envía una lista de direcciones MAC de dispositivos Bluetooth conectados al elemento \'%1$s\' separada por el símbolo \'|\'</string>
+    <string name="settings_bluetooth_devices_summary_off">No enviar dispositivos Bluetooth conectados</string>
+    <string name="settings_bluetooth_devices_permission_denied">El envío de dispositivos Bluetooth ha sido desactivado debido a la falta de permisos</string>
     <string name="settings_dnd_mode">Modo DND</string>
     <string name="settings_dnd_mode_summary_on">Envía el modo DND al Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">No enviar modo DND</string>
@@ -394,6 +402,7 @@
     <string name="about_translation">Ayúdanos a traducir openHAB</string>
     <string name="about_privacy_policy">Política de Privacidad</string>
     <string name="about_rate_this_app">Valorar esta aplicación</string>
+    <string name="settings_debug_messages_title">Mostrar información para la solución de problemas</string>
     <string name="settings_troubleshooting_title">Solución de problemas</string>
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>
@@ -482,6 +491,10 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Seleccione un Item</string>
+    <string name="widget_show_state">Añadir estado actual al nombre</string>
+    <string name="widget_show_state_summary">El estado se actualiza en el calendario, el cual se puede ajustar en la configuración de \"Enviar información del dispositivo al servidor\"</string>
+    <string name="widget_no_command">No enviar un comando</string>
+    <string name="error_getting_state">Error al cargar el estado</string>
     <string name="item_update_success_message_generic">%1$s se ha establecido a %2$s</string>
     <string name="item_update_success_message_on">%s ha sido activado</string>
     <string name="item_update_success_message_off">%s ha sido desactivado</string>
@@ -611,4 +624,11 @@
     <string name="tile_icon_lamp_bedside">Lámpara de noche</string>
     <string name="tile_icon_lamp_outdoor">Lámpara exterior</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garaje</string>
+    <string name="item_tag_location_house">Casa</string>
+    <string name="item_tag_equipment_battery">Batería</string>
+    <string name="item_tag_equipment_camera">Cámara</string>
+    <string name="item_tag_equipment_fan">Ventilador</string>
+    <string name="item_tag_equipment_lock">Candado</string>
 </resources>

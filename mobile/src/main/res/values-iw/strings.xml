@@ -111,6 +111,7 @@
     <string name="settings_multi_server_wifi_ssid_location_off">לא ניתן לקרוא את שם ה- Wi-Fi: המיקום כבוי</string>
     <string name="setting_crash_reporting_title">דוחות קריסה</string>
     <string name="setting_crash_reporting_summary">שלח דיווח על קריסות על מנת לתמוך בפיתוח האפליקציה</string>
+    <string name="device_control_subtitle_item_name">שם הפריט</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="voice_command">פקודה קולית</string>
@@ -612,4 +613,11 @@
     <string name="tile_icon_lamp_bedside">תאורת מיטה</string>
     <string name="tile_icon_lamp_outdoor">תאורת חוץ</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">חניה</string>
+    <string name="item_tag_location_house">בית</string>
+    <string name="item_tag_equipment_battery">סוללה</string>
+    <string name="item_tag_equipment_camera">מצלמה</string>
+    <string name="item_tag_equipment_fan">מאוורר</string>
+    <string name="item_tag_equipment_lock">מנעול</string>
 </resources>

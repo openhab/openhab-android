@@ -100,6 +100,7 @@
     <string name="settings_multi_server_wifi_ssid_switched">Wi-Fiに基づいてサーバー \"%s\" に切り替えました</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi名を読み取ることができません: 権限がありません</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi名を読み取ることができません: ロケーションがオフです</string>
+    <string name="device_control_subtitle_item_name">アイテム名</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">音声コマンド</string>
     <string name="voice_command">音声コマンド</string>
@@ -553,4 +554,10 @@
     <string name="tile_icon_lamp_bedside">就寝灯</string>
     <string name="tile_icon_lamp_outdoor">屋外灯</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">ガレージ</string>
+    <string name="item_tag_location_house">家</string>
+    <string name="item_tag_equipment_battery">バッテリー</string>
+    <string name="item_tag_equipment_camera">カメラ</string>
+    <string name="item_tag_equipment_lock">錠</string>
 </resources>

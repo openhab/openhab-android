@@ -79,6 +79,7 @@
     <string name="settings_server_confirm_leave_title">Ongespäichert Ännerungen</string>
     <string name="settings_server_confirm_leave_message">Du hues Ännerungen gemaach. Wëlls de des späicheren oder ignoréieren?</string>
     <string name="settings_server_primary_title">Hapt Server</string>
+    <string name="device_control_subtitle_item_name">Item Numm</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
     <string name="voice_command">Sproochbefeel</string>
@@ -500,4 +501,9 @@
     <string name="tile_icon_lamp_bedside">Nuetsdësch Luucht</string>
     <string name="tile_icon_lamp_outdoor">Bausseluucht</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_house">Haus</string>
+    <string name="item_tag_equipment_battery">Akku</string>
+    <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_lock">Spären</string>
 </resources>
