@@ -114,6 +114,9 @@
     <string name="settings_multi_server_wifi_ssid_location_off">Der WLAN-Name kann nicht gelesen werden: Standort ist aus</string>
     <string name="setting_crash_reporting_title">Absturzberichte</string>
     <string name="setting_crash_reporting_summary">Sende Absturzberichte, um die Entwicklung der App zu unterstützen</string>
+    <string name="device_control_subtitle_location">Standort</string>
+    <string name="device_control_subtitle_equipment">Gerät</string>
+    <string name="device_control_subtitle_location_equipment">Standort und Gerät</string>
     <string name="device_control_subtitle_item_name">Item-Name</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
@@ -249,6 +252,7 @@
     <string name="settings_wifi_ssid_summary_off">WLAN-Name (SSID) nicht senden</string>
     <string name="settings_wifi_ssid_permission_denied">Das Senden des WLAN-Namens wurde aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_wifi_ssid_restrict">Lokale Verbindung zu diesen WLAN-Namen beschränken</string>
+    <string name="settings_bluetooth_devices">Verbundene Bluetooth-Geräte</string>
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
@@ -484,6 +488,7 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
+    <string name="error_getting_state">Fehler beim Laden des Status</string>
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
     <string name="item_update_success_message_on">%s wurde eingeschaltet</string>
     <string name="item_update_success_message_off">%s wurde ausgeschaltet</string>
@@ -614,7 +619,21 @@
     <string name="tile_icon_lamp_outdoor">Außenlampe</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Wohnung</string>
+    <string name="item_tag_location_attic">Dachgeschoss</string>
+    <string name="item_tag_location_basement">Keller</string>
+    <string name="item_tag_location_bathroom">Badezimmer</string>
+    <string name="item_tag_location_bedroom">Schlafzimmer</string>
+    <string name="item_tag_location_boilerroom">Heizungsraum</string>
+    <string name="item_tag_location_building">Gebäude</string>
+    <string name="item_tag_location_carport">Carport</string>
+    <string name="item_tag_location_cellar">Keller</string>
+    <string name="item_tag_location_corridor">Gang</string>
+    <string name="item_tag_location_diningroom">Esszimmer</string>
+    <string name="item_tag_location_driveway">Auffahrt</string>
+    <string name="item_tag_location_entry">Eingang</string>
     <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_garden">Garten</string>
     <string name="item_tag_location_house">Haus</string>
     <string name="item_tag_equipment_battery">Batterie</string>
     <string name="item_tag_equipment_camera">Kamera</string>
