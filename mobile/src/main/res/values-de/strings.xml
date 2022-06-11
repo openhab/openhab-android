@@ -640,8 +640,11 @@
     <string name="item_tag_location_driveway">Auffahrt</string>
     <string name="item_tag_location_entry">Eingang</string>
     <string name="item_tag_location_familyroom">Familienzimmer</string>
+    <string name="item_tag_location_firstfloor">Erster Stock</string>
+    <string name="item_tag_location_floor">Etage</string>
     <string name="item_tag_location_garage">Garage</string>
     <string name="item_tag_location_garden">Garten</string>
+    <string name="item_tag_location_groundfloor">Erdgeschoss</string>
     <string name="item_tag_location_guestroom">Gästezimmer</string>
     <string name="item_tag_location_house">Haus</string>
     <string name="item_tag_location_indoor">Innen</string>
@@ -650,11 +653,14 @@
     <string name="item_tag_location_livingroom">Wohnzimmer</string>
     <string name="item_tag_location_office">Büro</string>
     <string name="item_tag_location_outdoor">Draußen</string>
+    <string name="item_tag_location_patio">Innenhof</string>
     <string name="item_tag_location_porch">Veranda</string>
     <string name="item_tag_location_room">Zimmer</string>
+    <string name="item_tag_location_secondfloor">Zweiter Stock</string>
     <string name="item_tag_location_shed">Schuppen</string>
     <string name="item_tag_location_summerhouse">Sommerhaus</string>
     <string name="item_tag_location_terrace">Terrasse</string>
+    <string name="item_tag_location_thirdfloor">Dritter Stock</string>
     <string name="item_tag_location_veranda">Veranda</string>
     <string name="item_tag_equipment_alarmsystem">Alarmanlage</string>
     <string name="item_tag_equipment_backdoor">Hintereingang</string>
@@ -664,6 +670,7 @@
     <string name="item_tag_equipment_camera">Kamera</string>
     <string name="item_tag_equipment_car">Auto</string>
     <string name="item_tag_equipment_ceilingfan">Deckenventilator</string>
+    <string name="item_tag_equipment_cellardoor">Kellertür</string>
     <string name="item_tag_equipment_cleaningrobot">Reinigungsroboter</string>
     <string name="item_tag_equipment_dishwasher">Spülmaschine</string>
     <string name="item_tag_equipment_door">Tür</string>
@@ -675,6 +682,8 @@
     <string name="item_tag_equipment_garagedoor">Garagentor</string>
     <string name="item_tag_equipment_gate">Tor</string>
     <string name="item_tag_equipment_hvac">Klimaanlage</string>
+    <string name="item_tag_equipment_innerdoor">Innentür</string>
+    <string name="item_tag_equipment_inverter">Wechselrichter</string>
     <string name="item_tag_equipment_kitchenhood">Dunstabzugshaube</string>
     <string name="item_tag_equipment_lawnmower">Rasenmäher</string>
     <string name="item_tag_equipment_lightbulb">Glühbirne</string>
@@ -686,11 +695,13 @@
     <string name="item_tag_equipment_poweroutlet">Steckdose</string>
     <string name="item_tag_equipment_projector">Projektor</string>
     <string name="item_tag_equipment_pump">Pumpe</string>
+    <string name="item_tag_equipment_radiatorcontrol">Heizkörper</string>
     <string name="item_tag_equipment_receiver">Empfänger</string>
     <string name="item_tag_equipment_refrigerator">Kühlschrank</string>
     <string name="item_tag_equipment_remotecontrol">Fernbedienung</string>
     <string name="item_tag_equipment_screen">Bildschirm</string>
     <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_sidedoor">Seitentür</string>
     <string name="item_tag_equipment_siren">Sirene</string>
     <string name="item_tag_equipment_smartphone">Smartphone</string>
     <string name="item_tag_equipment_smokedetector">Rauchmelder</string>
