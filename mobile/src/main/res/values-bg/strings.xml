@@ -102,8 +102,8 @@
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
     <string name="error_wifi_not_available">Въздушната мрежа е изключена</string>
-    <string name="error_invalid_url">Въведи валиден адрес в \'http(s)://host(:port)/\' форма</string>
-    <string name="error_invalid_https_url">Въведи валиден адрес в \'https://host(:port)/\' форма</string>
+    <string name="error_invalid_url">Въведи валиден адрес в \'http(s)://host(:port)/\' формат</string>
+    <string name="error_invalid_https_url">Въведи валиден адрес в \'https://host(:port)/\' формат</string>
     <string name="error_first_char_is_whitespace">Първият символ е интервал, което вероятно не е желано</string>
     <string name="error_last_char_is_whitespace">Последният символ е интервал, което вероятно не е желано</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
