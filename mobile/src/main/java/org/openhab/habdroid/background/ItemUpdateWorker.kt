@@ -213,6 +213,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
     }
 
     private fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {
+        Log.d(TAG, "handleVoiceCommand(value = $value")
         val headers = mapOf("Accept-Language" to Locale.getDefault().language)
         var voiceCommand = value.value
         context.getPrefs().getPrefixForVoice()?.let { prefix ->
@@ -220,12 +221,14 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             Log.d(TAG, "Prefix voice command: $voiceCommand")
         }
         val result = try {
+            Log.d(TAG, "Try to send update to voice interpreters endpoint")
             runBlocking {
                 connection.httpClient
                     .post("rest/voice/interpreters", voiceCommand, headers = headers)
                     .asStatus()
             }
         } catch (e: HttpClient.HttpException) {
+            Log.d(TAG, "Error sending update to voice interpreters endpoint", e)
             if (e.statusCode == 404) {
                 try {
                     Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
@@ -235,6 +238,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
                             .asStatus()
                     }
                 } catch (e: HttpClient.HttpException) {
+                    Log.d(TAG, "Error sending update to voice item", e)
                     return Result.failure(buildOutputData(true, e.statusCode))
                 }
             } else {
@@ -245,6 +249,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             applicationContext.getString(R.string.info_voice_recognized_text, value.value),
             ToastType.SUCCESS
         )
+        Log.d(TAG, "Successfully sent update to voice endpoint or item")
         return Result.success(buildOutputData(true, result.statusCode, voiceCommand))
     }
 

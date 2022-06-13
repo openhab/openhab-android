@@ -202,11 +202,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 Log.i(TAG, "Recognized text: $voiceCommand")
 
                 enqueueItemUpload(
-                    context,
-                    WORKER_TAG_VOICE_COMMAND,
-                    "VoiceCommand",
-                    context.getString(R.string.voice_command),
-                    ItemUpdateWorker.ValueWithInfo(voiceCommand, type = ItemUpdateWorker.ValueType.VoiceCommand),
+                    context = context,
+                    primaryTag = WORKER_TAG_VOICE_COMMAND,
+                    itemName = "VoiceCommand",
+                    label = context.getString(R.string.voice_command),
+                    value = ItemUpdateWorker.ValueWithInfo(
+                        voiceCommand,
+                        type = ItemUpdateWorker.ValueType.VoiceCommand
+                    ),
                     isImportant = true,
                     showToast = true,
                     asCommand = true,
