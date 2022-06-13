@@ -118,6 +118,7 @@
     <string name="device_control_subtitle_equipment">Gerät</string>
     <string name="device_control_subtitle_location_equipment">Standort und Gerät</string>
     <string name="device_control_subtitle_item_name">Item-Name</string>
+    <string name="device_control_subtitle">Beschreibung für Android-Gerätesteuerung</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
@@ -494,6 +495,9 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
+    <string name="widget_show_state">Aktuellen Status an Name anhängen</string>
+    <string name="widget_show_state_summary">Der Status wird mit dem Zeitplan aktualisiert, der in den Einstellungen unter \"Geräteinformationen an Server senden\" eingestellt werden kann</string>
+    <string name="widget_no_command">Keinen Befehl senden</string>
     <string name="error_getting_state">Fehler beim Laden des Status</string>
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
     <string name="item_update_success_message_on">%s wurde eingeschaltet</string>
