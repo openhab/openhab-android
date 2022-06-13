@@ -57,7 +57,7 @@
     <string name="settings_accent_color">Accent color</string>
     <string name="settings_select_a_color">Select a color</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
-    <string name="settings_set_as_launcher">Set as launcher</string>
+    <string name="settings_set_as_launcher">Allow app to be used as launcher</string>
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
