@@ -48,6 +48,8 @@ object CloudMessagingHelper {
         }
     }
 
+    fun isPollingBuild() = false
+
     fun needsPollingForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) = false
 
     fun pollForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) {

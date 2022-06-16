@@ -339,7 +339,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 false
             }
 
-            if (CloudMessagingHelper.needsPollingForNotifications(requireContext())) {
+            if (CloudMessagingHelper.isPollingBuild()) {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_STATUS_HINT)
             } else {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.FOSS_NOTIFICATIONS_ENABLED)
