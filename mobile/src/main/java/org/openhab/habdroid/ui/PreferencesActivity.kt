@@ -301,6 +301,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
             val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
             val fullscreenPref = getPreference(PrefKeys.FULLSCREEN)
+            val launcherPref = getPreference(PrefKeys.LAUNCHER)
             val iconFormatPref = getPreference(PrefKeys.ICON_FORMAT)
             val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
             val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
@@ -406,6 +407,17 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             fullscreenPref.setOnPreferenceChangeListener { _, newValue ->
                 (activity as AbstractBaseActivity).setFullscreen(newValue as Boolean)
+                true
+            }
+
+            launcherPref.setOnPreferenceChangeListener { pref, newValue ->
+                val context = pref.context
+                val launcherAlias = ComponentName(context, "${context.packageName}.ui.LauncherActivityAlias")
+                val newState = if (newValue as Boolean)
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                else
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                context.packageManager.setComponentEnabledSetting(launcherAlias, newState, PackageManager.DONT_KILL_APP)
                 true
             }
 
