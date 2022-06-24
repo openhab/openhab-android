@@ -4,7 +4,7 @@
     <whatis/>
     <rules/>
     <supported>Поддържани продукти</supported>
-    <bindings>  </bindings>
+    <bindings> Примери са Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. </bindings>
     <automation_apps/>
 
     <oss_community/>
@@ -22,5 +22,5 @@
     <fdroid_privacy_policy/>
     <beta>Опитайте нови функции и дайте ранна обратна връзка!</beta>
     <play_beta>Може да инсталираш бета версията паралелно със стабилната версия.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta>Оправя грешки и подобрява стабилността. Посети https://github.com/openhab/openhab-android/releases за подробно описание на промените.</changelog_play_beta>
 </strings>

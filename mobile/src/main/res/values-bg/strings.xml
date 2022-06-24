@@ -62,6 +62,8 @@
     <string name="settings_insecure_connection_no_auth">Няма зададени потребителско име и парола</string>
     <string name="settings_screen_lock">Заключване на екрана</string>
     <string name="settings_screen_lock_off_summary">Достъпът до приложението не е заключен</string>
+    <string name="screen_lock_unlock_screen_description">Отключи за достъп до openHAB</string>
+    <string name="screen_lock_unlock_preferences_description">Отключи за достъп до настройките</string>
     <string name="settings_screen_lock_off">Изключено</string>
     <string name="settings_screen_lock_kiosk">Павилионен режим</string>
     <string name="settings_screen_lock_on">Включено</string>
@@ -79,6 +81,9 @@
     <string name="click_here_for_more_information">Натисни тук за повече информация</string>
     <string name="settings_multi_server_wifi_ssid_switched">Преминах към сървър „%s“ въз основа на Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не мога да прочета името на Wi-Fi мрежата: Липсват ми права</string>
+    <string name="device_control_subtitle_location">Местоположение</string>
+    <string name="device_control_subtitle_equipment">Оборудване</string>
+    <string name="device_control_subtitle_location_equipment">Местоположение и оборудване</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Гласови команди</string>
     <string name="voice_command">Гласова команда</string>
@@ -96,6 +101,9 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
+    <string name="error_wifi_not_available">Въздушната мрежа е изключена</string>
+    <string name="error_invalid_url">Въведи валиден адрес в \'http(s)://host(:port)/\' формат</string>
+    <string name="error_invalid_https_url">Въведи валиден адрес в \'https://host(:port)/\' формат</string>
     <string name="error_first_char_is_whitespace">Първият символ е интервал, което вероятно не е желано</string>
     <string name="error_last_char_is_whitespace">Последният символ е интервал, което вероятно не е желано</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
@@ -112,6 +120,7 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_unknown">Непозната грешка: %s</string>
+    <string name="error_short_certificate_expired">Сертификатът не е изтекъл</string>
     <string name="error_short_certificate_revoked">Сертификатът е анулиран</string>
     <string name="error_short_certificate_wrong_host">Сертификатът не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
@@ -148,6 +157,7 @@
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="item_update_short_status_waiting">Чакам…</string>
     <string name="item_update_short_status_sending">Изпращам…</string>
+    <string name="retry">Опитай отново</string>
     <string name="send_device_info_schedule_15_minutes">15 минути</string>
     <string name="send_device_info_schedule_1_hour">1 час</string>
     <string name="send_device_info_schedule_3_hours">3 ча̀са</string>
@@ -184,6 +194,8 @@
     <string name="chart_activity_period_8_hour">8 ча̀са</string>
     <string name="chart_activity_period_12_hour">12 ча̀са</string>
     <string name="chart_activity_period_1_day">1 ден</string>
+    <string name="chart_activity_period_2_day">2 дена</string>
+    <string name="chart_activity_period_3_day">3 дена</string>
     <string name="chart_activity_period_1_week">1 седмица</string>
     <string name="chart_activity_period_2_week">2 седмици</string>
     <string name="chart_activity_period_1_month">1 месец</string>
@@ -201,6 +213,7 @@
     <string name="nfc_action_increase">Повишено</string>
     <string name="nfc_action_decrease">Умаляване</string>
     <string name="nfc_action_play">Възпроизведи</string>
+    <string name="nfc_action_pause">Почивка</string>
     <string name="nfc_action_next">Следваща</string>
     <string name="nfc_action_previous">Предишен</string>
     <string name="nfc_action_rewind">Превъртане назад</string>
@@ -230,9 +243,12 @@
     <string name="cancel">Отменяне</string>
     <string name="close">Затворен</string>
     <string name="try_again_button">Повтори отново</string>
+    <string name="enable_wifi_button">Включи въздушната мрежа</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
+    <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен</string>
+    <string name="visit_status_openhab_org">Посети status.openhab.org</string>
     <!-- Log -->
     <string name="log_activity_action_show_errors">Покажи само грешки</string>
     <string name="log_activity_action_show_all">Покажи всички съобщения</string>
@@ -244,8 +260,9 @@
     <string name="content_description_open_number_picker">Отвори избора на цифри</string>
     <string name="content_description_video">Видео</string>
     <string name="content_description_open_openhab">Отвори openHAB</string>
-    <string name="swipe_to_refresh_description">Тази програма се обновява автоматично, нормално не е необходимо да го правите ръчно</string>
+    <string name="swipe_to_refresh_description">Тази програма се обновява автоматично, обикновено не е необходимо да го правите ръчно</string>
     <!-- Intro strings -->
+    <string name="app_intro">Въведение</string>
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Пропусни</string>
@@ -254,23 +271,36 @@
     <!-- Item picker -->
     <string name="item_picker_dialog_title">Избери действия</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Изпрати команда „%3$s“ до „%1$s“ (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Обнови „%1$s“ (%2$s) до „%3$s“</string>
+    <string name="item_picker_item_update">Обнови</string>
     <string name="item_picker_item_command">Команда</string>
     <string name="search">Търси</string>
     <string name="turn_on">Включи</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_success_message_move">%s започва да се движи</string>
+    <string name="item_update_short_success_message_on">Включено</string>
     <string name="item_update_short_success_message_off">Изключено</string>
+    <string name="item_update_short_success_message_stop">Спрян</string>
     <string name="item_update_short_success_message_increase">Увеличено</string>
     <string name="item_update_short_success_message_decrease">Намалено</string>
+    <string name="item_update_short_success_message_rewind">Превърта</string>
+    <string name="item_update_error_no_connection">Няма връзка</string>
     <!-- Data saver -->
     <string name="widget_type_image">Картинка</string>
     <string name="widget_type_video">Видео</string>
     <string name="widget_type_mapview">Карта</string>
+    <string name="widget_type_color">Цвят</string>
     <!-- Tiles -->
     <string name="tile_disabled">Изключено</string>
     <string name="tile_enable">Включи</string>
     <string name="tile_name">Име</string>
+    <string name="tile_icon">Икона</string>
+    <string name="tile_require_unlock">Изисква отключен екран</string>
+    <string name="tile_require_unlock_summary_off">Позволи обновяване на данните, дори при заключен екран</string>
+    <string name="error_missing_prefs">Попълни всяка настройка</string>
     <!-- Tile icon names -->
     <string name="tile_icon_tv">Телевизор</string>
     <string name="tile_icon_radio">Радио</string>
@@ -279,11 +309,13 @@
     <string name="tile_icon_alarm_clock">Будилник</string>
     <string name="tile_icon_bell">Звънец</string>
     <string name="tile_icon_earth">Земя</string>
+    <string name="tile_icon_house">Къща</string>
     <string name="tile_icon_microphone">Микрофон</string>
     <string name="tile_icon_people">Хора</string>
     <string name="tile_icon_person">Човек</string>
     <string name="tile_icon_phone">Телефон</string>
     <string name="tile_icon_battery">Батерия</string>
+    <string name="tile_icon_star">Звезда</string>
     <string name="tile_icon_tree">Дърво</string>
     <string name="tile_icon_fan">Вентилатор</string>
     <string name="tile_icon_man">Мъж</string>
@@ -295,11 +327,52 @@
     <string name="tile_icon_camera">Камера</string>
     <string name="tile_icon_garage">Гараж</string>
     <string name="tile_icon_switch">Превключвател</string>
+    <string name="tile_icon_text">Текст</string>
     <string name="tile_icon_sofa">Диван</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Апартамент</string>
+    <string name="item_tag_location_basement">Маза</string>
+    <string name="item_tag_location_bathroom">Баня</string>
+    <string name="item_tag_location_bedroom">Спалня</string>
+    <string name="item_tag_location_building">Сграда</string>
+    <string name="item_tag_location_corridor">Коридор</string>
+    <string name="item_tag_location_floor">Етаж</string>
     <string name="item_tag_location_garage">Гараж</string>
+    <string name="item_tag_location_garden">Градина</string>
+    <string name="item_tag_location_groundfloor">Приземен етаж</string>
+    <string name="item_tag_location_house">Къща</string>
+    <string name="item_tag_location_kitchen">Кухня</string>
+    <string name="item_tag_location_office">Офис</string>
+    <string name="item_tag_location_room">Стая</string>
+    <string name="item_tag_location_terrace">Тераса</string>
+    <string name="item_tag_location_veranda">Веранда</string>
     <string name="item_tag_equipment_battery">Батерия</string>
+    <string name="item_tag_equipment_boiler">Бойлер</string>
     <string name="item_tag_equipment_camera">Камера</string>
+    <string name="item_tag_equipment_car">Автомобил</string>
+    <string name="item_tag_equipment_dishwasher">Миялна</string>
+    <string name="item_tag_equipment_door">Врата</string>
+    <string name="item_tag_equipment_doorbell">Звънец</string>
+    <string name="item_tag_equipment_dryer">Сушилня</string>
     <string name="item_tag_equipment_fan">Вентилатор</string>
+    <string name="item_tag_equipment_freezer">Фризер</string>
+    <string name="item_tag_equipment_garagedoor">Гаражна врата</string>
+    <string name="item_tag_equipment_inverter">Инвертор</string>
+    <string name="item_tag_equipment_lightbulb">Електрическа крушка</string>
+    <string name="item_tag_equipment_lock">Катинар</string>
+    <string name="item_tag_equipment_motiondetector">Сензор за движение</string>
+    <string name="item_tag_equipment_oven">Фурна</string>
+    <string name="item_tag_equipment_pump">Помпа</string>
+    <string name="item_tag_equipment_refrigerator">Хладилник</string>
+    <string name="item_tag_equipment_remotecontrol">Дистанционно управление</string>
+    <string name="item_tag_equipment_sensor">Сензор</string>
+    <string name="item_tag_equipment_siren">Сирена</string>
+    <string name="item_tag_equipment_smartphone">Умен телефон</string>
+    <string name="item_tag_equipment_smokedetector">Сензор за пушек</string>
+    <string name="item_tag_equipment_speaker">Високоговорител</string>
+    <string name="item_tag_equipment_television">Телевизор</string>
+    <string name="item_tag_equipment_valve">Вентил</string>
+    <string name="item_tag_equipment_washingmachine">Пералня</string>
+    <string name="item_tag_equipment_window">Прозорец</string>
 </resources>

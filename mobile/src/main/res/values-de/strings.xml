@@ -41,7 +41,7 @@
     <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Für Hinweise und Erläuterungen zur SSL-Authentifizierung mittels Client-Zertifikat hier tippen</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-Client-Zertifikate werden von Ihrem Gerät nicht unterstützt</string>
-    <string name="settings_openhab_screentimeroff">Bildschirmabschaltung aktivieren</string>
+    <string name="settings_openhab_screentimeroff">Bildschirmabschaltung deaktivieren</string>
     <string name="settings_openhab_screentimeroff_summary">Der Bildschirm schaltet sich nicht aus, wenn openHAB läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
@@ -118,6 +118,7 @@
     <string name="device_control_subtitle_equipment">Gerät</string>
     <string name="device_control_subtitle_location_equipment">Standort und Gerät</string>
     <string name="device_control_subtitle_item_name">Item-Name</string>
+    <string name="device_control_subtitle">Beschreibung für Android-Gerätesteuerung</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
@@ -236,6 +237,7 @@
     <string name="settings_alarm_clock_summary_on">Weckzeit wird an Item \'%1$s\' gesendet</string>
     <string name="settings_alarm_clock_summary_off">Weckzeit nicht senden</string>
     <string name="copy_debug_info">Kopieren</string>
+    <string name="settings_alarm_clock_debug_ignored">Alarmzeit-Update auf %1$s wurde ignoriert, da es von %2$s gesendet wurde</string>
     <string name="settings_alarm_clock_debug">Alarmzeit auf %1$s aktualisiert, die von %2$s gesendet wurde</string>
     <string name="settings_phone_state">Anrufstatus</string>
     <string name="settings_phone_state_summary_on">Anrufstatus wird an Item \'%1$s\' gesendet</string>
@@ -254,6 +256,9 @@
     <string name="settings_wifi_ssid_permission_denied">Das Senden des WLAN-Namens wurde aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_wifi_ssid_restrict">Lokale Verbindung zu diesen WLAN-Namen beschränken</string>
     <string name="settings_bluetooth_devices">Verbundene Bluetooth-Geräte</string>
+    <string name="settings_bluetooth_devices_summary_on">Sendet eine durch Pipes getrennte Liste von MAC-Adressen von angeschlossenen Bluetooth-Geräten an Item \'%1$s\'</string>
+    <string name="settings_bluetooth_devices_summary_off">Verbundene Bluetooth-Geräte nicht senden</string>
+    <string name="settings_bluetooth_devices_permission_denied">Das Senden von Bluetooth-Geräten wurde aufgrund fehlender Berechtigungen deaktiviert</string>
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
@@ -401,6 +406,7 @@
     <string name="about_translation">Helfen Sie uns bei der Übersetzung von openHAB</string>
     <string name="about_privacy_policy">Datenschutzerklärung</string>
     <string name="about_rate_this_app">Bewerten Sie diese App</string>
+    <string name="settings_debug_messages_title">Informationen zur Fehlerbehebung anzeigen</string>
     <string name="settings_troubleshooting_title">Fehlerbehebung</string>
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
@@ -489,6 +495,9 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
+    <string name="widget_show_state">Aktuellen Status an Name anhängen</string>
+    <string name="widget_show_state_summary">Der Status wird mit dem Zeitplan aktualisiert, der in den Einstellungen unter \"Geräteinformationen an Server senden\" eingestellt werden kann</string>
+    <string name="widget_no_command">Keinen Befehl senden</string>
     <string name="error_getting_state">Fehler beim Laden des Status</string>
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
     <string name="item_update_success_message_on">%s wurde eingeschaltet</string>
@@ -542,6 +551,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Karte</string>
     <string name="widget_type_chart">Diagramm</string>
+    <string name="widget_type_color">Farbe</string>
     <!-- Tiles -->
     <string name="tile">Kachel</string>
     <string name="tiles_for_quick_settings">Kacheln für Schnelleinstellungen</string>
@@ -633,8 +643,12 @@
     <string name="item_tag_location_diningroom">Esszimmer</string>
     <string name="item_tag_location_driveway">Auffahrt</string>
     <string name="item_tag_location_entry">Eingang</string>
+    <string name="item_tag_location_familyroom">Familienzimmer</string>
+    <string name="item_tag_location_firstfloor">Erster Stock</string>
+    <string name="item_tag_location_floor">Etage</string>
     <string name="item_tag_location_garage">Garage</string>
     <string name="item_tag_location_garden">Garten</string>
+    <string name="item_tag_location_groundfloor">Erdgeschoss</string>
     <string name="item_tag_location_guestroom">Gästezimmer</string>
     <string name="item_tag_location_house">Haus</string>
     <string name="item_tag_location_indoor">Innen</string>
@@ -643,10 +657,14 @@
     <string name="item_tag_location_livingroom">Wohnzimmer</string>
     <string name="item_tag_location_office">Büro</string>
     <string name="item_tag_location_outdoor">Draußen</string>
+    <string name="item_tag_location_patio">Innenhof</string>
+    <string name="item_tag_location_porch">Veranda</string>
     <string name="item_tag_location_room">Zimmer</string>
+    <string name="item_tag_location_secondfloor">Zweiter Stock</string>
     <string name="item_tag_location_shed">Schuppen</string>
     <string name="item_tag_location_summerhouse">Sommerhaus</string>
     <string name="item_tag_location_terrace">Terrasse</string>
+    <string name="item_tag_location_thirdfloor">Dritter Stock</string>
     <string name="item_tag_location_veranda">Veranda</string>
     <string name="item_tag_equipment_alarmsystem">Alarmanlage</string>
     <string name="item_tag_equipment_backdoor">Hintereingang</string>
@@ -655,15 +673,39 @@
     <string name="item_tag_equipment_boiler">Heizkessel</string>
     <string name="item_tag_equipment_camera">Kamera</string>
     <string name="item_tag_equipment_car">Auto</string>
+    <string name="item_tag_equipment_ceilingfan">Deckenventilator</string>
+    <string name="item_tag_equipment_cellardoor">Kellertür</string>
     <string name="item_tag_equipment_cleaningrobot">Reinigungsroboter</string>
     <string name="item_tag_equipment_dishwasher">Spülmaschine</string>
     <string name="item_tag_equipment_door">Tür</string>
+    <string name="item_tag_equipment_doorbell">Türklingel</string>
+    <string name="item_tag_equipment_dryer">Trockner</string>
     <string name="item_tag_equipment_fan">Ventilator</string>
+    <string name="item_tag_equipment_freezer">Gefrierschrank</string>
+    <string name="item_tag_equipment_frontdoor">Haustür</string>
+    <string name="item_tag_equipment_garagedoor">Garagentor</string>
+    <string name="item_tag_equipment_gate">Tor</string>
+    <string name="item_tag_equipment_hvac">Klimaanlage</string>
+    <string name="item_tag_equipment_innerdoor">Innentür</string>
+    <string name="item_tag_equipment_inverter">Wechselrichter</string>
+    <string name="item_tag_equipment_kitchenhood">Dunstabzugshaube</string>
+    <string name="item_tag_equipment_lawnmower">Rasenmäher</string>
+    <string name="item_tag_equipment_lightbulb">Glühbirne</string>
+    <string name="item_tag_equipment_lightstripe">Lichtband</string>
     <string name="item_tag_equipment_lock">Schloss</string>
+    <string name="item_tag_equipment_motiondetector">Bewegungsmelder</string>
+    <string name="item_tag_equipment_networkappliance">Netzwerkgerät</string>
+    <string name="item_tag_equipment_oven">Ofen</string>
+    <string name="item_tag_equipment_poweroutlet">Steckdose</string>
+    <string name="item_tag_equipment_projector">Projektor</string>
+    <string name="item_tag_equipment_pump">Pumpe</string>
+    <string name="item_tag_equipment_radiatorcontrol">Heizkörper</string>
+    <string name="item_tag_equipment_receiver">Empfänger</string>
     <string name="item_tag_equipment_refrigerator">Kühlschrank</string>
     <string name="item_tag_equipment_remotecontrol">Fernbedienung</string>
     <string name="item_tag_equipment_screen">Bildschirm</string>
     <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_sidedoor">Seitentür</string>
     <string name="item_tag_equipment_siren">Sirene</string>
     <string name="item_tag_equipment_smartphone">Smartphone</string>
     <string name="item_tag_equipment_smokedetector">Rauchmelder</string>
