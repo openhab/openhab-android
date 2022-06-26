@@ -105,6 +105,13 @@ class ItemTest {
     }
 
     @Test
+    fun getCommandOptions() {
+        val sut = itemWithCommandOptions.toItem()
+        assertEquals(LabeledValue("1", "One"), sut.options!!.component1())
+        assertEquals(LabeledValue("2", "Two"), sut.options!!.component2())
+    }
+
+    @Test
     fun getTags() {
         val sut = itemAsJsonObject.toItem()
         assertEquals(4, sut.tags.size)
@@ -190,6 +197,26 @@ class ItemTest {
               { 'state': 'NULL',
                 'type': 'Group',
                 'name': 'LocationGroup' }
+            """.trimIndent()
+        )
+        private val itemWithCommandOptions = JSONObject(
+            """
+              { 'state': 'NULL',
+                'type': 'Number',
+                'name': 'Foo',
+                'commandDescription': {
+                  'commandOptions': [
+                    {
+                      'command': '1',
+                      'label': 'One'
+                    },
+                    {
+                      'command': '2',
+                      'label': 'Two'
+                    },
+                  ]
+                }
+              }
             """.trimIndent()
         )
     }
