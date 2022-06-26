@@ -110,7 +110,7 @@
             </intent-filter>
         </activity>
         <activity-alias
-            android:name=".ui.LauncherActivityAlias"
+            android:name="${applicationId}.ui.LauncherActivityAlias"
             android:exported="true"
             android:enabled="false"
             android:targetActivity=".ui.MainActivity">
