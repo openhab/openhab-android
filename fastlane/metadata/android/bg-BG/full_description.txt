@@ -9,7 +9,7 @@ On top of the unified abstraction layer all connected devices are available for 
 
 <b>Поддържани продукти</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+ Примери са Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. 
 The app has an action plugin for Tasker and Locale included.
 
 <b>Open Source Community</b>
