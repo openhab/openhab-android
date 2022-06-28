@@ -35,13 +35,13 @@ interface ConnectionManagerHelper {
 
     fun shutdown()
 
-    sealed class ConnectionType constructor(val network: Network?) {
-        class Bluetooth(network: Network?) : ConnectionType(network)
-        class Ethernet(network: Network?) : ConnectionType(network)
-        class Mobile(network: Network?) : ConnectionType(network)
-        class Unknown(network: Network?) : ConnectionType(network)
-        class Vpn(network: Network?) : ConnectionType(network)
-        class Wifi(network: Network?) : ConnectionType(network)
+    sealed class ConnectionType constructor(val network: Network, val caps: NetworkCapabilities) {
+        class Bluetooth(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+        class Ethernet(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+        class Mobile(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+        class Unknown(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+        class Vpn(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+        class Wifi(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
 
         override fun toString(): String {
             return "ConnectionType(type = ${javaClass.simpleName}, network=$network)"
@@ -51,28 +51,21 @@ interface ConnectionManagerHelper {
     companion object {
         fun create(context: Context): ConnectionManagerHelper {
             return when (Build.VERSION.SDK_INT) {
-                in 19..22 -> HelperApi22(context)
-                in 23..25 -> HelperApi23To25(context)
+                in 21..25 -> HelperApi21(context)
                 else -> HelperApi26(context)
             }
         }
     }
 
-    private class HelperApi22 constructor(context: Context) :
+    private class HelperApi21 constructor(context: Context) :
         ConnectionManagerHelper, ChangeCallbackHelperApi25(context) {
-        private val typeHelper = NetworkTypeHelperApi22(context)
-        override val currentConnections: List<ConnectionType> get() = typeHelper.currentConnections
-    }
-
-    private class HelperApi23To25 constructor(context: Context) :
-        ConnectionManagerHelper, ChangeCallbackHelperApi25(context) {
-        private val typeHelper = NetworkTypeHelperApi23(context)
+        private val typeHelper = NetworkTypeHelper(context)
         override val currentConnections: List<ConnectionType> get() = typeHelper.currentConnections
     }
 
     private class HelperApi26 constructor(context: Context) :
         ConnectionManagerHelper, ChangeCallbackHelperApi26(context) {
-        private val typeHelper = NetworkTypeHelperApi26(context)
+        private val typeHelper = NetworkTypeHelper(context)
         override val currentConnections: List<ConnectionType> get() = typeHelper.currentConnections
     }
 
@@ -155,45 +148,7 @@ interface ConnectionManagerHelper {
         }
     }
 
-    @Suppress("DEPRECATION")
-    private class NetworkTypeHelperApi22 constructor(context: Context) {
-        private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val currentConnections: List<ConnectionType> get() {
-            return connectivityManager.allNetworkInfo
-                    .filter { info -> info.isConnected }
-                    .map { info -> when (info.type) {
-                        ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(null)
-                        ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(null)
-                        ConnectivityManager.TYPE_BLUETOOTH -> ConnectionType.Bluetooth(null)
-                        ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(null)
-                        ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(null)
-                        else -> ConnectionType.Unknown(null)
-                    } }
-        }
-    }
-
-    @TargetApi(23)
-    @Suppress("DEPRECATION")
-    private class NetworkTypeHelperApi23 constructor(context: Context) {
-        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
-        val currentConnections: List<ConnectionType> get() {
-            return connectivityManager.allNetworks
-                    .map { network -> network to connectivityManager.getNetworkInfo(network) }
-                    .filter { (_, info) -> info?.isConnected == true }
-                    // info can not be null here, as the condition in the line above covers that case already
-                    .map { (network, info) -> when (info!!.type) {
-                        ConnectivityManager.TYPE_VPN -> ConnectionType.Vpn(network)
-                        ConnectivityManager.TYPE_WIFI -> ConnectionType.Wifi(network)
-                        ConnectivityManager.TYPE_BLUETOOTH -> ConnectionType.Bluetooth(network)
-                        ConnectivityManager.TYPE_ETHERNET -> ConnectionType.Ethernet(network)
-                        ConnectivityManager.TYPE_MOBILE -> ConnectionType.Mobile(network)
-                        else -> ConnectionType.Unknown(network)
-                    } }
-        }
-    }
-
-    @TargetApi(26)
-    private class NetworkTypeHelperApi26 constructor(context: Context) {
+    private class NetworkTypeHelper constructor(context: Context) {
         private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
         val currentConnections: List<ConnectionType> get() {
             // TODO: Replace deprecated function
@@ -203,14 +158,14 @@ interface ConnectionManagerHelper {
                 .filter { (_, caps) -> caps?.isUsable() == true }
                 // nullable cast is safe, since null caps are filtered out above
                 .map { (network, caps) -> network to caps!! }
-                .map { (network, caps) -> when {
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> ConnectionType.Vpn(network)
+                .map { (net, caps) -> when {
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> ConnectionType.Vpn(net, caps)
                     caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                        caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI_AWARE) -> ConnectionType.Wifi(network)
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> ConnectionType.Bluetooth(network)
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> ConnectionType.Ethernet(network)
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> ConnectionType.Mobile(network)
-                    else -> ConnectionType.Unknown(network)
+                        caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI_AWARE) -> ConnectionType.Wifi(net, caps)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> ConnectionType.Bluetooth(net, caps)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> ConnectionType.Ethernet(net, caps)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> ConnectionType.Mobile(net, caps)
+                    else -> ConnectionType.Unknown(net, caps)
                 } }
         }
     }

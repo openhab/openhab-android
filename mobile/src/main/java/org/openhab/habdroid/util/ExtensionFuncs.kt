@@ -75,6 +75,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.core.connection.DefaultConnection
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
@@ -401,55 +403,41 @@ data class DataUsagePolicy(
     val canDoRefreshes: Boolean
 )
 
-fun Context.determineDataUsagePolicy(): DataUsagePolicy {
-    val isBatterySaverActive = (applicationContext as OpenHabApplication).batterySaverActive
-    fun getDataUsagePolicyForBatterySaver() = DataUsagePolicy(
-        canDoLargeTransfers = true,
-        loadIconsWithState = true,
-        autoPlayVideos = false,
+fun Context.determineDataUsagePolicy(conn: Connection? = null): DataUsagePolicy {
+    val appContext = applicationContext as OpenHabApplication
+    var canDoLargeTransfers = true
+    var loadIconsWithState = true
+    var autoPlayVideos = true
+    var canDoRefreshes = true
+
+    if (appContext.batterySaverActive) {
+        autoPlayVideos = false
         canDoRefreshes = false
-    )
+    }
 
     val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        return if (isBatterySaverActive) {
-            getDataUsagePolicyForBatterySaver()
-        } else {
-            DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref, !dataSaverPref)
-        }
-    }
-    return when ((applicationContext as OpenHabApplication).systemDataSaverStatus) {
-        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> DataUsagePolicy(
-            canDoLargeTransfers = false,
-            loadIconsWithState = false,
-            autoPlayVideos = false,
-            canDoRefreshes = false
-        )
-        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
-            if (isBatterySaverActive) {
-                getDataUsagePolicyForBatterySaver()
-            } else {
-                DataUsagePolicy(
-                    canDoLargeTransfers = true,
-                    loadIconsWithState = true,
-                    autoPlayVideos = false,
-                    canDoRefreshes = true
-                )
+        canDoLargeTransfers = canDoLargeTransfers && !dataSaverPref
+        loadIconsWithState = loadIconsWithState && !dataSaverPref
+        autoPlayVideos = autoPlayVideos && !dataSaverPref
+        canDoRefreshes = canDoRefreshes && !dataSaverPref
+    } else {
+        val isMetered = conn is DefaultConnection && conn.isMetered
+        val dataSaverState = appContext.systemDataSaverStatus
+
+        when {
+            dataSaverState == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED && isMetered -> {
+                canDoLargeTransfers = false
+                loadIconsWithState = false
+                autoPlayVideos = false
+                canDoRefreshes = false
             }
-        }
-        else -> {
-            if (isBatterySaverActive) {
-                getDataUsagePolicyForBatterySaver()
-            } else {
-                DataUsagePolicy(
-                    canDoLargeTransfers = true,
-                    loadIconsWithState = true,
-                    autoPlayVideos = true,
-                    canDoRefreshes = true
-                )
+            dataSaverState == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED && isMetered -> {
+                autoPlayVideos = false
             }
         }
     }
+    return DataUsagePolicy(canDoLargeTransfers, loadIconsWithState, autoPlayVideos, canDoRefreshes)
 }
 
 @ColorInt

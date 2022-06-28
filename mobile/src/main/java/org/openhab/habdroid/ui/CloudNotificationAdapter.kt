@@ -113,7 +113,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                     conn,
                     notification.icon.toUrl(
                         itemView.context,
-                        itemView.context.determineDataUsagePolicy().loadIconsWithState
+                        itemView.context.determineDataUsagePolicy(conn).loadIconsWithState
                     ),
                     timeoutMillis = 2000
                 )

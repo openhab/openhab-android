@@ -87,7 +87,6 @@ import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.DataUsagePolicy
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.beautify
@@ -396,7 +395,7 @@ class WidgetAdapter(
         }
 
         private fun showDataSaverPlaceholderIfNeeded(widget: Widget, canBindWithoutData: Boolean): Boolean {
-            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers &&
+            val dataSaverActive = !itemView.context.determineDataUsagePolicy(connection).canDoLargeTransfers &&
                 !canBindWithoutData
 
             dataSaverView.isVisible = dataSaverActive
@@ -425,8 +424,8 @@ class WidgetAdapter(
             return dataSaverActive
         }
 
-        fun handleDataUsagePolicyChange(dataUsagePolicy: DataUsagePolicy) {
-            if (!dataUsagePolicy.canDoLargeTransfers) {
+        fun handleDataUsagePolicyChange() {
+            if (!itemView.context.determineDataUsagePolicy(connection).canDoLargeTransfers) {
                 // Continue showing the old data, but stop any activity that might need more data transfer
                 stop()
             } else {
@@ -688,7 +687,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (itemView.context.determineDataUsagePolicy().canDoRefreshes) {
+            if (itemView.context.determineDataUsagePolicy(connection).canDoRefreshes) {
                 imageView.startRefreshingIfNeeded()
             } else {
                 imageView.cancelRefresh()
@@ -1029,7 +1028,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (itemView.context.determineDataUsagePolicy().canDoRefreshes) {
+            if (itemView.context.determineDataUsagePolicy(connection).canDoRefreshes) {
                 chart.startRefreshingIfNeeded()
             } else {
                 chart.cancelRefresh()
@@ -1073,7 +1072,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (itemView.context.determineDataUsagePolicy().autoPlayVideos) {
+            if (itemView.context.determineDataUsagePolicy(connection).autoPlayVideos) {
                 exoPlayer.play()
             }
         }
@@ -1380,7 +1379,8 @@ class WidgetAdapter(
 
         private fun handleDataSaver(overrideDataSaver: Boolean) {
             val widget = boundWidget ?: return
-            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers && !overrideDataSaver
+            val dataSaverActive = !itemView.context.determineDataUsagePolicy(connection).canDoLargeTransfers &&
+                !overrideDataSaver
 
             dataSaverView.isVisible = dataSaverActive && hasPositions
             baseMapView.isVisible = !dataSaverView.isVisible && hasPositions
@@ -1547,7 +1547,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
     setImageUrl(
         connection,
-        widget.icon.toUrl(context, context.determineDataUsagePolicy().loadIconsWithState)
+        widget.icon.toUrl(context, context.determineDataUsagePolicy(connection).loadIconsWithState)
     )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {

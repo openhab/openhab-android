@@ -20,6 +20,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
@@ -36,6 +37,8 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
     private lateinit var period: String
     private lateinit var widget: Widget
     private lateinit var chartTheme: CharSequence
+    private var connection: Connection? = null
+
     private var serverFlags: Int = 0
     private var density: Int = 0
     private var showLegend: Boolean = true
@@ -68,8 +71,15 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
 
     override fun onResume() {
         super.onResume()
+
+        connection = ConnectionFactory.activeUsableConnection?.connection
+        if (connection == null) {
+            finish()
+            return
+        }
+
         loadChartImage(false)
-        if (determineDataUsagePolicy().canDoRefreshes) {
+        if (determineDataUsagePolicy(connection).canDoRefreshes) {
             chart.startRefreshingIfNeeded()
         }
     }
@@ -148,12 +158,7 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
     }
 
     private fun loadChartImage(force: Boolean) {
-        val connection = ConnectionFactory.activeUsableConnection?.connection
-        if (connection == null) {
-            finish()
-            return
-        }
-
+        val conn = connection ?: return
         val chartUrl = widget.toChartUrl(
             getPrefs(),
             chart.width,
@@ -165,7 +170,7 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
         ) ?: return
 
         Log.d(TAG, "Load chart with url $chartUrl")
-        chart.setImageUrl(connection, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = force)
+        chart.setImageUrl(conn, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = force)
     }
 
     private fun updateHasLegendButtonState(item: MenuItem) {

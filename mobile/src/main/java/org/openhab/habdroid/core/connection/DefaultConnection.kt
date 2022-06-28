@@ -27,6 +27,7 @@ import org.openhab.habdroid.util.bindToNetworkIfPossible
 
 open class DefaultConnection : AbstractConnection {
     internal var network: Network? = null
+    internal var isMetered = false
 
     internal constructor(
         httpClient: OkHttpClient,
