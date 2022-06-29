@@ -95,15 +95,15 @@ fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): 
 }
 
 fun String?.toOH1IconResource(): IconResource? {
-    return if (this != null && this != "none") IconResource(this, false, null) else null
+    return if (isNullOrEmpty() || this == "none") null else IconResource(this, false, null)
 }
 
 fun String?.toOH2IconResource(): IconResource? {
-    return if (this != null && this != "none") IconResource(this, true, "") else null
+    return if (isNullOrEmpty() || this == "none") null else IconResource(this, true, null)
 }
 
 internal fun String?.toOH2WidgetIconResource(item: Item?, type: Widget.Type, hasMappings: Boolean): IconResource? {
-    if (this == null || this == "none") {
+    if (isNullOrEmpty() || this == "none") {
         return null
     }
 
@@ -125,7 +125,8 @@ internal fun String?.toOH2WidgetIconResource(item: Item?, type: Widget.Type, has
                 val color = itemState.asHsv.toColor()
                 iconState = String.format(
                     Locale.US, "#%02x%02x%02x",
-                    Color.red(color), Color.green(color), Color.blue(color))
+                    Color.red(color), Color.green(color), Color.blue(color)
+                )
             }
         } else if (type == Widget.Type.Switch && !hasMappings && !item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
             // For switch items without mappings (just ON and OFF) that control a dimmer item
