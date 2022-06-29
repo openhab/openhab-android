@@ -35,20 +35,15 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.jdk9.flowPublish
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import okhttp3.sse.EventSource
-import okhttp3.sse.EventSourceListener
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toParsedState
 import org.openhab.habdroid.ui.ColorItemActivity
@@ -83,23 +78,32 @@ class ItemsControlsProviderService : ControlsProviderService() {
             .mapNotNull { factory.maybeCreateControl(it.value) }
             .forEach { control -> send(control) }
 
-        val updateChannel = Channel<Control>(Channel.BUFFERED)
-        val eventStream = connection.httpClient.makeSse(
+        val eventSubscription = connection.httpClient.makeSse(
             // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
-            connection.httpClient.buildUrl("rest/events?topics=*/items/*/statechanged"),
-            StateChangeListener { itemName, state -> runBlocking {
-                val item = allItems[itemName] ?: return@runBlocking
-                val newItem = item.copy(state = state)
-                factory.maybeCreateControl(newItem)?.let { control -> updateChannel.send(control) }
-            }}
+            connection.httpClient.buildUrl("rest/events?topics=*/items/*/statechanged")
         )
+
         try {
             while (isActive) {
-                send(updateChannel.receive())
+                try {
+                    val event = JSONObject(eventSubscription.getNextEvent())
+                    val topic = event.getString("topic")
+                    val topicPath = topic.split('/')
+                    if (topicPath.size != 4) {
+                        throw JSONException("Unexpected topic path $topic")
+                    }
+                    val item = allItems[topicPath[2]]
+                    if (item != null) {
+                        val payload = JSONObject(event.getString("payload"))
+                        val newItem = item.copy(state = payload.getString("value").toParsedState())
+                        factory.maybeCreateControl(newItem)?.let { control -> send(control) }
+                    }
+                } catch (e: JSONException) {
+                    Log.e(TAG, "Failed parsing JSON of state change event", e)
+                }
             }
         } finally {
-            updateChannel.close()
-            eventStream.cancel()
+            eventSubscription.cancel()
         }
     }
 
@@ -151,25 +155,6 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     companion object {
         private val TAG = ItemsControlsProviderService::class.java.simpleName
-    }
-
-    private class StateChangeListener(private val callback: (String, ParsedState) -> Unit) : EventSourceListener() {
-        override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
-            try {
-                val event = JSONObject(data)
-                val topicPath = event.getString("topic").split('/')
-                if (topicPath.size != 4) {
-                    Log.e(TAG, "Failed parsing topic of state change event")
-                    return
-                }
-                val itemName = topicPath[2]
-                val payload = JSONObject(event.getString("payload"))
-                val state = payload.getString("value").toParsedState() ?: return
-                callback(itemName, state)
-            } catch (e: JSONException) {
-                Log.e(TAG, "Failed parsing JSON of state change event", e)
-            }
-        }
     }
 
     private class ItemControlFactory constructor(

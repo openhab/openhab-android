@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import okhttp3.CacheControl
@@ -66,7 +68,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
         FORCE_CACHE_IF_POSSIBLE
     }
 
-    fun makeSse(url: HttpUrl, listener: EventSourceListener): EventSource {
+    fun makeSse(url: HttpUrl): SseSubscription {
         val request = Request.Builder()
             .url(url)
             .addHeader("User-Agent", USER_AGENT)
@@ -75,7 +77,8 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
             .readTimeout(0, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .build()
-        return EventSources.createFactory(client).newEventSource(request, listener)
+        val listener = SseListener()
+        return SseSubscription(EventSources.createFactory(client).newEventSource(request, listener), listener)
     }
 
     fun buildUrl(url: String): HttpUrl {
@@ -242,6 +245,36 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
             this.request = request
             this.originalUrl = originalUrl
             this.statusCode = statusCode
+        }
+    }
+
+    class SseFailureException constructor(val response: Response?, cause: Throwable?) : Exception(cause)
+
+    internal class SseListener : EventSourceListener() {
+        val channel = Channel<String>()
+        override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
+            super.onEvent(eventSource, id, type, data)
+            runBlocking {
+                channel.send(data)
+            }
+        }
+
+        override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
+            super.onFailure(eventSource, t, response)
+            runBlocking {
+                channel.close(SseFailureException(response, t))
+            }
+        }
+    }
+
+    class SseSubscription internal constructor(private val source: EventSource, private val listener: SseListener) {
+        @Throws(SseFailureException::class)
+        suspend fun getNextEvent(): String {
+            return listener.channel.receive()
+        }
+        fun cancel() {
+            listener.channel.close()
+            source.cancel()
         }
     }
 
