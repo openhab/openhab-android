@@ -55,6 +55,7 @@
     <string name="settings_notification_vibration_long">Uzun</string>
     <string name="settings_notification_vibration_twice">Iki kez</string>
     <string name="settings_connection_summary">%s Bağlanıldı</string>
+    <string name="settings_insecure_connection_summary">%1$s\'a güvensiz bir şekilde bağlanıldı: %2$s</string>
     <string name="settings_screen_lock">Ekran kilidi</string>
     <string name="settings_screen_lock_nolock_summary">Uygulama erişim kilidini etkinleştirmek için cihazınız için bir ekran kilidini etkinleştirmeniz gerekir</string>
     <string name="settings_screen_lock_off_summary">Uygulamaya erişim kilitli değil</string>
@@ -66,6 +67,7 @@
     <string name="settings_screen_lock_kiosk">Kiosk modu</string>
     <string name="settings_screen_lock_on">Açık</string>
     <string name="settings_show_sitemaps_in_drawer">Yan menüde tüm Sitemaps \'ları göster</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" birincil sunucudur. Bu sunucuyu birincil sunucu yapmak için dokunun.\nŞu anda yalnızca birincil sunucu bu uygulamanın tüm özellikleri tarafından desteklenmektedir. Daha fazla bilgi için yardım düğmesine dokunun.</string>
     <string name="device_control_subtitle_item_name">Item adı</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sesli komutlar</string>
