@@ -51,6 +51,7 @@
     <string name="settings_accent_color">Akzentfarbe</string>
     <string name="settings_select_a_color">Wähle eine Farbe</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
+    <string name="settings_set_as_launcher">Verwendung der App als Start-App ermöglichen</string>
     <string name="settings_openhab_icon_format">Icon-Format</string>
     <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
     <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
