@@ -148,7 +148,7 @@ dependencies {
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
     implementation "androidx.security:security-crypto:1.0.0"
     implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
-    implementation "org.jmdns:jmdns:3.5.7"
+    implementation "org.jmdns:jmdns:3.5.8"
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
     implementation "com.squareup.okhttp3:okhttp-sse:$ok_http_version"
