@@ -4,11 +4,24 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Innstillinger</string>
+    <string name="save">Lagre</string>
+    <string name="discard">Forkast</string>
+    <string name="delete">Slett</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Varslinger</string>
+    <string name="app_notifications_on_server">Varsler (%s)</string>
     <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
+    <string name="oh3_ui_error">Det oppstod en feil under lasting av openHAB 3 UI</string>
+    <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail må kjøre på dets standardport 9001. Det følger med openHABian eller kan installeres manuelt.</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->
@@ -24,11 +37,16 @@
     <string name="settings_openhab_password">Passord</string>
     <string name="settings_openhab_password_summary_weak">Svakt passord valgt</string>
     <string name="settings_openhab_password_summary_strong">Sterkt passord valgt</string>
+    <string name="settings_openhab_api_token_hint">Hvis du bruker en API-token, skriv den inn i feltet for brukernavn og la passordfeltet stå tomt</string>
     <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL klientsertifikater er ikke støttet av din enhet</string>
+    <string name="settings_openhab_screentimeroff">Deaktiver skjermtidsavbrudd</string>
+    <string name="settings_openhab_screentimeroff_summary">Skjermen slår seg ikke av mens openHAB kjører</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Hvis du ikke har en openHAB server, aktiver demomodus for å få en oversikt over hva openHAB er i stand til.</string>
+    <string name="start_page_title">Startside</string>
+    <string name="drawer_entries">Sidemenyoppføringer</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Aksentfarge</string>
     <string name="settings_select_a_color">Velg en farge</string>
