@@ -1545,11 +1545,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateItemAndStatePrefSummary()
 
             if (namePref.text.isNullOrEmpty()) {
-                namePref.text = preferenceManager.context.getString(
-                    R.string.item_update_widget_text,
-                    itemAndStatePref.label,
-                    itemAndStatePref.mappedState
-                )
+                namePref.text = "%1\$s: %2\$s".format(itemAndStatePref.label, itemAndStatePref.mappedState)
             }
         }
 

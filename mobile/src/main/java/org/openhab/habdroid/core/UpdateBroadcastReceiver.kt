@@ -189,7 +189,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         oldData.command,
                         oldData.label,
                         oldData.widgetLabel
-                            ?: context.getString(R.string.item_update_widget_text, oldData.label, oldData.mappedState),
+                            ?: "%1\$s: %2\$s".format(oldData.label, oldData.mappedState),
                         oldData.mappedState,
                         oldData.icon,
                         oldData.theme,
