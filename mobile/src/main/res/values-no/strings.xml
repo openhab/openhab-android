@@ -162,12 +162,41 @@
     <string name="error_http_to_https_port">Uventet slutt på strømmen. Prøver du å koble til en HTTPS-port med HTTP?</string>
     <string name="webview_ssl">For tiden støtter dette programmet ikke selvsignert SSL-sertifikater for Webview widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL\'en er for lang. Bruk IP-adresse eller en kortere URL (HTTP kode %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS er påkrevd. Vennligst endre URL\'en (HTTP kode %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL klientsertifikat er påkrevd (HTTP kode %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Din omvendte proxy fikk et ugyldig svar fra openHAB-serveren (HTTP kode %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">OpenHAB-serveren er midlertidig utilgjengelig (HTTP kode %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy kjører, men den får ikke svar fra openHAB-serveren (HTTP kode %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">OpenHAB-serveren har ikke nok ledig plass (HTTP kode %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB er frakoblet</string>
+    <string name="error_short_http_connection_failed">HTTP-kode %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Kunne ikke løse vertsnavn</string>
+    <string name="error_short_unknown">Ukjent feil: %s</string>
+    <string name="error_short_certificate_not_trusted">Sertifikat ikke klarert</string>
+    <string name="error_short_certificate_expired">Sertifikat ikke utløpt</string>
+    <string name="error_short_certificate_not_valid_yet">Sertifikat er ikke gyldig ennå</string>
+    <string name="error_short_certificate_revoked">Sertifikat tilbakekalt</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL mislyktes</string>
+    <string name="error_short_connection_failed">Tilkoblingen mislyktes</string>
+    <string name="error_short_http_to_https_port">Kobler til HTTPS-port via HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Sertifikatet ikke gyldig for %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Ikke funnet (HTTP kode %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL for lang (HTTP kode %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS kreves (HTTP kode %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-klientsertifikat kreves (HTTP kode %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Omvendt proxy fikk ugyldig svar fra openHAB (HTTP kode %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">OpenHAB er midlertidig utilgjengelig (HTTP kode %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway tidsavbrudd (HTTP kode %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Ikke nok ledig plass på serveren (HTTP kode %d)</string>
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="error_no_browser_found">Ingen nettleser funnet på enheten</string>
     <string name="error_no_speech_to_text_app_found">Ingen tale gjenkjennelse app funnet</string>
+    <string name="error_sse_failed">Hendelsesabonnementet mislyktes, widget-oppdateringer kan kan utebli</string>
+    <string name="error_video_player">Kunne ikke laste %s</string>
     <string name="install">Installer</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
     <string name="title_activity_libraries">Brukte biblioteker</string>
@@ -178,10 +207,12 @@
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_write_tag_disabled">NFC er slått av</string>
     <string name="action_settings">Innstillinger</string>
+    <string name="nfc_info_hint">Item-oppdateringer kan skrives til NFC-brikker. Du kan velge et Item her eller du kan trykke-og-holde en widget i Sitemap.</string>
     <string name="info_not_set">Ikke angitt</string>
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Sende enhetsinformasjon til server</string>
+    <string name="send_device_info_to_server_short">Send enhetsinformasjon</string>
     <string name="send_device_info_category_event_based_title">Hendelsesbasert</string>
     <string name="send_device_info_category_event_based_explanation">Disse Item\'ene blir oppdatert med tilhørende hendelser, f.eks en innkommende telefonsamtale</string>
     <string name="send_device_info_category_schedule_based_title">Tidsplanbasert</string>
@@ -237,20 +268,55 @@
     <string name="settings_item_pref_item_name">Elementnavn</string>
     <string name="waiting_for_item_upload">Venter på at nettverket skal sende element-oppdateringer</string>
     <string name="item_upload_in_progress">Elementet er under oppdatering</string>
+    <string name="notification_channel_background">Bakgrunnsoppgaver</string>
+    <string name="notification_channel_background_description">Brukes til å varsle om ventende bakgrunnsoppgaver, f.eks venter på nettverket for å sende batterinivå</string>
     <string name="notification_channel_background_error">Feil i bakgrunnsoppgaver</string>
+    <string name="notification_channel_background_error_description">Brukes til å varsle om feil i bakgrunnsoppgaver, f.eks fikk ingen nettverk for å sende batterinivå</string>
+    <string name="notification_channel_background_foreground_service_description">Overvåk hendelser for å oppdatere Item\'er. Du kan trygt skjule denne kategorien.</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
+    <string name="notification_channel_messages_default_severity_description">Varsler sendt av serveren uten en definert alvorlighetsgrad</string>
+    <string name="notification_channel_group_messages">Meldinger</string>
+    <string name="notification_channel_severity_value">Alvorlighetsgrad \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Varsler sendt av serveren med alvorlighetsgrad \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nytt varsel</item>
+        <item quantity="other">%d nye varsler</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Varsler er utilgjengelige: Ekstern server er ikke konfigurert</string>
+    <string name="push_notification_status_http_error">Varsler er utilgjengelige: Feil ved tilkobling til ekstern server: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Varsler er utilgjengelige: Ekstern server er ikke en openHAB-sky forekomst</string>
+    <string name="push_notification_status">Status</string>
+    <string name="push_notification_hint">Varslene forespørres etter en fast tidsplan, som er den samme som den for \"Send enhetsinformasjon til server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d elementer kan ikke oppdateres</item>
         <item quantity="other">%d elementer kan ikke oppdateres</item>
     </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Oppdatering av Item \'%1$s\' mislyktes: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s oppdatering mislyktes: %2$s</string>
     <string name="item_update_connection_error">\'%1$s\' elementoppdatering mislyktes (ingen oppkobling)</string>
     <string name="item_update_connection_error_label">\'%1$s\' oppdatering mislyktes (ingen oppkobling)</string>
+    <string name="item_update_short_status_waiting">Venter…</string>
+    <string name="item_update_short_status_sending">Sender…</string>
+    <string name="item_update_short_status_failed">Mislykket</string>
+    <string name="error_no_valid_item_name">Skriv inn et gyldig Item-navn</string>
     <string name="retry">Prøv på nytt</string>
+    <string name="ignore">Ignorer</string>
+    <string name="send_device_info_schedule">Tidsplan</string>
+    <string name="send_device_info_schedule_summary">Hvert 15. minutt under lading, hver %s. ellers</string>
+    <string name="send_device_info_schedule_15_minutes">15 minutter</string>
+    <string name="send_device_info_schedule_1_hour">1 time</string>
+    <string name="send_device_info_schedule_3_hours">3 timer</string>
+    <string name="send_device_info_schedule_6_hours">6 timer</string>
+    <string name="send_device_info_schedule_12_hours">12 timer</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Enhetsidentifikator</string>
     <!-- Please translate "Device identifier" in this string -->
     <string name="device_identifier_prefix_voice">Prefiks talekommandoer med \'&lt;Enhetsidentifikator&gt;|\'</string>
+    <string name="device_identifier_bg_tasks">Prefiks Item navnene i \"Send enhetsinformasjon til server\" med denne identifikatoren</string>
+    <string name="device_identifier_hint">Enhetsidentifikatoren kan være hvilken streng som helst, og bør være unik blant alle enhetene som kobler til openHAB-serveren. I tillegg til de to brukstilfellene over kan du også bruke den som tilstand på NFC-tagger, slik at du vet hvilken enhet som leser taggen.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Enhetsidentifikator for skanneenhet (\"%s\" for denne enheten)</string>
     <string name="device_identifier_summary_not_set">Data som sendes til serveren og talekommandoer blir ikke prefikset med en enhetsidentifikator</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
@@ -273,6 +339,7 @@
     <string name="theme_name_dark">Mørkt</string>
     <string name="theme_name_system">Følg system</string>
     <string name="theme_name_battery_saver">Mørk modus ved batterisparing</string>
+    <string name="theme_name_black">Svart</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Skjul forklaring</string>
@@ -297,11 +364,13 @@
     <string name="nfc_action_off">Av</string>
     <string name="nfc_action_down">Ned</string>
     <string name="nfc_action_toggle">Veksle</string>
+    <string name="nfc_action_toggled">Vekslet</string>
     <string name="nfc_action_undefined">Udefinert</string>
     <string name="nfc_action_empty_string">Tom streng</string>
     <string name="nfc_action_increase">Øk</string>
     <string name="nfc_action_decrease">Reduser</string>
     <string name="nfc_action_play">Spill</string>
+    <string name="nfc_action_pause">Pause</string>
     <string name="nfc_action_next">Neste</string>
     <string name="nfc_action_previous">Forrige</string>
     <string name="nfc_action_rewind">Tilbakespoling</string>
@@ -315,6 +384,8 @@
     <string name="nfc_action_to_sitemap_page">Skriv Sitemap NFC-merke</string>
     <string name="nfc_action_write_command_tag">Skriv kommando NFC-merke</string>
     <!-- Drawer -->
+    <string name="drawer_open">Åpne sidemeny</string>
+    <string name="drawer_close">Lukk sidemeny</string>
     <string name="mainmenu_openhab_voice_recognition">Stemmegjenkjenning</string>
     <!-- About -->
     <string name="about_title">Om</string>
@@ -406,6 +477,7 @@
     <string name="item_update_widget_content_description_edit">Rediger widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Velg et element</string>
     <string name="widget_show_state">Tilføy gjeldende tilstand til navnet</string>
     <string name="widget_show_state_summary">Tilstanden blir oppdatert i henhold til tidsplanen, som kan konfigureres under \"Send enhetsinformasjon til server\"</string>
@@ -472,6 +544,11 @@
     <string name="tile_enable">Slå på</string>
     <string name="tile_item_and_action">Item og handling</string>
     <string name="tile_name">Navn</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktiv flis</item>
+        <item quantity="other">%d aktive fliser</item>
+    </plurals>
+    <string name="tile_number">Flis %d</string>
     <!-- Tile icon names -->
     <string name="tile_icon_settings">Tannhjul</string>
     <string name="tile_icon_bath">Bad</string>
