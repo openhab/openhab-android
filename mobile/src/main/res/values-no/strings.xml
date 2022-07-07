@@ -162,14 +162,17 @@
     <string name="error_http_to_https_port">Uventet slutt på strømmen. Prøver du å koble til en HTTPS-port med HTTP?</string>
     <string name="webview_ssl">For tiden støtter dette programmet ikke selvsignert SSL-sertifikater for Webview widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autentifikasjon mislyktes. Kontroller konfigurert brukernavn og passord i henhold til det angitte SSL klientsertifikatet (HTTP kode %d).</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL\'en er for lang. Bruk IP-adresse eller en kortere URL (HTTP kode %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS er påkrevd. Vennligst endre URL\'en (HTTP kode %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Autentifikasjon mislyktes. Kontroller det angitte SSL-klientsertifikatet (HTTP kode %d).</string>
     <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL klientsertifikat er påkrevd (HTTP kode %d)</string>
     <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Din omvendte proxy fikk et ugyldig svar fra openHAB-serveren (HTTP kode %d)</string>
     <string name="error_http_code_503" tools:keep="@string/error_http_code_503">OpenHAB-serveren er midlertidig utilgjengelig (HTTP kode %d)</string>
     <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy kjører, men den får ikke svar fra openHAB-serveren (HTTP kode %d).</string>
     <string name="error_http_code_507" tools:keep="@string/error_http_code_507">OpenHAB-serveren har ikke nok ledig plass (HTTP kode %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Nettverksautentifikasjon er påkrevd (HTTP kode %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB er frakoblet</string>
     <string name="error_short_http_connection_failed">HTTP-kode %d</string>
@@ -184,14 +187,17 @@
     <string name="error_short_http_to_https_port">Kobler til HTTPS-port via HTTP?</string>
     <string name="error_short_certificate_wrong_host">Sertifikatet ikke gyldig for %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Autentifikasjon mislyktes (HTTP kode %d)</string>
     <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Ikke funnet (HTTP kode %d)</string>
     <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL for lang (HTTP kode %d)</string>
     <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS kreves (HTTP kode %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Autentifikasjon mislyktes (HTTP kode %d)</string>
     <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-klientsertifikat kreves (HTTP kode %d)</string>
     <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Omvendt proxy fikk ugyldig svar fra openHAB (HTTP kode %d)</string>
     <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">OpenHAB er midlertidig utilgjengelig (HTTP kode %d)</string>
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway tidsavbrudd (HTTP kode %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Ikke nok ledig plass på serveren (HTTP kode %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Nettverksautentifikasjon kreves (HTTP kode %d)</string>
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="error_no_browser_found">Ingen nettleser funnet på enheten</string>
     <string name="error_no_speech_to_text_app_found">Ingen tale gjenkjennelse app funnet</string>
