@@ -169,9 +169,9 @@
     <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Autentifikasjon mislyktes. Kontroller det angitte SSL-klientsertifikatet (HTTP kode %d).</string>
     <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL klientsertifikat er påkrevd (HTTP kode %d)</string>
     <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Din omvendte proxy fikk et ugyldig svar fra openHAB-serveren (HTTP kode %d)</string>
-    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">OpenHAB-serveren er midlertidig utilgjengelig (HTTP kode %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB-serveren er midlertidig utilgjengelig (HTTP kode %d)</string>
     <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy kjører, men den får ikke svar fra openHAB-serveren (HTTP kode %d).</string>
-    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">OpenHAB-serveren har ikke nok ledig plass (HTTP kode %d)</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB-serveren har ikke nok ledig plass (HTTP kode %d)</string>
     <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Nettverksautentifikasjon er påkrevd (HTTP kode %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_openhab_offline">openHAB er frakoblet</string>
@@ -194,7 +194,7 @@
     <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Autentifikasjon mislyktes (HTTP kode %d)</string>
     <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-klientsertifikat kreves (HTTP kode %d)</string>
     <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Omvendt proxy fikk ugyldig svar fra openHAB (HTTP kode %d)</string>
-    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">OpenHAB er midlertidig utilgjengelig (HTTP kode %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB er midlertidig utilgjengelig (HTTP kode %d)</string>
     <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway tidsavbrudd (HTTP kode %d).</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Ikke nok ledig plass på serveren (HTTP kode %d)</string>
     <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Nettverksautentifikasjon kreves (HTTP kode %d)</string>
@@ -402,7 +402,7 @@
     <string name="about_docs">Dokumentasjon</string>
     <string name="about_community_forum">Brukerforum</string>
     <string name="about_foundation">openHAB Foundation</string>
-    <string name="about_community">openHABs fellesskap</string>
+    <string name="about_community">openHAB samfunn</string>
     <string name="about_translation">Hjelp oss å oversette openHAB</string>
     <string name="about_privacy_policy">Personvernregler</string>
     <string name="about_rate_this_app">Vurder dette programmet</string>
