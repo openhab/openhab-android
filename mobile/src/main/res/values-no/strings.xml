@@ -694,6 +694,7 @@
     <string name="item_tag_equipment_lightstripe">Lysstripe</string>
     <string name="item_tag_equipment_lock">Lås</string>
     <string name="item_tag_equipment_motiondetector">Bevegelsessensor</string>
+    <string name="item_tag_equipment_networkappliance">Nettverksenhet</string>
     <string name="item_tag_equipment_oven">Ovn</string>
     <string name="item_tag_equipment_poweroutlet">Stikkontakt</string>
     <string name="item_tag_equipment_projector">Projektor</string>
