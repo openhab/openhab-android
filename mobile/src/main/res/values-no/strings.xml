@@ -4,11 +4,24 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Innstillinger</string>
+    <string name="save">Lagre</string>
+    <string name="discard">Forkast</string>
+    <string name="delete">Slett</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Varslinger</string>
+    <string name="app_notifications_on_server">Varsler (%s)</string>
     <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
+    <string name="oh3_ui_error">Det oppstod en feil under lasting av openHAB 3 UI</string>
+    <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail må kjøre på dets standardport 9001. Det følger med openHABian eller kan installeres manuelt.</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->
@@ -24,17 +37,27 @@
     <string name="settings_openhab_password">Passord</string>
     <string name="settings_openhab_password_summary_weak">Svakt passord valgt</string>
     <string name="settings_openhab_password_summary_strong">Sterkt passord valgt</string>
+    <string name="settings_openhab_api_token_hint">Hvis du bruker en API-token, skriv den inn i feltet for brukernavn og la passordfeltet stå tomt</string>
     <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL klientsertifikater er ikke støttet av din enhet</string>
+    <string name="settings_openhab_screentimeroff">Deaktiver skjermtidsavbrudd</string>
+    <string name="settings_openhab_screentimeroff_summary">Skjermen slår seg ikke av mens openHAB kjører</string>
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Hvis du ikke har en openHAB server, aktiver demomodus for å få en oversikt over hva openHAB er i stand til.</string>
+    <string name="start_page_title">Startside</string>
+    <string name="drawer_entries">Sidemenyoppføringer</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_accent_color">Aksentfarge</string>
     <string name="settings_select_a_color">Velg en farge</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
+    <string name="settings_set_as_launcher">Tillat at programmet brukes som startskjerm</string>
     <string name="settings_openhab_icon_format">Ikonformatering</string>
+    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_image_widget_scaling">Skaler bilder slik at de passer skjermen</string>
+    <string name="settings_image_widget_scaling_summary_off">La \'Bilde\' widgets som er mindre enn skjermbredden beholde sin opprinnelige størrelse</string>
+    <string name="settings_image_widget_scaling_summary_on">Sørg for at \'Bilde\'-widgeter passer til skjermbredden ved å skalere dem etter behov</string>
     <string name="settings_chart_scaling">Kurveskalering</string>
     <string name="settings_chart_scaling_summary">NB: Mindre skalering, forminsker tekst og linjebredde så det blir bedre plass for kurver, men lesbarhet kan forverres.</string>
     <string name="settings_chart_scaling_value_xs">Veldig liten</string>
@@ -48,13 +71,19 @@
     <string name="settings_current_default_sitemap">Nåværende standard lokasjonskart: %1$s</string>
     <string name="settings_openhab_alt_connection">Ekstern</string>
     <string name="settings_openhab_connection">Lokal</string>
+    <string name="settings_ringtone">Ringetone</string>
     <string name="settings_ringtone_none">Ingen</string>
     <string name="settings_ringtone_on_external">Ukjent ringetone fra ekstern lagring</string>
+    <string name="settings_notification_vibration">Vibrering</string>
     <string name="settings_notification_vibration_off">Av</string>
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Dobbel</string>
+    <string name="settings_notification_ringtone_vibration">Ringetone &amp; Vibrering</string>
     <string name="settings_connection_summary">Koblet til %s</string>
+    <string name="settings_insecure_connection_summary">Usikkert tilkoblet %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL starter ikke med \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Brukernavn og passord er ikke oppgitt</string>
     <string name="settings_screen_lock">Skjermlås</string>
     <string name="settings_screen_lock_nolock_summary">Du må sette på skjermlås på enheten din for å sette app tilgang</string>
     <string name="settings_screen_lock_off_summary">Tilgang til appen er ikke låst</string>
@@ -66,12 +95,36 @@
     <string name="settings_screen_lock_kiosk">Kiosk-modus</string>
     <string name="settings_screen_lock_on">På</string>
     <string name="settings_show_sitemaps_in_drawer">Vis alle Nettstedskart i sidemenyen</string>
+    <string name="settings_server_name">Servernavn</string>
+    <string name="settings_add_server">Legg til server</string>
+    <string name="settings_edit_server">Rediger server</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Minst et servernavn og en tilkobling kreves</string>
+    <string name="settings_server_confirm_deletion">Vil du virkelig slette denne serveren?</string>
+    <string name="settings_server_confirm_leave_title">Ulagrede endringer</string>
+    <string name="settings_server_confirm_leave_message">Du har gjort endringer. Vil du lagre eller forkaste dem?</string>
+    <string name="settings_server_primary_title">Primærserver</string>
+    <string name="settings_server_primary_summary_is_primary">Dette er den primære serveren.\nForeløpig er kun den primære serveren støttet av alle funksjoner i denne applikasjonen. Trykk på hjelp-knappen for mer informasjon.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" er primærserveren. Trykk for å gjøre denne serveren den primære.\nForeløpig er det kun primærserveren som støtter alle funksjoner i denne applikasjonen. Trykk på hjelp-knappen for mer informasjon.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Avansert</string>
+    <string name="click_here_for_more_information">Trykk her for mer informasjon</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Programmet vil velge denne serveren når enheten er koblet til ett av disse Wi-Fi-navnene. Flere Wi-Fi-navn kan angis ved å skille dem med linjeskift.</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Byttet til server \"%s\" basert på Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Kan ikke lese Wi-Fi-navn: Manglende tillatelse</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Kan ikke lese Wi-Fi-navn: Stedsplassering er deaktivert</string>
+    <string name="setting_crash_reporting_title">Krasjrapportering</string>
+    <string name="setting_crash_reporting_summary">Send krasjrapporter for å støtte utviklingen av programmet</string>
+    <string name="device_control_subtitle_location">Sted</string>
+    <string name="device_control_subtitle_equipment">Utstyr</string>
+    <string name="device_control_subtitle_location_equipment">Sted og utstyr</string>
     <string name="device_control_subtitle_item_name">Elementnavn</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Talekommandoer</string>
-    <string name="title_voice_widget_icon">Talekommandoer og app snarvei</string>
+    <string name="voice_command">Talekommando</string>
+    <string name="title_voice_widget_icon">Talekommandoer og snarvei til programmet</string>
     <string name="info_voice_input">openHAB, under din kommando!</string>
-    <string name="info_voice_recognized_text">Gjenkjent kommando: %1$s</string>
+    <string name="info_voice_recognized_text">Gjenkjente kommando: %1$s</string>
     <string name="info_demo_mode_short">Kjører i demomodus</string>
     <!-- Please try to keep the string as short as possible -->
     <string name="turn_off">Slå av</string>
@@ -80,16 +133,25 @@
     <string name="app_shortcut_disabled_habpanel">Serveren har ikke HABPanel installert</string>
     <string name="app_shortcut_disabled_notifications">Den eksterne serveren ikke er tilgjengelig</string>
     <string name="app_shortcut_disabled_voice_recognition">Enheten har ikke en stemme gjenkjennelse app installert</string>
+    <string name="no_position_set">Ingen posisjon satt</string>
+    <string name="show_and_copy_item_name">Vis og kopier Item\'ets navn</string>
+    <string name="copied_item_name">Kopierte \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerte tom lokasjonskart-liste</string>
     <string name="error_sitemap_generic_load_error">Områdekartet kan ikke lastes. Følgende feil oppstod: %1$s</string>
     <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
     <string name="error_wifi_not_available">Wi-Fi er slått av</string>
+    <string name="error_wifi_restricted">Lokale tilkoblinger til serveren %1$s er begrenset til følgende Wi-Fi navn: %2$s</string>
+    <string name="error_http_connection_failed">Tilkobling mislyktes. Mottok et uventet svar under forsøk på å koble til den konfigurerte openHAB-serveren (HTTP responskode: %d).</string>
     <string name="error_invalid_url">Angi en gyldig URL-adresse i en \' http(s)://host(:port) / \" form</string>
     <string name="error_invalid_https_url">Angi en gyldig URL-adresse i en \' https://host(:port) / \" form</string>
     <string name="error_port_seems_invalid">Porten du anga virker ugyldig for valgt protokoll</string>
+    <string name="error_home_myopenhab_org_no_notifications">Varsler er ikke tilgjengelige på home.myopenhab.org, men på myopenhab.org</string>
+    <string name="error_first_char_is_whitespace">Det første tegnet er whitespace, hvilket sannsynligvis er utilsiktet</string>
+    <string name="error_last_char_is_whitespace">Det siste tegnet er whitespace, hvilket sannsynligvis er utilsiktet</string>
     <string name="error_connection_failed">Tilkobling til verten mislyktes</string>
     <string name="error_unable_to_resolve_hostname">Kan ikke løse vertnavn</string>
+    <string name="error_unknown">Det oppstod en ukjent feil: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL-håndtrykk mislyktes</string>
     <string name="error_certificate_not_trusted">SSL-sertifikatet er ikke klarert. Importer rotsertifikatet, eller godta sertifikatet under SSL-håndtrykk.</string>
     <string name="error_certificate_expired">SSL-sertifikatet er utløpt. Hent et nytt sertifikat, eller godta sertifikatet under SSL-håndtrykk.</string>
@@ -100,12 +162,47 @@
     <string name="error_http_to_https_port">Uventet slutt på strømmen. Prøver du å koble til en HTTPS-port med HTTP?</string>
     <string name="webview_ssl">For tiden støtter dette programmet ikke selvsignert SSL-sertifikater for Webview widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autentifikasjon mislyktes. Kontroller konfigurert brukernavn og passord i henhold til det angitte SSL klientsertifikatet (HTTP kode %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL\'en er for lang. Bruk IP-adresse eller en kortere URL (HTTP kode %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS er påkrevd. Vennligst endre URL\'en (HTTP kode %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">Autentifikasjon mislyktes. Kontroller det angitte SSL-klientsertifikatet (HTTP kode %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">SSL klientsertifikat er påkrevd (HTTP kode %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">Din omvendte proxy fikk et ugyldig svar fra openHAB-serveren (HTTP kode %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">openHAB-serveren er midlertidig utilgjengelig (HTTP kode %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy kjører, men den får ikke svar fra openHAB-serveren (HTTP kode %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB-serveren har ikke nok ledig plass (HTTP kode %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Nettverksautentifikasjon er påkrevd (HTTP kode %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB er frakoblet</string>
+    <string name="error_short_http_connection_failed">HTTP-kode %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Kunne ikke løse vertsnavn</string>
+    <string name="error_short_unknown">Ukjent feil: %s</string>
+    <string name="error_short_certificate_not_trusted">Sertifikat ikke klarert</string>
+    <string name="error_short_certificate_expired">Sertifikat ikke utløpt</string>
+    <string name="error_short_certificate_not_valid_yet">Sertifikat er ikke gyldig ennå</string>
+    <string name="error_short_certificate_revoked">Sertifikat tilbakekalt</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL mislyktes</string>
+    <string name="error_short_connection_failed">Tilkoblingen mislyktes</string>
+    <string name="error_short_http_to_https_port">Kobler til HTTPS-port via HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Sertifikatet ikke gyldig for %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">Autentifikasjon mislyktes (HTTP kode %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Ikke funnet (HTTP kode %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL for lang (HTTP kode %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">HTTPS kreves (HTTP kode %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Autentifikasjon mislyktes (HTTP kode %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">SSL-klientsertifikat kreves (HTTP kode %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Omvendt proxy fikk ugyldig svar fra openHAB (HTTP kode %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB er midlertidig utilgjengelig (HTTP kode %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway tidsavbrudd (HTTP kode %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Ikke nok ledig plass på serveren (HTTP kode %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Nettverksautentifikasjon kreves (HTTP kode %d)</string>
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="error_no_browser_found">Ingen nettleser funnet på enheten</string>
     <string name="error_no_speech_to_text_app_found">Ingen tale gjenkjennelse app funnet</string>
+    <string name="error_sse_failed">Hendelsesabonnementet mislyktes, widget-oppdateringer kan kan utebli</string>
+    <string name="error_video_player">Kunne ikke laste %s</string>
     <string name="install">Installer</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
     <string name="title_activity_libraries">Brukte biblioteker</string>
@@ -116,28 +213,117 @@
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_write_tag_disabled">NFC er slått av</string>
     <string name="action_settings">Innstillinger</string>
+    <string name="nfc_info_hint">Item-oppdateringer kan skrives til NFC-brikker. Du kan velge et Item her eller du kan trykke-og-holde en widget i Sitemap.</string>
     <string name="info_not_set">Ikke angitt</string>
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Sende enhetsinformasjon til server</string>
+    <string name="send_device_info_to_server_short">Send enhetsinformasjon</string>
+    <string name="send_device_info_category_event_based_title">Hendelsesbasert</string>
+    <string name="send_device_info_category_event_based_explanation">Disse Item\'ene blir oppdatert med tilhørende hendelser, f.eks en innkommende telefonsamtale</string>
+    <string name="send_device_info_category_schedule_based_title">Tidsplanbasert</string>
+    <string name="send_device_info_category_schedule_based_explanation">Desto kortere det valgte intervallet er, jo større er den potensielle innvirkningen på enhetens batterilevetid. I tillegg følger kanskje ikke enheten det valgte intervallet nøyaktig, men forsinker oppdateringer for å redusere strømforbruket på tvers av programmer.</string>
+    <string name="send_device_info_item_prefix_summary">Item-navnene på denne siden er prefikset med enhetsidentifikatoren \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Ingen prefiks er satt for Item-navn på denne siden. Du kan prefikse dem med enhetsidentifikatoren, som kan settes på hovedinnstillingssiden.</string>
+    <string name="send_device_info_foreground_service_title">Hendelsesovervåker</string>
+    <string name="send_device_info_foreground_service_summary">Overvåker hendelser assosiert med følgende Item\'er. Dette krever vedvarende varsling og kan øke batteriforbruket.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Overvåk hendelser assosiert med følgende Item\'er. Dette krever vedvarende varsling og kan øke batteriforbruket. Dette er bare nødvendig for å sende ikke forstyrr-modusen.</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Overvåk hendelser forbundet med %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Overvåk hendelser forbundet med %1$s og %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Overvåk hendelser forbundet med %1$s, %2$s med mer</string>
     <string name="settings_item_update_pref_howto_summary">Tapp her for å få tips om hvordan du setter opp denne funksjonen på serversiden</string>
+    <string name="item_update_summary_success">Siste oppdatering var \'%1$s\' (%2$s)</string>
+    <string name="settings_alarm_clock">Alarmtid</string>
+    <string name="settings_alarm_clock_summary_on">Sender alarmtid til Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Ikke send alarmtid</string>
+    <string name="copy_debug_info">Kopier</string>
+    <string name="settings_alarm_clock_debug_ignored">Ignorerte alarmtidsoppdatering til %1$s, som ble sendt av %2$s</string>
+    <string name="settings_alarm_clock_debug">Mottok alarmtidsoppdatering til %1$s, som ble sendt av %2$s</string>
+    <string name="settings_phone_state">Samtaletilstand</string>
+    <string name="settings_phone_state_summary_on">Sender samtaletilstand til Item \'%1$s\'</string>
+    <string name="settings_phone_state_summary_off">Ikke send samtalestatus</string>
     <string name="settings_phone_state_permission_denied">Sending av ringestatus er avslått grunnet manglende rettigheter</string>
+    <string name="settings_battery_level">Batterinivå</string>
+    <string name="settings_battery_level_summary_on">Sender batterinivå til Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">Ikke send batterinivå</string>
+    <string name="settings_charging_state">Ladetilstand</string>
+    <string name="settings_charging_state_summary_on">Sender ladetilstand til Item \'%1$s\'</string>
+    <string name="settings_charging_state_summary_off">Ikke send ladetilstand</string>
+    <string name="settings_wifi_ssid">Wi-Fi navn</string>
+    <string name="settings_wifi_ssid_summary_on">Sender Wi-Fi navn (SSID) til Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Sender Wi-Fi navn (SSID) til Item \'%1$s. \"Sted\" må være aktivert, ellers får ikke openHAB tilgang til Wi-Fi navnet.</string>
+    <string name="settings_wifi_ssid_summary_off">Ikke send Wi-Fi navn (SSID)</string>
+    <string name="settings_wifi_ssid_permission_denied">Sending av Wi-Fi navn er deaktivert på grunn av manglende tillatelser</string>
+    <string name="settings_wifi_ssid_restrict">Begrens lokal tilkobling til disse Wi-Fi navnene</string>
+    <string name="settings_bluetooth_devices">Tilkoblede Bluetooth-enheter</string>
+    <string name="settings_bluetooth_devices_summary_on">Sender en pipedelt (|) liste over MAC adresser av tilkoblede Bluetooth-enheter til Item \'%1$s\'</string>
+    <string name="settings_bluetooth_devices_summary_off">Ikke send tilkoblede Bluetooth-enheter</string>
+    <string name="settings_bluetooth_devices_permission_denied">Sending av Bluetooth-enheter er deaktivert på grunn av manglende tillatelser</string>
+    <string name="settings_dnd_mode">Ikke forstyrr-modus</string>
+    <string name="settings_dnd_mode_summary_on">Sender ikke forstyrr-modus til Item \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Ikke send ikke forstyrr-modus</string>
+    <string name="settings_gadgetbridge">Gadgetbridge enhetshandlinger</string>
+    <string name="settings_gadgetbridge_summary_on">Sender Gadgetbridge enhetshandlinger til Item \'%1$s\'. Krever at hendelsesovervåking er aktivert.</string>
+    <string name="settings_gadgetbridge_summary_off">Ikke send Gadgetbridge enhetshandlinger</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Denne funksjonen krever ekstra tillatelser for å fungere. Etter aktivering vil du bli bedt om godkjenning av tillatelse.</string>
+    <string name="settings_background_tasks_permission_hint">Denne funksjonen krever ekstra tillatelser for å fungere. Etter aktivering vil du bli bedt om godkjenning. Vennligst også godkjenn tillatelse for bakgrunnsbruk, siden Item oppdateringer også skjer mens programmet er i bakgrunnen.</string>
+    <string name="settings_background_tasks_permission_denied">Noen bakgrunnsoppgaver er deaktivert på grunn av manglende tillatelser</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Noen bakgrunnsoppgaver krever at stedstilgang er satt til \"%s\" i Android-innstillingene</string>
+    <string name="settings_background_tasks_permission_allow">Tillat</string>
+    <string name="settings_location_permissions_required">Programmet samler stedsdata for å aktivere «Send Wi-Fi-navn til server» og «Velg server basert på Wi-Fi» selv når programmet er lukket eller ikke i bruk. Legg merke til at disse dataene bare sendes til serverene du har konfigurert.</string>
     <string name="settings_item_pref_item_name">Elementnavn</string>
     <string name="waiting_for_item_upload">Venter på at nettverket skal sende element-oppdateringer</string>
     <string name="item_upload_in_progress">Elementet er under oppdatering</string>
+    <string name="notification_channel_background">Bakgrunnsoppgaver</string>
+    <string name="notification_channel_background_description">Brukes til å varsle om ventende bakgrunnsoppgaver, f.eks venter på nettverket for å sende batterinivå</string>
     <string name="notification_channel_background_error">Feil i bakgrunnsoppgaver</string>
+    <string name="notification_channel_background_error_description">Brukes til å varsle om feil i bakgrunnsoppgaver, f.eks fikk ingen nettverk for å sende batterinivå</string>
+    <string name="notification_channel_background_foreground_service_description">Overvåk hendelser for å oppdatere Item\'er. Du kan trygt skjule denne kategorien.</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
+    <string name="notification_channel_messages_default_severity_description">Varsler sendt av serveren uten en definert alvorlighetsgrad</string>
+    <string name="notification_channel_group_messages">Meldinger</string>
+    <string name="notification_channel_severity_value">Alvorlighetsgrad \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Varsler sendt av serveren med alvorlighetsgrad \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nytt varsel</item>
+        <item quantity="other">%d nye varsler</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Varsler er utilgjengelige: Ekstern server er ikke konfigurert</string>
+    <string name="push_notification_status_http_error">Varsler er utilgjengelige: Feil ved tilkobling til ekstern server: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Varsler er utilgjengelige: Ekstern server er ikke en openHAB-sky forekomst</string>
+    <string name="push_notification_status">Status</string>
+    <string name="push_notification_hint">Varslene forespørres etter en fast tidsplan, som er den samme som den for \"Send enhetsinformasjon til server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d elementer kan ikke oppdateres</item>
         <item quantity="other">%d elementer kan ikke oppdateres</item>
     </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">Oppdatering av Item \'%1$s\' mislyktes: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s oppdatering mislyktes: %2$s</string>
     <string name="item_update_connection_error">\'%1$s\' elementoppdatering mislyktes (ingen oppkobling)</string>
     <string name="item_update_connection_error_label">\'%1$s\' oppdatering mislyktes (ingen oppkobling)</string>
+    <string name="item_update_short_status_waiting">Venter…</string>
+    <string name="item_update_short_status_sending">Sender…</string>
+    <string name="item_update_short_status_failed">Mislykket</string>
+    <string name="error_no_valid_item_name">Skriv inn et gyldig Item-navn</string>
     <string name="retry">Prøv på nytt</string>
+    <string name="ignore">Ignorer</string>
+    <string name="send_device_info_schedule">Tidsplan</string>
+    <string name="send_device_info_schedule_summary">Hvert 15. minutt under lading, hver %s. ellers</string>
+    <string name="send_device_info_schedule_15_minutes">15 minutter</string>
+    <string name="send_device_info_schedule_1_hour">1 time</string>
+    <string name="send_device_info_schedule_3_hours">3 timer</string>
+    <string name="send_device_info_schedule_6_hours">6 timer</string>
+    <string name="send_device_info_schedule_12_hours">12 timer</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Enhetsidentifikator</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Prefiks talekommandoer med \'&lt;Enhetsidentifikator&gt;|\'</string>
+    <string name="device_identifier_bg_tasks">Prefiks Item navnene i \"Send enhetsinformasjon til server\" med denne identifikatoren</string>
+    <string name="device_identifier_hint">Enhetsidentifikatoren kan være hvilken streng som helst, og bør være unik blant alle enhetene som kobler til openHAB-serveren. I tillegg til de to brukstilfellene over kan du også bruke den som tilstand på NFC-tagger, slik at du vet hvilken enhet som leser taggen.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Enhetsidentifikator for skanneenhet (\"%s\" for denne enheten)</string>
+    <string name="device_identifier_summary_not_set">Data som sendes til serveren og talekommandoer blir ikke prefikset med en enhetsidentifikator</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
     <string name="notification_list_error">Det oppstod en feil under lasting av meldinger</string>
@@ -159,6 +345,7 @@
     <string name="theme_name_dark">Mørkt</string>
     <string name="theme_name_system">Følg system</string>
     <string name="theme_name_battery_saver">Mørk modus ved batterisparing</string>
+    <string name="theme_name_black">Svart</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Skjul forklaring</string>
@@ -183,11 +370,13 @@
     <string name="nfc_action_off">Av</string>
     <string name="nfc_action_down">Ned</string>
     <string name="nfc_action_toggle">Veksle</string>
+    <string name="nfc_action_toggled">Vekslet</string>
     <string name="nfc_action_undefined">Udefinert</string>
     <string name="nfc_action_empty_string">Tom streng</string>
     <string name="nfc_action_increase">Øk</string>
     <string name="nfc_action_decrease">Reduser</string>
     <string name="nfc_action_play">Spill</string>
+    <string name="nfc_action_pause">Pause</string>
     <string name="nfc_action_next">Neste</string>
     <string name="nfc_action_previous">Forrige</string>
     <string name="nfc_action_rewind">Tilbakespoling</string>
@@ -201,6 +390,8 @@
     <string name="nfc_action_to_sitemap_page">Skriv Sitemap NFC-merke</string>
     <string name="nfc_action_write_command_tag">Skriv kommando NFC-merke</string>
     <!-- Drawer -->
+    <string name="drawer_open">Åpne sidemeny</string>
+    <string name="drawer_close">Lukk sidemeny</string>
     <string name="mainmenu_openhab_voice_recognition">Stemmegjenkjenning</string>
     <!-- About -->
     <string name="about_title">Om</string>
@@ -210,20 +401,27 @@
     <string name="about_issues">Rapporter et problem</string>
     <string name="about_docs">Dokumentasjon</string>
     <string name="about_community_forum">Brukerforum</string>
-    <string name="about_community">openHABs fellesskap</string>
+    <string name="about_foundation">openHAB Foundation</string>
+    <string name="about_community">openHAB samfunn</string>
     <string name="about_translation">Hjelp oss å oversette openHAB</string>
     <string name="about_privacy_policy">Personvernregler</string>
+    <string name="about_rate_this_app">Vurder dette programmet</string>
+    <string name="settings_debug_messages_title">Vis feilsøkingsinformasjon</string>
+    <string name="settings_troubleshooting_title">Feilsøking</string>
     <string name="set">Sett</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>
+    <string name="undo">Angre</string>
     <string name="try_again_button">Prøv igjen</string>
     <string name="enable_wifi_button">Slå på Wi-Fi</string>
+    <string name="switch_wifi_button">Koble til annet Wi-Fi</string>
     <string name="go_to_settings_button">Gå til innstillinger</string>
     <string name="enable_demo_mode_button">Kjør i demomodus</string>
     <string name="configuration_missing">Vi fant ikke en openHAB-server i nettverket. Hvis du allerede har en server, må du konfigurere IP-adressen eller vert-navnet i serverinnstillingene. Hvis du ennå ikke har en server, kan du aktivere demo-modus se hva openHAB er i stand til.</string>
     <string name="no_remote_server">Tilkobling til lokal server var mislykket og du har ikke konfigurert ekstern server</string>
     <string name="resolving_openhab">Forsøker å finne openHAB-server instans\u2026</string>
     <string name="waiting_for_wifi">Venter på Wi-Fi tilkobling \u2026</string>
+    <string name="visit_status_openhab_org">Besøk status.openhab.org</string>
     <!-- Log -->
     <string name="log">Logg</string>
     <string name="view_log">Se logg</string>
@@ -233,10 +431,13 @@
     <string name="log_activity_action_reload">Last på nytt</string>
     <string name="log_activity_content_description_share">Del loggen</string>
     <string name="empty_log">Loggen er tom</string>
+    <string name="log_too_large_to_share">Loggen er for stor til å dele. Vennligst tøm loggen, reprodusere feilen og del loggen da.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Hjemme</string>
     <string name="home_shortcut_error_pinning">Feil ved knytting til hjemme</string>
     <string name="home_shortcut_success_pinning">Knytting til hjemme vellykket</string>
+    <string name="home_shortcut_server_has_been_deleted">Serveren for denne snarveien har blitt slettet</string>
+    <string name="home_shortcut_title">Sett snarveitittel</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Åpne rullegardiner</string>
     <string name="content_description_stop_roller_shutter">Stopp rullegardiner</string>
@@ -245,6 +446,7 @@
     <string name="content_description_color_up">På eller hold for å øke styrken</string>
     <string name="content_description_color_down">Av eller hold for å senke styrken</string>
     <string name="content_description_open_number_picker">Åpne nummervelger</string>
+    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Åpne openHAB</string>
     <string name="content_description_increase_item_value">Øk elementverdi</string>
     <string name="content_description_decrease_item_value">Senk elementverdi</string>
@@ -257,7 +459,11 @@
     <string name="intro_app_restored">De fleste av innstillingene dine er gjenopprettet, bortsett fra server-legitimasjonen</string>
     <string name="intro_whatis">En leverandør og teknologiuavhengig - åpen kildekode - automatiseringsprogramvare for hjemmet ditt</string>
     <string name="intro_voice_description">Styr hjemmet ditt med stemmen</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Element-kontrollen kan bindes til NFC koder ved å holde inne knappen til elementet</string>
+    <string name="intro_quick_tile_description">Kontroller hjemmet ditt fra hurtiginnstillingene for enheten din (stedet som inneholder bryterne for f.eks. Wi-Fi og Bluetooth)</string>
+    <string name="intro_send_device_info">Send enhetsinformasjon til serveren din</string>
+    <string name="intro_send_device_info_description">For eksempel slå på lyset når alarmklokken ringer</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">HOPP OVER</string>
     <!-- Intro "DONE" button -->
@@ -266,6 +472,7 @@
     <string name="item_picker_list_empty">Ingen artikler funnet</string>
     <string name="item_picker_list_error">Det oppstod en feil under lasting av objekt</string>
     <string name="item_picker_custom">Egendefinert</string>
+    <string name="item_picker_dialog_title">Velg handling</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <string name="item_picker_blurb_command">Send kommando \"%3$s\" til \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
@@ -283,8 +490,15 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Element kontroll</string>
     <string name="item_update_widget_content_description">Widget for å endre status på elementer</string>
+    <string name="item_update_widget_content_description_edit">Rediger widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Velg et element</string>
+    <string name="widget_show_state">Tilføy gjeldende tilstand til navnet</string>
+    <string name="widget_show_state_summary">Tilstanden blir oppdatert i henhold til tidsplanen, som kan konfigureres under \"Send enhetsinformasjon til server\"</string>
+    <string name="widget_no_command">Ikke send en kommando</string>
+    <string name="error_getting_state">Feil ved lasting av tilstand</string>
     <string name="item_update_success_message_generic">%1$s er satt til %2$s</string>
     <string name="item_update_success_message_on">%s er blitt slått på</string>
     <string name="item_update_success_message_off">%s er blitt slått av</string>
@@ -302,16 +516,207 @@
     <string name="item_update_success_message_previous">%s viser forrige tittel</string>
     <string name="item_update_success_message_rewind">%s spoler tilbake</string>
     <string name="item_update_success_message_fastforward">%s spoler forover</string>
+    <string name="item_update_short_success_message_generic">Satt til %s</string>
+    <string name="item_update_short_success_message_on">Slått på</string>
+    <string name="item_update_short_success_message_off">Slått av</string>
+    <string name="item_update_short_success_message_up">Starter bevegelse oppover</string>
+    <string name="item_update_short_success_message_down">Starter bevegelse nedover</string>
+    <string name="item_update_short_success_message_move">Starter bevegelse</string>
+    <string name="item_update_short_success_message_stop">Stoppet</string>
+    <string name="item_update_short_success_message_increase">Økt</string>
+    <string name="item_update_short_success_message_decrease">Redusert</string>
+    <string name="item_update_short_success_message_undefined">Satt til udefinert</string>
+    <string name="item_update_short_success_message_empty_string">Satt til tom streng</string>
+    <string name="item_update_short_success_message_play">Spiller</string>
+    <string name="item_update_short_success_message_pause">Pauset</string>
+    <string name="item_update_short_success_message_next">Viser neste tittel</string>
+    <string name="item_update_short_success_message_previous">Viser forrige tittel</string>
+    <string name="item_update_short_success_message_rewind">Spoler tilbake</string>
+    <string name="item_update_short_success_message_fastforward">Spoler fremover</string>
     <string name="item_update_error_no_connection_retry">Feil ved sending av objekt oppdatering, prøver igjen \u2026</string>
     <string name="item_update_error_no_connection">Ingen tilkobling</string>
     <string name="item_update_error_couldnt_get_item_type">Kunne ikke hente objekt-type</string>
     <string name="create_home_screen_widget_title">Lag widget</string>
+    <string name="create_home_screen_widget_not_supported">Vennligst gå til widget-menyen på startskjermen og opprett en widget derfra</string>
     <!-- Data saver -->
+    <string name="data_saver_title">Datasparing</string>
+    <string name="data_saver_on">Sitemap-elementer som kan kreve større dataoverføringer blir ikke lastet</string>
+    <string name="data_saver_off">Datasparingsinstillingen for systemet følges når du laster inn Sitemap elementer som bruker data</string>
+    <string name="data_saver_off_pre_n">Alle Sitemap elementer blir lastet, uavhengig av deres dataforbruk</string>
+    <string name="data_saver_load">Last inn uansett</string>
+    <string name="data_saver_hint">%s ble ikke lastet for å spare data</string>
+    <string name="data_saver_snackbar">Ikoner er ikke basert på Item-tilstand fordi datasparing er slått på</string>
+    <string name="widget_type_image">Bilde</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Kart</string>
     <string name="widget_type_chart">Diagram</string>
+    <string name="widget_type_color">Farge</string>
     <!-- Tiles -->
-    <string name="tile_item_picker_title">Velg et element</string>
+    <string name="tile">Flis</string>
+    <string name="tiles_for_quick_settings">Fliser for hurtiginnstillinger</string>
+    <string name="tile_item_picker_title">Velg et Item</string>
+    <string name="tile_disabled">Slått av</string>
     <string name="tile_enable">Slå på</string>
+    <string name="tile_item_and_action">Item og handling</string>
+    <string name="tile_name">Navn</string>
+    <string name="tile_icon">Ikon</string>
+    <string name="tile_require_unlock">Krev at skjermen er låst opp</string>
+    <string name="tile_require_unlock_summary_on">Spør om å låse opp enheten før oppdatering av Item\'er tillates</string>
+    <string name="tile_require_unlock_summary_off">Tillat oppdatering av Item\'er selv om enheten er låst</string>
+    <string name="tile_overview_hint">Flisens tilstand gjenspeiler ikke Item\'ets tilstand.\nDersom du har problemer med at fliser ikke blir oppdatert etter at du har endret dem her, berør flisen eller rediger hurtiginnstillingene til enheten (der du kan slå av og på f.eks Wi-Fi og Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d aktiv flis</item>
+        <item quantity="other">%d aktive fliser</item>
+    </plurals>
+    <string name="tile_number">Flis %d</string>
+    <string name="tile_label_1">Flis 1</string>
+    <string name="tile_label_2">Flis 2</string>
+    <string name="tile_label_3">Flis 3</string>
+    <string name="tile_label_4">Flis 4</string>
+    <string name="tile_label_5">Flis 5</string>
+    <string name="tile_label_6">Flis 6</string>
+    <string name="tile_label_7">Flis 7</string>
+    <string name="tile_label_8">Flis 8</string>
+    <string name="tile_label_9">Flis 9</string>
+    <string name="tile_label_10">Flis 10</string>
+    <string name="tile_label_11">Flis 11</string>
+    <string name="tile_label_12">Flis 12</string>
+    <string name="error_missing_prefs">Vennligst fyll ut alle innstillinger</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB ikon</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_radio">Radio</string>
+    <string name="tile_icon_bulb">Pære</string>
+    <string name="tile_icon_clock">Klokke</string>
+    <string name="tile_icon_alarm_clock">Alarmklokke</string>
+    <string name="tile_icon_bell">Bjelle</string>
+    <string name="tile_icon_cloud_upload">Opplasting til skyen</string>
+    <string name="tile_icon_earth">Jorden</string>
+    <string name="tile_icon_chat">Snakkebobler</string>
+    <string name="tile_icon_house">Hus</string>
+    <string name="tile_icon_lock">Lås</string>
+    <string name="tile_icon_microphone">Mikrofon</string>
+    <string name="tile_icon_color_palette">Fargepalett</string>
+    <string name="tile_icon_people">Personer</string>
+    <string name="tile_icon_person">Person</string>
+    <string name="tile_icon_phone">Telefon</string>
+    <string name="tile_icon_power_plug">Støpsel</string>
+    <string name="tile_icon_battery">Batteri</string>
+    <string name="tile_icon_magnifier">Forstørrelse</string>
+    <string name="tile_icon_star">Stjerne</string>
+    <string name="tile_icon_tree">Tre</string>
+    <string name="tile_icon_dashboard">Dashbord</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Skjold</string>
+    <string name="tile_icon_fan">Vifte</string>
+    <string name="tile_icon_man">Mann</string>
+    <string name="tile_icon_bed">Seng</string>
+    <string name="tile_icon_child">Barn</string>
+    <string name="tile_icon_baby">Baby</string>
+    <string name="tile_icon_settings">Tannhjul</string>
+    <string name="tile_icon_bath">Bad</string>
+    <string name="tile_icon_woman">Kvinne</string>
+    <string name="tile_icon_roller_shutter">Rullegardin</string>
+    <string name="tile_icon_camera">Kamera</string>
+    <string name="tile_icon_light_switch">Lysbryter</string>
+    <string name="tile_icon_garage">Garasje</string>
+    <string name="tile_icon_switch">Bryter</string>
+    <string name="tile_icon_text">Tekst</string>
+    <string name="tile_icon_sofa">Sofa</string>
+    <string name="tile_icon_lamp_ceiling">Taklampe</string>
+    <string name="tile_icon_lamp_floor">Gulvlampe</string>
+    <string name="tile_icon_lamp_bedside">Sengside-lampe</string>
+    <string name="tile_icon_lamp_outdoor">Utendørslampe</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Leilighet</string>
+    <string name="item_tag_location_attic">Loft</string>
+    <string name="item_tag_location_basement">Kjeller</string>
+    <string name="item_tag_location_bathroom">Baderom</string>
+    <string name="item_tag_location_bedroom">Soverom</string>
+    <string name="item_tag_location_boilerroom">Kjelerom</string>
+    <string name="item_tag_location_building">Bygning</string>
+    <string name="item_tag_location_carport">Carport</string>
+    <string name="item_tag_location_cellar">Kjeller</string>
+    <string name="item_tag_location_corridor">Gang</string>
+    <string name="item_tag_location_diningroom">Spisestue</string>
+    <string name="item_tag_location_driveway">Oppkjørsel</string>
+    <string name="item_tag_location_entry">Inngang</string>
+    <string name="item_tag_location_familyroom">Familierom</string>
+    <string name="item_tag_location_firstfloor">Andre etasje</string>
+    <string name="item_tag_location_floor">Gulv</string>
+    <string name="item_tag_location_garage">Garasje</string>
+    <string name="item_tag_location_garden">Hage</string>
+    <string name="item_tag_location_groundfloor">Første etasje</string>
+    <string name="item_tag_location_guestroom">Gjesterom</string>
+    <string name="item_tag_location_house">Hus</string>
+    <string name="item_tag_location_indoor">Innendørs</string>
+    <string name="item_tag_location_kitchen">Kjøkken</string>
+    <string name="item_tag_location_laundryroom">Vaskerom</string>
+    <string name="item_tag_location_livingroom">Stue</string>
+    <string name="item_tag_location_office">Kontor</string>
+    <string name="item_tag_location_outdoor">Utendørs</string>
+    <string name="item_tag_location_patio">Uteplass</string>
+    <string name="item_tag_location_porch">Veranda</string>
+    <string name="item_tag_location_room">Rom</string>
+    <string name="item_tag_location_secondfloor">Tredje etasje</string>
+    <string name="item_tag_location_shed">Skjul</string>
+    <string name="item_tag_location_summerhouse">Sommerhus</string>
+    <string name="item_tag_location_terrace">Terrasse</string>
+    <string name="item_tag_location_thirdfloor">Fjerde etasje</string>
+    <string name="item_tag_location_veranda">Veranda</string>
+    <string name="item_tag_equipment_alarmsystem">Alarmsystem</string>
+    <string name="item_tag_equipment_backdoor">Bakdør</string>
+    <string name="item_tag_equipment_battery">Batteri</string>
+    <string name="item_tag_equipment_blinds">Persienner</string>
+    <string name="item_tag_equipment_boiler">Kjele</string>
+    <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_car">Bil</string>
+    <string name="item_tag_equipment_ceilingfan">Takvifte</string>
+    <string name="item_tag_equipment_cellardoor">Kjellerdør</string>
+    <string name="item_tag_equipment_cleaningrobot">Rengjøringsrobot</string>
+    <string name="item_tag_equipment_dishwasher">Oppvaskmaskin</string>
+    <string name="item_tag_equipment_door">Dør</string>
+    <string name="item_tag_equipment_doorbell">Ringeklokke</string>
+    <string name="item_tag_equipment_dryer">Tørketrommel</string>
+    <string name="item_tag_equipment_fan">Vifte</string>
+    <string name="item_tag_equipment_freezer">Fryser</string>
+    <string name="item_tag_equipment_frontdoor">Inngangsdør</string>
+    <string name="item_tag_equipment_garagedoor">Garasjeport</string>
+    <string name="item_tag_equipment_gate">Port</string>
+    <string name="item_tag_equipment_hvac">Klimakontroll</string>
+    <string name="item_tag_equipment_innerdoor">Innerdør</string>
+    <string name="item_tag_equipment_inverter">Inverter</string>
+    <string name="item_tag_equipment_kitchenhood">Kjøkkenvifte</string>
+    <string name="item_tag_equipment_lawnmower">Gressklipper</string>
+    <string name="item_tag_equipment_lightbulb">Lyspære</string>
+    <string name="item_tag_equipment_lightstripe">Lysstripe</string>
+    <string name="item_tag_equipment_lock">Lås</string>
+    <string name="item_tag_equipment_motiondetector">Bevegelsessensor</string>
+    <string name="item_tag_equipment_networkappliance">Nettverksenhet</string>
+    <string name="item_tag_equipment_oven">Ovn</string>
+    <string name="item_tag_equipment_poweroutlet">Stikkontakt</string>
+    <string name="item_tag_equipment_projector">Projektor</string>
+    <string name="item_tag_equipment_pump">Pumpe</string>
+    <string name="item_tag_equipment_radiatorcontrol">Radiatorkontroll</string>
+    <string name="item_tag_equipment_receiver">Mottaker</string>
+    <string name="item_tag_equipment_refrigerator">Kjøleskap</string>
+    <string name="item_tag_equipment_remotecontrol">Fjernkontroll</string>
+    <string name="item_tag_equipment_screen">Skjerm</string>
+    <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_sidedoor">Sidedør</string>
+    <string name="item_tag_equipment_siren">Sirene</string>
+    <string name="item_tag_equipment_smartphone">Smarttelefon</string>
+    <string name="item_tag_equipment_smokedetector">Røykdetektor</string>
+    <string name="item_tag_equipment_speaker">Høyttaler</string>
+    <string name="item_tag_equipment_television">Fjernsyn</string>
+    <string name="item_tag_equipment_valve">Ventil</string>
+    <string name="item_tag_equipment_voiceassistant">Taleassistent</string>
+    <string name="item_tag_equipment_wallswitch">Veggbryter</string>
+    <string name="item_tag_equipment_washingmachine">Vaskemaskin</string>
+    <string name="item_tag_equipment_weatherservice">Værtjeneste</string>
+    <string name="item_tag_equipment_webservice">Webtjeneste</string>
+    <string name="item_tag_equipment_whitegood">Hvitevare</string>
+    <string name="item_tag_equipment_window">Vindu</string>
 </resources>
