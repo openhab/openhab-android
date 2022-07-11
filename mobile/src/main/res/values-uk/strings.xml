@@ -617,4 +617,10 @@
     <string name="item_tag_equipment_camera">Камера</string>
     <string name="item_tag_equipment_fan">Вентилятор</string>
     <string name="item_tag_equipment_lock">Замок</string>
+    <string name="item_tag_equipment_television">Телевізор</string>
+    <string name="item_tag_equipment_voiceassistant">Голосовий помічник</string>
+    <string name="item_tag_equipment_washingmachine">Пральна машина</string>
+    <string name="item_tag_equipment_weatherservice">Служба погоди</string>
+    <string name="item_tag_equipment_webservice">Веб-служба</string>
+    <string name="item_tag_equipment_window">Вікно</string>
 </resources>
