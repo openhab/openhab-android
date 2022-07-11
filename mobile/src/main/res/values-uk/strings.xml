@@ -617,6 +617,9 @@
     <string name="item_tag_equipment_camera">Камера</string>
     <string name="item_tag_equipment_fan">Вентилятор</string>
     <string name="item_tag_equipment_lock">Замок</string>
+    <string name="item_tag_equipment_smartphone">Смартфон</string>
+    <string name="item_tag_equipment_smokedetector">Детектор диму</string>
+    <string name="item_tag_equipment_speaker">Гучномовець</string>
     <string name="item_tag_equipment_television">Телевізор</string>
     <string name="item_tag_equipment_voiceassistant">Голосовий помічник</string>
     <string name="item_tag_equipment_washingmachine">Пральна машина</string>
