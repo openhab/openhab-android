@@ -206,6 +206,7 @@
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
     <string name="error_no_speech_to_text_app_found">Keine Spracherkennungs-App gefunden</string>
+    <string name="error_sse_failed">Ereignisabonnement fehlgeschlagen, Aktualisierung der Widgets kann beeinträchtigt sein</string>
     <string name="error_video_player">%s konnte nicht geladen werden</string>
     <string name="install">Installieren</string>
     <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
@@ -217,6 +218,7 @@
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
     <string name="action_settings">Einstellungen</string>
+    <string name="nfc_info_hint">Item-Updates können auf NFC-Tags geschrieben werden. Sie können hier ein Item auswählen oder ein Widget auf der Sitemap berühren.</string>
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
@@ -454,6 +456,8 @@
     <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB öffnen</string>
+    <string name="content_description_increase_item_value">Item-Wert erhöhen</string>
+    <string name="content_description_decrease_item_value">Item-Wert verringern</string>
     <string name="swipe_to_refresh_description">Die Inhalte werden automatisch aktualisiert, Sie müssen das normalerweise nicht manuell tun</string>
     <string name="got_it">Verstanden!</string>
     <!-- Intro strings -->
@@ -546,6 +550,8 @@
     <!-- Data saver -->
     <string name="data_saver_title">Datensparmodus</string>
     <string name="data_saver_on">Sitemap-Elemente, die größere Datenübertragungen erfordern, werden nicht geladen</string>
+    <string name="data_saver_off">Für das Laden von datennutzenden Sitemap-Elementen wird die systemweite Datenspar-Einstellung verwendet</string>
+    <string name="data_saver_off_pre_n">Alle Sitemap-Elemente werden geladen, unabhängig ihrer Datennutzung</string>
     <string name="data_saver_load">Trotzdem laden</string>
     <string name="data_saver_hint">%s wurde nicht geladen um Daten einzusparen</string>
     <string name="data_saver_snackbar">Icons basieren nicht auf Item-Zuständen, da der Datensparmodus aktiviert ist</string>
