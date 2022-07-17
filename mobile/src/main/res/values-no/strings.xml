@@ -27,7 +27,7 @@
     <!-- App settings strings -->
     <string name="settings_connection_title">Tilkobling</string>
     <string name="settings_display_title">Skjerm</string>
-    <string name="settings_sitemap_title">Nettstedskart</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Diverse</string>
     <string name="settings_openhab_url">Lokal server adresse</string>
     <string name="settings_openhab_url_summary">Adressen til openHAB dashbord (basert på vertsnavn eller IP). Hvis konfigurert, er automatisk gjenkjenning deaktivert. Nåværende innstilling: %s</string>
@@ -94,7 +94,7 @@
     <string name="settings_screen_lock_off">Av</string>
     <string name="settings_screen_lock_kiosk">Kiosk-modus</string>
     <string name="settings_screen_lock_on">På</string>
-    <string name="settings_show_sitemaps_in_drawer">Vis alle Nettstedskart i sidemenyen</string>
+    <string name="settings_show_sitemaps_in_drawer">Vis alle Sitemaps i sidemenyen</string>
     <string name="settings_server_name">Servernavn</string>
     <string name="settings_add_server">Legg til server</string>
     <string name="settings_edit_server">Rediger server</string>
@@ -138,7 +138,7 @@
     <string name="copied_item_name">Kopierte \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerte en tom Sitemap-liste</string>
-    <string name="error_sitemap_generic_load_error">Områdekartet kan ikke lastes. Følgende feil oppstod: %1$s</string>
+    <string name="error_sitemap_generic_load_error">Sitemap\'et kunne ikke lastes. Følgende feil oppstod: %1$s</string>
     <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
     <string name="error_wifi_not_available">Wi-Fi er slått av</string>
     <string name="error_wifi_restricted">Lokale tilkoblinger til serveren %1$s er begrenset til følgende Wi-Fi navn: %2$s</string>
@@ -201,7 +201,7 @@
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="error_no_browser_found">Ingen nettleser funnet på enheten</string>
     <string name="error_no_speech_to_text_app_found">Ingen tale gjenkjennelse app funnet</string>
-    <string name="error_sse_failed">Hendelsesabonnementet mislyktes, widget-oppdateringer kan kan utebli</string>
+    <string name="error_sse_failed">Hendelsesabonnementet mislyktes, Widget-oppdateringer kan utebli</string>
     <string name="error_video_player">Kunne ikke laste %s</string>
     <string name="install">Installer</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
@@ -213,7 +213,7 @@
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_write_tag_disabled">NFC er slått av</string>
     <string name="action_settings">Innstillinger</string>
-    <string name="nfc_info_hint">Item-oppdateringer kan skrives til NFC-brikker. Du kan velge et Item her eller du kan trykke-og-holde en widget i Sitemap.</string>
+    <string name="nfc_info_hint">Item-oppdateringer kan skrives til NFC-brikker. Du kan velge et Item her eller du kan trykke-og-holde en Widget i Sitemap.</string>
     <string name="info_not_set">Ikke angitt</string>
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
@@ -448,8 +448,8 @@
     <string name="content_description_open_number_picker">Åpne nummervelger</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Åpne openHAB</string>
-    <string name="content_description_increase_item_value">Øk elementverdi</string>
-    <string name="content_description_decrease_item_value">Senk elementverdi</string>
+    <string name="content_description_increase_item_value">Øk Item-verdi</string>
+    <string name="content_description_decrease_item_value">Reduser Item-verdi</string>
     <string name="swipe_to_refresh_description">Appen oppdaterer seg automatisk, du behøver normalt ikke gjøre det manuelt</string>
     <string name="got_it">Jeg forstår!</string>
     <!-- Intro strings -->
@@ -541,8 +541,8 @@
     <!-- Data saver -->
     <string name="data_saver_title">Datasparing</string>
     <string name="data_saver_on">Sitemap-elementer som kan kreve større dataoverføringer blir ikke lastet</string>
-    <string name="data_saver_off">Datasparingsinstillingen for systemet følges når du laster inn Sitemap elementer som bruker data</string>
-    <string name="data_saver_off_pre_n">Alle Sitemap elementer blir lastet, uavhengig av deres dataforbruk</string>
+    <string name="data_saver_off">Datasparingsinstillingen for systemet følges når du laster inn Sitemap-elementer som bruker data</string>
+    <string name="data_saver_off_pre_n">Alle Sitemap-elementer blir lastet, uavhengig av deres dataforbruk</string>
     <string name="data_saver_load">Last inn uansett</string>
     <string name="data_saver_hint">%s ble ikke lastet for å spare data</string>
     <string name="data_saver_snackbar">Ikoner er ikke basert på Item-tilstand fordi datasparing er slått på</string>
