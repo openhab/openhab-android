@@ -45,6 +45,7 @@
     <string name="settings_openhab_chart_hq_summary">Kuvaajien generointi voi olla raskasta palvelimelle. Jos havaitset hitautta kuvaajien latauksessa ja palvelimesi on tehoton, aseta tämä pois päältä parantaaksesi latausaikoja.</string>
     <string name="settings_clear_default_sitemap">Poista oletus Sitemap</string>
     <string name="settings_no_default_sitemap">Ei Sitemappia oletuksena</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Nykyinen oletus Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Etäkäyttö</string>
     <string name="settings_openhab_connection">Paikalliskäyttö</string>
@@ -58,6 +59,7 @@
     <string name="settings_notification_vibration_twice">Kaksi kertaa</string>
     <string name="settings_notification_ringtone_vibration">Soittoääni &amp; Värinä</string>
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">Näytön lukitus</string>
     <string name="settings_screen_lock_nolock_summary">Ennen kuin voit käyttää sovelluksen käyttöoikeuslukitusta sinun pitää ottaa käyttöön näytön lukitus laitteellasi</string>
     <string name="settings_screen_lock_off_summary">Pääsy sovellukseen ei ole estetty</string>
@@ -84,11 +86,13 @@
     <string name="app_shortcut_disabled_notifications">Etäpalvelintasi ei tavoiteta</string>
     <string name="app_shortcut_disabled_voice_recognition">Laitteellasi ei ole \"puheesta tekstiksi\"-sovellusta asennettuna</string>
     <string name="no_position_set">Sijaintia ei asetettu</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB palautti tyhjän Sitemap luettelon</string>
     <string name="error_sitemap_generic_load_error">Sitemap ei ladattu. Virhe: %1$s</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
     <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus %d).</string>
     <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
     <string name="error_invalid_https_url">Kirjoita kelvollinen URL osoite \'https://isäntä(:port)/\' muodossa</string>
@@ -145,7 +149,6 @@
     <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
     <string name="error_no_browser_found">Laitteeltasi ei löytynyt selainta</string>
     <string name="error_no_speech_to_text_app_found">Puheentunnistussovellusta ei löytynyt</string>
-    <string name="error_sse_failed">Tapahtuman tilaus epäonnistui, widgetin päivitys voi olla heikentynyt</string>
     <string name="error_video_player">%s ei voitu ladata</string>
     <string name="install">Asenna</string>
     <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tunniste</string>
@@ -175,10 +178,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">Tarkkaile %1$s ja %2$s liittyviä tapahtumia</string>
     <string name="send_device_info_foreground_service_running_summary_more">Tarkkaile tapahtumia, jotka liittyvät %1$s, %2$s ja enemmän</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Viimeisin päivitys oli \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Hälytysaika</string>
     <string name="settings_alarm_clock_summary_on">Lähetä hälytyksen aika Itemille \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Älä lähetä hälytyksen aikaa</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Puhelun tila</string>
     <string name="settings_phone_state_summary_on">Lähettää puhelun tilan Itemille \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Älä lähetä puhelun tilaa</string>
@@ -360,8 +366,6 @@
     <string name="content_description_color_down">Sammuta tai pidä painettuna vähentääksesi kirkkautta</string>
     <string name="content_description_open_number_picker">Avaa numerovalitsin</string>
     <string name="content_description_open_openhab">Avaa openHAB</string>
-    <string name="content_description_increase_item_value">Suurenna Itemin arvoa</string>
-    <string name="content_description_decrease_item_value">Pienennä Itemin arvoa</string>
     <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
     <string name="got_it">Selvä!</string>
     <!-- Intro strings -->
@@ -399,8 +403,9 @@
     <string name="item_update_widget_title">Itemin käyttö</string>
     <string name="item_update_widget_content_description">Widgetti Itemin tilan vaihtoa varten</string>
     <string name="item_update_widget_content_description_edit">Muokkaa widgettiä</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_item_picker_title">Valitse Item</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s on lähetetty kohteeseen %2$s</string>
     <string name="item_update_success_message_on">%s on kytketty päälle</string>
     <string name="item_update_success_message_off">%s kytketty pois</string>
@@ -425,8 +430,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">Datan säästäjä</string>
     <string name="data_saver_on">Sivukartan elementtejä, jotka mahdollisesti vaativaat isomman datamäärän, ei ladata</string>
-    <string name="data_saver_off">Järjestelmän datasäästäjän asetuksia noudatetaan ladattaessa sivukartan elementtejä</string>
-    <string name="data_saver_off_pre_n">Kaikki sivukartan elementit ladataan huolimatta niiden datan käytöstä</string>
     <string name="data_saver_load">Lataa silti</string>
     <string name="data_saver_hint">%s ei ladattu datan säästön vuoksi</string>
     <string name="data_saver_snackbar">Kuvakkeet eivät perustu Itemin tilaan, koska datan säästäjä on otettu käyttöön</string>
