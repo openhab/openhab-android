@@ -456,6 +456,8 @@
     <string name="content_description_open_number_picker">Apri selezione numero</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Apri openHAB</string>
+    <string name="content_description_increase_item_value">Aumenta il valore dell\'Item</string>
+    <string name="content_description_decrease_item_value">Diminuisce il valore dell\'Item</string>
     <string name="swipe_to_refresh_description">L\'applicazione si aggiorna automaticamente, normalmente non serve farlo manualmente</string>
     <string name="got_it">Ricevuto!</string>
     <!-- Intro strings -->
