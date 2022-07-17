@@ -37,6 +37,7 @@
     <string name="settings_chart_scaling_value_l">Μεγάλο</string>
     <string name="settings_clear_default_sitemap">Καθαρισμός προεπιλεγμένου Sitemap</string>
     <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Απομακρυσμένo</string>
     <string name="settings_openhab_connection">Τοπικό</string>
@@ -46,6 +47,7 @@
     <string name="settings_notification_vibration_long">Παρατεταμένη</string>
     <string name="settings_notification_vibration_twice">Δύο φορές</string>
     <string name="settings_connection_summary">Συνδεδεμένο σε %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock_off">Σβηστό</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, στις προσταγές σας!</string>
@@ -54,9 +56,11 @@
     <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Σύνδεση στην τοπική διεύθυνση</string>
     <string name="info_conn_rem_url">Σύνδεση στην απομακρυσμένη διεύθυνση</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα Sitemap</string>
     <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
     <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
     <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
@@ -80,6 +84,9 @@
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="notification_channel_messages_default_severity">Προεπιλογή</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
@@ -161,7 +168,8 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <string name="widget_type_video">Βίντεο</string>
     <!-- Tiles -->
