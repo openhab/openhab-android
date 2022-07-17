@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">La generació dels diagrames pot penalitzar el rendiment del servidor. Si experimenteu temps de càrrega de diagrames molt lents i el servidor no és gaire potent, desactiveu aquesta opció per a millorar el temps de càrrega.</string>
     <string name="settings_clear_default_sitemap">Buida el mapa del lloc predeterminat</string>
     <string name="settings_no_default_sitemap">No hi ha cap mapa del lloc predeterminat seleccionat</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Mapa del lloc predeterminat actuall: %1$s</string>
     <string name="settings_openhab_alt_connection">Remot</string>
     <string name="settings_openhab_connection">Local</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">Doble</string>
     <string name="settings_notification_ringtone_vibration">So i vibració</string>
     <string name="settings_connection_summary">Connectat a %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Connectat de manera insegura a %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">L\'URL no comença per \"https\"</string>
     <string name="settings_insecure_connection_no_auth">No s\'ha definit nom d\'usuari i/o contrasenya</string>
@@ -127,6 +129,7 @@
     <string name="app_shortcut_disabled_voice_recognition">El teu dispositiu no té cap aplicació de reconeixement de veu instal·lada</string>
     <string name="no_position_set">Cap posició definida</string>
     <string name="show_and_copy_item_name">Mostra i copia el nom de l\'Item</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">S\'ha copiat \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">l\'openHAB ha retornat un llistat de mapa de llocs buit</string>
@@ -135,6 +138,7 @@ Resultats de traducció
 No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</string>
     <string name="error_network_not_available">La xarxa no és disponible</string>
     <string name="error_wifi_not_available">Wi-Fi està desactivat</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">La connexió no s\'ha realitzat correctament. S\'ha rebut una resposta inesperada mentre intentava connectar-se al servidor openHAB configurat (codi HTTP %d).</string>
     <string name="error_invalid_url">Introduïu un URL vàlid en un formulari \"http(s)://host(:port)/\"</string>
     <string name="error_invalid_https_url">Introduïu un URL vàlid en un formulari \"https://host(:port)/\"</string>
@@ -194,7 +198,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="error_openhab_offline">El vostre servidor d\'openHAB està fora de línia mentre s\'està executant la instància del núvol</string>
     <string name="error_no_browser_found">No s\'ha trobat navegador en el teu dispositiu</string>
     <string name="error_no_speech_to_text_app_found">No s\'ha trobat cap aplicació de reconeixement de veu</string>
-    <string name="error_sse_failed">La subscripció a l\'Event ha fallat, és possible que l\'actualització del giny estigui afectada</string>
     <string name="error_video_player">%s no s\'ha pogut carregar</string>
     <string name="install">Instal·la</string>
     <string name="title_activity_openhabwritetag">Escriu etiqueta NFC</string>
@@ -206,7 +209,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="info_write_tag_unsupported">El dispositiu no disposa de NFC</string>
     <string name="info_write_tag_disabled">L\'NFC està desactivada</string>
     <string name="action_settings">Configuració</string>
-    <string name="nfc_info_hint">Les actualitzacions d\'Items es poden escriure a les etiquetes NFC. Podeu seleccionar un element aquí o podeu prémer llargament un widget al Sitemap.</string>
     <string name="info_not_set">No establert</string>
     <string name="empty_page">Aquesta pàgina no conté cap widget configurat per ser visible</string>
     <!-- Background tasks -->
@@ -225,10 +227,13 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="send_device_info_foreground_service_running_summary_two">Monitorita esdeveniments associats a %1$s i %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Monitoritza els esdeveniments associats a %1$s, %2$s i més</string>
     <string name="settings_item_update_pref_howto_summary">Toqueu aquí per obtenir consells sobre com configurar aquesta funció al costat del servidor</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">La darrera actualització va ser \"%1$s\" (%2$s)</string>
     <string name="settings_alarm_clock">Hora d\'alarma</string>
     <string name="settings_alarm_clock_summary_on">Envia l\'hora d\'alarma a l\'element \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">No enviar hora d\'alarma</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Estat de la trucada</string>
     <string name="settings_phone_state_summary_on">Envia l\'estat de la trucada a l\'Item \"%1$s\"</string>
     <string name="settings_phone_state_summary_off">No enviïs l\'estat de la trucada</string>
@@ -429,8 +434,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="content_description_open_number_picker">Obre el selector numèric</string>
     <string name="content_description_video">Vídeo</string>
     <string name="content_description_open_openhab">Obrir openHAB</string>
-    <string name="content_description_increase_item_value">Augmenta el valor</string>
-    <string name="content_description_decrease_item_value">Disminueix el valor</string>
     <string name="swipe_to_refresh_description">L\'aplicació també s\'actualitza automàticament, normalment no cal que ho feu manualment</string>
     <string name="got_it">Ja està!</string>
     <!-- Intro strings -->
@@ -473,9 +476,10 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="item_update_widget_content_description">Giny per canviar l\'estat de l\'Item</string>
     <string name="item_update_widget_content_description_edit">Edita el giny</string>
     <string name="item_update_widget">Giny</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecciona un ítem</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s ha canviat a %2$s</string>
     <string name="item_update_success_message_on">%s s\'ha activat</string>
     <string name="item_update_success_message_off">%s s\'ha desactivat</string>
@@ -518,8 +522,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <!-- Data saver -->
     <string name="data_saver_title">Estalvi de dades</string>
     <string name="data_saver_on">Els elements Sitemap que poden requerir transferències de dades més grans no es carreguen</string>
-    <string name="data_saver_off">La configuració d\'estalvi de dades es segueix quan es carreguen dades amb elements Sitemap</string>
-    <string name="data_saver_off_pre_n">Es carreguen tots els elements del mapa del lloc sense tenir en compte el seu ús de dades</string>
     <string name="data_saver_load">Carrega de totes maneres</string>
     <string name="data_saver_hint">No s\'ha carregat %s per estalviar dades</string>
     <string name="data_saver_snackbar">Les icones no es basen en els estats dels elements, perquè l\'estalvi de dades està activat</string>
