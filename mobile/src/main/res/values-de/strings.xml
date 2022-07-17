@@ -68,6 +68,7 @@
     <string name="settings_openhab_chart_hq_summary">Diagramme zu erstellen kann aufwändig für den Server sein. Falls Sie merken, dass die Diagramme lange laden und Ihr Server nicht leistungsfähig ist, können Sie diese Option deaktivieren, um die Ladezeiten zu verkürzen.</string>
     <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
     <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Fernzugriff</string>
     <string name="settings_openhab_connection">Lokal</string>
@@ -81,6 +82,7 @@
     <string name="settings_notification_vibration_twice">Zweimal</string>
     <string name="settings_notification_ringtone_vibration">Klingelton &amp; Vibration</string>
     <string name="settings_connection_summary">Verbunden mit %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">URL beginnt nicht mit \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Kein Benutzername und Passwort festgelegt</string>
@@ -136,12 +138,14 @@
     <string name="app_shortcut_disabled_voice_recognition">Ihr Gerät hat keine Spracherkennungs-App installiert</string>
     <string name="no_position_set">Keine Position gesetzt</string>
     <string name="show_and_copy_item_name">Item-Name anzeigen und kopieren</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">„%s“ kopiert</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB schickte eine leere Sitemap-Liste</string>
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_wifi_not_available">WLAN ist ausgeschaltet</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_wifi_restricted">Lokale Verbindungen zu Server %1$s sind auf folgende WLAN-Namen beschränkt: %2$s</string>
     <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen (HTTP-Code %d).</string>
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
@@ -202,7 +206,6 @@
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_browser_found">Es wurde kein Browser auf Ihrem Gerät gefunden</string>
     <string name="error_no_speech_to_text_app_found">Keine Spracherkennungs-App gefunden</string>
-    <string name="error_sse_failed">Ereignisabonnement fehlgeschlagen, Aktualisierung der Widgets kann beeinträchtigt sein</string>
     <string name="error_video_player">%s konnte nicht geladen werden</string>
     <string name="install">Installieren</string>
     <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
@@ -214,7 +217,6 @@
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt kein NFC</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="nfc_info_hint">Item-Updates können auf NFC-Tags geschrieben werden. Sie können hier ein Item auswählen oder ein Widget auf der Sitemap berühren.</string>
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
@@ -233,12 +235,15 @@
     <string name="send_device_info_foreground_service_running_summary_two">Überwache Ereignisse, die mit %1$s und %2$s zusammenhängen</string>
     <string name="send_device_info_foreground_service_running_summary_more">Überwache Ereignisse, die mit %1$s, %2$s und weiteren zusammenhängen</string>
     <string name="settings_item_update_pref_howto_summary">Hier tippen, um Hinweise zu erhalten, wie man dieses Feature serverseitig einrichtet</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Letzte Aktualisierung war \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Weckzeit</string>
     <string name="settings_alarm_clock_summary_on">Weckzeit wird an Item \'%1$s\' gesendet</string>
     <string name="settings_alarm_clock_summary_off">Weckzeit nicht senden</string>
     <string name="copy_debug_info">Kopieren</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_alarm_clock_debug_ignored">Alarmzeit-Update auf %1$s wurde ignoriert, da es von %2$s gesendet wurde</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_alarm_clock_debug">Alarmzeit auf %1$s aktualisiert, die von %2$s gesendet wurde</string>
     <string name="settings_phone_state">Anrufstatus</string>
     <string name="settings_phone_state_summary_on">Anrufstatus wird an Item \'%1$s\' gesendet</string>
@@ -449,8 +454,6 @@
     <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB öffnen</string>
-    <string name="content_description_increase_item_value">Item-Wert erhöhen</string>
-    <string name="content_description_decrease_item_value">Item-Wert verringern</string>
     <string name="swipe_to_refresh_description">Die Inhalte werden automatisch aktualisiert, Sie müssen das normalerweise nicht manuell tun</string>
     <string name="got_it">Verstanden!</string>
     <!-- Intro strings -->
@@ -493,13 +496,14 @@
     <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_content_description_edit">Widget bearbeiten</string>
     <string name="item_update_widget">Widget</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Wählen Sie ein Item</string>
     <string name="widget_show_state">Aktuellen Status an Name anhängen</string>
     <string name="widget_show_state_summary">Der Status wird mit dem Zeitplan aktualisiert, der in den Einstellungen unter \"Geräteinformationen an Server senden\" eingestellt werden kann</string>
     <string name="widget_no_command">Keinen Befehl senden</string>
     <string name="error_getting_state">Fehler beim Laden des Status</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s wurde auf %2$s gesetzt</string>
     <string name="item_update_success_message_on">%s wurde eingeschaltet</string>
     <string name="item_update_success_message_off">%s wurde ausgeschaltet</string>
@@ -542,8 +546,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">Datensparmodus</string>
     <string name="data_saver_on">Sitemap-Elemente, die größere Datenübertragungen erfordern, werden nicht geladen</string>
-    <string name="data_saver_off">Für das Laden von datennutzenden Sitemap-Elementen wird die systemweite Datenspar-Einstellung verwendet</string>
-    <string name="data_saver_off_pre_n">Alle Sitemap-Elemente werden geladen, unabhängig ihrer Datennutzung</string>
     <string name="data_saver_load">Trotzdem laden</string>
     <string name="data_saver_hint">%s wurde nicht geladen um Daten einzusparen</string>
     <string name="data_saver_snackbar">Icons basieren nicht auf Item-Zuständen, da der Datensparmodus aktiviert ist</string>
