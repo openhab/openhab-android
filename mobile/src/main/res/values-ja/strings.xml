@@ -60,6 +60,7 @@
     <string name="settings_openhab_chart_hq_summary">グラフの生成をサーバーに負担させることができます。グラフの読み込みに時間がかかって、お使いのサーバーが強力ではない場合は、このオプションを無効にすると読み込み時間が改善します。</string>
     <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
     <string name="settings_no_default_sitemap">デフォルトのサイトマップが選択されていません</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">現在のデフォルトサイトマップ: %1$s</string>
     <string name="settings_openhab_alt_connection">リモートサーバーの設定</string>
     <string name="settings_openhab_connection">ローカルサーバーの設定</string>
@@ -73,6 +74,7 @@
     <string name="settings_notification_vibration_twice">2 回</string>
     <string name="settings_notification_ringtone_vibration">着信音&amp; バイブレーション</string>
     <string name="settings_connection_summary">%s に接続しました</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">画面ロック</string>
     <string name="settings_screen_lock_nolock_summary">アプリのアクセスロックを有効にするには、お使いのデバイスの画面ロックを有効にする必要があります</string>
     <string name="settings_screen_lock_off_summary">アプリへのアクセスはロックされていません</string>
@@ -117,12 +119,14 @@
     <string name="app_shortcut_disabled_voice_recognition">お使いのデバイスは音声認識アプリがインストールされていません</string>
     <string name="no_position_set">位置が設定されていません</string>
     <string name="show_and_copy_item_name">アイテム名の表示とコピー</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">%sをコピーしました</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
     <string name="error_sitemap_generic_load_error">サイトマップを読み込めませんでした。次のエラーが発生しました: %1$s</string>
     <string name="error_network_not_available">ネットワークが利用できません</string>
     <string name="error_wifi_not_available">Wi-Fi がオフになっています</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">接続が失敗しました。設定された openHAB サーバーに接続しようとしたときに予期しない応答を受け取りました (HTTP コード: %d)。</string>
     <string name="error_invalid_url">\'http(s)://host(:port)/\' の形式で、正しい URL を入力してください</string>
     <string name="error_invalid_https_url">\'https://host(:port)/\' の形式で、正しい URL を入力してください</string>
@@ -181,7 +185,6 @@
     <string name="error_openhab_offline">クラウドインスタンス実行中、お使いの openHAB サーバーがオフラインです</string>
     <string name="error_no_browser_found">お使いのデバイス上にブラウザーが見つかりません</string>
     <string name="error_no_speech_to_text_app_found">音声認識アプリが見つかりません</string>
-    <string name="error_sse_failed">イベントのサブスクリプションに失敗しました。ウィジェットの更新が損なわれている可能性があります</string>
     <string name="error_video_player">%s を読み込みできません</string>
     <string name="install">インストール</string>
     <string name="title_activity_openhabwritetag">NFC タグを書き込み</string>
@@ -193,7 +196,6 @@
     <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
     <string name="info_write_tag_disabled">NFC は無効です</string>
     <string name="action_settings">設定</string>
-    <string name="nfc_info_hint">アイテムの更新をNFCタグに書き込むことができます。 ここでアイテムを選択するか、サイトマップでウィジェットを長押ししてください。</string>
     <string name="info_not_set">未設定</string>
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Background tasks -->
@@ -212,10 +214,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">%1$s と %2$s に関連付けられたイベントをモニターします</string>
     <string name="send_device_info_foreground_service_running_summary_more">%1$s、 %2$s などに関連付けられたイベントをモニターします</string>
     <string name="settings_item_update_pref_howto_summary">ここをタップすると、この機能のサーバー側を設定する方法のヒントを表示します</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">最終更新は \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">アラーム時刻</string>
     <string name="settings_alarm_clock_summary_on">アイテム \'%1$s\' にアラーム時刻を送信します</string>
     <string name="settings_alarm_clock_summary_off">アラーム時刻を送信しません</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">通話状態</string>
     <string name="settings_phone_state_summary_on">通話状態をアイテム \'%1$s\' に送信します</string>
     <string name="settings_phone_state_summary_off">通話状態を送信しない</string>
@@ -409,8 +414,6 @@
     <string name="content_description_open_number_picker">数字選択を開く</string>
     <string name="content_description_video">ビデオ</string>
     <string name="content_description_open_openhab">openHAB を開く</string>
-    <string name="content_description_increase_item_value">アイテム値の増加</string>
-    <string name="content_description_decrease_item_value">アイテム値の減少</string>
     <string name="swipe_to_refresh_description">アプリも自動的に更新されます、通常、手動で行う必要はありません</string>
     <string name="got_it">了解!</string>
     <!-- Intro strings -->
@@ -449,8 +452,9 @@
     <string name="item_update_widget_title">アイテムコントロール</string>
     <string name="item_update_widget_content_description">アイテムの状態を変更するためのウィジェット</string>
     <string name="item_update_widget_content_description_edit">ウィジェットを編集</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_item_picker_title">アイテムを選択</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s は %2$s にセットされました</string>
     <string name="item_update_success_message_on">%s はオンになりました</string>
     <string name="item_update_success_message_off">%s はオフになりました</string>
@@ -475,8 +479,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">データセーバー</string>
     <string name="data_saver_on">大きなデータ転送が必要なサイトマップ要素は読み込まれていません</string>
-    <string name="data_saver_off">データ通信を使用するサイトマップ要素を読み込む場合、システム全体のデータセーバー設定に従います</string>
-    <string name="data_saver_off_pre_n">データ通信使用に関係なく、すべてのサイトマップ要素が読み込まれます</string>
     <string name="data_saver_load">とにかく読み込む</string>
     <string name="data_saver_hint">%s はデータを節約するために読み込みませんでした</string>
     <string name="data_saver_snackbar">データセーバーがオンになっているため、アイコンはアイテムの状態に基づいていません</string>
