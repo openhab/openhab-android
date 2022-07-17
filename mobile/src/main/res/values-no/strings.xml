@@ -121,6 +121,7 @@
     <string name="device_control_subtitle_equipment">Utstyr</string>
     <string name="device_control_subtitle_location_equipment">Sted og utstyr</string>
     <string name="device_control_subtitle_item_name">Elementnavn</string>
+    <string name="device_control_subtitle">Beskrivelse for Item-flis</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Talekommandoer</string>
     <string name="voice_command">Talekommando</string>
@@ -205,6 +206,7 @@
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="error_no_browser_found">Ingen nettleser funnet på enheten</string>
     <string name="error_no_speech_to_text_app_found">Ingen tale gjenkjennelse app funnet</string>
+    <string name="error_sse_failed">Hendelsesabonnementet mislyktes, Widget-oppdateringer kan utebli</string>
     <string name="error_video_player">Kunne ikke laste %s</string>
     <string name="install">Installer</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
@@ -216,6 +218,7 @@
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_write_tag_disabled">NFC er slått av</string>
     <string name="action_settings">Innstillinger</string>
+    <string name="nfc_info_hint">Item-oppdateringer kan skrives til NFC-brikker. Du kan velge et Item her eller du kan trykke-og-holde en Widget i Sitemap.</string>
     <string name="info_not_set">Ikke angitt</string>
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
@@ -453,6 +456,8 @@
     <string name="content_description_open_number_picker">Åpne nummervelger</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Åpne openHAB</string>
+    <string name="content_description_increase_item_value">Øk Item-verdi</string>
+    <string name="content_description_decrease_item_value">Reduser Item-verdi</string>
     <string name="swipe_to_refresh_description">Appen oppdaterer seg automatisk, du behøver normalt ikke gjøre det manuelt</string>
     <string name="got_it">Jeg forstår!</string>
     <!-- Intro strings -->
@@ -545,6 +550,8 @@
     <!-- Data saver -->
     <string name="data_saver_title">Datasparing</string>
     <string name="data_saver_on">Sitemap-elementer som kan kreve større dataoverføringer blir ikke lastet</string>
+    <string name="data_saver_off">Datasparingsinstillingen for systemet følges når du laster inn Sitemap-elementer som bruker data</string>
+    <string name="data_saver_off_pre_n">Alle Sitemap-elementer blir lastet, uavhengig av deres dataforbruk</string>
     <string name="data_saver_load">Last inn uansett</string>
     <string name="data_saver_hint">%s ble ikke lastet for å spare data</string>
     <string name="data_saver_snackbar">Ikoner er ikke basert på Item-tilstand fordi datasparing er slått på</string>
