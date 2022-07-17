@@ -30,6 +30,7 @@
     <string name="settings_chart_scaling_value_s">Väike</string>
     <string name="settings_chart_scaling_value_m">Vaikimisi</string>
     <string name="settings_chart_scaling_value_l">Suur</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_openhab_alt_connection">Kaugjuhtimine</string>
     <string name="settings_openhab_connection">Kohalik</string>
     <string name="settings_ringtone_none">Mitte ükski</string>
@@ -37,6 +38,7 @@
     <string name="settings_notification_vibration_short">Lühike</string>
     <string name="settings_notification_vibration_long">Pikk</string>
     <string name="settings_connection_summary">Ühendatud võrguga %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">Ekraanilukk</string>
     <string name="settings_screen_lock_off">Väljas</string>
     <string name="settings_screen_lock_on">Sees</string>
@@ -48,9 +50,11 @@
     <string name="turn_off">Sulge</string>
     <string name="info_conn_url">Ühenduse loomine kohaliku URL-iga</string>
     <string name="info_conn_rem_url">Ühendamine serveri URL-iga</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_network_not_available">Võrk ei ole saadaval</string>
     <string name="error_wifi_not_available">Wi-Fi on välja lülitatud</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
@@ -65,6 +69,9 @@
     <string name="action_settings">Seaded</string>
     <string name="info_not_set">Määramata</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_item_pref_item_name">Kauba nimetus</string>
     <string name="item_upload_in_progress">üksusi hetkel uuendatakse</string>
     <string name="notification_channel_messages_default_severity">Vaikimisi</string>
@@ -176,8 +183,9 @@
     <string name="press_back_to_exit">Väljumiseks vajuta veelkord tagasi</string>
     <!-- Item update widget -->
     <string name="item_update_widget_content_description_edit">Redigeeri vidinat</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_item_picker_title">Vali üksus</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_on">%s on sisse lülitatud</string>
     <string name="item_update_success_message_off">%s on välja lülitatud</string>
     <string name="item_update_success_message_stop">%s on peatatud</string>
