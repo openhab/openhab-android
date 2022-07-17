@@ -45,6 +45,7 @@
     <string name="settings_openhab_chart_hq_summary">Oluşturulan grafikler sunucuya ek yük getirebilir. Yavaş grafik yükleme süreleri yaşıyorsanız ve sunucunuz güçlü değilse, yükleme sürelerini iyileştirmek için bu seçeneği devre dışı bırakın.</string>
     <string name="settings_clear_default_sitemap">Varsayılan Sitemap\'ı temizle</string>
     <string name="settings_no_default_sitemap">Herhangi bir varsayılan Sitemap seçilmedi</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Geçerli varsayılan Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Uzak</string>
     <string name="settings_openhab_connection">Yerel</string>
@@ -55,6 +56,7 @@
     <string name="settings_notification_vibration_long">Uzun</string>
     <string name="settings_notification_vibration_twice">Iki kez</string>
     <string name="settings_connection_summary">%s Bağlanıldı</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">%1$s\'a güvensiz bir şekilde bağlanıldı: %2$s</string>
     <string name="settings_screen_lock">Ekran kilidi</string>
     <string name="settings_screen_lock_nolock_summary">Uygulama erişim kilidini etkinleştirmek için cihazınız için bir ekran kilidini etkinleştirmeniz gerekir</string>
@@ -82,11 +84,13 @@
     <string name="app_shortcut_disabled_habpanel">Sunucunuzda HABPanel kurulu değil</string>
     <string name="app_shortcut_disabled_notifications">Uzak sunucunuz uygun değil</string>
     <string name="app_shortcut_disabled_voice_recognition">Aygıtınızda yüklü bir ses tanıma uygulaması yok</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
     <string name="error_sitemap_generic_load_error">Sitemap yüklenmemiş olabilir. Şu hata oluştu: %1$s</string>
     <string name="error_network_not_available">Network müsait değil</string>
     <string name="error_wifi_not_available">Wi-Fi kapatıldı</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Lütfen \'http(s)://host:(port)/\' formunda geçerli bir URL giriniz</string>
     <string name="error_invalid_https_url">Lütfen \'https: // host (: port) /\' formunda geçerli bir URL girin</string>
     <string name="error_port_seems_invalid">Girdiğiniz port numarası seçili protokol için yanlış görünüyor</string>
@@ -131,6 +135,9 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Sunucu bilgilerini sunucuya gönder</string>
     <string name="settings_item_update_pref_howto_summary">Bu özelliğin sunucu tarafında nasıl ayarlanacağına ilişkin ipuçları almak için buraya dokunun</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state_permission_denied">Eksik izinler nedeniyle çağrı durumu gönderme devre dışı bırakıldı</string>
     <string name="settings_item_pref_item_name">Item adı</string>
     <string name="waiting_for_item_upload">Item güncellemeleri için ağ bekleniyor</string>
@@ -235,8 +242,6 @@
     <string name="content_description_color_down">Işığı kapat yada yada ışık şiddetini azaltmak için basılı tut</string>
     <string name="content_description_open_number_picker">Numara Seçiciyi aç</string>
     <string name="content_description_open_openhab">openHAB\'ı aç</string>
-    <string name="content_description_increase_item_value">Öğe değerini artır</string>
-    <string name="content_description_decrease_item_value">Öğe değerini azalt</string>
     <string name="swipe_to_refresh_description">Bu uygulama aynı zamanda kendini otomatik yeniler, tekrar yenilemene gerek yok</string>
     <string name="got_it">Anladım!</string>
     <!-- Intro strings -->
@@ -259,7 +264,8 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
