@@ -206,6 +206,7 @@
     <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
     <string name="error_no_browser_found">Nessun browser trovato sul tuo dispositivo</string>
     <string name="error_no_speech_to_text_app_found">Nessuna app di riconoscimento vocale trovata</string>
+    <string name="error_sse_failed">Sottoscrizione all\'evento fallita, potrebbe essere pregiudicato l\'aggiornamento del Widget</string>
     <string name="error_video_player">%s non può essere caricato</string>
     <string name="install">Installa</string>
     <string name="title_activity_openhabwritetag">Scrittura tag NFC</string>
@@ -217,6 +218,7 @@
     <string name="info_write_tag_unsupported">Il dispositivo non ha il supporto NFC</string>
     <string name="info_write_tag_disabled">NFC è disabilitato</string>
     <string name="action_settings">Impostazioni</string>
+    <string name="nfc_info_hint">Gli aggiornamenti degli Item possono essere scritti su tag NFC. Puoi selezionare un Item qui o puoi premere a lungo un Widget sulla Sitemap.</string>
     <string name="info_not_set">Non impostato</string>
     <string name="empty_page">Questa pagina non contiene tutti i widget impostati per essere visibili</string>
     <!-- Background tasks -->
@@ -546,6 +548,8 @@
     <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>
     <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
+    <string name="data_saver_off">L\'impostazione di sistema di risparmio dati viene seguita durante il caricamento dei dati che usano elementi Sitemap</string>
+    <string name="data_saver_off_pre_n">Tutti gli elementi della Sitemap sono stati caricati, ignorando la quantità dei dati</string>
     <string name="data_saver_load">Carica comunque</string>
     <string name="data_saver_hint">%s non è stato caricato per risparmiare dati</string>
     <string name="data_saver_snackbar">Le icone non sono aggiornate con gli stati dell\'Item, perché il risparmio dati è attivo</string>
