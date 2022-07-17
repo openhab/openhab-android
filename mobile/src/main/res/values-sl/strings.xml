@@ -60,6 +60,7 @@
     <string name="settings_openhab_chart_hq_summary">Generiranje grafov je lahko za strežnik zahtevno. Če opazite počasno nalaganje grafov in vaš strežnik ni ravno močan, onemogočite to možnost.</string>
     <string name="settings_clear_default_sitemap">Izberi privzetega Sitemap</string>
     <string name="settings_no_default_sitemap">Privzeti Sitemap ni izbran</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Trenutni privzeti Sitemap je:%1$s</string>
     <string name="settings_openhab_alt_connection">Oddaljeno</string>
     <string name="settings_openhab_connection">Lokalno</string>
@@ -73,10 +74,13 @@
     <string name="settings_notification_vibration_twice">Dvakrat</string>
     <string name="settings_notification_ringtone_vibration">Melodija zvonjenja &amp; vibracija</string>
     <string name="settings_connection_summary">Povezan z %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock_off">Izklopljeno</string>
     <!-- App messages strings -->
     <!-- Please try to keep the string as short as possible -->
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_https_url">Vnesite veljaven naslov v \'https://host(:port)/\' obliki</string>
     <string name="error_port_seems_invalid">Vrata, ki ste jih vnesli, so neveljavna za izbrani protokol</string>
     <string name="error_first_char_is_whitespace">Prvi znak je presledek, kar je verjetno nezaželeno</string>
@@ -91,6 +95,9 @@
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="action_settings">Nastavitve</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="notification_channel_messages_default_severity">Privzeto</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
@@ -115,7 +122,8 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
