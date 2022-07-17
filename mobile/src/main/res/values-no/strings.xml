@@ -8,7 +8,7 @@
     <string name="discard">Forkast</string>
     <string name="delete">Slett</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
@@ -22,7 +22,7 @@
     <string name="oh3_ui_error">Det oppstod en feil under lasting av openHAB 3 UI</string>
     <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
     <string name="frontail_pref_summary">Frontail må kjøre på dets standardport 9001. Det følger med openHABian eller kan installeres manuelt.</string>
-    <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
+    <string name="mainmenu_openhab_selectsitemap">Velg standard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Tilkobling</string>
@@ -66,9 +66,9 @@
     <string name="settings_chart_scaling_value_l">Stor</string>
     <string name="settings_openhab_chart_hq">Høy-oppløste diagrammer</string>
     <string name="settings_openhab_chart_hq_summary">Generering av diagrammer kan være tungt for serveren. Hvis du opplever treg diagram-innlasting og serveren ikke er kraftig, kan du deaktivere dette alternativet for å forbedre lastingen.</string>
-    <string name="settings_clear_default_sitemap">Tøm standard lokasjonskart</string>
-    <string name="settings_no_default_sitemap">Ingen standard lokasjonskart valgt</string>
-    <string name="settings_current_default_sitemap">Nåværende standard lokasjonskart: %1$s</string>
+    <string name="settings_clear_default_sitemap">Tøm standard Sitemap</string>
+    <string name="settings_no_default_sitemap">Intet standard Sitemap er valgt</string>
+    <string name="settings_current_default_sitemap">Nåværende standard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Ekstern</string>
     <string name="settings_openhab_connection">Lokal</string>
     <string name="settings_ringtone">Ringetone</string>
@@ -137,7 +137,7 @@
     <string name="show_and_copy_item_name">Vis og kopier Item\'ets navn</string>
     <string name="copied_item_name">Kopierte \"%s\"</string>
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB returnerte tom lokasjonskart-liste</string>
+    <string name="error_empty_sitemap_list">openHAB returnerte en tom Sitemap-liste</string>
     <string name="error_sitemap_generic_load_error">Områdekartet kan ikke lastes. Følgende feil oppstod: %1$s</string>
     <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
     <string name="error_wifi_not_available">Wi-Fi er slått av</string>
