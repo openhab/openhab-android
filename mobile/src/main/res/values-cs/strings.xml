@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">Generování grafů může být náročné na server. Pokud dochází k pomalému načítání grafů a váš server je slabší, zakažte tuto možnost aby se zlepšila doba načítání.</string>
     <string name="settings_clear_default_sitemap">Vymazat výchozí Sitemap</string>
     <string name="settings_no_default_sitemap">Žádná výchozí Sitemap nebyla vybrána</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Aktuální výchozí Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Vzdálený</string>
     <string name="settings_openhab_connection">Lokální</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">Dvakrát</string>
     <string name="settings_notification_ringtone_vibration">Vyzvánění &amp; vibrace</string>
     <string name="settings_connection_summary">Připojen k %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Nebezpečně připojeno k %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">Adresa URL nezačíná \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Nenastaveno žádné uživatelské jméno a heslo</string>
@@ -128,12 +130,14 @@
     <string name="app_shortcut_disabled_voice_recognition">Na Vašem zařízení nemáte nainstalovanou aplikaci k převodu řeči na text</string>
     <string name="no_position_set">Žádná pozice není nastavena</string>
     <string name="show_and_copy_item_name">Zobrazit a zkopírovat název Item</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Zkopírováno \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_sitemap_generic_load_error">Nelze načíst Sitemap. Došlo k následující chybě: %1$s</string>
     <string name="error_network_not_available">Síť není k dispozici</string>
     <string name="error_wifi_not_available">Wi-Fi je vypnuta</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Zadejte platnou adresu URL ve formátu \'https://host(:port)/\'</string>
@@ -193,7 +197,6 @@
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
     <string name="error_no_browser_found">Na Vašem zařízení nebyl nalezen žádný prohlížeč</string>
     <string name="error_no_speech_to_text_app_found">Aplikace k převodu řeči na text nenalezena</string>
-    <string name="error_sse_failed">Nastal problém s aktualizacemi widgetu</string>
     <string name="error_video_player">%s nelze načíst</string>
     <string name="install">Nainstalovat</string>
     <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
@@ -205,7 +208,6 @@
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
     <string name="action_settings">Nastavení</string>
-    <string name="nfc_info_hint">Aktualizace Items lze zapsat na NFC tagy. Můžete vybrat Item zde, nebo můžete dlouze stisknout widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
@@ -224,10 +226,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">Sledování událostí v souvislosti s %1$s a %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Sledování událostí v souvislosti s %1$s, %2$s a dalšími</string>
     <string name="settings_item_update_pref_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Poslední aktualizace byla \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Čas budíku</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Stav hovoru</string>
     <string name="settings_phone_state_summary_on">Poslat stav hovoru telefonu do Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Neodesílat stav hovoru</string>
@@ -434,8 +439,6 @@
     <string name="content_description_open_number_picker">Otevřít výběr čísla</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Spustit openHAB</string>
-    <string name="content_description_increase_item_value">Zvýšit hodnotu Item</string>
-    <string name="content_description_decrease_item_value">Snížit hodnotu Item</string>
     <string name="swipe_to_refresh_description">Aplikace se aktualizuje automaticky, obvykle není třeba to dělat ručně</string>
     <string name="got_it">Chápu!</string>
     <!-- Intro strings -->
@@ -478,9 +481,10 @@
     <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_content_description_edit">Upravit widget</string>
     <string name="item_update_widget">Widget</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Vyberte Item</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s - nastaveno na %2$s</string>
     <string name="item_update_success_message_on">%s - zapnuto</string>
     <string name="item_update_success_message_off">%s - vypnuto</string>
@@ -523,8 +527,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">Spořič dat</string>
     <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
-    <string name="data_saver_off">Nastavení spořiče dat pro celý systém je použito při načítání datových prvků Sitemap</string>
-    <string name="data_saver_off_pre_n">Všechny prvky Sitemap jsou načteny, bez ohledu na množství dat</string>
     <string name="data_saver_load">I přesto načíst</string>
     <string name="data_saver_hint">%s nebyl načten pro snížení spotřeby dat</string>
     <string name="data_saver_snackbar">Ikony nezobrazují stav Item, protože je zapnutý spořič dat</string>
