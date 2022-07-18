@@ -58,18 +58,19 @@ interface ConnectionManagerHelper {
     }
 
     private class HelperApi21 constructor(context: Context) :
-        ConnectionManagerHelper, ChangeCallbackHelperApi25(context) {
+        ConnectionManagerHelper, ChangeCallbackHelperApi21(context) {
         private val typeHelper = NetworkTypeHelper(context)
         override val currentConnections: List<ConnectionType> get() = typeHelper.currentConnections
     }
 
+    @TargetApi(26)
     private class HelperApi26 constructor(context: Context) :
         ConnectionManagerHelper, ChangeCallbackHelperApi26(context) {
         private val typeHelper = NetworkTypeHelper(context)
         override val currentConnections: List<ConnectionType> get() = typeHelper.currentConnections
     }
 
-    private open class ChangeCallbackHelperApi25 constructor(context: Context) : BroadcastReceiver() {
+    private open class ChangeCallbackHelperApi21 constructor(context: Context) : BroadcastReceiver() {
         var changeCallback: ConnectionChangedCallback? = null
         private val context = context.applicationContext
         private var ignoreNextBroadcast: Boolean
@@ -149,7 +150,7 @@ interface ConnectionManagerHelper {
     }
 
     private class NetworkTypeHelper constructor(context: Context) {
-        private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)!!
+        private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val currentConnections: List<ConnectionType> get() {
             // TODO: Replace deprecated function
             @Suppress("DEPRECATION")

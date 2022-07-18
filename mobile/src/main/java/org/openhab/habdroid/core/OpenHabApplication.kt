@@ -183,7 +183,7 @@ class OpenHabApplication : MultiDexApplication() {
         }
 
         override fun onReceive(context: Context, intent: Intent?) {
-            val wasDataSaverActive = systemDataSaverStatus
+            val prevSystemDataSaverStatus = systemDataSaverStatus
             val wasBatterySaverActive = batterySaverActive
             when (intent?.action) {
                 ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED -> {
@@ -196,7 +196,7 @@ class OpenHabApplication : MultiDexApplication() {
                 }
                 else -> return
             }
-            if (wasDataSaverActive != systemDataSaverStatus || wasBatterySaverActive != batterySaverActive) {
+            if (prevSystemDataSaverStatus != systemDataSaverStatus || wasBatterySaverActive != batterySaverActive) {
                 dataUsagePolicyListeners.forEach { l -> l.onDataUsagePolicyChanged() }
             }
         }

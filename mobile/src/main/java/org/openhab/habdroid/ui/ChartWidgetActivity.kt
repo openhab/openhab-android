@@ -158,7 +158,7 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
     }
 
     private fun loadChartImage(force: Boolean) {
-        val conn = connection ?: return
+        val conn = connection ?: return finish()
         val chartUrl = widget.toChartUrl(
             getPrefs(),
             chart.width,
