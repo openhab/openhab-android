@@ -21,6 +21,17 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.NET_CAPABILITY_FOREGROUND
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED
+import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED
+import android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED
+import android.net.NetworkCapabilities.TRANSPORT_BLUETOOTH
+import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
+import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
+import android.net.NetworkCapabilities.TRANSPORT_VPN
+import android.net.NetworkCapabilities.TRANSPORT_WIFI
+import android.net.NetworkCapabilities.TRANSPORT_WIFI_AWARE
 import android.os.Build
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -159,38 +170,34 @@ interface ConnectionManagerHelper {
                 .filter { (_, caps) -> caps?.isUsable() == true }
                 // nullable cast is safe, since null caps are filtered out above
                 .map { (network, caps) -> network to caps!! }
-                .map { (net, caps) -> when {
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> ConnectionType.Vpn(net, caps)
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                        caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI_AWARE) -> ConnectionType.Wifi(net, caps)
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> ConnectionType.Bluetooth(net, caps)
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> ConnectionType.Ethernet(net, caps)
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> ConnectionType.Mobile(net, caps)
-                    else -> ConnectionType.Unknown(net, caps)
-                } }
+                .map { (network, caps) ->
+                    when {
+                        caps.hasTransport(TRANSPORT_VPN) -> ConnectionType.Vpn(network, caps)
+                        caps.hasTransport(TRANSPORT_WIFI) ||
+                            caps.hasTransport(TRANSPORT_WIFI_AWARE) -> ConnectionType.Wifi(network, caps)
+                        caps.hasTransport(TRANSPORT_BLUETOOTH) -> ConnectionType.Bluetooth(network, caps)
+                        caps.hasTransport(TRANSPORT_ETHERNET) -> ConnectionType.Ethernet(network, caps)
+                        caps.hasTransport(TRANSPORT_CELLULAR) -> ConnectionType.Mobile(network, caps)
+                        else -> ConnectionType.Unknown(network, caps)
+                    }
+                }
         }
     }
 }
 
 @TargetApi(26)
 fun NetworkCapabilities.isUsable(): Boolean {
-    if (!hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ||
-        !hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
-    ) {
+    if (!hasCapability(NET_CAPABILITY_INTERNET) || !hasCapability(NET_CAPABILITY_NOT_RESTRICTED)) {
         return false
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        if (!hasCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND) ||
-            !hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED)
-        ) {
+        if (!hasCapability(NET_CAPABILITY_FOREGROUND) || !hasCapability(NET_CAPABILITY_NOT_SUSPENDED)) {
             return false
         }
     }
     // We don't need validation for e.g. Wifi as we'll use a local connection there,
     // but we definitely need a working internet connection on mobile
-    if (hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) &&
-        !hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-    ) {
+    if (hasTransport(TRANSPORT_CELLULAR) && !hasCapability(NET_CAPABILITY_VALIDATED)) {
         return false
     }
 
