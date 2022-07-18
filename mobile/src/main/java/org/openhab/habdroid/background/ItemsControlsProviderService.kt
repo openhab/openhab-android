@@ -51,6 +51,7 @@ import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.DeviceControlSubtitleMode
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.getDeviceControlSubtitle
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
@@ -229,7 +230,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 context,
                 requestCode,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
             )
             val statefulControl = Control.StatefulBuilder(item.name, pi)
                 .setTitle(item.label)
