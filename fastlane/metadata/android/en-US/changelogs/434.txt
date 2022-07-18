@@ -1,0 +1,4 @@
+## What's Changed
+* Make data transfer policy depend on whether the used connection is metered or not, and only apply data saver logic on metered connections by @maniac103 in https://github.com/openhab/openhab-android/pull/2964
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.20.15-beta...2.20.16-beta
