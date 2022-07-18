@@ -21,8 +21,10 @@
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tignan ang Kabuuan</string>
     <string name="settings_openhab_icon_format">Pormat ng icon</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_openhab_alt_connection">Malayo</string>
     <string name="settings_openhab_connection">Lokal</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, sa utos mo!</string>
     <string name="info_voice_recognized_text">Tinanggap na utos: %1$s</string>
@@ -30,8 +32,10 @@
     <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Kumokonekta sa lokal URL</string>
     <string name="info_conn_rem_url">Kumokonekta sa malayong URL</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_network_not_available">Hindi available ang network</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Maaari magpasok ng wastong URL sa \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Ang koneksyon sa host ay nabigo</string>
     <string name="error_unable_to_resolve_hostname">Hindi malutas ang hostname</string>
@@ -49,6 +53,9 @@
     <string name="action_settings">Mga setting</string>
     <string name="info_not_set">Hindi nakatakda</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -98,7 +105,8 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->

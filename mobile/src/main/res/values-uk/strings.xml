@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">Генерування графіків може бути тяжким для сервера. Якщо графіки завантажуються повільно і сервер не надто потужний, вимкніть цю опцію для швидшої роботи.</string>
     <string name="settings_clear_default_sitemap">Очистити сторінку інтерфейсу за замовчуванням</string>
     <string name="settings_no_default_sitemap">Не обрано сторінку інтерфейсу за умовчанням</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Типова поточна сторінка за замовчуванням: %1$s</string>
     <string name="settings_openhab_alt_connection">Віддалений сервер</string>
     <string name="settings_openhab_connection">Локальний сервер</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">Двічі</string>
     <string name="settings_notification_ringtone_vibration">Дзвінок &amp; Вібрація</string>
     <string name="settings_connection_summary">З\'єднано з %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Під\'єднано до %1$s: %2$s без перевірки безпеки</string>
     <string name="settings_insecure_connection_no_https">URL-адреса не починається з \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Не встановлено ім\'я користувача та пароль</string>
@@ -128,12 +130,14 @@
     <string name="app_shortcut_disabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <string name="no_position_set">Розташування не встановлено</string>
     <string name="show_and_copy_item_name">Показати і копіювати ім\'я об’єкта</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Скопійовано \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
     <string name="error_network_not_available">Мережа недоступна</string>
     <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">З’єднання невдале. Отримана неочікувана відповідь під час підключення до налаштованого сервера openHAB (код HTTP %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Будь ласка, введіть правильне посилання URL у форматі \"https://хост(:порт)/\"</string>
@@ -193,7 +197,6 @@
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
     <string name="error_no_speech_to_text_app_found">Не знайдено застосунок розпізнавання мови</string>
-    <string name="error_sse_failed">Операція не вдалася, оновлення віджета може погіршитися</string>
     <string name="error_video_player">%s неможливо завантажити</string>
     <string name="install">Встановити</string>
     <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
@@ -205,7 +208,6 @@
     <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
     <string name="info_write_tag_disabled">NFC вимкнено</string>
     <string name="action_settings">Налаштування</string>
-    <string name="nfc_info_hint">Оновлення об’єктів можна записати на NFC-мітку. Ви можете обрати об’єкт тут або довгим натисканням віджету на сторінці інтерфейсу.</string>
     <string name="info_not_set">Не вказано</string>
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
@@ -224,10 +226,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">Відслідковування подій пов’язаних з %1$s і %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Відслідковування подій пов’язаних з %1$s, %2$s та іншими</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Останнє оновлення було \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Час сигналу</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не надсилати будильник</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Стан дзвінка</string>
     <string name="settings_phone_state_summary_on">Відправити стан дзвінка до об\'єкту \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Не надсилати стан дзвінка</string>
@@ -432,8 +437,6 @@
     <string name="content_description_open_number_picker">Введення числа</string>
     <string name="content_description_video">Відео</string>
     <string name="content_description_open_openhab">Відкрити openHAB</string>
-    <string name="content_description_increase_item_value">Збільшення значення об\'єкта</string>
-    <string name="content_description_decrease_item_value">Зменшення значення об\'єкта</string>
     <string name="swipe_to_refresh_description">Додаток періодично оновлюється автоматично, зазвичай не потрібно робити це вручну</string>
     <string name="got_it">Зрозуміло!</string>
     <!-- Intro strings -->
@@ -476,9 +479,10 @@
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_content_description_edit">Редагувати віджет</string>
     <string name="item_update_widget">Віджет</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
     <string name="item_update_success_message_on">%s увімкнено</string>
     <string name="item_update_success_message_off">%s вимкнено</string>
@@ -521,8 +525,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">Заощадження трафіку</string>
     <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
-    <string name="data_saver_off">При завантаженні об’ємних сторінок інтерфейсу, використовуються системні налаштування економії трафіку</string>
-    <string name="data_saver_off_pre_n">Усі елементи сторінок інтерфейсу завантажуються, ігноруючи споживання трафіку</string>
     <string name="data_saver_load">Все одно завантажити</string>
     <string name="data_saver_hint">%s не завантажено, щоб заощадити трафік</string>
     <string name="data_saver_snackbar">Значки не базуються на станах об’єктів, оскільки ввімкнено заощадження даних</string>
@@ -617,4 +619,13 @@
     <string name="item_tag_equipment_camera">Камера</string>
     <string name="item_tag_equipment_fan">Вентилятор</string>
     <string name="item_tag_equipment_lock">Замок</string>
+    <string name="item_tag_equipment_smartphone">Смартфон</string>
+    <string name="item_tag_equipment_smokedetector">Детектор диму</string>
+    <string name="item_tag_equipment_speaker">Гучномовець</string>
+    <string name="item_tag_equipment_television">Телевізор</string>
+    <string name="item_tag_equipment_voiceassistant">Голосовий помічник</string>
+    <string name="item_tag_equipment_washingmachine">Пральна машина</string>
+    <string name="item_tag_equipment_weatherservice">Служба погоди</string>
+    <string name="item_tag_equipment_webservice">Веб-служба</string>
+    <string name="item_tag_equipment_window">Вікно</string>
 </resources>

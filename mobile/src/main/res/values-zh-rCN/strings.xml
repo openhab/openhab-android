@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">生成图表可能会对服务器造成压力。若您的图表载入时间过长或服务器性能不强，请禁用此选项以加速载入。</string>
     <string name="settings_clear_default_sitemap">清除默认站点地图</string>
     <string name="settings_no_default_sitemap">未选择默认站点地图</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">当前默认站点地图: %1$s</string>
     <string name="settings_openhab_alt_connection">远程</string>
     <string name="settings_openhab_connection">本地</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">两次</string>
     <string name="settings_notification_ringtone_vibration">铃声 &amp; 振动</string>
     <string name="settings_connection_summary">已连接至 %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">不安全地连接到 %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">URL 不能以“https”开始</string>
     <string name="settings_insecure_connection_no_auth">用户名或密码未设置</string>
@@ -126,12 +128,14 @@
     <string name="app_shortcut_disabled_voice_recognition">您的设备未安装语音识别程序</string>
     <string name="no_position_set">未设置位置</string>
     <string name="show_and_copy_item_name">显示并复制项目名称</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">已复制 %s</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
     <string name="error_sitemap_generic_load_error">无法载入站点地图。发生错误：%1$s</string>
     <string name="error_network_not_available">网络不可用</string>
     <string name="error_wifi_not_available">Wi-Fi 被关闭</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">连接失败。尝试连接到已配置的 openHAB服务器 (HTTP 代码 %d) 时发生错误。</string>
     <string name="error_invalid_url">请以 \'http(s)://主机(:端口)/\' 格式输入有效网址</string>
     <string name="error_invalid_https_url">请输入类如 “http(s)://主机(:端口)/” 格式的网址</string>
@@ -191,7 +195,6 @@
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
     <string name="error_no_browser_found">未在您的设备上找到浏览器</string>
     <string name="error_no_speech_to_text_app_found">未找到语音识别程序</string>
-    <string name="error_sse_failed">事件订阅失败，小部件刷新可能发生故障</string>
     <string name="error_video_player">无法加载 %s</string>
     <string name="install">安装</string>
     <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
@@ -203,7 +206,6 @@
     <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
     <string name="info_write_tag_disabled">NFC 已禁用</string>
     <string name="action_settings">设置</string>
-    <string name="nfc_info_hint">项目更新可以写到 NFC 标签。您可以在此选择一个项目，或者您可以长按站点地图上的一个部件。</string>
     <string name="info_not_set">未设置</string>
     <string name="empty_page">此页不含有可见的小挂件</string>
     <!-- Background tasks -->
@@ -222,10 +224,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">监视与 %1$s 和 %2$s 关联的事件</string>
     <string name="send_device_info_foreground_service_running_summary_more">监视与 %1$s、 %2$s 和更多相关的事件</string>
     <string name="settings_item_update_pref_howto_summary">轻触此处以获取如何在服务器端设置此功能的提示</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">最后更新是\'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">提醒时间</string>
     <string name="settings_alarm_clock_summary_on">向项目%1$s 发送提醒时间</string>
     <string name="settings_alarm_clock_summary_off">不发送提醒时间</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">通话状态</string>
     <string name="settings_phone_state_summary_on">向项目%1$s 发送通话状态</string>
     <string name="settings_phone_state_summary_off">不发送通话状态</string>
@@ -424,8 +429,6 @@
     <string name="content_description_open_number_picker">打开数字选取器</string>
     <string name="content_description_video">视频</string>
     <string name="content_description_open_openhab">打开 openHAB</string>
-    <string name="content_description_increase_item_value">增加项目权重</string>
-    <string name="content_description_decrease_item_value">减少项目权重</string>
     <string name="swipe_to_refresh_description">此应用程序将自动刷新，您通常无需手动操作</string>
     <string name="got_it">明白！</string>
     <!-- Intro strings -->
@@ -468,9 +471,10 @@
     <string name="item_update_widget_content_description">更改项目状态的部件</string>
     <string name="item_update_widget_content_description_edit">编辑小部件</string>
     <string name="item_update_widget">小部件</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">选择项目</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s 已被导出至 %2$s</string>
     <string name="item_update_success_message_on">%s 已开启</string>
     <string name="item_update_success_message_off">%s 已被关闭</string>
@@ -513,8 +517,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">节省流量模式</string>
     <string name="data_saver_on">可能需要更大数据传输的站点地图元素未加载</string>
-    <string name="data_saver_off">当使用站点地图元素加载数据时遵循系统数据保护程序设置</string>
-    <string name="data_saver_off_pre_n">所有站点地图元素都已加载，无视使用了多少数据</string>
     <string name="data_saver_load">仍然添加</string>
     <string name="data_saver_hint">%s 未加载以保存数据</string>
     <string name="data_saver_snackbar">图标不是基于项目实时状态，因为数据保护程序已开启</string>

@@ -48,6 +48,7 @@
     <string name="settings_openhab_chart_hq_summary">Diagrammer generéieren ass opwänneg fir de Server. Wann s de keen staarke Server hues an d‘ Diagrammer lues lueden, schalt des Optioun aus fir d‘ Luedzäiten ze verbesseren.</string>
     <string name="settings_clear_default_sitemap">Standard Sitemap ophiewen</string>
     <string name="settings_no_default_sitemap">Keng Standard Sitemap gewielt</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Aktuell Standard Sitemap: %1$s</string>
     <string name="settings_openhab_connection">Lokal</string>
     <string name="settings_ringtone">Schelltoun</string>
@@ -60,6 +61,7 @@
     <string name="settings_notification_vibration_twice">Zwee mol</string>
     <string name="settings_notification_ringtone_vibration">Schelltoun &amp; Vibratioun</string>
     <string name="settings_connection_summary">Mat %s verbonne</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">Displayspär</string>
     <string name="settings_screen_lock_nolock_summary">Du muss eng Display Spär uschalten fir d‘ Spären vun App Zougrëff ze aktivéieren</string>
     <string name="settings_screen_lock_off_summary">Zougrëff op d‘ App ass net gespaart</string>
@@ -95,11 +97,13 @@
     <string name="app_shortcut_disabled_notifications">Däin Remote-Host Server ass net verfügbar</string>
     <string name="app_shortcut_disabled_voice_recognition">Däi Gerät huet keng Sproocherkennungs App installéiert</string>
     <string name="no_position_set">Positioun net gesat</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB huet eng eidel Sitemap Lescht geschéckt</string>
     <string name="error_sitemap_generic_load_error">D‘ Sitemap konnt net geluede ginn. Folgende Feeler ass opgetrueden: %1$s</string>
     <string name="error_network_not_available">D\'Netzwierk ass net verfügbar</string>
     <string name="error_wifi_not_available">Wi-Fi ass ausgeschalt</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Connectioun ass feelgeschloen. Et ass eng onerwaarten Äntwert ukomm, beim Versuch sech un den konfiguréierten openHAB Server ze verbannen (Empfaangenen HTTP Äntwert Code: %d).</string>
     <string name="error_invalid_url">Gëff w.e.g. eng valid URL an der \'http(s)://host(:port)/\' Form an</string>
     <string name="error_invalid_https_url">Gëff w.e.g. eng valid URL an der \'https://host(:port)/\' Form an</string>
@@ -177,9 +181,12 @@
     <string name="send_device_info_category_schedule_based_title">Baséierend op engem Zäitplang</string>
     <string name="send_device_info_foreground_service_title">Iwwerwaachung vun Evenementer</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="settings_alarm_clock">Erwächzäit</string>
     <string name="settings_alarm_clock_summary_on">Erwächzäit un den Item \'%1$s\' schécken</string>
     <string name="settings_alarm_clock_summary_off">Erwächzäit net schécken</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Uruff Status</string>
     <string name="settings_phone_state_summary_on">Schéckt den Uruffstatus un den Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Uruffstatus net schécken</string>
@@ -346,8 +353,6 @@
     <string name="content_description_color_down">Aus oder halen fir d\'Hellegkeet erof ze setzen</string>
     <string name="content_description_open_number_picker">Nummer Auswiel opmaachen</string>
     <string name="content_description_open_openhab">openHAB opmaachen</string>
-    <string name="content_description_increase_item_value">Wäert vum Item eropsetzen</string>
-    <string name="content_description_decrease_item_value">Wäert vum Item erofsetzen</string>
     <string name="swipe_to_refresh_description">D\'App aktualiséiert sech automatesch, Du brauchs et net manuell ze maachen</string>
     <string name="got_it">Verstanen!</string>
     <!-- Intro strings -->
@@ -385,8 +390,9 @@
     <string name="item_update_widget_title">Item Steierung</string>
     <string name="item_update_widget_content_description">Widget fir den Status vum Item ze änneren</string>
     <string name="item_update_widget_content_description_edit">Wdiet editéieren</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_item_picker_title">Item auswielen</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
     <string name="item_update_success_message_on">%s ass ageschalt ginn</string>
     <string name="item_update_success_message_off">%s ass ausgeschalt ginn</string>
@@ -427,7 +433,6 @@
     <string name="create_home_screen_widget_title">Widget erstellen</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datespuermodus</string>
-    <string name="data_saver_off_pre_n">All Sitemap Elementer gi gelueden, onofhängeg vun hirer Datenotzung</string>
     <string name="data_saver_load">Trotzdeem lueden</string>
     <string name="data_saver_hint">%s ass net gelueden ginn fir Daten ze spueren</string>
     <string name="data_saver_snackbar">Icons sinn net baséiert op Item Statussen, well den Datespuermodus aktiv ass</string>

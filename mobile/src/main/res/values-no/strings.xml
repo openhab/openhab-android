@@ -8,7 +8,7 @@
     <string name="discard">Forkast</string>
     <string name="delete">Slett</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
+    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
@@ -22,12 +22,12 @@
     <string name="oh3_ui_error">Det oppstod en feil under lasting av openHAB 3 UI</string>
     <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
     <string name="frontail_pref_summary">Frontail må kjøre på dets standardport 9001. Det følger med openHABian eller kan installeres manuelt.</string>
-    <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
+    <string name="mainmenu_openhab_selectsitemap">Velg standard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Tilkobling</string>
     <string name="settings_display_title">Skjerm</string>
-    <string name="settings_sitemap_title">Nettstedskart</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Diverse</string>
     <string name="settings_openhab_url">Lokal server adresse</string>
     <string name="settings_openhab_url_summary">Adressen til openHAB dashbord (basert på vertsnavn eller IP). Hvis konfigurert, er automatisk gjenkjenning deaktivert. Nåværende innstilling: %s</string>
@@ -66,9 +66,10 @@
     <string name="settings_chart_scaling_value_l">Stor</string>
     <string name="settings_openhab_chart_hq">Høy-oppløste diagrammer</string>
     <string name="settings_openhab_chart_hq_summary">Generering av diagrammer kan være tungt for serveren. Hvis du opplever treg diagram-innlasting og serveren ikke er kraftig, kan du deaktivere dette alternativet for å forbedre lastingen.</string>
-    <string name="settings_clear_default_sitemap">Tøm standard lokasjonskart</string>
-    <string name="settings_no_default_sitemap">Ingen standard lokasjonskart valgt</string>
-    <string name="settings_current_default_sitemap">Nåværende standard lokasjonskart: %1$s</string>
+    <string name="settings_clear_default_sitemap">Tøm standard Sitemap</string>
+    <string name="settings_no_default_sitemap">Intet standard Sitemap er valgt</string>
+    <!-- %1$s: Default Sitemap label -->
+    <string name="settings_current_default_sitemap">Nåværende standard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Ekstern</string>
     <string name="settings_openhab_connection">Lokal</string>
     <string name="settings_ringtone">Ringetone</string>
@@ -81,6 +82,7 @@
     <string name="settings_notification_vibration_twice">Dobbel</string>
     <string name="settings_notification_ringtone_vibration">Ringetone &amp; Vibrering</string>
     <string name="settings_connection_summary">Koblet til %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Usikkert tilkoblet %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">URL starter ikke med \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Brukernavn og passord er ikke oppgitt</string>
@@ -94,7 +96,7 @@
     <string name="settings_screen_lock_off">Av</string>
     <string name="settings_screen_lock_kiosk">Kiosk-modus</string>
     <string name="settings_screen_lock_on">På</string>
-    <string name="settings_show_sitemaps_in_drawer">Vis alle Nettstedskart i sidemenyen</string>
+    <string name="settings_show_sitemaps_in_drawer">Vis alle Sitemaps i sidemenyen</string>
     <string name="settings_server_name">Servernavn</string>
     <string name="settings_add_server">Legg til server</string>
     <string name="settings_edit_server">Rediger server</string>
@@ -119,6 +121,7 @@
     <string name="device_control_subtitle_equipment">Utstyr</string>
     <string name="device_control_subtitle_location_equipment">Sted og utstyr</string>
     <string name="device_control_subtitle_item_name">Elementnavn</string>
+    <string name="device_control_subtitle">Beskrivelse for Item-flis</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Talekommandoer</string>
     <string name="voice_command">Talekommando</string>
@@ -135,12 +138,14 @@
     <string name="app_shortcut_disabled_voice_recognition">Enheten har ikke en stemme gjenkjennelse app installert</string>
     <string name="no_position_set">Ingen posisjon satt</string>
     <string name="show_and_copy_item_name">Vis og kopier Item\'ets navn</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Kopierte \"%s\"</string>
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB returnerte tom lokasjonskart-liste</string>
-    <string name="error_sitemap_generic_load_error">Områdekartet kan ikke lastes. Følgende feil oppstod: %1$s</string>
+    <string name="error_empty_sitemap_list">openHAB returnerte en tom Sitemap-liste</string>
+    <string name="error_sitemap_generic_load_error">Sitemap\'et kunne ikke lastes. Følgende feil oppstod: %1$s</string>
     <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
     <string name="error_wifi_not_available">Wi-Fi er slått av</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_wifi_restricted">Lokale tilkoblinger til serveren %1$s er begrenset til følgende Wi-Fi navn: %2$s</string>
     <string name="error_http_connection_failed">Tilkobling mislyktes. Mottok et uventet svar under forsøk på å koble til den konfigurerte openHAB-serveren (HTTP responskode: %d).</string>
     <string name="error_invalid_url">Angi en gyldig URL-adresse i en \' http(s)://host(:port) / \" form</string>
@@ -201,7 +206,7 @@
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
     <string name="error_no_browser_found">Ingen nettleser funnet på enheten</string>
     <string name="error_no_speech_to_text_app_found">Ingen tale gjenkjennelse app funnet</string>
-    <string name="error_sse_failed">Hendelsesabonnementet mislyktes, widget-oppdateringer kan kan utebli</string>
+    <string name="error_sse_failed">Hendelsesabonnementet mislyktes, Widget-oppdateringer kan utebli</string>
     <string name="error_video_player">Kunne ikke laste %s</string>
     <string name="install">Installer</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
@@ -213,7 +218,7 @@
     <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
     <string name="info_write_tag_disabled">NFC er slått av</string>
     <string name="action_settings">Innstillinger</string>
-    <string name="nfc_info_hint">Item-oppdateringer kan skrives til NFC-brikker. Du kan velge et Item her eller du kan trykke-og-holde en widget i Sitemap.</string>
+    <string name="nfc_info_hint">Item-oppdateringer kan skrives til NFC-brikker. Du kan velge et Item her eller du kan trykke-og-holde en Widget i Sitemap.</string>
     <string name="info_not_set">Ikke angitt</string>
     <string name="empty_page">Denne siden inneholder ikke noen widgets som er satt synlig</string>
     <!-- Background tasks -->
@@ -232,12 +237,15 @@
     <string name="send_device_info_foreground_service_running_summary_two">Overvåk hendelser forbundet med %1$s og %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Overvåk hendelser forbundet med %1$s, %2$s med mer</string>
     <string name="settings_item_update_pref_howto_summary">Tapp her for å få tips om hvordan du setter opp denne funksjonen på serversiden</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Siste oppdatering var \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Alarmtid</string>
     <string name="settings_alarm_clock_summary_on">Sender alarmtid til Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Ikke send alarmtid</string>
     <string name="copy_debug_info">Kopier</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_alarm_clock_debug_ignored">Ignorerte alarmtidsoppdatering til %1$s, som ble sendt av %2$s</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_alarm_clock_debug">Mottok alarmtidsoppdatering til %1$s, som ble sendt av %2$s</string>
     <string name="settings_phone_state">Samtaletilstand</string>
     <string name="settings_phone_state_summary_on">Sender samtaletilstand til Item \'%1$s\'</string>
@@ -448,8 +456,8 @@
     <string name="content_description_open_number_picker">Åpne nummervelger</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Åpne openHAB</string>
-    <string name="content_description_increase_item_value">Øk elementverdi</string>
-    <string name="content_description_decrease_item_value">Senk elementverdi</string>
+    <string name="content_description_increase_item_value">Øk Item-verdi</string>
+    <string name="content_description_decrease_item_value">Reduser Item-verdi</string>
     <string name="swipe_to_refresh_description">Appen oppdaterer seg automatisk, du behøver normalt ikke gjøre det manuelt</string>
     <string name="got_it">Jeg forstår!</string>
     <!-- Intro strings -->
@@ -492,13 +500,14 @@
     <string name="item_update_widget_content_description">Widget for å endre status på elementer</string>
     <string name="item_update_widget_content_description_edit">Rediger widget</string>
     <string name="item_update_widget">Widget</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Velg et element</string>
     <string name="widget_show_state">Tilføy gjeldende tilstand til navnet</string>
     <string name="widget_show_state_summary">Tilstanden blir oppdatert i henhold til tidsplanen, som kan konfigureres under \"Send enhetsinformasjon til server\"</string>
     <string name="widget_no_command">Ikke send en kommando</string>
     <string name="error_getting_state">Feil ved lasting av tilstand</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s er satt til %2$s</string>
     <string name="item_update_success_message_on">%s er blitt slått på</string>
     <string name="item_update_success_message_off">%s er blitt slått av</string>
@@ -541,8 +550,8 @@
     <!-- Data saver -->
     <string name="data_saver_title">Datasparing</string>
     <string name="data_saver_on">Sitemap-elementer som kan kreve større dataoverføringer blir ikke lastet</string>
-    <string name="data_saver_off">Datasparingsinstillingen for systemet følges når du laster inn Sitemap elementer som bruker data</string>
-    <string name="data_saver_off_pre_n">Alle Sitemap elementer blir lastet, uavhengig av deres dataforbruk</string>
+    <string name="data_saver_off">Datasparingsinstillingen for systemet følges når du laster inn Sitemap-elementer som bruker data</string>
+    <string name="data_saver_off_pre_n">Alle Sitemap-elementer blir lastet, uavhengig av deres dataforbruk</string>
     <string name="data_saver_load">Last inn uansett</string>
     <string name="data_saver_hint">%s ble ikke lastet for å spare data</string>
     <string name="data_saver_snackbar">Ikoner er ikke basert på Item-tilstand fordi datasparing er slått på</string>

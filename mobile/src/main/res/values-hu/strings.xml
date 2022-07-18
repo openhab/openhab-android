@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">Grafikonok generálása leterhelheti a szervert. Ha úgy érzékeli hogy lassan töltődnek, és a szervere nem túl erős, ennek a beállítás tiltásával javíthat a töltési sebességen.</string>
     <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
     <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Jelenlegi alapértelmezett felületet: %1$s</string>
     <string name="settings_openhab_alt_connection">Távoli</string>
     <string name="settings_openhab_connection">Helyi</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">Kétszer</string>
     <string name="settings_notification_ringtone_vibration">Csengőhang &amp; rezgés</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Nem biztonságos a csatakozás a %1$s: %2$s szerverhez</string>
     <string name="settings_insecure_connection_no_https">AZ URL nem \"https\" el kezdődik</string>
     <string name="settings_insecure_connection_no_auth">Nincs megadva felhasználónév és/vagy jelszó</string>
@@ -126,12 +128,14 @@
     <string name="app_shortcut_disabled_voice_recognition">Ez az eszköz nem rendelkezik hangfelismerő alkalmazással</string>
     <string name="no_position_set">Nincs művelet beállítva</string>
     <string name="show_and_copy_item_name">Mutassa meg és másolja az Elem nevét</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">\"%s\" másolva</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_sitemap_generic_load_error">A felület nem tölthető be. Akövetkező hiba miatt: %1$s</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
     <string name="error_wifi_not_available">Wi-Fi ki van kapcsolva</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
     <string name="error_invalid_https_url">Adjon meg egy érvényes URL-címet \' https://kiszolgáló(:port)/\' formában</string>
@@ -191,7 +195,6 @@
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
     <string name="error_no_speech_to_text_app_found">Hangfelismerő alkalmazás nem található</string>
-    <string name="error_sse_failed">Az esemény feliratkozás meghiúsult, az adatok frissítése nem megbízható</string>
     <string name="error_video_player">%s nem tölthető be</string>
     <string name="install">Telepítés</string>
     <string name="title_activity_openhabwritetag">NFC-címke írása</string>
@@ -203,7 +206,6 @@
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
     <string name="action_settings">Beállítások</string>
-    <string name="nfc_info_hint">Az Elem frissítést NFC címkére írhatja. Kiválaszthat egy Elemet itt vagy hosszú érintéssel a felületen.</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
@@ -222,10 +224,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">Figyelje a(z) %1$s-el és a%2$s-el kapcsolatos eseményeket</string>
     <string name="send_device_info_foreground_service_running_summary_more">Figyelje a(z) %1$s-el és a%2$s-el, stb. kapcsolatos eseményeket</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Utolsó frissítés \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Ébresztési idő</string>
     <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_alarm_clock_summary_off">Ne küldje el az ébresztőidőt</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Hívás állapota</string>
     <string name="settings_phone_state_summary_on">Küldje el az hívás állapotát ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_phone_state_summary_off">Ne küldje el a hívás állapotát</string>
@@ -423,8 +428,6 @@
     <string name="content_description_open_number_picker">Szám megadása</string>
     <string name="content_description_video">Videó</string>
     <string name="content_description_open_openhab">openHAB megnyitása</string>
-    <string name="content_description_increase_item_value">Érték növelése</string>
-    <string name="content_description_decrease_item_value">Érték csökkentése</string>
     <string name="swipe_to_refresh_description">Az alkalmazás frissül automatikusan, általában nem kell saját kezűleg ezt megtenni</string>
     <string name="got_it">Értettem!</string>
     <!-- Intro strings -->
@@ -467,9 +470,10 @@
     <string name="item_update_widget_content_description">Widget az elem állapot megváltoztatásához</string>
     <string name="item_update_widget_content_description_edit">Widget szerkesztése</string>
     <string name="item_update_widget">Kütyü</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Válassz egy elemet</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s beállításra került ide: %2$s</string>
     <string name="item_update_success_message_on">%s fel lett kapcsolva</string>
     <string name="item_update_success_message_off">%s le lett kapcsolva</string>
@@ -512,8 +516,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">Adatforgalom-csökkentő</string>
     <string name="data_saver_on">A nagyobb adatátvitelt igénylő honlap elemek nem lesznek betöltve</string>
-    <string name="data_saver_off">A rendszerszintű adat megtakarító beállítások érvényben lesznek, amikor az elemek betöltődnek</string>
-    <string name="data_saver_off_pre_n">Minden elemet töltsön be függetlenül az adathasználatától</string>
     <string name="data_saver_load">Betölt mindenképp</string>
     <string name="data_saver_hint">Adat megtakarítás miatt %s nem került betöltésre</string>
     <string name="data_saver_snackbar">Az adatmegtakarítás bekapcsolása miatt az ikonok állapota nem követi az Elemek állapotát</string>

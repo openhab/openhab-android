@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">Создание графиков может выполняться сервером. Если ваш сервер не достаточно мощный и вы испытываете проблемы со скоростью их загрузки, отключите этот параметр.</string>
     <string name="settings_clear_default_sitemap">Очистить Sitemap по умолчанию</string>
     <string name="settings_no_default_sitemap">Не выбран Sitemap по умолчанию</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Текущий Sitemap по умолчанию: %1$s</string>
     <string name="settings_openhab_alt_connection">Удаленный сервер</string>
     <string name="settings_openhab_connection">Локальный сервер</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">Дважды</string>
     <string name="settings_notification_ringtone_vibration">Рингтон &amp; вибрация</string>
     <string name="settings_connection_summary">Подключен к %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Небезопасно подключено к %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">URL не начинается с \"https\"</string>
     <string name="settings_insecure_connection_no_auth">Имя пользователя и пароль не установлены</string>
@@ -126,12 +128,14 @@
     <string name="app_shortcut_disabled_voice_recognition">На вашем устройстве не установлено приложение преобразования речи в текст</string>
     <string name="no_position_set">Позиция не установлена</string>
     <string name="show_and_copy_item_name">Показать и скопировать имя Item</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Скопировано \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB вернул пустой список sitemap</string>
     <string name="error_sitemap_generic_load_error">Sitemap не может быть загружен. Произошла следующая ошибка: %1$s</string>
     <string name="error_network_not_available">Сеть недоступна</string>
     <string name="error_wifi_not_available">Wi-Fi выключен</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Подключение не удалось. Неожиданный ответ был получен при попытке подключиться к настроенному серверу openHAB (HTTP-код %d).</string>
     <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
@@ -191,7 +195,6 @@
     <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
     <string name="error_no_browser_found">На вашем устройстве не найден браузер</string>
     <string name="error_no_speech_to_text_app_found">Не найдено приложение распознавания голоса</string>
-    <string name="error_sse_failed">Сбой подписки на событие, обновление виджета может не работать</string>
     <string name="error_video_player">%s не может быть загружен</string>
     <string name="install">Установить</string>
     <string name="title_activity_openhabwritetag">Запись NFC tag</string>
@@ -203,7 +206,6 @@
     <string name="info_write_tag_unsupported">Это устройство не поддерживает NFC</string>
     <string name="info_write_tag_disabled">NFC отключен</string>
     <string name="action_settings">Настройки</string>
-    <string name="nfc_info_hint">Обновления Item можно записать на NFC метку. Выберите Item тут или на Sitemap долгим нажатием на виджет.</string>
     <string name="info_not_set">Не задано</string>
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Background tasks -->
@@ -222,10 +224,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">Отслеживать события, связанные с %1$s и %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Отслеживать события, связанные с %1$s, %2$s и другими</string>
     <string name="settings_item_update_pref_howto_summary">Нажмите тут для подсказки как настроить функцию на сервере</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Последнее обновление было в \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Время будильника</string>
     <string name="settings_alarm_clock_summary_on">Посылать время будильника в Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не отправлять время будильника</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Состояние вызова</string>
     <string name="settings_phone_state_summary_on">Отправляет состояние звонка в Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Не отправлять состояние вызова</string>
@@ -430,8 +435,6 @@
     <string name="content_description_open_number_picker">Число</string>
     <string name="content_description_video">Видео</string>
     <string name="content_description_open_openhab">Открыть openHAB</string>
-    <string name="content_description_increase_item_value">Увеличить значение</string>
-    <string name="content_description_decrease_item_value">Уменьшить значение</string>
     <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет необходимости делать это вручную</string>
     <string name="got_it">Ясно!</string>
     <!-- Intro strings -->
@@ -474,9 +477,10 @@
     <string name="item_update_widget_content_description">Виджет для смены состояния Item</string>
     <string name="item_update_widget_content_description_edit">Редактировать виджет</string>
     <string name="item_update_widget">Виджет</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Выберите Item</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s был установлен в %2$s</string>
     <string name="item_update_success_message_on">%s был включен</string>
     <string name="item_update_success_message_off">%s был отключен</string>
@@ -519,8 +523,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">Экономия трафика</string>
     <string name="data_saver_on">Элементы Sitemap которым необходим большой объем данным не загружены</string>
-    <string name="data_saver_off">Использовать системную настройку уменьшения объема данных для загрузки sitemap элементов с данными</string>
-    <string name="data_saver_off_pre_n">Все элементы sitemap загружены без учета объема используемых данных</string>
     <string name="data_saver_load">Загружать все равно</string>
     <string name="data_saver_hint">%s не был загружен для сохранения данных</string>
     <string name="data_saver_snackbar">Значки не соответсвуют состоянию Item, потому что включено сохранение данных</string>

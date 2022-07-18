@@ -45,6 +45,7 @@
     <string name="settings_openhab_chart_hq_summary">Att generera diagram kan vara betungande för servern. Om du upplever långsam laddning av diagram, inaktivera detta alternativ för att förbättra laddningstiderna.</string>
     <string name="settings_clear_default_sitemap">Rensa standard-Sitemap</string>
     <string name="settings_no_default_sitemap">Ingen Sitemap vald som standard</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Nuvarande standard-Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Fjärr</string>
     <string name="settings_openhab_connection">Lokal</string>
@@ -55,6 +56,7 @@
     <string name="settings_notification_vibration_long">Lång</string>
     <string name="settings_notification_vibration_twice">Två gånger</string>
     <string name="settings_connection_summary">Ansluten till %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">Skärmlås</string>
     <string name="settings_screen_lock_nolock_summary">Du måste aktivera ett skärmlås på din enhet för att aktivera åtkomstskydd av appar</string>
     <string name="settings_screen_lock_off_summary">Åtkomst till appen är inte skyddad</string>
@@ -81,11 +83,13 @@
     <string name="app_shortcut_disabled_notifications">Din fjärrserver är inte tillgänglig</string>
     <string name="app_shortcut_disabled_voice_recognition">Din enhet har ingen app för röstigenkänning installerad</string>
     <string name="no_position_set">Ingen position angiven</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerade en tom Sitemap-lista</string>
     <string name="error_sitemap_generic_load_error">Sitemap kunde inte laddas. Följande fel inträffade: %1$s</string>
     <string name="error_network_not_available">Nätverk inte tillgängligt</string>
     <string name="error_wifi_not_available">Wi-Fi är avstängt</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Anslutningen misslyckas. Ett oväntat svar mottogs vid anslutningsförsök mot den konfigurerade openHAB-servern (mottagen HTTP-svarskod: %d).</string>
     <string name="error_invalid_url">Vänligen ange en giltig URL i en formen \' http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Ange en giltig URL i form av \'http(s)://host(:port)/\'</string>
@@ -142,7 +146,6 @@
     <string name="error_openhab_offline">Molninstansen är igång, men din openHAB-server är offline</string>
     <string name="error_no_browser_found">Ingen webbläsare hittades på din enhet</string>
     <string name="error_no_speech_to_text_app_found">Ingen röstigenkänningsapp hittades</string>
-    <string name="error_sse_failed">Händelseprenumerationen misslyckades, uppdateringen av widget kan försämras</string>
     <string name="install">Installera</string>
     <string name="title_activity_openhabwritetag">Skriv NFC-tagg</string>
     <string name="title_activity_libraries">Bibliotek som används</string>
@@ -158,6 +161,9 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Skicka enhetsinformation till servern</string>
     <string name="settings_item_update_pref_howto_summary">Tryck här för att få tips om hur du ställer in den här funktionens serversida</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state_permission_denied">Att skicka samtalsstatus har inaktiverats på grund av saknade behörigheter</string>
     <string name="settings_charging_state">Laddningstillstånd</string>
     <string name="settings_wifi_ssid">WiFi-namn</string>
@@ -311,7 +317,8 @@
     <string name="turn_on">Sätt på</string>
     <string name="press_back_to_exit">Tryck tillbaka för att avsluta</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_rewind">%s spolar tillbaka</string>
     <string name="item_update_success_message_fastforward">%s snabbspolar</string>
     <string name="item_update_error_no_connection_retry">Fel vid sändning av Item-uppdatering, försöker igen\u2026</string>

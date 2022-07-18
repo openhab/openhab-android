@@ -41,6 +41,7 @@
     <string name="settings_openhab_chart_hq_summary">تكوين النماذج قد يؤثر على الخادم. إذا واجهت بطئا في تحميل النماذج عدة مرات وخادمك ليس قويا، عطل هذه الخاصية لتحسين مدة التحميل.</string>
     <string name="settings_clear_default_sitemap">تصفية Sitemap الإفتراضية</string>
     <string name="settings_no_default_sitemap">لا توجد Sitemap إفتراضية محددة</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Sitemap الافتراضية الحالية: %1$s</string>
     <string name="settings_openhab_alt_connection">بعيد</string>
     <string name="settings_openhab_connection">محلي</string>
@@ -50,6 +51,7 @@
     <string name="settings_notification_vibration_long">طويل</string>
     <string name="settings_notification_vibration_twice">مرتين</string>
     <string name="settings_connection_summary">متصل بـ %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">قفل الشاشة</string>
     <string name="settings_screen_lock_nolock_summary">انت بحاجة لتفعيل قفل الشاشة لتتمكن من تفعيل قفل الوصول لى التطبيق</string>
     <string name="settings_screen_lock_off_summary">لم يتم قفل الوصول الى التطبيق</string>
@@ -73,10 +75,12 @@
     <string name="app_shortcut_disabled_habpanel">لا يتوفر HABPanel مثبت على خادمك</string>
     <string name="app_shortcut_disabled_notifications">المخدم البعيد غير متوفر</string>
     <string name="app_shortcut_disabled_voice_recognition">تطبيق التعرف على الصوت غير مثبت في جهازك</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB يُرجع قائمة sitemap خالية</string>
     <string name="error_network_not_available">شبكة غير متاحة</string>
     <string name="error_wifi_not_available">تم ايقاف الواي فاي</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">الرجاء إدخال محدد موقع معلومات صالح في \'http(s)://host(:port)/\' النموذج</string>
     <string name="error_port_seems_invalid">يبدو أن المنفذ الذي أدخلته غير مناسب للبروتوكل المحدد</string>
     <string name="error_connection_failed">فشل الإتصال بالمضيف</string>
@@ -111,6 +115,9 @@
     <string name="empty_page">هذه الصفحة لا تحتوي على أي من القطع التي تم تعيينها لتكون مرئية</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">إرسال معلومات الجهاز إلى الخادم</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_wifi_ssid">اسم الشبكة اللاسلكية</string>
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
     <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
@@ -209,7 +216,8 @@
     <string name="search">بحث</string>
     <string name="turn_on">تشغيل</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <string name="widget_type_video">فيديو</string>
     <!-- Tiles -->

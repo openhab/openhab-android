@@ -37,6 +37,7 @@
     <string name="settings_openhab_chart_hq_summary">Gerar gráficos pode ser pesado para o servidor. Se o tempo de carregamento de gráfico estiver lento e o seu servidor não é poderoso, desative esta opção para melhorar os tempos de carregamento.</string>
     <string name="settings_clear_default_sitemap">Limpar o mapa do site padrão</string>
     <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remoto</string>
     <string name="settings_ringtone_none">Nenhum</string>
@@ -45,6 +46,7 @@
     <string name="settings_notification_vibration_long">Longo</string>
     <string name="settings_notification_vibration_twice">Duas vezes</string>
     <string name="settings_connection_summary">Ligado a %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">Bloqueio de ecrã</string>
     <string name="screen_lock_unlock_screen_description">Desbloqueie para acessar o openHAB</string>
     <string name="settings_screen_lock_off">Desligar</string>
@@ -63,10 +65,12 @@
     <string name="app_shortcut_disabled_habpanel">Seu servidor não tem o HABPanel instalado</string>
     <string name="app_shortcut_disabled_notifications">Seu servidor remoto não está disponível</string>
     <string name="app_shortcut_disabled_voice_recognition">Seu dispositivo não tem uma aplicação de reconhecimento de voz instalada</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_sitemap_generic_load_error">O mapa do site não pôde ser carregado. O seguinte erro ocorreu: %1$s</string>
     <string name="error_network_not_available">Rede não está disponível</string>
     <string name="error_wifi_not_available">Wi-Fi desligado</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Por favor introduza um URL válido num padrão \'http(s)://endereço(:porto)/\'</string>
     <string name="error_port_seems_invalid">A porta que você inseriu parece inválida para o protocolo selecionado</string>
     <string name="error_connection_failed">Conexão ao host falhado</string>
@@ -93,6 +97,9 @@
     <string name="action_settings">Definições</string>
     <string name="info_not_set">Não definido</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -171,8 +178,6 @@
     <string name="content_description_open_number_picker">Abrir selecção de valor</string>
     <string name="content_description_video">Vídeo</string>
     <string name="content_description_open_openhab">Abrir openHAB</string>
-    <string name="content_description_increase_item_value">Aumentar o valor do item</string>
-    <string name="content_description_decrease_item_value">Diminuir valor do item</string>
     <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita de fazê-lo manualmente</string>
     <!-- Intro strings -->
     <string name="app_intro">Introdução</string>
@@ -187,7 +192,8 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <string name="widget_type_video">Vídeo</string>
     <!-- Tiles -->

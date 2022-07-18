@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">Het genereren van grafieken kan belastend zijn voor de server. Zet deze optie uit als grafieken langzaam laden en je server niet krachtig is.</string>
     <string name="settings_clear_default_sitemap">Verwijder standaard Sitemap</string>
     <string name="settings_no_default_sitemap">Geen standaard Sitemap geselecteerd</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Standaard Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Extern</string>
     <string name="settings_openhab_connection">Lokaal</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">Twee keer</string>
     <string name="settings_notification_ringtone_vibration">Beltoon &amp; Trillen</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">Schermvergrendeling</string>
     <string name="settings_screen_lock_nolock_summary">Schakel schermvergrendeling op het apparaat in om toegang tot de app te vergrendelen</string>
     <string name="settings_screen_lock_off_summary">Toegang tot de app is niet vergrendeld</string>
@@ -122,12 +124,14 @@
     <string name="app_shortcut_disabled_voice_recognition">Op dit apparaat is geen app voor spraakherkenning geïnstalleerd</string>
     <string name="no_position_set">Geen positie ingesteld</string>
     <string name="show_and_copy_item_name">Item naam tonen en kopiëren</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Gekopieerd \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
     <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
     <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
     <string name="error_wifi_not_available">Wi-Fi is uitgeschakeld</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Verbinding mislukt. Tijdens het verbinden met de ingestelde openHAB server is een onverwachte reactie ontvangen (HTTP Code %d).</string>
     <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
     <string name="error_invalid_https_url">Geef een correcte URL op in de \'https://host(:port)/\' vorm</string>
@@ -186,7 +190,6 @@
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
     <string name="error_no_browser_found">Geen browser gevonden op dit apparaat</string>
     <string name="error_no_speech_to_text_app_found">Geen app voor spraakherkenning gevonden</string>
-    <string name="error_sse_failed">Event abonnement mislukt, widget vernieuwen mogelijk beperkt</string>
     <string name="error_video_player">%s kon niet worden geladen</string>
     <string name="install">Installeren</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
@@ -198,7 +201,6 @@
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
     <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
     <string name="action_settings">Instellingen</string>
-    <string name="nfc_info_hint">Item updates kunnen naar NFC-tags worden geschreven. Selecteer hier een Item of druk lang op een widget in de Sitemap.</string>
     <string name="info_not_set">Niet ingesteld</string>
     <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
@@ -217,10 +219,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">Monitor gebeurtenissen gerelateerd aan %1$s en %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Monitor gebeurtenissen gerelateerd aan %1$s, %2$s en meer</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Laatste update was \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Alarmtijd</string>
     <string name="settings_alarm_clock_summary_on">Verstuurt alarmtijd naar item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Geen alarmtijd versturen</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Oproepstatus</string>
     <string name="settings_phone_state_summary_on">Verstuurt oproepstatus naar Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Geen oproepstatus verzenden</string>
@@ -402,8 +407,6 @@
     <string name="content_description_color_up">Aan of ingedrukt houden om feller te maken</string>
     <string name="content_description_color_down">Uit of ingedrukt houden om minder fel te maken</string>
     <string name="content_description_open_number_picker">Open nummer kiezer</string>
-    <string name="content_description_increase_item_value">Verhoog de waarde</string>
-    <string name="content_description_decrease_item_value">Verlaag de waarde</string>
     <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
     <string name="got_it">Begrepen!</string>
     <!-- Intro strings -->
@@ -442,9 +445,10 @@
     <string name="item_update_widget_title">Item controleren</string>
     <string name="item_update_widget_content_description">Widget voor aanpassen van Item status</string>
     <string name="item_update_widget_content_description_edit">Widget bewerken</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Selecteer een Item</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
     <string name="item_update_success_message_on">%s is ingeschakeld</string>
     <string name="item_update_success_message_off">%s is uitgeschakeld</string>
@@ -477,8 +481,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">Gegevensbesparing</string>
     <string name="data_saver_on">Sitemap elementen die mogelijk grotere data transfers vereisen zijn niet geladen</string>
-    <string name="data_saver_off">De systeeminstelling voor gegevensbesparing wordt gevolgd bij het laden van data met behulp van sitemap elementen</string>
-    <string name="data_saver_off_pre_n">Alle sitemap elementen worden geladen, zonder gegevensgebruik</string>
     <string name="data_saver_load">Toch laden</string>
     <string name="data_saver_hint">%s is niet geladen om gegevensgebruik te besparen</string>
     <string name="widget_type_image">Afbeelding</string>

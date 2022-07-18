@@ -48,6 +48,7 @@
     <string name="settings_chart_scaling_value_l">Голям</string>
     <string name="settings_clear_default_sitemap">Изчисти сайтмара по подразбиране</string>
     <string name="settings_no_default_sitemap">Няма селектиран сайтмап по подразбиране</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Текущия сайтмап по подразбиране: %1$s</string>
     <string name="settings_openhab_alt_connection">Дистанционно</string>
     <string name="settings_openhab_connection">Локално</string>
@@ -58,6 +59,7 @@
     <string name="settings_notification_vibration_long">Продължителна</string>
     <string name="settings_notification_vibration_twice">Двойна</string>
     <string name="settings_connection_summary">Свързан към %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_no_https">Адресът не започва с „https“</string>
     <string name="settings_insecure_connection_no_auth">Няма зададени потребителско име и парола</string>
     <string name="settings_screen_lock">Заключване на екрана</string>
@@ -98,10 +100,12 @@
     <string name="app_shortcut_disabled_notifications">Отдалеченият ти сървър го няма</string>
     <string name="app_shortcut_disabled_voice_recognition">Устройството ти няма инсталирана програма за разпознаване на говор</string>
     <string name="no_position_set">Не е настроена позиция</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
     <string name="error_wifi_not_available">Въздушната мрежа е изключена</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Въведи валиден адрес в \'http(s)://host(:port)/\' формат</string>
     <string name="error_invalid_https_url">Въведи валиден адрес в \'https://host(:port)/\' формат</string>
     <string name="error_first_char_is_whitespace">Първият символ е интервал, което вероятно не е желано</string>
@@ -139,6 +143,9 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Изпращай информация за устройството до сървъра</string>
     <string name="send_device_info_to_server_short">Изпрати информация за устройството</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_battery_level">Ниво на батерията</string>
     <string name="settings_battery_level_summary_off">Не изпращай нивото на батерията</string>
     <string name="settings_wifi_ssid">Име на Wi-Fi мрежа</string>
@@ -279,7 +286,8 @@
     <string name="search">Търси</string>
     <string name="turn_on">Включи</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_move">%s започва да се движи</string>
     <string name="item_update_short_success_message_on">Включено</string>
     <string name="item_update_short_success_message_off">Изключено</string>

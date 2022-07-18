@@ -65,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">יצירת תרשימים יכולה להעמיס על השרת. אם זמן טעינת התרשים איטי והשרת שלך לא חזק, ביטול אפשרות זו משפר את זמני הטעינה.</string>
     <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
     <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
     <string name="settings_openhab_alt_connection">מרוחק</string>
     <string name="settings_openhab_connection">מקומי</string>
@@ -78,6 +79,7 @@
     <string name="settings_notification_vibration_twice">כפול</string>
     <string name="settings_notification_ringtone_vibration">צלצול &amp; רטט</string>
     <string name="settings_connection_summary">מחובר ל- %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">מחובר בצורה לא מאובטחת אל %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">כתובת אתר לא מתחילה עם \"https\"</string>
     <string name="settings_insecure_connection_no_auth">לא הוגדרו שם המשתמש והסיסמה</string>
@@ -128,12 +130,14 @@
     <string name="app_shortcut_disabled_voice_recognition">היישום דיבור-לטקסט אינו מותקן במכשיר שלך</string>
     <string name="no_position_set">לא נקבע מיקום</string>
     <string name="show_and_copy_item_name">הצג והעתק את שם הפריט</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">\"%s\" הועתק</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
     <string name="error_network_not_available">הרשת לא זמינה</string>
     <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
@@ -193,7 +197,6 @@
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
     <string name="error_no_speech_to_text_app_found">לא נמצא יישום לזיהוי קול</string>
-    <string name="error_sse_failed">הרישום לאירוע נכשל, רענון הווידג׳ט יכול להיפגע</string>
     <string name="error_video_player">%s לא הצליח להיטען</string>
     <string name="install">התקנה</string>
     <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
@@ -205,7 +208,6 @@
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
     <string name="info_write_tag_disabled">NFC מושבת</string>
     <string name="action_settings">הגדרות</string>
-    <string name="nfc_info_hint">עדכוני פריטים יכולים להיכתב לתגי NFC. באפשרותך לבחור פריט כאן או ע״י לחיצה ארוכה על הפריט בתצוגת Sitemap.</string>
     <string name="info_not_set">לא מוגדר</string>
     <string name="empty_page">דף זה אינו מכיל יישומונים המוגדרים כגלויים</string>
     <!-- Background tasks -->
@@ -224,10 +226,13 @@
     <string name="send_device_info_foreground_service_running_summary_two">האזן לאירועים הקשורים ל-%1$s ו-%2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">האזן לאירועים הקשורים ל-%1$s, %2$s ועוד</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">העדכון האחרון היה \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">שעת התראה</string>
     <string name="settings_alarm_clock_summary_on">שלח את שעת השעון המעורר לפריט \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">אל תשלח את שעת השעון המעורר</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">מצב השיחה</string>
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">אל תשלח את מצב השיחה</string>
@@ -435,8 +440,6 @@
     <string name="content_description_open_number_picker">פתח לבחירת ערך</string>
     <string name="content_description_video">סרטון</string>
     <string name="content_description_open_openhab">פתח openHAB</string>
-    <string name="content_description_increase_item_value">הגדלת ערך הפריט</string>
-    <string name="content_description_decrease_item_value">הקטנת ערך הפריט</string>
     <string name="swipe_to_refresh_description">היישום מרענן באופן אוטומטי, בדרך כלל אין צורך לבצע זאת ידנית</string>
     <string name="got_it">הבנתי!</string>
     <!-- Intro strings -->
@@ -479,9 +482,10 @@
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
     <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
     <string name="item_update_widget">יישומון</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>
     <string name="item_update_success_message_off">%s עבר למצב כבוי</string>
@@ -524,8 +528,6 @@
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
-    <string name="data_saver_off">הגדרת חיסכון בנתונים במערכת תופעל על טעינת נתונים של רכיבי תצורת מערכת</string>
-    <string name="data_saver_off_pre_n">כל רכיבי תצורת המערכת יטענו תוך התעלמות מנפח הנתונים שלהם</string>
     <string name="data_saver_load">טען בכל מקרה</string>
     <string name="data_saver_hint">%s לא נטען על מנת לשמור על נפח המידע</string>
     <string name="data_saver_snackbar">הצלמיות אינן מבוססות על מצבי פריט מכיוון שמצב חסכון בנתונים מופעל</string>
