@@ -452,6 +452,8 @@
     <string name="content_description_open_number_picker">Abrir el selector de número</string>
     <string name="content_description_video">Vídeo</string>
     <string name="content_description_open_openhab">Abrir openHAB</string>
+    <string name="content_description_increase_item_value">Aumentar el valor del Item</string>
+    <string name="content_description_decrease_item_value">Disminuir el valor del Item</string>
     <string name="swipe_to_refresh_description">La aplicación se refresca automáticamente, normalmente no necesitas hacerlo manualmente</string>
     <string name="got_it">¡Entendido!</string>
     <!-- Intro strings -->
@@ -544,6 +546,8 @@
     <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
     <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
+    <string name="data_saver_off">Se aplica el ajuste de ahorro de datos del sistema a la hora de cargar elementos del Sitemap</string>
+    <string name="data_saver_off_pre_n">Todos los elementos del Sitemap se han cargado, sin tener en cuenta el consumo de datos</string>
     <string name="data_saver_load">Cargar de todos modos</string>
     <string name="data_saver_hint">%s no fue cargado para economizar datos</string>
     <string name="data_saver_snackbar">Los iconos no reflejan los estados de Item actuales, porque el ahorro de datos está activado</string>
