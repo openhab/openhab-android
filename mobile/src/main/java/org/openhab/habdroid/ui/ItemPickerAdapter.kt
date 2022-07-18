@@ -116,12 +116,13 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             itemLabelView.text = item.label
             itemTypeView.text = item.type.toString()
 
+            val context = itemView.context
             val connection = ConnectionFactory.primaryUsableConnection?.connection
             val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
                 iconView.setImageUrl(
                     connection,
-                    icon.toUrl(itemView.context, itemView.context.determineDataUsagePolicy().loadIconsWithState),
+                    icon.toUrl(context, context.determineDataUsagePolicy(connection).loadIconsWithState),
                     timeoutMillis = 2000
                 )
             } else {

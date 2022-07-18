@@ -16,6 +16,7 @@ package org.openhab.habdroid.core.connection
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.NetworkCapabilities
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
@@ -432,6 +433,7 @@ class ConnectionFactory internal constructor(
                 if (local.isReachableViaNetwork(type.network)) {
                     Log.d(TAG, "Connecting to local URL via $type")
                     local.network = type.network
+                    local.isMetered = !type.caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
                     return local
                 }
             }
@@ -444,6 +446,11 @@ class ConnectionFactory internal constructor(
         if (remote != null) {
             // If local URL is not reachable or not configured, use remote URL
             Log.d(TAG, "Connecting to remote URL")
+            if (remote is DefaultConnection) {
+                remote.isMetered = available.any { type ->
+                    !type.caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                }
+            }
             return remote
         }
 
@@ -600,14 +607,14 @@ class ConnectionFactory internal constructor(
         val activeUsableConnection get() = instance.stateChannel.value.active
 
         /**
-         * Returns the configured local connection for the active server, or null if none is configured
+         * Returns whether the active server has a configured local connection
          */
-        val activeLocalConnection get() = instance.activeConn?.local
+        val hasActiveLocalConnection get() = instance.activeConn?.local != null
 
         /**
-         * Returns the configured remote connection for the active server, or null if none is configured
+         * Returns whether the active server has a configured remote connection
          */
-        val activeRemoteConnection get() = instance.activeConn?.remote
+        val hasActiveRemoteConnection get() = instance.activeConn?.remote != null
 
         /**
          * Like {@link activeUsableConnection}, but for the primary instead of active server.
@@ -615,14 +622,14 @@ class ConnectionFactory internal constructor(
         val primaryUsableConnection get() = instance.stateChannel.value.primary
 
         /**
-         * Returns the configured local connection for the primary server, or null if none is configured
+         * Like {@link hasActiveLocalConnection}, but for the primary instead of active server.
          */
-        val primaryLocalConnection get() = instance.primaryConn?.local
+        val hasPrimaryLocalConnection get() = instance.primaryConn?.local != null
 
         /**
-         * Returns the configured remote connection for the primary server, or null if none is configured
+         * Like {@link hasActiveRemoteConnection}, but for the primary instead of active server.
          */
-        val primaryRemoteConnection get() = instance.primaryConn?.remote
+        val hasPrimaryRemoteConnection get() = instance.primaryConn?.remote != null
 
         /**
          * Returns the resolved cloud connection for the active server.

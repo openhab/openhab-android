@@ -59,7 +59,8 @@ object CloudMessagingHelper {
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
         ConnectionFactory.waitForInitialization()
         val prefs = context.getPrefs()
-        val cloudFailure = ConnectionFactory.primaryCloudConnection?.failureReason
+        val cloudConnectionResult = ConnectionFactory.primaryCloudConnection
+        val cloudFailure = cloudConnectionResult?.failureReason
         return when {
             // No remote server is configured
             prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() ->
@@ -81,7 +82,7 @@ object CloudMessagingHelper {
                 PushNotificationStatus(message, R.drawable.ic_bell_off_outline_grey_24dp, true)
             }
             // Remote server is configured, but it's not a cloud instance
-            ConnectionFactory.primaryCloudConnection?.connection == null && ConnectionFactory.primaryRemoteConnection != null ->
+            cloudConnectionResult?.connection == null && ConnectionFactory.hasPrimaryRemoteConnection ->
                 PushNotificationStatus(
                     context.getString(R.string.push_notification_status_remote_no_cloud),
                     R.drawable.ic_bell_off_outline_grey_24dp,

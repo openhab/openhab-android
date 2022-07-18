@@ -174,13 +174,13 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         startOrStopVisibleViewHolders(false)
     }
 
-    override fun onDataUsagePolicyChanged(newPolicy: DataUsagePolicy) {
+    override fun onDataUsagePolicyChanged() {
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
             val holder = recyclerView.findViewHolderForAdapterPosition(i)
             if (holder is WidgetAdapter.HeavyDataViewHolder) {
-                holder.handleDataUsagePolicyChange(newPolicy)
+                holder.handleDataUsagePolicyChange()
             } else if (holder is WidgetAdapter.AbstractMapViewHolder) {
                 holder.handleDataUsagePolicyChange()
             }

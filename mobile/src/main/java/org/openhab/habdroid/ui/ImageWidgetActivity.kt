@@ -29,6 +29,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -38,6 +39,7 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class ImageWidgetActivity : AbstractBaseActivity() {
     private lateinit var imageView: PhotoView
+    private var connection: Connection? = null
     private var refreshJob: Job? = null
     private var delay: Long = 0
 
@@ -58,8 +60,14 @@ class ImageWidgetActivity : AbstractBaseActivity() {
     override fun onResume() {
         super.onResume()
 
+        connection = ConnectionFactory.activeUsableConnection?.connection
+        if (connection == null) {
+            finish()
+            return
+        }
+
         launch(Dispatchers.Main) {
-            if (determineDataUsagePolicy().canDoRefreshes && delay != 0L) {
+            if (determineDataUsagePolicy(connection).canDoRefreshes && delay != 0L) {
                 scheduleRefresh()
             } else {
                 loadImage()
@@ -97,20 +105,14 @@ class ImageWidgetActivity : AbstractBaseActivity() {
     }
 
     private suspend fun loadImage() {
-        val connection = ConnectionFactory.activeUsableConnection?.connection
-        if (connection == null) {
-            Log.d(TAG, "Got no connection")
-            return finish()
-        }
-
         val widgetUrl = intent.getStringExtra(WIDGET_URL)
+        val conn = connection ?: return finish()
         val bitmap = if (widgetUrl != null) {
             Log.d(TAG, "Load image from url")
             val displayMetrics = resources.displayMetrics
             val size = max(displayMetrics.widthPixels, displayMetrics.heightPixels)
             try {
-                connection
-                    .httpClient
+                conn.httpClient
                     .get(widgetUrl)
                     .asBitmap(size, ImageConversionPolicy.PreferTargetSize)
                     .response
@@ -122,8 +124,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
         } else {
             val link = intent.getStringExtra(WIDGET_LINK)!!
             val widgetState = JSONObject(
-                connection
-                    .httpClient
+                conn.httpClient
                     .get(link)
                     .asText()
                     .response

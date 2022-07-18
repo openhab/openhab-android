@@ -474,7 +474,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.activeLocalConnection == null) {
+                if (failureReason.wouldHaveUsedLocalConnection() && !ConnectionFactory.hasActiveLocalConnection) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(
                             this,
@@ -653,7 +653,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
         } else {
             val hasLocalAndRemote =
-                ConnectionFactory.activeLocalConnection != null && ConnectionFactory.activeRemoteConnection != null
+                ConnectionFactory.hasActiveLocalConnection && ConnectionFactory.hasActiveRemoteConnection
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(
@@ -1032,9 +1032,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             return
         }
         launch {
+            val context = this@MainActivity
             try {
                 item.icon = conn.httpClient.get(
-                    sitemap.icon.toUrl(this@MainActivity, determineDataUsagePolicy().loadIconsWithState)
+                    sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState)
                 )
                     .asBitmap(defaultIcon!!.intrinsicWidth, ImageConversionPolicy.ForceTargetSize)
                     .response
@@ -1243,7 +1244,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     fun showDataSaverHintSnackbarIfNeeded() {
         if (prefs.getBoolean(PrefKeys.DATA_SAVER_EXPLAINED, false) ||
-            determineDataUsagePolicy().loadIconsWithState
+            determineDataUsagePolicy(connection).loadIconsWithState
         ) {
             return
         }

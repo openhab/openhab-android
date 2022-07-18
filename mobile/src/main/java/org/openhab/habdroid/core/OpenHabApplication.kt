@@ -36,14 +36,12 @@ import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.CrashReportingHelper
-import org.openhab.habdroid.util.DataUsagePolicy
-import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 
 class OpenHabApplication : MultiDexApplication() {
     interface OnDataUsagePolicyChangedListener {
-        fun onDataUsagePolicyChanged(newPolicy: DataUsagePolicy)
+        fun onDataUsagePolicyChanged()
     }
 
     val secretPrefs: SharedPreferences by lazy {
@@ -185,7 +183,8 @@ class OpenHabApplication : MultiDexApplication() {
         }
 
         override fun onReceive(context: Context, intent: Intent?) {
-            val oldPolicy = determineDataUsagePolicy()
+            val prevSystemDataSaverStatus = systemDataSaverStatus
+            val wasBatterySaverActive = batterySaverActive
             when (intent?.action) {
                 ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED -> {
                     systemDataSaverStatus = getSystemDataSaverStatus(context)
@@ -197,9 +196,8 @@ class OpenHabApplication : MultiDexApplication() {
                 }
                 else -> return
             }
-            val newPolicy = determineDataUsagePolicy()
-            if (oldPolicy != newPolicy) {
-                dataUsagePolicyListeners.forEach { l -> l.onDataUsagePolicyChanged(newPolicy) }
+            if (prevSystemDataSaverStatus != systemDataSaverStatus || wasBatterySaverActive != batterySaverActive) {
+                dataUsagePolicyListeners.forEach { l -> l.onDataUsagePolicyChanged() }
             }
         }
     }
