@@ -710,19 +710,28 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 )
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_PHONE_STATE] = { context, _ ->
-                val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                val state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    manager.callStateForSubscription
+                val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_PHONE_STATE)
+
+                val itemState = if (requiredPermissions != null && !context.hasPermissions(requiredPermissions)) {
+                    "NO_PERMISSION"
                 } else {
-                    @Suppress("DEPRECATION")
-                    manager.callState
+                    val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+                    val callState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        manager.callStateForSubscription
+                    } else {
+                        @Suppress("DEPRECATION")
+                        manager.callState
+                    }
+
+                    when (callState) {
+                        TelephonyManager.CALL_STATE_IDLE -> "IDLE"
+                        TelephonyManager.CALL_STATE_RINGING -> "RINGING"
+                        TelephonyManager.CALL_STATE_OFFHOOK -> "OFFHOOK"
+                        else -> "UNDEF"
+                    }
                 }
-                val itemState = when (state) {
-                    TelephonyManager.CALL_STATE_IDLE -> "IDLE"
-                    TelephonyManager.CALL_STATE_RINGING -> "RINGING"
-                    TelephonyManager.CALL_STATE_OFFHOOK -> "OFFHOOK"
-                    else -> "UNDEF"
-                }
+
                 ItemUpdateWorker.ValueWithInfo(itemState)
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_BATTERY_LEVEL] = { context, _ ->
