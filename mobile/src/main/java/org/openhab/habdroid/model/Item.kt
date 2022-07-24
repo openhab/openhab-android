@@ -343,7 +343,7 @@ fun JSONObject.toItem(): Item {
         optStringOrNull("link"),
         readOnly,
         members,
-        options,
+        if (options.isNullOrEmpty()) null else options,
         state.toParsedState(numberPattern),
         tags,
         groupNames,

@@ -90,6 +90,9 @@
             android:label="@string/widget_type_color"
             android:exported="false" />
         <activity
+            android:name=".ui.SelectionItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
             android:exported="true">
