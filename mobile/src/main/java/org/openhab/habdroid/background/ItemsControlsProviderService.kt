@@ -88,6 +88,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
             while (isActive) {
                 try {
                     val event = JSONObject(eventSubscription.getNextEvent())
+                    if (event.optString("type") == "ALIVE") {
+                        Log.d(TAG, "Got ALIVE event")
+                        continue
+                    }
                     val topic = event.getString("topic")
                     val topicPath = topic.split('/')
                     if (topicPath.size != 4) {
