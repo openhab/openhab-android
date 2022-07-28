@@ -127,6 +127,8 @@ then
         // A new call arrived and is ringing or waiting. In the latter case, another call is already active.
     } else if (CallState.state == "OFFHOOK") {
         // At least one call exists that is dialing, active, or on hold, and no calls are ringing or waiting.
+    } else if (CallState.state == "NO_PERMISSION") {
+        // The phone permission has been revoked by the user
     }
 end
 ```
