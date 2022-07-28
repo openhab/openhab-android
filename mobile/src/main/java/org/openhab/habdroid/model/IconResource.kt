@@ -32,7 +32,7 @@ import org.openhab.habdroid.util.getStringOrNull
 data class IconResource internal constructor(
     internal val icon: String,
     internal val isOh2: Boolean,
-    internal val customState: String?
+    internal val customState: String
 ) : Parcelable {
     fun toUrl(context: Context, includeState: Boolean): String {
         return toUrl(includeState, context.getPrefs().getIconFormat())
@@ -55,7 +55,7 @@ data class IconResource internal constructor(
             .appendQueryParameter("format", suffix)
             .appendQueryParameter("anyFormat", true)
 
-        if (!customState.isNullOrEmpty() && includeState) {
+        if (customState.isNotEmpty() && includeState) {
             builder.appendQueryParameter("state", customState)
         }
 
@@ -95,11 +95,11 @@ fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): 
 }
 
 fun String?.toOH1IconResource(): IconResource? {
-    return if (isNullOrEmpty() || this == "none") null else IconResource(this, false, null)
+    return if (isNullOrEmpty() || this == "none") null else IconResource(this, false, "")
 }
 
 fun String?.toOH2IconResource(): IconResource? {
-    return if (isNullOrEmpty() || this == "none") null else IconResource(this, true, null)
+    return if (isNullOrEmpty() || this == "none") null else IconResource(this, true, "")
 }
 
 internal fun String?.toOH2WidgetIconResource(item: Item?, type: Widget.Type, hasMappings: Boolean): IconResource? {
