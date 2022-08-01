@@ -1,0 +1,43 @@
+name: Release
+description: Template to coordinate new releases (Maintainers only).
+title: "Release version "
+labels: ["release"]
+assignees:
+  - mueller-ma
+body:
+  - type: checkboxes
+    id: pre-release-checklist
+    attributes:
+      label: Pre-release checklist
+      options:
+        - label: Check for major crashes in latest stable version
+          required: false
+        - label: Check for major crashes in beta versions since last stable version
+          required: false
+        - label: Merge new translations
+          required: false
+  - type: textarea
+    id: release-notes
+    attributes:
+      label: Release notes
+    validations:
+      required: true
+  - type: textarea
+    id: blocking
+    attributes:
+      label: Blocking issues/PRs
+    validations:
+      required: true
+  - type: checkboxes
+    id: post-release-checklist
+    attributes:
+      label: Post-release checklist
+      options:
+        - label: Release in Play Store to 20%
+          required: false
+        - label: Release in Play Store to 50%
+          required: false
+        - label: Release in Play Store to 100%
+          required: false
+        - label: Check for new crashes
+          required: false
