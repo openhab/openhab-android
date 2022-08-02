@@ -576,6 +576,13 @@ class WidgetAdapter(
             boundWidget = widget
             val item = widget.item
 
+            val hasValidValues = widget.minValue < widget.maxValue
+            slider.isVisible = hasValidValues
+            if (!hasValidValues) {
+                Log.e(TAG, "Slider has invalid values: from '${widget.minValue}' to '${widget.maxValue}'")
+                return
+            }
+
             if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
                 slider.valueTo = 100F
                 slider.valueFrom = 0F
