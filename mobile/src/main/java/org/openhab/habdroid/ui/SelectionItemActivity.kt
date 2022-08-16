@@ -71,14 +71,14 @@ class SelectionItemActivity : AbstractBaseActivity() {
 
 class SelectionAdapter(context: Context, val item: Item) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater = LayoutInflater.from(context)
+    private var itemState = item.state?.asString
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SelectionViewHolder(inflater, parent, item)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val itemState = item.state?.asString
-        (holder as SelectionViewHolder).bind(item.options!![position], itemState)
+        (holder as SelectionViewHolder).bind(item.options!![position])
     }
 
     override fun getItemCount(): Int {
@@ -91,8 +91,9 @@ class SelectionAdapter(context: Context, val item: Item) : RecyclerView.Adapter<
         private val radioButton: RadioButton = itemView.findViewById(R.id.radio_button)
         private val commandLabel: TextView = itemView.findViewById(R.id.command_text)
 
-        fun bind(option: LabeledValue, itemState: String?) {
-            radioButton.isChecked = option.value == itemState
+        fun bind(option: LabeledValue) {
+            val adapter = bindingAdapter as SelectionAdapter?
+            radioButton.isChecked = option.value == adapter?.itemState
             commandLabel.text = option.label
             setupOnClickListener(row, option)
             setupOnClickListener(radioButton, option)
@@ -102,6 +103,9 @@ class SelectionAdapter(context: Context, val item: Item) : RecyclerView.Adapter<
         private fun setupOnClickListener(view: View, option: LabeledValue) {
             view.setOnClickListener {
                 val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return@setOnClickListener
+                val adapter = bindingAdapter as SelectionAdapter?
+                adapter?.itemState = option.value
+                adapter?.notifyDataSetChanged()
                 connection.httpClient.sendItemCommand(item, option.value)
             }
         }
