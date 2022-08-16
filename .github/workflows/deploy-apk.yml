@@ -21,7 +21,7 @@ jobs:
           VERSION_CODE=$(grep 'versionCode' $GRADLE_FILE | sed -r 's/(.*) (.*)$/\2/')
           let VERSION_CODE++
 
-          # Remove "-release$" and and "^refs/tags/" from version name
+          # Remove "-release$" and "^refs/tags/" from version name
           TAG_NAME="${GITHUB_REF##*/}"
           VERSION_NAME="${TAG_NAME%-release}"
 
