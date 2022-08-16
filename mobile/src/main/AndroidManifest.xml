@@ -4,6 +4,11 @@
     package="org.openhab.habdroid"
     android:installLocation="internalOnly">
 
+    <attribution android:label="@string/send_device_info_to_server" android:tag="SEND_DEV_INFO" />
+    <attribution android:label="@string/attribution_tag_select_server_wifi" android:tag="SELECT_SERVER_WIFI" />
+    <attribution android:label="@string/attribution_tag_suggest_turn_on_wifi" android:tag="SUGGEST_TURN_ON_WIFI" />
+    <attribution android:label="@string/attribution_tag_discover_server" android:tag="SERVER_DISCOVERY" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
