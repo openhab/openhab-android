@@ -47,6 +47,7 @@ class ColorItemActivity :
     private var lastUpdate: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_color_picker)
@@ -135,6 +136,8 @@ class ColorItemActivity :
     }
 
     companion object {
+        private val TAG = ColorItemActivity::class.java.simpleName
+
         const val EXTRA_ITEM = "item"
     }
 }

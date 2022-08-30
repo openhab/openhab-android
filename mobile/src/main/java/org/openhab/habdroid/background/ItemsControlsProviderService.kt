@@ -24,6 +24,7 @@ import android.service.controls.actions.BooleanAction
 import android.service.controls.actions.ControlAction
 import android.service.controls.actions.FloatAction
 import android.service.controls.templates.ControlButton
+import android.service.controls.templates.ControlTemplate
 import android.service.controls.templates.RangeTemplate
 import android.service.controls.templates.ToggleRangeTemplate
 import android.service.controls.templates.ToggleTemplate
@@ -48,6 +49,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toParsedState
 import org.openhab.habdroid.ui.ColorItemActivity
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.SelectionItemActivity
 import org.openhab.habdroid.util.DeviceControlSubtitleMode
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
@@ -182,22 +184,27 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
         fun maybeCreateControl(item: Item): Control? {
             if (item.label.isNullOrEmpty() || item.readOnly) return null
-            val controlTemplate = when (item.type) {
-                Item.Type.Switch -> ToggleTemplate(
-                    item.name,
-                    ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle))
-                )
-                Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
-                    "${item.name}_toggle",
-                    ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
-                    createRangeTemplate(item, "%.0f%%")
-                )
-                Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
-                Item.Type.Number -> createRangeTemplate(
-                    item,
-                    item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
-                )
-                else -> return null
+            val controlTemplate = if (item.options != null) {
+                // Open app when clicking on tile
+                ControlTemplate.getNoTemplateObject()
+            } else {
+                when (item.type) {
+                    Item.Type.Switch -> ToggleTemplate(
+                        item.name,
+                        ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle))
+                    )
+                    Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
+                        "${item.name}_toggle",
+                        ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
+                        createRangeTemplate(item, "%.0f%%")
+                    )
+                    Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
+                    Item.Type.Number -> createRangeTemplate(
+                        item,
+                        item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
+                    )
+                    else -> return null
+                }
             }
 
             val location = getItemTagLabel(item, Item.Tag.Location).orEmpty()
@@ -216,6 +223,12 @@ class ItemsControlsProviderService : ControlsProviderService() {
             }
 
             val (intent, requestCode) = when {
+                item.options != null -> {
+                    val intent = Intent(context, SelectionItemActivity::class.java).apply {
+                        putExtra(SelectionItemActivity.EXTRA_ITEM, item)
+                    }
+                    Pair(intent, item.hashCode())
+                }
                 item.isOfTypeOrGroupType(Item.Type.Color) -> {
                     val intent = Intent(context, ColorItemActivity::class.java).apply {
                         putExtra(ColorItemActivity.EXTRA_ITEM, item)
