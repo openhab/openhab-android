@@ -7,6 +7,9 @@
     <string name="save">Lagre</string>
     <string name="discard">Forkast</string>
     <string name="delete">Slett</string>
+    <string name="attribution_tag_discover_server">Oppdag openHAB server</string>
+    <string name="attribution_tag_select_server_wifi">Velg server basert på Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Foreslå å slå på Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
