@@ -10,6 +10,9 @@
     <string name="save">Save</string>
     <string name="discard">Discard</string>
     <string name="delete">Delete</string>
+    <string name="attribution_tag_discover_server">Discover openHAB server</string>
+    <string name="attribution_tag_select_server_wifi">Select server based on Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Suggest to turn on Wi-Fi</string>
 
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
