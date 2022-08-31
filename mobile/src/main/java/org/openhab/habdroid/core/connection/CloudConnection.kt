@@ -42,7 +42,7 @@ suspend fun AbstractConnection.toCloudConnection(): CloudConnection {
         val json = JSONObject(result.response)
         json.getJSONObject("gcm").getString("senderId")
     } catch (e: JSONException) {
-        Log.e(TAG, "Error parsing notification endpoint response", e)
+        Log.i(TAG, "Error parsing notification endpoint response", e)
         throw NotACloudServerException()
     }
 
