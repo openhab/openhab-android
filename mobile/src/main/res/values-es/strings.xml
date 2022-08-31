@@ -7,6 +7,9 @@
     <string name="save">Guardar</string>
     <string name="discard">Descartar</string>
     <string name="delete">Borrar</string>
+    <string name="attribution_tag_discover_server">Detectar servidor openHAB</string>
+    <string name="attribution_tag_select_server_wifi">Seleccionar servidor en base a la Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Sugerir activar Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configuración</string>
