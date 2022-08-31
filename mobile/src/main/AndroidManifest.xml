@@ -48,6 +48,7 @@
         android:allowBackup="true"
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/backup_rules_v31"
         android:backupAgent=".util.CustomBackupAgent"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
