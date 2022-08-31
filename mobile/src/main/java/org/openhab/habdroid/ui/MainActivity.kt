@@ -43,6 +43,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -215,13 +216,18 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         viewPool = RecyclerView.RecycledViewPool()
 
+        onBackPressedDispatcher.addCallback(this, MainOnBackPressedCallback())
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             shortcutManager = getSystemService(ShortcutManager::class.java)
         }
 
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
-            serverProperties = savedInstanceState.getParcelable(STATE_KEY_SERVER_PROPERTIES)
+            serverProperties = savedInstanceState.getParcelable(
+                STATE_KEY_SERVER_PROPERTIES,
+                ServerProperties::class.java
+            )
             val lastConnectionHash = savedInstanceState.getInt(STATE_KEY_CONNECTION_HASH)
             if (lastConnectionHash != -1) {
                 val c = ConnectionFactory.activeUsableConnection?.connection
@@ -415,24 +421,32 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         super.onSaveInstanceState(savedInstanceState)
     }
 
-    override fun onBackPressed() {
-        CrashReportingHelper.d(TAG, "onBackPressed()")
-        when {
-            drawerLayout.isDrawerOpen(findViewById<NavigationView>(R.id.left_drawer)) -> drawerLayout.closeDrawers()
-            controller.canGoBack() -> controller.goBack()
-            isFullscreenEnabled -> when {
-                lastSnackbar?.isShown != true ->
-                    showSnackbar(
+    private inner class MainOnBackPressedCallback : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            CrashReportingHelper.d(TAG, "onBackPressed()")
+            when {
+                drawerLayout.isDrawerOpen(findViewById<NavigationView>(R.id.left_drawer)) -> drawerLayout.closeDrawers()
+                controller.canGoBack() -> controller.goBack()
+                isFullscreenEnabled -> when {
+                    lastSnackbar?.isShown != true ->
+                        showSnackbar(
+                            SNACKBAR_TAG_PRESS_AGAIN_EXIT,
+                            R.string.press_back_to_exit
+                        )
+                    lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> {
+                        isEnabled = false
+                        onBackPressedDispatcher.onBackPressed()
+                    }
+                    else -> showSnackbar(
                         SNACKBAR_TAG_PRESS_AGAIN_EXIT,
                         R.string.press_back_to_exit
                     )
-                lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> super.onBackPressed()
-                else -> showSnackbar(
-                    SNACKBAR_TAG_PRESS_AGAIN_EXIT,
-                    R.string.press_back_to_exit
-                )
+                }
+                else -> {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
             }
-            else -> super.onBackPressed()
         }
     }
 
@@ -1317,6 +1331,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .filter { !hasPermissions(arrayOf(it)) }
             .toMutableList()
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !hasPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+        ) {
+            missingPermissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
             missingPermissions.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
         ) {
@@ -1344,8 +1364,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (missingPermissions.isNotEmpty()) {
             Log.d(TAG, "At least one permission for background tasks has been denied")
             showSnackbar(
-                SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSIONS,
-                R.string.settings_background_tasks_permission_denied,
+                SNACKBAR_TAG_MISSING_PERMISSIONS,
+                R.string.settings_permission_denied,
                 actionResId = R.string.settings_background_tasks_permission_allow
             ) {
                 requestPermissionsIfRequired(
@@ -1440,7 +1460,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val SNACKBAR_TAG_DATA_SAVER_ON = "dataSaverOn"
         const val SNACKBAR_TAG_NO_VOICE_RECOGNITION_INSTALLED = "noVoiceRecognitionInstalled"
         const val SNACKBAR_TAG_NO_MANUAL_REFRESH_REQUIRED = "noManualRefreshRequired"
-        const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSIONS = "bgTasksMissingPermissions"
+        const val SNACKBAR_TAG_MISSING_PERMISSIONS = "missingPermissions"
         const val SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION = "bgTasksMissingPermissionLocation"
         const val SNACKBAR_TAG_SSE_ERROR = "sseError"
         const val SNACKBAR_TAG_SHORTCUT_INFO = "shortcutInfo"

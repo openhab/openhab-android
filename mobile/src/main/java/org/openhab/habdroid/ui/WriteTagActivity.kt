@@ -89,8 +89,8 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
         setResult(RESULT_OK)
 
-        longUri = intent.getParcelableExtra(EXTRA_LONG_URI)
-        shortUri = intent.getParcelableExtra(EXTRA_SHORT_URI)
+        longUri = intent.getParcelableExtra(EXTRA_LONG_URI, Uri::class.java)
+        shortUri = intent.getParcelableExtra(EXTRA_SHORT_URI, Uri::class.java)
         Log.d(TAG, "Got URL $longUri (short URI $shortUri)")
     }
 
@@ -139,7 +139,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
             writeTagMessage.setText(R.string.info_write_tag_progress)
 
-            val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
+            val tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag::class.java)
             if (tag != null && writeTag(tag)) {
                 showToast(R.string.info_write_tag_finished, ToastType.SUCCESS)
                 finish()

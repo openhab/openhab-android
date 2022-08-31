@@ -23,6 +23,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -83,6 +84,19 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         }
 
         setUiState(true)
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!searchView.isIconified) {
+                    searchView.isIconified = true
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     override fun onResume() {
@@ -136,14 +150,6 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
                 super.onOptionsItemSelected(item)
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (!searchView.isIconified) {
-            searchView.isIconified = true
-        } else {
-            super.onBackPressed()
         }
     }
 

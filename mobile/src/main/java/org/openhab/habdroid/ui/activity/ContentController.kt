@@ -167,7 +167,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     open fun onRestoreInstanceState(state: Bundle) {
         CrashReportingHelper.d(TAG, "onRestoreInstanceState()")
-        currentSitemap = state.getParcelable(STATE_KEY_SITEMAP)
+        currentSitemap = state.getParcelable(STATE_KEY_SITEMAP, Sitemap::class.java)
         currentSitemap?.let { sitemap ->
             sitemapFragment = fm.getFragment(state, STATE_KEY_SITEMAP_FRAGMENT) as WidgetListFragment?
                 ?: makeSitemapFragment(sitemap)
@@ -178,7 +178,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
 
         pageStack.clear()
-        state.getParcelableArrayList<LinkedPage>(STATE_KEY_PAGES)?.forEach { page ->
+        state.getParcelableArrayList(STATE_KEY_PAGES, LinkedPage::class.java)?.forEach { page ->
             val f = fm.getFragment(state, makeStateKeyForPage(page)) as WidgetListFragment?
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }

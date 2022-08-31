@@ -38,7 +38,7 @@ class SelectionItemActivity : AbstractBaseActivity() {
 
         setContentView(R.layout.activity_selection_item)
 
-        val boundItem = intent.extras?.get(EXTRA_ITEM) as Item?
+        val boundItem = intent.extras?.getParcelable(EXTRA_ITEM, Item::class.java)
         if (boundItem == null) {
             finish()
             return

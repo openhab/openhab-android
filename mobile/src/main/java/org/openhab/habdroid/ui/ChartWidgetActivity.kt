@@ -48,7 +48,7 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
 
         setContentView(R.layout.activity_chart)
 
-        widget = intent.getParcelableExtra(EXTRA_WIDGET)!!
+        widget = intent.getParcelableExtra(EXTRA_WIDGET, Widget::class.java)!!
         period = widget.period
         // If Widget#legend is null, show legend only for groups
         showLegend = widget.legend ?: widget.item?.type === Item.Type.Group

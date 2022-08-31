@@ -32,6 +32,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -126,7 +127,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val fragment = when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
                     intent.action == TileService.ACTION_QS_TILE_PREFERENCES -> {
-                    val tile = intent.getParcelableExtra<ComponentName>(Intent.EXTRA_COMPONENT_NAME)
+                    val tile = intent.getParcelableExtra(Intent.EXTRA_COMPONENT_NAME, ComponentName::class.java)
                     val tileId: Int = tile?.className?.let { AbstractTileService.getIdFromClassName(it) } ?: 0
                     if (tileId > 0) {
                         TileSettingsFragment.newInstance(tileId)
@@ -149,7 +150,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 add(R.id.activity_content, fragment)
             }
         } else {
-            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT) ?: Intent()
+            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT, Intent::class.java) ?: Intent()
         }
         setResult(RESULT_OK, resultIntent)
     }
@@ -165,22 +166,10 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
         return when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onBackPressed() {
-        with(supportFragmentManager) {
-            if ((fragments.last() as? AbstractSettingsFragment)?.onBackPressed() != true) {
-                if (backStackEntryCount > 0) {
-                    popBackStack()
-                } else {
-                    super.onBackPressed()
-                }
-            }
         }
     }
 
@@ -223,9 +212,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
         }
 
-        // Returns true if back key press was consumed
-        open fun onBackPressed() = false
-
         companion object {
             /**
              * Password is considered strong when it is at least 8 chars long and contains 3 from those
@@ -264,7 +250,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         ) { result ->
             Log.d(TAG, "selectRingToneCallback: $result")
             val data = result.data ?: return@registerForActivityResult
-            val ringtoneUri = data.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+            val ringtoneUri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI, Uri::class.java)
             val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
             updateRingtonePreferenceSummary(ringtonePref, ringtoneUri)
             prefs.edit {
@@ -473,7 +459,10 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreferenceRecursively(PrefKeys.SUBSCREEN_TILE)
             }
 
-            val flags = activity?.intent?.getParcelableExtra<ServerProperties>(START_EXTRA_SERVER_PROPERTIES)?.flags
+            val flags = activity
+                ?.intent
+                ?.getParcelableExtra(START_EXTRA_SERVER_PROPERTIES, ServerProperties::class.java)
+                ?.flags
                 ?: prefs.getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
 
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0 ||
@@ -683,10 +672,23 @@ class PreferencesActivity : AbstractBaseActivity() {
         override val titleResId: Int get() = R.string.settings_edit_server
 
         override fun onCreate(savedInstanceState: Bundle?) {
-            config = requireArguments().getParcelable("config")!!
+            config = requireArguments().getParcelable("config", ServerConfiguration::class.java)!!
             initialConfig = config
             super.onCreate(savedInstanceState)
             setHasOptionsMenu(true)
+
+            val backCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (initialConfig != config) {
+                        ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                    } else {
+                        isEnabled = false
+                        parentActivity.onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+
+            parentActivity.onBackPressedDispatcher.addCallback(this, backCallback)
         }
 
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -731,14 +733,6 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
             parentActivity.invalidateOptionsMenu()
             parentFragmentManager.popBackStack() // close ourself
-        }
-
-        override fun onBackPressed(): Boolean {
-            if (initialConfig != config) {
-                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
-                return true
-            }
-            return false
         }
 
         override fun onConfirmed(tag: String?) = when (tag) {
@@ -996,7 +990,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(requireArguments().getInt("prefs"))
 
-            path = requireArguments().getParcelable("path") ?: ServerPath("", null, null)
+            path = requireArguments().getParcelable("path", ServerPath::class.java)
+                ?: ServerPath("", null, null)
 
             urlPreference = initEditor("url", path.url, R.drawable.ic_earth_grey_24dp) { value ->
                 val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
@@ -1325,7 +1320,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             itemAndStatePref.label = data.getStringExtra("label")
             itemAndStatePref.state = data.getStringExtra("state")
             itemAndStatePref.mappedState = data.getStringExtra("mappedState")
-            val itemTags = data.extras?.get("tags") as Array<*>
+            val itemTags = data.extras?.getParcelableArray("tags", Item.Tag::class.java)
             updateItemAndStatePrefSummary()
 
             if (namePref.text.isNullOrEmpty()) {
@@ -1370,9 +1365,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                         "text" -> R.string.tile_icon_text_value
                         "sofa" -> R.string.tile_icon_sofa_value
                         else -> when {
-                            Item.Tag.Light in itemTags -> R.string.tile_icon_bulb_value
-                            Item.Tag.Blinds in itemTags -> R.string.tile_icon_roller_shutter_value
-                            Item.Tag.Switch in itemTags -> R.string.tile_icon_switch_value
+                            itemTags?.contains(Item.Tag.Light) == true -> R.string.tile_icon_bulb_value
+                            itemTags?.contains(Item.Tag.Blinds) == true -> R.string.tile_icon_roller_shutter_value
+                            itemTags?.contains(Item.Tag.Switch) == true -> R.string.tile_icon_switch_value
                             else -> R.string.tile_icon_openhab_value
                         }
                     }
@@ -1388,6 +1383,19 @@ class PreferencesActivity : AbstractBaseActivity() {
             setHasOptionsMenu(true)
 
             setDataFromPrefs()
+
+            val backCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (prefs.getTileData(tileId) != getCurrentPrefsAsTileData()) {
+                        ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                    } else {
+                        isEnabled = false
+                        parentActivity.onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+
+            parentActivity.onBackPressedDispatcher.addCallback(this, backCallback)
         }
 
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -1420,14 +1428,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 itemAndStatePrefCallback.launch(intent)
                 true
             }
-        }
-
-        override fun onBackPressed(): Boolean {
-            if (prefs.getTileData(tileId) != getCurrentPrefsAsTileData()) {
-                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
-                return true
-            }
-            return false
         }
 
         private fun updateItemAndStatePrefSummary() {
@@ -1501,12 +1501,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
             AbstractTileService.requestTileUpdate(context, tileId)
 
-            parentActivity.onBackPressed()
+            parentActivity.onBackPressedDispatcher.onBackPressed()
         }
 
         override fun onLeaveAndDiscard() {
             setDataFromPrefs()
-            parentActivity.onBackPressed()
+            parentActivity.onBackPressedDispatcher.onBackPressed()
         }
 
         companion object {
@@ -1564,6 +1564,21 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             setDataFromPrefs()
+
+            val backCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val oldData = ItemUpdateWidget.getInfoForWidget(requireContext(), widgetId)
+                    val newData = getCurrentPrefsAsWidgetData()
+                    if (oldData != newData) {
+                        ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                    } else {
+                        isEnabled = false
+                        parentActivity.onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+
+            parentActivity.onBackPressedDispatcher.addCallback(this, backCallback)
         }
 
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -1596,17 +1611,6 @@ class PreferencesActivity : AbstractBaseActivity() {
                 itemAndStatePrefCallback.launch(intent)
                 true
             }
-        }
-
-        override fun onBackPressed(): Boolean {
-            val oldData = ItemUpdateWidget.getInfoForWidget(requireContext(), widgetId)
-            val newData = getCurrentPrefsAsWidgetData()
-            if (oldData != newData) {
-                ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
-                return true
-            }
-
-            return false
         }
 
         private fun updateItemAndStatePrefSummary() {
@@ -1679,12 +1683,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
             activity?.setResult(RESULT_OK, resultValue)
 
-            parentActivity.onBackPressed()
+            parentActivity.onBackPressedDispatcher.onBackPressed()
         }
 
         override fun onLeaveAndDiscard() {
             setDataFromPrefs()
-            parentActivity.onBackPressed()
+            parentActivity.onBackPressedDispatcher.onBackPressed()
         }
 
         companion object {
