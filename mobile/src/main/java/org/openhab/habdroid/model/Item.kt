@@ -62,7 +62,8 @@ data class Item internal constructor(
     }
 
     @Suppress("unused")
-    enum class Tag(val parent: Tag?, val labelResId: Int?) {
+    @Parcelize
+    enum class Tag(val parent: Tag?, val labelResId: Int?) : Parcelable {
         // Legacy tags from openHAB 2
         ContactSensor(null, null),
         HeatingCoolingMode(null, null),

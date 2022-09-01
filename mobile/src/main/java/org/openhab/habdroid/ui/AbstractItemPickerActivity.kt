@@ -26,6 +26,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
@@ -117,6 +118,19 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 inflate()
             }
         }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!searchView.isIconified) {
+                    searchView.isIconified = true
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     override fun onResume() {
@@ -146,18 +160,10 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onOptionsItemSelected()")
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        if (!searchView.isIconified) {
-            searchView.isIconified = true
-        } else {
-            super.onBackPressed()
-        }
     }
 
     override fun onItemClicked(item: Item) {

@@ -144,7 +144,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
 
     class ProxyReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val actual = intent.getParcelableExtra<Intent>("intent") ?: return
+            val actual = intent.getParcelableExtra("intent", Intent::class.java) ?: return
 
             val data = Data.Builder()
                 .putString(KEY_ACTION, actual.action)

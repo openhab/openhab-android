@@ -139,7 +139,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 EventListenerService.startOrStopService(context)
             }
             ACTION_RETRY_UPLOAD -> {
-                intent.getParcelableArrayListExtra<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
+                intent.getParcelableArrayListExtra(EXTRA_RETRY_INFO_LIST, RetryInfo::class.java)?.forEach { info ->
                     enqueueItemUpload(
                         context,
                         info.tag,
@@ -434,6 +434,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 // Display an hint to the user about what he should say.
                 putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input))
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
                 putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
                 putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)

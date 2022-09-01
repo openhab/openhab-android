@@ -32,7 +32,7 @@ class EventListenerService : Service() {
     private var isRegistered = false
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(TAG, "onStartCommand())")
+        Log.d(TAG, "onStartCommand()")
 
         if (isRegistered) {
             unregisterReceiver(backgroundTasksManager)

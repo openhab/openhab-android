@@ -312,11 +312,15 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
             menu.add(Menu.NONE, CONTEXT_MENU_ID_COPY_ITEM_NAME, Menu.NONE, R.string.show_and_copy_item_name)
                 .setOnMenuItemClickListener {
                     val itemName = widget.item.name
-                    Snackbar.make(
-                        activity.findViewById(android.R.id.content),
-                        activity.getString(R.string.copied_item_name, itemName),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                        // Avoid duplicate notifications
+                        // https://developer.android.com/develop/ui/views/touch-and-input/copy-paste?hl=en#duplicate-notifications
+                        Snackbar.make(
+                            activity.findViewById(android.R.id.content),
+                            activity.getString(R.string.copied_item_name, itemName),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
                     val clipboardManager = activity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                     val clipData = ClipData.newPlainText(activity.getString(R.string.app_name), itemName)
                     clipboardManager.setPrimaryClip(clipData)
@@ -333,8 +337,8 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
         callback: (state: String, mappedState: String, itemId: Int) -> Unit
     ) {
         val listener = object : MenuItem.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                val id = item?.itemId ?: return false
+            override fun onMenuItemClick(item: MenuItem): Boolean {
+                val id = item.itemId
                 when {
                     id == CONTEXT_MENU_ID_WRITE_CUSTOM_TAG -> {
                         val input = EditText(context)

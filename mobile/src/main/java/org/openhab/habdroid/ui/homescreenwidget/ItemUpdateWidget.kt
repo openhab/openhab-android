@@ -95,7 +95,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 ACTION_CREATE_WIDGET -> {
                     val data = intent
                         .getBundleExtra(EXTRA_BUNDLE)
-                        ?.getParcelable<ItemUpdateWidgetData>(EXTRA_DATA)
+                        ?.getParcelable(EXTRA_DATA, ItemUpdateWidgetData::class.java)
                         ?: return
                     saveInfoForWidget(context, data, id)
                     BackgroundTasksManager.schedulePeriodicTrigger(context, false)

@@ -70,18 +70,34 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         setTheme(getActivityThemeId())
 
         val colorPrimary = resolveThemedColor(R.attr.colorPrimary)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            setTaskDescription(ActivityManager.TaskDescription(
-                getString(R.string.app_name),
-                R.mipmap.icon,
-                colorPrimary))
-        } else {
-            @Suppress("DEPRECATION")
-            setTaskDescription(ActivityManager.TaskDescription(
-                getString(R.string.app_name),
-                BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                colorPrimary))
+
+        val taskDescription = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                ActivityManager.TaskDescription.Builder()
+                    .setLabel(getString(R.string.app_name))
+                    .setIcon(R.mipmap.icon)
+                    .setPrimaryColor(colorPrimary)
+                    .build()
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+                @Suppress("DEPRECATION")
+                ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    R.mipmap.icon,
+                    colorPrimary
+                )
+            }
+            else -> {
+                @Suppress("DEPRECATION")
+                ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    BitmapFactory.decodeResource(resources, R.mipmap.icon),
+                    colorPrimary
+                )
+            }
         }
+
+        setTaskDescription(taskDescription)
 
         super.onCreate(savedInstanceState)
     }
