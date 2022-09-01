@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.ui.preference
+package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -41,7 +41,7 @@ import java.text.DateFormat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.ItemUpdateWorker
-import org.openhab.habdroid.ui.CustomDialogPreference
+import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.getPrefixForBgTasks

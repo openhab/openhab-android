@@ -44,7 +44,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.ItemUpdateWorker
 import org.openhab.habdroid.background.tiles.AbstractTileService.Companion.getPrefKeyForId
-import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.getPrefs
 
 @RequiresApi(Build.VERSION_CODES.N)

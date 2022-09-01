@@ -53,7 +53,7 @@ import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
-import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_IS_STACK_ROOT
 import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_SUBPAGE

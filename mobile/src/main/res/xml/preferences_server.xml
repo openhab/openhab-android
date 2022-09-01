@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+    <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
         android:key="name"
         android:title="@string/settings_server_name"
         android:persistent="false"
@@ -22,7 +22,7 @@
         android:clickable="true"
         android:key="clear_default_sitemap"
         android:title="@string/settings_clear_default_sitemap" />
-    <org.openhab.habdroid.ui.preference.PrimaryServerPreference
+    <org.openhab.habdroid.ui.preference.widgets.PrimaryServerPreference
         android:key="primary_server_pref"
         android:icon="@drawable/ic_star_border_grey_24dp"
         android:title="@string/settings_server_primary_title" />
@@ -32,12 +32,12 @@
         android:key="advanced_prefs"
         android:icon="@drawable/ic_keyboard_arrow_down_grey_24dp"
         android:title="@string/settings_advanced" />
-    <org.openhab.habdroid.ui.preference.SslClientCertificatePreference
+    <org.openhab.habdroid.ui.preference.widgets.SslClientCertificatePreference
         android:key="clientcert"
         android:persistent="false"
         app:isPreferenceVisible="false"
         android:title="@string/settings_openhab_sslclientcert" />
-    <org.openhab.habdroid.ui.preference.WifiSsidInputPreference
+    <org.openhab.habdroid.ui.preference.widgets.WifiSsidInputPreference
         android:key="wifi_ssid"
         android:persistent="false"
         app:isPreferenceVisible="false"

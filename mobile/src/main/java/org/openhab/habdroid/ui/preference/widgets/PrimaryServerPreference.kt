@@ -11,45 +11,36 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.ui.preference
+package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
-import androidx.core.view.isVisible
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 
-class InfoPreference constructor(context: Context, attrs: AttributeSet) :
-    Preference(context, attrs) {
+class PrimaryServerPreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var helpIcon: ImageView? = null
-    private val infoUrl: String?
 
     init {
-        isSelectable = false
-        setIcon(R.drawable.ic_info_outline_grey_24dp)
-
-        if (!title.isNullOrEmpty()) {
-            throw IllegalArgumentException("InfoPreference must not have a title set, use summary instead")
-        }
-
         widgetLayoutResource = R.layout.help_icon_pref
-        context.obtainStyledAttributes(attrs, R.styleable.InfoPreference).apply {
-            infoUrl = getString(R.styleable.InfoPreference_infoUrl)
-            recycle()
-        }
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
         helpIcon = holder.itemView.findViewById(R.id.help_icon)
-        infoUrl?.let {
-            helpIcon?.setupHelpIcon(it, R.string.click_here_for_more_information)
-        }
+        helpIcon?.setupHelpIcon(
+            context.getString(R.string.settings_server_primary_url),
+            R.string.click_here_for_more_information
+        )
         helpIcon?.updateHelpIconAlpha(isEnabled)
-        helpIcon?.isVisible = infoUrl != null
+    }
+
+    override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {
+        super.onDependencyChanged(dependency, disableDependent)
+        helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 }

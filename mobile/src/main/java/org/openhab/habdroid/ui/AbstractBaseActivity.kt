@@ -45,6 +45,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.getActivityThemeId

@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.ui.preference
+package org.openhab.habdroid.ui.preference.widgets
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -34,7 +34,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
-import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 

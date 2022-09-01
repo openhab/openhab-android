@@ -30,7 +30,7 @@ import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
-import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
 import org.openhab.habdroid.ui.widget.WidgetImageView
 
 enum class ScreenLockMode {

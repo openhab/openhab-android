@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/settings_openhab_connection">
-    <org.openhab.habdroid.ui.preference.UrlInputPreference
+    <org.openhab.habdroid.ui.preference.widgets.UrlInputPreference
         android:defaultValue="@string/empty_string"
         android:key="url"
         android:persistent="false"
@@ -11,7 +11,7 @@
         android:title="@string/settings_openhab_url"
         android:icon="@drawable/ic_earth_grey_24dp"
         app:isForRemoteServer="false" />
-    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+    <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
         android:persistent="false"
         android:inputType="textNoSuggestions"
@@ -20,7 +20,7 @@
         android:autofillHints="username,emailAddress"
         app:whitespaceBehavior="trim"
         android:icon="@drawable/ic_person_outline_grey_24dp" />
-    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+    <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
         android:persistent="false"
         android:inputType="textPassword"
@@ -29,7 +29,7 @@
         android:autofillHints="password"
         app:whitespaceBehavior="trim"
         android:icon="@drawable/ic_shield_key_outline_grey_24dp" />
-    <org.openhab.habdroid.ui.preference.InfoPreference
+    <org.openhab.habdroid.ui.preference.widgets.InfoPreference
         android:key="api_token_hint"
         app:infoUrl="https://www.openhab.org/docs/configuration/restdocs.html#authentication"
         android:summary="@string/settings_openhab_api_token_hint" />
