@@ -689,7 +689,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         init {
             VALUE_GETTER_MAP[PrefKeys.SEND_ALARM_CLOCK] = { context, _ ->
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val info = alarmManager.nextAlarmClock
+                val info: AlarmManager.AlarmClockInfo? = alarmManager.nextAlarmClock
                 val sender = info?.showIntent?.creatorPackage
                 Log.d(TAG, "Alarm sent by $sender")
                 val timeStamp = info?.triggerTime?.let { time ->
@@ -703,7 +703,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
 
                 @StringRes val debugInfoRes: Int
-                val time: String = if (isValidSender) {
+                val time: String = if (isValidSender || info == null) {
                     debugInfoRes = R.string.settings_alarm_clock_debug_ignored
                     "UNDEF"
                 } else {
