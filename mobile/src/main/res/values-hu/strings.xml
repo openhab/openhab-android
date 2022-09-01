@@ -251,7 +251,6 @@
     <string name="settings_dnd_mode_summary_off">Ne küldje el a DND állapotát</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ez a funkció további engedélyeket igényel. Miután bekapcsolta, engedélyeznie kell a használatát.</string>
     <string name="settings_background_tasks_permission_hint">Ez a funkció további engedélyeket igényel. Miután bekapcsolta, engedélyeznie kell a használatát. Ellenőrizze, hogy a háttérben futó alkalmazás számára is engedélyezte azt, mivel az Elem frissítés a háttérben is megtörténhet.</string>
-    <string name="settings_background_tasks_permission_denied">Néhány háttér művelet kikapcsolva, hiányzó engedélyek miatt</string>
     <string name="settings_background_tasks_permission_denied_background_location">Néhány háttérben futó feladathoz \"%s\" helymeghatározást kell az Android beállításokban engedélyeznie</string>
     <string name="settings_background_tasks_permission_allow">Engedélyez</string>
     <string name="settings_location_permissions_required">Az alkalmazás bezárt állapotban vagy használatok kívül is helymeghatározási adatokat gyűjt, ha a \"Wifi név küldése a kiszolgálónak\" és a \"Wifi alapú kiszolgáló választás\" funkciók be vannak kapcsolva. Ezek az adatok csak azoknak a kiszolgálóknak lesznek elküldve, amiket beállított.</string>
