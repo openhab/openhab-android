@@ -68,6 +68,7 @@ import com.google.android.material.snackbar.Snackbar
 import java.nio.charset.Charset
 import java.util.concurrent.CancellationException
 import javax.jmdns.ServiceInfo
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -535,7 +536,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     fun scheduleRetry(runAfterDelay: () -> Unit) {
         retryJob?.cancel(CancellationException("scheduleRetry() was called"))
         retryJob = CoroutineScope(Dispatchers.Main + Job()).launch {
-            delay(30000)
+            delay(30.seconds)
+            if (!isStarted) {
+                Log.e(TAG, "Would have runAfterDelay(), but not started anymore")
+                return@launch
+            }
             Log.d(TAG, "runAfterDelay()")
             runAfterDelay()
         }
