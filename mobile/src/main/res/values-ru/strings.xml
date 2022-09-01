@@ -254,7 +254,6 @@
     <string name="settings_gadgetbridge_summary_off">Не отправлять действия Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Эта функция требует дополнительных прав доступа. После ее включения, вам будет предложено одобрить разрешение.</string>
     <string name="settings_background_tasks_permission_hint">Эта функция требует дополнительных прав доступа. После ее включения, вам будет предложено одобрить разрешение. Пожалуйста, не забудьте одобрить разрешение на фоновое использование, так как обновления Item также происходит, когда приложение находится в фоновом режиме.</string>
-    <string name="settings_background_tasks_permission_denied">Некоторые фоновые задачи были отключены из-за отсутствия необходимых разрешений</string>
     <string name="settings_background_tasks_permission_denied_background_location">Некоторый фоновые задачи требует доступа к местоположению, необходимо включить в \"%s\" в настройках Android</string>
     <string name="settings_background_tasks_permission_allow">Разрешить</string>
     <string name="settings_location_permissions_required">Это приложение собирает данные о местоположении для включения \"Отправка имени Wi-Fi на сервер\" и \"Выбор сервера на основе Wi-Fi\", даже если приложение закрыто или не используется. Пожалуйста, обратите внимание, что эти данные отправляются только на настроенные вами серверы.</string>
