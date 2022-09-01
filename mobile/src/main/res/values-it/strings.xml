@@ -278,7 +278,6 @@
     <string name="settings_gadgetbridge_summary_off">Non inviare azioni del device Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi.</string>
     <string name="settings_background_tasks_permission_hint">Questa funzione richiede ulteriori permessi per funzionare. Dopo averla attivata, ti verrà richiesta l\'approvazione dei permessi. Assicurati di approvare l\'autorizzazione anche per l\'utilizzo in background, poiché gli aggiornamenti degli Item avviene anche quando l\'applicazione è in background.</string>
-    <string name="settings_background_tasks_permission_denied">Alcune attività in background sono state disabilitate per autorizzazioni mancanti</string>
     <string name="settings_background_tasks_permission_denied_background_location">Alcune attività in background richiedono l\'accesso alla localizzazione per cambiarlo in \"%s\" nelle impostazioni di Android</string>
     <string name="settings_background_tasks_permission_allow">Consenti</string>
     <string name="settings_location_permissions_required">Questa app raccoglie i dati della posizione per abilitare \"Invio del nome Wi-Fi al server\" e \"Selezione del server basato sul Wi-Fi\" anche quando l\'app è chiusa o non è in uso. Si prega di notare che questi dati sono inviati solo ai tuoi server configurati.</string>

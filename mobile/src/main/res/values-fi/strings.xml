@@ -203,7 +203,6 @@
     <string name="settings_dnd_mode">DND moodi</string>
     <string name="settings_dnd_mode_summary_on">Lähettää DND moodin tilan Itemille \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Älä lähetä DND moodia</string>
-    <string name="settings_background_tasks_permission_denied">Joitankin taustatehtäviä on lopetettu puuttuvien oikeuksien takia</string>
     <string name="settings_background_tasks_permission_allow">Salli</string>
     <string name="settings_item_pref_item_name">Itemin nimi</string>
     <string name="waiting_for_item_upload">Itemien päivitykset odottaa verkkoa</string>

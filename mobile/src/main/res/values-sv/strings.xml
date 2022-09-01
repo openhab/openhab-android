@@ -168,7 +168,6 @@
     <string name="settings_charging_state">Laddningstillstånd</string>
     <string name="settings_wifi_ssid">WiFi-namn</string>
     <string name="settings_wifi_ssid_permission_denied">Att skicka WiFi-namn har inaktiverats på grund av saknade behörigheter</string>
-    <string name="settings_background_tasks_permission_denied">Vissa bakgrundsuppgifter har inaktiverats på grund av saknade behörigheter</string>
     <string name="settings_background_tasks_permission_allow">Tillåt</string>
     <string name="settings_item_pref_item_name">Item-namn</string>
     <string name="waiting_for_item_upload">Väntar på nätverksanslutning för att skicka Item-uppdateringar</string>

@@ -254,7 +254,6 @@
     <string name="settings_gadgetbridge_summary_off">不要发送 Gadgetbridge 设备信息</string>
     <string name="settings_background_tasks_permission_hint_pre_r">此功能需要额外的权限才能工作。启用后，将要求您批准权限。</string>
     <string name="settings_background_tasks_permission_hint">此功能需要额外的权限才能工作。启用后，将要求您批准权限。 请确保批准后台使用权限，因为当应用程序处于后台时项目也会更新。</string>
-    <string name="settings_background_tasks_permission_denied">由于缺少权限，一些后台任务已被禁用</string>
     <string name="settings_background_tasks_permission_denied_background_location">某些后台任务需要在安卓设置中设置位置访问权限为“%s”</string>
     <string name="settings_background_tasks_permission_allow">允许</string>
     <string name="settings_location_permissions_required">此应用收集位置数据以启用\"发送Wi-Fi名称到服务器\"和\"选择基于Wi-Fi的服务器\"，即使应用程序已关闭或未使用。 请注意，此数据仅发送到您配置的服务器。</string>

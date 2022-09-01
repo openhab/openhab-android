@@ -120,7 +120,6 @@
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_wifi_ssid">اسم الشبكة اللاسلكية</string>
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
-    <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
     <string name="settings_background_tasks_permission_allow">السماح</string>
     <string name="notification_channel_messages_default_severity">افتراضي</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->

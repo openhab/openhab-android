@@ -7,6 +7,9 @@
     <string name="save">Guardar</string>
     <string name="discard">Descartar</string>
     <string name="delete">Borrar</string>
+    <string name="attribution_tag_discover_server">Detectar servidor openHAB</string>
+    <string name="attribution_tag_select_server_wifi">Seleccionar servidor en base a la Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Sugerir activar Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configuración</string>
@@ -271,7 +274,7 @@
     <string name="settings_gadgetbridge_summary_off">No enviar acciones de dispositivo Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Esta característica requiere permisos adicionales para funcionar. Tras activarla, se le pedirá que apruebe dichos permisos.</string>
     <string name="settings_background_tasks_permission_hint">Esta característica requiere permisos adicionales para funcionar. Después de activarla, se le pedirá que apruebe dichos permisos. Por favor, asegúrese de aprobar los permisos también para el uso en segundo plano, ya que las actualizaciones de los Item también suceden cuando la aplicación funciona en segundo plano.</string>
-    <string name="settings_background_tasks_permission_denied">Algunas tareas en segundo plano se han deshabilitado debido a que faltan permisos</string>
+    <string name="settings_permission_denied">Algunas características han sido deshabilitadas debido a la falta de permisos</string>
     <string name="settings_background_tasks_permission_denied_background_location">Algunas tareas en segundo plano requieren que el acceso a la ubicación se establezca a \"%s\" en la configuración de Android</string>
     <string name="settings_background_tasks_permission_allow">Permitir</string>
     <string name="settings_location_permissions_required">Esta aplicación recopila datos de ubicación necesarios para la función \"Enviar nombre Wi-Fi al servidor\" y \"Selección de servidor basada en Wi-Fi\", incluso cuando la aplicación está cerrada o no está en uso. Tenga en cuenta que estos datos sólo se envían a los servidores que ha configurado.</string>

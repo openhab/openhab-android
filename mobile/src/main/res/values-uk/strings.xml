@@ -256,7 +256,6 @@
     <string name="settings_gadgetbridge_summary_off">Не надсилайте дії пристрою Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл.</string>
     <string name="settings_background_tasks_permission_hint">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл. Будь ласка, переконайтеся, що дали дозвіл на використання у фоні, так як оновлення відбувається також у фоновому режимі.</string>
-    <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
     <string name="settings_background_tasks_permission_denied_background_location">Деякі фонові задачі вимагають, щоб місцезнаходження було \"%s\" у налаштуваннях Android</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
     <string name="settings_location_permissions_required">Цей додаток збирає дані про місцезнаходження, щоб ввімкнути \"Надсилання імені Wi-Fi до сервера\" і \"Вибір сервера на основі Wi-Fi\" навіть тоді, коли додаток закритий чи не використовується. Будь ласка, зверніть увагу, що ці дані відправляються лише на сервери, які ви налаштували.</string>
