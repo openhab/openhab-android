@@ -246,7 +246,6 @@
     <string name="settings_dnd_mode_summary_off">Nie wysyłaj trybu DND</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ta funkcja wymaga dodatkowych uprawnień do działania. Po włączeniu tej funkcji zostaniesz poproszony o zatwierdzenie uprawnień.</string>
     <string name="settings_background_tasks_permission_hint">Ta funkcja wymaga dodatkowych uprawnień do działania. Po włączeniu tej funkcji zostaniesz poproszony o zatwierdzenie uprawnień. Upewnij się, że zezwolenie jest również dla użycia w tle, ponieważ aktualizacje elementu mają miejsce również wtedy, gdy aplikacja jest w tle.</string>
-    <string name="settings_background_tasks_permission_denied">Niektóre zadania w tle zostały wyłączone z powodu braku uprawnień</string>
     <string name="settings_background_tasks_permission_denied_background_location">Niektóre zadania w tle wymagają dostępu do lokalizacji dla \"%s\" w ustawieniach Androida</string>
     <string name="settings_background_tasks_permission_allow">Zezwól</string>
     <string name="settings_location_permissions_required">Ta aplikacja zbiera dane o lokalizacji, aby włączyć \"Wysyłanie nazwy Wi-Fi do serwera\" i \"Wybieranie serwera na podstawie Wi-Fi\" nawet wtedy, gdy aplikacja jest zamknięta lub nie jest używana. Pamiętaj, że te dane są wysyłane tylko na serwery, które skonfigurowałeś.</string>
