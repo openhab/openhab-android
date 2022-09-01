@@ -541,7 +541,12 @@ fun PackageManager.isInstalled(app: String): Boolean {
     return try {
         // Some devices return `null` for getApplicationInfo()
         @Suppress("UNNECESSARY_SAFE_CALL", "SAFE_CALL_WILL_CHANGE_NULLABILITY", "SimplifyBooleanWithConstants")
-        getApplicationInfo(app, PackageManager.ApplicationInfoFlags.of(0))?.enabled == true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getApplicationInfo(app, PackageManager.ApplicationInfoFlags.of(0))?.enabled == true
+        } else {
+            @Suppress("DEPRECATION")
+            getApplicationInfo(app, 0)?.enabled == true
+        }
     } catch (e: PackageManager.NameNotFoundException) {
         false
     }
