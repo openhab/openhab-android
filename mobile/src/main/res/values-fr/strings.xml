@@ -245,7 +245,6 @@
     <string name="settings_dnd_mode_summary_off">Ne pas envoyer le mode NPD</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Cette fonctionnalité nécessite des autorisations supplémentaires pour fonctionner. Une fois activée, vous serez invité à approuver la permission.</string>
     <string name="settings_background_tasks_permission_hint">Cette fonctionnalité nécessite des autorisations supplémentaires pour fonctionner. Une fois activée, vous serez invité à approuver la permission. Veuillez vous assurer de l\'approuver également pour une utilisation en arrière-plan, car les mises à jour d\'Item se produisent aussi lorsque l\'application est en arrière-plan.</string>
-    <string name="settings_background_tasks_permission_denied">Certaines tâches en arrière-plan ont été désactivées en raison de permissions manquantes</string>
     <string name="settings_background_tasks_permission_denied_background_location">Certaines tâches en arrière-plan nécessitent un accès à la localisation pour être définies à \"%s\" dans les paramètres Android</string>
     <string name="settings_background_tasks_permission_allow">Autoriser</string>
     <string name="settings_item_pref_item_name">Nom d\'Item</string>
