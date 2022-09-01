@@ -695,8 +695,15 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 val timeStamp = info?.triggerTime?.let { time ->
                     SimpleDateFormat("HH:mm yyyy-MM-dd", Locale.US).format(time)
                 }
+
+                val isValidSender = when {
+                    sender in IGNORED_PACKAGES_FOR_ALARM -> false
+                    sender == null && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> false
+                    else -> true
+                }
+
                 @StringRes val debugInfoRes: Int
-                val time: String = if (sender == null || sender in IGNORED_PACKAGES_FOR_ALARM) {
+                val time: String = if (isValidSender) {
                     debugInfoRes = R.string.settings_alarm_clock_debug_ignored
                     "UNDEF"
                 } else {
