@@ -278,7 +278,6 @@
     <string name="settings_gadgetbridge_summary_off">Ikke send Gadgetbridge enhetshandlinger</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Denne funksjonen krever ekstra tillatelser for å fungere. Etter aktivering vil du bli bedt om godkjenning av tillatelse.</string>
     <string name="settings_background_tasks_permission_hint">Denne funksjonen krever ekstra tillatelser for å fungere. Etter aktivering vil du bli bedt om godkjenning. Vennligst også godkjenn tillatelse for bakgrunnsbruk, siden Item oppdateringer også skjer mens programmet er i bakgrunnen.</string>
-    <string name="settings_background_tasks_permission_denied">Noen bakgrunnsoppgaver er deaktivert på grunn av manglende tillatelser</string>
     <string name="settings_background_tasks_permission_denied_background_location">Noen bakgrunnsoppgaver krever at stedstilgang er satt til \"%s\" i Android-innstillingene</string>
     <string name="settings_background_tasks_permission_allow">Tillat</string>
     <string name="settings_location_permissions_required">Programmet samler stedsdata for å aktivere «Send Wi-Fi-navn til server» og «Velg server basert på Wi-Fi» selv når programmet er lukket eller ikke i bruk. Legg merke til at disse dataene bare sendes til serverene du har konfigurert.</string>
