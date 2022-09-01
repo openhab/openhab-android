@@ -37,7 +37,7 @@
             android:title="@string/settings_image_widget_scaling"
             android:summaryOff="@string/settings_image_widget_scaling_summary_off"
             android:summaryOn="@string/settings_image_widget_scaling_summary_on" />
-        <org.openhab.habdroid.ui.preference.ChartScalingPreference
+        <org.openhab.habdroid.ui.preference.widgets.ChartScalingPreference
             android:title="@string/settings_chart_scaling"
             android:summary="@string/settings_chart_scaling_summary"
             android:key="chartScalingFactor"
@@ -96,7 +96,7 @@
             android:enabled="false"
             android:selectable="false"
             android:key="notification_status" />
-        <org.openhab.habdroid.ui.preference.NotificationPollingPreference
+        <org.openhab.habdroid.ui.preference.widgets.NotificationPollingPreference
             android:defaultValue="false"
             android:key="foss_notifications_enabled"
             android:title="@string/push_notification_status" />
@@ -120,7 +120,7 @@
             android:icon="@drawable/ic_bell_outline_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
-        <org.openhab.habdroid.ui.preference.DeviceIdentifierPreference
+        <org.openhab.habdroid.ui.preference.widgets.DeviceIdentifierPreference
             android:defaultValue="@string/empty_string"
             android:key="sendDeviceInfoPrefix"
             android:icon="@drawable/ic_tag_text_outline_grey_24dp"

@@ -64,7 +64,7 @@
         <meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
 
         <activity
-            android:name=".ui.PreferencesActivity"
+            android:name=".ui.preference.PreferencesActivity"
             android:label="@string/app_preferences_name"
             android:exported="true">
             <intent-filter>

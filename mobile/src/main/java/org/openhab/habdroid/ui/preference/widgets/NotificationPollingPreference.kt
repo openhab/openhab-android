@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.ui.preference
+package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -32,7 +32,7 @@ import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.ui.CustomDialogPreference
+import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.PrefKeys

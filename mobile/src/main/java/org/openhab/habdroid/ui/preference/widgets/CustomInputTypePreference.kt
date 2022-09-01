@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.ui.preference
+package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.os.Build
@@ -20,7 +20,6 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
@@ -29,7 +28,7 @@ import androidx.preference.PreferenceDataStore
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
-import org.openhab.habdroid.ui.CustomDialogPreference
+import org.openhab.habdroid.ui.preference.CustomDialogPreference
 
 open class CustomInputTypePreference constructor(context: Context, attrs: AttributeSet) :
     EditTextPreference(context, attrs), CustomDialogPreference {

@@ -45,7 +45,7 @@ import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.getIconResource
 import org.openhab.habdroid.model.putIconResource
-import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.duplicate
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient

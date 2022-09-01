@@ -67,7 +67,7 @@ import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
-import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.PrefKeys

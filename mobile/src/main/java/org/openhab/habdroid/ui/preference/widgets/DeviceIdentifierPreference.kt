@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-package org.openhab.habdroid.ui.preference
+package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.os.Build
@@ -31,7 +31,7 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
-import org.openhab.habdroid.ui.CustomDialogPreference
+import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.PrefKeys
 
 class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs),

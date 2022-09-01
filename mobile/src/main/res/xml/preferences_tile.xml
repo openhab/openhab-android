@@ -6,12 +6,12 @@
         android:persistent="false"
         android:key="tile_show"
         android:title="@string/tile_enable" />
-    <org.openhab.habdroid.ui.preference.ItemAndStatePreference
+    <org.openhab.habdroid.ui.preference.widgets.ItemAndStatePreference
         android:persistent="false"
         android:dependency="tile_show"
         android:key="tile_item_and_action"
         android:title="@string/tile_item_and_action" />
-    <org.openhab.habdroid.ui.preference.CustomInputTypePreference
+    <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
         android:persistent="false"
         android:dependency="tile_show"
         android:key="tile_name"

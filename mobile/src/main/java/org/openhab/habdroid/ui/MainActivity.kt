@@ -102,7 +102,8 @@ import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
-import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.preference.PreferencesActivity
+import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
 import org.openhab.habdroid.ui.widget.LockableDrawerLayout
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
