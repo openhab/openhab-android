@@ -241,7 +241,6 @@
     <string name="settings_dnd_mode_summary_off">DND モードを送信しません</string>
     <string name="settings_background_tasks_permission_hint_pre_r">この機能を動作させるために追加の権限が必要です。有効にすると、権限の承認を求められます。</string>
     <string name="settings_background_tasks_permission_hint">この機能を動作させるために追加の権限が必要です。有効にすると、権限の承認を求められます。アプリがバックグラウンドである場合にもアイテムのアップデートが行われるため、バックグラウンドでの使用も許可するようにしてください。</string>
-    <string name="settings_background_tasks_permission_denied">アクセス許可がないため一部のバックグラウンドタスクが無効になっています</string>
     <string name="settings_background_tasks_permission_denied_background_location">一部のバックグラウンドタスクは、Androidの設定で、位置情報へのアクセスを \"%s\" に設定する必要があります</string>
     <string name="settings_background_tasks_permission_allow">許可する</string>
     <string name="settings_item_pref_item_name">アイテム名</string>
