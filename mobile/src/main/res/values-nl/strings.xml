@@ -246,7 +246,6 @@
     <string name="settings_dnd_mode_summary_off">Niet storen modus niet verzenden</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Deze functie vereist extra machtigingen. Na het inschakelen wordt u gevraagd om toestemming te verlenen.</string>
     <string name="settings_background_tasks_permission_hint">Deze functie vereist extra machtigingen om. Na het inschakelen wordt u gevraagd om toestemming te verlenen. Zorg ervoor dat u de machtiging ook voor achtergrondgebruik goedkeurt, aangezien de Item updates ook gebeuren wanneer de app zich op de achtergrond bevindt.</string>
-    <string name="settings_background_tasks_permission_denied">Sommige achtergrondtaken zijn uitgeschakeld vanwege ontbrekende machtigingen</string>
     <string name="settings_background_tasks_permission_denied_background_location">Sommige achtergrondtaken vereisen om locatietoegang in te stellen op \"%s\" in de Android-instellingen</string>
     <string name="settings_background_tasks_permission_allow">Toestaan</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
