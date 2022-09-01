@@ -54,7 +54,6 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.util.PendingIntent_Mutable
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.showToast
 
@@ -141,7 +140,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
             val tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag::class.java)
             if (tag != null && writeTag(tag)) {
-                showToast(R.string.info_write_tag_finished, ToastType.SUCCESS)
+                showToast(R.string.info_write_tag_finished)
                 finish()
             } else {
                 writeTagMessage.setText(R.string.info_write_failed)

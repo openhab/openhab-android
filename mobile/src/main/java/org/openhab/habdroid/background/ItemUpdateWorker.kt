@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
 import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -41,7 +42,6 @@ import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.TaskerPlugin
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefixForVoice
 import org.openhab.habdroid.util.getPrefs
@@ -112,8 +112,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             if (showToast) {
                 val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
                 applicationContext.showToast(
-                    getItemUpdateSuccessMessage(applicationContext, label, valueToBeSent, actualMappedValue),
-                    ToastType.SUCCESS
+                    getItemUpdateSuccessMessage(applicationContext, label, valueToBeSent, actualMappedValue)
                 )
             }
             sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
@@ -171,7 +170,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
     ): Result {
         return if (runAttemptCount <= if (isImportant) 3 else 10) {
             if (showToast) {
-                applicationContext.showToast(R.string.item_update_error_no_connection_retry, ToastType.ERROR)
+                applicationContext.showToast(R.string.item_update_error_no_connection_retry, Toast.LENGTH_LONG)
             }
             Result.retry()
         } else {
@@ -245,10 +244,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
                 return Result.failure(buildOutputData(true, e.statusCode))
             }
         }
-        applicationContext.showToast(
-            applicationContext.getString(R.string.info_voice_recognized_text, value.value),
-            ToastType.SUCCESS
-        )
+        applicationContext.showToast(applicationContext.getString(R.string.info_voice_recognized_text, value.value))
         Log.d(TAG, "Successfully sent update to voice endpoint or item")
         return Result.success(buildOutputData(true, result.statusCode, voiceCommand))
     }

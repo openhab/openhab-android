@@ -53,7 +53,6 @@ import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.ToastType
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
@@ -100,7 +99,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     saveInfoForWidget(context, data, id)
                     BackgroundTasksManager.schedulePeriodicTrigger(context, false)
                     setupWidget(context, data, id, AppWidgetManager.getInstance(context))
-                    context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
+                    context.showToast(R.string.home_shortcut_success_pinning)
                 }
                 ACTION_UPDATE_WIDGET -> {
                     val data = getInfoForWidget(context, id)
