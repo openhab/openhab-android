@@ -169,7 +169,6 @@ dependencies {
     // Used libraries
     implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
-    implementation "com.github.GrenderG:Toasty:1.5.2"
 
     // Firebase
     implementation platform("com.google.firebase:firebase-bom:25.11.0")

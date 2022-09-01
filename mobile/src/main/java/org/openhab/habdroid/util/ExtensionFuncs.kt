@@ -45,7 +45,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
-import es.dmoral.toasty.Toasty
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
@@ -135,7 +134,7 @@ fun Uri?.openInBrowser(context: Context) {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
         Log.d(TAG, "Unable to open url in browser: $intent")
-        context.showToast(R.string.error_no_browser_found, ToastType.ERROR)
+        context.showToast(R.string.error_no_browser_found, Toast.LENGTH_LONG)
     }
 }
 
@@ -296,45 +295,20 @@ fun Context.getSecretPrefs(): SharedPreferences {
     return (applicationContext as OpenHabApplication).secretPrefs
 }
 
-enum class ToastType {
-    NORMAL,
-    SUCCESS,
-    ERROR
-}
-
 /**
- * Shows an Toast with the openHAB icon. Can be called from the background.
+ * Shows an Toast and can be called from the background.
  */
-fun Context.showToast(message: CharSequence, type: ToastType = ToastType.NORMAL) {
-    val color = when (type) {
-        ToastType.SUCCESS -> R.color.pref_icon_green
-        ToastType.ERROR -> R.color.pref_icon_red
-        else -> R.color.openhab_orange
-    }
-    val length = if (type == ToastType.ERROR) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
-
+fun Context.showToast(message: CharSequence, length: Int = Toast.LENGTH_SHORT) {
     GlobalScope.launch(Dispatchers.Main) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Toast.makeText(this@showToast, message, length).show()
-        } else {
-            Toasty.custom(
-                applicationContext,
-                message,
-                R.drawable.ic_openhab_appicon_24dp,
-                color,
-                length,
-                true,
-                true
-            ).show()
-        }
+        Toast.makeText(this@showToast, message, length).show()
     }
 }
 
 /**
- * Shows an Toast with the openHAB icon. Can be called from the background.
+ * Shows an Toast and can be called from the background.
  */
-fun Context.showToast(@StringRes message: Int, type: ToastType = ToastType.NORMAL) {
-    showToast(getString(message), type)
+fun Context.showToast(@StringRes message: Int, length: Int = Toast.LENGTH_SHORT) {
+    showToast(getString(message), length)
 }
 
 fun Context.hasPermissions(permissions: Array<String>) = permissions.firstOrNull {
