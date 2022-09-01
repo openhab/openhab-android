@@ -256,7 +256,6 @@
     <string name="settings_gadgetbridge_summary_off">Neposílat akce zařízení Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění.</string>
     <string name="settings_background_tasks_permission_hint">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění. Přesvědčte se, zda jste povolili oprávnění také pro použití na pozadí, protože k aktualizaci Item dochází i v případě, že je aplikace na pozadí.</string>
-    <string name="settings_background_tasks_permission_denied">Některé úlohy na pozadí byly zakázány kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_denied_background_location">Některé úlohy na pozadí vyžadují nastavení přístupu k poloze na \"%s\" v nastavení Androidu</string>
     <string name="settings_background_tasks_permission_allow">Povolit</string>
     <string name="settings_location_permissions_required">Tato aplikace shromažďuje lokalizační data, aby mohla odeslat název Wi-Fi na server a vybírat server na základě Wi-Fi a to i v případě, že je aplikace vypnuta nebo není používána. Tato data jsou odesílána pouze na servery, které jste nakonfigurovali.</string>
