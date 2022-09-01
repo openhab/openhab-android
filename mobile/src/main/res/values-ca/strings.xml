@@ -257,7 +257,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="settings_gadgetbridge_summary_off">No enviis accions del dispositiu Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Aquesta funció requereix permisos addicionals per funcionar. Després d\'activar-lo, se us demanarà l\'aprovació del permís.</string>
     <string name="settings_background_tasks_permission_hint">Aquesta funció requereix permisos addicionals per funcionar. Després d\'activar-lo, se us demanarà l\'aprovació del permís. Assegureu-vos d\'aprovar el permís també per a l\'ús en segon pla, ja que les actualitzacions d\'elements també es produeixen quan l\'aplicació està en segon pla.</string>
-    <string name="settings_background_tasks_permission_denied">Algunes tasques en segon pla s\'han desactivat perquè falten permisos</string>
     <string name="settings_background_tasks_permission_denied_background_location">Algunes tasques en segon pla requereixen que l\'accés a la ubicació estigui configurat a \"%s\" a la configuració d\'Android</string>
     <string name="settings_background_tasks_permission_allow">Permet</string>
     <string name="settings_location_permissions_required">Aquesta aplicació recull dades d\'ubicació per activar \"Enviament del nom de la Wi-Fi al servidor\" i \"Selecció del servidor basat en la Wi-Fi\", fins i tot quan l\'aplicació està tancada o no s\'utilitza. Tingueu en compte que aquestes dades només s\'envien als servidors que heu configurat.</string>
