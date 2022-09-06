@@ -26,6 +26,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.ui.preference.PreferencesActivity
+import org.openhab.habdroid.util.parcelable
 
 class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = requireArguments().getInt("title")
@@ -44,7 +45,7 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(requireArguments().getInt("prefs"))
 
-        path = requireArguments().getParcelable("path", ServerPath::class.java)
+        path = requireArguments().parcelable<ServerPath>("path")
             ?: ServerPath("", null, null)
 
         urlPreference = initEditor("url", path.url, R.drawable.ic_earth_grey_24dp) { value ->

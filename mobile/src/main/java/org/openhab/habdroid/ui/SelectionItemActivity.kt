@@ -30,6 +30,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.parcelable
 
 class SelectionItemActivity : AbstractBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class SelectionItemActivity : AbstractBaseActivity() {
 
         setContentView(R.layout.activity_selection_item)
 
-        val boundItem = intent.extras?.getParcelable(EXTRA_ITEM, Item::class.java)
+        val boundItem = intent.extras?.parcelable<Item>(EXTRA_ITEM)
         if (boundItem == null) {
             finish()
             return

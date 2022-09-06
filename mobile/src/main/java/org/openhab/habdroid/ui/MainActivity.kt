@@ -133,6 +133,7 @@ import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
+import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putActiveServerId
 import org.openhab.habdroid.util.updateDefaultSitemap
 
@@ -226,10 +227,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
-            serverProperties = savedInstanceState.getParcelable(
-                STATE_KEY_SERVER_PROPERTIES,
-                ServerProperties::class.java
-            )
+            serverProperties = savedInstanceState.parcelable(STATE_KEY_SERVER_PROPERTIES)
             val lastConnectionHash = savedInstanceState.getInt(STATE_KEY_CONNECTION_HASH)
             if (lastConnectionHash != -1) {
                 val c = ConnectionFactory.activeUsableConnection?.connection

@@ -40,8 +40,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
-import java.util.ArrayList
-import java.util.HashSet
 import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
@@ -53,10 +51,10 @@ import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
-import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_IS_STACK_ROOT
 import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_SUBPAGE
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
@@ -65,6 +63,8 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.parcelable
+import org.openhab.habdroid.util.parcelableArrayList
 
 /**
  * Controller class for the content area of [MainActivity]
@@ -167,7 +167,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     open fun onRestoreInstanceState(state: Bundle) {
         CrashReportingHelper.d(TAG, "onRestoreInstanceState()")
-        currentSitemap = state.getParcelable(STATE_KEY_SITEMAP, Sitemap::class.java)
+        currentSitemap = state.parcelable(STATE_KEY_SITEMAP)
         currentSitemap?.let { sitemap ->
             sitemapFragment = fm.getFragment(state, STATE_KEY_SITEMAP_FRAGMENT) as WidgetListFragment?
                 ?: makeSitemapFragment(sitemap)
@@ -178,7 +178,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
 
         pageStack.clear()
-        state.getParcelableArrayList(STATE_KEY_PAGES, LinkedPage::class.java)?.forEach { page ->
+        state.parcelableArrayList<LinkedPage>(STATE_KEY_PAGES)?.forEach { page ->
             val f = fm.getFragment(state, makeStateKeyForPage(page)) as WidgetListFragment?
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }

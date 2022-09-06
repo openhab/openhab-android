@@ -40,6 +40,7 @@ import org.openhab.habdroid.ui.preference.fragments.TileOverviewFragment
 import org.openhab.habdroid.ui.preference.fragments.TileSettingsFragment
 import org.openhab.habdroid.ui.preference.fragments.WidgetSettingsFragment
 import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.parcelable
 
 /**
  * This is a class to provide preferences activity for application.
@@ -60,7 +61,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val fragment = when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
                     intent.action == TileService.ACTION_QS_TILE_PREFERENCES -> {
-                    val tile = intent.getParcelableExtra(Intent.EXTRA_COMPONENT_NAME, ComponentName::class.java)
+                    val tile = intent.parcelable<ComponentName>(Intent.EXTRA_COMPONENT_NAME)
                     val tileId: Int = tile?.className?.let { AbstractTileService.getIdFromClassName(it) } ?: 0
                     if (tileId > 0) {
                         TileSettingsFragment.newInstance(tileId)
@@ -83,7 +84,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 add(R.id.activity_content, fragment)
             }
         } else {
-            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT, Intent::class.java) ?: Intent()
+            resultIntent = savedInstanceState.parcelable<Intent>(STATE_KEY_RESULT) ?: Intent()
         }
         setResult(RESULT_OK, resultIntent)
     }

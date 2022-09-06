@@ -87,6 +87,7 @@ import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.parcelableArrayList
 import org.openhab.habdroid.util.withAttribution
 
 class BackgroundTasksManager : BroadcastReceiver() {
@@ -139,7 +140,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 EventListenerService.startOrStopService(context)
             }
             ACTION_RETRY_UPLOAD -> {
-                intent.getParcelableArrayListExtra(EXTRA_RETRY_INFO_LIST, RetryInfo::class.java)?.forEach { info ->
+                intent.parcelableArrayList<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
                     enqueueItemUpload(
                         context,
                         info.tag,

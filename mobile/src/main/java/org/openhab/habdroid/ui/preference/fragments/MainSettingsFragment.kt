@@ -65,6 +65,7 @@ import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isInstalled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
+import org.openhab.habdroid.util.parcelable
 
 class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), ConnectionFactory.UpdateListener {
     override val titleResId: Int @StringRes get() = R.string.action_settings
@@ -78,7 +79,7 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
     ) { result ->
         Log.d(TAG, "selectRingToneCallback: $result")
         val data = result.data ?: return@registerForActivityResult
-        val ringtoneUri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI, Uri::class.java)
+        val ringtoneUri = data.parcelable<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
         val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
         updateRingtonePreferenceSummary(ringtonePref, ringtoneUri)
         prefs.edit {
@@ -289,7 +290,7 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
 
         val flags = activity
             ?.intent
-            ?.getParcelableExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES, ServerProperties::class.java)
+            ?.parcelable<ServerProperties>(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES)
             ?.flags
             ?: prefs.getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
 
