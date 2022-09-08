@@ -1,0 +1,9 @@
+## What's Changed
+* Migrate to Android 13 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3014
+* Specify backup rules for Android 12 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3018
+* Add workaround for alarm time on Android 13 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3017
+* Minify app by @mueller-ma in https://github.com/openhab/openhab-android/pull/3026
+
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.22.1-beta...2.22.2-beta
