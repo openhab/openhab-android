@@ -45,8 +45,8 @@ import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.getIconResource
 import org.openhab.habdroid.model.putIconResource
-import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.duplicate
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -59,6 +59,7 @@ import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
+import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
 
@@ -94,7 +95,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 ACTION_CREATE_WIDGET -> {
                     val data = intent
                         .getBundleExtra(EXTRA_BUNDLE)
-                        ?.getParcelable(EXTRA_DATA, ItemUpdateWidgetData::class.java)
+                        ?.parcelable<ItemUpdateWidgetData>(EXTRA_DATA)
                         ?: return
                     saveInfoForWidget(context, data, id)
                     BackgroundTasksManager.schedulePeriodicTrigger(context, false)

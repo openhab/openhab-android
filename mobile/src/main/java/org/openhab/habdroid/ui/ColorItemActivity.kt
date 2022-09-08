@@ -31,6 +31,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.parcelable
 
 class ColorItemActivity :
     AbstractBaseActivity(),
@@ -52,7 +53,7 @@ class ColorItemActivity :
 
         setContentView(R.layout.activity_color_picker)
 
-        boundItem = intent.extras?.getParcelable(EXTRA_ITEM, Item::class.java)
+        boundItem = intent.extras?.parcelable(EXTRA_ITEM)
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

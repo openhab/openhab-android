@@ -41,6 +41,7 @@ import org.openhab.habdroid.ui.BasicItemPickerActivity
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.widgets.ItemAndStatePreference
+import org.openhab.habdroid.util.parcelableArrayList
 
 @RequiresApi(Build.VERSION_CODES.N)
 class TileSettingsFragment :
@@ -63,7 +64,7 @@ class TileSettingsFragment :
         itemAndStatePref.label = data.getStringExtra("label")
         itemAndStatePref.state = data.getStringExtra("state")
         itemAndStatePref.mappedState = data.getStringExtra("mappedState")
-        val itemTags = data.extras?.getParcelableArray("tags", Item.Tag::class.java)
+        val itemTags = data.extras?.parcelableArrayList<Item.Tag>("tags")
         updateItemAndStatePrefSummary()
 
         if (namePref.text.isNullOrEmpty()) {

@@ -30,6 +30,7 @@ import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.parcelable
 
 class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var swipeLayout: SwipeRefreshLayout
@@ -48,7 +49,7 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
 
         setContentView(R.layout.activity_chart)
 
-        widget = intent.getParcelableExtra(EXTRA_WIDGET, Widget::class.java)!!
+        widget = intent.parcelable(EXTRA_WIDGET)!!
         period = widget.period
         // If Widget#legend is null, show legend only for groups
         showLegend = widget.legend ?: widget.item?.type === Item.Type.Group

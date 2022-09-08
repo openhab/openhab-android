@@ -38,6 +38,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrimaryServerId
+import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.updateDefaultSitemap
 
@@ -52,7 +53,7 @@ class ServerEditorFragment :
     override val titleResId: Int get() = R.string.settings_edit_server
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        config = requireArguments().getParcelable("config", ServerConfiguration::class.java)!!
+        config = requireArguments().parcelable<ServerConfiguration>("config")!!
         initialConfig = config
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)

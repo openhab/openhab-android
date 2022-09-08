@@ -43,6 +43,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.parcelable
 
 class FcmRegistrationWorker(private val context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     /**
@@ -144,7 +145,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
 
     class ProxyReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val actual = intent.getParcelableExtra("intent", Intent::class.java) ?: return
+            val actual = intent.parcelable<Intent>("intent") ?: return
 
             val data = Data.Builder()
                 .putString(KEY_ACTION, actual.action)
