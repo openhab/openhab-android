@@ -697,14 +697,14 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     SimpleDateFormat("HH:mm yyyy-MM-dd", Locale.US).format(time)
                 }
 
-                val isValidSender = when {
-                    sender in IGNORED_PACKAGES_FOR_ALARM -> false
-                    sender == null && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> false
-                    else -> true
+                val ignoreSender = when {
+                    sender in IGNORED_PACKAGES_FOR_ALARM -> true
+                    sender == null && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> true
+                    else -> false
                 }
 
                 @StringRes val debugInfoRes: Int
-                val time: String = if (isValidSender || info == null) {
+                val time: String = if (ignoreSender || info == null) {
                     debugInfoRes = R.string.settings_alarm_clock_debug_ignored
                     "UNDEF"
                 } else {
