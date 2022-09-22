@@ -136,7 +136,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9:$kotlin_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
     implementation "androidx.core:core-ktx:1.9.0"
-    implementation "androidx.activity:activity-ktx:1.6.0-rc02"
+    implementation "androidx.activity:activity-ktx:1.6.0"
     implementation "androidx.fragment:fragment-ktx:1.4.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.5.1"
