@@ -442,9 +442,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
         }
 
-        fun triggerPeriodicWork(context: Context) {
-            Log.d(TAG, "triggerPeriodicWork()")
-            KNOWN_PERIODIC_KEYS.forEach { key -> scheduleWorker(context, key, false) }
+        fun scheduleUpdatesForAllKeys(context: Context) {
+            Log.d(TAG, "scheduleUpdatesForAllKeys()")
+            KNOWN_KEYS.forEach { key -> scheduleWorker(context, key, false) }
         }
 
         fun schedulePeriodicTrigger(context: Context, force: Boolean = false) {
