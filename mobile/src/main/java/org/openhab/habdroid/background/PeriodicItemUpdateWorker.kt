@@ -24,21 +24,21 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 class PeriodicItemUpdateWorker(val context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
         Log.d(TAG, "doWork()")
-        doPeriodicWork(context)
+        runBlocking {
+            doPeriodicWork(context)
+        }
         return Result.success()
     }
 
     companion object {
         private val TAG = PeriodicItemUpdateWorker::class.java.simpleName
 
-        fun doPeriodicWork(context: Context) {
+        suspend fun doPeriodicWork(context: Context) {
             Log.d(TAG, "doPeriodicWork()")
             BackgroundTasksManager.scheduleUpdatesForAllKeys(context)
             ItemUpdateWidget.updateAllWidgets(context)
             if (CloudMessagingHelper.needsPollingForNotifications(context)) {
-                runBlocking {
-                    CloudMessagingHelper.pollForNotifications(context)
-                }
+                CloudMessagingHelper.pollForNotifications(context)
             }
         }
     }

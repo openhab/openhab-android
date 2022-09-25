@@ -739,7 +739,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             successCb,
             this::handlePropertyFetchFailure
         )
-        PeriodicItemUpdateWorker.doPeriodicWork(this)
+        CoroutineScope(Dispatchers.IO + Job()).launch {
+            PeriodicItemUpdateWorker.doPeriodicWork(this@MainActivity)
+        }
     }
 
     private fun chooseSitemap() {
