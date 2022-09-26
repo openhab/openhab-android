@@ -80,6 +80,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
+import org.openhab.habdroid.background.PeriodicItemUpdateWorker
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
@@ -99,7 +100,6 @@ import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
-import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
@@ -272,7 +272,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         EventListenerService.startOrStopService(this)
-        ItemUpdateWidget.updateAllWidgets(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -734,10 +733,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
             handlePendingAction()
         }
-        propsUpdateHandle = ServerProperties.fetch(this, connection!!,
-            successCb, this::handlePropertyFetchFailure)
-        BackgroundTasksManager.KNOWN_KEYS.forEach { key ->
-            BackgroundTasksManager.scheduleWorker(this, key, false)
+        propsUpdateHandle = ServerProperties.fetch(
+            this,
+            connection!!,
+            successCb,
+            this::handlePropertyFetchFailure
+        )
+        CoroutineScope(Dispatchers.IO + Job()).launch {
+            PeriodicItemUpdateWorker.doPeriodicWork(this@MainActivity)
         }
     }
 
