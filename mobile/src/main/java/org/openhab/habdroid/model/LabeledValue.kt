@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -15,7 +15,7 @@ package org.openhab.habdroid.model
 
 import android.os.Parcelable
 
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -24,5 +24,6 @@ data class LabeledValue internal constructor(val value: String, val label: Strin
 
 @Throws(JSONException::class)
 fun JSONObject.toLabeledValue(keyName: String, valueName: String): LabeledValue {
-    return LabeledValue(getString(keyName), getString(valueName))
+    val value = getString(keyName)
+    return LabeledValue(value, optString(valueName, value))
 }

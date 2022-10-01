@@ -1,0 +1,2 @@
+## Fixed
+* Ignore alarms set by Samsung calendar (#2594)

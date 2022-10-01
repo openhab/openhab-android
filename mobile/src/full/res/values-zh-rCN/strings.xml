@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">设备注册正在进行</string>
-    <string name="info_openhab_gcm_failed">无法注册推送通知</string>
-    <string name="info_openhab_gcm_failed_play_services">由于 Google Play 服务出现 %s 错误，无法注册推送通知</string>
-    <string name="info_openhab_gcm_connected">设备已成功注册 Firebase 云消息</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">正在进行注册</string>
+    <string name="info_openhab_gcm_failed">注册失败</string>
+    <string name="info_openhab_gcm_failed_play_services">由于Google Play服务问题，注册失败： %s</string>
+    <string name="info_openhab_gcm_connected">注册成功完成</string>
     <string name="open_in_maps">使用 Google 地图打开</string>
+    <string name="beta">测试版</string>
 </resources>

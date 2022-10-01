@@ -1,0 +1,4 @@
+• Improve widgets
+• Add support for configuring start page, e.g. Sitemaps or HABPanel
+• Click on images to view them full screen
+• Add support for Frontail

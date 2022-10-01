@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">S\'està processant el registre del dispositiu</string>
-    <string name="info_openhab_gcm_connected">Dispositiu registrat correctament amb Firebase Cloud Messaging</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">El registre de notificacions està en curs</string>
+    <string name="info_openhab_gcm_failed">El registre de les notificacions ha fallat</string>
+    <string name="info_openhab_gcm_failed_play_services">El registre de notificacions ha fallat degut a un problema amb Google Play Services: %s</string>
+    <string name="info_openhab_gcm_connected">El registre de notificació s\'ha completat correctament</string>
     <string name="open_in_maps">Obre a Google Maps</string>
+    <string name="beta">Beta</string>
 </resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.core.connection
 
+import java.nio.charset.StandardCharsets
 import kotlinx.coroutines.runBlocking
 import okhttp3.Credentials
 import okhttp3.HttpUrl
@@ -114,15 +115,28 @@ class DefaultConnectionTest {
     }
 
     @Test
-    fun testHasUsernamePassword() {
-        val connection = DefaultConnection(
-            client,
-            Connection.TYPE_LOCAL,
-            ServerPath(TEST_BASE_URL, "Test-User", "Test-Password")
+    fun testAuthHeader() {
+        // Triple of username, password and whether the app should send credentials
+        val credentials = listOf(
+            Triple("user", "password", true),
+            Triple("user", "", true),
+            Triple("", "", false),
+            Triple("", "password", false),
+            Triple("user", "äöü", true),
         )
-        val httpClient = connection.httpClient
 
-        assertEquals(Credentials.basic("Test-User", "Test-Password"), httpClient.authHeader)
+        credentials.forEach {
+            val connection = DefaultConnection(
+                client,
+                Connection.TYPE_LOCAL,
+                ServerPath(TEST_BASE_URL, it.first, it.second)
+            )
+            val httpClient = connection.httpClient
+
+            val expectedCredentials =
+                if (it.third) Credentials.basic(it.first, it.second, StandardCharsets.UTF_8) else null
+            assertEquals("User ${it.first}, password ${it.second}", expectedCredentials, httpClient.authHeader)
+        }
     }
 
     @Test

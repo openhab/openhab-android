@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">设置</string>
+    <string name="save">保存</string>
+    <string name="discard">放弃</string>
+    <string name="delete">删除</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">系统布局</string>
     <string name="mainmenu_openhab_preferences">设置</string>
     <string name="mainmenu_openhab_habpanel">HAB 面板</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 界面</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">通知</string>
+    <string name="app_notifications_on_server">通知(%s)</string>
     <string name="habpanel_error">载入 HAB 面板时出错</string>
+    <string name="oh3_ui_error">加载 openHAB 3 用户界面时出错</string>
+    <string name="frontail_error">加载正面时发生错误。请注意它无法通过 openHAB云访问。</string>
+    <string name="frontail_pref_summary">Frontail 必须运行在其默认9001端口。它与 openHABian绑定在一起或者需要手动安装。</string>
     <string name="mainmenu_openhab_selectsitemap">选择默认系统布局</string>
     <string name="mainmenu_openhab_clearcache">清除图像缓存</string>
     <!-- App settings strings -->
@@ -25,20 +37,24 @@
     <string name="settings_openhab_password">密码</string>
     <string name="settings_openhab_password_summary_weak">弱密码</string>
     <string name="settings_openhab_password_summary_strong">强密码</string>
+    <string name="settings_openhab_api_token_hint">如果您正在使用 API token 令牌，请在用户名字段中输入此令牌并密码字段留空</string>
     <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
     <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
     <string name="settings_openhab_sslclientcert_not_supported">您的设备不支持 SSL 客户端证书</string>
-    <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
-    <string name="settings_openhab_screentimeroff_summary">在 openHAB 运行时禁用显示屏关闭定时器</string>
     <string name="settings_openhab_demomode">演示模式</string>
     <string name="settings_openhab_demomode_summary">若您没有 openHAB 服务器，请启用演示模式来一览 openHAB 的功能。</string>
+    <string name="start_page_title">首页</string>
+    <string name="drawer_entries">侧边菜单项</string>
     <string name="settings_openhab_theme">主题</string>
-    <string name="settings_accent_color">强调色</string>
+    <string name="settings_accent_color">主题色</string>
     <string name="settings_select_a_color">选择颜色</string>
     <string name="settings_openhab_fullscreen">全屏</string>
     <string name="settings_openhab_icon_format">图标格式</string>
     <string name="settings_openhab_icon_format_png">位图</string>
     <string name="settings_openhab_icon_format_svg">矢量图</string>
+    <string name="settings_image_widget_scaling">缩放图像以适应屏幕</string>
+    <string name="settings_image_widget_scaling_summary_off">保持“图像”小部件的原始尺寸应小于屏幕宽度</string>
+    <string name="settings_image_widget_scaling_summary_on">确保“图像”小部件适合屏幕宽度，酌情缩放</string>
     <string name="settings_chart_scaling">图表缩放</string>
     <string name="settings_chart_scaling_summary">注意: 较小的缩放将缩小字体及行宽，故图表将会变得更大但字体可读性可能会受到影响。</string>
     <string name="settings_chart_scaling_value_xs">非常小</string>
@@ -49,18 +65,24 @@
     <string name="settings_openhab_chart_hq_summary">生成图表可能会对服务器造成压力。若您的图表载入时间过长或服务器性能不强，请禁用此选项以加速载入。</string>
     <string name="settings_clear_default_sitemap">清除默认站点地图</string>
     <string name="settings_no_default_sitemap">未选择默认站点地图</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">当前默认站点地图: %1$s</string>
     <string name="settings_openhab_alt_connection">远程</string>
     <string name="settings_openhab_connection">本地</string>
+    <string name="settings_ringtone">铃声</string>
     <string name="settings_ringtone_none">无</string>
     <string name="settings_ringtone_on_external">外部存储中的未知铃声</string>
+    <string name="settings_notification_vibration">震动</string>
     <string name="settings_notification_vibration_off">关</string>
     <string name="settings_notification_vibration_short">短</string>
     <string name="settings_notification_vibration_long">长</string>
     <string name="settings_notification_vibration_twice">两次</string>
+    <string name="settings_notification_ringtone_vibration">铃声 &amp; 振动</string>
     <string name="settings_connection_summary">已连接至 %s</string>
-    <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
-    <string name="beta">测试版</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">不安全地连接到 %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL 不能以“https”开始</string>
+    <string name="settings_insecure_connection_no_auth">用户名或密码未设置</string>
     <string name="settings_screen_lock">屏幕锁定</string>
     <string name="settings_screen_lock_nolock_summary">您需要先启用设备上的屏幕锁定功能以开启此功能。</string>
     <string name="settings_screen_lock_off_summary">未锁定此应用程序</string>
@@ -72,8 +94,27 @@
     <string name="settings_screen_lock_kiosk">展示模式</string>
     <string name="settings_screen_lock_on">开启</string>
     <string name="settings_show_sitemaps_in_drawer">在侧边栏显示站点地图</string>
+    <string name="settings_server_name">服务器名称</string>
+    <string name="settings_add_server">添加服务器</string>
+    <string name="settings_edit_server">编辑服务器</string>
+    <string name="server_with_name">服务器 %s</string>
+    <string name="settings_server_at_least_name_and_connection">至少需要一个服务器名称和一个连接</string>
+    <string name="settings_server_confirm_deletion">您真的想要移除此服务器吗？</string>
+    <string name="settings_server_confirm_leave_title">未保存的更改</string>
+    <string name="settings_server_confirm_leave_message">您做了一些更改。您想要保存还是丢弃这些更改？</string>
+    <string name="settings_server_primary_title">主服务器</string>
+    <string name="settings_server_primary_summary_is_primary">此服务器是主服务器。\n目前只有主服务器得到此应用程序所有功能的支持。 点击按钮以获取更多帮助信息。</string>
+    <string name="settings_server_primary_summary_is_not_primary">%s是主服务器。点击可使此服务器成为主服务器。\n目前只有主服务器获得此应用所有功能支持。点击按钮以获取更多帮助信息。</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">高级选项</string>
+    <string name="click_here_for_more_information">点击这里获得更多信息</string>
+    <string name="settings_multi_server_wifi_ssid_switched">通过Wi-Fi切换到服务器 \"%s\"</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">无法读取Wi-Fi名称：缺少权限</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">无法读取Wi-Fi名称：定位已关闭</string>
+    <string name="device_control_subtitle_item_name">项目名</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">语音命令</string>
+    <string name="voice_command">语音命令</string>
     <string name="title_voice_widget_icon">语音命令和应用程序快捷方式</string>
     <string name="info_voice_input">openHAB，说出您的命令！</string>
     <string name="info_voice_recognized_text">已识别命令: %1$s</string>
@@ -85,14 +126,23 @@
     <string name="app_shortcut_disabled_habpanel">您的服务器未安装 HABPanel</string>
     <string name="app_shortcut_disabled_notifications">您的远程服务器不可用</string>
     <string name="app_shortcut_disabled_voice_recognition">您的设备未安装语音识别程序</string>
+    <string name="no_position_set">未设置位置</string>
+    <string name="show_and_copy_item_name">显示并复制项目名称</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">已复制 %s</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
     <string name="error_sitemap_generic_load_error">无法载入站点地图。发生错误：%1$s</string>
     <string name="error_network_not_available">网络不可用</string>
     <string name="error_wifi_not_available">Wi-Fi 被关闭</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_http_connection_failed">连接失败。尝试连接到已配置的 openHAB服务器 (HTTP 代码 %d) 时发生错误。</string>
     <string name="error_invalid_url">请以 \'http(s)://主机(:端口)/\' 格式输入有效网址</string>
     <string name="error_invalid_https_url">请输入类如 “http(s)://主机(:端口)/” 格式的网址</string>
     <string name="error_port_seems_invalid">您输入的端口不适用所选协议</string>
+    <string name="error_home_myopenhab_org_no_notifications">在 home.myopenhab.org 上通知功能无效，但在 myopenhab.org 可以</string>
+    <string name="error_first_char_is_whitespace">第一个字符是空格，可能是不需要的</string>
+    <string name="error_last_char_is_whitespace">最后一个字符是空格，可能是不需要的</string>
     <string name="error_connection_failed">连接至主机失败</string>
     <string name="error_unable_to_resolve_hostname">无法解析主机名</string>
     <string name="error_unknown">发生未知错误: %s</string>
@@ -128,15 +178,30 @@
     <string name="error_short_certificate_revoked">证书已吊销</string>
     <string name="error_short_connection_sslhandshake_failed">SSL 失败</string>
     <string name="error_short_connection_failed">连接失败</string>
+    <string name="error_short_http_to_https_port">尝试使用 HTTP 连接至 HTTPS 端口？</string>
+    <string name="error_short_certificate_wrong_host">%s 的 Ssl 证书无效</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">身份验证失败 (HTTP 代码 %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">未找到 (HTTP 代码 %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL 过长 (HTTP 代码 %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">需要 HTTPS (HTTP 代码 %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">身份验证失败 (HTTP 代码 %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">需要 SSL 客户端证书 (HTTP 代码 %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">反向代理从 openHAB 得到无效应答(HTTP 代码 %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB 服务器暂不可用 (HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">网关超时 (HTTP 代码 %d)。</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">服务器上没有足够的可用空间 (HTTP 代码 %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">需要网络验证 (HTTP 代码 %d)</string>
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
     <string name="error_no_browser_found">未在您的设备上找到浏览器</string>
     <string name="error_no_speech_to_text_app_found">未找到语音识别程序</string>
+    <string name="error_video_player">无法加载 %s</string>
     <string name="install">安装</string>
     <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
     <string name="title_activity_libraries">使用的库</string>
     <string name="info_write_tag">触摸标签并保持贴近直到出现确认信息为止</string>
     <string name="info_write_tag_progress">正在写入标签</string>
+    <string name="info_write_tag_finished">标签写入成功</string>
     <string name="info_write_failed">标签写入错误</string>
     <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
     <string name="info_write_tag_disabled">NFC 已禁用</string>
@@ -145,19 +210,104 @@
     <string name="empty_page">此页不含有可见的小挂件</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">发送设备信息至服务器</string>
+    <string name="send_device_info_to_server_short">发送设备信息</string>
+    <string name="send_device_info_category_event_based_title">基于事件</string>
+    <string name="send_device_info_category_event_based_explanation">发生相应事件时这些条目将更新，例如来电</string>
+    <string name="send_device_info_category_schedule_based_title">基于计划</string>
+    <string name="send_device_info_category_schedule_based_explanation">选择的间隔越短，对您设备的电池寿命的潜在影响就越大。 此外，您的设备可能无法准确跟踪所选的时间间隔，但延迟更新可以降低使用时的电量消耗。</string>
+    <string name="send_device_info_item_prefix_summary">此页面上的项目名称以设备标识符%s 为前缀</string>
+    <string name="send_device_info_item_prefix_summary_not_set">此页面上没有为项目名称设置前缀。 您可以用设备标识符前缀他们，这个标识符可以设置在主设置页面上。</string>
+    <string name="send_device_info_foreground_service_title">事件监视器</string>
+    <string name="send_device_info_foreground_service_summary">监视与以下项目相关的事件。这需要持续的通知并可能增加电池耗电。</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">监视与以下项目相关的事件。 这需要一个持续的通知并可能增加电池耗电。这只是发送DND模式所必需的。</string>
+    <string name="send_device_info_foreground_service_running_summary_one">监视与 %s 相关的事件</string>
+    <string name="send_device_info_foreground_service_running_summary_two">监视与 %1$s 和 %2$s 关联的事件</string>
+    <string name="send_device_info_foreground_service_running_summary_more">监视与 %1$s、 %2$s 和更多相关的事件</string>
+    <string name="settings_item_update_pref_howto_summary">轻触此处以获取如何在服务器端设置此功能的提示</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <string name="item_update_summary_success">最后更新是\'%1$s\' (%2$s)</string>
+    <string name="settings_alarm_clock">提醒时间</string>
+    <string name="settings_alarm_clock_summary_on">向项目%1$s 发送提醒时间</string>
+    <string name="settings_alarm_clock_summary_off">不发送提醒时间</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_phone_state">通话状态</string>
+    <string name="settings_phone_state_summary_on">向项目%1$s 发送通话状态</string>
+    <string name="settings_phone_state_summary_off">不发送通话状态</string>
+    <string name="settings_phone_state_permission_denied">由于缺少权限，发送通话状态功能已被禁用</string>
+    <string name="settings_battery_level">电池电量</string>
+    <string name="settings_battery_level_summary_on">发送电池电量到项目%1$s\'</string>
+    <string name="settings_battery_level_summary_off">不发送电池电量</string>
+    <string name="settings_charging_state">充电状态</string>
+    <string name="settings_charging_state_summary_on">向项目%1$s 发送充电状态</string>
+    <string name="settings_charging_state_summary_off">不显示充电状态</string>
+    <string name="settings_wifi_ssid">Wi-Fi 名称</string>
+    <string name="settings_wifi_ssid_summary_on">发送Wi-Fi名称 (SSID) 到项目%1$s</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">向项目%1$s发送Wi-Fi 名称 (SSID) 。\"定位\" 必须开启，否则 openHAB 不允许获取Wi-Fi 名称。</string>
+    <string name="settings_wifi_ssid_summary_off">不要发送 Wi-Fi 名称 (SSID)</string>
+    <string name="settings_wifi_ssid_permission_denied">由于缺少权限，发送Wi-Fi名称已被禁用</string>
+    <string name="settings_dnd_mode">DND 模式</string>
+    <string name="settings_dnd_mode_summary_on">发送DND模式到项目%1$s</string>
+    <string name="settings_dnd_mode_summary_off">不要发送 DND 模式</string>
+    <string name="settings_gadgetbridge">Gadgetbridge 设备操作</string>
+    <string name="settings_gadgetbridge_summary_on">将 Gadgetbridge 设备信息发送到项目 \'%1$s\'。需要打开事件监视器。</string>
+    <string name="settings_gadgetbridge_summary_off">不要发送 Gadgetbridge 设备信息</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">此功能需要额外的权限才能工作。启用后，将要求您批准权限。</string>
+    <string name="settings_background_tasks_permission_hint">此功能需要额外的权限才能工作。启用后，将要求您批准权限。 请确保批准后台使用权限，因为当应用程序处于后台时项目也会更新。</string>
+    <string name="settings_background_tasks_permission_denied_background_location">某些后台任务需要在安卓设置中设置位置访问权限为“%s”</string>
+    <string name="settings_background_tasks_permission_allow">允许</string>
+    <string name="settings_location_permissions_required">此应用收集位置数据以启用\"发送Wi-Fi名称到服务器\"和\"选择基于Wi-Fi的服务器\"，即使应用程序已关闭或未使用。 请注意，此数据仅发送到您配置的服务器。</string>
     <string name="settings_item_pref_item_name">项目名</string>
     <string name="waiting_for_item_upload">等待网络以发送项目更新</string>
     <string name="item_upload_in_progress">项目正被更新</string>
+    <string name="notification_channel_background">后台任务</string>
+    <string name="notification_channel_background_description">用于通知待处理的后台任务，例如等待网络用于发送电池电量</string>
     <string name="notification_channel_background_error">后台任务错误</string>
+    <string name="notification_channel_background_error_description">用于通知待处理的后台任务，例如等待网络用于发送电池电量</string>
+    <string name="notification_channel_background_foreground_service_description">监视更新项目事件。您可以安全地隐藏此类别。</string>
+    <string name="notification_channel_messages_default_severity">默认</string>
+    <string name="notification_channel_messages_default_severity_description">服务器发送通知没有定义严重程度</string>
+    <string name="notification_channel_group_messages">消息</string>
+    <string name="notification_channel_severity_value">严重性 \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">服务器发送严重程度为%1$s \' 的通知</string>
+    <plurals name="summary_notification_text">
+        <item quantity="other">%d 条新通知</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">通知不可用：远程服务器未配置</string>
+    <string name="push_notification_status_http_error">通知不可用: 连接到远程服务器时出错: %s</string>
+    <string name="push_notification_status_remote_no_cloud">通知不可用：远程服务器不是一个 openHAB云实例</string>
+    <string name="push_notification_status">状态</string>
+    <string name="push_notification_hint">通知按正常计划安排，与“向服务器发送设备信息”相同。</string>
     <plurals name="item_update_error_title">
         <item quantity="other">无法更新 %d 个项目</item>
     </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">项目%1$s更新失败: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s 更新失败: %2$s</string>
     <string name="item_update_connection_error">项目 \'%1$s\'\' 更新失败（无连接）</string>
+    <string name="item_update_connection_error_label">%1$s 更新失败 (无连接)</string>
+    <string name="item_update_short_status_waiting">等待中...</string>
+    <string name="item_update_short_status_sending">正在发送...</string>
+    <string name="item_update_short_status_failed">失败</string>
+    <string name="error_no_valid_item_name">请输入有效的项目名称</string>
     <string name="retry">重试</string>
+    <string name="ignore">忽略</string>
+    <string name="send_device_info_schedule">日程安排</string>
+    <string name="send_device_info_schedule_summary">每15分钟充电一次，每 %s 分钟其他工作</string>
+    <string name="send_device_info_schedule_15_minutes">15分钟</string>
+    <string name="send_device_info_schedule_1_hour">1 小时</string>
+    <string name="send_device_info_schedule_3_hours">3 小时</string>
+    <string name="send_device_info_schedule_6_hours">6 小时</string>
+    <string name="send_device_info_schedule_12_hours">12 小时</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">设备标识符</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">前缀语音命令 \'&lt;Device identifier&gt;|\'</string>
+    <string name="device_identifier_bg_tasks">使用“向服务器发送设备信息” 放在项目名称之前</string>
+    <string name="device_identifier_hint">此设备标识符可以是任何字符串，对于访问您的 openHAB服务器的所有设备都应该是唯一的。 除了上面的两种情况外，您也可以在 NFC 标签上使用它作为状态，由此您可以知道哪个设备读取了标签。</string>
+    <string name="device_identifier_suggested_command_nfc_tag">扫描设备的设备标识符 (\"%s\")</string>
+    <string name="device_identifier_summary_not_set">发送到服务器和语音命令的数据不作为设备标识符的前缀</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">尚未发送通知</string>
     <string name="notification_list_error">加载通知时出错</string>
@@ -177,18 +327,53 @@
     <!-- Themes -->
     <string name="theme_name_light">亮色</string>
     <string name="theme_name_dark">暗色</string>
+    <string name="theme_name_system">跟随系统</string>
+    <string name="theme_name_battery_saver">省电模式下的暗色模式</string>
+    <string name="theme_name_black">黑色</string>
     <!-- Chart -->
+    <string name="chart_activity_title">图表</string>
+    <string name="chart_activity_hide_legend">隐藏图例</string>
+    <string name="chart_activity_show_legend">显示图例</string>
+    <string name="chart_activity_period">周期</string>
+    <string name="chart_activity_period_1_hour">1 小时</string>
+    <string name="chart_activity_period_4_hour">4 小时</string>
+    <string name="chart_activity_period_8_hour">8 小时</string>
+    <string name="chart_activity_period_12_hour">12 小时</string>
+    <string name="chart_activity_period_1_day">1 天</string>
+    <string name="chart_activity_period_2_day">2 天</string>
+    <string name="chart_activity_period_3_day">3 天</string>
+    <string name="chart_activity_period_1_week">1 周</string>
+    <string name="chart_activity_period_2_week">2 周</string>
+    <string name="chart_activity_period_1_month">1 个月</string>
+    <string name="chart_activity_period_2_month">2 个月</string>
+    <string name="chart_activity_period_4_month">4 个月</string>
+    <string name="chart_activity_period_1_year">1 年</string>
     <!-- NFC -->
     <string name="nfc_action_on">开启</string>
     <string name="nfc_action_up">向上</string>
     <string name="nfc_action_off">关闭</string>
     <string name="nfc_action_down">向下</string>
     <string name="nfc_action_toggle">切换开关</string>
+    <string name="nfc_action_toggled">切换开关</string>
+    <string name="nfc_action_undefined">未定义</string>
+    <string name="nfc_action_empty_string">空字符串</string>
+    <string name="nfc_action_increase">增加</string>
+    <string name="nfc_action_decrease">减少</string>
+    <string name="nfc_action_play">播放</string>
+    <string name="nfc_action_pause">暂停</string>
+    <string name="nfc_action_next">下一个</string>
+    <string name="nfc_action_previous">上一个</string>
+    <string name="nfc_action_rewind">快退</string>
+    <string name="nfc_action_fastforward">快进</string>
+    <string name="nfc_action_move">移动</string>
+    <string name="nfc_action_stop">停止</string>
+    <string name="nfc_action_open">已打开</string>
+    <string name="nfc_action_closed">已关闭</string>
     <string name="nfc_activate">激活</string>
     <string name="nfc_action_current_color">当前颜色</string>
+    <string name="nfc_action_to_sitemap_page">写入NFC标签</string>
+    <string name="nfc_action_write_command_tag">写入项目 NFC 标签</string>
     <!-- Drawer -->
-    <string name="drawer_open">已开启系统布局抽屉</string>
-    <string name="drawer_close">已关闭系统布局抽屉</string>
     <string name="mainmenu_openhab_voice_recognition">语音识别</string>
     <!-- About -->
     <string name="about_title">关于</string>
@@ -202,9 +387,12 @@
     <string name="about_community">openHAB 社区</string>
     <string name="about_translation">帮助我们翻译 openHAB</string>
     <string name="about_privacy_policy">隐私条款</string>
+    <string name="about_rate_this_app">为此应用评分</string>
+    <string name="settings_troubleshooting_title">疑难解答</string>
     <string name="set">设置</string>
     <string name="cancel">取消</string>
     <string name="close">关闭</string>
+    <string name="undo">撤销</string>
     <string name="try_again_button">重试</string>
     <string name="enable_wifi_button">打开 Wi-Fi</string>
     <string name="go_to_settings_button">转到设置</string>
@@ -213,11 +401,23 @@
     <string name="no_remote_server">连接至本地服务器失败且未配置远程服务器</string>
     <string name="resolving_openhab">正在寻找 openHAB 服务器\u2026</string>
     <string name="waiting_for_wifi">等待 Wi-Fi 建立连接\u2026</string>
+    <string name="visit_status_openhab_org">访问 status.openhab.org</string>
     <!-- Log -->
     <string name="log">日志</string>
     <string name="view_log">查看日志</string>
+    <string name="log_activity_action_clear_log">清除日志</string>
+    <string name="log_activity_action_show_errors">仅显示错误</string>
+    <string name="log_activity_action_show_all">显示所有信息</string>
+    <string name="log_activity_action_reload">重新载入</string>
+    <string name="log_activity_content_description_share">分享日志</string>
     <string name="empty_log">日志空空如也</string>
+    <string name="log_too_large_to_share">日志太大，无法共享。请清除日志后复制错误并共享日志。</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">固定到首页</string>
+    <string name="home_shortcut_error_pinning">固定主页时出错</string>
+    <string name="home_shortcut_success_pinning">已固定到主页</string>
+    <string name="home_shortcut_server_has_been_deleted">此服务器的快捷方式已被删除</string>
+    <string name="home_shortcut_title">创建快捷方式标题</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">打开卷帘</string>
     <string name="content_description_stop_roller_shutter">停止卷帘</string>
@@ -228,31 +428,183 @@
     <string name="content_description_open_number_picker">打开数字选取器</string>
     <string name="content_description_video">视频</string>
     <string name="content_description_open_openhab">打开 openHAB</string>
-    <string name="content_description_increase_item_value">增加项目权重</string>
-    <string name="content_description_decrease_item_value">减少项目权重</string>
     <string name="swipe_to_refresh_description">此应用程序将自动刷新，您通常无需手动操作</string>
+    <string name="got_it">明白！</string>
     <!-- Intro strings -->
     <string name="app_intro">介绍</string>
     <string name="intro_welcome">欢迎来到 openHAB</string>
+    <string name="intro_welcome_back">欢迎回到 openHAB</string>
+    <string name="intro_app_restored">除服务器凭据外，您的大多数设置已恢复</string>
     <string name="intro_whatis">开源家居自动化供应商与技术</string>
     <string name="intro_voice_description">使用声音控制您的家居</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">物品控制可通过长按物品写入 NFC 标签</string>
+    <string name="intro_quick_tile_description">快速设置您的设备用于控制您的家(例如放置Wi-Fi和蓝牙的开关)</string>
+    <string name="intro_send_device_info">发送设备信息至服务器</string>
+    <string name="intro_send_device_info_description">例如，当闹钟铃声响铃时打开灯</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">跳过</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">完成</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">未找到项目</string>
+    <string name="item_picker_list_error">加载项目时出错</string>
+    <string name="item_picker_custom">定制</string>
+    <string name="item_picker_dialog_title">选择动作</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">发送命令 \"%3$s\" 到 \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">更新 \"%1$s\" (%2$s) 到 \"%3$s\"</string>
     <string name="item_picker_tasker_variable">Tasker 变量 “%s”</string>
+    <string name="item_picker_item_update">更新</string>
+    <string name="item_picker_item_command">命令</string>
+    <string name="item_picker_contact_no_command">连接的项目无法接收命令，更改为更新</string>
+    <string name="search">搜索​​​​</string>
     <string name="settings_tasker_plugin">Tasker 集成</string>
     <string name="settings_tasker_plugin_summary">启用 Tasker 插件以使用 Tasker 或其他相兼容的应用程序更新项目</string>
     <string name="tasker_plugin_disabled">Tasker 插件已禁用</string>
+    <string name="turn_on">开启</string>
+    <string name="press_back_to_exit">再次按返回键退出</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget_title">项目控制</string>
+    <string name="item_update_widget_content_description">更改项目状态的部件</string>
+    <string name="item_update_widget_content_description_edit">编辑小部件</string>
+    <string name="item_update_widget">小部件</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">选择项目</string>
+    <!-- %1$s: Item label, %2$s: State-->
+    <string name="item_update_success_message_generic">%1$s 已被导出至 %2$s</string>
+    <string name="item_update_success_message_on">%s 已开启</string>
+    <string name="item_update_success_message_off">%s 已被关闭</string>
+    <string name="item_update_success_message_up">%s 开始向上移动</string>
+    <string name="item_update_success_message_down">%s 开始向下移动</string>
+    <string name="item_update_success_message_move">%s 正在移动</string>
+    <string name="item_update_success_message_stop">%s 已停止</string>
+    <string name="item_update_success_message_increase">%s 已增加</string>
+    <string name="item_update_success_message_decrease">%s 已被减少</string>
+    <string name="item_update_success_message_undefined">%s 已被设置为未定义</string>
+    <string name="item_update_success_message_empty_string">%s 已设置为空字符串</string>
+    <string name="item_update_success_message_play">%s 正在播放</string>
+    <string name="item_update_success_message_pause">%s 已暂停</string>
+    <string name="item_update_success_message_next">%s 正在显示下一标题</string>
+    <string name="item_update_success_message_previous">%s 正在显示下一标题</string>
+    <string name="item_update_success_message_rewind">%s 正在重新处理</string>
+    <string name="item_update_success_message_fastforward">%s 正在快进</string>
+    <string name="item_update_short_success_message_generic">设置为 %s</string>
+    <string name="item_update_short_success_message_on">已开启</string>
+    <string name="item_update_short_success_message_off">已关闭</string>
+    <string name="item_update_short_success_message_up">开始向上移动</string>
+    <string name="item_update_short_success_message_down">开始向下移动</string>
+    <string name="item_update_short_success_message_move">开始移动</string>
+    <string name="item_update_short_success_message_stop">已停止</string>
+    <string name="item_update_short_success_message_increase">增加</string>
+    <string name="item_update_short_success_message_decrease">减小</string>
+    <string name="item_update_short_success_message_undefined">设置为未定义</string>
+    <string name="item_update_short_success_message_empty_string">设置为空字符串</string>
+    <string name="item_update_short_success_message_play">正在播放</string>
+    <string name="item_update_short_success_message_pause">已暂停</string>
+    <string name="item_update_short_success_message_next">显示下一标题</string>
+    <string name="item_update_short_success_message_previous">显示前一个标题</string>
+    <string name="item_update_short_success_message_rewind">正在回放</string>
+    <string name="item_update_short_success_message_fastforward">快进</string>
+    <string name="item_update_error_no_connection_retry">发送项目更新时出错，重试\u2026</string>
+    <string name="item_update_error_no_connection">无连接</string>
+    <string name="item_update_error_couldnt_get_item_type">无法获取项目类型</string>
+    <string name="create_home_screen_widget_title">创建小部件</string>
+    <string name="create_home_screen_widget_not_supported">请前往主页上的小部件菜单并从那里创建一个小部件</string>
     <!-- Data saver -->
+    <string name="data_saver_title">节省流量模式</string>
+    <string name="data_saver_on">可能需要更大数据传输的站点地图元素未加载</string>
+    <string name="data_saver_load">仍然添加</string>
+    <string name="data_saver_hint">%s 未加载以保存数据</string>
+    <string name="data_saver_snackbar">图标不是基于项目实时状态，因为数据保护程序已开启</string>
+    <string name="widget_type_image">图像</string>
+    <string name="widget_type_webview">Web 视图</string>
+    <string name="widget_type_video">视频</string>
+    <string name="widget_type_mapview">地图</string>
+    <string name="widget_type_chart">图表</string>
     <!-- Tiles -->
+    <string name="tile">Tile</string>
+    <string name="tiles_for_quick_settings">快速设置 Tiles</string>
+    <string name="tile_item_picker_title">选择项目</string>
+    <string name="tile_disabled">已关闭</string>
+    <string name="tile_enable">开启</string>
+    <string name="tile_item_and_action">项目和选择项</string>
+    <string name="tile_name">名称</string>
+    <string name="tile_icon">图标</string>
+    <string name="tile_require_unlock">需要解锁屏幕</string>
+    <string name="tile_require_unlock_summary_on">在允许项目更新之前提示解锁设备</string>
+    <string name="tile_require_unlock_summary_off">锁屏状态允许更新项目</string>
+    <string name="tile_overview_hint">Tile 状态不反映项目状态。\n如果您在这里更改 tile 后有问题未被更新。 触摸 tile 或编辑您设备的快速设置(例如设置保持Wi-Fi和蓝牙)。</string>
+    <plurals name="tile_active_number">
+        <item quantity="other">%d 个激活的 tile</item>
+    </plurals>
+    <string name="tile_number">Tile %d</string>
+    <string name="tile_label_1">Tile 1</string>
+    <string name="tile_label_2">Tile 2</string>
+    <string name="tile_label_3">Tile 3</string>
+    <string name="tile_label_4">Tile 4</string>
+    <string name="tile_label_5">Tile 5</string>
+    <string name="tile_label_6">Tile 6</string>
+    <string name="tile_label_7">Tile 7</string>
+    <string name="tile_label_8">Tile 8</string>
+    <string name="tile_label_9">Tile 9</string>
+    <string name="tile_label_10">Tile 10</string>
+    <string name="tile_label_11">Tile 11</string>
+    <string name="tile_label_12">Tile 12</string>
+    <string name="error_missing_prefs">请填写每个设置</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB图标</string>
+    <string name="tile_icon_tv">电视</string>
+    <string name="tile_icon_radio">收音机</string>
+    <string name="tile_icon_bulb">灯泡</string>
+    <string name="tile_icon_clock">时钟</string>
+    <string name="tile_icon_alarm_clock">闹钟</string>
+    <string name="tile_icon_bell">铃声</string>
+    <string name="tile_icon_cloud_upload">上传至云端</string>
+    <string name="tile_icon_earth">地球</string>
+    <string name="tile_icon_chat">语音对话框</string>
+    <string name="tile_icon_house">房屋</string>
+    <string name="tile_icon_lock">锁</string>
+    <string name="tile_icon_microphone">麦克风</string>
+    <string name="tile_icon_color_palette">调色板</string>
+    <string name="tile_icon_people">人</string>
+    <string name="tile_icon_person">人员</string>
+    <string name="tile_icon_phone">电话</string>
+    <string name="tile_icon_power_plug">电源插头</string>
+    <string name="tile_icon_battery">电池</string>
+    <string name="tile_icon_magnifier">放大镜</string>
+    <string name="tile_icon_star">星标</string>
+    <string name="tile_icon_tree">树状图</string>
+    <string name="tile_icon_dashboard">仪表</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">掩体</string>
+    <string name="tile_icon_fan">风扇</string>
+    <string name="tile_icon_man">男人</string>
+    <string name="tile_icon_bed">床</string>
+    <string name="tile_icon_child">儿童</string>
+    <string name="tile_icon_baby">婴儿</string>
+    <string name="tile_icon_settings">装备</string>
+    <string name="tile_icon_bath">浴室</string>
+    <string name="tile_icon_woman">女人</string>
+    <string name="tile_icon_roller_shutter">卷帘门</string>
+    <string name="tile_icon_camera">照相机</string>
+    <string name="tile_icon_light_switch">照明开关</string>
+    <string name="tile_icon_garage">车库</string>
+    <string name="tile_icon_switch">开关</string>
+    <string name="tile_icon_text">文本</string>
+    <string name="tile_icon_sofa">沙发</string>
+    <string name="tile_icon_lamp_ceiling">吊灯</string>
+    <string name="tile_icon_lamp_floor">落地灯</string>
+    <string name="tile_icon_lamp_bedside">床头灯</string>
+    <string name="tile_icon_lamp_outdoor">户外灯</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">车库</string>
+    <string name="item_tag_location_house">房屋</string>
+    <string name="item_tag_equipment_battery">电池</string>
+    <string name="item_tag_equipment_camera">照相机</string>
+    <string name="item_tag_equipment_fan">风扇</string>
+    <string name="item_tag_equipment_lock">锁</string>
 </resources>

@@ -1,0 +1,3 @@
+## Fixed
+* Fix clearing section switch selection (#2685) 
+* Fix opening webviews in browser (#2686)

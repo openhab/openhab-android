@@ -8,14 +8,12 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="sliderStyle">@style/openHAB.Slider</item>
         <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
+        <item name="floatingActionButtonStyle">@style/Widget.MaterialComponents.FloatingActionButton</item>
     </style>
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
-        <item name="mal_card_background">@android:color/background_light</item>
-        <item name="mal_color_primary">@android:color/primary_text_light</item>
-        <item name="mal_color_secondary">@android:color/secondary_text_light</item>
-
         <item name="chartTheme">white</item>
+        <item name="transparentChartTheme">white_transparent</item>
         <item name="valueColors">@array/valueColorsBrightBackground</item>
     </style>
 
@@ -46,20 +44,24 @@
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
         <item name="selectedWidgetBackgroundColor">#5c455A64</item>
         <item name="alertDialogTheme">@style/openHAB.Dialog.grey</item>
+        <item name="floatingActionButtonStyle">@style/openHAB.FAB.grey</item>
     </style>
 
     <style name="openHAB.Black.orange" parent="openHAB.DayNight.orange">
         <item name="chartTheme">black</item>
+        <item name="transparentChartTheme">black_transparent</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="openHAB.Black.basicui" parent="openHAB.DayNight.basicui">
         <item name="chartTheme">black</item>
+        <item name="transparentChartTheme">black_transparent</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="openHAB.Black.grey" parent="openHAB.DayNight.grey">
         <item name="chartTheme">black</item>
+        <item name="transparentChartTheme">black_transparent</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
 

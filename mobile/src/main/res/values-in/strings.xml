@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Pengaturan</string>
     <!-- Main menu items -->
@@ -26,25 +26,22 @@
     <string name="settings_openhab_password_summary_strong">Rangkaian kata sandi kuat</string>
     <string name="settings_openhab_sslclientcert">SSL klien sertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Ketuk di sini untuk mendapatkan beberapa petunjuk dan penjelasan tentang cara menyiapkan otentikasi sertifikat klien SSL</string>
-    <string name="settings_openhab_screentimeroff">Nonaktifkan pewaktu tampilan</string>
-    <string name="settings_openhab_screentimeroff_summary">Nonaktifkan tampilan matikan timer saat openHAB sedang berlari</string>
     <string name="settings_openhab_demomode">Mode demo</string>
     <string name="settings_openhab_demomode_summary">Jika Anda tidak memiliki server openHAB, aktifkan mode demo untuk mengimajinasikan kemampuan openHAB.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Layar penuh</string>
     <string name="settings_openhab_icon_format">Format ikon</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
     <string name="settings_chart_scaling">Diagram skala</string>
     <string name="settings_chart_scaling_summary">Catatan: skala lebih kecil mengecilkan huruf dan lebar garis sehingga memberi ruang lebih bagi bagan grafik, tetapi huruf susah terbaca.</string>
     <string name="settings_chart_scaling_value_xs">Sangat kecil</string>
     <string name="settings_chart_scaling_value_s">Kecil</string>
-    <string name="settings_chart_scaling_value_m">Default</string>
     <string name="settings_chart_scaling_value_l">Besar</string>
     <string name="settings_openhab_chart_hq">Gambar grafik diagram beresolusi tinggi</string>
     <string name="settings_openhab_chart_hq_summary">Mempopulasi grafik diagram dapat membebani server. Apabila Anda mengalami waktu muat grafik diagram lamban dan server Anda kurang mumpuni, tangguhkan opsi ini untuk meningkatkan waktu memuat.</string>
     <string name="settings_clear_default_sitemap">Hapus default Peta situs</string>
     <string name="settings_no_default_sitemap">Tidak ada peta situs default yang dipilih</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Peta Situs default saat ini: %1$s</string>
     <string name="settings_openhab_alt_connection">Pengaturan server jauh</string>
     <string name="settings_openhab_connection">Pengaturan server lokal</string>
@@ -54,8 +51,9 @@
     <string name="settings_notification_vibration_long">Lama</string>
     <string name="settings_notification_vibration_twice">Dua kali</string>
     <string name="settings_connection_summary">Terhubung ke %s</string>
-    <string name="settings_insecure_connection_summary">Secara tidak aman terhubung ke %s</string>
-    <string name="beta">Beta</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_screen_lock_off">Nonaktif</string>
+    <string name="device_control_subtitle_item_name">Nama item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Perintah suara</string>
     <string name="title_voice_widget_icon">Perintah suara dan pintasan aplikasi</string>
@@ -69,11 +67,13 @@
     <string name="app_shortcut_disabled_habpanel">Server Anda tidak terpasang PanelHAB</string>
     <string name="app_shortcut_disabled_notifications">Server remote Anda tidak tersedia</string>
     <string name="app_shortcut_disabled_voice_recognition">Perangkat Anda tidak terpasang aplikasi pengenal suara</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB mengembalikan daftar peta situs kosong</string>
     <string name="error_sitemap_generic_load_error">Peta situs tidak dapat dimuat. Terjadi kesalahan berikut: %1$s</string>
     <string name="error_network_not_available">Jaringan tidak tersedia</string>
     <string name="error_wifi_not_available">Wi-Fi tidak aktif</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Masukkan URL yang valid di \'protokol://rumah:pangkalan/\' dari</string>
     <string name="error_port_seems_invalid">Port yang Anda masukkan tidak valid untuk protokol yang dipilih</string>
     <string name="error_connection_failed">Sambungan ke rumah gagal</string>
@@ -105,6 +105,9 @@
     <string name="info_not_set">Tidak diatur</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Kirim informasi perangkat ke server</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_item_pref_item_name">Nama item</string>
     <string name="waiting_for_item_upload">Menunggu jaringan mengirimkan pemutakhiran Item</string>
     <string name="item_upload_in_progress">Saat ini Item sedang dimutakhirkan</string>
@@ -143,7 +146,6 @@
     <string name="nfc_action_up">Naik</string>
     <string name="nfc_action_off">Mati</string>
     <string name="nfc_action_down">Turun</string>
-    <string name="nfc_action_toggle">Toggle</string>
     <string name="nfc_action_undefined">Tidak Terdefenisi</string>
     <string name="nfc_action_empty_string">String kosong</string>
     <string name="nfc_action_play">Putar</string>
@@ -157,8 +159,6 @@
     <string name="nfc_activate">Mengaktifkan</string>
     <string name="nfc_action_current_color">Warna sekarang</string>
     <!-- Drawer -->
-    <string name="drawer_open">Laci peta dibuka</string>
-    <string name="drawer_close">Peta Situs laci tertutup</string>
     <string name="mainmenu_openhab_voice_recognition">Pengenalan suara</string>
     <!-- About -->
     <string name="about_title">Tentang</string>
@@ -183,7 +183,6 @@
     <string name="resolving_openhab">Mencoba menemukan server instance \u2026 openHAB</string>
     <string name="waiting_for_wifi">Menunggu Wi-Fi terkoneksi \u2026</string>
     <!-- Log -->
-    <string name="log">Log</string>
     <string name="view_log">Lihat log</string>
     <string name="empty_log">Log kosong</string>
     <!-- Home screen shortcuts -->
@@ -198,17 +197,12 @@
     <string name="content_description_color_up">Hidupkan atau tahan untuk meningkatkan kecerahan</string>
     <string name="content_description_color_down">Matikan atau tahan untuk menurunkan kecerahan</string>
     <string name="content_description_open_number_picker">Membuka nomor picker</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Buka openHAB</string>
-    <string name="content_description_increase_item_value">Naikkan nilai item</string>
-    <string name="content_description_decrease_item_value">Turunkan nilai item</string>
     <string name="swipe_to_refresh_description">Aplikasi juga menyegarkan secara otomatis, umumnya Anda tidak perlu melakukan secara manual</string>
     <!-- Intro strings -->
-    <string name="app_intro">Intro</string>
     <string name="intro_welcome">Selamat Datang di openHAB</string>
     <string name="intro_whatis">Sebuah vendor dan teknologi agnostik perangkat lunak open source otomasi untuk rumah Anda</string>
     <string name="intro_voice_description">Kendalikan rumah Anda dengan suara Anda</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Kendali item dapat disambungkan kepada tag NFC dengan tekan dan tahan Item</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">LEWATI</string>
@@ -224,9 +218,11 @@
     <string name="settings_tasker_plugin">Integrasi tasker</string>
     <string name="press_back_to_exit">Tekan kembali sekali lagi untuk keluar</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

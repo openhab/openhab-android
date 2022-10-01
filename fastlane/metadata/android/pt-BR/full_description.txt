@@ -1,4 +1,4 @@
-openHAB - "empowering the smart home" - fornecedor e tecnologia agnóstica de código aberto de automação residencial
+openHAB - "empowering the smart home" - automação residencial de código aberto agnóstica às marcas e tecnologias
 
 As compilações em F-Droid têm FCM e o relatório de falha removidos e não serão capazes de receber notificações push do openHAB Cloud. Em vez disso, as notificações são consultadas regularmente nestas compilações.
 Experimente novos recursos e dê feedback antecipado!

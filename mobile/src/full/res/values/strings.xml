@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Device registration is in progress</string>
-    <string name="info_openhab_gcm_failed">Push notification registration failed</string>
-    <string name="info_openhab_gcm_failed_play_services">Push notification registration failed due to a Google Play Services issue: %s</string>
-    <string name="info_openhab_gcm_connected">Device successfully registered with Firebase Cloud Messaging</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+
+    <string name="info_openhab_gcm_in_progress">Notification registration is in progress</string>
+    <string name="info_openhab_gcm_failed">Notification registration failed</string>
+    <string name="info_openhab_gcm_failed_play_services">Notification registration failed due to a Google Play Services issue: %s</string>
+    <string name="info_openhab_gcm_connected">Notification registration completed successfully</string>
     <string name="open_in_maps">Open in Google Maps</string>
+    <string name="beta">Beta</string>
 </resources>

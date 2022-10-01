@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -20,7 +20,7 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import java.util.Locale
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.appendQueryParameter
@@ -29,10 +29,10 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
 @Parcelize
-class IconResource internal constructor(
+data class IconResource internal constructor(
     internal val icon: String,
     internal val isOh2: Boolean,
-    internal val customState: String?
+    internal val customState: String
 ) : Parcelable {
     fun toUrl(context: Context, includeState: Boolean): String {
         return toUrl(includeState, context.getPrefs().getIconFormat())
@@ -55,7 +55,7 @@ class IconResource internal constructor(
             .appendQueryParameter("format", suffix)
             .appendQueryParameter("anyFormat", true)
 
-        if (!customState.isNullOrEmpty() && includeState) {
+        if (customState.isNotEmpty() && includeState) {
             builder.appendQueryParameter("state", customState)
         }
 
@@ -95,15 +95,15 @@ fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): 
 }
 
 fun String?.toOH1IconResource(): IconResource? {
-    return if (this != null && this != "none") IconResource(this, false, null) else null
+    return if (isNullOrEmpty() || this == "none") null else IconResource(this, false, "")
 }
 
 fun String?.toOH2IconResource(): IconResource? {
-    return if (this != null && this != "none") IconResource(this, true, null) else null
+    return if (isNullOrEmpty() || this == "none") null else IconResource(this, true, "")
 }
 
 internal fun String?.toOH2WidgetIconResource(item: Item?, type: Widget.Type, hasMappings: Boolean): IconResource? {
-    if (this == null || this == "none") {
+    if (isNullOrEmpty() || this == "none") {
         return null
     }
 
@@ -125,7 +125,8 @@ internal fun String?.toOH2WidgetIconResource(item: Item?, type: Widget.Type, has
                 val color = itemState.asHsv.toColor()
                 iconState = String.format(
                     Locale.US, "#%02x%02x%02x",
-                    Color.red(color), Color.green(color), Color.blue(color))
+                    Color.red(color), Color.green(color), Color.blue(color)
+                )
             }
         } else if (type == Widget.Type.Switch && !hasMappings && !item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
             // For switch items without mappings (just ON and OFF) that control a dimmer item

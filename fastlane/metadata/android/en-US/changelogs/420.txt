@@ -1,0 +1,2 @@
+## Added
+* Add ability to restrict local connection to specific SSIDs (#2832)

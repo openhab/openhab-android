@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -30,7 +30,7 @@ import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
-import org.openhab.habdroid.ui.preference.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
 import org.openhab.habdroid.ui.widget.WidgetImageView
 
 enum class ScreenLockMode {
@@ -187,6 +187,23 @@ fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
 fun SharedPreferences.isItemUpdatePrefEnabled(key: String) = getString(key, null).toItemUpdatePrefValue().first
 
 fun SharedPreferences.isEventListenerEnabled() = getBoolean(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE, false)
+
+enum class DeviceControlSubtitleMode {
+    LOCATION,
+    EQUIPMENT,
+    LOCATION_AND_EQUIPMENT,
+    ITEM_NAME
+}
+
+fun SharedPreferences.getDeviceControlSubtitle(context: Context): DeviceControlSubtitleMode {
+    return when (getStringOrNull(PrefKeys.DEVICE_CONTROL_SUBTITLE)) {
+        context.getString(R.string.device_control_subtitle_equipment_value) -> DeviceControlSubtitleMode.EQUIPMENT
+        context.getString(R.string.device_control_subtitle_location_equipment_value) ->
+            DeviceControlSubtitleMode.LOCATION_AND_EQUIPMENT
+        context.getString(R.string.device_control_subtitle_item_name_value) -> DeviceControlSubtitleMode.ITEM_NAME
+        else -> DeviceControlSubtitleMode.LOCATION
+    }
+}
 
 /**
  * Returns vibration pattern for notifications that can be passed to

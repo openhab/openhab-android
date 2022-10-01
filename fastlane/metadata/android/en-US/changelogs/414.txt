@@ -1,0 +1,2 @@
+## Fixed
+* Fix widget creation (#2769)

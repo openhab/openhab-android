@@ -1,0 +1,7 @@
+## What's Changed
+* Item control: Support option selection by @mueller-ma in https://github.com/openhab/openhab-android/pull/2982
+
+## New Contributors
+* @warnyul made their first contribution in https://github.com/openhab/openhab-android/pull/3006
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.22.0-release...2.22.1-beta

@@ -10,6 +10,5 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{java,kt,kt,xml}]
+[*.{java,kt,xml}]
 max_line_length = 120
-

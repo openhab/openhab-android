@@ -1,0 +1,3 @@
+## Added
+* Redirect Gadgetbridge Device Actions to openHAB server (#2598)
+* Add fan and text icons for quick tiles (#2618)

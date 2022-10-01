@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -13,7 +13,11 @@
 
 package org.openhab.habdroid.core.connection
 
+import android.util.Log
+import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.core.connection.AbstractConnection.Companion.TAG
+import org.openhab.habdroid.util.HttpClient
 
 class CloudConnection internal constructor(baseConnection: AbstractConnection, val messagingSenderId: String) :
     DefaultConnection(baseConnection, Connection.TYPE_CLOUD)
@@ -28,9 +32,19 @@ class CloudConnection internal constructor(baseConnection: AbstractConnection, v
  * HTTP endpoints, or null otherwise.
  */
 @Throws(Exception::class)
-suspend fun AbstractConnection.toCloudConnection(): CloudConnection? {
-    val result = httpClient.get("api/v1/settings/notifications").asText()
-    val json = JSONObject(result.response)
-    val senderId = json.getJSONObject("gcm").getString("senderId")
+suspend fun AbstractConnection.toCloudConnection(): CloudConnection {
+    val result = try {
+        httpClient.get("api/v1/settings/notifications").asText()
+    } catch (e: HttpClient.HttpException) {
+        throw if (e.statusCode == 404) NotACloudServerException() else e
+    }
+    val senderId = try {
+        val json = JSONObject(result.response)
+        json.getJSONObject("gcm").getString("senderId")
+    } catch (e: JSONException) {
+        Log.i(TAG, "Error parsing notification endpoint response", e)
+        throw NotACloudServerException()
+    }
+
     return CloudConnection(this, senderId)
 }

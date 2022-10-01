@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -32,9 +32,12 @@ object PrefKeys {
     const val SSL_CLIENT_CERT_PREFIX = "sslclientcert_"
     const val DEFAULT_SITEMAP_NAME_PREFIX = "default_sitemap_name_"
     const val DEFAULT_SITEMAP_LABEL_PREFIX = "default_sitemap_label_"
+    const val WIFI_SSID_PREFIX = "wifi_ssid_"
+    const val RESTRICT_TO_SSID_PREFIX = "restrict_to_ssid_"
     const val CLEAR_DEFAULT_SITEMAP = "clear_default_sitemap"
     fun buildServerKey(id: Int, prefix: String) = "$prefix$id"
 
+    const val START_PAGE = "start_page"
     const val SHOW_SITEMAPS_IN_DRAWER = "show_sitemaps"
     const val ICON_FORMAT = "iconFormatType"
     const val CLEAR_CACHE = "default_openhab_cleacache"
@@ -47,6 +50,7 @@ object PrefKeys {
     const val ACCENT_COLOR = "theme_color"
     const val SCREEN_TIMER_OFF = "default_openhab_screentimeroff"
     const val FULLSCREEN = "default_openhab_fullscreen"
+    const val LAUNCHER = "launcher"
 
     const val SEND_DEVICE_INFO_SCHEDULE = "send_device_info_schedule"
     const val SEND_DEVICE_INFO_FOREGROUND_SERVICE = "send_device_info_foreground_service"
@@ -56,6 +60,8 @@ object PrefKeys {
     const val SEND_CHARGING_STATE = "charging_state"
     const val SEND_WIFI_SSID = "send_wifi_ssid"
     const val SEND_DND_MODE = "send_dnd_mode"
+    const val SEND_BLUETOOTH_DEVICES = "send_bluetooth_devices"
+    const val SEND_GADGETBRIDGE = "send_gadgetbridge"
 
     const val NOTIFICATION_STATUS_HINT = "notification_status"
     const val NOTIFICATION_TONE = "default_openhab_alertringtone"
@@ -67,13 +73,16 @@ object PrefKeys {
     const val DEV_ID_PREFIX_BG_TASKS = "device_identifier_prefix_background_tasks"
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
+    const val DEVICE_CONTROL_SUBTITLE = "device_control_subtitle"
     const val DATA_SAVER = "data_saver"
+    const val CRASH_REPORTING = "crash_reporting"
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
     const val LOG = "default_openhab_log"
 
     const val DRAWER_ENTRY_OH3_UI = "show_oh3_ui"
     const val DRAWER_ENTRY_HABPANEL = "show_habpanel"
     const val DRAWER_ENTRY_NFC = "show_nfc"
+    const val DRAWER_ENTRY_FRONTAIL = "show_frontail"
 
     /**
      * Application state flags
@@ -83,6 +92,7 @@ object PrefKeys {
     const val RECENTLY_RESTORED = "recentlyRestored"
     const val ALARM_CLOCK_LAST_VALUE_WAS_UNDEF = "alarmClockLastWasZero"
     const val PREV_SERVER_FLAGS = "prevServerFlags"
+    const val LAST_WIDGET_THEME = "last_widget_theme"
 
     /**
      * "Tooltip shown" flags

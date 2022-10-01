@@ -1,0 +1,5 @@
+## What's Changed
+* Fix sending alarm clock by @mueller-ma in https://github.com/openhab/openhab-android/pull/3032
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.22.2-beta...2.22.3-beta

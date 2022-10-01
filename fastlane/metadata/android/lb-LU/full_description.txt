@@ -2,14 +2,14 @@ openHAB - "empowering the smart home" - eng Hiersteller an Technologie onofhäng
 
 An der F-Droid Versioun sinn FCM an Crash-Rapporten erausgeholl ginn. Dofir ass et net méiglech fir Push-Notifikatiounen vun der openHAB Cloud ze kréien. Am platz heivunner, ginn d‘ Notifikatiounen an dëse Builds reegelméisseg ofgefrot.
 Probéier nei Features aus a gëff eis Feedback!
-Du kann s d´ Beta Versioun parallel zu der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabeler Versioun</a> installéieren.
+Du kann s d´ Beta Versioun parallel zu der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiler Versioun</a> installéieren.
 
 openHAB ass eng Java baséiert Open-Source Platform fir Heem-Automatisatioun, déi eng grouss Bandbreet un verschiddene Smart-Home Systemer an Technologien an enger Solutioun integréiert an kombinéiert.
 Opbauend op enger eenheetlecher Abstraktioun s Couche sinn all verbonnen Geräter fir déi iwwergräifend Automatiséierung s bzw. Regelméiglechkeeten an déi verschidden Benotzer Interfacen disponibel.
 
 <b>Ënnerstëtzt Produiten</b>
 
-Iwwer 200 spezifesch Add-On's bidden Ënnerstëtzung fir diverse Marken, Geräter, Technologien an Kommunikatioun's Protokoller. Beispiller heifir sinn Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Entdeck all verfügbar Add-On‘s an ënnerstëtze Geräter an/oder Funktiounen ënner:
+Iwwer 200 spezifesch Add-On's bidden Ënnerstëtzung fir divers Marken, Geräter, Technologien an Kommunikatioun's Protokoller. Beispiller heifir sinn Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Entdeck all verfügbar Add-On‘s an ënnerstëtze Geräter an/oder Funktiounen ënner:
 https://www.openhab.org/addons/
 Dës App huet en Action-Plugin fir Tasker an Locale.
 

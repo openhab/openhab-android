@@ -1,0 +1,3 @@
+• Improve support for openHAB 3
+• Add support for configuring multiple openHAB servers
+• Add support for hiding side menu entries

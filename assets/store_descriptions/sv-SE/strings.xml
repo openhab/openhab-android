@@ -4,16 +4,16 @@
     <whatis>openHAB är en Java-baserad hemautomationsplattform med öppen källkod som integrerar och kombinerar ett stort utbud av olika system och tekniker för smarta hem i en enda lösning.</whatis>
     <rules>Ovanpå det enhetliga abstraktionslagret är alla anslutna enheter tillgängliga för den övergripande regelmotorn och olika användargränssnitt.</rules>
     <supported>Produkter som stöds</supported>
-    <bindings>Över 200 tillägg ger support för varumärken, enheter, teknik och kommunikationsprotokoll. Exempel är Z-Wave, Philips Hue, Amazon Echo, Chromecast och Sonos. Upptäck alla tillgängliga tillägg och enheter som stöds och/eller fungerar på: https://www.openhab.org/addons/</bindings>
+    <bindings>  </bindings>
     <automation_apps>Appen har en inbyggd åtgärdsplugin för Tasker och Locale.</automation_apps>
 
     <oss_community>Öppen källkods-gemenskapen</oss_community>
-    <forum>Öppen källkods-initiativet openHAB är stark förespråkare för sitt levande community. Forumet med över 13 000 registrerade användare är ett ställe att hitta vägledning, hjälp och inspiration. Gå med i openHAB-forumet över på https://community.openhab.org</forum>
+    <forum>  </forum>
 
     <report_issues>När du hittar ett problem vänligen rapportera det i forumet eller på https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Om du vill översätta appen till ditt språk gå med oss på https://crowdin.com/project/openhab-android</translation>
-    <foundation>openHAB Foundation</foundation>
-    <about_foundation>openHAB Foundation är en icke vinstdrivande organisation som har som mål att utbilda allmänheten kring möjligheterna och fördelarna med friga och öppna hemautomatiseringslösningar. Lär dig mer om uppdraget och tjänsterna på https://www.openhabfoundation.org</about_foundation>
+    <foundation/>
+    <about_foundation> </about_foundation>
     <important_note>Viktigt meddelande</important_note>
     <oh_server>Du behöver en openHAB-server för denna app.</oh_server>
     <short_description>Hemautomatisering med öppen källkod oberoende av tillverkare eller teknologi</short_description>
@@ -22,5 +22,5 @@
     <fdroid_privacy_policy>Integritetspolicy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Testa nya funktioner och ge tidig feedback!</beta>
     <play_beta>Beta-versionen kan installeras parallellt med den stabila versionen.</play_beta>
-    <changelog_play_beta>Buggfixar och stabilitetsförbättringar. Besök https://github.com/openhab/openhab-android/releases för en detaljerad ändringslogg.</changelog_play_beta>
+    <changelog_play_beta> </changelog_play_beta>
 </strings>

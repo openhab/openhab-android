@@ -1,0 +1,5 @@
+## Added
+* Suggest SSIDs in Settings (#2687)
+
+## Changed
+* Format selection widgets like setpoints (#2693)

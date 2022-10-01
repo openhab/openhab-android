@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">הגדרות</string>
     <string name="save">שמור</string>
@@ -12,9 +12,16 @@
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">ממשק openHAB 3</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">ממשק openHAB 3 (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">התראות</string>
     <string name="app_notifications_on_server">התראות (%s)</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
+    <string name="oh3_ui_error">אירעה שגיאה בעת טעינת ממשק openHAB 3</string>
+    <string name="frontail_error">אירעה שגיאה בעת טעינת Frontail. שים לב שהוא אינו זמין דרך openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail חייב לפעול ביציאת ברירת המחדל שלו 9001. הוא מצורף ל-openHABian או שאפשר להתקין אותו ידנית.</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
     <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
     <!-- App settings strings -->
@@ -30,13 +37,14 @@
     <string name="settings_openhab_password">סיסמה</string>
     <string name="settings_openhab_password_summary_weak">סיסמא חלשה</string>
     <string name="settings_openhab_password_summary_strong">סיסמא חזקה</string>
+    <string name="settings_openhab_api_token_hint">אם הנך משתמש ב-API token, הזן אותו בשדה שם המשתמש והשאר את שדה הסיסמה ריק</string>
     <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">אישורי לקוח SSL אינם נתמכים על ידי המכשיר שלך</string>
-    <string name="settings_openhab_screentimeroff">ביטול כיבוי מסך אוטומטי</string>
-    <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
     <string name="settings_openhab_demomode">מצב הדגמה</string>
     <string name="settings_openhab_demomode_summary">אם אין לך שרת openHAB, הפעל במצב הדגמה כדי לראות את היכולות של openHAB.</string>
+    <string name="start_page_title">דף פתיחה</string>
+    <string name="drawer_entries">ערכי תפריט צד</string>
     <string name="settings_openhab_theme">ערכת עיצוב</string>
     <string name="settings_accent_color">צבע נושא</string>
     <string name="settings_select_a_color">בחר צבע</string>
@@ -57,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">יצירת תרשימים יכולה להעמיס על השרת. אם זמן טעינת התרשים איטי והשרת שלך לא חזק, ביטול אפשרות זו משפר את זמני הטעינה.</string>
     <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
     <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
     <string name="settings_openhab_alt_connection">מרוחק</string>
     <string name="settings_openhab_connection">מקומי</string>
@@ -70,8 +79,10 @@
     <string name="settings_notification_vibration_twice">כפול</string>
     <string name="settings_notification_ringtone_vibration">צלצול &amp; רטט</string>
     <string name="settings_connection_summary">מחובר ל- %s</string>
-    <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
-    <string name="beta">בטא</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">מחובר בצורה לא מאובטחת אל %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">כתובת אתר לא מתחילה עם \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">לא הוגדרו שם המשתמש והסיסמה</string>
     <string name="settings_screen_lock">נעילת מסך</string>
     <string name="settings_screen_lock_nolock_summary">כדי לאפשר נעילת גישה ליישום יש צורך בהפעלת נעילת המכשיר</string>
     <string name="settings_screen_lock_off_summary">אין נעילת גישה ליישום</string>
@@ -95,7 +106,14 @@
     <string name="settings_server_primary_summary_is_primary">שרת זה הוא הראשי.\n נכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" הוא השרת הראשי. לחץ כדי להפוך שרת זה לראשי.\nנכון לעכשיו רק השרת הראשי נתמך על ידי כל התכונות של יישום זה. לחץ על כפתור העזרה למידע נוסף.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">הגדרות מתקדמות</string>
     <string name="click_here_for_more_information">לחץ כאן לקבלת מידע נוסף</string>
+    <string name="settings_multi_server_wifi_ssid_switched">הוחלף לשרת \"%s\" בהתבסס על Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">לא ניתן לקרוא את שם ה- Wi-Fi: חסרות הרשאות</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">לא ניתן לקרוא את שם ה- Wi-Fi: המיקום כבוי</string>
+    <string name="setting_crash_reporting_title">דוחות קריסה</string>
+    <string name="setting_crash_reporting_summary">שלח דיווח על קריסות על מנת לתמוך בפיתוח האפליקציה</string>
+    <string name="device_control_subtitle_item_name">שם הפריט</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="voice_command">פקודה קולית</string>
@@ -111,15 +129,22 @@
     <string name="app_shortcut_disabled_notifications">השרת המרוחק אינו זמין</string>
     <string name="app_shortcut_disabled_voice_recognition">היישום דיבור-לטקסט אינו מותקן במכשיר שלך</string>
     <string name="no_position_set">לא נקבע מיקום</string>
+    <string name="show_and_copy_item_name">הצג והעתק את שם הפריט</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">\"%s\" הועתק</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_sitemap_generic_load_error">לא ניתן לטעון את מפת האתר. השגיאה הבאה אירעה: %1$s</string>
     <string name="error_network_not_available">הרשת לא זמינה</string>
     <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_invalid_https_url">אנא הזן כתובת אינטרנט חוקית על פי התבנית \'/https://host(:port)\'</string>
     <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
+    <string name="error_home_myopenhab_org_no_notifications">התראות אינן זמינות ב- home.myopenhab.org, אלא ב- myopenhab.org</string>
+    <string name="error_first_char_is_whitespace">התו הראשון הוא רווח, כנראה שאינו רצוי</string>
+    <string name="error_last_char_is_whitespace">התו האחרון הוא רווח, כנראה שאינו רצוי</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
     <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
     <string name="error_unknown">התרחשה שגיאה לא מזוהה: %s</string>
@@ -172,7 +197,6 @@
     <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
     <string name="error_no_browser_found">לא נמצא דפדפן במכשיר שלך</string>
     <string name="error_no_speech_to_text_app_found">לא נמצא יישום לזיהוי קול</string>
-    <string name="error_sse_failed">הרישום לאירוע נכשל, רענון הווידג׳ט יכול להיפגע</string>
     <string name="error_video_player">%s לא הצליח להיטען</string>
     <string name="install">התקנה</string>
     <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
@@ -184,7 +208,6 @@
     <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
     <string name="info_write_tag_disabled">NFC מושבת</string>
     <string name="action_settings">הגדרות</string>
-    <string name="nfc_info_hint">עדכוני פריטים יכולים להיכתב לתגי NFC. באפשרותך לבחור פריט כאן או ע״י לחיצה ארוכה על הפריט בתצוגת Sitemap.</string>
     <string name="info_not_set">לא מוגדר</string>
     <string name="empty_page">דף זה אינו מכיל יישומונים המוגדרים כגלויים</string>
     <!-- Background tasks -->
@@ -199,15 +222,17 @@
     <string name="send_device_info_foreground_service_title">מציג אירועים</string>
     <string name="send_device_info_foreground_service_summary">האזן לאירועים הקשורים לפריטים הבאים. נדרש מצב התראה מתמשכת העלול להגביר את השימוש בסוללה.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">האזן לאירועים הקשורים לפריטים הבאים. נדרש מצב התראה מתמשכת העלול להגביר את השימוש בסוללה. נדרש רק עבור שליחת מצב \"נא לא להפריע\".</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">האזן לאירועים הקשורים למצב ״נא לא להפריע״</string>
     <string name="send_device_info_foreground_service_running_summary_one">האזן לאירועים הקשורים ל-%s</string>
     <string name="send_device_info_foreground_service_running_summary_two">האזן לאירועים הקשורים ל-%1$s ו-%2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">האזן לאירועים הקשורים ל-%1$s, %2$s ועוד</string>
     <string name="settings_item_update_pref_howto_summary">הקש כאן כדי לקבל עצות על איך להגדיר תכונה זו בצד השרת</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">העדכון האחרון היה \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">שעת התראה</string>
     <string name="settings_alarm_clock_summary_on">שלח את שעת השעון המעורר לפריט \'%1$s \'</string>
     <string name="settings_alarm_clock_summary_off">אל תשלח את שעת השעון המעורר</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">מצב השיחה</string>
     <string name="settings_phone_state_summary_on">שלח מצב שיחה לפריט \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">אל תשלח את מצב השיחה</string>
@@ -226,11 +251,15 @@
     <string name="settings_dnd_mode">מצב \'נא לא להפריע\'</string>
     <string name="settings_dnd_mode_summary_on">שלח מצב \'נא לא להפריע\' לפריט \'%1$s \'</string>
     <string name="settings_dnd_mode_summary_off">אל תשלח מצב \'נא לא להפריע\'</string>
+    <string name="settings_gadgetbridge">פעולות מכשיר Gadgetbridge</string>
+    <string name="settings_gadgetbridge_summary_on">שליחת מידע פעולות מכשיר Gadgetbridge לפריט \'%1$s\'.
+מחייב הפעלת צג אירועים.</string>
+    <string name="settings_gadgetbridge_summary_off">לא לשלוח מידע פעולות Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">אפשרות זו דורשת הרשאות נוספות על מנת לעבוד. לאחר הפעלתה תתבקשר לאשר את מתן ההרשאות.</string>
     <string name="settings_background_tasks_permission_hint">אפשרות זו דורשת הרשאות נוספות על מנת לפעול. לאחר הפעלתה, תתבקש לאשר את ההרשאות. אנא וודא שתאשר את ההרשאות גם עבור פעילות ברקע, מאחר ועדכון הפריטים באפליקציה זו מתרחש גם ברקע.</string>
-    <string name="settings_background_tasks_permission_denied">חלק מהמשימות המתבצעות ברקע בוטלו בעקבות הרשאות חסרות</string>
     <string name="settings_background_tasks_permission_denied_background_location">חלק מהתהליכים הפועלים ברקע דורשים גישה למיקום שיוגדר ל״%s״ בהגדרות אנדרואיד</string>
     <string name="settings_background_tasks_permission_allow">אפשר</string>
+    <string name="settings_location_permissions_required">יישום זה אוסף נתוני מיקום כדי לאפשר \"שליחת שם Wi-Fi לשרת\" ו\"בחירת שרת על בסיס Wi-Fi\" גם כאשר האפליקציה סגורה או אינה בשימוש. לידיעתך, נתונים אלה נשלחים לשרתים שהגדרת.</string>
     <string name="settings_item_pref_item_name">שם הפריט</string>
     <string name="waiting_for_item_upload">ממתין לחיבור רשת לעדכון הפריטים</string>
     <string name="item_upload_in_progress">הפריטים מתעדכנים כעת</string>
@@ -250,9 +279,9 @@
         <item quantity="many">%d התראות חדשות</item>
         <item quantity="other">%d התראות חדשות</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">לא זמין, לא הוגדר שרת מרוחק</string>
-    <string name="push_notification_status_http_error">לא זמין, שגיאה בחיבור לשרת מרוחק: %s</string>
-    <string name="push_notification_status_remote_no_cloud">לא זמין, השרת המרוחק אינו תומך בשירותי הענן של openHAB</string>
+    <string name="push_notification_status_no_remote_configured">התראות לא זמינות: השרת המרוחק אינו מוגדר</string>
+    <string name="push_notification_status_http_error">התראות לא זמינות: שגיאה בחיבור לשרת מרוחק: %s</string>
+    <string name="push_notification_status_remote_no_cloud">התראות לא זמינות: השרת המרוחק אינו שרת ענן של openHAB</string>
     <string name="push_notification_status">מצב</string>
     <string name="push_notification_hint">ההתראות נבדקות בתזמון קבוע, בדומה ל \"שלח מידע על המכשיר לשרת\"</string>
     <plurals name="item_update_error_title">
@@ -354,8 +383,8 @@
     <string name="nfc_action_to_sitemap_page">‏כתוב Sitemap לתג NFC</string>
     <string name="nfc_action_write_command_tag">‏כתוב פריט לתג NFC</string>
     <!-- Drawer -->
-    <string name="drawer_open">מגירת תצורת מערכת נפתחה</string>
-    <string name="drawer_close">מגירת תצורת מערכת נסגרה</string>
+    <string name="drawer_open">פתח תפריט צד</string>
+    <string name="drawer_close">סגור תפריט צד</string>
     <string name="mainmenu_openhab_voice_recognition">זיהוי קולי</string>
     <!-- About -->
     <string name="about_title">מידע כללי</string>
@@ -370,11 +399,11 @@
     <string name="about_translation">עזור לנו לתרגם את openHAB</string>
     <string name="about_privacy_policy">מדיניות פרטיות</string>
     <string name="about_rate_this_app">דרג את היישום הזה</string>
-    <string name="settings_debug_messages_title">הודעות שגיאה מורחבות</string>
     <string name="settings_troubleshooting_title">פתרון בעיות</string>
     <string name="set">קבע</string>
     <string name="cancel">ביטול</string>
     <string name="close">סגור</string>
+    <string name="undo">ביטול</string>
     <string name="try_again_button">נסה שוב</string>
     <string name="enable_wifi_button">הפעל אינטרנט אלחוטי</string>
     <string name="go_to_settings_button">עבור להגדרות</string>
@@ -399,6 +428,7 @@
     <string name="home_shortcut_error_pinning">שגיאה בנעיצה למסך הבית</string>
     <string name="home_shortcut_success_pinning">ננעץ למסך הבית</string>
     <string name="home_shortcut_server_has_been_deleted">השרת לקיצור דרך זה נמחק</string>
+    <string name="home_shortcut_title">קבע שם לקיצור הדרך</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
@@ -409,8 +439,6 @@
     <string name="content_description_open_number_picker">פתח לבחירת ערך</string>
     <string name="content_description_video">סרטון</string>
     <string name="content_description_open_openhab">פתח openHAB</string>
-    <string name="content_description_increase_item_value">הגדלת ערך הפריט</string>
-    <string name="content_description_decrease_item_value">הקטנת ערך הפריט</string>
     <string name="swipe_to_refresh_description">היישום מרענן באופן אוטומטי, בדרך כלל אין צורך לבצע זאת ידנית</string>
     <string name="got_it">הבנתי!</string>
     <!-- Intro strings -->
@@ -452,9 +480,11 @@
     <string name="item_update_widget_title">שליטה בפריט</string>
     <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
     <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget">יישומון</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">בחר פריט</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>
     <string name="item_update_success_message_off">%s עבר למצב כבוי</string>
@@ -494,14 +524,9 @@
     <string name="item_update_error_couldnt_get_item_type">כשל בזיהוי סוג פריט</string>
     <string name="create_home_screen_widget_title">יצירת יישומון</string>
     <string name="create_home_screen_widget_not_supported">אנא פנה לתפריט הווידג׳ט במסך הבית וצור ווידג׳ט שם</string>
-    <string name="item_update_widget_auto_generate_widget_label">יצירה אוטומטית של תווית יישומון</string>
-    <string name="item_update_widget_widget_label">תווית יישומון</string>
-    <string name="item_update_widget_default_label"><![CDATA[<תווית פריט>: <פעולה>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
-    <string name="data_saver_off">הגדרת חיסכון בנתונים במערכת תופעל על טעינת נתונים של רכיבי תצורת מערכת</string>
-    <string name="data_saver_off_pre_n">כל רכיבי תצורת המערכת יטענו תוך התעלמות מנפח הנתונים שלהם</string>
     <string name="data_saver_load">טען בכל מקרה</string>
     <string name="data_saver_hint">%s לא נטען על מנת לשמור על נפח המידע</string>
     <string name="data_saver_snackbar">הצלמיות אינן מבוססות על מצבי פריט מכיוון שמצב חסכון בנתונים מופעל</string>
@@ -514,10 +539,9 @@
     <string name="tile">אריח</string>
     <string name="tiles_for_quick_settings">אריחים להגדרות מהירות</string>
     <string name="tile_item_picker_title">בחר פריט</string>
-    <string name="tile_error_saving">נא להשלים את כל ההגדרות</string>
     <string name="tile_disabled">כבוי</string>
     <string name="tile_enable">הפעל</string>
-    <string name="item_item_and_action">פריט ופעולה</string>
+    <string name="tile_item_and_action">פריט ופעולה</string>
     <string name="tile_name">שם</string>
     <string name="tile_icon">צלמית</string>
     <string name="tile_require_unlock">דרוש ביטול נעילת מסך</string>
@@ -543,6 +567,7 @@
     <string name="tile_label_10">אריח 10</string>
     <string name="tile_label_11">אריח 11</string>
     <string name="tile_label_12">אריח 12</string>
+    <string name="error_missing_prefs">נא להשלים את כל ההגדרות</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">צלמית openHAB</string>
     <string name="tile_icon_tv">טלוויזיה</string>
@@ -569,6 +594,7 @@
     <string name="tile_icon_dashboard">מרכז שליטה</string>
     <string name="tile_icon_wifi">רשת אלחוטית</string>
     <string name="tile_icon_shield">מגן</string>
+    <string name="tile_icon_fan">מאוורר</string>
     <string name="tile_icon_man">גבר</string>
     <string name="tile_icon_bed">מיטה</string>
     <string name="tile_icon_child">ילד</string>
@@ -581,10 +607,18 @@
     <string name="tile_icon_light_switch">מפסק תאורה</string>
     <string name="tile_icon_garage">חניה</string>
     <string name="tile_icon_switch">מתג</string>
+    <string name="tile_icon_text">טקסט</string>
     <string name="tile_icon_sofa">ספה</string>
     <string name="tile_icon_lamp_ceiling">תאורת תקרה</string>
     <string name="tile_icon_lamp_floor">תאורת רצפה</string>
     <string name="tile_icon_lamp_bedside">תאורת מיטה</string>
     <string name="tile_icon_lamp_outdoor">תאורת חוץ</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">חניה</string>
+    <string name="item_tag_location_house">בית</string>
+    <string name="item_tag_equipment_battery">סוללה</string>
+    <string name="item_tag_equipment_camera">מצלמה</string>
+    <string name="item_tag_equipment_fan">מאוורר</string>
+    <string name="item_tag_equipment_lock">מנעול</string>
 </resources>

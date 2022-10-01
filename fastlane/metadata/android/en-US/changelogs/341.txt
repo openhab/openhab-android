@@ -1,0 +1,2 @@
+## Fixed
+* Fix client certificate selection (#2293)

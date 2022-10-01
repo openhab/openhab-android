@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Mga setting</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Mga Setting</string>
     <string name="app_notifications">Mga notipikasyon</string>
     <string name="mainmenu_openhab_clearcache">Burahin ang mga imaheng naka-cache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Koneksyon</string>
-    <string name="settings_display_title">Display</string>
     <string name="settings_misc_title">Samut-sari</string>
     <string name="settings_openhab_url">URL ng lokal server</string>
     <string name="settings_openhab_url_summary">Ang URL ng openHAB dashboard (batay sa hostname o IP). Kung ito man ay na-configure, ang autodiscovery ay hindi gagana. Kasalukuyang setting: %s</string>
     <string name="settings_openhab_alturl">URL ng Malayuang server</string>
     <string name="settings_openhab_alturl_summary">Ang URL ng openHAB dashboard ay ginamit habang ang lokal na address ay hindi magagamit. Kasalukuyang setting</string>
     <string name="settings_openhab_username">Pangalan ng gumagamit</string>
-    <string name="settings_openhab_password">Password</string>
     <string name="settings_openhab_sslclientcert">SSL sertipiko ng kliente</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tapikin ito para makakuha ng mga pahiwatig at eksplanasyon ukol sa kung paano mag set-up ng pagpapatunay sa sertipiko ng kliente sa SSL</string>
-    <string name="settings_openhab_screentimeroff">Huwag paganahin ang display timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Huwag paganahin ang switch off timer kapag tumatakbo ang openHAB</string>
-    <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tignan ang Kabuuan</string>
     <string name="settings_openhab_icon_format">Pormat ng icon</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
-    <string name="settings_openhab_icon_format_svg">Vector</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_openhab_alt_connection">Malayo</string>
     <string name="settings_openhab_connection">Lokal</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, sa utos mo!</string>
     <string name="info_voice_recognized_text">Tinanggap na utos: %1$s</string>
@@ -38,8 +32,10 @@
     <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Kumokonekta sa lokal URL</string>
     <string name="info_conn_rem_url">Kumokonekta sa malayong URL</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_network_not_available">Hindi available ang network</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Maaari magpasok ng wastong URL sa \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Ang koneksyon sa host ay nabigo</string>
     <string name="error_unable_to_resolve_hostname">Hindi malutas ang hostname</string>
@@ -57,6 +53,9 @@
     <string name="action_settings">Mga setting</string>
     <string name="info_not_set">Hindi nakatakda</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -70,16 +69,11 @@
     <string name="theme_name_dark">Madilim</string>
     <!-- Chart -->
     <!-- NFC -->
-    <string name="nfc_action_on">On</string>
     <string name="nfc_action_up">Taas</string>
-    <string name="nfc_action_off">Off</string>
     <string name="nfc_action_down">Baba</string>
-    <string name="nfc_action_toggle">Toggle</string>
     <string name="nfc_activate">Gawing Aktibo</string>
     <string name="nfc_action_current_color">Kasalukuyang kulay</string>
     <!-- Drawer -->
-    <string name="drawer_open">Ang Sitemap drawer ay nabuksan</string>
-    <string name="drawer_close">Ang Sitemap drawer ay isinara</string>
     <string name="mainmenu_openhab_voice_recognition">Pagkilala sa boses</string>
     <!-- About -->
     <string name="about_title">Impormasyon</string>
@@ -98,7 +92,6 @@
     <string name="content_description_color_up">I-on o hawakan para tumaas ang liwanag</string>
     <string name="content_description_color_down">I-off o hawakan para bumaba ang liwanag</string>
     <string name="content_description_open_number_picker">Buksan ang number picker</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Buksan ang openHAB</string>
     <!-- Intro strings -->
     <string name="app_intro">Panimula</string>
@@ -112,9 +105,11 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

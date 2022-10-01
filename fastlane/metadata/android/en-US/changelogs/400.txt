@@ -1,0 +1,3 @@
+## Changed
+* Use server name as fallback in app bar (#2666) 
+* Treat server with invalid notification api as non-cloud (#2668)

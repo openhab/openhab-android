@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -13,10 +13,13 @@
 
 package org.openhab.habdroid.util
 
+import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -24,7 +27,9 @@ import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Build
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
@@ -33,12 +38,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
-import es.dmoral.toasty.Toasty
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
@@ -59,6 +66,7 @@ import kotlin.math.round
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType
@@ -67,8 +75,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.core.connection.DefaultConnection
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
+import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.util.Util.TAG
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
@@ -96,7 +108,9 @@ fun String.obfuscate(clearTextCharCount: Int = 3): String {
 }
 
 fun String?.toNormalizedUrl(): String? {
-    this ?: return null
+    if (isNullOrEmpty()) {
+        return null
+    }
     return try {
         val url = this
             .replace("\n", "")
@@ -105,7 +119,7 @@ fun String?.toNormalizedUrl(): String? {
             .toString()
         if (url.endsWith("/")) url else "$url/"
     } catch (e: IllegalArgumentException) {
-        Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
+        Log.d(TAG, "toNormalizedUrl(): Invalid URL '$this'")
         null
     }
 }
@@ -117,11 +131,17 @@ fun Uri?.openInBrowser(context: Context) {
         return
     }
     val intent = Intent(Intent.ACTION_VIEW, this)
-    if (intent.isResolvable(context)) {
+    try {
         context.startActivity(intent)
-    } else {
-        Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show()
+    } catch (e: ActivityNotFoundException) {
+        Log.d(TAG, "Unable to open url in browser: $intent")
+        context.showToast(R.string.error_no_browser_found, Toast.LENGTH_LONG)
     }
+}
+
+fun HttpUrl.toRelativeUrl(): String {
+    val base = resolve("/")
+    return this.toString().substring(base.toString().length - 1)
 }
 
 /**
@@ -146,7 +166,9 @@ enum class ImageConversionPolicy {
 fun ResponseBody.toBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
-            ?: throw IOException("Bitmap decoding failed")
+            ?: throw IOException(
+                "Bitmap with decoding failed: content type: ${contentType()}, length: ${contentLength()}"
+            )
         // Avoid overly huge bitmaps, as we both do not want their memory consumption and drawing those bitmaps
         // to a canvas will fail later anyway. The actual limitation threshold is more or less arbitrary; as of
         // Android 10 the OS side limit is 100 MB.
@@ -250,6 +272,14 @@ inline fun <T> JSONArray.mapString(transform: (String) -> T): List<T> {
     return (0 until length()).map { index -> transform(getString(index)) }
 }
 
+fun JSONObject.optDoubleOrNull(key: String): Double? {
+    return if (has(key)) getDouble(key) else null
+}
+
+fun JSONObject.optBooleanOrNull(key: String): Boolean? {
+    return if (has(key)) getBoolean(key) else null
+}
+
 fun JSONObject.optStringOrNull(key: String): String? {
     return optStringOrFallback(key, null)
 }
@@ -266,45 +296,20 @@ fun Context.getSecretPrefs(): SharedPreferences {
     return (applicationContext as OpenHabApplication).secretPrefs
 }
 
-enum class ToastType {
-    NORMAL,
-    SUCCESS,
-    ERROR
-}
-
 /**
- * Shows an Toast with the openHAB icon. Can be called from the background.
+ * Shows an Toast and can be called from the background.
  */
-fun Context.showToast(message: CharSequence, type: ToastType = ToastType.NORMAL) {
-    val color = when (type) {
-        ToastType.SUCCESS -> R.color.pref_icon_green
-        ToastType.ERROR -> R.color.pref_icon_red
-        else -> R.color.openhab_orange
-    }
-    val length = if (type == ToastType.ERROR) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
-
+fun Context.showToast(message: CharSequence, length: Int = Toast.LENGTH_SHORT) {
     GlobalScope.launch(Dispatchers.Main) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Toast.makeText(this@showToast, message, length).show()
-        } else {
-            Toasty.custom(
-                applicationContext,
-                message,
-                R.drawable.ic_openhab_appicon_24dp,
-                color,
-                length,
-                true,
-                true
-            ).show()
-        }
+        Toast.makeText(this@showToast, message, length).show()
     }
 }
 
 /**
- * Shows an Toast with the openHAB icon. Can be called from the background.
+ * Shows an Toast and can be called from the background.
  */
-fun Context.showToast(@StringRes message: Int, type: ToastType = ToastType.NORMAL) {
-    showToast(getString(message), type)
+fun Context.showToast(@StringRes message: Int, length: Int = Toast.LENGTH_SHORT) {
+    showToast(getString(message), length)
 }
 
 fun Context.hasPermissions(permissions: Array<String>) = permissions.firstOrNull {
@@ -352,16 +357,16 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
             }
         }
     } else {
-        error.let { Log.e(Util.TAG, "REST call to $url failed", it) }
+        error.let { Log.e(TAG, "REST call to $url failed", it) }
         getString(if (short) R.string.error_short_unknown else R.string.error_unknown, error?.localizedMessage)
     }
 }
 
 fun Context.openInAppStore(app: String) {
     val intent = Intent(Intent.ACTION_VIEW, "market://details?id=$app".toUri())
-    if (intent.isResolvable(this)) {
+    try {
         startActivity(intent)
-    } else {
+    } catch (e: ActivityNotFoundException) {
         "http://play.google.com/store/apps/details?id=$app".toUri().openInBrowser(this)
     }
 }
@@ -373,57 +378,44 @@ data class DataUsagePolicy(
     val canDoRefreshes: Boolean
 )
 
-fun Context.determineDataUsagePolicy(): DataUsagePolicy {
-    val isBatterySaverActive = (applicationContext as OpenHabApplication).batterySaverActive
-    fun getDataUsagePolicyForBatterySaver() = DataUsagePolicy(
-        canDoLargeTransfers = true,
-        loadIconsWithState = true,
-        autoPlayVideos = false,
+fun Context.determineDataUsagePolicy(conn: Connection? = null): DataUsagePolicy {
+    val appContext = applicationContext as OpenHabApplication
+    var canDoLargeTransfers = true
+    var loadIconsWithState = true
+    var autoPlayVideos = true
+    var canDoRefreshes = true
+
+    if (appContext.batterySaverActive) {
+        autoPlayVideos = false
         canDoRefreshes = false
-    )
+    }
 
     val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
     if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        return if (isBatterySaverActive) {
-            getDataUsagePolicyForBatterySaver()
-        } else {
-            DataUsagePolicy(!dataSaverPref, !dataSaverPref, !dataSaverPref, !dataSaverPref)
-        }
-    }
-    return when ((applicationContext as OpenHabApplication).systemDataSaverStatus) {
-        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> DataUsagePolicy(
-            canDoLargeTransfers = false,
-            loadIconsWithState = false,
-            autoPlayVideos = false,
-            canDoRefreshes = false
-        )
-        ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
-            if (isBatterySaverActive) {
-                getDataUsagePolicyForBatterySaver()
-            } else {
-                DataUsagePolicy(
-                    canDoLargeTransfers = true,
-                    loadIconsWithState = true,
-                    autoPlayVideos = false,
-                    canDoRefreshes = true
-                )
+        canDoLargeTransfers = canDoLargeTransfers && !dataSaverPref
+        loadIconsWithState = loadIconsWithState && !dataSaverPref
+        autoPlayVideos = autoPlayVideos && !dataSaverPref
+        canDoRefreshes = canDoRefreshes && !dataSaverPref
+    } else {
+        val isMetered = conn is DefaultConnection && conn.isMetered
+        val dataSaverState = appContext.systemDataSaverStatus
+
+        when {
+            dataSaverState == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED && isMetered -> {
+                canDoLargeTransfers = false
+                loadIconsWithState = false
+                autoPlayVideos = false
+                canDoRefreshes = false
             }
-        }
-        else -> {
-            if (isBatterySaverActive) {
-                getDataUsagePolicyForBatterySaver()
-            } else {
-                DataUsagePolicy(
-                    canDoLargeTransfers = true,
-                    loadIconsWithState = true,
-                    autoPlayVideos = true,
-                    canDoRefreshes = true
-                )
+            dataSaverState == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED && isMetered -> {
+                autoPlayVideos = false
             }
         }
     }
+    return DataUsagePolicy(canDoLargeTransfers, loadIconsWithState, autoPlayVideos, canDoRefreshes)
 }
 
+@ColorInt
 fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int {
     val tv = TypedValue()
     theme.resolveAttribute(colorAttr, tv, true)
@@ -434,11 +426,78 @@ fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor:
     }
 }
 
+@ColorRes
+fun Context.resolveThemedColorToResource(@AttrRes colorAttr: Int, @ColorRes fallbackColorRes: Int = 0): Int {
+    val ta = obtainStyledAttributes(intArrayOf(colorAttr))
+    return ta.getResourceId(0, fallbackColorRes).also { ta.recycle() }
+}
+
+fun Context.getChartTheme(serverFlags: Int): CharSequence {
+    val tv = TypedValue()
+    if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS == 0) {
+        theme.resolveAttribute(R.attr.chartTheme, tv, true)
+    } else {
+        theme.resolveAttribute(R.attr.transparentChartTheme, tv, true)
+    }
+
+    return tv.string
+}
+
+fun Context.isDarkModeActive(): Boolean {
+    return when (getPrefs().getDayNightMode(this)) {
+        AppCompatDelegate.MODE_NIGHT_NO -> false
+        AppCompatDelegate.MODE_NIGHT_YES -> true
+        else -> {
+            val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            currentNightMode != Configuration.UI_MODE_NIGHT_NO
+        }
+    }
+}
+
+@StyleRes fun Context.getActivityThemeId(): Int {
+    val isBlackTheme = getPrefs().getStringOrNull(PrefKeys.THEME) == getString(R.string.theme_value_black)
+    return when (getPrefs().getInt(PrefKeys.ACCENT_COLOR, 0)) {
+        ContextCompat.getColor(this, R.color.indigo_500) ->
+            if (isBlackTheme) R.style.openHAB_Black_basicui else R.style.openHAB_DayNight_basicui
+        ContextCompat.getColor(this, R.color.blue_grey_700) ->
+            if (isBlackTheme) R.style.openHAB_Black_grey else R.style.openHAB_DayNight_grey
+        else -> if (isBlackTheme) R.style.openHAB_Black_orange else R.style.openHAB_DayNight_orange
+    }
+}
+
+fun Context.getCurrentWifiSsid(attributionTag: String): String? {
+    val wifiManager = getWifiManager(attributionTag)
+    // TODO: Replace deprecated function
+    @Suppress("DEPRECATION")
+    return wifiManager.connectionInfo.let { info ->
+        if (info.networkId == -1) null else info.ssid.removeSurrounding("\"")
+    }
+}
+
+fun Context.withAttribution(tag: String): Context {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        createAttributionContext(tag)
+    } else {
+        this
+    }
+}
+
+fun Context.getWifiManager(attributionTag: String): WifiManager {
+    // Android < N requires applicationContext for getting WifiManager, otherwise leaks may occur
+    val context = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        applicationContext
+    } else {
+        withAttribution(attributionTag)
+    }
+
+    return context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+}
+
 fun Socket.bindToNetworkIfPossible(network: Network?) {
     try {
         network?.bindSocket(this)
     } catch (e: IOException) {
-        Log.d(Util.TAG, "Binding socket $this to network $network failed: $e")
+        Log.d(TAG, "Binding socket $this to network $network failed: $e")
     }
 }
 
@@ -453,7 +512,7 @@ fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
 fun ServiceInfo.addToPrefs(context: Context) {
     val address = hostAddresses[0]
     val port = port.toString()
-    Log.d(Util.TAG, "Service resolved: $address port: $port")
+    Log.d(TAG, "Service resolved: $address port: $port")
 
     val config = ServerConfiguration(
         context.getPrefs().getNextAvailableServerId(),
@@ -461,13 +520,11 @@ fun ServiceInfo.addToPrefs(context: Context) {
         ServerPath("https://$address:$port", null, null),
         null,
         null,
-        null
+        null,
+        null,
+        false
     )
     config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
-}
-
-fun Intent.isResolvable(context: Context): Boolean {
-    return context.packageManager.queryIntentActivities(this, 0).isNotEmpty()
 }
 
 /**
@@ -479,4 +536,51 @@ fun Menu.getGroupItems(groupId: Int): List<MenuItem> {
     return (0 until size())
         .map { index -> getItem(index) }
         .filter { item -> item.groupId == groupId }
+}
+
+fun PackageManager.isInstalled(app: String): Boolean {
+    return try {
+        // Some devices return `null` for getApplicationInfo()
+        @Suppress("UNNECESSARY_SAFE_CALL", "SAFE_CALL_WILL_CHANGE_NULLABILITY", "SimplifyBooleanWithConstants")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getApplicationInfo(app, PackageManager.ApplicationInfoFlags.of(0))?.enabled == true
+        } else {
+            @Suppress("DEPRECATION")
+            getApplicationInfo(app, 0)?.enabled == true
+        }
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}
+
+val PendingIntent_Immutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    PendingIntent.FLAG_IMMUTABLE
+} else {
+    0
+}
+
+val PendingIntent_Mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    PendingIntent.FLAG_MUTABLE
+} else {
+    0
+}
+
+inline fun <reified T> Intent.parcelable(key: String): T? = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+}
+
+inline fun <reified T> Intent.parcelableArrayList(key: String): List<T>? = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableArrayListExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableArrayListExtra(key)
+}
+
+inline fun <reified T> Bundle.parcelable(key: String): T? = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelable(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelable(key) as? T
+}
+
+inline fun <reified T> Bundle.parcelableArrayList(key: String): List<T>? = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableArrayList(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableArrayList(key)
 }

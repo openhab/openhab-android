@@ -1,29 +1,29 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "opolnomočenje pametnega doma" - odprtokodna domača avtomatika neodvisna od tehnologij in proizvajalcev
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
-Try out new features and give early feedback!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+ Namesto tega te verzije pridobivajo obvestila z rednim poizvedovanjem.
+Preizkusite nove funkcionalnosti in nam posredujte povratne informacije!
+Beta verzijo lahko namestite poleg <a href="https://f-droid.org/packages/org.openhab.habdroid/">redne verzije</a>.
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+openHAB je odprtokodna platforma za hišno avtomatiko, ki temelji na Javi, združuje širok nabor različnih sistemov za pametne hiše in tehnologije v eno rešitev.
+Na podlagi skupne abstrakcijske plasti je mogoče vse naprave povezati in upravljati s pravili in jih prikazati v različnih grafičnih vmesnikih.
 
-<b>Supported Products</b>
+<b>Podprti produkti</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+Več kot 200 dodatkov nudi podporo za različne blagovne znamke, naprave, tehnologije in komunikacijske protokole. Primeri so Z-wave, Philips Hue, Amazon Echo, Chromecast in Sonos. Odkrijte vse dodatke in podprte naprave in/ali funkcionalnost na: https://www.openhab.org/addons/
+Aplikacija ima vgrajen akcijski vtičnik za Tasker in Locale.
 
-<b>Open Source Community</b>
+<b>Odprtokodna skupnost</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
+openHAB odprtokodna iniciativa močno podpira svojo živahno skupnost. Forum z več kot 13.000 registriranimi uporabniki je kraj kjer se lahko poišče smernice, pomoč in navdih. Pridruži se forumu openHAB skupnosti na https://community.openhab.org
+V kolikor najdete napako, jo prosim sporočite na forumu ali na https://github.com/openhab/openhab-android/issues
+V kolikor želite prevesti aplikacijo v vaš jezik se nam pridružite na https://crowdin.com/project/openhab-android
 
-<b>openHAB Foundation</b>
+<b>openHAB fundacija</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+openHAB fundacija e.V. je neprofitna organizacija s ciljem učenja javnosti o možnostih in prednostih prostih in odprtih rešitev za domačo avtomatizacijo. Pozanimajte se o cilju in storitvah fundacije na https://www.openhabfoundation.org
 
-<b>Important note</b>
+<b>Pomembna opomba</b>
 
-You need an openHAB server for this app.
+Za to aplikacijo potrebujete openHAB strežnik.
 
-Privacy policy: https://www.openhabfoundation.org/privacy.html
+Politika zasebnosti: https://www.openhabfoundation.org/privacy.html

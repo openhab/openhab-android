@@ -1,0 +1,2 @@
+## Fixed
+* Fix build issue of 2.20.2-beta

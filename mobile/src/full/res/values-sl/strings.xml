@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">Registracija za obvestila je v teku</string>
+    <string name="info_openhab_gcm_failed">Registracija za obvestila je spodletela</string>
+    <string name="info_openhab_gcm_failed_play_services">Registracija za obvestila je spodletela zaradi napake na Google Play Services: %s</string>
+    <string name="info_openhab_gcm_connected">Registracija za obvestila je uspela</string>
+    <string name="open_in_maps">Odpri v Google Maps</string>
+</resources>

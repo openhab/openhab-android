@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2021 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -23,7 +23,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import java.util.ArrayList
 import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
@@ -32,6 +31,7 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.isDarkModeActive
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -42,6 +42,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.CopyrightOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.TilesOverlay
 
 object MapViewHelper {
     internal val TAG = MapViewHelper::class.java.simpleName
@@ -87,6 +88,7 @@ object MapViewHelper {
                         return false
                     }
                 }))
+                mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
             }
         }
 
@@ -146,6 +148,7 @@ object MapViewHelper {
                 setMultiTouchControls(true)
                 isVerticalMapRepetitionEnabled = false
                 overlays.add(CopyrightOverlay(itemView.context))
+                mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
                 onResume()
             }
             handler.post {
@@ -245,6 +248,6 @@ fun Location.toGeoPoint(): GeoPoint {
     return GeoPoint(this)
 }
 
-fun Location.toMapsUrl(): String? {
+fun Location.toMapsUrl(): String {
     return "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
 }

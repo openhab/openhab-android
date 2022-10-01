@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Android App
-source: https://github.com/openhab/openhab-android/blob/master/docs/USAGE.md
+source: https://github.com/openhab/openhab-android/blob/main/docs/USAGE.md
 ---
 
 {% include base.html %}
@@ -51,14 +51,22 @@ There are a number of strategies available to provide [secure remote access]({{b
 * Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
 * Receive notifications through an openHAB Cloud connection, [read more](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions)
 * Change items via NFC tags
-* Send voice commands to openHAB
+* [Send voice commands to openHAB](#send-voice-commands-to-openhab)
 * [Send device information to openHAB](#send-device-information-to-openhab), like next alarm clock time or call state
 * [Supports wall mounted tablets](#permanent-deployment)
 * [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
+* [Android Quick Access Device Controls](#quick-access-device-controls)
 
 ### Permanent Deployment
 
 If you want to use openHAB Android on a wall mounted tablet, go to settings and select `Disable display timer` and `Fullscreen`.
+
+### Send voice commands to openHAB
+
+It's required to have a voice recognizer app installed on the Android device, e.g. [by Google](https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox).
+Voice recognizer apps may send the recorded sound to a server to convert it into text.
+
+To run your voice command rule please make sure that `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/#!/settings/services/org.openhab.voice) and that the correct Item is selected at `Other Services` => `Rule Voice Interpreter` => `Voice Command Item` (http://openhab:8080/#!/settings/services/org.openhab.rulehli/select/).
 
 ### Send device information to openHAB
 
@@ -84,44 +92,21 @@ However this will show a persistent notification and may increase battery usage.
 #### Alarm Clock
 
 The openHAB app will send the next wake-up time from your alarm clock app to the server.
-The time is sent as a number containing the number of milliseconds since the epoch.
 
 Example item definition:
 ```java
 DateTime AlarmClock "Alarm Clock [%s]" <time>
 ```
 
-Example rule:
-```java
-var Timer timerAlarm = null
+Rule template: [https://community.openhab.org/t/alarm-clock-rule/127194](https://community.openhab.org/t/alarm-clock-rule/127194)
 
-rule "Alarm Clock"
-when
-    Item AlarmClock changed
-then
-    if (newState instanceof DateTimeType) {
-        val epoch = newState.toLocaleZone.zonedDateTime.toInstant.toEpochMilli
-        logInfo("alarm", "Scheduling alarm for {} ({})", newState.toLocaleZone, epoch)
-        if (timerAlarm !== null) {
-            logInfo("alarm", "Reschedule alarm")
-            timerAlarm.reschedule(new DateTime(epoch))
-        } else {
-            logInfo("alarm", "New alarm")
-            timerAlarm = createTimer(new DateTime(epoch), [ |
-                // Turn on stuff, e.g. radio or light
-                logInfo("alarm", "Alarm expired")
-                timerAlarm = null
-            ])
-        }
-    } else {
-        if (timerAlarm !== null) {
-            timerAlarm.cancel
-            timerAlarm = null
-        }
-        logInfo("alarm", "Alarm canceled")
-    }
-end
-```
+##### Limitations
+
+The openHAB app uses the internal Android API [AlarmManager](https://developer.android.com/reference/kotlin/android/app/AlarmManager) to get the next alarm time.
+Some apps use this API (e.g. the stock calendar app) for other purposes, e.g. scheduling notifications.
+Therefore the openHAB app may send invalid alarm times to the server.
+To circumvent this the alarm times set by some apps are blocklisted in the openHAB app and it'll send `UNDEF` instead.
+It's not possible to read the time after the next.
 
 #### Call State
 
@@ -142,6 +127,8 @@ then
         // A new call arrived and is ringing or waiting. In the latter case, another call is already active.
     } else if (CallState.state == "OFFHOOK") {
         // At least one call exists that is dialing, active, or on hold, and no calls are ringing or waiting.
+    } else if (CallState.state == "NO_PERMISSION") {
+        // The phone permission has been revoked by the user
     }
 end
 ```
@@ -211,7 +198,7 @@ rule "Wi-Fi name"
 when
     Item WifiName changed
 then
-    if (WifiName.state == "UNDEF") {
+    if (WifiName.state == UNDEF) {
         // Device isn't connected to Wi-Fi
     } else if (WifiName.state == "LOCATION_OFF") {
         // On Android 8 and higher "Location" must be turned on, otherwise apps don't have access to the Wi-Fi SSID
@@ -219,6 +206,31 @@ then
         // The location permission has been revoked by the user
     } else {
         logInfo("WIFI", "Device is connected to Wi-Fi " + WifiName.state)
+    }
+end
+```
+
+#### Bluetooth devices
+
+Send a `|` separated list of MAC addresses of connected bluetooth devices.
+
+Example item definition:
+```java
+String BluetoothDevices "Bluetooth devices [%s]" <bluetooth>
+```
+
+Example rule:
+```java
+rule "Bluetooth devices"
+when
+    Item BluetoothDevices changed
+then
+    if (WifiName.state == UNDEF) {
+        // No device is connected
+    } else if (WifiName.state == "NO_PERMISSION") {
+        // The bluetooth permission has been revoked by the user
+    } else {
+        logInfo("BluetoothDevices", "Connected Bluetooth devices: " + BluetoothDevices.state)
     }
 end
 ```
@@ -252,6 +264,32 @@ then
 end
 ```
 
+#### Gadgetbridge Device Actions
+
+[Gadgetbridge](https://www.gadgetbridge.org/) can send an Android broadcast on some actions of a wearable and openHAB can listen for these broadcasts to update an Item accordingly.
+Please keep the default values for broadcasts in Gadgetbridge.
+
+Example item definition:
+```java
+String Gadgetbridge "Wearable [%s]"
+```
+
+Example rule:
+```java
+rule "Gadgetbridge"
+when
+    Item Gadgetbridge changed
+then
+    if (Gadgetbridge.state == "FellAsleep") {
+        // The wearable recorded "FallAsleep"
+    } else if (Gadgetbridge.state == "WokeUp") {
+        // The wearable recorded "WokeUp"
+    } else if (Gadgetbridge.state == "StartNonWear") {
+        // The wearable recorded "StartNonWear"
+    }
+end
+```
+
 ### Device identifier
 
 The device identifier can be any string and should be unique for all devices accessing your openHAB server.
@@ -272,11 +310,16 @@ The variable `%httpcode` is returned by the plugin and contains the HTTP code re
 
 In case of an error the plugin returns an error code.
 
-| Error Code | Description                                                                                |
-| ---------- | ------------------------------------------------------------------------------------------ |
-| 10         | Tasker plugin is disabled                                                                  |
-| 11         | The app couldn't establish a connection                                                    |
-| 1000+      | A connection was established, but an error occured. The error code is 1000 + the HTTP code |
+| Error Code | Description                                                                                                                                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 10         | Tasker plugin is disabled                                                                                                                                                                                  |
+| 11         | The app couldn't establish a connection                                                                                                                                                                    |
+| 1000+      | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
+
+### Quick Access Device Controls
+
+openHAB supports the device controls introduced in Android 11: https://www.android.com/intl/en_US/android-11/#a11-device-controls-article
+When using a [semantic model](https://www.openhab.org/docs/tutorial/model.html#semantic-model) the location and/or equipment name can be shown in the tiles.
 
 ## Multi server support
 
@@ -305,7 +348,7 @@ Please refer to the [openhab-android project on GitHub](https://github.com/openh
 
 ### I don't receive any notifications
 
-Please have a look at the "Push notification status" on the About screen in the app.
+Please have a look at the notification status on the settings screen in the app.
 If it claims that your device is successfully registered at FCM, please open an issue on [openhab-android project on GitHub](https://github.com/openhab/openhab-android) or create a thread in the forum.
 
 ### My notifications are delayed
@@ -323,9 +366,9 @@ This has a few disadvantages:
 * Read status aren't synced between devices.
 * The maximum number of messages that can be received during one fetch is limited to 20.
 
-### My voice command rule isn't run
+### I have issues with openHAB 3 UI or HABPanel
 
-Please make sure `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/paperui/index.html#/configuration/system) and `Rule Voice Interpreter` => `Configure` => Select correct item (http://openhab:8080/paperui/index.html#/configuration/services?tab=voice).
+The app uses Android WebViews to render all UIs except Sitemaps. Please make sure you're running the latest WebView version: https://play.google.com/store/apps/details?id=com.google.android.webview
 
 ### Chart loading is too slow
 

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">デバイスの登録処理中です</string>
-    <string name="info_openhab_gcm_failed">プッシュ通知の登録に失敗しました</string>
-    <string name="info_openhab_gcm_failed_play_services">Google Play サービスの問題のため、プッシュ通知の登録に失敗しました: %s</string>
-    <string name="info_openhab_gcm_connected">デバイスが Firebase クラウドメッセージングに正常に登録されました</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">通知登録は処理中です</string>
+    <string name="info_openhab_gcm_failed">通知登録が失敗しました</string>
+    <string name="info_openhab_gcm_failed_play_services">通知登録が以下のGoogle Playサービスの問題により失敗しました: %s</string>
+    <string name="info_openhab_gcm_connected">通知登録が正常に完了しました</string>
     <string name="open_in_maps">Google マップで開く</string>
+    <string name="beta">ベータ版</string>
 </resources>

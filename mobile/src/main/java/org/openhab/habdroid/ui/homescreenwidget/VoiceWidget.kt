@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -22,6 +22,7 @@ import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.util.PendingIntent_Immutable
 
 /**
  * Implementation of App Widget functionality.
@@ -37,7 +38,7 @@ open class VoiceWidget : AppWidgetProvider() {
 
             Log.d(TAG, "Build voice recognition intent")
             val intent = BackgroundTasksManager.buildVoiceRecognitionIntent(context, true)
-            val pendingIntent = PendingIntent.getActivity(context, 6, intent, 0)
+            val pendingIntent = PendingIntent.getActivity(context, 6, intent, PendingIntent_Immutable)
             views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)
 
             setupOpenhabIcon(context, views)

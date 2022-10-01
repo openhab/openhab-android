@@ -1,0 +1,2 @@
+## Fixed
+* Fix "No browser installed" messages (#2419)

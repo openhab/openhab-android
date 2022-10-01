@@ -1,0 +1,7 @@
+## Changed
+* Trigger all 'Send device info' workers when opening app (#2827)
+* Avoid multiple Workers with the same value (#2829) 
+
+## Fixed
+* Hide crash reporting preference in FOSS flavor (#2825)
+* Lookup active server ID in correct shared prefs (#2830)

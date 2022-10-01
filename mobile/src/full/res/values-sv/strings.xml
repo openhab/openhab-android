@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Enhetsregistrering pågår</string>
-    <string name="info_openhab_gcm_failed">Registrering av push-meddelanden misslyckades</string>
-    <string name="info_openhab_gcm_failed_play_services">Registrering av push-meddelanden misslyckades på grund av ett problem med Google Play Services: %s</string>
-    <string name="info_openhab_gcm_connected">Enheten har registrerats med Firebase Cloud Messaging</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <string name="open_in_maps">Öppna i Google Maps</string>
 </resources>

@@ -1,0 +1,2 @@
+## Added
+* Show item state in frame (#2880)

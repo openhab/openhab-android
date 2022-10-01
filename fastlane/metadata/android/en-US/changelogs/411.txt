@@ -1,0 +1,4 @@
+## Changed
+* Make crash reporting optional (#2745)
+* Improve icons in Android 11 device control (#2753)
+* Don't redact myopenhab.org in LogActivity (#2752)

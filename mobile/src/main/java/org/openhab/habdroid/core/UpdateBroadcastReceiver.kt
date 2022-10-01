@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -33,9 +33,10 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.model.toOH2IconResource
-import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
@@ -51,8 +52,11 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         }
 
         val prefs = context.getPrefs()
+        val comparableVersion = prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0)
+        Log.d(TAG, "Run with comparableVersion $comparableVersion")
+
         prefs.edit {
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
+            if (comparableVersion <= UPDATE_LOCAL_CREDENTIALS) {
                 Log.d(TAG, "Checking for putting local username/password to remote username/password.")
                 if (prefs.getStringOrNull("default_openhab_remote_username") == null) {
                     putString("default_openhab_remote_username", prefs.getStringOrNull("default_openhab_username"))
@@ -61,7 +65,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     putString("default_openhab_remote_password", prefs.getStringOrNull("default_openhab_password"))
                 }
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= SECURE_CREDENTIALS) {
+            if (comparableVersion <= SECURE_CREDENTIALS) {
                 Log.d(TAG, "Put username/password to encrypted prefs.")
                 context.getSecretPrefs().edit {
                     putString("default_openhab_username", prefs.getStringOrNull("default_openhab_username"))
@@ -81,7 +85,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 remove("default_openhab_remote_username")
                 remove("default_openhab_remote_password")
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= DARK_MODE) {
+            if (comparableVersion <= DARK_MODE) {
                 Log.d(TAG, "Migrate to day/night themes")
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -105,7 +109,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
 
                 putInt(PrefKeys.ACCENT_COLOR, accentColor)
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= WIDGET_ICON) {
+            if (comparableVersion <= WIDGET_ICON) {
                 Log.d(TAG, "Migrate widget icon prefs")
                 val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
                 AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
@@ -119,7 +123,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 Log.d(TAG, "Update widgets")
                 ItemUpdateWidget.updateAllWidgets(context)
             }
-            if (prefs.getInt(PrefKeys.COMPARABLE_VERSION, 0) <= MULTI_SERVER_SUPPORT) {
+            if (comparableVersion <= MULTI_SERVER_SUPPORT) {
                 // if local or remote server URL are set, convert them to a server named 'openHAB'
                 val localUrl = prefs.getStringOrNull("default_openhab_url")
                 val remoteUrl = prefs.getStringOrNull("default_openhab_alturl")
@@ -152,7 +156,9 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         localPath,
                         remotePath,
                         prefs.getStringOrNull("default_openhab_sslclientcert"),
-                        defaultSitemap
+                        defaultSitemap,
+                        null,
+                        false
                     )
                     config.saveToPrefs(prefs, secretPrefs)
                     prefs.edit {
@@ -173,13 +179,44 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     }
                 }
             }
+            if (comparableVersion <= WIDGETS_NO_AUTO_GEN_LABEL) {
+                val widgetComponent = ComponentName(context, ItemUpdateWidget::class.java)
+                AppWidgetManager.getInstance(context).getAppWidgetIds(widgetComponent).forEach { id ->
+                    val oldData = ItemUpdateWidget.getInfoForWidget(context, id)
+
+                    val newData = ItemUpdateWidget.ItemUpdateWidgetData(
+                        oldData.item,
+                        oldData.command,
+                        oldData.label,
+                        oldData.widgetLabel
+                            ?: context.getString(R.string.item_update_widget_text, oldData.label, oldData.mappedState),
+                        oldData.mappedState,
+                        oldData.icon,
+                        oldData.theme,
+                        oldData.showState
+                    )
+
+                    ItemUpdateWidget.saveInfoForWidget(context, newData, id)
+                }
+            }
+            if (comparableVersion <= MULTIPLE_WIFI_SSIDS) {
+                prefs.getConfiguredServerIds().forEach { serverId ->
+                    prefs.edit {
+                        val key = PrefKeys.buildServerKey(serverId, PrefKeys.WIFI_SSID_PREFIX)
+                        val ssid = prefs.getStringOrNull(key)
+                        prefs.edit {
+                            putStringSet(key, if (ssid.isNullOrEmpty()) emptySet() else setOf(ssid))
+                        }
+                    }
+                }
+            }
 
             updateComparableVersion(this)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             for (tileId in 1..AbstractTileService.TILE_COUNT) {
-                AbstractTileService.updateTile(context, tileId)
+                AbstractTileService.requestTileUpdate(context, tileId)
             }
         }
         EventListenerService.startOrStopService(context)
@@ -193,6 +230,8 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val DARK_MODE = 200
         private const val WIDGET_ICON = 250
         private const val MULTI_SERVER_SUPPORT = 330
+        private const val WIDGETS_NO_AUTO_GEN_LABEL = 380
+        private const val MULTIPLE_WIFI_SSIDS = 407
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PrefKeys.COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()

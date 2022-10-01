@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -16,12 +16,15 @@ package org.openhab.habdroid.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -34,6 +37,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getLocalUrl
@@ -41,12 +45,14 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getSecretPrefs
 
-class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var scrollView: ScrollView
     private lateinit var swipeLayout: SwipeRefreshLayout
+    private lateinit var searchView: SearchView
     private var showErrorsOnly: Boolean = false
+    private var fullLog = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +67,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         scrollView = findViewById(R.id.scrollview)
         swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+        swipeLayout.applyColors()
 
         fab.setOnClickListener {
             val sendIntent = Intent().apply {
@@ -78,6 +84,19 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         }
 
         setUiState(true)
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!searchView.isIconified) {
+                    searchView.isIconified = true
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     override fun onResume() {
@@ -98,6 +117,12 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "onCreateOptionsMenu()")
         menuInflater.inflate(R.menu.log_menu, menu)
+
+        val searchItem = menu.findItem(R.id.app_bar_search)
+        searchView = searchItem.actionView as SearchView
+        searchView.inputType = InputType.TYPE_CLASS_TEXT
+        searchView.setOnQueryTextListener(this)
+
         updateErrorsOnlyButtonState(menu.findItem(R.id.show_errors))
         return true
     }
@@ -150,7 +175,8 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     private fun fetchLog(clear: Boolean) = launch {
-        logTextView.text = collectLog(clear)
+        fullLog = collectLog(clear)
+        onQueryTextChange(searchView.query.toString())
         setUiState(false)
         scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
     }
@@ -175,6 +201,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         logBuilder.append("-----------------------\n\n")
 
         if (clear) {
+            Log.i(TAG, "Log was cleared")
             logBuilder.append(getString(R.string.empty_log))
             return@withContext logBuilder.toString()
         }
@@ -199,6 +226,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             log = redactHost(log, getPrefs().getLocalUrl(id), "<openhab-local-address-$serverName>")
             log = redactHost(log, getPrefs().getRemoteUrl(id), "<openhab-remote-address-$serverName>")
         }
+        log = log.replaceAfter("addAndroidRegistration", "<redacted>")
         log
     }
 
@@ -219,7 +247,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
 
     private fun redactHost(text: String, url: String?, replacement: String): String {
         val host = url?.toHttpUrlOrNull()?.host
-        return if (!host.isNullOrEmpty()) text.replace(host, replacement) else text
+        return if (!host.isNullOrEmpty() && !HttpClient.isMyOpenhab(host)) text.replace(host, replacement) else text
     }
 
     companion object {
@@ -228,5 +256,22 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         const val SNACKBAR_TAG_LOG_TOO_LARGE = "logTooLargeToShare"
 
         private val TAG = LogActivity::class.java.simpleName
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        logTextView.text = if (newText.isNullOrEmpty()) {
+            fullLog
+        } else {
+            fullLog
+                .lines()
+                .filter { line -> line.contains(newText, ignoreCase = true) }
+                .joinToString("\n")
+        }
+
+        return true
     }
 }

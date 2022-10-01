@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -29,7 +29,9 @@ import androidx.work.WorkInfo
 import java.util.ArrayList
 import java.util.HashMap
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
@@ -70,8 +72,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             else -> {}
                         }
                     }
-                    // Stop evaluating tags and advance to next info
-                    break
+                } else if (tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID)) {
+                    val tileId = tag.substringAfter(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID).toInt()
+                    AbstractTileService.requestTileUpdate(context, tileId)
                 }
             }
         }
@@ -281,15 +284,23 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val retryIntent = Intent(context, BackgroundTasksManager::class.java)
                     .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
                     .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFO_LIST, retryInfoList)
-                val retryPendingIntent = PendingIntent.getBroadcast(context, 0,
-                    retryIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val retryPendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    retryIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+                )
                 nb.addAction(NotificationCompat.Action(R.drawable.ic_refresh_grey_24dp,
                     context.getString(R.string.retry), retryPendingIntent))
 
                 val clearIntent = Intent(context, BackgroundTasksManager::class.java)
                     .setAction(BackgroundTasksManager.ACTION_CLEAR_UPLOAD)
-                val clearPendingIntent = PendingIntent.getBroadcast(context, 0,
-                    clearIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val clearPendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    clearIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+                )
                 nb.addAction(NotificationCompat.Action(R.drawable.ic_clear_grey_24dp,
                     context.getString(R.string.ignore), clearPendingIntent))
             }
@@ -300,8 +311,12 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         private fun createBaseBuilder(context: Context, channelId: String): NotificationCompat.Builder {
             val notificationIntent = Intent(context, MainActivity::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            val contentIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0)
+            val contentIntent = PendingIntent.getActivity(
+                context,
+                0,
+                notificationIntent,
+                PendingIntent_Immutable
+            )
 
             return NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)

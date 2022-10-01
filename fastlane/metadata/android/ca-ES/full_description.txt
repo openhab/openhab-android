@@ -1,8 +1,8 @@
 openHAB - «potenciant la llar intel·ligent» - automatització de la llar amb codi obert i independent del proveïdor i de la tecnologia
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
-Try out new features and give early feedback!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+Les compilacions de F-Droid no tenen FCM ni informes d'error i per tant no poden rebre notificacions instantànies (push) d'openHAB Cloud. En comptes d'això, les notificacions es consulten regularment en aquestes compilacions.
+Proveu funcions noves i feu-ne comentaris abans!
+Podeu instal·lar la versió beta juntament amb la <a href="https://f-droid.org/packages/org.openhab.habdroid/">versió estable</a>.
 
 openHAB és una plataforma feta en Java per a l'automatització de la llar basada en codi obert, que integra i combina una gran varietat de sistemes i tecnologies per a la llar intel·ligent en una solució única.
 Per sobre de la capa unificada d'abstracció, tots els dispositius connectats són disponibles per al motor de regles generals d'automatització i diferents interfícies d'usuari.
@@ -10,7 +10,7 @@ Per sobre de la capa unificada d'abstracció, tots els dispositius connectats s�
 <b>Productes suportats</b>
 
 Més de 200 complements específics proporcionen suport per a diferents marques, dispositius, tecnologies i protocols de comunicació. Alguns exemples són Z-Wave, Philips Hue, Amazon Echo, Chromecast i Sonos. Descobriu tots els complements disponibles, i dispositius i funcions suportats a: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+L'aplicació inclou un connector (action) per a Tasker i Locale.
 
 <b>Comunitat de codi obert</b>
 
@@ -24,6 +24,6 @@ La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany
 
 <b>Nota important</b>
 
-You need an openHAB server for this app.
+Us cal un servidor openHAB per a aquesta aplicació.
 
 Política de privadesa: https://www.openhabfoundation.org/privacy.html

@@ -4,7 +4,7 @@
     <whatis>openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.</whatis>
     <rules>Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.</rules>
     <supported>Podporované produkty</supported>
-    <bindings>Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/</bindings>
+    <bindings>Více než 200 doplňků poskytuje podporu pro značky, zařízení, technologie a komunikační protokoly. Příkladem jsou Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/</bindings>
     <automation_apps>Aplikace obsahuje action plugin pro Tasker a Locale.</automation_apps>
 
     <oss_community>Open Source komunita</oss_community>
@@ -17,7 +17,7 @@
     <important_note>Důležitá poznámka</important_note>
     <oh_server>Pro tuto aplikaci potřebujete openHAB server.</oh_server>
     <short_description>Domácí automatizace pro IoT různých výrobců a technologií</short_description>
-    <fdroid>Sestavení pro F-Droid má odebráno FCM a reporty o chybách a nemůže přijímat push notifikace z openHAB Cloud. Namísto toho jsou oznámení získávána v pravidelných intervalech.</fdroid>
+    <fdroid>Sestavení F-Droid má FCM odstraněno, a proto nebude moci přijímat push oznámení z openHAB Cloudu. Namísto toho jsou oznámení získávána v pravidelných intervalech.</fdroid>
     <fdroid_beta><![CDATA[Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>

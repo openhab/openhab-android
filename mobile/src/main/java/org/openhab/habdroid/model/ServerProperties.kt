@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -19,10 +19,10 @@ import java.io.IOException
 import java.io.StringReader
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException
@@ -43,7 +43,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
     }
 
     fun hasWebViewUiInstalled(ui: WebViewUi): Boolean {
-        return flags and ui.serverFlag != 0
+        return if (ui.serverFlag == 0) true else flags and ui.serverFlag != 0
     }
 
     fun hasInvisibleWidgetSupport(): Boolean {
@@ -61,6 +61,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS = 1 shl 5
         const val SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON = 1 shl 6
         const val SERVER_FLAG_OH3_UI = 1 shl 7
+        const val SERVER_FLAG_TRANSPARENT_CHARTS = 1 shl 8
 
         class UpdateHandle internal constructor(internal val scope: CoroutineScope) {
             internal var job: Job? = null
@@ -124,6 +125,9 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             }
                             if (version >= 4) {
                                 flags = flags or SERVER_FLAG_OH3_UI
+                            }
+                            if (version >= 5) {
+                                flags = flags or SERVER_FLAG_TRANSPARENT_CHARTS
                             }
                         } catch (nfe: NumberFormatException) {
                             // ignored: older versions without SSE support didn't return a number

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -19,6 +19,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -104,11 +105,32 @@ class ItemTest {
     }
 
     @Test
+    fun getCommandOptions() {
+        val sut = itemWithCommandOptions.toItem()
+        assertEquals(LabeledValue("1", "One"), sut.options!!.component1())
+        assertEquals(LabeledValue("2", "Two"), sut.options!!.component2())
+    }
+
+    @Test
     fun getTags() {
         val sut = itemAsJsonObject.toItem()
-        assertEquals(2, sut.tags.size)
-        assertEquals(Item.Tag.Lighting, sut.tags[0])
-        assertEquals(Item.Tag.Switchable, sut.tags[1])
+        assertEquals(4, sut.tags.size)
+        assertEquals(Item.Tag.Light, sut.tags[0])
+        assertEquals(Item.Tag.Switch, sut.tags[1])
+        assertEquals(Item.Tag.Timestamp, sut.tags[2])
+        assertEquals(Item.Tag.Unknown, sut.tags[3])
+    }
+
+    @Test
+    fun getIcon() {
+        val sut = itemAsJsonObject.toItem()
+        assertEquals("switch", sut.category)
+    }
+
+    @Test
+    fun testNoLabel() {
+        val sut = itemAsJsonObjectWithoutLabel.toItem()
+        assertNull(sut.label)
     }
 
     @Test
@@ -138,6 +160,16 @@ class ItemTest {
         assertNotEquals(sut1a.hashCode(), sut2a.hashCode())
     }
 
+    @Test
+    fun tagsHaveLabel() {
+        val mustHaveLabel = listOf(Item.Tag.Location, Item.Tag.Equipment)
+        Item.Tag.values()
+            .filter { tag -> tag.parent in mustHaveLabel }
+            .forEach { tag ->
+                assertNotNull(tag.labelResId)
+            }
+    }
+
     companion object {
         private val itemAsJsonObjectWithMembers = JSONObject(
             """
@@ -147,7 +179,7 @@ class ItemTest {
             { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
               'label': 'Location 2', 'groupNames': [ 'LocationGroup' ] },
             ], 'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group',
-                'tags': [ "Lighting", "Switchable" ] }
+                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ] }
             """.trimIndent()
         )
         private val itemAsJsonObject = JSONObject(
@@ -156,7 +188,35 @@ class ItemTest {
                 'type': 'Group',
                 'name': 'LocationGroup',
                 'label': 'Location Group',
-                'tags': [ "Lighting", "Switchable" ] }
+                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ],
+                'category': 'Switch' }
+            """.trimIndent()
+        )
+        private val itemAsJsonObjectWithoutLabel = JSONObject(
+            """
+              { 'state': 'NULL',
+                'type': 'Group',
+                'name': 'LocationGroup' }
+            """.trimIndent()
+        )
+        private val itemWithCommandOptions = JSONObject(
+            """
+              { 'state': 'NULL',
+                'type': 'Number',
+                'name': 'Foo',
+                'commandDescription': {
+                  'commandOptions': [
+                    {
+                      'command': '1',
+                      'label': 'One'
+                    },
+                    {
+                      'command': '2',
+                      'label': 'Two'
+                    },
+                  ]
+                }
+              }
             """.trimIndent()
         )
     }

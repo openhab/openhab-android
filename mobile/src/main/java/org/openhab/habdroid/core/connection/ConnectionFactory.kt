@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -16,6 +16,7 @@ package org.openhab.habdroid.core.connection
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.NetworkCapabilities
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
@@ -25,7 +26,7 @@ import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
-import java.util.HashSet
+import java.util.concurrent.CancellationException
 import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.KeyManager
 import javax.net.ssl.SSLContext
@@ -34,20 +35,21 @@ import javax.net.ssl.X509KeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.connection.exception.ConnectionException
-import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
-import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
+import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
@@ -176,7 +178,7 @@ class ConnectionFactory internal constructor(
         if (key == PrefKeys.DEBUG_MESSAGES) {
             updateHttpLoggerSettings()
         }
-        val serverId = sharedPreferences.getActiveServerId()
+        val serverId = prefs.getActiveServerId()
         if (key in UPDATE_TRIGGERING_KEYS ||
             CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
         ) {
@@ -220,14 +222,9 @@ class ConnectionFactory internal constructor(
     }
 
     private fun loadServerConnections(serverId: Int): ServerConnections? {
-        val config = ServerConfiguration.load(prefs, secretPrefs, serverId)
-        if (config == null) {
-            return null
-        }
-        val local =
-            config.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
-        val remote =
-            config.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
+        val config = ServerConfiguration.load(prefs, secretPrefs, serverId) ?: return null
+        val local = config.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
+        val remote = config.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
         return ServerConnections(local, remote)
     }
 
@@ -286,7 +283,8 @@ class ConnectionFactory internal constructor(
     ) {
         val prevState = stateChannel.value
         val newState = StateHolder(primary, active, primaryCloud, activeCloud)
-        stateChannel.offer(newState)
+        stateChannel.trySend(newState)
+            .onClosed { throw it ?: ClosedSendChannelException("Channel was closed normally") }
         if (callListenersOnChange) launch {
             if (newState.active?.failureReason != null ||
                 prevState.active?.connection !== newState.active?.connection
@@ -375,6 +373,8 @@ class ConnectionFactory internal constructor(
                     active?.remote?.toCloudConnection()
                 }
                 updateActiveCloud(CloudConnectionResult(result, null))
+            } catch (e: CancellationException) {
+                // ignored
             } catch (e: Exception) {
                 updateActiveCloud(CloudConnectionResult(null, e))
             }
@@ -387,6 +387,8 @@ class ConnectionFactory internal constructor(
                         primary?.remote?.toCloudConnection()
                     }
                     updateState(true, primaryCloud = CloudConnectionResult(result, null))
+                } catch (e: CancellationException) {
+                    // ignored
                 } catch (e: Exception) {
                     updateState(true, primaryCloud = CloudConnectionResult(null, e))
                 }
@@ -411,7 +413,9 @@ class ConnectionFactory internal constructor(
             throw NetworkNotAvailableException()
         }
 
-        if (local != null) {
+        var hasWrongWifi = false
+
+        if (local != null && local is DefaultConnection) {
             val localCandidates = available
                 .filter { type ->
                     type is ConnectionManagerHelper.ConnectionType.Wifi ||
@@ -420,9 +424,16 @@ class ConnectionFactory internal constructor(
                         type is ConnectionManagerHelper.ConnectionType.Vpn
                 }
             for (type in localCandidates) {
-                if (local is DefaultConnection && local.isReachableViaNetwork(type.network)) {
+                if (type is ConnectionManagerHelper.ConnectionType.Wifi && !serverMayUseWifi()) {
+                    Log.d(TAG, "Don't use current Wi-Fi because server is restricted to other Wi-Fis")
+                    hasWrongWifi = true
+                    continue
+                }
+
+                if (local.isReachableViaNetwork(type.network)) {
                     Log.d(TAG, "Connecting to local URL via $type")
                     local.network = type.network
+                    local.isMetered = !type.caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
                     return local
                 }
             }
@@ -435,10 +446,34 @@ class ConnectionFactory internal constructor(
         if (remote != null) {
             // If local URL is not reachable or not configured, use remote URL
             Log.d(TAG, "Connecting to remote URL")
+            if (remote is DefaultConnection) {
+                remote.isMetered = available.any { type ->
+                    !type.caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                }
+            }
             return remote
         }
 
-        throw NoUrlInformationException(true)
+        throw if (hasWrongWifi) WrongWifiException() else NoUrlInformationException(true)
+    }
+
+    private fun serverMayUseWifi(): Boolean {
+        val activeServerId = prefs.getActiveServerId()
+        val serverPrefs = ServerConfiguration.load(prefs, secretPrefs, activeServerId) ?: return true
+
+        if (!serverPrefs.restrictToWifiSsids) {
+            Log.d(TAG, "Server ${serverPrefs.name} isn't restricted to Wi-Fis")
+            return true
+        }
+
+        val currentSsid = context.getCurrentWifiSsid(OpenHabApplication.DATA_ACCESS_TAG_SELECT_SERVER_WIFI)
+
+        if (currentSsid.isNullOrEmpty()) {
+            Log.d(TAG, "Got SSID '$currentSsid'. Assume missing permissions.")
+            return false
+        }
+
+        return serverPrefs.wifiSsids?.contains(currentSsid) == true
     }
 
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
@@ -505,10 +540,15 @@ class ConnectionFactory internal constructor(
             PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID, PrefKeys.PRIMARY_SERVER_ID
         )
         private val UPDATE_TRIGGERING_PREFIXES = listOf(
-            PrefKeys.LOCAL_URL_PREFIX, PrefKeys.REMOTE_URL_PREFIX,
-            PrefKeys.LOCAL_USERNAME_PREFIX, PrefKeys.LOCAL_PASSWORD_PREFIX,
-            PrefKeys.REMOTE_USERNAME_PREFIX, PrefKeys.REMOTE_PASSWORD_PREFIX,
-            PrefKeys.SSL_CLIENT_CERT_PREFIX
+            PrefKeys.LOCAL_URL_PREFIX,
+            PrefKeys.REMOTE_URL_PREFIX,
+            PrefKeys.LOCAL_USERNAME_PREFIX,
+            PrefKeys.LOCAL_PASSWORD_PREFIX,
+            PrefKeys.REMOTE_USERNAME_PREFIX,
+            PrefKeys.REMOTE_PASSWORD_PREFIX,
+            PrefKeys.SSL_CLIENT_CERT_PREFIX,
+            PrefKeys.WIFI_SSID_PREFIX,
+            PrefKeys.RESTRICT_TO_SSID_PREFIX
         )
         private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)
 
@@ -567,14 +607,14 @@ class ConnectionFactory internal constructor(
         val activeUsableConnection get() = instance.stateChannel.value.active
 
         /**
-         * Returns the configured local connection for the active server, or null if none is configured
+         * Returns whether the active server has a configured local connection
          */
-        val activeLocalConnection get() = instance.activeConn?.local
+        val hasActiveLocalConnection get() = instance.activeConn?.local != null
 
         /**
-         * Returns the configured remote connection for the active server, or null if none is configured
+         * Returns whether the active server has a configured remote connection
          */
-        val activeRemoteConnection get() = instance.activeConn?.remote
+        val hasActiveRemoteConnection get() = instance.activeConn?.remote != null
 
         /**
          * Like {@link activeUsableConnection}, but for the primary instead of active server.
@@ -582,14 +622,14 @@ class ConnectionFactory internal constructor(
         val primaryUsableConnection get() = instance.stateChannel.value.primary
 
         /**
-         * Returns the configured local connection for the primary server, or null if none is configured
+         * Like {@link hasActiveLocalConnection}, but for the primary instead of active server.
          */
-        val primaryLocalConnection get() = instance.primaryConn?.local
+        val hasPrimaryLocalConnection get() = instance.primaryConn?.local != null
 
         /**
-         * Returns the configured remote connection for the primary server, or null if none is configured
+         * Like {@link hasActiveRemoteConnection}, but for the primary instead of active server.
          */
-        val primaryRemoteConnection get() = instance.primaryConn?.remote
+        val hasPrimaryRemoteConnection get() = instance.primaryConn?.remote != null
 
         /**
          * Returns the resolved cloud connection for the active server.

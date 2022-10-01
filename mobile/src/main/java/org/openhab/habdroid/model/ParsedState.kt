@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -20,7 +20,7 @@ import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.math.roundToInt
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
@@ -70,13 +70,18 @@ data class ParsedState internal constructor(
                 "ON" -> NumberState(100F)
                 "OFF" -> NumberState(0F)
                 else -> {
-                    val spacePos = state.indexOf(' ')
-                    val number = if (spacePos >= 0) state.substring(0, spacePos) else state
-                    val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
-                    return try {
-                        NumberState(number.toFloat(), unit, format)
-                    } catch (e: NumberFormatException) {
-                        null
+                    val brightness = parseAsBrightness(state)
+                    if (brightness != null) {
+                        NumberState(brightness.toFloat())
+                    } else {
+                        val spacePos = state.indexOf(' ')
+                        val number = if (spacePos >= 0) state.substring(0, spacePos) else state
+                        val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
+                        return try {
+                            NumberState(number.toFloat(), unit, format)
+                        } catch (e: NumberFormatException) {
+                            null
+                        }
                     }
                 }
             }

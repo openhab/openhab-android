@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Registréierung vum Gerät ass am gaangen</string>
-    <string name="info_openhab_gcm_failed">Registréierung vun der Push-Notifikatioun ass net gaangen</string>
-    <string name="info_openhab_gcm_failed_play_services">Registréierung vum Gerät ass feelgeschloe wéinst engem Google Play Services Problem: %s</string>
-    <string name="info_openhab_gcm_connected">Gerät ass bei Firebase Cloud Messaging ugemellt ginn</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">Registréierung vun de Notifikatiounen ass am gaangen</string>
+    <string name="info_openhab_gcm_failed">Registréierung vun de Notifikatiounen ass net gaangen</string>
+    <string name="info_openhab_gcm_failed_play_services">Registréierung vun de Notifikatiounen ass feelgeschloe wéinst engem Google Play Services Problem: %s</string>
+    <string name="info_openhab_gcm_connected">Registréierung vun de Notifikatioun ass erfollegräich ofgeschloss</string>
     <string name="open_in_maps">An Google Maps op maachen</string>
+    <string name="beta">Beta</string>
 </resources>

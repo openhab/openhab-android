@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -13,62 +13,58 @@
 
 package org.openhab.habdroid.ui
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Build
-import android.os.Message
 import android.view.View
 import android.webkit.WebChromeClient
+import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import android.widget.ImageView
 import android.widget.RemoteViews
-import androidx.annotation.AttrRes
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.HttpUrl
+import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.util.isResolvable
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.resolveThemedColor
 
 /**
- * Sets [SwipeRefreshLayout] color scheme from
- * a list of attributes pointing to color resources
- *
- * @param colorAttrIds color attributes to create color scheme from
+ * Sets [SwipeRefreshLayout] color scheme according to colorPrimary and colorAccent
  */
-fun SwipeRefreshLayout.applyColors(@AttrRes vararg colorAttrIds: Int) {
-    val colors = colorAttrIds.map { attr -> context.resolveThemedColor(attr) }.toIntArray()
+fun SwipeRefreshLayout.applyColors() {
+    val colors = listOf(R.attr.colorPrimary, R.attr.colorAccent)
+        .map { attr -> context.resolveThemedColor(attr) }
+        .toIntArray()
     setColorSchemeColors(*colors)
 }
 
-fun WebView.setUpForConnection(connection: Connection, url: HttpUrl, progressCallback: (progress: Int) -> Unit) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+fun WebView.setUpForConnection(
+    connection: Connection,
+    url: HttpUrl,
+    avoidAuthentication: Boolean = false,
+    progressCallback: (progress: Int) -> Unit
+) {
+    if (!avoidAuthentication && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val webViewDatabase = WebViewDatabase.getInstance(context)
         webViewDatabase.setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
-    } else {
+    } else if (!avoidAuthentication) {
         @Suppress("DEPRECATION")
         setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
     }
 
     with(settings) {
         domStorageEnabled = true
+        @SuppressLint("SetJavaScriptEnabled")
         javaScriptEnabled = true
-        setSupportMultipleWindows(true)
+        mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
     }
 
     webViewClient = ConnectionWebViewClient(connection)
     webChromeClient = object : WebChromeClient() {
-        override fun onCreateWindow(view: WebView, dialog: Boolean, userGesture: Boolean, resultMsg: Message): Boolean {
-            val href = view.handler.obtainMessage()
-            view.requestFocusNodeHref(href)
-            href.data.getString("url")?.toUri().openInBrowser(view.context)
-            return false
-        }
-
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             progressCallback(newProgress)
         }
@@ -76,14 +72,12 @@ fun WebView.setUpForConnection(connection: Connection, url: HttpUrl, progressCal
 }
 
 fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {
-    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
     val contentDescription = context.getString(contentDescriptionRes)
-    if (intent.isResolvable(context)) {
-        setOnClickListener { context.startActivity(intent) }
-        this.contentDescription = contentDescription
-        TooltipCompat.setTooltipText(this, contentDescription)
-    } else {
-        isVisible = false
+    this.contentDescription = contentDescription
+    TooltipCompat.setTooltipText(this, contentDescription)
+
+    setOnClickListener {
+        url.toUri().openInBrowser(context)
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -17,52 +17,45 @@ import android.content.Context
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
 import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
+import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
-import androidx.work.Worker
 import androidx.work.WorkerParameters
-import java.io.IOException
-import java.io.StringReader
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.runBlocking
-import org.json.JSONException
-import org.json.JSONObject
+import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver.Companion.NOTIFICATION_ID_BACKGROUND_WORK_RUNNING
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.TaskerPlugin
-import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefixForVoice
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.hasCause
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.showToast
-import org.xml.sax.InputSource
-import org.xml.sax.SAXException
 
-class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    override fun doWork(): Result {
-        if (inputData.getBoolean(INPUT_DATA_IS_IMPORTANT, false)) {
-            setForegroundAsync(createForegroundInfo())
+class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
+        val isImportant = inputData.getBoolean(INPUT_DATA_IS_IMPORTANT, false)
+        if (isImportant) {
+            setForegroundAsync(getForegroundInfo())
         }
-        runBlocking {
-            ConnectionFactory.waitForInitialization()
-        }
+        ConnectionFactory.waitForInitialization()
 
         Log.d(TAG, "Trying to get connection")
         val connection = if (inputData.getBoolean(INPUT_DATA_PRIMARY_SERVER, false)) {
@@ -76,20 +69,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         if (connection == null) {
             Log.e(TAG, "Got no connection")
-            return if (runAttemptCount <= MAX_RETRIES) {
-                if (showToast) {
-                    applicationContext.showToast(R.string.item_update_error_no_connection_retry, ToastType.ERROR)
-                }
-                Result.retry()
-            } else {
-                sendTaskerSignalIfNeeded(
-                    taskerIntent,
-                    false,
-                    500,
-                    applicationContext.getString(R.string.item_update_error_no_connection)
-                )
-                Result.failure(buildOutputData(false, 500))
-            }
+            return retryOrFail(isImportant, showToast, taskerIntent, false, 500)
         }
 
         val itemName = inputData.getString(INPUT_DATA_ITEM_NAME)!!
@@ -99,54 +79,54 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             return handleVoiceCommand(applicationContext, connection, value)
         }
 
-        return runBlocking {
-            try {
-                val item = loadItem(connection, itemName)
-                if (item == null) {
-                    sendTaskerSignalIfNeeded(
-                        taskerIntent,
-                        true,
-                        500,
-                        applicationContext.getString(R.string.item_update_error_couldnt_get_item_type)
-                    )
-                    return@runBlocking Result.failure(buildOutputData(true, 500))
-                }
+        return try {
+            val item = ItemClient.loadItem(connection, itemName)
+            if (item == null) {
+                sendTaskerSignalIfNeeded(
+                    taskerIntent,
+                    true,
+                    500,
+                    applicationContext.getString(R.string.item_update_error_couldnt_get_item_type)
+                )
+                return Result.failure(buildOutputData(true, 500))
+            }
 
-                val valueToBeSent = mapValueAccordingToItemTypeAndValue(value, item)
-                Log.d(TAG, "Trying to update Item '$itemName' to value $valueToBeSent, was ${value.value}")
-                val actualMappedValue = if (value.value != valueToBeSent) {
-                    valueToBeSent
-                } else {
-                    value.mappedValue.orDefaultIfEmpty(value.value)
-                }
+            val valueToBeSent = mapValueAccordingToItemTypeAndValue(value, item)
+            Log.d(TAG, "Trying to update Item '$itemName' to value $valueToBeSent, was ${value.value}")
+            val actualMappedValue = if (value.value != valueToBeSent) {
+                valueToBeSent
+            } else {
+                value.mappedValue.orDefaultIfEmpty(value.value)
+            }
 
-                val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false) && valueToBeSent != "UNDEF") {
-                    connection.httpClient
-                        .post("rest/items/$itemName", valueToBeSent)
-                        .asStatus()
-                } else {
-                    connection.httpClient
-                        .put("rest/items/$itemName/state", valueToBeSent)
-                        .asStatus()
-                }
-                Log.d(TAG, "Item '$itemName' successfully updated to value $valueToBeSent")
-                if (showToast) {
-                    val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
-                    applicationContext.showToast(
-                        getItemUpdateSuccessMessage(applicationContext, label, valueToBeSent, actualMappedValue),
-                        ToastType.SUCCESS
-                    )
-                }
-                sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
-                Result.success(buildOutputData(true, result.statusCode, valueToBeSent))
-            } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
-                if (e.hasCause(SocketTimeoutException::class.java) || e.statusCode in RETRY_HTTP_ERROR_CODES) {
-                    Result.retry()
-                } else {
-                    sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
-                    Result.failure(buildOutputData(true, e.statusCode))
-                }
+            val result = if (inputData.getBoolean(INPUT_DATA_AS_COMMAND, false) && valueToBeSent != "UNDEF") {
+                connection.httpClient
+                    .post("rest/items/$itemName", valueToBeSent)
+                    .asStatus()
+            } else {
+                connection.httpClient
+                    .put("rest/items/$itemName/state", valueToBeSent)
+                    .asStatus()
+            }
+            Log.d(TAG, "Item '$itemName' successfully updated to value $valueToBeSent")
+            if (showToast) {
+                val label = inputData.getString(INPUT_DATA_LABEL).orDefaultIfEmpty(itemName)
+                applicationContext.showToast(
+                    getItemUpdateSuccessMessage(applicationContext, label, valueToBeSent, actualMappedValue)
+                )
+            }
+            sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
+            BackgroundTasksManager.getLastUpdateCache(applicationContext).edit {
+                putString(itemName, value.value)
+            }
+            Result.success(buildOutputData(true, result.statusCode, valueToBeSent))
+        } catch (e: HttpClient.HttpException) {
+            Log.e(TAG, "Error updating item '$itemName' to '$value'. Got HTTP error ${e.statusCode}", e)
+            if (e.hasCause(SocketTimeoutException::class.java) || e.statusCode in RETRY_HTTP_ERROR_CODES) {
+                retryOrFail(isImportant, showToast, taskerIntent, true, e.statusCode)
+            } else {
+                sendTaskerSignalIfNeeded(taskerIntent, true, e.statusCode, e.localizedMessage)
+                Result.failure(buildOutputData(true, e.statusCode))
             }
         }
     }
@@ -181,18 +161,42 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         return formatter.format(value.value.toLong())
     }
 
+    private fun retryOrFail(
+        isImportant: Boolean,
+        showToast: Boolean,
+        taskerIntent: String?,
+        hasConnection: Boolean,
+        httpCode: Int
+    ): Result {
+        return if (runAttemptCount <= if (isImportant) 3 else 10) {
+            if (showToast) {
+                applicationContext.showToast(R.string.item_update_error_no_connection_retry, Toast.LENGTH_LONG)
+            }
+            Result.retry()
+        } else {
+            val message = if (hasConnection) {
+                applicationContext.getHumanReadableErrorMessage("", httpCode, null, true)
+            } else {
+                applicationContext.getString(R.string.item_update_error_no_connection)
+            }
+
+            sendTaskerSignalIfNeeded(taskerIntent, hasConnection, httpCode, message)
+            Result.failure(buildOutputData(hasConnection, httpCode))
+        }
+    }
+
     private fun sendTaskerSignalIfNeeded(
         taskerIntent: String?,
-        hadConnection: Boolean,
+        hasConnection: Boolean,
         httpCode: Int,
-        errorMessage: String?
+        errorMessage: CharSequence?
     ) {
         if (taskerIntent == null) {
             return
         }
         val resultCode = when {
             errorMessage == null -> TaskerPlugin.Setting.RESULT_CODE_OK
-            hadConnection -> TaskerItemPickerActivity.getResultCodeForHttpFailure(httpCode)
+            hasConnection -> TaskerItemPickerActivity.getResultCodeForHttpFailure(httpCode)
             else -> TaskerItemPickerActivity.RESULT_CODE_NO_CONNECTION
         }
         Log.d(TAG, "Tasker result code: $resultCode, HTTP code: $httpCode")
@@ -207,40 +211,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         )
     }
 
-    private suspend fun loadItem(connection: Connection, itemName: String): Item? {
-        val response = connection.httpClient.get("rest/items/$itemName")
-        val contentType = response.response.contentType()
-        val content = response.asText().response
-
-        if (contentType?.type == "application" && contentType.subtype == "json") {
-            // JSON
-            return try {
-                JSONObject(content).toItem()
-            } catch (e: JSONException) {
-                Log.e(TAG, "Failed parsing JSON result for item $itemName", e)
-                null
-            }
-        } else {
-            // XML
-            return try {
-                val dbf = DocumentBuilderFactory.newInstance()
-                val builder = dbf.newDocumentBuilder()
-                val document = builder.parse(InputSource(StringReader(content)))
-                document.toItem()
-            } catch (e: ParserConfigurationException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            } catch (e: SAXException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            } catch (e: IOException) {
-                Log.e(TAG, "Failed parsing XML result for item $itemName", e)
-                null
-            }
-        }
-    }
-
     private fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {
+        Log.d(TAG, "handleVoiceCommand(value = $value")
         val headers = mapOf("Accept-Language" to Locale.getDefault().language)
         var voiceCommand = value.value
         context.getPrefs().getPrefixForVoice()?.let { prefix ->
@@ -248,12 +220,14 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             Log.d(TAG, "Prefix voice command: $voiceCommand")
         }
         val result = try {
+            Log.d(TAG, "Try to send update to voice interpreters endpoint")
             runBlocking {
                 connection.httpClient
                     .post("rest/voice/interpreters", voiceCommand, headers = headers)
                     .asStatus()
             }
         } catch (e: HttpClient.HttpException) {
+            Log.d(TAG, "Error sending update to voice interpreters endpoint", e)
             if (e.statusCode == 404) {
                 try {
                     Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
@@ -263,20 +237,19 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
                             .asStatus()
                     }
                 } catch (e: HttpClient.HttpException) {
+                    Log.d(TAG, "Error sending update to voice item", e)
                     return Result.failure(buildOutputData(true, e.statusCode))
                 }
             } else {
                 return Result.failure(buildOutputData(true, e.statusCode))
             }
         }
-        applicationContext.showToast(
-            applicationContext.getString(R.string.info_voice_recognized_text, value.value),
-            ToastType.SUCCESS
-        )
+        applicationContext.showToast(applicationContext.getString(R.string.info_voice_recognized_text, value.value))
+        Log.d(TAG, "Successfully sent update to voice endpoint or item")
         return Result.success(buildOutputData(true, result.statusCode, voiceCommand))
     }
 
-    private fun createForegroundInfo(): ForegroundInfo {
+    override suspend fun getForegroundInfo(): ForegroundInfo {
         val context = applicationContext
         val title = context.getString(R.string.item_upload_in_progress)
         val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
@@ -340,7 +313,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     companion object {
         private val TAG = ItemUpdateWorker::class.java.simpleName
-        private const val MAX_RETRIES = 10
         private val RETRY_HTTP_ERROR_CODES = listOf(408, 425, 502, 503, 504)
 
         private const val INPUT_DATA_ITEM_NAME = "item"
@@ -422,7 +394,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
     data class ValueWithInfo(
         val value: String,
         val mappedValue: String? = null,
-        val type: ValueType = ValueType.Raw
+        val type: ValueType = ValueType.Raw,
+        val debugInfo: String? = null
     ) : Parcelable
 }
 

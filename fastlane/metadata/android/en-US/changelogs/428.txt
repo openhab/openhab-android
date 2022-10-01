@@ -1,0 +1,6 @@
+## Changed
+* Don't fallback to Item name as label (#2917) 
+* Use server name as structure in item control (#2919) 
+
+## Fixed
+* Make sending bluetooth device addresses event based (#2918) 

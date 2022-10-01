@@ -1,0 +1,6 @@
+## Added
+* Allow multiple SSIDs in WifiSsidInputPreference 
+
+## Changed
+* Use transparent chart theme if available 
+* Show state in selection even if unmapped 

@@ -1,0 +1,9 @@
+## Added
+* Add ACRA crash reporting in FOSS (#2437)
+
+## Fixed
+* Don't hide auto generated widget label (#2469) 
+* Always show full chart scalling summary (#2460)
+* Catch "Exceeded maximum number of wifi locks" during discovery (#2464)
+* Fix IllegalArgumentException when adding shortcut (#2467) 
+* Hide slider ticks on color items (#2468)

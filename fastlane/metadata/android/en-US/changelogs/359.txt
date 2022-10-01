@@ -1,0 +1,10 @@
+## Changed
+* Reduce retry count for important work (#2377)
+* Hide slider tick marks if there are many possible values (#2434)
+* Improve home screen widgets without label (#2396)
+
+## Fixed
+* Respect image scalling preference on image items with state (#2400)
+* Improve beta pref background when disabled (#2421)
+* Scale fallback image like progress image (#2414) 
+* Hide widget divider for invisible widgets (#2381)

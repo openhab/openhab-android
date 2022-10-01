@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -26,6 +26,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
@@ -38,19 +39,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.toItem
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.map
 
 abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
@@ -92,7 +90,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
         swipeLayout = findViewById(R.id.swipe_refresh)
         swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+        swipeLayout.applyColors()
 
         recyclerView = findViewById(android.R.id.list)
         emptyView = findViewById(android.R.id.empty)
@@ -120,6 +118,19 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 inflate()
             }
         }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!searchView.isIconified) {
+                    searchView.isIconified = true
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     override fun onResume() {
@@ -149,18 +160,10 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onOptionsItemSelected()")
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        if (!searchView.isIconified) {
-            searchView.isIconified = true
-        } else {
-            super.onBackPressed()
-        }
     }
 
     override fun onItemClicked(item: Item) {
@@ -260,10 +263,13 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             }
 
             try {
-                val result = connection.httpClient.get("rest/items").asText()
-                var items = JSONArray(result.response)
-                    .map { obj -> obj.toItem() }
-                    .filterNot { item -> item.readOnly }
+                var items = ItemClient.loadItems(connection)
+                if (items == null) {
+                    updateViewVisibility(loading = false, loadError = true, showHint = false)
+                    Log.e(TAG, "Item request failure")
+                    return@launch
+                }
+                items = items.filterNot { item -> item.readOnly }
 
                 if (forItemCommandOnly) {
                     // Contact Items cannot receive commands
@@ -276,9 +282,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                 if (searchView.query.isNotEmpty()) {
                     itemPickerAdapter.filter(searchView.query.toString())
                 }
-            } catch (e: JSONException) {
-                Log.d(TAG, "Item response could not be parsed", e)
-                updateViewVisibility(loading = false, loadError = true, showHint = false)
             } catch (e: HttpClient.HttpException) {
                 updateViewVisibility(loading = false, loadError = true, showHint = false)
                 Log.e(TAG, "Item request failure", e)
@@ -286,7 +289,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
     }
 
-    protected abstract fun finish(item: Item, state: String, mappedState: String = state, tag: Any? = null)
+    protected abstract fun finish(item: Item, state: String?, mappedState: String? = state, tag: Any? = null)
 
     private fun handleInitialHighlight() {
         val highlightItem = initialHighlightItemName
@@ -319,7 +322,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         retryButton.isVisible = loadError || showHint
     }
 
-    data class CommandEntry(val command: String, val label: String, val tag: Any? = null)
+    data class CommandEntry(val command: String?, val label: String, val tag: Any? = null)
 
     companion object {
         private const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"

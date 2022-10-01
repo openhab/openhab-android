@@ -1,0 +1,16 @@
+## Added
+* Add Tasker error code example to docs (#2311)
+* Add long press action to copy item name (#2171)
+
+## Changed
+* Improve notification status strings (#2330)
+
+## Fixed
+* Fix issue with openHAB 3 (#2329)
+* Fix push notification status if remote server isn't a cloud server (#2325)
+* Allow clearing url in prefs (#2324)
+* Allow empty strings as tile state (#2310)
+* Make sure that tile subtitle is updated (#2308)
+* Update server name after changed based on SSID (#2307)
+* Increase server selector hitbox (#2306)
+* Make sure tile preferences is always closed after saving (#2309)

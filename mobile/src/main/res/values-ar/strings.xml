@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">إعدادات</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">إعدادات</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">إشعارات</string>
     <string name="habpanel_error">حدث خطأ أثناء تحميل HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">حدد Sitemap الافتراضي</string>
@@ -26,8 +24,6 @@
     <string name="settings_openhab_password_summary_strong">تعيين رمز مرور قوي</string>
     <string name="settings_openhab_sslclientcert">شهادة SSL العميل</string>
     <string name="settings_openhab_sslclientcert_howto_summary">اضغط هنا للحصول على بعض التلميحات والتوضيحات حول كيفية إعداد مصادقة شهادة عميل SSL</string>
-    <string name="settings_openhab_screentimeroff">تعطيل عرض المؤقت</string>
-    <string name="settings_openhab_screentimeroff_summary">تعطيل عرض إيقاف المؤقت عند تشغيل openHAB</string>
     <string name="settings_openhab_demomode">الوضع التجريبي</string>
     <string name="settings_openhab_demomode_summary">إذا لم يكن لديك ملقم openHAB، فعل وضع العرض التجريبي لتصور أمكانيات وقدرات openHAB.</string>
     <string name="settings_openhab_theme">السمة</string>
@@ -45,6 +41,7 @@
     <string name="settings_openhab_chart_hq_summary">تكوين النماذج قد يؤثر على الخادم. إذا واجهت بطئا في تحميل النماذج عدة مرات وخادمك ليس قويا، عطل هذه الخاصية لتحسين مدة التحميل.</string>
     <string name="settings_clear_default_sitemap">تصفية Sitemap الإفتراضية</string>
     <string name="settings_no_default_sitemap">لا توجد Sitemap إفتراضية محددة</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Sitemap الافتراضية الحالية: %1$s</string>
     <string name="settings_openhab_alt_connection">بعيد</string>
     <string name="settings_openhab_connection">محلي</string>
@@ -54,8 +51,7 @@
     <string name="settings_notification_vibration_long">طويل</string>
     <string name="settings_notification_vibration_twice">مرتين</string>
     <string name="settings_connection_summary">متصل بـ %s</string>
-    <string name="settings_insecure_connection_summary">أتصال غير آمن بـ %s</string>
-    <string name="beta">إصدار تجريبي</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">قفل الشاشة</string>
     <string name="settings_screen_lock_nolock_summary">انت بحاجة لتفعيل قفل الشاشة لتتمكن من تفعيل قفل الوصول لى التطبيق</string>
     <string name="settings_screen_lock_off_summary">لم يتم قفل الوصول الى التطبيق</string>
@@ -79,10 +75,12 @@
     <string name="app_shortcut_disabled_habpanel">لا يتوفر HABPanel مثبت على خادمك</string>
     <string name="app_shortcut_disabled_notifications">المخدم البعيد غير متوفر</string>
     <string name="app_shortcut_disabled_voice_recognition">تطبيق التعرف على الصوت غير مثبت في جهازك</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB يُرجع قائمة sitemap خالية</string>
     <string name="error_network_not_available">شبكة غير متاحة</string>
     <string name="error_wifi_not_available">تم ايقاف الواي فاي</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">الرجاء إدخال محدد موقع معلومات صالح في \'http(s)://host(:port)/\' النموذج</string>
     <string name="error_port_seems_invalid">يبدو أن المنفذ الذي أدخلته غير مناسب للبروتوكل المحدد</string>
     <string name="error_connection_failed">فشل الإتصال بالمضيف</string>
@@ -117,10 +115,13 @@
     <string name="empty_page">هذه الصفحة لا تحتوي على أي من القطع التي تم تعيينها لتكون مرئية</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">إرسال معلومات الجهاز إلى الخادم</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_wifi_ssid">اسم الشبكة اللاسلكية</string>
     <string name="settings_wifi_ssid_permission_denied">لم يتم إرسال اسم الشبكة اللاسلكية لعدم وجود الصلاحيات</string>
-    <string name="settings_background_tasks_permission_denied">تم تعطيل بعض مهام الخلفية لعدم توفر الصلاحيات</string>
     <string name="settings_background_tasks_permission_allow">السماح</string>
+    <string name="notification_channel_messages_default_severity">افتراضي</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <string name="retry">اعد المحاولة</string>
@@ -156,8 +157,6 @@
     <string name="nfc_activate">تفعيل</string>
     <string name="nfc_action_current_color">اللون الحالي</string>
     <!-- Drawer -->
-    <string name="drawer_open">درج Sitemap مفتوح</string>
-    <string name="drawer_close">درج Sitemap مغلق</string>
     <string name="mainmenu_openhab_voice_recognition">تمييز الصوت</string>
     <!-- About -->
     <string name="about_title">حول</string>
@@ -204,7 +203,6 @@
     <string name="intro_welcome">مرحبا في openHAB</string>
     <string name="intro_whatis">مهما تكن التكنلوجيا والمزود برنامج أتمتة مفتوح المصدر لأجل منزلك</string>
     <string name="intro_voice_description">تحكم ببيتك بصوتك</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">يمكن ربط عنصر التحكم إلى علامات NFC عن طريق الضغط على العنصر</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">تخطي</string>
@@ -217,9 +215,13 @@
     <string name="search">بحث</string>
     <string name="turn_on">تشغيل</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
+    <string name="widget_type_video">فيديو</string>
     <!-- Tiles -->
+    <string name="tile_enable">تشغيل</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

@@ -1,0 +1,2 @@
+## Fixed
+* Ignore canceled cloud checks (#2361)
