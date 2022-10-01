@@ -98,7 +98,14 @@ Example item definition:
 DateTime AlarmClock "Alarm Clock [%s]" <time>
 ```
 
-Rule template: [https://community.openhab.org/t/alarm-clock-rule/127194](https://community.openhab.org/t/alarm-clock-rule/127194)
+```java
+rule "Alarm Clock"
+when
+    Time is AlarmClock
+then
+    // Turn on stuff, e.g. radio or light
+end
+```
 
 ##### Limitations
 
