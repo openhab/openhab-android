@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -25,12 +25,10 @@ import javax.xml.parsers.ParserConfigurationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import okhttp3.Headers
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import okhttp3.Response
-import okhttp3.sse.EventSource
-import okhttp3.sse.EventSourceListener
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
@@ -110,6 +108,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION") // TODO: Replace deprecated function
         retainInstance = true
     }
 
@@ -203,7 +202,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         private val scope: CoroutineScope,
         private val url: String,
         connection: Connection,
-        internal var callback: ParentCallback
+        var callback: ParentCallback
     ) {
         private var httpClient: HttpClient = connection.httpClient
         private var requestJob: Job? = null
@@ -253,7 +252,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        internal fun load() {
+        fun load() {
             if (eventHelper != null && longPolling) {
                 // We update via events
                 return
@@ -297,7 +296,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         }
 
         private fun handleResponse(response: String, headers: Headers) {
-            val id = headers.get("X-Atmosphere-tracking-id")
+            val id = headers["X-Atmosphere-tracking-id"]
             if (id != null) {
                 atmosphereTrackingId = id
             }
@@ -380,7 +379,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        internal fun handleUpdateEvent(pageId: String, payload: String) {
+        fun handleUpdateEvent(pageId: String, payload: String) {
             try {
                 val jsonObject = JSONObject(payload)
 
@@ -456,11 +455,10 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             private val pageId: String,
             private val updateCb: (pageId: String, message: String) -> Unit,
             private val failureCb: (sseUnsupported: Boolean) -> Unit
-        ) : EventSourceListener() {
+        ) {
             private var subscribeJob: Job? = null
-            private var eventStream: EventSource? = null
 
-            internal fun connect() {
+            fun connect() {
                 shutdown()
 
                 subscribeJob = scope.launch {
@@ -479,7 +477,22 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                                 .addQueryParameter("sitemap", sitemap)
                                 .addQueryParameter("pageid", pageId)
                                 .build()
-                            eventStream = client.makeSse(u, this@EventHelper)
+                            val subscription = client.makeSse(u)
+                            try {
+                                while (isActive) {
+                                    val data = subscription.getNextEvent()
+                                    updateCb(pageId, data)
+                                }
+                            } catch (e: HttpClient.SseFailureException) {
+                                if (isActive) {
+                                    val statusCode = e.response?.code ?: 0
+                                    val cause = e.cause?.message
+                                    Log.w(TAG, "SSE stream failed for page $pageId with status $statusCode: $cause")
+                                    failureCb(false)
+                                }
+                            } finally {
+                                subscription.cancel()
+                            }
                         }
                     } catch (e: JSONException) {
                         Log.w(TAG, "Failed parsing SSE subscription", e)
@@ -495,30 +508,9 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                 }
             }
 
-            internal fun shutdown() {
-                eventStream?.cancel()
-                eventStream = null
+            fun shutdown() {
                 subscribeJob?.cancel()
                 subscribeJob = null
-            }
-
-            override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
-                scope.launch {
-                    updateCb(pageId, data)
-                }
-            }
-
-            override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
-                // We're only interested in permanent failure here, not in callbacks we caused
-                // ourselves by calling close(), so check for the reporter matching our expectations
-                // (mismatch means shutdown was called)
-                if (eventSource === eventStream) {
-                    val statusCode = response?.code ?: 0
-                    Log.w(TAG, "SSE stream $eventSource failed for page $pageId with status $statusCode: ${t?.message}")
-                    scope.launch {
-                        failureCb(false)
-                    }
-                }
             }
         }
     }

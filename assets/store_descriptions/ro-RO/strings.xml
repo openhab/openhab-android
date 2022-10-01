@@ -8,11 +8,11 @@
     <automation_apps/>
 
     <oss_community/>
-    <forum>  Alătură-te comunității openHAB pe forum la https://community.openhab.org</forum>
+    <forum>  </forum>
 
     <report_issues/>
     <translation/>
-    <foundation/>
+    <foundation>Fundația openHAB</foundation>
     <about_foundation> </about_foundation>
     <important_note/>
     <oh_server/>

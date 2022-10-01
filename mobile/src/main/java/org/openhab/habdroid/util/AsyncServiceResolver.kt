@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -14,7 +14,6 @@
 package org.openhab.habdroid.util
 
 import android.content.Context
-import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.MulticastLock
 import android.util.Log
 import java.net.BindException
@@ -29,9 +28,12 @@ import javax.jmdns.ServiceListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ClosedSendChannelException
+import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
+import org.openhab.habdroid.core.OpenHabApplication
 
 class AsyncServiceResolver(
     context: Context,
@@ -67,7 +69,7 @@ class AsyncServiceResolver(
     }
 
     init {
-        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = context.getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SERVER_DISCOVERY)
         multicastLock = wifiManager.createMulticastLock("HABDroidMulticastLock")
         multicastLock.setReferenceCounted(true)
     }
@@ -76,7 +78,9 @@ class AsyncServiceResolver(
         try {
             multicastLock.acquire()
         } catch (e: SecurityException) {
-            Log.i(TAG, "Could not acquire multicast lock", e)
+            Log.e(TAG, "Could not acquire multicast lock", e)
+        } catch (e: UnsupportedOperationException) {
+            Log.e(TAG, "Could not acquire multicast lock", e)
         }
 
         Log.i(TAG, "Discovering service $serviceType")
@@ -114,7 +118,8 @@ class AsyncServiceResolver(
 
     override fun serviceResolved(event: ServiceEvent) {
         scope.launch {
-            serviceInfoChannel.offer(event.info)
+            serviceInfoChannel.trySend(event.info)
+                .onClosed { throw it ?: ClosedSendChannelException("Channel was closed normally") }
         }
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Regristasi perangkat sedang dalam progres</string>
-    <string name="info_openhab_gcm_connected">Perangkat berhasil teregistrasi dengan Firebase Cloud Messaging</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
 </resources>

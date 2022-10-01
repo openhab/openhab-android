@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - نظام التحكم المنزلي المفتوح المصدر والغير مرتبط بتقنية أو مصنع محدد
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 جرب الميزات الجديدة واعطنا ملاحظاتك!
 يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.
 
@@ -9,8 +9,7 @@ openHAB مبنية على الجافا ومفتوحة المصدر ، منصة �
 
 <b>منتجات مدعومة</b>
 
-ما يزيد على 200 من إضافات محددة توفر الدعم لماركات أجهزة وتقنيات وبروتوكولات الاتصال. مثال زد-ويف، فيليبس هيو، أمازون إيكو، كرومكاست، و سونوس.
-https://docs.openhab.org/addons/bindings.html. أكتشف كل الإضافات المتوفرة والأجهزة المدعومة و/أو الوظائف بزبارة الرابط: 
+ما يزيد على 200 من إضافات محددة توفر الدعم لماركات أجهزة وتقنيات وبروتوكولات الاتصال.  أكتشف كل الإضافات المتوفرة والأجهزة المدعومة و/أو الوظائف بزبارة الرابط: 
 https://www.openhab.org/addons/
 The app has an action plugin for Tasker and Locale included.
 

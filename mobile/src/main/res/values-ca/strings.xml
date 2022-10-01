@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Configuració</string>
+    <string name="save">Desa</string>
+    <string name="discard">Descarta</string>
+    <string name="delete">Esborra</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Mapa del lloc</string>
     <string name="mainmenu_openhab_preferences">Configuració</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Notificacions</string>
+    <string name="app_notifications_on_server">Notificacions (%s)</string>
     <string name="habpanel_error">S\'ha produït un error durant la càrrega d\'HABPanel</string>
+    <string name="oh3_ui_error">S\'ha produït un error durant la càrrega d\'openHAB 3</string>
+    <string name="frontail_error">S\'ha produït un error en carregar el Frontail. Tingueu en compte que no està disponible mitjançant openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail s\'ha d\'executar al seu port predeterminat 9001. S\'inclou amb openHABian o es pot instal·lar manualment.</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccioneu el mapa del lloc predeterminat</string>
     <string name="mainmenu_openhab_clearcache">Buida la memòria cau de les imatges</string>
     <!-- App settings strings -->
@@ -25,19 +37,24 @@
     <string name="settings_openhab_password">Contrasenya</string>
     <string name="settings_openhab_password_summary_weak">La contrasenya és dèbil</string>
     <string name="settings_openhab_password_summary_strong">La contrasenya és forta</string>
+    <string name="settings_openhab_api_token_hint">Si utilitzeu un API token, introduïu-lo al camp del nom d\'usuari i deixeu el camp de la contrasenya buit</string>
     <string name="settings_openhab_sslclientcert">Certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Toqueu aquí per a obtenir alguns consells i explicacions sobre com configurar l\'autenticació amb certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_not_supported">Els certificats SSL de client no estan suportats per al teu dispositiu</string>
-    <string name="settings_openhab_screentimeroff">Desactiva la visualització del temporitzador</string>
-    <string name="settings_openhab_screentimeroff_summary">Desactiva el comptador enrera quan l\'openHAB estigui funcionant</string>
     <string name="settings_openhab_demomode">Mode de demostració</string>
     <string name="settings_openhab_demomode_summary">Si no tens un servidor openHAB, activa el mode demo per fer-te una idea de què és capaç.</string>
+    <string name="start_page_title">Pàgina d\'inici</string>
+    <string name="drawer_entries">Entrades del menú lateral</string>
     <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_accent_color">Color d\'èmfasi</string>
     <string name="settings_select_a_color">Selecciona un color</string>
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
     <string name="settings_openhab_icon_format">Format d\'icona</string>
     <string name="settings_openhab_icon_format_png">Mapa de bits</string>
     <string name="settings_openhab_icon_format_svg">Vectorial</string>
+    <string name="settings_image_widget_scaling">Escala les imatges per adaptar-les a la pantalla</string>
+    <string name="settings_image_widget_scaling_summary_off">Manteniu els ginys \"Imatge\" que siguin més petits que l\'amplada de la pantalla a la seva mida original</string>
+    <string name="settings_image_widget_scaling_summary_on">Assegureu-vos que els ginys \"Imatge\" s\'ajustin a l\'amplada de la pantalla augmentant-los o reduint-los segons correspongui</string>
     <string name="settings_chart_scaling">Escalat de diagrames</string>
     <string name="settings_chart_scaling_summary">Nota: l\'ús d\'escalats menors encongeix tipus de lletra i amplades de línia, per tant, hi ha més espai per al diagrama, però la llegibilitat del text empitjora.</string>
     <string name="settings_chart_scaling_value_xs">Molt petita</string>
@@ -48,25 +65,58 @@
     <string name="settings_openhab_chart_hq_summary">La generació dels diagrames pot penalitzar el rendiment del servidor. Si experimenteu temps de càrrega de diagrames molt lents i el servidor no és gaire potent, desactiveu aquesta opció per a millorar el temps de càrrega.</string>
     <string name="settings_clear_default_sitemap">Buida el mapa del lloc predeterminat</string>
     <string name="settings_no_default_sitemap">No hi ha cap mapa del lloc predeterminat seleccionat</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Mapa del lloc predeterminat actuall: %1$s</string>
     <string name="settings_openhab_alt_connection">Remot</string>
     <string name="settings_openhab_connection">Local</string>
+    <string name="settings_ringtone">To de notificació</string>
     <string name="settings_ringtone_none">Cap</string>
+    <string name="settings_ringtone_on_external">So de trucada desconegut a l\'emmagatzematge extern</string>
+    <string name="settings_notification_vibration">Vibració</string>
     <string name="settings_notification_vibration_off">Desactivada</string>
     <string name="settings_notification_vibration_short">Curta</string>
     <string name="settings_notification_vibration_long">Llarga</string>
     <string name="settings_notification_vibration_twice">Doble</string>
+    <string name="settings_notification_ringtone_vibration">So i vibració</string>
     <string name="settings_connection_summary">Connectat a %s</string>
-    <string name="settings_insecure_connection_summary">Connectat de manera insegura a %s</string>
-    <string name="beta">Beta</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">Connectat de manera insegura a %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">L\'URL no comença per \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">No s\'ha definit nom d\'usuari i/o contrasenya</string>
     <string name="settings_screen_lock">Bloqueig de pantalla</string>
+    <string name="settings_screen_lock_nolock_summary">Heu d\'activar un bloqueig de pantalla per al vostre dispositiu per activar el bloqueig d\'accés a l\'aplicació</string>
+    <string name="settings_screen_lock_off_summary">L\'accés a l\'aplicació no està bloquejat</string>
+    <string name="settings_screen_lock_kiosk_summary">L\'accés a la configuració de l\'aplicació està bloquejat amb el bloqueig de la pantalla o l\'empremta digital d\'Android</string>
+    <string name="settings_screen_lock_on_summary">L\'accés a l\'aplicació està bloquejat amb el bloqueig de pantalla d\'Android o l\'empremta digital\nNota: Tanmateix, els ginys es poden utilitzar</string>
     <string name="screen_lock_unlock_screen_description">Desbloqueja per accedir a openHAB</string>
     <string name="screen_lock_unlock_preferences_description">Desbloqueja per accedir a la configuració</string>
     <string name="settings_screen_lock_off">Desactivat</string>
     <string name="settings_screen_lock_kiosk">Mode Quiosc</string>
     <string name="settings_screen_lock_on">Activat</string>
+    <string name="settings_show_sitemaps_in_drawer">Mostra tots els Sitemaps al menú lateral</string>
+    <string name="settings_server_name">Nom del servidor</string>
+    <string name="settings_add_server">Afegeix servidor</string>
+    <string name="settings_edit_server">Edita el servidor</string>
+    <string name="server_with_name">Servidor %s</string>
+    <string name="settings_server_at_least_name_and_connection">Com a mínim es requereix un nom de servidor i una connexió</string>
+    <string name="settings_server_confirm_deletion">Segur que vols esborrar aquest servidor?</string>
+    <string name="settings_server_confirm_leave_title">Canvis no desats</string>
+    <string name="settings_server_confirm_leave_message">Has fet alguns canvis. Vols desar-los o descartar-los?</string>
+    <string name="settings_server_primary_title">Servidor principal</string>
+    <string name="settings_server_primary_summary_is_primary">Aquest servidor és el principal.\nActualment aquesta aplicació només suporta totes les funcionalitats per al servidor principal. Prem el botó d\'ajuda per a més informació.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Avançat</string>
+    <string name="click_here_for_more_information">Feu clic aquí per a més informació</string>
+    <string name="settings_multi_server_wifi_ssid_switched">S\'ha canviat al servidor \"%s\" basat en Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">No es pot llegir el nom de la Wi-Fi: falten permisos</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">No es pot llegir el nom de la Wi-Fi: la ubicació està desactivada</string>
+    <string name="setting_crash_reporting_title">Informes d\'error</string>
+    <string name="setting_crash_reporting_summary">Envieu informes d\'error per donar suport al desenvolupament de l\'aplicació</string>
+    <string name="device_control_subtitle_item_name">Nom d\'element</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Ordres de veu</string>
+    <string name="voice_command">Ordre de veu</string>
+    <string name="title_voice_widget_icon">Ordres de veu i drecera d\'aplicació</string>
     <string name="info_voice_input">openHAB, a les ordres!</string>
     <string name="info_voice_recognized_text">Ordre reconeguda: %1$s</string>
     <string name="info_demo_mode_short">Execució en mode de demostració</string>
@@ -78,46 +128,202 @@
     <string name="app_shortcut_disabled_notifications">El teu servidor remot no està disponible</string>
     <string name="app_shortcut_disabled_voice_recognition">El teu dispositiu no té cap aplicació de reconeixement de veu instal·lada</string>
     <string name="no_position_set">Cap posició definida</string>
+    <string name="show_and_copy_item_name">Mostra i copia el nom de l\'Item</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">S\'ha copiat \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">l\'openHAB ha retornat un llistat de mapa de llocs buit</string>
+    <string name="error_sitemap_generic_load_error">67 / 5000
+Resultats de traducció
+No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</string>
     <string name="error_network_not_available">La xarxa no és disponible</string>
     <string name="error_wifi_not_available">Wi-Fi està desactivat</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_http_connection_failed">La connexió no s\'ha realitzat correctament. S\'ha rebut una resposta inesperada mentre intentava connectar-se al servidor openHAB configurat (codi HTTP %d).</string>
+    <string name="error_invalid_url">Introduïu un URL vàlid en un formulari \"http(s)://host(:port)/\"</string>
+    <string name="error_invalid_https_url">Introduïu un URL vàlid en un formulari \"https://host(:port)/\"</string>
+    <string name="error_port_seems_invalid">El port que heu introduït no sembla vàlid per al protocol seleccionat</string>
+    <string name="error_home_myopenhab_org_no_notifications">Les notificacions no estan disponibles a home.myopenhab.org, sinó a myopenhab.org</string>
+    <string name="error_first_char_is_whitespace">El primer caràcter és un espai en blanc, que probablement no és desitjat</string>
+    <string name="error_last_char_is_whitespace">L\'últim caràcter és un espai en blanc, que probablement no és desitjat</string>
     <string name="error_connection_failed">Ha fallat la connexió al servidor</string>
     <string name="error_unable_to_resolve_hostname">No és possible resoldre el nom d\'amfitrió</string>
+    <string name="error_unknown">S\'ha produït un error desconegut: %s</string>
     <string name="error_connection_sslhandshake_failed">L\'intercanvi de SSL ha fallat</string>
+    <string name="error_certificate_not_trusted">El certificat SSL no és de confiança. Importeu el certificat arrel o accepteu-lo durant l\'enllaç SSL.</string>
+    <string name="error_certificate_expired">El certificat SSL ha caducat. Si us plau, obteniu un certificat nou o accepteu-lo durant l\'enllaç SSL.</string>
+    <string name="error_certificate_not_valid_yet">El certificat SSL encara no és vàlid. Si us plau, obteniu un certificat correcte o accepteu-lo durant l\'enllaç SSL. Comproveu també si el rellotge del vostre dispositiu està configurat correctament.</string>
+    <string name="error_certificate_invalid_date">El certificat SSL té una data no vàlida. Si us plau, obteniu un certificat correcte i comproveu si el rellotge del vostre dispositiu està configurat correctament.</string>
+    <string name="error_certificate_revoked">S\'ha revocat el certificat SSL. Si us plau, obteniu un certificat nou o accepteu-lo durant l\'enllaç SSL.</string>
     <string name="error_certificate_wrong_host">El certificat de %s no és vàlid</string>
+    <string name="error_http_to_https_port">Final inesperat. Esteu provant de connectar-vos a un port HTTPS mitjançant HTTP?</string>
+    <string name="webview_ssl">Actualment, aquesta aplicació no admet certificats SSL autofirmats per als widgets de Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">L\'autenticació ha fallat. Comproveu el nom d\'usuari i la contrasenya configurats, respectivament, el certificat de client SSL proporcionat (codi HTTP %d).</string>
+    <string name="error_http_code_414" tools:keep="@string/error_http_code_414">L\'URL és massa llarga. Utilitzeu l\'adreça IP o una URL més curta (codi HTTP %d).</string>
+    <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS és obligatori. Canvieu l\'URL (codi HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495" tools:keep="@string/error_http_code_495">L\'autenticació ha fallat. Comproveu el certificat de client SSL proporcionat (codi HTTP %d).</string>
+    <string name="error_http_code_496" tools:keep="@string/error_http_code_496">Cal un certificat de client SSL (codi HTTP %d)</string>
+    <string name="error_http_code_502" tools:keep="@string/error_http_code_502">El vostre servidor intermediari invers ha rebut una resposta no vàlida del servidor d\'openHAB (codi HTTP %d)</string>
+    <string name="error_http_code_503" tools:keep="@string/error_http_code_503">El servidor openHAB està temporalment no disponible (codi HTTP %d)</string>
+    <string name="error_http_code_504" tools:keep="@string/error_http_code_504">Time-out de la passarel·la. Sembla que el vostre servidor intermediari invers s\'està executant, però no ha pogut obtenir una resposta del servidor openHAB (codi HTTP %d).</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">El servidor openHAB no té prou espai lliure (codi HTTP %d)</string>
+    <string name="error_http_code_511" tools:keep="@string/error_http_code_511">Es requereix autenticació de xarxa (codi HTTP %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_openhab_offline">openHAB fora de línia</string>
     <string name="error_short_http_connection_failed">codi HTTP %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Error en resoldre el nom d\'amfitrió</string>
     <string name="error_short_unknown">Error desconegut: %s</string>
     <string name="error_short_certificate_not_trusted">El certificat no és de confiança</string>
+    <string name="error_short_certificate_expired">El certificat no ha caducat</string>
+    <string name="error_short_certificate_not_valid_yet">El certificat encara no és vàlid</string>
+    <string name="error_short_certificate_revoked">Certificat revocat</string>
+    <string name="error_short_connection_sslhandshake_failed">SSL fallit</string>
+    <string name="error_short_connection_failed">Ha fallat la connexió</string>
+    <string name="error_short_http_to_https_port">Connectem al port HTTPS fent servir HTTP?</string>
+    <string name="error_short_certificate_wrong_host">Certificat invàlid per a %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_401" tools:keep="@string/error_short_http_code_401">L\'autenticació ha fallat (codi HTTP %d)</string>
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">No s\'ha trobat (codi HTTP %d)</string>
+    <string name="error_short_http_code_414" tools:keep="@string/error_short_http_code_414">URL massa llarga (codi HTTP %d)</string>
+    <string name="error_short_http_code_426" tools:keep="@string/error_short_http_code_426">Es requereix HTTPS (codi HTTP %d)</string>
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">L\'autenticació ha fallat (codi HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Cal un certificat de client SSL (codi HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">El vostre servidor intermediari invers ha rebut una resposta no vàlida del servidor d\'openHAB (codi HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">El servidor openHAB està temporalment no disponible (codi HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Time-out de la passarel·la (codi HTTP %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">No hi ha suficient espai lliure al servidor (codi HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Es requereix autenticació de xarxa (codi HTTP %d)</string>
+    <string name="error_openhab_offline">El vostre servidor d\'openHAB està fora de línia mentre s\'està executant la instància del núvol</string>
     <string name="error_no_browser_found">No s\'ha trobat navegador en el teu dispositiu</string>
+    <string name="error_no_speech_to_text_app_found">No s\'ha trobat cap aplicació de reconeixement de veu</string>
+    <string name="error_video_player">%s no s\'ha pogut carregar</string>
     <string name="install">Instal·la</string>
     <string name="title_activity_openhabwritetag">Escriu etiqueta NFC</string>
     <string name="title_activity_libraries">Biblioteques usades</string>
     <string name="info_write_tag">Toca l\'etiqueta i mantenint-la a la vora fins que aparegui el missatge de confirmació</string>
     <string name="info_write_tag_progress">Escrivint l\'etiqueta</string>
+    <string name="info_write_tag_finished">Etiqueta escrita satisfactòriament</string>
     <string name="info_write_failed">Error al escriure l\'etiqueta</string>
+    <string name="info_write_tag_unsupported">El dispositiu no disposa de NFC</string>
     <string name="info_write_tag_disabled">L\'NFC està desactivada</string>
     <string name="action_settings">Configuració</string>
     <string name="info_not_set">No establert</string>
+    <string name="empty_page">Aquesta pàgina no conté cap widget configurat per ser visible</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Envia la informació del dispositiu al servidor</string>
+    <string name="send_device_info_to_server_short">Envia la informació del dispositiu</string>
+    <string name="send_device_info_category_event_based_title">Basat en Events</string>
+    <string name="send_device_info_category_event_based_explanation">Aquests Items s\'actualitzen en els events corresponents, p.e. una trucada telefònica entrant</string>
+    <string name="send_device_info_category_schedule_based_title">Basat en l\'horari</string>
+    <string name="send_device_info_category_schedule_based_explanation">Com més curt sigui l\'interval escollit, més gran serà l\'impacte potencial en la durada de la bateria del dispositiu. A més, és possible que el vostre dispositiu no segueixi exactament l\'interval escollit, sinó que retardi les actualitzacions per reduir el consum d\'energia de les aplicacions.</string>
+    <string name="send_device_info_item_prefix_summary">Els noms dels Items d\'aquesta pàgina tenen un prefix amb l\'identificador del dispositiu \"%s\"</string>
+    <string name="send_device_info_item_prefix_summary_not_set">No s\'estableix cap prefix per als noms dels Items d\'aquesta pàgina. Podeu prefixar-los amb l\'identificador del dispositiu, que es pot configurar a la pàgina de configuració principal.</string>
+    <string name="send_device_info_foreground_service_title">Monitor d\'esdeveniments</string>
+    <string name="send_device_info_foreground_service_summary">Monitoritza esdeveniments associats als següents Items. Requereix una notificació persistent i pot incrementar l\'ús de bateria.</string>
+    <string name="send_device_info_foreground_service_summary_pre_o">Monitoritza esdeveniments associats als següents Items. Requereix notificació persistent i pot incrementar l\'ús de la bateria. Això només és necessari per enviar el mode DND.</string>
+    <string name="send_device_info_foreground_service_running_summary_one">Monitoritza esdeveniments associats a %s</string>
+    <string name="send_device_info_foreground_service_running_summary_two">Monitorita esdeveniments associats a %1$s i %2$s</string>
+    <string name="send_device_info_foreground_service_running_summary_more">Monitoritza els esdeveniments associats a %1$s, %2$s i més</string>
+    <string name="settings_item_update_pref_howto_summary">Toqueu aquí per obtenir consells sobre com configurar aquesta funció al costat del servidor</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <string name="item_update_summary_success">La darrera actualització va ser \"%1$s\" (%2$s)</string>
+    <string name="settings_alarm_clock">Hora d\'alarma</string>
+    <string name="settings_alarm_clock_summary_on">Envia l\'hora d\'alarma a l\'element \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">No enviar hora d\'alarma</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_phone_state">Estat de la trucada</string>
+    <string name="settings_phone_state_summary_on">Envia l\'estat de la trucada a l\'Item \"%1$s\"</string>
+    <string name="settings_phone_state_summary_off">No enviïs l\'estat de la trucada</string>
+    <string name="settings_phone_state_permission_denied">L\'enviament de l\'estat de la trucada s\'ha desactivat perquè falten permisos</string>
+    <string name="settings_battery_level">Nivell de la bateria</string>
+    <string name="settings_battery_level_summary_on">Envia el nivell de bateria a l\'Item \'%1$s\'</string>
+    <string name="settings_battery_level_summary_off">No enviis el nivell de la bateria</string>
+    <string name="settings_charging_state">Estat de càrrega</string>
+    <string name="settings_charging_state_summary_on">Envia l\'estat de càrrega a l\'Item \"%1$s\"</string>
+    <string name="settings_charging_state_summary_off">No enviïs l\'estat de càrrega</string>
     <string name="settings_wifi_ssid">Nom del Wi-Fi</string>
+    <string name="settings_wifi_ssid_summary_on">Envia el nom del Wi-Fi (SSID) a l\'Item \'%1$s\'</string>
+    <string name="settings_wifi_ssid_summary_on_location_on">Envia la xarxa Wi-Fi (SSID) a l\'Item \'%1$s\'. Heu de tenir la localització activada, d\'altra banda openHAB no té accés al nom del Wi-Fi.</string>
+    <string name="settings_wifi_ssid_summary_off">No enviïs el nom del Wi-Fi (SSID)</string>
+    <string name="settings_wifi_ssid_permission_denied">L\'enviament del nom de la Wi-Fi s\'ha desactivat perquè falten permisos</string>
+    <string name="settings_dnd_mode">Mode no molesteu</string>
+    <string name="settings_dnd_mode_summary_on">Envia \"mode no molesteu\" a l\'Item \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">No enviïs \"mode no molesteu\"</string>
+    <string name="settings_gadgetbridge">Accions del dispositiu Gadgetbridge</string>
+    <string name="settings_gadgetbridge_summary_on">Envia accions del dispositiu Gadgetbridge a l\'Item \"%1$s\". Requereix que el monitor d\'esdeveniments estigui activat.</string>
+    <string name="settings_gadgetbridge_summary_off">No enviis accions del dispositiu Gadgetbridge</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Aquesta funció requereix permisos addicionals per funcionar. Després d\'activar-lo, se us demanarà l\'aprovació del permís.</string>
+    <string name="settings_background_tasks_permission_hint">Aquesta funció requereix permisos addicionals per funcionar. Després d\'activar-lo, se us demanarà l\'aprovació del permís. Assegureu-vos d\'aprovar el permís també per a l\'ús en segon pla, ja que les actualitzacions d\'elements també es produeixen quan l\'aplicació està en segon pla.</string>
+    <string name="settings_background_tasks_permission_denied_background_location">Algunes tasques en segon pla requereixen que l\'accés a la ubicació estigui configurat a \"%s\" a la configuració d\'Android</string>
     <string name="settings_background_tasks_permission_allow">Permet</string>
+    <string name="settings_location_permissions_required">Aquesta aplicació recull dades d\'ubicació per activar \"Enviament del nom de la Wi-Fi al servidor\" i \"Selecció del servidor basat en la Wi-Fi\", fins i tot quan l\'aplicació està tancada o no s\'utilitza. Tingueu en compte que aquestes dades només s\'envien als servidors que heu configurat.</string>
     <string name="settings_item_pref_item_name">Nom d\'element</string>
+    <string name="waiting_for_item_upload">S\'està esperant que la xarxa enviï actualitzacions d\'Items</string>
+    <string name="item_upload_in_progress">S\'estan actualitzant els Items</string>
+    <string name="notification_channel_background">Tasques en segon pla</string>
+    <string name="notification_channel_background_description">S\'utilitza per notificar sobre tasques en segon pla pendents, p.e. esperant que la xarxa enviï el nivell de bateria</string>
     <string name="notification_channel_background_error">Error en tasques secundàries</string>
+    <string name="notification_channel_background_error_description">S\'utilitza per notificar errors en tasques en segon pla, p.e. no té xarxa per enviar el nivell de bateria</string>
+    <string name="notification_channel_background_foreground_service_description">Monitoritza esdeveniments per actualitzar Items conseqüentment. Pots ocultar aquesta categoria.</string>
+    <string name="notification_channel_messages_default_severity">Per defecte</string>
+    <string name="notification_channel_messages_default_severity_description">Notificacions enviades pel servidor sense gravetat definida</string>
+    <string name="notification_channel_group_messages">Missatges</string>
+    <string name="notification_channel_severity_value">Gravetat \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Notificacions enviades pel servidor amb gravetat \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d notificació nova</item>
+        <item quantity="other">%d notificacions noves</item>
+    </plurals>
+    <string name="push_notification_status_no_remote_configured">Les notificacions no estan disponibles: el servidor remot no està configurat</string>
+    <string name="push_notification_status_http_error">Les notificacions no estan disponibles: Error en connectar-se al servidor remot: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Les notificacions no estan disponibles: El servidor remot no és una instància d\'openHAB cloud</string>
+    <string name="push_notification_status">Estat</string>
+    <string name="push_notification_hint">Les notificacions es consulten regularment, amb la mateixa freqüència que \"Envia informació del dispositiu al servidor\"</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item no s\'ha pogut actualitzar</item>
+        <item quantity="other">%d Items no s\'han pogut actualitzar</item>
+    </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
+    <string name="item_update_http_error">L\'actualització de l\'Item \"%1$s\" ha fallat: %2$s</string>
     <!-- %1$s: Item label, %2$s: HTTP error message -->
+    <string name="item_update_http_error_label">%1$s ha fallat l\'actualització: %2$s</string>
+    <string name="item_update_connection_error">L\'actualització de l\'Item \"%1$s\" ha fallat (sense connexió)</string>
+    <string name="item_update_connection_error_label">%1$s ha fallat l\'actualització (sense connexió)</string>
+    <string name="item_update_short_status_waiting">Esperant…</string>
+    <string name="item_update_short_status_sending">S\'està enviant…</string>
+    <string name="item_update_short_status_failed">Ha fallat</string>
+    <string name="error_no_valid_item_name">Introduïu un nom d\'Item vàlid</string>
     <string name="retry">Reintenta</string>
+    <string name="ignore">Ignora</string>
+    <string name="send_device_info_schedule">Programació</string>
+    <string name="send_device_info_schedule_summary">Cada 15 minuts durant la càrrega, si no cada %s</string>
+    <string name="send_device_info_schedule_15_minutes">15 minuts</string>
+    <string name="send_device_info_schedule_1_hour">1 hora</string>
+    <string name="send_device_info_schedule_3_hours">3 hores</string>
+    <string name="send_device_info_schedule_6_hours">6 hores</string>
+    <string name="send_device_info_schedule_12_hours">12 hores</string>
     <!-- Device identifier -->
+    <string name="device_identifier_title">Identificador del dispositiu</string>
     <!-- Please translate "Device identifier" in this string -->
+    <string name="device_identifier_prefix_voice">Precedeix les comandes de veu amb \'&lt;Device identifier&gt;|\'</string>
+    <string name="device_identifier_bg_tasks">Prefixa els noms dels Items de \"Envia informació del dispositiu al servidor\" amb aquest identificador</string>
+    <string name="device_identifier_hint">Aquest identificador de dispositiu pot ser qualsevol cadena i ha de ser únic per a tots els dispositius que accedeixen al vostre servidor d\'openHAB. A més dels dos casos d\'ús anteriors, també podeu utilitzar-lo com a estat a les etiquetes NFC, de manera que sapigueu quin dispositiu llegeix l\'etiqueta.</string>
+    <string name="device_identifier_suggested_command_nfc_tag">Identificador del dispositiu d\'escaneig (\"%s\" per a aquest dispositiu)</string>
+    <string name="device_identifier_summary_not_set">Les dades enviades al servidor i les ordres de veu no tenen el prefix d\'un identificador de dispositiu</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">De moment no s\'ha enviat cap notificació</string>
+    <string name="notification_list_error">S\'ha produït un error en carregar les notificacions</string>
     <string name="list_loading_message">S\'està carregant...</string>
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Voleu acceptar el certificat desconegut?</string>
+    <string name="mtm_trust_anchor">El certificat del servidor no està firmat per a una Autoritat Certificadora coneguda</string>
+    <string name="mtm_cert_expired">El certificat del servidor ha caducat</string>
+    <string name="mtm_accept_servername">Acceptar el nom del servidor que no coincideix?</string>
+    <string name="mtm_hostname_mismatch">El servidor no pot autenticar-se com a \&quot;%s\&quot;. El certificat es nomès vàlid per a:</string>
+    <string name="mtm_connect_anyway">Voleu continuar igualment?</string>
     <string name="mtm_cert_details">Detalls del certificat:</string>
     <string name="mtm_decision_always">D\'acord</string>
     <string name="mtm_decision_abort">Anul·la</string>
@@ -126,15 +332,52 @@
     <!-- Themes -->
     <string name="theme_name_light">Clar</string>
     <string name="theme_name_dark">Fosc</string>
+    <string name="theme_name_system">Segueix sistema</string>
+    <string name="theme_name_battery_saver">Mode fosc a l\'estalvi de bateria</string>
+    <string name="theme_name_black">Negre</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Gràfic</string>
+    <string name="chart_activity_hide_legend">Amaga la llegenda</string>
+    <string name="chart_activity_show_legend">Mostra la llegenda</string>
+    <string name="chart_activity_period">Període</string>
+    <string name="chart_activity_period_1_hour">1 hora</string>
+    <string name="chart_activity_period_4_hour">4 hores</string>
+    <string name="chart_activity_period_8_hour">8 hores</string>
+    <string name="chart_activity_period_12_hour">12 hores</string>
+    <string name="chart_activity_period_1_day">1 dia</string>
+    <string name="chart_activity_period_2_day">2 dies</string>
+    <string name="chart_activity_period_3_day">3 dies</string>
+    <string name="chart_activity_period_1_week">1 setmana</string>
+    <string name="chart_activity_period_2_week">2 setmanes</string>
+    <string name="chart_activity_period_1_month">1 mes</string>
+    <string name="chart_activity_period_2_month">2 mesos</string>
+    <string name="chart_activity_period_4_month">4 mesos</string>
+    <string name="chart_activity_period_1_year">1 any</string>
     <!-- NFC -->
     <string name="nfc_action_on">Activat</string>
     <string name="nfc_action_up">Amunt</string>
     <string name="nfc_action_off">Desactivat</string>
     <string name="nfc_action_down">Avall</string>
     <string name="nfc_action_toggle">Canvia</string>
+    <string name="nfc_action_toggled">Commutat</string>
+    <string name="nfc_action_undefined">No definit</string>
+    <string name="nfc_action_empty_string">Cadena buida</string>
+    <string name="nfc_action_increase">Incrementa</string>
+    <string name="nfc_action_decrease">Disminueix</string>
+    <string name="nfc_action_play">Reprodueix</string>
+    <string name="nfc_action_pause">Pausa</string>
+    <string name="nfc_action_next">Següent</string>
+    <string name="nfc_action_previous">Anterior</string>
+    <string name="nfc_action_rewind">Rebobina</string>
+    <string name="nfc_action_fastforward">Avança ràpidament</string>
+    <string name="nfc_action_move">Mou</string>
+    <string name="nfc_action_stop">Atura</string>
+    <string name="nfc_action_open">Obert</string>
+    <string name="nfc_action_closed">Tancat</string>
     <string name="nfc_activate">Activa</string>
     <string name="nfc_action_current_color">Color actual</string>
+    <string name="nfc_action_to_sitemap_page">Escriu l\'etiqueta NFC del Sitemap</string>
+    <string name="nfc_action_write_command_tag">Escriu a l\'etiqueta de NFC</string>
     <!-- Drawer -->
     <string name="mainmenu_openhab_voice_recognition">Reconeixement de veu</string>
     <!-- About -->
@@ -149,33 +392,225 @@
     <string name="about_community">Comunitat openHAB</string>
     <string name="about_translation">Ajudeu-nos en traduir openHAB</string>
     <string name="about_privacy_policy">Política de privadesa</string>
+    <string name="about_rate_this_app">Valora l\'aplicació</string>
+    <string name="settings_troubleshooting_title">Resolució de problemes</string>
+    <string name="set">Estableix</string>
     <string name="cancel">Cancel·la</string>
     <string name="close">Tanca</string>
+    <string name="undo">Desfés</string>
     <string name="try_again_button">Torna-ho a intentar</string>
+    <string name="enable_wifi_button">Activa la Wi-Fi</string>
     <string name="go_to_settings_button">Vés a la configuració</string>
+    <string name="enable_demo_mode_button">Activa el mode de demostració</string>
+    <string name="configuration_missing">No hem trobat cap servidor openHAB a la vostra xarxa. Si ja teniu un servidor, configureu-ne l\'adreça IP o el nom d\'amfitrió a la configuració del servidor. Si encara no teniu cap servidor, podeu activar el mode de demostració per veure de què és capaç l\'openHAB.</string>
+    <string name="no_remote_server">La connexió al servidor local ha fallat i no heu configurat cap servidor remot</string>
+    <string name="resolving_openhab">S\'està intentant descobrir la instància del servidor openHAB\u2026</string>
+    <string name="waiting_for_wifi">S\'està esperant que la Wi-Fi s\'estableixi la connexió\u2026</string>
+    <string name="visit_status_openhab_org">Visiteu status.openhab.org</string>
     <!-- Log -->
+    <string name="log">Registre</string>
+    <string name="view_log">Mostra el registre</string>
+    <string name="log_activity_action_clear_log">Esborra el registre</string>
+    <string name="log_activity_action_show_errors">Mostra només els errors</string>
+    <string name="log_activity_action_show_all">Mostra tots els missatges</string>
+    <string name="log_activity_action_reload">Torna a carregar</string>
+    <string name="log_activity_content_description_share">Comparteix el registre</string>
+    <string name="empty_log">El registre està buit</string>
+    <string name="log_too_large_to_share">El registre és massa gran per compartir-lo. Si us plau, esborreu el registre, reproduïu l\'error i compartiu el registre.</string>
     <!-- Home screen shortcuts -->
+    <string name="home_shortcut_pin_to_home">Fixa a la pàgina principal</string>
+    <string name="home_shortcut_error_pinning">Error fixant a la pàgina principal</string>
+    <string name="home_shortcut_success_pinning">Fixat a la pàgina principal</string>
+    <string name="home_shortcut_server_has_been_deleted">S\'ha suprimit el servidor d\'aquesta drecera</string>
+    <string name="home_shortcut_title">Estableix el títol de la drecera</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Obre persiana</string>
+    <string name="content_description_stop_roller_shutter">Atura persiana</string>
+    <string name="content_description_close_roller_shutter">Tanca persiana</string>
+    <string name="content_description_open_color_wheel">Obre roda de color</string>
+    <string name="content_description_color_up">Encendre o mantenir premut per augmentar la intensitat</string>
+    <string name="content_description_color_down">Apaga o mantenir premut per disminuir la intensitat</string>
+    <string name="content_description_open_number_picker">Obre el selector numèric</string>
     <string name="content_description_video">Vídeo</string>
+    <string name="content_description_open_openhab">Obrir openHAB</string>
+    <string name="swipe_to_refresh_description">L\'aplicació també s\'actualitza automàticament, normalment no cal que ho feu manualment</string>
+    <string name="got_it">Ja està!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introducció</string>
     <string name="intro_welcome">Us donem la benvinguda a l\'openHAB</string>
+    <string name="intro_welcome_back">Us donem la benvinguda a l\'openHAB</string>
+    <string name="intro_app_restored">La majoria de la vostra configuració s\'ha restaurat, excepte les credencials del servidor</string>
+    <string name="intro_whatis">Un programari d\'automatització de codi obert independent de proveïdors i tecnologia per a la vostra llar</string>
     <string name="intro_voice_description">Controleu casa vostra amb la veu</string>
     <string name="intro_nfc">NFC</string>
+    <string name="intro_nfc_description">El control d\'elements es pot vincular a les etiquetes NFC prement l\'element</string>
+    <string name="intro_quick_tile_description">Controla la teva llar des de la configuració ràpida del teu dispositiu (el lloc on es troben els commutadors, per exemple, Wi-Fi i Bluetooth)</string>
+    <string name="intro_send_device_info">Envia la informació del dispositiu al servidor</string>
+    <string name="intro_send_device_info_description">Per exemple, enceneu els vostres llums quan soni el despertador</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OMET</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FET</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">No s\'han trobat ítems</string>
+    <string name="item_picker_list_error">S\'ha produït un error en carregar els Items</string>
+    <string name="item_picker_custom">Personalitzat</string>
     <string name="item_picker_dialog_title">Escull acció</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Envia l\'ordre \"%3$s\" a \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Actualitza \"%1$s\" (%2$s) a \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Tasker variable \"%s\"</string>
+    <string name="item_picker_item_update">Actualitza</string>
+    <string name="item_picker_item_command">Ordre</string>
+    <string name="item_picker_contact_no_command">Els elements de contacte no poden rebre ordres d\'Items, canviats per actualitzar-los</string>
+    <string name="search">Cerca</string>
+    <string name="settings_tasker_plugin">Tasker integration</string>
+    <string name="settings_tasker_plugin_summary">Habiliteu el connector d\'acció de Tasker que permet actualitzar elements mitjançant Tasker o altres aplicacions compatibles</string>
+    <string name="tasker_plugin_disabled">El connector de Tasker està desactivat</string>
+    <string name="turn_on">Activa</string>
     <string name="press_back_to_exit">Prem recula altra vegada per sortir</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
+    <string name="item_update_widget_title">Item control</string>
+    <string name="item_update_widget_content_description">Giny per canviar l\'estat de l\'Item</string>
+    <string name="item_update_widget_content_description_edit">Edita el giny</string>
+    <string name="item_update_widget">Giny</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
+    <string name="item_update_widget_item_picker_title">Selecciona un ítem</string>
+    <!-- %1$s: Item label, %2$s: State-->
+    <string name="item_update_success_message_generic">%1$s ha canviat a %2$s</string>
+    <string name="item_update_success_message_on">%s s\'ha activat</string>
+    <string name="item_update_success_message_off">%s s\'ha desactivat</string>
+    <string name="item_update_success_message_up">%s es mou cap amunt</string>
+    <string name="item_update_success_message_down">%s es mou cap avall</string>
+    <string name="item_update_success_message_move">%s es mou</string>
+    <string name="item_update_success_message_stop">%s s\'ha aturat</string>
+    <string name="item_update_success_message_increase">%s s\'ha incrementat</string>
+    <string name="item_update_success_message_decrease">%s s\'ha disminuït</string>
+    <string name="item_update_success_message_undefined">%s ha passat a indefinit</string>
+    <string name="item_update_success_message_empty_string">%s ha canviat a una cadena buida</string>
+    <string name="item_update_success_message_play">%s s\'està reproduint</string>
+    <string name="item_update_success_message_pause">%s està en pausa</string>
+    <string name="item_update_success_message_next">%s s\'està mostrant el següent títol</string>
+    <string name="item_update_success_message_previous">%s s\'està mostrant el títol anterior</string>
+    <string name="item_update_success_message_rewind">%s s\'està rebobinant</string>
+    <string name="item_update_success_message_fastforward">%s s\'està avançant ràpid</string>
+    <string name="item_update_short_success_message_generic">Establert a %s</string>
+    <string name="item_update_short_success_message_on">Activat</string>
+    <string name="item_update_short_success_message_off">Desactivat</string>
+    <string name="item_update_short_success_message_up">Es mou cap amunt</string>
+    <string name="item_update_short_success_message_down">Es mou cap avall</string>
+    <string name="item_update_short_success_message_move">Es mou</string>
+    <string name="item_update_short_success_message_stop">Aturat</string>
+    <string name="item_update_short_success_message_increase">Augmentat</string>
+    <string name="item_update_short_success_message_decrease">Disminuït</string>
+    <string name="item_update_short_success_message_undefined">Establert a indefinit</string>
+    <string name="item_update_short_success_message_empty_string">Establert com una cadena buida</string>
+    <string name="item_update_short_success_message_play">S\'està reproduint</string>
+    <string name="item_update_short_success_message_pause">En pausa</string>
+    <string name="item_update_short_success_message_next">Mostrant següent títol</string>
+    <string name="item_update_short_success_message_previous">Mostrant el títol anterior</string>
+    <string name="item_update_short_success_message_rewind">Rebobinant</string>
+    <string name="item_update_short_success_message_fastforward">Avançant ràpid</string>
+    <string name="item_update_error_no_connection_retry">S\'ha produït un error en enviar l\'actualització de l\'Item, s\'està tornant a provar\u2026</string>
+    <string name="item_update_error_no_connection">Sense connexió</string>
+    <string name="item_update_error_couldnt_get_item_type">No s\'ha pogut obtenir el tipus d\'Item</string>
+    <string name="create_home_screen_widget_title">Crear un nou estri</string>
+    <string name="create_home_screen_widget_not_supported">Si us plau, aneu al menú d\'estris a la vostra pantalla d\'inici i creeu-ne un</string>
     <!-- Data saver -->
+    <string name="data_saver_title">Estalvi de dades</string>
+    <string name="data_saver_on">Els elements Sitemap que poden requerir transferències de dades més grans no es carreguen</string>
+    <string name="data_saver_load">Carrega de totes maneres</string>
+    <string name="data_saver_hint">No s\'ha carregat %s per estalviar dades</string>
+    <string name="data_saver_snackbar">Les icones no es basen en els estats dels elements, perquè l\'estalvi de dades està activat</string>
+    <string name="widget_type_image">Imatge</string>
+    <string name="widget_type_webview">Visualització web</string>
+    <string name="widget_type_video">Vídeo</string>
+    <string name="widget_type_mapview">Mapa</string>
+    <string name="widget_type_chart">Gràfic</string>
     <!-- Tiles -->
+    <string name="tile">Mosaic</string>
+    <string name="tiles_for_quick_settings">Mosaic per a una configuració ràpida</string>
+    <string name="tile_item_picker_title">Selecciona un ítem</string>
+    <string name="tile_disabled">Desactivat</string>
+    <string name="tile_enable">Activa</string>
+    <string name="tile_item_and_action">Item i Action</string>
+    <string name="tile_name">Nom</string>
+    <string name="tile_icon">Icona</string>
+    <string name="tile_require_unlock">Requereix que la pantalla estigui desbloquejada</string>
+    <string name="tile_require_unlock_summary_on">Sol·licitar per desbloquejar el dispositiu abans de permetre les actualitzacions d\'elements</string>
+    <string name="tile_require_unlock_summary_off">Permet actualitzar Items fins i tot si el dispositiu està bloquejat</string>
+    <string name="tile_overview_hint">L\'estat de la tecla no reflecteix l\'estat de l\'Item.\nSi tens problemes amb les tecles que no s\'actualitzen després de canviar-les aquí, toca la tecla o edita la configuració ràpida del teu dispositiu (el lloc que conté els commutadors, per exemple, Wi-Fi i Bluetooth).</string>
+    <plurals name="tile_active_number">
+        <item quantity="one">%d tecla activa</item>
+        <item quantity="other">%d tecles actives</item>
+    </plurals>
+    <string name="tile_number">Tecla %d</string>
+    <string name="tile_label_1">Tecla 1</string>
+    <string name="tile_label_2">Tecla 2</string>
+    <string name="tile_label_3">Tecla 3</string>
+    <string name="tile_label_4">Tecla 4</string>
+    <string name="tile_label_5">Tecla 5</string>
+    <string name="tile_label_6">Tecla 6</string>
+    <string name="tile_label_7">Tecla 7</string>
+    <string name="tile_label_8">Tecla 8</string>
+    <string name="tile_label_9">Tecla 9</string>
+    <string name="tile_label_10">Tecla 10</string>
+    <string name="tile_label_11">Tecla 11</string>
+    <string name="tile_label_12">Tecla 12</string>
+    <string name="error_missing_prefs">Si us plau, ompliu cada configuració</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">icona openHAB</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_radio">Ràdio</string>
+    <string name="tile_icon_bulb">Bombeta</string>
+    <string name="tile_icon_clock">Rellotge</string>
+    <string name="tile_icon_alarm_clock">Rellotge d\'alarma</string>
+    <string name="tile_icon_bell">Campana</string>
+    <string name="tile_icon_cloud_upload">Càrrega al núvol</string>
+    <string name="tile_icon_earth">Terra</string>
+    <string name="tile_icon_chat">Bombolles de discurs</string>
+    <string name="tile_icon_house">Casa</string>
+    <string name="tile_icon_lock">Pany</string>
+    <string name="tile_icon_microphone">Micròfon</string>
+    <string name="tile_icon_color_palette">Paleta de colors</string>
+    <string name="tile_icon_people">Gent</string>
+    <string name="tile_icon_person">Persona</string>
+    <string name="tile_icon_phone">Telèfon</string>
+    <string name="tile_icon_power_plug">Endoll</string>
+    <string name="tile_icon_battery">Bateria</string>
+    <string name="tile_icon_magnifier">Lupa</string>
+    <string name="tile_icon_star">Estrella</string>
+    <string name="tile_icon_tree">Arbre</string>
+    <string name="tile_icon_dashboard">Tauler</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_shield">Escut</string>
+    <string name="tile_icon_fan">Ventilador</string>
+    <string name="tile_icon_man">Home</string>
+    <string name="tile_icon_bed">Llit</string>
+    <string name="tile_icon_child">Nen</string>
+    <string name="tile_icon_baby">Nadó</string>
+    <string name="tile_icon_settings">Engranatge</string>
+    <string name="tile_icon_bath">Bany</string>
+    <string name="tile_icon_woman">Dona</string>
+    <string name="tile_icon_roller_shutter">Persiana</string>
+    <string name="tile_icon_camera">Càmera</string>
+    <string name="tile_icon_light_switch">Interruptor del llum</string>
+    <string name="tile_icon_garage">Garatge</string>
+    <string name="tile_icon_switch">Interruptor</string>
+    <string name="tile_icon_text">Text</string>
+    <string name="tile_icon_sofa">Sofà</string>
+    <string name="tile_icon_lamp_ceiling">Llum de sostre</string>
+    <string name="tile_icon_lamp_floor">Llum de peu</string>
+    <string name="tile_icon_lamp_bedside">Llum tauleta de nit</string>
+    <string name="tile_icon_lamp_outdoor">Llum exterior</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Garatge</string>
+    <string name="item_tag_location_house">Casa</string>
+    <string name="item_tag_equipment_battery">Bateria</string>
+    <string name="item_tag_equipment_camera">Càmera</string>
+    <string name="item_tag_equipment_fan">Ventilador</string>
+    <string name="item_tag_equipment_lock">Pany</string>
 </resources>

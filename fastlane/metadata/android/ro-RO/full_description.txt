@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
-The builds on F-Droid have FCM and crash reporting removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
 Încercați funcții noi și lăsați primele impresii!
 You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
@@ -14,11 +14,11 @@ The app has an action plugin for Tasker and Locale included.
 
 <b>Open Source Community</b>
 
-  Alătură-te comunității openHAB pe forum la https://community.openhab.org
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
 When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
 If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
 
-<b>openHAB Foundation</b>
+<b>Fundația openHAB</b>
 
 The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 

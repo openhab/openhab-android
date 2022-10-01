@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -25,32 +25,32 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.PowerManager
 import android.util.Log
+import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import java.security.InvalidKeyException
+import java.security.GeneralSecurityException
+import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.util.DataUsagePolicy
-import org.openhab.habdroid.util.RemoteLog
-import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 
 class OpenHabApplication : MultiDexApplication() {
     interface OnDataUsagePolicyChangedListener {
-        fun onDataUsagePolicyChanged(newPolicy: DataUsagePolicy)
+        fun onDataUsagePolicyChanged()
     }
 
     val secretPrefs: SharedPreferences by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 getEncryptedSharedPrefs()
-            } catch (e: InvalidKeyException) {
+            } catch (e: GeneralSecurityException) {
                 // See https://github.com/openhab/openhab-android/issues/1807
-                Log.e(TAG, "Error getting encrypted shared prefs, try again.", e)
+                CrashReportingHelper.e(TAG, "Error getting encrypted shared prefs, try again.", exception = e)
                 getEncryptedSharedPrefs()
             }
         } else {
@@ -77,7 +77,13 @@ class OpenHabApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        RemoteLog.initialize()
+        if (CrashReportingHelper.isCrashReporterProcess()) {
+            // No initialization of the app required
+            Log.d(TAG, "Skip onCreate()")
+            return
+        }
+
+        CrashReportingHelper.initialize(this)
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))
         ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
@@ -99,6 +105,11 @@ class OpenHabApplication : MultiDexApplication() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             registerDataAccessAudit()
         }
+
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Enable WebView debugging")
+            WebView.setWebContentsDebuggingEnabled(true)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -106,27 +117,34 @@ class OpenHabApplication : MultiDexApplication() {
         class DataAccessException(message: String) : Exception(message)
 
         val appOpsCallback = object : AppOpsManager.OnOpNotedCallback() {
-            private fun logPrivateDataAccess(opCode: String, trace: String) {
-                Log.e("DataAudit", "Operation: $opCode\nStacktrace: $trace")
-                RemoteLog.nonFatal(DataAccessException("Operation: $opCode\nStacktrace: $trace"))
+            private fun logPrivateDataAccess(tag: String?, opCode: String, trace: String) {
+                if (tag in DATA_ACCESS_TAGS) {
+                    // Known access, don't report it
+                    return
+                }
+                Log.e("DataAudit", "Tag: $tag, Operation: $opCode\nStacktrace: $trace")
+                CrashReportingHelper.nonFatal(DataAccessException("Tag: $tag, Operation: $opCode\nStacktrace: $trace"))
             }
 
             override fun onNoted(syncNotedAppOp: SyncNotedAppOp) {
                 logPrivateDataAccess(
+                    syncNotedAppOp.attributionTag,
                     syncNotedAppOp.op,
-                    Throwable().stackTrace.toString()
+                    Throwable().stackTraceToString()
                 )
             }
 
             override fun onSelfNoted(syncNotedAppOp: SyncNotedAppOp) {
                 logPrivateDataAccess(
+                    syncNotedAppOp.attributionTag,
                     syncNotedAppOp.op,
-                    Throwable().stackTrace.toString()
+                    Throwable().stackTraceToString()
                 )
             }
 
             override fun onAsyncNoted(asyncNotedAppOp: AsyncNotedAppOp) {
                 logPrivateDataAccess(
+                    asyncNotedAppOp.attributionTag,
                     asyncNotedAppOp.op,
                     asyncNotedAppOp.message
                 )
@@ -165,7 +183,8 @@ class OpenHabApplication : MultiDexApplication() {
         }
 
         override fun onReceive(context: Context, intent: Intent?) {
-            val oldPolicy = determineDataUsagePolicy()
+            val prevSystemDataSaverStatus = systemDataSaverStatus
+            val wasBatterySaverActive = batterySaverActive
             when (intent?.action) {
                 ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED -> {
                     systemDataSaverStatus = getSystemDataSaverStatus(context)
@@ -177,14 +196,24 @@ class OpenHabApplication : MultiDexApplication() {
                 }
                 else -> return
             }
-            val newPolicy = determineDataUsagePolicy()
-            if (oldPolicy != newPolicy) {
-                dataUsagePolicyListeners.forEach { l -> l.onDataUsagePolicyChanged(newPolicy) }
+            if (prevSystemDataSaverStatus != systemDataSaverStatus || wasBatterySaverActive != batterySaverActive) {
+                dataUsagePolicyListeners.forEach { l -> l.onDataUsagePolicyChanged() }
             }
         }
     }
 
     companion object {
         private val TAG = OpenHabApplication::class.java.simpleName
+
+        const val DATA_ACCESS_TAG_SEND_DEV_INFO = "SEND_DEV_INFO"
+        const val DATA_ACCESS_TAG_SELECT_SERVER_WIFI = "SELECT_SERVER_WIFI"
+        const val DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI = "SUGGEST_TURN_ON_WIFI"
+        const val DATA_ACCESS_TAG_SERVER_DISCOVERY = "SERVER_DISCOVERY"
+        val DATA_ACCESS_TAGS = listOf(
+            DATA_ACCESS_TAG_SEND_DEV_INFO,
+            DATA_ACCESS_TAG_SELECT_SERVER_WIFI,
+            DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI,
+            DATA_ACCESS_TAG_SERVER_DISCOVERY
+        )
     }
 }

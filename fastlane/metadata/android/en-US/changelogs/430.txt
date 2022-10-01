@@ -1,0 +1,2 @@
+## Added
+* Item control: Show color picker on long press tile (#2937)

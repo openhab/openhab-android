@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -16,7 +16,6 @@ package org.openhab.habdroid.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -132,16 +131,14 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 .text(R.string.about_license_title)
                 .subText(R.string.about_license)
                 .icon(R.drawable.ic_account_balance_grey_24dp)
-                .setOnClickAction(makeClickRedirect(context, "$URL_TO_GITHUB/blob/master/LICENSE"))
+                .setOnClickAction(makeClickRedirect(context, "$URL_TO_GITHUB/blob/main/LICENSE"))
                 .build())
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.title_activity_libraries)
                 .icon(R.drawable.ic_code_braces_grey_24dp)
                 .setOnClickAction {
                     val f = LibsBuilder()
-                        .withFields(R.string::class.java.fields)
                         .withLicenseShown(true)
-                        .withAutoDetect(true)
                         .withAboutIconShown(false)
                         .withAboutVersionShown(false)
                         .withAboutVersionShownCode(false)
@@ -189,10 +186,6 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 .build()
         }
 
-        override fun getTheme(): Int {
-            return Util.getActivityThemeId(requireContext())
-        }
-
         companion object {
             private const val URL_TO_GITHUB = "https://github.com/openhab/openhab-android"
 
@@ -202,9 +195,3 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         }
     }
 }
-
-data class PushNotificationStatus(
-    val message: String,
-    @DrawableRes val icon: Int,
-    val notifyUser: Boolean
-)

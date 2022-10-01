@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/mainmenu_voice_recognition"
@@ -7,4 +9,10 @@
         android:orderInCategory="100"
         android:title="@string/mainmenu_openhab_voice_recognition"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/mainmenu_crash"
+        android:orderInCategory="999"
+        android:title="Crash"
+        app:showAsAction="never"
+        tools:ignore="HardcodedText" />
 </menu>

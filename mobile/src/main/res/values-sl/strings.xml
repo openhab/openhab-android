@@ -1,27 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
+    <string name="app_preferences_name">Nastavitve</string>
+    <string name="save">Shrani</string>
+    <string name="discard">Zavrzi</string>
+    <string name="delete">Izbriši</string>
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_sitemaps">Kazalo strani</string>
+    <string name="mainmenu_openhab_preferences">Nastavitve</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 GV</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 GV (%s)</string>
+    <string name="app_notifications">Obvestila</string>
+    <string name="app_notifications_on_server">Obvestila (%s)</string>
+    <string name="habpanel_error">Napaka pri nalaganju HABPanel</string>
+    <string name="oh3_ui_error">Napaka pri nalaganju openHAB 3 GV</string>
+    <string name="mainmenu_openhab_selectsitemap">Izberi privzetega Sitemap</string>
+    <string name="mainmenu_openhab_clearcache">Izbrišite predpomnilnik slik</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Povezava</string>
+    <string name="settings_display_title">Prikaz</string>
+    <string name="settings_sitemap_title">Sitemap</string>
+    <string name="settings_misc_title">Razno</string>
+    <string name="settings_openhab_url">URL lokalnega strežnika</string>
+    <string name="settings_openhab_url_summary">Naslov openHAB nadzorne plošče (hostname ali IP naslov). Če je to nastavljeno, je avtomatsko odkrivanje onemogočeno. Trenutna nastavitev je:%s</string>
+    <string name="settings_openhab_alturl">Oddaljen naslov strežnika</string>
+    <string name="settings_openhab_alturl_summary">Naslov openHAB nadzorne plošče, ki naj se uporablja, ko lokalni naslov ni dosegljiv. Trenutna nastavitev je:%s</string>
+    <string name="settings_openhab_username">Uporabniško ime</string>
+    <string name="settings_openhab_password">Geslo</string>
+    <string name="settings_openhab_password_summary_weak">Šibko geslo</string>
+    <string name="settings_openhab_password_summary_strong">Močno geslo</string>
+    <string name="settings_openhab_api_token_hint">V kolikor uporabljate API žeton, ga vnesite v polje za uporabniško ime in pustite polje za geslo prazno</string>
+    <string name="settings_openhab_sslclientcert">SSL certifikat klienta</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Povezava na namige in pojasnila kako vzpostaviti avtentikacijo s pomočjo SSL certifikata klienta</string>
+    <string name="settings_openhab_sslclientcert_not_supported">SSL certifikati klienta niso podprti na vaši napravi</string>
+    <string name="settings_openhab_demomode">Preizkusni način</string>
+    <string name="settings_openhab_demomode_summary">V kolikor nimate openHAB strežnika, omogočite preizkusni način za ogled zmožnosti sistema openHAB.</string>
+    <string name="drawer_entries">Vnosi stranskega menija</string>
+    <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_accent_color">Barva poudarka</string>
+    <string name="settings_select_a_color">Izberite barvo</string>
+    <string name="settings_openhab_fullscreen">Celozaslonski način</string>
+    <string name="settings_openhab_icon_format">Format ikone</string>
+    <string name="settings_openhab_icon_format_png">Bitna slika</string>
+    <string name="settings_openhab_icon_format_svg">Vektor</string>
+    <string name="settings_image_widget_scaling">Prilagodi sliko zaslonu</string>
+    <string name="settings_image_widget_scaling_summary_off">Ohrani \'Slika\' pripomočke, ki so v izvirniku manjši od širine zaslona</string>
+    <string name="settings_image_widget_scaling_summary_on">Poskrbite, da \'Slika\' pripomočki ustrezajo širini zaslona s prilagajanjem njihove velikosti</string>
+    <string name="settings_chart_scaling">Prilagajanje grafa</string>
+    <string name="settings_chart_scaling_summary">Opomba: Manjša velikost grafa zmanjša črke in debelino linij, da je več prostora za graf, vendar je lahko zato berljivost zmanjšana.</string>
+    <string name="settings_chart_scaling_value_xs">Zelo majhno</string>
+    <string name="settings_chart_scaling_value_s">Majhno</string>
+    <string name="settings_chart_scaling_value_m">Privzeto</string>
+    <string name="settings_chart_scaling_value_l">Veliko</string>
+    <string name="settings_openhab_chart_hq">Grafi z visoko resolucijo</string>
+    <string name="settings_openhab_chart_hq_summary">Generiranje grafov je lahko za strežnik zahtevno. Če opazite počasno nalaganje grafov in vaš strežnik ni ravno močan, onemogočite to možnost.</string>
+    <string name="settings_clear_default_sitemap">Izberi privzetega Sitemap</string>
+    <string name="settings_no_default_sitemap">Privzeti Sitemap ni izbran</string>
+    <!-- %1$s: Default Sitemap label -->
+    <string name="settings_current_default_sitemap">Trenutni privzeti Sitemap je:%1$s</string>
+    <string name="settings_openhab_alt_connection">Oddaljeno</string>
+    <string name="settings_openhab_connection">Lokalno</string>
+    <string name="settings_ringtone">Melodija zvonjenja</string>
+    <string name="settings_ringtone_none">Brez</string>
+    <string name="settings_ringtone_on_external">Neznana melodija zvonjenja na zunanji shrambi</string>
+    <string name="settings_notification_vibration">Vibracije</string>
+    <string name="settings_notification_vibration_off">Izklopljeno</string>
+    <string name="settings_notification_vibration_short">Kratko</string>
+    <string name="settings_notification_vibration_long">Dolgo</string>
+    <string name="settings_notification_vibration_twice">Dvakrat</string>
+    <string name="settings_notification_ringtone_vibration">Melodija zvonjenja &amp; vibracija</string>
+    <string name="settings_connection_summary">Povezan z %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_screen_lock_off">Izklopljeno</string>
     <!-- App messages strings -->
     <!-- Please try to keep the string as short as possible -->
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_invalid_https_url">Vnesite veljaven naslov v \'https://host(:port)/\' obliki</string>
+    <string name="error_port_seems_invalid">Vrata, ki ste jih vnesli, so neveljavna za izbrani protokol</string>
+    <string name="error_first_char_is_whitespace">Prvi znak je presledek, kar je verjetno nezaželeno</string>
+    <string name="error_last_char_is_whitespace">Zadnji znak je presledek, kar je verjetno nezaželeno</string>
+    <string name="error_connection_failed">Povezava z gostiteljem ni uspela</string>
+    <string name="error_unable_to_resolve_hostname">Gostitelja ni mogoče najti</string>
+    <string name="error_unknown">Prišlo je do neznane napake: %s</string>
+    <string name="error_connection_sslhandshake_failed">SSL stisk roke ni uspel</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="action_settings">Nastavitve</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="notification_channel_messages_default_severity">Privzeto</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="settings_openhab_none">Brez</string>
     <!-- Themes -->
     <!-- Chart -->
     <!-- NFC -->
+    <string name="nfc_action_off">Izklopljeno</string>
     <!-- Drawer -->
     <!-- About -->
     <!-- Log -->
@@ -34,9 +122,11 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

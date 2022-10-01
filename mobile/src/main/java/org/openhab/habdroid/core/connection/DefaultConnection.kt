@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -27,6 +27,7 @@ import org.openhab.habdroid.util.bindToNetworkIfPossible
 
 open class DefaultConnection : AbstractConnection {
     internal var network: Network? = null
+    internal var isMetered = false
 
     internal constructor(
         httpClient: OkHttpClient,

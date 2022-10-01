@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -35,9 +35,9 @@ import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
 import kotlin.math.min
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -45,17 +45,21 @@ import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.getIconResource
 import org.openhab.habdroid.model.putIconResource
-import org.openhab.habdroid.ui.ItemUpdateWidgetItemPickerActivity
-import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.duplicate
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
-import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.PendingIntent_Immutable
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
+import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
+import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.showToast
 import org.openhab.habdroid.util.svgToBitmap
 
@@ -91,18 +95,23 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 ACTION_CREATE_WIDGET -> {
                     val data = intent
                         .getBundleExtra(EXTRA_BUNDLE)
-                        ?.getParcelable<ItemUpdateWidgetData>(EXTRA_DATA)
+                        ?.parcelable<ItemUpdateWidgetData>(EXTRA_DATA)
                         ?: return
                     saveInfoForWidget(context, data, id)
+                    BackgroundTasksManager.schedulePeriodicTrigger(context, false)
                     setupWidget(context, data, id, AppWidgetManager.getInstance(context))
-                    context.showToast(R.string.home_shortcut_success_pinning, ToastType.SUCCESS)
+                    context.showToast(R.string.home_shortcut_success_pinning)
                 }
                 ACTION_UPDATE_WIDGET -> {
-                    BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, getInfoForWidget(context, id))
+                    val data = getInfoForWidget(context, id)
+                    if (data.command != null) {
+                        BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, data)
+                    }
                 }
                 ACTION_EDIT_WIDGET -> {
                     Log.d(TAG, "Edit widget $id")
-                    val openEditIntent = Intent(context, ItemUpdateWidgetItemPickerActivity::class.java).apply {
+                    val openEditIntent = Intent(context, PreferencesActivity::class.java).apply {
+                        action = AppWidgetManager.ACTION_APPWIDGET_CONFIGURE
                         addFlags(FLAG_ACTIVITY_NEW_TASK)
                         putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
                     }
@@ -147,29 +156,53 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
 
-        val itemUpdatePendingIntent = PendingIntent.getBroadcast(context, appWidgetId, itemUpdateIntent, 0)
+        val itemUpdatePendingIntent =
+            PendingIntent.getBroadcast(context, appWidgetId, itemUpdateIntent, PendingIntent_Immutable)
 
         val editIntent = Intent(context, ItemUpdateWidget::class.java).apply {
             action = ACTION_EDIT_WIDGET
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
 
-        val editPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, editIntent, 0)
+        val editPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, editIntent, PendingIntent_Immutable)
 
-        val views = getRemoteViews(context, smallWidget, itemUpdatePendingIntent, editPendingIntent, data)
-        appWidgetManager.updateAppWidget(appWidgetId, views)
-        fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
+        GlobalScope.launch {
+            val itemState = if (data.showState) {
+                ConnectionFactory.waitForInitialization()
+                try {
+                    ConnectionFactory.primaryUsableConnection?.connection?.let { connection ->
+                        ItemClient.loadItem(connection, data.item)?.state?.asString
+                    }
+                } catch (e: HttpClient.HttpException) {
+                    Log.e(TAG, "Failed to load state of item ${data.item}")
+                    null
+                }
+            } else {
+                null // State isn't shown, so no need to get it
+            }
+
+            val views = getRemoteViews(
+                context,
+                smallWidget,
+                itemUpdatePendingIntent,
+                editPendingIntent,
+                data,
+                itemState ?: context.getString(R.string.error_getting_state)
+            )
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+            fetchAndSetIcon(context, views, data, smallWidget, appWidgetId, appWidgetManager)
+        }
     }
 
-    private fun fetchAndSetIcon(
+    private suspend fun fetchAndSetIcon(
         context: Context,
         views: RemoteViews,
         data: ItemUpdateWidgetData,
         smallWidget: Boolean,
         appWidgetId: Int,
         appWidgetManager: AppWidgetManager
-    ) = GlobalScope.launch {
-        val iconUrl = data.icon?.withCustomState(data.state)?.toUrl(context, true)
+    ) {
+        val iconUrl = data.icon?.withCustomState(data.command.orEmpty())?.toUrl(context, true)
 
         if (iconUrl != null) {
             val cm = CacheManager.getInstance(context)
@@ -228,7 +261,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     val connection = ConnectionFactory.primaryUsableConnection?.connection
                     if (connection == null) {
                         Log.d(TAG, "Got no connection")
-                        return@launch
+                        return
                     }
                     val response = connection.httpClient.get(iconUrl).response
                     val content = response.bytes()
@@ -259,12 +292,18 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         fun getInfoForWidget(context: Context, id: Int): ItemUpdateWidgetData {
             val prefs = getPrefsForWidget(context, id)
             val item = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM)
-            val state = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE)
+            val command = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_COMMAND)
             val label = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL)
             val widgetLabel = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
             val mappedState = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
-            return ItemUpdateWidgetData(item, state, label, widgetLabel, mappedState, icon)
+            // Fallback to the theme of the previously set widget
+            val theme = prefs.getStringOrFallbackIfEmpty(
+                PreferencesActivity.ITEM_UPDATE_WIDGET_THEME,
+                context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark")
+            )
+            val showState = prefs.getBoolean(PreferencesActivity.ITEM_UPDATE_WIDGET_SHOW_STATE, false)
+            return ItemUpdateWidgetData(item, command, label, widgetLabel, mappedState, icon, theme, showState)
         }
 
         fun saveInfoForWidget(
@@ -274,11 +313,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         ) {
             getPrefsForWidget(context, id).edit {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM, data.item)
-                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_STATE, data.state)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_COMMAND, data.command)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_LABEL, data.label)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
                 putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
+                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_THEME, data.theme)
+                putBoolean(PreferencesActivity.ITEM_UPDATE_WIDGET_SHOW_STATE, data.showState)
             }
         }
 
@@ -287,17 +328,32 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             smallWidget: Boolean,
             itemUpdatePendingIntent: PendingIntent?,
             editPendingIntent: PendingIntent?,
-            data: ItemUpdateWidgetData
+            data: ItemUpdateWidgetData,
+            itemState: String
         ): RemoteViews {
-            val views = RemoteViews(
-                context.packageName,
-                if (smallWidget) R.layout.widget_item_update_small else R.layout.widget_item_update
-            )
+            val darkTheme = data.theme == "dark"
+            val layout = when {
+                data.widgetLabel?.isEmpty() == true -> {
+                    if (darkTheme) R.layout.widget_item_update_dark_no_text
+                    else R.layout.widget_item_update_light_no_text
+                }
+                smallWidget -> {
+                    if (darkTheme) R.layout.widget_item_update_dark_text_small
+                    else R.layout.widget_item_update_light_text_small
+                }
+                else -> {
+                    if (darkTheme) R.layout.widget_item_update_dark_text else R.layout.widget_item_update_light_text
+                }
+            }
+            val label = if (data.showState) {
+                "${data.widgetLabel.orEmpty()} $itemState"
+            } else {
+                data.widgetLabel.orEmpty()
+            }
+            val views = RemoteViews(context.packageName, layout)
             views.setOnClickPendingIntent(R.id.outer_layout, itemUpdatePendingIntent)
             views.setOnClickPendingIntent(R.id.edit, editPendingIntent)
-            val widgetLabel = data.widgetLabel
-                ?: context.getString(R.string.item_update_widget_text, data.label, data.mappedState)
-            views.setTextViewText(R.id.text, widgetLabel)
+            views.setTextViewText(R.id.text, label)
             hideLoadingIndicator(views)
             return views
         }
@@ -327,10 +383,17 @@ open class ItemUpdateWidget : AppWidgetProvider() {
     @Parcelize
     data class ItemUpdateWidgetData(
         val item: String,
-        val state: String,
+        val command: String?,
         val label: String,
         val widgetLabel: String?,
         val mappedState: String,
-        val icon: IconResource?
-    ) : Parcelable
+        val icon: IconResource?,
+        val theme: String,
+        val showState: Boolean
+    ) : Parcelable {
+        fun isValid(): Boolean {
+            return item.isNotEmpty() &&
+                label.isNotEmpty()
+        }
+    }
 }

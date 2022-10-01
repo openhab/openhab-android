@@ -1,0 +1,4 @@
+## Fixed
+* Hide server selector if there's no server configured (#2420)
+* Fix image loading for a few websites (#2397)
+* Fix Google Maps MapView widgets (#2418)

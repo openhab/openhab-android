@@ -1,0 +1,6 @@
+## What's Changed
+* Support command options by @mueller-ma in https://github.com/openhab/openhab-android/pull/2959
+* Fix widget creation by @mueller-ma in https://github.com/openhab/openhab-android/pull/2987
+* Don't crash on missing phone permissions by @mueller-ma in https://github.com/openhab/openhab-android/pull/2980
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.20.16-beta...2.21.1-beta

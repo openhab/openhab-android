@@ -1,16 +1,18 @@
 version: 2
 updates:
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "04:00"
-    timezone: Europe/Berlin
-  open-pull-requests-limit: 99
-- package-ecosystem: gradle
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "04:00"
-    timezone: Europe/Berlin
-  open-pull-requests-limit: 99
+    - package-ecosystem: github-actions
+      directory: "/"
+      schedule:
+          interval: daily
+          time: "04:00"
+          timezone: Europe/Berlin
+      open-pull-requests-limit: 99
+    - package-ecosystem: gradle
+      directory: "/"
+      schedule:
+          interval: daily
+          time: "04:00"
+          timezone: Europe/Berlin
+      open-pull-requests-limit: 99
+      ignore:
+          - dependency-name: "com.google.firebase:firebase-bom"

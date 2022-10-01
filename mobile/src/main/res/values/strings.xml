@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
 
     <!-- General app strings -->
     <string name="openhab" translatable="false">openHAB</string>
@@ -10,6 +10,9 @@
     <string name="save">Save</string>
     <string name="discard">Discard</string>
     <string name="delete">Delete</string>
+    <string name="attribution_tag_discover_server">Discover openHAB server</string>
+    <string name="attribution_tag_select_server_wifi">Select server based on Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Suggest to turn on Wi-Fi</string>
 
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
@@ -18,10 +21,14 @@
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
     <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
     <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_notifications_on_server">Notifications (%s)</string>
     <string name="habpanel_error">An error occurred while loading HABPanel</string>
     <string name="oh3_ui_error">An error occurred while loading openHAB 3 UI</string>
+    <string name="frontail_error">An error occurred while loading Frontail. Please note that it\'s not available via openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail must run on its default port 9001. It\'s bundled with openHABian or can be installed manually.</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 
@@ -39,19 +46,22 @@
     <string name="settings_openhab_rtsphost">RTSP Host</string>
     <string name="settings_openhab_password_summary_weak">Weak password set</string>
     <string name="settings_openhab_password_summary_strong">Strong password set</string>
+    <string name="settings_openhab_api_token_hint">If you\'re using an API token, enter it in the username field and leave the password field empty</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://community.openhab.org/t/using-nginx-reverse-proxy-for-client-certificate-authentication-start-discussion/43064</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL client certificates are not supported by your device</string>
-    <string name="settings_openhab_screentimeroff">Disable display timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
+    <string name="settings_openhab_screentimeroff">Disable screen timeout</string>
+    <string name="settings_openhab_screentimeroff_summary">The screen doesn\'t turn off when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">If you don\'t have an openHAB server, enable demo mode to get an imagination of what openHAB is capable of.</string>
+    <string name="start_page_title">Start page</string>
     <string name="drawer_entries">Side menu entries</string>
     <string name="settings_openhab_theme">Theme</string>
     <string name="settings_accent_color">Accent color</string>
     <string name="settings_select_a_color">Select a color</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
+    <string name="settings_set_as_launcher">Allow app to be used as launcher</string>
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
@@ -70,6 +80,7 @@
     <string name="settings_openhab_chart_hq_summary">Generating charts can be taxing to the server. If you experience slow chart loading times and your server isn\'t powerful, disable this option to improve loading times.</string>
     <string name="settings_clear_default_sitemap">Clear default Sitemap</string>
     <string name="settings_no_default_sitemap">No default Sitemap selected</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Local</string>
@@ -87,8 +98,10 @@
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
     <string name="settings_notification_ringtone_vibration">Ringtone &amp; Vibration</string>
     <string name="settings_connection_summary">Connected to %s</string>
-    <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
-    <string name="beta">Beta</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">Insecurely connected to %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL doesn\'t start with \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">No username and password set</string>
     <string name="settings_screen_lock">Screen lock</string>
     <string name="settings_screen_lock_nolock_summary">You need to enable a screen lock for your device for enabling app access locking</string>
     <string name="settings_screen_lock_off_summary">Access to the app is not locked</string>
@@ -116,7 +129,23 @@
     <string name="settings_server_primary_summary_is_not_primary">"%s" is the primary server. Touch to make this server the primary one.\nCurrently only the primary server is supported by all features of this app. Touch the help button for more information.</string>
     <string name="settings_server_primary_url" translatable="false">https://www.openhab.org/docs/apps/android.html#multi-server-support</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Advanced</string>
     <string name="click_here_for_more_information">Touch here for more information</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">The app will select this server when connected to one of these Wi-Fi names. Multiple Wi-Fi names can be entered by separating them with new lines.</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Switched to server "%s" based on Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Unable to read Wi-Fi name: Missing permissions</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Unable to read Wi-Fi name: Location is off</string>
+    <string name="setting_crash_reporting_title">Crash reporting</string>
+    <string name="setting_crash_reporting_summary">Send crash reports to support the development of the app</string>
+    <string name="device_control_subtitle_location">Location</string>
+    <string name="device_control_subtitle_equipment">Equipment</string>
+    <string name="device_control_subtitle_location_equipment">Location and equipment</string>
+    <string name="device_control_subtitle_item_name">Item name</string>
+    <string name="device_control_subtitle_location_value" translatable="false">location</string>
+    <string name="device_control_subtitle_equipment_value" translatable="false">equipment</string>
+    <string name="device_control_subtitle_location_equipment_value" translatable="false">location_equipment</string>
+    <string name="device_control_subtitle_item_name_value" translatable="false">item_name</string>
+    <string name="device_control_subtitle">Device control subtitle</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -133,16 +162,22 @@
     <string name="app_shortcut_disabled_notifications">Your remote server isn\'t available</string>
     <string name="app_shortcut_disabled_voice_recognition">Your device doesn\'t have a voice recognition app installed</string>
     <string name="no_position_set">No position set</string>
+    <string name="show_and_copy_item_name">Show and copy Item name</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">Copied \"%s\"</string>
 
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>
     <string name="error_sitemap_generic_load_error">The Sitemap could not be loaded. The following error occurred: %1$s</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_wifi_not_available">Wi-Fi is turned off</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_wifi_restricted">Local connections to server %1$s are restricted to the following Wi-Fi names: %2$s</string>
     <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (HTTP code %d).</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_invalid_https_url">Please enter a valid URL in a \'https://host(:port)/\' form</string>
     <string name="error_port_seems_invalid">The port you have entered seems invalid for the selected protocol</string>
+    <string name="error_home_myopenhab_org_no_notifications">Notifications aren\'t available on home.myopenhab.org, but on myopenhab.org</string>
     <string name="error_first_char_is_whitespace">The first character is a whitespace, which is probably unwanted</string>
     <string name="error_last_char_is_whitespace">The last character is a whitespace, which is probably unwanted</string>
     <string name="error_connection_failed">Connection to host failed</string>
@@ -201,7 +236,7 @@
     <string name="error_openhab_offline">Your openHAB server is offline while the cloud instance is running</string>
     <string name="error_no_browser_found">No browser found on your device</string>
     <string name="error_no_speech_to_text_app_found">No voice recognition app found</string>
-    <string name="error_sse_failed">Event subscription failed, widget refresh may be impaired</string>
+    <string name="error_sse_failed">Event subscription failed, Widget refresh may be impaired</string>
     <string name="error_video_player">%s couldn\'t be loaded</string>
     <string name="install">Install</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
@@ -213,7 +248,7 @@
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled</string>
     <string name="action_settings">Settings</string>
-    <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long press a widget on the Sitemap.</string>
+    <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long press a Widget on the Sitemap.</string>
     <string name="info_not_set">Not set</string>
     <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
@@ -229,16 +264,21 @@
     <string name="send_device_info_foreground_service_title">Event monitor</string>
     <string name="send_device_info_foreground_service_summary">Monitor events associated with the following Items. This requires a persistent notification and may increase battery usage.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Monitor events associated with the following Items. This requires a persistent notification and may increase battery usage. This is only required for sending the DND mode.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Monitor events associated to DND mode</string>
     <string name="send_device_info_foreground_service_running_summary_one">Monitor events associated to %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Monitor events associated to %1$s and %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Monitor events associated to %1$s, %2$s and more</string>
     <string name="settings_item_update_pref_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Last update was \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Alarm time</string>
     <string name="settings_alarm_clock_summary_on">Sends alarm time to Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Don\'t send alarm time</string>
     <string name="settings_alarm_clock_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#alarm-clock</string>
+    <string name="copy_debug_info">Copy</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug_ignored">Ignored alarm time update to %1$s which was sent by %2$s</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug">Got alarm time update to %1$s which was sent by %2$s</string>
     <string name="settings_phone_state">Call state</string>
     <string name="settings_phone_state_summary_on">Sends call state to Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Don\'t send call state</string>
@@ -258,15 +298,25 @@
     <string name="settings_wifi_ssid_summary_off">Don\'t send Wi-Fi name (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Sending Wi-Fi name has been disabled due to missing permissions</string>
     <string name="settings_wifi_ssid_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#wifi-name-ssid</string>
+    <string name="settings_wifi_ssid_restrict">Restrict local connection to these Wi-Fi names</string>
+    <string name="settings_bluetooth_devices">Connected Bluetooth devices</string>
+    <string name="settings_bluetooth_devices_summary_on">Sends a pipe separated list of MAC addresses of connected Bluetooth devices to Item \'%1$s\'</string>
+    <string name="settings_bluetooth_devices_summary_off">Don\'t send connected Bluetooth devices</string>
+    <string name="settings_bluetooth_devices_permission_denied">Sending Bluetooth devices has been disabled due to missing permissions</string>
     <string name="settings_dnd_mode">DND mode</string>
     <string name="settings_dnd_mode_summary_on">Sends DND mode to Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Don\'t send DND mode</string>
     <string name="settings_dnd_mode_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#dnd-mode</string>
+    <string name="settings_gadgetbridge">Gadgetbridge device actions</string>
+    <string name="settings_gadgetbridge_summary_on">Sends Gadgetbridge device actions to Item \'%1$s\'. Requires event monitor to be turned on.</string>
+    <string name="settings_gadgetbridge_summary_off">Don\'t send Gadgetbridge device actions</string>
+    <string name="settings_gadgetbridge_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#gadgetbridge-device-actions</string>
     <string name="settings_background_tasks_permission_hint_pre_r">This feature requires additional permissions to work. After enabling it, you\'ll be asked for permission approval.</string>
     <string name="settings_background_tasks_permission_hint">This feature requires additional permissions to work. After enabling it, you\'ll be asked for permission approval. Please make sure to approve the permission also for background usage, since the Item updates also happen when the app is in background.</string>
-    <string name="settings_background_tasks_permission_denied">Some background tasks have been disabled due to missing permissions</string>
+    <string name="settings_permission_denied">Some features have been disabled due to missing permissions</string>
     <string name="settings_background_tasks_permission_denied_background_location">Some background tasks require location access to be set to \"%s\" in the Android settings</string>
     <string name="settings_background_tasks_permission_allow">Allow</string>
+    <string name="settings_location_permissions_required">This app collects location data to enable \"Sending Wi-Fi name to server\" and \"Selecting server based on Wi-Fi\" even when the app is closed or not in use. Please note that this data is only sent to the servers you have configured.</string>
     <string name="settings_item_pref_item_name">Item name</string>
     <string name="waiting_for_item_upload">Waiting for network to send Item updates</string>
     <string name="item_upload_in_progress">Items are currently being updated</string>
@@ -285,9 +335,9 @@
         <item quantity="one">%d new notification</item>
         <item quantity="other">%d new notifications</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Unavailable, remote server isn\'t configured</string>
-    <string name="push_notification_status_http_error">Unavailable, error connecting to remote server: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Unavailable, remote server isn\'t an openHAB cloud instance</string>
+    <string name="push_notification_status_no_remote_configured">Notifications are unavailable: Remote server isn\'t configured</string>
+    <string name="push_notification_status_http_error">Notifications are unavailable: Error connecting to remote server: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Notifications are unavailable: Remote server isn\'t an openHAB cloud instance</string>
     <string name="push_notification_status">Status</string>
     <string name="push_notification_hint">The notifications are polled on a regular schedule, which is the same than for \"Send device information to server\"</string>
     <plurals name="item_update_error_title">
@@ -400,8 +450,8 @@
     <string name="nfc_action_write_command_tag">Write Item NFC tag</string>
 
     <!-- Drawer -->
-    <string name="drawer_open">Sitemap drawer opened</string>
-    <string name="drawer_close">Sitemap drawer closed</string>
+    <string name="drawer_open">Open side menu</string>
+    <string name="drawer_close">Close side menu</string>
     <string name="mainmenu_openhab_voice_recognition">Voice recognition</string>
 
     <!-- About -->
@@ -420,13 +470,15 @@
     <string name="about_privacy_policy">Privacy policy</string>
     <string name="about_rate_this_app">Rate this app</string>
 
-    <string name="settings_debug_messages_title">Extended error messages</string>
+    <string name="settings_debug_messages_title">Show information for troubleshooting</string>
     <string name="settings_troubleshooting_title">Troubleshooting</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="undo">Undo</string>
     <string name="try_again_button">Try again</string>
     <string name="enable_wifi_button">Turn on Wi-Fi</string>
+    <string name="switch_wifi_button">Connect to other Wi-Fi</string>
     <string name="go_to_settings_button">Go to settings</string>
     <string name="enable_demo_mode_button">Turn on demo mode</string>
     <string name="configuration_missing">We didn\'t find an openHAB server in your network. If you already have a server, please configure its IP address or host name in the server settings. If you don\'t yet have a server, you can enable demo mode to see what openHAB is capable of.</string>
@@ -451,6 +503,7 @@
     <string name="home_shortcut_error_pinning">Error pinning to home</string>
     <string name="home_shortcut_success_pinning">Pinned to home</string>
     <string name="home_shortcut_server_has_been_deleted">The server for this shortcut has been deleted</string>
+    <string name="home_shortcut_title">Set shortcut title</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>
@@ -462,8 +515,8 @@
     <string name="content_description_open_number_picker">Open number picker</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Open openHAB</string>
-    <string name="content_description_increase_item_value">Increase item value</string>
-    <string name="content_description_decrease_item_value">Decrease item value</string>
+    <string name="content_description_increase_item_value">Increase Item value</string>
+    <string name="content_description_decrease_item_value">Decrease Item value</string>
     <string name="swipe_to_refresh_description">The app also refreshes automatically, you normally don\'t need to do it manually</string>
     <string name="got_it">Got it!</string>
 
@@ -508,9 +561,15 @@
     <string name="item_update_widget_title">Item control</string>
     <string name="item_update_widget_content_description">Widget for changing Item state</string>
     <string name="item_update_widget_content_description_edit">Edit widget</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget">Widget</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Select an Item</string>
+    <string name="widget_show_state">Append current state to name</string>
+    <string name="widget_show_state_summary">The state is updated on the schedule that can be set in the settings under \"Send device information to server\"</string>
+    <string name="widget_no_command">Don\'t send a command</string>
+    <string name="error_getting_state">Error loading state</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s has been set to %2$s</string>
     <string name="item_update_success_message_on">%s has been turned on</string>
     <string name="item_update_success_message_off">%s has been turned off</string>
@@ -550,15 +609,12 @@
     <string name="item_update_error_couldnt_get_item_type">Couldn\'t get Item type</string>
     <string name="create_home_screen_widget_title">Create widget</string>
     <string name="create_home_screen_widget_not_supported">Please go to the widget menu on your home screen and create a widget from there</string>
-    <string name="item_update_widget_auto_generate_widget_label">Auto generate widget label</string>
-    <string name="item_update_widget_widget_label">Widget label</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
 
     <!-- Data saver -->
     <string name="data_saver_title">Data saver</string>
     <string name="data_saver_on">Sitemap elements that may require larger data transfers aren\'t loaded</string>
-    <string name="data_saver_off">The system wide data saver setting is followed when loading data-using sitemap elements</string>
-    <string name="data_saver_off_pre_n">All sitemap elements are loaded, disregarding their data usage</string>
+    <string name="data_saver_off">The system wide data saver setting is followed when loading data-using Sitemap elements</string>
+    <string name="data_saver_off_pre_n">All Sitemap elements are loaded, disregarding their data usage</string>
     <string name="data_saver_load">Load anyway</string>
     <string name="data_saver_hint">%s was not loaded to save data</string>
     <string name="data_saver_snackbar">Icons aren\'t based on Item states, because data saver is turned on</string>
@@ -567,15 +623,15 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Map</string>
     <string name="widget_type_chart">Chart</string>
+    <string name="widget_type_color">Color</string>
 
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">Tiles for quick settings</string>
     <string name="tile_item_picker_title">Select an Item</string>
-    <string name="tile_error_saving">Please fill out every setting</string>
     <string name="tile_disabled">Turned off</string>
     <string name="tile_enable">Turn on</string>
-    <string name="item_item_and_action">Item and action</string>
+    <string name="tile_item_and_action">Item and action</string>
     <string name="tile_name">Name</string>
     <string name="tile_icon">Icon</string>
     <string name="tile_require_unlock">Require screen to be unlocked</string>
@@ -599,6 +655,7 @@
     <string name="tile_label_10">Tile 10</string>
     <string name="tile_label_11">Tile 11</string>
     <string name="tile_label_12">Tile 12</string>
+    <string name="error_missing_prefs">Please fill out every setting</string>
 
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB icon</string>
@@ -626,6 +683,7 @@
     <string name="tile_icon_dashboard">Dashboard</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Shield</string>
+    <string name="tile_icon_fan">Fan</string>
     <string name="tile_icon_man">Man</string>
     <string name="tile_icon_bed">Bed</string>
     <string name="tile_icon_child">Child</string>
@@ -638,6 +696,7 @@
     <string name="tile_icon_light_switch">Light switch</string>
     <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Switch</string>
+    <string name="tile_icon_text">Text</string>
     <string name="tile_icon_sofa">Sofa</string>
     <string name="tile_icon_lamp_ceiling">Ceiling lamp</string>
     <string name="tile_icon_lamp_floor">Floor lamp</string>
@@ -665,6 +724,7 @@
     <string name="tile_icon_tree_value" translatable="false">tree</string>
     <string name="tile_icon_wifi_value" translatable="false">wifi</string>
     <string name="tile_icon_shield_value" translatable="false">shield</string>
+    <string name="tile_icon_fan_value" translatable="false">fan</string>
     <string name="tile_icon_bed_value" translatable="false">bed</string>
     <string name="tile_icon_phone_value" translatable="false">phone</string>
     <string name="tile_icon_cloud_upload_value" translatable="false">upload</string>
@@ -682,15 +742,104 @@
     <string name="tile_icon_light_switch_value" translatable="false">light_switch</string>
     <string name="tile_icon_garage_value" translatable="false">garage</string>
     <string name="tile_icon_switch_value" translatable="false">switch</string>
+    <string name="tile_icon_text_value" translatable="false">text</string>
     <string name="tile_icon_sofa_value" translatable="false">sofa</string>
     <string name="tile_icon_lamp_ceiling_value" translatable="false">lamp_ceiling</string>
     <string name="tile_icon_lamp_floor_value" translatable="false">lamp_floor</string>
     <string name="tile_icon_lamp_bedside_value" translatable="false">lamp_bedside</string>
     <string name="tile_icon_lamp_outdoor_value" translatable="false">lamp_outdoor</string>
-
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="default_notification_channel_name" translatable="true">mcsoft</string>
     <string name="msg_subscribed">Subscribed to mcsoft topic</string>
     <string name="msg_subscribe_failed">Failed to subscribe to mcsoft topic</string>
-
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Apartment</string>
+    <string name="item_tag_location_attic">Attic</string>
+    <string name="item_tag_location_basement">Basement</string>
+    <string name="item_tag_location_bathroom">Bathroom</string>
+    <string name="item_tag_location_bedroom">Bedroom</string>
+    <string name="item_tag_location_boilerroom">Boiler room</string>
+    <string name="item_tag_location_building">Building</string>
+    <string name="item_tag_location_carport">Carport</string>
+    <string name="item_tag_location_cellar">Cellar</string>
+    <string name="item_tag_location_corridor">Corridor</string>
+    <string name="item_tag_location_diningroom">Dining room</string>
+    <string name="item_tag_location_driveway">Driveway</string>
+    <string name="item_tag_location_entry">Entry</string>
+    <string name="item_tag_location_familyroom">Family room</string>
+    <string name="item_tag_location_firstfloor">First floor</string>
+    <string name="item_tag_location_floor">Floor</string>
+    <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_garden">Garden</string>
+    <string name="item_tag_location_groundfloor">Ground floor</string>
+    <string name="item_tag_location_guestroom">Guest room</string>
+    <string name="item_tag_location_house">House</string>
+    <string name="item_tag_location_indoor">Indoor</string>
+    <string name="item_tag_location_kitchen">Kitchen</string>
+    <string name="item_tag_location_laundryroom">Laundry room</string>
+    <string name="item_tag_location_livingroom">Living room</string>
+    <string name="item_tag_location_office">Office</string>
+    <string name="item_tag_location_outdoor">Outdoor</string>
+    <string name="item_tag_location_patio">Patio</string>
+    <string name="item_tag_location_porch">Porch</string>
+    <string name="item_tag_location_room">Room</string>
+    <string name="item_tag_location_secondfloor">Second floor</string>
+    <string name="item_tag_location_shed">Shed</string>
+    <string name="item_tag_location_summerhouse">Summer house</string>
+    <string name="item_tag_location_terrace">Terrace</string>
+    <string name="item_tag_location_thirdfloor">Third floor</string>
+    <string name="item_tag_location_veranda">Veranda</string>
+    <string name="item_tag_equipment_alarmsystem">Alarm system</string>
+    <string name="item_tag_equipment_backdoor">Back door</string>
+    <string name="item_tag_equipment_battery">Battery</string>
+    <string name="item_tag_equipment_blinds">Blinds</string>
+    <string name="item_tag_equipment_boiler">Boiler</string>
+    <string name="item_tag_equipment_camera">Camera</string>
+    <string name="item_tag_equipment_car">Car</string>
+    <string name="item_tag_equipment_ceilingfan">Ceiling fan</string>
+    <string name="item_tag_equipment_cellardoor">Cellar door</string>
+    <string name="item_tag_equipment_cleaningrobot">Cleaning robot</string>
+    <string name="item_tag_equipment_dishwasher">Dishwasher</string>
+    <string name="item_tag_equipment_door">Door</string>
+    <string name="item_tag_equipment_doorbell">Doorbell</string>
+    <string name="item_tag_equipment_dryer">Dryer</string>
+    <string name="item_tag_equipment_fan">Fan</string>
+    <string name="item_tag_equipment_freezer">Freezer</string>
+    <string name="item_tag_equipment_frontdoor">Front door</string>
+    <string name="item_tag_equipment_garagedoor">Garage door</string>
+    <string name="item_tag_equipment_gate">Gate</string>
+    <string name="item_tag_equipment_hvac">HVAC</string>
+    <string name="item_tag_equipment_innerdoor">Inner door</string>
+    <string name="item_tag_equipment_inverter">Inverter</string>
+    <string name="item_tag_equipment_kitchenhood">Kitchen hood</string>
+    <string name="item_tag_equipment_lawnmower">Lawn mower</string>
+    <string name="item_tag_equipment_lightbulb">Lightbulb</string>
+    <string name="item_tag_equipment_lightstripe">LightStripe</string>
+    <string name="item_tag_equipment_lock">Lock</string>
+    <string name="item_tag_equipment_motiondetector">Motion detector</string>
+    <string name="item_tag_equipment_networkappliance">Network appliance</string>
+    <string name="item_tag_equipment_oven">Oven</string>
+    <string name="item_tag_equipment_poweroutlet">Power outlet</string>
+    <string name="item_tag_equipment_projector">Projector</string>
+    <string name="item_tag_equipment_pump">Pump</string>
+    <string name="item_tag_equipment_radiatorcontrol">Radiator control</string>
+    <string name="item_tag_equipment_receiver">Receiver</string>
+    <string name="item_tag_equipment_refrigerator">Refrigerator</string>
+    <string name="item_tag_equipment_remotecontrol">Remote control</string>
+    <string name="item_tag_equipment_screen">Screen</string>
+    <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_sidedoor">Side door</string>
+    <string name="item_tag_equipment_siren">Siren</string>
+    <string name="item_tag_equipment_smartphone">Smartphone</string>
+    <string name="item_tag_equipment_smokedetector">Smoke detector</string>
+    <string name="item_tag_equipment_speaker">Speaker</string>
+    <string name="item_tag_equipment_television">Television</string>
+    <string name="item_tag_equipment_valve">Valve</string>
+    <string name="item_tag_equipment_voiceassistant">Voice assistant</string>
+    <string name="item_tag_equipment_wallswitch">Wall switch</string>
+    <string name="item_tag_equipment_washingmachine">Washing machine</string>
+    <string name="item_tag_equipment_weatherservice">Weather service</string>
+    <string name="item_tag_equipment_webservice">Web service</string>
+    <string name="item_tag_equipment_whitegood">White good</string>
+    <string name="item_tag_equipment_window">Window</string>
 </resources>

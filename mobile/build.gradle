@@ -2,34 +2,35 @@ def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
 def isFoss = taskRequests.contains("Foss") || taskRequests.contains("foss")
 
 buildscript {
-    ext.kotlin_coroutines_version = '1.4.1'
-    ext.ok_http_version = '4.9.0'
-    ext.work_manager_version = '2.4.0'
-    ext.about_libraries_version = '8.4.3'
+    ext.kotlin_coroutines_version = '1.6.4'
+    ext.ok_http_version = '4.10.0'
+    ext.work_manager_version = '2.7.1'
+    ext.about_libraries_version = '10.4.0'
     ext.powermock_version = '2.0.9'
-    ext.espresso_version = '3.3.0'
-    ext.exoplayer_version = '2.12.1'
+    ext.espresso_version = '3.4.0'
+    ext.exoplayer_version = '2.18.1'
+    ext.acra_version = '5.9.6'
 
     repositories {
         mavenCentral()
         google()
-        jcenter()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
     }
+
     dependencies {
-        classpath "com.google.gms:google-services:4.3.4"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:2.3.0"
-        classpath 'de.mobilej.unmock:UnMockPlugin:0.7.6'
+        classpath "com.google.gms:google-services:4.3.14"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:2.9.2"
+        classpath 'com.github.bjoernq:unmockplugin:0.7.9'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$about_libraries_version"
-        classpath "de.jjohannes.gradle:missing-metadata-guava:0.2"
+        classpath "de.jjohannes.gradle:missing-metadata-guava:31.1.1"
     }
 }
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-parcelize"
 apply plugin: 'de.mobilej.unmock'
 apply plugin: "com.mikepenz.aboutlibraries.plugin"
 apply plugin: "de.jjohannes.missing-metadata-guava"
@@ -39,23 +40,24 @@ if (!isFoss) {
 }
 
 android {
-    buildToolsVersion "30.0.1"
-    compileSdkVersion 30
+    buildToolsVersion "33.0.0"
+    compileSdkVersion 33
     useLibrary "org.apache.http.legacy"
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 340
-        versionName "2.15.13-beta"
+        targetSdkVersion 33
+        versionCode 440
+        versionName "2.22.3-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         debug {
@@ -94,10 +96,6 @@ android {
             }
         }
     }
-    lintOptions {
-        lintConfig file("lint.xml")
-        abortOnError false
-    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -107,9 +105,9 @@ android {
         freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
         allWarningsAsErrors = false
     }
-
-    androidExtensions {
-        experimental = true // For Parcelize
+    lint {
+        abortOnError false
+        lintConfig file('lint.xml')
     }
 }
 
@@ -128,30 +126,31 @@ repositories {
         url "https://jitpack.io"
     }
     google()
-    jcenter()
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*player*debug.jar'])
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9:$kotlin_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
-    implementation "androidx.core:core-ktx:1.3.2"
-    implementation "androidx.fragment:fragment-ktx:1.2.5"
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.activity:activity-ktx:1.6.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "androidx.appcompat:appcompat:1.5.1"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
-    implementation "androidx.preference:preference-ktx:1.1.1"
-    implementation "androidx.biometric:biometric:1.0.1"
-    implementation "com.google.android.material:material:1.2.1"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation "androidx.biometric:biometric:1.1.0"
+    implementation "com.google.android.material:material:1.6.1"
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation "androidx.work:work-runtime:$work_manager_version"
+    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
-    implementation "androidx.security:security-crypto:1.0.0-rc01"
+    implementation "androidx.security:security-crypto:1.0.0"
     implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
-    implementation "org.jmdns:jmdns:3.5.6"
+    implementation "org.jmdns:jmdns:3.5.8"
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
     implementation "com.squareup.okhttp3:okhttp-sse:$ok_http_version"
@@ -160,38 +159,36 @@ dependencies {
     // Color picker for preference
     implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
-    implementation("com.github.appintro:appintro:5.1.0") {
-        transitive false
-        exclude group: "com.intellij", module: "annotations"
-    }
+    implementation "com.github.AppIntro:AppIntro:6.2.0"
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     // MapView support
-    fullImplementation "com.google.android.gms:play-services-maps:17.0.0"
-    fossImplementation "org.osmdroid:osmdroid-android:6.1.6"
-
-    // FCM
-    fullImplementation "com.google.firebase:firebase-messaging:20.3.0"
-    // Crash reporting
-    fullImplementation "com.google.firebase:firebase-crashlytics:17.2.2"
-
+    fullImplementation "com.google.android.gms:play-services-maps:18.1.0"
+    fossImplementation "org.osmdroid:osmdroid-android:6.1.14"
     // About screen
-    implementation "com.github.daniel-stoneuk:material-about-library:2.4.2"
+    implementation "com.github.daniel-stoneuk:material-about-library:3.1.2"
     // Used libraries
     implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
-    implementation "com.github.GrenderG:Toasty:1.4.2"
-    testImplementation "org.mockito:mockito-core:3.6.0"
+
+    // Firebase
+    implementation platform("com.google.firebase:firebase-bom:25.11.0")
+    fullImplementation "com.google.firebase:firebase-messaging-ktx"
+    fullImplementation "com.google.firebase:firebase-crashlytics-ktx"
+
+    // Firebase replacements
+    fossImplementation "ch.acra:acra-mail:$acra_version"
+    fossImplementation "ch.acra:acra-notification:$acra_version"
+
+    testImplementation "org.mockito:mockito-core:4.8.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-    testImplementation "junit:junit:4.13.1"
-    testImplementation "org.json:json:20200518"
-    testImplementation "org.reflections:reflections:0.9.12"
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.json:json:20220924"
     testImplementation "com.squareup.okhttp3:mockwebserver:$ok_http_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
-
     // PowerMock
     testImplementation "org.powermock:powermock-core:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
-
     // Espresso UI tests
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version", {
         exclude group: "com.android.support", module: "support-annotations"
@@ -200,5 +197,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version", {
         exclude group: "com.android.support", module: "support-annotations"
     }
-    androidTestImplementation "androidx.test.ext:junit:1.1.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
 }

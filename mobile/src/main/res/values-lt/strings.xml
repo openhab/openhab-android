@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Nustatymai</string>
     <!-- Main menu items -->
@@ -18,14 +18,14 @@
     <string name="settings_openhab_password">Slaptažodis</string>
     <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Paspauskite čia, kad gautumėte informacijos, kaip nustatyti SSL autentifikaciją</string>
-    <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
-    <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleista openHAB programėlė</string>
     <string name="settings_openhab_demomode">Demonstracinis režimas</string>
     <string name="settings_openhab_theme">openHAB tema</string>
     <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
     <string name="settings_openhab_icon_format">Piktogramų formatas</string>
     <string name="settings_openhab_icon_format_png">Taškinis</string>
     <string name="settings_openhab_icon_format_svg">Vektorinis</string>
+    <!-- %1$s: Default Sitemap label -->
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB, jūsų paliepimu!</string>
     <string name="info_voice_recognized_text">Neatpažinta komanda: %1$s</string>
@@ -33,8 +33,10 @@
     <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
     <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_network_not_available">Tinklas nepasiekiamas</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
     <string name="error_unable_to_resolve_hostname">Nepavyko aptikti domeno vardo</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
@@ -49,6 +51,9 @@
     <string name="action_settings">Nustatymai</string>
     <string name="info_not_set">Nenustatyta</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
@@ -69,8 +74,6 @@
     <string name="nfc_action_toggle">Perjungti</string>
     <string name="nfc_action_current_color">Dabartinė spalva</string>
     <!-- Drawer -->
-    <string name="drawer_open">Vietos išplanavimų parinkiklis atvertas</string>
-    <string name="drawer_close">Vietos išplanavimų parinkiklis užvertas</string>
     <string name="mainmenu_openhab_voice_recognition">Balso atpažinimas</string>
     <!-- About -->
     <string name="about_title">Apie</string>
@@ -81,7 +84,6 @@
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <!-- Intro strings -->
-    <string name="app_intro">Intro</string>
     <string name="intro_welcome">Sveiki atvykę į openHAB</string>
     <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
     <!-- Intro "SKIP" button -->
@@ -90,9 +92,11 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

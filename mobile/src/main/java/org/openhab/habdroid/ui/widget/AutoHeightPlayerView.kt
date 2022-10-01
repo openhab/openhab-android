@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -16,29 +16,24 @@ package org.openhab.habdroid.ui.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.video.VideoListener
+import com.google.android.exoplayer2.ui.StyledPlayerView
+import com.google.android.exoplayer2.video.VideoSize
 
 class AutoHeightPlayerView constructor(context: Context, attrs: AttributeSet) :
-    PlayerView(context, attrs),
-    VideoListener {
-    private var currentPlayer: SimpleExoPlayer? = null
+    StyledPlayerView(context, attrs),
+    Player.Listener {
+    private var currentPlayer: ExoPlayer? = null
 
     override fun setPlayer(player: Player?) {
-        currentPlayer?.removeVideoListener(this)
+        currentPlayer?.removeListener(this)
         super.setPlayer(player)
-        currentPlayer = player as SimpleExoPlayer?
-        currentPlayer?.addVideoListener(this)
+        currentPlayer = player as ExoPlayer?
+        currentPlayer?.addListener(this)
     }
 
-    override fun onVideoSizeChanged(
-        width: Int,
-        height: Int,
-        unappliedRotationDegrees: Int,
-        pixelWidthHeightRatio: Float
-    ) {
+    override fun onVideoSizeChanged(size: VideoSize) {
         requestLayout()
     }
 

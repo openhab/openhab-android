@@ -1,0 +1,5 @@
+## What's Changed
+* Fix empty icon handling. by @maniac103 in https://github.com/openhab/openhab-android/pull/2961
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.20.14-beta...2.20.15-beta

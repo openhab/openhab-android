@@ -1,0 +1,2 @@
+## Fixed
+* Fix crash on app start (#2741)

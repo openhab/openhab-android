@@ -1,0 +1,3 @@
+## Fixed
+* Fix crash when shortcut title is empty (#2638)
+* Fix NPE if Base64 bitmap is null (#2650)

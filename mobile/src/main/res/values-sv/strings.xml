@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Inställningar</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Inställningar</string>
-    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="app_notifications">Aviseringar</string>
     <string name="habpanel_error">Ett fel inträffade vid inläsning av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Välj standard-Sitemap</string>
@@ -28,8 +26,6 @@
     <string name="settings_openhab_sslclientcert">Klientcertifikat för SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tryck här för att få några tips och förklaringar på hur du konfigurerar klientautentisering med SSL-certifikat</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-klientcertifikat stöds inte av din enhet</string>
-    <string name="settings_openhab_screentimeroff">Inaktivera visningstimer</string>
-    <string name="settings_openhab_screentimeroff_summary">Inaktivera automatiskt avstängning av skärmen när openHAB är igång</string>
     <string name="settings_openhab_demomode">Demoläge</string>
     <string name="settings_openhab_demomode_summary">Om du inte har en openHAB-server, aktivera demoläget för att få en bild av vad OpanHAB kan göra.</string>
     <string name="settings_openhab_theme">Tema</string>
@@ -49,6 +45,7 @@
     <string name="settings_openhab_chart_hq_summary">Att generera diagram kan vara betungande för servern. Om du upplever långsam laddning av diagram, inaktivera detta alternativ för att förbättra laddningstiderna.</string>
     <string name="settings_clear_default_sitemap">Rensa standard-Sitemap</string>
     <string name="settings_no_default_sitemap">Ingen Sitemap vald som standard</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Nuvarande standard-Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Fjärr</string>
     <string name="settings_openhab_connection">Lokal</string>
@@ -59,8 +56,7 @@
     <string name="settings_notification_vibration_long">Lång</string>
     <string name="settings_notification_vibration_twice">Två gånger</string>
     <string name="settings_connection_summary">Ansluten till %s</string>
-    <string name="settings_insecure_connection_summary">Osäkert ansluten till %s</string>
-    <string name="beta">Beta</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_screen_lock">Skärmlås</string>
     <string name="settings_screen_lock_nolock_summary">Du måste aktivera ett skärmlås på din enhet för att aktivera åtkomstskydd av appar</string>
     <string name="settings_screen_lock_off_summary">Åtkomst till appen är inte skyddad</string>
@@ -72,6 +68,7 @@
     <string name="settings_screen_lock_kiosk">Fullskärmsläge</string>
     <string name="settings_screen_lock_on">På</string>
     <string name="settings_show_sitemaps_in_drawer">Visa alla Sitemaps i sidomenyn</string>
+    <string name="device_control_subtitle_item_name">Item-namn</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Röstkommandon</string>
     <string name="title_voice_widget_icon">Röstkommandon och appgenväg</string>
@@ -86,11 +83,13 @@
     <string name="app_shortcut_disabled_notifications">Din fjärrserver är inte tillgänglig</string>
     <string name="app_shortcut_disabled_voice_recognition">Din enhet har ingen app för röstigenkänning installerad</string>
     <string name="no_position_set">Ingen position angiven</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerade en tom Sitemap-lista</string>
     <string name="error_sitemap_generic_load_error">Sitemap kunde inte laddas. Följande fel inträffade: %1$s</string>
     <string name="error_network_not_available">Nätverk inte tillgängligt</string>
     <string name="error_wifi_not_available">Wi-Fi är avstängt</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">Anslutningen misslyckas. Ett oväntat svar mottogs vid anslutningsförsök mot den konfigurerade openHAB-servern (mottagen HTTP-svarskod: %d).</string>
     <string name="error_invalid_url">Vänligen ange en giltig URL i en formen \' http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Ange en giltig URL i form av \'http(s)://host(:port)/\'</string>
@@ -147,7 +146,6 @@
     <string name="error_openhab_offline">Molninstansen är igång, men din openHAB-server är offline</string>
     <string name="error_no_browser_found">Ingen webbläsare hittades på din enhet</string>
     <string name="error_no_speech_to_text_app_found">Ingen röstigenkänningsapp hittades</string>
-    <string name="error_sse_failed">Händelseprenumerationen misslyckades, uppdateringen av widget kan försämras</string>
     <string name="install">Installera</string>
     <string name="title_activity_openhabwritetag">Skriv NFC-tagg</string>
     <string name="title_activity_libraries">Bibliotek som används</string>
@@ -163,11 +161,13 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Skicka enhetsinformation till servern</string>
     <string name="settings_item_update_pref_howto_summary">Tryck här för att få tips om hur du ställer in den här funktionens serversida</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state_permission_denied">Att skicka samtalsstatus har inaktiverats på grund av saknade behörigheter</string>
     <string name="settings_charging_state">Laddningstillstånd</string>
     <string name="settings_wifi_ssid">WiFi-namn</string>
     <string name="settings_wifi_ssid_permission_denied">Att skicka WiFi-namn har inaktiverats på grund av saknade behörigheter</string>
-    <string name="settings_background_tasks_permission_denied">Vissa bakgrundsuppgifter har inaktiverats på grund av saknade behörigheter</string>
     <string name="settings_background_tasks_permission_allow">Tillåt</string>
     <string name="settings_item_pref_item_name">Item-namn</string>
     <string name="waiting_for_item_upload">Väntar på nätverksanslutning för att skicka Item-uppdateringar</string>
@@ -218,7 +218,6 @@
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Dölj teckenförklaring</string>
     <string name="chart_activity_show_legend">Visa teckenförklaring</string>
-    <string name="chart_activity_period">Period</string>
     <string name="chart_activity_period_1_hour">1 timme</string>
     <string name="chart_activity_period_4_hour">4 timmar</string>
     <string name="chart_activity_period_8_hour">8 timmar</string>
@@ -258,8 +257,6 @@
     <string name="nfc_action_to_sitemap_page">Skriv Sitemap NFC-tagg</string>
     <string name="nfc_action_write_command_tag">Skriv Item NFC-tagg</string>
     <!-- Drawer -->
-    <string name="drawer_open">Sitemap-låda öppnad</string>
-    <string name="drawer_close">Sitemap-låda stängd</string>
     <string name="mainmenu_openhab_voice_recognition">Röstigenkänning</string>
     <!-- About -->
     <string name="about_title">Om</string>
@@ -269,7 +266,6 @@
     <string name="about_issues">Rapportera ett problem</string>
     <string name="about_docs">Dokumentation</string>
     <string name="about_community_forum">Forum</string>
-    <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHABs gemenskap</string>
     <string name="about_translation">Hjälp oss att översätta openHAB</string>
     <string name="about_privacy_policy">Integritetspolicy</string>
@@ -301,7 +297,6 @@
     <string name="content_description_color_up">På eller håll för att öka ljusstyrkan</string>
     <string name="content_description_color_down">Av eller håll för att minska ljusstyrkan</string>
     <string name="content_description_open_number_picker">Öppna nummerväljare</string>
-    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Öppna openHAB</string>
     <string name="swipe_to_refresh_description">Denna app uppdaterar sig även automatiskt, du behöver normalt sett inte göra det manuellt</string>
     <!-- Intro strings -->
@@ -309,7 +304,6 @@
     <string name="intro_welcome">Välkommen till openHAB</string>
     <string name="intro_whatis">En mjukvara för att automatisera ditt hem med öppen källkod, helt oberoende av tillverkare eller teknologi</string>
     <string name="intro_voice_description">Kontrollera ditt hem med din röst</string>
-    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Långtryck på en en Item för att knyta den till NFS-taggar</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">HOPPA ÖVER</string>
@@ -322,18 +316,19 @@
     <string name="turn_on">Sätt på</string>
     <string name="press_back_to_exit">Tryck tillbaka för att avsluta</string>
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_rewind">%s spolar tillbaka</string>
     <string name="item_update_success_message_fastforward">%s snabbspolar</string>
     <string name="item_update_error_no_connection_retry">Fel vid sändning av Item-uppdatering, försöker igen\u2026</string>
     <string name="item_update_error_no_connection">Ingen anslutning</string>
     <string name="item_update_error_couldnt_get_item_type">Kunde inte hämta Item-typ</string>
     <string name="create_home_screen_widget_title">Skapa widget</string>
-    <string name="item_update_widget_auto_generate_widget_label">Skapa widgetetikett automatiskt</string>
-    <string name="item_update_widget_widget_label">Widgetetikett</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
+    <string name="widget_type_chart">Diagram</string>
     <!-- Tiles -->
+    <string name="tile_enable">Sätt på</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

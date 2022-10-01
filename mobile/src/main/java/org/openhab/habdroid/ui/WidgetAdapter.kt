@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -19,13 +19,11 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Base64
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -33,6 +31,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -53,9 +52,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
-import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.source.LoadEventInfo
 import com.google.android.exoplayer2.source.MediaLoadData
@@ -63,15 +62,12 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.IOException
-import java.util.HashMap
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -92,11 +88,11 @@ import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.DataUsagePolicy
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
@@ -107,6 +103,7 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class WidgetAdapter(
     context: Context,
+    val serverFlags: Int,
     private val connection: Connection,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
@@ -114,23 +111,19 @@ class WidgetAdapter(
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
     val hasVisibleWidgets: Boolean
-        get() = items.any { widget -> isWidgetIncludingAllParentsVisible(widget) }
+        get() = items.any { widget -> shouldShowWidget(widget) }
 
     private val inflater = LayoutInflater.from(context)
-    private val chartTheme: CharSequence
-    private var selectedPosition = -1
+    private val chartTheme: CharSequence = context.getChartTheme(serverFlags)
+    private var selectedPosition = RecyclerView.NO_POSITION
+    private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
     }
 
-    init {
-        val tv = TypedValue()
-        context.theme.resolveAttribute(R.attr.chartTheme, tv, true)
-        chartTheme = tv.string
-    }
-
+    @SuppressLint("NotifyDataSetChanged")
     fun update(widgets: List<Widget>, forceFullUpdate: Boolean) {
         val compatibleUpdate = !forceFullUpdate &&
             widgets.size == items.size &&
@@ -149,12 +142,14 @@ class WidgetAdapter(
             widgets.forEach { w -> widgetsById[w.id] = w }
             notifyDataSetChanged()
         }
+        updateFirstVisibleWidgetPosition()
     }
 
     fun updateWidget(widget: Widget) {
         val pos = items.indexOfFirst { w -> w.id == widget.id }
         if (pos >= 0) {
             updateWidgetAtPosition(pos, widget)
+            updateFirstVisibleWidgetPosition()
         }
     }
 
@@ -189,7 +184,7 @@ class WidgetAdapter(
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection)
+            TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection, serverFlags)
             TYPE_VIDEO -> VideoViewHolder(inflater, parent, connection)
             TYPE_VIDEO_RTSP -> RtspVideoViewHolder(inflater, parent, connection)
             TYPE_WEB -> WebViewHolder(inflater, parent, connection)
@@ -209,7 +204,7 @@ class WidgetAdapter(
         val wasStarted = holder.stop()
         holder.bind(items[position])
         if (holder is FrameViewHolder) {
-            holder.setShownAsFirst(position == 0)
+            holder.setShownAsFirst(position == firstVisibleWidgetPosition)
         }
         with(holder.itemView) {
             isClickable = true
@@ -242,7 +237,7 @@ class WidgetAdapter(
 
     override fun onClick(view: View) {
         val holder = view.tag as ViewHolder
-        val position = holder.adapterPosition
+        val position = holder.bindingAdapterPosition
         if (position != RecyclerView.NO_POSITION) {
             if (!itemClickListener.onItemClicked(items[position])) {
                 holder.handleRowClick()
@@ -250,6 +245,7 @@ class WidgetAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateWidgetAtPosition(position: Int, widget: Widget) {
         val oldWidget = items[position]
         items[position] = widget
@@ -263,16 +259,28 @@ class WidgetAdapter(
         }
     }
 
-    private tailrec fun isWidgetIncludingAllParentsVisible(widget: Widget): Boolean {
+    private fun updateFirstVisibleWidgetPosition() {
+        firstVisibleWidgetPosition = items.indexOfFirst { w -> shouldShowWidget(w) }
+    }
+
+    private tailrec fun shouldShowWidget(widget: Widget): Boolean {
         if (!widget.visibility) {
             return false
         }
+        if (widget.type == Widget.Type.Frame) {
+            val hasVisibleChildren = items
+                .filter { it.parentId == widget.id }
+                .any { it.visibility }
+            if (!hasVisibleChildren) {
+                return false
+            }
+        }
         val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
-        return isWidgetIncludingAllParentsVisible(parent)
+        return shouldShowWidget(parent)
     }
 
     private fun getItemViewType(widget: Widget): Int {
-        if (!isWidgetIncludingAllParentsVisible(widget)) {
+        if (!shouldShowWidget(widget)) {
             return TYPE_INVISIBLE
         }
         return when (widget.type) {
@@ -319,7 +327,7 @@ class WidgetAdapter(
 
     abstract class ViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup,
+        val parent: ViewGroup,
         @LayoutRes layoutResId: Int
     ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
         open val dialogManager: DialogManager? = null
@@ -392,7 +400,7 @@ class WidgetAdapter(
         }
 
         private fun showDataSaverPlaceholderIfNeeded(widget: Widget, canBindWithoutData: Boolean): Boolean {
-            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers &&
+            val dataSaverActive = !itemView.context.determineDataUsagePolicy(connection).canDoLargeTransfers &&
                 !canBindWithoutData
 
             dataSaverView.isVisible = dataSaverActive
@@ -423,8 +431,8 @@ class WidgetAdapter(
             return dataSaverActive
         }
 
-        fun handleDataUsagePolicyChange(dataUsagePolicy: DataUsagePolicy) {
-            if (!dataUsagePolicy.canDoLargeTransfers) {
+        fun handleDataUsagePolicyChange() {
+            if (!itemView.context.determineDataUsagePolicy(connection).canDoLargeTransfers) {
                 // Continue showing the old data, but stop any activity that might need more data transfer
                 stop()
             } else {
@@ -476,7 +484,11 @@ class WidgetAdapter(
         }
 
         override fun bind(widget: Widget) {
-            labelView.text = widget.label
+            val label = widget.stateFromLabel?.let {
+                " [$it]"
+            }.orEmpty()
+            @SuppressLint("SetTextI18n")
+            labelView.text = widget.label + label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
             labelView.isGone = widget.label.isEmpty()
         }
@@ -571,11 +583,19 @@ class WidgetAdapter(
             boundWidget = widget
             val item = widget.item
 
+            val hasValidValues = widget.minValue < widget.maxValue
+            slider.isVisible = hasValidValues
+            if (!hasValidValues) {
+                Log.e(TAG, "Slider has invalid values: from '${widget.minValue}' to '${widget.maxValue}'")
+                return
+            }
+
             if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
                 slider.valueTo = 100F
                 slider.valueFrom = 0F
                 slider.stepSize = 1F
                 slider.value = item.state?.asBrightness?.toFloat() ?: 0F
+                slider.isTickVisible = false
             } else {
                 // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
                 slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
@@ -594,6 +614,8 @@ class WidgetAdapter(
                         closestDelta = abs(widgetValue - stepValue)
                     }
                 }
+
+                slider.isTickVisible = stepCount <= 12
 
                 Log.d(
                     TAG,
@@ -643,11 +665,15 @@ class WidgetAdapter(
 
     class ImageViewHolder internal constructor(
         inflater: LayoutInflater,
-        private val parent: ViewGroup,
+        parent: ViewGroup,
         connection: Connection
-    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection) {
+    ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_imageitem, connection), View.OnClickListener {
         private val imageView = widgetContentView as WidgetImageView
         private val prefs = imageView.context.getPrefs()
+
+        init {
+            imageView.setOnClickListener(this)
+        }
 
         override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
             return widget.url == null ||
@@ -668,9 +694,7 @@ class WidgetAdapter(
 
             if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
                 val dataString = value.substring(value.indexOf(",") + 1)
-                val data = Base64.decode(dataString, Base64.DEFAULT)
-                val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-                imageView.setImageBitmap(bitmap)
+                imageView.setBase64EncodedImage(dataString)
             } else if (widget.url != null) {
                 imageView.setImageUrl(connection, widget.url, refreshDelayInMs = widget.refresh)
             } else {
@@ -679,7 +703,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (itemView.context.determineDataUsagePolicy().canDoRefreshes) {
+            if (itemView.context.determineDataUsagePolicy(connection).canDoRefreshes) {
                 imageView.startRefreshingIfNeeded()
             } else {
                 imageView.cancelRefresh()
@@ -689,16 +713,33 @@ class WidgetAdapter(
         override fun onStop() {
             imageView.cancelRefresh()
         }
+
+        override fun onClick(v: View?) {
+            val context = v?.context ?: return
+            boundWidget?.let { widget ->
+                val intent = Intent(context, ImageWidgetActivity::class.java).apply {
+                    putExtra(ImageWidgetActivity.WIDGET_LABEL, widget.label)
+                    putExtra(ImageWidgetActivity.WIDGET_REFRESH, widget.refresh)
+                }
+                when {
+                    widget.item?.link != null -> intent.putExtra(ImageWidgetActivity.WIDGET_LINK, widget.item.link)
+                    widget.url != null -> intent.putExtra(ImageWidgetActivity.WIDGET_URL, widget.url)
+                    else -> return@let
+                }
+                context.startActivity(intent)
+            }
+        }
     }
 
-    class SelectionViewHolder internal constructor(
+    open class SelectionViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
-        colorMapper: ColorMapper
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_selectionitem, connection, colorMapper),
+        colorMapper: ColorMapper,
+        layoutResId: Int = R.layout.widgetlist_selectionitem
+    ) : LabeledItemBaseViewHolder(inflater, parent, layoutResId, connection, colorMapper),
         ExtendedSpinner.OnSelectionUpdatedListener {
-        private val spinner: ExtendedSpinner = itemView.findViewById(R.id.spinner)
+        protected val spinner: ExtendedSpinner = itemView.findViewById(R.id.spinner)
         private var boundItem: Item? = null
         private var boundMappings: List<LabeledValue> = emptyList()
 
@@ -717,7 +758,12 @@ class WidgetAdapter(
             var spinnerSelectedIndex = boundMappings.indexOfFirst { mapping -> mapping.value == stateString }
 
             if (spinnerSelectedIndex == -1) {
-                spinnerArray.add("          ")
+                val state = widget.stateFromLabel
+                if (state.isNullOrEmpty()) {
+                    spinnerArray.add("          ")
+                } else {
+                    spinnerArray.add(state)
+                }
                 spinnerSelectedIndex = spinnerArray.size - 1
             }
 
@@ -752,7 +798,8 @@ class WidgetAdapter(
         parent: ViewGroup,
         private val connection: Connection,
         colorMapper: ColorMapper
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
+    ) : SelectionViewHolder(inflater, parent, connection, colorMapper, R.layout.widgetlist_sectionswitchitem),
+        ViewTreeObserver.OnGlobalLayoutListener,
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val spareViews = mutableListOf<View>()
@@ -783,7 +830,7 @@ class WidgetAdapter(
                 }
             }
 
-            // remove unneded views
+            // remove unneeded views
             while (group.childCount > mappings.size) {
                 val view = group[group.childCount - 1]
                 spareViews.add(view)
@@ -795,9 +842,32 @@ class WidgetAdapter(
             val checkedId = group.children
                 .filter { it.tag == state }
                 .map { it.id }
-                .ifEmpty { sequenceOf(View.NO_ID) }
-                .first()
-            group.check(checkedId)
+                .firstOrNull()
+
+            if (checkedId == null) {
+                group.clearChecked()
+            } else {
+                group.check(checkedId)
+            }
+
+            group.isVisible = true
+            spinner.isVisible = false
+        }
+
+        override fun onStart() {
+            super.onStart()
+            itemView.viewTreeObserver.addOnGlobalLayoutListener(this)
+        }
+
+        override fun onStop() {
+            super.onStop()
+            itemView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        }
+
+        override fun onGlobalLayout() {
+            Log.d(TAG, "onGlobalLayout()")
+            group.isVisible = group.measuredWidth < (itemView.width * 0.8)
+            spinner.isVisible = !group.isVisible
         }
 
         override fun onClick(view: View) {
@@ -807,6 +877,9 @@ class WidgetAdapter(
         }
 
         override fun handleRowClick() {
+            if (!group.isVisible) {
+                return super.handleRowClick()
+            }
             val visibleChildCount = group.children.filter { v -> v.isVisible }.count()
             if (visibleChildCount == 1) {
                 onClick(group[0])
@@ -889,7 +962,7 @@ class WidgetAdapter(
         private fun openSelection() {
             val widget = boundWidget ?: return
             val state = widget.state?.asNumber
-            val stateValue = state?.value?.toFloat() ?: widget.minValue
+            val stateValue = state?.value ?: widget.minValue
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             val stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
@@ -928,7 +1001,7 @@ class WidgetAdapter(
         private fun handleUpDown(down: Boolean) {
             val widget = boundWidget
             val state = widget?.state?.asNumber
-            val stateValue = state?.value?.toFloat()
+            val stateValue = state?.value
             val newValue = when {
                 stateValue == null -> widget?.minValue ?: return
                 down -> stateValue - widget.step
@@ -943,9 +1016,10 @@ class WidgetAdapter(
 
     class ChartViewHolder internal constructor(
         inflater: LayoutInflater,
-        private val parent: ViewGroup,
+        parent: ViewGroup,
         private val chartTheme: CharSequence?,
-        connection: Connection
+        connection: Connection,
+        private val serverFlags: Int
     ) : HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_chartitem, connection), View.OnClickListener {
         private val chart = widgetContentView as WidgetImageView
         private val prefs: SharedPreferences
@@ -973,7 +1047,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (itemView.context.determineDataUsagePolicy().canDoRefreshes) {
+            if (itemView.context.determineDataUsagePolicy(connection).canDoRefreshes) {
                 chart.startRefreshingIfNeeded()
             } else {
                 chart.cancelRefresh()
@@ -987,8 +1061,9 @@ class WidgetAdapter(
         override fun onClick(v: View?) {
             val context = v?.context ?: return
             boundWidget?.let {
-                val intent = Intent(context, ChartActivity::class.java)
-                intent.putExtra(ChartActivity.WIDGET, it)
+                val intent = Intent(context, ChartWidgetActivity::class.java)
+                intent.putExtra(ChartWidgetActivity.EXTRA_WIDGET, it)
+                intent.putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, serverFlags)
                 context.startActivity(intent)
             }
         }
@@ -1004,7 +1079,7 @@ class WidgetAdapter(
         private val errorView: View = itemView.findViewById(R.id.video_player_error)
         private val errorViewHint: TextView = itemView.findViewById(R.id.video_player_error_hint)
         private val errorViewButton: Button = itemView.findViewById(R.id.video_player_error_button)
-        private val exoPlayer = SimpleExoPlayer.Builder(parent.context).build()
+        private val exoPlayer = ExoPlayer.Builder(parent.context).build()
 
         init {
             playerView.player = exoPlayer
@@ -1016,7 +1091,7 @@ class WidgetAdapter(
         }
 
         override fun onStart() {
-            if (itemView.context.determineDataUsagePolicy().autoPlayVideos) {
+            if (itemView.context.determineDataUsagePolicy(connection).autoPlayVideos) {
                 exoPlayer.play()
             }
         }
@@ -1057,7 +1132,8 @@ class WidgetAdapter(
                 return
             }
 
-            exoPlayer.stop(true)
+            exoPlayer.stop()
+            exoPlayer.clearMediaItems()
             if (mediaSource == null) {
                 return
             }
@@ -1079,7 +1155,7 @@ class WidgetAdapter(
             handleError()
         }
 
-        override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: ExoPlaybackException) {
+        override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: PlaybackException) {
             Log.e(TAG, "onPlayerError()", error)
             handleError()
         }
@@ -1093,13 +1169,11 @@ class WidgetAdapter(
         }
 
         override fun createDataSource(): DataSource {
-            val dataSource = DefaultHttpDataSource(
-                "openHAB client for Android",
-                DEFAULT_CONNECT_TIMEOUT_MILLIS,
-                DEFAULT_READ_TIMEOUT_MILLIS,
-                true,
-                null
-            )
+            val dataSource = DefaultHttpDataSource.Factory()
+                .setUserAgent(HttpClient.USER_AGENT)
+                .setAllowCrossProtocolRedirects(true)
+                .createDataSource()
+
             connection.httpClient.authHeader?.let { dataSource.setRequestProperty("Authorization", it) }
             return dataSource
         }
@@ -1260,11 +1334,16 @@ class WidgetAdapter(
 
         @SuppressLint("SetJavaScriptEnabled")
         override fun bindAfterDataSaverCheck(widget: Widget) {
-            val url = connection.httpClient.buildUrl(widget.url!!)
+            val url = widget.url?.let {
+                connection.httpClient.buildUrl(widget.url)
+            }
             with(webView) {
                 adjustForWidgetHeight(widget, 0)
-                loadUrl("about:blank")
+                loadUrl(ConnectionWebViewClient.EMPTY_PAGE)
 
+                if (url == null) {
+                    return
+                }
                 setUpForConnection(connection, url) { progress ->
                     if (progress == 100) {
                         progressBar.hide()
@@ -1463,7 +1542,8 @@ class WidgetAdapter(
 
         private fun handleDataSaver(overrideDataSaver: Boolean) {
             val widget = boundWidget ?: return
-            val dataSaverActive = !itemView.context.determineDataUsagePolicy().canDoLargeTransfers && !overrideDataSaver
+            val dataSaverActive = !itemView.context.determineDataUsagePolicy(connection).canDoLargeTransfers &&
+                !overrideDataSaver
 
             dataSaverView.isVisible = dataSaverActive && hasPositions
             baseMapView.isVisible = !dataSaverView.isVisible && hasPositions
@@ -1509,20 +1589,31 @@ class WidgetAdapter(
                 return false
             }
 
-            // hide dividers before and after frame widgets
-            val adapter = parent.adapter
-            if (adapter != null) {
-                if (adapter.getItemViewType(position) == TYPE_FRAME) {
-                    return true
-                }
-                if (position < adapter.itemCount - 1) {
-                    if (adapter.getItemViewType(position + 1) in intArrayOf(TYPE_FRAME, TYPE_INVISIBLE)) {
-                        return true
-                    }
-                }
+            val adapter = parent.adapter ?: return false
+
+            // Hide divider if this position shouldn't have dividers...
+            if (adapter.getItemViewType(position) in NO_DIVIDER_TYPES) {
+                return true
             }
 
-            return false
+            var indexOfNextFrameOrEnd = (position + 1 until adapter.itemCount)
+                .map { pos -> adapter.getItemViewType(pos) }
+                .indexOfFirst { type -> type == TYPE_FRAME }
+
+            if (indexOfNextFrameOrEnd == -1) {
+                indexOfNextFrameOrEnd = adapter.itemCount
+            } else {
+                indexOfNextFrameOrEnd += position + 1
+            }
+
+            // ...or if all of the following positions shouldn't have dividers
+            return (position + 1 until indexOfNextFrameOrEnd)
+                .map { pos -> adapter.getItemViewType(pos) }
+                .all { type -> type == TYPE_INVISIBLE }
+        }
+
+        companion object {
+            private val NO_DIVIDER_TYPES = intArrayOf(TYPE_FRAME, TYPE_INVISIBLE)
         }
     }
 
@@ -1622,7 +1713,7 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
     setImageUrl(
         connection,
-        widget.icon.toUrl(context, context.determineDataUsagePolicy().loadIconsWithState)
+        widget.icon.toUrl(context, context.determineDataUsagePolicy(connection).loadIconsWithState)
     )
     val color = mapper.mapColor(widget.iconColor)
     if (color != null) {

@@ -1,0 +1,6 @@
+## Added
+* Apply dark mode to OSM (#2399)
+
+## Fixed
+* Fix OH3 UI on myopenHAB (#2387)
+* Demo mode: Fix HABPanel title and hide server selection (#2379) 

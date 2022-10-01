@@ -1,0 +1,2 @@
+## Added
+* Add fullscreen activity for images (#2411)

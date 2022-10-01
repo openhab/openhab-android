@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2021 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -18,7 +18,8 @@ import android.content.Intent
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.ui.PushNotificationStatus
+import org.openhab.habdroid.core.connection.NotACloudServerException
+import org.openhab.habdroid.ui.preference.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
@@ -32,6 +33,8 @@ object CloudMessagingHelper {
 
     @Suppress("UNUSED_PARAMETER")
     fun onNotificationSelected(context: Context, intent: Intent) {}
+
+    fun isPollingBuild() = true
 
     fun needsPollingForNotifications(context: Context) =
         context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false)
@@ -60,7 +63,7 @@ object CloudMessagingHelper {
                 R.drawable.ic_bell_ring_outline_grey_24dp,
                 false
             )
-            cloudFailure != null -> {
+            cloudFailure != null && cloudFailure !is NotACloudServerException -> {
                 val message = context.getString(
                     R.string.push_notification_status_http_error,
                     context.getHumanReadableErrorMessage(

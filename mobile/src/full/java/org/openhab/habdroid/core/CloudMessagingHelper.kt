@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -20,7 +20,8 @@ import com.google.android.gms.common.GoogleApiAvailability
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.ui.PushNotificationStatus
+import org.openhab.habdroid.core.connection.NotACloudServerException
+import org.openhab.habdroid.ui.preference.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
@@ -35,7 +36,7 @@ object CloudMessagingHelper {
     fun onConnectionUpdated(context: Context, connection: CloudConnection?) {
         registrationDone = false
         if (connection != null) {
-            FcmRegistrationService.scheduleRegistration(context)
+            FcmRegistrationWorker.scheduleRegistration(context)
         }
     }
 
@@ -43,19 +44,24 @@ object CloudMessagingHelper {
         val notificationId = intent.getIntExtra(
                 NotificationHelper.EXTRA_NOTIFICATION_ID, -1)
         if (notificationId >= 0) {
-            FcmRegistrationService.scheduleHideNotification(context, notificationId)
+            FcmRegistrationWorker.scheduleHideNotification(context, notificationId)
         }
     }
 
+    fun isPollingBuild() = false
+
     fun needsPollingForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) = false
 
-    fun pollForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) {
+    @Suppress("RedundantSuspendModifier") // Function requires suspend in foss flavor
+    suspend fun pollForNotifications(@Suppress("UNUSED_PARAMETER") context: Context) {
         // Used in foss flavor
     }
 
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
         ConnectionFactory.waitForInitialization()
         val prefs = context.getPrefs()
+        val cloudConnectionResult = ConnectionFactory.primaryCloudConnection
+        val cloudFailure = cloudConnectionResult?.failureReason
         return when {
             // No remote server is configured
             prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() ->
@@ -65,8 +71,7 @@ object CloudMessagingHelper {
                     false
                 )
             // Cloud connection failed
-            ConnectionFactory.primaryCloudConnection?.failureReason != null -> {
-                val cloudFailure = ConnectionFactory.primaryCloudConnection?.failureReason
+            cloudFailure != null && cloudFailure !is NotACloudServerException -> {
                 val message = context.getString(R.string.push_notification_status_http_error,
                     context.getHumanReadableErrorMessage(
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
@@ -78,7 +83,7 @@ object CloudMessagingHelper {
                 PushNotificationStatus(message, R.drawable.ic_bell_off_outline_grey_24dp, true)
             }
             // Remote server is configured, but it's not a cloud instance
-            ConnectionFactory.primaryCloudConnection?.connection == null && ConnectionFactory.primaryRemoteConnection != null ->
+            cloudConnectionResult?.connection == null && ConnectionFactory.hasPrimaryRemoteConnection ->
                 PushNotificationStatus(
                     context.getString(R.string.push_notification_status_remote_no_cloud),
                     R.drawable.ic_bell_off_outline_grey_24dp,

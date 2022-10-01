@@ -1,0 +1,6 @@
+• Show Item state in home screen widget 
+• Send list of connected Bluetooth devices
+• Improve support for Android's device control
+• Add ability to restrict local connection to specific Wi-Fis
+• Better debugging of sending alarm time. You might get more notifications when turning on debug mode now.
+• Allow app to be set as launcher

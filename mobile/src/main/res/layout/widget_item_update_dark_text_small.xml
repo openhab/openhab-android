@@ -1,0 +1,36 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/outer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin"
+    android:background="@drawable/widget_dark_background"
+    android:contentDescription="@string/item_update_widget_content_description">
+
+    <include layout="@layout/widget_item_update_pref_icon" />
+
+    <ImageView
+        android:id="@+id/item_icon"
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:src="@mipmap/icon"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/light"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Dimmer: 33 %" />
+
+    <include layout="@layout/widget_item_update_loading" />
+</FrameLayout>

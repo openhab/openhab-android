@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -19,8 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.util.ArrayList
-import java.util.Comparator
 import java.util.Locale
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -52,11 +50,11 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
     fun filter(filter: String) {
         filteredItems.clear()
-        val searchTerm = filter.toLowerCase(Locale.getDefault())
+        val searchTerm = filter.lowercase(Locale.getDefault())
         allItems.filterTo(filteredItems) { item ->
-            searchTerm in item.name.toLowerCase(Locale.getDefault()) ||
-                searchTerm in item.label?.toLowerCase(Locale.getDefault()).orEmpty() ||
-                searchTerm in item.type.toString().toLowerCase(Locale.getDefault())
+            searchTerm in item.name.lowercase(Locale.getDefault()) ||
+                searchTerm in item.label?.lowercase(Locale.getDefault()).orEmpty() ||
+                searchTerm in item.type.toString().lowercase(Locale.getDefault())
         }
         notifyDataSetChanged()
     }
@@ -96,7 +94,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
     override fun onClick(view: View) {
         val holder = view.tag as ItemViewHolder
-        val position = holder.adapterPosition
+        val position = holder.bindingAdapterPosition
         if (position != RecyclerView.NO_POSITION) {
             itemClickListener?.onItemClicked(filteredItems[position])
         }
@@ -118,16 +116,17 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             itemLabelView.text = item.label
             itemTypeView.text = item.type.toString()
 
+            val context = itemView.context
             val connection = ConnectionFactory.primaryUsableConnection?.connection
             val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
                 iconView.setImageUrl(
                     connection,
-                    icon.toUrl(itemView.context, itemView.context.determineDataUsagePolicy().loadIconsWithState),
+                    icon.toUrl(context, context.determineDataUsagePolicy(connection).loadIconsWithState),
                     timeoutMillis = 2000
                 )
             } else {
-                iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
+                iconView.applyFallbackDrawable()
             }
         }
     }

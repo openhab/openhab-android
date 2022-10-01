@@ -12,6 +12,15 @@
         android:layout_height="match_parent"
         tools:visibility="gone" />
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/widgetlist_item_side_margin"
+        android:paddingEnd="@dimen/widgetlist_item_side_margin"
+        android:layout_gravity="top|center_horizontal" />
+
     <LinearLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
@@ -49,11 +58,4 @@
             android:text="@string/try_again_button" />
 
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
 </FrameLayout>

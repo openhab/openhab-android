@@ -12,7 +12,7 @@
         android:background="?attr/colorPrimary"
         android:elevation="8dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/toolbar_progress_bar"
@@ -25,7 +25,7 @@
             android:indeterminateTintMode="src_in" />
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.drawerlayout.widget.DrawerLayout
+    <org.openhab.habdroid.ui.widget.LockableDrawerLayout
         android:id="@+id/activity_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -42,5 +42,5 @@
             android:layout_gravity="start"
             android:background="?android:colorBackground" />
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+    </org.openhab.habdroid.ui.widget.LockableDrawerLayout>
 </LinearLayout>

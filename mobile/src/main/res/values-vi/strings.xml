@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Cài đặt</string>
     <!-- Main menu items -->
@@ -24,13 +24,11 @@
     <string name="settings_openhab_password_summary_strong">Mật khẩu bảo mật tốt</string>
     <string name="settings_openhab_sslclientcert">Chứng thực SSL khách</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Bấm vào đây để có được một số gợi ý và lời giải thích làm thế nào để thiết lập chứng thực SSL cho máy khách</string>
-    <string name="settings_openhab_screentimeroff">Tắt hiển thị bộ đếm</string>
     <string name="settings_openhab_demomode">Chế độ demo</string>
     <string name="settings_openhab_theme">Giao diện</string>
     <string name="settings_openhab_fullscreen">Toàn màn hình</string>
     <string name="settings_openhab_icon_format">Định dạng biểu tượng</string>
     <string name="settings_openhab_icon_format_png">Ảnh bitmap</string>
-    <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_chart_scaling">Chỉnh biểu đồ</string>
     <string name="settings_chart_scaling_value_xs">Rất nhỏ</string>
     <string name="settings_chart_scaling_value_s">Nhỏ</string>
@@ -38,6 +36,7 @@
     <string name="settings_chart_scaling_value_l">Lớn</string>
     <string name="settings_clear_default_sitemap">Chọn mặc định sơ đồ trang web</string>
     <string name="settings_no_default_sitemap">Không có sitemap mặc định được chọn</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Sitemap mặc định hiện tại: %1$s</string>
     <string name="settings_openhab_alt_connection">Từ xa</string>
     <string name="settings_openhab_connection">Nội bộ</string>
@@ -47,24 +46,34 @@
     <string name="settings_notification_vibration_long">Dài</string>
     <string name="settings_notification_vibration_twice">Hai lần</string>
     <string name="settings_connection_summary">Đã kết nối đến %s</string>
-    <string name="settings_insecure_connection_summary">Kết nối không an toàn đến %s</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_screen_lock_off">Tắt</string>
     <!-- App messages strings -->
     <!-- Please try to keep the string as short as possible -->
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="action_settings">Cài đặt</string>
     <!-- Background tasks -->
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="notification_channel_messages_default_severity">Mặc định</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="settings_openhab_none">Không có</string>
     <!-- Themes -->
     <!-- Chart -->
     <!-- NFC -->
+    <string name="nfc_action_off">Tắt</string>
     <!-- Drawer -->
     <!-- About -->
     <!-- Log -->
@@ -77,9 +86,11 @@
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- Item update widget -->
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
 </resources>

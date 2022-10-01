@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">在开源软件版本中，通知功能受限。点击以获取更多信息。</string>
+    <string name="push_notification_status_disabled">已禁用通知</string>
+    <string name="notification_channel_crash_reports">崩溃报告</string>
+    <string name="notification_channel_crash_reports_description">用来询问是否发送崩溃报告</string>
+    <string name="crash_report_notification_title">openHAB崩溃了</string>
+    <string name="crash_report_notification_text">发送崩溃报告以帮助改进 openHAB。</string>
+    <string name="crash_report_notification_send_mail">发送邮件</string>
     <string name="open_in_maps">使用 OpenStreetMap 打开</string>
 </resources>

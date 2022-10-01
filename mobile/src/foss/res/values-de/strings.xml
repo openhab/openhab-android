@@ -2,5 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="push_notification_status_impaired">Benachrichtigungen haben in der FOSS-Version eingeschränkte Funktionalität. Für weitere Informationen hier berühren.</string>
     <string name="push_notification_status_disabled">Benachrichtigungen sind deaktiviert</string>
+    <string name="notification_channel_crash_reports">Absturzberichte</string>
+    <string name="notification_channel_crash_reports_description">Wird verwendet, um zu fragen, ob ein Absturzbericht gesendet werden soll</string>
+    <string name="crash_report_notification_title">openHAB ist abgestürzt</string>
+    <string name="crash_report_notification_text">Helfen Sie openHAB durch Senden des Absturzberichts zu verbessern</string>
+    <string name="crash_report_notification_send_mail">E-Mail senden</string>
     <string name="open_in_maps">In OpenStreetMap öffnen</string>
 </resources>

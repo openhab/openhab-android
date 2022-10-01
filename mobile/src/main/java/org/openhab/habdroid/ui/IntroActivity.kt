@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -19,8 +19,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import com.github.paolorotolo.appintro.AppIntro
-import com.github.paolorotolo.appintro.AppIntroFragment
+import com.github.appintro.AppIntro
+import com.github.appintro.AppIntroFragment
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,18 +29,19 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.addToPrefs
+import org.openhab.habdroid.util.getActivityThemeId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.resolveThemedColor
+import org.openhab.habdroid.util.resolveThemedColorToResource
 
 class IntroActivity : AppIntro(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(Util.getActivityThemeId(this))
+        setTheme(getActivityThemeId())
         super.onCreate(savedInstanceState)
 
         if (getPrefs().getBoolean(PrefKeys.RECENTLY_RESTORED, false)) {
@@ -136,17 +137,19 @@ class IntroActivity : AppIntro(), CoroutineScope {
      * @param imageDrawable
      */
     private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        val colorText = resolveThemedColor(R.attr.colorOnBackground)
-        val colorBackground = resolveThemedColor(android.R.attr.colorBackground)
+        val colorTextRes = resolveThemedColorToResource(R.attr.colorOnBackground)
+        val colorBackgroundRes = resolveThemedColorToResource(android.R.attr.colorBackground)
 
-        addSlide(AppIntroFragment.newInstance(getString(title),
-            null, // Title font: null => default
-            getString(description),
-            null, // Description font: null => default
-            imageDrawable,
-            colorBackground, // Background color
-            colorText, // Title color
-            colorText)) // Description color
+        addSlide(
+            AppIntroFragment.createInstance(
+                title = getString(title),
+                description = getString(description),
+                imageDrawable = imageDrawable,
+                backgroundColorRes = colorBackgroundRes,
+                titleColorRes = colorTextRes,
+                descriptionColorRes = colorTextRes
+            )
+        )
     }
 
     companion object {

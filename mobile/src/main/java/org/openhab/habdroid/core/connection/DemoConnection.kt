@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -17,4 +17,5 @@ import okhttp3.OkHttpClient
 import org.openhab.habdroid.model.ServerPath
 
 class DemoConnection internal constructor(httpClient: OkHttpClient) :
-    AbstractConnection(httpClient, Connection.TYPE_REMOTE, ServerPath("https://demo.openhab.org:8443/", null, null, null))
+
+    AbstractConnection(httpClient, Connection.TYPE_REMOTE, ServerPath("https://demo.openhab.org", null, null, null))

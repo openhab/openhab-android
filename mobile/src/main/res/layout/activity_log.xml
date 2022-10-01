@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shareFab"
@@ -30,7 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/log_activity_content_description_share"
-        style="@style/Widget.Design.FloatingActionButton"
         android:visibility="gone"
         app:tint="@color/light"
         tools:visibility="visible" />

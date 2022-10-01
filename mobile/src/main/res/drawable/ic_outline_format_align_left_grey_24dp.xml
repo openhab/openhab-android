@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (c) 2010-2020 Contributors to the openHAB project
+  ~
+  ~ See the NOTICE file(s) distributed with this work for additional
+  ~ information.
+  ~
+  ~ This program and the accompanying materials are made available under the
+  ~ terms of the Eclipse Public License 2.0 which is available at
+  ~ http://www.eclipse.org/legal/epl-2.0
+  ~
+  ~ SPDX-License-Identifier: EPL-2.0
+  -->
+
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:autoMirrored="true"
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportHeight="24"
+    android:viewportWidth="24"
+    android:tint="#757575">
+    <path android:fillColor="@android:color/white" android:pathData="M15,15L3,15v2h12v-2zM15,7L3,7v2h12L15,7zM3,13h18v-2L3,11v2zM3,21h18v-2L3,19v2zM3,3v2h18L21,3L3,3z"/>
+</vector>

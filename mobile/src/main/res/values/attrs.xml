@@ -27,8 +27,13 @@
         <attr name="helpUrl" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="InfoPreference">
+        <attr name="infoUrl" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="customAttrs">
         <attr name="chartTheme" format="string" />
+        <attr name="transparentChartTheme" format="string" />
         <attr name="valueColors" format="reference" />
         <attr name="selectedWidgetBackgroundColor" format="color" />
     </declare-styleable>
@@ -42,7 +47,7 @@
     </declare-styleable>
 
     <declare-styleable name="UrlInputPreference">
-        <attr name="isHttpEnabled" format="boolean" />
+        <attr name="isForRemoteServer" format="boolean" />
     </declare-styleable>
 
     <item name="originalColor" type="id" />

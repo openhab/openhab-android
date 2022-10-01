@@ -1,0 +1,6 @@
+## Added
+* Add hint where to add API token (#2360)
+
+## Changed
+* Don't go back to sitemaps when app opened by shortcut (#2386)
+* Don't show authenticated connections as insecure (#2380)

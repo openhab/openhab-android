@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -13,19 +13,43 @@
 
 package org.openhab.habdroid.background
 
+import com.google.common.reflect.ClassPath
+import java.util.stream.Collectors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.openhab.habdroid.background.tiles.AbstractTileService
-import org.reflections.Reflections
 
+@ExperimentalCoroutinesApi
 class TileServicesTests {
-    private lateinit var tileServices: Set<Class<out AbstractTileService?>>
+    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    private lateinit var tileServices: Set<Class<*>>
 
+    @Suppress("UnstableApiUsage")
     @Before
     fun setup() {
-        val reflections = Reflections("org.openhab.habdroid.background.tiles")
-        tileServices = reflections.getSubTypesOf(AbstractTileService::class.java)
+        tileServices = ClassPath.from(ClassLoader.getSystemClassLoader())
+            .allClasses
+            .stream()
+            .filter { it.name.startsWith("org.openhab.habdroid.background.tiles.TileService") }
+            .map { it.load() }
+            .collect(Collectors.toSet())
+
+        Dispatchers.setMain(mainThreadSurrogate)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        mainThreadSurrogate.close()
     }
 
     @Test
@@ -35,29 +59,33 @@ class TileServicesTests {
 
     @Test
     fun checkTileServicesImplementCorrectId() {
-        for (tileService in tileServices) {
-            val id = tileService.newInstance()?.ID as Int
-            Assert.assertEquals(
-                "Name of the tile service doesn't match its id",
-                id,
-                tileService.name.substringAfter("TileService").toInt()
-            )
+        GlobalScope.launch(Dispatchers.Main) {
+            for (tileService in tileServices) {
+                val id = (tileService.newInstance() as AbstractTileService).ID
+                Assert.assertEquals(
+                    "Name of the tile service doesn't match its id",
+                    id,
+                    tileService.name.substringAfter("TileService").toInt()
+                )
+            }
         }
     }
 
     @Test
     fun checkClassName() {
-        for (tileService in tileServices) {
-            val id = tileService.newInstance()?.ID as Int
-            Assert.assertEquals(
-                AbstractTileService.getClassNameForId(id),
-                tileService.canonicalName
-            )
+        GlobalScope.launch(Dispatchers.Main) {
+            for (tileService in tileServices) {
+                val id = (tileService.newInstance() as AbstractTileService).ID
+                Assert.assertEquals(
+                    AbstractTileService.getClassNameForId(id),
+                    tileService.canonicalName
+                )
 
-            Assert.assertEquals(
-                AbstractTileService.getIdFromClassName(tileService.canonicalName!!),
-                id
-            )
+                Assert.assertEquals(
+                    AbstractTileService.getIdFromClassName(tileService.canonicalName!!),
+                    id
+                )
+            }
         }
     }
 }

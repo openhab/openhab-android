@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
         android:defaultValue="false"
         android:key="show_sitemaps"
@@ -15,6 +16,12 @@
         android:key="show_habpanel"
         android:icon="@drawable/ic_view_dashboard_outline_grey_24dp"
         android:title="@string/mainmenu_openhab_habpanel" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="show_frontail"
+        android:icon="@drawable/ic_outline_format_align_left_grey_24dp"
+        app:summary="@string/frontail_pref_summary"
+        android:title="@string/mainmenu_openhab_frontail" />
     <SwitchPreference
         android:defaultValue="true"
         android:key="show_nfc"

@@ -44,6 +44,7 @@ import android.util.SparseArray;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.background.NotificationUpdateObserver;
+import org.openhab.habdroid.util.ExtensionFuncsKt;
 
 import java.io.File;
 import java.io.IOException;
@@ -619,8 +620,12 @@ public class MemorizingTrustManager implements X509TrustManager {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     void startActivityNotification(Intent intent, int decisionId, CharSequence certName) {
-        final PendingIntent call = PendingIntent.getActivity(master, 0, intent,
-                0);
+        final PendingIntent call = PendingIntent.getActivity(
+            master,
+            0,
+            intent,
+            ExtensionFuncsKt.getPendingIntent_Immutable()
+        );
         final String mtmNotification = master.getString(R.string.mtm_notification);
         final long currentMillis = System.currentTimeMillis();
         final Context context = master.getApplicationContext();

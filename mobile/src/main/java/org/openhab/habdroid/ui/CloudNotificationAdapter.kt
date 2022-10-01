@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -113,12 +113,12 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                     conn,
                     notification.icon.toUrl(
                         itemView.context,
-                        itemView.context.determineDataUsagePolicy().loadIconsWithState
+                        itemView.context.determineDataUsagePolicy(conn).loadIconsWithState
                     ),
                     timeoutMillis = 2000
                 )
             } else {
-                iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
+                iconView.applyFallbackDrawable()
             }
             severityView.text = notification.severity
             severityView.isGone = notification.severity.isNullOrEmpty()

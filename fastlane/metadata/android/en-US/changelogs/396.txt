@@ -1,0 +1,5 @@
+## Added
+* Refresh FullscreenImageActivity (#2624)
+
+## Fixed
+* Fix SslClientCertificatePreference persistence (#2627)

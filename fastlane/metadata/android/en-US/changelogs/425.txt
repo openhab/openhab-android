@@ -1,0 +1,8 @@
+## Added
+
+* Implement forceAsItem-option for charts (#2893)
+
+## Fixed 
+
+* Hide null label in frames (#2892)
+* Hide microphone icon when voice recognizer is unavailable (#2894)

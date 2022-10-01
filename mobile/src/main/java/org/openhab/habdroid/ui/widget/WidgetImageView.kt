@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -15,9 +15,11 @@ package org.openhab.habdroid.ui.widget
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.SystemClock
 import android.util.AttributeSet
+import android.util.Base64
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import kotlin.random.Random
@@ -33,6 +35,8 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDebugModeEnabled
 
 class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
@@ -92,9 +96,26 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         }
 
         if (targetImageSize == 0) {
-            pendingRequest = PendingRequest(client, actualUrl, timeoutMillis, forceLoad)
+            pendingRequest = PendingHttpRequest(client, actualUrl, timeoutMillis, forceLoad)
         } else {
             doLoad(client, actualUrl, timeoutMillis, forceLoad)
+        }
+    }
+
+    fun setBase64EncodedImage(base64: String) {
+        prepareForNonHttpImage()
+        val data = Base64.decode(base64, Base64.DEFAULT)
+        val bitmap: Bitmap? = BitmapFactory.decodeByteArray(data, 0, data.size)
+
+        if (bitmap == null) {
+            applyFallbackDrawable()
+            return
+        }
+
+        if (targetImageSize == 0) {
+            pendingRequest = PendingBase64Request(bitmap)
+        } else {
+            applyLoadedBitmap(bitmap)
         }
     }
 
@@ -102,8 +123,17 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         super.onLayout(changed, left, top, right, bottom)
         targetImageSize = right - left - paddingLeft - paddingRight
         pendingRequest?.let { r ->
-            pendingLoadJob = scope?.launch {
-                doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
+            when (r) {
+                is PendingHttpRequest -> {
+                    pendingLoadJob = scope?.launch {
+                        doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
+                    }
+                }
+                is PendingBase64Request -> {
+                    pendingLoadJob = scope?.launch {
+                        applyLoadedBitmap(r.bitmap)
+                    }
+                }
             }
         }
         pendingRequest = null
@@ -265,7 +295,12 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         internalLoad = false
     }
 
-    private fun applyFallbackDrawable() {
+    fun applyFallbackDrawable() {
+        if (originalScaleType == null) {
+            originalScaleType = scaleType
+            super.setScaleType(ScaleType.CENTER)
+            super.setAdjustViewBounds(false)
+        }
         super.setImageDrawable(fallback)
     }
 
@@ -333,6 +368,9 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                     lastRefreshTimestamp = SystemClock.uptimeMillis()
                     scheduleNextRefreshIfNeeded()
                 } catch (e: HttpClient.HttpException) {
+                    if (context.getPrefs().isDebugModeEnabled()) {
+                        Log.d(TAG, "Failed to load image '$url', HTTP code ${e.statusCode}", e)
+                    }
                     removeProgressDrawable()
                     applyFallbackDrawable()
                 }
@@ -357,7 +395,14 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
         }
     }
 
-    data class PendingRequest(val client: HttpClient, val url: HttpUrl, val timeoutMillis: Long, val forceLoad: Boolean)
+    abstract class PendingRequest
+    data class PendingHttpRequest(
+        val client: HttpClient,
+        val url: HttpUrl,
+        val timeoutMillis: Long,
+        val forceLoad: Boolean
+    ) : PendingRequest()
+    data class PendingBase64Request(val bitmap: Bitmap) : PendingRequest()
 
     enum class ImageScalingType {
         NoScaling,

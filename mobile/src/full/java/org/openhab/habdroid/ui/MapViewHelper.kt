@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -26,7 +26,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import java.util.ArrayList
 import java.util.Locale
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -171,13 +170,13 @@ fun GoogleMap.setMarker(position: LatLng, item: Item, label: CharSequence?, canD
             .draggable(canDrag)
             .position(position)
             .title(label?.toString())
-    addMarker(marker).tag = item
+    addMarker(marker)?.tag = item
 }
 
 fun Location.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
 }
 
-fun Location.toMapsUrl(): String? {
+fun Location.toMapsUrl(): String {
     return "https://www.google.de/maps/@$latitude,$longitude,16z"
 }

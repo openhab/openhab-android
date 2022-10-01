@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
-    <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Налаштування</string>
     <string name="save">Зберегти</string>
@@ -12,9 +12,16 @@
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">Інтерфейс openHAB 3</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">Інтерфейс openHAB 3</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Сповіщення</string>
     <string name="app_notifications_on_server">Сповіщення (%s)</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
+    <string name="oh3_ui_error">Сталася помилка під час завантаження інтерфейсу openHAB 3</string>
+    <string name="frontail_error">Сталася помилка при завантаженні Frontail. Зверніть увагу, що він недоступний через openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail має працювати на порті за замовчуванням 9001. Він вбудований до openHABian або може бути встановлений вручну.</string>
     <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
     <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
     <!-- App settings strings -->
@@ -30,13 +37,14 @@
     <string name="settings_openhab_password">Пароль</string>
     <string name="settings_openhab_password_summary_weak">Слабкий пароль</string>
     <string name="settings_openhab_password_summary_strong">Надійний пароль</string>
+    <string name="settings_openhab_api_token_hint">Якщо ви використовуєте токен API, введіть його в поле імені користувача і залиште поле пароля пустим</string>
     <string name="settings_openhab_sslclientcert">SSL сертифікат клієнта</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Натисніть тут, щоб отримати підказки та пояснення, щодо налаштування SSL сертифікату автентифікації клієнта</string>
     <string name="settings_openhab_sslclientcert_not_supported">Клієнтські сертифікати SSL не підтримуються вашим пристроєм</string>
-    <string name="settings_openhab_screentimeroff">Вимкнути таймер дисплею</string>
-    <string name="settings_openhab_screentimeroff_summary">Вимкнути таймер вимикання дисплея, коли працює openHAB</string>
     <string name="settings_openhab_demomode">Демонстраційний режим</string>
     <string name="settings_openhab_demomode_summary">Якщо ви не маєте сервера openHAB, увімкніть демонстраційний режим, щоб мати уяву на що openHAB здатний.</string>
+    <string name="start_page_title">Початкова сторінка</string>
+    <string name="drawer_entries">Елементи бічного меню</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_accent_color">Контрастний колір</string>
     <string name="settings_select_a_color">Оберіть колір</string>
@@ -57,6 +65,7 @@
     <string name="settings_openhab_chart_hq_summary">Генерування графіків може бути тяжким для сервера. Якщо графіки завантажуються повільно і сервер не надто потужний, вимкніть цю опцію для швидшої роботи.</string>
     <string name="settings_clear_default_sitemap">Очистити сторінку інтерфейсу за замовчуванням</string>
     <string name="settings_no_default_sitemap">Не обрано сторінку інтерфейсу за умовчанням</string>
+    <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Типова поточна сторінка за замовчуванням: %1$s</string>
     <string name="settings_openhab_alt_connection">Віддалений сервер</string>
     <string name="settings_openhab_connection">Локальний сервер</string>
@@ -70,8 +79,10 @@
     <string name="settings_notification_vibration_twice">Двічі</string>
     <string name="settings_notification_ringtone_vibration">Дзвінок &amp; Вібрація</string>
     <string name="settings_connection_summary">З\'єднано з %s</string>
-    <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
-    <string name="beta">Бета</string>
+    <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">Під\'єднано до %1$s: %2$s без перевірки безпеки</string>
+    <string name="settings_insecure_connection_no_https">URL-адреса не починається з \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Не встановлено ім\'я користувача та пароль</string>
     <string name="settings_screen_lock">Блокування екрану</string>
     <string name="settings_screen_lock_nolock_summary">Необхідно увімкнути блокування екрану для блокування доступу до програми</string>
     <string name="settings_screen_lock_off_summary">Доступ до програми не заблоковано</string>
@@ -92,7 +103,17 @@
     <string name="settings_server_confirm_leave_title">Незбережені зміни</string>
     <string name="settings_server_confirm_leave_message">Ви внесли деякі зміни. Ви хочете зберегти чи скасувати їх?</string>
     <string name="settings_server_primary_title">Основний сервер</string>
+    <string name="settings_server_primary_summary_is_primary">Цей сервер є основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Торкніться кнопки Довідка для отримання додаткової інформації.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" є основним сервером. Торкніться щоб зробити цей сервер основним.\nНаразі лише основним сервером підтримуються усі функції цього застосунку. Щоб дізнатися більше, торкніться кнопки довідки.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Додатково</string>
+    <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Перемкнуто на сервер \"%s\" на основі точки Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Не вдалося прочитати ім\'я Wi-Fi: Відсутні дозволи</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Не вдалося прочитати ім\'я Wi-Fi: Визначення розташування вимкнуто</string>
+    <string name="setting_crash_reporting_title">Звіт про збої</string>
+    <string name="setting_crash_reporting_summary">Надіслати звіти про збої для підтримки розробки програми</string>
+    <string name="device_control_subtitle_item_name">Назва об\'єкту</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="voice_command">Голосова команда</string>
@@ -108,15 +129,22 @@
     <string name="app_shortcut_disabled_notifications">Ваш віддалений сервер недоступний</string>
     <string name="app_shortcut_disabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <string name="no_position_set">Розташування не встановлено</string>
+    <string name="show_and_copy_item_name">Показати і копіювати ім\'я об’єкта</string>
+    <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">Скопійовано \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
     <string name="error_network_not_available">Мережа недоступна</string>
     <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
+    <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_http_connection_failed">З’єднання невдале. Отримана неочікувана відповідь під час підключення до налаштованого сервера openHAB (код HTTP %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Будь ласка, введіть правильне посилання URL у форматі \"https://хост(:порт)/\"</string>
     <string name="error_port_seems_invalid">Введений порт здається непридатний для вибраного протоколу</string>
+    <string name="error_home_myopenhab_org_no_notifications">Сповіщення не доступні на home.myopenhab.org, а на myopenhab.org</string>
+    <string name="error_first_char_is_whitespace">Перший символ - це пробіл, який, ймовірно, не потрібен</string>
+    <string name="error_last_char_is_whitespace">Останній символ - це пробіль, який, ймовірно, не потрібен</string>
     <string name="error_connection_failed">Підключення до хоста не вдалося</string>
     <string name="error_unable_to_resolve_hostname">Не вдалося знайти доменне ім\'я</string>
     <string name="error_unknown">Сталася невідома помилка: %s</string>
@@ -169,7 +197,6 @@
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
     <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
     <string name="error_no_speech_to_text_app_found">Не знайдено застосунок розпізнавання мови</string>
-    <string name="error_sse_failed">Операція не вдалася, оновлення віджета може погіршитися</string>
     <string name="error_video_player">%s неможливо завантажити</string>
     <string name="install">Встановити</string>
     <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
@@ -195,15 +222,17 @@
     <string name="send_device_info_foreground_service_title">Монітор подій</string>
     <string name="send_device_info_foreground_service_summary">Відстеження подій, пов’язаних з наступними Об’єктами. Це вимагає постійного сповіщення і може збільшити споживання заряду акумулятора.</string>
     <string name="send_device_info_foreground_service_summary_pre_o">Спостерігати за подіями, пов’язаними з наступними об’єктами. Це вимагає постійного сповіщення і може збільшити споживання заряду акумулятора. Необхідно для відправки режиму Не Турбувати.</string>
-    <string name="send_device_info_foreground_service_running_summary_dnd">Відслідковування подій пов’язаних з режимом Не Турбувати</string>
     <string name="send_device_info_foreground_service_running_summary_one">Відслідковування подій пов’язаних з %s</string>
     <string name="send_device_info_foreground_service_running_summary_two">Відслідковування подій пов’язаних з %1$s і %2$s</string>
     <string name="send_device_info_foreground_service_running_summary_more">Відслідковування подій пов’язаних з %1$s, %2$s та іншими</string>
     <string name="settings_item_update_pref_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на сервері</string>
+    <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Останнє оновлення було \'%1$s\' (%2$s)</string>
     <string name="settings_alarm_clock">Час сигналу</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не надсилати будильник</string>
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Стан дзвінка</string>
     <string name="settings_phone_state_summary_on">Відправити стан дзвінка до об\'єкту \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Не надсилати стан дзвінка</string>
@@ -222,11 +251,14 @@
     <string name="settings_dnd_mode">Режим Не турбувати</string>
     <string name="settings_dnd_mode_summary_on">Надсилає режим Не турбувати до об\'єкту \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Не надсилати режим Не турбувати</string>
+    <string name="settings_gadgetbridge">Дії пристрою ґаджебридж</string>
+    <string name="settings_gadgetbridge_summary_on">Надсилає дії з пристрою Gadgetbridge до об’єкта %1$s. Потребує увімкнений монітор подій.</string>
+    <string name="settings_gadgetbridge_summary_off">Не надсилайте дії пристрою Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл.</string>
     <string name="settings_background_tasks_permission_hint">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл. Будь ласка, переконайтеся, що дали дозвіл на використання у фоні, так як оновлення відбувається також у фоновому режимі.</string>
-    <string name="settings_background_tasks_permission_denied">Деякі фонові завдання вимкнено через брак дозволів</string>
     <string name="settings_background_tasks_permission_denied_background_location">Деякі фонові задачі вимагають, щоб місцезнаходження було \"%s\" у налаштуваннях Android</string>
     <string name="settings_background_tasks_permission_allow">Дозволити</string>
+    <string name="settings_location_permissions_required">Цей додаток збирає дані про місцезнаходження, щоб ввімкнути \"Надсилання імені Wi-Fi до сервера\" і \"Вибір сервера на основі Wi-Fi\" навіть тоді, коли додаток закритий чи не використовується. Будь ласка, зверніть увагу, що ці дані відправляються лише на сервери, які ви налаштували.</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
     <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
     <string name="item_upload_in_progress">Об\'єкти зараз оновлюються</string>
@@ -234,7 +266,7 @@
     <string name="notification_channel_background_description">Використовується для сповіщення про очікуючі фонові завдання, наприклад, очікування мережі для відправки рівня заряду акумулятора</string>
     <string name="notification_channel_background_error">Помилка у фонових процесах</string>
     <string name="notification_channel_background_error_description">Використовується для сповіщення про помилки у фонових завданнях, наприклад, немає мережі для відправки рівня заряду акумулятора</string>
-    <string name="notification_channel_background_foreground_service_description">Моніторинг подій для оновлення відповідних елементів. Можна безпечно приховати цю категорію.</string>
+    <string name="notification_channel_background_foreground_service_description">Моніторинг подій для оновлення відповідних об’єктів. Можна безпечно приховати цю категорію.</string>
     <string name="notification_channel_messages_default_severity">За замовчуванням</string>
     <string name="notification_channel_messages_default_severity_description">Сповіщення, надіслані сервером без вказаної важливості</string>
     <string name="notification_channel_group_messages">Повідомлення</string>
@@ -246,9 +278,9 @@
         <item quantity="many">%d нових сповіщень</item>
         <item quantity="other">%d нових сповіщень</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Недоступно, віддалений сервер не налаштовано</string>
-    <string name="push_notification_status_http_error">Недоступно, помилка підключення до віддаленого сервера: %s</string>
-    <string name="push_notification_status_remote_no_cloud">Недоступно, віддалений сервер не є екземпляром openHAB cloud</string>
+    <string name="push_notification_status_no_remote_configured">Сповіщення недоступні: віддалений сервер не налаштовано</string>
+    <string name="push_notification_status_http_error">Сповіщення недоступні: помилка підключення до віддаленого сервера: %s</string>
+    <string name="push_notification_status_remote_no_cloud">Сповіщення недоступні: віддалений сервер не є хмарним екземпляром openHAB</string>
     <string name="push_notification_status">Стан</string>
     <string name="push_notification_hint">Сповіщення відтворюються за звичайним розкладом, таким самим як \"Відправити інформацію про пристрій на сервер\"</string>
     <plurals name="item_update_error_title">
@@ -348,10 +380,8 @@
     <string name="nfc_activate">Активувати</string>
     <string name="nfc_action_current_color">Поточний колір</string>
     <string name="nfc_action_to_sitemap_page">Записати сторінки інтерфейсу в NFC-мітку</string>
-    <string name="nfc_action_write_command_tag">Записати елемент в NFC-мітку</string>
+    <string name="nfc_action_write_command_tag">Записати об’єкт в NFC-мітку</string>
     <!-- Drawer -->
-    <string name="drawer_open">Відображення сторінки інтерфейсу відкрито</string>
-    <string name="drawer_close">Відображення сторінки інтерфейсу закрито</string>
     <string name="mainmenu_openhab_voice_recognition">Розпізнавання голосу</string>
     <!-- About -->
     <string name="about_title">Про програму</string>
@@ -366,11 +396,11 @@
     <string name="about_translation">Допоможіть нам перекласти openHAB</string>
     <string name="about_privacy_policy">Політика конфіденційності</string>
     <string name="about_rate_this_app">Оцінить цей додаток</string>
-    <string name="settings_debug_messages_title">Розширені повідомлення про помилки</string>
     <string name="settings_troubleshooting_title">Виправлення несправностей</string>
     <string name="set">Встановити</string>
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
+    <string name="undo">Скасувати</string>
     <string name="try_again_button">Спробуйте ще раз</string>
     <string name="enable_wifi_button">Увымкнути Wi-Fi</string>
     <string name="go_to_settings_button">Перейти до налаштувань</string>
@@ -395,6 +425,7 @@
     <string name="home_shortcut_error_pinning">Неможливо прикріпити на домашню сторінку</string>
     <string name="home_shortcut_success_pinning">Прикріплено на домашню сторінку</string>
     <string name="home_shortcut_server_has_been_deleted">Сервер для цього ярлика був видалений</string>
+    <string name="home_shortcut_title">Встановіть назву посилання</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Відкрити ролети</string>
     <string name="content_description_stop_roller_shutter">Зупинити ролети</string>
@@ -405,8 +436,6 @@
     <string name="content_description_open_number_picker">Введення числа</string>
     <string name="content_description_video">Відео</string>
     <string name="content_description_open_openhab">Відкрити openHAB</string>
-    <string name="content_description_increase_item_value">Збільшення значення об\'єкта</string>
-    <string name="content_description_decrease_item_value">Зменшення значення об\'єкта</string>
     <string name="swipe_to_refresh_description">Додаток періодично оновлюється автоматично, зазвичай не потрібно робити це вручну</string>
     <string name="got_it">Зрозуміло!</string>
     <!-- Intro strings -->
@@ -417,7 +446,7 @@
     <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
     <string name="intro_voice_description">Керуйте будинком за допомогою голосу</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Елемент керування можна прив\'язати до NFC мітки довгим натисненням на цей елемент</string>
+    <string name="intro_nfc_description">Об’єкт керування можна прив\'язати до NFC мітки довгим натисненням на цей об’єкт</string>
     <string name="intro_quick_tile_description">Керуйте своїм домівкою із швидких налаштувань пристрою (місце, в якому розміщені перемикачі, наприклад Wi-Fi і Bluetooth)</string>
     <string name="intro_send_device_info">Відправити інформацію про пристрій на ваш сервер</string>
     <string name="intro_send_device_info_description">Наприклад, увімкніть світло при дзвінку будильника</string>
@@ -445,12 +474,14 @@
     <string name="turn_on">Увімкнути</string>
     <string name="press_back_to_exit">Натисніть ще раз, щоб вийти</string>
     <!-- Item update widget -->
-    <string name="item_update_widget_title">Керування елементом</string>
+    <string name="item_update_widget_title">Керування об’єктом</string>
     <string name="item_update_widget_content_description">Віджет для зміни стану елементу</string>
     <string name="item_update_widget_content_description_edit">Редагувати віджет</string>
-    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On" -->
+    <string name="item_update_widget">Віджет</string>
+    <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <string name="item_update_widget_item_picker_title">Оберіть елемент</string>
+    <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
     <string name="item_update_success_message_on">%s увімкнено</string>
     <string name="item_update_success_message_off">%s вимкнено</string>
@@ -490,14 +521,9 @@
     <string name="item_update_error_couldnt_get_item_type">Не вдалося отримати тип елемента</string>
     <string name="create_home_screen_widget_title">Створити віджет</string>
     <string name="create_home_screen_widget_not_supported">Будь ласка, перейдіть до меню віджета на головному екрані та створіть віджет звідти</string>
-    <string name="item_update_widget_auto_generate_widget_label">Автоматично створювати мітку віджета</string>
-    <string name="item_update_widget_widget_label">Мітка віджета</string>
-    <string name="item_update_widget_default_label"><![CDATA[<Item label>: <Action>]]></string>
     <!-- Data saver -->
     <string name="data_saver_title">Заощадження трафіку</string>
     <string name="data_saver_on">Елементи сторінок інтерфейсу, які можуть вимагати великих об’ємів даних не завантажено</string>
-    <string name="data_saver_off">При завантаженні об’ємних сторінок інтерфейсу, використовуються системні налаштування економії трафіку</string>
-    <string name="data_saver_off_pre_n">Усі елементи сторінок інтерфейсу завантажуються, ігноруючи споживання трафіку</string>
     <string name="data_saver_load">Все одно завантажити</string>
     <string name="data_saver_hint">%s не завантажено, щоб заощадити трафік</string>
     <string name="data_saver_snackbar">Значки не базуються на станах об’єктів, оскільки ввімкнено заощадження даних</string>
@@ -510,15 +536,15 @@
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для швидких налаштувань</string>
     <string name="tile_item_picker_title">Оберіть об\'єкт</string>
-    <string name="tile_error_saving">Будь ласка, заповніть всі налаштування</string>
     <string name="tile_disabled">Вимкнено</string>
     <string name="tile_enable">Увімкнути</string>
-    <string name="item_item_and_action">Об\'єкт і дія</string>
+    <string name="tile_item_and_action">Об\'єкт і дія</string>
     <string name="tile_name">Ім\'я</string>
     <string name="tile_icon">Іконка</string>
     <string name="tile_require_unlock">Потрібно розблокувати екран</string>
     <string name="tile_require_unlock_summary_on">Запитувати розблокування пристрою перед дозволом оновлення об\'єктів</string>
     <string name="tile_require_unlock_summary_off">Дозволити оновлення об\'єктів, навіть якщо пристрій заблоковано</string>
+    <string name="tile_overview_hint">Стан плитки не відображає стан об\'єкта.\nЯкщо плитки не оновлюються після їх зміни тут, торкніться плитки або відредагуйте швидкі налаштування вашого пристрою (місце, де знаходяться перемикачі на приклад Wi-Fi та Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d активна плитка</item>
         <item quantity="few">%d активні плитки</item>
@@ -538,6 +564,7 @@
     <string name="tile_label_10">Плитка 10</string>
     <string name="tile_label_11">Плитка 11</string>
     <string name="tile_label_12">Плитка 12</string>
+    <string name="error_missing_prefs">Будь ласка, заповніть всі налаштування</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">значок openHAB</string>
     <string name="tile_icon_tv">ТБ</string>
@@ -564,6 +591,7 @@
     <string name="tile_icon_dashboard">Панель</string>
     <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Щит</string>
+    <string name="tile_icon_fan">Вентилятор</string>
     <string name="tile_icon_man">Чоловік</string>
     <string name="tile_icon_bed">Ліжко</string>
     <string name="tile_icon_child">Дитина</string>
@@ -576,10 +604,27 @@
     <string name="tile_icon_light_switch">Вимикач світла</string>
     <string name="tile_icon_garage">Гараж</string>
     <string name="tile_icon_switch">Перемикач</string>
+    <string name="tile_icon_text">Текст</string>
     <string name="tile_icon_sofa">Диван</string>
     <string name="tile_icon_lamp_ceiling">Потолочна лампа</string>
     <string name="tile_icon_lamp_floor">Підлогова лампа</string>
     <string name="tile_icon_lamp_bedside">Приліжкова лампа</string>
     <string name="tile_icon_lamp_outdoor">Зовнішня лампа</string>
     <!-- Tile icon values -->
+    <!-- Item tag type labels -->
+    <string name="item_tag_location_garage">Гараж</string>
+    <string name="item_tag_location_house">Дім</string>
+    <string name="item_tag_equipment_battery">Акумулятор</string>
+    <string name="item_tag_equipment_camera">Камера</string>
+    <string name="item_tag_equipment_fan">Вентилятор</string>
+    <string name="item_tag_equipment_lock">Замок</string>
+    <string name="item_tag_equipment_smartphone">Смартфон</string>
+    <string name="item_tag_equipment_smokedetector">Детектор диму</string>
+    <string name="item_tag_equipment_speaker">Гучномовець</string>
+    <string name="item_tag_equipment_television">Телевізор</string>
+    <string name="item_tag_equipment_voiceassistant">Голосовий помічник</string>
+    <string name="item_tag_equipment_washingmachine">Пральна машина</string>
+    <string name="item_tag_equipment_weatherservice">Служба погоди</string>
+    <string name="item_tag_equipment_webservice">Веб-служба</string>
+    <string name="item_tag_equipment_window">Вікно</string>
 </resources>

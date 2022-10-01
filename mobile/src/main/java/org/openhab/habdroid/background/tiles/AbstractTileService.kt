@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -32,19 +32,19 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.ItemUpdateWorker
 import org.openhab.habdroid.background.tiles.AbstractTileService.Companion.getPrefKeyForId
-import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.getPrefs
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -83,6 +83,8 @@ abstract class AbstractTileService : TileService() {
             infoLiveData.observe(lifeCycleOwner) {
                 updateTileSubtitle()
             }
+
+            updateTileSubtitle()
         }
     }
 
@@ -126,6 +128,7 @@ abstract class AbstractTileService : TileService() {
     }
 
     private fun updateTile(tile: Tile) {
+        Log.d(TAG, "updateTile()")
         val data = getPrefs().getTileData(ID)
 
         tile.apply {
@@ -138,6 +141,8 @@ abstract class AbstractTileService : TileService() {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun updateTileSubtitle() {
+        Log.d(TAG, "updateTileSubtitle()")
+
         val lastInfo = WorkManager
             .getInstance(applicationContext)
             .getWorkInfosByTag(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID + ID)
@@ -149,7 +154,7 @@ abstract class AbstractTileService : TileService() {
             lastWorkInfoState = null
         }
         var updateSubtitleLaterAgain = false
-        val statusRes = when (lastWorkInfoState) {
+        val statusMessage = when (lastWorkInfoState) {
             WorkInfo.State.ENQUEUED, WorkInfo.State.BLOCKED -> getString(R.string.item_update_short_status_waiting)
             WorkInfo.State.RUNNING -> getString(R.string.item_update_short_status_sending)
             WorkInfo.State.FAILED, WorkInfo.State.CANCELLED -> {
@@ -166,16 +171,16 @@ abstract class AbstractTileService : TileService() {
             null -> ""
         }
         qsTile?.apply {
-            subtitle = statusRes
+            subtitle = statusMessage
             updateTile()
         }
-        if (statusRes.isEmpty()) {
+        if (statusMessage.isEmpty()) {
             lifeCycleOwner.stopListening()
         }
         subtitleUpdateJob?.cancel()
         if (updateSubtitleLaterAgain) {
             subtitleUpdateJob = GlobalScope.launch(Dispatchers.Main) {
-                delay(6 * 1000)
+                delay(6000)
                 updateTileSubtitle()
             }
         }
@@ -213,6 +218,7 @@ abstract class AbstractTileService : TileService() {
             context.getString(R.string.tile_icon_power_plug_value) -> R.drawable.ic_power_plug_outline_grey_24dp
             context.getString(R.string.tile_icon_color_palette_value) -> R.drawable.ic_palette_outline_grey_24dp
             context.getString(R.string.tile_icon_switch_value) -> R.drawable.ic_power_settings_black_24dp
+            context.getString(R.string.tile_icon_text_value) -> R.drawable.ic_outline_format_align_left_grey_24dp
             context.getString(R.string.tile_icon_earth_value) -> R.drawable.ic_earth_grey_24dp
             context.getString(R.string.tile_icon_star_value) -> R.drawable.ic_star_border_grey_24dp
             context.getString(R.string.tile_icon_clock_value) -> R.drawable.ic_access_time_white_24dp
@@ -227,12 +233,13 @@ abstract class AbstractTileService : TileService() {
             context.getString(R.string.tile_icon_chat_value) -> R.drawable.ic_forum_outline_grey_24dp
             context.getString(R.string.tile_icon_settings_value) -> R.drawable.ic_settings_outline_grey_24dp
             context.getString(R.string.tile_icon_shield_value) -> R.drawable.ic_security_grey_24dp
+            context.getString(R.string.tile_icon_fan_value) -> R.drawable.ic_fan_black_24dp
             context.getString(R.string.tile_icon_bell_value) -> R.drawable.ic_bell_outline_grey_24dp
             context.getString(R.string.tile_icon_dashboard_value) -> R.drawable.ic_view_dashboard_outline_grey_24dp
             else -> R.drawable.ic_openhab_appicon_24dp
         }
 
-        fun updateTile(context: Context, id: Int) {
+        fun requestTileUpdate(context: Context, id: Int) {
             val data = context.getPrefs().getTileData(id)
             val tileService = ComponentName(
                 context,
@@ -266,7 +273,6 @@ data class TileData(
 ) : Parcelable {
     fun isValid(): Boolean {
         return item.isNotEmpty() &&
-            state.isNotEmpty() &&
             label.isNotEmpty() &&
             tileLabel.isNotEmpty() &&
             mappedState.isNotEmpty() &&

@@ -1,0 +1,6 @@
+## Added
+* Hint user about notifications not available on home.myopenhab.org (#2565)
+* Hide client cert pref by default (#2553)
+
+## Fixed
+* Fix FullscreenImageActivity crash when image too large (#2541)

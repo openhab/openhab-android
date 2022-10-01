@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -33,7 +33,9 @@ import com.google.firebase.messaging.FirebaseMessaging
 import java.util.ArrayList
 import java.util.HashMap
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
@@ -75,8 +77,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             else -> {}
                         }
                     }
-                    // Stop evaluating tags and advance to next info
-                    break
+                } else if (tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID)) {
+                    val tileId = tag.substringAfter(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID).toInt()
+                    AbstractTileService.requestTileUpdate(context, tileId)
                 }
             }
         }

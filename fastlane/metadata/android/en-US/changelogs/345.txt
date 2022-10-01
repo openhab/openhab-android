@@ -1,0 +1,5 @@
+## Added
+* Implement JS interface of OH3 UI (#2328)
+
+## Fixed
+* Fix NPE in WebViewHolder (#2350) 

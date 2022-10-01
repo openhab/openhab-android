@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import okhttp3.CacheControl
@@ -43,8 +45,8 @@ import okhttp3.sse.EventSources
 class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val client: OkHttpClient
     private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
-    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
-        Credentials.basic(username, password, StandardCharsets.UTF_8) else null
+    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty())
+        Credentials.basic(username, password.orEmpty(), StandardCharsets.UTF_8) else null
 
     init {
         val clientBuilder = client.newBuilder()
@@ -66,16 +68,17 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
         FORCE_CACHE_IF_POSSIBLE
     }
 
-    fun makeSse(url: HttpUrl, listener: EventSourceListener): EventSource {
+    fun makeSse(url: HttpUrl): SseSubscription {
         val request = Request.Builder()
             .url(url)
-            .addHeader("User-Agent", "openHAB client for Android")
+            .addHeader("User-Agent", USER_AGENT)
             .build()
         val client = this.client.newBuilder()
             .readTimeout(0, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .build()
-        return EventSources.createFactory(client).newEventSource(request, listener)
+        val listener = SseListener()
+        return SseSubscription(EventSources.createFactory(client).newEventSource(request, listener), listener)
     }
 
     fun buildUrl(url: String): HttpUrl {
@@ -133,7 +136,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
     ) = suspendCancellableCoroutine<HttpResult> { cont ->
         val requestBuilder = Request.Builder()
             .url(buildUrl(url))
-            .addHeader("User-Agent", "openHAB client for Android")
+            .addHeader("User-Agent", USER_AGENT)
         if (headers != null) {
             for ((key, value) in headers) {
                 requestBuilder.addHeader(key, value)
@@ -245,7 +248,44 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
         }
     }
 
+    class SseFailureException constructor(val response: Response?, cause: Throwable?) : Exception(cause)
+
+    internal class SseListener : EventSourceListener() {
+        val channel = Channel<String>()
+        override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
+            super.onEvent(eventSource, id, type, data)
+            runBlocking {
+                channel.send(data)
+            }
+        }
+
+        override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
+            super.onFailure(eventSource, t, response)
+            runBlocking {
+                channel.close(SseFailureException(response, t))
+            }
+        }
+    }
+
+    class SseSubscription internal constructor(private val source: EventSource, private val listener: SseListener) {
+        @Throws(SseFailureException::class)
+        suspend fun getNextEvent(): String {
+            return listener.channel.receive()
+        }
+        fun cancel() {
+            listener.channel.close()
+            source.cancel()
+        }
+    }
+
     companion object {
         const val DEFAULT_TIMEOUT_MS: Long = 30000
+
+        // Pretend to be Chrome on Android
+        const val USER_AGENT = "Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) " +
+            "AppleWebKit/535.19 (KHTML, like Gecko) " +
+            "Chrome/18.0.1025.133 Mobile Safari/535.19"
+
+        fun isMyOpenhab(host: String) = host.matches("^(home.)?myopenhab.org$".toRegex())
     }
 }

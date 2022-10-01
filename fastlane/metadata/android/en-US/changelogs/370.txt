@@ -1,0 +1,2 @@
+## Added
+* Shortcuts to HABPanel and openHAB 3 UI now open the subpage where they have been created (#2494)

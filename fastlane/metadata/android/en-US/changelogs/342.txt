@@ -1,0 +1,2 @@
+## Added
+* Auto select server based on Wi-Fi SSID (#2281)

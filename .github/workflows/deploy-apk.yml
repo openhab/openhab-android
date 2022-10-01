@@ -1,0 +1,94 @@
+name: Deploy APK on GitHub
+
+on:
+  release:
+    types:
+      - created
+
+env:
+  GRADLE_FILE: "mobile/build.gradle"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Bump version
+        run: |
+          # Get and bump version code
+          VERSION_CODE=$(grep 'versionCode' $GRADLE_FILE | sed -r 's/(.*) (.*)$/\2/')
+          let VERSION_CODE++
+
+          # Remove "-release$" and "^refs/tags/" from version name
+          TAG_NAME="${GITHUB_REF##*/}"
+          VERSION_NAME="${TAG_NAME%-release}"
+
+          echo "Replace versionCode with $VERSION_CODE"
+          sed --in-place -r "s/versionCode (.*)/versionCode ${VERSION_CODE}/" $GRADLE_FILE
+          echo "Replace versionName with $VERSION_NAME"
+          sed --in-place -r "s/versionName \"(.*)\"/versionName \"${VERSION_NAME}\"/" $GRADLE_FILE
+          
+      - name: Select flavor
+        run: |
+          if $(echo "$GITHUB_REF" | grep -q "beta")
+          then
+              releaseFlavor="Beta"
+          else
+              releaseFlavor="Stable"
+          fi
+          echo "Use $releaseFlavor"
+          echo "releaseFlavor=$releaseFlavor"   >> $GITHUB_ENV
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
+
+      - name: Configure Gradle
+        run: |
+          mkdir ~/.gradle/
+          echo -e "org.gradle.jvmargs=-Xmx8192M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o\norg.gradle.daemon=false" >> ~/.gradle/gradle.properties
+          
+      - name: Build APK
+        run: bash gradlew :mobile:assembleFull${{ env.releaseFlavor }}Release
+        
+      - uses: r0adkll/sign-android-release@v1.0.4
+        name: Sign APK
+        id: sign_app
+        with:
+          releaseDirectory: mobile/build/outputs/apk/full${{ env.releaseFlavor }}/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: "sign"
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          
+      - uses: svenstaro/upload-release-action@v2
+        name: Upload APK
+        with:
+          file: ${{steps.sign_app.outputs.signedReleaseFile}}
+          asset_name: openhab-android.apk
+          tag: ${{ github.ref }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build App Bundle
+        run: bash gradlew :mobile:bundleFull${{ env.releaseFlavor }}Release
+
+      - uses: r0adkll/sign-android-release@v1.0.4
+        name: Sign App Bundle
+        id: sign_aab
+        with:
+          releaseDirectory: mobile/build/outputs/bundle/full${{ env.releaseFlavor }}Release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: "sign"
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
+      - uses: actions/upload-artifact@v3
+        name: Upload App Bundle
+        with:
+          name: App Bundle
+          path: ${{steps.sign_aab.outputs.signedReleaseFile}}

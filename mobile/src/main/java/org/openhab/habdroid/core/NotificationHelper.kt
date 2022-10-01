@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -33,6 +33,7 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
@@ -124,7 +125,7 @@ class NotificationHelper constructor(private val context: Context) {
 
         if (message.icon != null) {
             val connection = ConnectionFactory.primaryCloudConnection?.connection
-            if (connection != null && context.determineDataUsagePolicy().canDoLargeTransfers) {
+            if (connection != null && context.determineDataUsagePolicy(connection).canDoLargeTransfers) {
                 try {
                     val targetSize = context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
                     iconBitmap = connection.httpClient
@@ -204,8 +205,10 @@ class NotificationHelper constructor(private val context: Context) {
             putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId)
         }
         return PendingIntent.getActivity(
-            context, notificationId,
-            contentIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            context,
+            notificationId,
+            contentIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
         )
     }
 

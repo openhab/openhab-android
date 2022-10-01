@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -53,8 +53,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
-import org.openhab.habdroid.util.ToastType
+import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.appendQueryParameter
+import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.showToast
 
 class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
@@ -88,8 +89,8 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
         setResult(RESULT_OK)
 
-        longUri = intent.getParcelableExtra(EXTRA_LONG_URI)
-        shortUri = intent.getParcelableExtra(EXTRA_SHORT_URI)
+        longUri = intent.parcelable(EXTRA_LONG_URI)
+        shortUri = intent.parcelable(EXTRA_SHORT_URI)
         Log.d(TAG, "Got URL $longUri (short URI $shortUri)")
     }
 
@@ -109,7 +110,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         if (adapter != null) {
             val intent = Intent(this, javaClass)
                 .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+            val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent_Mutable)
             adapter.enableForegroundDispatch(this, pendingIntent, null, null)
         }
 
@@ -138,9 +139,9 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
             writeTagMessage.setText(R.string.info_write_tag_progress)
 
-            val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
+            val tag = intent.parcelable<Tag>(NfcAdapter.EXTRA_TAG)
             if (tag != null && writeTag(tag)) {
-                showToast(R.string.info_write_tag_finished, ToastType.SUCCESS)
+                showToast(R.string.info_write_tag_finished)
                 finish()
             } else {
                 writeTagMessage.setText(R.string.info_write_failed)

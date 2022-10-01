@@ -1,0 +1,2 @@
+## Fixed
+* Fix SslClientCertificatePreference summary and add some logging (#2552)

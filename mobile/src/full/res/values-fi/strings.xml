@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_in_progress">Laitteen rekisteröinti on käynnissä</string>
-    <string name="info_openhab_gcm_failed">Push ilmoitusten rekisteröinti epäonnistui</string>
-    <string name="info_openhab_gcm_failed_play_services">Push ilmoitusten rekisteröinti epäonnistui Google Play Servicen vian takia: %s</string>
-    <string name="info_openhab_gcm_connected">Laite rekisteröity onnistuneesti Firebase Cloud Viestintään (FCM)</string>
+    <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
+    <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <string name="open_in_maps">Avaa Google Mapsissa</string>
 </resources>

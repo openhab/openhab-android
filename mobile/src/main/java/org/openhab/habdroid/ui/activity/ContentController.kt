@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -17,8 +17,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.net.wifi.WifiManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,31 +40,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
-import java.util.ArrayList
-import java.util.HashSet
 import java.util.Stack
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
-import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
-import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
+import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_IS_STACK_ROOT
+import org.openhab.habdroid.ui.activity.AbstractWebViewFragment.Companion.KEY_SUBPAGE
+import org.openhab.habdroid.ui.preference.PreferencesActivity
+import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.RemoteLog
-import org.openhab.habdroid.util.getActiveServerId
-import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.parcelable
+import org.openhab.habdroid.util.parcelableArrayList
 
 /**
  * Controller class for the content area of [MainActivity]
@@ -72,7 +73,7 @@ import org.openhab.habdroid.util.openInBrowser
  * The layout of the content area is up to the respective subclasses.
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
-    PageConnectionHolderFragment.ParentCallback {
+    PageConnectionHolderFragment.ParentCallback, AbstractWebViewFragment.ParentCallback {
     protected val fm: FragmentManager = activity.supportFragmentManager
 
     private var noConnectionFragment: Fragment? = null
@@ -96,7 +97,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         noConnectionFragment != null -> null
         temporaryPage is CloudNotificationListFragment ->
             (temporaryPage as CloudNotificationListFragment).getTitle(activity)
-        temporaryPage is WebViewFragment -> (temporaryPage as WebViewFragment).title
+        temporaryPage is AbstractWebViewFragment -> (temporaryPage as AbstractWebViewFragment).title
         temporaryPage != null -> null
         else -> fragmentForTitle?.title
     }
@@ -130,7 +131,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param state Bundle to save state into
      */
     fun onSaveInstanceState(state: Bundle) {
-        RemoteLog.d(TAG, "onSaveInstanceState()")
+        CrashReportingHelper.d(TAG, "onSaveInstanceState()")
         val pages = ArrayList<LinkedPage>()
         for ((page, fragment) in pageStack) {
             pages.add(page)
@@ -165,8 +166,8 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param state Bundle including previously saved state
      */
     open fun onRestoreInstanceState(state: Bundle) {
-        RemoteLog.d(TAG, "onRestoreInstanceState()")
-        currentSitemap = state.getParcelable(STATE_KEY_SITEMAP)
+        CrashReportingHelper.d(TAG, "onRestoreInstanceState()")
+        currentSitemap = state.parcelable(STATE_KEY_SITEMAP)
         currentSitemap?.let { sitemap ->
             sitemapFragment = fm.getFragment(state, STATE_KEY_SITEMAP_FRAGMENT) as WidgetListFragment?
                 ?: makeSitemapFragment(sitemap)
@@ -177,12 +178,15 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
 
         pageStack.clear()
-        state.getParcelableArrayList<LinkedPage>(STATE_KEY_PAGES)?.forEach { page ->
+        state.parcelableArrayList<LinkedPage>(STATE_KEY_PAGES)?.forEach { page ->
             val f = fm.getFragment(state, makeStateKeyForPage(page)) as WidgetListFragment?
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }
         temporaryPage = fm.getFragment(state, STATE_KEY_TEMPORARY_PAGE)
+        (temporaryPage as? AbstractWebViewFragment)?.setCallback(this)
         noConnectionFragment = fm.getFragment(state, STATE_KEY_ERROR_FRAGMENT)
+
+        updateConnectionState()
     }
 
     /**
@@ -192,7 +196,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param sitemap Sitemap to show
      */
     fun openSitemap(sitemap: Sitemap) {
-        RemoteLog.d(TAG, "openSitemap()", remoteOnly = true)
+        CrashReportingHelper.d(TAG, "openSitemap()", remoteOnly = true)
         Log.d(TAG, "Opening sitemap $sitemap (current: $currentSitemap)")
         currentSitemap = sitemap
         // First clear the old fragment stack to show the progress spinner...
@@ -216,7 +220,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param source Fragment this action was triggered from
      */
     open fun openPage(page: LinkedPage, source: WidgetListFragment) {
-        RemoteLog.d(TAG, "openPage(LinkedPage, WidgetListFragment)", remoteOnly = true)
+        CrashReportingHelper.d(TAG, "openPage(LinkedPage, WidgetListFragment)", remoteOnly = true)
         Log.d(TAG, "Opening page $page")
         val f = makePageFragment(page)
         while (!pageStack.isEmpty() && pageStack.peek().second !== source) {
@@ -236,7 +240,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param url URL to follow
      */
     fun openPage(url: String) {
-        RemoteLog.d(TAG, "openPage(String)", remoteOnly = true)
+        CrashReportingHelper.d(TAG, "openPage(String)", remoteOnly = true)
         val matchingPageIndex = pageStack.indexOfFirst { entry -> entry.first.link == url }
         Log.d(TAG, "Opening page $url (present at $matchingPageIndex)")
 
@@ -259,28 +263,14 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
-    fun showWebViewUi(ui: WebViewUi) {
-        val prefs = activity.getPrefs()
-        val activeServerId = prefs.getActiveServerId()
-        val title = if (prefs.getConfiguredServerIds().size <= 1) {
-            activity.getString(ui.titleRes)
-        } else {
-            val activeServerName = ServerConfiguration.load(prefs, activity.getSecretPrefs(), activeServerId)?.name
-            activity.getString(ui.multiServerTitleRes, activeServerName)
-        }
-
-        showTemporaryPage(
-            WebViewFragment.newInstance(
-                title,
-                ui.errorRes,
-                ui.urlToLoad,
-                ui.urlForError,
-                activeServerId,
-                ui.shortcutAction,
-                title,
-                ui.shortcutIconRes
-            )
+    fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
+        val webViewFragment = ui.fragment.newInstance()
+        webViewFragment.arguments = bundleOf(
+            KEY_IS_STACK_ROOT to isStackRoot,
+            KEY_SUBPAGE to subpage
         )
+        webViewFragment.setCallback(this)
+        showTemporaryPage(webViewFragment)
     }
 
     /**
@@ -290,7 +280,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param shouldSuggestEnablingWifi
      */
     fun indicateNoNetwork(message: CharSequence, shouldSuggestEnablingWifi: Boolean) {
-        RemoteLog.d(TAG, "Indicate no network (message $message)")
+        CrashReportingHelper.d(TAG, "Indicate no network (message $message)")
         resetState()
         noConnectionFragment = if (shouldSuggestEnablingWifi) {
             EnableWifiNetworkFragment.newInstance(message)
@@ -302,14 +292,27 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     /**
+     * Indicate to the user that the current Wi-Fi shouldn't be used.
+     *
+     * @param message Error message to show
+     */
+    fun indicateWrongWifi(message: CharSequence) {
+        CrashReportingHelper.d(TAG, "Indicate wrong Wi-Fi (message $message)")
+        resetState()
+        noConnectionFragment = WrongWifiFragment.newInstance(message)
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        activity.updateTitle()
+    }
+
+    /**
      * Indicate to the user that server configuration is missing.
      *
      * @param resolveAttempted Indicate if discovery was attempted, but not successful
      */
     fun indicateMissingConfiguration(resolveAttempted: Boolean, wouldHaveUsedOfficialServer: Boolean) {
-        RemoteLog.d(TAG, "Indicate missing configuration (resolveAttempted $resolveAttempted)")
+        CrashReportingHelper.d(TAG, "Indicate missing configuration (resolveAttempted $resolveAttempted)")
         resetState()
-        val wifiManager = activity.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = activity.getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI)
         noConnectionFragment = MissingConfigurationFragment.newInstance(
             activity,
             resolveAttempted,
@@ -326,7 +329,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param message Error message to show
      */
     fun indicateServerCommunicationFailure(message: CharSequence) {
-        RemoteLog.d(TAG, "Indicate server failure (message $message)")
+        CrashReportingHelper.d(TAG, "Indicate server failure (message $message)")
         noConnectionFragment = CommunicationFailureFragment.newInstance(message)
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
@@ -336,7 +339,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * Clear the error previously set by [indicateServerCommunicationFailure]
      */
     fun clearServerCommunicationFailure() {
-        RemoteLog.d(TAG, "clearServerCommunicationFailure()")
+        CrashReportingHelper.d(TAG, "clearServerCommunicationFailure()")
         if (noConnectionFragment is CommunicationFailureFragment) {
             noConnectionFragment = null
             resetState()
@@ -353,7 +356,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param progressMessage Message to show to the user if no connection is available
      */
     fun updateConnection(connection: Connection?, progressMessage: CharSequence?, @DrawableRes icon: Int) {
-        RemoteLog.d(TAG, "Update to connection $connection (message $progressMessage)")
+        CrashReportingHelper.d(TAG, "Update to connection $connection (message $progressMessage)")
         noConnectionFragment = if (connection == null)
             ProgressFragment.newInstance(progressMessage, icon) else null
         resetState()
@@ -377,6 +380,7 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     fun recreateFragmentState() {
         fm.commitNow {
+            @Suppress("DEPRECATION") // TODO: Replace deprecated function
             fm.fragments
                 .filterNot { f -> f.retainInstance }
                 .forEach { f -> remove(f) }
@@ -408,7 +412,12 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @return true if back key can be consumed, false otherwise
      */
     fun canGoBack(): Boolean {
-        return temporaryPage != null || !pageStack.empty()
+        val tempPageAsWebView = temporaryPage as? AbstractWebViewFragment
+        return if (tempPageAsWebView?.isStackRoot == true) {
+            return tempPageAsWebView.canGoBack()
+        } else {
+            temporaryPage != null || !pageStack.empty()
+        }
     }
 
     /**
@@ -418,12 +427,15 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @return true if back key was consumed, false otherwise
      */
     fun goBack(): Boolean {
-        if (temporaryPage is WebViewFragment) {
-            if ((temporaryPage as WebViewFragment).goBack()) {
+        if (temporaryPage is AbstractWebViewFragment) {
+            if ((temporaryPage as AbstractWebViewFragment).goBack()) {
                 return true
             }
         }
         if (temporaryPage != null) {
+            if ((temporaryPage as? AbstractWebViewFragment)?.isStackRoot == true) {
+                return false
+            }
             temporaryPage = null
             activity.updateTitle()
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
@@ -438,6 +450,15 @@ abstract class ContentController protected constructor(private val activity: Mai
             return true
         }
         return false
+    }
+
+    override fun closeFragment() {
+        if (temporaryPage != null) {
+            temporaryPage = null
+            activity.updateTitle()
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+            updateConnectionState()
+        }
     }
 
     override fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>) {
@@ -466,13 +487,17 @@ abstract class ContentController protected constructor(private val activity: Mai
         val errorMessage = activity.getHumanReadableErrorMessage(url, error.statusCode, error, false)
             .toString()
 
-        RemoteLog.d(TAG, "onLoadFailure() with message $errorMessage")
+        CrashReportingHelper.d(TAG, "onLoadFailure() with message $errorMessage")
         noConnectionFragment = CommunicationFailureFragment.newInstance(
             activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
         if (pendingDataLoadUrls.remove(error.originalUrl) && pendingDataLoadUrls.isEmpty()) {
             activity.setProgressIndicatorVisible(false)
+        }
+
+        activity.scheduleRetry {
+            activity.retryServerPropertyQuery()
         }
     }
 
@@ -553,8 +578,12 @@ abstract class ContentController protected constructor(private val activity: Mai
         companion object {
             fun newInstance(message: CharSequence): CommunicationFailureFragment {
                 val f = CommunicationFailureFragment()
-                f.arguments = buildArgs(message, R.string.try_again_button,
-                    R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
+                f.arguments = buildArgs(
+                    message,
+                    R.string.try_again_button,
+                    R.drawable.ic_openhab_appicon_340dp,
+                    false
+                )
                 return f
             }
         }
@@ -600,6 +629,39 @@ abstract class ContentController protected constructor(private val activity: Mai
                 val f = EnableWifiNetworkFragment()
                 f.arguments = buildArgs(message, R.string.enable_wifi_button,
                     R.drawable.ic_wifi_strength_off_outline_grey_24dp, false)
+                return f
+            }
+        }
+    }
+
+    internal class WrongWifiFragment : StatusFragment() {
+        override fun onClick(view: View) {
+            if (view.id == R.id.button1) {
+                val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
+                startActivity(preferencesIntent)
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    // Open panel to switch Wi-Fi
+                    val panelIntent = Intent(Settings.Panel.ACTION_WIFI)
+                    startActivity(panelIntent)
+                }
+            }
+        }
+
+        companion object {
+            fun newInstance(
+                message: CharSequence
+            ): WrongWifiFragment {
+                val f = WrongWifiFragment()
+                val args = buildArgs(
+                    message = message,
+                    button1TextResId = R.string.go_to_settings_button,
+                    button2TextResId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                        R.string.switch_wifi_button else 0,
+                    drawableResId = R.drawable.ic_wifi_strength_off_outline_grey_24dp,
+                    showProgress = false
+                )
+                f.arguments = args
                 return f
             }
         }

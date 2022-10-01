@@ -1,0 +1,2 @@
+## Fixed
+* Tasker: Don't declare plugin as condition (#2626)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -13,20 +13,27 @@
 
 package org.openhab.habdroid.ui
 
+import android.Manifest
 import android.app.ActivityManager
 import android.app.KeyguardManager
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -36,12 +43,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
+import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getActivityThemeId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
+import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.resolveThemedColor
 
 abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
@@ -58,21 +68,37 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(Util.getActivityThemeId(this))
+        setTheme(getActivityThemeId())
 
         val colorPrimary = resolveThemedColor(R.attr.colorPrimary)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            setTaskDescription(ActivityManager.TaskDescription(
-                getString(R.string.app_name),
-                R.mipmap.icon,
-                colorPrimary))
-        } else {
-            @Suppress("DEPRECATION")
-            setTaskDescription(ActivityManager.TaskDescription(
-                getString(R.string.app_name),
-                BitmapFactory.decodeResource(resources, R.mipmap.icon),
-                colorPrimary))
+
+        val taskDescription = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                ActivityManager.TaskDescription.Builder()
+                    .setLabel(getString(R.string.app_name))
+                    .setIcon(R.mipmap.icon)
+                    .setPrimaryColor(colorPrimary)
+                    .build()
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+                @Suppress("DEPRECATION")
+                ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    R.mipmap.icon,
+                    colorPrimary
+                )
+            }
+            else -> {
+                @Suppress("DEPRECATION")
+                ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    BitmapFactory.decodeResource(resources, R.mipmap.icon),
+                    colorPrimary
+                )
+            }
         }
+
+        setTaskDescription(taskDescription)
 
         super.onCreate(savedInstanceState)
     }
@@ -100,7 +126,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         setFullscreen()
     }
 
-    @Suppress("DEPRECATION")
+    @Suppress("DEPRECATION") // TODO: Replace deprecated function
     fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
         var uiOptions = window.decorView.systemUiVisibility
         val flags = (
@@ -116,7 +142,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         window.decorView.systemUiVisibility = uiOptions
     }
 
-    @Suppress("DEPRECATION")
+    @Suppress("DEPRECATION") // TODO: Replace deprecated function
     private fun setNavigationBarColor() {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         @ColorInt val black = ContextCompat.getColor(this, R.color.black)
@@ -209,6 +235,73 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    /**
+     * Requests permissions if not already granted. Makes sure to comply with
+     *     * Google Play Store policy
+     *     * Android R background location permission
+     */
+    fun requestPermissionsIfRequired(permissions: Array<String>?, requestCode: Int) {
+        var permissionsToRequest = permissions
+            ?.filter { !hasPermissions(arrayOf(it)) }
+            ?.toTypedArray()
+
+        if (permissionsToRequest.isNullOrEmpty() || hasPermissions(permissionsToRequest)) {
+            return
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+            permissionsToRequest.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        ) {
+            if (permissionsToRequest.size > 1) {
+                Log.d(TAG, "Remove background location from permissions to request")
+                permissionsToRequest = permissionsToRequest.toMutableList().apply {
+                    remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                }.toTypedArray()
+            } else {
+                showSnackbar(
+                    PreferencesActivity.SNACKBAR_TAG_BG_TASKS_MISSING_PERMISSION_LOCATION,
+                    getString(
+                        R.string.settings_background_tasks_permission_denied_background_location,
+                        packageManager.backgroundPermissionOptionLabel
+                    ),
+                    Snackbar.LENGTH_LONG,
+                    android.R.string.ok
+                ) {
+                    Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
+                        putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
+                        startActivity(this)
+                    }
+                }
+                return
+            }
+        }
+
+        if (
+            permissionsToRequest.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION) ||
+            permissionsToRequest.contains(Manifest.permission.ACCESS_FINE_LOCATION) ||
+            permissionsToRequest.contains(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            Log.d(TAG, "Show dialog to inform user about location permissions")
+            AlertDialog.Builder(this)
+                .setMessage(R.string.settings_location_permissions_required)
+                .setPositiveButton(R.string.settings_background_tasks_permission_allow) { _, _ ->
+                    Log.d(TAG, "Request ${permissionsToRequest.contentToString()} permission")
+                    ActivityCompat.requestPermissions(this, permissionsToRequest, requestCode)
+                }
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
+                    onRequestPermissionsResult(
+                        requestCode,
+                        permissionsToRequest,
+                        intArrayOf(PackageManager.PERMISSION_DENIED)
+                    )
+                }
+                .show()
+        } else {
+            Log.d(TAG, "Request ${permissionsToRequest.contentToString()} permission")
+            ActivityCompat.requestPermissions(this, permissionsToRequest, requestCode)
+        }
+    }
+
     private fun promptForDevicePassword() {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
         val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
@@ -254,7 +347,11 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             val info = BiometricPrompt.PromptInfo.Builder()
                 .setTitle(getString(R.string.app_name))
                 .setDescription(getString(descriptionResId))
-                .setDeviceCredentialAllowed(true)
+                .setAllowedAuthenticators(
+                    BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                        BiometricManager.Authenticators.BIOMETRIC_WEAK or
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                )
                 .build()
             contentView.isInvisible = true
             prompt.authenticate(info)
