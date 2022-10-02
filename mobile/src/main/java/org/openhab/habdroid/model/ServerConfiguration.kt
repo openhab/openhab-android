@@ -18,6 +18,7 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.core.content.edit
 import kotlinx.parcelize.Parcelize
+import org.openhab.habdroid.core.FcmMessageListenerService
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
@@ -39,6 +40,8 @@ data class ServerPath(
     fun hasAuthentication() = !userName.isNullOrEmpty() && (!password.isNullOrEmpty() || userName.length > 50)
 
     companion object {
+        private val TAG = FcmMessageListenerService::class.java.simpleName
+
         internal fun load(
             prefs: SharedPreferences,
             secretPrefs: SharedPreferences,
@@ -50,6 +53,9 @@ data class ServerPath(
         ): ServerPath? {
             val url = prefs.getStringOrNull(PrefKeys.buildServerKey(serverId, urlKeyPrefix)).toNormalizedUrl()
                 ?: return null
+
+            Log.d(TAG,"rtsphost: " + secretPrefs.getStringOrNull(PrefKeys.buildServerKey(serverId, rtsphostPrefix)))
+
             return ServerPath(
                 url,
                 secretPrefs.getStringOrNull(PrefKeys.buildServerKey(serverId, userNamePrefix)),
@@ -178,7 +184,6 @@ data class ServerConfiguration(
                 PrefKeys.REMOTE_USERNAME_PREFIX,
                 PrefKeys.REMOTE_PASSWORD_PREFIX,
                 PrefKeys.REMOTE_RTSPHOST_PREFIX
-
             )
             val serverName = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.SERVER_NAME_PREFIX))
             if ((localPath == null && remotePath == null) || serverName.isNullOrEmpty()) {

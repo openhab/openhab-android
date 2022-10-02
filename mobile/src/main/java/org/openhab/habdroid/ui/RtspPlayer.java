@@ -3,6 +3,7 @@ package org.openhab.habdroid.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 //videoPlayer.closeStream()
@@ -74,6 +75,8 @@ public class RtspPlayer {
     private void InitView() {
         if (m_cPlayer == null) {
 
+            Log.d(TAG, "InitView");
+
             // Initialize the SDK
             int nRet;
 
@@ -88,6 +91,8 @@ public class RtspPlayer {
             String apkPath = m_sview.getUserPath(mContext) + "/lib/";
 
             String cfgPath = m_sview.getUserPath(mContext) + "/";
+
+            Log.d(TAG, "apkPath:" + apkPath + ", cfgPath:" + cfgPath);
 
             //init.setContext(mContext);
 

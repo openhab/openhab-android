@@ -34,6 +34,7 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
     private lateinit var urlPreference: EditTextPreference
     private lateinit var userNamePreference: EditTextPreference
     private lateinit var passwordPreference: EditTextPreference
+    private lateinit var rtspHostPreference: EditTextPreference
     private lateinit var parent: ServerEditorFragment
     private lateinit var path: ServerPath
 
@@ -60,6 +61,7 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
         ) { value ->
             if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
         }
+
         passwordPreference = initEditor(
             "password",
             path.password,
@@ -74,7 +76,15 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
             )
         }
 
-        updateIconColors(urlPreference.text, userNamePreference.text, passwordPreference.text)
+        rtspHostPreference = initEditor(
+            "rtsphost",
+            path.rtsphost,
+            R.drawable.ic_person_outline_grey_24dp
+        ) { value ->
+            if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
+        }
+
+        updateIconColors(urlPreference.text, userNamePreference.text, passwordPreference.text, rtspHostPreference.text)
     }
 
     private fun initEditor(
@@ -90,12 +100,13 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
             val url = if (pref === urlPreference) newValue as String else urlPreference.text
             val userName = if (pref === userNamePreference) newValue as String else userNamePreference.text
             val password = if (pref === passwordPreference) newValue as String else passwordPreference.text
+            val rtsphost = if (pref === rtspHostPreference) newValue as String else rtspHostPreference.text
 
-            updateIconColors(url, userName, password)
+            updateIconColors(url, userName, password, rtsphost)
             pref.summary = summaryGenerator(newValue as String)
 
             if (url != null) {
-                val path = ServerPath(url, userName, password, "")
+                val path = ServerPath(url, userName, password, rtsphost)
                 parent.onPathChanged(requireArguments().getString("key", ""), path)
             }
             true
@@ -104,7 +115,7 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
         return preference
     }
 
-    private fun updateIconColors(url: String?, userName: String?, password: String?) {
+    private fun updateIconColors(url: String?, userName: String?, password: String?, rtsphost: String?) {
         updateIconColor(urlPreference) {
             when {
                 url?.toHttpUrlOrNull()?.isHttps == true -> R.color.pref_icon_green
@@ -124,6 +135,14 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
                 url.isNullOrEmpty() -> null
                 password.isNullOrEmpty() -> R.color.pref_icon_red
                 isWeakPassword(password) -> R.color.pref_icon_orange
+                else -> R.color.pref_icon_green
+            }
+        }
+
+        updateIconColor(rtspHostPreference) {
+            when {
+                url.isNullOrEmpty() -> null
+                userName.isNullOrEmpty() -> R.color.pref_icon_red
                 else -> R.color.pref_icon_green
             }
         }

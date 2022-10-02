@@ -39,6 +39,7 @@ suspend fun AbstractConnection.toCloudConnection(): CloudConnection {
         throw if (e.statusCode == 404) NotACloudServerException() else e
     }
     val senderId = try {
+        Log.d("json={}", result.response)
         val json = JSONObject(result.response)
         json.getJSONObject("gcm").getString("senderId")
     } catch (e: JSONException) {
