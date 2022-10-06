@@ -1,0 +1,6 @@
+## What's Changed
+* Fix back press closing app by @mueller-ma in https://github.com/openhab/openhab-android/pull/3047
+* Remove deprecated alarm clock rule template by @mueller-ma in https://github.com/openhab/openhab-android/pull/3045
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.22.3-beta...2.22.4-beta
