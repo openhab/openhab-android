@@ -139,6 +139,7 @@ import org.openhab.habdroid.util.updateDefaultSitemap
 
 class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private lateinit var prefs: SharedPreferences
+    private val onBackPressedCallback = MainOnBackPressedCallback()
     private var serviceResolveJob: Job? = null
     private lateinit var drawerLayout: LockableDrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
@@ -219,7 +220,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         viewPool = RecyclerView.RecycledViewPool()
 
-        onBackPressedDispatcher.addCallback(this, MainOnBackPressedCallback())
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             shortcutManager = getSystemService(ShortcutManager::class.java)
@@ -327,6 +328,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     override fun onResume() {
         CrashReportingHelper.d(TAG, "onResume()")
         super.onResume()
+
+        onBackPressedCallback.isEnabled = true
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter != null) {
