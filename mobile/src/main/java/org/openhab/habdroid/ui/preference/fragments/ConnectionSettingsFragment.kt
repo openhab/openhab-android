@@ -79,7 +79,7 @@ class ConnectionSettingsFragment : PreferencesActivity.AbstractSettingsFragment(
         rtspHostPreference = initEditor(
             "rtsphost",
             path.rtsphost,
-            R.drawable.ic_person_outline_grey_24dp
+            R.drawable.ic_earth_grey_24dp
         ) { value ->
             if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
         }

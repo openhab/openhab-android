@@ -1295,10 +1295,10 @@ class WidgetAdapter(
 
             if (rtspHost != null) {
                 val tempUri = Uri.parse(videoUrl)
-                val builder = Uri.parse("rtsp://$rtspHost").buildUpon()
-                builder.appendPath(Uri.parse(videoUrl).path)
+                val builder = Uri.parse(videoUrl).buildUpon()
+                // val builder = Uri.parse("rtsp://$rtspHost").buildUpon()
+                // builder.appendPath(Uri.parse(videoUrl).path)
                 for (key in tempUri.queryParameterNames) {
-
                     // strip audio foo if it exists
                     val tstr = tempUri.getQueryParameter(key)
                     Log.v(TAG, "RtspVideoViewHolder:replaceHost: key=$key, tstr=$tstr")
@@ -1306,6 +1306,7 @@ class WidgetAdapter(
                         builder.appendQueryParameter(key, tstr)
                     }
                 }
+                builder.authority(rtspHost)
                 val rtspUri = builder.build()
                 newVideoUrl = Uri.decode(rtspUri.toString())
             }
