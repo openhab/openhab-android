@@ -8,6 +8,10 @@ on:
 env:
   GRADLE_FILE: "mobile/build.gradle"
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,7 +33,7 @@ jobs:
           sed --in-place -r "s/versionCode (.*)/versionCode ${VERSION_CODE}/" $GRADLE_FILE
           echo "Replace versionName with $VERSION_NAME"
           sed --in-place -r "s/versionName \"(.*)\"/versionName \"${VERSION_NAME}\"/" $GRADLE_FILE
-          
+
       - name: Select flavor
         run: |
           if $(echo "$GITHUB_REF" | grep -q "beta")
@@ -54,10 +58,10 @@ jobs:
         run: |
           mkdir ~/.gradle/
           echo -e "org.gradle.jvmargs=-Xmx8192M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o\norg.gradle.daemon=false" >> ~/.gradle/gradle.properties
-          
+
       - name: Build APK
         run: bash gradlew :mobile:assembleFull${{ env.releaseFlavor }}Release
-        
+
       - uses: r0adkll/sign-android-release@v1.0.4
         name: Sign APK
         id: sign_app
@@ -66,7 +70,7 @@ jobs:
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: "sign"
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          
+
       - uses: svenstaro/upload-release-action@v2
         name: Upload APK
         with:

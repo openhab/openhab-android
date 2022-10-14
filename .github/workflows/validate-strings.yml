@@ -7,6 +7,9 @@ on:
       - dependabot/*
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   validate-strings:
     runs-on: ubuntu-latest
