@@ -54,6 +54,7 @@ import org.openhab.habdroid.util.DeviceControlSubtitleMode
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getDeviceControlSubtitle
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
@@ -172,6 +173,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         private val serverName: String
         private val primaryServerId: Int
         private val subtitleMode: DeviceControlSubtitleMode
+        private val authRequired: Boolean
 
         init {
             val prefs = context.getPrefs()
@@ -180,6 +182,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 ?.name
                 .orDefaultIfEmpty(context.getString(R.string.app_name))
             subtitleMode = prefs.getDeviceControlSubtitle(context)
+            authRequired = prefs.getBoolean(PrefKeys.DEVICE_CONTROL_AUTH_REQUIRED, true)
         }
 
         fun maybeCreateControl(item: Item): Control? {
@@ -257,12 +260,15 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 .setDeviceType(item.getDeviceType())
                 .setControlTemplate(controlTemplate)
                 .setStatus(Control.STATUS_OK)
-                .build()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                statefulControl.setAuthRequired(authRequired)
+            }
 
             return if (stateful) {
-                statefulControl
+                statefulControl.build()
             } else {
-                Control.StatelessBuilder(statefulControl).build()
+                Control.StatelessBuilder(statefulControl.build()).build()
             }
         }
 

@@ -74,6 +74,7 @@ object PrefKeys {
     const val SCREEN_LOCK = "screen_lock"
     const val TASKER_PLUGIN_ENABLED = "taskerPlugin"
     const val DEVICE_CONTROL_SUBTITLE = "device_control_subtitle"
+    const val DEVICE_CONTROL_AUTH_REQUIRED = "device_control_auth_required"
     const val DATA_SAVER = "data_saver"
     const val CRASH_REPORTING = "crash_reporting"
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
@@ -106,6 +107,7 @@ object PrefKeys {
      */
     const val SUBSCREEN_SEND_DEVICE_INFO = "send_device_info"
     const val SUBSCREEN_TILE = "tiles"
+    const val SUBSCREEN_DEVICE_CONTROL = "device_control"
 
     /**
      * FOSS only

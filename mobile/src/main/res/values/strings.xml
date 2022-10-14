@@ -144,7 +144,9 @@
     <string name="device_control_subtitle_equipment_value" translatable="false">equipment</string>
     <string name="device_control_subtitle_location_equipment_value" translatable="false">location_equipment</string>
     <string name="device_control_subtitle_item_name_value" translatable="false">item_name</string>
-    <string name="device_control_subtitle">Device control subtitle</string>
+    <string name="device_control">Android device control</string>
+    <string name="device_control_subtitle">Description in tiles</string>
+    <string name="device_control_hint">Depending on your Android version these tiles are located at long-press menu of the power button or next to the quick tiles</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
