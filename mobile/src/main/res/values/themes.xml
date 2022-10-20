@@ -1,68 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="openHAB.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="openHAB.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="android:windowBackground">?android:colorBackground</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="sliderStyle">@style/openHAB.Slider</item>
+        <item name="sliderStyle">@style/Widget.Material3.Slider</item>
+        <item name="switchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
         <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
-        <item name="floatingActionButtonStyle">@style/Widget.MaterialComponents.FloatingActionButton</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Material3.FloatingActionButton.Primary</item>
+        <item name="selectedWidgetBackgroundColor">#5cff5722</item>
     </style>
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
         <item name="chartTheme">white</item>
         <item name="transparentChartTheme">white_transparent</item>
         <item name="valueColors">@array/valueColorsBrightBackground</item>
+
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_light_error</item>
+        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+    </style>
+
+    <style name="openHAB.DayNight.Black" parent="openHAB.DayNight">
+        <item name="chartTheme">black</item>
+        <item name="transparentChartTheme">black_transparent</item>
+        <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="openHAB.Launch" parent="openHAB.Base">
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="colorPrimaryDark">@android:color/background_light</item>
-    </style>
-
-    <style name="openHAB.DayNight.orange" parent="openHAB.DayNight">
-        <item name="colorPrimary">@color/openhab_orange</item>
-        <item name="colorSecondary">@color/openhab_orange</item>
-        <item name="colorPrimaryDark">@color/openhab_orange_dark</item>
-        <item name="selectedWidgetBackgroundColor">#5cff5722</item>
-        <item name="alertDialogTheme">@style/openHAB.Dialog.orange</item>
-    </style>
-
-    <style name="openHAB.DayNight.basicui" parent="openHAB.DayNight">
-        <item name="colorPrimary">@color/indigo_500</item>
-        <item name="colorSecondary">@color/pink_a200</item>
-        <item name="colorPrimaryDark">@color/indigo_800</item>
-        <item name="selectedWidgetBackgroundColor">#5cff4081</item>
-        <item name="alertDialogTheme">@style/openHAB.Dialog.basicui</item>
-    </style>
-
-    <style name="openHAB.DayNight.grey" parent="openHAB.DayNight">
-        <item name="colorPrimary">@color/blue_grey_700</item>
-        <item name="colorSecondary">@color/secondary_color_grey_theme</item>
-        <item name="colorPrimaryDark">@color/blue_grey_900</item>
-        <item name="selectedWidgetBackgroundColor">#5c455A64</item>
-        <item name="alertDialogTheme">@style/openHAB.Dialog.grey</item>
-        <item name="floatingActionButtonStyle">@style/openHAB.FAB.grey</item>
-    </style>
-
-    <style name="openHAB.Black.orange" parent="openHAB.DayNight.orange">
-        <item name="chartTheme">black</item>
-        <item name="transparentChartTheme">black_transparent</item>
-        <item name="android:windowBackground">@color/black</item>
-    </style>
-
-    <style name="openHAB.Black.basicui" parent="openHAB.DayNight.basicui">
-        <item name="chartTheme">black</item>
-        <item name="transparentChartTheme">black_transparent</item>
-        <item name="android:windowBackground">@color/black</item>
-    </style>
-
-    <style name="openHAB.Black.grey" parent="openHAB.DayNight.grey">
-        <item name="chartTheme">black</item>
-        <item name="transparentChartTheme">black_transparent</item>
-        <item name="android:windowBackground">@color/black</item>
     </style>
 
     <style name="Theme.MaterialComponents.TranslucentBase">
@@ -73,11 +65,10 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="ThemeOverlay.MaterialComponents.SecondaryAsPrimary">
-        <item name="colorPrimary">?colorSecondary</item>
-    </style>
-
     <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <!-- Overridden for night mode -->
+    <style name="ThemeOverlay.MaterialComponents.AppBar" />
 </resources>

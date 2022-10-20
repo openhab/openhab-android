@@ -455,13 +455,10 @@ fun Context.isDarkModeActive(): Boolean {
 }
 
 @StyleRes fun Context.getActivityThemeId(): Int {
-    val isBlackTheme = getPrefs().getStringOrNull(PrefKeys.THEME) == getString(R.string.theme_value_black)
-    return when (getPrefs().getInt(PrefKeys.ACCENT_COLOR, 0)) {
-        ContextCompat.getColor(this, R.color.indigo_500) ->
-            if (isBlackTheme) R.style.openHAB_Black_basicui else R.style.openHAB_DayNight_basicui
-        ContextCompat.getColor(this, R.color.blue_grey_700) ->
-            if (isBlackTheme) R.style.openHAB_Black_grey else R.style.openHAB_DayNight_grey
-        else -> if (isBlackTheme) R.style.openHAB_Black_orange else R.style.openHAB_DayNight_orange
+    return if (getPrefs().getStringOrNull(PrefKeys.THEME) == getString(R.string.theme_value_black)) {
+        R.style.openHAB_DayNight_Black
+    } else {
+        R.style.openHAB_DayNight
     }
 }
 

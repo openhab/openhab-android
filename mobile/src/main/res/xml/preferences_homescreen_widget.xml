@@ -12,7 +12,7 @@
         android:title="@string/tile_name"
         app:whitespaceBehavior="ignore"
         android:inputType="text" />
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:persistent="false"
         android:key="show_state"
         android:title="@string/widget_show_state"

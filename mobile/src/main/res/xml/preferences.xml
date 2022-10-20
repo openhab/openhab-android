@@ -5,7 +5,7 @@
     <PreferenceCategory
         android:title="@string/settings_connection_title"
         android:key="connection">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="default_openhab_demomode"
@@ -31,7 +31,7 @@
             android:clickable="true"
             android:key="default_openhab_cleacache"
             android:title="@string/mainmenu_openhab_clearcache" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="imageWidgetScaleToFit"
             android:title="@string/settings_image_widget_scaling"
@@ -42,7 +42,7 @@
             android:summary="@string/settings_chart_scaling_summary"
             android:key="chartScalingFactor"
             android:defaultValue="1.5" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="default_openhab_chart_hq"
             android:summary="@string/settings_openhab_chart_hq_summary"
@@ -68,25 +68,16 @@
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues"
             android:icon="@drawable/ic_palette_outline_grey_24dp" />
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            android:defaultValue="@color/openhab_orange"
-            android:key="theme_color"
-            app:cpv_dialogType="preset"
-            app:cpv_showColorShades="false"
-            app:cpv_allowCustom="false"
-            app:cpv_dialogTitle="@string/settings_select_a_color"
-            app:cpv_colorPresets="@array/accentColors"
-            android:title="@string/settings_accent_color"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
             android:summary="@string/settings_openhab_screentimeroff_summary"
             android:title="@string/settings_openhab_screentimeroff" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="default_openhab_fullscreen"
             android:title="@string/settings_openhab_fullscreen" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="launcher"
             android:title="@string/settings_set_as_launcher" />
@@ -146,12 +137,12 @@
             android:key="device_control"
             android:persistent="false"
             android:title="@string/device_control" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="taskerPlugin"
             android:title="@string/settings_tasker_plugin"
             android:summary="@string/settings_tasker_plugin_summary" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="data_saver"
             android:defaultValue="false"
             android:title="@string/data_saver_title"
@@ -159,7 +150,7 @@
             android:summaryOff="@string/data_saver_off" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_troubleshooting_title">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"
             android:title="@string/settings_debug_messages_title" />
@@ -167,7 +158,7 @@
             android:clickable="true"
             android:key="default_openhab_log"
             android:title="@string/view_log" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="crash_reporting"
             android:defaultValue="true"
             android:title="@string/setting_crash_reporting_title"

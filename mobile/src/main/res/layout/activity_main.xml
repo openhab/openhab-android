@@ -1,29 +1,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/openhab_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="8dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/toolbar_progress_bar"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_gravity="end|center_vertical"
-            android:indeterminateTint="#ffffff"
-            android:indeterminateTintMode="src_in" />
-    </androidx.appcompat.widget.Toolbar>
+    <include layout="@layout/app_bar" />
 
     <org.openhab.habdroid.ui.widget.LockableDrawerLayout
         android:id="@+id/activity_content"

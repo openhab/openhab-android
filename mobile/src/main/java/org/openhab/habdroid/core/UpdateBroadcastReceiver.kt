@@ -22,7 +22,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
@@ -33,8 +32,8 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.model.toOH2IconResource
-import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getDayNightMode
@@ -100,14 +99,6 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 }
 
                 AppCompatDelegate.setDefaultNightMode(prefs.getDayNightMode(context))
-
-                val accentColor = when (prefs.getStringOrNull("default_openhab_theme")) {
-                    "basicui", "basicuidark" -> ContextCompat.getColor(context, R.color.indigo_500)
-                    "black", "dark" -> ContextCompat.getColor(context, R.color.blue_grey_700)
-                    else -> ContextCompat.getColor(context, R.color.openhab_orange)
-                }
-
-                putInt(PrefKeys.ACCENT_COLOR, accentColor)
             }
             if (comparableVersion <= WIDGET_ICON) {
                 Log.d(TAG, "Migrate widget icon prefs")

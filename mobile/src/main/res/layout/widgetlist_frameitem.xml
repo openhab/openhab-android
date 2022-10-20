@@ -33,8 +33,8 @@
         android:minHeight="36dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="@color/colorAccent_themeDark"
-        android:textStyle="bold"
-        tools:ignore="SelectableText" />
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        tools:ignore="SelectableText"
+        tools:text="Some topic"/>
 
 </LinearLayout>

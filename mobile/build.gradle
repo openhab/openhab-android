@@ -155,10 +155,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
     implementation "com.squareup.okhttp3:okhttp-sse:$ok_http_version"
-    // Color picker for Sitemap
     implementation "com.github.QuadFlask:colorpicker:0.0.15"
-    // Color picker for preference
-    implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
     implementation "com.github.AppIntro:AppIntro:6.2.0"
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
