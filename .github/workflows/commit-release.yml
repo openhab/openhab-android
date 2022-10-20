@@ -8,6 +8,9 @@ on:
 env:
   GRADLE_FILE: "mobile/build.gradle"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest

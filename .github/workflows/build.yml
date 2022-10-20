@@ -9,6 +9,9 @@ on:
     branches-ignore:
       - l10n_main
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
