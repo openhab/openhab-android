@@ -124,7 +124,6 @@
     <string name="device_control_subtitle_equipment">Gerät</string>
     <string name="device_control_subtitle_location_equipment">Standort und Gerät</string>
     <string name="device_control_subtitle_item_name">Item-Name</string>
-    <string name="device_control_subtitle">Beschreibung für Android-Gerätesteuerung</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
