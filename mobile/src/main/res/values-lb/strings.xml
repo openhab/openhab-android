@@ -113,7 +113,6 @@
     <string name="device_control_subtitle_equipment">Ekipement</string>
     <string name="device_control_subtitle_location_equipment">Lag an Ekipement</string>
     <string name="device_control_subtitle_item_name">Item Numm</string>
-    <string name="device_control_subtitle">Apparatsteierungs-Astellungen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sproochbefeeler</string>
     <string name="voice_command">Sproochbefeel</string>
