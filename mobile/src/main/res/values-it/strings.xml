@@ -124,7 +124,6 @@
     <string name="device_control_subtitle_equipment">Dispositivo</string>
     <string name="device_control_subtitle_location_equipment">Posizione e Dispositivi</string>
     <string name="device_control_subtitle_item_name">Nome Item</string>
-    <string name="device_control_subtitle">Sottotitolo Controllo Dispositivo</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="voice_command">Comando vocale</string>
