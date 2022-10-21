@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <org.openhab.habdroid.ui.preference.widgets.InfoPreference
+        android:summary="@string/device_control_hint" />
+    <ListPreference
+        android:key="device_control_subtitle"
+        android:title="@string/device_control_subtitle"
+        android:defaultValue="@string/device_control_subtitle_location_value"
+        app:useSimpleSummaryProvider="true"
+        android:entries="@array/device_control_subtitle"
+        android:entryValues="@array/device_control_subtitle_values"/>
+    <SwitchPreference
+        android:key="device_control_auth_required"
+        android:title="@string/tile_require_unlock"
+        android:defaultValue="true" />
+</androidx.preference.PreferenceScreen>

@@ -125,6 +125,7 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
         val viewLogPref = getPreference(PrefKeys.LOG)
         val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
         val tilePref = getPreference(PrefKeys.SUBSCREEN_TILE)
+        val deviceControlPref = getPreference(PrefKeys.SUBSCREEN_DEVICE_CONTROL)
         val crashReporting = getPreference(PrefKeys.CRASH_REPORTING)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -286,6 +287,15 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
             updateTileSummary()
         } else {
             preferenceScreen.removePreferenceRecursively(PrefKeys.SUBSCREEN_TILE)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            deviceControlPref.setOnPreferenceClickListener {
+                parentActivity.openSubScreen(DeviceControlFragment())
+                false
+            }
+        } else {
+            preferenceScreen.removePreferenceRecursively(PrefKeys.SUBSCREEN_DEVICE_CONTROL)
         }
 
         val flags = activity
