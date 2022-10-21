@@ -124,7 +124,6 @@
     <string name="device_control_subtitle_equipment">Utstyr</string>
     <string name="device_control_subtitle_location_equipment">Sted og utstyr</string>
     <string name="device_control_subtitle_item_name">Elementnavn</string>
-    <string name="device_control_subtitle">Beskrivelse for Item-flis</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Talekommandoer</string>
     <string name="voice_command">Talekommando</string>
