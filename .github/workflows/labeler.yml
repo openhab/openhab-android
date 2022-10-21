@@ -10,7 +10,7 @@ jobs:
   labeler:
     runs-on: ubuntu-latest
     steps:
-      - uses: paulfantom/periodic-labeler@v0.0.1
+      - uses: paulfantom/periodic-labeler@v0.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
