@@ -1,0 +1,4 @@
+## What's Changed
+* Improve device control settings by @mueller-ma in https://github.com/openhab/openhab-android/pull/3056
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.0-release...2.23.1-beta
