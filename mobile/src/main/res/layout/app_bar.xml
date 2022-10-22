@@ -8,9 +8,8 @@
         android:id="@+id/openhab_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
         android:elevation="8dp"
-        android:theme="@style/ThemeOverlay.MaterialComponents.AppBar">
+        style="@style/Widget.Material3.Toolbar">
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/toolbar_progress_bar"

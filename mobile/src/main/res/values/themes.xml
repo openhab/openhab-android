@@ -68,7 +68,4 @@
     <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-
-    <!-- Overridden for night mode -->
-    <style name="ThemeOverlay.MaterialComponents.AppBar" />
 </resources>

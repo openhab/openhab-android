@@ -31,14 +31,6 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
-
-        <!-- Darker status bar -->
-        <item name="android:statusBarColor">?colorOnPrimary</item>
-    </style>
-
-    <!-- Darker app bar -->
-    <style name="ThemeOverlay.MaterialComponents.AppBar">
-        <item name="colorPrimary">?colorOnPrimary</item>
     </style>
 
     <style name="openHAB.Launch" parent="openHAB.Base">
