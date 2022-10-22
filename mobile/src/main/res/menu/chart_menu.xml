@@ -6,12 +6,14 @@
         android:id="@+id/show_legend"
         android:icon="@drawable/ic_error_outline_white_24dp"
         android:title="@string/chart_activity_show_legend"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        app:iconTint="?android:textColorSecondary" />
     <item
         android:id="@+id/period"
         android:title="@string/chart_activity_period"
         android:icon="@drawable/ic_access_time_white_24dp"
-        app:showAsAction="ifRoom">
+        app:showAsAction="ifRoom"
+        app:iconTint="?android:textColorSecondary">
         <menu>
             <item
                 android:id="@+id/period_h"
@@ -59,5 +61,6 @@
         android:id="@+id/refresh"
         android:icon="@drawable/ic_refresh_white_24dp"
         android:title="@string/log_activity_action_reload"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        app:iconTint="?android:textColorSecondary" />
 </menu>

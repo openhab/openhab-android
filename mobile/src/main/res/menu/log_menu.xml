@@ -7,20 +7,24 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search"
         app:showAsAction="always"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:iconTint="?android:textColorSecondary" />
     <item
         android:id="@+id/delete_log"
         android:icon="@drawable/ic_delete_outline_white_24dp"
         android:title="@string/log_activity_action_clear_log"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:iconTint="?android:textColorSecondary" />
     <item
         android:id="@+id/show_errors"
         android:icon="@drawable/ic_error_outline_white_24dp"
         android:title="@string/log_activity_action_show_errors"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        app:iconTint="?android:textColorSecondary" />
     <item
         android:id="@+id/refresh"
         android:icon="@drawable/ic_refresh_white_24dp"
         android:title="@string/log_activity_action_reload"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        app:iconTint="?android:textColorSecondary" />
 </menu>
