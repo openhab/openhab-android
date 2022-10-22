@@ -124,6 +124,9 @@
     <string name="device_control_subtitle_equipment">Gerät</string>
     <string name="device_control_subtitle_location_equipment">Standort und Gerät</string>
     <string name="device_control_subtitle_item_name">Item-Name</string>
+    <string name="device_control">Android-Geräte-Steuerung</string>
+    <string name="device_control_subtitle">Beschreibung in Kacheln</string>
+    <string name="device_control_hint">Abhängig von Ihrer Android-Version befinden sich diese Kacheln im Menü der Power-Taste oder neben den Schnelleinstellungen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>
