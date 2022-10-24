@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_gravity="end|center_vertical"
-            android:indeterminateTint="#ffffff"
+            android:indeterminateTint="?android:textColorSecondary"
             android:indeterminateTintMode="src_in"
             android:visibility="gone"
             tools:visibility="visible" />
