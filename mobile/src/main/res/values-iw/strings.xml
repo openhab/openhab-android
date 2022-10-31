@@ -46,8 +46,6 @@
     <string name="start_page_title">דף פתיחה</string>
     <string name="drawer_entries">ערכי תפריט צד</string>
     <string name="settings_openhab_theme">ערכת עיצוב</string>
-    <string name="settings_accent_color">צבע נושא</string>
-    <string name="settings_select_a_color">בחר צבע</string>
     <string name="settings_openhab_fullscreen">מסך מלא</string>
     <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
     <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
