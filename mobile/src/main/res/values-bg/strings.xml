@@ -34,8 +34,6 @@
     <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим за да добиеш предтава на какво openHAB е способен.</string>
     <string name="start_page_title">Начална страница</string>
     <string name="settings_openhab_theme">Тема</string>
-    <string name="settings_accent_color">Акцентиран цвят</string>
-    <string name="settings_select_a_color">Избери цвят</string>
     <string name="settings_openhab_fullscreen">Пълен екран</string>
     <string name="settings_openhab_icon_format">Формат на иконите</string>
     <string name="settings_openhab_icon_format_png">Растерна графика</string>
