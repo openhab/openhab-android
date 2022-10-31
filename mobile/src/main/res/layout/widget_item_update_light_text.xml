@@ -33,7 +33,7 @@
             android:layout_height="0dp"
             android:layout_weight="50"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@color/black"
             android:visibility="gone"
             tools:visibility="visible"

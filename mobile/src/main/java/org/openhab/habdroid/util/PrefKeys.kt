@@ -47,7 +47,6 @@ object PrefKeys {
 
     const val DRAWER_ENTRIES = "drawer_entries"
     const val THEME = "theme"
-    const val ACCENT_COLOR = "theme_color"
     const val SCREEN_TIMER_OFF = "default_openhab_screentimeroff"
     const val FULLSCREEN = "default_openhab_fullscreen"
     const val LAUNCHER = "launcher"

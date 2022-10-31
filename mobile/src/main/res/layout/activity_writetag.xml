@@ -1,6 +1,5 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,14 +7,7 @@
     android:orientation="vertical"
     tools:context="org.openhab.habdroid.ui.WriteTagActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/openhab_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="8dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <include layout="@layout/app_bar" />
 
     <FrameLayout
         android:id="@+id/activity_content"

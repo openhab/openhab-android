@@ -31,11 +31,9 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.SwitchPreference
-import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+import androidx.preference.SwitchPreferenceCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
@@ -114,7 +112,6 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
         notificationStatusHint = getPreference(PrefKeys.NOTIFICATION_STATUS_HINT)
         val drawerEntriesPrefs = getPreference(PrefKeys.DRAWER_ENTRIES)
         val themePref = getPreference(PrefKeys.THEME)
-        val accentColorPref = getPreference(PrefKeys.ACCENT_COLOR) as ColorPreferenceCompat
         val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
         val fullscreenPref = getPreference(PrefKeys.FULLSCREEN)
         val launcherPref = getPreference(PrefKeys.LAUNCHER)
@@ -129,7 +126,7 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
         val crashReporting = getPreference(PrefKeys.CRASH_REPORTING)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            val dataSaverPref = getPreference(PrefKeys.DATA_SAVER) as SwitchPreference
+            val dataSaverPref = getPreference(PrefKeys.DATA_SAVER) as SwitchPreferenceCompat
             dataSaverPref.setSwitchTextOff(R.string.data_saver_off_pre_n)
         }
 
@@ -179,19 +176,6 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
             parentActivity.launch(Dispatchers.Main) {
                 val mode = parentActivity.getPrefs().getDayNightMode(parentActivity)
                 AppCompatDelegate.setDefaultNightMode(mode)
-                parentActivity.handleThemeChange()
-            }
-            true
-        }
-
-        previousColor = prefs.getInt(accentColorPref.key, 0)
-        accentColorPref.setOnPreferenceChangeListener { _, newValue ->
-            parentFragmentManager.findFragmentByTag(accentColorPref.fragmentTag)?.let { dialog ->
-                parentFragmentManager.commit(allowStateLoss = true) {
-                    remove(dialog)
-                }
-            }
-            if (previousColor != newValue) {
                 parentActivity.handleThemeChange()
             }
             true

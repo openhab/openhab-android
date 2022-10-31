@@ -6,17 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/openhab_toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="8dp"
+    <include
+        android:id="@+id/included_toolbar"
+        layout="@layout/app_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shareFab"
@@ -31,7 +26,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/log_activity_content_description_share"
         android:visibility="gone"
-        app:tint="@color/light"
         tools:visibility="visible" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -41,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openhab_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/included_toolbar">
 
         <ScrollView
             android:id="@+id/scrollview"

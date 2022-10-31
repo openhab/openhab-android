@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ActionButton">
+    <style name="openHAB.ActionButton" parent="Widget.Material3.Button.IconButton">
         <item name="android:layout_width">44dip</item>
         <item name="android:layout_height">44dp</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -8,34 +8,7 @@
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="openHAB.Dialog.Base" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="dialogCornerRadius">8dp</item>
-    </style>
-
-    <style name="openHAB.Dialog.orange" parent="@style/openHAB.Dialog.Base">
-        <item name="colorPrimary">@color/openhab_orange</item>
-        <item name="colorSecondary">@color/openhab_orange</item>
-    </style>
-
-    <style name="openHAB.Dialog.basicui" parent="@style/openHAB.Dialog.Base">
-        <item name="colorPrimary">@color/pink_a200</item>
-        <item name="colorSecondary">@color/pink_a200</item>
-    </style>
-
-    <style name="openHAB.Dialog.grey" parent="@style/openHAB.Dialog.Base">
-        <item name="colorPrimary">@color/secondary_color_grey_theme</item>
-        <item name="colorSecondary">@color/secondary_color_grey_theme</item>
-    </style>
-
-    <style name="openHAB.Slider" parent="@style/Widget.MaterialComponents.Slider">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.SecondaryAsPrimary</item>
-    </style>
-
-    <style name="openHAB.OutlineButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="openHAB.OutlineButton" parent="@style/Widget.Material3.Button.OutlinedButton">
         <item name="strokeWidth">@dimen/outlineButtonStrokeWidth</item>
-    </style>
-
-    <style name="openHAB.FAB.grey" parent="@style/Widget.MaterialComponents.FloatingActionButton">
-        <item name="backgroundTint">?colorPrimary</item>
     </style>
 </resources>

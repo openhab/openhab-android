@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="openHAB.Base" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">?android:colorBackground</item>
-        <item name="sliderStyle">@style/Widget.Material3.Slider</item>
-        <item name="switchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
-        <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
-        <item name="floatingActionButtonStyle">@style/Widget.Material3.FloatingActionButton.Primary</item>
-        <item name="selectedWidgetBackgroundColor">#5cff5722</item>
-    </style>
-
+<resources>
     <style name="openHAB.DayNight" parent="openHAB.Base">
         <item name="chartTheme">white</item>
         <item name="transparentChartTheme">white_transparent</item>
         <item name="valueColors">@array/valueColorsBrightBackground</item>
-        <item name="android:statusBarColor">?colorPrimary</item>
+        <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -41,28 +33,5 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
-    </style>
-
-    <style name="openHAB.DayNight.Black" parent="openHAB.DayNight">
-        <item name="chartTheme">black</item>
-        <item name="transparentChartTheme">black_transparent</item>
-        <item name="android:windowBackground">@color/black</item>
-    </style>
-
-    <style name="openHAB.Launch" parent="openHAB.Base">
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="colorPrimaryDark">@android:color/background_light</item>
-    </style>
-
-    <style name="Theme.MaterialComponents.TranslucentBase">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
-    </style>
-
-    <style name="Theme.MaterialComponents.Translucent" parent="Theme.MaterialComponents.TranslucentBase">
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

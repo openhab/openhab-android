@@ -144,12 +144,6 @@
         <item>@string/device_control_subtitle_item_name_value</item>
     </string-array>
 
-    <array name="accentColors">
-        <item>@color/openhab_orange</item>
-        <item>@color/indigo_500</item>
-        <item>@color/blue_grey_700</item>
-    </array>
-
     <string-array name="send_device_info_schedule_values">
         <item>15</item>
         <item>60</item>

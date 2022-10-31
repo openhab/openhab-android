@@ -145,7 +145,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "androidx.preference:preference-ktx:1.2.0"
     implementation "androidx.biometric:biometric:1.1.0"
-    implementation "com.google.android.material:material:1.6.1"
+    implementation "com.google.android.material:material:1.7.0"
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.work:work-runtime-ktx:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
@@ -155,10 +155,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
     implementation "com.squareup.okhttp3:okhttp-sse:$ok_http_version"
-    // Color picker for Sitemap
     implementation "com.github.QuadFlask:colorpicker:0.0.15"
-    // Color picker for preference
-    implementation "com.jaredrummler:colorpicker:1.1.0"
     implementation "com.caverock:androidsvg-aar:1.4"
     implementation "com.github.AppIntro:AppIntro:6.2.0"
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
