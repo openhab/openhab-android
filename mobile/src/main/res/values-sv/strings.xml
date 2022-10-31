@@ -29,8 +29,6 @@
     <string name="settings_openhab_demomode">Demoläge</string>
     <string name="settings_openhab_demomode_summary">Om du inte har en openHAB-server, aktivera demoläget för att få en bild av vad OpanHAB kan göra.</string>
     <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Accentfärg</string>
-    <string name="settings_select_a_color">Välj en färg</string>
     <string name="settings_openhab_fullscreen">Fullskärm</string>
     <string name="settings_openhab_icon_format">Ikonformat</string>
     <string name="settings_openhab_icon_format_png">Bitmapp</string>
