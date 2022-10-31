@@ -30,8 +30,6 @@
     <string name="settings_openhab_demomode">Deneme Modu</string>
     <string name="settings_openhab_demomode_summary">openHAB sunucunuz yoksa, openHAB\'ın ne yapabileceğini hayal etmek için demo modunu etkinleştirin.</string>
     <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Vurgu rengi</string>
-    <string name="settings_select_a_color">Bir renk seçin</string>
     <string name="settings_openhab_fullscreen">Tam Ekran</string>
     <string name="settings_openhab_icon_format">Simge formatı</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>
