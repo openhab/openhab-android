@@ -31,7 +31,7 @@
             android:gravity="center"
             android:padding="16dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/empty_list_text_color"
+            android:textColor="?colorOnSurfaceVariant"
             tools:text="Some status message" />
 
         <ProgressBar

@@ -3,7 +3,6 @@
     <color name="light">#ffffff</color>
     <color name="black">#000000</color>
     <color name="openhab_orange">#ff5722</color>
-    <color name="empty_list_text_color">#b2b2b2</color>
     <color name="pref_icon_red">#D32F2F</color>
     <color name="pref_icon_green">#388E3C</color>
     <color name="pref_icon_orange">#F57C00</color>

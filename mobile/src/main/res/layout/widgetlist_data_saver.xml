@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_data_usage_black_48dp"
-        app:tint="@color/empty_list_text_color"
+        app:tint="?colorOnSurfaceVariant"
         app:tintMode="src_in" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_gravity="center_horizontal"
         android:padding="8dp"
         android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="@color/empty_list_text_color"
+        android:textColor="?colorOnSurfaceVariant"
         tools:text="Webcam is not loaded to save data" />
 
     <com.google.android.material.button.MaterialButton
