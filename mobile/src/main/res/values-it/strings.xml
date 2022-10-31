@@ -51,8 +51,6 @@
     <string name="start_page_title">Pagina iniziale</string>
     <string name="drawer_entries">Voci del menu laterale</string>
     <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Colore tinta</string>
-    <string name="settings_select_a_color">Seleziona un colore</string>
     <string name="settings_openhab_fullscreen">Schermo intero</string>
     <string name="settings_set_as_launcher">Consenti all\'app di essere utilizzata come launcher</string>
     <string name="settings_openhab_icon_format">Formato icona</string>
