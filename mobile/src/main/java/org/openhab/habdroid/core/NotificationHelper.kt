@@ -60,14 +60,12 @@ class NotificationHelper constructor(private val context: Context) {
 
         if (HAS_GROUPING_SUPPORT) {
             val count = countCloudNotifNotifications(notificationManager.activeNotifications)
-            notificationManager.notify(
-                SUMMARY_NOTIFICATION_ID,
-                makeSummaryNotification(
-                    count,
-                    message.createdTimestamp,
-                    summaryDeleteIntent
+            if (count > 1) {
+                notificationManager.notify(
+                    SUMMARY_NOTIFICATION_ID,
+                    makeSummaryNotification(count, message.createdTimestamp, summaryDeleteIntent)
                 )
-            )
+            }
         }
     }
 
