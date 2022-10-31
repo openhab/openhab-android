@@ -47,8 +47,6 @@
     <string name="settings_openhab_demomode_summary">Wann s de keen openHAB Server hues, schalt den Demo Modus an fir eng Iddi ze kréien wat openHAB kann.</string>
     <string name="start_page_title">Startsäit</string>
     <string name="settings_openhab_theme">Design</string>
-    <string name="settings_accent_color">Akzent Faarw</string>
-    <string name="settings_select_a_color">Faarf auswielen</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_openhab_icon_format">Icon Format</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
