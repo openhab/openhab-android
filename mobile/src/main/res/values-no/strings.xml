@@ -51,8 +51,6 @@
     <string name="start_page_title">Startside</string>
     <string name="drawer_entries">Sidemenyoppføringer</string>
     <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Aksentfarge</string>
-    <string name="settings_select_a_color">Velg en farge</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
     <string name="settings_set_as_launcher">Tillat at programmet brukes som startskjerm</string>
     <string name="settings_openhab_icon_format">Ikonformatering</string>
