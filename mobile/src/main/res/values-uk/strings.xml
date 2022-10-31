@@ -46,8 +46,6 @@
     <string name="start_page_title">Початкова сторінка</string>
     <string name="drawer_entries">Елементи бічного меню</string>
     <string name="settings_openhab_theme">Тема</string>
-    <string name="settings_accent_color">Контрастний колір</string>
-    <string name="settings_select_a_color">Оберіть колір</string>
     <string name="settings_openhab_fullscreen">Повноекранний режим</string>
     <string name="settings_openhab_icon_format">Формат іконок</string>
     <string name="settings_openhab_icon_format_png">Растрові</string>
