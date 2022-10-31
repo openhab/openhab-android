@@ -51,8 +51,6 @@
     <string name="start_page_title">Pagina iniziale</string>
     <string name="drawer_entries">Voci del menu laterale</string>
     <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Colore tinta</string>
-    <string name="settings_select_a_color">Seleziona un colore</string>
     <string name="settings_openhab_fullscreen">Schermo intero</string>
     <string name="settings_set_as_launcher">Consenti all\'app di essere utilizzata come launcher</string>
     <string name="settings_openhab_icon_format">Formato icona</string>
@@ -124,6 +122,9 @@
     <string name="device_control_subtitle_equipment">Dispositivo</string>
     <string name="device_control_subtitle_location_equipment">Posizione e Dispositivi</string>
     <string name="device_control_subtitle_item_name">Nome Item</string>
+    <string name="device_control">Controllo dispositivo Android</string>
+    <string name="device_control_subtitle">Descrizione dell\'icona</string>
+    <string name="device_control_hint">A seconda della versione di Android queste icone si trovano nel menu ottenuto premendo a lungo sul pulsante di accensione o accanto alle icone ad accesso rapido</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="voice_command">Comando vocale</string>

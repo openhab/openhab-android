@@ -41,8 +41,6 @@
     <string name="settings_openhab_demomode_summary">openHAB サーバーをお持ちでない場合は、デモモードを有効にすると、openHAB どのようなことができるか想像できます。</string>
     <string name="drawer_entries">サイドメニュー項目</string>
     <string name="settings_openhab_theme">テーマ</string>
-    <string name="settings_accent_color">アクセント色</string>
-    <string name="settings_select_a_color">色を選択</string>
     <string name="settings_openhab_fullscreen">フルスクリーン</string>
     <string name="settings_openhab_icon_format">アイコン形式</string>
     <string name="settings_openhab_icon_format_png">ビットマップ</string>

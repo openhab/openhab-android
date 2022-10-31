@@ -46,8 +46,6 @@
     <string name="start_page_title">Úvodní stránka</string>
     <string name="drawer_entries">Položky postranního menu</string>
     <string name="settings_openhab_theme">Motivy vzhledu</string>
-    <string name="settings_accent_color">Barva zvýraznění</string>
-    <string name="settings_select_a_color">Vybrat barvu</string>
     <string name="settings_openhab_fullscreen">Na celou obrazovku</string>
     <string name="settings_openhab_icon_format">Formát ikon</string>
     <string name="settings_openhab_icon_format_png">Bitmapa</string>

@@ -51,8 +51,6 @@
     <string name="start_page_title">Startseite</string>
     <string name="drawer_entries">Einträge im Seitenmenü</string>
     <string name="settings_openhab_theme">Design</string>
-    <string name="settings_accent_color">Akzentfarbe</string>
-    <string name="settings_select_a_color">Wähle eine Farbe</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_set_as_launcher">Verwendung der App als Start-App ermöglichen</string>
     <string name="settings_openhab_icon_format">Icon-Format</string>
@@ -124,6 +122,9 @@
     <string name="device_control_subtitle_equipment">Gerät</string>
     <string name="device_control_subtitle_location_equipment">Standort und Gerät</string>
     <string name="device_control_subtitle_item_name">Item-Name</string>
+    <string name="device_control">Android-Geräte-Steuerung</string>
+    <string name="device_control_subtitle">Beschreibung in Kacheln</string>
+    <string name="device_control_hint">Abhängig von Ihrer Android-Version befinden sich diese Kacheln im Menü der Power-Taste oder neben den Schnelleinstellungen</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sprachbefehle</string>
     <string name="voice_command">Sprachbefehl</string>

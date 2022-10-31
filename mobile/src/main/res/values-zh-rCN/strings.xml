@@ -46,8 +46,6 @@
     <string name="start_page_title">首页</string>
     <string name="drawer_entries">侧边菜单项</string>
     <string name="settings_openhab_theme">主题</string>
-    <string name="settings_accent_color">主题色</string>
-    <string name="settings_select_a_color">选择颜色</string>
     <string name="settings_openhab_fullscreen">全屏</string>
     <string name="settings_openhab_icon_format">图标格式</string>
     <string name="settings_openhab_icon_format_png">位图</string>

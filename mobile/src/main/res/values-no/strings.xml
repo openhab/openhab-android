@@ -51,8 +51,6 @@
     <string name="start_page_title">Startside</string>
     <string name="drawer_entries">Sidemenyoppføringer</string>
     <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Aksentfarge</string>
-    <string name="settings_select_a_color">Velg en farge</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
     <string name="settings_set_as_launcher">Tillat at programmet brukes som startskjerm</string>
     <string name="settings_openhab_icon_format">Ikonformatering</string>
@@ -124,6 +122,9 @@
     <string name="device_control_subtitle_equipment">Utstyr</string>
     <string name="device_control_subtitle_location_equipment">Sted og utstyr</string>
     <string name="device_control_subtitle_item_name">Elementnavn</string>
+    <string name="device_control">Android enhetskontroll</string>
+    <string name="device_control_subtitle">Beskrivelse i fliser</string>
+    <string name="device_control_hint">Avhengig av din Android-versjon er disse flisene å finne i langt-trykk menyen til av/på bryteren eller ved siden av hurtigflisene</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Talekommandoer</string>
     <string name="voice_command">Talekommando</string>
