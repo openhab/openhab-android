@@ -46,8 +46,6 @@
     <string name="start_page_title">Strona startowa</string>
     <string name="drawer_entries">Wpisy menu bocznego</string>
     <string name="settings_openhab_theme">Motyw</string>
-    <string name="settings_accent_color">Kolor akcentów</string>
-    <string name="settings_select_a_color">Wybierz kolor</string>
     <string name="settings_openhab_fullscreen">Pełny ekran</string>
     <string name="settings_openhab_icon_format">Format ikon</string>
     <string name="settings_openhab_icon_format_png">Mapa bitowa</string>
