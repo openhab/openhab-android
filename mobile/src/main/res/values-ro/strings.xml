@@ -29,8 +29,6 @@
     <string name="settings_openhab_demomode">Modul demonstrativ</string>
     <string name="settings_openhab_demomode_summary">Dacă nu aveţi un server openHAB, activaţi modul demo pentru a vă face o idee de ce este capabil openHAB.</string>
     <string name="settings_openhab_theme">Tema</string>
-    <string name="settings_accent_color">Culoare de accent</string>
-    <string name="settings_select_a_color">Selectați o culoare</string>
     <string name="settings_openhab_fullscreen">Ecran complet</string>
     <string name="settings_openhab_icon_format">Format pictograma</string>
     <string name="settings_chart_scaling">Scalare grafic</string>
