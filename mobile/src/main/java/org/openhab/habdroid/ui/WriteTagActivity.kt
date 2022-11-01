@@ -18,8 +18,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.nfc.FormatException
 import android.nfc.NdefMessage
@@ -38,10 +36,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -224,16 +220,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         protected abstract val watermarkIcon: Int
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            val view = inflater.inflate(R.layout.fragment_writenfc, container, false)
-            val watermark = view.findViewById<ImageView>(R.id.nfc_watermark)
-
-            val nfcIcon = ContextCompat.getDrawable(view.context, watermarkIcon)
-            nfcIcon?.colorFilter = PorterDuffColorFilter(
-                ContextCompat.getColor(view.context, R.color.empty_list_text_color),
-                PorterDuff.Mode.SRC_IN)
-            watermark.setImageDrawable(nfcIcon)
-
-            return view
+            return inflater.inflate(R.layout.fragment_writenfc, container, false)
         }
     }
 

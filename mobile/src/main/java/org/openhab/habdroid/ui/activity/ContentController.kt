@@ -65,6 +65,7 @@ import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.parcelableArrayList
+import org.openhab.habdroid.util.resolveThemedColor
 
 /**
  * Controller class for the content area of [MainActivity]
@@ -746,7 +747,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             if (drawableResId != 0) {
                 val drawable = ContextCompat.getDrawable(view.context, drawableResId)
                 drawable?.colorFilter = PorterDuffColorFilter(
-                    ContextCompat.getColor(view.context, R.color.empty_list_text_color),
+                    view.context.resolveThemedColor(R.attr.colorOnSurfaceVariant),
                     PorterDuff.Mode.SRC_IN)
                 watermark.setImageDrawable(drawable)
             } else {

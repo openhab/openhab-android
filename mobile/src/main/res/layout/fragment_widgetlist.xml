@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:padding="16dp"
-                app:tint="@color/empty_list_text_color"
+                app:tint="?colorOnSurfaceVariant"
                 app:tintMode="src_in"
                 android:src="@drawable/ic_eye_off_outline_grey_120dp" />
 
@@ -42,7 +42,7 @@
                 android:layout_gravity="center_horizontal"
                 android:padding="16dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/empty_list_text_color"
+                android:textColor="?colorOnSurfaceVariant"
                 android:gravity="center"
                 android:text="@string/empty_page" />
         </LinearLayout>

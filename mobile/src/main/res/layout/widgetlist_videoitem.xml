@@ -42,7 +42,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="8dp"
             android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="@color/empty_list_text_color"
+            android:textColor="?colorOnSurfaceVariant"
             tools:text="@string/error_video_player" />
 
         <com.google.android.material.button.MaterialButton
