@@ -1,0 +1,7 @@
+## What's Changed
+* Migrate to Material 3  by @mueller-ma in https://github.com/openhab/openhab-android/pull/3061
+* Improve text color contrast ratio by @mueller-ma in https://github.com/openhab/openhab-android/pull/3073
+* Hide summary notification for hidden channels by @mueller-ma in https://github.com/openhab/openhab-android/pull/3046
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.1-beta...2.23.2-beta
