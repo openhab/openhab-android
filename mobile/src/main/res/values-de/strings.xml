@@ -273,9 +273,9 @@
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
-    <string name="settings_gadgetbridge">Gadgetbridge-Geräte-Aktionen</string>
-    <string name="settings_gadgetbridge_summary_on">Sendet Gadgetbridge-Geräte-Aktionen an Item \'%1$s\'. Erfordert die Aktivierung der Ereignisüberwachung.</string>
-    <string name="settings_gadgetbridge_summary_off">Keine Gadgetbridge-Geräte-Aktionen senden</string>
+    <string name="settings_gadgetbridge">Gadgetbridge-Geräteaktionen</string>
+    <string name="settings_gadgetbridge_summary_on">Sendet Gadgetbridge-Geräteaktionen an Item \'%1$s\'. Erfordert die Aktivierung der Ereignisüberwachung.</string>
+    <string name="settings_gadgetbridge_summary_off">Keine Gadgetbridge-Geräteaktionen senden</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten.</string>
     <string name="settings_background_tasks_permission_hint">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten. Bitte genehmigen Sie die Berechtigung auch für die Hintergrundnutzung, da die Item-Aktualisierung auch erfolgt, wenn die App im Hintergrund läuft.</string>
     <string name="settings_permission_denied">Einige Funktionen wurden aufgrund fehlender Berechtigungen deaktiviert</string>
