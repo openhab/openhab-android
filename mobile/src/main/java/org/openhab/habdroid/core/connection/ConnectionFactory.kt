@@ -41,6 +41,7 @@ import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
+import okhttp3.brotli.BrotliInterceptor
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
@@ -123,6 +124,7 @@ class ConnectionFactory internal constructor(
         httpClient = OkHttpClient.Builder()
             .cache(CacheManager.getInstance(context).httpCache)
             .addInterceptor(httpLogger)
+            .addInterceptor(BrotliInterceptor)
             .hostnameVerifier(trustManager.wrapHostnameVerifier(OkHostnameVerifier))
             .build()
         updateHttpClientForClientCert(true)
