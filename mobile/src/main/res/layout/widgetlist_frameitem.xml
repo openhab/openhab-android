@@ -27,13 +27,12 @@
         android:textDirection="locale"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        android:padding="16dp"
         android:gravity="center_vertical"
         android:minHeight="36dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         tools:ignore="SelectableText"
         tools:text="Some topic"/>
 
