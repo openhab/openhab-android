@@ -35,10 +35,12 @@
             android:defaultValue="true"
             android:key="imageWidgetScaleToFit"
             android:title="@string/settings_image_widget_scaling"
+            app:singleLineTitle="false"
             android:summaryOff="@string/settings_image_widget_scaling_summary_off"
             android:summaryOn="@string/settings_image_widget_scaling_summary_on" />
         <org.openhab.habdroid.ui.preference.widgets.ChartScalingPreference
             android:title="@string/settings_chart_scaling"
+            app:singleLineTitle="false"
             android:summary="@string/settings_chart_scaling_summary"
             android:key="chartScalingFactor"
             android:defaultValue="1.5" />
@@ -46,7 +48,8 @@
             android:defaultValue="true"
             android:key="default_openhab_chart_hq"
             android:summary="@string/settings_openhab_chart_hq_summary"
-            android:title="@string/settings_openhab_chart_hq" />
+            android:title="@string/settings_openhab_chart_hq"
+            app:singleLineTitle="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
@@ -72,7 +75,8 @@
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
             android:summary="@string/settings_openhab_screentimeroff_summary"
-            android:title="@string/settings_openhab_screentimeroff" />
+            android:title="@string/settings_openhab_screentimeroff"
+            app:singleLineTitle="false" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="default_openhab_fullscreen"
@@ -80,7 +84,8 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="launcher"
-            android:title="@string/settings_set_as_launcher" />
+            android:title="@string/settings_set_as_launcher"
+            app:singleLineTitle="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_notifications">
         <Preference
@@ -153,7 +158,8 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"
-            android:title="@string/settings_debug_messages_title" />
+            android:title="@string/settings_debug_messages_title"
+            app:singleLineTitle="false" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_log"
