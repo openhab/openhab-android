@@ -1,0 +1,7 @@
+## What's Changed
+* Use default text style in outline buttons by @mueller-ma in https://github.com/openhab/openhab-android/pull/3079
+* Increase frame label by @mueller-ma in https://github.com/openhab/openhab-android/pull/3080
+* Allow pref titles to use multiple lines by @mueller-ma in https://github.com/openhab/openhab-android/pull/3085
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.2-beta...2.23.3-beta
