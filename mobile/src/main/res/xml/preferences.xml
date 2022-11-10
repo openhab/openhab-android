@@ -84,7 +84,8 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="launcher"
-            android:title="@string/settings_set_as_launcher"
+            android:title="@string/settings_set_as_launcher_title"
+            android:summary="@string/settings_set_as_launcher_summary"
             app:singleLineTitle="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_notifications">

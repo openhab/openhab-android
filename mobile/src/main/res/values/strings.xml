@@ -58,7 +58,8 @@
     <string name="drawer_entries">Side menu entries</string>
     <string name="settings_openhab_theme">Theme</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
-    <string name="settings_set_as_launcher">Allow app to be used as launcher</string>
+    <string name="settings_set_as_launcher_title">Register as launcher</string>
+    <string name="settings_set_as_launcher_summary">Allow the app to be used as launcher. After enabling, the app still needs to be selected as default launcher to take effect.</string>
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
