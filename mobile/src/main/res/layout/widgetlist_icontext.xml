@@ -6,7 +6,7 @@
         android:layout_width="@dimen/widgetlist_icon_size"
         android:layout_height="@dimen/widgetlist_icon_size"
         android:layout_gravity="center_vertical"
-        android:padding="4dip"
+        android:padding="8dp"
         app:imageScalingType="scaleToFit" />
 
     <TextView
