@@ -157,6 +157,7 @@
     <string name="webview_ssl">Наразі цей застосунок не підтримує SSL сертифікати з власним підписом для віджетів</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштовані імʼя користувача та пароль відповідно до SSL-сертифіката клієнта (код HTTP %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не знайдено (код HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Посилання надто довге. Будь ласка, використовуйте IP-адресу або коротше посилання (код HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Вимагається HTTPS. Змініть посилання (код HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
