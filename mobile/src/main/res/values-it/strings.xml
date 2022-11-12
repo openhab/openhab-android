@@ -52,6 +52,8 @@
     <string name="drawer_entries">Voci del menu laterale</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Schermo intero</string>
+    <string name="settings_set_as_launcher_title">Impostato per Avvio</string>
+    <string name="settings_set_as_launcher_summary">Consenti all\'app di essere utilizzata come prima esecuzione. Dopo l\'abilitazione, l\'applicazione deve ancora essere selezionata come applicazione di avvio predefinito per avere effetto.</string>
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
