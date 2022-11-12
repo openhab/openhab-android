@@ -52,7 +52,6 @@
     <string name="drawer_entries">Voci del menu laterale</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Schermo intero</string>
-    <string name="settings_set_as_launcher">Consenti all\'app di essere utilizzata come launcher</string>
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
@@ -171,6 +170,7 @@
     <string name="webview_ssl">Attualmente questa app non supporta certificati SSL autofirmati per i widget Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice HTTP %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Non trovato (Codice HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">L\'URL è troppo lungo. Utilizzare l\'indirizzo IP o un URL più corto (codice HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Richiesto HTTPS. Si prega di cambiare l\'URL (codice HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
