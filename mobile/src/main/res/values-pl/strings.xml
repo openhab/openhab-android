@@ -150,6 +150,7 @@
     <string name="webview_ssl">Obecnie ta aplikacja nie obsługuje certyfikatów SSL z podpisem własnym dla widżetów Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Uwierzytelnianie nie powiodło się. Sprawdź skonfigurowaną nazwę użytkownika i hasło dostarczonego certyfikatu klienta SSL (kod HTTP %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nie znaleziono (kod HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Adres URL jest zbyt długi. Proszę użyć adresu IP lub krótszego adresu URL (kod HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS jest wymagany. Zmień adres URL (kod HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
