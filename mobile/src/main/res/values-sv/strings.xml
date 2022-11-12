@@ -106,6 +106,7 @@
     <string name="webview_ssl">Denna app saknar för närvarande stöd för självsignerade SSL-certifikat för Webview-widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autentisering misslyckades. Kontrollera det konfigurerade användarnamnet och lösenordet respektive i förhållande till det tillhandahållna SSL-klientcertifikatet (HTTP-kod %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Hittades inte (HTTP-kod %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Angiven URL är för lång. Använd IP-adressen eller en kortare URL (HTTP-kod %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS krävs. Vänligen ändra URL (HTTP-kod %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
