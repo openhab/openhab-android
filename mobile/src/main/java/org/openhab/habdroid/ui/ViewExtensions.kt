@@ -48,12 +48,16 @@ fun WebView.setUpForConnection(
     avoidAuthentication: Boolean = false,
     progressCallback: (progress: Int) -> Unit
 ) {
-    if (!avoidAuthentication && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val webViewDatabase = WebViewDatabase.getInstance(context)
-        webViewDatabase.setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
-    } else if (!avoidAuthentication) {
-        @Suppress("DEPRECATION")
-        setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
+    when {
+        avoidAuthentication -> { /* Don't add authentication */ }
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+            WebViewDatabase.getInstance(context)
+                .setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
+        }
+        else -> {
+            @Suppress("DEPRECATION")
+            setHttpAuthUsernamePassword(url.host, "", connection.username, connection.password)
+        }
     }
 
     with(settings) {
