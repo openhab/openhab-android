@@ -5,14 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator"
-    android:paddingStart="@dimen/widgetlist_item_side_margin"
-    android:paddingEnd="@dimen/widgetlist_item_side_margin">
+    android:paddingHorizontal="@dimen/widgetlist_margin_full_width_items">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/widget_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dip"
         android:contentDescription="@string/content_description_video"
         app:imageScalingType="scaleToFitWithViewAdjustment"
         app:progressIndicator="@drawable/ic_image_loading_themed" />

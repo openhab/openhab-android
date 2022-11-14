@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:paddingHorizontal="@dimen/widgetlist_margin_padded_items">
 
     <include layout="@layout/widgetlist_iconsmallvaluetext" />
 

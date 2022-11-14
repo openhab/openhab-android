@@ -518,6 +518,7 @@
     <string name="content_description_open_openhab">Open openHAB</string>
     <string name="content_description_increase_item_value">Increase Item value</string>
     <string name="content_description_decrease_item_value">Decrease Item value</string>
+    <string name="content_description_open_subpage">Open subpage</string>
     <string name="swipe_to_refresh_description">The app also refreshes automatically, you normally don\'t need to do it manually</string>
     <string name="got_it">Got it!</string>
 

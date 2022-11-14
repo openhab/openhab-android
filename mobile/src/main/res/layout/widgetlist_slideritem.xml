@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:activatedBackgroundIndicator">
+    android:background="?android:activatedBackgroundIndicator"
+    android:paddingHorizontal="@dimen/widgetlist_margin_padded_items">
 
     <include layout="@layout/widgetlist_iconsmallvaluetext" />
 

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator"
-    android:paddingStart="@dimen/widgetlist_item_side_margin"
-    android:paddingEnd="@dimen/widgetlist_item_side_margin"
+    android:paddingHorizontal="@dimen/widgetlist_margin_full_width_items"
     android:orientation="vertical">
 
     <LinearLayout

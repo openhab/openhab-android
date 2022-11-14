@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">8dp</dimen>
-    <dimen name="activity_vertical_margin">8dp</dimen>
-    <dimen name="widgetlist_divider_side_margin">0dp</dimen>
-    <dimen name="widgetlist_item_side_margin">0dp</dimen>
     <dimen name="widget_margin">0dp</dimen>
     <dimen name="row_height">36dp</dimen>
     <dimen name="notificationlist_icon_size">40dp</dimen>
+    <dimen name="widgetlist_margin_full_width_items">0dp</dimen>
+    <dimen name="widgetlist_margin_padded_items">8dp</dimen>
     <dimen name="widgetlist_icon_size">48dp</dimen>
     <dimen name="widgetlist_slider_width">130dp</dimen>
     <dimen name="widgetlist_spinner_margin_end">8dp</dimen>

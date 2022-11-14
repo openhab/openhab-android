@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="@dimen/widgetlist_item_side_margin"
-    android:paddingEnd="@dimen/widgetlist_item_side_margin">
+    android:paddingHorizontal="@dimen/widgetlist_margin_full_width_items">
 
     <androidx.legacy.widget.Space
         android:id="@+id/spacer"
@@ -18,8 +17,6 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="8dip"
-        android:layout_marginStart="@dimen/widgetlist_divider_side_margin"
-        android:layout_marginEnd="@dimen/widgetlist_divider_side_margin"
         android:background="@drawable/material_divider_themed" />
 
     <TextView

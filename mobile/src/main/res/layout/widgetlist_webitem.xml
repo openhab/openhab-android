@@ -4,23 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/widgetlist_margin_full_width_items"
     tools:ignore="WebViewLayout">
 
     <WebView
         android:id="@+id/widget_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp"
-        android:paddingStart="@dimen/widgetlist_item_side_margin"
-        android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+        android:layout_margin="4dp" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/widgetlist_item_side_margin"
-        android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+        android:layout_height="wrap_content" />
 
     <include layout="@layout/widgetlist_data_saver" />
 

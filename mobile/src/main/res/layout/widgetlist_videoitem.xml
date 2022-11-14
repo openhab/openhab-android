@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:paddingHorizontal="@dimen/widgetlist_margin_full_width_items">
 
     <ProgressBar
         android:id="@+id/video_player_loading"
@@ -19,9 +20,7 @@
         android:id="@+id/widget_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dip"
-        android:paddingStart="@dimen/widgetlist_item_side_margin"
-        android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+        android:layout_margin="4dip" />
 
     <include layout="@layout/widgetlist_data_saver" />
 
