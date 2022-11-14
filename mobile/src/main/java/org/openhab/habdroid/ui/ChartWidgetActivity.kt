@@ -52,7 +52,7 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
         widget = intent.parcelable(EXTRA_WIDGET)!!
         period = widget.period
         // If Widget#legend is null, show legend only for groups
-        showLegend = widget.legend ?: widget.item?.type === Item.Type.Group
+        showLegend = widget.legend ?: (widget.item?.type == Item.Type.Group)
 
         serverFlags = intent.getIntExtra(EXTRA_SERVER_FLAGS, 0)
 
