@@ -1,0 +1,5 @@
+## What's Changed
+* Fix chart in ChartWidgetActivity by @mueller-ma in https://github.com/openhab/openhab-android/pull/3093
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.3-beta...2.23.4-beta
