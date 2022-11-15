@@ -109,6 +109,7 @@
     <string name="webview_ssl">Sovellus ei tällä hetkellä tue itse allekirjoitettuja SSL sertifikaatteja Webview widgeteissä</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Kirjautuminen epäonnistui. Tarkista asiakkaan SSL sertifikaatin käyttäjänimi ja salasana (HTTP vastaus %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Ei löytynyt (HTTP koodi %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Liian pitkä URL osoite. Ole hyvä ja käytä IP osoitetta tai lyhyempää URL osoitetta (HTTP vastaus %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS on pakollinen. Ole hyvä ja vaihda URL osoite (HTTP vastaus %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->

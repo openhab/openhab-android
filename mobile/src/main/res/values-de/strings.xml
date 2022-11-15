@@ -52,7 +52,8 @@
     <string name="drawer_entries">Einträge im Seitenmenü</string>
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
-    <string name="settings_set_as_launcher">Verwendung der App als Start-App ermöglichen</string>
+    <string name="settings_set_as_launcher_title">Als Start-App registrieren</string>
+    <string name="settings_set_as_launcher_summary">Verwendung der App als Start-App ermöglichen. Nach der Aktivierung muss die App noch als Standard-Start-App ausgewählt werden, um wirksam zu werden.</string>
     <string name="settings_openhab_icon_format">Icon-Format</string>
     <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
     <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
@@ -171,6 +172,7 @@
     <string name="webview_ssl">Derzeit unterstützt diese App keine selbstsignierten SSL-Zertifikate für Webview-Widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Benutzernamen und das Passwort bzw. das angegebene SSL-Client-Zertifikat (HTTP-Code %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nicht gefunden (HTTP-Code %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Code %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS ist erforderlich. Bitte ändern Sie die URL (HTTP-Code %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
@@ -273,9 +275,9 @@
     <string name="settings_dnd_mode">Bitte-Nicht-Stören-Modus</string>
     <string name="settings_dnd_mode_summary_on">Bitte-Nicht-Stören-Modus wird an Item \'%1$s\' gesendet</string>
     <string name="settings_dnd_mode_summary_off">Bitte-Nicht-Stören-Modus nicht senden</string>
-    <string name="settings_gadgetbridge">Gadgetbridge-Geräte-Aktionen</string>
-    <string name="settings_gadgetbridge_summary_on">Sendet Gadgetbridge-Geräte-Aktionen an Item \'%1$s\'. Erfordert die Aktivierung der Ereignisüberwachung.</string>
-    <string name="settings_gadgetbridge_summary_off">Keine Gadgetbridge-Geräte-Aktionen senden</string>
+    <string name="settings_gadgetbridge">Gadgetbridge-Geräteaktionen</string>
+    <string name="settings_gadgetbridge_summary_on">Sendet Gadgetbridge-Geräteaktionen an Item \'%1$s\'. Erfordert die Aktivierung der Ereignisüberwachung.</string>
+    <string name="settings_gadgetbridge_summary_off">Keine Gadgetbridge-Geräteaktionen senden</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten.</string>
     <string name="settings_background_tasks_permission_hint">Diese Funktion erfordert zusätzliche Berechtigungen. Nach der Aktivierung werden Sie um Genehmigung gebeten. Bitte genehmigen Sie die Berechtigung auch für die Hintergrundnutzung, da die Item-Aktualisierung auch erfolgt, wenn die App im Hintergrund läuft.</string>
     <string name="settings_permission_denied">Einige Funktionen wurden aufgrund fehlender Berechtigungen deaktiviert</string>

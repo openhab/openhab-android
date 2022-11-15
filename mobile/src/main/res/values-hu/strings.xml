@@ -155,6 +155,7 @@
     <string name="webview_ssl">Jelenleg ez alkalmazás nem támogatja az önaláírt SSL-tanúsítványokat a \"WebView\" megjelenítőkhöz</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód: %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nem található (HTTP code %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL túl hosszú. Kérjük, használja az IP-címet vagy egy rövidebb URL-t (HTTP-válaszkód %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Kötelező a HTTPS használata. Módosítsa az URL-t (HTTP válaszkód, %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->

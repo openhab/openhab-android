@@ -155,6 +155,7 @@
     <string name="webview_ssl">В настоящее время это приложение не поддерживает самоподписанные SSL-сертификаты для виджетов Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не найдено (HTTP-код %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL-адрес слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Требуется HTTPS. Измените URL-адрес (код ответа HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->

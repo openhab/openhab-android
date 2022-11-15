@@ -155,6 +155,7 @@
     <string name="webview_ssl">Atualmente, este app não suporta SSL certificados auto-assinados para widgets Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Falha de autenticação. Por favor, verifique usuário, senha e o certificado SSL do cliente fornecido (resposta HTTP %d).</string>
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Não encontrado (código HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL é muito longa. Por favor, use o endereço IP ou uma URL mais curta (código HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS é necessário. Por favor, altere a URL (código HTTP %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->

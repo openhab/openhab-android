@@ -106,6 +106,7 @@
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_invalid_url">Въведи валиден адрес в \'http(s)://host(:port)/\' формат</string>
     <string name="error_invalid_https_url">Въведи валиден адрес в \'https://host(:port)/\' формат</string>
+    <string name="error_port_seems_invalid">Въведеният порт изглежда невалиден за избрания протокол</string>
     <string name="error_first_char_is_whitespace">Първият символ е интервал, което вероятно не е желано</string>
     <string name="error_last_char_is_whitespace">Последният символ е интервал, което вероятно не е желано</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
@@ -118,14 +119,17 @@
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не беше намерено (HTTP код %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Адресът е прекалено дълъг. Използвай IP адрес или по-късо URL (HTTP код %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
+    <string name="error_short_http_connection_failed">HTTP код %d</string>
     <string name="error_short_unknown">Непозната грешка: %s</string>
     <string name="error_short_certificate_expired">Сертификатът не е изтекъл</string>
     <string name="error_short_certificate_revoked">Сертификатът е анулиран</string>
     <string name="error_short_certificate_wrong_host">Сертификатът не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не беше намерено (HTTP код %d)</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Няма достатъчно свободно място на сървъра (HTTP грешка %d)</string>
     <string name="error_no_speech_to_text_app_found">Не е намерено приложение за разпознаване на глас</string>
     <string name="error_video_player">%s не може да бъде заредено</string>
@@ -266,6 +270,7 @@
     <string name="content_description_video">Видео</string>
     <string name="content_description_open_openhab">Отвори openHAB</string>
     <string name="swipe_to_refresh_description">Тази програма се обновява автоматично, обикновено не е необходимо да го правите ръчно</string>
+    <string name="got_it">Разбрах!</string>
     <!-- Intro strings -->
     <string name="app_intro">Въведение</string>
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
@@ -285,6 +290,7 @@
     <string name="turn_on">Включи</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="error_getting_state">Грешка при зареждане на състоянието</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_move">%s започва да се движи</string>
     <string name="item_update_short_success_message_on">Включено</string>
@@ -295,6 +301,7 @@
     <string name="item_update_short_success_message_rewind">Превърта</string>
     <string name="item_update_error_no_connection">Няма връзка</string>
     <!-- Data saver -->
+    <string name="data_saver_load">Зареди въпреки това</string>
     <string name="widget_type_image">Картинка</string>
     <string name="widget_type_video">Видео</string>
     <string name="widget_type_mapview">Карта</string>
@@ -351,7 +358,9 @@
     <string name="item_tag_location_kitchen">Кухня</string>
     <string name="item_tag_location_office">Офис</string>
     <string name="item_tag_location_room">Стая</string>
+    <string name="item_tag_location_secondfloor">Втори етаж</string>
     <string name="item_tag_location_terrace">Тераса</string>
+    <string name="item_tag_location_thirdfloor">Трети етаж</string>
     <string name="item_tag_location_veranda">Веранда</string>
     <string name="item_tag_equipment_battery">Батерия</string>
     <string name="item_tag_equipment_boiler">Бойлер</string>
