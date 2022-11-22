@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/widgetlist_item_padding"
     android:background="?android:activatedBackgroundIndicator">
 
@@ -11,34 +11,45 @@
         android:id="@+id/widgeticon"
         android:layout_width="@dimen/widgetlist_icon_size"
         android:layout_height="@dimen/widgetlist_icon_size"
-        android:layout_gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:padding="8dp"
         app:imageScalingType="scaleToFit" />
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/widgetlabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/widgeticon"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textDirection="locale"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        tools:text="Widget label" />
 
-        <TextView
-            android:id="@+id/widgetlabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textDirection="locale"
-            android:textAppearance="?attr/textAppearanceBodyMedium" />
+    <TextView
+        android:id="@+id/widgetvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/widgetlabel"
+        app:layout_constraintBaseline_toBaselineOf="@id/widgetlabel"
+        android:layout_marginStart="8dp"
+        android:textDirection="anyRtl"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        tools:text="Value" />
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/switch_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            app:singleSelection="true" />
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/switch_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/widgeticon"
+        app:layout_constraintTop_toBottomOf="@id/widgetlabel"
+        android:layout_marginTop="4dp"
+        app:singleSelection="true" />
 
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
