@@ -36,7 +36,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toCloudNotification
-import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
@@ -89,7 +88,6 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         layoutManager = LinearLayoutManager(view.context)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(DividerItemDecoration(view.context))
         recyclerView.adapter = adapter
     }
 

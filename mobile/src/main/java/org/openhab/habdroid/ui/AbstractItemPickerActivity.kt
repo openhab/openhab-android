@@ -106,7 +106,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         layoutManager = LinearLayoutManager(this)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(DividerItemDecoration(this))
         recyclerView.adapter = itemPickerAdapter
 
         if (additionalConfigLayoutRes != 0) {
