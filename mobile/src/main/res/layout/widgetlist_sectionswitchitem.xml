@@ -4,28 +4,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/widgetlist_item_padding"
     android:background="?android:activatedBackgroundIndicator">
 
-    <include layout="@layout/widgetlist_iconsmallvaluetext" />
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/switch_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <org.openhab.habdroid.ui.widget.WidgetImageView
+        android:id="@+id/widgeticon"
+        android:layout_width="@dimen/widgetlist_icon_size"
+        android:layout_height="@dimen/widgetlist_icon_size"
         android:layout_gravity="center_vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        app:singleSelection="true" />
+        android:padding="8dp"
+        app:imageScalingType="scaleToFit" />
 
-    <org.openhab.habdroid.ui.widget.ExtendedSpinner
-        android:id="@+id/spinner"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="@dimen/widgetlist_spinner_margin_end"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:spinnerMode="dialog"
-        android:gravity="end" />
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/widgetlabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textDirection="locale"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/switch_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            app:singleSelection="true" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -4,6 +4,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/widgetlist_item_padding"
     android:background="@drawable/list_selector">
 
     <include layout="@layout/widgetlist_iconvaluetext" />
@@ -14,7 +15,6 @@
         android:src="@drawable/ic_keyboard_arrow_right_themed_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="8dp" />
+        android:layout_gravity="center_vertical" />
 
 </LinearLayout>

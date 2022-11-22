@@ -12,13 +12,10 @@
         android:layout_height="match_parent"
         tools:visibility="gone" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/widgetlist_item_side_margin"
-        android:paddingEnd="@dimen/widgetlist_item_side_margin"
         android:layout_gravity="top|center_horizontal" />
 
     <LinearLayout

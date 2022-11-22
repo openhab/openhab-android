@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator"
-    android:paddingStart="@dimen/widgetlist_item_side_margin"
-    android:paddingEnd="@dimen/widgetlist_item_side_margin"
+    android:padding="@dimen/widgetlist_item_padding"
     android:orientation="vertical">
 
     <LinearLayout
@@ -28,7 +27,7 @@
             android:layout_marginStart="4dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
     </LinearLayout>
 
@@ -36,7 +35,6 @@
         android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_margin="4dp"
         app:liteMode="true" />
 
     <include layout="@layout/widgetlist_mapitem_no_position" />

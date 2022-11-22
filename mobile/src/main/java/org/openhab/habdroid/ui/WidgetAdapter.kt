@@ -15,14 +15,10 @@ package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -30,27 +26,20 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.webkit.WebView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
-import com.flask.colorpicker.ColorPickerView
-import com.flask.colorpicker.OnColorChangedListener
-import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
@@ -76,14 +65,11 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.AutoHeightPlayerView
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
-import org.openhab.habdroid.ui.widget.DividerItemDecoration
-import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
@@ -103,8 +89,9 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 class WidgetAdapter(
     context: Context,
     val serverFlags: Int,
-    private val connection: Connection,
-    private val itemClickListener: ItemClickListener
+    val connection: Connection,
+    private val itemClickListener: ItemClickListener,
+    private val bottomSheetPresenter: DetailBottomSheetPresenter
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
     private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
@@ -120,6 +107,9 @@ class WidgetAdapter(
 
     interface ItemClickListener {
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
+    }
+    interface DetailBottomSheetPresenter {
+        fun showBottomSheet(sheet: AbstractWidgetDetailBottomSheet, widget: Widget)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -179,16 +169,16 @@ class WidgetAdapter(
             TYPE_TEXT -> TextViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SLIDER -> SliderViewHolder(inflater, parent, connection, colorMapper)
             TYPE_IMAGE -> ImageViewHolder(inflater, parent, connection)
-            TYPE_SELECTION -> SelectionViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SELECTION -> SelectionViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent, connection, colorMapper)
-            TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
             TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection, serverFlags)
             TYPE_VIDEO -> VideoViewHolder(inflater, parent, connection)
             TYPE_WEB -> WebViewHolder(inflater, parent, connection)
-            TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_COLOR -> ColorViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(inflater, parent, connection)
-            TYPE_LOCATION -> MapViewHelper.createViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_LOCATION -> MapViewHelper.createViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(inflater, parent)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
@@ -308,26 +298,11 @@ class WidgetAdapter(
         }
     }
 
-    class DialogManager {
-        private var dialog: DialogInterface? = null
-
-        fun manage(dialog: AlertDialog) {
-            this.dialog?.dismiss()
-            this.dialog = dialog
-            dialog.setOnDismissListener { d -> if (d == this.dialog) this.dialog = null }
-        }
-
-        fun close() {
-            dialog?.dismiss()
-        }
-    }
-
     abstract class ViewHolder internal constructor(
         inflater: LayoutInflater,
         val parent: ViewGroup,
         @LayoutRes layoutResId: Int
     ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
-        open val dialogManager: DialogManager? = null
         var started = false
             private set
 
@@ -359,7 +334,7 @@ class WidgetAdapter(
         private val colorMapper: ColorMapper
     ) : ViewHolder(inflater, parent, layoutResId) {
         protected val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
-        private val valueView: TextView? = itemView.findViewById(R.id.widgetvalue)
+        protected val valueView: TextView? = itemView.findViewById(R.id.widgetvalue)
         private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
 
         override fun bind(widget: Widget) {
@@ -725,59 +700,26 @@ class WidgetAdapter(
     open class SelectionViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        private val connection: Connection,
+        connection: Connection,
+        private val bottomSheetPresenter: DetailBottomSheetPresenter,
         colorMapper: ColorMapper,
         layoutResId: Int = R.layout.widgetlist_selectionitem
-    ) : LabeledItemBaseViewHolder(inflater, parent, layoutResId, connection, colorMapper),
-        ExtendedSpinner.OnSelectionUpdatedListener {
-        protected val spinner: ExtendedSpinner = itemView.findViewById(R.id.spinner)
-        private var boundItem: Item? = null
-        private var boundMappings: List<LabeledValue> = emptyList()
-
-        init {
-            spinner.onSelectionUpdatedListener = this
-        }
+    ) : LabeledItemBaseViewHolder(inflater, parent, layoutResId, connection, colorMapper) {
+        private var boundWidget: Widget? = null
 
         override fun bind(widget: Widget) {
             super.bind(widget)
+            boundWidget = widget
 
-            boundItem = widget.item
-            boundMappings = widget.mappingsOrItemOptions
-
-            val stateString = boundItem?.state?.asString
-            val spinnerArray = boundMappings.map { mapping -> mapping.label }.toMutableList()
-            var spinnerSelectedIndex = boundMappings.indexOfFirst { mapping -> mapping.value == stateString }
-
-            if (spinnerSelectedIndex == -1) {
-                val state = widget.stateFromLabel
-                if (state.isNullOrEmpty()) {
-                    spinnerArray.add("          ")
-                } else {
-                    spinnerArray.add(state)
-                }
-                spinnerSelectedIndex = spinnerArray.size - 1
-            }
-
-            val spinnerAdapter = ArrayAdapter(itemView.context, R.layout.spinner_prompt, spinnerArray)
-            spinnerAdapter.setDropDownViewResource(R.layout.select_dialog_singlechoice)
-
-            spinner.prompt = labelView.text
-            spinner.adapter = spinnerAdapter
-            spinner.setSelectionWithoutUpdateCallback(spinnerSelectedIndex)
+            val stateString = widget.item?.state?.asString
+            val selectedLabel = widget.mappingsOrItemOptions.firstOrNull { mapping -> mapping.value == stateString }
+            valueView?.text = selectedLabel?.label ?: stateString
+            valueView?.isVisible = valueView?.text.isNullOrEmpty() != true
         }
 
         override fun handleRowClick() {
-            spinner.performClick()
-        }
-
-        override fun onSelectionUpdated(position: Int) {
-            Log.d(TAG, "Spinner item click on index $position")
-            if (position >= boundMappings.size) {
-                return
-            }
-            val (value) = boundMappings[position]
-            Log.d(TAG, "Spinner onItemSelected found match with $value")
-            connection.httpClient.sendItemCommand(boundItem, value)
+            val widget = boundWidget ?: return
+            bottomSheetPresenter.showBottomSheet(SelectionBottomSheet(), widget)
         }
     }
 
@@ -786,8 +728,7 @@ class WidgetAdapter(
         parent: ViewGroup,
         private val connection: Connection,
         colorMapper: ColorMapper
-    ) : SelectionViewHolder(inflater, parent, connection, colorMapper, R.layout.widgetlist_sectionswitchitem),
-        ViewTreeObserver.OnGlobalLayoutListener,
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val spareViews = mutableListOf<View>()
@@ -839,23 +780,6 @@ class WidgetAdapter(
             }
 
             group.isVisible = true
-            spinner.isVisible = false
-        }
-
-        override fun onStart() {
-            super.onStart()
-            itemView.viewTreeObserver.addOnGlobalLayoutListener(this)
-        }
-
-        override fun onStop() {
-            super.onStop()
-            itemView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-        }
-
-        override fun onGlobalLayout() {
-            Log.d(TAG, "onGlobalLayout()")
-            group.isVisible = group.measuredWidth < (itemView.width * 0.8)
-            spinner.isVisible = !group.isVisible
         }
 
         override fun onClick(view: View) {
@@ -923,17 +847,17 @@ class WidgetAdapter(
     }
 
     class SetpointViewHolder internal constructor(
-        private val inflater: LayoutInflater,
+        inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
+        private val bottomSheetPresenter: DetailBottomSheetPresenter,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_setpointitem, connection, colorMapper) {
         private var boundWidget: Widget? = null
-        override val dialogManager = DialogManager()
 
         init {
             itemView.findViewById<View>(R.id.widgetvalue).setOnClickListener { openSelection() }
-            itemView.findViewById<View>(R.id.down_arrow).setOnClickListener { openSelection() }
+            itemView.findViewById<View>(R.id.select_button).setOnClickListener { openSelection() }
             itemView.findViewById<View>(R.id.up_button).setOnClickListener { handleUpDown(false) }
             itemView.findViewById<View>(R.id.down_button).setOnClickListener { handleUpDown(true) }
         }
@@ -949,41 +873,7 @@ class WidgetAdapter(
 
         private fun openSelection() {
             val widget = boundWidget ?: return
-            val state = widget.state?.asNumber
-            val stateValue = state?.value ?: widget.minValue
-            // This prevents an exception below, but could lead to
-            // user confusion if this case is ever encountered.
-            val stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
-            val stepCount = (abs(widget.maxValue - widget.minValue) / stepSize).toInt()
-            var closestIndex = 0
-            var closestDelta = Float.MAX_VALUE
-
-            val stepValues: List<ParsedState.NumberState> = (0..stepCount).map { index ->
-                val stepValue = widget.minValue + index * stepSize
-                if (abs(stateValue - stepValue) < closestDelta) {
-                    closestIndex = index
-                    closestDelta = abs(stateValue - stepValue)
-                }
-                state.withValue(stepValue)
-            }
-
-            val dialogView = inflater.inflate(R.layout.dialog_numberpicker, null)
-            val picker = dialogView.findViewById<NumberPicker>(R.id.number_picker).apply {
-                minValue = 0
-                maxValue = stepValues.size - 1
-                displayedValues = stepValues.map { item -> item.toString() }.toTypedArray()
-                value = closestIndex
-            }
-
-            dialogManager.manage(AlertDialog.Builder(itemView.context)
-                .setTitle(labelView.text)
-                .setView(dialogView)
-                .setPositiveButton(R.string.set) { _, _ ->
-                    connection.httpClient.sendItemUpdate(widget.item, stepValues[picker.value])
-                }
-                .setNegativeButton(R.string.cancel, null)
-                .show()
-            )
+            bottomSheetPresenter.showBottomSheet(SetpointBottomSheet(), widget)
         }
 
         private fun handleUpDown(down: Boolean) {
@@ -1205,25 +1095,15 @@ class WidgetAdapter(
     }
 
     class ColorViewHolder internal constructor(
-        private val inflater: LayoutInflater,
+        inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
+        private val bottomSheetPresenter: DetailBottomSheetPresenter,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem, connection, colorMapper),
-        Handler.Callback,
-        OnColorChangedListener,
-        OnColorSelectedListener,
-        LabelFormatter,
-        Slider.OnChangeListener,
-        Slider.OnSliderTouchListener,
         View.OnClickListener {
         private var boundWidget: Widget? = null
         private var boundItem: Item? = null
-        private val handler = Handler(Looper.getMainLooper(), this)
-        private var slider: Slider? = null
-        private var colorPicker: ColorPickerView? = null
-        private var lastUpdate: Job? = null
-        override val dialogManager = DialogManager()
 
         init {
             val buttonCommandInfoList =
@@ -1250,90 +1130,13 @@ class WidgetAdapter(
             boundItem = widget.item
         }
 
-        // Select color button
         override fun onClick(v: View?) {
-            showColorPickerDialog()
+            handleRowClick()
         }
 
         override fun handleRowClick() {
-            showColorPickerDialog()
-        }
-
-        override fun onColorSelected(selectedColor: Int) {
-            Log.d(TAG, "onColorSelected($selectedColor)")
-            handleChange(true, 0)
-        }
-
-        override fun onColorChanged(selectedColor: Int) {
-            Log.d(TAG, "onColorChanged($selectedColor)")
-            handleChange(true)
-        }
-
-        // Brightness slider
-        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-            if (fromUser) {
-                handleChange(false)
-            }
-        }
-
-        override fun onStartTrackingTouch(slider: Slider) {
-            // no-op
-        }
-
-        override fun onStopTrackingTouch(slider: Slider) {
-            handleChange(false, 0)
-        }
-
-        private fun handleChange(colorChanged: Boolean, delay: Long = 100) {
-            val newColor = colorPicker?.selectedColor ?: return
-            var brightness = slider?.value?.toInt() ?: 0
-            Log.d(TAG, "handleChange(newColor = $newColor, brightness = $brightness, delay = $delay)")
-            if (colorChanged && brightness == 0) {
-                brightness = 100
-                slider?.value = 100F
-            }
-            handler.removeMessages(0)
-            handler.sendMessageDelayed(handler.obtainMessage(0, newColor, brightness), delay)
-        }
-
-        override fun handleMessage(msg: Message): Boolean {
-            val hsv = FloatArray(3)
-            Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
-            hsv[2] = msg.arg2.toFloat()
-            Log.d(TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
-            val newColorValue = String.format(Locale.US, "%f,%f,%f", hsv[0], hsv[1] * 100, hsv[2])
-            lastUpdate?.cancel()
-            lastUpdate = connection.httpClient.sendItemCommand(boundItem, newColorValue)
-            return true
-        }
-
-        private fun showColorPickerDialog() {
-            val contentView = inflater.inflate(R.layout.color_picker_dialog, null)
-            colorPicker = contentView.findViewById<ColorPickerView>(R.id.picker).apply {
-                boundItem?.state?.asHsv?.toColor(false)?.let { setColor(it, true) }
-
-                addOnColorChangedListener(this@ColorViewHolder)
-                addOnColorSelectedListener(this@ColorViewHolder)
-            }
-
-            slider = contentView.findViewById<Slider>(R.id.brightness_slider).apply {
-                boundItem?.state?.asBrightness?.let { value = it.toFloat() }
-
-                addOnChangeListener(this@ColorViewHolder)
-                setLabelFormatter(this@ColorViewHolder)
-                addOnSliderTouchListener(this@ColorViewHolder)
-            }
-
-            dialogManager.manage(AlertDialog.Builder(contentView.context)
-                .setTitle(boundWidget?.label)
-                .setView(contentView)
-                .setNegativeButton(R.string.close, null)
-                .show()
-            )
-        }
-
-        override fun getFormattedValue(value: Float): String {
-            return "${value.toInt()} %"
+            val widget = boundWidget ?: return
+            bottomSheetPresenter.showBottomSheet(ColorChooserBottomSheet(), widget)
         }
     }
 
@@ -1363,13 +1166,10 @@ class WidgetAdapter(
         parent: ViewGroup,
         protected val connection: Connection,
         colorMapper: ColorMapper
-    ) : WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent,
-        R.layout.widgetlist_mapitem, connection, colorMapper) {
-        private var boundWidget: Widget? = null
-        protected val boundItem: Item?
-            get() = boundWidget?.item
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_mapitem, connection, colorMapper) {
+        protected var boundWidget: Widget? = null
         private val hasPositions
-            get() = boundItem?.state?.asLocation != null || boundItem?.members?.isNotEmpty() == true
+            get() = boundWidget?.item?.state?.asLocation != null || boundWidget?.item?.members?.isNotEmpty() == true
 
         protected val baseMapView: View = itemView.findViewById(R.id.mapview)
         private val emptyView: LinearLayout = itemView.findViewById(android.R.id.empty)
@@ -1418,45 +1218,6 @@ class WidgetAdapter(
 
         protected abstract fun bindAfterDataSaverCheck(widget: Widget)
         protected abstract fun openPopup()
-    }
-
-    class WidgetItemDecoration(context: Context) : DividerItemDecoration(context) {
-        override fun suppressDividerForChild(child: View, parent: RecyclerView): Boolean {
-            if (super.suppressDividerForChild(child, parent)) {
-                return true
-            }
-
-            val position = parent.getChildAdapterPosition(child)
-            if (position == RecyclerView.NO_POSITION) {
-                return false
-            }
-
-            val adapter = parent.adapter ?: return false
-
-            // Hide divider if this position shouldn't have dividers...
-            if (adapter.getItemViewType(position) in NO_DIVIDER_TYPES) {
-                return true
-            }
-
-            var indexOfNextFrameOrEnd = (position + 1 until adapter.itemCount)
-                .map { pos -> adapter.getItemViewType(pos) }
-                .indexOfFirst { type -> type == TYPE_FRAME }
-
-            if (indexOfNextFrameOrEnd == -1) {
-                indexOfNextFrameOrEnd = adapter.itemCount
-            } else {
-                indexOfNextFrameOrEnd += position + 1
-            }
-
-            // ...or if all of the following positions shouldn't have dividers
-            return (position + 1 until indexOfNextFrameOrEnd)
-                .map { pos -> adapter.getItemViewType(pos) }
-                .all { type -> type == TYPE_INVISIBLE }
-        }
-
-        companion object {
-            private val NO_DIVIDER_TYPES = intArrayOf(TYPE_FRAME, TYPE_INVISIBLE)
-        }
     }
 
     @VisibleForTesting
@@ -1588,3 +1349,4 @@ fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
         }
     }
 }
+

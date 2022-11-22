@@ -1,17 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/widgetlist_item_padding"
     android:background="?android:activatedBackgroundIndicator">
 
-    <include layout="@layout/widgetlist_iconsmallvaluetext" />
-
-    <com.google.android.material.slider.Slider
-        android:id="@+id/seekbar"
-        android:layout_width="@dimen/widgetlist_slider_width"
-        android:layout_height="wrap_content"
+    <org.openhab.habdroid.ui.widget.WidgetImageView
+        android:id="@+id/widgeticon"
+        android:layout_width="@dimen/widgetlist_icon_size"
+        android:layout_height="@dimen/widgetlist_icon_size"
         android:layout_gravity="center_vertical"
-        android:max="100" />
+        android:padding="8dp"
+        app:imageScalingType="scaleToFit" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/widgetlabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textDirection="locale"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/seekbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:max="100" />
+
+            <TextView
+                android:id="@+id/widgetvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:textDirection="locale"
+                android:textAppearance="?attr/textAppearanceBodySmall" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

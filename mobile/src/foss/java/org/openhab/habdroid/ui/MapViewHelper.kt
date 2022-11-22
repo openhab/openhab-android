@@ -13,16 +13,20 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.DialogInterface
 import android.location.Location
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.preference.PreferenceManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
@@ -32,6 +36,7 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.isDarkModeActive
+import org.openhab.habdroid.util.parcelable
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -51,24 +56,24 @@ object MapViewHelper {
         inflater: LayoutInflater,
         parent: ViewGroup,
         connection: Connection,
+        bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
         colorMapper: WidgetAdapter.ColorMapper
     ): WidgetAdapter.ViewHolder {
         val context = inflater.context
         Configuration.getInstance().load(context,
                 PreferenceManager.getDefaultSharedPreferences(context))
-        return OsmViewHolder(inflater, parent, connection, colorMapper)
+        return OsmViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
     }
 
     private class OsmViewHolder(
         inflater: LayoutInflater,
         parent: ViewGroup,
         connection: Connection,
+        private val bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
         colorMapper: WidgetAdapter.ColorMapper
-    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper),
-        Marker.OnMarkerDragListener {
+    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper) {
         private val mapView = baseMapView as MapView
         private val handler: Handler = Handler(Looper.getMainLooper())
-        override val dialogManager = WidgetAdapter.DialogManager()
 
         init {
             with(mapView) {
@@ -94,8 +99,8 @@ object MapViewHelper {
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
             handler.post {
-                mapView.applyPositionAndLabel(boundItem, labelView.text, 15.0f,
-                    allowDrag = false, allowScroll = false, markerDragListener = this)
+                mapView.applyPositionAndLabel(boundWidget?.item, labelView.text, 15.0f,
+                    allowDrag = false, allowScroll = false)
             }
         }
 
@@ -107,54 +112,9 @@ object MapViewHelper {
             mapView.onPause()
         }
 
-        override fun onMarkerDragStart(marker: Marker) {
-            // no-op, we're interested in drag end only
-        }
-
-        override fun onMarkerDrag(marker: Marker) {
-            // no-op, we're interested in drag end only
-        }
-
-        override fun onMarkerDragEnd(marker: Marker) {
-            val newState = String.format(Locale.US, "%f,%f",
-                    marker.position.latitude, marker.position.longitude)
-            val item = if (marker.id == boundItem?.name) {
-                boundItem
-            } else {
-                boundItem?.members?.firstOrNull { i -> i.name == marker.id }
-            }
-            connection.httpClient.sendItemCommand(item, newState)
-        }
-
         override fun openPopup() {
-            val mapView = MapView(itemView.context)
-
-            val dialog = AlertDialog.Builder(itemView.context)
-                    .setView(mapView)
-                    .setCancelable(true)
-                    .setNegativeButton(R.string.close, null)
-                    .create()
-
-            dialogManager.manage(dialog)
-            with(dialog) {
-                setOnDismissListener { mapView.onPause() }
-                setCanceledOnTouchOutside(true)
-                show()
-                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-            }
-
-            with(mapView) {
-                zoomController.setVisibility(Visibility.SHOW_AND_FADEOUT)
-                setMultiTouchControls(true)
-                isVerticalMapRepetitionEnabled = false
-                overlays.add(CopyrightOverlay(itemView.context))
-                mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
-                onResume()
-            }
-            handler.post {
-                mapView.applyPositionAndLabel(boundItem, labelView.text, 16.0f,
-                    allowDrag = true, allowScroll = true, markerDragListener = this@OsmViewHolder)
-            }
+            val widget = boundWidget ?: return
+            bottomSheetPresenter.showBottomSheet(MapBottomSheet(), widget)
         }
     }
 }
@@ -165,7 +125,7 @@ fun MapView.applyPositionAndLabel(
     zoomLevel: Float,
     allowDrag: Boolean,
     allowScroll: Boolean,
-    markerDragListener: Marker.OnMarkerDragListener
+    markerDragListener: Marker.OnMarkerDragListener? = null
 ) {
     if (item == null) {
         return
@@ -230,7 +190,7 @@ fun MapView.setMarker(
     item: Item,
     label: CharSequence?,
     canDrag: Boolean,
-    onMarkerDragListener: Marker.OnMarkerDragListener
+    onMarkerDragListener: Marker.OnMarkerDragListener? = null
 ) {
     val marker = Marker(this).apply {
         setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
@@ -250,4 +210,58 @@ fun Location.toGeoPoint(): GeoPoint {
 
 fun Location.toMapsUrl(): String {
     return "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
+}
+
+class MapBottomSheet : AbstractWidgetDetailBottomSheet(), Marker.OnMarkerDragListener {
+    private lateinit var mapView : MapView
+    private val handler = Handler(Looper.getMainLooper())
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        mapView = MapView(inflater.context)
+
+        with(mapView) {
+            zoomController.setVisibility(Visibility.SHOW_AND_FADEOUT)
+            setMultiTouchControls(true)
+            isVerticalMapRepetitionEnabled = false
+            overlays.add(CopyrightOverlay(context))
+            mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
+        }
+        handler.post {
+            mapView.applyPositionAndLabel(widget.item, widget.label, 16.0f,
+                allowDrag = true, allowScroll = true, markerDragListener = this@MapBottomSheet)
+        }
+
+        return mapView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mapView.onResume()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        mapView.onPause()
+    }
+
+    override fun onMarkerDragStart(marker: Marker) {
+        // no-op, we're interested in drag end only
+    }
+
+    override fun onMarkerDrag(marker: Marker) {
+        // no-op, we're interested in drag end only
+    }
+
+    override fun onMarkerDragEnd(marker: Marker) {
+        val boundItem = widget.item ?: return
+        val newState = String.format(
+            Locale.US, "%f,%f",
+            marker.position.latitude, marker.position.longitude)
+        val item = if (marker.id == boundItem.name) {
+            boundItem
+        } else {
+            boundItem.members.firstOrNull { i -> i.name == marker.id }
+        }
+        connection?.httpClient?.sendItemCommand(item, newState)
+    }
 }

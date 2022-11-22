@@ -54,6 +54,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
@@ -61,7 +62,6 @@ import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.DataUsagePolicy
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PendingIntent_Mutable
@@ -80,8 +80,8 @@ import org.openhab.habdroid.util.openInBrowser
  * widgets from sitemap page with further navigation through sitemap and everything else!
  */
 
-class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
-    OpenHabApplication.OnDataUsagePolicyChangedListener {
+class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener, WidgetAdapter.DetailBottomSheetPresenter,
+    AbstractWidgetDetailBottomSheet.ConnectionGetter, OpenHabApplication.OnDataUsagePolicyChangedListener {
     @VisibleForTesting lateinit var recyclerView: RecyclerView
     private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
     private lateinit var emptyPageView: View
@@ -122,7 +122,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
 
         val activity = activity as MainActivity
         adapter = activity.connection?.let { conn ->
-            WidgetAdapter(activity, activity.serverProperties!!.flags, conn, this)
+            WidgetAdapter(activity, activity.serverProperties!!.flags, conn, this, this)
         }
 
         layoutManager = LinearLayoutManager(activity)
@@ -130,7 +130,6 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
 
         recyclerView = view.findViewById(R.id.recyclerview)
         recyclerView.setRecycledViewPool(activity.viewPool)
-        recyclerView.addItemDecoration(WidgetAdapter.WidgetItemDecoration(view.context))
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -195,6 +194,15 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
             return true
         }
         return false
+    }
+
+    override fun getConnection(): Connection? {
+        return adapter?.connection
+    }
+
+    override fun showBottomSheet(sheet: AbstractWidgetDetailBottomSheet, widget: Widget) {
+        sheet.arguments = AbstractWidgetDetailBottomSheet.createArguments(widget)
+        sheet.show(childFragmentManager, "${sheet.javaClass.simpleName}-${widget.id}" )
     }
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -430,12 +438,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener,
     }
 
     fun closeAllDialogs() {
-        val itemCount = adapter?.itemCount ?: 0
-        for (pos in 0 until itemCount) {
-            val holder =
-                recyclerView.findViewHolderForAdapterPosition(pos) as WidgetAdapter.ViewHolder?
-            holder?.dialogManager?.close()
-        }
+        // XXX: use child fragment manager
     }
 
     private fun startOrStopVisibleViewHolders(start: Boolean) {

@@ -13,11 +13,12 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.DialogInterface
 import android.location.Location
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -27,7 +28,6 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
-import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
@@ -37,22 +37,22 @@ object MapViewHelper {
         inflater: LayoutInflater,
         parent: ViewGroup,
         connection: Connection,
+        bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
         colorMapper: WidgetAdapter.ColorMapper
     ): WidgetAdapter.ViewHolder {
         MapsInitializer.initialize(inflater.context)
-        return GoogleMapsViewHolder(inflater, parent, connection, colorMapper)
+        return GoogleMapsViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
     }
 
     private class GoogleMapsViewHolder(
         inflater: LayoutInflater,
         parent: ViewGroup,
         connection: Connection,
+        private val bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
         colorMapper: WidgetAdapter.ColorMapper
-    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper),
-        GoogleMap.OnMarkerDragListener {
+    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper) {
         private val mapView = baseMapView as MapView
         private var map: GoogleMap? = null
-        override val dialogManager = WidgetAdapter.DialogManager()
 
         init {
             mapView.onCreate(null)
@@ -72,7 +72,7 @@ object MapViewHelper {
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
             map?.clear()
-            map?.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
+            map?.applyPositionAndLabel(widget, 15.0f, false)
         }
 
         override fun onStart() {
@@ -87,59 +87,21 @@ object MapViewHelper {
             mapView.onStop()
         }
 
-        override fun onMarkerDragStart(marker: Marker) {
-            // no-op, we're interested in drag end only
-        }
-
-        override fun onMarkerDrag(marker: Marker) {
-            // no-op, we're interested in drag end only
-        }
-
-        override fun onMarkerDragEnd(marker: Marker) {
-            val newState = String.format(Locale.US, "%f,%f",
-                    marker.position.latitude, marker.position.longitude)
-            connection.httpClient.sendItemCommand(marker.tag as Item?, newState)
-        }
-
         override fun openPopup() {
-            val mapView = MapView(itemView.context)
-            mapView.onCreate(null)
-
-            val dialog = AlertDialog.Builder(itemView.context)
-                    .setView(mapView)
-                    .setCancelable(true)
-                    .setNegativeButton(R.string.close, null)
-                    .create()
-
-            dialogManager.manage(dialog)
-            with(dialog) {
-                setOnDismissListener {
-                    mapView.onPause()
-                    mapView.onStop()
-                    mapView.onDestroy()
-                }
-                dialog.setCanceledOnTouchOutside(true)
-                dialog.show()
-                window?.setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-            }
-            mapView.onStart()
-            mapView.onResume()
-            mapView.getMapAsync { map ->
-                map.setOnMarkerDragListener(this@GoogleMapsViewHolder)
-                map.applyPositionAndLabel(boundItem, labelView.text, 16.0f, true)
-            }
+            val widget = boundWidget ?: return
+            bottomSheetPresenter.showBottomSheet(MapBottomSheet(), widget)
         }
     }
 }
 
-fun GoogleMap.applyPositionAndLabel(item: Item?, itemLabel: CharSequence, zoomLevel: Float, allowDrag: Boolean) {
-    if (item == null) {
+fun GoogleMap.applyPositionAndLabel(widget: Widget, zoomLevel: Float, allowDrag: Boolean) {
+    if (widget.item == null) {
         return
     }
-    val canDragMarker = allowDrag && !item.readOnly
-    if (item.members.isNotEmpty()) {
+    val canDragMarker = allowDrag && !widget.item.readOnly
+    if (widget.item.members.isNotEmpty()) {
         val positions = ArrayList<LatLng>()
-        for (member in item.members) {
+        for (member in widget.item.members) {
             val position = member.state?.asLocation?.toLatLng()
             if (position != null) {
                 setMarker(position, member, member.label, canDragMarker)
@@ -157,9 +119,9 @@ fun GoogleMap.applyPositionAndLabel(item: Item?, itemLabel: CharSequence, zoomLe
             }
         }
     } else {
-        val position = item.state?.asLocation?.toLatLng()
+        val position = widget.item.state?.asLocation?.toLatLng()
         if (position != null) {
-            setMarker(position, item, itemLabel, canDragMarker)
+            setMarker(position, widget.item, widget.label, canDragMarker)
             moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel))
         }
     }
@@ -179,4 +141,59 @@ fun Location.toLatLng(): LatLng {
 
 fun Location.toMapsUrl(): String {
     return "https://www.google.de/maps/@$latitude,$longitude,16z"
+}
+
+class MapBottomSheet : AbstractWidgetDetailBottomSheet(), GoogleMap.OnMarkerDragListener {
+    private lateinit var mapView: MapView
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mapView = MapView(inflater.context)
+        mapView.onCreate(null)
+
+        return mapView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+
+        mapView.getMapAsync { map ->
+            map.setOnMarkerDragListener(this@MapBottomSheet)
+            map.applyPositionAndLabel(widget, 16.0f, true)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        mapView.onDestroy()
+        super.onDismiss(dialog)
+    }
+
+    override fun onMarkerDragStart(marker: Marker) {
+        // no-op, we're interested in drag end only
+    }
+
+    override fun onMarkerDrag(marker: Marker) {
+        // no-op, we're interested in drag end only
+    }
+
+    override fun onMarkerDragEnd(marker: Marker) {
+        val newState = String.format(Locale.US, "%f,%f",
+            marker.position.latitude, marker.position.longitude)
+        connection?.httpClient?.sendItemCommand(marker.tag as Item?, newState)
+    }
 }
