@@ -58,6 +58,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.IOException
 import java.util.Locale
 import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -170,7 +171,7 @@ class WidgetAdapter(
             TYPE_SLIDER -> SliderViewHolder(inflater, parent, connection, colorMapper)
             TYPE_IMAGE -> ImageViewHolder(inflater, parent, connection)
             TYPE_SELECTION -> SelectionViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
-            TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, colorMapper)
+            TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent, connection, colorMapper)
             TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
             TYPE_CHART -> ChartViewHolder(inflater, parent, chartTheme, connection, serverFlags)
@@ -727,47 +728,59 @@ class WidgetAdapter(
         private val inflater: LayoutInflater,
         parent: ViewGroup,
         private val connection: Connection,
+        private val bottomSheetPresenter: DetailBottomSheetPresenter,
         colorMapper: ColorMapper
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem, connection, colorMapper),
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val spareViews = mutableListOf<View>()
-        private var boundItem: Item? = null
+        private var boundWidget: Widget? = null
+        private val maxButtons = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
 
         override fun bind(widget: Widget) {
             super.bind(widget)
-            boundItem = widget.item
+            boundWidget = widget
 
             val mappings = widget.mappingsOrItemOptions
+            val buttonCount = min(mappings.size, maxButtons)
+            val neededViews = if (mappings.size <= maxButtons) mappings.size else maxButtons + 1
 
             // inflate missing views
-            while (spareViews.isNotEmpty() && group.childCount < mappings.size) {
+            while (spareViews.isNotEmpty() && group.childCount < neededViews) {
                 group.addView(spareViews.removeAt(0))
             }
-            while (group.childCount < mappings.size) {
+            while (group.childCount < neededViews) {
                 val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, group, false)
                 view.setOnClickListener(this)
                 group.addView(view)
             }
 
             // bind views
-            mappings.forEachIndexed { index, mapping ->
+            mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
                     text = mapping.label
                     tag = mapping.value
                     isVisible = true
                 }
             }
+            if (mappings.size > maxButtons) {
+                // overflow button
+                with(group[maxButtons] as MaterialButton) {
+                    text = "⋯"
+                    tag = null
+                    isVisible = true
+                }
+            }
 
             // remove unneeded views
-            while (group.childCount > mappings.size) {
+            while (group.childCount > neededViews) {
                 val view = group[group.childCount - 1]
                 spareViews.add(view)
                 group.removeView(view)
             }
 
             // check selected view
-            val state = boundItem?.state?.asString
+            val state = widget.item?.state?.asString
             val checkedId = group.children
                 .filter { it.tag == state }
                 .map { it.id }
@@ -783,9 +796,15 @@ class WidgetAdapter(
         }
 
         override fun onClick(view: View) {
-            // Make sure one can't uncheck buttons by clicking a checked one
-            (view as MaterialButton).isChecked = true
-            connection.httpClient.sendItemCommand(boundItem, view.tag as String)
+            val tag = view.tag
+            if (tag != null) {
+                // Make sure one can't uncheck buttons by clicking a checked one
+                (view as MaterialButton).isChecked = true
+                connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
+            } else {
+                val widget = boundWidget ?: return
+                bottomSheetPresenter.showBottomSheet(SelectionBottomSheet(), widget)
+            }
         }
 
         override fun handleRowClick() {
@@ -796,7 +815,7 @@ class WidgetAdapter(
             if (visibleChildCount == 1) {
                 onClick(group[0])
             } else if (visibleChildCount == 2) {
-                val state = boundItem?.state?.asString
+                val state = boundWidget?.item?.state?.asString
                 if (state == group[0].tag.toString()) {
                     onClick(group[1])
                 } else if (state == group[1].tag.toString()) {
