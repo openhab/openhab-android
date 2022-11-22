@@ -16,18 +16,19 @@ package org.openhab.habdroid.ui.preference.widgets
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
+import com.google.android.material.slider.Slider
+import kotlin.math.max
 
 import org.openhab.habdroid.R
 
 class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) :
-    Preference(context, attrs), SeekBar.OnSeekBarChangeListener {
+    Preference(context, attrs), Slider.OnChangeListener {
     private val entries: Array<String>
     private val values: Array<Float>
-    private lateinit var seekBar: SeekBar
+    private lateinit var slider: Slider
     private lateinit var label: TextView
     private var value: Float = 0F
 
@@ -43,10 +44,13 @@ class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
 
-        seekBar = holder.itemView.findViewById(R.id.seekbar)
-        seekBar.setOnSeekBarChangeListener(this)
-        seekBar.max = values.size - 1
-        seekBar.progress = Math.max(0, values.indexOfFirst { v -> v == value })
+        slider = holder.itemView.findViewById(R.id.seekbar)
+        slider.addOnChangeListener(this)
+        slider.valueFrom = 0F
+        slider.valueTo = (values.size - 1).toFloat()
+        slider.stepSize = 1F
+        slider.value = max(0, values.indexOfFirst { v -> v == value }).toFloat()
+        slider
 
         label = holder.itemView.findViewById(R.id.label)
         updateLabel()
@@ -61,29 +65,21 @@ class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) 
         value = getPersistedFloat(defaultFloat)
     }
 
-    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromTouch: Boolean) {
-        if (!fromTouch) {
+    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+        if (!fromUser) {
             return
         }
-        val value = values[progress]
-        if (callChangeListener(value)) {
-            this.value = value
+        val selected = values[value.toInt()]
+        if (callChangeListener(selected)) {
+            this.value = selected
             updateLabel()
             if (isPersistent) {
-                persistFloat(value)
+                persistFloat(selected)
             }
         }
     }
 
-    override fun onStartTrackingTouch(seekBar: SeekBar) {
-        // no-op
-    }
-
-    override fun onStopTrackingTouch(seekBar: SeekBar) {
-        // no-op
-    }
-
     private fun updateLabel() {
-        label.text = entries[seekBar.progress]
+        label.text = entries[slider.value.toInt()]
     }
 }
