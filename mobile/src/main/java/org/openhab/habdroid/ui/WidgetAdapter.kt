@@ -103,7 +103,6 @@ class WidgetAdapter(
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence = context.getChartTheme(serverFlags)
     private var selectedPosition = RecyclerView.NO_POSITION
-    private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
@@ -132,14 +131,12 @@ class WidgetAdapter(
             widgets.forEach { w -> widgetsById[w.id] = w }
             notifyDataSetChanged()
         }
-        updateFirstVisibleWidgetPosition()
     }
 
     fun updateWidget(widget: Widget) {
         val pos = items.indexOfFirst { w -> w.id == widget.id }
         if (pos >= 0) {
             updateWidgetAtPosition(pos, widget)
-            updateFirstVisibleWidgetPosition()
         }
     }
 
@@ -192,9 +189,6 @@ class WidgetAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wasStarted = holder.stop()
         holder.bind(items[position])
-        if (holder is FrameViewHolder) {
-            holder.setShownAsFirst(position == firstVisibleWidgetPosition)
-        }
         with(holder.itemView) {
             isClickable = true
             isLongClickable = true
@@ -246,10 +240,6 @@ class WidgetAdapter(
         } else {
             notifyItemChanged(position)
         }
-    }
-
-    private fun updateFirstVisibleWidgetPosition() {
-        firstVisibleWidgetPosition = items.indexOfFirst { w -> shouldShowWidget(w) }
     }
 
     private tailrec fun shouldShowWidget(widget: Widget): Boolean {
@@ -444,8 +434,6 @@ class WidgetAdapter(
         parent: ViewGroup,
         private val colorMapper: ColorMapper
     ) : ViewHolder(inflater, parent, R.layout.widgetlist_frameitem) {
-        private val divider: View = itemView.findViewById(R.id.divider)
-        private val spacer: View = itemView.findViewById(R.id.spacer)
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
 
         init {
@@ -460,11 +448,6 @@ class WidgetAdapter(
             labelView.text = widget.label + label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
             labelView.isGone = widget.label.isEmpty()
-        }
-
-        fun setShownAsFirst(shownAsFirst: Boolean) {
-            divider.isVisible = !shownAsFirst
-            spacer.isVisible = shownAsFirst
         }
     }
 
