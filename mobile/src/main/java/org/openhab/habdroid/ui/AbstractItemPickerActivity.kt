@@ -13,42 +13,51 @@
 
 package org.openhab.habdroid.ui
 
-import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewStub
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.edit
+import androidx.core.os.bundleOf
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.parcelable
+import org.openhab.habdroid.util.parcelableArrayList
 
 abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
@@ -173,39 +182,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
 
         addAdditionalCommands(suggestedCommands, entries)
 
-        val labels = entries.map { entry -> entry.label }.toMutableList()
-        if (suggestedCommands.shouldShowCustom) {
-            labels.add(getString(R.string.item_picker_custom))
-        }
-
-        AlertDialog.Builder(this)
-            .setTitle(R.string.item_picker_dialog_title)
-            .setItems(labels.toTypedArray()) { _, which ->
-                if (which == labels.size - 1 && suggestedCommands.shouldShowCustom) {
-                    val input = EditText(this)
-                    input.inputType = suggestedCommands.inputTypeFlags
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        input.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-                    }
-                    val customDialog = AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.item_picker_custom))
-                        .setView(input)
-                        .setPositiveButton(android.R.string.ok) { _, _ -> finish(item, input.text.toString()) }
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show()
-                    input.setOnFocusChangeListener { _, hasFocus ->
-                        val mode = if (hasFocus)
-                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
-                        else
-                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                        customDialog.window?.setSoftInputMode(mode)
-                    }
-                } else {
-                    val entry = entries[which]
-                    finish(item, entry.command, entry.label, entry.tag)
-                }
-            }
-            .show()
+        val f = CommandChooserBottomSheet()
+        f.arguments = f.createArguments(item, entries, suggestedCommands.shouldShowCustom)
+        f.show(supportFragmentManager, "actionchooser")
     }
 
     protected open fun addAdditionalCommands(
@@ -321,11 +300,85 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         retryButton.isVisible = loadError || showHint
     }
 
-    data class CommandEntry(val command: String?, val label: String, val tag: Any? = null)
+    @Parcelize
+    data class CommandEntry(val command: String?, val label: String, val tag: String? = null) : Parcelable
 
     companion object {
         private const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"
 
         private val TAG = AbstractItemPickerActivity::class.java.simpleName
+    }
+
+    class CommandChooserBottomSheet : BottomSheetDialogFragment(), TextWatcher {
+        private val item get() = requireArguments().parcelable<Item>("item")!!
+        private val entries get() = requireArguments().parcelableArrayList<CommandEntry>("entries")!!
+        private val showCustom get() = requireArguments().getBoolean("show_custom")
+
+        private lateinit var customSaveButton: View
+        private lateinit var customTextEditor: EditText
+
+        fun createArguments(item: Item, entries: List<CommandEntry>, showCustom: Boolean) = bundleOf(
+            "item" to item,
+            "entries" to entries,
+            "show_custom" to showCustom
+        )
+
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+            val content = inflater.inflate(R.layout.item_picker_command_bottom_sheet, container, false)
+            val radioGroup = content.findViewById<RadioGroup>(R.id.selection_group)
+
+            if (!showCustom) {
+                content.findViewById<View>(R.id.custom_editor_container).isGone = true
+                // remove predefined 'custom' radio button
+                radioGroup.removeAllViews()
+            }
+
+            entries.forEachIndexed { index, entry ->
+                val button = inflater.inflate(R.layout.dialog_selection_radio_button, radioGroup, false) as RadioButton
+                button.text = entry.label
+                button.id = entry.hashCode()
+                radioGroup.addView(button, index)
+            }
+
+            customSaveButton = content.findViewById<View>(R.id.custom_save)
+            customSaveButton.setOnClickListener {
+                val activity = requireActivity() as AbstractItemPickerActivity
+                activity.finish(item, customTextEditor.text.toString())
+                dismissAllowingStateLoss()
+            }
+
+            customTextEditor = content.findViewById(R.id.custom_editor)
+            customTextEditor.addTextChangedListener(this)
+
+            radioGroup.setOnCheckedChangeListener { _, checkedId ->
+                if (checkedId == R.id.custom) {
+                    customTextEditor.requestFocus()
+                } else {
+                    val activity = requireActivity() as AbstractItemPickerActivity
+                    val entry = entries.first { e -> e.hashCode() == checkedId }
+                    activity.finish(item, entry.command, entry.label, entry.tag)
+                    dismissAllowingStateLoss()
+                }
+            }
+            customTextEditor.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    radioGroup.check(R.id.custom)
+                }
+            }
+
+            return content
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, before: Int, count: Int, after: Int) {
+            // no-op
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // no-op
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            customSaveButton.isEnabled = s?.isNotEmpty() == true
+        }
     }
 }

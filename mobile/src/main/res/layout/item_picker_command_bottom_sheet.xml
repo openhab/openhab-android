@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:text="@string/item_picker_dialog_title"
+        android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+    <RadioGroup
+        android:id="@+id/selection_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title">
+
+        <!-- specific buttons will be inserted here -->
+
+        <RadioButton
+            android:id="@+id/custom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/custom_editor_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/selection_group"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal">
+
+        <!-- placeholder which duplicates the id/custom one -->
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:visibility="invisible"
+            android:minWidth="0dp"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/custom_editor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:hint="@string/item_picker_custom"
+            android:importantForAutofill="no"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <Button
+            style="?attr/materialIconButtonStyle"
+            android:id="@+id/custom_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:enabled="false"
+            app:icon="@drawable/ic_check_24dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
