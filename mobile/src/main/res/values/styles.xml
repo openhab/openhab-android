@@ -4,9 +4,9 @@
         <item name="android:layout_width">44dip</item>
         <item name="android:layout_height">44dp</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:scaleType">centerInside</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="iconTint">?attr/colorOnBackground</item>
+        <item name="iconGravity">textStart</item>
     </style>
 
     <style name="openHAB.OutlineButton" parent="@style/Widget.Material3.Button.OutlinedButton">
