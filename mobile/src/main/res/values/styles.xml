@@ -6,6 +6,7 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="iconTint">?attr/colorOnBackground</item>
     </style>
 
     <style name="openHAB.OutlineButton" parent="@style/Widget.Material3.Button.OutlinedButton">
