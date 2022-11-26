@@ -751,6 +751,7 @@ class WidgetAdapter(
                     text = "⋯"
                     tag = null
                     isVisible = true
+                    isCheckable = false
                 }
             }
 
