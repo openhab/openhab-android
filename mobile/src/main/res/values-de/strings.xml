@@ -421,9 +421,6 @@
     <string name="about_rate_this_app">Bewerten Sie diese App</string>
     <string name="settings_debug_messages_title">Informationen zur Fehlerbehebung anzeigen</string>
     <string name="settings_troubleshooting_title">Fehlerbehebung</string>
-    <string name="set">Setzen</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="close">Schließen</string>
     <string name="undo">Rückgängig</string>
     <string name="try_again_button">Erneut versuchen</string>
     <string name="enable_wifi_button">WLAN aktivieren</string>

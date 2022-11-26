@@ -142,9 +142,6 @@
     <string name="about_community">openHAB kogukond</string>
     <string name="about_privacy_policy">Privaatsuseeskirjad</string>
     <string name="about_rate_this_app">Hinda seda rakendust</string>
-    <string name="set">Määra</string>
-    <string name="cancel">Tühista</string>
-    <string name="close">Sulge</string>
     <string name="try_again_button">Proovi uuesti</string>
     <string name="enable_wifi_button">Lülita Wi-Fi sisse</string>
     <string name="go_to_settings_button">Mine sätetesse</string>

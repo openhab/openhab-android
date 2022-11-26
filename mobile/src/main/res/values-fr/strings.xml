@@ -380,9 +380,6 @@
     <string name="about_privacy_policy">Politique de Confidentialité</string>
     <string name="about_rate_this_app">Notez cette application</string>
     <string name="settings_troubleshooting_title">Dépannage</string>
-    <string name="set">Définir</string>
-    <string name="cancel">Annuler</string>
-    <string name="close">Fermer</string>
     <string name="undo">Annuler</string>
     <string name="try_again_button">Réessayer</string>
     <string name="enable_wifi_button">Activer le Wi-Fi</string>

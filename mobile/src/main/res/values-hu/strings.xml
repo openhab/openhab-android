@@ -387,9 +387,6 @@
     <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
     <string name="about_rate_this_app">Alkalmazás értékelése</string>
     <string name="settings_troubleshooting_title">Hibaelhárítás</string>
-    <string name="set">Beállít</string>
-    <string name="cancel">Mégse</string>
-    <string name="close">Bezár</string>
     <string name="undo">Visszavonás</string>
     <string name="try_again_button">Próbáld újra</string>
     <string name="enable_wifi_button">Kapcsolja be a Wi-Fi-t</string>

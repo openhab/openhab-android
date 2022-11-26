@@ -393,9 +393,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="about_privacy_policy">Política de privadesa</string>
     <string name="about_rate_this_app">Valora l\'aplicació</string>
     <string name="settings_troubleshooting_title">Resolució de problemes</string>
-    <string name="set">Estableix</string>
-    <string name="cancel">Cancel·la</string>
-    <string name="close">Tanca</string>
     <string name="undo">Desfés</string>
     <string name="try_again_button">Torna-ho a intentar</string>
     <string name="enable_wifi_button">Activa la Wi-Fi</string>

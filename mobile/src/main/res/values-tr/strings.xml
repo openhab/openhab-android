@@ -207,9 +207,6 @@
     <string name="about_community">openHAB Topluluğu</string>
     <string name="about_translation">openHAB\'ı çevirmemizde yardım et</string>
     <string name="about_privacy_policy">Gizlilik politikası</string>
-    <string name="set">Ayarla</string>
-    <string name="cancel">İptal Et</string>
-    <string name="close">Kapat</string>
     <string name="try_again_button">Tekrar deneyin</string>
     <string name="enable_wifi_button">WiFi\'yi aç</string>
     <string name="go_to_settings_button">Ayarlara git</string>

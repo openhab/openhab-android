@@ -171,9 +171,6 @@
     <string name="about_community">komunitas openHAB</string>
     <string name="about_translation">Bantu kami menerjemahkan openHAB</string>
     <string name="about_privacy_policy">Kebijakan privasi</string>
-    <string name="set">Atur</string>
-    <string name="cancel">Batalkan</string>
-    <string name="close">Tutup</string>
     <string name="try_again_button">Coba lagi</string>
     <string name="enable_wifi_button">Aktifkan Wi-Fi</string>
     <string name="go_to_settings_button">Pergi ke pengaturan</string>

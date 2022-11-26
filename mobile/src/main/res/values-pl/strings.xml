@@ -386,9 +386,6 @@
     <string name="about_privacy_policy">Polityka prywatności</string>
     <string name="about_rate_this_app">Oceń tę aplikację</string>
     <string name="settings_troubleshooting_title">Rozwiązywanie problemów</string>
-    <string name="set">Wybierz</string>
-    <string name="cancel">Anuluj</string>
-    <string name="close">Zamknij</string>
     <string name="undo">Cofnij</string>
     <string name="try_again_button">Spróbuj ponownie</string>
     <string name="enable_wifi_button">Włącz Wi-Fi</string>

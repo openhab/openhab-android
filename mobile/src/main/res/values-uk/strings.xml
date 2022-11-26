@@ -396,9 +396,6 @@
     <string name="about_privacy_policy">Політика конфіденційності</string>
     <string name="about_rate_this_app">Оцінить цей додаток</string>
     <string name="settings_troubleshooting_title">Виправлення несправностей</string>
-    <string name="set">Встановити</string>
-    <string name="cancel">Відмінити</string>
-    <string name="close">Закрити</string>
     <string name="undo">Скасувати</string>
     <string name="try_again_button">Спробуйте ще раз</string>
     <string name="enable_wifi_button">Увымкнути Wi-Fi</string>

@@ -78,8 +78,6 @@
     <!-- About -->
     <string name="about_title">Impormasyon</string>
     <string name="about_license_title">Lisensya</string>
-    <string name="set">I-set</string>
-    <string name="cancel">Kanselahin</string>
     <string name="try_again_button">Subukan muli</string>
     <string name="go_to_settings_button">Pumunta sa mga setting</string>
     <!-- Log -->

@@ -473,9 +473,6 @@
 
     <string name="settings_debug_messages_title">Show information for troubleshooting</string>
     <string name="settings_troubleshooting_title">Troubleshooting</string>
-    <string name="set">Set</string>
-    <string name="cancel">Cancel</string>
-    <string name="close">Close</string>
     <string name="undo">Undo</string>
     <string name="try_again_button">Try again</string>
     <string name="enable_wifi_button">Turn on Wi-Fi</string>

@@ -330,9 +330,6 @@
     <string name="about_privacy_policy">Tietosuojakäytäntö</string>
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
     <string name="settings_troubleshooting_title">Vianmääritys</string>
-    <string name="set">Aseta</string>
-    <string name="cancel">Peruuta</string>
-    <string name="close">Sulje</string>
     <string name="try_again_button">Yritä uudelleen</string>
     <string name="enable_wifi_button">Käynnistä Wi-Fi</string>
     <string name="go_to_settings_button">Mene asetuksiin</string>

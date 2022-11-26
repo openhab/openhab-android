@@ -398,9 +398,6 @@
     <string name="about_privacy_policy">Ochrana osobních údajů</string>
     <string name="about_rate_this_app">Ohodnotit aplikaci</string>
     <string name="settings_troubleshooting_title">Řešení problémů</string>
-    <string name="set">Nastavit</string>
-    <string name="cancel">Zrušit</string>
-    <string name="close">Zavřít</string>
     <string name="undo">Vrátit zpět</string>
     <string name="try_again_button">Zkusit znovu</string>
     <string name="enable_wifi_button">Zapnout Wi-Fi</string>

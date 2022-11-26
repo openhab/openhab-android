@@ -399,9 +399,6 @@
     <string name="about_privacy_policy">מדיניות פרטיות</string>
     <string name="about_rate_this_app">דרג את היישום הזה</string>
     <string name="settings_troubleshooting_title">פתרון בעיות</string>
-    <string name="set">קבע</string>
-    <string name="cancel">ביטול</string>
-    <string name="close">סגור</string>
     <string name="undo">ביטול</string>
     <string name="try_again_button">נסה שוב</string>
     <string name="enable_wifi_button">הפעל אינטרנט אלחוטי</string>

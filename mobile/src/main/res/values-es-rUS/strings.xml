@@ -413,9 +413,6 @@
     <string name="about_rate_this_app">Valorar esta aplicación</string>
     <string name="settings_debug_messages_title">Mostrar información para la solución de problemas</string>
     <string name="settings_troubleshooting_title">Solución de problemas</string>
-    <string name="set">Establecer</string>
-    <string name="cancel">Cancelar</string>
-    <string name="close">Cerrar</string>
     <string name="undo">Deshacer</string>
     <string name="try_again_button">Vuelve a intentarlo</string>
     <string name="enable_wifi_button">Activar Wi-Fi</string>

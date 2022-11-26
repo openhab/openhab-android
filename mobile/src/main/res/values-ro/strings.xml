@@ -196,9 +196,6 @@
     <string name="about_community">Comunitatea openHAB</string>
     <string name="about_translation">Ajutați-ne să traducem openHAB</string>
     <string name="about_privacy_policy">Politica de confidențialitate</string>
-    <string name="set">Setează</string>
-    <string name="cancel">Anulează</string>
-    <string name="close">Închide</string>
     <string name="try_again_button">Încearcă din nou</string>
     <string name="enable_wifi_button">Activează Wi-Fi</string>
     <string name="go_to_settings_button">Mergi la setări</string>

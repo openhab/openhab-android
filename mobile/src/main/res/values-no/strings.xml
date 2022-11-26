@@ -419,9 +419,6 @@
     <string name="about_rate_this_app">Vurder dette programmet</string>
     <string name="settings_debug_messages_title">Vis feilsøkingsinformasjon</string>
     <string name="settings_troubleshooting_title">Feilsøking</string>
-    <string name="set">Sett</string>
-    <string name="cancel">Avbryt</string>
-    <string name="close">Lukk</string>
     <string name="undo">Angre</string>
     <string name="try_again_button">Prøv igjen</string>
     <string name="enable_wifi_button">Slå på Wi-Fi</string>

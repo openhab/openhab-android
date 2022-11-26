@@ -390,9 +390,6 @@
     <string name="about_privacy_policy">Política de privacidade</string>
     <string name="about_rate_this_app">Avalie este aplicativo</string>
     <string name="settings_troubleshooting_title">Solução de problemas</string>
-    <string name="set">Definir</string>
-    <string name="cancel">Cancelar</string>
-    <string name="close">Fechar</string>
     <string name="undo">Desfazer</string>
     <string name="try_again_button">Tente novamente</string>
     <string name="enable_wifi_button">Ative o Wi-Fi</string>
