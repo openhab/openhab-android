@@ -19,7 +19,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.appcompat.widget.AppCompatImageButton
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PeriodicSignalImageButton constructor(context: Context, attrs: AttributeSet?) :
-    AppCompatImageButton(context, attrs),
+    MaterialButton(context, attrs),
     View.OnLongClickListener {
     private var scope: CoroutineScope? = null
     private var periodicCallbackExecutor: Job? = null
