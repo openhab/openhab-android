@@ -108,6 +108,7 @@ class SelectionBottomSheet : AbstractWidgetDetailBottomSheet(), RadioGroup.OnChe
         if (mapping != null) {
             connection?.httpClient?.sendItemCommand(widget.item, mapping.value)
         }
+        dismissAllowingStateLoss()
     }
 }
 
