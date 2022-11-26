@@ -681,14 +681,13 @@ class WidgetAdapter(
         }
     }
 
-    open class SelectionViewHolder internal constructor(
+    class SelectionViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
         connection: Connection,
         private val bottomSheetPresenter: DetailBottomSheetPresenter,
-        colorMapper: ColorMapper,
-        layoutResId: Int = R.layout.widgetlist_selectionitem
-    ) : LabeledItemBaseViewHolder(inflater, parent, layoutResId, connection, colorMapper) {
+        colorMapper: ColorMapper
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_selectionitem, connection, colorMapper) {
         private var boundWidget: Widget? = null
 
         override fun bind(widget: Widget) {
