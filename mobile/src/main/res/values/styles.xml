@@ -12,4 +12,12 @@
     <style name="openHAB.OutlineButton" parent="@style/Widget.Material3.Button.OutlinedButton">
         <item name="strokeWidth">@dimen/outlineButtonStrokeWidth</item>
     </style>
+
+    <style name="BottomSheetHeaderTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+    </style>
 </resources>

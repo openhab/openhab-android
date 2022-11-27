@@ -7,12 +7,8 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="8dp"
-        android:textAppearance="?attr/textAppearanceTitleMedium" />
+        style="@style/BottomSheetHeaderTitle"
+        android:id="@+id/title" />
 
     <RadioGroup
         android:id="@+id/group"

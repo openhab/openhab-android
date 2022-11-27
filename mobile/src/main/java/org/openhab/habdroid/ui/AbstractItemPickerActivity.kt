@@ -324,7 +324,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         )
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            val content = inflater.inflate(R.layout.item_picker_command_bottom_sheet, container, false)
+            val content = inflater.inflate(R.layout.bottom_sheet_item_picker_command, container, false)
             val radioGroup = content.findViewById<RadioGroup>(R.id.selection_group)
 
             if (!showCustom) {
@@ -334,7 +334,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             }
 
             entries.forEachIndexed { index, entry ->
-                val button = inflater.inflate(R.layout.dialog_selection_radio_button, radioGroup, false) as RadioButton
+                val button = inflater.inflate(R.layout.bottom_sheet_selection_item_radio_button, radioGroup, false) as RadioButton
                 button.text = entry.label
                 button.id = entry.hashCode()
                 radioGroup.addView(button, index)

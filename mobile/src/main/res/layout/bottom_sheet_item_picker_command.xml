@@ -7,15 +7,11 @@
     android:padding="8dp">
 
     <TextView
+        style="@style/BottomSheetHeaderTitle"
         android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal"
-        android:padding="8dp"
-        android:text="@string/item_picker_dialog_title"
-        android:textAppearance="?attr/textAppearanceTitleMedium" />
+        android:text="@string/item_picker_dialog_title" />
 
     <RadioGroup
         android:id="@+id/selection_group"

@@ -57,7 +57,7 @@ open class AbstractWidgetDetailBottomSheet : BottomSheetDialogFragment() {
 
 class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_numberpicker, container, false)
+        val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
         val state = widget.state?.asNumber
 
         view.findViewById<Slider>(R.id.slider).apply {
@@ -85,11 +85,11 @@ class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeLi
 
 class SelectionBottomSheet : AbstractWidgetDetailBottomSheet(), RadioGroup.OnCheckedChangeListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_selection, container, false)
+        val view = inflater.inflate(R.layout.bottom_sheet_selection, container, false)
         val group = view.findViewById<RadioGroup>(R.id.group)
         val stateString = widget.item?.state?.asString
         for (mapping in widget.mappingsOrItemOptions) {
-            val radio = inflater.inflate(R.layout.dialog_selection_radio_button, group, false) as RadioButton
+            val radio = inflater.inflate(R.layout.bottom_sheet_selection_item_radio_button, group, false) as RadioButton
             radio.id = mapping.hashCode()
             radio.text = mapping.label
             radio.isChecked = stateString == mapping.value
@@ -124,7 +124,7 @@ class ColorChooserBottomSheet : AbstractWidgetDetailBottomSheet(), Handler.Callb
     private var lastUpdate: Job? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.color_picker_dialog, container, false)
+        val view = inflater.inflate(R.layout.bottom_sheet_color_picker, container, false)
 
         colorPicker = view.findViewById<ColorPickerView>(R.id.picker).apply {
             widget.item?.state?.asHsv?.toColor(false)?.let { setColor(it, true) }
