@@ -73,49 +73,55 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@android:id/list"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:visibility="gone" />
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@android:id/empty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                tools:visibility="visible">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@android:id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:visibility="gone" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/watermark"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@android:id/empty"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="16dp"
-                    app:srcCompat="@drawable/ic_connection_error"
-                    app:tint="?colorOnSurfaceVariant"
-                    app:tintMode="src_in" />
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
 
-                <TextView
-                    android:id="@+id/empty_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="16dp"
-                    android:textAlignment="center"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="?colorOnSurfaceVariant"
-                    tools:text="Some error occurred" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/watermark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="16dp"
+                        app:srcCompat="@drawable/ic_connection_error"
+                        app:tint="?colorOnSurfaceVariant"
+                        app:tintMode="src_in" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/retry_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    tools:text="@string/try_again_button" />
+                    <TextView
+                        android:id="@+id/empty_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="16dp"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="?colorOnSurfaceVariant"
+                        tools:text="Some error occurred" />
 
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/retry_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        tools:text="@string/try_again_button" />
+
+                </LinearLayout>
+
+            </FrameLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
