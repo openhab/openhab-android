@@ -26,6 +26,7 @@ import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optBooleanOrNull
+import org.openhab.habdroid.util.optFloatOrNull
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.shouldRequestHighResChart
@@ -285,9 +286,9 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
     val (minValue, maxValue, step) = Widget.sanitizeMinMaxStep(
-        optDouble("minValue", 0.0).toFloat(),
-        optDouble("maxValue", 100.0).toFloat(),
-        optDouble("step", 1.0).toFloat()
+        optFloatOrNull("minValue") ?: item?.minimum ?: 0f,
+        optFloatOrNull("maxValue") ?: item?.maximum ?: 100f,
+        optFloatOrNull("step") ?: item?.step ?: 1f
     )
 
     val widget = Widget(
@@ -306,7 +307,9 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         labelColor = optStringOrNull("labelcolor"),
         valueColor = optStringOrNull("valuecolor"),
         refresh = Widget.sanitizeRefreshRate(optInt("refresh")),
-        minValue = minValue, maxValue = maxValue, step = step,
+        minValue = minValue,
+        maxValue = maxValue,
+        step = step,
         period = Widget.sanitizePeriod(optString("period")),
         service = optString("service", ""),
         legend = optBooleanOrNull("legend"),
