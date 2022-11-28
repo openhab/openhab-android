@@ -166,13 +166,14 @@ class WidgetTest {
 
     @Test
     fun testGetMinValue() {
-        assertEquals(0.0f, sut1[0].minValue)
-        assertEquals(99.7f, sut2[0].minValue)
+        assertEquals(0f, sut1[0].minValue)
+        // this is invalid in JSON (max < min), expected to be adjusted
+        assertEquals(-10f, sut2[0].minValue)
     }
 
     @Test
     fun testGetMaxValue() {
-        assertEquals(10.0f, sut1[0].maxValue)
+        assertEquals(10f, sut1[0].maxValue)
         // this is invalid in JSON (max < min), expected to be adjusted
         assertEquals(99.7f, sut2[0].maxValue)
     }
