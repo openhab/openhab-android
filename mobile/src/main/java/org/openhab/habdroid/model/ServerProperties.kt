@@ -19,9 +19,6 @@ import java.io.IOException
 import java.io.StringReader
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import okhttp3.Request
 import org.json.JSONArray
@@ -63,126 +60,96 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_OH3_UI = 1 shl 7
         const val SERVER_FLAG_TRANSPARENT_CHARTS = 1 shl 8
 
-        class UpdateHandle internal constructor(internal val scope: CoroutineScope) {
-            internal var job: Job? = null
-            internal var flags: Int = 0
-            internal var sitemaps: List<Sitemap> = emptyList()
-            fun cancel() {
-                job?.cancel()
-                job = null
+        private sealed interface FlagsResult
+        private class FlagsSuccess(val flags: Int) : FlagsResult
+        private class FlagsFailure(val request: Request, val httpStatusCode: Int, val error: Throwable) : FlagsResult
+
+        sealed interface PropsResult
+        class PropsSuccess(val props: ServerProperties) : PropsResult
+        class PropsFailure(val request: Request, val httpStatusCode: Int, val error: Throwable) : PropsResult
+
+        suspend fun updateSitemaps(props: ServerProperties, connection: Connection): PropsResult {
+            return fetchSitemaps(connection.httpClient, props.flags)
+        }
+
+        suspend fun fetch(connection: Connection): PropsResult {
+            return when (val flagsResult = fetchFlags(connection.httpClient)) {
+                is FlagsSuccess -> fetchSitemaps(connection.httpClient, flagsResult.flags)
+                is FlagsFailure -> PropsFailure(flagsResult.request, flagsResult.httpStatusCode, flagsResult.error)
             }
         }
 
-        fun updateSitemaps(
-            scope: CoroutineScope,
-            props: ServerProperties,
-            connection: Connection,
-            successCb: (ServerProperties) -> Unit,
-            failureCb: (Request, Int, Throwable) -> Unit
-        ): UpdateHandle {
-            val handle = UpdateHandle(scope)
-            handle.flags = props.flags
-            fetchSitemaps(connection.httpClient, handle, successCb, failureCb)
-            return handle
-        }
-
-        fun fetch(
-            scope: CoroutineScope,
-            connection: Connection,
-            successCb: (ServerProperties) -> Unit,
-            failureCb: (Request, Int, Throwable) -> Unit
-        ): UpdateHandle {
-            val handle = UpdateHandle(scope)
-            fetchFlags(connection.httpClient, handle, successCb, failureCb)
-            return handle
-        }
-
-        private fun fetchFlags(
-            client: HttpClient,
-            handle: UpdateHandle,
-            successCb: (ServerProperties) -> Unit,
-            failureCb: (Request, Int, Throwable) -> Unit
-        ) {
-            handle.job = handle.scope.launch {
+        private suspend fun fetchFlags(client: HttpClient): FlagsResult = try {
+            val result = client.get("rest/").asText()
+            try {
+                val resultJson = JSONObject(result.response)
+                // If this succeeded, we're talking to OH2
+                var flags = (
+                    SERVER_FLAG_JSON_REST_API
+                        or SERVER_FLAG_ICON_FORMAT_SUPPORT
+                        or SERVER_FLAG_CHART_SCALING_SUPPORT
+                    )
                 try {
-                    val result = client.get("rest/").asText()
-                    try {
-                        val resultJson = JSONObject(result.response)
-                        // If this succeeded, we're talking to OH2
-                        var flags = (SERVER_FLAG_JSON_REST_API
-                            or SERVER_FLAG_ICON_FORMAT_SUPPORT
-                            or SERVER_FLAG_CHART_SCALING_SUPPORT)
-                        try {
-                            val version = resultJson.getString("version").toInt()
-                            Log.i(TAG, "Server has rest api version $version")
-                            // all versions that return a number here have full SSE support
-                            flags = flags or SERVER_FLAG_SSE_SUPPORT
-                            if (version >= 2) {
-                                flags = flags or SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS
-                            }
-                            if (version >= 3) {
-                                flags = flags or SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON
-                            }
-                            if (version >= 4) {
-                                flags = flags or SERVER_FLAG_OH3_UI
-                            }
-                            if (version >= 5) {
-                                flags = flags or SERVER_FLAG_TRANSPARENT_CHARTS
-                            }
-                        } catch (nfe: NumberFormatException) {
-                            // ignored: older versions without SSE support didn't return a number
-                            Log.i(TAG, "Server has rest api version < 1")
-                        }
+                    val version = resultJson.getString("version").toInt()
+                    Log.i(TAG, "Server has rest api version $version")
+                    // all versions that return a number here have full SSE support
+                    flags = flags or SERVER_FLAG_SSE_SUPPORT
+                    if (version >= 2) {
+                        flags = flags or SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS
+                    }
+                    if (version >= 3) {
+                        flags = flags or SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON
+                    }
+                    if (version >= 4) {
+                        flags = flags or SERVER_FLAG_OH3_UI
+                    }
+                    if (version >= 5) {
+                        flags = flags or SERVER_FLAG_TRANSPARENT_CHARTS
+                    }
+                } catch (nfe: NumberFormatException) {
+                    // ignored: older versions without SSE support didn't return a number
+                    Log.i(TAG, "Server has rest api version < 1")
+                }
 
-                        val linksJsonArray = resultJson.optJSONArray("links")
-                        if (linksJsonArray == null) {
-                            Log.e(TAG, "No 'links' array available")
-                        } else {
-                            for (i in 0 until linksJsonArray.length()) {
-                                val extensionJson = linksJsonArray.getJSONObject(i)
-                                if (extensionJson.getString("type") == "habpanel") {
-                                    flags = flags or SERVER_FLAG_HABPANEL_INSTALLED
-                                    break
-                                }
-                            }
-                        }
-
-                        handle.flags = flags
-                        fetchSitemaps(client, handle, successCb, failureCb)
-                    } catch (e: JSONException) {
-                        if (result.response.startsWith("<?xml")) {
-                            // We're talking to an OH1 instance
-                            handle.flags = 0
-                            fetchSitemaps(client, handle, successCb, failureCb)
-                        } else {
-                            failureCb(result.request, 200, e)
+                val linksJsonArray = resultJson.optJSONArray("links")
+                if (linksJsonArray == null) {
+                    Log.e(TAG, "No 'links' array available")
+                } else {
+                    for (i in 0 until linksJsonArray.length()) {
+                        val extensionJson = linksJsonArray.getJSONObject(i)
+                        if (extensionJson.getString("type") == "habpanel") {
+                            flags = flags or SERVER_FLAG_HABPANEL_INSTALLED
+                            break
                         }
                     }
-                } catch (e: HttpClient.HttpException) {
-                    failureCb(e.request, e.statusCode, e)
+                }
+
+                FlagsSuccess(flags)
+            } catch (e: JSONException) {
+                if (result.response.startsWith("<?xml")) {
+                    // We're talking to an OH1 instance
+                    FlagsSuccess(0)
+                } else {
+                    FlagsFailure(result.request, 200, e)
                 }
             }
+        } catch (e: HttpClient.HttpException) {
+            FlagsFailure(e.request, e.statusCode, e)
         }
 
-        private fun fetchSitemaps(
-            client: HttpClient,
-            handle: UpdateHandle,
-            successCb: (ServerProperties) -> Unit,
-            failureCb: (Request, Int, Throwable) -> Unit
-        ) {
-            handle.job = handle.scope.launch {
-                try {
-                    val result = client.get("rest/sitemaps").asText()
-                    // OH1 returns XML, later versions return JSON
-                    handle.sitemaps = if (handle.flags and SERVER_FLAG_JSON_REST_API != 0)
-                        loadSitemapsFromJson(result.response) else loadSitemapsFromXml(result.response)
-
-                    Log.d(TAG, "Server returned sitemaps: ${handle.sitemaps}")
-                    successCb(ServerProperties(handle.flags, handle.sitemaps))
-                } catch (e: HttpClient.HttpException) {
-                    failureCb(e.request, e.statusCode, e)
-                }
+        private suspend fun fetchSitemaps(client: HttpClient, flags: Int): PropsResult = try {
+            val result = client.get("rest/sitemaps").asText()
+            // OH1 returns XML, later versions return JSON
+            val sitemaps = if (flags and SERVER_FLAG_JSON_REST_API != 0) {
+                loadSitemapsFromJson(result.response)
+            } else {
+                loadSitemapsFromXml(result.response)
             }
+
+            Log.d(TAG, "Server returned sitemaps: $sitemaps")
+            PropsSuccess(ServerProperties(flags, sitemaps))
+        } catch (e: HttpClient.HttpException) {
+            PropsFailure(e.request, e.statusCode, e)
         }
 
         private fun loadSitemapsFromXml(response: String): List<Sitemap> {
