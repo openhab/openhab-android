@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui.activity
 
+import android.view.View
 import android.view.ViewStub
 import androidx.annotation.Keep
 import androidx.fragment.app.commit
@@ -38,8 +39,8 @@ class ContentControllerOnePane(activity: MainActivity) : ContentController(activ
         }
     }
 
-    override fun inflateViews(stub: ViewStub) {
+    override fun inflateContentView(stub: ViewStub): View {
         stub.layoutResource = R.layout.content_onepane
-        stub.inflate()
+        return stub.inflate()
     }
 }

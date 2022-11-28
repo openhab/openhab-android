@@ -25,6 +25,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
+import android.view.WindowInsets
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -35,6 +36,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -85,6 +88,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected var sitemapFragment: WidgetListFragment? = null
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
+    private lateinit var contentView: View
+    private var insets: WindowInsetsCompat? = null
 
     override val isDetailedLoggingEnabled get() = activity.getPrefs().isDebugModeEnabled()
     override val serverProperties get() = activity.serverProperties
@@ -395,7 +400,16 @@ abstract class ContentController protected constructor(private val activity: Mai
      *
      * @param stub View stub to inflate controller views into
      */
-    abstract fun inflateViews(stub: ViewStub)
+    fun inflateViews(stub: ViewStub) {
+        contentView = inflateContentView(stub)
+        ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, i ->
+            insets = i
+            updateContentViewForInsets()
+            i
+        }
+    }
+
+    protected abstract fun inflateContentView(stub: ViewStub): View
 
     /**
      * Ask the connection controller to deliver content updates for a given page
@@ -439,6 +453,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             }
             temporaryPage = null
             activity.updateTitle()
+            updateActionBarState()
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
             updateConnectionState()
             return true
@@ -446,6 +461,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (!pageStack.empty()) {
             pageStack.pop()
             activity.updateTitle()
+            // no need for updating action bar state, as widget list fragments can't hide the action bar
             updateFragmentState(FragmentUpdateReason.BACK_NAVIGATION)
             updateConnectionState()
             return true
@@ -457,6 +473,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (temporaryPage != null) {
             temporaryPage = null
             activity.updateTitle()
+            updateActionBarState()
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
             updateConnectionState()
         }
@@ -508,6 +525,34 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     internal abstract fun executeStateUpdate(reason: FragmentUpdateReason)
 
+    override fun updateActionBarState() {
+        val page = temporaryPage
+        val shouldShowActionBar = if (page is AbstractWebViewFragment) {
+            page.wantsActionBar
+        } else {
+            true
+        }
+        val actionBar = activity.supportActionBar
+        if (shouldShowActionBar) {
+            actionBar?.show()
+        } else {
+            actionBar?.hide()
+        }
+        updateContentViewForInsets()
+    }
+
+    private fun updateContentViewForInsets() {
+        val i = insets?.getInsets(WindowInsets.Type.systemBars())
+        val actionBarVisible = activity.supportActionBar?.isShowing() == true
+
+        contentView.setPadding(
+            i?.left ?: 0,
+            if (i != null && !actionBarVisible) i.top else 0,
+            i?.right ?: 0,
+            i?.bottom ?: 0
+        )
+    }
+
     private fun updateFragmentState(reason: FragmentUpdateReason) {
         if (fm.isDestroyed) {
             return
@@ -528,6 +573,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE)
         updateConnectionState()
         activity.updateTitle()
+        updateActionBarState()
     }
 
     private fun updateConnectionState() {

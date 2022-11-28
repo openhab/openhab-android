@@ -100,10 +100,11 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         super.openPage(page, source)
     }
 
-    override fun inflateViews(stub: ViewStub) {
+    override fun inflateContentView(stub: ViewStub): View {
         stub.layoutResource = R.layout.content_twopane
         val view = stub.inflate()
         rightContentView = view.findViewById(R.id.content_right)
         rightContentView.isVisible = false
+        return view
     }
 }

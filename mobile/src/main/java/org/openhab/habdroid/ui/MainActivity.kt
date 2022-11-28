@@ -63,6 +63,7 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.internal.EdgeToEdgeUtils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import java.nio.charset.Charset
@@ -135,6 +136,7 @@ import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putActiveServerId
+import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
@@ -217,6 +219,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         setupToolbar()
         setupDrawer()
+
+        EdgeToEdgeUtils.applyEdgeToEdge(window, true)
 
         viewPool = RecyclerView.RecycledViewPool()
 
@@ -843,6 +847,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             }
         })
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
+        // Ensure drawer layout uses the same background as the app bar layout,
+        // even if the toolbar is currently hidden
+        drawerLayout.setStatusBarBackgroundColor(resolveThemedColor(R.attr.colorSurface))
+
 
         val drawerView = findViewById<NavigationView>(R.id.left_drawer)
         drawerView.inflateMenu(R.menu.left_drawer)
@@ -926,7 +934,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             handled
         }
 
-        drawerModeSelectorContainer = drawerView.inflateHeaderView(R.layout.drawer_header)
+        val headerView = drawerView.getHeaderView(0)
+        drawerModeSelectorContainer = headerView.findViewById(R.id.server_selector)
         drawerModeSelectorContainer.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
         drawerModeToggle = drawerModeSelectorContainer.findViewById(R.id.drawer_mode_switcher)
         drawerServerNameView = drawerModeSelectorContainer.findViewById(R.id.server_name)
@@ -942,10 +951,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
         configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
 
-        if (configs.size > 1 && connection !is DemoConnection) {
-            drawerModeSelectorContainer.isVisible = true
-        } else {
-            drawerModeSelectorContainer.isGone = true
+        drawerModeToggle.isGone = configs.size <= 1
+        drawerModeSelectorContainer.isClickable = drawerModeToggle.isVisible
+        if (!drawerModeSelectorContainer.isClickable) {
             inServerSelectionMode = false
         }
 
@@ -989,8 +997,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun updateServerNameInDrawer() {
-        val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
-        drawerServerNameView.text = activeConfig?.name
+        if (connection is DemoConnection) {
+            drawerServerNameView.text = getString(R.string.settings_openhab_demomode)
+        } else {
+            val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
+            drawerServerNameView.text = activeConfig?.name
+        }
     }
 
     private fun updateDrawerItemVisibility() {

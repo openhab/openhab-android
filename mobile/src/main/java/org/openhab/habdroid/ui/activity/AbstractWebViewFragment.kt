@@ -32,7 +32,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -67,10 +66,12 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var webView: WebView? = null
     private var callback: ParentCallback? = null
-    private var actionBar: ActionBar? = null
+    private val mainActivity get() = context as MainActivity?
     var isStackRoot = false
         private set
     var title: String? = null
+        private set
+    var wantsActionBar = true
         private set
 
     abstract val titleRes: Int
@@ -125,8 +126,6 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        actionBar = (activity as? MainActivity)?.supportActionBar
-
         webView = view.findViewById(R.id.webview)
 
         isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
@@ -169,7 +168,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         webView?.onResume()
         webView?.resumeTimers()
         if (lockDrawer) {
-            (activity as MainActivity?)?.setDrawerLocked(true)
+            mainActivity?.setDrawerLocked(true)
         }
     }
 
@@ -178,7 +177,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         webView?.onPause()
         webView?.pauseTimers()
         if (lockDrawer) {
-            (activity as MainActivity?)?.setDrawerLocked(false)
+            mainActivity?.setDrawerLocked(false)
         }
     }
 
@@ -221,7 +220,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val success = ShortcutManagerCompat.requestPinShortcut(context, info, null)
         val textResId = if (success) R.string.home_shortcut_success_pinning else R.string.home_shortcut_error_pinning
         val duration = if (success) Snackbar.LENGTH_SHORT else Snackbar.LENGTH_LONG
-        (activity as? MainActivity)?.showSnackbar(MainActivity.SNACKBAR_TAG_SHORTCUT_INFO, textResId, duration)
+        mainActivity?.showSnackbar(MainActivity.SNACKBAR_TAG_SHORTCUT_INFO, textResId, duration)
     }
 
     override fun onActiveConnectionChanged() {
@@ -253,7 +252,6 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
             } while (webView?.url == oldUrl && webView?.canGoBack() == true)
             return true
         }
-        actionBar?.show()
         return false
     }
 
@@ -328,11 +326,11 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     private fun hideActionBar() {
-        actionBar?.hide()
+        wantsActionBar = false
+        callback?.updateActionBarState()
     }
 
     private fun closeFragment() {
-        actionBar?.show()
         callback?.closeFragment()
     }
 
@@ -394,6 +392,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     interface ParentCallback {
         fun closeFragment()
+        fun updateActionBarState()
     }
 
     class ShortcutTitleBottomSheet : BottomSheetDialogFragment() {

@@ -7,6 +7,7 @@
         <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
         <item name="floatingActionButtonStyle">@style/Widget.Material3.FloatingActionButton.Primary</item>
         <item name="selectedWidgetBackgroundColor">#5cff5722</item>
+        <item name="elevationOverlayEnabled">false</item>
     </style>
 
     <style name="openHAB.DayNight" parent="openHAB.Base">
