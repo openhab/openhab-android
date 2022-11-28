@@ -18,6 +18,7 @@ import android.net.Uri
 import android.os.Parcelable
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
@@ -49,9 +50,9 @@ data class Widget(
     val labelColor: String?,
     val valueColor: String?,
     val refresh: Int,
-    val minValue: Float,
-    val maxValue: Float,
-    val step: Float,
+    private val rawMinValue: Float?,
+    private val rawMaxValue: Float?,
+    private val rawStep: Float?,
     val period: String,
     val service: String,
     val legend: Boolean?,
@@ -63,8 +64,11 @@ data class Widget(
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
 
-    val mappingsOrItemOptions get() =
-        if (mappings.isEmpty() && item?.options != null) item.options else mappings
+    val mappingsOrItemOptions get() = if (mappings.isEmpty() && item?.options != null) item.options else mappings
+
+    val minValue get() = min(rawMinValue ?: item?.minimum ?: 0f, rawMaxValue ?: item?.maximum ?: 100f)
+    val maxValue get() = max(rawMinValue ?: item?.minimum ?: 0f, rawMaxValue ?: item?.maximum ?: 100f)
+    val step get() = abs(rawStep ?: item?.step ?: 1f)
 
     @Suppress("unused")
     enum class Type {
@@ -144,9 +148,9 @@ data class Widget(
                 labelColor = eventPayload.optStringOrNull("labelcolor"),
                 valueColor = eventPayload.optStringOrNull("valuecolor"),
                 refresh = source.refresh,
-                minValue = source.minValue,
-                maxValue = source.maxValue,
-                step = source.step,
+                rawMinValue = source.rawMinValue,
+                rawMaxValue = source.rawMaxValue,
+                rawStep = source.rawStep,
                 period = source.period,
                 service = source.service,
                 legend = source.legend,
@@ -159,8 +163,6 @@ data class Widget(
 
         internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
         internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
-        internal fun sanitizeMinMaxStep(min: Float, max: Float, step: Float) =
-            Triple(min, max(min, max), abs(step))
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
             return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
@@ -240,7 +242,6 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     }
 
     val finalId = id ?: return emptyList()
-    val (actualMin, actualMax, actualStep) = Widget.sanitizeMinMaxStep(minValue, maxValue, step)
 
     val widget = Widget(
         id = finalId,
@@ -258,9 +259,9 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         labelColor = labelColor,
         valueColor = valueColor,
         refresh = Widget.sanitizeRefreshRate(refresh),
-        minValue = actualMin,
-        maxValue = actualMax,
-        step = actualStep,
+        rawMinValue = minValue,
+        rawMaxValue = maxValue,
+        rawStep = step,
         period = Widget.sanitizePeriod(period),
         service = service,
         legend = null,
@@ -285,11 +286,6 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
-    val (minValue, maxValue, step) = Widget.sanitizeMinMaxStep(
-        optFloatOrNull("minValue") ?: item?.minimum ?: 0f,
-        optFloatOrNull("maxValue") ?: item?.maximum ?: 100f,
-        optFloatOrNull("step") ?: item?.step ?: 1f
-    )
 
     val widget = Widget(
         id = getString("widgetId"),
@@ -307,9 +303,9 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         labelColor = optStringOrNull("labelcolor"),
         valueColor = optStringOrNull("valuecolor"),
         refresh = Widget.sanitizeRefreshRate(optInt("refresh")),
-        minValue = minValue,
-        maxValue = maxValue,
-        step = step,
+        rawMinValue = optFloatOrNull("minValue"),
+        rawMaxValue = optFloatOrNull("maxValue"),
+        rawStep = optFloatOrNull("step"),
         period = Widget.sanitizePeriod(optString("period")),
         service = optString("service", ""),
         legend = optBooleanOrNull("legend"),
