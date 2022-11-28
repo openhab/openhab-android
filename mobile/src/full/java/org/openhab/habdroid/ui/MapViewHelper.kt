@@ -28,29 +28,22 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 
 object MapViewHelper {
     fun createViewHolder(
         inflater: LayoutInflater,
-        parent: ViewGroup,
-        connection: Connection,
-        bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
-        colorMapper: WidgetAdapter.ColorMapper
+        parent: ViewGroup
     ): WidgetAdapter.ViewHolder {
         MapsInitializer.initialize(inflater.context)
-        return GoogleMapsViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
+        return GoogleMapsViewHolder(inflater, parent)
     }
 
     private class GoogleMapsViewHolder(
         inflater: LayoutInflater,
-        parent: ViewGroup,
-        connection: Connection,
-        private val bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
-        colorMapper: WidgetAdapter.ColorMapper
-    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper) {
+        parent: ViewGroup
+    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent) {
         private val mapView = baseMapView as MapView
         private var map: GoogleMap? = null
 

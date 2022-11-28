@@ -23,20 +23,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
 import androidx.preference.PreferenceManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.isDarkModeActive
-import org.openhab.habdroid.util.parcelable
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -54,24 +49,18 @@ object MapViewHelper {
 
     fun createViewHolder(
         inflater: LayoutInflater,
-        parent: ViewGroup,
-        connection: Connection,
-        bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
-        colorMapper: WidgetAdapter.ColorMapper
+        parent: ViewGroup
     ): WidgetAdapter.ViewHolder {
         val context = inflater.context
         Configuration.getInstance().load(context,
                 PreferenceManager.getDefaultSharedPreferences(context))
-        return OsmViewHolder(inflater, parent, connection, bottomSheetPresenter, colorMapper)
+        return OsmViewHolder(inflater, parent)
     }
 
     private class OsmViewHolder(
         inflater: LayoutInflater,
-        parent: ViewGroup,
-        connection: Connection,
-        private val bottomSheetPresenter: WidgetAdapter.DetailBottomSheetPresenter,
-        colorMapper: WidgetAdapter.ColorMapper
-    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent, connection, colorMapper) {
+        parent: ViewGroup
+    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent) {
         private val mapView = baseMapView as MapView
         private val handler: Handler = Handler(Looper.getMainLooper())
 
