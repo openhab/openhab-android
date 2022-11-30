@@ -25,7 +25,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.view.WindowInsets
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -542,7 +541,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     private fun updateContentViewForInsets() {
-        val i = insets?.getInsets(WindowInsets.Type.systemBars())
+        val i = insets?.getInsets(WindowInsetsCompat.Type.systemBars())
         val actionBarVisible = activity.supportActionBar?.isShowing() == true
 
         contentView.setPadding(
