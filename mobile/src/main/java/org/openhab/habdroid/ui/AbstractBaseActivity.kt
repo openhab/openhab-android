@@ -169,7 +169,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             throw IllegalArgumentException("Tag is empty")
         }
 
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, duration)
+        val snackbar = Snackbar.make(findViewById(R.id.coordinator), message, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }

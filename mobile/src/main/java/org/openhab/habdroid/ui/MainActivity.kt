@@ -825,7 +825,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun setupDrawer() {
-        drawerLayout = findViewById(R.id.activity_content)
+        drawerLayout = findViewById(R.id.drawer_container)
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout,
             R.string.drawer_open, R.string.drawer_close)
         drawerLayout.addDrawerListener(drawerToggle)
@@ -850,7 +850,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         // Ensure drawer layout uses the same background as the app bar layout,
         // even if the toolbar is currently hidden
         drawerLayout.setStatusBarBackgroundColor(resolveThemedColor(R.attr.colorSurface))
-
 
         val drawerView = findViewById<NavigationView>(R.id.left_drawer)
         drawerView.inflateMenu(R.menu.left_drawer)

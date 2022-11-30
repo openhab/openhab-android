@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true">
+    android:elevation="2dp">
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/openhab_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="8dp"
         style="@style/Widget.Material3.Toolbar">
 
         <androidx.core.widget.ContentLoadingProgressBar
