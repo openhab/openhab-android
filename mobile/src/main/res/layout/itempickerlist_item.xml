@@ -15,9 +15,8 @@
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/itemIcon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="8dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_vertical"
         app:imageScalingType="noScaling"
         app:progressIndicator="@drawable/ic_openhab_appicon_24dp"
@@ -28,6 +27,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginStart="16dp"
         android:layout_gravity="center_vertical">
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/itemName"
             android:layout_alignParentStart="true"
-            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
             tools:text="Alarm clock" />
 
         <TextView
@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/itemName"
             android:layout_toEndOf="@id/itemLabel"
+            android:layout_alignBaseline="@id/itemLabel"
             android:layout_alignParentEnd="true"
             android:gravity="end"
             android:textAppearance="?attr/textAppearanceLabelMedium"

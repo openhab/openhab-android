@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:padding="@dimen/widgetlist_item_padding">
+    style="@style/WidgetListItemContainer">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/video_player_loading"

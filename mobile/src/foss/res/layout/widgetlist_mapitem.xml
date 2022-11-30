@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:activatedBackgroundIndicator"
-    android:padding="@dimen/widgetlist_item_padding"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    style="@style/WidgetListItemContainer">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
         <org.openhab.habdroid.ui.widget.WidgetImageView
             android:id="@+id/widgeticon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:padding="4dp" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:src="@drawable/ic_openhab_appicon_24dp" />
 
         <TextView
             android:id="@+id/widgetlabel"
@@ -27,7 +27,8 @@
             android:layout_marginStart="4dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBodyMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            tools:text="Widget title" />
 
     </LinearLayout>
 

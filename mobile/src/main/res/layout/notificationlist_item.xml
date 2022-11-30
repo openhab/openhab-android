@@ -15,10 +15,9 @@
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/notificationImage"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_vertical"
-        android:padding="8dp"
         app:imageScalingType="noScaling"
         app:progressIndicator="@drawable/ic_openhab_appicon_24dp"
         app:fallback="@drawable/ic_openhab_appicon_24dp"
@@ -28,11 +27,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginStart="16dp"
         android:layout_gravity="center_vertical">
 
         <TextView
             android:id="@+id/notificationMessage"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceBodyLarge"
             tools:text="Some notification" />
@@ -52,9 +52,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/notificationMessage"
             android:layout_toEndOf="@id/notificationCreated"
+            android:layout_alignBaseline="@id/notificationCreated"
             android:layout_alignParentEnd="true"
             android:gravity="end"
-            android:textAppearance="?attr/textAppearanceLabelMedium"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
             android:textStyle="bold"
             tools:text="Important" />
 

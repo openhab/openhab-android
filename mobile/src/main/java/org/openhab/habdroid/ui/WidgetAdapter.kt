@@ -463,6 +463,7 @@ class WidgetAdapter(
         parent: ViewGroup,
     ) : ViewHolder(inflater, parent, R.layout.widgetlist_frameitem) {
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
+        private val containerView: View = itemView.findViewById(R.id.container)
 
         init {
             itemView.isClickable = false
@@ -479,7 +480,7 @@ class WidgetAdapter(
         }
 
         fun setShownAsFirst(shownAsFirst: Boolean) {
-            itemView.isGone = labelView.isGone && shownAsFirst
+            containerView.isGone = labelView.isGone && shownAsFirst
         }
     }
 
@@ -491,7 +492,7 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
-            rightArrow.isVisible = widget.linkedPage != null
+            rightArrow.isGone = widget.linkedPage == null
         }
     }
 
@@ -537,7 +538,7 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
-            rightArrow.isVisible = widget.linkedPage != null
+            rightArrow.isGone = widget.linkedPage == null
         }
     }
 

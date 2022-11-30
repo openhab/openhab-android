@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:padding="8dp"
+    android:padding="@dimen/bottom_sheet_padding"
     android:orientation="vertical">
 
     <TextView
