@@ -22,7 +22,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.preference.PreferenceManager
 import java.util.Locale
 import kotlin.math.max
@@ -206,8 +208,13 @@ class MapBottomSheet : AbstractWidgetDetailBottomSheet(), Marker.OnMarkerDragLis
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mapView = MapView(inflater.context)
+        val view = inflater.inflate(R.layout.bottom_sheet_map, container, false)
+        val title = view.findViewById<TextView>(R.id.title)
 
+        title.text = widget.label
+        title.isGone = widget.label.isEmpty()
+
+        mapView = view.findViewById(R.id.mapview)
         with(mapView) {
             zoomController.setVisibility(Visibility.SHOW_AND_FADEOUT)
             setMultiTouchControls(true)
@@ -220,7 +227,7 @@ class MapBottomSheet : AbstractWidgetDetailBottomSheet(), Marker.OnMarkerDragLis
                 allowDrag = true, allowScroll = true, markerDragListener = this@MapBottomSheet)
         }
 
-        return mapView
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

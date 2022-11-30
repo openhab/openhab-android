@@ -19,6 +19,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.isGone
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
+import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 
@@ -140,10 +143,16 @@ class MapBottomSheet : AbstractWidgetDetailBottomSheet(), GoogleMap.OnMarkerDrag
     private lateinit var mapView: MapView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mapView = MapView(inflater.context)
+        val view = inflater.inflate(R.layout.bottom_sheet_map, container, false)
+        val title = view.findViewById<TextView>(R.id.title)
+
+        title.text = widget.label
+        title.isGone = widget.label.isEmpty()
+
+        mapView = view.findViewById(R.id.mapview)
         mapView.onCreate(null)
 
-        return mapView
+        return view
     }
 
     override fun onStart() {
