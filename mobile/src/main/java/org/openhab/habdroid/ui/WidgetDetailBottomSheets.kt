@@ -63,7 +63,7 @@ class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeLi
         view.findViewById<Slider>(R.id.slider).apply {
             valueFrom = widget.minValue
             valueTo = widget.maxValue
-            value = state?.value ?: widget.minValue
+            value = (state?.value ?: widget.minValue).coerceIn(widget.minValue, widget.maxValue)
             stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
             labelBehavior = LabelFormatter.LABEL_VISIBLE
             setLabelFormatter { value -> state.withValue(value).toString() }
