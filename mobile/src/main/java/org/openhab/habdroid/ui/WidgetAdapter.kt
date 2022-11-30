@@ -310,7 +310,8 @@ class WidgetAdapter(
         val bottomSheetPresenter: DetailBottomSheetPresenter,
         val colorMapper: ColorMapper,
         val serverFlags: Int,
-        val chartTheme: CharSequence?)
+        val chartTheme: CharSequence?
+    )
 
     abstract class ViewHolder internal constructor(
         inflater: LayoutInflater,

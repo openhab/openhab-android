@@ -80,8 +80,12 @@ import org.openhab.habdroid.util.openInBrowser
  * widgets from sitemap page with further navigation through sitemap and everything else!
  */
 
-class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener, WidgetAdapter.DetailBottomSheetPresenter,
-    AbstractWidgetDetailBottomSheet.ConnectionGetter, OpenHabApplication.OnDataUsagePolicyChangedListener {
+class WidgetListFragment :
+    Fragment(),
+    WidgetAdapter.ItemClickListener,
+    WidgetAdapter.DetailBottomSheetPresenter,
+    AbstractWidgetDetailBottomSheet.ConnectionGetter,
+    OpenHabApplication.OnDataUsagePolicyChangedListener {
     @VisibleForTesting lateinit var recyclerView: RecyclerView
     private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
     private lateinit var emptyPageView: View
@@ -202,7 +206,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener, WidgetAd
 
     override fun showBottomSheet(sheet: AbstractWidgetDetailBottomSheet, widget: Widget) {
         sheet.arguments = AbstractWidgetDetailBottomSheet.createArguments(widget)
-        sheet.show(childFragmentManager, "${sheet.javaClass.simpleName}-${widget.id}" )
+        sheet.show(childFragmentManager, "${sheet.javaClass.simpleName}-${widget.id}")
     }
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {

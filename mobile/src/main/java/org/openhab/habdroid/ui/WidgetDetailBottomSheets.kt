@@ -112,8 +112,13 @@ class SelectionBottomSheet : AbstractWidgetDetailBottomSheet(), RadioGroup.OnChe
     }
 }
 
-class ColorChooserBottomSheet : AbstractWidgetDetailBottomSheet(), Handler.Callback, OnColorChangedListener,
-    OnColorSelectedListener, Slider.OnChangeListener, Slider.OnSliderTouchListener {
+class ColorChooserBottomSheet :
+    AbstractWidgetDetailBottomSheet(),
+    Handler.Callback,
+    OnColorChangedListener,
+    OnColorSelectedListener,
+    Slider.OnChangeListener,
+    Slider.OnSliderTouchListener {
     companion object {
         private val TAG = "ColorChooserBottomSheet"
     }

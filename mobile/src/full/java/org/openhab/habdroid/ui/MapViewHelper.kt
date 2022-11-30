@@ -194,8 +194,7 @@ class MapBottomSheet : AbstractWidgetDetailBottomSheet(), GoogleMap.OnMarkerDrag
     }
 
     override fun onMarkerDragEnd(marker: Marker) {
-        val newState = String.format(Locale.US, "%f,%f",
-            marker.position.latitude, marker.position.longitude)
+        val newState = String.format(Locale.US, "%f,%f", marker.position.latitude, marker.position.longitude)
         connection?.httpClient?.sendItemCommand(marker.tag as Item?, newState)
     }
 }

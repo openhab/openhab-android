@@ -90,8 +90,13 @@ object MapViewHelper {
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
             handler.post {
-                mapView.applyPositionAndLabel(boundWidget?.item, labelView.text, 15.0f,
-                    allowDrag = false, allowScroll = false)
+                mapView.applyPositionAndLabel(
+                    boundWidget?.item,
+                    labelView.text,
+                    15.0f,
+                    allowDrag = false,
+                    allowScroll = false
+                )
             }
         }
 
@@ -204,7 +209,7 @@ fun Location.toMapsUrl(): String {
 }
 
 class MapBottomSheet : AbstractWidgetDetailBottomSheet(), Marker.OnMarkerDragListener {
-    private lateinit var mapView : MapView
+    private lateinit var mapView: MapView
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -223,8 +228,14 @@ class MapBottomSheet : AbstractWidgetDetailBottomSheet(), Marker.OnMarkerDragLis
             mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
         }
         handler.post {
-            mapView.applyPositionAndLabel(widget.item, widget.label, 16.0f,
-                allowDrag = true, allowScroll = true, markerDragListener = this@MapBottomSheet)
+            mapView.applyPositionAndLabel(
+                widget.item,
+                widget.label,
+                16.0f,
+                allowDrag = true,
+                allowScroll = true,
+                markerDragListener = this@MapBottomSheet
+            )
         }
 
         return view
@@ -250,9 +261,7 @@ class MapBottomSheet : AbstractWidgetDetailBottomSheet(), Marker.OnMarkerDragLis
 
     override fun onMarkerDragEnd(marker: Marker) {
         val boundItem = widget.item ?: return
-        val newState = String.format(
-            Locale.US, "%f,%f",
-            marker.position.latitude, marker.position.longitude)
+        val newState = String.format(Locale.US, "%f,%f", marker.position.latitude, marker.position.longitude)
         val item = if (marker.id == boundItem.name) {
             boundItem
         } else {

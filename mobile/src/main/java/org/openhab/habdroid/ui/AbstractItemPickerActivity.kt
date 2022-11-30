@@ -334,7 +334,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             }
 
             entries.forEachIndexed { index, entry ->
-                val button = inflater.inflate(R.layout.bottom_sheet_selection_item_radio_button, radioGroup, false) as RadioButton
+                val button = inflater.inflate(
+                    R.layout.bottom_sheet_selection_item_radio_button,
+                    radioGroup,
+                    false
+                ) as RadioButton
                 button.text = entry.label
                 button.id = entry.hashCode()
                 radioGroup.addView(button, index)
