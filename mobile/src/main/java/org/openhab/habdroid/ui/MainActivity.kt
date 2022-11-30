@@ -947,11 +947,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .forEach { item -> drawerMenu.removeItem(item.itemId) }
 
         // Add new items
-        val configs = prefs.getConfiguredServerIds()
-            .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
-        configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
-
-        drawerModeToggle.isGone = configs.size <= 1
+        if (connection is DemoConnection) {
+            drawerModeToggle.isGone = true
+        } else {
+            val configs = prefs.getConfiguredServerIds()
+                .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
+            configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
+            drawerModeToggle.isGone = configs.size <= 1
+        }
         drawerModeSelectorContainer.isClickable = drawerModeToggle.isVisible
         if (!drawerModeSelectorContainer.isClickable) {
             inServerSelectionMode = false
