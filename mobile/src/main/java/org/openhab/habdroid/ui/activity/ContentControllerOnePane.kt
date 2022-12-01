@@ -19,12 +19,14 @@ import androidx.annotation.Keep
 import androidx.fragment.app.commit
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.WidgetListFragment
 
 // instantiated via reflection
 @Suppress("UNUSED")
 @Keep
 class ContentControllerOnePane(activity: MainActivity) : ContentController(activity) {
     override val fragmentForTitle get() = if (pageStack.empty()) sitemapFragment else pageStack.peek().second
+    override val fragmentForAppBarScroll get() = fragmentForTitle
 
     override fun executeStateUpdate(reason: FragmentUpdateReason) {
         val fragment = when {

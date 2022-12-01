@@ -33,6 +33,8 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
 
     override val fragmentForTitle
         get() = if (pageStack.size > 1) pageStack[pageStack.size - 2].second else sitemapFragment
+    override val fragmentForAppBarScroll: WidgetListFragment?
+        get() = if (pageStack.isNotEmpty()) pageStack.peek().second else sitemapFragment
 
     override fun onRestoreInstanceState(state: Bundle) {
         super.onRestoreInstanceState(state)

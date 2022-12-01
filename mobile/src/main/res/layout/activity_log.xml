@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/app_bar" />
 
@@ -28,33 +29,26 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true">
 
-            <FrameLayout
+            <TextView
+                android:id="@+id/log"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".ui.LogActivity">
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textIsSelectable="true"
+                android:textSize="12sp"
+                android:typeface="monospace"
+                app:fontFamily="monospace"
+                tools:text="D/WidgetListFragment: onCreate()\nD/WidgetListFragment: isAdded = false\nI/WidgetListFragment: onCreateView" />
 
-                <TextView
-                    android:id="@+id/log"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:textIsSelectable="true"
-                    android:textSize="12sp"
-                    android:typeface="monospace"
-                    app:fontFamily="monospace"
-                    tools:text="D/WidgetListFragment: onCreate()\nD/WidgetListFragment: isAdded = false\nI/WidgetListFragment: onCreateView" />
-
-            </FrameLayout>
-
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

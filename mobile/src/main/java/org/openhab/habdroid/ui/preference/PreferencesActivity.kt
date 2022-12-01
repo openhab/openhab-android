@@ -56,6 +56,8 @@ class PreferencesActivity : AbstractBaseActivity() {
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        enableDrawingBehindStatusBar()
+
         if (savedInstanceState == null) {
             resultIntent = Intent()
             val fragment = when {

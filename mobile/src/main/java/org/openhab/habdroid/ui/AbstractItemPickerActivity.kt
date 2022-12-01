@@ -95,6 +95,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        enableDrawingBehindStatusBar()
+
         swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors()
@@ -129,6 +131,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
 
         onBackPressedDispatcher.addCallback(this, backCallback)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        appBarLayout?.setLiftOnScrollTargetView(recyclerView)
     }
 
     override fun onResume() {

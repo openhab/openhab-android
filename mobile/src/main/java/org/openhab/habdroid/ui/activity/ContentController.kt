@@ -38,8 +38,10 @@ import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
 import java.util.Stack
@@ -76,7 +78,7 @@ import org.openhab.habdroid.util.resolveThemedColor
  * The layout of the content area is up to the respective subclasses.
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
-    PageConnectionHolderFragment.ParentCallback, AbstractWebViewFragment.ParentCallback {
+    PageConnectionHolderFragment.ParentCallback, AbstractWebViewFragment.ParentCallback, FragmentLifecycleCallbacks() {
     protected val fm: FragmentManager = activity.supportFragmentManager
 
     private var noConnectionFragment: Fragment? = null
@@ -108,6 +110,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     protected abstract val fragmentForTitle: WidgetListFragment?
+    protected abstract val fragmentForAppBarScroll: WidgetListFragment?
 
     protected val overridingFragment get() = when {
         temporaryPage != null -> temporaryPage
@@ -127,6 +130,8 @@ abstract class ContentController protected constructor(private val activity: Mai
 
         defaultProgressFragment = ProgressFragment.newInstance(null, 0)
         connectionFragment.setCallback(this)
+
+        fm.registerFragmentLifecycleCallbacks(this, true)
     }
 
     /**
@@ -543,13 +548,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     private fun updateContentViewForInsets() {
         val i = insets?.getInsets(WindowInsetsCompat.Type.systemBars())
         val actionBarVisible = activity.supportActionBar?.isShowing() == true
-
-        contentView.setPadding(
-            i?.left ?: 0,
-            if (i != null && !actionBarVisible) i.top else 0,
-            i?.right ?: 0,
-            i?.bottom ?: 0
-        )
+        contentView.updatePadding(top = if (i != null && !actionBarVisible) i.top else 0)
     }
 
     private fun updateFragmentState(reason: FragmentUpdateReason) {
@@ -848,6 +847,13 @@ abstract class ContentController protected constructor(private val activity: Mai
                 )
             }
         }
+    }
+
+    override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
+        super.onFragmentStarted(fm, f)
+        val useFragmentForScroll = f == fragmentForAppBarScroll && temporaryPage == null
+        val scrollTargetView = if (f is WidgetListFragment && useFragmentForScroll) f.recyclerView else null
+        activity.appBarLayout?.setLiftOnScrollTargetView(scrollTargetView)
     }
 
     companion object {

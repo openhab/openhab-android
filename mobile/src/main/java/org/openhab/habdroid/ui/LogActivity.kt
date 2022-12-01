@@ -21,11 +21,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.BufferedReader
@@ -48,7 +48,7 @@ import org.openhab.habdroid.util.getSecretPrefs
 class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
-    private lateinit var scrollView: ScrollView
+    private lateinit var scrollView: NestedScrollView
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var searchView: SearchView
     private var showErrorsOnly: Boolean = false
@@ -61,6 +61,8 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        enableDrawingBehindStatusBar()
 
         fab = findViewById(R.id.shareFab)
         logTextView = findViewById(R.id.log)
@@ -97,6 +99,11 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         }
 
         onBackPressedDispatcher.addCallback(this, backCallback)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        appBarLayout?.setLiftOnScrollTargetView(scrollView)
     }
 
     override fun onResume() {
