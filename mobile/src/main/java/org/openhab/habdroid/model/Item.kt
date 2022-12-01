@@ -22,7 +22,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.mapString
-import org.openhab.habdroid.util.optDoubleOrNull
+import org.openhab.habdroid.util.optFloatOrNull
 import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
@@ -40,9 +40,9 @@ data class Item internal constructor(
     val state: ParsedState?,
     val tags: List<Tag>,
     val groupNames: List<String>,
-    val minimum: Double?,
-    val maximum: Double?,
-    val step: Double?,
+    val minimum: Float?,
+    val maximum: Float?,
+    val step: Float?,
 ) : Parcelable {
     enum class Type {
         None,
@@ -337,21 +337,21 @@ fun JSONObject.toItem(): Item {
     }
 
     return Item(
-        name,
-        optStringOrNull("label")?.trim(),
-        optStringOrNull("category")?.lowercase(Locale.US),
-        getString("type").toItemType(),
-        optString("groupType").toItemType(),
-        optStringOrNull("link"),
-        readOnly,
-        members,
-        if (options.isNullOrEmpty()) null else options,
-        state.toParsedState(numberPattern),
-        tags,
-        groupNames,
-        stateDescription?.optDoubleOrNull("minimum"),
-        stateDescription?.optDoubleOrNull("maximum"),
-        stateDescription?.optDoubleOrNull("step")
+        name = name,
+        label = optStringOrNull("label")?.trim(),
+        category = optStringOrNull("category")?.lowercase(Locale.US),
+        type = getString("type").toItemType(),
+        groupType = optString("groupType").toItemType(),
+        link = optStringOrNull("link"),
+        readOnly = readOnly,
+        members = members,
+        options = if (options.isNullOrEmpty()) null else options,
+        state = state.toParsedState(numberPattern),
+        tags = tags,
+        groupNames = groupNames,
+        minimum = stateDescription?.optFloatOrNull("minimum"),
+        maximum = stateDescription?.optFloatOrNull("maximum"),
+        step = stateDescription?.optFloatOrNull("step")
     )
 }
 
