@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:elevation="2dp">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/openhab_toolbar"
         android:layout_width="match_parent"
@@ -22,6 +24,12 @@
             android:indeterminateTintMode="src_in"
             android:visibility="gone"
             tools:visibility="visible" />
+
     </com.google.android.material.appbar.MaterialToolbar>
+
+    <ViewStub
+        android:id="@+id/toolbar_extension_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </com.google.android.material.appbar.AppBarLayout>

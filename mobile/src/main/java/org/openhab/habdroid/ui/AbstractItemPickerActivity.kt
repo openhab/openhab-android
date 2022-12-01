@@ -32,7 +32,6 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
@@ -70,11 +69,11 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var swipeLayout: SwipeRefreshLayout
-    private var additionalConfigLayout: View? = null
     private lateinit var emptyView: View
     private lateinit var emptyMessage: TextView
     private lateinit var watermark: ImageView
     private lateinit var searchView: SearchView
+    private var toolbarExtension: View? = null
     protected lateinit var retryButton: Button
     protected abstract var hintMessageId: Int
     protected abstract var hintButtonMessageId: Int
@@ -85,7 +84,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     }
     protected var needToShowHint: Boolean = false
     protected open val forItemCommandOnly: Boolean = true
-    @LayoutRes protected open val additionalConfigLayoutRes: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +95,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        swipeLayout = findViewById(R.id.swipe_refresh)
+        swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors()
 
@@ -111,21 +109,13 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
             loadItems()
         }
 
+        toolbarExtension = inflateToolbarExtension(findViewById(R.id.toolbar_extension_stub))
+
         itemPickerAdapter = ItemPickerAdapter(this, this)
         layoutManager = LinearLayoutManager(this)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = itemPickerAdapter
-
-        if (additionalConfigLayoutRes != 0) {
-            additionalConfigLayout = findViewById(R.id.additional_config_parent)
-            additionalConfigLayout?.visibility = View.VISIBLE
-
-            findViewById<ViewStub>(R.id.additional_config_placeholder).apply {
-                layoutResource = additionalConfigLayoutRes
-                inflate()
-            }
-        }
 
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -192,6 +182,10 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         entries: MutableList<CommandEntry>
     ) {
         // no-op
+    }
+
+    protected open fun inflateToolbarExtension(stub: ViewStub): View? {
+        return null
     }
 
     override fun onRefresh() {
@@ -287,7 +281,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     protected fun updateViewVisibility(loading: Boolean, loadError: Boolean, showHint: Boolean) {
         val showEmpty = showHint || !loading && (itemPickerAdapter.itemCount == 0 || loadError)
         recyclerView.isVisible = !showEmpty
-        additionalConfigLayout?.isVisible = !showEmpty
+        toolbarExtension?.isGone = showEmpty
         emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(when {

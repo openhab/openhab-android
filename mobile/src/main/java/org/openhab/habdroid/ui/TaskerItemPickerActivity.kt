@@ -16,7 +16,7 @@ package org.openhab.habdroid.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.LayoutRes
+import android.view.ViewStub
 import androidx.annotation.StringRes
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
@@ -40,7 +40,6 @@ class TaskerItemPickerActivity(
     private lateinit var commandButton: MaterialButton
     private lateinit var updateButton: MaterialButton
     override val forItemCommandOnly: Boolean = false
-    @LayoutRes override val additionalConfigLayoutRes: Int = R.layout.tasker_item_picker_config
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +62,15 @@ class TaskerItemPickerActivity(
         val editItem = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE)
         initialHighlightItemName = editItem?.getString(EXTRA_ITEM_NAME)
 
+        if (TaskerPlugin.hostSupportsRelevantVariables(intent.extras)) {
+            relevantVars = TaskerPlugin.getRelevantVariableList(intent.extras)
+        }
+    }
+
+    override fun inflateToolbarExtension(stub: ViewStub): View? {
+        stub.layoutResource = R.layout.tasker_item_picker_config
+        val view = stub.inflate()
+
         commandButton = findViewById(R.id.button_item_command)
         updateButton = findViewById(R.id.button_item_update)
         commandButton.setOnClickListener(this)
@@ -74,9 +82,7 @@ class TaskerItemPickerActivity(
             commandButton.isChecked = true
         }
 
-        if (TaskerPlugin.hostSupportsRelevantVariables(intent.extras)) {
-            relevantVars = TaskerPlugin.getRelevantVariableList(intent.extras)
-        }
+        return view
     }
 
     override fun addAdditionalCommands(
