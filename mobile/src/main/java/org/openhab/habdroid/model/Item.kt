@@ -46,6 +46,7 @@ data class Item internal constructor(
 ) : Parcelable {
     enum class Type {
         None,
+        Call,
         Color,
         Contact,
         DateTime,
