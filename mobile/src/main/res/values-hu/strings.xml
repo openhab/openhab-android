@@ -467,7 +467,6 @@
     <string name="item_update_widget">Kütyü</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
-    <string name="item_update_widget_item_picker_title">Válassz egy elemet</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s beállításra került ide: %2$s</string>
     <string name="item_update_success_message_on">%s fel lett kapcsolva</string>

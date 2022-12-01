@@ -45,7 +45,6 @@
         app:layout_constraintTop_toBottomOf="@+id/voice_switch" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

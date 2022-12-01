@@ -68,7 +68,7 @@ class TaskerItemPickerActivity(
     }
 
     override fun inflateToolbarExtension(stub: ViewStub): View? {
-        stub.layoutResource = R.layout.tasker_item_picker_config
+        stub.layoutResource = R.layout.tasker_item_picker_appbar_extension
         val view = stub.inflate()
 
         commandButton = findViewById(R.id.button_item_command)
