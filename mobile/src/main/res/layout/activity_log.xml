@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/included_toolbar"
-        layout="@layout/app_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include layout="@layout/app_bar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shareFab"
@@ -22,8 +18,6 @@
         android:layout_marginBottom="16dp"
         app:fabSize="normal"
         android:src="@drawable/ic_share_white_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/log_activity_content_description_share"
         android:visibility="gone"
         tools:visibility="visible" />
@@ -31,11 +25,8 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/activity_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/included_toolbar">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ScrollView
             android:id="@+id/scrollview"
@@ -60,7 +51,11 @@
                     android:typeface="monospace"
                     app:fontFamily="monospace"
                     tools:text="D/WidgetListFragment: onCreate()\nD/WidgetListFragment: isAdded = false\nI/WidgetListFragment: onCreateView" />
+
             </FrameLayout>
+
         </ScrollView>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
