@@ -559,8 +559,10 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
-            val item = widget.item
 
+            labelView.isGone = widget.label.isEmpty()
+
+            val item = widget.item
             val hasValidValues = widget.minValue < widget.maxValue
             slider.isVisible = hasValidValues
             if (!hasValidValues) {
@@ -736,6 +738,10 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
+
+            val hasNoLabelAndValue = labelView.text.isEmpty() && valueView?.text?.isEmpty() != false
+            labelView.isGone = hasNoLabelAndValue
+            valueView?.isGone = hasNoLabelAndValue
 
             val mappings = widget.mappingsOrItemOptions
             val buttonCount = min(mappings.size, maxButtons)

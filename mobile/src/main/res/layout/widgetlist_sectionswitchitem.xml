@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/WidgetListItemContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/WidgetListItemContainer">
+    android:layout_height="wrap_content">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/widgeticon"
@@ -13,35 +13,43 @@
         app:imageScalingType="scaleToFit"
         app:layout_constraintEnd_toStartOf="@+id/widgetlabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_openhab_appicon_24dp" />
 
     <TextView
         android:id="@+id/widgetlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/widgeticon"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="16dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textDirection="locale"
         android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textDirection="locale"
+        app:layout_constraintStart_toEndOf="@id/widgeticon"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Widget label" />
 
     <TextView
         android:id="@+id/widgetvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/widgetlabel"
-        app:layout_constraintBaseline_toBaselineOf="@id/widgetlabel"
         android:layout_marginStart="8dp"
-        android:textDirection="anyRtl"
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
         android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textDirection="anyRtl"
+        app:layout_constraintBaseline_toBaselineOf="@id/widgetlabel"
+        app:layout_constraintStart_toEndOf="@id/widgetlabel"
         tools:text="Value" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/labelbarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="widgetlabel,widgetvalue" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/switch_group"
@@ -51,7 +59,7 @@
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/widgeticon"
-        app:layout_constraintTop_toBottomOf="@id/widgetlabel"
+        app:layout_constraintTop_toBottomOf="@id/labelbarrier"
         app:singleSelection="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
