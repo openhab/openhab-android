@@ -5,7 +5,10 @@
     android:updatePeriodMillis="0"
     android:previewImage="@drawable/widget_preview_item_update"
     android:initialLayout="@layout/widget_item_update_dark_text"
+    android:previewLayout="@layout/widget_item_update_preview"
     android:widgetCategory="home_screen|keyguard"
     android:configure="org.openhab.habdroid.ui.preference.PreferencesActivity"
+    android:widgetFeatures="reconfigurable"
+    android:description="@string/item_update_widget_content_description"
     android:resizeMode="horizontal|vertical" >
 </appwidget-provider>

@@ -356,8 +356,16 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 data.widgetLabel.orEmpty()
             }
             val views = RemoteViews(context.packageName, layout)
-            views.setOnClickPendingIntent(R.id.outer_layout, itemUpdatePendingIntent)
-            views.setOnClickPendingIntent(R.id.edit, editPendingIntent)
+            views.setOnClickPendingIntent(android.R.id.background, itemUpdatePendingIntent)
+
+            val editButtonVisibility = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                View.GONE
+            } else {
+                views.setOnClickPendingIntent(R.id.edit, editPendingIntent)
+                View.VISIBLE
+            }
+            views.setViewVisibility(R.id.edit, editButtonVisibility)
+
             views.setTextViewText(R.id.text, label)
             hideLoadingIndicator(views)
             return views
