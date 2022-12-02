@@ -172,6 +172,7 @@ class WidgetAdapter(
             TYPE_IMAGE -> ImageViewHolder(inflater, parent)
             TYPE_SELECTION -> SelectionViewHolder(inflater, parent)
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent)
+            TYPE_SECTIONSWITCH_SINGLE -> SingleSectionSwitchViewHolder(inflater, parent)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent)
             TYPE_SETPOINT -> SetpointViewHolder(inflater, parent)
             TYPE_CHART -> ChartViewHolder(inflater, parent)
@@ -282,6 +283,7 @@ class WidgetAdapter(
             Widget.Type.Frame -> TYPE_FRAME
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
+                widget.mappingsOrItemOptions.size == 1 -> TYPE_SECTIONSWITCH_SINGLE
                 widget.mappings.isNotEmpty() -> TYPE_SECTIONSWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> TYPE_SWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
@@ -820,6 +822,33 @@ class WidgetAdapter(
         }
     }
 
+    class SingleSectionSwitchViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_singlesectionswitch_item) {
+        private val toggle: MaterialButton = itemView.findViewById(R.id.switch_single)
+
+        init {
+            toggle.isCheckable = true
+        }
+
+        override fun bind(widget: Widget) {
+            super.bind(widget)
+
+            val mapping = widget.mappingsOrItemOptions[0]
+            toggle.text = mapping.label
+            toggle.isChecked = widget.item?.state?.asString == mapping.value
+            toggle.setOnClickListener {
+                toggle.isChecked = true
+                connection.httpClient.sendItemCommand(widget.item, mapping.value)
+            }
+        }
+
+        override fun handleRowClick() {
+            toggle.callOnClick()
+        }
+    }
+
     class RollerShutterViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
@@ -1241,15 +1270,16 @@ class WidgetAdapter(
         private const val TYPE_IMAGE = 6
         private const val TYPE_SELECTION = 7
         private const val TYPE_SECTIONSWITCH = 8
-        private const val TYPE_ROLLERSHUTTER = 9
-        private const val TYPE_SETPOINT = 10
-        private const val TYPE_CHART = 11
-        private const val TYPE_VIDEO = 12
-        private const val TYPE_WEB = 13
-        private const val TYPE_COLOR = 14
-        private const val TYPE_VIDEO_MJPEG = 15
-        private const val TYPE_LOCATION = 16
-        private const val TYPE_INVISIBLE = 17
+        private const val TYPE_SECTIONSWITCH_SINGLE = 9
+        private const val TYPE_ROLLERSHUTTER = 10
+        private const val TYPE_SETPOINT = 11
+        private const val TYPE_CHART = 12
+        private const val TYPE_VIDEO = 13
+        private const val TYPE_WEB = 14
+        private const val TYPE_COLOR = 15
+        private const val TYPE_VIDEO_MJPEG = 16
+        private const val TYPE_LOCATION = 17
+        private const val TYPE_INVISIBLE = 18
     }
 }
 
