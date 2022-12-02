@@ -851,9 +851,13 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
         super.onFragmentStarted(fm, f)
-        val useFragmentForScroll = f == fragmentForAppBarScroll && temporaryPage == null
-        val scrollTargetView = if (f is WidgetListFragment && useFragmentForScroll) f.recyclerView else null
-        activity.appBarLayout?.setLiftOnScrollTargetView(scrollTargetView)
+        if (f == temporaryPage || f == sitemapFragment || pageStack.any { entry -> f == entry.second }) {
+            activity.appBarLayout?.setLiftOnScrollTargetView(when {
+                f is CloudNotificationListFragment -> f.recyclerView
+                f is WidgetListFragment && f == fragmentForAppBarScroll -> f.recyclerView
+                else -> null
+            })
+        }
     }
 
     companion object {

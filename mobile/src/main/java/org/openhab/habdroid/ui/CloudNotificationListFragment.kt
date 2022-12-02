@@ -49,7 +49,7 @@ import org.openhab.habdroid.util.map
  * fragment (e.g. upon screen orientation changes).
  */
 class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-    private lateinit var recyclerView: RecyclerView
+    lateinit var recyclerView: RecyclerView
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var retryButton: Button
     private lateinit var emptyView: View
