@@ -70,6 +70,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
     protected abstract var hintMessageId: Int
     protected abstract var hintButtonMessageId: Int
     protected abstract var hintIconId: Int
+    protected var hideReadOnly = true
 
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(this, true)
@@ -269,7 +270,9 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
                     Log.e(TAG, "Item request failure")
                     return@launch
                 }
-                items = items.filterNot { item -> item.readOnly }
+                if (hideReadOnly) {
+                    items = items.filterNot { item -> item.readOnly }
+                }
 
                 if (forItemCommandOnly) {
                     // Contact Items cannot receive commands

@@ -33,7 +33,8 @@ class BasicItemPickerActivity(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initialHighlightItemName = intent.getStringExtra("item")
-        showNoCommand = intent.getBooleanExtra("show_no_command", false)
+        showNoCommand = intent.getBooleanExtra("show_no_command", showNoCommand)
+        hideReadOnly = intent.getBooleanExtra("hide_read_only", hideReadOnly)
         super.onCreate(savedInstanceState)
     }
 

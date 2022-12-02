@@ -57,6 +57,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
     }
 
     private fun fill(item: Item, suggestedCommands: SuggestedCommands, forItemUpdate: Boolean) = when {
+        item.readOnly -> {}
         item.isOfTypeOrGroupType(Item.Type.Color) -> {
             addOnOffCommands(suggestedCommands)
             addIncreaseDecreaseCommands(suggestedCommands)
