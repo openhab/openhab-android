@@ -467,6 +467,7 @@ class WidgetAdapter(
     ) : ViewHolder(inflater, parent, R.layout.widgetlist_frameitem) {
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val containerView: View = itemView.findViewById(R.id.container)
+        private val spacer: View = itemView.findViewById(R.id.first_view_spacer)
 
         init {
             itemView.isClickable = false
@@ -484,6 +485,7 @@ class WidgetAdapter(
 
         fun setShownAsFirst(shownAsFirst: Boolean) {
             containerView.isGone = labelView.isGone && shownAsFirst
+            spacer.isGone = !containerView.isGone
         }
     }
 
