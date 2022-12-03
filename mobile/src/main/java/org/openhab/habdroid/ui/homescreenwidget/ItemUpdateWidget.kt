@@ -43,6 +43,7 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.IconResource
+import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.getIconResource
 import org.openhab.habdroid.model.putIconResource
 import org.openhab.habdroid.ui.duplicate
@@ -171,7 +172,11 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 ConnectionFactory.waitForInitialization()
                 try {
                     ConnectionFactory.primaryUsableConnection?.connection?.let { connection ->
-                        ItemClient.loadItem(connection, data.item)?.state?.asString
+                        val item = ItemClient.loadItem(connection, data.item)
+                        when {
+                            item?.isOfTypeOrGroupType(Item.Type.Number) == true -> item.state?.asNumber?.toString()
+                            else -> item?.state?.asString
+                        }
                     }
                 } catch (e: HttpClient.HttpException) {
                     Log.e(TAG, "Failed to load state of item ${data.item}")
