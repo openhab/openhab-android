@@ -330,9 +330,6 @@
     <string name="about_privacy_policy">Tietosuojakäytäntö</string>
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
     <string name="settings_troubleshooting_title">Vianmääritys</string>
-    <string name="set">Aseta</string>
-    <string name="cancel">Peruuta</string>
-    <string name="close">Sulje</string>
     <string name="try_again_button">Yritä uudelleen</string>
     <string name="enable_wifi_button">Käynnistä Wi-Fi</string>
     <string name="go_to_settings_button">Mene asetuksiin</string>
@@ -402,7 +399,6 @@
     <string name="item_update_widget_content_description">Widgetti Itemin tilan vaihtoa varten</string>
     <string name="item_update_widget_content_description_edit">Muokkaa widgettiä</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
-    <string name="item_update_widget_item_picker_title">Valitse Item</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s on lähetetty kohteeseen %2$s</string>
     <string name="item_update_success_message_on">%s on kytketty päälle</string>

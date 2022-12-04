@@ -388,9 +388,6 @@
     <string name="about_privacy_policy">隐私条款</string>
     <string name="about_rate_this_app">为此应用评分</string>
     <string name="settings_troubleshooting_title">疑难解答</string>
-    <string name="set">设置</string>
-    <string name="cancel">取消</string>
-    <string name="close">关闭</string>
     <string name="undo">撤销</string>
     <string name="try_again_button">重试</string>
     <string name="enable_wifi_button">打开 Wi-Fi</string>
@@ -471,7 +468,6 @@
     <string name="item_update_widget">小部件</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
-    <string name="item_update_widget_item_picker_title">选择项目</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s 已被导出至 %2$s</string>
     <string name="item_update_success_message_on">%s 已开启</string>

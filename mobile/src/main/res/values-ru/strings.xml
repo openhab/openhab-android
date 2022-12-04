@@ -394,9 +394,6 @@
     <string name="about_privacy_policy">Политика конфиденциальности</string>
     <string name="about_rate_this_app">Оцените это приложение</string>
     <string name="settings_troubleshooting_title">Решение проблем</string>
-    <string name="set">Установить</string>
-    <string name="cancel">Отменить</string>
-    <string name="close">Закрыть</string>
     <string name="undo">Отменить</string>
     <string name="try_again_button">Попробуйте снова</string>
     <string name="enable_wifi_button">Включить Wi-Fi</string>
@@ -477,7 +474,6 @@
     <string name="item_update_widget">Виджет</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
-    <string name="item_update_widget_item_picker_title">Выберите Item</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s был установлен в %2$s</string>
     <string name="item_update_success_message_on">%s был включен</string>

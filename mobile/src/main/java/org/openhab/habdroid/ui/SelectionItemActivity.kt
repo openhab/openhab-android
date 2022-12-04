@@ -88,23 +88,14 @@ class SelectionAdapter(context: Context, val item: Item) : RecyclerView.Adapter<
 
     class SelectionViewHolder(inflater: LayoutInflater, parent: ViewGroup, val item: Item) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.selection_item, parent, false)) {
-        private val row: LinearLayout = itemView.findViewById(R.id.row)
         private val radioButton: RadioButton = itemView.findViewById(R.id.radio_button)
-        private val commandLabel: TextView = itemView.findViewById(R.id.command_text)
 
         fun bind(option: LabeledValue) {
             val adapter = bindingAdapter as SelectionAdapter?
             radioButton.isChecked = option.value == adapter?.itemState
-            commandLabel.text = option.label
-            setupOnClickListener(row, option)
-            setupOnClickListener(radioButton, option)
-            setupOnClickListener(commandLabel, option)
-        }
-
-        private fun setupOnClickListener(view: View, option: LabeledValue) {
-            view.setOnClickListener {
+            radioButton.text = option.label
+            radioButton.setOnClickListener {
                 val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return@setOnClickListener
-                val adapter = bindingAdapter as SelectionAdapter?
                 adapter?.itemState = option.value
                 adapter?.notifyDataSetChanged()
                 connection.httpClient.sendItemCommand(item, option.value)

@@ -374,9 +374,6 @@
     <string name="about_privacy_policy">プライバシーポリシー</string>
     <string name="about_rate_this_app">このアプリを評価する</string>
     <string name="settings_troubleshooting_title">トラブルシューティング</string>
-    <string name="set">設定</string>
-    <string name="cancel">キャンセル</string>
-    <string name="close">閉じる</string>
     <string name="undo">元に戻す</string>
     <string name="try_again_button">もう一度やり直す</string>
     <string name="enable_wifi_button">Wi-Fi をオンにする</string>
@@ -451,7 +448,6 @@
     <string name="item_update_widget_content_description">アイテムの状態を変更するためのウィジェット</string>
     <string name="item_update_widget_content_description_edit">ウィジェットを編集</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
-    <string name="item_update_widget_item_picker_title">アイテムを選択</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s は %2$s にセットされました</string>
     <string name="item_update_success_message_on">%s はオンになりました</string>

@@ -356,9 +356,6 @@
     <string name="about_rate_this_app">Des App bewäerten</string>
     <string name="settings_debug_messages_title">Weis Informatiounen zur Léisung vun Problemer</string>
     <string name="settings_troubleshooting_title">Feelerbehiewung</string>
-    <string name="set">Setzen</string>
-    <string name="cancel">Ofbriechen</string>
-    <string name="close">Zoumaachen</string>
     <string name="undo">Réckgängeg maachen</string>
     <string name="try_again_button">Nach eng Kéier probéieren</string>
     <string name="enable_wifi_button">Wi-Fi u maachen</string>
@@ -435,7 +432,6 @@
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
-    <string name="item_update_widget_item_picker_title">Item auswielen</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s ass op %2$s gesat</string>
     <string name="item_update_success_message_on">%s ass ageschalt ginn</string>

@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/server_selector"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingBottom="8dp"
-    android:paddingStart="16dp"
-    android:paddingTop="8dp"
+    android:minHeight="100dp"
+    android:gravity="bottom"
+    android:orientation="vertical"
     android:background="?colorPrimaryContainer">
 
-    <TextView
-        android:id="@+id/server_name"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/server_selector"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="?colorOnPrimaryContainer"
-        android:textStyle="bold"
-        tools:text="server" />
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp">
 
-    <ImageView
-        android:id="@+id/drawer_mode_switcher"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_vertical"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="center"
-        app:tint="?colorOnPrimaryContainer"
-        android:src="@drawable/ic_menu_down_24dp" />
+        <TextView
+            android:id="@+id/server_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="?colorOnPrimaryContainer"
+            android:textStyle="bold"
+            tools:text="server" />
+
+        <ImageView
+            android:id="@+id/drawer_mode_switcher"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="center"
+            app:tint="?colorOnPrimaryContainer"
+            android:src="@drawable/ic_menu_down_24dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

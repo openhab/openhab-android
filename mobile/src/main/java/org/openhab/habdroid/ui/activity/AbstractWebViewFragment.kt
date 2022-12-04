@@ -13,14 +13,10 @@
 
 package org.openhab.habdroid.ui.activity
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.text.InputType
-import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -28,7 +24,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -37,14 +32,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
@@ -61,7 +54,6 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
-import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
@@ -74,10 +66,12 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var webView: WebView? = null
     private var callback: ParentCallback? = null
-    private var actionBar: ActionBar? = null
+    private val mainActivity get() = context as MainActivity?
     var isStackRoot = false
         private set
     var title: String? = null
+        private set
+    var wantsActionBar = true
         private set
 
     abstract val titleRes: Int
@@ -132,8 +126,6 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        actionBar = (activity as? MainActivity)?.supportActionBar
-
         webView = view.findViewById(R.id.webview)
 
         isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
@@ -176,7 +168,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         webView?.onResume()
         webView?.resumeTimers()
         if (lockDrawer) {
-            (activity as MainActivity?)?.setDrawerLocked(true)
+            mainActivity?.setDrawerLocked(true)
         }
     }
 
@@ -185,7 +177,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         webView?.onPause()
         webView?.pauseTimers()
         if (lockDrawer) {
-            (activity as MainActivity?)?.setDrawerLocked(false)
+            mainActivity?.setDrawerLocked(false)
         }
     }
 
@@ -215,61 +207,20 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     private fun pinShortcut() {
-        val context = context ?: return
-        askForShortcutTitle(context, shortcutInfo) {
-            val success = ShortcutManagerCompat.requestPinShortcut(context, it, null)
-            if (success) {
-                (activity as? MainActivity)?.showSnackbar(
-                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                    R.string.home_shortcut_success_pinning,
-                    Snackbar.LENGTH_SHORT
-                )
-            } else {
-                (activity as? MainActivity)?.showSnackbar(
-                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                    R.string.home_shortcut_error_pinning,
-                    Snackbar.LENGTH_LONG
-                )
-            }
+        if (!isAdded) {
+            return
         }
+        val f = ShortcutTitleBottomSheet()
+        f.show(childFragmentManager, "shortcut_title")
     }
 
-    @SuppressLint("RestrictedApi")
-    private fun askForShortcutTitle(
-        context: Context,
-        orig: ShortcutInfoCompat,
-        callback: (newTitle: ShortcutInfoCompat) -> Unit
-    ) {
-        val input = EditText(context).apply {
-            text = SpannableStringBuilder(orig.shortLabel)
-            inputType = InputType.TYPE_CLASS_TEXT
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-            }
-            setPadding(context.resources.dpToPixel(8f).toInt())
-        }
-
-        val customDialog = AlertDialog.Builder(context)
-            .setTitle(getString(R.string.home_shortcut_title))
-            .setView(input)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                val label = if (input.text.isNullOrEmpty()) " " else input.text
-
-                callback(
-                    ShortcutInfoCompat.Builder(orig)
-                        .setShortLabel(label)
-                        .build()
-                )
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
-        input.setOnFocusChangeListener { _, hasFocus ->
-            val mode = if (hasFocus)
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
-            else
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-            customDialog.window?.setSoftInputMode(mode)
-        }
+    // called from ShortcutTitleBottomSheet
+    private fun createShortcut(info: ShortcutInfoCompat) {
+        val context = context ?: return
+        val success = ShortcutManagerCompat.requestPinShortcut(context, info, null)
+        val textResId = if (success) R.string.home_shortcut_success_pinning else R.string.home_shortcut_error_pinning
+        val duration = if (success) Snackbar.LENGTH_SHORT else Snackbar.LENGTH_LONG
+        mainActivity?.showSnackbar(MainActivity.SNACKBAR_TAG_SHORTCUT_INFO, textResId, duration)
     }
 
     override fun onActiveConnectionChanged() {
@@ -301,7 +252,6 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
             } while (webView?.url == oldUrl && webView?.canGoBack() == true)
             return true
         }
-        actionBar?.show()
         return false
     }
 
@@ -376,11 +326,11 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     private fun hideActionBar() {
-        actionBar?.hide()
+        wantsActionBar = false
+        callback?.updateActionBarState()
     }
 
     private fun closeFragment() {
-        actionBar?.show()
         callback?.closeFragment()
     }
 
@@ -442,5 +392,45 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     interface ParentCallback {
         fun closeFragment()
+        fun updateActionBarState()
+    }
+
+    class ShortcutTitleBottomSheet : BottomSheetDialogFragment() {
+        private val parent get() = parentFragment as AbstractWebViewFragment
+        private lateinit var origInfo: ShortcutInfoCompat
+        private lateinit var editor: EditText
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            origInfo = parent.shortcutInfo
+        }
+
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+            val view = inflater.inflate(R.layout.bottom_sheet_shortcut_label, container, false)
+            editor = view.findViewById(R.id.editor)
+            return view
+        }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            editor.setText(origInfo.shortLabel, TextView.BufferType.EDITABLE)
+            editor.requestFocus()
+
+            view.findViewById<View>(R.id.cancel_button).setOnClickListener {
+                dismissAllowingStateLoss()
+            }
+            view.findViewById<View>(R.id.save).setOnClickListener {
+                save()
+                dismissAllowingStateLoss()
+            }
+        }
+
+        private fun save() {
+            val label = if (editor.text.isNullOrEmpty()) " " else editor.text
+            val newInfo = ShortcutInfoCompat.Builder(origInfo)
+                .setShortLabel(label)
+                .build()
+            parent.createShortcut(newInfo)
+        }
     }
 }

@@ -1,33 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_selector">
+    style="@style/WidgetListItemContainer">
 
     <include layout="@layout/widgetlist_iconvaluetext" />
 
-    <ImageView
-        android:id="@+id/down_arrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center_vertical"
-        android:scaleType="center"
-        android:src="@drawable/ic_spinner_caret_themed"
-        android:contentDescription="@string/content_description_open_number_picker" />
-
-    <ImageButton
+    <Button
         style="@style/openHAB.ActionButton"
         android:id="@+id/up_button"
-        android:padding="4dp"
         android:contentDescription="@string/content_description_increase_item_value"
-        android:src="@drawable/ic_keyboard_arrow_up_themed_24dp" />
+        app:icon="@drawable/ic_keyboard_arrow_up_themed_24dp" />
 
-    <ImageButton
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/select_button"
+        android:contentDescription="@string/content_description_open_number_picker"
+        app:icon="@drawable/ic_expand_vertical_24dp" />
+
+    <Button
         style="@style/openHAB.ActionButton"
         android:id="@+id/down_button"
-        android:padding="4dp"
         android:contentDescription="@string/content_description_decrease_item_value"
-        android:src="@drawable/ic_keyboard_arrow_down_themed_24dp" />
+        app:icon="@drawable/ic_keyboard_arrow_down_themed_24dp" />
 
 </LinearLayout>

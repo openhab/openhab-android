@@ -248,9 +248,6 @@
     <string name="about_translation">Помогнете ни в превеждането на openHAB</string>
     <string name="about_privacy_policy">Декларация за поверителност</string>
     <string name="settings_debug_messages_title">Покажи информация за отстраняване на неизправности</string>
-    <string name="set">Задай</string>
-    <string name="cancel">Отменяне</string>
-    <string name="close">Затворен</string>
     <string name="try_again_button">Повтори отново</string>
     <string name="enable_wifi_button">Включи въздушната мрежа</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>

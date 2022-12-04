@@ -134,9 +134,6 @@
     <string name="about_community">Κοινότητα openHAB</string>
     <string name="about_translation">Βοηθείστε μας να μεταφράσουμε το openHAB</string>
     <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
-    <string name="set">Ορισμός</string>
-    <string name="cancel">Άκυρο</string>
-    <string name="close">Κλείσιμο</string>
     <string name="try_again_button">Προσπαθήστε ξανά</string>
     <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
     <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>

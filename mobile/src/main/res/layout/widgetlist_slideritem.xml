@@ -1,17 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:activatedBackgroundIndicator">
+    style="@style/WidgetListItemContainer">
 
-    <include layout="@layout/widgetlist_iconsmallvaluetext" />
-
-    <com.google.android.material.slider.Slider
-        android:id="@+id/seekbar"
-        android:layout_width="@dimen/widgetlist_slider_width"
-        android:layout_height="wrap_content"
+    <org.openhab.habdroid.ui.widget.WidgetImageView
+        android:id="@+id/widgeticon"
+        android:layout_width="@dimen/widgetlist_icon_size"
+        android:layout_height="@dimen/widgetlist_icon_size"
         android:layout_gravity="center_vertical"
-        android:max="100" />
+        app:imageScalingType="scaleToFit"
+        tools:src="@drawable/ic_openhab_appicon_24dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/widgetlabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textDirection="locale"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            tools:text="Widget title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/seekbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:max="100" />
+
+            <TextView
+                android:id="@+id/widgetvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textDirection="locale"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                tools:text="100%" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

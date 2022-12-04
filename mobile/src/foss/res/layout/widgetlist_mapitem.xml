@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:activatedBackgroundIndicator"
-    android:paddingStart="@dimen/widgetlist_item_side_margin"
-    android:paddingEnd="@dimen/widgetlist_item_side_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    style="@style/WidgetListItemContainer">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
         <org.openhab.habdroid.ui.widget.WidgetImageView
             android:id="@+id/widgeticon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:padding="4dp" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:src="@drawable/ic_openhab_appicon_24dp" />
 
         <TextView
             android:id="@+id/widgetlabel"
@@ -27,15 +27,15 @@
             android:layout_marginStart="4dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            tools:text="Widget title" />
 
     </LinearLayout>
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_margin="4dp" />
+        android:layout_height="180dp" />
 
     <include layout="@layout/widgetlist_mapitem_no_position" />
 

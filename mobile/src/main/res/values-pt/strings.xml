@@ -150,9 +150,6 @@
     <string name="about_community">comunidade openHAB</string>
     <string name="about_translation">Ajude-nos a traduzir!</string>
     <string name="about_privacy_policy">Política de Privacidade</string>
-    <string name="set">Conjunto</string>
-    <string name="cancel">Cancelar</string>
-    <string name="close">Fechar</string>
     <string name="try_again_button">Tentar novamente</string>
     <string name="enable_wifi_button">Ligar o Wi-Fi</string>
     <string name="go_to_settings_button">Ir para as definições</string>

@@ -421,9 +421,6 @@
     <string name="about_rate_this_app">Valuta questa app</string>
     <string name="settings_debug_messages_title">Mostra informazioni per la risoluzione dei problemi</string>
     <string name="settings_troubleshooting_title">Risoluzione Dei Problemi</string>
-    <string name="set">Imposta</string>
-    <string name="cancel">Annulla</string>
-    <string name="close">Chiudi</string>
     <string name="undo">Annulla</string>
     <string name="try_again_button">Riprova</string>
     <string name="enable_wifi_button">Accendi Wi-Fi</string>
@@ -507,7 +504,6 @@
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
-    <string name="item_update_widget_item_picker_title">Seleziona un Item</string>
     <string name="widget_show_state">Aggiungi lo stato corrente al nome</string>
     <string name="widget_show_state_summary">Lo stato viene aggiornato periodicamente che può essere impostata nelle impostazioni in \"Invia informazioni sul dispositivo al server\"</string>
     <string name="widget_no_command">Non inviare un comando</string>

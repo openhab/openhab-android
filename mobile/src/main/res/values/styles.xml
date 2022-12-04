@@ -4,11 +4,30 @@
         <item name="android:layout_width">44dip</item>
         <item name="android:layout_height">44dp</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:scaleType">centerInside</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="iconTint">?attr/colorOnBackground</item>
+        <item name="iconGravity">textStart</item>
     </style>
 
     <style name="openHAB.OutlineButton" parent="@style/Widget.Material3.Button.OutlinedButton">
         <item name="strokeWidth">@dimen/outlineButtonStrokeWidth</item>
+    </style>
+
+    <style name="BottomSheetHeaderTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+    </style>
+
+    <style name="WidgetListItemContainer">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:background">@drawable/list_selector</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 </resources>

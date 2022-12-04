@@ -33,7 +33,13 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
+import androidx.core.view.updatePadding
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.internal.EdgeToEdgeUtils
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlin.coroutines.CoroutineContext
@@ -60,6 +66,8 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     protected var lastSnackbar: Snackbar? = null
         private set
     private var snackbarQueue = mutableListOf<Snackbar>()
+    var appBarLayout: AppBarLayout? = null
+        private set
 
     protected val isFullscreenEnabled: Boolean
         get() = getPrefs().getBoolean(PrefKeys.FULLSCREEN, false)
@@ -71,9 +79,13 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
     }
 
+    @CallSuper
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setNavigationBarColor()
+
+        appBarLayout = findViewById(R.id.appbar_layout)
+        appBarLayout?.statusBarForeground = MaterialShapeDrawable.createWithElevationOverlay(this)
     }
 
     @CallSuper
@@ -92,6 +104,14 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     override fun onResume() {
         super.onResume()
         setFullscreen()
+    }
+
+    fun enableDrawingBehindStatusBar() {
+        EdgeToEdgeUtils.applyEdgeToEdge(window, true)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_content)) { view, insets ->
+            view.updatePadding(bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom)
+            insets
+        }
     }
 
     @Suppress("DEPRECATION") // TODO: Replace deprecated function
@@ -169,7 +189,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             throw IllegalArgumentException("Tag is empty")
         }
 
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, duration)
+        val snackbar = Snackbar.make(findViewById(R.id.coordinator), message, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }

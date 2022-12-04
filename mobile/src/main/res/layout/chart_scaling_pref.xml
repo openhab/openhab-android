@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textAppearance="?android:attr/textAppearanceListItem"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             tools:text="@string/settings_chart_scaling" />
@@ -78,25 +78,24 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <SeekBar
-                style="@style/Widget.AppCompat.SeekBar.Discrete"
+            <com.google.android.material.slider.Slider
                 android:id="@+id/seekbar"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:paddingStart="0dp"
-                android:paddingEnd="22dp"
                 android:focusable="false"
                 android:clickable="false"
-                android:background="@null" />
+                android:background="@null"
+                app:labelBehavior="gone" />
 
             <TextView
                 android:id="@+id/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="4dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
                 tools:text="@string/settings_chart_scaling_value_m" />

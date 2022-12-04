@@ -28,7 +28,6 @@ class BasicItemPickerActivity(
     override var hintButtonMessageId: Int = 0,
     override var hintIconId: Int = 0
 ) : AbstractItemPickerActivity() {
-    @LayoutRes override val additionalConfigLayoutRes: Int = 0
     private var showNoCommand = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

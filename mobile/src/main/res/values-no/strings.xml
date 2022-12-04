@@ -419,9 +419,6 @@
     <string name="about_rate_this_app">Vurder dette programmet</string>
     <string name="settings_debug_messages_title">Vis feilsøkingsinformasjon</string>
     <string name="settings_troubleshooting_title">Feilsøking</string>
-    <string name="set">Sett</string>
-    <string name="cancel">Avbryt</string>
-    <string name="close">Lukk</string>
     <string name="undo">Angre</string>
     <string name="try_again_button">Prøv igjen</string>
     <string name="enable_wifi_button">Slå på Wi-Fi</string>
@@ -505,7 +502,6 @@
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
-    <string name="item_update_widget_item_picker_title">Velg et element</string>
     <string name="widget_show_state">Tilføy gjeldende tilstand til navnet</string>
     <string name="widget_show_state_summary">Tilstanden blir oppdatert i henhold til tidsplanen, som kan konfigureres under \"Send enhetsinformasjon til server\"</string>
     <string name="widget_no_command">Ikke send en kommando</string>

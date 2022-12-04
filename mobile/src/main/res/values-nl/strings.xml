@@ -371,9 +371,6 @@
     <string name="about_translation">Help ons met het vertalen van openHAB</string>
     <string name="about_privacy_policy">Privacy beleid</string>
     <string name="about_rate_this_app">Deze app beoordelen</string>
-    <string name="set">Stel in</string>
-    <string name="cancel">Annuleer</string>
-    <string name="close">Sluiten</string>
     <string name="try_again_button">Opnieuw proberen</string>
     <string name="enable_wifi_button">Wi-Fi inschakelen</string>
     <string name="go_to_settings_button">Ga naar instellingen</string>
@@ -445,7 +442,6 @@
     <string name="item_update_widget_content_description_edit">Widget bewerken</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
-    <string name="item_update_widget_item_picker_title">Selecteer een Item</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
     <string name="item_update_success_message_on">%s is ingeschakeld</string>

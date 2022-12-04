@@ -11,7 +11,6 @@
     <color name="ic_launcher_background">#FFFFFF</color>
 
     <!-- Created with https://m3.material.io/theme-builder#/custom -->
-    <color name="seed">#ff5722</color>
     <color name="md_theme_light_primary">#B02F00</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#FFDBD1</color>
@@ -38,9 +37,6 @@
     <color name="md_theme_light_inverseOnSurface">#FBEEEB</color>
     <color name="md_theme_light_inverseSurface">#362F2D</color>
     <color name="md_theme_light_inversePrimary">#FFB5A0</color>
-    <color name="md_theme_light_shadow">#000000</color>
-    <color name="md_theme_light_surfaceTint">#B02F00</color>
-    <color name="md_theme_light_surfaceTintColor">#B02F00</color>
     <color name="md_theme_dark_primary">#FFB5A0</color>
     <color name="md_theme_dark_onPrimary">#5F1500</color>
     <color name="md_theme_dark_primaryContainer">#862200</color>
@@ -67,7 +63,4 @@
     <color name="md_theme_dark_inverseOnSurface">#201A18</color>
     <color name="md_theme_dark_inverseSurface">#EDE0DC</color>
     <color name="md_theme_dark_inversePrimary">#B02F00</color>
-    <color name="md_theme_dark_shadow">#000000</color>
-    <color name="md_theme_dark_surfaceTint">#FFB5A0</color>
-    <color name="md_theme_dark_surfaceTintColor">#FFB5A0</color>
 </resources>

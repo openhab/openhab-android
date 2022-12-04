@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <include layout="@layout/widgetlist_icontext" />
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/widgetvalue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+    <org.openhab.habdroid.ui.widget.WidgetImageView
+        android:id="@+id/widgeticon"
+        android:layout_width="@dimen/widgetlist_icon_size"
+        android:layout_height="@dimen/widgetlist_icon_size"
+        android:layout_alignParentStart="true"
         android:layout_gravity="center_vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:textDirection="anyRtl"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        app:imageScalingType="scaleToFit"
+        tools:src="@drawable/ic_openhab_appicon_24dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/widgetlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textDirection="locale"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            tools:text="Widget title" />
+
+        <TextView
+            android:id="@+id/widgetvalue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textDirection="anyRtl"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            tools:text="Widget value" />
+
+    </LinearLayout>
 
 </merge>

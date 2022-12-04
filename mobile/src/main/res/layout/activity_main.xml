@@ -1,27 +1,42 @@
-<LinearLayout
+<org.openhab.habdroid.ui.widget.LockableDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <include layout="@layout/app_bar" />
-
-    <org.openhab.habdroid.ui.widget.LockableDrawerLayout
-        android:id="@+id/activity_content"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <ViewStub
-            android:id="@+id/content_stub"
+        <include layout="@layout/app_bar" />
+
+        <FrameLayout
+            android:id="@+id/activity_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/left_drawer"
-            android:layout_width="320dp"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="?android:colorBackground" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </org.openhab.habdroid.ui.widget.LockableDrawerLayout>
-</LinearLayout>
+            <ViewStub
+                android:id="@+id/content_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/left_drawer"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="?android:colorBackground"
+        app:headerLayout="@layout/drawer_header" />
+
+</org.openhab.habdroid.ui.widget.LockableDrawerLayout>
