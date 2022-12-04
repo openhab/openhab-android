@@ -52,6 +52,8 @@
     <string name="drawer_entries">Entradas de menú lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
+    <string name="settings_set_as_launcher_title">Registrar como lanzador</string>
+    <string name="settings_set_as_launcher_summary">Permitir que la aplicación se utilice como lanzador. Después de activar, la aplicación todavía necesita ser seleccionada como lanzador predeterminado para que tenga efecto.</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <string name="settings_openhab_icon_format_png">Mapa de bits</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>

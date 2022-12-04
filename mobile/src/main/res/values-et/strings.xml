@@ -192,7 +192,6 @@
     <string name="widget_type_mapview">Kaart</string>
     <string name="widget_type_chart">Skeem</string>
     <!-- Tiles -->
-    <string name="tile_item_picker_title">Vali üksus</string>
     <string name="tile_enable">Lülita sisse</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
