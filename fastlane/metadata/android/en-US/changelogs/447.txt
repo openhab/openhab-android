@@ -1,0 +1,5 @@
+## What's Changed
+* Material Design 3 updates by @maniac103 in https://github.com/openhab/openhab-android/pull/3106
+* Fallback to min/max/step of Item if not set for Widget by @mueller-ma in https://github.com/openhab/openhab-android/pull/3102
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.4-beta...2.23.5-beta
