@@ -274,7 +274,6 @@
     <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
     <!-- Data saver -->
     <!-- Tiles -->
-    <string name="tile_item_picker_title">Selectaţi un Item</string>
     <string name="tile_enable">Porneşte</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
