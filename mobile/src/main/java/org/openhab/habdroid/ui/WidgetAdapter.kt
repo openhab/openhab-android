@@ -194,7 +194,6 @@ class WidgetAdapter(
         val wasStarted = holder.stop()
         holder.vhc = ViewHolderContext(connection, bottomSheetPresenter, colorMapper, serverFlags, chartTheme)
         holder.bind(items[position])
-
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
         }
@@ -555,6 +554,7 @@ class WidgetAdapter(
         Slider.OnSliderTouchListener, Slider.OnChangeListener, LabelFormatter {
         private val slider: Slider = itemView.findViewById(R.id.seekbar)
         private var isTracking = false
+        private var lastChange = 0L
 
         init {
             slider.addOnSliderTouchListener(this)
@@ -625,11 +625,34 @@ class WidgetAdapter(
 
         override fun onStartTrackingTouch(slider: Slider) {
             isTracking = true
-
         }
 
         override fun onStopTrackingTouch(slider: Slider) {
             isTracking = false
+            sendUpdate()
+        }
+
+        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+            if (!fromUser) {
+                return
+            }
+            Log.e(TAG, "${System.currentTimeMillis() - lastChange}")
+            if (System.currentTimeMillis() - lastChange < 1000) {
+                return
+            }
+            sendUpdate()
+        }
+
+        private fun sendUpdate() {
+            val value = slider.value.beautify()
+            Log.d(TAG, "onValueChange value = $value")
+            val item = boundWidget?.item ?: return
+            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                connection.httpClient.sendItemCommand(item, value)
+            } else {
+                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value.toFloat()))
+            }
+            lastChange = System.currentTimeMillis()
         }
 
         override fun getFormattedValue(value: Float): String {
@@ -638,20 +661,6 @@ class WidgetAdapter(
                 "${value.beautify()} %"
             } else {
                 item.state?.asNumber.withValue(value).toString()
-            }
-        }
-
-        override fun onValueChange(slider: Slider, rawValue: Float, fromUser: Boolean) {
-            if (!fromUser) {
-                return
-            }
-            val value = rawValue.beautify()
-            Log.d(TAG, "onValueChange value = $value")
-            val item = boundWidget?.item ?: return
-            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                connection.httpClient.sendItemCommand(item, value)
-            } else {
-                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value.toFloat()))
             }
         }
     }
