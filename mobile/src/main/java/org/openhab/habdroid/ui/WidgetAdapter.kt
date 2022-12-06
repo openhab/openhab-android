@@ -55,11 +55,15 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.IOException
 import java.util.Locale
+import kotlin.coroutines.CoroutineContext
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -208,12 +212,12 @@ class WidgetAdapter(
 
     override fun onViewAttachedToWindow(holder: ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.start()
+        holder.attach()
     }
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        holder.stop()
+        holder.detach()
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
@@ -317,7 +321,9 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         val parent: ViewGroup,
         @LayoutRes layoutResId: Int
-    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
+    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)), CoroutineScope {
+        private val job = Job()
+        override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
         internal var vhc: ViewHolderContext? = null
         var started = false
             private set
@@ -340,6 +346,14 @@ class WidgetAdapter(
             onStop()
             started = false
             return true
+        }
+        fun attach() {
+            start()
+            job.start()
+        }
+        fun detach() {
+            stop()
+            job.cancel()
         }
         open fun onStart() {}
         open fun onStop() {}
@@ -542,17 +556,20 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         parent: ViewGroup
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem),
-        Slider.OnSliderTouchListener, LabelFormatter {
+        Slider.OnChangeListener,
+        LabelFormatter {
         private val slider: Slider = itemView.findViewById(R.id.seekbar)
+        private var updateJob: Job? = null
 
         init {
-            slider.addOnSliderTouchListener(this)
+            slider.addOnChangeListener(this)
             slider.setLabelFormatter(this)
         }
 
         override fun bind(widget: Widget) {
             super.bind(widget)
 
+            updateJob?.cancel()
             labelView.isGone = widget.label.isEmpty()
 
             val item = widget.item
@@ -609,18 +626,20 @@ class WidgetAdapter(
             }
         }
 
-        override fun onStartTrackingTouch(slider: Slider) {
-            // no-op
-        }
-
-        override fun onStopTrackingTouch(slider: Slider) {
-            val value = slider.value.beautify()
-            Log.d(TAG, "onValueChange value = $value")
-            val item = boundWidget?.item ?: return
-            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                connection.httpClient.sendItemCommand(item, value)
-            } else {
-                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value.toFloat()))
+        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+            Log.d(TAG, "onValueChange value = $value, from user = $fromUser")
+            if (fromUser) {
+                updateJob?.cancel()
+                updateJob = boundWidget?.item?.let { item ->
+                    launch {
+                        delay(200)
+                        if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                            connection.httpClient.sendItemCommand(item, value.beautify())
+                        } else {
+                            connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value))
+                        }
+                    }
+                }
             }
         }
 
