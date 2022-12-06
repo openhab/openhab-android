@@ -22,9 +22,7 @@ import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.Button
@@ -504,34 +502,27 @@ class WidgetAdapter(
     class SwitchViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem),
-        View.OnTouchListener {
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem) {
         private val switch: SwitchMaterial = itemView.findViewById(R.id.toggle)
-        private var boundItem: Item? = null
+        private var isBinding = false
 
         init {
-            switch.setOnTouchListener(this)
+            switch.setOnCheckedChangeListener { _, checked ->
+                if (!isBinding) {
+                    connection.httpClient.sendItemCommand(boundWidget?.item, if (checked) "ON" else "OFF")
+                }
+            }
         }
 
         override fun bind(widget: Widget) {
+            isBinding = true
             super.bind(widget)
-            boundItem = widget.item
-            switch.isChecked = boundItem?.state?.asBoolean == true
+            switch.isChecked = boundWidget?.item?.state?.asBoolean == true
+            isBinding = false
         }
 
         override fun handleRowClick() {
-            toggleSwitch()
-        }
-
-        override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
-            if (motionEvent.actionMasked == MotionEvent.ACTION_UP) {
-                toggleSwitch()
-            }
-            return false
-        }
-
-        private fun toggleSwitch() {
-            connection.httpClient.sendItemCommand(boundItem, if (switch.isChecked) "OFF" else "ON")
+            switch.toggle()
         }
     }
 
@@ -860,29 +851,44 @@ class WidgetAdapter(
     class RollerShutterViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_rollershutteritem), View.OnTouchListener {
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_rollershutteritem),
+        View.OnClickListener,
+        View.OnLongClickListener {
+        private val upButton = itemView.findViewById<View>(R.id.up_button)
+        private val downButton = itemView.findViewById<View>(R.id.down_button)
+        data class UpDownButtonState(val item: Item?, val command: String, var inLongPress: Boolean = false)
+
         init {
-            val buttonCommandMap =
-                mapOf(R.id.up_button to "UP", R.id.down_button to "DOWN", R.id.stop_button to "STOP")
-            for ((id, command) in buttonCommandMap) {
-                val button = itemView.findViewById<View>(id)
-                button.setOnTouchListener(this)
-                button.tag = command
+            for (b in arrayOf(upButton, downButton)) {
+                b.setOnClickListener(this)
+                b.setOnLongClickListener(this)
+            }
+            itemView.findViewById<View>(R.id.stop_button).setOnClickListener {
+                connection.httpClient.sendItemCommand(boundWidget?.item, "STOP")
             }
         }
 
-        override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
-            when (motionEvent.actionMasked) {
-                MotionEvent.ACTION_UP -> {
-                    val pressedTime = motionEvent.eventTime - motionEvent.downTime
-                    if (pressedTime > ViewConfiguration.getLongPressTimeout() && v.tag != "STOP") {
-                        connection.httpClient.sendItemCommand(boundWidget?.item, "STOP")
-                    }
-                }
-                MotionEvent.ACTION_DOWN -> {
-                    connection.httpClient.sendItemCommand(boundWidget?.item, v.tag as String)
-                }
+        override fun bind(widget: Widget) {
+            // Our long click handling causes the view to be rebound (due to new state),
+            // make sure not to clear out our state in that case
+            if (widget.item?.name != boundWidget?.item?.name) {
+                upButton.tag = UpDownButtonState(widget.item, "UP")
+                downButton.tag = UpDownButtonState(widget.item, "DOWN")
             }
+            super.bind(widget)
+        }
+
+        override fun onClick(view: View) {
+            val buttonState = view.tag as UpDownButtonState
+            val command = if (buttonState.inLongPress) "STOP" else buttonState.command
+            connection.httpClient.sendItemCommand(buttonState.item, command)
+            buttonState.inLongPress = false
+        }
+
+        override fun onLongClick(view: View): Boolean {
+            val buttonState = view.tag as UpDownButtonState
+            buttonState.inLongPress = true
+            connection.httpClient.sendItemCommand(buttonState.item, buttonState.command)
             return false
         }
     }
