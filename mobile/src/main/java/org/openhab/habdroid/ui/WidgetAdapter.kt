@@ -64,6 +64,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -73,7 +74,6 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.AutoHeightPlayerView
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
-import org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
@@ -1150,28 +1150,61 @@ class WidgetAdapter(
     class ColorViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem), View.OnClickListener {
-        init {
-            val buttonCommandInfoList =
-                arrayOf(
-                    Triple(R.id.up_button, "ON", "INCREASE"),
-                    Triple(R.id.down_button, "OFF", "DECREASE")
-                )
-            for ((id, clickCommand, longClickHoldCommand) in buttonCommandInfoList) {
-                val button = itemView.findViewById<PeriodicSignalImageButton>(id)
-                button.clickCommand = clickCommand
-                button.longClickHoldCommand = longClickHoldCommand
-                button.callback = { _, value: String? ->
-                    value?.let { connection.httpClient.sendItemCommand(boundWidget?.item, value) }
-                }
-            }
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem),
+        View.OnClickListener,
+        View.OnLongClickListener {
+        private val upButton = itemView.findViewById<View>(R.id.up_button)
+        private val downButton = itemView.findViewById<View>(R.id.down_button)
+        data class UpDownButtonState(
+            val item: Item?,
+            val shortCommand: String,
+            val longCommand: String,
+            var repeatJob: Job? = null
+        )
 
+        init {
+            for (b in arrayOf(upButton, downButton)) {
+                b.setOnClickListener(this)
+                b.setOnLongClickListener(this)
+            }
             val selectColorButton = itemView.findViewById<View>(R.id.select_color_button)
-            selectColorButton.setOnClickListener(this)
+            selectColorButton.setOnClickListener { handleRowClick() }
         }
 
-        override fun onClick(v: View?) {
-            handleRowClick()
+        override fun bind(widget: Widget) {
+            // Our long click handling causes the view to be rebound (due to new state),
+            // make sure not to clear out our state in that case
+            if (widget.item?.name != boundWidget?.item?.name) {
+                (upButton.tag as UpDownButtonState?)?.repeatJob?.cancel()
+                (downButton.tag as UpDownButtonState?)?.repeatJob?.cancel()
+                upButton.tag = UpDownButtonState(widget.item, "ON", "INCREASE")
+                downButton.tag = UpDownButtonState(widget.item, "OFF", "DECREASE")
+            }
+            super.bind(widget)
+        }
+
+        override fun onClick(view: View) {
+            val buttonState = view.tag as UpDownButtonState
+            val repeater = buttonState.repeatJob
+            if (repeater != null) {
+                // end of long press
+                repeater.cancel()
+            } else {
+                // short press
+                connection.httpClient.sendItemCommand(buttonState.item, buttonState.shortCommand)
+            }
+            buttonState.repeatJob = null
+        }
+
+        override fun onLongClick(view: View): Boolean {
+            val buttonState = view.tag as UpDownButtonState
+            buttonState.repeatJob = launch {
+                while (isActive) {
+                    delay(250)
+                    connection.httpClient.sendItemCommand(buttonState.item, buttonState.longCommand)
+                }
+            }
+            return false
         }
 
         override fun handleRowClick() {

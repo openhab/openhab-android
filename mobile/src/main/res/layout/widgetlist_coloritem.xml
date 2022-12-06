@@ -8,7 +8,7 @@
 
     <include layout="@layout/widgetlist_icontext" />
 
-    <org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
+    <Button
         style="@style/openHAB.ActionButton"
         android:id="@+id/up_button"
         android:contentDescription="@string/content_description_color_up"
@@ -20,7 +20,7 @@
         android:contentDescription="@string/content_description_open_color_wheel"
         app:icon="@drawable/ic_palette_outline_themed_24dp" />
 
-    <org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
+    <Button
         style="@style/openHAB.ActionButton"
         android:id="@+id/down_button"
         android:contentDescription="@string/content_description_color_down"
