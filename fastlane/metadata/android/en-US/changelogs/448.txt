@@ -1,0 +1,7 @@
+## What's Changed
+* Adjust hidden section switches by @mueller-ma in https://github.com/openhab/openhab-android/pull/3114
+* Format number states in widgets by @mueller-ma in https://github.com/openhab/openhab-android/pull/3110
+* Show read-only items in widget item picker by @mueller-ma in https://github.com/openhab/openhab-android/pull/3109
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.5-beta...2.23.6-beta
