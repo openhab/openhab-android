@@ -132,6 +132,7 @@ class WidgetSettingsFragment :
             val intent = Intent(it.context, BasicItemPickerActivity::class.java)
             intent.putExtra("item", itemAndStatePref.item)
             intent.putExtra("show_no_command", true)
+            intent.putExtra("hide_read_only", false)
             itemAndStatePrefCallback.launch(intent)
             true
         }
