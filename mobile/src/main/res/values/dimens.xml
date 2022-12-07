@@ -11,5 +11,5 @@
     <dimen name="small_widget_threshold">60dp</dimen>
     <dimen name="outlineButtonStrokeWidth">2dp</dimen>
 
-    <integer name="section_switch_max_buttons">6</integer>
+    <integer name="section_switch_max_buttons">4</integer>
 </resources>
