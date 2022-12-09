@@ -463,11 +463,11 @@
     <string name="press_back_to_exit">再次按返回键退出</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">项目控制</string>
-    <string name="item_update_widget_content_description">更改项目状态的部件</string>
     <string name="item_update_widget_content_description_edit">编辑小部件</string>
     <string name="item_update_widget">小部件</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s 已被导出至 %2$s</string>
     <string name="item_update_success_message_on">%s 已开启</string>
