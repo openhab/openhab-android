@@ -499,11 +499,11 @@
     <string name="press_back_to_exit">Zum Beenden erneut Zurück drücken</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item-Steuerung</string>
-    <string name="item_update_widget_content_description">Widget zur Änderung von Item-Zuständen</string>
     <string name="item_update_widget_content_description_edit">Widget bearbeiten</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <string name="widget_show_state">Aktuellen Status an Name anhängen</string>
     <string name="widget_show_state_summary">Der Status wird mit dem Zeitplan aktualisiert, der in den Einstellungen unter \"Geräteinformationen an Server senden\" eingestellt werden kann</string>
     <string name="widget_no_command">Keinen Befehl senden</string>
