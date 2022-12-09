@@ -252,8 +252,8 @@
     <string name="turn_on">Porneşte</string>
     <string name="press_back_to_exit">Apăsaţi înapoi din nou pentru a ieşi</string>
     <!-- Item update widget -->
-    <string name="item_update_widget_content_description">Widget pentru o modifica starea unui Item</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s a fost setat la %2$s</string>
     <string name="item_update_success_message_on">%s a fost pornit</string>
