@@ -461,11 +461,11 @@
     <string name="press_back_to_exit">Naciśnij ponownie, aby wyjść</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Sterowanie Item</string>
-    <string name="item_update_widget_content_description">Widżet do zmiany stanu Itemu</string>
     <string name="item_update_widget_content_description_edit">Edytuj Widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s ustawiono na %2$s</string>
     <string name="item_update_success_message_on">%s zostało włączone</string>
