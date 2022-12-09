@@ -4,5 +4,5 @@
 
     <solid android:color="#6333" />
 
-    <corners android:radius="8dp" />
+    <corners android:radius="@dimen/widget_background_radius" />
 </shape>

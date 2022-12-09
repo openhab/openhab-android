@@ -4,7 +4,9 @@
     android:minHeight="40dp"
     android:updatePeriodMillis="86400000"
     android:previewImage="@drawable/widget_preview_voice_with_icon"
+    android:previewLayout="@layout/widget_voice_with_icon"
     android:initialLayout="@layout/widget_voice_with_icon"
+    android:description="@string/intro_voice_description"
     android:widgetCategory="home_screen"
     android:resizeMode="horizontal|vertical" >
 </appwidget-provider>
