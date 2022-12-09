@@ -438,10 +438,10 @@
     <string name="press_back_to_exit">Druk nogmaals op \'terug\' om te sluiten</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item controleren</string>
-    <string name="item_update_widget_content_description">Widget voor aanpassen van Item status</string>
     <string name="item_update_widget_content_description_edit">Widget bewerken</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
     <string name="item_update_success_message_on">%s is ingeschakeld</string>
