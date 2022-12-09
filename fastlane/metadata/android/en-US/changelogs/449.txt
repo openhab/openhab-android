@@ -1,0 +1,7 @@
+## What's Changed
+* Fix roller shutter items trigger instantly on scroll by @maniac103 in https://github.com/openhab/openhab-android/pull/3116
+* Slider: Send state while holding by @maniac103 in https://github.com/openhab/openhab-android/pull/3116
+* Improve widgets on Android 12 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3108
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.6-beta...2.23.7-beta
