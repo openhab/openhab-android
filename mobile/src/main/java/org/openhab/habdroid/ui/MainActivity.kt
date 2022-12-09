@@ -71,10 +71,11 @@ import javax.jmdns.ServiceInfo
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.Request
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -160,7 +161,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private lateinit var controller: ContentController
     var serverProperties: ServerProperties? = null
         private set
-    private var propsUpdateHandle: ServerProperties.Companion.UpdateHandle? = null
+    private var propsRequestJob: Job? = null
     private var retryJob: Job? = null
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
@@ -324,7 +325,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (sitemapSelectionDialog?.isShowing == true) {
             sitemapSelectionDialog?.dismiss()
         }
-        propsUpdateHandle?.cancel()
+        propsRequestJob?.cancel()
     }
 
     override fun onResume() {
@@ -538,7 +539,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     fun scheduleRetry(runAfterDelay: () -> Unit) {
         retryJob?.cancel(CancellationException("scheduleRetry() was called"))
-        retryJob = CoroutineScope(Dispatchers.Main + Job()).launch {
+        retryJob = launch {
             delay(30.seconds)
             if (!isStarted) {
                 Log.e(TAG, "Would have runAfterDelay(), but not started anymore")
@@ -717,34 +718,39 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun queryServerProperties() {
-        propsUpdateHandle?.cancel()
+        propsRequestJob?.cancel()
         retryJob?.cancel(CancellationException("queryServerProperties() was called"))
-        val successCb: (ServerProperties) -> Unit = { props ->
-            serverProperties = props
-            updateSitemapDrawerEntries()
-            if (props.sitemaps.isEmpty()) {
-                Log.e(TAG, "openHAB returned empty Sitemap list")
-                controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
-                scheduleRetry {
-                    retryServerPropertyQuery()
-                }
-            } else {
-                chooseSitemap()
+        propsRequestJob = launch {
+            val conn = connection!!
+            val result = withContext(Dispatchers.IO) {
+                ServerProperties.fetch(conn)
             }
-            if (connection !is DemoConnection) {
-                prefs.edit {
-                    putInt(PrefKeys.PREV_SERVER_FLAGS, props.flags)
+            when (result) {
+                is ServerProperties.Companion.PropsSuccess -> {
+                    serverProperties = result.props
+                    updateSitemapDrawerEntries()
+                    if (result.props.sitemaps.isEmpty()) {
+                        Log.e(TAG, "openHAB returned empty Sitemap list")
+                        controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
+                        scheduleRetry {
+                            retryServerPropertyQuery()
+                        }
+                    } else {
+                        chooseSitemap()
+                    }
+                    if (connection !is DemoConnection) {
+                        prefs.edit {
+                            putInt(PrefKeys.PREV_SERVER_FLAGS, result.props.flags)
+                        }
+                    }
+                    handlePendingAction()
+                }
+                is ServerProperties.Companion.PropsFailure -> {
+                    handlePropertyFetchFailure(result)
                 }
             }
-            handlePendingAction()
         }
-        propsUpdateHandle = ServerProperties.fetch(
-            this,
-            connection!!,
-            successCb,
-            this::handlePropertyFetchFailure
-        )
-        CoroutineScope(Dispatchers.IO + Job()).launch {
+        GlobalScope.launch(Dispatchers.IO) {
             PeriodicItemUpdateWorker.doPeriodicWork(this@MainActivity)
         }
     }
@@ -829,14 +835,24 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerLayout.addDrawerListener(drawerToggle)
         drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
             override fun onDrawerOpened(drawerView: View) {
-                if (serverProperties != null && propsUpdateHandle == null) {
-                    propsUpdateHandle = ServerProperties.updateSitemaps(this@MainActivity,
-                        serverProperties!!, connection!!,
-                        { props ->
-                            serverProperties = props
+                val loadedProperties = serverProperties ?: return
+                val connection = connection ?: return
+                if (propsRequestJob?.isActive == true) {
+                    return
+                }
+                propsRequestJob = launch {
+                    val result = withContext(Dispatchers.IO) {
+                        ServerProperties.updateSitemaps(loadedProperties, connection)
+                    }
+                    when (result) {
+                        is ServerProperties.Companion.PropsSuccess -> {
+                            serverProperties = result.props
                             updateSitemapDrawerEntries()
-                        },
-                        this@MainActivity::handlePropertyFetchFailure)
+                        }
+                        is ServerProperties.Companion.PropsFailure -> {
+                            handlePropertyFetchFailure(result)
+                        }
+                    }
                 }
             }
             override fun onDrawerClosed(drawerView: View) {
@@ -1300,16 +1316,21 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerLayout.isSwipeDisabled = locked
     }
 
-    private fun handlePropertyFetchFailure(request: Request, statusCode: Int, error: Throwable) {
-        Log.e(TAG, "Error: $error", error)
-        Log.e(TAG, "HTTP status code: $statusCode")
-        var message = getHumanReadableErrorMessage(request.url.toString(), statusCode, error, false)
+    private fun handlePropertyFetchFailure(result: ServerProperties.Companion.PropsFailure) {
+        Log.e(TAG, "Error: ${result.error}", result.error)
+        Log.e(TAG, "HTTP status code: ${result.httpStatusCode}")
+        var message = getHumanReadableErrorMessage(
+            result.request.url.toString(),
+            result.httpStatusCode,
+            result.error,
+            false
+        )
         if (prefs.isDebugModeEnabled()) {
             message = SpannableStringBuilder(message).apply {
                 inSpans(RelativeSizeSpan(0.8f)) {
-                    append("\n\nURL: ").append(request.url.toString())
+                    append("\n\nURL: ").append(result.request.url.toString())
 
-                    val authHeader = request.header("Authorization")
+                    val authHeader = result.request.header("Authorization")
                     if (authHeader?.startsWith("Basic") == true) {
                         val base64Credentials = authHeader.substring("Basic".length).trim()
                         val credentials = String(Base64.decode(base64Credentials, Base64.DEFAULT),
@@ -1323,7 +1344,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
                 inSpans(RelativeSizeSpan(0.6f)) {
                     var origError: Throwable?
-                    var cause: Throwable? = error
+                    var cause: Throwable? = result.error
                     do {
                         append(cause?.toString()).append('\n')
                         origError = cause
@@ -1337,7 +1358,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         scheduleRetry {
             retryServerPropertyQuery()
         }
-        propsUpdateHandle = null
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {

@@ -22,7 +22,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.github.chrisbanes.photoview.PhotoView
 import kotlin.math.max
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -95,7 +94,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
                 super.onOptionsItemSelected(item)
             }
             R.id.refresh -> {
-                CoroutineScope(Dispatchers.IO + Job()).launch {
+                launch(Dispatchers.IO) {
                     loadImage()
                 }
                 true
