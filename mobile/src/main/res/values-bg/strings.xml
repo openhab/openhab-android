@@ -287,6 +287,7 @@
     <string name="turn_on">Включи</string>
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <!-- Used in the widget preview -->
     <string name="error_getting_state">Грешка при зареждане на състоянието</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_move">%s започва да се движи</string>
