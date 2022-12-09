@@ -22,9 +22,7 @@ import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.Button
@@ -57,11 +55,16 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.IOException
 import java.util.Locale
+import kotlin.coroutines.CoroutineContext
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -71,7 +74,6 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.AutoHeightPlayerView
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
-import org.openhab.habdroid.ui.widget.PeriodicSignalImageButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
@@ -210,12 +212,12 @@ class WidgetAdapter(
 
     override fun onViewAttachedToWindow(holder: ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.start()
+        holder.attach()
     }
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        holder.stop()
+        holder.detach()
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
@@ -319,7 +321,9 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         val parent: ViewGroup,
         @LayoutRes layoutResId: Int
-    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
+    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)), CoroutineScope {
+        private val job = Job()
+        override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
         internal var vhc: ViewHolderContext? = null
         var started = false
             private set
@@ -342,6 +346,14 @@ class WidgetAdapter(
             onStop()
             started = false
             return true
+        }
+        fun attach() {
+            start()
+            job.start()
+        }
+        fun detach() {
+            stop()
+            job.cancel()
         }
         open fun onStart() {}
         open fun onStop() {}
@@ -504,34 +516,27 @@ class WidgetAdapter(
     class SwitchViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem),
-        View.OnTouchListener {
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem) {
         private val switch: SwitchMaterial = itemView.findViewById(R.id.toggle)
-        private var boundItem: Item? = null
+        private var isBinding = false
 
         init {
-            switch.setOnTouchListener(this)
+            switch.setOnCheckedChangeListener { _, checked ->
+                if (!isBinding) {
+                    connection.httpClient.sendItemCommand(boundWidget?.item, if (checked) "ON" else "OFF")
+                }
+            }
         }
 
         override fun bind(widget: Widget) {
+            isBinding = true
             super.bind(widget)
-            boundItem = widget.item
-            switch.isChecked = boundItem?.state?.asBoolean == true
+            switch.isChecked = boundWidget?.item?.state?.asBoolean == true
+            isBinding = false
         }
 
         override fun handleRowClick() {
-            toggleSwitch()
-        }
-
-        override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
-            if (motionEvent.actionMasked == MotionEvent.ACTION_UP) {
-                toggleSwitch()
-            }
-            return false
-        }
-
-        private fun toggleSwitch() {
-            connection.httpClient.sendItemCommand(boundItem, if (switch.isChecked) "OFF" else "ON")
+            switch.toggle()
         }
     }
 
@@ -551,17 +556,20 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         parent: ViewGroup
     ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem),
-        Slider.OnSliderTouchListener, LabelFormatter {
+        Slider.OnChangeListener,
+        LabelFormatter {
         private val slider: Slider = itemView.findViewById(R.id.seekbar)
+        private var updateJob: Job? = null
 
         init {
-            slider.addOnSliderTouchListener(this)
+            slider.addOnChangeListener(this)
             slider.setLabelFormatter(this)
         }
 
         override fun bind(widget: Widget) {
             super.bind(widget)
 
+            updateJob?.cancel()
             labelView.isGone = widget.label.isEmpty()
 
             val item = widget.item
@@ -618,18 +626,20 @@ class WidgetAdapter(
             }
         }
 
-        override fun onStartTrackingTouch(slider: Slider) {
-            // no-op
-        }
-
-        override fun onStopTrackingTouch(slider: Slider) {
-            val value = slider.value.beautify()
-            Log.d(TAG, "onValueChange value = $value")
-            val item = boundWidget?.item ?: return
-            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                connection.httpClient.sendItemCommand(item, value)
-            } else {
-                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value.toFloat()))
+        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+            Log.d(TAG, "onValueChange value = $value, from user = $fromUser")
+            if (fromUser) {
+                updateJob?.cancel()
+                updateJob = boundWidget?.item?.let { item ->
+                    launch {
+                        delay(200)
+                        if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                            connection.httpClient.sendItemCommand(item, value.beautify())
+                        } else {
+                            connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value))
+                        }
+                    }
+                }
             }
         }
 
@@ -860,29 +870,44 @@ class WidgetAdapter(
     class RollerShutterViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_rollershutteritem), View.OnTouchListener {
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_rollershutteritem),
+        View.OnClickListener,
+        View.OnLongClickListener {
+        private val upButton = itemView.findViewById<View>(R.id.up_button)
+        private val downButton = itemView.findViewById<View>(R.id.down_button)
+        data class UpDownButtonState(val item: Item?, val command: String, var inLongPress: Boolean = false)
+
         init {
-            val buttonCommandMap =
-                mapOf(R.id.up_button to "UP", R.id.down_button to "DOWN", R.id.stop_button to "STOP")
-            for ((id, command) in buttonCommandMap) {
-                val button = itemView.findViewById<View>(id)
-                button.setOnTouchListener(this)
-                button.tag = command
+            for (b in arrayOf(upButton, downButton)) {
+                b.setOnClickListener(this)
+                b.setOnLongClickListener(this)
+            }
+            itemView.findViewById<View>(R.id.stop_button).setOnClickListener {
+                connection.httpClient.sendItemCommand(boundWidget?.item, "STOP")
             }
         }
 
-        override fun onTouch(v: View, motionEvent: MotionEvent): Boolean {
-            when (motionEvent.actionMasked) {
-                MotionEvent.ACTION_UP -> {
-                    val pressedTime = motionEvent.eventTime - motionEvent.downTime
-                    if (pressedTime > ViewConfiguration.getLongPressTimeout() && v.tag != "STOP") {
-                        connection.httpClient.sendItemCommand(boundWidget?.item, "STOP")
-                    }
-                }
-                MotionEvent.ACTION_DOWN -> {
-                    connection.httpClient.sendItemCommand(boundWidget?.item, v.tag as String)
-                }
+        override fun bind(widget: Widget) {
+            // Our long click handling causes the view to be rebound (due to new state),
+            // make sure not to clear out our state in that case
+            if (widget.item?.name != boundWidget?.item?.name) {
+                upButton.tag = UpDownButtonState(widget.item, "UP")
+                downButton.tag = UpDownButtonState(widget.item, "DOWN")
             }
+            super.bind(widget)
+        }
+
+        override fun onClick(view: View) {
+            val buttonState = view.tag as UpDownButtonState
+            val command = if (buttonState.inLongPress) "STOP" else buttonState.command
+            connection.httpClient.sendItemCommand(buttonState.item, command)
+            buttonState.inLongPress = false
+        }
+
+        override fun onLongClick(view: View): Boolean {
+            val buttonState = view.tag as UpDownButtonState
+            buttonState.inLongPress = true
+            connection.httpClient.sendItemCommand(buttonState.item, buttonState.command)
             return false
         }
     }
@@ -1125,28 +1150,61 @@ class WidgetAdapter(
     class ColorViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem), View.OnClickListener {
-        init {
-            val buttonCommandInfoList =
-                arrayOf(
-                    Triple(R.id.up_button, "ON", "INCREASE"),
-                    Triple(R.id.down_button, "OFF", "DECREASE")
-                )
-            for ((id, clickCommand, longClickHoldCommand) in buttonCommandInfoList) {
-                val button = itemView.findViewById<PeriodicSignalImageButton>(id)
-                button.clickCommand = clickCommand
-                button.longClickHoldCommand = longClickHoldCommand
-                button.callback = { _, value: String? ->
-                    value?.let { connection.httpClient.sendItemCommand(boundWidget?.item, value) }
-                }
-            }
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem),
+        View.OnClickListener,
+        View.OnLongClickListener {
+        private val upButton = itemView.findViewById<View>(R.id.up_button)
+        private val downButton = itemView.findViewById<View>(R.id.down_button)
+        data class UpDownButtonState(
+            val item: Item?,
+            val shortCommand: String,
+            val longCommand: String,
+            var repeatJob: Job? = null
+        )
 
+        init {
+            for (b in arrayOf(upButton, downButton)) {
+                b.setOnClickListener(this)
+                b.setOnLongClickListener(this)
+            }
             val selectColorButton = itemView.findViewById<View>(R.id.select_color_button)
-            selectColorButton.setOnClickListener(this)
+            selectColorButton.setOnClickListener { handleRowClick() }
         }
 
-        override fun onClick(v: View?) {
-            handleRowClick()
+        override fun bind(widget: Widget) {
+            // Our long click handling causes the view to be rebound (due to new state),
+            // make sure not to clear out our state in that case
+            if (widget.item?.name != boundWidget?.item?.name) {
+                (upButton.tag as UpDownButtonState?)?.repeatJob?.cancel()
+                (downButton.tag as UpDownButtonState?)?.repeatJob?.cancel()
+                upButton.tag = UpDownButtonState(widget.item, "ON", "INCREASE")
+                downButton.tag = UpDownButtonState(widget.item, "OFF", "DECREASE")
+            }
+            super.bind(widget)
+        }
+
+        override fun onClick(view: View) {
+            val buttonState = view.tag as UpDownButtonState
+            val repeater = buttonState.repeatJob
+            if (repeater != null) {
+                // end of long press
+                repeater.cancel()
+            } else {
+                // short press
+                connection.httpClient.sendItemCommand(buttonState.item, buttonState.shortCommand)
+            }
+            buttonState.repeatJob = null
+        }
+
+        override fun onLongClick(view: View): Boolean {
+            val buttonState = view.tag as UpDownButtonState
+            buttonState.repeatJob = launch {
+                while (isActive) {
+                    delay(250)
+                    connection.httpClient.sendItemCommand(buttonState.item, buttonState.longCommand)
+                }
+            }
+            return false
         }
 
         override fun handleRowClick() {
