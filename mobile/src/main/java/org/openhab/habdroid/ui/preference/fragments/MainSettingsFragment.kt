@@ -65,10 +65,8 @@ import org.openhab.habdroid.util.isInstalled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.parcelable
 
-class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), ConnectionFactory.UpdateListener {
+class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.UpdateListener {
     override val titleResId: Int @StringRes get() = R.string.action_settings
-    @ColorInt
-    var previousColor: Int = 0
 
     private var notificationPollingPref: NotificationPollingPreference? = null
     private var notificationStatusHint: Preference? = null

@@ -45,7 +45,7 @@ import org.openhab.habdroid.util.parcelableArrayList
 
 @RequiresApi(Build.VERSION_CODES.N)
 class TileSettingsFragment :
-    PreferencesActivity.AbstractSettingsFragment(),
+    AbstractSettingsFragment(),
     PreferencesActivity.ConfirmLeaveDialogFragment.Callback {
     override val titleResId: Int @StringRes get() = R.string.tile
     private var tileId = 0

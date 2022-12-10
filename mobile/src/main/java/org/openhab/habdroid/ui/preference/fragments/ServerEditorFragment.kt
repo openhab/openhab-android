@@ -43,7 +43,7 @@ import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 class ServerEditorFragment :
-    PreferencesActivity.AbstractSettingsFragment(),
+    AbstractSettingsFragment(),
     PreferencesActivity.ConfirmationDialogFragment.Callback,
     PreferencesActivity.ConfirmLeaveDialogFragment.Callback {
     private lateinit var config: ServerConfiguration

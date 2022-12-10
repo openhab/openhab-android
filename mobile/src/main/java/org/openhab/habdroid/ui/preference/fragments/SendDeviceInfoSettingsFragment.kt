@@ -29,7 +29,7 @@ import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.isInstalled
 
 class SendDeviceInfoSettingsFragment :
-    PreferencesActivity.AbstractSettingsFragment(),
+    AbstractSettingsFragment(),
     SharedPreferences.OnSharedPreferenceChangeListener {
     override val titleResId: Int @StringRes get() = R.string.send_device_info_to_server_short
     private lateinit var phoneStatePref: ItemUpdatingPreference
