@@ -17,15 +17,20 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.SwitchPreferenceCompat
@@ -43,7 +48,8 @@ import org.openhab.habdroid.util.PrefKeys
 
 class WidgetSettingsFragment :
     AbstractSettingsFragment(),
-    PreferencesActivity.ConfirmLeaveDialogFragment.Callback {
+    PreferencesActivity.ConfirmLeaveDialogFragment.Callback,
+    MenuProvider {
     override val titleResId: Int @StringRes get() = R.string.item_update_widget
     private var widgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID
 
@@ -79,7 +85,8 @@ class WidgetSettingsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         activity?.setResult(AppCompatActivity.RESULT_CANCELED)
 
         widgetId = requireArguments().getInt("id", AppWidgetManager.INVALID_APPWIDGET_ID)
@@ -105,18 +112,22 @@ class WidgetSettingsFragment :
         parentActivity.onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.prefs_save, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save -> {
                 onLeaveAndSave()
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
     }
 

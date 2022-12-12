@@ -14,13 +14,18 @@
 package org.openhab.habdroid.ui.preference.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.work.WorkManager
@@ -45,7 +50,8 @@ import org.openhab.habdroid.util.updateDefaultSitemap
 class ServerEditorFragment :
     AbstractSettingsFragment(),
     PreferencesActivity.ConfirmationDialogFragment.Callback,
-    PreferencesActivity.ConfirmLeaveDialogFragment.Callback {
+    PreferencesActivity.ConfirmLeaveDialogFragment.Callback,
+    MenuProvider {
     private lateinit var config: ServerConfiguration
     private lateinit var initialConfig: ServerConfiguration
     private var markAsPrimary = false
@@ -56,7 +62,6 @@ class ServerEditorFragment :
         config = requireArguments().parcelable<ServerConfiguration>("config")!!
         initialConfig = config
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -72,14 +77,18 @@ class ServerEditorFragment :
         parentActivity.onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.server_editor, menu)
         val deleteItem = menu.findItem(R.id.delete)
         deleteItem.isVisible = prefs.getConfiguredServerIds().contains(config.id)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save -> {
                 saveAndQuit()
@@ -94,7 +103,7 @@ class ServerEditorFragment :
                 )
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
     }
 
