@@ -468,11 +468,11 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="press_back_to_exit">Prem recula altra vegada per sortir</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item control</string>
-    <string name="item_update_widget_content_description">Giny per canviar l\'estat de l\'Item</string>
     <string name="item_update_widget_content_description_edit">Edita el giny</string>
     <string name="item_update_widget">Giny</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s ha canviat a %2$s</string>
     <string name="item_update_success_message_on">%s s\'ha activat</string>

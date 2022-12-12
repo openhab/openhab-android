@@ -493,11 +493,13 @@
     <string name="press_back_to_exit">Presione atrás de nuevo para salir</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Control del Item</string>
-    <string name="item_update_widget_content_description">Widget para cambiar el estado del Item</string>
+    <string name="item_update_widget_content_description">Cambiar o leer el estado de un Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Garaje abierto</string>
     <string name="widget_show_state">Añadir estado actual al nombre</string>
     <string name="widget_show_state_summary">El estado se actualiza en el calendario, el cual se puede ajustar en la configuración de \"Enviar información del dispositivo al servidor\"</string>
     <string name="widget_no_command">No enviar un comando</string>

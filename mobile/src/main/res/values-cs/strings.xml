@@ -473,11 +473,11 @@
     <string name="press_back_to_exit">Pro ukončení stiskněte znovu tlačítko zpět</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Kontrola Item</string>
-    <string name="item_update_widget_content_description">Widget pro změnu stavu Item</string>
     <string name="item_update_widget_content_description_edit">Upravit widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s - nastaveno na %2$s</string>
     <string name="item_update_success_message_on">%s - zapnuto</string>

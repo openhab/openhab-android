@@ -497,11 +497,11 @@
     <string name="press_back_to_exit">Trykk tilbake en gang til for å gå ut</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Element kontroll</string>
-    <string name="item_update_widget_content_description">Widget for å endre status på elementer</string>
     <string name="item_update_widget_content_description_edit">Rediger widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <string name="widget_show_state">Tilføy gjeldende tilstand til navnet</string>
     <string name="widget_show_state_summary">Tilstanden blir oppdatert i henhold til tidsplanen, som kan konfigureres under \"Send enhetsinformasjon til server\"</string>
     <string name="widget_no_command">Ikke send en kommando</string>

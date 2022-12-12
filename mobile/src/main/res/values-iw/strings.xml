@@ -474,11 +474,11 @@
     <string name="press_back_to_exit">לחץ \'חזור\' פעם נוספת כדי לצאת</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">שליטה בפריט</string>
-    <string name="item_update_widget_content_description">וידג׳ט לשינוי מצב פריט</string>
     <string name="item_update_widget_content_description_edit">ערוך יישומון</string>
     <string name="item_update_widget">יישומון</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
+    <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">הפריט %1$s כוון ל %2$s</string>
     <string name="item_update_success_message_on">%s עבר למצב דולק</string>
