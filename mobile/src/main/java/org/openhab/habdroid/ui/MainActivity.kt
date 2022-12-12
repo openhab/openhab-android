@@ -909,7 +909,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 }
                 R.id.about -> {
                     val aboutIntent = Intent(this, AboutActivity::class.java)
-                    aboutIntent.putExtra("serverProperties", serverProperties)
                     startActivity(aboutIntent)
                     handled = true
                 }
