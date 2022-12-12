@@ -22,7 +22,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPreference
 
-class DrawerEntriesMenuFragment : PreferencesActivity.AbstractSettingsFragment() {
+class DrawerEntriesMenuFragment : AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = R.string.drawer_entries
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

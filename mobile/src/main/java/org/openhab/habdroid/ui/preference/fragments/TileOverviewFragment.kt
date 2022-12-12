@@ -23,10 +23,9 @@ import androidx.preference.forEachIndexed
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.getTileData
-import org.openhab.habdroid.ui.preference.PreferencesActivity
 
 @RequiresApi(Build.VERSION_CODES.N)
-class TileOverviewFragment : PreferencesActivity.AbstractSettingsFragment() {
+class TileOverviewFragment : AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = R.string.tiles_for_quick_settings
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

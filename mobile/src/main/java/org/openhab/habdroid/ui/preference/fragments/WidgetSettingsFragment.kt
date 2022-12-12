@@ -42,7 +42,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 
 class WidgetSettingsFragment :
-    PreferencesActivity.AbstractSettingsFragment(),
+    AbstractSettingsFragment(),
     PreferencesActivity.ConfirmLeaveDialogFragment.Callback {
     override val titleResId: Int @StringRes get() = R.string.item_update_widget
     private var widgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID

@@ -18,11 +18,10 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import org.openhab.habdroid.R
-import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
 
 @RequiresApi(Build.VERSION_CODES.R)
-class DeviceControlFragment : PreferencesActivity.AbstractSettingsFragment() {
+class DeviceControlFragment : AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = R.string.device_control
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
