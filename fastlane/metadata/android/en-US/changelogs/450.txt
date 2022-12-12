@@ -1,0 +1,5 @@
+## What's Changed
+* Add 'BETA' to icon of beta builds by @mueller-ma in https://github.com/openhab/openhab-android/pull/3107
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.7-beta...2.23.8-beta
