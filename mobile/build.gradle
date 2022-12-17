@@ -49,7 +49,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 440
-        versionName "2.22.3-beta"
+        versionName "2.22.3-mcsoft"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
@@ -118,6 +118,9 @@ unMock {
 }
 
 repositories {
+//    maven {
+//        url "https://dl.bintray.com/videolan/Android"
+//    }
     maven {
         url "https://maven.fabric.io/public"
     }
@@ -129,7 +132,8 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*player*debug.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*player*debug.jar'])
+    implementation 'org.videolan.android:libvlc-all:3.5.1'
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9:$kotlin_coroutines_version"

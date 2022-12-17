@@ -6,4 +6,5 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dip"
     android:paddingStart="@dimen/widgetlist_item_side_margin"
-    android:paddingEnd="@dimen/widgetlist_item_side_margin" />
+    android:paddingEnd="@dimen/widgetlist_item_side_margin"
+    />

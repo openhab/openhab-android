@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,9 +20,12 @@ import org.openhab.habdroid.audio.AudioPoster;
 import org.openhab.habdroid.audio.AudioQueue;
 import org.openhab.habdroid.audio.AudioSampler;
 import org.openhab.habdroid.audio.AudioSamplingListener;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 ///////////////////////////////////////////////////////////////////
 // NOTE THAT THE findViewById refers to a view defined in a fragment's layout xml file.
@@ -70,53 +74,17 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
 
     private static final String TAG = RtspCameraSurfaceView.class.getSimpleName();
 
-    public final static int SIZE_STANDARD = 1;
-    public final static int SIZE_BEST_FIT = 4;
-    public final static int SIZE_FULLSCREEN = 8;
-    public final static int SIZE_VIDEO_DOORBELL = 9;
-    private final static float RATIO = 9.0f / 16.0f;
-    private final static float CAMERA_RATIO = 16.0f / 9.0f;
-    private final static int ALLOWED_STREAM_COUNT = 2; // North and South bound streams
-    private static int iContractId = 0;
-
-    static {
-        System.loadLibrary("native-codec-jni");
-        //RtspVideo.setMaxCameraLimit(1);
-    }
-
-    public Surface mySurface;
-    public RtspVideo myRtspVideo = null;
-    public String myLifePlayerInstanceId = null;
-    public int m_nVideoWidth = 0;               // Video width
-    public int m_nVideoHeight = 0;
-    private int myContractId = -1;
-    ////////////////////////////////////////////////////////////////////////////////
     private Context mContext;
-    private RtspPlayer m_cPlayer = null;
-    private boolean m_isResume = false;
-    private boolean m_isPlayerRun = false;
-    private boolean m_isVideoplaying = false;
-    private boolean m_isPlayerStop = false;
-    private int mDisplayMode = SIZE_STANDARD;
-    private int mDisplayWidth = 640;
-    private int mDisplayHeight = 480;
-    //private VO_OSMP_ASPECT_RATIO m_nAspectRatio       = VO_OSMP_ASPECT_RATIO.VO_OSMP_RATIO_AUTO;
-    private int m_nAspectRatio = 4; // 4 means 16:9
-    private String m_strVideoPath = null;
-    private Boolean m_restart = false;
-    private String m_cameraGuid = null;
-    private boolean m_isPlayerPrecharged = false;
-    private boolean m_keepCharged = false;
-    private int m_chargeTimeout = 0;
-//    private ICameraLiveFeedErrorListener cameraLiveFeedErrorListener = null;
+    public Surface mySurface;
     private SurfaceCreatedListener surfaceCreatedListener;
     private boolean surfaceDone = false;
-    private int defaultVolume;
-    private String m_audioUrl;
+    private LibVLC mLibVLC;
+    private MediaPlayer mMediaPlayer;
+    private String videoUrl;
 
     public RtspCameraSurfaceView(Context context) {
         super(context);
-        mDisplayMode = SIZE_STANDARD;
+//        mDisplayMode = SIZE_STANDARD;
         Log.i("", "RtspCameraSurfaceView(context) ");
         setCustomSurfaceViewParams(context);
     }
@@ -124,7 +92,7 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
     public RtspCameraSurfaceView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Log.i("", "RtspCameraSurfaceView(context,attrs,defstyle) ");
-        mDisplayMode = SIZE_STANDARD;
+//        mDisplayMode = SIZE_STANDARD;
         setCustomSurfaceViewParams(context);
     }
 
@@ -133,12 +101,8 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
         String contx = context.getClass().toString();
         String attrx = attrs.toString();
         Log.i("", "RtspCameraSurfaceView( context= " + contx + " , attrs= " + attrx + " ) ");
-        mDisplayMode = SIZE_STANDARD;
+//        mDisplayMode = SIZE_STANDARD;
         setCustomSurfaceViewParams(context);
-    }
-
-    static void discharge() {
-        RtspVideo.dischargeAllPlayers();
     }
 
     public static String getUserPath(Context context) {
@@ -154,27 +118,9 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
         return userPath;
     }
 
-    private static int getUniqueContractId() {
-        return iContractId++;
-    }
+    private void init(Context context) {
 
-    private void setPrecharged() {
-        m_isPlayerPrecharged = true;
     }
-
-    public boolean getPrecharged() {
-        return m_isPlayerPrecharged;
-    }
-
-    public void clearPrecharged() {
-        m_isPlayerPrecharged = false;
-    }
-
-    public void setPlayer(RtspPlayer player) {
-        m_cPlayer = player;
-        Log.i("", "setPlayer ");
-    }
-
     private void setCustomSurfaceViewParams(Context context) {
 
         this.mContext = context;
@@ -188,260 +134,56 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
         getHolder().setFormat(PixelFormat.RGBA_8888);
 
         setFocusable(true);
-
-        myRtspVideo = new RtspVideo(/*1, mContext,*/ null, this);
-
-        executorService = Executors.newFixedThreadPool(ALLOWED_STREAM_COUNT);
     }
-
-    public void setDisplayMode(int displayMode) {
-        mDisplayMode = displayMode;
-    }
-
-    public int getmDisplayMode() {
-        return mDisplayMode;
-    }
-
-    public int getmDisplayWidth() {
-        return mDisplayWidth;
-    }
-
-    public int getmDisplayHeight() {
-        return mDisplayHeight;
-    }
-
-    public void setDisaplayWidth(int width) {
-        mDisplayWidth = width;
-    }
-
-    public void setDisplayHeight(int height) {
-        mDisplayHeight = height;
-    }
-
-
-    // Display error messages and stop player
-    public boolean onError(RtspPlayer mp, int what, int extra) {
-        Log.i("", "onError, view=" + hashCode() + ",guid=" + m_cameraGuid);
-
-        //Toast.makeText(mContext, (String)errStr, Toast.LENGTH_LONG).show();
-        if (m_cPlayer != null) {
-            m_cPlayer.closeStream();
-            m_cPlayer.destroy();
-            m_cPlayer = null;
-            return true;
-        }
-
-        return false;
-    }
-
 
     public void surfaceCreated(SurfaceHolder holder) {
         // TODO Auto-generated method stub
 
         mySurface = holder.getSurface();
 
-        Log.i("", "surfaceCreated, view=" + hashCode() + ", surface=" + (mySurface == null ? "null" : mySurface.hashCode()) + ",guid=" + m_cameraGuid);
+        Log.i("", "surfaceCreated, view=" + hashCode() + ", surface=" + (mySurface == null ? "null" : mySurface.hashCode()));
 
         surfaceDone = true;
         if (surfaceCreatedListener != null) {
             surfaceCreatedListener.surfaceCreated();
         }
-
-        myRtspVideo.setSurface(mySurface);
-
-        if ((m_strVideoPath == null) || (m_strVideoPath.trim().length() <= 0)) {
-            return;
-        }
-
-        if ((m_cameraGuid == null) || (m_cameraGuid.trim().length() <= 0)) {
-            return;
-        }
-
-        if (m_cPlayer != null) {
-            m_cPlayer.resume(this);
-        }
-
-        if (m_cPlayer == null) {
-            m_cPlayer = new RtspPlayer(this, mContext);
-        }
     }
-
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         mySurface = holder.getSurface();
 
-        //if ( m_isPlayerRun == true ) {
-        // stopPlayback();
-        // playerStart();
-        // }
-
         Log.i("", "surfaceChanged, view=" + hashCode() + ", surface=" + (mySurface == null ? "null" : mySurface.hashCode()));
-        //if (m_cPlayer != null)
-        //    m_cPlayer.setSurfaceChangeFinished();
-
-        myRtspVideo.setSurface(mySurface);
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
         surfaceDone = false;
 
-        Log.i("", "surfaceDestroyed, view=" + hashCode() + ",guid=" + m_cameraGuid);
-
-        if (m_cPlayer != null) {
-            m_cPlayer.closeStream();
-            //m_cPlayer.destroy();
-            m_cPlayer = null;
-        }
-
-        if (myRtspVideo != null) {
-
-            myRtspVideo.setSurface(null);
-
-            if (myLifePlayerInstanceId != null) {
-                myRtspVideo.destroyPlayer(myLifePlayerInstanceId);
-                myLifePlayerInstanceId = null;
-            }
-        }
+        Log.i("", "surfaceDestroyed, view=" + hashCode());
     }
-
-
-    private void playerReset() {
-        Log.i("", "playerReset, view=" + hashCode());
-
-        m_nVideoWidth = 0;
-        m_nVideoHeight = 0;
-        m_nAspectRatio = 4;
-    }
-
 
     public boolean isPlaying() {
-        String logMsg = "isPlaying() returns " + m_isPlayerRun + ", view=" + hashCode();
-        Log.i("", logMsg);
-
-        return m_isPlayerRun;
+        return false;
     }
 
     public void stopPlayback() {
-        Log.d("", "stopPlayback, view=" + hashCode() + ",guid=" + m_cameraGuid);
 
-        myContractId = -1;
+        Log.d("", "stopPlayback, view=" + hashCode());
 
-        if (m_isPlayerRun) {
-            m_isPlayerStop = true;
-            m_isPlayerRun = false;
-            m_isVideoplaying = false;
+        mMediaPlayer.stop();
 
-            if (myLifePlayerInstanceId != null) {
-                myRtspVideo.disconnect(myLifePlayerInstanceId);
-                clearPrecharged();
-            }
+//        IVLCVout vout = mMediaPlayer.getVLCVout();
+//        vout.detachViews();
 
-            if (m_cPlayer != null) {
-                m_cPlayer.closeStream();
-            }
-
-            stopAudioStream();
-
-            audioManager.setMode(voiceMode);
-
-            //set stream volume to defalt
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, defaultVolume, 0);
-
-            //if speaker wasnt on to start, set it off on exit
-            if (!wasSpeakerOn) {
-                audioManager.setSpeakerphoneOn(false);
-            }
-        }
+        mLibVLC.release();
+        mLibVLC = null;
     }
 
+    //    public void setSource(String guid, String url, String audioUrl, Boolean keepPrecharged, Integer chargeTimeout, ICameraLiveFeedErrorListener cameraLiveFeedErrorListener) {
+    public void setSource(String id, String url) {
 
-    public void pausePlayback() {
-        Log.d("", "pausePlayback, view=" + hashCode() + ",guid=" + m_cameraGuid);
+        Log.i(TAG, "setSource id=" + id + ",url=" + url);
 
-        myContractId = -1;
-
-        if (m_isPlayerRun) {
-            m_isPlayerStop = true;
-            m_isPlayerRun = false;
-            m_isVideoplaying = false;
-
-            if (myLifePlayerInstanceId != null) {
-                myRtspVideo.pause(myLifePlayerInstanceId);
-            }
-
-            if (m_cPlayer != null) {
-                m_cPlayer.closeStream();
-            }
-        }
-    }
-
-
-    public String getSourceUrl() {
-        String logMsg = "getSourceUrl() returns " + m_strVideoPath + ", view=" + hashCode();
-        Log.i("", logMsg);
-
-        return m_strVideoPath;
-    }
-
-//    public void setSource(String guid, String url, String audioUrl, Boolean keepPrecharged, Integer chargeTimeout, ICameraLiveFeedErrorListener cameraLiveFeedErrorListener) {
-        public void setSource(String guid, String url, String audioUrl, Boolean keepPrecharged, Integer chargeTimeout) {
-
-        String logMsg = "setSource guid=" + guid + ", url=" + url+ ", audioUrl=" + audioUrl + ", view=" + hashCode();
-
-        Log.i("", logMsg);
-
-//        this.cameraLiveFeedErrorListener = cameraLiveFeedErrorListener;
-
-        if (guid != null) {
-            if (myRtspVideo == null) {
-                myRtspVideo = new RtspVideo(/*1, mContext,*/ null, this);
-            }
-
-            if (myLifePlayerInstanceId != null) {
-                // Enforce one player per view
-                if (guid != null && !guid.equals(m_cameraGuid)) {
-                    // Camera change - change player
-                    myRtspVideo.destroyPlayer(myLifePlayerInstanceId);
-                    myLifePlayerInstanceId = null;
-                }
-            }
-
-            if ((url != null) && (chargeTimeout != null)) {
-                m_chargeTimeout = chargeTimeout;
-            }
-
-            if (myLifePlayerInstanceId == null) {
-
-                myLifePlayerInstanceId = myRtspVideo.createPlayer(guid, m_chargeTimeout);
-                if (myLifePlayerInstanceId != null) {
-                    Log.i("", "setSource created media player ");
-                } else {
-                    Log.i("", "setSource failed to create media player");
-                }
-            }
-
-            m_cameraGuid = guid;
-            m_strVideoPath = url;
-            m_audioUrl = audioUrl;
-
-            // direct URLs begin with "rtsp:" whereas indirect URLs begin with "rtsps:"
-            Boolean isDirectUrl = false;
-            if (url != null && url.regionMatches(true, 0, "rtsp:", 0, 5)) {
-                isDirectUrl = true;
-            }
-
-            if ((url != null) && (keepPrecharged != null)) {
-                m_keepCharged = keepPrecharged;
-            }
-
-            if (url != null && myLifePlayerInstanceId != null) {
-                myRtspVideo.connect(myLifePlayerInstanceId, url);
-
-                Log.d(TAG, "setSource url=" + url);
-
-                setPrecharged();
-            }
-        }
+        videoUrl = url;
     }
 
     /**
@@ -450,40 +192,32 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
      */
     public boolean start(boolean retry) {
 
-        Log.i("", "start, view=" + hashCode() + ", guid=" + m_cameraGuid + ", retry=" + retry);
+        Log.i(TAG, "start: view=" + hashCode() + ", retry=" + retry);
 
-        audioManager = ((AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE));
+        ArrayList<String> args = new ArrayList<>();
+        args.add("--rtsp-tcp");
+        args.add("--vout=android-display");
+        args.add("-vvv");
 
-        //get mode when first started
-        voiceMode = audioManager.getMode();
+        mLibVLC = new LibVLC(mContext, args);
+        mMediaPlayer = new MediaPlayer(mLibVLC);
 
-        //get starting volume
-        defaultVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        Log.d(TAG, "start: media player setup complete");
 
-        //get was speaker on
-        wasSpeakerOn = audioManager.isSpeakerphoneOn();
+        Log.d(TAG, "start: starting playback of url [" + videoUrl + "]");
 
-        if (m_cameraGuid == null) {
-            Log.i("", "start warning invalid (null) source guid, not starting, view=" + hashCode());
-        } else if (myLifePlayerInstanceId == null) {
-            Log.i("", "start warning invalid (null) player instance, not starting, view=" + hashCode());
-        } else {
-            myContractId = getUniqueContractId();
-            m_restart = false;
-            if (myRtspVideo.play(myLifePlayerInstanceId, myContractId)) {
-                m_isPlayerRun = true;
+        Media media = new Media(mLibVLC, Uri.parse(videoUrl));
 
-                startAudioStream(m_audioUrl);
+        media.setHWDecoderEnabled(true,true);
 
-                return true;
-            }
-        }
+        mMediaPlayer.setMedia(media);
 
-//        if (cameraLiveFeedErrorListener != null) {
-//            cameraLiveFeedErrorListener.onCameraLiveFeedError(retry);
-//        }
+        media.release();
 
-        return false;
+        mMediaPlayer.setVideoTrackEnabled(true);
+        mMediaPlayer.play();
+
+        return true;
     }
 
     /**
@@ -491,24 +225,8 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
      * @return status of player start, true is started
      */
     public boolean restart(boolean retry) {
-        Log.i("", "restart, view=" + hashCode() + ", guid=" + m_cameraGuid);
+        Log.i("", "restart, view=" + hashCode());
 
-        if (m_cameraGuid == null) {
-            Log.i("", "restart warning invalid (null) source guid, not starting, view=" + hashCode());
-        } else if (myLifePlayerInstanceId == null) {
-            Log.i("", "restart warning invalid (null) player instance, not starting, view=" + hashCode());
-        } else {
-            myContractId = getUniqueContractId();
-            m_restart = true;
-            if (myRtspVideo.play(myLifePlayerInstanceId, myContractId)) {
-                m_isPlayerRun = true;
-                return true;
-            }
-        }
-
-//        if (cameraLiveFeedErrorListener != null) {
-//            cameraLiveFeedErrorListener.onCameraLiveFeedRestartError(retry);
-//        }
         return false;
     }
 
@@ -519,40 +237,11 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
 
 
     public void notifyErrorListener(final String playerId, final int contractId, boolean fullStop) {
-        Log.i("", "notifyErrorListener, view=" + hashCode() + ", guid=" + m_cameraGuid + ", playerId=" + playerId + ", contractId" + contractId);
-
-        final int thisContractId = myContractId;
-        final String thisInstanceId = myLifePlayerInstanceId;
-
-        stopPlayback();
-
-//        if (cameraLiveFeedErrorListener != null && thisInstanceId != null &&
-//                thisInstanceId.equals(playerId) && thisContractId == contractId) {
-//            if (m_restart) {
-//                cameraLiveFeedErrorListener.onCameraLiveFeedRestartError(fullStop);
-//            } else {
-//                cameraLiveFeedErrorListener.onCameraLiveFeedError(fullStop);
-//            }
-//        } else {
-//            Log.i("", "notifyErrorListener id mismatch, thisId=" + thisInstanceId + ", thisContract=" + thisContractId);
-//        }
-    }
-
-    public void notifyVideoPlaying(final String playerId, final int contractId, boolean isVideoPlaying) {
-        String logMsg = "notifyVideoPlaying(" + isVideoPlaying + "), view=" + hashCode() + ",guid=" + m_cameraGuid;
-        Log.i("", logMsg);
-
-//        if (cameraLiveFeedErrorListener != null && myLifePlayerInstanceId != null &&
-//                myLifePlayerInstanceId.equals(playerId) && myContractId == contractId) {
-//            m_isVideoplaying = isVideoPlaying;
-//            cameraLiveFeedErrorListener.onVideoPlaying();
-//        }
+        Log.i("", "notifyErrorListener, view=" + hashCode() + ", playerId=" + playerId + ", contractId" + contractId);
     }
 
     public boolean isVideoPlaying() {
-        String logMsg = "isVideoPlaying: returns " + m_isVideoplaying + ", view=" + hashCode();
-        Log.i("", logMsg);
-        return m_isVideoplaying;
+        return false;
     }
 
     /**
@@ -560,24 +249,11 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
      */
     public void clearResources() {
         Log.i(TAG, "RtspCameraSurfaceView - clear Resources, view=" + hashCode());
-        //If mPlayer is playing stop the playback
-        //if (m_cPlayer != null && m_isPlayerRun) {
-        //if ( myRtspVideo != null) {
-        //	myRtspVideo.doJavaDebug("clearResources");
-        //}
-        stopPlayback();
-        //}
-        if (myLifePlayerInstanceId != null) {
-            myRtspVideo.destroyPlayer(myLifePlayerInstanceId);
-            myLifePlayerInstanceId = null;
-        }
 
-        m_cPlayer = null;
+        stopPlayback();
+
         mContext = null;
         surfaceCreatedListener = null;
-//        cameraLiveFeedErrorListener = null;
-        myRtspVideo = null;
-//		mIn = null;
     }
 
     public void setSurfaceCreatedListener(SurfaceCreatedListener surfaceCreatedListener) {
@@ -595,59 +271,8 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
         int heightWithoutPadding = height - getPaddingTop() - getPaddingBottom();
         int maxWidth;
         int maxHeight;
-        switch (mDisplayMode) {
 
-            case SIZE_VIDEO_DOORBELL:
-
-                //Corrections to 9/16 Mode
-                //maxWidth = (int) (heightWithoutPadding * RATIO);
-                maxHeight = heightWithoutPadding;//(int) (widthWithoutPadding / RATIO);
-                maxWidth = (int) (heightWithoutPadding * RATIO);
-
-                //if (widthWithoutPadding < maxWidth) {
-                width = maxWidth + getPaddingLeft() + getPaddingRight();
-                //}else{
-                //width = widthWithoutPadding;
-                //}
-
-                if (heightWithoutPadding < maxHeight) {
-                    height = maxHeight + getPaddingTop() + getPaddingBottom();
-                } else {
-                    height = heightWithoutPadding;
-                }
-                break;
-
-            case SIZE_FULLSCREEN:
-            case SIZE_STANDARD:
-            case SIZE_BEST_FIT:
-                maxWidth = (int) (heightWithoutPadding * CAMERA_RATIO);
-                maxHeight = (int) (widthWithoutPadding / CAMERA_RATIO);
-
-                if (widthWithoutPadding < maxWidth) {
-                    width = maxWidth + getPaddingLeft() + getPaddingRight();
-                } else {
-                    width = widthWithoutPadding;
-                }
-
-                if (heightWithoutPadding < maxHeight) {
-                    height = maxHeight + getPaddingTop() + getPaddingBottom();
-                } else {
-                    height = heightWithoutPadding;
-                }
-                break;
-
-            default:
-                break;
-        }
-
-        //String logmsg = "onMeasure( " + width + " , " + height + " )";
-        //Log.i("", logmsg);
-
-        setMeasuredDimension(width, height);
-        setDisaplayWidth(width);
-        setDisplayHeight(height);
-
-    } // onMeasure
+    }
 
     public interface SurfaceCreatedListener {
         void surfaceCreated();
@@ -785,7 +410,7 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
 
         if (recordingInProgress && !listenInProgress) {
             listenInProgress = true;
-            m_cPlayer.unmute();
+//            m_cPlayer.unmute();
         }
 
 //        updateAudioUIState();  TODO
@@ -799,12 +424,6 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
                 @Override
                 public void run() {
                     processCameraConnectionSuccess();
-
-//                    if (isAdded()) {
-//                        talkLayout.setEnabled(true);
-//                        // North bound audio stream is successfully established. Update the UI.
-//                        processCameraConnectionSuccess();
-//                    }
                 }
             });
         }
@@ -815,12 +434,6 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
                 @Override
                 public void run() {
                     processCameraConnectionFailure();
-
-//                    if (isAdded()) {
-//                        talkLayout.setEnabled(true);
-//                        // An error occurred while connecting north bound audio stream. Update the UI.
-//                        processCameraConnectionFailure();
-//                    }
                 }
             });
         }
@@ -831,12 +444,6 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
                 @Override
                 public void run() {
                     processConnectionBusy();
-
-//                    if (isAdded()) {
-//                        talkLayout.setEnabled(true);
-//                        // Connection was rejected because VDB is currently busy.
-//                        processConnectionBusy();
-//                    }
                 }
             });
         }
@@ -847,12 +454,6 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
                 @Override
                 public void run() {
                     processConnectionClosed();
-
-//                    if (isAdded()) {
-//                        talkLayout.setEnabled(true);
-//                        // North bound audio stream has been closed. Update the UI.
-//                        processConnectionClosed();
-//                    }
                 }
             });
         }
@@ -860,7 +461,7 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
 
     private void startAudioStream(String audioUrl) {
 
-        if( audioUrl == null ) {
+        if (audioUrl == null) {
             Log.d(TAG, "startAudioStream: no audio url provided");
 
             return;
@@ -871,9 +472,9 @@ public class RtspCameraSurfaceView extends SurfaceView implements SurfaceHolder.
         audioQueue = new AudioQueue();  // create a queue to hold audio bytes that will be collected by an AudioSampler.
 
         audioPoster = new AudioPoster(
-                audioQueue,
-                audioUrl,
-                northBoundAudioConnectionListener);
+            audioQueue,
+            audioUrl,
+            northBoundAudioConnectionListener);
 
         Log.d(TAG, "startAudioStream: audioQueue=" + audioQueue + ", audioPoster=" + audioPoster);
 

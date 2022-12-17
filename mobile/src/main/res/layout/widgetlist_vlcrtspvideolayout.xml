@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.videolan.libvlc.util.VLCVideoLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vlcrtspvideolayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top"
+    />

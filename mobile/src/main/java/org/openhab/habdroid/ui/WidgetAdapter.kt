@@ -96,6 +96,7 @@ import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.videolan.libvlc.util.VLCVideoLayout
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -1183,146 +1184,373 @@ class WidgetAdapter(
         }
     }
 
+    // class RtspVideoViewHolder internal constructor(
+    //     inflater: LayoutInflater,
+    //     parent: ViewGroup,
+    //     private val connection: Connection
+    // ) :
+    //     ViewHolder(inflater, parent, R.layout.widgetlist_vlcrtspvideoitem) {
+    //
+    //     private val videoView: VlcRtspCameraSurfaceView = itemView.findViewById(R.id.vlcrtspvideo)
+    //
+    //     override fun bind(widget: Widget) {
+    //         loadVideo(widget)
+    //     }
+    //
+    //     // override fun bindAfterDataSaverCheck(widget: Widget) {
+    //     //     loadVideo(widget)
+    //     // }
+    //
+    //     private fun loadVideo(widget: Widget) {
+    //
+    //         val videoUrl = determineRtspVideoUrlForWidget(widget)
+    //         val newVideoUrl = replaceHost(videoUrl)
+    //         val audioUrl = getAudioUrl(videoUrl)
+    //
+    //         Log.d(TAG, "loadVideo: full video url = $videoUrl, video url = $newVideoUrl, audio url = $audioUrl")
+    //
+    //         videoView.setSource(Uri.parse(newVideoUrl).toString())
+    //
+    //         // val mediaItem = determineRtspVideoUrlForWidget(widget)?.let { url ->
+    //         //     val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
+    //         //     UriMediaItem.Builder(url.toUri())
+    //         //         .setMetadata(meta)
+    //         //         .build()
+    //         // }
+    //         //
+    //         // // TODO media item
+    //         // if (mediaItem != videoView.currentMediaItem) {
+    //         //     stop()
+    //         //     // mediaPlayer.reset()
+    //         //     if (mediaItem != null) {
+    //         //         videoView.setMediaItem(mediaItem)
+    //         //         // TODO
+    //         //         // mediaPlayer.prepare()
+    //         //     }
+    //         // }
+    //     }
+    //
+    //     // TODO media item
+    //     override fun onStart() {
+    //
+    //         Log.d(TAG, "onStart")
+    //
+    //         // if (videoView.currentMediaItem != null) {
+    //         videoView.start()
+    //         // }
+    //     }
+    //
+    //     // TODO media item
+    //     override fun onStop() {
+    //
+    //         Log.d(TAG, "onStop")
+    //
+    //         // if (videoView.currentMediaItem != null) {
+    //         //     mediaPlayer.pause()
+    //         videoView.stop()
+    //         // }
+    //     }
+    //
+    //     private fun determineRtspVideoUrlForWidget(widget: Widget): String? {
+    //         if (widget.encoding.equals("rtsp", ignoreCase = true)) {
+    //             val state = widget.item?.state?.asString
+    //             if (state != null && widget.item.type == Item.Type.StringItem) {
+    //                 return state
+    //             }
+    //         }
+    //         return widget.url
+    //     }
+    //
+    //     private fun replaceHost(videoUrl: String?): String? {
+    //
+    //         var newVideoUrl = videoUrl
+    //
+    //         // TODO rtsp host
+    //         val rtspHost: String? = connection.rtspHost
+    //
+    //         Log.d(TAG, "replaceHost: RTSP host=$rtspHost")
+    //
+    //         if (rtspHost != null) {
+    //             val tempUri = Uri.parse(videoUrl)
+    //             val builder = Uri.Builder().scheme(tempUri.scheme).authority(tempUri.authority).path(tempUri.path)
+    //
+    //             for (key in tempUri.queryParameterNames) {
+    //                 // strip audio foo if it exists
+    //                 val param = tempUri.getQueryParameter(key)
+    //                 Log.v(TAG, "replaceHost: key=$key, param=$param")
+    //                 if (!key.contains("audio.cgi")) {
+    //                     builder.appendQueryParameter(key, param)
+    //                 }
+    //             }
+    //
+    //             builder.authority(rtspHost)
+    //
+    //             newVideoUrl = Uri.decode(builder.build().toString())
+    //         }
+    //
+    //         Log.d(TAG, "replaceHost: newVideoUrl=$newVideoUrl")
+    //
+    //         return newVideoUrl
+    //     }
+    //
+    //     private fun getAudioUrl(url: String?): String? {
+    //         val tempUri = Uri.parse(url)
+    //         for (key in tempUri.queryParameterNames) {
+    //             if (key.contains("audio.cgi")) {
+    //                 return key
+    //             }
+    //         }
+    //         return null
+    //     }
+    // }
+
+    // class RtspVideoViewHolderr internal constructor(
+    //     inflater: LayoutInflater,
+    //     parent: ViewGroup,
+    //     private val connection: Connection
+    // ) :
+    //     // ViewHolder(inflater, parent, R.layout.widgetlist_vlcrtspvideoitem) {
+    //     ViewHolder(inflater, parent, R.layout.widgetlist_vlcrtspvideolayout) {
+    //
+    //     private val videoView: VLCVideoLayout = itemView.findViewById(R.id.vlcrtspvideolayout)
+    //     private var mMediaPlayer: MediaPlayer? = null
+    //     private var mLibVLC: LibVLC? = null
+    //
+    //     init {
+    //         Log.d(TAG, "init:")
+    //     }
+    //
+    //     override fun bind(widget: Widget) {
+    //
+    //         Log.d(TAG, "bind:")
+    //
+    //         val args = ArrayList<String>()
+    //         args.add("--rtsp-tcp")
+    //         args.add("--vout=android-display")
+    //         args.add("-vvv")
+    //
+    //         mLibVLC = LibVLC(parent.context, args)
+    //         mMediaPlayer = MediaPlayer(mLibVLC)
+    //
+    //         mMediaPlayer!!.attachViews(
+    //             videoView,
+    //             null,
+    //             false,
+    //             false
+    //         )
+    //
+    //         Log.d(TAG, "bind: media player setup complete")
+    //
+    //         val videoUrl = determineRtspVideoUrlForWidget(widget)
+    //         val newVideoUrl = replaceHost(videoUrl)
+    //         val audioUrl = getAudioUrl(videoUrl)
+    //
+    //         Log.d(TAG, "bind: full video url = $videoUrl, video url = $newVideoUrl, audio url = $audioUrl")
+    //
+    //         val media = Media(mLibVLC, Uri.parse(newVideoUrl))
+    //
+    //         media.setHWDecoderEnabled(true,true)
+    //
+    //         mMediaPlayer?.setMedia(media)
+    //
+    //         media.release()
+    //     }
+    //
+    //     override fun onStart() {
+    //
+    //         Log.d(TAG, "onStart:")
+    //
+    //         // mMediaPlayer!!.videoScale = MediaPlayer.ScaleType.SURFACE_4_3
+    //         // mMediaPlayer!!.videoScale = MediaPlayer.ScaleType.SURFACE_BEST_FIT
+    //         // mMediaPlayer!!.videoScale = MediaPlayer.ScaleType.SURFACE_FILL
+    //         mMediaPlayer!!.videoScale = MediaPlayer.ScaleType.SURFACE_5_4
+    //
+    //         mMediaPlayer?.play()
+    //     }
+    //
+    //     override fun onStop() {
+    //
+    //         Log.d(TAG, "onStop:")
+    //
+    //         mMediaPlayer?.stop()
+    //
+    //         val vout = mMediaPlayer?.getVLCVout()
+    //         if (vout != null) {
+    //             vout.detachViews()
+    //         }
+    //         mLibVLC?.release()
+    //         mLibVLC = null
+    //     }
+    //
+    //     private fun determineRtspVideoUrlForWidget(widget: Widget): String? {
+    //         if (widget.encoding.equals("rtsp", ignoreCase = true)) {
+    //             val state = widget.item?.state?.asString
+    //             if (state != null && widget.item.type == Item.Type.StringItem) {
+    //                 return state
+    //             }
+    //         }
+    //         return widget.url
+    //     }
+    //
+    //     private fun replaceHost(videoUrl: String?): String? {
+    //
+    //         var newVideoUrl = videoUrl
+    //
+    //         // TODO rtsp host
+    //         val rtspHost: String? = connection.rtspHost
+    //
+    //         Log.d(TAG, "replaceHost: RTSP host=$rtspHost")
+    //
+    //         if (rtspHost != null) {
+    //             val tempUri = Uri.parse(videoUrl)
+    //             val builder = Uri.Builder().scheme(tempUri.scheme).authority(tempUri.authority).path(tempUri.path)
+    //
+    //             for (key in tempUri.queryParameterNames) {
+    //                 // strip audio foo if it exists
+    //                 val param = tempUri.getQueryParameter(key)
+    //                 Log.v(TAG, "replaceHost: key=$key, param=$param")
+    //                 if (!key.contains("audio.cgi")) {
+    //                     builder.appendQueryParameter(key, param)
+    //                 }
+    //             }
+    //
+    //             builder.authority(rtspHost)
+    //
+    //             newVideoUrl = Uri.decode(builder.build().toString())
+    //         }
+    //
+    //         Log.d(TAG, "replaceHost: newVideoUrl=$newVideoUrl")
+    //
+    //         return newVideoUrl
+    //     }
+    //
+    //     private fun getAudioUrl(url: String?): String? {
+    //         val tempUri = Uri.parse(url)
+    //         for (key in tempUri.queryParameterNames) {
+    //             if (key.contains("audio.cgi")) {
+    //                 return key
+    //             }
+    //         }
+    //         return null
+    //     }
+    // }
+
     class RtspVideoViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        connection: Connection
+        private val connection: Connection
     ) :
-        ViewHolder(inflater, parent, R.layout.widgetlist_rtspvideoitem) {
+        ViewHolder(inflater, parent, R.layout.widgetlist_vlcrtspvideolayout) {
 
-        private val connection = connection
+        private val videoView: VLCVideoLayout = itemView.findViewById(R.id.vlcrtspvideolayout)
 
-        // HeavyDataViewHolder(inflater, parent, R.layout.widgetlist_rtspvideoitem, connection) {
-        private val videoView: RtspCameraSurfaceView = itemView.findViewById(R.id.rtspvideo)
+        private var vlcPlayer = VlcPlayer()
 
-        // private val mediaPlayer = MediaPlayer(parent.context)
-        private val mediaPlayer = RtspPlayer(videoView, parent.context)
-
-        init {
-            videoView.setPlayer(mediaPlayer)
-        }
-
-        override fun bind(widget: Widget) {
-            loadVideo(widget)
-        }
-
-        // override fun bindAfterDataSaverCheck(widget: Widget) {
-        //     loadVideo(widget)
+        // init {
+        //     Log.d(TAG, "init:")
         // }
 
-        private fun loadVideo(widget: Widget) {
-            val videoUrl = determineRtspVideoUrlForWidget(widget)
-            val newVideoUrl = replaceHost(videoUrl)
-            val audioUrl = getAudioUrl(videoUrl)
+        override fun bind(widget: Widget) {
 
-            Log.d(TAG, "loadVideo: full video url = $videoUrl, video url = $newVideoUrl, audio url = $audioUrl")
+            Log.d(TAG, "bind:")
 
-            videoView.setSource(
-                widget.id, Uri.parse(newVideoUrl).toString(), audioUrl, false,
-                0
-            )
+            vlcPlayer.setup(parent.context, videoView)
 
-            // val mediaItem = determineRtspVideoUrlForWidget(widget)?.let { url ->
-            //     val meta = MediaMetadata.Builder().putString(MediaMetadata.METADATA_KEY_TITLE, widget.label).build()
-            //     UriMediaItem.Builder(url.toUri())
-            //         .setMetadata(meta)
-            //         .build()
-            // }
-            //
-            // // TODO media item
-            // if (mediaItem != videoView.currentMediaItem) {
-            //     stop()
-            //     // mediaPlayer.reset()
-            //     if (mediaItem != null) {
-            //         videoView.setMediaItem(mediaItem)
-            //         // TODO
-            //         // mediaPlayer.prepare()
-            //     }
-            // }
+            Log.d(TAG, "bind: media player setup complete")
+
+            val newVideoUrl = setupVideoUrl(widget)
+
+            Log.d(TAG, "bind: resolved vide url = $newVideoUrl")
+
+            vlcPlayer.setVideoUrl(newVideoUrl)
         }
 
-        // TODO media item
         override fun onStart() {
 
-            Log.d(TAG, "onStart")
+            Log.d(TAG, "onStart:")
 
-            // if (videoView.currentMediaItem != null) {
-            videoView.start(false)
-            // }
+            vlcPlayer.start()
         }
 
-        // TODO media item
         override fun onStop() {
 
-            Log.d(TAG, "onStop")
+            Log.d(TAG, "onStop:")
 
-            // if (videoView.currentMediaItem != null) {
-            //     mediaPlayer.pause()
-            videoView.stopPlayback()
-            // }
+            vlcPlayer.stop()
         }
 
-        private fun determineRtspVideoUrlForWidget(widget: Widget): String? {
+        private fun setupVideoUrl(widget: Widget): String? {
+
             if (widget.encoding.equals("rtsp", ignoreCase = true)) {
                 val state = widget.item?.state?.asString
                 if (state != null && widget.item.type == Item.Type.StringItem) {
-                    return state
+                    return replaceHost(state)
                 }
             }
-            return widget.url
+            return replaceHost(widget.url)
         }
 
         private fun replaceHost(videoUrl: String?): String? {
+
+            Log.d(TAG,"replaceHost: url=$videoUrl")
+
             var newVideoUrl = videoUrl
-            var rtspHost: String? = null
-            // try {
-            // val connection = ConnectionFactory.usableConnectionOrNull
 
-            // if (connection != null) {
             // TODO rtsp host
-            rtspHost = connection.rtspHost
+            val rtspHost: String? = connection.rtspHost
 
-            Log.d(TAG, "RtspVideoViewHolder:replaceHost: RTSP host=$rtspHost")
+            Log.d(TAG, "replaceHost: RTSP host from settings=$rtspHost")
 
-//                Uri ohUri = Uri.parse(connection.getOpenHABUrl());
+            val tempUri = Uri.parse(videoUrl)
 
-//                rtspHost = ohUri.getHost();
-//                 }
-//             } catch (e: ConnectionException) {
-//                 Log.w(TAG, "RtspVideoViewHolder:replaceHost: Couldn't determine RTSP host", e)
-//                 return newVideoUrl
-//             }
+            Log.d(TAG, "replaceHost: authority=" + tempUri.authority + ", enc authority=" + tempUri.encodedAuthority)
 
             if (rtspHost != null) {
-                val tempUri = Uri.parse(videoUrl)
-                val builder = Uri.parse(videoUrl).buildUpon()
-                // val builder = Uri.parse("rtsp://$rtspHost").buildUpon()
-                // builder.appendPath(Uri.parse(videoUrl).path)
+                var newhost = tempUri.authority
+
+                if (newhost != null && newhost.contains(":")) {
+                    val toks = newhost.split(":")
+
+                    // Log.d(TAG, "replaceHost: toks[0]=" + toks[0] + ", toks[1]=" + toks[1])
+
+                    newhost = newhost.replace(toks[0], rtspHost)
+
+                    // Log.d(TAG, "replaceHost: toks[0]=" + toks[0] + ", toks[1]=" + toks[1] + ", newhost=" + newhost)
+                }
+
+                Log.d(TAG, "replaceHost: newhost=$newhost")
+
+                val builder = Uri.Builder().scheme(tempUri.scheme).path(tempUri.path)
+
+                builder.authority(newhost)
+                builder.encodedAuthority(newhost)
+
                 for (key in tempUri.queryParameterNames) {
                     // strip audio foo if it exists
-                    val tstr = tempUri.getQueryParameter(key)
-                    Log.v(TAG, "RtspVideoViewHolder:replaceHost: key=$key, tstr=$tstr")
+                    val param = tempUri.getQueryParameter(key)
+                    Log.v(TAG, "replaceHost: key=$key, param=$param")
                     if (!key.contains("audio.cgi")) {
-                        builder.appendQueryParameter(key, tstr)
+                        builder.appendQueryParameter(key, param)
                     }
                 }
-                builder.authority(rtspHost)
-                val rtspUri = builder.build()
-                newVideoUrl = Uri.decode(rtspUri.toString())
+
+                newVideoUrl = Uri.decode(builder.build().toString())
             }
-            Log.d(TAG, "RtspVideoViewHolder:replaceHost: newVideoUrl=$newVideoUrl")
+
+            Log.d(TAG, "replaceHost: updated url=$newVideoUrl")
+
             return newVideoUrl
         }
 
-        private fun getAudioUrl(url: String?): String? {
-            val tempUri = Uri.parse(url)
-            for (key in tempUri.queryParameterNames) {
-                if (key.contains("audio.cgi")) {
-                    return key
-                }
-            }
-            return null
-        }
+        // private fun getAudioUrl(url: String?): String? {
+        //     val tempUri = Uri.parse(url)
+        //     for (key in tempUri.queryParameterNames) {
+        //         if (key.contains("audio.cgi")) {
+        //             return key
+        //         }
+        //     }
+        //     return null
+        // }
     }
 
     class WebViewHolder internal constructor(
