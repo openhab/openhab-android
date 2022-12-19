@@ -85,7 +85,6 @@ class WidgetSettingsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         activity?.setResult(AppCompatActivity.RESULT_CANCELED)
 
