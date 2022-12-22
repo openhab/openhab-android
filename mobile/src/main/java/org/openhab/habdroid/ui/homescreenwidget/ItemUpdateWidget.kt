@@ -338,7 +338,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         ): RemoteViews {
             val darkTheme = data.theme == "dark"
             val layout = when {
-                data.widgetLabel?.isEmpty() == true -> {
+                data.widgetLabel.isNullOrEmpty() -> {
                     if (darkTheme) R.layout.widget_item_update_dark_no_text
                     else R.layout.widget_item_update_light_no_text
                 }

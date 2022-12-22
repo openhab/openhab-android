@@ -157,11 +157,16 @@ class WidgetSettingsFragment :
     }
 
     private fun getCurrentPrefsAsWidgetData(): ItemUpdateWidget.ItemUpdateWidgetData {
+        var widgetLabel = namePref.text
+        if (widgetLabel.isNullOrEmpty()) {
+            widgetLabel = null
+        }
+
         return ItemUpdateWidget.ItemUpdateWidgetData(
             item = itemAndStatePref.item.orEmpty(),
             command = itemAndStatePref.state,
             label = itemAndStatePref.label.orEmpty(),
-            widgetLabel = namePref.text.orEmpty(),
+            widgetLabel = widgetLabel,
             mappedState = itemAndStatePref.mappedState.orEmpty(),
             icon = itemAndStatePref.icon.toOH2IconResource(),
             theme = themePref.value,
