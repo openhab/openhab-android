@@ -41,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">SSL сертифікат клієнта</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Натисніть тут, щоб отримати підказки та пояснення, щодо налаштування SSL сертифікату автентифікації клієнта</string>
     <string name="settings_openhab_sslclientcert_not_supported">Клієнтські сертифікати SSL не підтримуються вашим пристроєм</string>
+    <string name="settings_openhab_screentimeroff">Вимкнути вичерпання часу екрана</string>
+    <string name="settings_openhab_screentimeroff_summary">Екран не вимикатиметься коли працює openHAB</string>
     <string name="settings_openhab_demomode">Демонстраційний режим</string>
     <string name="settings_openhab_demomode_summary">Якщо ви не маєте сервера openHAB, увімкніть демонстраційний режим, щоб мати уяву на що openHAB здатний.</string>
     <string name="start_page_title">Початкова сторінка</string>
@@ -106,11 +108,13 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Додатково</string>
     <string name="click_here_for_more_information">Натисніть тут для отримання додаткової інформації</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Програма вибере цей сервер, якщо підʼєднатися до однієї з цих назв Wi-Fi. Можна вводити кілька назв Wi-Fi розділивши їх новим рядком.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Перемкнуто на сервер \"%s\" на основі точки Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не вдалося прочитати ім\'я Wi-Fi: Відсутні дозволи</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Не вдалося прочитати ім\'я Wi-Fi: Визначення розташування вимкнуто</string>
     <string name="setting_crash_reporting_title">Звіт про збої</string>
     <string name="setting_crash_reporting_summary">Надіслати звіти про збої для підтримки розробки програми</string>
+    <string name="device_control_subtitle_location">Розташування</string>
     <string name="device_control_subtitle_item_name">Назва об\'єкту</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
@@ -136,6 +140,7 @@
     <string name="error_network_not_available">Мережа недоступна</string>
     <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_wifi_restricted">Локальні підʼєднання до сервера %1$s обмежено до наступних назв Wi-Fi: %2$s</string>
     <string name="error_http_connection_failed">З’єднання невдале. Отримана неочікувана відповідь під час підключення до налаштованого сервера openHAB (код HTTP %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_invalid_https_url">Будь ласка, введіть правильне посилання URL у форматі \"https://хост(:порт)/\"</string>
@@ -230,6 +235,7 @@
     <string name="settings_alarm_clock">Час сигналу</string>
     <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не надсилати будильник</string>
+    <string name="copy_debug_info">Копіювати</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Стан дзвінка</string>
@@ -247,6 +253,8 @@
     <string name="settings_wifi_ssid_summary_on_location_on">Відправляє назву Wi-Fi (SSID) до об\'єкта%1$s. \"Місцезнаходження\" має бути увімкнено, інакше openHAB не дозволено отримувати назву Wi-Fi.</string>
     <string name="settings_wifi_ssid_summary_off">Не надсилати ім\'я Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Відправка назви Wi-Fi відключена через брак дозволів</string>
+    <string name="settings_wifi_ssid_restrict">Обмежити локальні зʼєднання до цих назв Wi-Fi</string>
+    <string name="settings_bluetooth_devices">Підʼєднані пристрої Bluetooth</string>
     <string name="settings_dnd_mode">Режим Не турбувати</string>
     <string name="settings_dnd_mode_summary_on">Надсилає режим Не турбувати до об\'єкту \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Не надсилати режим Не турбувати</string>
@@ -381,6 +389,8 @@
     <string name="nfc_action_to_sitemap_page">Записати сторінки інтерфейсу в NFC-мітку</string>
     <string name="nfc_action_write_command_tag">Записати об’єкт в NFC-мітку</string>
     <!-- Drawer -->
+    <string name="drawer_open">Відкрити бічне меню</string>
+    <string name="drawer_close">Закрити бічне меню</string>
     <string name="mainmenu_openhab_voice_recognition">Розпізнавання голосу</string>
     <!-- About -->
     <string name="about_title">Про програму</string>
@@ -399,6 +409,7 @@
     <string name="undo">Скасувати</string>
     <string name="try_again_button">Спробуйте ще раз</string>
     <string name="enable_wifi_button">Увымкнути Wi-Fi</string>
+    <string name="switch_wifi_button">Підʼєднатися до іншої мережі Wi-Fi</string>
     <string name="go_to_settings_button">Перейти до налаштувань</string>
     <string name="enable_demo_mode_button">Увімкнути Демо-режим</string>
     <string name="configuration_missing">Ми не знайшли сервер openHAB у вашій мережі. Якщо він у вас є, будь ласка вкажіть його адресу або ім’я у налаштуваннях. Якщо у вас ще немає працюючого сервера, ви можете увімкнути демонстраційний режим, щоб побачити на що здатний openHAB.</string>
@@ -476,6 +487,10 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
+    <string name="widget_show_state">Додати поточний стан до назви</string>
+    <string name="widget_show_state_summary">Стан оновлюється за розкладом, який можна вказати в налаштуваннях «Надсилати дані про пристрій на сервер»</string>
+    <string name="widget_no_command">Не надсилати команду</string>
+    <string name="error_getting_state">Помилка завантаження стану</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s встановлено у %2$s</string>
     <string name="item_update_success_message_on">%s увімкнено</string>
@@ -527,6 +542,7 @@
     <string name="widget_type_video">Відео</string>
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Діаграма</string>
+    <string name="widget_type_color">Колір</string>
     <!-- Tiles -->
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для швидких налаштувань</string>
@@ -607,12 +623,59 @@
     <string name="tile_icon_lamp_outdoor">Зовнішня лампа</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_attic">Горище</string>
+    <string name="item_tag_location_bathroom">Ванна кімната</string>
+    <string name="item_tag_location_bedroom">Спальня</string>
+    <string name="item_tag_location_boilerroom">Котельня</string>
+    <string name="item_tag_location_building">Споруда</string>
+    <string name="item_tag_location_cellar">Підвал</string>
+    <string name="item_tag_location_corridor">Коридор</string>
+    <string name="item_tag_location_diningroom">Їдальня</string>
+    <string name="item_tag_location_driveway">Проїзд</string>
+    <string name="item_tag_location_familyroom">Вітальня</string>
+    <string name="item_tag_location_firstfloor">Перший поверх</string>
+    <string name="item_tag_location_floor">Поверх</string>
     <string name="item_tag_location_garage">Гараж</string>
+    <string name="item_tag_location_garden">Сад</string>
+    <string name="item_tag_location_groundfloor">Нижній поверх</string>
+    <string name="item_tag_location_guestroom">Гостьова кімната</string>
     <string name="item_tag_location_house">Дім</string>
+    <string name="item_tag_location_kitchen">Кухня</string>
+    <string name="item_tag_location_office">Офіс</string>
+    <string name="item_tag_location_room">Кімната</string>
+    <string name="item_tag_location_secondfloor">Другий поверх</string>
+    <string name="item_tag_location_summerhouse">Літній будинок</string>
+    <string name="item_tag_location_terrace">Тераса</string>
+    <string name="item_tag_location_thirdfloor">Третій поверх</string>
+    <string name="item_tag_location_veranda">Веранда</string>
+    <string name="item_tag_equipment_alarmsystem">Система сповіщення</string>
+    <string name="item_tag_equipment_backdoor">Задні двері</string>
     <string name="item_tag_equipment_battery">Акумулятор</string>
     <string name="item_tag_equipment_camera">Камера</string>
+    <string name="item_tag_equipment_car">Автомобіль</string>
+    <string name="item_tag_equipment_cleaningrobot">Робот-пилосос</string>
+    <string name="item_tag_equipment_dishwasher">Посудомийна машина</string>
+    <string name="item_tag_equipment_door">Двері</string>
+    <string name="item_tag_equipment_doorbell">Дверний дзвінок</string>
     <string name="item_tag_equipment_fan">Вентилятор</string>
+    <string name="item_tag_equipment_freezer">Морозилка</string>
+    <string name="item_tag_equipment_frontdoor">Передні двері</string>
+    <string name="item_tag_equipment_garagedoor">Гаражні двері</string>
+    <string name="item_tag_equipment_gate">Брама</string>
+    <string name="item_tag_equipment_innerdoor">Внутрішні двері</string>
     <string name="item_tag_equipment_lock">Замок</string>
+    <string name="item_tag_equipment_motiondetector">Детектор руху</string>
+    <string name="item_tag_equipment_oven">Духовка</string>
+    <string name="item_tag_equipment_poweroutlet">Розетка</string>
+    <string name="item_tag_equipment_projector">Прожектор</string>
+    <string name="item_tag_equipment_pump">Помпа</string>
+    <string name="item_tag_equipment_receiver">Приймач</string>
+    <string name="item_tag_equipment_refrigerator">Холодильник</string>
+    <string name="item_tag_equipment_remotecontrol">Віддалене керування</string>
+    <string name="item_tag_equipment_screen">Екран</string>
+    <string name="item_tag_equipment_sensor">Сенсор</string>
+    <string name="item_tag_equipment_sidedoor">Бічні двері</string>
+    <string name="item_tag_equipment_siren">Сигналізація</string>
     <string name="item_tag_equipment_smartphone">Смартфон</string>
     <string name="item_tag_equipment_smokedetector">Детектор диму</string>
     <string name="item_tag_equipment_speaker">Гучномовець</string>
