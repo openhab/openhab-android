@@ -2,4 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">Bildirim kaydı devam ediyor</string>
+    <string name="info_openhab_gcm_failed">Bildirim kaydı başarısız oldu</string>
+    <string name="info_openhab_gcm_failed_play_services">Google Play Hizmetleri sorunu nedeniyle bildirim kaydı başarısız oldu: %s</string>
+    <string name="info_openhab_gcm_connected">Bildirim kaydı başarıyla tamamlandı</string>
+    <string name="open_in_maps">Google Haritalar\'da aç</string>
+    <string name="beta">Beta</string>
 </resources>
