@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Bildirimler, FOSS sürümünde sınırlı işlevselliğe sahiptir. Daha fazla bilgi için dokunun.</string>
+    <string name="push_notification_status_disabled">Bildirimler devre dışı</string>
+    <string name="notification_channel_crash_reports">Çökme raporları</string>
+    <string name="notification_channel_crash_reports_description">Bir çökme raporunun gönderilip gönderilmeyeceğini sormak için kullanılır</string>
+    <string name="crash_report_notification_title">openHAB çöktü</string>
+    <string name="crash_report_notification_text">Çökme raporunu göndererek openHAB\'ı iyileştirmeye yardımcı olun</string>
+    <string name="crash_report_notification_send_mail">Posta gönder</string>
+    <string name="open_in_maps">OpenStreetMap\'te aç</string>
+</resources>
