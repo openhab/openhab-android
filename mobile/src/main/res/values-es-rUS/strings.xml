@@ -119,7 +119,13 @@
     <string name="settings_multi_server_wifi_ssid_location_off">No se puede leer el nombre de la Wi-Fi: La ubicación está desactivada</string>
     <string name="setting_crash_reporting_title">Reporte de errores</string>
     <string name="setting_crash_reporting_summary">Enviar informes de errores para apoyar el desarrollo de la aplicación</string>
+    <string name="device_control_subtitle_location">Ubicación</string>
+    <string name="device_control_subtitle_equipment">Equipamiento</string>
+    <string name="device_control_subtitle_location_equipment">Ubicación y equipamiento</string>
     <string name="device_control_subtitle_item_name">Nombre del Item</string>
+    <string name="device_control">Control de dispositivos Android</string>
+    <string name="device_control_subtitle">Descripción en los mosaicos</string>
+    <string name="device_control_hint">Dependiendo de tu versión de Android, estos azulejos se encuentran en el menú de pulsación larga del botón de encendido o junto a los azulejos rápidos</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="voice_command">Comando de voz</string>
@@ -493,11 +499,13 @@
     <string name="press_back_to_exit">Presione atrás de nuevo para salir</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Control del Item</string>
+    <string name="item_update_widget_content_description">Cambiar o leer el estado de un Item</string>
     <string name="item_update_widget_content_description_edit">Editar widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Garaje abierto</string>
     <string name="widget_show_state">Añadir estado actual al nombre</string>
     <string name="widget_show_state_summary">El estado se actualiza en el calendario, el cual se puede ajustar en la configuración de \"Enviar información del dispositivo al servidor\"</string>
     <string name="widget_no_command">No enviar un comando</string>
@@ -555,6 +563,7 @@
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfica</string>
+    <string name="widget_type_color">Color</string>
     <!-- Tiles -->
     <string name="tile">Baldosa</string>
     <string name="tiles_for_quick_settings">Baldosas para ajustes rápidos</string>
@@ -633,10 +642,91 @@
     <string name="tile_icon_lamp_outdoor">Lámpara exterior</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Apartamento</string>
+    <string name="item_tag_location_attic">Ático</string>
+    <string name="item_tag_location_basement">Sótano</string>
+    <string name="item_tag_location_bathroom">Baño</string>
+    <string name="item_tag_location_bedroom">Dormitorio</string>
+    <string name="item_tag_location_boilerroom">Sala de caldera</string>
+    <string name="item_tag_location_building">Edificio</string>
+    <string name="item_tag_location_carport">Carretera</string>
+    <string name="item_tag_location_cellar">Bodega</string>
+    <string name="item_tag_location_corridor">Pasillo</string>
+    <string name="item_tag_location_diningroom">Comedor</string>
+    <string name="item_tag_location_driveway">Interconexión</string>
+    <string name="item_tag_location_entry">Entrada</string>
+    <string name="item_tag_location_familyroom">Habitación familiar</string>
+    <string name="item_tag_location_firstfloor">Primer piso</string>
+    <string name="item_tag_location_floor">Piso</string>
     <string name="item_tag_location_garage">Garaje</string>
+    <string name="item_tag_location_garden">Jardín</string>
+    <string name="item_tag_location_groundfloor">Planta baja</string>
+    <string name="item_tag_location_guestroom">Habitación de invitados</string>
     <string name="item_tag_location_house">Casa</string>
+    <string name="item_tag_location_indoor">Interior</string>
+    <string name="item_tag_location_kitchen">Cocina</string>
+    <string name="item_tag_location_laundryroom">Lavandería</string>
+    <string name="item_tag_location_livingroom">Sala de estar</string>
+    <string name="item_tag_location_office">Oficina</string>
+    <string name="item_tag_location_outdoor">Exterior</string>
+    <string name="item_tag_location_patio">Patio</string>
+    <string name="item_tag_location_porch">Porche</string>
+    <string name="item_tag_location_room">Habitación</string>
+    <string name="item_tag_location_secondfloor">Segundo piso</string>
+    <string name="item_tag_location_shed">Cobertizo</string>
+    <string name="item_tag_location_summerhouse">Casa de verano</string>
+    <string name="item_tag_location_terrace">Terraza</string>
+    <string name="item_tag_location_thirdfloor">Tercer piso</string>
+    <string name="item_tag_location_veranda">Veranda</string>
+    <string name="item_tag_equipment_alarmsystem">Sistema de alarma</string>
+    <string name="item_tag_equipment_backdoor">Puerta trasera</string>
     <string name="item_tag_equipment_battery">Batería</string>
+    <string name="item_tag_equipment_blinds">Persianas</string>
+    <string name="item_tag_equipment_boiler">Caldera</string>
     <string name="item_tag_equipment_camera">Cámara</string>
+    <string name="item_tag_equipment_car">Coche</string>
+    <string name="item_tag_equipment_ceilingfan">Ventilador de techo</string>
+    <string name="item_tag_equipment_cellardoor">Puerta de bodega</string>
+    <string name="item_tag_equipment_cleaningrobot">Robot de limpieza</string>
+    <string name="item_tag_equipment_dishwasher">Lavavajillas</string>
+    <string name="item_tag_equipment_door">Puerta</string>
+    <string name="item_tag_equipment_doorbell">Timbre</string>
+    <string name="item_tag_equipment_dryer">Secador</string>
     <string name="item_tag_equipment_fan">Ventilador</string>
+    <string name="item_tag_equipment_freezer">Congelador</string>
+    <string name="item_tag_equipment_frontdoor">Puerta frontal</string>
+    <string name="item_tag_equipment_garagedoor">Puerta del garaje</string>
+    <string name="item_tag_equipment_gate">Puerta</string>
+    <string name="item_tag_equipment_hvac">Climatización</string>
+    <string name="item_tag_equipment_innerdoor">Puerta interior</string>
+    <string name="item_tag_equipment_inverter">Inverter</string>
+    <string name="item_tag_equipment_kitchenhood">Campanas extractoras</string>
+    <string name="item_tag_equipment_lawnmower">Cortacésped</string>
+    <string name="item_tag_equipment_lightbulb">Bombilla</string>
     <string name="item_tag_equipment_lock">Candado</string>
+    <string name="item_tag_equipment_motiondetector">Detector de movimiento</string>
+    <string name="item_tag_equipment_networkappliance">Dispositivos de red</string>
+    <string name="item_tag_equipment_oven">Horno</string>
+    <string name="item_tag_equipment_poweroutlet">Enchufe</string>
+    <string name="item_tag_equipment_projector">Proyector</string>
+    <string name="item_tag_equipment_pump">Bomba</string>
+    <string name="item_tag_equipment_radiatorcontrol">Control del radiador</string>
+    <string name="item_tag_equipment_receiver">Receptor</string>
+    <string name="item_tag_equipment_refrigerator">Refrigerador</string>
+    <string name="item_tag_equipment_remotecontrol">Control remoto</string>
+    <string name="item_tag_equipment_screen">Pantalla</string>
+    <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_sidedoor">Puerta lateral</string>
+    <string name="item_tag_equipment_siren">Sirena</string>
+    <string name="item_tag_equipment_smartphone">Móvil</string>
+    <string name="item_tag_equipment_smokedetector">Detector de humo</string>
+    <string name="item_tag_equipment_speaker">Altavoz</string>
+    <string name="item_tag_equipment_television">Televisión</string>
+    <string name="item_tag_equipment_valve">Válvula</string>
+    <string name="item_tag_equipment_voiceassistant">Asistente de voz</string>
+    <string name="item_tag_equipment_wallswitch">Interruptor de pared</string>
+    <string name="item_tag_equipment_washingmachine">Lavadora</string>
+    <string name="item_tag_equipment_weatherservice">Servicio meteorológico</string>
+    <string name="item_tag_equipment_webservice">Servicio web</string>
+    <string name="item_tag_equipment_window">Ventana</string>
 </resources>
