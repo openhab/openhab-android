@@ -7,6 +7,9 @@
     <string name="save">Mentés</string>
     <string name="discard">Elvet</string>
     <string name="delete">Töröl</string>
+    <string name="attribution_tag_discover_server">Az openHAB kiszolgáló keresése</string>
+    <string name="attribution_tag_select_server_wifi">Wi-Fi alapján válassza ki a kiszolgálót</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Javasolja a Wi-Fi bekapcsolását</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
@@ -41,12 +44,16 @@
     <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
     <string name="settings_openhab_sslclientcert_not_supported">Hungarian</string>
+    <string name="settings_openhab_screentimeroff">Képernyő időtúllépésének kikapcsolása</string>
+    <string name="settings_openhab_screentimeroff_summary">A képernyő nem kapcsol ki, amikor az openHAB fut</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
     <string name="settings_openhab_demomode_summary">Ha nincs openHAB szervere, engedélyezze a demo módot, hogy láthassa mire képes az openHAB.</string>
     <string name="start_page_title">Kezdőlap</string>
     <string name="drawer_entries">Oldalsó menü bejegyzései</string>
     <string name="settings_openhab_theme">Sablonok</string>
     <string name="settings_openhab_fullscreen">Teljes képernyő</string>
+    <string name="settings_set_as_launcher_title">Beállítája kezdőképernyőnek</string>
+    <string name="settings_set_as_launcher_summary">Az alkalmazást kezdőképernyőként használhatja. Miután engedélyezte, az alkalmazást az első indításnál ki kell választani.</string>
     <string name="settings_openhab_icon_format">Ikon formátum</string>
     <string name="settings_openhab_icon_format_png">Bitkép</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -106,10 +113,19 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Haladó</string>
     <string name="click_here_for_more_information">Kattintson ide további információért</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Az alkalmazás ezt a kiszolgálót választja ki, ha csatlakozik a megadott Wi-Fi nevek valamelyikéhez. Több Wi-Fi név is megadható, ha új sorokkal választja el őket.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Váltás a(z) \"%s\" szerverre Wi-Fi alapján</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi név nem olvasható: Hiányzó jogosultság</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi név nem olvasható: Helymeghatározás kikapcsolva</string>
+    <string name="setting_crash_reporting_title">Hibajelentés</string>
+    <string name="setting_crash_reporting_summary">Hibajelentés küldése az alkalmazás fejlesztése támogatásához</string>
+    <string name="device_control_subtitle_location">Helyadatok</string>
+    <string name="device_control_subtitle_equipment">Berendezések</string>
+    <string name="device_control_subtitle_location_equipment">Hely és berendezés</string>
     <string name="device_control_subtitle_item_name">Elem neve</string>
+    <string name="device_control">Android eszköz kezelő</string>
+    <string name="device_control_subtitle">Leírás a csempéken</string>
+    <string name="device_control_hint">Az android verziótól függően ezek a csempék vagy a bekapcsoló gomb hosszú megnyomásakor vagy a gyors elérésű csempék mellett jelennek meg</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="voice_command">Hangutasítás</string>
@@ -134,6 +150,7 @@
     <string name="error_network_not_available">Hálózat nem elérhető</string>
     <string name="error_wifi_not_available">Wi-Fi ki van kapcsolva</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_wifi_restricted">A(z) %1$s kiszolgáló helyi kapcsolatai a következő Wi-Fi-nevekre korlátozódnak: %2$s</string>
     <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
     <string name="error_invalid_https_url">Adjon meg egy érvényes URL-címet \' https://kiszolgáló(:port)/\' formában</string>
@@ -194,6 +211,7 @@
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_browser_found">Nincs böngésző a készüléken</string>
     <string name="error_no_speech_to_text_app_found">Hangfelismerő alkalmazás nem található</string>
+    <string name="error_sse_failed">Az esemény feliratkozás meghiúsult, a modul frissítése nem megbízható</string>
     <string name="error_video_player">%s nem tölthető be</string>
     <string name="install">Telepítés</string>
     <string name="title_activity_openhabwritetag">NFC-címke írása</string>
@@ -205,6 +223,7 @@
     <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
     <string name="info_write_tag_disabled">Az NFC ki van kapcsolva</string>
     <string name="action_settings">Beállítások</string>
+    <string name="nfc_info_hint">Az Elem frissítést NFC címkére írhatja. Kiválaszthat egy Elemet itt vagy hosszú érintéssel közvetlenül a felületen.</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
@@ -228,8 +247,11 @@
     <string name="settings_alarm_clock">Ébresztési idő</string>
     <string name="settings_alarm_clock_summary_on">Küldje el az ébresztőidőt ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_alarm_clock_summary_off">Ne küldje el az ébresztőidőt</string>
+    <string name="copy_debug_info">Másolás</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug_ignored">A %2$s által küldött %1$s ébresztési frissítést figyelmen kívül lett hagyva</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug">A %2$s által küldött %1$s ébresztési frissítés érvényesítve lett</string>
     <string name="settings_phone_state">Hívás állapota</string>
     <string name="settings_phone_state_summary_on">Küldje el az hívás állapotát ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_phone_state_summary_off">Ne küldje el a hívás állapotát</string>
@@ -245,11 +267,20 @@
     <string name="settings_wifi_ssid_summary_on_location_on">Küldje el a Wi-Fi nevét (SSID) ennek a(z) \'%1$s\' elemnek. \"Helymeghatározás\" be kell, hogy kapcsolva legyen, különben az openHAB nem fogja tudni elküldeni a Wi-Fi nevét.</string>
     <string name="settings_wifi_ssid_summary_off">Ne küldje el a Wi-Fi nevét (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">A Wi-Fi név küldés kikapcsolva, hiányzó engedélyek miatt</string>
+    <string name="settings_wifi_ssid_restrict">Korlátozza a helyi kapcsolatot ezekre a Wi-Fi-nevekre</string>
+    <string name="settings_bluetooth_devices">Csatlakoztatva Bluetooth eszközökhöz</string>
+    <string name="settings_bluetooth_devices_summary_on">A kapcsolódó Bluetooth eszközök MAC címének listáját küldi \'|\' elválasztással a \'%1$s\' elemhez</string>
+    <string name="settings_bluetooth_devices_summary_off">Ne küldje a kapcsolódó Bluetooth eszközöket</string>
+    <string name="settings_bluetooth_devices_permission_denied">Hiányzó engedélyek miatt a Bluetooth eszközök küldése ki lett kapcsolva</string>
     <string name="settings_dnd_mode">DND mód</string>
     <string name="settings_dnd_mode_summary_on">Küldje el a DND állapotát ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_dnd_mode_summary_off">Ne küldje el a DND állapotát</string>
+    <string name="settings_gadgetbridge">Kütyühíd (gadgetbridge) eszköz tevékenységek</string>
+    <string name="settings_gadgetbridge_summary_on">Kütyühíd (Gadgetbridge) eszköz tevékenység küldése a \'%1$s\' számára. Az eseményfigyelőt be kell kapcsolni.</string>
+    <string name="settings_gadgetbridge_summary_off">Ne küldje a kütyühíd eszköz eseményeket</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ez a funkció további engedélyeket igényel. Miután bekapcsolta, engedélyeznie kell a használatát.</string>
     <string name="settings_background_tasks_permission_hint">Ez a funkció további engedélyeket igényel. Miután bekapcsolta, engedélyeznie kell a használatát. Ellenőrizze, hogy a háttérben futó alkalmazás számára is engedélyezte azt, mivel az Elem frissítés a háttérben is megtörténhet.</string>
+    <string name="settings_permission_denied">Néhány funkció ki lett kapcsolva, hiányzó engedélyek miatt</string>
     <string name="settings_background_tasks_permission_denied_background_location">Néhány háttérben futó feladathoz \"%s\" helymeghatározást kell az Android beállításokban engedélyeznie</string>
     <string name="settings_background_tasks_permission_allow">Engedélyez</string>
     <string name="settings_location_permissions_required">Az alkalmazás bezárt állapotban vagy használatok kívül is helymeghatározási adatokat gyűjt, ha a \"Wifi név küldése a kiszolgálónak\" és a \"Wifi alapú kiszolgáló választás\" funkciók be vannak kapcsolva. Ezek az adatok csak azoknak a kiszolgálóknak lesznek elküldve, amiket beállított.</string>
@@ -372,6 +403,8 @@
     <string name="nfc_action_to_sitemap_page">Felület írása NFC címkére</string>
     <string name="nfc_action_write_command_tag">NFC-címke írása</string>
     <!-- Drawer -->
+    <string name="drawer_open">Oldalsó menü megnyitása</string>
+    <string name="drawer_close">Oldalsó menü bezárása</string>
     <string name="mainmenu_openhab_voice_recognition">Hangfelsimerés</string>
     <!-- About -->
     <string name="about_title">Névjegy</string>
@@ -386,10 +419,12 @@
     <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
     <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
     <string name="about_rate_this_app">Alkalmazás értékelése</string>
+    <string name="settings_debug_messages_title">Hibaelhárítási infaromáció mutatása</string>
     <string name="settings_troubleshooting_title">Hibaelhárítás</string>
     <string name="undo">Visszavonás</string>
     <string name="try_again_button">Próbáld újra</string>
     <string name="enable_wifi_button">Kapcsolja be a Wi-Fi-t</string>
+    <string name="switch_wifi_button">Másik Wi-Fi-hez kapcsolódás</string>
     <string name="go_to_settings_button">Beállítások megnyitása</string>
     <string name="enable_demo_mode_button">A demo üzemmód bekapcsolása</string>
     <string name="configuration_missing">Nem találtunk openHAB kiszolgálót a hálózaton. Ha már van egy szervere, a szerver beállításait konfigurálja az IP-cím vagy állomásnév nevével. Ha még nem rendelkezik szerverrel, engedélyezheti a demo-t, hogy láthassa mire képes az openHAB.</string>
@@ -423,6 +458,8 @@
     <string name="content_description_open_number_picker">Szám megadása</string>
     <string name="content_description_video">Videó</string>
     <string name="content_description_open_openhab">openHAB megnyitása</string>
+    <string name="content_description_increase_item_value">Elem értékének növelése</string>
+    <string name="content_description_decrease_item_value">Elem értékének csökkentése</string>
     <string name="swipe_to_refresh_description">Az alkalmazás frissül automatikusan, általában nem kell saját kezűleg ezt megtenni</string>
     <string name="got_it">Értettem!</string>
     <!-- Intro strings -->
@@ -462,11 +499,17 @@
     <string name="press_back_to_exit">Kilépéshez érintse meg újra a vissza gombot</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Elem vezérlése</string>
+    <string name="item_update_widget_content_description">Egy Elem állapotának változtatása vagy olvasása</string>
     <string name="item_update_widget_content_description_edit">Widget szerkesztése</string>
     <string name="item_update_widget">Kütyü</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Garázs kinyitása</string>
+    <string name="widget_show_state">Az aktuális állapot hozzáfűzése a névhez</string>
+    <string name="widget_show_state_summary">Az állapot a megadott ütemezés szerint frissül, mely az \"Eszközadatok küldése a kiszolgálónak\" alatt módosítható</string>
+    <string name="widget_no_command">Ne küldjön parancsot</string>
+    <string name="error_getting_state">Hiba az állapot betöltése közben</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s beállításra került ide: %2$s</string>
     <string name="item_update_success_message_on">%s fel lett kapcsolva</string>
@@ -510,6 +553,8 @@
     <!-- Data saver -->
     <string name="data_saver_title">Adatforgalom-csökkentő</string>
     <string name="data_saver_on">A nagyobb adatátvitelt igénylő honlap elemek nem lesznek betöltve</string>
+    <string name="data_saver_off">A rendszerszintű adat megtakarító beállítások érvényben lesznek, amikor az elemek betöltődnek</string>
+    <string name="data_saver_off_pre_n">Minden elemet töltsön be függetlenül az adathasználatától</string>
     <string name="data_saver_load">Betölt mindenképp</string>
     <string name="data_saver_hint">Adat megtakarítás miatt %s nem került betöltésre</string>
     <string name="data_saver_snackbar">Az adatmegtakarítás bekapcsolása miatt az ikonok állapota nem követi az Elemek állapotát</string>
@@ -518,6 +563,7 @@
     <string name="widget_type_video">Videó</string>
     <string name="widget_type_mapview">Térkép</string>
     <string name="widget_type_chart">Grafikon</string>
+    <string name="widget_type_color">Szín</string>
     <!-- Tiles -->
     <string name="tile">Csempe</string>
     <string name="tiles_for_quick_settings">Csempék a gyors beállításokhoz</string>
@@ -596,10 +642,93 @@
     <string name="tile_icon_lamp_outdoor">Kültéri lámpa</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Lakás</string>
+    <string name="item_tag_location_attic">Padlás</string>
+    <string name="item_tag_location_basement">Alagsor</string>
+    <string name="item_tag_location_bathroom">Fürdőszoba</string>
+    <string name="item_tag_location_bedroom">Hálószoba</string>
+    <string name="item_tag_location_boilerroom">Kazánház</string>
+    <string name="item_tag_location_building">Épület</string>
+    <string name="item_tag_location_carport">Kocsibeálló</string>
+    <string name="item_tag_location_cellar">Pince</string>
+    <string name="item_tag_location_corridor">Folyosó</string>
+    <string name="item_tag_location_diningroom">Étkező</string>
+    <string name="item_tag_location_driveway">Kocsibeálló</string>
+    <string name="item_tag_location_entry">Bejárat</string>
+    <string name="item_tag_location_familyroom">Családi szoba</string>
+    <string name="item_tag_location_firstfloor">Első emelet</string>
+    <string name="item_tag_location_floor">Szint</string>
     <string name="item_tag_location_garage">Garázs</string>
+    <string name="item_tag_location_garden">Kert</string>
+    <string name="item_tag_location_groundfloor">Földszint</string>
+    <string name="item_tag_location_guestroom">Vendégszoba</string>
     <string name="item_tag_location_house">Ház</string>
+    <string name="item_tag_location_indoor">Beltér</string>
+    <string name="item_tag_location_kitchen">Konyha</string>
+    <string name="item_tag_location_laundryroom">Mosókonyha</string>
+    <string name="item_tag_location_livingroom">Nappali</string>
+    <string name="item_tag_location_office">Iroda</string>
+    <string name="item_tag_location_outdoor">Kültér</string>
+    <string name="item_tag_location_patio">Belső udvar</string>
+    <string name="item_tag_location_porch">Tornác</string>
+    <string name="item_tag_location_room">Szoba</string>
+    <string name="item_tag_location_secondfloor">Második emelet</string>
+    <string name="item_tag_location_shed">Fészer</string>
+    <string name="item_tag_location_summerhouse">Nyári ház</string>
+    <string name="item_tag_location_terrace">Terasz</string>
+    <string name="item_tag_location_thirdfloor">Harmadik emelet</string>
+    <string name="item_tag_location_veranda">Veranda</string>
+    <string name="item_tag_equipment_alarmsystem">Riasztóberendezés</string>
+    <string name="item_tag_equipment_backdoor">Hátsó ajtó</string>
     <string name="item_tag_equipment_battery">Akkumulátor</string>
+    <string name="item_tag_equipment_blinds">Árnyékoló</string>
+    <string name="item_tag_equipment_boiler">Kazán</string>
     <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_car">Autó</string>
+    <string name="item_tag_equipment_ceilingfan">Mennyezeti ventilátor</string>
+    <string name="item_tag_equipment_cellardoor">Pinceajtó</string>
+    <string name="item_tag_equipment_cleaningrobot">Takarító robot</string>
+    <string name="item_tag_equipment_dishwasher">Mosogatógép</string>
+    <string name="item_tag_equipment_door">Ajtó</string>
+    <string name="item_tag_equipment_doorbell">Ajtócsengő</string>
+    <string name="item_tag_equipment_dryer">Szárító</string>
     <string name="item_tag_equipment_fan">Ventilátor</string>
+    <string name="item_tag_equipment_freezer">Fagyasztó</string>
+    <string name="item_tag_equipment_frontdoor">Bejárati ajtó</string>
+    <string name="item_tag_equipment_garagedoor">Garázsajtó</string>
+    <string name="item_tag_equipment_gate">Kapu</string>
+    <string name="item_tag_equipment_hvac">Hőszabályozó</string>
+    <string name="item_tag_equipment_innerdoor">Belső ajtó</string>
+    <string name="item_tag_equipment_inverter">Inverter</string>
+    <string name="item_tag_equipment_kitchenhood">Páraelszívó</string>
+    <string name="item_tag_equipment_lawnmower">Fűnyíró</string>
+    <string name="item_tag_equipment_lightbulb">Izzólámpa</string>
+    <string name="item_tag_equipment_lightstripe">Fényszalag</string>
     <string name="item_tag_equipment_lock">Zár</string>
+    <string name="item_tag_equipment_motiondetector">Mozgásérzékelő</string>
+    <string name="item_tag_equipment_networkappliance">Hálózati eszköz</string>
+    <string name="item_tag_equipment_oven">Sütő</string>
+    <string name="item_tag_equipment_poweroutlet">Konnektor</string>
+    <string name="item_tag_equipment_projector">Kivetítő</string>
+    <string name="item_tag_equipment_pump">Szivattyú</string>
+    <string name="item_tag_equipment_radiatorcontrol">Fűtőtest vezérlő</string>
+    <string name="item_tag_equipment_receiver">Vevő</string>
+    <string name="item_tag_equipment_refrigerator">Hűtőszekrény</string>
+    <string name="item_tag_equipment_remotecontrol">Távvezérlő</string>
+    <string name="item_tag_equipment_screen">Képernyő</string>
+    <string name="item_tag_equipment_sensor">Érzékelő</string>
+    <string name="item_tag_equipment_sidedoor">Oldalajtó</string>
+    <string name="item_tag_equipment_siren">Sziréna</string>
+    <string name="item_tag_equipment_smartphone">Okostelefon</string>
+    <string name="item_tag_equipment_smokedetector">Füstérzékelő</string>
+    <string name="item_tag_equipment_speaker">Hangszóró</string>
+    <string name="item_tag_equipment_television">Televízió</string>
+    <string name="item_tag_equipment_valve">Szelep</string>
+    <string name="item_tag_equipment_voiceassistant">Hangsegéd</string>
+    <string name="item_tag_equipment_wallswitch">Fali kapcsoló</string>
+    <string name="item_tag_equipment_washingmachine">Mosógép</string>
+    <string name="item_tag_equipment_weatherservice">Időjárás Szolgáltató</string>
+    <string name="item_tag_equipment_webservice">Webszolgáltatás</string>
+    <string name="item_tag_equipment_whitegood">Háztartási eszköz</string>
+    <string name="item_tag_equipment_window">Ablak</string>
 </resources>
