@@ -2,5 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">Ilmoituksen rekisteröinti on käynnissä</string>
+    <string name="info_openhab_gcm_failed">Ilmoituksen rekisteröinti epäonnistui</string>
+    <string name="info_openhab_gcm_failed_play_services">Ilmoituksen rekisteröinti epäonnistui Google Play -palvelun ongelman: %s vuoksi</string>
+    <string name="info_openhab_gcm_connected">Ilmoituksen rekisteröinti suoritettu onnistuneesti</string>
     <string name="open_in_maps">Avaa Google Mapsissa</string>
+    <string name="beta">Beta</string>
 </resources>
