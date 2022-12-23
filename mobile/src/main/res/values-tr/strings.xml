@@ -4,11 +4,24 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Ayarlar</string>
+    <string name="save">Kaydet</string>
+    <string name="discard">İptal</string>
+    <string name="delete">Sil</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
     <string name="mainmenu_openhab_preferences">Ayarlar</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 Arayüzü</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 Arayüzü (%s)</string>
+    <string name="mainmenu_openhab_frontail">Kayıt Defteri</string>
+    <string name="mainmenu_openhab_frontail_on_server">Kayıt Defteri (%s)</string>
     <string name="app_notifications">Bildirimler</string>
+    <string name="app_notifications_on_server">Bildirimler (%s)</string>
     <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
+    <string name="oh3_ui_error">openHAB 3 Arayüzü yüklenirken bir hata oluştu</string>
+    <string name="frontail_error">Kayıt Defteri yüklenirken bir hata oluştu. Lütfen bunun openHAB Cloud aracılığıyla mevcut olmadığını unutmayın.</string>
+    <string name="frontail_pref_summary">Kayıt Defteri, varsayılan bağlantı noktası 9001\'de çalışmalıdır. openHABian ile birlikte gelir veya manuel olarak kurulabilir.</string>
     <string name="mainmenu_openhab_selectsitemap">Varsayılan Sitemap \'i seç</string>
     <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
     <!-- App settings strings -->
@@ -24,15 +37,22 @@
     <string name="settings_openhab_password">Şifre</string>
     <string name="settings_openhab_password_summary_weak">Zayıf şifre ayarlandı</string>
     <string name="settings_openhab_password_summary_strong">Güçlü şifre ayarlandı</string>
+    <string name="settings_openhab_api_token_hint">Bir API anahtarı kullanıyorsanız, bunu kullanıcı adı alanına girin ve şifre alanını boş bırakın</string>
     <string name="settings_openhab_sslclientcert">SSL müşteri sertifikası</string>
     <string name="settings_openhab_sslclientcert_howto_summary">SSL müşteri sertifikası yetkilendirilmesi kurulu hakkında ipuçları ve açıklamalar için buraya tıklayınız</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL istemci sertifikaları cihazınız tarafından desteklenmiyor</string>
     <string name="settings_openhab_demomode">Deneme Modu</string>
     <string name="settings_openhab_demomode_summary">openHAB sunucunuz yoksa, openHAB\'ın ne yapabileceğini hayal etmek için demo modunu etkinleştirin.</string>
+    <string name="start_page_title">Başlangıç sayfası</string>
+    <string name="drawer_entries">Yan menü öğeleri</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tam Ekran</string>
     <string name="settings_openhab_icon_format">Simge formatı</string>
+    <string name="settings_openhab_icon_format_png">Simgeler</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>
+    <string name="settings_image_widget_scaling">Görüntüleri ölçeklendirme</string>
+    <string name="settings_image_widget_scaling_summary_off">Ekran genişliğinden daha küçük olan \'Görüntü\' widget\'larını orijinal boyutlarında tutun</string>
+    <string name="settings_image_widget_scaling_summary_on">\'Görüntü\' araçlarını uygun şekilde yukarı veya aşağı ölçekleyerek ekran genişliğine uyduğundan emin olun</string>
     <string name="settings_chart_scaling">Grafik ölçekleme</string>
     <string name="settings_chart_scaling_summary">Not: Daha küçük ölçeklendirme yazı tiplerini ve çizgi genişliklerini küçültür, böylece grafik için daha fazla alan vardır, ancak yazı okunabilirliği sorun yaşatabilir.</string>
     <string name="settings_chart_scaling_value_xs">Çok küçük</string>
@@ -47,15 +67,20 @@
     <string name="settings_current_default_sitemap">Geçerli varsayılan Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Uzak</string>
     <string name="settings_openhab_connection">Yerel</string>
+    <string name="settings_ringtone">Zil sesi</string>
     <string name="settings_ringtone_none">Hiçbiri</string>
     <string name="settings_ringtone_on_external">Harici depolamada bilinmeyen zil sesi</string>
+    <string name="settings_notification_vibration">Titreşim</string>
     <string name="settings_notification_vibration_off">Kapalı</string>
     <string name="settings_notification_vibration_short">Kısa</string>
     <string name="settings_notification_vibration_long">Uzun</string>
     <string name="settings_notification_vibration_twice">Iki kez</string>
+    <string name="settings_notification_ringtone_vibration">Zil Sesi ve Titreşim</string>
     <string name="settings_connection_summary">%s Bağlanıldı</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">%1$s\'a güvensiz bir şekilde bağlanıldı: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL \"https\" ile başlamıyor</string>
+    <string name="settings_insecure_connection_no_auth">Kullanıcı adı ve/veya parola belirlenmedi</string>
     <string name="settings_screen_lock">Ekran kilidi</string>
     <string name="settings_screen_lock_nolock_summary">Uygulama erişim kilidini etkinleştirmek için cihazınız için bir ekran kilidini etkinleştirmeniz gerekir</string>
     <string name="settings_screen_lock_off_summary">Uygulamaya erişim kilitli değil</string>
@@ -67,10 +92,28 @@
     <string name="settings_screen_lock_kiosk">Kiosk modu</string>
     <string name="settings_screen_lock_on">Açık</string>
     <string name="settings_show_sitemaps_in_drawer">Yan menüde tüm Sitemaps \'ları göster</string>
+    <string name="settings_server_name">Sunucu Adı</string>
+    <string name="settings_add_server">Sunucu ekle</string>
+    <string name="settings_edit_server">Sunucuyu Düzenle</string>
+    <string name="server_with_name">Sunucu %s</string>
+    <string name="settings_server_at_least_name_and_connection">En az sunucu adı ve bir bağlantı gerekli</string>
+    <string name="settings_server_confirm_deletion">Bu sunucuyu silmek istediğine gerçekten emin misin?</string>
+    <string name="settings_server_confirm_leave_title">Kaydedilmemiş değişiklikler</string>
+    <string name="settings_server_confirm_leave_message">Kaydedilmemiş değişiklikleriniz var. Değişiklikleri uygulamak veya iptal etmek ister misiniz?</string>
+    <string name="settings_server_primary_title">Birinci sunucu</string>
+    <string name="settings_server_primary_summary_is_primary">Bu sunucu birincil sunucudur.\nŞu anda yalnızca birincil sunucu bu uygulamanın tüm özellikleri tarafından desteklenmektedir. Daha fazla bilgi için yardım düğmesine dokunun.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" birincil sunucudur. Bu sunucuyu birincil sunucu yapmak için dokunun.\nŞu anda yalnızca birincil sunucu bu uygulamanın tüm özellikleri tarafından desteklenmektedir. Daha fazla bilgi için yardım düğmesine dokunun.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Gelişmiş</string>
+    <string name="click_here_for_more_information">Daha fazla bilgi için buraya göz atın</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Wi-Fi tabanlı \"%s\" sunucusuna geçildi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Wi-Fi adı okunamıyor: Eksik izinler</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Wi-Fi adı okunamıyor: Konum kapalı</string>
+    <string name="setting_crash_reporting_title">Hata raporlama</string>
     <string name="device_control_subtitle_item_name">Item adı</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Sesli komutlar</string>
+    <string name="voice_command">Sesli Komut</string>
     <string name="title_voice_widget_icon">Sesli komutlar ve uygulama kısayolu</string>
     <string name="info_voice_input">openHAB Emrinizdedir!</string>
     <string name="info_voice_recognized_text">Tanımlanmış Emir: %1$s</string>
@@ -82,7 +125,10 @@
     <string name="app_shortcut_disabled_habpanel">Sunucunuzda HABPanel kurulu değil</string>
     <string name="app_shortcut_disabled_notifications">Uzak sunucunuz uygun değil</string>
     <string name="app_shortcut_disabled_voice_recognition">Aygıtınızda yüklü bir ses tanıma uygulaması yok</string>
+    <string name="no_position_set">Konum ayarlanmadı</string>
+    <string name="show_and_copy_item_name">Öğe adını göster ve kopyala</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">%s kopyalandı</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
     <string name="error_sitemap_generic_load_error">Sitemap yüklenmemiş olabilir. Şu hata oluştu: %1$s</string>
