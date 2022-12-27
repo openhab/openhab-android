@@ -4,15 +4,26 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Cài đặt</string>
+    <string name="save">Lưu</string>
+    <string name="discard">Bỏ</string>
+    <string name="delete">Xóa</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Bản đồ trang</string>
     <string name="mainmenu_openhab_preferences">Cài đặt</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">Giao diện openHAB 3</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">Giao diện openHAB 3 (%s)</string>
     <string name="app_notifications">Thông báo</string>
+    <string name="app_notifications_on_server">Thông báo (%s)</string>
+    <string name="habpanel_error">Đã xảy ra lỗi trong khi tải HABPanel</string>
+    <string name="oh3_ui_error">Đã xảy ra lỗi trong khi tải Giao diện openHAB 3</string>
     <string name="mainmenu_openhab_selectsitemap">Chọn mặc định sơ đồ trang web</string>
     <string name="mainmenu_openhab_clearcache">Xóa ảnh lưu tạm</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Kết nối</string>
     <string name="settings_display_title">Hiển thị</string>
+    <string name="settings_sitemap_title">Sơ đồ trang web</string>
     <string name="settings_misc_title">Khác</string>
     <string name="settings_openhab_url">URL máy chủ cục bộ</string>
     <string name="settings_openhab_url_summary">URL của trang dashboard openHAB (dựa trên IP hoặc tên máy). Nếu đã cấu hình, tự động tìm kiếm bị vô hiệu hóa. Thiết đặt hiện tại: %s</string>
@@ -22,13 +33,19 @@
     <string name="settings_openhab_password">Mật khẩu</string>
     <string name="settings_openhab_password_summary_weak">Mật khẩu bảo mật thấp</string>
     <string name="settings_openhab_password_summary_strong">Mật khẩu bảo mật tốt</string>
+    <string name="settings_openhab_api_token_hint">Nếu bạn đang sử dụng một mã API, hãy nhập nó vào trường tên người dùng và để trống trường mật khẩu</string>
     <string name="settings_openhab_sslclientcert">Chứng thực SSL khách</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Bấm vào đây để có được một số gợi ý và lời giải thích làm thế nào để thiết lập chứng thực SSL cho máy khách</string>
+    <string name="settings_openhab_sslclientcert_not_supported">Các chứng chỉ khách SSL không được thiết bị của bạn hỗ trợ</string>
     <string name="settings_openhab_demomode">Chế độ demo</string>
+    <string name="settings_openhab_demomode_summary">Nếu bạn không có một máy chủ openHAB, hãy bật chế độ giới thiệu để nắm được các khả năng của openHAB.</string>
+    <string name="start_page_title">Trang bắt đầu</string>
+    <string name="drawer_entries">Các mục ở menu bên</string>
     <string name="settings_openhab_theme">Giao diện</string>
     <string name="settings_openhab_fullscreen">Toàn màn hình</string>
     <string name="settings_openhab_icon_format">Định dạng biểu tượng</string>
     <string name="settings_openhab_icon_format_png">Ảnh bitmap</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_chart_scaling">Chỉnh biểu đồ</string>
     <string name="settings_chart_scaling_value_xs">Rất nhỏ</string>
     <string name="settings_chart_scaling_value_s">Nhỏ</string>

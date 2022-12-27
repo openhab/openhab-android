@@ -41,12 +41,16 @@
     <string name="settings_openhab_sslclientcert">Certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Toqueu aquí per a obtenir alguns consells i explicacions sobre com configurar l\'autenticació amb certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_not_supported">Els certificats SSL de client no estan suportats per al teu dispositiu</string>
+    <string name="settings_openhab_screentimeroff">Desactiva el temps d\'espera de la pantalla</string>
+    <string name="settings_openhab_screentimeroff_summary">La pantalla no s\'apagarà quan openHAB estigui actiu</string>
     <string name="settings_openhab_demomode">Mode de demostració</string>
     <string name="settings_openhab_demomode_summary">Si no tens un servidor openHAB, activa el mode demo per fer-te una idea de què és capaç.</string>
     <string name="start_page_title">Pàgina d\'inici</string>
     <string name="drawer_entries">Entrades del menú lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
+    <string name="settings_set_as_launcher_title">Registrar com a llançador</string>
+    <string name="settings_set_as_launcher_summary">Permet a l\'app ser usada com a llançador. Una vegada activat, l\'app necessita ser seleccionada com a llançador per defecte per a ser efectiu.</string>
     <string name="settings_openhab_icon_format">Format d\'icona</string>
     <string name="settings_openhab_icon_format_png">Mapa de bits</string>
     <string name="settings_openhab_icon_format_svg">Vectorial</string>
@@ -102,9 +106,11 @@
     <string name="settings_server_confirm_leave_message">Has fet alguns canvis. Vols desar-los o descartar-los?</string>
     <string name="settings_server_primary_title">Servidor principal</string>
     <string name="settings_server_primary_summary_is_primary">Aquest servidor és el principal.\nActualment aquesta aplicació només suporta totes les funcionalitats per al servidor principal. Prem el botó d\'ajuda per a més informació.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" és el servidor principal.\n Toca per fer aquest servidor principal.\nActualment aquesta aplicació només suporta totes les funcionalitats per al servidor principal. Prem el botó d\'ajuda per a més informació.</string>
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Avançat</string>
     <string name="click_here_for_more_information">Feu clic aquí per a més informació</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">L\'app escollirà aquest servidor quan es connecti a una d\'aquestes xarxes Wi-Fi. Es poden introduïr més d\'una xarxa amb línies diferents.</string>
     <string name="settings_multi_server_wifi_ssid_switched">S\'ha canviat al servidor \"%s\" basat en Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">No es pot llegir el nom de la Wi-Fi: falten permisos</string>
     <string name="settings_multi_server_wifi_ssid_location_off">No es pot llegir el nom de la Wi-Fi: la ubicació està desactivada</string>
@@ -137,6 +143,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="error_network_not_available">La xarxa no és disponible</string>
     <string name="error_wifi_not_available">Wi-Fi està desactivat</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_wifi_restricted">Les connexions al servidor %1$s estan restringides a les següents xarxes Wi-Fi: %2$s</string>
     <string name="error_http_connection_failed">La connexió no s\'ha realitzat correctament. S\'ha rebut una resposta inesperada mentre intentava connectar-se al servidor openHAB configurat (codi HTTP %d).</string>
     <string name="error_invalid_url">Introduïu un URL vàlid en un formulari \"http(s)://host(:port)/\"</string>
     <string name="error_invalid_https_url">Introduïu un URL vàlid en un formulari \"https://host(:port)/\"</string>
@@ -248,6 +255,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="settings_wifi_ssid_summary_on_location_on">Envia la xarxa Wi-Fi (SSID) a l\'Item \'%1$s\'. Heu de tenir la localització activada, d\'altra banda openHAB no té accés al nom del Wi-Fi.</string>
     <string name="settings_wifi_ssid_summary_off">No enviïs el nom del Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">L\'enviament del nom de la Wi-Fi s\'ha desactivat perquè falten permisos</string>
+    <string name="settings_wifi_ssid_restrict">Restringeix les connexions locals a aquestes xarxes Wi-Fi</string>
     <string name="settings_dnd_mode">Mode no molesteu</string>
     <string name="settings_dnd_mode_summary_on">Envia \"mode no molesteu\" a l\'Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">No enviïs \"mode no molesteu\"</string>
@@ -378,6 +386,8 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="nfc_action_to_sitemap_page">Escriu l\'etiqueta NFC del Sitemap</string>
     <string name="nfc_action_write_command_tag">Escriu a l\'etiqueta de NFC</string>
     <!-- Drawer -->
+    <string name="drawer_open">Obre el menú lateral</string>
+    <string name="drawer_close">Tanca el menú lateral</string>
     <string name="mainmenu_openhab_voice_recognition">Reconeixement de veu</string>
     <!-- About -->
     <string name="about_title">Quant a</string>
@@ -396,6 +406,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="undo">Desfés</string>
     <string name="try_again_button">Torna-ho a intentar</string>
     <string name="enable_wifi_button">Activa la Wi-Fi</string>
+    <string name="switch_wifi_button">Connecta a una altra Wi-Fi</string>
     <string name="go_to_settings_button">Vés a la configuració</string>
     <string name="enable_demo_mode_button">Activa el mode de demostració</string>
     <string name="configuration_missing">No hem trobat cap servidor openHAB a la vostra xarxa. Si ja teniu un servidor, configureu-ne l\'adreça IP o el nom d\'amfitrió a la configuració del servidor. Si encara no teniu cap servidor, podeu activar el mode de demostració per veure de què és capaç l\'openHAB.</string>

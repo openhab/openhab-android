@@ -2,6 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">Meldingsregistratie is bezig</string>
+    <string name="info_openhab_gcm_failed">Meldingsregistratie is mislukt</string>
+    <string name="info_openhab_gcm_failed_play_services">Meldingsregistratie is mislukt als gevolg van een Google Play Services probleem: %s</string>
+    <string name="info_openhab_gcm_connected">Meldingsregistratie succesvol voltooid</string>
     <string name="open_in_maps">Openen in Google Maps</string>
     <string name="beta">Beta</string>
 </resources>

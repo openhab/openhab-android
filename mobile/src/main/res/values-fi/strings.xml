@@ -5,16 +5,29 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Asetukset</string>
     <string name="save">Tallenna</string>
+    <string name="discard">Hylkää</string>
+    <string name="delete">Poista</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Ilmoitukset</string>
+    <string name="app_notifications_on_server">Ilmoitukset (%s)</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
+    <string name="oh3_ui_error">Tapahtui virhe ladattaessa openHAB 3 UI</string>
+    <string name="frontail_error">Tapahtui virhe ladattaessa Frontailia. Huomaa, että se ei ole käytettävissä openHAB Cloudin kautta.</string>
+    <string name="frontail_pref_summary">Frontailille on käytettävä oletusporttia 9001. Se on niputettu openHABianiin tai se voidaan asentaa manuaalisesti.</string>
     <string name="mainmenu_openhab_selectsitemap">Valitse oletus Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Yhteys</string>
     <string name="settings_display_title">Näyttö</string>
+    <string name="settings_sitemap_title">Sivukartta</string>
     <string name="settings_misc_title">Sekalaiset</string>
     <string name="settings_openhab_url">Paikallisen palvelimen URL osoite</string>
     <string name="settings_openhab_url_summary">openHAB palvelimen URL osoite (isäntänimi tai IP osoite). Jos määritetty, automaattinen etsintä poistetaan käytöstä. Nykyinen asetus: %s</string>
@@ -24,15 +37,21 @@
     <string name="settings_openhab_password">Salasana</string>
     <string name="settings_openhab_password_summary_weak">Heikko salasana asetettu</string>
     <string name="settings_openhab_password_summary_strong">Vahva salasana asetettu</string>
+    <string name="settings_openhab_api_token_hint">Jos käytät API tokenia, kirjoita se käyttäjänimi kenttään ja jätä salasanakenttä tyhjäksi</string>
     <string name="settings_openhab_sslclientcert">Asiakkaan SSL sertifikaatti</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Näpäytä tästä nähdäksesi muutamia vinkkejä ja ohjeita kuinka asennat asiakkaan SSL todennuksen</string>
     <string name="settings_openhab_sslclientcert_not_supported">Laitteesi ei tue asiakkaan SSL sertifikaattia</string>
     <string name="settings_openhab_demomode">Esittelytila</string>
     <string name="settings_openhab_demomode_summary">Jos sinulla ei ole openHAB palvelinta, niin valitse demo moodi saadaksesi käsityksen mihin openHAB pystyy.</string>
+    <string name="start_page_title">Aloitussivu</string>
     <string name="settings_openhab_theme">Teema</string>
     <string name="settings_openhab_fullscreen">Kokonäyttö</string>
     <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
+    <string name="settings_openhab_icon_format_png">Bittikartta</string>
     <string name="settings_openhab_icon_format_svg">SVG</string>
+    <string name="settings_image_widget_scaling">Skaalaa kuvat näytölle sopivaksi</string>
+    <string name="settings_image_widget_scaling_summary_off">Pidä \'Image\' widgetit, jotka ovat pienempiä kuin näytön leveys niiden alkuperäisessä koossa</string>
+    <string name="settings_image_widget_scaling_summary_on">Varmista, että \'Kuva\' widgetit sopivat näytön leveyteen skaalaamalla niitä isommaksi tai pienemmäksi tarpeen mukaan</string>
     <string name="settings_chart_scaling">Kuvaajan skaalaus</string>
     <string name="settings_chart_scaling_summary">Huomautus: Pienempi skaalaus kutistaa fontit ja viivojen leveyden. Kuvaajalle on näin enemmän tilaa, mutta fonttien luettavuus voi kärsiä.</string>
     <string name="settings_chart_scaling_value_xs">Hyvin pieni</string>
@@ -58,6 +77,8 @@
     <string name="settings_notification_ringtone_vibration">Soittoääni &amp; Värinä</string>
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_no_https">URL-osoite ei ala \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Käyttäjätunnusta ja salasanaa ei ole asetettu</string>
     <string name="settings_screen_lock">Näytön lukitus</string>
     <string name="settings_screen_lock_nolock_summary">Ennen kuin voit käyttää sovelluksen käyttöoikeuslukitusta sinun pitää ottaa käyttöön näytön lukitus laitteellasi</string>
     <string name="settings_screen_lock_off_summary">Pääsy sovellukseen ei ole estetty</string>
@@ -67,7 +88,21 @@
     <string name="screen_lock_unlock_preferences_description">Poista lukitus päästäksesi asetuksiin</string>
     <string name="settings_screen_lock_off">Pois päältä</string>
     <string name="settings_screen_lock_kiosk">Kiosk moodi</string>
+    <string name="settings_screen_lock_on">Päällä</string>
     <string name="settings_show_sitemaps_in_drawer">Näytä kaikki Sitemapit reunavalikossa</string>
+    <string name="settings_server_name">Palvelimen nimi</string>
+    <string name="settings_add_server">Lisää palvelin</string>
+    <string name="settings_edit_server">Muokkaa palvelinta</string>
+    <string name="server_with_name">Palvelin %s</string>
+    <string name="settings_server_at_least_name_and_connection">Vähintään palvelimen nimi ja yksi yhteys vaaditaan</string>
+    <string name="settings_server_confirm_deletion">Haluatko varmasti poistaa tämän palvelimen?</string>
+    <string name="settings_server_confirm_leave_title">Tallentamattomat muutokset</string>
+    <string name="settings_server_confirm_leave_message">Teit joitakin muutoksia. Haluatko tallentaa tai hylätä ne?</string>
+    <string name="settings_server_primary_title">Ensisijainen palvelin</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Lisäasetukset</string>
+    <string name="click_here_for_more_information">Napsauta tästä saadaksesi lisätietoja</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Vaihdettu palvelimeen \"%s\" WiFi-yhteyden perusteella</string>
     <string name="device_control_subtitle_item_name">Itemin nimi</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Äänikomennot</string>
@@ -85,6 +120,7 @@
     <string name="app_shortcut_disabled_voice_recognition">Laitteellasi ei ole \"puheesta tekstiksi\"-sovellusta asennettuna</string>
     <string name="no_position_set">Sijaintia ei asetettu</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">Kopioitu \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB palautti tyhjän Sitemap luettelon</string>
     <string name="error_sitemap_generic_load_error">Sitemap ei ladattu. Virhe: %1$s</string>
@@ -95,6 +131,7 @@
     <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
     <string name="error_invalid_https_url">Kirjoita kelvollinen URL osoite \'https://isäntä(:port)/\' muodossa</string>
     <string name="error_port_seems_invalid">Antamasi portti ei sovi valitulle protokollalle</string>
+    <string name="error_home_myopenhab_org_no_notifications">Ilmoitukset eivät ole saatavilla home.myopenhab.orgissa, vaan myopenhab.org:ssa</string>
     <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
     <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
     <string name="error_unknown">Tuntematon virhe: %s</string>
@@ -291,6 +328,7 @@
     <string name="chart_activity_period_4_month">4 kuukautta</string>
     <string name="chart_activity_period_1_year">1 vuosi</string>
     <!-- NFC -->
+    <string name="nfc_action_on">Päällä</string>
     <string name="nfc_action_up">Ylös</string>
     <string name="nfc_action_off">Pois päältä</string>
     <string name="nfc_action_down">Alas</string>
@@ -360,6 +398,7 @@
     <string name="content_description_color_up">Kytke tai pidä painettuna lisätäksesi kirkkautta</string>
     <string name="content_description_color_down">Sammuta tai pidä painettuna vähentääksesi kirkkautta</string>
     <string name="content_description_open_number_picker">Avaa numerovalitsin</string>
+    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Avaa openHAB</string>
     <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
     <string name="got_it">Selvä!</string>
@@ -370,6 +409,7 @@
     <string name="intro_app_restored">Lähes kaikki asetuksesi on palautettu, paitsi palvelimen tunnukset</string>
     <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
     <string name="intro_voice_description">Hallitse kotia äänelläsi</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Itemin käyttö voidaan sitoa NFC tunnisteisiin painamalla Itemiä pitkään</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OHITA</string>
@@ -417,6 +457,12 @@
     <string name="item_update_success_message_previous">%s näyttää edellisen nimikkeen</string>
     <string name="item_update_success_message_rewind">%s kelaa taaksepäin</string>
     <string name="item_update_success_message_fastforward">%s kelaa eteenpäin</string>
+    <string name="item_update_short_success_message_on">Käytössä</string>
+    <string name="item_update_short_success_message_off">Poista käytöstä</string>
+    <string name="item_update_short_success_message_up">Alkaa liikkua ylös</string>
+    <string name="item_update_short_success_message_down">Alkaa liikkua alas</string>
+    <string name="item_update_short_success_message_move">Alkaa liikkua</string>
+    <string name="item_update_short_success_message_stop">Pysäytetty</string>
     <string name="item_update_error_no_connection_retry">Virhe lähetettäessä Itemin päivitystä, yritetään uudelleen\u2026</string>
     <string name="item_update_error_no_connection">Ei yhteyttä</string>
     <string name="item_update_error_couldnt_get_item_type">Ei saatu Itemin tyyppiä</string>
@@ -428,6 +474,8 @@
     <string name="data_saver_hint">%s ei ladattu datan säästön vuoksi</string>
     <string name="data_saver_snackbar">Kuvakkeet eivät perustu Itemin tilaan, koska datan säästäjä on otettu käyttöön</string>
     <string name="widget_type_image">Kuva</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Kartta</string>
     <string name="widget_type_chart">Kuvaaja</string>
     <!-- Tiles -->
@@ -458,9 +506,11 @@
     <string name="tile_label_10">Laatta 10</string>
     <string name="tile_label_11">Laatta 11</string>
     <string name="tile_label_12">Laatta 12</string>
+    <string name="error_missing_prefs">Ole hyvä ja täytä kaikki asetukset</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB kuvake</string>
     <string name="tile_icon_tv">Televisio</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Polttimo</string>
     <string name="tile_icon_clock">Kello</string>
     <string name="tile_icon_alarm_clock">Herätyskello</string>
@@ -481,7 +531,9 @@
     <string name="tile_icon_star">Tähti</string>
     <string name="tile_icon_tree">Puu</string>
     <string name="tile_icon_dashboard">Näkymä</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Suoja</string>
+    <string name="tile_icon_fan">Tuuletin</string>
     <string name="tile_icon_man">Mies</string>
     <string name="tile_icon_bed">Sänky</string>
     <string name="tile_icon_child">Lapsi</string>
@@ -494,6 +546,7 @@
     <string name="tile_icon_light_switch">Valokatkaisija</string>
     <string name="tile_icon_garage">Autotalli</string>
     <string name="tile_icon_switch">Katkaisija</string>
+    <string name="tile_icon_text">Teksti</string>
     <string name="tile_icon_sofa">Sohva</string>
     <string name="tile_icon_lamp_ceiling">Kattovalaisin</string>
     <string name="tile_icon_lamp_floor">Lattiavalaisin</string>
@@ -505,5 +558,6 @@
     <string name="item_tag_location_house">Talo</string>
     <string name="item_tag_equipment_battery">Akku</string>
     <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_fan">Tuuletin</string>
     <string name="item_tag_equipment_lock">Lukko</string>
 </resources>

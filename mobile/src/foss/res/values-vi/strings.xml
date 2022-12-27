@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Các thông báo có chức năng bị giới hạn trang phiên bản FOSS. Chạm để biết thêm thông tin.</string>
+    <string name="push_notification_status_disabled">Thông báo bị tắt</string>
+    <string name="notification_channel_crash_reports">Báo cáo dừng đột ngột</string>
+    <string name="notification_channel_crash_reports_description">Được sử dụng để hỏi xem một báo cáo dừng đột ngội có nên được gửi không</string>
+    <string name="crash_report_notification_title">openHAB đã dừng đột ngột</string>
+    <string name="crash_report_notification_text">Giúp cải thiện openHAB bằng cách gửi báo cáo dừng đột ngột</string>
+    <string name="crash_report_notification_send_mail">Gửi mail</string>
+    <string name="open_in_maps">Mở trong OpenStreetMap</string>
+</resources>

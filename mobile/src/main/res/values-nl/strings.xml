@@ -41,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tik hier voor enkele tips en uitleg over het instellen van SSL certificaat authenticatie</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-cliëntcertificaten worden niet ondersteund door uw apparaat</string>
+    <string name="settings_openhab_screentimeroff">Schermtimeout uitschakelen</string>
+    <string name="settings_openhab_screentimeroff_summary">Het scherm wordt niet uitgeschakeld als openHAB wordt uitgevoerd</string>
     <string name="settings_openhab_demomode">Demonstratiemodus</string>
     <string name="settings_openhab_demomode_summary">Als je geen openHAB server hebt, schakel dan de demo-modus in, om een idee te krijgen wat openHAB allemaal kan.</string>
     <string name="start_page_title">Startpagina</string>
@@ -78,6 +80,9 @@
     <string name="settings_notification_ringtone_vibration">Beltoon &amp; Trillen</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">Onveilig verbonden met %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL begint niet met \'https\'</string>
+    <string name="settings_insecure_connection_no_auth">Geen gebruikersnaam en wachtwoord ingesteld</string>
     <string name="settings_screen_lock">Schermvergrendeling</string>
     <string name="settings_screen_lock_nolock_summary">Schakel schermvergrendeling op het apparaat in om toegang tot de app te vergrendelen</string>
     <string name="settings_screen_lock_off_summary">Toegang tot de app is niet vergrendeld</string>
@@ -101,10 +106,15 @@
     <string name="settings_server_primary_summary_is_primary">Deze server is de primaire server.\nMomenteel wordt alleen de primaire server ondersteund in alle functies van deze app. Gebruik de help-knop voor meer informatie.</string>
     <string name="settings_server_primary_summary_is_not_primary">\"%s\" is de primaire server. Raak aan om deze server de primaire te maken.\nMomenteel wordt alleen de primaire server ondersteund in alle functies van deze app. Raak de help knop aan voor meer informatie.</string>
     <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Geavanceerd</string>
     <string name="click_here_for_more_information">Tik hier voor meer informatie</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">De app selecteert deze server wanneer verbonden met een van deze wifi-namen. Meerdere wifi-namen kunnen worden ingevoerd op afzonderlijke regels.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Overgeschakeld naar server \"%s\" op basis van Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Kan Wi-Fi-naam niet lezen: Ontbrekende machtigingen</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Kan wifi-naam niet lezen: locatie is uitgeschakeld</string>
+    <string name="setting_crash_reporting_title">Foutenrapportering</string>
+    <string name="setting_crash_reporting_summary">Crashrapporten verzenden ter ondersteuning van de ontwikkeling van de app</string>
+    <string name="device_control_subtitle_location">Locatie</string>
     <string name="device_control_subtitle_item_name">Itemnaam</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Spraakcommando\'s</string>
@@ -130,10 +140,12 @@
     <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
     <string name="error_wifi_not_available">Wi-Fi is uitgeschakeld</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_wifi_restricted">Lokale verbindingen met server %1$s zijn beperkt tot de volgende wifi-namen: %2$s</string>
     <string name="error_http_connection_failed">Verbinding mislukt. Tijdens het verbinden met de ingestelde openHAB server is een onverwachte reactie ontvangen (HTTP Code %d).</string>
     <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
     <string name="error_invalid_https_url">Geef een correcte URL op in de \'https://host(:port)/\' vorm</string>
     <string name="error_port_seems_invalid">De ingevoerde poort lijkt ongeldig voor het geselecteerde protocol</string>
+    <string name="error_home_myopenhab_org_no_notifications">Meldingen zijn niet beschikbaar op home.myopenhab.org, maar op myopenhab.org</string>
     <string name="error_first_char_is_whitespace">Het eerste teken is een spatie, dit is waarschijnlijk niet gewenst</string>
     <string name="error_last_char_is_whitespace">Het laatste teken is een spatie, dit is waarschijnlijk niet gewenst</string>
     <string name="error_connection_failed">Verbinding met host mislukt</string>
@@ -223,8 +235,11 @@
     <string name="settings_alarm_clock">Alarmtijd</string>
     <string name="settings_alarm_clock_summary_on">Verstuurt alarmtijd naar item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Geen alarmtijd versturen</string>
+    <string name="copy_debug_info">Kopieer</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug_ignored">Negeer alarm tijd update naar %1$s, verzonden door %2$s</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug">Kreeg alarmtijd update naar %1$s, verzonden door %2$s</string>
     <string name="settings_phone_state">Oproepstatus</string>
     <string name="settings_phone_state_summary_on">Verstuurt oproepstatus naar Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Geen oproepstatus verzenden</string>
@@ -240,13 +255,22 @@
     <string name="settings_wifi_ssid_summary_on_location_on">Verstuurt Wi-Fi-naam (SSID) naar Item \'%1$s\'. \"Locatie\" moet ingeschakeld zijn, anders mag openHAB de Wi-Fi-naam niet ophalen.</string>
     <string name="settings_wifi_ssid_summary_off">Geen Wi-Fi-naam (SSID) verzenden</string>
     <string name="settings_wifi_ssid_permission_denied">Het verzenden van Wi-Fi-naam is uitgeschakeld vanwege ontbrekende machtigingen</string>
+    <string name="settings_wifi_ssid_restrict">Beperken de lokale verbinding tot deze wifi-namen</string>
+    <string name="settings_bluetooth_devices">Verbonden Bluetooth-apparaten</string>
+    <string name="settings_bluetooth_devices_summary_on">Verstuurd een lijst van MAC adressen van verbonden Bluetooth-apparaten, gescheiden door pipe symbool, naar Item \'%1$s\'</string>
+    <string name="settings_bluetooth_devices_summary_off">Verstuur geen verbonden Bluetooth-apparaten</string>
+    <string name="settings_bluetooth_devices_permission_denied">Het verzenden van Bluetooth-apparaten is uitgeschakeld vanwege ontbrekende machtigingen</string>
     <string name="settings_dnd_mode">Niet storen modus</string>
     <string name="settings_dnd_mode_summary_on">Verstuurd niet storen modus naar Item \'%1$s\'s</string>
     <string name="settings_dnd_mode_summary_off">Niet storen modus niet verzenden</string>
+    <string name="settings_gadgetbridge">Gadgetbridge apparaat acties</string>
+    <string name="settings_gadgetbridge_summary_on">Stuurt Gadgetbridge apparaat acties naar Item \'%1$s\'. Vereist event monitor om aan te zetten.</string>
+    <string name="settings_gadgetbridge_summary_off">Stuur geen Gadgetbridge-acties</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Deze functie vereist extra machtigingen. Na het inschakelen wordt u gevraagd om toestemming te verlenen.</string>
     <string name="settings_background_tasks_permission_hint">Deze functie vereist extra machtigingen om. Na het inschakelen wordt u gevraagd om toestemming te verlenen. Zorg ervoor dat u de machtiging ook voor achtergrondgebruik goedkeurt, aangezien de Item updates ook gebeuren wanneer de app zich op de achtergrond bevindt.</string>
     <string name="settings_background_tasks_permission_denied_background_location">Sommige achtergrondtaken vereisen om locatietoegang in te stellen op \"%s\" in de Android-instellingen</string>
     <string name="settings_background_tasks_permission_allow">Toestaan</string>
+    <string name="settings_location_permissions_required">Deze app verzamelt locatiegegevens om \"Wi-Fi naam verzenden naar de server\" en \"Selecteer server op basis van wifi\" in te schakelen, zelfs wanneer de app is gesloten of niet in gebruik is. Houd er rekening mee dat deze gegevens alleen worden verzonden naar de servers die je hebt geconfigureerd.</string>
     <string name="settings_item_pref_item_name">Itemnaam</string>
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
     <string name="item_upload_in_progress">Items worden momenteel bijgewerkt</string>
@@ -279,6 +303,9 @@
     <string name="item_update_http_error_label">%1$s bijwerken mislukt: %2$s</string>
     <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
     <string name="item_update_connection_error_label">%1$s update mislukt (Geen verbinding)</string>
+    <string name="item_update_short_status_waiting">Wachten…</string>
+    <string name="item_update_short_status_sending">Verzenden…</string>
+    <string name="item_update_short_status_failed">Mislukt</string>
     <string name="error_no_valid_item_name">Voer een geldige Item naam in</string>
     <string name="retry">Opnieuw</string>
     <string name="ignore">Negeren</string>
@@ -331,6 +358,7 @@
     <string name="chart_activity_period_1_day">1 dag</string>
     <string name="chart_activity_period_2_day">2 dagen</string>
     <string name="chart_activity_period_3_day">3 dagen</string>
+    <string name="chart_activity_period_1_week">1 week</string>
     <string name="chart_activity_period_2_week">2 weken</string>
     <string name="chart_activity_period_1_month">1 maand</string>
     <string name="chart_activity_period_2_month">2 maanden</string>
@@ -354,6 +382,7 @@
     <string name="nfc_action_rewind">Terugspoelen</string>
     <string name="nfc_action_fastforward">Vooruitspoelen</string>
     <string name="nfc_action_move">Bewegen</string>
+    <string name="nfc_action_stop">Stop</string>
     <string name="nfc_action_open">Geopend</string>
     <string name="nfc_action_closed">Gesloten</string>
     <string name="nfc_activate">Activeren</string>
@@ -361,24 +390,35 @@
     <string name="nfc_action_to_sitemap_page">NFC-tag voor Sitemap schrijven</string>
     <string name="nfc_action_write_command_tag">NFC-tag voor Item schrijven</string>
     <!-- Drawer -->
+    <string name="drawer_open">Zijmenu openen</string>
+    <string name="drawer_close">Zijmenu sluiten</string>
     <string name="mainmenu_openhab_voice_recognition">Stemherkenning</string>
     <!-- About -->
     <string name="about_title">Over deze app</string>
     <string name="about_license_title">Licentie</string>
+    <string name="about_changelog">Wijzigingenlogboek</string>
     <string name="about_source_code">Broncode</string>
     <string name="about_issues">Een probleem melden</string>
     <string name="about_docs">Documentatie</string>
+    <string name="about_community_forum">Community forum</string>
+    <string name="about_foundation">openHAB Foundation</string>
+    <string name="about_community">openHAB community</string>
     <string name="about_translation">Help ons met het vertalen van openHAB</string>
     <string name="about_privacy_policy">Privacy beleid</string>
     <string name="about_rate_this_app">Deze app beoordelen</string>
+    <string name="settings_debug_messages_title">Toon informatie voor het oplossen van problemen</string>
+    <string name="settings_troubleshooting_title">Probleemoplossing</string>
+    <string name="undo">Herstel</string>
     <string name="try_again_button">Opnieuw proberen</string>
     <string name="enable_wifi_button">Wi-Fi inschakelen</string>
+    <string name="switch_wifi_button">Verbind met een ander Wi-Fi netwerk</string>
     <string name="go_to_settings_button">Ga naar instellingen</string>
     <string name="enable_demo_mode_button">Demo modus inschakelen</string>
     <string name="configuration_missing">We hebben geen openHAB-server gevonden in je netwerk. Als je al een server hebt, configureer dan het IP-adres of de hostnaam in de serverinstellingen. Als je nog geen server hebt, kun je de demo modus inschakelen om te zien waartoe openHAB in staat is.</string>
     <string name="no_remote_server">Verbinding met lokale server mislukt en geen externe server geconfigureerd</string>
     <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
     <string name="waiting_for_wifi">Wachten op Wi-Fi om verbinding te maken\u2026</string>
+    <string name="visit_status_openhab_org">Bezoek status.openhab.org</string>
     <!-- Log -->
     <string name="log">Logboek</string>
     <string name="view_log">Bekijk log</string>
@@ -394,6 +434,7 @@
     <string name="home_shortcut_error_pinning">Fout bij vastpinnen op startscherm</string>
     <string name="home_shortcut_success_pinning">Vastgepind op startscherm</string>
     <string name="home_shortcut_server_has_been_deleted">De server voor deze snelkoppeling is verwijderd</string>
+    <string name="home_shortcut_title">Snelkoppelingtitel instellen</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open rolluik</string>
     <string name="content_description_stop_roller_shutter">Stop rolluik</string>
@@ -402,6 +443,8 @@
     <string name="content_description_color_up">Aan of ingedrukt houden om feller te maken</string>
     <string name="content_description_color_down">Uit of ingedrukt houden om minder fel te maken</string>
     <string name="content_description_open_number_picker">Open nummer kiezer</string>
+    <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">Open openHAB</string>
     <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
     <string name="got_it">Begrepen!</string>
     <!-- Intro strings -->
@@ -413,6 +456,9 @@
     <string name="intro_voice_description">Bestuur uw huis met uw stem</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item controle kan worden verbonden met NFC tags door lang op het Item te drukken</string>
+    <string name="intro_quick_tile_description">Beheer uw woning via de snelle instellingen van uw apparaat (de plek waar de schakelaars voor bijv. Wi-Fi en Bluetooth staan)</string>
+    <string name="intro_send_device_info">Apparaatinformatie verzenden naar uw server</string>
+    <string name="intro_send_device_info_description">Zet bijvoorbeeld je lampen aan als de wekker gaat</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OVERSLAAN</string>
     <!-- Intro "DONE" button -->
@@ -439,6 +485,7 @@
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item controleren</string>
     <string name="item_update_widget_content_description_edit">Widget bewerken</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
@@ -463,34 +510,50 @@
     <string name="item_update_short_success_message_generic">Ingesteld op %s</string>
     <string name="item_update_short_success_message_on">Ingeschakeld</string>
     <string name="item_update_short_success_message_off">Uitgeschakeld</string>
+    <string name="item_update_short_success_message_up">Begint omhoog te bewegen</string>
+    <string name="item_update_short_success_message_down">Begint omlaag te bewegen</string>
+    <string name="item_update_short_success_message_move">Begint te bewegen</string>
     <string name="item_update_short_success_message_stop">Gestopt</string>
     <string name="item_update_short_success_message_increase">Verhogen</string>
     <string name="item_update_short_success_message_decrease">Verlagen</string>
+    <string name="item_update_short_success_message_undefined">Gewijzigd naar ongedefinieerd</string>
+    <string name="item_update_short_success_message_empty_string">Gewijzigd naar een lege string</string>
+    <string name="item_update_short_success_message_play">Afspelen</string>
     <string name="item_update_short_success_message_pause">Gepauzeerd</string>
+    <string name="item_update_short_success_message_next">Toon volgende titel</string>
+    <string name="item_update_short_success_message_previous">Toon vorige titel</string>
     <string name="item_update_short_success_message_rewind">Terugspoelen</string>
+    <string name="item_update_short_success_message_fastforward">Vooruitspoelen</string>
     <string name="item_update_error_no_connection_retry">Fout bij verzenden Item update, opnieuw proberen\u2026</string>
     <string name="item_update_error_no_connection">Geen verbinding</string>
     <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
     <string name="create_home_screen_widget_title">Widget maken</string>
+    <string name="create_home_screen_widget_not_supported">Ga naar het widget menu op uw startscherm en maak vanaf daar een widget</string>
     <!-- Data saver -->
     <string name="data_saver_title">Gegevensbesparing</string>
     <string name="data_saver_on">Sitemap elementen die mogelijk grotere data transfers vereisen zijn niet geladen</string>
     <string name="data_saver_load">Toch laden</string>
     <string name="data_saver_hint">%s is niet geladen om gegevensgebruik te besparen</string>
+    <string name="data_saver_snackbar">Pictogrammen zijn niet gebaseerd op Item-statussen, omdat gegevensbesparing is ingeschakeld</string>
     <string name="widget_type_image">Afbeelding</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Kaart</string>
     <string name="widget_type_chart">Grafiek</string>
+    <string name="widget_type_color">Kleur</string>
     <!-- Tiles -->
     <string name="tile">Tegel</string>
     <string name="tiles_for_quick_settings">Tegels voor snelle instellingen</string>
     <string name="tile_item_picker_title">Selecteer een Item</string>
     <string name="tile_disabled">Uitgeschakeld</string>
     <string name="tile_enable">Inschakelen</string>
+    <string name="tile_item_and_action">Item en actie</string>
     <string name="tile_name">Naam</string>
     <string name="tile_icon">Pictogram</string>
     <string name="tile_require_unlock">Vereis dat het scherm is ontgrendeld</string>
     <string name="tile_require_unlock_summary_on">Vraag om het apparaat te ontgrendelen voordat het verversen van Items wordt toegestaan</string>
     <string name="tile_require_unlock_summary_off">Bijwerken van Items toestaan, zelfs als het apparaat is vergrendeld</string>
+    <string name="tile_overview_hint">De staat van de tegel geeft niet de status van het Item weer.\nAls je problemen hebt met het niet verversen van tegels nadat je ze hier hebt veranderd, klik dan op de tegel of bewerk de snelle instellingen van je apparaat (de plek waar de schakelaars staan voor bijv. Wi-Fi en Bluetooth).</string>
     <plurals name="tile_active_number">
         <item quantity="one">%d actieve tegel</item>
         <item quantity="other">%d actieve tegels</item>
@@ -508,12 +571,16 @@
     <string name="tile_label_10">Tegel 10</string>
     <string name="tile_label_11">Tegel 11</string>
     <string name="tile_label_12">Tegel 12</string>
+    <string name="error_missing_prefs">Vul alstublieft alle instellingen in</string>
     <!-- Tile icon names -->
     <string name="tile_icon_openhab">openHAB pictogram</string>
+    <string name="tile_icon_tv">Televisie</string>
+    <string name="tile_icon_radio">Radio</string>
     <string name="tile_icon_bulb">Lamp</string>
     <string name="tile_icon_clock">Klok</string>
     <string name="tile_icon_alarm_clock">Wekker</string>
     <string name="tile_icon_bell">Bel</string>
+    <string name="tile_icon_cloud_upload">Cloud upload</string>
     <string name="tile_icon_earth">Aarde</string>
     <string name="tile_icon_chat">Spraakballonnen</string>
     <string name="tile_icon_house">Huis</string>
@@ -528,8 +595,12 @@
     <string name="tile_icon_magnifier">Vergrootglas</string>
     <string name="tile_icon_star">Ster</string>
     <string name="tile_icon_tree">Boom</string>
+    <string name="tile_icon_dashboard">Dashboard</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
     <string name="tile_icon_shield">Schild</string>
+    <string name="tile_icon_fan">Ventilator</string>
     <string name="tile_icon_man">Mens</string>
+    <string name="tile_icon_bed">Bed</string>
     <string name="tile_icon_child">Kind</string>
     <string name="tile_icon_baby">Baby</string>
     <string name="tile_icon_settings">Tandwiel</string>
@@ -540,6 +611,7 @@
     <string name="tile_icon_light_switch">Lichtschakelaar</string>
     <string name="tile_icon_garage">Garage</string>
     <string name="tile_icon_switch">Schakelaar</string>
+    <string name="tile_icon_text">Tekst</string>
     <string name="tile_icon_sofa">Sofa</string>
     <string name="tile_icon_lamp_ceiling">Plafondlamp</string>
     <string name="tile_icon_lamp_floor">Vloerlamp</string>
@@ -547,9 +619,67 @@
     <string name="tile_icon_lamp_outdoor">Buitenlamp</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_attic">Zolder</string>
+    <string name="item_tag_location_basement">Kelder</string>
+    <string name="item_tag_location_bathroom">Badkamer</string>
+    <string name="item_tag_location_bedroom">Slaapkamer</string>
+    <string name="item_tag_location_building">Gebouw</string>
+    <string name="item_tag_location_firstfloor">Eerste verdieping</string>
     <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_garden">Tuin</string>
+    <string name="item_tag_location_groundfloor">Begane grond</string>
+    <string name="item_tag_location_guestroom">Logeerkamer</string>
     <string name="item_tag_location_house">Huis</string>
+    <string name="item_tag_location_indoor">Binnen</string>
+    <string name="item_tag_location_kitchen">Keuken</string>
+    <string name="item_tag_location_laundryroom">Wasruimte</string>
+    <string name="item_tag_location_livingroom">Woonkamer</string>
+    <string name="item_tag_location_office">Kantoor</string>
+    <string name="item_tag_location_outdoor">Buiten</string>
+    <string name="item_tag_location_room">Kamer</string>
+    <string name="item_tag_location_secondfloor">Tweede verdieping</string>
+    <string name="item_tag_location_shed">Schuur</string>
+    <string name="item_tag_location_terrace">Terras</string>
+    <string name="item_tag_location_thirdfloor">Derde verdieping</string>
+    <string name="item_tag_equipment_alarmsystem">Alarmsysteem</string>
+    <string name="item_tag_equipment_backdoor">Achterdeur</string>
     <string name="item_tag_equipment_battery">Batterij</string>
     <string name="item_tag_equipment_camera">Camera</string>
+    <string name="item_tag_equipment_car">Auto</string>
+    <string name="item_tag_equipment_ceilingfan">Plafondventilator</string>
+    <string name="item_tag_equipment_dishwasher">Vaatwasser</string>
+    <string name="item_tag_equipment_door">Deur</string>
+    <string name="item_tag_equipment_doorbell">Deurbel</string>
+    <string name="item_tag_equipment_dryer">Wasdroger</string>
+    <string name="item_tag_equipment_fan">Ventilator</string>
+    <string name="item_tag_equipment_freezer">Vriezer</string>
+    <string name="item_tag_equipment_frontdoor">Voordeur</string>
+    <string name="item_tag_equipment_garagedoor">Garagedeur</string>
+    <string name="item_tag_equipment_gate">Hek</string>
+    <string name="item_tag_equipment_innerdoor">Binnendeur</string>
+    <string name="item_tag_equipment_kitchenhood">Afzuigkap</string>
+    <string name="item_tag_equipment_lawnmower">Grasmaaier</string>
+    <string name="item_tag_equipment_lightbulb">Lamp</string>
+    <string name="item_tag_equipment_lightstripe">Lichtstrip</string>
     <string name="item_tag_equipment_lock">Vergrendel</string>
+    <string name="item_tag_equipment_motiondetector">Bewegingsmelder</string>
+    <string name="item_tag_equipment_networkappliance">Netwerkapparaat</string>
+    <string name="item_tag_equipment_oven">Oven</string>
+    <string name="item_tag_equipment_poweroutlet">Stopcontact</string>
+    <string name="item_tag_equipment_projector">Projector</string>
+    <string name="item_tag_equipment_pump">Pomp</string>
+    <string name="item_tag_equipment_refrigerator">Koelkast</string>
+    <string name="item_tag_equipment_remotecontrol">Afstandsbediening</string>
+    <string name="item_tag_equipment_screen">Scherm</string>
+    <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_siren">Sirene</string>
+    <string name="item_tag_equipment_smartphone">Smartphone</string>
+    <string name="item_tag_equipment_smokedetector">Rookmelder</string>
+    <string name="item_tag_equipment_speaker">Speaker</string>
+    <string name="item_tag_equipment_television">Televisie</string>
+    <string name="item_tag_equipment_washingmachine">Wasmachine</string>
+    <string name="item_tag_equipment_weatherservice">Weerservice</string>
+    <string name="item_tag_equipment_webservice">Webservice</string>
+    <string name="item_tag_equipment_whitegood">Witgoed</string>
+    <string name="item_tag_equipment_window">Raam</string>
 </resources>

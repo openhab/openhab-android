@@ -4,11 +4,11 @@
     <whatis/>
     <rules>Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä kaiken kattavassa sääntö- ja automaatio-ohjelmoinnissa.</rules>
     <supported>Tuetut laitteet ja tuotteet</supported>
-    <bindings>  </bindings>
+    <bindings> Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Tutustu kaikkiin saatavilla oleviin lisäosiin ja tuettuihin laitteisiin ja/tai toimintoihin osoitteessa https://www.openhab.org/addons/</bindings>
     <automation_apps>Sovelluksessa on liitännäinen Taskeria ja Localea varten.</automation_apps>
 
     <oss_community>Avoimen lähdekoodin yhteisö</oss_community>
-    <forum>  </forum>
+    <forum> Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka mistä löydät opastusta, apua ja inspiraatiota. Liity openHAB yhteisön foorumiin osoitteessa https://community.openhab.org</forum>
 
     <report_issues>Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android</translation>
@@ -22,5 +22,5 @@
     <fdroid_privacy_policy>Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Kokeilla uusia ominaisuuksia ja anna pian palautetta!</beta>
     <play_beta>Voit asentaa beta version vakaan version rinnalle.</play_beta>
-    <changelog_play_beta> </changelog_play_beta>
+    <changelog_play_beta> Käy osoitteessa https://github.com/openhab/openhab-android/releases saadaksesi yksityiskohtaisen muutoslokin.</changelog_play_beta>
 </strings>
