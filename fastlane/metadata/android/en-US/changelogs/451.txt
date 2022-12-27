@@ -1,0 +1,4 @@
+## What's Changed
+* Fix crash when creating widget by @mueller-ma in https://github.com/openhab/openhab-android/pull/3128
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.8-beta...2.23.9-beta

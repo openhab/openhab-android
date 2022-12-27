@@ -1,6 +1,6 @@
 openHAB - "empowering the smart home" - Birbirinden farklı sistemleri destekleyen ve sağlayan açık kaynak kodlu akıllı ev otomasyonu
 
-The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+F-Droid'deki yapılarda FCM kaldırılmıştır ve bu nedenle openHAB Cloud'dan anında iletme bildirimleri alamaz. Bunun yerine, bu yapılarda bildirimler düzenli olarak yoklanır.
 Yeni özellikleri deneyin ve erken geri bildirimde bulunun!
 Beta sürümünü <a href="https://f-droid.org/packages/org.openhab.habdroid/">kararlı sürüm</a> ile birlikte kurabilirsiniz.
 
@@ -10,7 +10,7 @@ Birleşik soyutlama katmanının üstünde, tüm bağlı cihazlar genel otomasyo
 <b>Desteklenen Ürünler</b>
 
 200'den fazla özel eklenti, markalar, cihazlar, teknolojiler ve iletişim protokolleri için destek sağlar. Örnekler Z-Wave, Philips Hue, Amazon Echo, Chromecast ve Sonos'tur. Mevcut tüm eklentileri ve desteklenen cihazları ve / veya işlevleri şu adreste keşfedin: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+Uygulama, Tasker ve Locale için bir eylem eklentisine sahiptir.
 
 <b>Açık Kaynak Topluluğu</b>
 
@@ -20,10 +20,10 @@ Uygulamayı kendi dilinize çevirmek isterseniz https://crowdin.com/project/open
 
 <b>openHAB Vakfı</b>
 
-openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. 
+openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. https://www.openhabfoundation.org adresinden vakfın misyonu ve hizmetleri hakkında bilgi edinin
 
 <b>Önemli not</b>
 
-You need an openHAB server for this app.
+Bu uygulama için bir openHAB sunucusuna ihtiyacınız var.
 
 Gizlilik Politikası: https://www.openhabfoundation.org/privacy.html

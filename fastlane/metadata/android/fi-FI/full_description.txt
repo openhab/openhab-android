@@ -9,12 +9,12 @@ Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymiss�
 
 <b>Tuetut laitteet ja tuotteet</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+ Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Tutustu kaikkiin saatavilla oleviin lisäosiin ja tuettuihin laitteisiin ja/tai toimintoihin osoitteessa https://www.openhab.org/addons/
 Sovelluksessa on liitännäinen Taskeria ja Localea varten.
 
 <b>Avoimen lähdekoodin yhteisö</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+ Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka mistä löydät opastusta, apua ja inspiraatiota. Liity openHAB yhteisön foorumiin osoitteessa https://community.openhab.org
 Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues
 Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android
 
