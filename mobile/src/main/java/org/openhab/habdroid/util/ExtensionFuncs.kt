@@ -566,14 +566,20 @@ val PendingIntent_Mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) 
     0
 }
 
-inline fun <reified T> Intent.parcelable(key: String): T? = when {
-    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableExtra(key, T::class.java)
-    else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+inline fun <reified T> Intent.parcelable(key: String): T? {
+    setExtrasClassLoader(T::class.java.classLoader)
+    return when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+    }
 }
 
-inline fun <reified T> Intent.parcelableArrayList(key: String): List<T>? = when {
-    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableArrayListExtra(key, T::class.java)
-    else -> @Suppress("DEPRECATION") getParcelableArrayListExtra(key)
+inline fun <reified T> Intent.parcelableArrayList(key: String): List<T>? {
+    setExtrasClassLoader(T::class.java.classLoader)
+    return when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableArrayListExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelableArrayListExtra(key)
+    }
 }
 
 inline fun <reified T> Bundle.parcelable(key: String): T? = when {
