@@ -1,0 +1,4 @@
+## What's Changed
+* Improve hidding section switches by @mueller-ma in https://github.com/openhab/openhab-android/pull/3134
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.9-beta...2.23.10-beta
