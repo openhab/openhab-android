@@ -757,13 +757,12 @@ class WidgetAdapter(
 
             val mappings = widget.mappingsOrItemOptions
             val buttonCount = min(mappings.size, maxButtons)
-            val neededViews = if (mappings.size <= maxButtons) mappings.size else maxButtons + 1
 
             // inflate missing views
-            while (spareViews.isNotEmpty() && group.childCount < neededViews) {
+            while (spareViews.isNotEmpty() && group.childCount < buttonCount) {
                 group.addView(spareViews.removeAt(0))
             }
-            while (group.childCount < neededViews) {
+            while (group.childCount < buttonCount) {
                 val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, group, false)
                 view.setOnClickListener(this)
                 group.addView(view)
@@ -779,7 +778,7 @@ class WidgetAdapter(
             }
             if (mappings.size > maxButtons) {
                 // overflow button
-                with(group[maxButtons] as MaterialButton) {
+                with(group[maxButtons - 1] as MaterialButton) {
                     text = "⋯"
                     tag = null
                     isVisible = true
@@ -788,7 +787,7 @@ class WidgetAdapter(
             }
 
             // remove unneeded views
-            while (group.childCount > neededViews) {
+            while (group.childCount > buttonCount) {
                 val view = group[group.childCount - 1]
                 spareViews.add(view)
                 group.removeView(view)
