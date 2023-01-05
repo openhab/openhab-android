@@ -177,7 +177,7 @@ class ItemTest {
             { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
               'label': 'Location 1', 'groupNames': [ 'LocationGroup' ] },
             { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
-              'label': 'Location 2', 'groupNames': [ 'LocationGroup' ] },
+              'label': 'Location 2 [foo]', 'groupNames': [ 'LocationGroup' ] },
             ], 'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group',
                 'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ] }
             """.trimIndent()
