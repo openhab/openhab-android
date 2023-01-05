@@ -6,7 +6,7 @@
     android:descendantFocusability="blocksDescendants"
     style="@style/WidgetListItemContainer">
 
-    <include layout="@layout/widgetlist_icontext" />
+    <include layout="@layout/widgetlist_iconvaluetext" />
 
     <Button
         style="@style/openHAB.ActionButton"
