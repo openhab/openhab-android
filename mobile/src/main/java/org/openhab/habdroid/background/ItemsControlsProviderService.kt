@@ -274,11 +274,11 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
         private fun createRangeTemplate(item: Item, format: String): RangeTemplate {
             val currentValue = item.state?.asNumber?.value ?: 0F
-            val minimum = min(currentValue, item.minimum?.toFloat() ?: 0F)
-            val maximum = max(currentValue, item.maximum?.toFloat() ?: 100F)
+            val minimum = min(currentValue, item.minimum ?: 0F)
+            val maximum = max(currentValue, item.maximum ?: 100F)
             return RangeTemplate(
                 item.name, minimum, maximum,
-                currentValue, item.step?.toFloat() ?: 1F,
+                currentValue, item.step ?: 1F,
                 format
             )
         }
@@ -306,6 +306,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.R)
 fun Item.getDeviceType() = when (category?.lowercase()) {
     "screen", "soundvolume", "receiver" -> DeviceTypes.TYPE_TV
     "lightbulb", "light", "slider" -> DeviceTypes.TYPE_LIGHT
