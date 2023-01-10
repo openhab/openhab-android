@@ -26,7 +26,7 @@ The documentation is available at [www.openhab.org/docs/](https://www.openhab.or
 * [Supports wall mounted tablets](https://www.openhab.org/docs/apps/android.html#permanent-deployment)
 * [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
 
-<img src="docs/images/main-menu.png" alt="Demo Overview" width=200px> <img src="docs/images/widget-overview.png" alt="Widget Overview" width=200px> <img src="docs/images/maps.png" alt="Google Maps Widget" width=200px>
+<img src="docs/images/main-menu.png" alt="Demo Overview" width=200px> <img src="docs/images/widget-overview.png" alt="Widget Overview" width=200px> <img src="docs/images/main-ui.png" alt="Main UI" width=200px>
 
 ## Beta builds
 

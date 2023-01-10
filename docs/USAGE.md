@@ -23,7 +23,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 [[toc]]
 
 <div class="row">
-  <img src="images/main-menu.png" alt="Demo Overview" width=200px> <img src="images/widget-overview.png" alt="Widget Overview" width=200px> <img src="images/maps.png" alt="Google Maps Widget" width=200px>
+  <img src="images/main-menu.png" alt="Demo Overview" width=200px> <img src="images/widget-overview.png" alt="Widget Overview" width=200px> <img src="images/main-ui.png" alt="Main UI" width=200px>
 </div>
 
 ## Getting Started
