@@ -1,0 +1,6 @@
+## What's Changed
+* Display item states in color items by @mueller-ma in https://github.com/openhab/openhab-android/pull/3143
+* Update screenshots by @mueller-ma in https://github.com/openhab/openhab-android/pull/3144
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.10-beta...2.23.11-beta
