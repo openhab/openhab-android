@@ -454,9 +454,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 .map { key -> prefs.getStringOrNull(key).toItemUpdatePrefValue() }
                 .any { value -> value.first }
             val widgetShowsState = AppWidgetManager.getInstance(context)
-                .getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
-                .map { id -> ItemUpdateWidget.getInfoForWidget(context, id) }
-                .any { info -> info.showState }
+                ?.getAppWidgetIds(ComponentName(context, ItemUpdateWidget::class.java))
+                ?.map { id -> ItemUpdateWidget.getInfoForWidget(context, id) }
+                ?.any { info -> info.showState } ?: false
 
             if (!periodicWorkIsNeeded &&
                 !CloudMessagingHelper.needsPollingForNotifications(context) &&
