@@ -1,0 +1,2 @@
+• Material Design 3 updates 
+• Improve widgets on Android 12 
