@@ -61,10 +61,12 @@ class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeLi
         val state = widget.state?.asNumber
 
         view.findViewById<Slider>(R.id.slider).apply {
-            valueFrom = widget.minValue
-            valueTo = widget.maxValue
-            value = (state?.value ?: widget.minValue).coerceIn(widget.minValue, widget.maxValue)
-            stepSize = if (widget.minValue == widget.maxValue) 1F else widget.step
+            setup(
+                from = widget.minValue,
+                to = widget.maxValue,
+                step = widget.step,
+                widgetValue = state?.value ?: widget.minValue
+            )
             labelBehavior = LabelFormatter.LABEL_VISIBLE
             setLabelFormatter { value -> state.withValue(value).toString() }
             addOnChangeListener(this@SetpointBottomSheet)

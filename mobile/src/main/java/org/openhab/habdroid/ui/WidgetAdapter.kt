@@ -56,7 +56,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.IOException
 import java.util.Locale
 import kotlin.coroutines.CoroutineContext
-import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
@@ -581,40 +580,19 @@ class WidgetAdapter(
             }
 
             if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
-                slider.valueTo = 100F
-                slider.valueFrom = 0F
-                slider.stepSize = 1F
-                slider.value = item.state?.asBrightness?.toFloat() ?: 0F
-                slider.isTickVisible = false
-            } else {
-                // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
-                slider.valueTo = widget.maxValue - (widget.maxValue - widget.minValue).rem(widget.step)
-                slider.valueFrom = widget.minValue
-                slider.stepSize = widget.step
-                val widgetValue = item?.state?.asNumber?.value ?: slider.valueFrom
-
-                // Fix "Value must be equal to valueFrom plus a multiple of stepSize when using stepSize"
-                val stepCount = (abs(slider.valueTo - slider.valueFrom) / slider.stepSize).toInt()
-                var closetValue = slider.valueFrom
-                var closestDelta = Float.MAX_VALUE
-                (0..stepCount).map { index ->
-                    val stepValue = slider.valueFrom + index * slider.stepSize
-                    if (abs(widgetValue - stepValue) < closestDelta) {
-                        closetValue = stepValue
-                        closestDelta = abs(widgetValue - stepValue)
-                    }
-                }
-
-                slider.isTickVisible = stepCount <= 12
-
-                Log.d(
-                    TAG,
-                    "Slider: valueFrom = ${slider.valueFrom}, valueTo = ${slider.valueTo}, " +
-                        "stepSize = ${slider.stepSize}, stepCount = $stepCount, widgetValue = $widgetValue, " +
-                        "closetValue = $closetValue, closestDelta = $closestDelta"
+                slider.setup(
+                    from = 0F,
+                    to = 100F,
+                    step = 1F,
+                    widgetValue = item.state?.asBrightness?.toFloat() ?: 0F
                 )
-
-                slider.value = closetValue
+            } else {
+                slider.setup(
+                    from = widget.minValue,
+                    to = widget.maxValue,
+                    step = widget.step,
+                    widgetValue = item?.state?.asNumber?.value ?: slider.valueFrom
+                )
             }
         }
 
