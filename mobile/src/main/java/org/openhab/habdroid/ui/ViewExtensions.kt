@@ -122,12 +122,12 @@ fun Slider.setup(from: Float, to: Float, step: Float, widgetValue: Float) {
 
     // Fix "Value must be equal to valueFrom plus a multiple of stepSize when using stepSize"
     val stepCount = (abs(valueTo - valueFrom) / stepSize).toInt()
-    var closetValue = valueFrom
+    var closestValue = valueFrom
     var closestDelta = Float.MAX_VALUE
     (0..stepCount).map { index ->
         val stepValue = valueFrom + index * stepSize
         if (abs(widgetValue - stepValue) < closestDelta) {
-            closetValue = stepValue
+            closestValue = stepValue
             closestDelta = abs(widgetValue - stepValue)
         }
     }
@@ -138,8 +138,8 @@ fun Slider.setup(from: Float, to: Float, step: Float, widgetValue: Float) {
         WidgetAdapter.TAG,
         "Slider: valueFrom = $valueFrom, valueTo = $valueTo, " +
             "stepSize = $stepSize, stepCount = $stepCount, widgetValue = $widgetValue, " +
-            "closetValue = $closetValue, closestDelta = $closestDelta"
+            "closestValue = $closestValue, closestDelta = $closestDelta"
     )
 
-    value = closetValue
+    value = closestValue
 }
