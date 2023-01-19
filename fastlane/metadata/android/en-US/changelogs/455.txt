@@ -1,0 +1,5 @@
+## What's Changed
+* Fix crash in bottom sheet slider by @mueller-ma in https://github.com/openhab/openhab-android/pull/3155
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/2.23.11-beta...3.0.1-release
