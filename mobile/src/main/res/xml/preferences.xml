@@ -73,6 +73,12 @@
             android:icon="@drawable/ic_palette_outline_grey_24dp" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
+            android:key="dynamic_colors"
+            android:title="@string/settings_dynamic_colors_title"
+            android:summaryOff="@string/settings_dynamic_colors_summary_off"
+            android:summaryOn="@string/settings_dynamic_colors_summary_on" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
             android:summary="@string/settings_openhab_screentimeroff_summary"
             android:title="@string/settings_openhab_screentimeroff"

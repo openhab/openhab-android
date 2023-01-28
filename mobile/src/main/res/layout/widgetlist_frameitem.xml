@@ -30,7 +30,7 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textColor="?attr/colorOnSecondaryContainer"
             tools:text="Frame title" />
 
     </FrameLayout>

@@ -38,6 +38,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.updatePadding
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.internal.EdgeToEdgeUtils
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -75,6 +76,9 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(getActivityThemeId())
+        if (getPrefs().getBoolean(PrefKeys.DYNAMIC_COLORS, false)) {
+            DynamicColors.applyToActivityIfAvailable(this)
+        }
 
         super.onCreate(savedInstanceState)
     }

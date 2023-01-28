@@ -33,6 +33,7 @@ import androidx.core.content.edit
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreferenceCompat
+import com.google.android.material.color.DynamicColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
@@ -109,6 +110,7 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         notificationStatusHint = getPreference(PrefKeys.NOTIFICATION_STATUS_HINT)
         val drawerEntriesPrefs = getPreference(PrefKeys.DRAWER_ENTRIES)
         val themePref = getPreference(PrefKeys.THEME)
+        val dynamicColorsPref = getPreference(PrefKeys.DYNAMIC_COLORS)
         val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
         val fullscreenPref = getPreference(PrefKeys.FULLSCREEN)
         val launcherPref = getPreference(PrefKeys.LAUNCHER)
@@ -176,6 +178,15 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
                 parentActivity.handleThemeChange()
             }
             true
+        }
+
+        if (DynamicColors.isDynamicColorAvailable()) {
+            dynamicColorsPref.setOnPreferenceChangeListener { _, _ ->
+                parentActivity.handleThemeChange()
+                true
+            }
+        } else {
+            preferenceScreen.removePreferenceRecursively(PrefKeys.DYNAMIC_COLORS)
         }
 
         clearCachePref.setOnPreferenceClickListener { pref ->
