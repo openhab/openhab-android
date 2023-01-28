@@ -55,13 +55,13 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.IOException
 import java.util.Locale
-import kotlin.coroutines.CoroutineContext
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -320,9 +320,8 @@ class WidgetAdapter(
         inflater: LayoutInflater,
         val parent: ViewGroup,
         @LayoutRes layoutResId: Int
-    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)), CoroutineScope {
-        private val job = Job()
-        override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
+    ) : RecyclerView.ViewHolder(inflater.inflate(layoutResId, parent, false)) {
+        internal var scope: CoroutineScope? = null
         internal var vhc: ViewHolderContext? = null
         var started = false
             private set
@@ -348,11 +347,12 @@ class WidgetAdapter(
         }
         fun attach() {
             start()
-            job.start()
+            scope = CoroutineScope(Dispatchers.Main + Job())
         }
         fun detach() {
             stop()
-            job.cancel()
+            scope?.cancel()
+            scope = null
         }
         open fun onStart() {}
         open fun onStop() {}
@@ -609,7 +609,7 @@ class WidgetAdapter(
             if (fromUser) {
                 updateJob?.cancel()
                 updateJob = boundWidget?.item?.let { item ->
-                    launch {
+                    scope?.launch {
                         delay(200)
                         if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                             connection.httpClient.sendItemCommand(item, value.beautify())
@@ -1175,7 +1175,7 @@ class WidgetAdapter(
 
         override fun onLongClick(view: View): Boolean {
             val buttonState = view.tag as UpDownButtonState
-            buttonState.repeatJob = launch {
+            buttonState.repeatJob = scope?.launch {
                 while (isActive) {
                     delay(250)
                     connection.httpClient.sendItemCommand(buttonState.item, buttonState.longCommand)
