@@ -1,0 +1,5 @@
+## What's Changed
+* Fix coroutine handling in sitemap widgets by @maniac103 in https://github.com/openhab/openhab-android/pull/3165
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.0.1-release...3.0.2-beta
