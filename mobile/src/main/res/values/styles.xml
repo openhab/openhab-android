@@ -30,4 +30,10 @@
         <item name="android:minHeight">56dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
+    <style name="WidgetListItemContainerCompact" parent="WidgetListItemContainer">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:minHeight">42dp</item>
+    </style>
 </resources>

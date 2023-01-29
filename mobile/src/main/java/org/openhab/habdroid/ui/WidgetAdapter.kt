@@ -77,6 +77,7 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
@@ -103,6 +104,7 @@ class WidgetAdapter(
 
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence = context.getChartTheme(serverFlags)
+    private val compactMode = context.getPrefs().getBoolean(PrefKeys.SITEMAP_COMPACT_MODE, false) // TODO: Reload when changed
     private var selectedPosition = RecyclerView.NO_POSITION
     private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
@@ -166,13 +168,13 @@ class WidgetAdapter(
         val holder = when (viewType) {
             TYPE_GENERICITEM -> GenericViewHolder(inflater, parent)
             TYPE_FRAME -> FrameViewHolder(inflater, parent)
-            TYPE_GROUP -> GroupViewHolder(inflater, parent)
+            TYPE_GROUP -> TextViewHolder(inflater, parent, compactMode)
             TYPE_SWITCH -> SwitchViewHolder(inflater, parent)
-            TYPE_TEXT -> TextViewHolder(inflater, parent)
+            TYPE_TEXT -> TextViewHolder(inflater, parent, compactMode)
             TYPE_SLIDER -> SliderViewHolder(inflater, parent)
             TYPE_IMAGE -> ImageViewHolder(inflater, parent)
             TYPE_SELECTION -> SelectionViewHolder(inflater, parent)
-            TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent)
+            TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, compactMode)
             TYPE_SECTIONSWITCH_SINGLE -> SingleSectionSwitchViewHolder(inflater, parent)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent)
             TYPE_PLAYER -> PlayerViewHolder(inflater, parent)
@@ -502,18 +504,6 @@ class WidgetAdapter(
         }
     }
 
-    class GroupViewHolder internal constructor(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_groupitem) {
-        private val rightArrow: ImageView = itemView.findViewById(R.id.right_arrow)
-
-        override fun bind(widget: Widget) {
-            super.bind(widget)
-            rightArrow.isGone = widget.linkedPage == null
-        }
-    }
-
     class SwitchViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
@@ -543,8 +533,13 @@ class WidgetAdapter(
 
     class TextViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_textitem) {
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_textitem_compact else R.layout.widgetlist_textitem
+    ) {
         private val rightArrow: ImageView = itemView.findViewById(R.id.right_arrow)
 
         override fun bind(widget: Widget) {
@@ -721,8 +716,13 @@ class WidgetAdapter(
 
     class SectionSwitchViewHolder internal constructor(
         private val inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_sectionswitchitem),
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_sectionswitchitem_compact else R.layout.widgetlist_sectionswitchitem
+    ),
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val spareViews = mutableListOf<View>()

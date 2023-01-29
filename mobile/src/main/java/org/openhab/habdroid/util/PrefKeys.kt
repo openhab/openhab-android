@@ -39,6 +39,7 @@ object PrefKeys {
 
     const val START_PAGE = "start_page"
     const val SHOW_SITEMAPS_IN_DRAWER = "show_sitemaps"
+    const val SITEMAP_COMPACT_MODE = "sitemap_compact_mode"
     const val ICON_FORMAT = "iconFormatType"
     const val CLEAR_CACHE = "default_openhab_cleacache"
     const val CHART_SCALING = "chartScalingFactor"
