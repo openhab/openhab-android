@@ -1,0 +1,5 @@
+## What's Changed
+* Don't hide frames without label by @mueller-ma in https://github.com/openhab/openhab-android/pull/3170
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.0.2-beta...3.0.4-beta
