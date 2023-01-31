@@ -33,7 +33,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import java.util.Locale
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Widget
@@ -43,6 +48,18 @@ import org.openhab.habdroid.util.parcelable
 open class AbstractWidgetDetailBottomSheet : BottomSheetDialogFragment() {
     protected val widget get() = requireArguments().parcelable<Widget>("widget")!!
     protected val connection get() = (parentFragment as ConnectionGetter).getConnection()
+    internal var scope: CoroutineScope? = null
+
+    override fun onResume() {
+        scope = CoroutineScope(Dispatchers.Main + Job())
+        super.onResume()
+    }
+
+    override fun onPause() {
+        scope?.cancel()
+        scope = null
+        super.onPause()
+    }
 
     companion object {
         fun createArguments(widget: Widget): Bundle {
@@ -56,6 +73,7 @@ open class AbstractWidgetDetailBottomSheet : BottomSheetDialogFragment() {
 }
 
 class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeListener {
+    private var updateJob: Job? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
         val state = widget.state?.asNumber
@@ -80,8 +98,22 @@ class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeLi
     }
 
     override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-        val state = widget.state?.asNumber.withValue(value)
-        connection?.httpClient?.sendItemUpdate(widget.item, state)
+        Log.d(TAG, "onValueChange value = $value, from user = $fromUser")
+        if (fromUser) {
+            updateJob?.cancel()
+            updateJob = widget.item?.let { item ->
+                scope?.launch {
+                    delay(200)
+                    val state = widget.state?.asNumber.withValue(value)
+                    Log.d(TAG, "Send state $state for ${item.name}")
+                    connection?.httpClient?.sendItemUpdate(item, state)
+                }
+            }
+        }
+    }
+
+    companion object {
+        private val TAG = SetpointBottomSheet::class.java.simpleName
     }
 }
 
