@@ -60,6 +60,9 @@
     <string name="settings_openhab_fullscreen">Fullscreen</string>
     <string name="settings_set_as_launcher_title">Register as launcher</string>
     <string name="settings_set_as_launcher_summary">Allow the app to be used as launcher. After enabling, the app still needs to be selected as default launcher to take effect.</string>
+    <string name="settings_dynamic_colors_title">Dynamic colors</string>
+    <string name="settings_dynamic_colors_summary_off">Use color style matching openHAB style throughout the app</string>
+    <string name="settings_dynamic_colors_summary_on">Use colors based on your wallpaper throughout the app</string>
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
