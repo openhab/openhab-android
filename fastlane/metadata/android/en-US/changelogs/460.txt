@@ -1,0 +1,5 @@
+## What's Changed
+* Implement an option to use dynamic colors by @maniac103 in https://github.com/openhab/openhab-android/pull/3167
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.0.5-beta...3.0.6-beta
