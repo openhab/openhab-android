@@ -1,0 +1,7 @@
+## What's Changed
+* Add ScrollView to selection bottom sheet by @mueller-ma in https://github.com/openhab/openhab-android/pull/3172
+* Limit number of updates in Setpoint slider by @mueller-ma in https://github.com/openhab/openhab-android/pull/3174
+* Use special layout for player widget by @maniac103 in https://github.com/openhab/openhab-android/pull/3164
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.0.4-beta...3.0.5-beta
