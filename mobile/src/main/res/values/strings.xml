@@ -507,6 +507,10 @@
     <string name="content_description_open_roller_shutter">Open roller shutter</string>
     <string name="content_description_stop_roller_shutter">Stop roller shutter</string>
     <string name="content_description_close_roller_shutter">Close roller shutter</string>
+    <string name="content_description_player_previous">Skip to previous track</string>
+    <string name="content_description_player_next">Skip to next track</string>
+    <string name="content_description_player_pause">Pause playback</string>
+    <string name="content_description_player_play">Start playback</string>
     <string name="content_description_open_color_wheel">Open color wheel</string>
     <string name="content_description_color_up">On or hold to increase brightness</string>
     <string name="content_description_color_down">Off or hold to decrease brightness</string>

@@ -175,6 +175,7 @@ class WidgetAdapter(
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent)
             TYPE_SECTIONSWITCH_SINGLE -> SingleSectionSwitchViewHolder(inflater, parent)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent)
+            TYPE_PLAYER -> PlayerViewHolder(inflater, parent)
             TYPE_SETPOINT -> SetpointViewHolder(inflater, parent)
             TYPE_CHART -> ChartViewHolder(inflater, parent)
             TYPE_VIDEO -> VideoViewHolder(inflater, parent)
@@ -284,6 +285,7 @@ class WidgetAdapter(
             Widget.Type.Frame -> TYPE_FRAME
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
+                widget.shouldRenderAsPlayer() -> TYPE_PLAYER
                 widget.mappingsOrItemOptions.size == 1 -> TYPE_SECTIONSWITCH_SINGLE
                 widget.mappings.isNotEmpty() -> TYPE_SECTIONSWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> TYPE_SWITCH
@@ -889,6 +891,39 @@ class WidgetAdapter(
         }
     }
 
+    class PlayerViewHolder internal constructor(
+        inflater: LayoutInflater,
+        parent: ViewGroup
+    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_playeritem),
+        View.OnClickListener {
+        private val prevButton = itemView.findViewById<View>(R.id.prev_button)
+        private val nextButton = itemView.findViewById<View>(R.id.next_button)
+        private val playPauseButton = itemView.findViewById<View>(R.id.playpause_button)
+
+        init {
+            for (b in arrayOf(prevButton, playPauseButton, nextButton)) {
+                b.setOnClickListener(this)
+            }
+            prevButton.tag = "PREVIOUS"
+            nextButton.tag = "NEXT"
+        }
+
+        override fun bind(widget: Widget) {
+            val isPlaying = widget.item?.state?.asString == "PLAY"
+            val playPauseContentDescResId = if (isPlaying)
+                R.string.content_description_player_pause else R.string.content_description_player_play
+            playPauseButton.isActivated = isPlaying
+            playPauseButton.contentDescription = itemView.context.getString(playPauseContentDescResId)
+            playPauseButton.tag = if (isPlaying) "PAUSE" else "PLAY"
+            super.bind(widget)
+        }
+
+        override fun onClick(view: View) {
+            val command = view.tag as String
+            connection.httpClient.sendItemCommand(boundWidget?.item, command)
+        }
+    }
+
     class SetpointViewHolder internal constructor(
         inflater: LayoutInflater,
         parent: ViewGroup
@@ -1315,15 +1350,23 @@ class WidgetAdapter(
         private const val TYPE_SECTIONSWITCH = 8
         private const val TYPE_SECTIONSWITCH_SINGLE = 9
         private const val TYPE_ROLLERSHUTTER = 10
-        private const val TYPE_SETPOINT = 11
-        private const val TYPE_CHART = 12
-        private const val TYPE_VIDEO = 13
-        private const val TYPE_WEB = 14
-        private const val TYPE_COLOR = 15
-        private const val TYPE_VIDEO_MJPEG = 16
-        private const val TYPE_LOCATION = 17
-        private const val TYPE_INVISIBLE = 18
+        private const val TYPE_PLAYER = 11
+        private const val TYPE_SETPOINT = 12
+        private const val TYPE_CHART = 13
+        private const val TYPE_VIDEO = 14
+        private const val TYPE_WEB = 15
+        private const val TYPE_COLOR = 16
+        private const val TYPE_VIDEO_MJPEG = 17
+        private const val TYPE_LOCATION = 18
+        private const val TYPE_INVISIBLE = 19
     }
+}
+
+fun Widget.shouldRenderAsPlayer(): Boolean {
+    // A 'Player' item with 'Default' type is rendered as 'Switch' with predefined mappings
+    return type == Widget.Type.Switch &&
+        item?.type == Item.Type.Player &&
+        mappings.map { m -> m.value } == listOf("PREVIOUS", "PAUSE", "PLAY", "NEXT")
 }
 
 fun View.adjustForWidgetHeight(widget: Widget, fallbackRowCount: Int) {
