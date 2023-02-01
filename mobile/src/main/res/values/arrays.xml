@@ -14,6 +14,28 @@
         <item>@string/theme_value_black</item>
     </string-array>
 
+    <string-array name="colorSchemeNames">
+        <item>@string/color_scheme_name_default</item>
+        <item>@string/color_scheme_name_basicui</item>
+    </string-array>
+
+    <string-array name="colorSchemeValues">
+        <item>@string/color_scheme_value_default</item>
+        <item>@string/color_scheme_value_basicui</item>
+    </string-array>
+
+    <string-array name="colorSchemeNamesDynamic">
+        <item>@string/color_scheme_name_default</item>
+        <item>@string/color_scheme_name_basicui</item>
+        <item>@string/color_scheme_name_dynamic</item>
+    </string-array>
+
+    <string-array name="colorSchemeValuesDynamic">
+        <item>@string/color_scheme_value_default</item>
+        <item>@string/color_scheme_value_basicui</item>
+        <item>@string/color_scheme_value_dynamic</item>
+    </string-array>
+
     <string-array name="iconTypeNames">
         <item>@string/settings_openhab_icon_format_png</item>
         <item>@string/settings_openhab_icon_format_svg</item>

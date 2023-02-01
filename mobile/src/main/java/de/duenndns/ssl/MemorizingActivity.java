@@ -26,16 +26,18 @@ package de.duenndns.ssl;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 
 import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.color.DynamicColors;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.ExtensionFuncsKt;
@@ -50,17 +52,20 @@ public class MemorizingActivity extends Activity
 
 	int decisionId;
 
-	ContextThemeWrapper mThemedContext;
+	Context mThemedContext;
 	AlertDialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mThemedContext = new ContextThemeWrapper(this, ExtensionFuncsKt.getActivityThemeId(this));
+		if (ExtensionFuncsKt.shouldUseDynamicColors(this)) {
+			mThemedContext = DynamicColors.wrapContextIfAvailable(this);
+		} else {
+			mThemedContext = new ContextThemeWrapper(this, ExtensionFuncsKt.getActivityThemeId(this));
+		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			TypedValue typedValue = new TypedValue();
-			mThemedContext.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-			setTaskDescription(new ActivityManager.TaskDescription(null, null, typedValue.data));
+			int colorPrimary = ExtensionFuncsKt.resolveThemedColor(mThemedContext, R.attr.colorPrimary, 0);
+			setTaskDescription(new ActivityManager.TaskDescription(null, null, colorPrimary));
 		}
 
 		LOGGER.log(Level.FINE, "onCreate");

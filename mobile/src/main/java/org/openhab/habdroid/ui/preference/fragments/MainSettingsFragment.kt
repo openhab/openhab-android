@@ -30,6 +30,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreferenceCompat
@@ -110,7 +111,7 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         notificationStatusHint = getPreference(PrefKeys.NOTIFICATION_STATUS_HINT)
         val drawerEntriesPrefs = getPreference(PrefKeys.DRAWER_ENTRIES)
         val themePref = getPreference(PrefKeys.THEME)
-        val dynamicColorsPref = getPreference(PrefKeys.DYNAMIC_COLORS)
+        val colorSchemePref = getPreference(PrefKeys.COLOR_SCHEME) as ListPreference
         val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
         val fullscreenPref = getPreference(PrefKeys.FULLSCREEN)
         val launcherPref = getPreference(PrefKeys.LAUNCHER)
@@ -181,12 +182,12 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         }
 
         if (DynamicColors.isDynamicColorAvailable()) {
-            dynamicColorsPref.setOnPreferenceChangeListener { _, _ ->
-                parentActivity.handleThemeChange()
-                true
-            }
-        } else {
-            preferenceScreen.removePreferenceRecursively(PrefKeys.DYNAMIC_COLORS)
+            colorSchemePref.entries = resources.getStringArray(R.array.colorSchemeNamesDynamic)
+            colorSchemePref.entryValues = resources.getStringArray(R.array.colorSchemeValuesDynamic)
+        }
+        colorSchemePref.setOnPreferenceChangeListener { _, _ ->
+            parentActivity.handleThemeChange()
+            true
         }
 
         clearCachePref.setOnPreferenceClickListener { pref ->

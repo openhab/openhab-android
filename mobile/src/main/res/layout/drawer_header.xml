@@ -8,7 +8,7 @@
     android:minHeight="100dp"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:background="?colorSecondaryContainer">
+    android:background="?colorPrimaryContainer">
 
     <LinearLayout
         android:id="@+id/server_selector"
@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="?colorOnSecondaryContainer"
+            android:textColor="?colorOnPrimaryContainer"
             android:textStyle="bold"
             tools:text="server" />
 
@@ -37,7 +37,7 @@
             android:layout_gravity="center_vertical"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
-            app:tint="?colorOnSecondaryContainer"
+            app:tint="?colorOnPrimaryContainer"
             android:src="@drawable/ic_menu_down_24dp" />
 
     </LinearLayout>

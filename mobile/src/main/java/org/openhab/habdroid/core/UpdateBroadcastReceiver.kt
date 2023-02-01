@@ -201,7 +201,16 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     }
                 }
             }
-
+            if (comparableVersion <= THEMES_AND_DYNAMIC_COLORS) {
+                val newThemeNameResId = when {
+                    prefs.getBoolean("dynamic_colors", false) -> R.string.color_scheme_value_dynamic
+                    prefs.getInt("theme_color", 0) == 0xff3f51b5.toInt() -> R.string.color_scheme_value_basicui
+                    else -> R.string.color_scheme_value_default
+                }
+                putString(PrefKeys.COLOR_SCHEME, context.getString(newThemeNameResId))
+                remove("theme_color")
+                remove("dynamic_colors")
+            }
             updateComparableVersion(this)
         }
 
@@ -223,6 +232,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
         private const val MULTI_SERVER_SUPPORT = 330
         private const val WIDGETS_NO_AUTO_GEN_LABEL = 380
         private const val MULTIPLE_WIFI_SSIDS = 407
+        private const val THEMES_AND_DYNAMIC_COLORS = 464
 
         fun updateComparableVersion(editor: SharedPreferences.Editor) {
             editor.putInt(PrefKeys.COMPARABLE_VERSION, BuildConfig.VERSION_CODE).apply()
