@@ -29,7 +29,7 @@ import org.w3c.dom.Node
 @Parcelize
 data class Item internal constructor(
     val name: String,
-    val label: String?,
+    private val rawLabel: String?,
     val category: String?,
     val type: Type,
     val groupType: Type?,
@@ -44,6 +44,8 @@ data class Item internal constructor(
     val maximum: Float?,
     val step: Float?,
 ) : Parcelable {
+    val label get() = rawLabel?.split("[", "]")?.getOrNull(0)?.trim()
+
     enum class Type {
         None,
         Call,
@@ -237,7 +239,7 @@ data class Item internal constructor(
             val parsedItem = jsonObject.toItem()
             // Events don't contain the link property, so preserve that if previously present
             val link = item?.link ?: parsedItem.link
-            return parsedItem.copy(link = link, label = parsedItem.label?.trim())
+            return parsedItem.copy(link = link, rawLabel = parsedItem.label)
         }
     }
 }
@@ -265,7 +267,7 @@ fun Node.toItem(): Item? {
 
     return Item(
         name = finalName,
-        label = finalName.trim(),
+        rawLabel = finalName,
         category = null,
         type = type,
         groupType = groupType,
@@ -338,7 +340,7 @@ fun JSONObject.toItem(): Item {
 
     return Item(
         name = name,
-        label = optStringOrNull("label")?.trim(),
+        rawLabel = optStringOrNull("label"),
         category = optStringOrNull("category")?.lowercase(Locale.US),
         type = getString("type").toItemType(),
         groupType = optString("groupType").toItemType(),

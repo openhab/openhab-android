@@ -186,7 +186,8 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
 
         fun maybeCreateControl(item: Item): Control? {
-            if (item.label.isNullOrEmpty() || item.readOnly) return null
+            val label = item.label
+            if (label.isNullOrEmpty() || item.readOnly) return null
             val controlTemplate = if (item.options != null) {
                 // Open app when clicking on tile
                 ControlTemplate.getNoTemplateObject()
@@ -253,7 +254,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
             )
             val statefulControl = Control.StatefulBuilder(item.name, pi)
-                .setTitle(item.label)
+                .setTitle(label)
                 .setSubtitle(subtitle)
                 .setZone(zone)
                 .setStructure(serverName)
