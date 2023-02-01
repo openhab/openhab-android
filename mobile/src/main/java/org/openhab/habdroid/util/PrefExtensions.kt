@@ -114,6 +114,10 @@ fun SharedPreferences.shouldRequestHighResChart(): Boolean {
     return getBoolean(PrefKeys.CHART_HQ, true)
 }
 
+fun SharedPreferences.useCompactSitemapLayout(): Boolean {
+    return getBoolean(PrefKeys.SITEMAP_COMPACT_MODE, false)
+}
+
 fun SharedPreferences.getImageWidgetScalingType(): WidgetImageView.ImageScalingType {
     return if (getBoolean(PrefKeys.IMAGE_WIDGET_SCALE_TO_FIT, true)) {
         WidgetImageView.ImageScalingType.ScaleToFitWithViewAdjustment

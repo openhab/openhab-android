@@ -77,7 +77,6 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
-import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
@@ -104,7 +103,7 @@ class WidgetAdapter(
 
     private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence = context.getChartTheme(serverFlags)
-    private val compactMode = context.getPrefs().getBoolean(PrefKeys.SITEMAP_COMPACT_MODE, false) // TODO: Reload when changed
+    private var compactMode = false
     private var selectedPosition = RecyclerView.NO_POSITION
     private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
@@ -146,6 +145,13 @@ class WidgetAdapter(
         }
     }
 
+    fun setCompactMode(compactMode: Boolean) {
+        if (compactMode != this.compactMode) {
+            this.compactMode = compactMode
+            notifyDataSetChanged()
+        }
+    }
+
     fun setSelectedPosition(position: Int): Boolean {
         if (selectedPosition == position) {
             return false
@@ -165,7 +171,8 @@ class WidgetAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val holder = when (viewType) {
+        val (actualViewType, compactMode) = fromInternalViewType(viewType)
+        val holder = when (actualViewType) {
             TYPE_GENERICITEM -> GenericViewHolder(inflater, parent)
             TYPE_FRAME -> FrameViewHolder(inflater, parent)
             TYPE_GROUP -> TextViewHolder(inflater, parent, compactMode)
@@ -281,9 +288,9 @@ class WidgetAdapter(
 
     private fun getItemViewType(widget: Widget): Int {
         if (!shouldShowWidget(widget)) {
-            return TYPE_INVISIBLE
+            return toInternalViewType(TYPE_INVISIBLE, compactMode)
         }
-        return when (widget.type) {
+        val actualViewType = when (widget.type) {
             Widget.Type.Frame -> TYPE_FRAME
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
@@ -310,6 +317,7 @@ class WidgetAdapter(
             Widget.Type.Mapview -> TYPE_LOCATION
             else -> TYPE_GENERICITEM
         }
+        return toInternalViewType(actualViewType, compactMode)
     }
 
     data class ViewHolderContext(
@@ -1396,6 +1404,14 @@ class WidgetAdapter(
         private const val TYPE_VIDEO_MJPEG = 17
         private const val TYPE_LOCATION = 18
         private const val TYPE_INVISIBLE = 19
+
+        private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
+            return viewType or (if (compactMode) 0x100 else 0)
+        }
+        private fun fromInternalViewType(viewType: Int): Pair<Int, Boolean> {
+            val compactMode = (viewType and 0x100) != 0
+            return Pair(viewType and 0xff, compactMode)
+        }
     }
 }
 
