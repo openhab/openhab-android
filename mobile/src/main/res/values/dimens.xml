@@ -6,6 +6,7 @@
     <dimen name="widget_margin">0dp</dimen>
     <dimen name="row_height">36dp</dimen>
     <dimen name="widgetlist_icon_size">40dp</dimen>
+    <dimen name="eidgetlist_compact_slider_width">100dp</dimen>
     <dimen name="bottom_sheet_padding">16dp</dimen>
     <dimen name="notificationlist_icon_size">40dp</dimen>
     <dimen name="small_widget_threshold">60dp</dimen>

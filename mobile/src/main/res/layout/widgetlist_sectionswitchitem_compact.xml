@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     style="@style/WidgetListItemContainerCompact">
 
-    <include layout="@layout/widgetlist_iconvaluetext" />
+    <include layout="@layout/widgetlist_icontext_compact" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/switch_group"

@@ -169,20 +169,20 @@ class WidgetAdapter(
             TYPE_GENERICITEM -> GenericViewHolder(inflater, parent)
             TYPE_FRAME -> FrameViewHolder(inflater, parent)
             TYPE_GROUP -> TextViewHolder(inflater, parent, compactMode)
-            TYPE_SWITCH -> SwitchViewHolder(inflater, parent)
+            TYPE_SWITCH -> SwitchViewHolder(inflater, parent, compactMode)
             TYPE_TEXT -> TextViewHolder(inflater, parent, compactMode)
-            TYPE_SLIDER -> SliderViewHolder(inflater, parent)
+            TYPE_SLIDER -> SliderViewHolder(inflater, parent, compactMode)
             TYPE_IMAGE -> ImageViewHolder(inflater, parent)
-            TYPE_SELECTION -> SelectionViewHolder(inflater, parent)
+            TYPE_SELECTION -> SelectionViewHolder(inflater, parent, compactMode)
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(inflater, parent, compactMode)
             TYPE_SECTIONSWITCH_SINGLE -> SingleSectionSwitchViewHolder(inflater, parent)
-            TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent)
-            TYPE_PLAYER -> PlayerViewHolder(inflater, parent)
-            TYPE_SETPOINT -> SetpointViewHolder(inflater, parent)
+            TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(inflater, parent, compactMode)
+            TYPE_PLAYER -> PlayerViewHolder(inflater, parent, compactMode)
+            TYPE_SETPOINT -> SetpointViewHolder(inflater, parent, compactMode)
             TYPE_CHART -> ChartViewHolder(inflater, parent)
             TYPE_VIDEO -> VideoViewHolder(inflater, parent)
             TYPE_WEB -> WebViewHolder(inflater, parent)
-            TYPE_COLOR -> ColorViewHolder(inflater, parent)
+            TYPE_COLOR -> ColorViewHolder(inflater, parent, compactMode)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(inflater, parent)
             TYPE_LOCATION -> MapViewHelper.createViewHolder(inflater, parent)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(inflater, parent)
@@ -288,7 +288,7 @@ class WidgetAdapter(
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
                 widget.shouldRenderAsPlayer() -> TYPE_PLAYER
-                widget.mappingsOrItemOptions.size == 1 -> TYPE_SECTIONSWITCH_SINGLE
+                widget.mappingsOrItemOptions.size == 1 && !compactMode -> TYPE_SECTIONSWITCH_SINGLE
                 widget.mappings.isNotEmpty() -> TYPE_SECTIONSWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> TYPE_SWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
@@ -506,8 +506,13 @@ class WidgetAdapter(
 
     class SwitchViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_switchitem) {
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_switchitem_compact else R.layout.widgetlist_switchitem
+    ) {
         private val switch: SwitchMaterial = itemView.findViewById(R.id.toggle)
         private var isBinding = false
 
@@ -550,8 +555,13 @@ class WidgetAdapter(
 
     class SliderViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_slideritem),
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_slideritem_compact else R.layout.widgetlist_slideritem
+    ),
         Slider.OnChangeListener,
         LabelFormatter {
         private val slider: Slider = itemView.findViewById(R.id.seekbar)
@@ -697,8 +707,13 @@ class WidgetAdapter(
 
     class SelectionViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_selectionitem) {
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_selectionitem_compact else R.layout.widgetlist_selectionitem
+    ) {
         override fun bind(widget: Widget) {
             super.bind(widget)
 
@@ -717,7 +732,7 @@ class WidgetAdapter(
     class SectionSwitchViewHolder internal constructor(
         private val inflater: LayoutInflater,
         parent: ViewGroup,
-        compactMode: Boolean
+        private val compactMode: Boolean
     ) : LabeledItemBaseViewHolder(
         inflater,
         parent,
@@ -743,7 +758,9 @@ class WidgetAdapter(
                 group.addView(spareViews.removeAt(0))
             }
             while (group.childCount < buttonCount) {
-                val view = inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, group, false)
+                val buttonLayout = if (compactMode)
+                    R.layout.widgetlist_sectionswitchitem_button_compact else R.layout.widgetlist_sectionswitchitem_button
+                val view = inflater.inflate(buttonLayout, group, false)
                 view.setOnClickListener(this)
                 group.addView(view)
             }
@@ -848,8 +865,13 @@ class WidgetAdapter(
 
     class RollerShutterViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_rollershutteritem),
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_rollershutteritem_compact else R.layout.widgetlist_rollershutteritem
+    ),
         View.OnClickListener,
         View.OnLongClickListener {
         private val upButton = itemView.findViewById<View>(R.id.up_button)
@@ -893,8 +915,13 @@ class WidgetAdapter(
 
     class PlayerViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_playeritem),
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_playeritem_compact else R.layout.widgetlist_playeritem
+    ),
         View.OnClickListener {
         private val prevButton = itemView.findViewById<View>(R.id.prev_button)
         private val nextButton = itemView.findViewById<View>(R.id.next_button)
@@ -926,8 +953,13 @@ class WidgetAdapter(
 
     class SetpointViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_setpointitem) {
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_setpointitem_compact else R.layout.widgetlist_setpointitem
+    ) {
         init {
             itemView.findViewById<View>(R.id.widgetvalue).setOnClickListener { openSelection() }
             itemView.findViewById<View>(R.id.select_button).setOnClickListener { openSelection() }
@@ -1161,8 +1193,13 @@ class WidgetAdapter(
 
     class ColorViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : LabeledItemBaseViewHolder(inflater, parent, R.layout.widgetlist_coloritem),
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : LabeledItemBaseViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_coloritem_compact else R.layout.widgetlist_coloritem
+    ),
         View.OnClickListener,
         View.OnLongClickListener {
         private val upButton = itemView.findViewById<View>(R.id.up_button)

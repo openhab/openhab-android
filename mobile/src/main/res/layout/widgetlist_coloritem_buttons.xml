@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/up_button"
+        android:contentDescription="@string/content_description_color_up"
+        app:icon="@drawable/ic_keyboard_arrow_up_themed_24dp" />
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/select_color_button"
+        android:contentDescription="@string/content_description_open_color_wheel"
+        app:icon="@drawable/ic_palette_outline_themed_24dp" />
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/down_button"
+        android:contentDescription="@string/content_description_color_down"
+        app:icon="@drawable/ic_keyboard_arrow_down_themed_24dp" />
+
+</merge>

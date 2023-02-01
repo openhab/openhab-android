@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/prev_button"
+        android:contentDescription="@string/content_description_player_previous"
+        app:icon="@drawable/ic_previous_track_themed_24dp" />
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/playpause_button"
+        android:contentDescription="@string/content_description_player_play"
+        app:icon="@drawable/ic_playpause_themed_24dp" />
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/next_button"
+        android:contentDescription="@string/content_description_player_next"
+        app:icon="@drawable/ic_next_track_themed_24dp" />
+
+</merge>
