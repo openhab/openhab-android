@@ -388,6 +388,7 @@ class WidgetAdapter(
             boundWidget = widget
 
             labelView.text = widget.label
+            labelView.isVisible = widget.label.isNotEmpty()
             labelView.applyWidgetColor(widget.labelColor, colorMapper)
             if (valueView != null) {
                 valueView.text = widget.stateFromLabel?.replace("\n", " ")
