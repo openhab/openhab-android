@@ -63,6 +63,9 @@
     <string name="settings_dynamic_colors_title">Dynamic colors</string>
     <string name="settings_dynamic_colors_summary_off">Use color style matching openHAB style throughout the app</string>
     <string name="settings_dynamic_colors_summary_on">Use colors based on your wallpaper throughout the app</string>
+    <string name="settings_sitemap_compact_mode_title">Compact mode</string>
+    <string name="settings_sitemap_compact_mode_off">Use a two-line layout for Sitemap widgets, which makes controls larger and thus easier to use, but requires more scrolling for longer lists</string>
+    <string name="settings_sitemap_compact_mode_on">Use a one-line layout for Sitemap widgetsm, which puts as many widgets as possible on the screen, but reduces size of the controls </string>
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
