@@ -12,7 +12,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="end|center_vertical"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginStart="8dp"
         android:src="@drawable/ic_menu_down_24dp"
         android:scaleType="centerInside"
         app:tint="?attr/colorOnSurface" />
