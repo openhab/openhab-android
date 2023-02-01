@@ -31,6 +31,6 @@
         android:textDirection="anyRtl"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textAppearance="?attr/textAppearanceLabelLarge"
         tools:text="Widget value" />
 </merge>
