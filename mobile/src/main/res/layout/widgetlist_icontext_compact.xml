@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.LinearLayout">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/widgeticon"
@@ -23,5 +24,11 @@
         android:textDirection="locale"
         android:textAppearance="?attr/textAppearanceBodyLarge"
         tools:text="Widget title" />
+
+    <!-- ensure controls become right aligned when there's no label -->
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.01" />
 
 </merge>

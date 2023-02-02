@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
         android:src="@drawable/ic_keyboard_arrow_right_themed_24dp"
         android:visibility="gone"
         tools:visibility="visible" />

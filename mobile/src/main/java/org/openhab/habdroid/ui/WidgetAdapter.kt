@@ -173,7 +173,7 @@ class WidgetAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val (actualViewType, compactMode) = fromInternalViewType(viewType)
         val holder = when (actualViewType) {
-            TYPE_GENERICITEM -> GenericViewHolder(inflater, parent)
+            TYPE_GENERICITEM -> GenericViewHolder(inflater, parent, compactMode)
             TYPE_FRAME -> FrameViewHolder(inflater, parent)
             TYPE_GROUP -> TextViewHolder(inflater, parent, compactMode)
             TYPE_SWITCH -> SwitchViewHolder(inflater, parent, compactMode)
@@ -466,8 +466,13 @@ class WidgetAdapter(
 
     class GenericViewHolder internal constructor(
         inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : ViewHolder(inflater, parent, R.layout.widgetlist_genericitem) {
+        parent: ViewGroup,
+        compactMode: Boolean
+    ) : ViewHolder(
+        inflater,
+        parent,
+        if (compactMode) R.layout.widgetlist_genericitem_compact else R.layout.widgetlist_genericitem
+    ) {
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
 
