@@ -35,7 +35,7 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 
 object MapViewHelper {
-    fun createViewHolder(initData: WidgetAdapter.ViewHolderInitData) : WidgetAdapter.ViewHolder {
+    fun createViewHolder(initData: WidgetAdapter.ViewHolderInitData): WidgetAdapter.ViewHolder {
         MapsInitializer.initialize(initData.inflater.context)
         return GoogleMapsViewHolder(initData)
     }
