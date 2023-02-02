@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="section_switch_max_buttons">7</integer>
-    <dimen name="eidgetlist_compact_slider_width">250dp</dimen>
+    <dimen name="widgetlist_compact_slider_width">250dp</dimen>
 </resources>

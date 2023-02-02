@@ -44,7 +44,7 @@
     <!-- negative end margin compensates for padding inside the slider -->
     <com.google.android.material.slider.Slider
         android:id="@+id/seekbar"
-        android:layout_width="@dimen/eidgetlist_compact_slider_width"
+        android:layout_width="@dimen/widgetlist_compact_slider_width"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
