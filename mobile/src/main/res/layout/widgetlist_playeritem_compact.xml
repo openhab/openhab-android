@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    style="@style/WidgetListItemContainer">
+    style="@style/WidgetListItemContainerCompact">
 
-    <include layout="@layout/widgetlist_icontext" />
+    <include layout="@layout/widgetlist_icontext_compact" />
 
     <include layout="@layout/widgetlist_playeritem_buttons" />
 

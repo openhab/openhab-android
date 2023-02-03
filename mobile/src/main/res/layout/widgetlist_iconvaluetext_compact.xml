@@ -8,21 +8,40 @@
         android:id="@+id/widgeticon"
         android:layout_width="@dimen/widgetlist_icon_size"
         android:layout_height="@dimen/widgetlist_icon_size"
+        android:layout_marginEnd="8dp"
         android:layout_gravity="center_vertical"
         app:imageScalingType="scaleToFit"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
 
     <TextView
         android:id="@+id/widgetlabel"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"
         android:layout_weight="1"
+        android:layout_marginEnd="8dp"
+        android:layout_gravity="center_vertical"
         android:ellipsize="end"
         android:maxLines="1"
         android:textDirection="locale"
         android:textAppearance="?attr/textAppearanceBodyLarge"
         tools:text="Widget title" />
+
+    <TextView
+        android:id="@+id/widgetvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_gravity="center_vertical"
+        android:textDirection="anyRtl"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="?attr/textAppearanceLabelLarge"
+        tools:text="Widget value" />
+
+    <!-- ensure controls become right aligned when there's no label or value -->
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.01" />
 
 </merge>

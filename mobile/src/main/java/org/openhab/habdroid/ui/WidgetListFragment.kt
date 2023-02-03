@@ -21,6 +21,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -74,6 +75,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.useCompactSitemapLayout
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -85,7 +87,8 @@ class WidgetListFragment :
     WidgetAdapter.ItemClickListener,
     WidgetAdapter.DetailBottomSheetPresenter,
     AbstractWidgetDetailBottomSheet.ConnectionGetter,
-    OpenHabApplication.OnDataUsagePolicyChangedListener {
+    OpenHabApplication.OnDataUsagePolicyChangedListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
     @VisibleForTesting lateinit var recyclerView: RecyclerView
     private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
     private lateinit var emptyPageView: View
@@ -163,11 +166,16 @@ class WidgetListFragment :
         activity.triggerPageUpdate(displayPageUrl, false)
         startOrStopVisibleViewHolders(true)
         (activity.applicationContext as OpenHabApplication).registerSystemDataSaverStateChangedListener(this)
+
+        val prefs = activity.getPrefs()
+        adapter?.setCompactMode(prefs.useCompactSitemapLayout())
+        prefs.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
         (requireContext().applicationContext as OpenHabApplication).unregisterSystemDataSaverStateChangedListener(this)
+        requireActivity().getPrefs().unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
@@ -207,6 +215,13 @@ class WidgetListFragment :
     override fun showBottomSheet(sheet: AbstractWidgetDetailBottomSheet, widget: Widget) {
         sheet.arguments = AbstractWidgetDetailBottomSheet.createArguments(widget)
         sheet.show(childFragmentManager, "${sheet.javaClass.simpleName}-${widget.id}")
+    }
+
+    override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {
+        if (key == PrefKeys.SITEMAP_COMPACT_MODE && prefs != null) {
+            // Make the adapter reload views according to the new mode
+            adapter?.setCompactMode(prefs.useCompactSitemapLayout())
+        }
     }
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/WidgetListItemContainerCompact">
+
+    <include layout="@layout/widgetlist_iconvaluetext_compact" />
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/up_button"
+        android:contentDescription="@string/content_description_increase_item_value"
+        android:layout_marginStart="8dp"
+        app:icon="@drawable/ic_keyboard_arrow_up_themed_24dp" />
+
+    <!-- select button removed to save space, keeping placeholder to make the ViewHolder's life easier -->
+    <androidx.legacy.widget.Space
+        android:id="@+id/select_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <Button
+        style="@style/openHAB.ActionButton"
+        android:id="@+id/down_button"
+        android:contentDescription="@string/content_description_decrease_item_value"
+        app:icon="@drawable/ic_keyboard_arrow_down_themed_24dp" />
+
+</LinearLayout>

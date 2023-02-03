@@ -25,7 +25,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
-import androidx.preference.PreferenceManager
 import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
@@ -33,6 +32,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDarkModeActive
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -49,20 +49,14 @@ import org.osmdroid.views.overlay.TilesOverlay
 object MapViewHelper {
     internal val TAG = MapViewHelper::class.java.simpleName
 
-    fun createViewHolder(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ): WidgetAdapter.ViewHolder {
-        val context = inflater.context
-        Configuration.getInstance().load(context,
-                PreferenceManager.getDefaultSharedPreferences(context))
-        return OsmViewHolder(inflater, parent)
+    fun createViewHolder(initData: WidgetAdapter.ViewHolderInitData): WidgetAdapter.ViewHolder {
+        val context = initData.inflater.context
+        Configuration.getInstance().load(context, context.getPrefs())
+        return OsmViewHolder(initData)
     }
 
-    private class OsmViewHolder(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent) {
+    private class OsmViewHolder(initData: WidgetAdapter.ViewHolderInitData) :
+        WidgetAdapter.AbstractMapViewHolder(initData) {
         private val mapView = baseMapView as MapView
         private val handler: Handler = Handler(Looper.getMainLooper())
 

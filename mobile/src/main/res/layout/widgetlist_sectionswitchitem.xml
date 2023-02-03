@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toStartOf="@+id/widgetlabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
 
     <TextView

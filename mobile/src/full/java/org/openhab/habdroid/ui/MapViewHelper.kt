@@ -35,18 +35,13 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 
 object MapViewHelper {
-    fun createViewHolder(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ): WidgetAdapter.ViewHolder {
-        MapsInitializer.initialize(inflater.context)
-        return GoogleMapsViewHolder(inflater, parent)
+    fun createViewHolder(initData: WidgetAdapter.ViewHolderInitData): WidgetAdapter.ViewHolder {
+        MapsInitializer.initialize(initData.inflater.context)
+        return GoogleMapsViewHolder(initData)
     }
 
-    private class GoogleMapsViewHolder(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ) : WidgetAdapter.AbstractMapViewHolder(inflater, parent) {
+    private class GoogleMapsViewHolder(initData: WidgetAdapter.ViewHolderInitData) :
+        WidgetAdapter.AbstractMapViewHolder(initData) {
         private val mapView = baseMapView as MapView
         private var map: GoogleMap? = null
 

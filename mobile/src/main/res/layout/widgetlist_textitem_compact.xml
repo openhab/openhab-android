@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/WidgetListItemContainer">
+    style="@style/WidgetListItemContainerCompact">
 
-    <include layout="@layout/widgetlist_iconvaluetext" />
+    <include layout="@layout/widgetlist_iconvaluetext_compact" />
 
     <ImageView
         android:id="@+id/right_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="8dp"
         android:src="@drawable/ic_keyboard_arrow_right_themed_24dp"
         android:visibility="gone"
         tools:visibility="visible" />
