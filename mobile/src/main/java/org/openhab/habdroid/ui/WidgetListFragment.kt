@@ -269,7 +269,8 @@ class WidgetListFragment :
             menu.add(Menu.NONE, CONTEXT_MENU_ID_OPEN_IN_MAPS, Menu.NONE, R.string.open_in_maps)
         }
 
-        if (hasCommandOptions) {
+        // Offer widget for all Items. For read-only Items the "Show state" widget is useful.
+        if (widget.item != null) {
             val widgetMenu = menu.addSubMenu(
                 Menu.NONE, CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET,
                 Menu.NONE,
@@ -277,8 +278,25 @@ class WidgetListFragment :
             )
             widgetMenu.setHeaderTitle(R.string.item_picker_dialog_title)
             populateStatesMenu(widgetMenu, activity, suggestedCommands, false) { state, mappedState, _ ->
-                requestPinAppWidget(activity, widget, state, mappedState)
+                requestPinAppWidget(
+                    context = activity,
+                    widget = widget,
+                    state = state,
+                    mappedState = mappedState,
+                    showState = false
+                )
             }
+            widgetMenu.add(Menu.NONE, Int.MAX_VALUE, Menu.NONE, R.string.create_home_screen_widget_no_command)
+                .setOnMenuItemClickListener {
+                    requestPinAppWidget(
+                        context = activity,
+                        widget = widget,
+                        state = "",
+                        mappedState = "",
+                        showState = true
+                    )
+                    true
+                }
         }
 
         if (widget.linkedPage != null && ShortcutManagerCompat.isRequestPinShortcutSupported(activity)) {
@@ -473,7 +491,13 @@ class WidgetListFragment :
         }
     }
 
-    private fun requestPinAppWidget(context: Context, widget: Widget, state: String, mappedState: String) {
+    private fun requestPinAppWidget(
+        context: Context,
+        widget: Widget,
+        state: String,
+        mappedState: String,
+        showState: Boolean
+    ) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && appWidgetManager.isRequestPinAppWidgetSupported) {
             val widgetLabel = widget.item?.label.orEmpty()
@@ -483,9 +507,9 @@ class WidgetListFragment :
                 widgetLabel,
                 getString(R.string.item_update_widget_text, widgetLabel, mappedState),
                 mappedState,
-                widget.icon,
+                widget.icon?.withCustomState(""),
                 context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark"),
-                false
+                showState
             )
 
             val callbackIntent = Intent(context, ItemUpdateWidget::class.java).apply {

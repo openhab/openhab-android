@@ -617,6 +617,7 @@
     <string name="item_update_error_no_connection">No connection</string>
     <string name="item_update_error_couldnt_get_item_type">Couldn\'t get Item type</string>
     <string name="create_home_screen_widget_title">Create widget</string>
+    <string name="create_home_screen_widget_no_command">Show current state</string>
     <string name="create_home_screen_widget_not_supported">Please go to the widget menu on your home screen and create a widget from there</string>
 
     <!-- Data saver -->
