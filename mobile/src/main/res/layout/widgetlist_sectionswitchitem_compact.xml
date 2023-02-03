@@ -5,13 +5,12 @@
     android:layout_height="wrap_content"
     style="@style/WidgetListItemContainerCompact">
 
-    <include layout="@layout/widgetlist_icontext_compact" />
+    <include layout="@layout/widgetlist_iconvaluetext_compact" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/switch_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         app:singleSelection="true" />
 
