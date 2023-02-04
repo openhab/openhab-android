@@ -1,0 +1,10 @@
+## What's Changed
+* Add layout mode selection by @maniac103 in https://github.com/openhab/openhab-android/pull/3177
+* Add ScrollView to selection bottom sheet by @mueller-ma in https://github.com/openhab/openhab-android/pull/3172
+* Limit number of updates in Setpoint slider by @mueller-ma in https://github.com/openhab/openhab-android/pull/3174
+* Use special layout for player widget by @maniac103 in https://github.com/openhab/openhab-android/pull/3164
+* Implement an option to use dynamic colors by @maniac103 in https://github.com/openhab/openhab-android/pull/3167
+* Allow creation of home screen widgets for read-only Items by @mueller-ma in https://github.com/openhab/openhab-android/pull/3180
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.0.4-beta...3.1.0-release
