@@ -4,7 +4,7 @@
     <string name="push_notification_status_disabled">Notificările sunt dezactivate</string>
     <string name="notification_channel_crash_reports">Rapoarte Erori</string>
     <string name="notification_channel_crash_reports_description">Folosit pentru a întreba dacă ar trebui trimis un raport de eroare</string>
-    <string name="crash_report_notification_title">OpenHAB a esuat</string>
+    <string name="crash_report_notification_title">openHAB a esuat</string>
     <string name="crash_report_notification_text">Ajutați la îmbunătățirea openHAB prin trimiterea raportului de defecțiuni</string>
     <string name="crash_report_notification_send_mail">Trimite e-mail</string>
     <string name="open_in_maps">Deschideți în OpenStreetMap</string>
