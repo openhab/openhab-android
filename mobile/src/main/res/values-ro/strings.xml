@@ -101,6 +101,13 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_short_http_code_495" tools:keep="@string/error_short_http_code_495">Autentificare eșuată (cod HTTP %d)</string>
+    <string name="error_short_http_code_496" tools:keep="@string/error_short_http_code_496">Certificat client SSL necesar (cod HTTP %d)</string>
+    <string name="error_short_http_code_502" tools:keep="@string/error_short_http_code_502">Proxy-ul invers a primit un răspuns invalid de la openHAB (cod HTTP %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB indisponibil temporar (cod HTTP %d)</string>
+    <string name="error_short_http_code_504" tools:keep="@string/error_short_http_code_504">Gateway time-out (HTTP code %d).</string>
+    <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Nu există suficient spațiu liber pe server (cod HTTP %d)</string>
+    <string name="error_short_http_code_511" tools:keep="@string/error_short_http_code_511">Autentificarea prin rețea este necesară (cod HTTP %d)</string>
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
     <string name="error_no_browser_found">Nu a fost găsit nici un browser pe dispozitivul tău</string>
     <string name="error_no_speech_to_text_app_found">Nu a fost găsită nicio aplicație de recunoaștere vocală</string>
