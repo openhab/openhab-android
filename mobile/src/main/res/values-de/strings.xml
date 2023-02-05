@@ -54,6 +54,10 @@
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_set_as_launcher_title">Als Start-App registrieren</string>
     <string name="settings_set_as_launcher_summary">Verwendung der App als Start-App ermöglichen. Nach der Aktivierung muss die App noch als Standard-Start-App ausgewählt werden, um wirksam zu werden.</string>
+    <string name="settings_dynamic_colors_title">Dynamische Farben</string>
+    <string name="settings_dynamic_colors_summary_off">Die App verwendet Farben, die dem Stil von openHAB entsprechen</string>
+    <string name="settings_dynamic_colors_summary_on">Die App verwendet Farben, die auf Ihrem Hintergrund basieren</string>
+    <string name="settings_sitemap_compact_mode_title">Kompaktmodus</string>
     <string name="settings_openhab_icon_format">Icon-Format</string>
     <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
     <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
@@ -452,6 +456,10 @@
     <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
     <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>
     <string name="content_description_close_roller_shutter">Rollladen schließen</string>
+    <string name="content_description_player_previous">Zum vorherigen Titel springen</string>
+    <string name="content_description_player_next">Zum nächsten Titel springen</string>
+    <string name="content_description_player_pause">Wiedergabe pausieren</string>
+    <string name="content_description_player_play">Wiedergabe starten</string>
     <string name="content_description_open_color_wheel">Farbauswahl öffnen</string>
     <string name="content_description_color_up">Ein oder Halten zum Erhöhen der Helligkeit</string>
     <string name="content_description_color_down">Aus oder Halten zum Verringern der Helligkeit</string>
@@ -549,6 +557,7 @@
     <string name="item_update_error_no_connection">Keine Verbindung</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ konnte nicht abgerufen werden</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
+    <string name="create_home_screen_widget_no_command">Aktuellen Zustand anzeigen</string>
     <string name="create_home_screen_widget_not_supported">Bitte gehen Sie zum Widget-Menü auf Ihrem Startbildschirm und erstellen Sie von dort ein Widget</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datensparmodus</string>
