@@ -22,6 +22,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -29,6 +30,8 @@ import androidx.core.os.bundleOf
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.OnColorChangedListener
 import com.flask.colorpicker.OnColorSelectedListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
@@ -45,11 +48,21 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.parcelable
 
-open class AbstractWidgetDetailBottomSheet : BottomSheetDialogFragment() {
+open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     protected val widget get() = requireArguments().parcelable<Widget>("widget")!!
     protected val connection get() = (parentFragment as ConnectionGetter).getConnection()
     internal var scope: CoroutineScope? = null
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        dialog?.setOnShowListener { dialog ->
+            val d = dialog as BottomSheetDialog
+            val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
+            val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.peekHeight = bottomSheet.height
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
     override fun onResume() {
         scope = CoroutineScope(Dispatchers.Main + Job())
         super.onResume()
@@ -72,7 +85,7 @@ open class AbstractWidgetDetailBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
-class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeListener {
+class SetpointBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener {
     private var updateJob: Job? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
@@ -117,7 +130,7 @@ class SetpointBottomSheet : AbstractWidgetDetailBottomSheet(), Slider.OnChangeLi
     }
 }
 
-class SelectionBottomSheet : AbstractWidgetDetailBottomSheet(), RadioGroup.OnCheckedChangeListener {
+class SelectionBottomSheet : AbstractWidgetBottomSheet(), RadioGroup.OnCheckedChangeListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_selection, container, false)
         val group = view.findViewById<RadioGroup>(R.id.group)
@@ -147,7 +160,7 @@ class SelectionBottomSheet : AbstractWidgetDetailBottomSheet(), RadioGroup.OnChe
 }
 
 class ColorChooserBottomSheet :
-    AbstractWidgetDetailBottomSheet(),
+    AbstractWidgetBottomSheet(),
     Handler.Callback,
     OnColorChangedListener,
     OnColorSelectedListener,

@@ -134,7 +134,7 @@ fun Location.toMapsUrl(): String {
     return "https://www.google.de/maps/@$latitude,$longitude,16z"
 }
 
-class MapBottomSheet : AbstractWidgetDetailBottomSheet(), GoogleMap.OnMarkerDragListener {
+class MapBottomSheet : AbstractWidgetBottomSheet(), GoogleMap.OnMarkerDragListener {
     private lateinit var mapView: MapView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

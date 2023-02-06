@@ -112,7 +112,7 @@ class WidgetAdapter(
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
     }
     interface DetailBottomSheetPresenter {
-        fun showBottomSheet(sheet: AbstractWidgetDetailBottomSheet, widget: Widget)
+        fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget)
     }
 
     @SuppressLint("NotifyDataSetChanged")
