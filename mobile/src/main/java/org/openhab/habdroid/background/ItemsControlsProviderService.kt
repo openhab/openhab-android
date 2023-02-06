@@ -188,7 +188,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         fun maybeCreateControl(item: Item): Control? {
             val label = item.label
             if (label.isNullOrEmpty()) return null
-            val controlTemplate = getControlTemplate(item)
+            val controlTemplate = getControlTemplate(item) ?: return null
 
             val location = getItemTagLabel(item, Item.Tag.Location).orEmpty()
             val equipment = getItemTagLabel(item, Item.Tag.Equipment).orEmpty()
@@ -277,11 +277,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
             }
         }
 
-        private fun getControlTemplate(item: Item): ControlTemplate {
+        private fun getControlTemplate(item: Item): ControlTemplate? {
+            val isTypeWithoutTile = listOf(Item.Type.Image, Item.Type.Location)
+                .any { type -> item.isOfTypeOrGroupType(type) }
+
             return when {
-                item.readOnly -> {
-                    ControlTemplate.getNoTemplateObject()
-                }
+                isTypeWithoutTile -> null
+                item.readOnly -> ControlTemplate.getNoTemplateObject()
                 item.options != null -> {
                     // Open app when clicking on tile
                     ControlTemplate.getNoTemplateObject()
