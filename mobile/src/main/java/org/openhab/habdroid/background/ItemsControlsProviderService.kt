@@ -187,29 +187,8 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
         fun maybeCreateControl(item: Item): Control? {
             val label = item.label
-            if (label.isNullOrEmpty() || item.readOnly) return null
-            val controlTemplate = if (item.options != null) {
-                // Open app when clicking on tile
-                ControlTemplate.getNoTemplateObject()
-            } else {
-                when (item.type) {
-                    Item.Type.Switch -> ToggleTemplate(
-                        item.name,
-                        ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle))
-                    )
-                    Item.Type.Dimmer, Item.Type.Color -> ToggleRangeTemplate(
-                        "${item.name}_toggle",
-                        ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
-                        createRangeTemplate(item, "%.0f%%")
-                    )
-                    Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
-                    Item.Type.Number -> createRangeTemplate(
-                        item,
-                        item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
-                    )
-                    else -> return null
-                }
-            }
+            if (label.isNullOrEmpty()) return null
+            val controlTemplate = getControlTemplate(item) ?: return null
 
             val location = getItemTagLabel(item, Item.Tag.Location).orEmpty()
             val equipment = getItemTagLabel(item, Item.Tag.Equipment).orEmpty()
@@ -226,26 +205,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 else -> location
             }
 
-            val (intent, requestCode) = when {
-                item.options != null -> {
-                    val intent = Intent(context, SelectionItemActivity::class.java).apply {
-                        putExtra(SelectionItemActivity.EXTRA_ITEM, item)
-                    }
-                    Pair(intent, item.hashCode())
-                }
-                item.isOfTypeOrGroupType(Item.Type.Color) -> {
-                    val intent = Intent(context, ColorItemActivity::class.java).apply {
-                        putExtra(ColorItemActivity.EXTRA_ITEM, item)
-                    }
-                    Pair(intent, item.hashCode())
-                }
-                else -> {
-                    val intent = Intent(context, MainActivity::class.java).apply {
-                        putExtra(MainActivity.EXTRA_SERVER_ID, primaryServerId)
-                    }
-                    Pair(intent, primaryServerId)
-                }
-            }
+            val (intent, requestCode) = getIntent(item)
 
             val pi = PendingIntent.getActivity(
                 context,
@@ -262,6 +222,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 .setControlTemplate(controlTemplate)
                 .setStatus(Control.STATUS_OK)
 
+            getStatusText(item, controlTemplate)?.let {
+                statefulControl.setStatusText(it)
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 statefulControl.setAuthRequired(authRequired)
             }
@@ -270,6 +234,75 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 statefulControl.build()
             } else {
                 Control.StatelessBuilder(statefulControl.build()).build()
+            }
+        }
+
+        private fun getStatusText(item: Item, controlTemplate: ControlTemplate): String? {
+            val typesWithState = listOf(
+                ControlTemplate.TYPE_ERROR,
+                ControlTemplate.TYPE_NO_TEMPLATE,
+                ControlTemplate.TYPE_STATELESS
+            )
+
+            return when {
+                controlTemplate.templateType !in typesWithState -> null
+                !item.options.isNullOrEmpty() -> {
+                    item.options
+                        .firstOrNull { labeledValue -> labeledValue.value == item.state?.asString }
+                        ?.label
+                }
+                item.isOfTypeOrGroupType(Item.Type.Number) -> item.state?.asNumber?.toString()
+                else -> item.state?.asString
+            }
+        }
+
+        private fun getIntent(item: Item) = when {
+            !item.readOnly && item.options != null -> {
+                val intent = Intent(context, SelectionItemActivity::class.java).apply {
+                    putExtra(SelectionItemActivity.EXTRA_ITEM, item)
+                }
+                Pair(intent, item.hashCode())
+            }
+            !item.readOnly && item.isOfTypeOrGroupType(Item.Type.Color) -> {
+                val intent = Intent(context, ColorItemActivity::class.java).apply {
+                    putExtra(ColorItemActivity.EXTRA_ITEM, item)
+                }
+                Pair(intent, item.hashCode())
+            }
+            else -> {
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    putExtra(MainActivity.EXTRA_SERVER_ID, primaryServerId)
+                }
+                Pair(intent, primaryServerId)
+            }
+        }
+
+        private fun getControlTemplate(item: Item): ControlTemplate? {
+            val isTypeWithoutTile = listOf(Item.Type.Image, Item.Type.Location)
+                .any { type -> item.isOfTypeOrGroupType(type) }
+
+            return when {
+                isTypeWithoutTile -> null
+                item.readOnly -> ControlTemplate.getNoTemplateObject()
+                item.options != null -> {
+                    // Open app when clicking on tile
+                    ControlTemplate.getNoTemplateObject()
+                }
+                item.type == Item.Type.Switch -> ToggleTemplate(
+                    item.name,
+                    ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle))
+                )
+                item.type == Item.Type.Dimmer || item.type == Item.Type.Color -> ToggleRangeTemplate(
+                    "${item.name}_toggle",
+                    ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
+                    createRangeTemplate(item, "%.0f%%")
+                )
+                item.type == Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
+                item.type == Item.Type.Number -> createRangeTemplate(
+                    item,
+                    item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
+                )
+                else -> ControlTemplate.getNoTemplateObject()
             }
         }
 
