@@ -1,0 +1,7 @@
+## What's Changed
+* Do not use item min/max values for dimmer sliders by @maniac103 in https://github.com/openhab/openhab-android/pull/3202
+* Allow read-only items in device controls by @mueller-ma in https://github.com/openhab/openhab-android/pull/3187
+* Expand bottom sheets by default by @mueller-ma in https://github.com/openhab/openhab-android/pull/3196
+* Ignore alarm from com.miui.securitycenter by @mueller-ma in https://github.com/openhab/openhab-android/pull/3195
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.0.8-beta...3.1.1-beta

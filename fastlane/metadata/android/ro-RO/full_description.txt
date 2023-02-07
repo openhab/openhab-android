@@ -1,19 +1,21 @@
 openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
 The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+Try out new features and give early feedback!
+Puteți instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">versiunea stabilă</a>.
 
-openHAB este o platformă open-source bazată pe Java, care integrează şi combină o gamă largă de diferite sisteme inteligente şi tehnologii într-o singură soluţie.
-Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivele pentru motorul de automatizare bazat pe reguli și diferite interfețe de utilizator.
+openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
+On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
-<b>Produse suportate</b>
+<b>Supported Products</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
-The app has an action plugin for Tasker and Locale included.
+Peste 200 de add-onuri specifice furnizează suport pentru producători, dispozitive, tehnologii și protocoale de comunicație. Exemple sunt Z-Wave, Philips Hue, Amazon Echo, Chromecast și Sonos. Descoperiți toate add-onurile disponibile, dispozitivele și/sau funcțiile suportate la: https://www.openhab.org/addons/
+Aplicația are un plugin de acțiune pentru Tasker și Locale inclus.
 
 <b>Open Source Community</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+Inițiativa open source openHAB sprijină puternic comunitatea sa vibrantă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. Alătură-te comunității openHAB pe forum la https://community.openhab.org
+Când aţi găsit o problemă, vă rugăm să o raportaţi pe forum sau la https://github.com/openhab/openhab-android/issues
 If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
 
 <b>Fundația openHAB</b>
@@ -24,4 +26,4 @@ The openHAB Foundation e.V. is a nonprofit organization with the mission to educ
 
 You need an openHAB server for this app.
 
-Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html
