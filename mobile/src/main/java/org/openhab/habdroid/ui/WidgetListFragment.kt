@@ -86,7 +86,7 @@ class WidgetListFragment :
     Fragment(),
     WidgetAdapter.ItemClickListener,
     WidgetAdapter.DetailBottomSheetPresenter,
-    AbstractWidgetDetailBottomSheet.ConnectionGetter,
+    AbstractWidgetBottomSheet.ConnectionGetter,
     OpenHabApplication.OnDataUsagePolicyChangedListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
     @VisibleForTesting lateinit var recyclerView: RecyclerView
@@ -212,8 +212,8 @@ class WidgetListFragment :
         return adapter?.connection
     }
 
-    override fun showBottomSheet(sheet: AbstractWidgetDetailBottomSheet, widget: Widget) {
-        sheet.arguments = AbstractWidgetDetailBottomSheet.createArguments(widget)
+    override fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget) {
+        sheet.arguments = AbstractWidgetBottomSheet.createArguments(widget)
         sheet.show(childFragmentManager, "${sheet.javaClass.simpleName}-${widget.id}")
     }
 

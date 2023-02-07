@@ -202,7 +202,7 @@ fun Location.toMapsUrl(): String {
     return "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
 }
 
-class MapBottomSheet : AbstractWidgetDetailBottomSheet(), Marker.OnMarkerDragListener {
+class MapBottomSheet : AbstractWidgetBottomSheet(), Marker.OnMarkerDragListener {
     private lateinit var mapView: MapView
     private val handler = Handler(Looper.getMainLooper())
 
