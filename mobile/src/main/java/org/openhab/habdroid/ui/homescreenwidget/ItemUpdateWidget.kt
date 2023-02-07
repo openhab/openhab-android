@@ -408,5 +408,26 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             return item.isNotEmpty() &&
                 label.isNotEmpty()
         }
+
+        /**
+         * When comparing fields treat null as an empty string.
+         */
+        fun nearlyEquals(other: Any?): Boolean {
+            return when (other) {
+                null -> false
+                !is ItemUpdateWidgetData -> false
+                this -> true
+                else -> {
+                    this.item == other.item &&
+                        this.command.orEmpty() == other.command.orEmpty() &&
+                        this.label == other.label &&
+                        this.widgetLabel.orEmpty() == other.widgetLabel.orEmpty() &&
+                        this.mappedState == other.mappedState &&
+                        this.icon == other.icon &&
+                        this.theme == other.theme &&
+                        this.showState == other.showState
+                }
+            }
+        }
     }
 }

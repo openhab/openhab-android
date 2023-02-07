@@ -99,11 +99,11 @@ class WidgetSettingsFragment :
             override fun handleOnBackPressed() {
                 val oldData = ItemUpdateWidget.getInfoForWidget(requireContext(), widgetId)
                 val newData = getCurrentPrefsAsWidgetData()
-                if (oldData != newData) {
-                    PreferencesActivity.ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
-                } else {
+                if (oldData.nearlyEquals(newData)) {
                     isEnabled = false
                     parentActivity.onBackPressedDispatcher.onBackPressed()
+                } else {
+                    PreferencesActivity.ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
                 }
             }
         }
