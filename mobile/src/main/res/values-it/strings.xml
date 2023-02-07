@@ -54,6 +54,12 @@
     <string name="settings_openhab_fullscreen">Schermo intero</string>
     <string name="settings_set_as_launcher_title">Impostato per Avvio</string>
     <string name="settings_set_as_launcher_summary">Consenti all\'app di essere utilizzata come prima esecuzione. Dopo l\'abilitazione, l\'applicazione deve ancora essere selezionata come applicazione di avvio predefinito per avere effetto.</string>
+    <string name="settings_dynamic_colors_title">Colori dinamici</string>
+    <string name="settings_dynamic_colors_summary_off">Usa stile di colore corrispondente stile openHAB in tutta l\'app</string>
+    <string name="settings_dynamic_colors_summary_on">Usa colori basati sullo sfondo in tutta l\'app</string>
+    <string name="settings_sitemap_compact_mode_title">Modalità compatta</string>
+    <string name="settings_sitemap_compact_mode_off">Usa un layout a due righe per i widget Sitemap, che rende i controlli più grandi e quindi più facili da usare, ma richiede più scorrimento per liste più lunghe</string>
+    <string name="settings_sitemap_compact_mode_on">Usa un layout a una linea per i widget Sitemap, che mette il maggior numero possibile di widget sullo schermo, ma riduce la dimensione dei controlli </string>
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
@@ -452,6 +458,10 @@
     <string name="content_description_open_roller_shutter">Apertura tapparella</string>
     <string name="content_description_stop_roller_shutter">Ferma tapparella</string>
     <string name="content_description_close_roller_shutter">Chiusura tapparella</string>
+    <string name="content_description_player_previous">Salta alla traccia precedente</string>
+    <string name="content_description_player_next">Passa alla traccia successiva</string>
+    <string name="content_description_player_pause">Riproduzione in pausa</string>
+    <string name="content_description_player_play">Avvia riproduzione</string>
     <string name="content_description_open_color_wheel">Apri ruota dei colori</string>
     <string name="content_description_color_up">On o ferma l\'aumento luminosita\'</string>
     <string name="content_description_color_down">Off o ferma l\'aumento luminosita\'</string>
@@ -547,6 +557,7 @@
     <string name="item_update_error_no_connection">Nessuna connessione</string>
     <string name="item_update_error_couldnt_get_item_type">Non posso recuperare il tipo dell’Item</string>
     <string name="create_home_screen_widget_title">Crea widget</string>
+    <string name="create_home_screen_widget_no_command">Mostra lo stato corrente</string>
     <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
     <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>

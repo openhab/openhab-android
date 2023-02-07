@@ -54,6 +54,12 @@
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
     <string name="settings_set_as_launcher_title">Registrar como lanzador</string>
     <string name="settings_set_as_launcher_summary">Permitir que la aplicación se utilice como lanzador. Después de activar, la aplicación todavía necesita ser seleccionada como lanzador predeterminado para que tenga efecto.</string>
+    <string name="settings_dynamic_colors_title">Colores dinámicos</string>
+    <string name="settings_dynamic_colors_summary_off">Usar el estilo de color que coincide con el estilo openHAB en toda la aplicación</string>
+    <string name="settings_dynamic_colors_summary_on">Usar colores basados en tu fondo de pantalla en la aplicación</string>
+    <string name="settings_sitemap_compact_mode_title">Modo compacto</string>
+    <string name="settings_sitemap_compact_mode_off">Utilizar una disposición de dos líneas para los widgets de Sitemap, lo que hace que los controles sean más grandes y por lo tanto más fáciles de usar, pero requiere más desplazamiento para listas más largas</string>
+    <string name="settings_sitemap_compact_mode_on">Usar un diseño de una línea para widgets de Sitemap, que pone tantos widgets como sea posible en la pantalla, pero reduce el tamaño de los controles </string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <string name="settings_openhab_icon_format_png">Mapa de bits</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
@@ -452,6 +458,10 @@
     <string name="content_description_open_roller_shutter">Abrir la persiana enrollable</string>
     <string name="content_description_stop_roller_shutter">Parar la persiana enrollable</string>
     <string name="content_description_close_roller_shutter">Cerrar la persiana enrollable</string>
+    <string name="content_description_player_previous">Retroceder hasta la pista anterior</string>
+    <string name="content_description_player_next">Avanzar hasta la pista siguiente</string>
+    <string name="content_description_player_pause">Pausar reproducción</string>
+    <string name="content_description_player_play">Iniciar reproducción</string>
     <string name="content_description_open_color_wheel">Abrir la rueda de color</string>
     <string name="content_description_color_up">Encender, o mantener para aumentar el brillo</string>
     <string name="content_description_color_down">Apagar, o mantener para disminuir el brillo</string>
@@ -549,6 +559,7 @@
     <string name="item_update_error_no_connection">Sin conexión</string>
     <string name="item_update_error_couldnt_get_item_type">No se pudo obtener el tipo del Item</string>
     <string name="create_home_screen_widget_title">Crear widget</string>
+    <string name="create_home_screen_widget_no_command">Mostrar estado actual</string>
     <string name="create_home_screen_widget_not_supported">Por favor, vaya al menú de widgets en su pantalla de inicio y cree un widget desde allí</string>
     <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
