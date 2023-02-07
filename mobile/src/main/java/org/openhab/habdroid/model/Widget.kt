@@ -66,9 +66,25 @@ data class Widget(
 
     val mappingsOrItemOptions get() = if (mappings.isEmpty() && item?.options != null) item.options else mappings
 
-    val minValue get() = min(rawMinValue ?: item?.minimum ?: 0f, rawMaxValue ?: item?.maximum ?: 100f)
-    val maxValue get() = max(rawMinValue ?: item?.minimum ?: 0f, rawMaxValue ?: item?.maximum ?: 100f)
-    val step get() = abs(rawStep ?: item?.step ?: 1f)
+    val minValue get() = min(configuredMinValue, configuredMaxValue)
+    val maxValue get() = max(configuredMinValue, configuredMaxValue)
+    val step get() = abs(configuredStep)
+
+    private val configuredMinValue get() = when {
+        rawMinValue != null -> rawMinValue
+        item?.minimum != null && item.type != Item.Type.Dimmer -> item.minimum
+        else -> 0f
+    }
+    private val configuredMaxValue get() = when {
+        rawMaxValue != null -> rawMaxValue
+        item?.maximum != null && item.type != Item.Type.Dimmer -> item.maximum
+        else -> 100f
+    }
+    private val configuredStep get() = when {
+        rawStep != null -> rawStep
+        item?.step != null && item.type != Item.Type.Dimmer -> item.step
+        else -> 1f
+    }
 
     @Suppress("unused")
     enum class Type {
