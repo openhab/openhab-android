@@ -68,6 +68,7 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
@@ -183,7 +184,7 @@ class WidgetAdapter(
             TYPE_IMAGE -> ImageViewHolder(initData)
             TYPE_SELECTION -> SelectionViewHolder(initData)
             TYPE_SECTIONSWITCH -> SectionSwitchViewHolder(initData)
-            TYPE_SECTIONSWITCH_SINGLE -> SingleSectionSwitchViewHolder(initData)
+            TYPE_SECTIONSWITCH_SMALL -> SmallSectionSwitchViewHolder(initData)
             TYPE_ROLLERSHUTTER -> RollerShutterViewHolder(initData)
             TYPE_PLAYER -> PlayerViewHolder(initData)
             TYPE_SETPOINT -> SetpointViewHolder(initData)
@@ -296,7 +297,7 @@ class WidgetAdapter(
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
                 widget.shouldRenderAsPlayer() -> TYPE_PLAYER
-                widget.mappingsOrItemOptions.size == 1 && !compactMode -> TYPE_SECTIONSWITCH_SINGLE
+                widget.mappingsOrItemOptions.size in 1..2 && !compactMode -> TYPE_SECTIONSWITCH_SMALL
                 widget.mappings.isNotEmpty() -> TYPE_SECTIONSWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> TYPE_SWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
@@ -836,28 +837,45 @@ class WidgetAdapter(
         }
     }
 
-    class SingleSectionSwitchViewHolder internal constructor(initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_singlesectionswitch_item) {
-        private val toggle: MaterialButton = itemView.findViewById(R.id.switch_single)
+    class SmallSectionSwitchViewHolder internal constructor(initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_smallsectionswitch_item),
+        View.OnClickListener {
+        private val toggles = listOf<MaterialButton>(
+            itemView.findViewById(R.id.switch_one),
+            itemView.findViewById(R.id.switch_two)
+        )
 
         init {
-            toggle.isCheckable = true
+            toggles.forEach { t ->
+                t.isCheckable = true
+                t.setOnClickListener(this)
+            }
         }
 
         override fun bind(widget: Widget) {
             super.bind(widget)
 
-            val mapping = widget.mappingsOrItemOptions[0]
-            toggle.text = mapping.label
-            toggle.isChecked = widget.item?.state?.asString == mapping.value
-            toggle.setOnClickListener {
-                toggle.isChecked = true
-                connection.httpClient.sendItemCommand(widget.item, mapping.value)
+            val applyMapping = { button: MaterialButton, mapping: LabeledValue? ->
+                button.isGone = mapping == null
+                if (mapping != null) {
+                    button.text = mapping.label
+                    button.isChecked = widget.item?.state?.asString == mapping.value
+                    button.tag = mapping.value
+                }
             }
+            applyMapping(toggles[0], widget.mappingsOrItemOptions[0])
+            applyMapping(toggles[1], widget.mappingsOrItemOptions.getOrNull(1))
+        }
+
+        override fun onClick(view: View) {
+            // Make sure one can't uncheck buttons by clicking a checked one
+            (view as MaterialButton).isChecked = true
+            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
         }
 
         override fun handleRowClick() {
-            toggle.callOnClick()
+            val buttonToSelect = if (toggles[1].isVisible && toggles[1].isChecked) 1 else 0
+            toggles[buttonToSelect].callOnClick()
         }
     }
 
@@ -1360,7 +1378,7 @@ class WidgetAdapter(
         private const val TYPE_IMAGE = 6
         private const val TYPE_SELECTION = 7
         private const val TYPE_SECTIONSWITCH = 8
-        private const val TYPE_SECTIONSWITCH_SINGLE = 9
+        private const val TYPE_SECTIONSWITCH_SMALL = 9
         private const val TYPE_ROLLERSHUTTER = 10
         private const val TYPE_PLAYER = 11
         private const val TYPE_SETPOINT = 12
