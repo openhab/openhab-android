@@ -192,13 +192,9 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
             }
             if (comparableVersion <= MULTIPLE_WIFI_SSIDS) {
                 prefs.getConfiguredServerIds().forEach { serverId ->
-                    prefs.edit {
-                        val key = PrefKeys.buildServerKey(serverId, PrefKeys.WIFI_SSID_PREFIX)
-                        val ssid = prefs.getStringOrNull(key)
-                        prefs.edit {
-                            putStringSet(key, if (ssid.isNullOrEmpty()) emptySet() else setOf(ssid))
-                        }
-                    }
+                    val key = PrefKeys.buildServerKey(serverId, PrefKeys.WIFI_SSID_PREFIX)
+                    val ssid = prefs.getStringOrNull(key)
+                    putStringSet(key, if (ssid.isNullOrEmpty()) emptySet() else setOf(ssid))
                 }
             }
             if (comparableVersion <= THEMES_AND_DYNAMIC_COLORS) {
