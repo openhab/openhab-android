@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="openHAB.DayNight" parent="openHAB.Base">
+    <style name="openHAB.DayNight.Base" parent="openHAB.Base">
         <item name="chartTheme">dark</item>
         <item name="transparentChartTheme">dark_transparent</item>
         <item name="valueColors">@array/valueColorsDarkBackground</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
 
-        <item name="colorPrimary">@color/md_theme_dark_primary</item>
-        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
-        <item name="colorError">@color/md_theme_dark_error</item>
-        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
-        <item name="colorOnError">@color/md_theme_dark_onError</item>
-        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
-        <item name="android:colorBackground">@color/md_theme_dark_background</item>
-        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
-        <item name="colorSurface">@color/md_theme_dark_surface</item>
-        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
-        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
-        <item name="colorOutline">@color/md_theme_dark_outline</item>
-        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
-        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
-        <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
+    <style name="openHAB.DayNight.orange" parent="openHAB.DayNight.Base">
+        <item name="colorPrimary">#FFB5A0</item>
+        <item name="colorOnPrimary">#5F1500</item>
+        <item name="colorPrimaryContainer">#862200</item>
+        <item name="colorOnPrimaryContainer">#FFDBD1</item>
+        <item name="colorSecondary">#FFB5A1</item>
+        <item name="colorOnSecondary">#601300</item>
+        <item name="colorSecondaryContainer">#881F00</item>
+        <item name="colorOnSecondaryContainer">#FFDBD1</item>
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorErrorContainer">#93000A</item>
+        <item name="colorOnError">#690005</item>
+        <item name="colorOnErrorContainer">#FFDAD6</item>
+        <item name="android:colorBackground">#201A18</item>
+        <item name="colorOnBackground">#EDE0DC</item>
+        <item name="colorSurface">#201A18</item>
+        <item name="colorOnSurface">#EDE0DC</item>
+        <item name="colorSurfaceVariant">#53433F</item>
+        <item name="colorOnSurfaceVariant">#D8C2BC</item>
+        <item name="colorOutline">#A08C87</item>
+        <item name="colorOnSurfaceInverse">#201A18</item>
+        <item name="colorSurfaceInverse">#EDE0DC</item>
+        <item name="colorPrimaryInverse">#B02F00</item>
+    </style>
+
+    <style name="openHAB.DayNight.basicui" parent="openHAB.DayNight.Base">
+        <item name="colorPrimary">#BAC3FF</item>
+        <item name="colorOnPrimary">#08218A</item>
+        <item name="colorPrimaryContainer">#293CA0</item>
+        <item name="colorOnPrimaryContainer">#DEE0FF</item>
+        <item name="colorSecondary">#FFB1C1</item>
+        <item name="colorOnSecondary">#66002A</item>
+        <item name="colorSecondaryContainer">#8F003F</item>
+        <item name="colorOnSecondaryContainer">#FFD9DF</item>
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorErrorContainer">#93000A</item>
+        <item name="colorOnError">#690005</item>
+        <item name="colorOnErrorContainer">#FFDAD6</item>
+        <item name="android:colorBackground">#1B1B1F</item>
+        <item name="colorOnBackground">#E4E1E6</item>
+        <item name="colorSurface">#1B1B1F</item>
+        <item name="colorOnSurface">#E4E1E6</item>
+        <item name="colorSurfaceVariant">#46464F</item>
+        <item name="colorOnSurfaceVariant">#C7C5D0</item>
+        <item name="colorOutline">#90909A</item>
+        <item name="colorOnSurfaceInverse">#1B1B1F</item>
+        <item name="colorSurfaceInverse">#E4E1E6</item>
+        <item name="colorPrimaryInverse">#4355B9</item>
     </style>
 
     <style name="openHAB.Launch" parent="openHAB.Base">

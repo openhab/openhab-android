@@ -38,7 +38,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.updatePadding
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.color.DynamicColors
 import com.google.android.material.internal.EdgeToEdgeUtils
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -53,7 +52,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
-import org.openhab.habdroid.util.getActivityThemeId
+import org.openhab.habdroid.util.applyUserSelectedTheme
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
 import org.openhab.habdroid.util.hasPermissions
@@ -75,11 +74,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(getActivityThemeId())
-        if (getPrefs().getBoolean(PrefKeys.DYNAMIC_COLORS, false)) {
-            DynamicColors.applyToActivityIfAvailable(this)
-        }
-
+        applyUserSelectedTheme()
         super.onCreate(savedInstanceState)
     }
 

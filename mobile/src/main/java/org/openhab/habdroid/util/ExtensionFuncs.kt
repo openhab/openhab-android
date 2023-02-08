@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.util
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -46,6 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.SVG
+import com.google.android.material.color.DynamicColors
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
@@ -458,11 +460,28 @@ fun Context.isDarkModeActive(): Boolean {
     }
 }
 
-@StyleRes fun Context.getActivityThemeId(): Int {
-    return if (getPrefs().getStringOrNull(PrefKeys.THEME) == getString(R.string.theme_value_black)) {
-        R.style.openHAB_DayNight_Black
+fun Activity.shouldUseDynamicColors(): Boolean {
+    val colorScheme = getPrefs().getStringOrEmpty(PrefKeys.COLOR_SCHEME)
+    return DynamicColors.isDynamicColorAvailable() && colorScheme == getString(R.string.color_scheme_value_dynamic)
+}
+
+fun Activity.applyUserSelectedTheme() {
+    if (shouldUseDynamicColors()) {
+        DynamicColors.applyToActivityIfAvailable(this)
     } else {
-        R.style.openHAB_DayNight
+        setTheme(getActivityThemeId())
+    }
+}
+
+@StyleRes fun Context.getActivityThemeId(): Int {
+    val isBlackTheme = getPrefs().getStringOrNull(PrefKeys.THEME) == getString(R.string.theme_value_black)
+    val colorScheme = getPrefs().getStringOrEmpty(PrefKeys.COLOR_SCHEME)
+    val basicUiScheme = getString(R.string.color_scheme_value_basicui)
+    return when {
+        colorScheme == basicUiScheme && isBlackTheme -> R.style.openHAB_DayNight_Black_basicui
+        colorScheme == basicUiScheme -> R.style.openHAB_DayNight_basicui
+        isBlackTheme -> R.style.openHAB_DayNight_Black_orange
+        else -> R.style.openHAB_DayNight_orange
     }
 }
 
