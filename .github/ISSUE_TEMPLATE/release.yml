@@ -12,8 +12,6 @@ body:
       options:
         - label: Check for major crashes in latest stable version
           required: false
-        - label: Check for major crashes in beta versions since last stable version
-          required: false
         - label: Merge new translations
           required: false
   - type: textarea
@@ -33,6 +31,8 @@ body:
     attributes:
       label: Post-release checklist
       options:
+        - label: Release in Play Store in the open test track
+          required: false
         - label: Release in Play Store to 20%
           required: false
         - label: Release in Play Store to 50%
