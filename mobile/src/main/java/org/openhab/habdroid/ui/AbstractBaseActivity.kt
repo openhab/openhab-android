@@ -161,9 +161,10 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         @StringRes messageResId: Int,
         @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
         @StringRes actionResId: Int = 0,
+        onDismissListener: (() -> Unit)? = null,
         onClickListener: (() -> Unit)? = null
     ) {
-        showSnackbar(tag, getString(messageResId), duration, actionResId, onClickListener)
+        showSnackbar(tag, getString(messageResId), duration, actionResId, onDismissListener, onClickListener)
     }
 
     protected fun showSnackbar(
@@ -171,6 +172,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         message: String,
         @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_LONG,
         @StringRes actionResId: Int = 0,
+        onDismissListener: (() -> Unit)? = null,
         onClickListener: (() -> Unit)? = null
     ) {
         fun showNextSnackbar() {
@@ -200,6 +202,9 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                 super.onDismissed(transientBottomBar, event)
+                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                    onDismissListener?.invoke()
+                }
                 showNextSnackbar()
             }
         })
