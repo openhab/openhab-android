@@ -1,0 +1,6 @@
+## What's Changed
+* Refine section switch with two mappings by @maniac103 in https://github.com/openhab/openhab-android/pull/3203
+* Reintroduce theme selection by @maniac103 in https://github.com/openhab/openhab-android/pull/3178
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.1.1-beta...3.1.2-beta
