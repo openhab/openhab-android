@@ -30,7 +30,9 @@ The documentation is available at [www.openhab.org/docs/](https://www.openhab.or
 
 ## Beta builds
 
-Beta builds are distributed via [Google Play](https://play.google.com/store/apps/details?id=org.openhab.habdroid.beta), [GitHub](https://github.com/openhab/openhab-android/releases) and [F-Droid](https://f-droid.org/packages/org.openhab.habdroid.beta). Those builds can be installed alongside the stable version.
+Beta builds are distributed via [GitHub](https://github.com/openhab/openhab-android/releases) and [F-Droid](https://f-droid.org/packages/org.openhab.habdroid.beta). Those builds can be installed alongside the stable version.
+
+On Google Play you can opt-in to get updates of stable versions before others: https://play.google.com/apps/testing/org.openhab.habdroid
 
 ## Localization
 
