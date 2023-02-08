@@ -25,6 +25,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -125,6 +126,16 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         webView = view.findViewById(R.id.webview)
+        webView?.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                Log.d(TAG, "progressCallback: progress = $newProgress")
+                if (newProgress == 100) {
+                    updateViewVisibility(null, null)
+                } else {
+                    updateViewVisibility(null, newProgress)
+                }
+            }
+        }
 
         isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
 
@@ -268,14 +279,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val webView = webView ?: return
         val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
 
-        webView.setUpForConnection(conn, url, avoidAuthentication) { progress ->
-            Log.d(TAG, "progressCallback: progress = $progress")
-            if (progress == 100) {
-                updateViewVisibility(null, null)
-            } else {
-                updateViewVisibility(null, progress)
-            }
-        }
+        webView.setUpForConnection(conn, url, avoidAuthentication)
         webView.setBackgroundColor(Color.TRANSPARENT)
 
         val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
