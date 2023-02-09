@@ -105,6 +105,7 @@
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="settings_openhab_none">Brez</string>
     <!-- Themes -->
+    <string name="color_scheme_name_default">Privzeto</string>
     <!-- Chart -->
     <!-- NFC -->
     <string name="nfc_action_off">Izklopljeno</string>

@@ -213,6 +213,7 @@
     <string name="theme_name_dark">Mörkt</string>
     <string name="theme_name_system">Följ systemet</string>
     <string name="theme_name_battery_saver">Mörkt läge i batterisparläge</string>
+    <string name="color_scheme_name_default">Standard</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Dölj teckenförklaring</string>

@@ -364,6 +364,7 @@
     <string name="theme_name_system">בהתאם למערכת</string>
     <string name="theme_name_battery_saver">ערכת נושא כהה במצב חיסכון בסוללה</string>
     <string name="theme_name_black">שחור</string>
+    <string name="color_scheme_name_default">ברירת מחדל</string>
     <!-- Chart -->
     <string name="chart_activity_title">תרשים</string>
     <string name="chart_activity_hide_legend">הסתר מקרא</string>

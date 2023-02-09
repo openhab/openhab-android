@@ -331,6 +331,7 @@
     <string name="theme_name_system">Seguir o sistema</string>
     <string name="theme_name_battery_saver">Modo escuro na economia de bateria</string>
     <string name="theme_name_black">Preto</string>
+    <string name="color_scheme_name_default">Padrão</string>
     <!-- Chart -->
     <string name="chart_activity_title">Gráfico</string>
     <string name="chart_activity_hide_legend">Ocultar legenda</string>

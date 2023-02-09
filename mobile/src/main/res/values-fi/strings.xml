@@ -309,6 +309,7 @@
     <string name="theme_name_system">Seuraa järjestelmää</string>
     <string name="theme_name_battery_saver">Tumma teema virransäästön aikana</string>
     <string name="theme_name_black">Musta</string>
+    <string name="color_scheme_name_default">Oletus</string>
     <!-- Chart -->
     <string name="chart_activity_title">Kuvaaja</string>
     <string name="chart_activity_hide_legend">Piilota selite</string>

@@ -356,6 +356,7 @@
     <string name="theme_name_system">Suivre le thème système</string>
     <string name="theme_name_battery_saver">Mode sombre pendant l\'économiseur de batterie</string>
     <string name="theme_name_black">Noir</string>
+    <string name="color_scheme_name_default">Défaut</string>
     <!-- Chart -->
     <string name="chart_activity_title">Graphique</string>
     <string name="chart_activity_hide_legend">Masquer la légende</string>

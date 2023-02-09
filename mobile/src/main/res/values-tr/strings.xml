@@ -216,6 +216,7 @@
     <string name="theme_name_dark">Koyu</string>
     <string name="theme_name_system">Sistemi izle</string>
     <string name="theme_name_battery_saver">Pil tasarrufunda karanlık mod</string>
+    <string name="color_scheme_name_default">Varsayılan</string>
     <!-- Chart -->
     <!-- NFC -->
     <string name="nfc_action_on">Açık</string>

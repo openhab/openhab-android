@@ -357,6 +357,7 @@
     <string name="theme_name_system">Følg system</string>
     <string name="theme_name_battery_saver">Mørk modus ved batterisparing</string>
     <string name="theme_name_black">Svart</string>
+    <string name="color_scheme_name_default">Standard</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Skjul forklaring</string>

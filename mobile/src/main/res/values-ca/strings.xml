@@ -342,6 +342,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="theme_name_system">Segueix sistema</string>
     <string name="theme_name_battery_saver">Mode fosc a l\'estalvi de bateria</string>
     <string name="theme_name_black">Negre</string>
+    <string name="color_scheme_name_default">Per defecte</string>
     <!-- Chart -->
     <string name="chart_activity_title">Gràfic</string>
     <string name="chart_activity_hide_legend">Amaga la llegenda</string>

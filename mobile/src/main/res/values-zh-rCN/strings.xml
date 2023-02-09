@@ -329,6 +329,7 @@
     <string name="theme_name_system">跟随系统</string>
     <string name="theme_name_battery_saver">省电模式下的暗色模式</string>
     <string name="theme_name_black">黑色</string>
+    <string name="color_scheme_name_default">默认</string>
     <!-- Chart -->
     <string name="chart_activity_title">图表</string>
     <string name="chart_activity_hide_legend">隐藏图例</string>

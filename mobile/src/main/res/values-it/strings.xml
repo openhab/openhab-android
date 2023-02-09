@@ -54,12 +54,8 @@
     <string name="settings_openhab_fullscreen">Schermo intero</string>
     <string name="settings_set_as_launcher_title">Impostato per Avvio</string>
     <string name="settings_set_as_launcher_summary">Consenti all\'app di essere utilizzata come prima esecuzione. Dopo l\'abilitazione, l\'applicazione deve ancora essere selezionata come applicazione di avvio predefinito per avere effetto.</string>
-    <string name="settings_dynamic_colors_title">Colori dinamici</string>
-    <string name="settings_dynamic_colors_summary_off">Usa stile di colore corrispondente stile openHAB in tutta l\'app</string>
-    <string name="settings_dynamic_colors_summary_on">Usa colori basati sullo sfondo in tutta l\'app</string>
     <string name="settings_sitemap_compact_mode_title">Modalità compatta</string>
     <string name="settings_sitemap_compact_mode_off">Usa un layout a due righe per i widget Sitemap, che rende i controlli più grandi e quindi più facili da usare, ma richiede più scorrimento per liste più lunghe</string>
-    <string name="settings_sitemap_compact_mode_on">Usa un layout a una linea per i widget Sitemap, che mette il maggior numero possibile di widget sullo schermo, ma riduce la dimensione dei controlli </string>
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
@@ -365,6 +361,7 @@
     <string name="theme_name_system">Come da Sistema</string>
     <string name="theme_name_battery_saver">Modalità scura in risparmio batteria</string>
     <string name="theme_name_black">Nero</string>
+    <string name="color_scheme_name_default">Predefinito</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafico</string>
     <string name="chart_activity_hide_legend">Nascondi legenda</string>
