@@ -359,6 +359,7 @@
     <string name="theme_name_system">Rendszertéma-követés</string>
     <string name="theme_name_battery_saver">Sötét mód energiatakarékos módban</string>
     <string name="theme_name_black">Fekete</string>
+    <string name="color_scheme_name_default">Alapértelmezett</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafikon</string>
     <string name="chart_activity_hide_legend">Jelmagyarázat elrejtése</string>
