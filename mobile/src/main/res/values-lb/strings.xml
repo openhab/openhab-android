@@ -296,6 +296,7 @@
     <string name="theme_name_system">System no goen</string>
     <string name="theme_name_battery_saver">Donkele Modus am Energiespuermodus</string>
     <string name="theme_name_black">Schwaarz</string>
+    <string name="color_scheme_name_default">Standard</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagramm</string>
     <string name="chart_activity_hide_legend">Legend verstoppen</string>
