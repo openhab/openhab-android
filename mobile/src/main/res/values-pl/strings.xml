@@ -327,6 +327,7 @@
     <string name="theme_name_system">Z motywu systemu</string>
     <string name="theme_name_battery_saver">Włącz tryb ciemny w trybie oszczędzania baterii</string>
     <string name="theme_name_black">Czarny</string>
+    <string name="color_scheme_name_default">Domyślny</string>
     <!-- Chart -->
     <string name="chart_activity_title">Wykres</string>
     <string name="chart_activity_hide_legend">Ukryj legendę</string>
