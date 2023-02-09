@@ -335,6 +335,7 @@
     <string name="theme_name_system">Как в настройках</string>
     <string name="theme_name_battery_saver">Темная тема в режиме экономии батареи</string>
     <string name="theme_name_black">Черный</string>
+    <string name="color_scheme_name_default">По умолчанию</string>
     <!-- Chart -->
     <string name="chart_activity_title">График</string>
     <string name="chart_activity_hide_legend">Скрыть легенду</string>
