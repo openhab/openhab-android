@@ -346,6 +346,7 @@
     <string name="theme_name_system">Systeem volgen</string>
     <string name="theme_name_battery_saver">Donkere modus bij batterijbesparing</string>
     <string name="theme_name_black">Zwart</string>
+    <string name="color_scheme_name_default">Standaard</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafiek</string>
     <string name="chart_activity_hide_legend">Legende verbergen</string>
