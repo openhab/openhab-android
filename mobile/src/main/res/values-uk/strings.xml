@@ -345,6 +345,7 @@
     <string name="theme_name_system">Наслідувати систему</string>
     <string name="theme_name_battery_saver">Темна тема в режимі економії заряду акумулятора</string>
     <string name="theme_name_black">Чорна</string>
+    <string name="color_scheme_name_default">За замовчуванням</string>
     <!-- Chart -->
     <string name="chart_activity_title">Графік</string>
     <string name="chart_activity_hide_legend">Приховати легенду</string>
