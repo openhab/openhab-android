@@ -337,6 +337,7 @@
     <string name="theme_name_system">Podle systému</string>
     <string name="theme_name_battery_saver">Při šetření baterie tmavý režim</string>
     <string name="theme_name_black">Černé</string>
+    <string name="color_scheme_name_default">Výchozí</string>
     <!-- Chart -->
     <string name="chart_activity_title">Graf</string>
     <string name="chart_activity_hide_legend">Skrýt legendu</string>
