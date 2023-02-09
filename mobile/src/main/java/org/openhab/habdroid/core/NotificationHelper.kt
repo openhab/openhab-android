@@ -30,6 +30,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -119,22 +120,7 @@ class NotificationHelper constructor(private val context: Context) {
         notificationId: Int,
         deleteIntent: PendingIntent?
     ): Notification {
-        var iconBitmap: Bitmap? = null
-
-        if (message.icon != null) {
-            val connection = ConnectionFactory.primaryCloudConnection?.connection
-            if (connection != null && context.determineDataUsagePolicy(connection).canDoLargeTransfers) {
-                try {
-                    val targetSize = context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
-                    iconBitmap = connection.httpClient
-                        .get(message.icon.toUrl(context, true), timeoutMillis = 1000)
-                        .asBitmap(targetSize, ImageConversionPolicy.PreferTargetSize)
-                        .response
-                } catch (e: HttpClient.HttpException) {
-                    Log.d(TAG, "Error getting icon", e)
-                }
-            }
-        }
+        val iconBitmap = getNotificationIcon(message.icon)
 
         val contentIntent = makeNotificationClickIntent(message.id, notificationId)
         val channelId = getChannelId(message.severity)
@@ -159,6 +145,41 @@ class NotificationHelper constructor(private val context: Context) {
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setPublicVersion(publicVersion)
             .build()
+    }
+
+    private suspend fun getNotificationIcon(icon: IconResource?): Bitmap? {
+        val connection = ConnectionFactory.primaryCloudConnection?.connection
+
+        return when {
+            icon == null -> null
+            connection == null -> {
+                Log.d(TAG, "Got no connection to load icon")
+                null
+            }
+            !context.determineDataUsagePolicy(connection).canDoLargeTransfers -> {
+                Log.d(TAG, "Don't load icon: Data usage policy doesn't allow large transfers")
+                null
+            }
+            else -> {
+                Log.d(TAG, "Load icon from server")
+                try {
+                    val targetSize = context.resources.getDimensionPixelSize(R.dimen.notificationlist_icon_size)
+                    val iconUrlPath = icon.toUrl(context, true)
+                    val bitmap = connection.httpClient
+                        .get(
+                            iconUrlPath,
+                            timeoutMillis = 1000,
+                            caching = HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE
+                        )
+                        .asBitmap(targetSize, ImageConversionPolicy.PreferTargetSize)
+                        .response
+                    bitmap
+                } catch (e: HttpClient.HttpException) {
+                    Log.e(TAG, "Error getting icon", e)
+                    null
+                }
+            }
+        }
     }
 
     @TargetApi(24)
