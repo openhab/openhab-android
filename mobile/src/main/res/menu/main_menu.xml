@@ -11,9 +11,15 @@
         app:showAsAction="always"
         app:iconTint="?android:textColorSecondary" />
     <item
-        android:id="@+id/mainmenu_crash"
-        android:orderInCategory="999"
+        android:id="@+id/mainmenu_debug_crash"
+        android:orderInCategory="1000"
         android:title="Crash"
+        app:showAsAction="never"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/mainmenu_debug_clear_mtm"
+        android:orderInCategory="1001"
+        android:title="Clear MTM"
         app:showAsAction="never"
         tools:ignore="HardcodedText" />
 </menu>
