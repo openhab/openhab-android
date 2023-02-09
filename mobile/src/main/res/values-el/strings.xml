@@ -111,6 +111,7 @@
     <!-- Themes -->
     <string name="theme_name_light">Ανοιχτόχρωμο</string>
     <string name="theme_name_dark">Σκοτεινό</string>
+    <string name="color_scheme_name_default">Προεπιλογή</string>
     <!-- Chart -->
     <!-- NFC -->
     <string name="nfc_action_on">Αναμμένο</string>
