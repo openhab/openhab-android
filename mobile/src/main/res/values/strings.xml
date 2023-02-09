@@ -62,7 +62,7 @@
     <string name="settings_set_as_launcher_summary">Allow the app to be used as launcher. After enabling, the app still needs to be selected as default launcher to take effect.</string>
     <string name="settings_sitemap_compact_mode_title">Compact mode</string>
     <string name="settings_sitemap_compact_mode_off">Use a two-line layout for Sitemap widgets, which makes controls larger and thus easier to use, but requires more scrolling for longer lists</string>
-    <string name="settings_sitemap_compact_mode_on">Use a one-line layout for Sitemap widgets, which puts as many widgets as possible on the screen, but reduces size of the controls </string>
+    <string name="settings_sitemap_compact_mode_on">Use a one-line layout for Sitemap widgets, which puts as many widgets as possible on the screen, but reduces size of the controls</string>
     <string name="settings_color_scheme_title">Color scheme</string>
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
