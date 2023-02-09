@@ -315,6 +315,7 @@
     <string name="theme_name_system">システムに従う</string>
     <string name="theme_name_battery_saver">バッテリーセイバーでダークモード</string>
     <string name="theme_name_black">ブラック</string>
+    <string name="color_scheme_name_default">デフォルト</string>
     <!-- Chart -->
     <string name="chart_activity_title">チャート</string>
     <string name="chart_activity_hide_legend">凡例を非表示</string>
