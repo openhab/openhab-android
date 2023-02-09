@@ -466,10 +466,9 @@ fun Activity.shouldUseDynamicColors(): Boolean {
 }
 
 fun Activity.applyUserSelectedTheme() {
+    setTheme(getActivityThemeId())
     if (shouldUseDynamicColors()) {
         DynamicColors.applyToActivityIfAvailable(this)
-    } else {
-        setTheme(getActivityThemeId())
     }
 }
 
