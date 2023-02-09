@@ -482,10 +482,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 return
             }
 
-            val notChargingConstraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
-
             val repeatInterval = max(
                 prefs.getBackgroundTaskScheduleInMillis(),
                 PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
@@ -501,16 +497,17 @@ class BackgroundTasksManager : BroadcastReceiver() {
             val notChargingWorkRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
                 repeatInterval, TimeUnit.MILLISECONDS,
                 flexInterval, TimeUnit.MILLISECONDS)
-                .setConstraints(notChargingConstraints)
+                .setConstraints(Constraints(requiredNetworkType = NetworkType.CONNECTED))
                 .addTag(WORKER_TAG_PERIODIC_TRIGGER)
                 .addTag(WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING)
                 .build()
 
-            val chargingConstraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .setRequiresBatteryNotLow(true)
-                .setRequiresCharging(true)
-                .build()
+            val chargingConstraints = Constraints(
+                requiredNetworkType = NetworkType.CONNECTED,
+                requiresBatteryNotLow = true,
+                requiresCharging = true
+            )
+
             val chargingWorkRequest = PeriodicWorkRequest.Builder(PeriodicItemUpdateWorker::class.java,
                     PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
                     PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS, TimeUnit.MILLISECONDS)
@@ -521,12 +518,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
             workManager.enqueueUniquePeriodicWork(
                 WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.UPDATE,
                 notChargingWorkRequest
             )
             workManager.enqueueUniquePeriodicWork(
                 WORKER_TAG_PERIODIC_TRIGGER_CHARGING,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.UPDATE,
                 chargingWorkRequest
             )
         }
