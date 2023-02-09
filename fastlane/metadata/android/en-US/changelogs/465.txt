@@ -1,0 +1,7 @@
+## What's Changed
+* Apply dynamic theme correctly by @maniac103 in https://github.com/openhab/openhab-android/pull/3215
+* Cache notification icons by @mueller-ma in https://github.com/openhab/openhab-android/pull/3162
+* Fix issues when leaving widget creation by @mueller-ma in https://github.com/openhab/openhab-android/pull/3201
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.1.2-beta...3.1.3-beta
