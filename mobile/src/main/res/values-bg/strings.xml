@@ -194,6 +194,7 @@
     <string name="theme_name_light">Светло</string>
     <string name="theme_name_dark">Тъмно</string>
     <string name="theme_name_black">Черно</string>
+    <string name="color_scheme_name_default">По подразбиране</string>
     <!-- Chart -->
     <string name="chart_activity_hide_legend">Скрий легендата</string>
     <string name="chart_activity_show_legend">Покажи легендата</string>
