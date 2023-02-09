@@ -90,6 +90,7 @@
     <!-- Themes -->
     <string name="theme_name_light">Hele</string>
     <string name="theme_name_dark">Tume</string>
+    <string name="color_scheme_name_default">Vaikimisi</string>
     <!-- Chart -->
     <string name="chart_activity_title">Skeem</string>
     <string name="chart_activity_period">Ajavahemik</string>
