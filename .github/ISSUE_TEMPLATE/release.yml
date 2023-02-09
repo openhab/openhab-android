@@ -15,7 +15,7 @@ body:
         - label: Check for major crashes in beta versions since last stable version
           required: false
         - label: Merge new translations
-          required: false  
+          required: false
   - type: textarea
     id: release-notes
     attributes:
