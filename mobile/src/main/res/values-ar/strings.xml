@@ -146,6 +146,7 @@
     <!-- Themes -->
     <string name="theme_name_light">خفيف</string>
     <string name="theme_name_dark">داكن</string>
+    <string name="color_scheme_name_default">افتراضي</string>
     <!-- Chart -->
     <!-- NFC -->
     <string name="nfc_action_on">تشغيل</string>
