@@ -54,12 +54,8 @@
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_set_as_launcher_title">Als Start-App registrieren</string>
     <string name="settings_set_as_launcher_summary">Verwendung der App als Start-App ermöglichen. Nach der Aktivierung muss die App noch als Standard-Start-App ausgewählt werden, um wirksam zu werden.</string>
-    <string name="settings_dynamic_colors_title">Dynamische Farben</string>
-    <string name="settings_dynamic_colors_summary_off">Die App verwendet Farben, die dem Stil von openHAB entsprechen</string>
-    <string name="settings_dynamic_colors_summary_on">Die App verwendet Farben, die auf Ihrem Hintergrund basieren</string>
     <string name="settings_sitemap_compact_mode_title">Kompaktmodus</string>
     <string name="settings_sitemap_compact_mode_off">Das zweizeilige Layout für Sitemap-Widgets vergrößert die Felder, wodurch die Bedienung einfacher wird. Bei längeren Listen muss allerdings mehr gescrollt werden.</string>
-    <string name="settings_sitemap_compact_mode_on">Das einzeilige Layout für Sitemap-Widgets schafft Platz, um mehr Widgets gleichzeitig darzustellen. Allerdings verringert sich die Größe der einzelnen Felder.</string>
     <string name="settings_openhab_icon_format">Icon-Format</string>
     <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
     <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
@@ -365,6 +361,7 @@
     <string name="theme_name_system">System folgen</string>
     <string name="theme_name_battery_saver">Dunkler Modus im Energiesparmodus</string>
     <string name="theme_name_black">Schwarz</string>
+    <string name="color_scheme_name_default">Standard</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagramm</string>
     <string name="chart_activity_hide_legend">Legende ausblenden</string>
