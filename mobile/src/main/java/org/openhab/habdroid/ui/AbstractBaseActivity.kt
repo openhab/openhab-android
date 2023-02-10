@@ -16,7 +16,6 @@ package org.openhab.habdroid.ui
 import android.Manifest
 import android.app.KeyguardManager
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -24,6 +23,7 @@ import android.os.SystemClock
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
@@ -31,7 +31,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -227,7 +226,11 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
      *     * Google Play Store policy
      *     * Android R background location permission
      */
-    fun requestPermissionsIfRequired(permissions: Array<String>?, requestCode: Int) {
+    fun requestPermissionsIfRequired(
+        permissions: Array<String>?,
+        launcher: ActivityResultLauncher<Array<String>>,
+        rationaleDialogCancelCallback: (() -> Unit)? = null
+    ) {
         var permissionsToRequest = permissions
             ?.filter { !hasPermissions(arrayOf(it)) }
             ?.toTypedArray()
@@ -273,19 +276,15 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 .setMessage(R.string.settings_location_permissions_required)
                 .setPositiveButton(R.string.settings_background_tasks_permission_allow) { _, _ ->
                     Log.d(TAG, "Request ${permissionsToRequest.contentToString()} permission")
-                    ActivityCompat.requestPermissions(this, permissionsToRequest, requestCode)
+                    launcher.launch(permissionsToRequest)
                 }
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
-                    onRequestPermissionsResult(
-                        requestCode,
-                        permissionsToRequest,
-                        intArrayOf(PackageManager.PERMISSION_DENIED)
-                    )
+                    rationaleDialogCancelCallback?.invoke()
                 }
                 .show()
         } else {
             Log.d(TAG, "Request ${permissionsToRequest.contentToString()} permission")
-            ActivityCompat.requestPermissions(this, permissionsToRequest, requestCode)
+            launcher.launch(permissionsToRequest)
         }
     }
 
