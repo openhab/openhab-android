@@ -30,7 +30,7 @@
         <item name="colorErrorContainer">#FFDAD6</item>
         <item name="colorOnError">#FFFFFF</item>
         <item name="colorOnErrorContainer">#410002</item>
-        <item name="android:colorBackground">#FFFBFF</item>
+        <item name="android:colorBackground">@color/background_default_theme_light</item>
         <item name="colorOnBackground">#201A18</item>
         <item name="colorSurface">#FFFBFF</item>
         <item name="colorOnSurface">#201A18</item>
@@ -55,7 +55,7 @@
         <item name="colorErrorContainer">#FFDAD6</item>
         <item name="colorOnError">#FFFFFF</item>
         <item name="colorOnErrorContainer">#410002</item>
-        <item name="android:colorBackground">#FEFBFF</item>
+        <item name="android:colorBackground">@color/background_basicui_theme_light</item>
         <item name="colorOnBackground">#1B1B1F</item>
         <item name="colorSurface">#FEFBFF</item>
         <item name="colorOnSurface">#1B1B1F</item>
