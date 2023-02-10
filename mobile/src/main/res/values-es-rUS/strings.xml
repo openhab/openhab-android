@@ -56,6 +56,8 @@
     <string name="settings_set_as_launcher_summary">Permitir que la aplicación se utilice como lanzador. Después de activar, la aplicación todavía necesita ser seleccionada como lanzador predeterminado para que tenga efecto.</string>
     <string name="settings_sitemap_compact_mode_title">Modo compacto</string>
     <string name="settings_sitemap_compact_mode_off">Utilizar una disposición de dos líneas para los widgets de Sitemap, lo que hace que los controles sean más grandes y por lo tanto más fáciles de usar, pero requiere más desplazamiento para listas más largas</string>
+    <string name="settings_sitemap_compact_mode_on">Utilizar diseño de una línea para widgets de Sitemap, el cual muestra tantos widgets como sea posible en la pantalla, pero reduce el tamaño de los controles</string>
+    <string name="settings_color_scheme_title">Esquema de colores</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <string name="settings_openhab_icon_format_png">Mapa de bits</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
@@ -362,6 +364,8 @@
     <string name="theme_name_battery_saver">Modo oscuro en modo de ahorro de batería</string>
     <string name="theme_name_black">Oscuro</string>
     <string name="color_scheme_name_default">Predeterminado</string>
+    <string name="color_scheme_name_basicui">Basic UI</string>
+    <string name="color_scheme_name_dynamic">Dinámico</string>
     <!-- Chart -->
     <string name="chart_activity_title">Gráfica</string>
     <string name="chart_activity_hide_legend">Ocultar leyenda</string>
