@@ -32,6 +32,11 @@
     <!-- Drawer -->
     <!-- About -->
     <!-- Log -->
+    <string name="log">Дневник</string>
+    <string name="view_log">Погледај дневник</string>
+    <string name="log_activity_action_clear_log">Обриши дневник</string>
+    <string name="log_activity_action_show_errors">Покажи само грешке</string>
+    <string name="log_activity_action_show_all">Покажи све поруке</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <!-- Intro strings -->
