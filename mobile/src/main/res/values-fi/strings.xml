@@ -7,6 +7,7 @@
     <string name="save">Tallenna</string>
     <string name="discard">Hylkää</string>
     <string name="delete">Poista</string>
+    <string name="attribution_tag_discover_server">Etsi openHAB-palvelin</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
@@ -412,6 +413,9 @@
     <string name="intro_voice_description">Hallitse kotiasi äänellä</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Itemin käyttö voidaan sitoa NFC tunnisteisiin painamalla Itemiä pitkään</string>
+    <string name="intro_quick_tile_description">Ohjaa kotiasi laitteen pika-asetuksista (alue, jossa ovat mm. Wi-Fi- ja Bluetooth-kytkimet)</string>
+    <string name="intro_send_device_info">Lähetä palvelimelle tietoja laitteesta</string>
+    <string name="intro_send_device_info_description">Mahdollistaa esimerkiksi valojen sytytyksen ajastetum hälytyksen soidessa</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OHITA</string>
     <!-- Intro "DONE" button -->
