@@ -11,7 +11,11 @@
     <color name="ic_launcher_background">#FFFFFF</color>
 
     <color name="background_default_theme_light">#fffbff</color>
+    <color name="on_background_default_theme_light">#201A18</color>
     <color name="background_basicui_theme_light">#fefbff</color>
+    <color name="on_background_basicui_theme_light">#1B1B1F</color>
     <color name="background_default_theme_dark">#201A18</color>
+    <color name="on_background_default_theme_dark">#EDE0DC</color>
     <color name="background_basicui_theme_dark">#1B1B1F</color>
+    <color name="on_background_basicui_theme_dark">#E4E1E6</color>
 </resources>
