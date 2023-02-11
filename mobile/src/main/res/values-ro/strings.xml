@@ -4,16 +4,33 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Setări</string>
+    <string name="save">Salvează</string>
+    <string name="discard">Elimină</string>
+    <string name="delete">Șterge</string>
+    <string name="attribution_tag_discover_server">Descoperă serverul openHAB</string>
+    <string name="attribution_tag_select_server_wifi">Selectați serverul bazat pe Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Este sugerat să activați Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Harta site-ului</string>
     <string name="mainmenu_openhab_preferences">Setări</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
+    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
+    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <string name="mainmenu_openhab_frontail">Frontail</string>
+    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
     <string name="app_notifications">Notificări</string>
+    <string name="app_notifications_on_server">Notificări (%s)</string>
     <string name="habpanel_error">O eroare a avut loc la încărcarea HABPanel</string>
+    <string name="oh3_ui_error">A apărut o eroare la încărcarea openHAB 3 UI</string>
+    <string name="frontail_error">A apărut o eroare în timpul încărcării Frontail. Rețineți că nu este disponibil prin openHAB Cloud.</string>
+    <string name="frontail_pref_summary">Frontail trebuie să ruleze pe portul implicit 9001. Este la pachet cu openHABian sau poate fi instalat manual.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
     <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexiune</string>
     <string name="settings_display_title">Afișaj</string>
+    <string name="settings_sitemap_title">Sitemap</string>
     <string name="settings_misc_title">Diverse</string>
     <string name="settings_openhab_url">Adresa URL a serverului local</string>
     <string name="settings_openhab_url_summary">Adresa URL pentru panoul de control openHAB (pe baza numelui sau a adresei IP). Daca este configurat, functia de autodescoperire este dezactivata. Setarea curenta: %s</string>
@@ -23,14 +40,26 @@
     <string name="settings_openhab_password">Parola</string>
     <string name="settings_openhab_password_summary_weak">Ati ales o parola slaba</string>
     <string name="settings_openhab_password_summary_strong">Ati ales o parola puternica</string>
+    <string name="settings_openhab_api_token_hint">Dacă folosiți un token API, introduceți-l în câmpul nume de utilizator și lăsați câmpul parolă necompletat</string>
     <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Apasati aici pentru cateva instructiuni si explicatii descpre cum se seteaza autentificarea clientului prin certificat SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Certificatele client SSL nu sunt acceptate de dispozitiv</string>
+    <string name="settings_openhab_screentimeroff">Dezactivează expirarea ecranului</string>
+    <string name="settings_openhab_screentimeroff_summary">Ecranul nu se oprește atunci când openHAB este pornit</string>
     <string name="settings_openhab_demomode">Modul demonstrativ</string>
     <string name="settings_openhab_demomode_summary">Dacă nu aveţi un server openHAB, activaţi modul demo pentru a vă face o idee de ce este capabil openHAB.</string>
+    <string name="start_page_title">Pagină de start</string>
+    <string name="drawer_entries">Intrări în meniul lateral</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Ecran complet</string>
+    <string name="settings_set_as_launcher_title">Înregistrează ca Start-App</string>
+    <string name="settings_set_as_launcher_summary">Permite aplicației să fie utilizată ca launcher. După activare, aplicația trebuie să fie selectată ca launcher implicit pentru a avea efect.</string>
     <string name="settings_openhab_icon_format">Format pictograma</string>
+    <string name="settings_openhab_icon_format_png">Bitmap</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
+    <string name="settings_image_widget_scaling">Scalează imaginile pentru a se potrivi cu ecranul</string>
+    <string name="settings_image_widget_scaling_summary_off">Păstrați widget-urile \'Imagine\' care sunt mai mici decât lățimea ecranului la dimensiunea lor inițială</string>
+    <string name="settings_image_widget_scaling_summary_on">Asigurați-vă că widget-urile \'Imagine\' se potrivesc lățimii ecranului scalându-le în sus sau în jos după caz</string>
     <string name="settings_chart_scaling">Scalare grafic</string>
     <string name="settings_chart_scaling_summary">Nota: O scara redusa micsoreaza scrisul si grosimile liniilor pentru a fi mai mult spatiu pe grafic, dar lizibilitatea textului poate suferi.</string>
     <string name="settings_chart_scaling_value_xs">Foarte mic</string>
@@ -44,14 +73,21 @@
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Predefiniție actuală Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Control de la distanţă</string>
+    <string name="settings_openhab_connection">Local</string>
+    <string name="settings_ringtone">Ton de apel</string>
     <string name="settings_ringtone_none">Nici unul</string>
     <string name="settings_ringtone_on_external">Ton de apel necunoscut pe stocarea externă</string>
+    <string name="settings_notification_vibration">Vibrație</string>
     <string name="settings_notification_vibration_off">Oprit</string>
     <string name="settings_notification_vibration_short">Scurt</string>
     <string name="settings_notification_vibration_long">Lung</string>
     <string name="settings_notification_vibration_twice">De doua ori</string>
+    <string name="settings_notification_ringtone_vibration">Sunet &amp; Vibrație</string>
     <string name="settings_connection_summary">Conectat la %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">Nesigur conectat la %1$s: %2$s</string>
+    <string name="settings_insecure_connection_no_https">URL-ul nu începe cu \"https\"</string>
+    <string name="settings_insecure_connection_no_auth">Lipsă nume utilizator şi/sau parolă</string>
     <string name="settings_screen_lock">Blocare ecran</string>
     <string name="settings_screen_lock_nolock_summary">Trebuie să activați un blocaj de ecran dispozitivului pentru a putea activa blocarea accesului la aplicație</string>
     <string name="settings_screen_lock_off_summary">Accesul la aplicație nu este blocat</string>
@@ -62,6 +98,20 @@
     <string name="settings_screen_lock_off">Oprit</string>
     <string name="settings_screen_lock_kiosk">Modul Kiosk</string>
     <string name="settings_screen_lock_on">Pornit</string>
+    <string name="settings_show_sitemaps_in_drawer">Arată toate sitemap-urile în meniul lateral</string>
+    <string name="settings_server_name">Nume server</string>
+    <string name="settings_add_server">Adaugă server</string>
+    <string name="settings_edit_server">Editare server</string>
+    <string name="server_with_name">Server %s</string>
+    <string name="settings_server_at_least_name_and_connection">Cel puțin numele serverului și o conexiune este necesară</string>
+    <string name="settings_server_confirm_deletion">Sigur doriți să ștergeți acest server?</string>
+    <string name="settings_server_confirm_leave_title">Modificări nesalvate</string>
+    <string name="settings_server_confirm_leave_message">Ai făcut câteva modificări. Vrei să salvezi sau să renunți la ele?</string>
+    <string name="settings_server_primary_title">Server principal</string>
+    <string name="settings_server_primary_summary_is_primary">Acest server este cel principal.\nÎn prezent doar serverul principal este acceptat de toate funcțiile acestei aplicații. Atingeți butonul de ajutor pentru mai multe informații.</string>
+    <string name="settings_server_primary_summary_is_not_primary">\"%s\" este serverul primar. Atingeți pentru a face acest server cel principal.\nÎn prezent, numai serverul primar este acceptat de toate funcțiile acestei aplicații. Atingeți butonul de ajutor pentru mai multe informații.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
+    <string name="settings_advanced">Avansat</string>
     <string name="device_control_subtitle_item_name">Nume Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandă vocală</string>
@@ -111,19 +161,32 @@
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
     <string name="error_no_browser_found">Nu a fost găsit nici un browser pe dispozitivul tău</string>
     <string name="error_no_speech_to_text_app_found">Nu a fost găsită nicio aplicație de recunoaștere vocală</string>
+    <string name="error_sse_failed">Abonamentul evenimentului a eșuat, reîmprospătarea widgetului poate fi afectată</string>
+    <string name="error_video_player">%s nu a putut fi încărcat</string>
     <string name="install">Instalează</string>
     <string name="title_activity_openhabwritetag">Scrie NFC-tag</string>
     <string name="title_activity_libraries">Librării utilizate</string>
     <string name="info_write_tag">Atingeţi eticheta şi păstraţi tag-ul NFC aproape, până când apare mesajul de confirmare</string>
     <string name="info_write_tag_progress">Se scrie tag-ul NFC</string>
+    <string name="info_write_tag_finished">Tag-ul scris cu succes</string>
     <string name="info_write_failed">Eroare la scrierea tag-ului NFC</string>
     <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
     <string name="info_write_tag_disabled">Serviciul NFC este dezactivat</string>
     <string name="action_settings">Setări</string>
+    <string name="nfc_info_hint">Item-Updates pot fi scrise pe etichete NFC. Puteți selecta un Item aici sau puteți apăsa lung un Widget pe Sitemap.</string>
     <string name="info_not_set">Nu este setat</string>
     <string name="empty_page">Această pagină nu conţine widget-uri setate ca vizibile</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Trimiteți informațiile dispozitivului pe server</string>
+    <string name="send_device_info_to_server_short">Trimite informații despre dispozitiv</string>
+    <string name="send_device_info_category_event_based_title">Eveniment bazat pe</string>
+    <string name="send_device_info_category_event_based_explanation">Aceste Items sunt actualizate la evenimentele corespunzătoare, de exemplu un apel telefonic primit</string>
+    <string name="send_device_info_category_schedule_based_title">Bazat pe planificare</string>
+    <string name="send_device_info_category_schedule_based_explanation">Cu cât intervalul ales este mai scurt, cu atât mai mare este impactul potențial asupra duratei de viață a bateriei dispozitivului dvs. În plus, dispozitivul ar putea să nu urmeze exact intervalul ales, dar întârzie actualizările pentru a reduce consumul de energie al aplicațiilor.</string>
+    <string name="send_device_info_item_prefix_summary">Numele unui Item de pe această pagină sunt prefixate cu identificatorul dispozitivului \'%s\'</string>
+    <string name="send_device_info_item_prefix_summary_not_set">Nu este setat niciun prefix pentru numele unui Item de pe această pagină. Le puteți prefixa cu identificatorul dispozitivului, care poate fi setat pe pagina principală de setări.</string>
+    <string name="send_device_info_foreground_service_title">Monitorizare eveniment</string>
+    <string name="send_device_info_foreground_service_summary">Monitorizează evenimentele asociate cu următoarele Items. Acest lucru necesită o notificare persistentă și poate crește consumul bateriei.</string>
     <string name="settings_item_update_pref_howto_summary">Atingeți aici pentru a obține indicații despre cum puteți configura această caracteristică pe server</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
@@ -282,6 +345,7 @@
     <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
     <!-- Data saver -->
     <!-- Tiles -->
+    <string name="tile_item_picker_title">Selectaţi un Item</string>
     <string name="tile_enable">Porneşte</string>
     <!-- Tile icon names -->
     <!-- Tile icon values -->
