@@ -2,4 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
+    <string name="info_openhab_gcm_in_progress">Регистрација нотификација је у току</string>
+    <string name="info_openhab_gcm_failed">Регистрација нотификација није успела</string>
+    <string name="info_openhab_gcm_failed_play_services">Регистрација нотификација није успела због Google Play Services проблема %s</string>
+    <string name="info_openhab_gcm_connected">Регистрација нотификација је успешно реализована</string>
+    <string name="open_in_maps">Отвори у Google Maps</string>
+    <string name="beta">Бета верзија</string>
 </resources>
