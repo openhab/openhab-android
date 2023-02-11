@@ -54,6 +54,8 @@
     <string name="settings_openhab_fullscreen">Plein écran</string>
     <string name="settings_set_as_launcher_title">Enregistrer comme lanceur</string>
     <string name="settings_set_as_launcher_summary">Permettre l\'utilisation de l\'application en tant que lanceur. Après l\'activation, l\'application nécessite toujours d\'être sélectionnée comme lanceur par défaut pour la prise en compte.</string>
+    <string name="settings_sitemap_compact_mode_title">Mode compact</string>
+    <string name="settings_sitemap_compact_mode_off">Utiliser un affichage sur deux lignes pour les widgets Sitemap, ce qui agrandit les contrôles et les rend donc plus faciles à utiliser, mais nécessite davantage de défilement pour les listes plus longues</string>
     <string name="settings_openhab_icon_format">Format des icônes</string>
     <string name="settings_openhab_icon_format_png">Image bitmap</string>
     <string name="settings_openhab_icon_format_svg">Image vectorielle</string>
@@ -450,6 +452,10 @@
     <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
     <string name="content_description_stop_roller_shutter">Stopper le volet</string>
     <string name="content_description_close_roller_shutter">Fermer le volet</string>
+    <string name="content_description_player_previous">Passer à la piste précédente</string>
+    <string name="content_description_player_next">Passer à la piste suivante</string>
+    <string name="content_description_player_pause">Mettre en pause la lecture</string>
+    <string name="content_description_player_play">Lancer la lecture</string>
     <string name="content_description_open_color_wheel">Ouvrir le contrôle de couleur</string>
     <string name="content_description_color_up">Marche ou maintenir pour augmenter la luminosité</string>
     <string name="content_description_color_down">Arrêt ou maintenir pour diminuer la luminosité</string>
@@ -547,6 +553,7 @@
     <string name="item_update_error_no_connection">Pas de connexion</string>
     <string name="item_update_error_couldnt_get_item_type">Impossible d\'obtenir le type d\'Item</string>
     <string name="create_home_screen_widget_title">Créer un widget</string>
+    <string name="create_home_screen_widget_no_command">Afficher l\'état actuel</string>
     <string name="create_home_screen_widget_not_supported">Veuillez créer un widget depuis le menu widget de votre écran d\'accueil</string>
     <!-- Data saver -->
     <string name="data_saver_title">Économiseur de données</string>
