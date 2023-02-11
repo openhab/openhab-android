@@ -1,15 +1,13 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "оснажује ваш паметан дом" - кућна аутоматизација отвореног кода која је независна од произођача-добављача и технологије 
 
 The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
-Try out new features and give early feedback!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
 On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
-<b>Supported Products</b>
+<b>Подржани производи</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+Подржано је преко 200 различитих брендова и њихових уређаја као и технологија и комуникационих протокола. Као на пример Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Претражите функционалност и све подржане брендове и уређаје на: https://www.openhab.org/addons/
 The app has an action plugin for Tasker and Locale included.
 
 <b>Open Source Community</b>

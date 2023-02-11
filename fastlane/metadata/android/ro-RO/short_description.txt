@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Automatizare de locuințe open source, independentă de producători și tehnologii
