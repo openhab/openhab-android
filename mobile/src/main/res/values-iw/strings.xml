@@ -54,6 +54,10 @@
     <string name="settings_openhab_fullscreen">מסך מלא</string>
     <string name="settings_set_as_launcher_title">הירשם כמפעיל אפליקציות</string>
     <string name="settings_set_as_launcher_summary">אפשר לאפליקציה לשמש כמפעיל האפליקציות. לאחר ההפעלה, האפליקציה עדיין צריכה להיבחר כמפעיל ברירת המחדל כדי להיכנס לתוקף.</string>
+    <string name="settings_sitemap_compact_mode_title">מצב קומפקטי</string>
+    <string name="settings_sitemap_compact_mode_off">השתמש בפריסה של שתי שורות עבור ווידג\'טים של Sitemap, מה שהופך את הפקדים לגדולים יותר ולפיכך קל יותר לשימוש, אך דורש יותר גלילה עבור רשימות ארוכות יותר</string>
+    <string name="settings_sitemap_compact_mode_on">השתמש בפריסה של שורה אחת עבור ווידג\'טים של Sitemap, שמציבה כמה שיותר ווידג\'טים על המסך, אך מקטינה את גודל הפקדים</string>
+    <string name="settings_color_scheme_title">סכמת צבעים</string>
     <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
     <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
     <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
@@ -365,6 +369,8 @@
     <string name="theme_name_battery_saver">ערכת נושא כהה במצב חיסכון בסוללה</string>
     <string name="theme_name_black">שחור</string>
     <string name="color_scheme_name_default">ברירת מחדל</string>
+    <string name="color_scheme_name_basicui">ממשק משתמש בסיסי</string>
+    <string name="color_scheme_name_dynamic">דינמי</string>
     <!-- Chart -->
     <string name="chart_activity_title">תרשים</string>
     <string name="chart_activity_hide_legend">הסתר מקרא</string>
@@ -458,6 +464,10 @@
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
     <string name="content_description_close_roller_shutter">סגור תריס גלילה</string>
+    <string name="content_description_player_previous">דלג לקודם</string>
+    <string name="content_description_player_next">דילוג לפריט הבא</string>
+    <string name="content_description_player_pause">השהה את ההשמעה</string>
+    <string name="content_description_player_play">התחל השמעה</string>
     <string name="content_description_open_color_wheel">פתח גלגל צבעים</string>
     <string name="content_description_color_up">הדלק או החזק כדי להגדיל את הבהירות</string>
     <string name="content_description_color_down">כבה או החזק כדי להפחית את הבהירות</string>
@@ -555,6 +565,7 @@
     <string name="item_update_error_no_connection">לא מחובר</string>
     <string name="item_update_error_couldnt_get_item_type">כשל בזיהוי סוג פריט</string>
     <string name="create_home_screen_widget_title">יצירת יישומון</string>
+    <string name="create_home_screen_widget_no_command">הצג מצב נוכחי</string>
     <string name="create_home_screen_widget_not_supported">אנא פנה לתפריט הווידג׳ט במסך הבית וצור ווידג׳ט שם</string>
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
