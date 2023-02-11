@@ -7,6 +7,7 @@
     <string name="save">Tallenna</string>
     <string name="discard">Hylkää</string>
     <string name="delete">Poista</string>
+    <string name="attribution_tag_discover_server">Etsi openHAB-palvelin</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
@@ -375,7 +376,7 @@
     <string name="enable_demo_mode_button">Käynnistä esittelytila</string>
     <string name="configuration_missing">Emme löydä openHAB-palvelinta verkosta. Jos sinulla on jo palvelin, määritä sen IP-osoite tai isäntänimi asetuksiin. Jos sinulla ei vielä ole palvelinta, ota käyttöön esittelytila nähdäksesi mihin openHAB pystyy.</string>
     <string name="no_remote_server">Yhteys paikalliseen palvelimeen epäonnistui etkä ole määrittänyt etäpalvelinta</string>
-    <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
+    <string name="resolving_openhab">Etsitään openHAB-palvelinta\u2026</string>
     <string name="waiting_for_wifi">Odotetaan Wi-Fi yhteyttä\u2026</string>
     <!-- Log -->
     <string name="log">Loki</string>
@@ -409,9 +410,12 @@
     <string name="intro_welcome_back">Tervetuloa takaisin openHABiin</string>
     <string name="intro_app_restored">Lähes kaikki asetuksesi on palautettu, paitsi palvelimen tunnukset</string>
     <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
-    <string name="intro_voice_description">Hallitse kotia äänelläsi</string>
+    <string name="intro_voice_description">Hallitse kotiasi äänellä</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Itemin käyttö voidaan sitoa NFC tunnisteisiin painamalla Itemiä pitkään</string>
+    <string name="intro_quick_tile_description">Ohjaa kotiasi laitteen pika-asetuksista (alue, jossa ovat mm. Wi-Fi- ja Bluetooth-kytkimet)</string>
+    <string name="intro_send_device_info">Lähetä palvelimelle tietoja laitteesta</string>
+    <string name="intro_send_device_info_description">Mahdollistaa esimerkiksi valojen sytytyksen ajastetum hälytyksen soidessa</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">OHITA</string>
     <!-- Intro "DONE" button -->
@@ -481,7 +485,7 @@
     <string name="widget_type_chart">Kuvaaja</string>
     <!-- Tiles -->
     <string name="tile">Laatta</string>
-    <string name="tiles_for_quick_settings">Laatta pika-asetuksille</string>
+    <string name="tiles_for_quick_settings">Pika-asetuslaatat</string>
     <string name="tile_item_picker_title">Valitse Item</string>
     <string name="tile_disabled">Poistettu käytöstä</string>
     <string name="tile_enable">Ota käyttöön</string>

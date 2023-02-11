@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
+    <intro>openHAB - "оснажује ваш паметан дом" - кућна аутоматизација отвореног кода која је независна од произођача-добављача и технологије </intro>
     <whatis/>
     <rules/>
-    <supported/>
-    <bindings>  </bindings>
+    <supported>Подржани производи</supported>
+    <bindings>Подржано је преко 200 различитих брендова и њихових уређаја као и технологија и комуникационих протокола. Као на пример Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Претражите функционалност и све подржане брендове и уређаје на: https://www.openhab.org/addons/</bindings>
     <automation_apps/>
 
     <oss_community/>

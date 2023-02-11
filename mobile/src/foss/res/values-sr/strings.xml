@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Нотификације имају лимитирану функцију у ФОСС верзији. Додирни за више информација.</string>
+    <string name="push_notification_status_disabled">Нотификације нису омогућене</string>
+    <string name="notification_channel_crash_reports">Изваштај о неисправном раду система</string>
+    <string name="notification_channel_crash_reports_description">Користи се да би се питало да ли извештаји о неисправном раду апликације треба да буду послати</string>
+    <string name="crash_report_notification_title">openHAB не ради исправно</string>
+    <string name="crash_report_notification_text">Помозите нам да побољшамо openHAB тако што ћете послати извештај о неисправном раду апликације</string>
+    <string name="crash_report_notification_send_mail">Пошалји електронску пошту</string>
+    <string name="open_in_maps">Отвори у OpenStreetMap</string>
+</resources>

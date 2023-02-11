@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">As notificações têm funcionalidade limitada na versão FOSS. Toque para mais informação.</string>
+    <string name="push_notification_status_disabled">Notificações desativadas</string>
+    <string name="notification_channel_crash_reports">Relatórios de erros</string>
+    <string name="notification_channel_crash_reports_description">Usado para perguntar se um relatório de erros deve ser enviado</string>
+    <string name="crash_report_notification_title">openHAB bloqueou</string>
+    <string name="crash_report_notification_text">Ajude a melhorar o openHAB enviando o relatório de erros</string>
+    <string name="crash_report_notification_send_mail">Enviar e-mail</string>
+    <string name="open_in_maps">Abrir no OpenStreetMap</string>
+</resources>
