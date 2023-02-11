@@ -740,5 +740,6 @@
     <string name="item_tag_equipment_washingmachine">Lavadora</string>
     <string name="item_tag_equipment_weatherservice">Servicio meteorológico</string>
     <string name="item_tag_equipment_webservice">Servicio web</string>
+    <string name="item_tag_equipment_whitegood">Bien blanco</string>
     <string name="item_tag_equipment_window">Ventana</string>
 </resources>
