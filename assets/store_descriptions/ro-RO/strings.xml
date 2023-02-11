@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
+    <intro>openHAB - "empowering the smart home" - aplicatie independentă, open source, pentru casa ta inteligentă</intro>
+    <whatis>openHAB este o platformă open-source bazată pe Java, care integrează şi combină o gamă largă de diferite sisteme inteligente şi tehnologii într-o singură soluţie.</whatis>
+    <rules>Deasupra nivelului unificat de abstractizare sunt disponibile toate dispozitivele pentru motorul de automatizare bazat pe reguli și diferite interfețe de utilizator.</rules>
+    <supported>Produse suportate</supported>
     <bindings>Peste 200 de add-onuri specifice furnizează suport pentru producători, dispozitive, tehnologii și protocoale de comunicație. Exemple sunt Z-Wave, Philips Hue, Amazon Echo, Chromecast și Sonos. Descoperiți toate add-onurile disponibile, dispozitivele și/sau funcțiile suportate la: https://www.openhab.org/addons/</bindings>
     <automation_apps>Aplicația are un plugin de acțiune pentru Tasker și Locale inclus.</automation_apps>
 
-    <oss_community/>
+    <oss_community>Comunitate Open Source</oss_community>
     <forum>Inițiativa open source openHAB sprijină puternic comunitatea sa vibrantă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. Alătură-te comunității openHAB pe forum la https://community.openhab.org</forum>
 
     <report_issues>Când aţi găsit o problemă, vă rugăm să o raportaţi pe forum sau la https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation/>
+    <translation>Dacă vrei să traduci aplicația în limba ta, alătură-te nouă la https://crowdin.com/project/openhab-android</translation>
     <foundation>Fundația openHAB</foundation>
-    <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
-    <fdroid> </fdroid>
+    <about_foundation>Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. Află mai multe despre misiunea și serviciile fundației la https://www.openhabfoundation.org</about_foundation>
+    <important_note>Notă importantă</important_note>
+    <oh_server>Ai nevoie de un server openHAB pentru această aplicație.</oh_server>
+    <short_description>Automatizare de locuințe open source, independentă de producători și tehnologii</short_description>
+    <fdroid>Build-urile de pe F-Droid au eliminat FCM, raportarea erorilor nu vor putea primi notificări push de la openHAB Cloud. În schimb, notificările sunt interogate regulat în aceste versiuni.</fdroid>
     <fdroid_beta><![CDATA[Puteți instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">versiunea stabilă</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <beta/>
-    <play_beta/>
-    <changelog_play_beta> Vă rugăm să vizitați https://github.com/openhab/openhab-android/releases pentru a vedea istoricul schimbarilor.</changelog_play_beta>
+    <fdroid_privacy_policy>Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <beta>Încercați funcții noi și lăsați primele impresii!</beta>
+    <play_beta>Poți instala versiunea beta alături de versiunea stabilă.</play_beta>
+    <changelog_play_beta>Diferite îmbunătăţiri de stabilitate şi bug-uri rezolvate. Vă rugăm să vizitați https://github.com/openhab/openhab-android/releases pentru a vedea istoricul schimbarilor.</changelog_play_beta>
 </strings>
