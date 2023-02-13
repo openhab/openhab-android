@@ -81,7 +81,7 @@
         <ListPreference
             android:key="color_scheme"
             android:title="@string/settings_color_scheme_title"
-            android:defaultValue="@string/color_scheme_value_default"
+            android:defaultValue="@string/color_scheme_value_default_value"
             android:summary="%s"
             android:entries="@array/colorSchemeNames"
             android:entryValues="@array/colorSchemeValues" />

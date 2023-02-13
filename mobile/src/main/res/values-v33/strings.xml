@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="color_scheme_value_default_value" translatable="false">@string/color_scheme_value_dynamic</string>
+</resources>
