@@ -60,7 +60,7 @@ class NotificationHelper constructor(private val context: Context) {
         notificationManager.notify(notificationId, n)
 
         if (HAS_GROUPING_SUPPORT) {
-            val count = countCloudNotifNotifications(notificationManager.activeNotifications)
+            val count = countCloudNotifications(notificationManager.activeNotifications)
             if (count > 1) {
                 notificationManager.notify(
                     SUMMARY_NOTIFICATION_ID,
@@ -74,7 +74,7 @@ class NotificationHelper constructor(private val context: Context) {
         notificationManager.cancel(notificationId)
         if (HAS_GROUPING_SUPPORT) {
             val active = notificationManager.activeNotifications
-            if (notificationId != SUMMARY_NOTIFICATION_ID && countCloudNotifNotifications(active) == 0) {
+            if (notificationId != SUMMARY_NOTIFICATION_ID && countCloudNotifications(active) == 0) {
                 // Cancel summary when removing the last sub-notification
                 notificationManager.cancel(SUMMARY_NOTIFICATION_ID)
             } else if (notificationId == SUMMARY_NOTIFICATION_ID) {
@@ -111,7 +111,7 @@ class NotificationHelper constructor(private val context: Context) {
     }
 
     @TargetApi(23)
-    private fun countCloudNotifNotifications(active: Array<StatusBarNotification>): Int {
+    private fun countCloudNotifications(active: Array<StatusBarNotification>): Int {
         return active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
     }
 
