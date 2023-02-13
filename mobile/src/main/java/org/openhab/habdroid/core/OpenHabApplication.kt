@@ -29,10 +29,12 @@ import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
+import androidx.preference.PreferenceManager
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import java.security.GeneralSecurityException
 import org.openhab.habdroid.BuildConfig
+import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.CrashReportingHelper
@@ -82,6 +84,11 @@ class OpenHabApplication : MultiDexApplication() {
             Log.d(TAG, "Skip onCreate()")
             return
         }
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences_device_control, false)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences_device_information, false)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences_drawer_entries, false)
 
         CrashReportingHelper.initialize(this)
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))

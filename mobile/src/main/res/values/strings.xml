@@ -412,6 +412,7 @@
     <string name="color_scheme_value_default" translatable="false">default</string>
     <string name="color_scheme_value_basicui" translatable="false">basicui</string>
     <string name="color_scheme_value_dynamic" translatable="false">dynamic</string>
+    <string name="color_scheme_value_default_value" translatable="false">@string/color_scheme_value_default</string>
     <string name="color_scheme_name_default">Default</string>
     <string name="color_scheme_name_basicui">Basic UI</string>
     <string name="color_scheme_name_dynamic">Dynamic</string>
