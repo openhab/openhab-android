@@ -170,7 +170,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
                     (activity as AbstractBaseActivity).showSnackbar(
                         SNACKBAR_TAG_WEBVIEW_PERMISSIONS,
                         R.string.webview_snackbar_permissions_missing,
-                        Snackbar.LENGTH_LONG,
+                        Snackbar.LENGTH_INDEFINITE,
                         R.string.settings_background_tasks_permission_allow,
                         { request.deny() }
                     ) {

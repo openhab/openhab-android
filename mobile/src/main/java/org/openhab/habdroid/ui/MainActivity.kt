@@ -1410,7 +1410,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             showSnackbar(
                 SNACKBAR_TAG_MISSING_PERMISSIONS,
                 R.string.settings_permission_denied,
-                actionResId = R.string.settings_background_tasks_permission_allow
+                Snackbar.LENGTH_INDEFINITE,
+                R.string.settings_background_tasks_permission_allow
             ) {
                 requestPermissionsIfRequired(missingPermissions.toTypedArray(), permissionRequestNoActionCallback)
             }
