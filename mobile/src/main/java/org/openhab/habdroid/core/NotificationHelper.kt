@@ -241,7 +241,6 @@ class NotificationHelper constructor(private val context: Context) {
             .setWhen(timestamp)
             .setShowWhen(timestamp != 0L)
             .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
-            .setCategory(NotificationCompat.CATEGORY_EVENT)
             .setAutoCancel(true)
             .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
             .setVibrate(context.getPrefs().getNotificationVibrationPattern(context))
