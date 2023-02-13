@@ -17,12 +17,4 @@
         android:key="show_state"
         android:title="@string/widget_show_state"
         android:summary="@string/widget_show_state_summary" />
-    <ListPreference
-        android:persistent="false"
-        android:key="widget_theme"
-        android:title="@string/settings_openhab_theme"
-        android:summary="%s"
-        android:entries="@array/widget_theme"
-        android:entryValues="@array/widget_theme_values"
-        android:defaultValue="dark" />
 </androidx.preference.PreferenceScreen>

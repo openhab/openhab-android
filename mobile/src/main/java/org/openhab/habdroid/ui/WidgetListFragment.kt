@@ -508,7 +508,6 @@ class WidgetListFragment :
                 getString(R.string.item_update_widget_text, widgetLabel, mappedState),
                 mappedState,
                 widget.icon?.withCustomState(""),
-                context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark"),
                 showState
             )
 

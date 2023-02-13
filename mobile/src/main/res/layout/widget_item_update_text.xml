@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin"
-    android:background="@drawable/widget_light_background"
+    android:background="@drawable/widget_background"
+    android:theme="@style/HomeScreenWidgetTheme"
     android:contentDescription="@string/item_update_widget_content_description">
 
     <include layout="@layout/widget_item_update_pref_icon" />
@@ -34,7 +35,7 @@
             android:layout_weight="50"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:visibility="gone"
             tools:visibility="visible"
             tools:text="Dimmer: 33 %" />
