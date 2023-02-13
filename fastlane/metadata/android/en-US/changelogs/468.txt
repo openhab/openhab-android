@@ -1,0 +1,8 @@
+## What's Changed
+* Reduce text padding inside a section switch by @mueller-ma in https://github.com/openhab/openhab-android/pull/3216
+* Fix MTM dynamic theme by @maniac103 in https://github.com/openhab/openhab-android/pull/3232
+* Enable dynamic theme by default by @mueller-ma in https://github.com/openhab/openhab-android/pull/3231
+* Use the new MaterialSwitch instead of SwitchMaterial by @mueller-ma in https://github.com/openhab/openhab-android/pull/3225
+* Don't declare notifications as event related by @mueller-ma in https://github.com/openhab/openhab-android/pull/3230
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.2.0-release...3.2.1-beta
