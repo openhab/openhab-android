@@ -104,15 +104,15 @@ class SendDeviceInfoSettingsFragment :
 
     private fun getAndInitPreferenceForPermissionRequest(
         prefKey: String,
-        permDeniedSnackBarTag: String,
-        @StringRes permDeniedSnackBarTextResId: Int
+        permDeniedSnackbarTag: String,
+        @StringRes permDeniedSnackbarTextResId: Int
     ): ItemUpdatingPreference {
         val pref = getPreference(prefKey) as ItemUpdatingPreference
         val requiredPerms = BackgroundTasksManager.getRequiredPermissionsForTask(prefKey) ?: return pref
 
         val handleResult = { anyPermDenied: Boolean ->
             if (anyPermDenied) {
-                parentActivity.showSnackbar(permDeniedSnackBarTag, permDeniedSnackBarTextResId)
+                parentActivity.showSnackbar(permDeniedSnackbarTag, permDeniedSnackbarTextResId)
                 pref.setValue(checked = false)
             } else {
                 BackgroundTasksManager.scheduleWorker(parentActivity, prefKey, true)
