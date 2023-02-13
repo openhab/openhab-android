@@ -42,7 +42,7 @@
         tools:text="100%" />
 
     <!-- negative end margin compensates for padding inside the slider -->
-    <com.google.android.material.slider.Slider
+    <org.openhab.habdroid.ui.widget.WidgetSlider
         android:id="@+id/seekbar"
         android:layout_width="@dimen/widgetlist_compact_slider_width"
         android:layout_height="wrap_content"

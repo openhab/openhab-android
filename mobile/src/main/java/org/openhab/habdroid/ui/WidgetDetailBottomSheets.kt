@@ -36,22 +36,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import java.util.Locale
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
+import org.openhab.habdroid.ui.widget.WidgetSlider
 import org.openhab.habdroid.util.parcelable
 
 open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     protected val widget get() = requireArguments().parcelable<Widget>("widget")!!
     protected val connection get() = (parentFragment as ConnectionGetter).getConnection()
-    internal var scope: CoroutineScope? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         dialog?.setOnShowListener { dialog ->
@@ -63,17 +58,6 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
         }
         super.onViewCreated(view, savedInstanceState)
     }
-    override fun onResume() {
-        scope = CoroutineScope(Dispatchers.Main + Job())
-        super.onResume()
-    }
-
-    override fun onPause() {
-        scope?.cancel()
-        scope = null
-        super.onPause()
-    }
-
     companion object {
         fun createArguments(widget: Widget): Bundle {
             return bundleOf("widget" to widget)
@@ -85,22 +69,15 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
-class SliderBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener {
+class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListener {
     private var updateJob: Job? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
-        val state = widget.state?.asNumber
 
-        view.findViewById<Slider>(R.id.slider).apply {
-            setup(
-                from = widget.minValue,
-                to = widget.maxValue,
-                step = widget.step,
-                widgetValue = state?.value ?: widget.minValue
-            )
+        view.findViewById<WidgetSlider>(R.id.slider).apply {
             labelBehavior = LabelFormatter.LABEL_VISIBLE
-            setLabelFormatter { value -> state.withValue(value).toString() }
-            addOnChangeListener(this@SliderBottomSheet)
+            updateListener = this@SliderBottomSheet
+            bindToWidget(widget, false)
         }
 
         view.findViewById<TextView>(R.id.title).apply {
@@ -110,19 +87,11 @@ class SliderBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener {
         return view
     }
 
-    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-        Log.d(TAG, "onValueChange value = $value, from user = $fromUser")
-        if (fromUser) {
-            updateJob?.cancel()
-            updateJob = widget.item?.let { item ->
-                scope?.launch {
-                    delay(200)
-                    val state = widget.state?.asNumber.withValue(value)
-                    Log.d(TAG, "Send state $state for ${item.name}")
-                    connection?.httpClient?.sendItemUpdate(item, state)
-                }
-            }
-        }
+    override suspend fun onValueUpdate(value: Float) {
+        val item = widget.item ?: return
+        val state = widget.state?.asNumber.withValue(value)
+        Log.d(TAG, "Send state $state for ${item.name}")
+        connection?.httpClient?.sendItemUpdate(item, state)
     }
 
     companion object {

@@ -52,8 +52,6 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.slider.LabelFormatter
-import com.google.android.material.slider.Slider
 import java.io.IOException
 import java.util.Locale
 import kotlin.math.min
@@ -76,6 +74,7 @@ import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.AutoHeightPlayerView
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.WidgetImageView
+import org.openhab.habdroid.ui.widget.WidgetSlider
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
@@ -569,44 +568,24 @@ class WidgetAdapter(
 
     class SliderViewHolder internal constructor(initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_slideritem, R.layout.widgetlist_slideritem_compact),
-        Slider.OnChangeListener,
-        LabelFormatter {
-        private val slider: Slider = itemView.findViewById(R.id.seekbar)
-        private var updateJob: Job? = null
+        WidgetSlider.UpdateListener {
+        private val slider: WidgetSlider = itemView.findViewById(R.id.seekbar)
 
         init {
-            slider.addOnChangeListener(this)
-            slider.setLabelFormatter(this)
+            slider.updateListener = this
         }
 
         override fun bind(widget: Widget) {
             super.bind(widget)
 
-            updateJob?.cancel()
             labelView.isGone = widget.label.isEmpty()
 
-            val item = widget.item
             val hasValidValues = widget.minValue < widget.maxValue
             slider.isVisible = hasValidValues
-            if (!hasValidValues) {
-                Log.e(TAG, "Slider has invalid values: from '${widget.minValue}' to '${widget.maxValue}'")
-                return
-            }
-
-            if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
-                slider.setup(
-                    from = 0F,
-                    to = 100F,
-                    step = 1F,
-                    widgetValue = item.state?.asBrightness?.toFloat() ?: 0F
-                )
+            if (hasValidValues) {
+                slider.bindToWidget(widget, widget.item?.shouldUseSliderUpdatesDuringMove() == true)
             } else {
-                slider.setup(
-                    from = widget.minValue,
-                    to = widget.maxValue,
-                    step = widget.step,
-                    widgetValue = item?.state?.asNumber?.value ?: slider.valueFrom
-                )
+                Log.e(TAG, "Slider has invalid values: from '${widget.minValue}' to '${widget.maxValue}'")
             }
         }
 
@@ -620,29 +599,12 @@ class WidgetAdapter(
             }
         }
 
-        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-            Log.d(TAG, "onValueChange value = $value, from user = $fromUser")
-            if (fromUser) {
-                updateJob?.cancel()
-                updateJob = boundWidget?.item?.let { item ->
-                    scope?.launch {
-                        delay(200)
-                        if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                            connection.httpClient.sendItemCommand(item, value.beautify())
-                        } else {
-                            connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value))
-                        }
-                    }
-                }
-            }
-        }
-
-        override fun getFormattedValue(value: Float): String {
-            val item = boundWidget?.item ?: return ""
-            return if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                "${value.beautify()} %"
+        override suspend fun onValueUpdate(value: Float) {
+            val item = boundWidget?.item ?: return
+            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                connection.httpClient.sendItemCommand(item, value.beautify())
             } else {
-                item.state?.asNumber.withValue(value).toString()
+                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value))
             }
         }
     }
@@ -1418,6 +1380,22 @@ fun Widget.shouldRenderAsPlayer(): Boolean {
     return type == Widget.Type.Switch &&
         item?.type == Item.Type.Player &&
         mappings.map { m -> m.value } == listOf("PREVIOUS", "PAUSE", "PLAY", "NEXT")
+}
+
+fun Item.shouldUseSliderUpdatesDuringMove(): Boolean {
+    if (
+        isOfTypeOrGroupType(Item.Type.Dimmer) ||
+        isOfTypeOrGroupType(Item.Type.Number) ||
+        isOfTypeOrGroupType(Item.Type.Color)
+    ) {
+        return true
+    }
+    if (isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
+        // Allow live updates for percent values, but not for e.g. temperatures
+        return state?.asNumber?.unit == "%"
+    }
+
+    return false
 }
 
 fun View.adjustForWidgetHeight(widget: Widget, fallbackRowCount: Int) {
