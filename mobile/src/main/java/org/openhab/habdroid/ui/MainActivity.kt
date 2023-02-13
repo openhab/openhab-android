@@ -65,11 +65,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import de.duenndns.ssl.MemorizingTrustManager
 import java.nio.charset.Charset
 import java.util.concurrent.CancellationException
 import javax.jmdns.ServiceInfo
 import kotlin.time.Duration.Companion.seconds
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -383,7 +383,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         CrashReportingHelper.d(TAG, "onPrepareOptionsMenu()")
         menu.findItem(R.id.mainmenu_voice_recognition).isVisible =
             connection != null && SpeechRecognizer.isRecognitionAvailable(this)
-        menu.findItem(R.id.mainmenu_crash).isVisible = BuildConfig.DEBUG
+        val debugItems = listOf(
+            R.id.mainmenu_debug_crash,
+            R.id.mainmenu_debug_clear_mtm
+        )
+        debugItems.forEach {
+            menu.findItem(it).isVisible = BuildConfig.DEBUG
+        }
         return true
     }
 
@@ -406,8 +412,17 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 launchVoiceRecognition()
                 true
             }
-            R.id.mainmenu_crash -> {
+            R.id.mainmenu_debug_crash -> {
                 throw Exception("Crash menu item pressed")
+            }
+            R.id.mainmenu_debug_clear_mtm -> {
+                Log.d(TAG, "Clear MTM keystore")
+                val mtm = MemorizingTrustManager(this)
+                mtm.certificates.iterator().forEach {
+                    Log.d(TAG, "Remove $it from MTM keystore")
+                    mtm.deleteCertificate(it)
+                }
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
