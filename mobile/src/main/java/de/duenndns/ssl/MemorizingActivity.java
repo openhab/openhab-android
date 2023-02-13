@@ -57,10 +57,9 @@ public class MemorizingActivity extends Activity
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		mThemedContext = new ContextThemeWrapper(this, ExtensionFuncsKt.getActivityThemeId(this));
 		if (ExtensionFuncsKt.shouldUseDynamicColors(this)) {
-			mThemedContext = DynamicColors.wrapContextIfAvailable(this);
-		} else {
-			mThemedContext = new ContextThemeWrapper(this, ExtensionFuncsKt.getActivityThemeId(this));
+			mThemedContext = DynamicColors.wrapContextIfAvailable(mThemedContext);
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
