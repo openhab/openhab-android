@@ -1,0 +1,5 @@
+## What's Changed
+* Add WebView permission UI by @maniac103 in https://github.com/openhab/openhab-android/pull/3223
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.2.1-beta...3.2.2-beta
