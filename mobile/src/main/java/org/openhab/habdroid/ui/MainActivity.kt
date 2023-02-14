@@ -169,6 +169,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private var inServerSelectionMode = false
     private var wifiSsidDuringLastOnStart: String? = null
 
+    private val permissionRequestNoActionCallback =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
+
     private val preferenceActivityCallback =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             CrashReportingHelper.d(TAG, "preferenceActivityCallback: $result")
@@ -631,7 +634,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     R.string.settings_multi_server_wifi_ssid_missing_permissions,
                     actionResId = R.string.settings_background_tasks_permission_allow
                 ) {
-                    requestPermissionsIfRequired(requiredPermissions, REQUEST_CODE_PERMISSIONS)
+                    requestPermissionsIfRequired(requiredPermissions, permissionRequestNoActionCallback)
                 }
                 return -1
             }
@@ -1406,7 +1409,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         R.string.settings_background_tasks_permission_denied_background_location,
                         packageManager.backgroundPermissionOptionLabel
                     ),
-                    actionResId = android.R.string.ok
+                    Snackbar.LENGTH_INDEFINITE,
+                    android.R.string.ok
                 ) {
                     Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
                         putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
@@ -1422,12 +1426,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             showSnackbar(
                 SNACKBAR_TAG_MISSING_PERMISSIONS,
                 R.string.settings_permission_denied,
-                actionResId = R.string.settings_background_tasks_permission_allow
+                Snackbar.LENGTH_INDEFINITE,
+                R.string.settings_background_tasks_permission_allow
             ) {
-                requestPermissionsIfRequired(
-                    missingPermissions.toTypedArray(),
-                    REQUEST_CODE_PERMISSIONS
-                )
+                requestPermissionsIfRequired(missingPermissions.toTypedArray(), permissionRequestNoActionCallback)
             }
         }
     }
@@ -1529,8 +1531,5 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private const val STATE_KEY_CONNECTION_HASH = "connectionHash"
 
         private val TAG = MainActivity::class.java.simpleName
-
-        // Activities request codes
-        private const val REQUEST_CODE_PERMISSIONS = 1001
     }
 }

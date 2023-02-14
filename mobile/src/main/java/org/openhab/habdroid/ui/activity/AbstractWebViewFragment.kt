@@ -25,6 +25,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
+import android.webkit.PermissionRequest
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -32,6 +34,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -53,6 +56,7 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
@@ -60,6 +64,7 @@ import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDarkModeActive
 import org.openhab.habdroid.util.toRelativeUrl
 
@@ -75,6 +80,20 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         private set
     var wantsActionBar = true
         private set
+
+    private val permissionRequester = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { results ->
+        val request = pendingPermissionRequests.remove(results.keys) ?: return@registerForActivityResult
+        val grantedResources = permsToWebResources(results.filter { (_, v) -> v }.keys.toTypedArray())
+        if (grantedResources.isEmpty()) {
+            request.deny()
+        } else {
+            request.grant(grantedResources)
+        }
+    }
+
+    private val pendingPermissionRequests = mutableMapOf<Set<String>, PermissionRequest>()
 
     abstract val titleRes: Int
     abstract val multiServerTitleRes: Int
@@ -125,6 +144,42 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         webView = view.findViewById(R.id.webview)
+        webView?.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                Log.d(TAG, "progressCallback: progress = $newProgress")
+                if (newProgress == 100) {
+                    updateViewVisibility(null, null)
+                } else {
+                    updateViewVisibility(null, newProgress)
+                }
+            }
+
+            override fun onPermissionRequest(request: PermissionRequest) {
+                val requestedPerms = request.resources
+                    .map { res -> PERMISSION_REQUEST_MAPPING.get(res) }
+                    .filterNotNull()
+                    .flatten()
+                    .toTypedArray()
+
+                if (requestedPerms.isEmpty()) {
+                    Log.w(TAG, "Requested unknown permissions ${request.resources}")
+                    request.deny()
+                } else if (requireContext().hasPermissions(requestedPerms)) {
+                    request.grant(permsToWebResources(requestedPerms))
+                } else {
+                    (activity as AbstractBaseActivity).showSnackbar(
+                        SNACKBAR_TAG_WEBVIEW_PERMISSIONS,
+                        R.string.webview_snackbar_permissions_missing,
+                        Snackbar.LENGTH_INDEFINITE,
+                        R.string.settings_background_tasks_permission_allow,
+                        { request.deny() }
+                    ) {
+                        pendingPermissionRequests[requestedPerms.toSet()] = request
+                        permissionRequester.launch(requestedPerms)
+                    }
+                }
+            }
+        }
 
         isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
 
@@ -268,14 +323,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         val webView = webView ?: return
         val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
 
-        webView.setUpForConnection(conn, url, avoidAuthentication) { progress ->
-            Log.d(TAG, "progressCallback: progress = $progress")
-            if (progress == 100) {
-                updateViewVisibility(null, null)
-            } else {
-                updateViewVisibility(null, progress)
-            }
-        }
+        webView.setUpForConnection(conn, url, avoidAuthentication)
         webView.setBackgroundColor(Color.TRANSPARENT)
 
         val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
@@ -382,6 +430,22 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     companion object {
         private val TAG = AbstractWebViewFragment::class.java.simpleName
+
+        private const val SNACKBAR_TAG_WEBVIEW_PERMISSIONS = "webviewPermissions"
+
+        private val PERMISSION_REQUEST_MAPPING = mapOf(
+            PermissionRequest.RESOURCE_AUDIO_CAPTURE to listOf(
+                android.Manifest.permission.RECORD_AUDIO,
+                android.Manifest.permission.MODIFY_AUDIO_SETTINGS
+            ),
+            PermissionRequest.RESOURCE_VIDEO_CAPTURE to listOf(
+                android.Manifest.permission.CAMERA
+            )
+        )
+        private fun permsToWebResources(androidPermissions: Array<String>) = PERMISSION_REQUEST_MAPPING
+            .filter { (_, perms) -> perms.all { perm -> androidPermissions.contains(perm) } }
+            .keys
+            .toTypedArray()
 
         private const val KEY_CURRENT_URL = "url"
         const val KEY_IS_STACK_ROOT = "is_stack_root"

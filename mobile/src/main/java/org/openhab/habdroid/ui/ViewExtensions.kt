@@ -48,8 +48,7 @@ fun SwipeRefreshLayout.applyColors() {
 fun WebView.setUpForConnection(
     connection: Connection,
     url: HttpUrl,
-    avoidAuthentication: Boolean = false,
-    progressCallback: (progress: Int) -> Unit
+    avoidAuthentication: Boolean = false
 ) {
     when {
         avoidAuthentication -> { /* Don't add authentication */ }
@@ -71,11 +70,6 @@ fun WebView.setUpForConnection(
     }
 
     webViewClient = ConnectionWebViewClient(connection)
-    webChromeClient = object : WebChromeClient() {
-        override fun onProgressChanged(view: WebView?, newProgress: Int) {
-            progressCallback(newProgress)
-        }
-    }
 }
 
 fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {

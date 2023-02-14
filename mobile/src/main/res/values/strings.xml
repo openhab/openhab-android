@@ -196,6 +196,8 @@
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_to_https_port">Unexpected end of stream. Are you trying to connect to an HTTPS port via HTTP?</string>
     <string name="webview_ssl">Currently this app doesn\'t support self-signed SSL certificates for Webview widgets</string>
+    <string name="webview_snackbar_permissions_missing">The page requires additional permissions to work properly</string>
+
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP code %d).</string>
     <string name="error_http_code_403" translatable="false" tools:keep="@string/error_http_code_403">@string/error_http_code_401</string>

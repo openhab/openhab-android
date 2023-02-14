@@ -24,6 +24,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.CompoundButton
@@ -1168,6 +1169,19 @@ class WidgetAdapter(
         private val webView = widgetContentView as WebView
         private val progressBar: ContentLoadingProgressBar = itemView.findViewById(R.id.progress_bar)
 
+        init {
+            webView.webChromeClient = object : WebChromeClient() {
+                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                    if (newProgress == 100) {
+                        progressBar.hide()
+                    } else {
+                        progressBar.show()
+                    }
+                    progressBar.progress = newProgress
+                }
+            }
+        }
+
         @SuppressLint("SetJavaScriptEnabled")
         override fun bindAfterDataSaverCheck(widget: Widget) {
             val url = widget.url?.let {
@@ -1177,18 +1191,10 @@ class WidgetAdapter(
                 adjustForWidgetHeight(widget, 0)
                 loadUrl(ConnectionWebViewClient.EMPTY_PAGE)
 
-                if (url == null) {
-                    return
+                if (url != null) {
+                    setUpForConnection(connection, url)
+                    loadUrl(url.toString())
                 }
-                setUpForConnection(connection, url) { progress ->
-                    if (progress == 100) {
-                        progressBar.hide()
-                    } else {
-                        progressBar.show()
-                    }
-                    progressBar.progress = progress
-                }
-                loadUrl(url.toString())
             }
         }
     }

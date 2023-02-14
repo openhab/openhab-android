@@ -14,9 +14,9 @@
 package org.openhab.habdroid.ui.preference.fragments
 
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -41,38 +41,24 @@ class SendDeviceInfoSettingsFragment :
 
         val prefixHint = getPreference(PrefKeys.DEV_ID_PREFIX_BG_TASKS)
         val foregroundServicePref = getPreference(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE)
-        phoneStatePref = getPreference(PrefKeys.SEND_PHONE_STATE) as ItemUpdatingPreference
-        wifiSsidPref = getPreference(PrefKeys.SEND_WIFI_SSID) as ItemUpdatingPreference
-        bluetoothPref = getPreference(PrefKeys.SEND_BLUETOOTH_DEVICES) as ItemUpdatingPreference
-
-        phoneStatePref.setOnPreferenceChangeListener { _, newValue ->
-            requestPermissionIfEnabled(
-                newValue,
-                BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_PHONE_STATE),
-                PERMISSIONS_REQUEST_FOR_CALL_STATE
-            )
-            true
-        }
+        phoneStatePref = getAndInitPreferenceForPermissionRequest(
+            PrefKeys.SEND_PHONE_STATE,
+            PreferencesActivity.SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE,
+            R.string.settings_phone_state_permission_denied
+        )
+        wifiSsidPref = getAndInitPreferenceForPermissionRequest(
+            PrefKeys.SEND_WIFI_SSID,
+            PreferencesActivity.SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI,
+            R.string.settings_wifi_ssid_permission_denied
+        )
+        bluetoothPref = getAndInitPreferenceForPermissionRequest(
+            PrefKeys.SEND_BLUETOOTH_DEVICES,
+            PreferencesActivity.SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_BLUETOOTH,
+            R.string.settings_bluetooth_devices_permission_denied
+        )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             wifiSsidPref.setSummaryOn(getString(R.string.settings_wifi_ssid_summary_on_location_on))
-        }
-        wifiSsidPref.setOnPreferenceChangeListener { _, newValue ->
-            requestPermissionIfEnabled(
-                newValue,
-                BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_WIFI_SSID),
-                PERMISSIONS_REQUEST_FOR_WIFI_NAME
-            )
-            true
-        }
-
-        bluetoothPref.setOnPreferenceChangeListener { _, newValue ->
-            requestPermissionIfEnabled(
-                newValue,
-                BackgroundTasksManager.getRequiredPermissionsForTask(PrefKeys.SEND_BLUETOOTH_DEVICES),
-                PERMISSIONS_REQUEST_FOR_BLUETOOTH_DEVICES
-            )
-            true
         }
 
         if (activity?.packageManager?.isInstalled("nodomain.freeyourgadget.gadgetbridge") == false) {
@@ -116,60 +102,33 @@ class SendDeviceInfoSettingsFragment :
         }
     }
 
-    private fun requestPermissionIfEnabled(
-        newValue: Any?,
-        permissions: Array<String>?,
-        requestCode: Int
-    ) {
-        @Suppress("UNCHECKED_CAST")
-        if ((newValue as Pair<Boolean, String>).first) {
-            parentActivity.requestPermissionsIfRequired(permissions, requestCode)
-        }
-    }
+    private fun getAndInitPreferenceForPermissionRequest(
+        prefKey: String,
+        permDeniedSnackbarTag: String,
+        @StringRes permDeniedSnackbarTextResId: Int
+    ): ItemUpdatingPreference {
+        val pref = getPreference(prefKey) as ItemUpdatingPreference
+        val requiredPerms = BackgroundTasksManager.getRequiredPermissionsForTask(prefKey) ?: return pref
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        val context = phoneStatePref.context
-
-        when (requestCode) {
-            PERMISSIONS_REQUEST_FOR_CALL_STATE -> {
-                if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                    parentActivity.showSnackbar(
-                        PreferencesActivity.SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_PHONE,
-                        R.string.settings_phone_state_permission_denied
-                    )
-                    phoneStatePref.setValue(checked = false)
-                } else {
-                    BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_PHONE_STATE, true)
-                }
-            }
-            PERMISSIONS_REQUEST_FOR_WIFI_NAME -> {
-                if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                    parentActivity.showSnackbar(
-                        PreferencesActivity.SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_WIFI,
-                        R.string.settings_wifi_ssid_permission_denied
-                    )
-                    wifiSsidPref.setValue(checked = false)
-                } else {
-                    BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_WIFI_SSID, true)
-                }
-            }
-            PERMISSIONS_REQUEST_FOR_BLUETOOTH_DEVICES -> {
-                if (grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED } != null) {
-                    parentActivity.showSnackbar(
-                        PreferencesActivity.SNACKBAR_TAG_BG_TASKS_PERMISSION_DECLINED_BLUETOOTH,
-                        R.string.settings_bluetooth_devices_permission_denied
-                    )
-                    bluetoothPref.setValue(checked = false)
-                } else {
-                    BackgroundTasksManager.scheduleWorker(context, PrefKeys.SEND_BLUETOOTH_DEVICES, true)
-                }
+        val handleResult = { anyPermDenied: Boolean ->
+            if (anyPermDenied) {
+                parentActivity.showSnackbar(permDeniedSnackbarTag, permDeniedSnackbarTextResId)
+                pref.setValue(checked = false)
+            } else {
+                BackgroundTasksManager.scheduleWorker(parentActivity, prefKey, true)
             }
         }
-    }
+        val launcher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { results -> handleResult(results.values.any { v -> !v }) }
 
-    companion object {
-        private const val PERMISSIONS_REQUEST_FOR_CALL_STATE = 0
-        private const val PERMISSIONS_REQUEST_FOR_WIFI_NAME = 1
-        private const val PERMISSIONS_REQUEST_FOR_BLUETOOTH_DEVICES = 2
+        pref.setOnPreferenceChangeListener { _, newValue ->
+            @Suppress("UNCHECKED_CAST")
+            if ((newValue as Pair<Boolean, String>).first) {
+                parentActivity.requestPermissionsIfRequired(requiredPerms, launcher) { handleResult(false) }
+            }
+            true
+        }
+        return pref
     }
 }
