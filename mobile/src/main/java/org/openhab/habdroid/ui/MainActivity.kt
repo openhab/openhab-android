@@ -1394,7 +1394,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         R.string.settings_background_tasks_permission_denied_background_location,
                         packageManager.backgroundPermissionOptionLabel
                     ),
-                    actionResId = android.R.string.ok
+                    Snackbar.LENGTH_INDEFINITE,
+                    android.R.string.ok
                 ) {
                     Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
                         putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)

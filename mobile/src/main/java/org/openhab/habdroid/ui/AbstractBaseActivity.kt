@@ -259,7 +259,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                         R.string.settings_background_tasks_permission_denied_background_location,
                         packageManager.backgroundPermissionOptionLabel
                     ),
-                    Snackbar.LENGTH_LONG,
+                    Snackbar.LENGTH_INDEFINITE,
                     android.R.string.ok
                 ) {
                     Intent(Settings.ACTION_APPLICATION_SETTINGS).apply {
