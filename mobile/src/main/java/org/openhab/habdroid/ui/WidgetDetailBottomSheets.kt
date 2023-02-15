@@ -25,25 +25,21 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.flask.colorpicker.ColorPickerView
-import com.flask.colorpicker.OnColorChangedListener
-import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
-import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.WidgetSlider
+import org.openhab.habdroid.util.ColorPickerHelper
 import org.openhab.habdroid.util.parcelable
 
 open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
@@ -130,35 +126,16 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet(), RadioGroup.OnCheckedCh
     }
 }
 
-class ColorChooserBottomSheet :
-    AbstractWidgetBottomSheet(),
-    OnColorChangedListener,
-    OnColorSelectedListener,
-    Slider.OnChangeListener {
-    companion object {
-        private val TAG = "ColorChooserBottomSheet"
-    }
-
-    private lateinit var colorPicker: ColorPickerView
-    private lateinit var slider: Slider
-    private var lastUpdate: Job? = null
+class ColorChooserBottomSheet : AbstractWidgetBottomSheet() {
+    private lateinit var pickerHelper: ColorPickerHelper
     private var scope: CoroutineScope? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_color_picker, container, false)
 
-        colorPicker = view.findViewById<ColorPickerView>(R.id.picker).apply {
-            widget.item?.state?.asHsv?.toColor(false)?.let { setColor(it, true) }
-
-            addOnColorChangedListener(this@ColorChooserBottomSheet)
-            addOnColorSelectedListener(this@ColorChooserBottomSheet)
-        }
-
-        slider = view.findViewById<Slider>(R.id.brightness_slider).apply {
-            widget.item?.state?.asBrightness?.let { value = it.toFloat() }
-            setLabelFormatter { value -> "${value.toInt()} %" }
-            addOnChangeListener(this@ColorChooserBottomSheet)
-        }
+        val colorPicker = view.findViewById<ColorPickerView>(R.id.picker)
+        val slider = view.findViewById<Slider>(R.id.brightness_slider)
+        pickerHelper = ColorPickerHelper(colorPicker, slider)
 
         view.findViewById<TextView>(R.id.title).apply {
             text = widget.label
@@ -169,53 +146,15 @@ class ColorChooserBottomSheet :
 
     override fun onResume() {
         super.onResume()
-        scope = CoroutineScope(Dispatchers.Main + Job())
+        val scope = CoroutineScope(Dispatchers.Main + Job())
+        pickerHelper.attach(widget.item, scope, connection)
+        this.scope = scope
     }
 
     override fun onPause() {
         super.onPause()
+        pickerHelper.detach()
         scope?.cancel()
         scope = null
-    }
-
-    override fun onColorSelected(selectedColor: Int) {
-        Log.d(TAG, "onColorSelected($selectedColor)")
-        setBrightnessIfNeeded()
-        handleChange(true)
-    }
-
-    override fun onColorChanged(selectedColor: Int) {
-        Log.d(TAG, "onColorChanged($selectedColor)")
-        setBrightnessIfNeeded()
-        handleChange(false)
-    }
-
-    // Brightness slider
-    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-        if (fromUser) {
-            handleChange(false)
-        }
-    }
-
-    private fun setBrightnessIfNeeded() {
-        if (slider.value.toInt() == 0) {
-            slider.value = 100F
-        }
-    }
-    private fun handleChange(immediate:  Boolean) {
-        val newColor = colorPicker.selectedColor
-        val brightness = slider.value.toInt()
-        Log.d(TAG, "handleChange(newColor = $newColor, brightness = $brightness, immediate = $immediate)")
-        lastUpdate?.cancel()
-        lastUpdate = scope?.launch {
-            if (!immediate) {
-                delay(200)
-            }
-
-            val hsv = FloatArray(3)
-            Color.RGBToHSV(Color.red(newColor), Color.green(newColor), Color.blue(newColor), hsv)
-            val newColorValue = String.format(Locale.US, "%.0f,%.0f,%.0f", hsv[0], hsv[1] * 100, brightness.toFloat())
-            connection?.httpClient?.sendItemCommand(widget.item, newColorValue)
-        }
     }
 }
