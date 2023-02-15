@@ -925,6 +925,11 @@ class WidgetAdapter(
             connection.httpClient.sendItemCommand(buttonState.item, buttonState.command)
             return false
         }
+
+        override fun handleRowClick() {
+            val widget = boundWidget ?: return
+            bottomSheetPresenter.showBottomSheet(SliderBottomSheet(), widget)
+        }
     }
 
     class PlayerViewHolder internal constructor(initData: ViewHolderInitData) :
@@ -980,7 +985,7 @@ class WidgetAdapter(
 
         private fun openSelection() {
             val widget = boundWidget ?: return
-            bottomSheetPresenter.showBottomSheet(SetpointBottomSheet(), widget)
+            bottomSheetPresenter.showBottomSheet(SliderBottomSheet(), widget)
         }
 
         private fun handleUpDown(down: Boolean) {
