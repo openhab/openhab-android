@@ -85,6 +85,7 @@ import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.resolveThemedColor
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -1352,6 +1353,8 @@ class WidgetAdapter(
                 colorMap[colorNames[i]] = ta.getColor(i, 0)
                 i++
             }
+            colorMap["primary"] = context.resolveThemedColor(R.attr.colorPrimary, 0)
+            colorMap["secondary"] = context.resolveThemedColor(R.attr.colorSecondary, 0)
 
             ta.recycle()
         }
