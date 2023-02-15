@@ -739,8 +739,16 @@ class WidgetAdapter(
         ),
         View.OnClickListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
+        private val overflowButton: MaterialButton = itemView.findViewById(R.id.overflow_button)
         private val spareViews = mutableListOf<View>()
         private val maxButtons = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
+
+        init {
+            overflowButton.setOnClickListener {
+                val widget = boundWidget ?: return@setOnClickListener
+                bottomSheetPresenter.showBottomSheet(SelectionBottomSheet(), widget)
+            }
+        }
 
         override fun bind(widget: Widget) {
             super.bind(widget)
@@ -751,6 +759,9 @@ class WidgetAdapter(
 
             val mappings = widget.mappingsOrItemOptions
             val buttonCount = min(mappings.size, maxButtons)
+
+            // remove overflow button, so it isn't counted when inflating views
+            group.removeView(overflowButton)
 
             // inflate missing views
             while (spareViews.isNotEmpty() && group.childCount < buttonCount) {
@@ -767,29 +778,24 @@ class WidgetAdapter(
                 group.addView(view)
             }
 
-            // bind views
-            mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
-                with(group[index] as MaterialButton) {
-                    text = mapping.label
-                    tag = mapping.value
-                    isVisible = true
-                }
-            }
-            if (mappings.size > maxButtons) {
-                // overflow button
-                with(group[maxButtons - 1] as MaterialButton) {
-                    text = "⋯"
-                    tag = null
-                    isVisible = true
-                    isCheckable = false
-                }
-            }
-
             // remove unneeded views
             while (group.childCount > buttonCount) {
                 val view = group[group.childCount - 1]
                 spareViews.add(view)
                 group.removeView(view)
+            }
+
+            // bind views
+            mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
+                with(group[index] as MaterialButton) {
+                    text = mapping.label
+                    tag = mapping.value
+                }
+            }
+
+            // add overflow button if needed
+            if (mappings.size > maxButtons) {
+                group.addView(overflowButton)
             }
 
             // check selected view
@@ -809,15 +815,7 @@ class WidgetAdapter(
         }
 
         override fun onClick(view: View) {
-            val tag = view.tag
-            if (tag != null) {
-                // Make sure one can't uncheck buttons by clicking a checked one
-                (view as MaterialButton).isChecked = true
-                connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
-            } else {
-                val widget = boundWidget ?: return
-                bottomSheetPresenter.showBottomSheet(SelectionBottomSheet(), widget)
-            }
+            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
         }
 
         override fun handleRowClick() {

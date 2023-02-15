@@ -61,6 +61,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/widgeticon"
         app:layout_constraintTop_toBottomOf="@id/labelbarrier"
-        app:singleSelection="true" />
+        app:singleSelection="true">
+
+        <include layout="@layout/widgetlist_sectionswitchitem_overflow_button" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
