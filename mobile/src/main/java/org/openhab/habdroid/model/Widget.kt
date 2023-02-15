@@ -128,11 +128,26 @@ data class Widget(
         if (service.isNotEmpty()) {
             chartUrl.appendQueryParameter("service", service)
         }
-        if (chartTheme != null) {
-            chartUrl.appendQueryParameter("theme", chartTheme.toString())
+        chartTheme?.let { chartUrl.appendQueryParameter("theme", it.toString()) }
+        forcedLegend?.let { chartUrl.appendQueryParameter("legend", it) }
+
+        fun transposeFormatString(formatString: String?): String? {
+            if (formatString == null) {
+                return null
+            }
+            if (formatString.contains("%d")) {
+                return formatString.replace("%d", "0")
+            }
+            val floatDigits = FLOAT_FORMAT_REGEX.matchEntire(formatString)?.groups?.get(1)
+            if (floatDigits != null) {
+                val newFormat = "0." + "0".repeat(floatDigits.value.toInt())
+                val range = floatDigits.range
+                return formatString.replaceRange(range.start - 2, range.endInclusive + 2, newFormat)
+            }
+            return null
         }
-        if (forcedLegend != null) {
-            chartUrl.appendQueryParameter("legend", forcedLegend)
+        transposeFormatString(item.state?.asNumber?.actualFormat)?.let {
+            chartUrl.appendQueryParameter("yAxisDecimalPattern", it)
         }
         if (width > 0) {
             chartUrl.appendQueryParameter("w", width / resDivider)
@@ -183,6 +198,8 @@ data class Widget(
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
             return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
         }
+
+        private val FLOAT_FORMAT_REGEX = ".*%\\.(\\d+)f.*".toRegex()
     }
 }
 

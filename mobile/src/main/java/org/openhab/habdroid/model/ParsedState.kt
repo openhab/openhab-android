@@ -20,6 +20,7 @@ import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.math.roundToInt
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -146,6 +147,9 @@ data class ParsedState internal constructor(
         val unit: String? = null,
         val format: String? = null
     ) : Parcelable {
+        @IgnoredOnParcel
+        val actualFormat = format?.replace("%unit%", unit.orEmpty())
+
         override fun toString(): String {
             return toString(Locale.getDefault())
         }
@@ -154,8 +158,7 @@ data class ParsedState internal constructor(
          * Like [toString][.toString], but using a specific locale for formatting.
          */
         fun toString(locale: Locale): String {
-            if (!format.isNullOrEmpty()) {
-                val actualFormat = format.replace("%unit%", unit.orEmpty())
+            if (!actualFormat.isNullOrEmpty()) {
                 try {
                     return String.format(locale, actualFormat, getActualValue())
                 } catch (e: IllegalFormatException) {
