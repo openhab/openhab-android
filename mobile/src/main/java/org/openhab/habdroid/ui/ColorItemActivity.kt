@@ -15,9 +15,6 @@ package org.openhab.habdroid.ui
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.Log
 import android.view.MenuItem
 import com.flask.colorpicker.ColorPickerView
@@ -27,6 +24,8 @@ import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import java.util.Locale
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
@@ -36,13 +35,10 @@ import org.openhab.habdroid.util.parcelable
 class ColorItemActivity :
     AbstractBaseActivity(),
     OnColorChangedListener,
-    Slider.OnSliderTouchListener,
     Slider.OnChangeListener,
     LabelFormatter,
-    OnColorSelectedListener,
-    Handler.Callback {
+    OnColorSelectedListener {
     private var boundItem: Item? = null
-    private val handler = Handler(Looper.getMainLooper(), this)
     private var slider: Slider? = null
     private var colorPicker: ColorPickerView? = null
     private var lastUpdate: Job? = null
@@ -69,7 +65,6 @@ class ColorItemActivity :
 
             addOnChangeListener(this@ColorItemActivity)
             setLabelFormatter(this@ColorItemActivity)
-            addOnSliderTouchListener(this@ColorItemActivity)
         }
     }
 
@@ -84,15 +79,14 @@ class ColorItemActivity :
 
     override fun onColorChanged(selectedColor: Int) {
         Log.d(WidgetAdapter.TAG, "onColorChanged($selectedColor)")
+        setBrightnessIfNeeded()
+        handleChange(false)
+    }
+
+    override fun onColorSelected(selectedColor: Int) {
+        Log.d(WidgetAdapter.TAG, "onColorSelected($selectedColor)")
+        setBrightnessIfNeeded()
         handleChange(true)
-    }
-
-    override fun onStartTrackingTouch(slider: Slider) {
-        // no-op
-    }
-
-    override fun onStopTrackingTouch(slider: Slider) {
-        handleChange(false, 0)
     }
 
     override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
@@ -105,33 +99,28 @@ class ColorItemActivity :
         return "${value.toInt()} %"
     }
 
-    override fun onColorSelected(selectedColor: Int) {
-        Log.d(WidgetAdapter.TAG, "onColorSelected($selectedColor)")
-        handleChange(true, 0)
-    }
-
-    private fun handleChange(colorChanged: Boolean, delay: Long = 100) {
-        val newColor = colorPicker?.selectedColor ?: return
-        var brightness = slider?.value?.toInt() ?: 0
-        Log.d(WidgetAdapter.TAG, "handleChange(newColor = $newColor, brightness = $brightness, delay = $delay)")
-        if (colorChanged && brightness == 0) {
-            brightness = 100
+    private fun setBrightnessIfNeeded() {
+        if (slider?.value?.toInt() == 0) {
             slider?.value = 100F
         }
-        handler.removeMessages(0)
-        handler.sendMessageDelayed(handler.obtainMessage(0, newColor, brightness), delay)
     }
 
-    override fun handleMessage(msg: Message): Boolean {
-        val hsv = FloatArray(3)
-        Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
-        hsv[2] = msg.arg2.toFloat()
-        Log.d(WidgetAdapter.TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
-        val newColorValue = String.format(Locale.US, "%.0f,%.0f,%.0f", hsv[0], hsv[1] * 100, hsv[2])
+    private fun handleChange(immediate:  Boolean) {
+        val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return
+        val newColor = colorPicker?.selectedColor ?: return
+        val brightness = slider?.value?.toInt() ?: 0
+        Log.d(TAG, "handleChange(newColor = $newColor, brightness = $brightness, immediate = $immediate)")
         lastUpdate?.cancel()
-        val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return false
-        lastUpdate = connection.httpClient.sendItemCommand(boundItem, newColorValue)
-        return true
+        lastUpdate = launch {
+            if (!immediate) {
+                delay(200)
+            }
+
+            val hsv = FloatArray(3)
+            Color.RGBToHSV(Color.red(newColor), Color.green(newColor), Color.blue(newColor), hsv)
+            val newColorValue = String.format(Locale.US, "%.0f,%.0f,%.0f", hsv[0], hsv[1] * 100, brightness.toFloat())
+            connection.httpClient.sendItemCommand(boundItem, newColorValue)
+        }
     }
 
     companion object {
