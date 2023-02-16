@@ -85,7 +85,7 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
-class SetpointBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener {
+class SliderBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener {
     private var updateJob: Job? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
@@ -100,7 +100,7 @@ class SetpointBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener
             )
             labelBehavior = LabelFormatter.LABEL_VISIBLE
             setLabelFormatter { value -> state.withValue(value).toString() }
-            addOnChangeListener(this@SetpointBottomSheet)
+            addOnChangeListener(this@SliderBottomSheet)
         }
 
         view.findViewById<TextView>(R.id.title).apply {
@@ -126,7 +126,7 @@ class SetpointBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener
     }
 
     companion object {
-        private val TAG = SetpointBottomSheet::class.java.simpleName
+        private val TAG = SliderBottomSheet::class.java.simpleName
     }
 }
 
