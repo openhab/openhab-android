@@ -11,7 +11,6 @@
     <dimen name="notificationlist_icon_size">40dp</dimen>
     <dimen name="small_widget_threshold">60dp</dimen>
     <dimen name="outlineButtonStrokeWidth">2dp</dimen>
-    <dimen name="widget_background_radius">8dp</dimen>
 
     <integer name="section_switch_max_buttons">4</integer>
 </resources>

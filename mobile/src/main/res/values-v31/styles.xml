@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HomeScreenWidgetTheme" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="homeScreenWidgetBackgroundRadius">@android:dimen/system_app_widget_background_radius</item>
+    </style>
+</resources>

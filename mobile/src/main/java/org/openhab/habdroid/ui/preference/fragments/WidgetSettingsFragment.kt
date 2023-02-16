@@ -27,7 +27,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
@@ -44,7 +43,6 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.widgets.ItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.PrefKeys
 
 class WidgetSettingsFragment :
     AbstractSettingsFragment(),
@@ -135,7 +133,6 @@ class WidgetSettingsFragment :
         itemAndStatePref = findPreference("widget_item_and_action")!!
         namePref = findPreference("widget_name")!!
         showStatePref = findPreference("show_state")!!
-        themePref = findPreference("widget_theme")!!
 
         namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
         itemAndStatePref.setOnPreferenceClickListener {
@@ -164,7 +161,6 @@ class WidgetSettingsFragment :
             widgetLabel = namePref.text.orEmpty(),
             mappedState = itemAndStatePref.mappedState.orEmpty(),
             icon = itemAndStatePref.icon.toOH2IconResource(),
-            theme = themePref.value,
             showState = showStatePref.isChecked
         )
     }
@@ -179,7 +175,6 @@ class WidgetSettingsFragment :
         itemAndStatePref.icon = data.icon?.icon
         namePref.text = data.widgetLabel
         showStatePref.isChecked = data.showState
-        themePref.value = data.theme
 
         updateItemAndStatePrefSummary()
     }
@@ -203,9 +198,6 @@ class WidgetSettingsFragment :
         }
 
         ItemUpdateWidget.saveInfoForWidget(context, newData, widgetId)
-        prefs.edit {
-            putString(PrefKeys.LAST_WIDGET_THEME, newData.theme)
-        }
 
         BackgroundTasksManager.schedulePeriodicTrigger(context, false)
 

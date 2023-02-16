@@ -53,11 +53,8 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
-import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.dpToPixel
-import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
-import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
 import org.openhab.habdroid.util.parcelable
@@ -302,13 +299,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             val widgetLabel = prefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL)
             val mappedState = prefs.getStringOrEmpty(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE)
             val icon = prefs.getIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
-            // Fallback to the theme of the previously set widget
-            val theme = prefs.getStringOrFallbackIfEmpty(
-                PreferencesActivity.ITEM_UPDATE_WIDGET_THEME,
-                context.getPrefs().getStringOrFallbackIfEmpty(PrefKeys.LAST_WIDGET_THEME, "dark")
-            )
             val showState = prefs.getBoolean(PreferencesActivity.ITEM_UPDATE_WIDGET_SHOW_STATE, false)
-            return ItemUpdateWidgetData(item, command, label, widgetLabel, mappedState, icon, theme, showState)
+            return ItemUpdateWidgetData(item, command, label, widgetLabel, mappedState, icon, showState)
         }
 
         fun saveInfoForWidget(
@@ -323,7 +315,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_WIDGET_LABEL, data.widgetLabel)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_MAPPED_STATE, data.mappedState)
                 putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, data.icon)
-                putString(PreferencesActivity.ITEM_UPDATE_WIDGET_THEME, data.theme)
                 putBoolean(PreferencesActivity.ITEM_UPDATE_WIDGET_SHOW_STATE, data.showState)
             }
         }
@@ -336,19 +327,10 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             data: ItemUpdateWidgetData,
             itemState: String
         ): RemoteViews {
-            val darkTheme = data.theme == "dark"
             val layout = when {
-                data.widgetLabel?.isEmpty() == true -> {
-                    if (darkTheme) R.layout.widget_item_update_dark_no_text
-                    else R.layout.widget_item_update_light_no_text
-                }
-                smallWidget -> {
-                    if (darkTheme) R.layout.widget_item_update_dark_text_small
-                    else R.layout.widget_item_update_light_text_small
-                }
-                else -> {
-                    if (darkTheme) R.layout.widget_item_update_dark_text else R.layout.widget_item_update_light_text
-                }
+                data.widgetLabel.isNullOrEmpty() -> R.layout.widget_item_update_no_text
+                smallWidget -> R.layout.widget_item_update_text_small
+                else -> R.layout.widget_item_update_text
             }
             val label = if (data.showState) {
                 "${data.widgetLabel.orEmpty()} $itemState"
@@ -401,7 +383,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val widgetLabel: String?,
         val mappedState: String,
         val icon: IconResource?,
-        val theme: String,
         val showState: Boolean
     ) : Parcelable {
         fun isValid(): Boolean {
@@ -424,7 +405,6 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         this.widgetLabel.orEmpty() == other.widgetLabel.orEmpty() &&
                         this.mappedState == other.mappedState &&
                         this.icon == other.icon &&
-                        this.theme == other.theme &&
                         this.showState == other.showState
                 }
             }

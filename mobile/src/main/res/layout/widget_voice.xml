@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin"
-    android:background="@drawable/widget_dark_background">
+    android:theme="@style/HomeScreenWidgetTheme"
+    android:background="@drawable/widget_background">
 
     <ImageView
         android:id="@+id/btn_open_main"
@@ -22,7 +23,7 @@
         android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_microphone_outline_white_120dp"
+        android:src="@drawable/ic_microphone_outline_themed_120dp"
         android:contentDescription="@string/info_voice_input"
         android:scaleType="fitCenter" />
 
