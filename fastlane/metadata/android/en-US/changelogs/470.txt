@@ -1,0 +1,7 @@
+## What's Changed
+* Fix mobile network detection on API < 23 by @maniac103 in https://github.com/openhab/openhab-android/pull/3242
+* Use slider bottom sheet also for roller shutters by @maniac103 in https://github.com/openhab/openhab-android/pull/3249
+* Allow using theme colors as label/value colors by @maniac103 in https://github.com/openhab/openhab-android/pull/3251
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.2.2-beta...3.2.3-beta
