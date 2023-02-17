@@ -1,0 +1,5 @@
+## What's Changed
+* Improve section switch overflow handling by @maniac103 in https://github.com/openhab/openhab-android/pull/3243
+* Theme widgets based on device theme by @mueller-ma in https://github.com/openhab/openhab-android/pull/3235
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.2.3-beta...3.2.4-beta
