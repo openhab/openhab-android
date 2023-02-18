@@ -28,7 +28,7 @@ class Oh3UiWebViewFragment : AbstractWebViewFragment() {
     override val shortcutAction = MainActivity.ACTION_OH3_UI_SELECTED
 
     override fun modifyUrl(orig: HttpUrl): HttpUrl {
-        if( orig.host.substringBefore('.') != "home"){
+        if (orig.host.substringBefore('.') != "home") {
             return orig.newBuilder()
                 .host("home." + orig.host)
                 .build()
