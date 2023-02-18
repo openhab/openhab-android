@@ -6,13 +6,14 @@
     android:padding="@dimen/widget_margin"
     android:orientation="vertical"
     android:weightSum="100"
-    android:background="@drawable/widget_dark_background">
+    android:theme="@style/HomeScreenWidgetTheme"
+    android:background="@drawable/widget_background">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="70"
-        android:src="@drawable/ic_microphone_outline_white_120dp"
+        android:src="@drawable/ic_microphone_outline_themed_120dp"
         android:contentDescription="@string/info_voice_input" />
 
     <FrameLayout
@@ -22,7 +23,6 @@
         android:layout_weight="30"
         android:padding="0dp"
         android:scaleType="fitCenter"
-        android:background="#C333"
         android:contentDescription="@string/content_description_open_openhab">
 
         <ImageView

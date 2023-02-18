@@ -183,7 +183,6 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                             ?: context.getString(R.string.item_update_widget_text, oldData.label, oldData.mappedState),
                         oldData.mappedState,
                         oldData.icon,
-                        oldData.theme,
                         oldData.showState
                     )
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin"
-    android:background="@drawable/widget_light_background"
+    android:background="@drawable/widget_background"
+    android:theme="@style/HomeScreenWidgetTheme"
     android:contentDescription="@string/item_update_widget_content_description">
 
     <ImageView
@@ -23,6 +24,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textColor="@color/black"
-        android:text="@string/item_update_widget_preview_text"/>
+        android:textColor="?android:attr/textColorPrimary"
+        android:text="@string/item_update_widget_preview_text" />
 </FrameLayout>

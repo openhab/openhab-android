@@ -2,14 +2,13 @@
 <com.google.android.material.button.MaterialButton
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.Material3.Button.OutlinedButton"
+    android:id="@+id/overflow_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minWidth="48dp"
-    android:paddingHorizontal="8dp"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
+    android:minWidth="0dp"
+    android:paddingHorizontal="12dp"
+    android:text="⋯"
     android:textAppearance="?attr/textAppearanceLabelMedium"
-    app:toggleCheckedStateOnClick="false"
-    tools:text="Action 1" />
+    android:checkable="false"
+    app:toggleCheckedStateOnClick="false" />

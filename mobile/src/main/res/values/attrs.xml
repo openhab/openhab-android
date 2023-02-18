@@ -51,4 +51,5 @@
     </declare-styleable>
 
     <item name="originalColor" type="id" />
+    <attr name="homeScreenWidgetBackgroundRadius" format="dimension" />
 </resources>
