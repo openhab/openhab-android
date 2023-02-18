@@ -35,4 +35,9 @@
         <item name="android:paddingBottom">0dp</item>
         <item name="android:minHeight">48dp</item>
     </style>
+
+    <style name="HomeScreenWidgetTheme" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="homeScreenWidgetBackgroundRadius">8dp</item>
+        <item name="colorPrimary">?android:attr/textColorSecondary</item>
+    </style>
 </resources>

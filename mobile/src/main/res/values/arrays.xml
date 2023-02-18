@@ -318,14 +318,4 @@
         <item>@string/tile_icon_bell_value</item>
         <item>@string/tile_icon_dashboard_value</item>
     </string-array>
-
-    <string-array name="widget_theme">
-        <item>@string/theme_name_light</item>
-        <item>@string/theme_name_dark</item>
-    </string-array>
-
-    <string-array name="widget_theme_values">
-        <item>light</item>
-        <item>dark</item>
-    </string-array>
 </resources>

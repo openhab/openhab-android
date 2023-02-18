@@ -185,7 +185,6 @@ interface ConnectionManagerHelper {
     }
 }
 
-@TargetApi(26)
 fun NetworkCapabilities.isUsable(): Boolean {
     if (!hasCapability(NET_CAPABILITY_INTERNET) || !hasCapability(NET_CAPABILITY_NOT_RESTRICTED)) {
         return false
@@ -195,10 +194,12 @@ fun NetworkCapabilities.isUsable(): Boolean {
             return false
         }
     }
-    // We don't need validation for e.g. Wifi as we'll use a local connection there,
-    // but we definitely need a working internet connection on mobile
-    if (hasTransport(TRANSPORT_CELLULAR) && !hasCapability(NET_CAPABILITY_VALIDATED)) {
-        return false
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        // We don't need validation for e.g. Wifi as we'll use a local connection there,
+        // but we definitely need a working internet connection on mobile
+        if (hasTransport(TRANSPORT_CELLULAR) && !hasCapability(NET_CAPABILITY_VALIDATED)) {
+            return false
+        }
     }
 
     return true

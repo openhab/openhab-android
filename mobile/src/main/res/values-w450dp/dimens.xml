@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="section_switch_max_buttons">5</integer>
+</resources>

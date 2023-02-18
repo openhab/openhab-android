@@ -174,6 +174,7 @@
     <string name="error_certificate_wrong_host">El certificado no es válido para %s</string>
     <string name="error_http_to_https_port">Final inesperado de secuencia. ¿Está Ud. tratando de conectar a un puerto HTTPS por HTTP?</string>
     <string name="webview_ssl">Esta aplicación no soporta actualmente certificados SSL auto-firmados para widgets de Webview</string>
+    <string name="webview_snackbar_permissions_missing">La página requiere permisos adicionales para funcionar correctamente</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autenticación fallida. Por favor, compruebe el nombre de usuario y la contraseña configurados respectivamente al certificado de cliente SSL proporcionado (código HTTP %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">No encontrado (código HTTP %d)</string>
