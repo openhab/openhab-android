@@ -7,7 +7,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  */
 
@@ -28,11 +28,12 @@ class Oh3UiWebViewFragment : AbstractWebViewFragment() {
     override val shortcutAction = MainActivity.ACTION_OH3_UI_SELECTED
 
     override fun modifyUrl(orig: HttpUrl): HttpUrl {
-        if (orig.host == "myopenhab.org") {
+        if (orig.host.substringBefore('.') != "home") {
             return orig.newBuilder()
-                .host("home.myopenhab.org")
+                .host("home." + orig.host)
                 .build()
         }
+
         return orig
     }
 }
