@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="light">#ffffff</color>
     <color name="black">#000000</color>
     <color name="openhab_orange">#ff5722</color>
     <color name="pref_icon_red">#D32F2F</color>
