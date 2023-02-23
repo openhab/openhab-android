@@ -1,0 +1,4 @@
+• Improve Switch widgets with mappings
+• Add bottom sheet to Rollershutter
+• Theme home screen widgets based on device theme
+• Allow Main UI to request camera and microphone permissions
