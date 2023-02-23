@@ -235,14 +235,14 @@ class MapBottomSheet : AbstractWidgetBottomSheet(), Marker.OnMarkerDragListener 
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         mapView.onResume()
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    override fun onPause() {
         mapView.onPause()
+        super.onPause()
     }
 
     override fun onMarkerDragStart(marker: Marker) {

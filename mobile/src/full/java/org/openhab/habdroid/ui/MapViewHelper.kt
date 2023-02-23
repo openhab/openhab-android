@@ -150,6 +150,11 @@ class MapBottomSheet : AbstractWidgetBottomSheet(), GoogleMap.OnMarkerDragListen
         return view
     }
 
+    override fun onDestroyView() {
+        mapView.onDestroy()
+        super.onDestroyView()
+    }
+
     override fun onStart() {
         super.onStart()
         mapView.onStart()
@@ -171,13 +176,8 @@ class MapBottomSheet : AbstractWidgetBottomSheet(), GoogleMap.OnMarkerDragListen
     }
 
     override fun onPause() {
-        super.onPause()
         mapView.onPause()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        mapView.onDestroy()
-        super.onDismiss(dialog)
+        super.onPause()
     }
 
     override fun onMarkerDragStart(marker: Marker) {
