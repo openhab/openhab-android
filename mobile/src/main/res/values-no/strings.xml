@@ -52,6 +52,12 @@
     <string name="drawer_entries">Sidemenyoppføringer</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
+    <string name="settings_set_as_launcher_title">Registrer som startskjerm</string>
+    <string name="settings_set_as_launcher_summary">Tillat at programmet kan brukes som startskjerm. Programmet må velges som standard startskjerm etter aktivering for at det skal få noen effekt.</string>
+    <string name="settings_sitemap_compact_mode_title">Kompaktmodus</string>
+    <string name="settings_sitemap_compact_mode_off">Bruk et to-linjers oppsett for Sitemap widgeter, hvilket gjør kontrollene større og derav lettere å bruke, men krever mer rulling for lengre lister</string>
+    <string name="settings_sitemap_compact_mode_on">Bruk et en-linjes oppsett for Sitemap widgeter, hvilket plasserer så mange widgeter som mulig på skjermen, men reduserer størrelsen på kontrollene</string>
+    <string name="settings_color_scheme_title">Fargepalett</string>
     <string name="settings_openhab_icon_format">Ikonformatering</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -168,6 +174,7 @@
     <string name="error_certificate_wrong_host">Sertifikatet er ikke gyldig for %s</string>
     <string name="error_http_to_https_port">Uventet slutt på strømmen. Prøver du å koble til en HTTPS-port med HTTP?</string>
     <string name="webview_ssl">For tiden støtter dette programmet ikke selvsignert SSL-sertifikater for Webview widgets</string>
+    <string name="webview_snackbar_permissions_missing">Siden krever ytterligere tillatelser for å fungere ordentlig</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autentifikasjon mislyktes. Kontroller konfigurert brukernavn og passord i henhold til det angitte SSL klientsertifikatet (HTTP kode %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Ikke funnet (HTTP kode %d)</string>
@@ -358,6 +365,8 @@
     <string name="theme_name_battery_saver">Mørk modus ved batterisparing</string>
     <string name="theme_name_black">Svart</string>
     <string name="color_scheme_name_default">Standard</string>
+    <string name="color_scheme_name_basicui">Basic UI</string>
+    <string name="color_scheme_name_dynamic">Dynamisk</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Skjul forklaring</string>
@@ -451,6 +460,10 @@
     <string name="content_description_open_roller_shutter">Åpne rullegardiner</string>
     <string name="content_description_stop_roller_shutter">Stopp rullegardiner</string>
     <string name="content_description_close_roller_shutter">Lukk rullegardiner</string>
+    <string name="content_description_player_previous">Hopp til forrige spor</string>
+    <string name="content_description_player_next">Hopp til neste spor</string>
+    <string name="content_description_player_pause">Pause avspilling</string>
+    <string name="content_description_player_play">Start avspilling</string>
     <string name="content_description_open_color_wheel">Åpne fargevelger</string>
     <string name="content_description_color_up">På eller hold for å øke styrken</string>
     <string name="content_description_color_down">Av eller hold for å senke styrken</string>
@@ -498,11 +511,13 @@
     <string name="press_back_to_exit">Trykk tilbake en gang til for å gå ut</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Element kontroll</string>
+    <string name="item_update_widget_content_description">Endre eller les tilstanden til en Item</string>
     <string name="item_update_widget_content_description_edit">Rediger widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Åpne garasje</string>
     <string name="widget_show_state">Tilføy gjeldende tilstand til navnet</string>
     <string name="widget_show_state_summary">Tilstanden blir oppdatert i henhold til tidsplanen, som kan konfigureres under \"Send enhetsinformasjon til server\"</string>
     <string name="widget_no_command">Ikke send en kommando</string>
@@ -546,6 +561,7 @@
     <string name="item_update_error_no_connection">Ingen tilkobling</string>
     <string name="item_update_error_couldnt_get_item_type">Kunne ikke hente objekt-type</string>
     <string name="create_home_screen_widget_title">Lag widget</string>
+    <string name="create_home_screen_widget_no_command">Vis gjeldende tilstand</string>
     <string name="create_home_screen_widget_not_supported">Vennligst gå til widget-menyen på startskjermen og opprett en widget derfra</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datasparing</string>
