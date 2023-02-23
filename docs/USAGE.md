@@ -11,7 +11,7 @@ source: https://github.com/openhab/openhab-android/blob/main/docs/USAGE.md
 # Android App
 
 The openHAB Android application is a native client for openHAB, compatible with phones and tablets.
-The app follows the basic principles of the other openHAB UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](https://www.openhab.org/docs/configuration/sitemaps.html).
+The app follows the basic principles of the other openHAB UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](https://www.openhab.org/docs/configuration/sitemaps.html) and other UIs.
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid">
   <img alt="Get it on Google Play" src="images/en_badge_web_generic.png" width="240px">
@@ -29,7 +29,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 ## Getting Started
 
 On first start the app tries to discover your openHAB server.
-This will only work on local networks and when the server does not enforce either authentication or HTTPS.
+This will only work on local networks and when the server doesn't enforce authentication.
 If it fails, you can click on `Go to settings` and manually enter the server settings.
 
 The URL field(s) might look like one of the following examples:
@@ -66,7 +66,7 @@ If you want to use openHAB Android on a wall mounted tablet, go to settings and 
 It's required to have a voice recognizer app installed on the Android device, e.g. [by Google](https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox).
 Voice recognizer apps may send the recorded sound to a server to convert it into text.
 
-To run your voice command rule please make sure that `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/#!/settings/services/org.openhab.voice) and that the correct Item is selected at `Other Services` => `Rule Voice Interpreter` => `Voice Command Item` (http://openhab:8080/#!/settings/services/org.openhab.rulehli/select/).
+To run your voice command rule please make sure that `Default Human Language Interpreter` is set to `Rule-based Interpreter` (http://openhab:8080/settings/services/org.openhab.voice) and that the correct Item is selected at `Other Services` => `Rule Voice Interpreter` => `Voice Command Item` (http://openhab:8080/settings/services/org.openhab.rulehli).
 
 ### Send device information to openHAB
 
@@ -318,10 +318,10 @@ The variable `%httpcode` is returned by the plugin and contains the HTTP code re
 In case of an error the plugin returns an error code.
 
 | Error Code | Description                                                                                                                                                                                                |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 10         | Tasker plugin is disabled                                                                                                                                                                                  |
 | 11         | The app couldn't establish a connection                                                                                                                                                                    |
-| 1000+      | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
+| > 1000     | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
 
 ### Quick Access Device Controls
 
@@ -375,7 +375,8 @@ This has a few disadvantages:
 
 ### I have issues with openHAB 3 UI or HABPanel
 
-The app uses Android WebViews to render all UIs except Sitemaps. Please make sure you're running the latest WebView version: https://play.google.com/store/apps/details?id=com.google.android.webview
+The app uses Android WebViews to render all UIs except Sitemaps.
+Please make sure you're running the latest WebView version: https://play.google.com/store/apps/details?id=com.google.android.webview
 
 ### Chart loading is too slow
 
@@ -384,7 +385,9 @@ If you experience slow chart loading times and your server isn't powerful, open 
 
 ### Icons look pixelated
 
-For good looking icons, the best approach is using SVG icons. Bitmap icons have a fixed size that doesn't scale with screen pixel density, so depending on the device, they may be scaled up by a large factor. When using SVG icons, ideally use icons that don't have a fixed size (in other words, they shouldn't have a 'width' and 'height' attribute on the root tag), as otherwise scaling might become necessary again: the app renders SVGs at their native size scaled by screen density, but scales them to a common size; when using icons without fixed size, the app can render them at precisely the needed size.
+For good looking icons, the best approach is using SVG icons.
+Bitmap icons have a fixed size that doesn't scale with screen pixel density, so depending on the device, they may be scaled up by a large factor.
+When using SVG icons, ideally use icons that don't have a fixed size (in other words, they shouldn't have a 'width' and 'height' attribute on the root tag), as otherwise scaling might become necessary again: the app renders SVGs at their native size scaled by screen density, but scales them to a common size; when using icons without fixed size, the app can render them at precisely the needed size.
 
 ## Trademark Disclaimer
 
