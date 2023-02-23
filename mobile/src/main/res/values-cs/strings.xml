@@ -7,6 +7,9 @@
     <string name="save">Uložit</string>
     <string name="discard">Zahodit</string>
     <string name="delete">Smazat</string>
+    <string name="attribution_tag_discover_server">Vyhledat openHAB server</string>
+    <string name="attribution_tag_select_server_wifi">Vyberte server na základě Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Navrhnout zapnutí Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Nastavení</string>
@@ -41,12 +44,20 @@
     <string name="settings_openhab_sslclientcert">Klientský certifikát SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Klepnutím sem získáte informace o tom, jak nastavit ověřování klientských certifikátů SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Certifikáty SSL klienta nejsou podporována vaším zařízením</string>
+    <string name="settings_openhab_screentimeroff">Zakázat zhasnutí displeje</string>
+    <string name="settings_openhab_screentimeroff_summary">Obrazovka se nevypne, když je spuštěn openHAB</string>
     <string name="settings_openhab_demomode">Ukázkový režim</string>
     <string name="settings_openhab_demomode_summary">Pokud nemáte openHAB server, povolte režim demo abyste získali představu o možnostech openHAB.</string>
     <string name="start_page_title">Úvodní stránka</string>
     <string name="drawer_entries">Položky postranního menu</string>
     <string name="settings_openhab_theme">Motivy vzhledu</string>
     <string name="settings_openhab_fullscreen">Na celou obrazovku</string>
+    <string name="settings_set_as_launcher_title">Registrovat jako Launcher</string>
+    <string name="settings_set_as_launcher_summary">Povolit aplikaci jako launcher (spouštěč). Po povolení musí být aplikace stále vybrána jako výchozí launcher.</string>
+    <string name="settings_sitemap_compact_mode_title">Kompaktní režim</string>
+    <string name="settings_sitemap_compact_mode_off">Použít dvouřádkové rozložení pro widgety Sitemap, díky kterému jsou ovladací prvky větší a tudíž se snadněji používají, ale zabírají více místa</string>
+    <string name="settings_sitemap_compact_mode_on">Použít jednořádkové rozložení pro widgety Sitemap, které umístí na obrazovku co nejvíce widgetů, ale zmenší velikost ovládacích prvků</string>
+    <string name="settings_color_scheme_title">Barevné schéma</string>
     <string name="settings_openhab_icon_format">Formát ikon</string>
     <string name="settings_openhab_icon_format_png">Bitmapa</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -106,12 +117,19 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Rozšířené</string>
     <string name="click_here_for_more_information">Po klepnutí sem získáte další informace</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Aplikace vybere tento server při připojení k jedné z těchto Wi-Fi. Více názvů Wi-Fi lze zadat tak, že každá bude na samostatném řádku.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Přepnuto na server \"%s\" na základě Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Nelze načíst název Wi-Fi: Chybí oprávnění</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Nelze načíst název Wi-Fi: Poloha je vypnuta</string>
     <string name="setting_crash_reporting_title">Zprávy o selhání</string>
     <string name="setting_crash_reporting_summary">Odeslat hlášení o pádech vývojářům aplikace</string>
+    <string name="device_control_subtitle_location">Poloha</string>
+    <string name="device_control_subtitle_equipment">Vybavení</string>
+    <string name="device_control_subtitle_location_equipment">Poloha a vybavení</string>
     <string name="device_control_subtitle_item_name">Jméno Item</string>
+    <string name="device_control">Ovládání zařízení Android</string>
+    <string name="device_control_subtitle">Popis v dlaždicích</string>
+    <string name="device_control_hint">V závislosti na vaší verzi Android jsou tyto dlaždice umístěny v menu dlouhého stisku tlačítka napájení nebo vedle rychlých dlaždic</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="voice_command">Hlasový příkaz</string>
@@ -136,6 +154,7 @@
     <string name="error_network_not_available">Síť není k dispozici</string>
     <string name="error_wifi_not_available">Wi-Fi je vypnuta</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_wifi_restricted">Místní připojení k serveru %1$s jsou omezena na následující názvy Wi-Fi: %2$s</string>
     <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_invalid_https_url">Zadejte platnou adresu URL ve formátu \'https://host(:port)/\'</string>
@@ -155,6 +174,7 @@
     <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
     <string name="error_http_to_https_port">Neočekávaný konec datového proudu. Snažíte se připojit k HTTPS portu pomocí HTTP?</string>
     <string name="webview_ssl">V současné době tato aplikace nepodporuje vlastnoručně podepsané SSL certifikáty pro Webview widgety</string>
+    <string name="webview_snackbar_permissions_missing">Stránka vyžaduje další oprávnění, aby správně fungovala</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Ověření se nezdařilo. Zkontrolujte prosím uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nenalezeno (HTTP kód %d)</string>
@@ -196,6 +216,7 @@
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
     <string name="error_no_browser_found">Na Vašem zařízení nebyl nalezen žádný prohlížeč</string>
     <string name="error_no_speech_to_text_app_found">Aplikace k převodu řeči na text nenalezena</string>
+    <string name="error_sse_failed">Nastal problém s aktualizacemi widgetu</string>
     <string name="error_video_player">%s nelze načíst</string>
     <string name="install">Nainstalovat</string>
     <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
@@ -207,6 +228,7 @@
     <string name="info_write_tag_unsupported">Zařízení nepodporuje NFC</string>
     <string name="info_write_tag_disabled">NFC je vypnuto</string>
     <string name="action_settings">Nastavení</string>
+    <string name="nfc_info_hint">Aktualizace Items lze zapsat na NFC tagy. Můžete vybrat Item zde, nebo můžete dlouze stisknout widget na Sitemap.</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
@@ -230,8 +252,11 @@
     <string name="settings_alarm_clock">Čas budíku</string>
     <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku</string>
+    <string name="copy_debug_info">Kopírovat</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug_ignored">Ignorována aktualizace času budíku na %1$s , která byla odeslána %2$s</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug">Aktualizován čas alarmu na %1$s , která byla odeslána %2$s</string>
     <string name="settings_phone_state">Stav hovoru</string>
     <string name="settings_phone_state_summary_on">Poslat stav hovoru telefonu do Item \'%1$s\'</string>
     <string name="settings_phone_state_summary_off">Neodesílat stav hovoru</string>
@@ -247,6 +272,11 @@
     <string name="settings_wifi_ssid_summary_on_location_on">Odeslat název Wi-Fi (SSID) do položky \'%1$s\'. \"Zjišťování polohy\" musí být zapnuto, jinak openHAB nemůže získat název Wi-Fi.</string>
     <string name="settings_wifi_ssid_summary_off">Neodesílat název sítě Wi-Fi (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">Odesílání názvu Wi-Fi bylo zakázáno kvůli chybějícím oprávněním</string>
+    <string name="settings_wifi_ssid_restrict">Omezit lokální připojení na tyto názvy Wi-Fi</string>
+    <string name="settings_bluetooth_devices">Připojená zařízení Bluetooth</string>
+    <string name="settings_bluetooth_devices_summary_on">Odešle seznam MAC adres připojených zařízení Bluetooth oddělených znakem pipe do položky \'%1$s\'</string>
+    <string name="settings_bluetooth_devices_summary_off">Neposílat připojená zařízení Bluetooth</string>
+    <string name="settings_bluetooth_devices_permission_denied">Odesílání zařízení Bluetooth bylo zakázáno kvůli chybějícím oprávněním</string>
     <string name="settings_dnd_mode">Režim Nerušit</string>
     <string name="settings_dnd_mode_summary_on">Odeslat stav režimu Nerušit do Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Neposílat stav režimu Nerušit</string>
@@ -255,6 +285,7 @@
     <string name="settings_gadgetbridge_summary_off">Neposílat akce zařízení Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění.</string>
     <string name="settings_background_tasks_permission_hint">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění. Přesvědčte se, zda jste povolili oprávnění také pro použití na pozadí, protože k aktualizaci Item dochází i v případě, že je aplikace na pozadí.</string>
+    <string name="settings_permission_denied">Některé funkce byly zakázány kvůli chybějícím oprávněním</string>
     <string name="settings_background_tasks_permission_denied_background_location">Některé úlohy na pozadí vyžadují nastavení přístupu k poloze na \"%s\" v nastavení Androidu</string>
     <string name="settings_background_tasks_permission_allow">Povolit</string>
     <string name="settings_location_permissions_required">Tato aplikace shromažďuje lokalizační data, aby mohla odeslat název Wi-Fi na server a vybírat server na základě Wi-Fi a to i v případě, že je aplikace vypnuta nebo není používána. Tato data jsou odesílána pouze na servery, které jste nakonfigurovali.</string>
@@ -338,6 +369,8 @@
     <string name="theme_name_battery_saver">Při šetření baterie tmavý režim</string>
     <string name="theme_name_black">Černé</string>
     <string name="color_scheme_name_default">Výchozí</string>
+    <string name="color_scheme_name_basicui">Basic UI</string>
+    <string name="color_scheme_name_dynamic">Dynamické</string>
     <!-- Chart -->
     <string name="chart_activity_title">Graf</string>
     <string name="chart_activity_hide_legend">Skrýt legendu</string>
@@ -398,10 +431,12 @@
     <string name="about_translation">Pomozte nám přeložit openHAB</string>
     <string name="about_privacy_policy">Ochrana osobních údajů</string>
     <string name="about_rate_this_app">Ohodnotit aplikaci</string>
+    <string name="settings_debug_messages_title">Zobrazit informace pro řešení problémů</string>
     <string name="settings_troubleshooting_title">Řešení problémů</string>
     <string name="undo">Vrátit zpět</string>
     <string name="try_again_button">Zkusit znovu</string>
     <string name="enable_wifi_button">Zapnout Wi-Fi</string>
+    <string name="switch_wifi_button">Připojit k jiné Wi-Fi</string>
     <string name="go_to_settings_button">Přejít do nastavení</string>
     <string name="enable_demo_mode_button">Spustit v ukázkovém režimu</string>
     <string name="configuration_missing">Ve vaší síti jsme nenašli openHAB server. Pokud již máte server, nakonfigurujte jeho IP adresu nebo název hostitele v nastavení serveru. Pokud ještě server nemáte, můžete spustit ukázkový režim, abyste viděl, jaké jsou možosti openHAB.</string>
@@ -429,12 +464,18 @@
     <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
     <string name="content_description_stop_roller_shutter">Zastavit roletu</string>
     <string name="content_description_close_roller_shutter">Zavřít ovládání rolet</string>
+    <string name="content_description_player_previous">Přeskočit na předchozí skladbu</string>
+    <string name="content_description_player_next">Přeskočit na další skladbu</string>
+    <string name="content_description_player_pause">Pozastavit přehrávání</string>
+    <string name="content_description_player_play">Spustit přehrávání</string>
     <string name="content_description_open_color_wheel">Otevřít výběr barev</string>
     <string name="content_description_color_up">Zapnout, nebo držením zvýšit jas</string>
     <string name="content_description_color_down">Vypnout, nebo držením snížit jas</string>
     <string name="content_description_open_number_picker">Otevřít výběr čísla</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Spustit openHAB</string>
+    <string name="content_description_increase_item_value">Zvýšit hodnotu Item</string>
+    <string name="content_description_decrease_item_value">Snížit hodnotu Item</string>
     <string name="swipe_to_refresh_description">Aplikace se aktualizuje automaticky, obvykle není třeba to dělat ručně</string>
     <string name="got_it">Chápu!</string>
     <!-- Intro strings -->
@@ -474,11 +515,17 @@
     <string name="press_back_to_exit">Pro ukončení stiskněte znovu tlačítko zpět</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Kontrola Item</string>
+    <string name="item_update_widget_content_description">Změnit nebo číst stav Item</string>
     <string name="item_update_widget_content_description_edit">Upravit widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Otevřít garáž</string>
+    <string name="widget_show_state">Připojit aktuální stav k názvu</string>
+    <string name="widget_show_state_summary">Stav je aktualizován podle plánu, který lze nastavit v nastavení v části \"Odeslat informace o zařízení na server\"</string>
+    <string name="widget_no_command">Neposílat příkaz</string>
+    <string name="error_getting_state">Chyba při načítání stavu</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s - nastaveno na %2$s</string>
     <string name="item_update_success_message_on">%s - zapnuto</string>
@@ -518,10 +565,13 @@
     <string name="item_update_error_no_connection">Žádné připojení</string>
     <string name="item_update_error_couldnt_get_item_type">Typ Item nelze zjistit</string>
     <string name="create_home_screen_widget_title">Vytvořit widget</string>
+    <string name="create_home_screen_widget_no_command">Zobrazit aktuální stav</string>
     <string name="create_home_screen_widget_not_supported">Přejděte do menu widgetů na domovské obrazovce a tam vytvořte widget</string>
     <!-- Data saver -->
     <string name="data_saver_title">Spořič dat</string>
     <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>
+    <string name="data_saver_off">Nastavení ukládání dat pro celý systém je použito při načítání dat pomocí prvků Sitemap</string>
+    <string name="data_saver_off_pre_n">Všechny prvky Sitemap jsou načteny, bez ohledu na množství dat</string>
     <string name="data_saver_load">I přesto načíst</string>
     <string name="data_saver_hint">%s nebyl načten pro snížení spotřeby dat</string>
     <string name="data_saver_snackbar">Ikony nezobrazují stav Item, protože je zapnutý spořič dat</string>
@@ -530,6 +580,7 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Graf</string>
+    <string name="widget_type_color">Barva</string>
     <!-- Tiles -->
     <string name="tile">Dlaždice</string>
     <string name="tiles_for_quick_settings">Dlaždice pro rychlé nastavení</string>
@@ -610,10 +661,93 @@
     <string name="tile_icon_lamp_outdoor">Venkovní světlo</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Byt</string>
+    <string name="item_tag_location_attic">Půda</string>
+    <string name="item_tag_location_basement">Přízemí</string>
+    <string name="item_tag_location_bathroom">Koupelna</string>
+    <string name="item_tag_location_bedroom">Ložnice</string>
+    <string name="item_tag_location_boilerroom">Technická místnost</string>
+    <string name="item_tag_location_building">Budova</string>
+    <string name="item_tag_location_carport">Parkovací stání</string>
+    <string name="item_tag_location_cellar">Sklep</string>
+    <string name="item_tag_location_corridor">Chodba</string>
+    <string name="item_tag_location_diningroom">Jídelna</string>
+    <string name="item_tag_location_driveway">Příjezdová cesta</string>
+    <string name="item_tag_location_entry">Vchod</string>
+    <string name="item_tag_location_familyroom">Rodinný pokoj</string>
+    <string name="item_tag_location_firstfloor">První patro</string>
+    <string name="item_tag_location_floor">Patro</string>
     <string name="item_tag_location_garage">Garáž</string>
+    <string name="item_tag_location_garden">Zahrada</string>
+    <string name="item_tag_location_groundfloor">Přízemí</string>
+    <string name="item_tag_location_guestroom">Pokoj pro hosty</string>
     <string name="item_tag_location_house">Dům</string>
+    <string name="item_tag_location_indoor">Vnitřní</string>
+    <string name="item_tag_location_kitchen">Kuchyň</string>
+    <string name="item_tag_location_laundryroom">Prádelna</string>
+    <string name="item_tag_location_livingroom">Obývací pokoj</string>
+    <string name="item_tag_location_office">Kancelář</string>
+    <string name="item_tag_location_outdoor">Venkovní</string>
+    <string name="item_tag_location_patio">Venkovní posezení</string>
+    <string name="item_tag_location_porch">Zádveří</string>
+    <string name="item_tag_location_room">Místnost</string>
+    <string name="item_tag_location_secondfloor">Druhé patro</string>
+    <string name="item_tag_location_shed">Kůlna</string>
+    <string name="item_tag_location_summerhouse">Letní dům</string>
+    <string name="item_tag_location_terrace">Terasa</string>
+    <string name="item_tag_location_thirdfloor">Třetí patro</string>
+    <string name="item_tag_location_veranda">Veranda</string>
+    <string name="item_tag_equipment_alarmsystem">Alarm</string>
+    <string name="item_tag_equipment_backdoor">Zadní dveře</string>
     <string name="item_tag_equipment_battery">Baterie</string>
+    <string name="item_tag_equipment_blinds">Žaluzie</string>
+    <string name="item_tag_equipment_boiler">Bojler</string>
     <string name="item_tag_equipment_camera">Fotoaparát</string>
+    <string name="item_tag_equipment_car">Auto</string>
+    <string name="item_tag_equipment_ceilingfan">Stropní větrák</string>
+    <string name="item_tag_equipment_cellardoor">Sklepní dveře</string>
+    <string name="item_tag_equipment_cleaningrobot">Robotický vysavač</string>
+    <string name="item_tag_equipment_dishwasher">Myčka nádobí</string>
+    <string name="item_tag_equipment_door">Dveře</string>
+    <string name="item_tag_equipment_doorbell">Zvonek</string>
+    <string name="item_tag_equipment_dryer">Sušička</string>
     <string name="item_tag_equipment_fan">Ventilátor</string>
+    <string name="item_tag_equipment_freezer">Mrazák</string>
+    <string name="item_tag_equipment_frontdoor">Přední dveře</string>
+    <string name="item_tag_equipment_garagedoor">Garážová vrata</string>
+    <string name="item_tag_equipment_gate">Brána</string>
+    <string name="item_tag_equipment_hvac">Topení/Chlazení</string>
+    <string name="item_tag_equipment_innerdoor">Vnitřní dveře</string>
+    <string name="item_tag_equipment_inverter">Invertor</string>
+    <string name="item_tag_equipment_kitchenhood">Digestoř</string>
+    <string name="item_tag_equipment_lawnmower">Sekačka</string>
+    <string name="item_tag_equipment_lightbulb">Žárovka</string>
+    <string name="item_tag_equipment_lightstripe">LED pásek</string>
     <string name="item_tag_equipment_lock">Zámek</string>
+    <string name="item_tag_equipment_motiondetector">Detektor pohybu</string>
+    <string name="item_tag_equipment_networkappliance">Síťové zařízení</string>
+    <string name="item_tag_equipment_oven">Trouba</string>
+    <string name="item_tag_equipment_poweroutlet">Elektrická zásuvka</string>
+    <string name="item_tag_equipment_projector">Projektor</string>
+    <string name="item_tag_equipment_pump">Čerpadlo</string>
+    <string name="item_tag_equipment_radiatorcontrol">Termostatická hlavice</string>
+    <string name="item_tag_equipment_receiver">Přijímač</string>
+    <string name="item_tag_equipment_refrigerator">Lednice</string>
+    <string name="item_tag_equipment_remotecontrol">Dálkové ovládání</string>
+    <string name="item_tag_equipment_screen">Obrazovka</string>
+    <string name="item_tag_equipment_sensor">Čidlo</string>
+    <string name="item_tag_equipment_sidedoor">Boční dveře</string>
+    <string name="item_tag_equipment_siren">Siréna</string>
+    <string name="item_tag_equipment_smartphone">Mobil</string>
+    <string name="item_tag_equipment_smokedetector">Detektor kouře</string>
+    <string name="item_tag_equipment_speaker">Reproduktor</string>
+    <string name="item_tag_equipment_television">Televize</string>
+    <string name="item_tag_equipment_valve">Ventil</string>
+    <string name="item_tag_equipment_voiceassistant">Hlasový asistent</string>
+    <string name="item_tag_equipment_wallswitch">Přepínač</string>
+    <string name="item_tag_equipment_washingmachine">Pračka</string>
+    <string name="item_tag_equipment_weatherservice">Služba počasí</string>
+    <string name="item_tag_equipment_webservice">Webová služba</string>
+    <string name="item_tag_equipment_whitegood">Bílá technika</string>
+    <string name="item_tag_equipment_window">Okno</string>
 </resources>

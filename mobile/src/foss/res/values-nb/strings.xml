@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="push_notification_status_impaired">Varsler har begrenset funksjonalitet i FOSS-versjonen. Trykk for mer informasjon.</string>
+    <string name="push_notification_status_disabled">Varsler er deaktivert</string>
+    <string name="notification_channel_crash_reports">Krasjrapporter</string>
+    <string name="notification_channel_crash_reports_description">Brukes til å spørre om en krasjrapport skal sendes</string>
+    <string name="crash_report_notification_title">openHAB krasjet</string>
+    <string name="crash_report_notification_text">Hjelp til å forbedre openHAB ved å sende krasjrapporten</string>
+    <string name="crash_report_notification_send_mail">Send e-post</string>
+    <string name="open_in_maps">Åpne i OpenStreetMap</string>
+</resources>
