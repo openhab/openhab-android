@@ -1,0 +1,5 @@
+## What's Changed
+* Declare camera and mic as optional hardware by @mueller-ma in https://github.com/openhab/openhab-android/pull/3263
+* Fix Google Maps bottom sheet crash by @maniac103 in https://github.com/openhab/openhab-android/pull/3266
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.3.0-release...3.3.1-release

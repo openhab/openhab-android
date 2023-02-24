@@ -1,0 +1,27 @@
+openHAB - ”empowering the smart home” - leverandør- og teknikkuavhengig hjemmeautomasjon med åpen kildekode
+
+Utgavene hos F-Droid er uten FCM og vil derfor ikke kunne motta push varsler fra openHAB Cloud. I stedet blir det sjekket for varsler regelmessig i disse utgavene.
+
+openHAB er en Java-basert hjemmeautomasjonsplattform med åpen kildekode som integrerer og kombinerer et stort utvalg av ulike systemer og teknikker for smarte hjem i en samlet løsning.
+Ovenpå det enhetlige abstraksjonslaget er alle tilsluttede enheter tilgjengelig for den overgripende regelmotoren og ulike brukergrensesnitt.
+
+<b>Produkter som har støtte</b>
+
+Over 200 programtillegg gir støtte for varemerker, enheter, teknikk og kommunikasjonsprotokoller. Eksempler er Z-Wave, Philips Hue, Amazon Echo, Chromecast og Sonos. Oppdag alle tilgjengelige programtillegg og støttede enheter og/eller funksjoner på: https://www.openhab.org/addons/
+Programmet har et handlings-plugin for Tasker og Locale inkludert.
+
+<b>Åpen kildekode Community</b>
+
+openHAB åpen-kildekode initiativet støtter sitt levende samfunn. Forumet med over 13 000 registrerte brukere er et sted hvor man kan finne veiledning, hjelp og inspirasjon. Bli med i openHAB forumet på https://community.openhab.org
+Når du finner et problem kan du rapportere det i forumet eller på https://github.com/openhab/openhab-android/issues
+Hvis du vil oversette app til ditt språk bli med oss på https://crowdin.com/project/openhab-android
+
+<b>openHAB Foundation</b>
+
+openHAB Foundation e.V. er en ideell organisasjon med målsetning om å opplyse offentligheten om mulighetene og fordelene av frie og åpne smarthjemløsninger. Lær om oppdraget og tjenestene til stiftelsen under https://www.openhabfoundation.org
+
+<b>Viktig merknad</b>
+
+Du trenger en openHAB server for å bruke dette programmet.
+
+Personvern: https://www.openhabfoundation.org/privacy.html
