@@ -19,7 +19,6 @@ import org.openhab.habdroid.ui.MainActivity
 
 class Oh3UiWebViewFragment : AbstractWebViewFragment() {
     override val titleRes = R.string.mainmenu_openhab_oh3_ui
-    override val multiServerTitleRes = R.string.mainmenu_openhab_oh3_ui_on_server
     override val errorMessageRes = R.string.oh3_ui_error
     override val urlToLoad = "/"
     override val urlForError = "/"

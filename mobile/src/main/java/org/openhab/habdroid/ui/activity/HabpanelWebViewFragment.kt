@@ -18,7 +18,6 @@ import org.openhab.habdroid.ui.MainActivity
 
 class HabpanelWebViewFragment : AbstractWebViewFragment() {
     override val titleRes = R.string.mainmenu_openhab_habpanel
-    override val multiServerTitleRes = R.string.mainmenu_openhab_habpanel_on_server
     override val errorMessageRes = R.string.habpanel_error
     override val urlToLoad = "/habpanel/index.html"
     override val urlForError = "/rest/events"

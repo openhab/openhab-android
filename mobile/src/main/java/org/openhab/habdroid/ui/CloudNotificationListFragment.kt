@@ -184,13 +184,14 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
     fun getTitle(context: Context): String {
         val prefs = context.getPrefs()
-        return if (prefs.getConfiguredServerIds().size <= 1) {
-            context.getString(R.string.app_notifications)
-        } else {
+        var title = context.getString(R.string.app_notifications)
+        if (prefs.getConfiguredServerIds().size > 1) {
             val serverId = if (usePrimaryServer()) prefs.getPrimaryServerId() else prefs.getActiveServerId()
-            val activeServerName = ServerConfiguration.load(prefs, context.getSecretPrefs(), serverId)?.name
-            context.getString(R.string.app_notifications_on_server, activeServerName)
+            val serverName = ServerConfiguration.load(prefs, context.getSecretPrefs(), serverId)?.name
+            title = getString(R.string.ui_on_server, title, serverName)
         }
+
+        return title
     }
 
     companion object {
