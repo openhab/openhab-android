@@ -57,6 +57,7 @@ data class Widget(
     val service: String,
     val legend: Boolean?,
     val forceAsItem: Boolean,
+    val yAxisDecimalPattern: String?,
     val switchSupport: Boolean,
     val height: Int,
     val visibility: Boolean
@@ -128,12 +129,10 @@ data class Widget(
         if (service.isNotEmpty()) {
             chartUrl.appendQueryParameter("service", service)
         }
-        if (chartTheme != null) {
-            chartUrl.appendQueryParameter("theme", chartTheme.toString())
-        }
-        if (forcedLegend != null) {
-            chartUrl.appendQueryParameter("legend", forcedLegend)
-        }
+        chartTheme?.let { chartUrl.appendQueryParameter("theme", it.toString()) }
+        forcedLegend?.let { chartUrl.appendQueryParameter("legend", it) }
+        yAxisDecimalPattern?.let { chartUrl.appendQueryParameter("yAxisDecimalPattern", it) }
+
         if (width > 0) {
             chartUrl.appendQueryParameter("w", width / resDivider)
             chartUrl.appendQueryParameter("h", height / resDivider)
@@ -172,6 +171,7 @@ data class Widget(
                 legend = source.legend,
                 forceAsItem = source.forceAsItem,
                 switchSupport = source.switchSupport,
+                yAxisDecimalPattern = source.yAxisDecimalPattern,
                 height = source.height,
                 visibility = eventPayload.optBoolean("visibility", source.visibility)
             )
@@ -282,6 +282,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         service = service,
         legend = null,
         forceAsItem = false, // forceAsItem was added in openHAB 3, so no support for openHAB 1 required.
+        yAxisDecimalPattern = null,
         switchSupport = switchSupport,
         height = height,
         visibility = true
@@ -326,6 +327,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         service = optString("service", ""),
         legend = optBooleanOrNull("legend"),
         forceAsItem = optBoolean("forceAsItem", false),
+        yAxisDecimalPattern = optString("yAxisDecimalPattern"),
         switchSupport = optBoolean("switchSupport", false),
         height = optInt("height"),
         visibility = optBoolean("visibility", true)
