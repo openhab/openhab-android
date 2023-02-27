@@ -14,15 +14,10 @@
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 felület</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 felület (%s)</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
-    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Értesítések</string>
-    <string name="app_notifications_on_server">Értesítések (%s)</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
-    <string name="oh3_ui_error">Hiba történt a openHAB 3 felület betöltése során</string>
     <string name="frontail_error">Hiba történt a Frontail betöltése közben. Vegye figyelembe, hogy openHAB Cloud-n keresztül nem elérhető.</string>
     <string name="frontail_pref_summary">A Frontail az alapértelmezett 9001-es porton keresztül kell, hogy fusson. Az openHABian része vagy külön kell telepíteni.</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
