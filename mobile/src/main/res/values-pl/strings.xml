@@ -11,15 +11,10 @@
     <string name="mainmenu_openhab_sitemaps">Mapy witryn</string>
     <string name="mainmenu_openhab_preferences">Ustawienia</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
-    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Powiadomienia</string>
-    <string name="app_notifications_on_server">Powiadomienia (%s)</string>
     <string name="habpanel_error">Wystąpił błąd podczas wczytywania HABPanel</string>
-    <string name="oh3_ui_error">Wystąpił błąd podczas ładowania interfejsu openHAB 3</string>
     <string name="frontail_error">Wystąpił błąd podczas ładowania Frontail. Pamiętaj, że nie jest on dostępny przez openHAB Cloud.</string>
     <string name="frontail_pref_summary">Frontail musi działać na swoim domyślnym porcie 9001. Jest zawarty w openHABian lub może być zainstalowany ręcznie.</string>
     <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną Sitemapę</string>
