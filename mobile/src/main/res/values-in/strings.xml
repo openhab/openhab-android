@@ -8,6 +8,7 @@
     <string name="mainmenu_openhab_sitemaps">Peta Situs</string>
     <string name="mainmenu_openhab_preferences">Pengaturan</string>
     <string name="mainmenu_openhab_habpanel">PanelHAB</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Pemberitahuan</string>
     <string name="habpanel_error">Terjadi kesalahan saat memuat PanelHAB</string>
     <string name="mainmenu_openhab_selectsitemap">Pilih peta situs default</string>
