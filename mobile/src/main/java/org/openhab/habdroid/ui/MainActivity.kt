@@ -199,11 +199,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         prefs = getPrefs()
 
-        // Disable screen timeout if set in preferences
-        if (prefs.isScreenTimerDisabled()) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
-
         super.onCreate(savedInstanceState)
 
         val controllerClassName = resources.getString(R.string.controller_class)
@@ -300,6 +295,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         isStarted = true
 
         ConnectionFactory.addListener(this)
+
+        window.setFlags(
+            if (prefs.isScreenTimerDisabled()) WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON else 0,
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
 
         updateDrawerServerEntries()
         onActiveConnectionChanged()
