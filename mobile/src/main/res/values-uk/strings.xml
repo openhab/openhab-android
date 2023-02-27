@@ -11,15 +11,10 @@
     <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
     <string name="mainmenu_openhab_preferences">Налаштування</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">Інтерфейс openHAB 3</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">Інтерфейс openHAB 3</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
-    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Сповіщення</string>
-    <string name="app_notifications_on_server">Сповіщення (%s)</string>
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
-    <string name="oh3_ui_error">Сталася помилка під час завантаження інтерфейсу openHAB 3</string>
     <string name="frontail_error">Сталася помилка при завантаженні Frontail. Зверніть увагу, що він недоступний через openHAB Cloud.</string>
     <string name="frontail_pref_summary">Frontail має працювати на порті за замовчуванням 9001. Він вбудований до openHABian або може бути встановлений вручну.</string>
     <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
