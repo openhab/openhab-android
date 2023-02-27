@@ -14,15 +14,10 @@
     <string name="mainmenu_openhab_sitemaps">Harta site-ului</string>
     <string name="mainmenu_openhab_preferences">Setări</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
-    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Notificări</string>
-    <string name="app_notifications_on_server">Notificări (%s)</string>
     <string name="habpanel_error">O eroare a avut loc la încărcarea HABPanel</string>
-    <string name="oh3_ui_error">A apărut o eroare la încărcarea openHAB 3 UI</string>
     <string name="frontail_error">A apărut o eroare în timpul încărcării Frontail. Rețineți că nu este disponibil prin openHAB Cloud.</string>
     <string name="frontail_pref_summary">Frontail trebuie să ruleze pe portul implicit 9001. Este la pachet cu openHABian sau poate fi instalat manual.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
