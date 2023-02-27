@@ -96,7 +96,6 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     private val pendingPermissionRequests = mutableMapOf<Set<String>, PermissionRequest>()
 
     abstract val titleRes: Int
-    abstract val multiServerTitleRes: Int
     abstract val errorMessageRes: Int
     abstract val urlToLoad: String
     abstract val urlForError: String
@@ -126,14 +125,13 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         super.onAttach(context)
         val prefs = context.getPrefs()
         val activeServerId = prefs.getActiveServerId()
-        title = if (
-            prefs.getConfiguredServerIds().size <= 1 ||
-            ConnectionFactory.activeUsableConnection?.connection is DemoConnection
+        title = context.getString(titleRes)
+        if (
+            prefs.getConfiguredServerIds().size > 1 &&
+            ConnectionFactory.activeUsableConnection?.connection !is DemoConnection
         ) {
-            context.getString(titleRes)
-        } else {
             val activeServerName = ServerConfiguration.load(prefs, context.getSecretPrefs(), activeServerId)?.name
-            context.getString(multiServerTitleRes, activeServerName)
+            title = getString(R.string.ui_on_server, title, activeServerName)
         }
     }
 

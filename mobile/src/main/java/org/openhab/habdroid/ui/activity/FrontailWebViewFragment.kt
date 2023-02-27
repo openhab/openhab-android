@@ -19,7 +19,6 @@ import org.openhab.habdroid.ui.MainActivity
 
 class FrontailWebViewFragment : AbstractWebViewFragment() {
     override val titleRes = R.string.mainmenu_openhab_frontail
-    override val multiServerTitleRes = R.string.mainmenu_openhab_frontail_on_server
     override val errorMessageRes = R.string.frontail_error
     override val urlToLoad = "/"
     override val urlForError = "/"

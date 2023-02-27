@@ -373,7 +373,7 @@ This has a few disadvantages:
 * Read status aren't synced between devices.
 * The maximum number of messages that can be received during one fetch is limited to 20.
 
-### I have issues with openHAB 3 UI or HABPanel
+### I have issues with Main UI or HABPanel
 
 The app uses Android WebViews to render all UIs except Sitemaps.
 Please make sure you're running the latest WebView version: https://play.google.com/store/apps/details?id=com.google.android.webview
