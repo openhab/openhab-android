@@ -54,6 +54,7 @@ import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.applyUserSelectedTheme
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
+import org.openhab.habdroid.util.getVisibileInsets
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.resolveThemedColor
 
@@ -107,7 +108,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     fun enableDrawingBehindStatusBar() {
         EdgeToEdgeUtils.applyEdgeToEdge(window, true)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_content)) { view, insets ->
-            view.updatePadding(bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom)
+            view.updatePadding(bottom = insets.getVisibileInsets(WindowInsetsCompat.Type.systemBars()).bottom)
             insets
         }
     }
