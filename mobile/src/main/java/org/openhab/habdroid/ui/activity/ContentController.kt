@@ -64,6 +64,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getVisibileInsets
 import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
@@ -546,7 +547,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     private fun updateContentViewForInsets() {
-        val i = insets?.getInsets(WindowInsetsCompat.Type.systemBars())
+        val i = insets?.getVisibileInsets(WindowInsetsCompat.Type.systemBars())
         val actionBarVisible = activity.supportActionBar?.isShowing() == true
         contentView.updatePadding(top = if (i != null && !actionBarVisible) i.top else 0)
     }
