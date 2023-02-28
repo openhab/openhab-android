@@ -34,7 +34,9 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 
@@ -361,7 +363,11 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                     }
                     val bitmap = client.get(actualUrl.toString(),
                         timeoutMillis = timeoutMillis, caching = cachingMode)
-                        .asBitmap(size, conversionPolicy)
+                        .asBitmap(
+                            size,
+                            context.getIconFallbackColor(IconBackground.APP_THEME),
+                            conversionPolicy
+                        )
                         .response
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap)
                     applyLoadedBitmap(bitmap)

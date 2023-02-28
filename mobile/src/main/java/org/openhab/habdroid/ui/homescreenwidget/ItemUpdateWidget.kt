@@ -220,7 +220,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 val sizeInDp = min(height, width)
                 @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
                 Log.d(TAG, "Icon size: $size")
-                iconData.svgToBitmap(size, ImageConversionPolicy.PreferTargetSize)
+                iconData.svgToBitmap(size, null, ImageConversionPolicy.PreferTargetSize)
             }
 
             val setIcon = { iconData: InputStream, isSvg: Boolean ->

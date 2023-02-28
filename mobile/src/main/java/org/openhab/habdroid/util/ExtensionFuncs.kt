@@ -48,6 +48,7 @@ import androidx.core.graphics.Insets
 import androidx.core.net.toUri
 import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
+import com.caverock.androidsvg.RenderOptions
 import com.caverock.androidsvg.SVG
 import com.google.android.material.color.DynamicColors
 import java.io.EOFException
@@ -167,7 +168,7 @@ enum class ImageConversionPolicy {
 }
 
 @Throws(IOException::class)
-fun ResponseBody.toBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
+fun ResponseBody.toBitmap(targetSize: Int, fallbackColor: Int?, conversionPolicy: ImageConversionPolicy): Bitmap {
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
             ?: throw IOException(
@@ -187,7 +188,7 @@ fun ResponseBody.toBitmap(targetSize: Int, conversionPolicy: ImageConversionPoli
         }
     }
 
-    return byteStream().svgToBitmap(targetSize, conversionPolicy)
+    return byteStream().svgToBitmap(targetSize, fallbackColor, conversionPolicy)
 }
 
 fun MediaType?.isSvg(): Boolean {
@@ -195,7 +196,7 @@ fun MediaType?.isSvg(): Boolean {
 }
 
 @Throws(IOException::class)
-fun InputStream.svgToBitmap(targetSize: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
+fun InputStream.svgToBitmap(targetSize: Int, fallbackColor: Int?, conversionPolicy: ImageConversionPolicy): Bitmap {
     return try {
         val svg = SVG.getFromInputStream(this)
         val displayMetrics = Resources.getSystem().displayMetrics
@@ -255,7 +256,12 @@ fun InputStream.svgToBitmap(targetSize: Int, conversionPolicy: ImageConversionPo
         if (density != null) {
             canvas.scale(density, density)
         }
-        svg.renderToCanvas(canvas)
+
+        val options = RenderOptions()
+        fallbackColor?.let {
+            options.css(" * { color: ${String.format("#%06X", 0xFFFFFF and fallbackColor)}; }")
+        }
+        svg.renderToCanvas(canvas, options)
         bitmap
     } catch (e: Exception) {
         throw IOException("SVG decoding failed", e)
@@ -460,6 +466,28 @@ fun Context.isDarkModeActive(): Boolean {
             currentNightMode != Configuration.UI_MODE_NIGHT_NO
         }
     }
+}
+
+enum class IconBackground {
+    APP_THEME,
+    OS_THEME,
+    LIGHT,
+    DARK
+}
+@ColorInt
+fun Context.getIconFallbackColor(iconBackground: IconBackground) = when (iconBackground) {
+    IconBackground.APP_THEME -> resolveThemedColor(R.attr.colorOnBackground)
+    IconBackground.OS_THEME -> {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val isDark = currentNightMode != Configuration.UI_MODE_NIGHT_NO
+        val colorRes = if (isDark)
+            R.color.on_background_default_theme_dark
+        else
+            R.color.on_background_default_theme_light
+        ContextCompat.getColor(this, colorRes)
+    }
+    IconBackground.LIGHT -> ContextCompat.getColor(this, R.color.on_background_default_theme_light)
+    IconBackground.DARK -> ContextCompat.getColor(this, R.color.on_background_default_theme_dark)
 }
 
 fun Activity.shouldUseDynamicColors(): Boolean {

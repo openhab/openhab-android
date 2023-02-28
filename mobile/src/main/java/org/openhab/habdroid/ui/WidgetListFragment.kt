@@ -64,6 +64,7 @@ import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.PrefKeys
@@ -71,9 +72,9 @@ import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
-import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.useCompactSitemapLayout
 
@@ -562,9 +563,12 @@ class WidgetListFragment :
         val foregroundSize = activity.resources.dpToPixel(46F).toInt()
         val iconBitmap = if (linkedPage.icon != null) {
             try {
+                val iconFallbackColor = activity.getIconFallbackColor(
+                    if (whiteBackground) IconBackground.LIGHT else IconBackground.DARK
+                )
                 connection.httpClient
                     .get(linkedPage.icon.toUrl(activity, true))
-                    .asBitmap(foregroundSize, ImageConversionPolicy.ForceTargetSize)
+                    .asBitmap(foregroundSize, iconFallbackColor, ImageConversionPolicy.ForceTargetSize)
                     .response
             } catch (e: HttpClient.HttpException) {
                 null
