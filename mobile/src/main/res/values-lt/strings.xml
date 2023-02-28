@@ -7,6 +7,7 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
     <string name="mainmenu_openhab_preferences">Nustatymai</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Pranešimai</string>
     <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
     <!-- App settings strings -->

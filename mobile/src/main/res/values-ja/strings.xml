@@ -11,13 +11,9 @@
     <string name="mainmenu_openhab_sitemaps">サイトマップ</string>
     <string name="mainmenu_openhab_preferences">設定</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">通知</string>
-    <string name="app_notifications_on_server">通知 (%s)</string>
     <string name="habpanel_error">HAPPanel の読み込み中にエラーが発生しました</string>
-    <string name="oh3_ui_error">openHAB 3 UI の読み込み中にエラーが発生しました</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
     <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
     <!-- App settings strings -->

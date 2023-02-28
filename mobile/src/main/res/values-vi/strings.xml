@@ -11,13 +11,9 @@
     <string name="mainmenu_openhab_sitemaps">Bản đồ trang</string>
     <string name="mainmenu_openhab_preferences">Cài đặt</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">Giao diện openHAB 3</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">Giao diện openHAB 3 (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Thông báo</string>
-    <string name="app_notifications_on_server">Thông báo (%s)</string>
     <string name="habpanel_error">Đã xảy ra lỗi trong khi tải HABPanel</string>
-    <string name="oh3_ui_error">Đã xảy ra lỗi trong khi tải Giao diện openHAB 3</string>
     <string name="mainmenu_openhab_selectsitemap">Chọn mặc định sơ đồ trang web</string>
     <string name="mainmenu_openhab_clearcache">Xóa ảnh lưu tạm</string>
     <!-- App settings strings -->

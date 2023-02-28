@@ -11,15 +11,10 @@
     <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
     <string name="mainmenu_openhab_preferences">Ayarlar</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 Arayüzü</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 Arayüzü (%s)</string>
     <string name="mainmenu_openhab_frontail">Kayıt Defteri</string>
-    <string name="mainmenu_openhab_frontail_on_server">Kayıt Defteri (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Bildirimler</string>
-    <string name="app_notifications_on_server">Bildirimler (%s)</string>
     <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
-    <string name="oh3_ui_error">openHAB 3 Arayüzü yüklenirken bir hata oluştu</string>
     <string name="frontail_error">Kayıt Defteri yüklenirken bir hata oluştu. Lütfen bunun openHAB Cloud aracılığıyla mevcut olmadığını unutmayın.</string>
     <string name="frontail_pref_summary">Kayıt Defteri, varsayılan bağlantı noktası 9001\'de çalışmalıdır. openHABian ile birlikte gelir veya manuel olarak kurulabilir.</string>
     <string name="mainmenu_openhab_selectsitemap">Varsayılan Sitemap \'i seç</string>

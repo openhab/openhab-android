@@ -4,6 +4,7 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <!-- Main menu items -->
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <!-- App settings strings -->
     <!-- %1$s: Default Sitemap label -->
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->

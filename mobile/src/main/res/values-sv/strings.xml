@@ -6,6 +6,7 @@
     <string name="app_preferences_name">Inställningar</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Inställningar</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Aviseringar</string>
     <string name="habpanel_error">Ett fel inträffade vid inläsning av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Välj standard-Sitemap</string>

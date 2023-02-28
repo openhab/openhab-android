@@ -6,6 +6,7 @@
     <string name="app_preferences_name">Mga setting</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Mga Setting</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Mga notipikasyon</string>
     <string name="mainmenu_openhab_clearcache">Burahin ang mga imaheng naka-cache</string>
     <!-- App settings strings -->

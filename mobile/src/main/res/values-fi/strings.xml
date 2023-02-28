@@ -12,15 +12,10 @@
     <string name="mainmenu_openhab_sitemaps">Sitemapit</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 UI</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 UI (%s)</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
-    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Ilmoitukset</string>
-    <string name="app_notifications_on_server">Ilmoitukset (%s)</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
-    <string name="oh3_ui_error">Tapahtui virhe ladattaessa openHAB 3 UI</string>
     <string name="frontail_error">Tapahtui virhe ladattaessa Frontailia. Huomaa, että se ei ole käytettävissä openHAB Cloudin kautta.</string>
     <string name="frontail_pref_summary">Frontailille on käytettävä oletusporttia 9001. Se on niputettu openHABianiin tai se voidaan asentaa manuaalisesti.</string>
     <string name="mainmenu_openhab_selectsitemap">Valitse oletus Sitemap</string>

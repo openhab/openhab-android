@@ -11,13 +11,9 @@
     <string name="mainmenu_openhab_sitemaps">Kazalo strani</string>
     <string name="mainmenu_openhab_preferences">Nastavitve</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">openHAB 3 GV</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">openHAB 3 GV (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Obvestila</string>
-    <string name="app_notifications_on_server">Obvestila (%s)</string>
     <string name="habpanel_error">Napaka pri nalaganju HABPanel</string>
-    <string name="oh3_ui_error">Napaka pri nalaganju openHAB 3 GV</string>
     <string name="mainmenu_openhab_selectsitemap">Izberi privzetega Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Izbrišite predpomnilnik slik</string>
     <!-- App settings strings -->

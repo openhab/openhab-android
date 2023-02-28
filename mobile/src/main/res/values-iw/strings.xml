@@ -14,15 +14,10 @@
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
-    <string name="mainmenu_openhab_habpanel_on_server">HABPanel (%s)</string>
-    <string name="mainmenu_openhab_oh3_ui">ממשק openHAB 3</string>
-    <string name="mainmenu_openhab_oh3_ui_on_server">ממשק openHAB 3 (%s)</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
-    <string name="mainmenu_openhab_frontail_on_server">Frontail (%s)</string>
+    <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">התראות</string>
-    <string name="app_notifications_on_server">התראות (%s)</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
-    <string name="oh3_ui_error">אירעה שגיאה בעת טעינת ממשק openHAB 3</string>
     <string name="frontail_error">אירעה שגיאה בעת טעינת Frontail. שים לב שהוא אינו זמין דרך openHAB Cloud.</string>
     <string name="frontail_pref_summary">Frontail חייב לפעול ביציאת ברירת המחדל שלו 9001. הוא מצורף ל-openHABian או שאפשר להתקין אותו ידנית.</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
