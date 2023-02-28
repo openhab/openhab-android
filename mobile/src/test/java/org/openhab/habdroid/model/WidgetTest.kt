@@ -57,20 +57,33 @@ class WidgetTest {
 
     @Test
     fun testGetIconPath() {
-        assertEquals("icon/groupicon?format=PNG&anyFormat=true&state=OFF",
-            sut1[0].icon?.toUrl(true, IconFormat.Png))
-        assertEquals("icon/groupicon?format=SVG&anyFormat=true&state=ON",
-            sut2[0].icon?.toUrl(true, IconFormat.Svg))
-        assertEquals("icon/slider?format=SVG&anyFormat=true&state=81",
-            sut3[1].icon?.toUrl(true, IconFormat.Svg))
-        assertEquals("Rollersutter icon must always be 0 to 100, not ON/OFF",
-            "icon/rollershutter?format=SVG&anyFormat=true&state=0",
-            sut3[2].icon?.toUrl(true, IconFormat.Svg))
-        assertEquals("icon/rollershutter?format=SVG&anyFormat=true&state=42",
-            sut3[3].icon?.toUrl(true, IconFormat.Svg))
-        assertEquals("If data saver is active, icon paths must not contain a state",
-            "icon/rollershutter?format=SVG&anyFormat=true",
-            sut3[3].icon?.toUrl(false, IconFormat.Svg))
+        assertEquals(
+            "icon/groupicon?format=PNG&anyFormat=true&iconset=classic&state=OFF",
+            sut1[0].icon?.toUrl(true, IconFormat.Png)
+        )
+        assertEquals(
+            "icon/groupicon?format=SVG&anyFormat=true&iconset=classic&state=ON",
+            sut2[0].icon?.toUrl(true, IconFormat.Svg)
+        )
+        assertEquals(
+            "icon/slider?format=SVG&anyFormat=true&iconset=classic&state=81",
+            sut3[1].icon?.toUrl(true, IconFormat.Svg)
+        )
+        assertEquals(
+            "Rollersutter icon must always be 0 to 100, not ON/OFF",
+            "icon/rollershutter?format=SVG&anyFormat=true&iconset=classic&state=0",
+            sut3[2].icon?.toUrl(true, IconFormat.Svg)
+        )
+        assertEquals(
+            "Iconset must be extracted from icon name",
+            "icon/rollershutter?format=SVG&anyFormat=true&iconset=mdi&state=42",
+            sut3[3].icon?.toUrl(true, IconFormat.Svg)
+        )
+        assertEquals(
+            "If data saver is active, icon paths must not contain a state",
+            "icon/rollershutter?format=SVG&anyFormat=true&iconset=mdi",
+            sut3[3].icon?.toUrl(false, IconFormat.Svg)
+        )
     }
 
     @Test
@@ -395,7 +408,7 @@ class WidgetTest {
                     'widgetId': '0202_0_0_1_2',
                     'type': 'Group',
                     'label': 'Shutters',
-                    'icon': 'rollershutter',
+                    'icon': 'oh:mdi:rollershutter',
                     'mappings': [],
                     'item': {
                       'members': [],
