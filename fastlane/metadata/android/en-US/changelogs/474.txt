@@ -1,0 +1,7 @@
+## What's Changed
+* Support parameter "yAxisDecimalPattern" of Chart widgets by @mueller-ma in https://github.com/openhab/openhab-android/pull/3274
+* Apply 'Keep screen on' setting not only on activity creation by @maniac103 in https://github.com/openhab/openhab-android/pull/3278
+* Fix window insets calculations for API level <= 29 by @maniac103 in https://github.com/openhab/openhab-android/pull/3277
+* Replace user-facing strings: "openHAB 3 UI" => "Main UI" by @mueller-ma in https://github.com/openhab/openhab-android/pull/3275
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.3.1-release...3.3.2-beta
