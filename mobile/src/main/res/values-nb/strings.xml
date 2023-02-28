@@ -14,10 +14,13 @@
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_oh3_ui">Main UI</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Varslinger</string>
     <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
+    <string name="oh3_ui_error">En feil oppstod under lasting av Main UI</string>
     <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
     <string name="frontail_pref_summary">Frontail må kjøre på dets standardport 9001. Det følger med openHABian eller kan installeres manuelt.</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard Sitemap</string>
