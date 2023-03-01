@@ -1,0 +1,5 @@
+## What's Changed
+* Support icon sets by @mueller-ma in https://github.com/openhab/openhab-android/pull/3283
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.3.2-beta...3.3.3-beta
