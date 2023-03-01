@@ -44,6 +44,23 @@ data class IconResource internal constructor(
             return "images/$icon.png"
         }
 
+        var iconName = "none"
+        var iconSet = "classic"
+
+        val segments = icon.split(":")
+        when (segments.size) {
+            1 -> iconName = segments[0]
+            2 -> {
+                // segments[0] is the icon source, which we don't support
+                iconName = segments[1]
+            }
+            3 -> {
+                // segments[0] is the icon source, which we don't support
+                iconSet = segments[1]
+                iconName = segments[2]
+            }
+        }
+
         val suffix = when (iconFormat) {
             IconFormat.Png -> "PNG"
             IconFormat.Svg -> "SVG"
@@ -51,9 +68,10 @@ data class IconResource internal constructor(
 
         val builder = Uri.Builder()
             .path("icon/")
-            .appendPath(icon)
+            .appendPath(iconName)
             .appendQueryParameter("format", suffix)
             .appendQueryParameter("anyFormat", true)
+            .appendQueryParameter("iconset", iconSet)
 
         if (customState.isNotEmpty() && includeState) {
             builder.appendQueryParameter("state", customState)
