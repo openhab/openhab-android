@@ -48,10 +48,8 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         setContentView(R.layout.activity_prefs)
 
-        setSupportActionBar(findViewById(R.id.openhab_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         enableDrawingBehindStatusBar()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
             resultIntent = Intent()

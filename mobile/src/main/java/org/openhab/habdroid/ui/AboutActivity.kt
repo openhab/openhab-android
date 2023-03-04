@@ -44,9 +44,6 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         setContentView(R.layout.activity_about)
         supportFragmentManager.addOnBackStackChangedListener(this)
 
-        setSupportActionBar(findViewById(R.id.openhab_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         if (savedInstanceState == null) {
             val f = AboutMainFragment()
             f.arguments = intent.extras

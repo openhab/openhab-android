@@ -12,6 +12,7 @@
         android:id="@+id/openhab_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:fitsSystemWindows="true"
         style="@style/Widget.Material3.Toolbar">
 
         <androidx.core.widget.ContentLoadingProgressBar
