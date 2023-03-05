@@ -33,9 +33,11 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
@@ -171,7 +173,11 @@ class NotificationHelper constructor(private val context: Context) {
                             timeoutMillis = 1000,
                             caching = HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE
                         )
-                        .asBitmap(targetSize, ImageConversionPolicy.PreferTargetSize)
+                        .asBitmap(
+                            targetSize,
+                            context.getIconFallbackColor(IconBackground.OS_THEME),
+                            ImageConversionPolicy.PreferTargetSize
+                        )
                         .response
                     bitmap
                 } catch (e: HttpClient.HttpException) {

@@ -31,9 +31,11 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class ImageWidgetActivity : AbstractBaseActivity() {
@@ -113,7 +115,11 @@ class ImageWidgetActivity : AbstractBaseActivity() {
             try {
                 conn.httpClient
                     .get(widgetUrl)
-                    .asBitmap(size, ImageConversionPolicy.PreferTargetSize)
+                    .asBitmap(
+                        size,
+                        getIconFallbackColor(IconBackground.APP_THEME),
+                        ImageConversionPolicy.PreferTargetSize
+                    )
                     .response
             } catch (e: HttpClient.HttpException) {
                 Log.d(TAG, "Failed to load image", e)

@@ -109,6 +109,7 @@ import org.openhab.habdroid.ui.widget.LockableDrawerLayout
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
@@ -123,6 +124,7 @@ import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
+import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
@@ -1106,7 +1108,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 item.icon = conn.httpClient.get(
                     sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState)
                 )
-                    .asBitmap(defaultIcon!!.intrinsicWidth, ImageConversionPolicy.ForceTargetSize)
+                    .asBitmap(
+                        defaultIcon!!.intrinsicWidth,
+                        getIconFallbackColor(IconBackground.APP_THEME),
+                        ImageConversionPolicy.ForceTargetSize
+                    )
                     .response
                     .toDrawable(resources)
             } catch (e: HttpClient.HttpException) {
