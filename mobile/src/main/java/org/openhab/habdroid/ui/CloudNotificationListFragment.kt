@@ -188,7 +188,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         if (prefs.getConfiguredServerIds().size > 1) {
             val serverId = if (usePrimaryServer()) prefs.getPrimaryServerId() else prefs.getActiveServerId()
             val serverName = ServerConfiguration.load(prefs, context.getSecretPrefs(), serverId)?.name
-            title = getString(R.string.ui_on_server, title, serverName)
+            title = context.getString(R.string.ui_on_server, title, serverName)
         }
 
         return title
