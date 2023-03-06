@@ -116,7 +116,7 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = itemPickerAdapter
 
-        appBarLayout?.setLiftOnScrollTargetView(recyclerView)
+        appBarLayout.setLiftOnScrollTargetView(recyclerView)
 
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

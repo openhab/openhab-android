@@ -522,18 +522,11 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     override fun updateActionBarState() {
         val page = temporaryPage
-        val shouldShowActionBar = if (page is AbstractWebViewFragment) {
+        activity.appBarShown = if (page is AbstractWebViewFragment) {
             page.wantsActionBar
         } else {
             true
         }
-        val actionBar = activity.supportActionBar
-        if (shouldShowActionBar) {
-            actionBar?.show()
-        } else {
-            actionBar?.hide()
-        }
-        activity.applyPaddingsForWindowInsets()
     }
 
     private fun updateFragmentState(reason: FragmentUpdateReason) {
@@ -842,7 +835,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 f is WidgetListFragment && f == fragmentForAppBarScroll -> f.recyclerView
                 else -> null
             }
-            activity.appBarLayout?.setLiftOnScrollTargetView(scrollingTargetView)
+            activity.appBarLayout.setLiftOnScrollTargetView(scrollingTargetView)
         }
     }
 

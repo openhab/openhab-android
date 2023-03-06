@@ -17,12 +17,14 @@ import android.Manifest
 import android.app.KeyguardManager
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
@@ -31,6 +33,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
@@ -65,15 +68,26 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     protected open val forceNonFullscreen = false
     private var authPrompt: AuthPrompt? = null
+    private lateinit var coordinator: CoordinatorLayout
     private lateinit var toolbar: MaterialToolbar
     private lateinit var content: View
+    lateinit var appBarLayout: AppBarLayout
+        private set
+    private lateinit var appBarBackground: Drawable
     private lateinit var insetsController: WindowInsetsControllerCompat
     private var lastInsets: WindowInsetsCompat? = null
     protected var lastSnackbar: Snackbar? = null
         private set
     private var snackbarQueue = mutableListOf<Snackbar>()
-    var appBarLayout: AppBarLayout? = null
-        private set
+
+    var appBarShown = true
+        set(value) {
+            field = value
+            // ScrollingViewBehavior assigns the AppBarLayout height as offset to other views (here: activity content)
+            // even if the ABL is set to 'gone', hence we have to do this ugly workaround
+            appBarLayout.layoutParams.height = if (value) ViewGroup.LayoutParams.WRAP_CONTENT else 0
+            applyPaddingsForWindowInsets()
+        }
 
     protected val isFullscreenEnabled: Boolean
         get() = getPrefs().getBoolean(PrefKeys.FULLSCREEN, false)
@@ -91,13 +105,15 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        coordinator = findViewById(R.id.coordinator)
         content = findViewById(R.id.activity_content)
-        insetsController = WindowInsetsControllerCompat(window, content)
+        insetsController = WindowInsetsControllerCompat(window, coordinator)
 
         setNavigationBarColor()
 
+        appBarBackground = MaterialShapeDrawable.createWithElevationOverlay(this)
         appBarLayout = findViewById(R.id.appbar_layout)
-        appBarLayout?.statusBarForeground = MaterialShapeDrawable.createWithElevationOverlay(this)
+        appBarLayout.statusBarForeground = appBarBackground
     }
 
     @CallSuper
@@ -146,8 +162,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    fun applyPaddingsForWindowInsets() {
-        val actionBarVisible = supportActionBar?.isShowing == true
+    private fun applyPaddingsForWindowInsets() {
         // On API levels < 30, insets visibility isn't factored in correctly, so getInsets() returns the
         // status bar and navigation bar insets there even if they're not currently visible due to us enabling
         // fullscreen mode. Work around this by manually checking the fullscreen mode in those cases.
@@ -159,8 +174,14 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 WindowInsetsCompat.Type.displayCutout()
             lastInsets?.getInsets(insetsType) ?: Insets.NONE
         }
-        appBarLayout?.updatePadding(top = insets.top)
-        content.updatePadding(top = if (actionBarVisible) 0 else insets.top, bottom = insets.bottom)
+        // AppBarLayout uses its own insets calculations, which doesn't factor in status bar visibility on API < 30
+        // (basically the same issue as above). To make sure it doesn't draw the background of the status bar (which
+        // it thinks is present) over the actual toolbar, unset the status bar background if we think the status bar
+        // is not to be shown.
+        appBarLayout.statusBarForeground = if (insets.top > 0) appBarBackground else null
+        appBarLayout.updatePadding(top = insets.top)
+        content.updatePadding(top = if (appBarShown) 0 else insets.top)
+        coordinator.updatePadding(bottom = insets.bottom)
     }
 
     private fun setNavigationBarColor() {
@@ -213,7 +234,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             throw IllegalArgumentException("Tag is empty")
         }
 
-        val snackbar = Snackbar.make(findViewById(R.id.coordinator), message, duration)
+        val snackbar = Snackbar.make(coordinator, message, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }
