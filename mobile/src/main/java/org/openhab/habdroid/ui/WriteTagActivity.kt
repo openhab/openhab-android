@@ -71,9 +71,6 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
         setContentView(R.layout.activity_writetag)
 
-        setSupportActionBar(findViewById(R.id.openhab_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         val manager = getSystemService(Context.NFC_SERVICE) as NfcManager
         nfcAdapter = manager.defaultAdapter
 

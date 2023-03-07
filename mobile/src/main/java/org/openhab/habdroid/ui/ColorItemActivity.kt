@@ -55,8 +55,6 @@ class ColorItemActivity :
 
         boundItem = intent.extras?.parcelable(EXTRA_ITEM)
 
-        setSupportActionBar(findViewById(R.id.openhab_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = boundItem?.label.orDefaultIfEmpty(getString(R.string.widget_type_color))
 
         colorPicker = findViewById<ColorPickerView>(R.id.picker).apply {

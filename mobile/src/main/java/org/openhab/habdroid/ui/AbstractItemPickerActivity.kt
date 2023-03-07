@@ -92,10 +92,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         setContentView(R.layout.activity_item_picker)
         setResult(RESULT_CANCELED)
 
-        val toolbar = findViewById<MaterialToolbar>(R.id.openhab_toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         enableDrawingBehindStatusBar()
 
         swipeLayout = findViewById(R.id.activity_content)
@@ -120,6 +116,8 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = itemPickerAdapter
 
+        appBarLayout.setLiftOnScrollTargetView(recyclerView)
+
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (!searchView.isIconified) {
@@ -132,11 +130,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         }
 
         onBackPressedDispatcher.addCallback(this, backCallback)
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        appBarLayout?.setLiftOnScrollTargetView(recyclerView)
     }
 
     override fun onResume() {

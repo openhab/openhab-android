@@ -217,7 +217,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         // inflate the controller dependent content view
         controller.inflateViews(findViewById(R.id.content_stub))
 
-        setupToolbar()
+        supportActionBar?.setHomeButtonEnabled(true)
+
+        progressBar = findViewById(R.id.toolbar_progress_bar)
+        setProgressIndicatorVisible(false)
+
         setupDrawer()
         enableDrawingBehindStatusBar()
 
@@ -836,16 +840,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     fun triggerPageUpdate(pageUrl: String, forceReload: Boolean) {
         controller.triggerPageUpdate(pageUrl, forceReload)
-    }
-
-    private fun setupToolbar() {
-        val toolbar = findViewById<MaterialToolbar>(R.id.openhab_toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-
-        progressBar = toolbar.findViewById(R.id.toolbar_progress_bar)
-        setProgressIndicatorVisible(false)
     }
 
     private fun setupDrawer() {

@@ -44,9 +44,7 @@ import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.Insets
 import androidx.core.net.toUri
-import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.RenderOptions
 import com.caverock.androidsvg.SVG
@@ -639,6 +637,3 @@ inline fun <reified T> Bundle.parcelableArrayList(key: String): List<T>? = when 
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableArrayList(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelableArrayList(key)
 }
-
-fun WindowInsetsCompat.getVisibileInsets(type: Int): Insets =
-    if (isVisible(type)) getInsets(type) else Insets.NONE

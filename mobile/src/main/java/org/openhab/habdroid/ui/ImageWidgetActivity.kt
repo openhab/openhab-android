@@ -49,8 +49,6 @@ class ImageWidgetActivity : AbstractBaseActivity() {
 
         setContentView(R.layout.activity_image)
 
-        setSupportActionBar(findViewById(R.id.openhab_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title =
             intent.getStringExtra(WIDGET_LABEL).orDefaultIfEmpty(getString(R.string.widget_type_image))
 

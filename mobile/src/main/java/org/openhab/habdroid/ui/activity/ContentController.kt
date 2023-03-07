@@ -35,10 +35,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
@@ -64,7 +61,6 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getVisibileInsets
 import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
@@ -91,7 +87,6 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
     private lateinit var contentView: View
-    private var insets: WindowInsetsCompat? = null
 
     override val isDetailedLoggingEnabled get() = activity.getPrefs().isDebugModeEnabled()
     override val serverProperties get() = activity.serverProperties
@@ -407,11 +402,6 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     fun inflateViews(stub: ViewStub) {
         contentView = inflateContentView(stub)
-        ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, i ->
-            insets = i
-            updateContentViewForInsets()
-            i
-        }
     }
 
     protected abstract fun inflateContentView(stub: ViewStub): View
@@ -532,24 +522,11 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     override fun updateActionBarState() {
         val page = temporaryPage
-        val shouldShowActionBar = if (page is AbstractWebViewFragment) {
+        activity.appBarShown = if (page is AbstractWebViewFragment) {
             page.wantsActionBar
         } else {
             true
         }
-        val actionBar = activity.supportActionBar
-        if (shouldShowActionBar) {
-            actionBar?.show()
-        } else {
-            actionBar?.hide()
-        }
-        updateContentViewForInsets()
-    }
-
-    private fun updateContentViewForInsets() {
-        val i = insets?.getVisibileInsets(WindowInsetsCompat.Type.systemBars())
-        val actionBarVisible = activity.supportActionBar?.isShowing() == true
-        contentView.updatePadding(top = if (i != null && !actionBarVisible) i.top else 0)
     }
 
     private fun updateFragmentState(reason: FragmentUpdateReason) {
@@ -858,7 +835,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 f is WidgetListFragment && f == fragmentForAppBarScroll -> f.recyclerView
                 else -> null
             }
-            activity.appBarLayout?.setLiftOnScrollTargetView(scrollingTargetView)
+            activity.appBarLayout.setLiftOnScrollTargetView(scrollingTargetView)
         }
     }
 

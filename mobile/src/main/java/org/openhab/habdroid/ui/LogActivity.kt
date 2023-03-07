@@ -59,9 +59,6 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
 
         setContentView(R.layout.activity_log)
 
-        setSupportActionBar(findViewById(R.id.openhab_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         enableDrawingBehindStatusBar()
 
         fab = findViewById(R.id.shareFab)
@@ -70,6 +67,8 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors()
+
+        appBarLayout.setLiftOnScrollTargetView(scrollView)
 
         fab.setOnClickListener {
             val sendIntent = Intent().apply {
@@ -99,11 +98,6 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         }
 
         onBackPressedDispatcher.addCallback(this, backCallback)
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        appBarLayout?.setLiftOnScrollTargetView(scrollView)
     }
 
     override fun onResume() {

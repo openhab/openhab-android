@@ -45,11 +45,9 @@ class SelectionItemActivity : AbstractBaseActivity() {
             return
         }
 
-        setSupportActionBar(findViewById(R.id.openhab_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = boundItem.label.orDefaultIfEmpty(getString(R.string.app_name))
 
-        val selectionList = findViewById<RecyclerView>(R.id.selection_list)
+        val selectionList = findViewById<RecyclerView>(R.id.activity_content)
         selectionList.layoutManager = LinearLayoutManager(this)
         selectionList.adapter = SelectionAdapter(this, boundItem)
     }
