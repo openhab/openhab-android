@@ -802,6 +802,7 @@ class WidgetAdapter(
             // check selected view
             val state = widget.item?.state?.asString
             val checkedId = group.children
+                .filter { it.id != R.id.overflow_button }
                 .filter { it.tag == state }
                 .map { it.id }
                 .firstOrNull()
