@@ -80,6 +80,11 @@ class WidgetTest {
             sut3[3].icon?.toUrl(true, IconFormat.Svg)
         )
         assertEquals(
+            "Iconset must be extracted from icon name",
+            "icon/frame?format=SVG&anyFormat=true&iconset=mdi",
+            sut3[0].icon?.toUrl(false, IconFormat.Svg)
+        )
+        assertEquals(
             "If data saver is active, icon paths must not contain a state",
             "icon/rollershutter?format=SVG&anyFormat=true&iconset=mdi",
             sut3[3].icon?.toUrl(false, IconFormat.Svg)
@@ -362,7 +367,7 @@ class WidgetTest {
                   'widgetId': '0202_0',
                   'type': 'Frame',
                   'label': 'Percent-based Widgets',
-                  'icon': 'frame',
+                  'icon': 'mdi:frame',
                   'mappings': [],
                   'widgets': [ {
                     'widgetId': '0202_0_0',

@@ -47,17 +47,19 @@ data class IconResource internal constructor(
         var iconName = "none"
         var iconSet = "classic"
 
-        val segments = icon.split(":")
+        val segments = icon.split(":", limit = 3)
         when (segments.size) {
             1 -> iconName = segments[0]
             2 -> {
-                // segments[0] is the icon source, which we don't support
+                iconSet = segments[0]
                 iconName = segments[1]
             }
             3 -> {
-                // segments[0] is the icon source, which we don't support
-                iconSet = segments[1]
-                iconName = segments[2]
+                // Keep iconName=none for unsupported icon sources
+                if (segments[0] == "oh") {
+                    iconSet = segments[1]
+                    iconName = segments[2]
+                }
             }
         }
 
